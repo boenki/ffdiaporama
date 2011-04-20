@@ -18,34 +18,15 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CSOUNDDEFINITION_H
-#define CSOUNDDEFINITION_H
+#ifndef SOUNDDEFINITIONS_H
+#define SOUNDDEFINITIONS_H
 
-#include <QtCore>
-#include <QList>
-
-#ifdef __cplusplus
-#define __STDC_CONSTANT_MACROS
-#ifdef _STDINT_H
-#undef _STDINT_H
-#endif
-# include <stdint.h>
-#endif
-
-#ifdef __cplusplus
-extern "C" {
-    #include <libavutil/common.h>
-    #include <libavcodec/avcodec.h>
-    #include <libavformat/avformat.h>
-    #include <libswscale/swscale.h>
-}
-#endif
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
 //*********************************************************************************************************************************************
 // Base object for sound manipulation
 //*********************************************************************************************************************************************
-
-#define MAXSOUNDPACKETSIZE      4096
 
 class cSoundBlockList {
 public:
@@ -76,4 +57,30 @@ public:
     void    ApplyVolume(int PacketNumber,double VolumeFactor);              // Adjust volume
 };
 
-#endif // CSOUNDDEFINITION_H
+//*********************************************************************************************************************************************
+// Base object for music definition
+//*********************************************************************************************************************************************
+
+class cvideofilewrapper;
+
+class cMusicObject {
+public:
+    bool                IsValide;
+    QString             FilePath;
+    QTime               StartPos;               // Start position
+    QTime               EndPos;                 // End position
+    QTime               Duration;               // Duration
+    bool                FadeIn;
+    bool                FadeOut;
+    double              Volume;                 // Volume as % from 10% to 150%
+    cvideofilewrapper   *Music;                 // Embeded Object (music is the same as video without video track !)
+
+    cMusicObject();
+    ~cMusicObject();
+
+    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
+    bool        LoadMedia(QString filename);
+};
+
+#endif // SOUNDDEFINITIONS_H

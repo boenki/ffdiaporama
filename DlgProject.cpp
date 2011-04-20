@@ -18,10 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QTimer>
 #include "DlgProject.h"
 #include "ui_DlgProject.h"
-#include "cdiaporama.h"
 
 DlgProject::DlgProject(cDiaporama &TheDiaporama,bool NewProjectMode,QWidget *parent):QDialog(parent),ui(new Ui::DlgProject) {
     ui->setupUi(this);

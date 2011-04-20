@@ -18,31 +18,11 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-
-#include <QtDebug>
-#include <QFont>
-#include <QPainter>
-#include <QString>
-#include <QTextOption>
 #include "wgt_QCustomRuller.h"
 
-//====================================================================================================================
-
-wgt_QCustomRuller::wgt_QCustomRuller(QWidget *parent):QLabel(parent) {
-    Slider  =NULL;
-    StartPos=0;
-    EndPos  =0;
-}
-
-wgt_QCustomRuller::~wgt_QCustomRuller() {
-    if (Slider) {
-        delete Slider;
-        Slider=NULL;
-    }
-}
-
-//====================================================================================================================
-
+//======================================
+// Specific defines for this dialog box
+//======================================
 #define SLIDERSTYLE_SHEET "QSlider {\n"\
                           "  background: transparent;\n"\
                           "}\n"\
@@ -67,8 +47,28 @@ wgt_QCustomRuller::~wgt_QCustomRuller() {
                           "}"
 
 
-#define TAQUET_SIZE 9       // TAQUET_SIZE is QSlider::handle:horizontal (width+margin)/2
+#define TAQUET_SIZE         9       // TAQUET_SIZE is QSlider::handle:horizontal (width+margin)/2
+#define CompletTickH1       2       // Y start position of the complete tick line
+#define CompletTickH2       20      // Y end position of the complete tick line
+#define IntermediateTickH1  7       // Y start position of the intermediate tick line
+#define IntermediateTickH2  20      // Y end position of the intermediate tick line
 
+//====================================================================================================================
+
+wgt_QCustomRuller::wgt_QCustomRuller(QWidget *parent):QLabel(parent) {
+    Slider  =NULL;
+    StartPos=0;
+    EndPos  =0;
+}
+
+wgt_QCustomRuller::~wgt_QCustomRuller() {
+    if (Slider) {
+        delete Slider;
+        Slider=NULL;
+    }
+}
+
+//====================================================================================================================
 
 void wgt_QCustomRuller::ActiveSlider(int TotalDuration) {
     this->TotalDuration=TotalDuration;
@@ -88,11 +88,6 @@ void wgt_QCustomRuller::resizeEvent(QResizeEvent *) {
 }
 
 //====================================================================================================================
-
-#define CompletTickH1       2       // Y start position of the complete tick line
-#define CompletTickH2       20      // Y end position of the complete tick line
-#define IntermediateTickH1  7       // Y start position of the intermediate tick line
-#define IntermediateTickH2  20      // Y end position of the intermediate tick line
 
 void wgt_QCustomRuller::paintEvent(QPaintEvent *) {
     QFont       Font("DejaVu Sans",6,QFont::Normal,QFont::StyleNormal);

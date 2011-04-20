@@ -21,11 +21,11 @@
 #ifndef DLGIMAGEPROPERTIES_H
 #define DLGIMAGEPROPERTIES_H
 
-#include <QDialog>
-#include <QCheckBox>
-#include <QGraphicsScene>
-#include <QIcon>
-#include "cdiaporama.h"
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Specific inclusions
+#include "_Diaporama.h"
 #include "wgt_QCustomScene.h"
 
 namespace Ui {

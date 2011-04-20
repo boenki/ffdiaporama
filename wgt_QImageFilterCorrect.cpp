@@ -18,14 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QCoreApplication>
 #include "wgt_QImageFilterCorrect.h"
 #include "ui_wgt_QImageFilterCorrect.h"
-#include <QGraphicsRectItem>
-#include <QGraphicsScene>
-#include <QScrollBar>
-#include "cdiaporama.h"
-#include "fmt_filters.h"
 
 wgt_QImageFilterCorrect::wgt_QImageFilterCorrect(QWidget *parent) : QWidget(parent),ui(new Ui::wgt_QImageFilterCorrect) {
     ui->setupUi(this);

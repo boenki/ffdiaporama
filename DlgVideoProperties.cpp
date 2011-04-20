@@ -18,15 +18,12 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QMessageBox>
-#include <QColorDialog>
-#include <QPainter>
-#include "mainwindow.h"
-#include "cvideofilewrapper.h"
-#include "cdiaporama.h"
 #include "DlgVideoProperties.h"
 #include "ui_DlgVideoProperties.h"
 
+//======================================
+// Specific defines for this dialog box
+//======================================
 #define PAGE_EDITVIDEO              0
 #define PAGE_GLOBALFILTER           1
 #define PAGE_COMPOSITION            2

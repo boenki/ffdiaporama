@@ -21,34 +21,15 @@
 #ifndef WGT_QVIDEOPLAYER_H
 #define WGT_QVIDEOPLAYER_H
 
-//====================================================================================================================
-// SDL inclusion
-//====================================================================================================================
-#ifdef __cplusplus
-extern "C" {
-    #include <SDL/SDL.h>
-}
-#endif
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-#ifdef __MINGW32__
-#undef main /* We don't want SDL to override our main() */
-#endif
-
-#include <QWidget>
-#include <QProcess>
-#include <QTime>
-#include <QIcon>
-#include <QTimer>
-#include <QFuture>
-
-#include "cdiaporama.h"
-#include "cvideofilewrapper.h"
+// Specific inclusions
+#include "_Diaporama.h"
 
 namespace Ui {
     class wgt_QVideoPlayer;
 }
-
-#define BUFFERING_NBR_FRAME 5                   // Number of frame wanted in the playing buffer
 
 class cImageList {
 public:
@@ -94,13 +75,10 @@ public:
     bool                TimerTick;              // To use timer 1 time for 2 call
 
     // Thread control for preparing next frame
-    QFuture<void>       ThreadPrepareMontage;   // Thread preparation of image
-    QFuture<void>       ThreadPrepareMusic;     // Thread preparation of music
-    QFuture<void>       ThreadDoAssembly;       // Thread for make assembly of background and images
+    QFuture<void>       ThreadPrepareMontage;       // Thread preparation of image
+    QFuture<void>       ThreadDoAssembly;           // Thread for make assembly of background and images
 
     SDL_AudioSpec       AudioSpec;
-    cSoundBlockList     MusicTrack;             // Sound for playing sound from music track
-    cSoundBlockList     PreviousMusicTrack;     // Sound for playing sound from previous music track
     cSoundBlockList     MixedMusic;             // Sound to play
 
     explicit wgt_QVideoPlayer(QWidget *parent = 0);

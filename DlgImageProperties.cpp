@@ -18,25 +18,15 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtDebug>
-#include <QGraphicsRectItem>
-#include <QPainter>
-#include <QStyleOptionGraphicsItem>
-#include <QWidget>
-#include <QSize>
-#include <QGraphicsScene>
-#include <QCheckBox>
-#include <QGraphicsPixmapItem>
-#include <QShowEvent>
-#include <QTimer>
-
 #include "wgt_QBackgroundDefWidget.h"
-#include "DlgImageProperties.h"
-#include "ui_DlgImageProperties.h"
-#include "cdiaporama.h"
 #include "wgt_QCustomThumbnails.h"
 #include "wgt_QCustomScene.h"
+#include "DlgImageProperties.h"
+#include "ui_DlgImageProperties.h"
 
+//======================================
+// Specific defines for this dialog box
+//======================================
 #define PAGE_GLOBALFILTER           0
 #define PAGE_COMPOSITION            1
 #define PAGE_FRAMING                2

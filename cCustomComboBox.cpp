@@ -18,18 +18,11 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QCoreApplication>
-#include <QtDebug>
-#include <QComboBox>
-#include <QPainter>
-#include <QStyleOptionViewItem>
-#include <QModelIndex>
-#include <QListView>
-#include <QHeaderView>
-#include "cdiaporama.h"
-#include "fmt_filters.h"
 #include "cCustomComboBox.h"
 
+//======================================
+// Specific defines for this dialog box
+//======================================
 #define MAXCOLORREF             47
 #define MAXBRUSHPATTERN         12
 #define MAXGRADIENTORIENTATION  9

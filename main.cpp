@@ -18,44 +18,6 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-//====================================================================================================================
-// LibAVFormat/Codec/SWScale inclusion
-//====================================================================================================================
-
-#ifdef __cplusplus
-#define __STDC_CONSTANT_MACROS
-#ifdef _STDINT_H
-#undef _STDINT_H
-#endif
-# include <stdint.h>
-#endif
-
-#ifdef __cplusplus
-extern "C" {
-    #include <libavutil/common.h>
-    #include <libavcodec/avcodec.h>
-    #include <libavformat/avformat.h>
-    #include <libswscale/swscale.h>
-}
-#endif
-
-//====================================================================================================================
-// Standard QT inclusion
-//====================================================================================================================
-
-#include <QTranslator>
-#include <QDir>
-#include <QtDebug>
-#include <QtGui/QApplication>
-#include <QWindowsStyle>
-
-//====================================================================================================================
-// This project inclusion
-//====================================================================================================================
-
-#include "capplicationconfig.h"
-#include "cSoundDefinition.h"
-#include "cdiaporama.h"
 #include "mainwindow.h"
 
 int main(int argc, char *argv[]) {

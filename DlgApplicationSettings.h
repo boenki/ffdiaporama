@@ -21,8 +21,11 @@
 #ifndef DLGAPPLICATIONSETTINGS_H
 #define DLGAPPLICATIONSETTINGS_H
 
-#include <QDialog>
-#include "capplicationconfig.h"
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Specific inclusions
+#include "_Diaporama.h"
 
 namespace Ui {
     class DlgApplicationSettings;

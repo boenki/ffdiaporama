@@ -18,25 +18,17 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtCore>
-#include "cSoundDefinition.h"
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-#ifdef __cplusplus
-#define __STDC_CONSTANT_MACROS
-#ifdef _STDINT_H
-#undef _STDINT_H
-#endif
-# include <stdint.h>
-#endif
+// Specific inclusions
+#include "_SoundDefinitions.h"
+#include "_VideoFileWrapper.h"
 
-#ifdef __cplusplus
-extern "C" {
-    #include <libavutil/common.h>
-    #include <libavcodec/avcodec.h>
-    #include <libavformat/avformat.h>
-    #include <libswscale/swscale.h>
-}
-#endif
+//======================================
+// Specific defines for this file
+//======================================
+#define MAXSOUNDPACKETSIZE      4096
 
 //*********************************************************************************************************************************************
 // Base object for sound manipulation
@@ -191,4 +183,86 @@ void cSoundBlockList::ApplyVolume(int PacketNumber,double VolumeFactor) {
         // Right channel : Adjust if necessary (16 bits)
         mix=int32_t(double(*(Buf1))*VolumeFactor); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
     }
+}
+
+//*********************************************************************************************************************************************
+// Base object for music definition
+//*********************************************************************************************************************************************
+
+cMusicObject::cMusicObject() {
+    IsValide    =false;
+    FilePath    ="";
+    StartPos    =QTime(0,0,0,0);                // Start position
+    EndPos      =QTime(0,0,0,0);                // End position
+    Duration    =QTime(0,0,0,0);                // Duration
+    FadeIn      =false;
+    FadeOut     =false;
+    Volume      =1.0;                           // Volume as % from 1% to 150%
+    Music       =NULL;                          // Embeded Object (music is the same as video without video track !)
+}
+
+//====================================================================================================================
+
+cMusicObject::~cMusicObject() {
+    if (Music!=NULL) {
+        delete Music;
+        Music=NULL;
+    }
+}
+
+//====================================================================================================================
+
+void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
+    QDomDocument    DomDocument;
+    QDomElement     Element=DomDocument.createElement(ElementName);
+    QString         FileName;
+
+    if (PathForRelativPath!="") FileName=QDir(PathForRelativPath).relativeFilePath(FilePath); else FileName=FilePath;
+
+    Element.setAttribute("FilePath",FileName);
+    Element.setAttribute("StartPos",StartPos.toString());
+    Element.setAttribute("EndPos",  EndPos.toString());
+    Element.setAttribute("FadeIn",  FadeIn?"1":"0");
+    Element.setAttribute("FadeOut", FadeOut?"1":"0");
+    Element.setAttribute("Volume",  QString("%1").arg(Volume,0,'f'));
+
+    domDocument.appendChild(Element);
+}
+
+//====================================================================================================================
+
+bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath) {
+    if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
+
+        QString FileName=Element.attribute("FilePath","");
+        if (PathForRelativPath!="") FilePath=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FileName)); else FilePath=FileName;
+
+        if (LoadMedia(FilePath)) {
+            StartPos=QTime().fromString(Element.attribute("StartPos"));
+            EndPos  =QTime().fromString(Element.attribute("EndPos"));
+            FadeIn  =Element.attribute("FadeIn")=="1";
+            FadeOut =Element.attribute("FadeOut")=="1";
+            Volume  =Element.attribute("Volume").toDouble();
+            return true;
+        } else return false;
+    } else return false;
+}
+
+//====================================================================================================================
+
+bool cMusicObject::LoadMedia(QString filename) {
+    // Clean all
+    if (Music!=NULL) {
+        delete Music;
+        Music=NULL;
+    }
+
+    FilePath=filename;
+    Music=new cvideofilewrapper();
+    IsValide=Music->GetInformationFromFile(filename,true);
+    StartPos=QTime(0,0,0,0);                // Start position
+    EndPos  =Music->Duration;
+    Duration=Music->Duration;
+    return IsValide;
 }

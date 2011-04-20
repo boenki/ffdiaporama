@@ -21,12 +21,11 @@
 #ifndef wgt_QImageFilterTransform_H
 #define wgt_QImageFilterTransform_H
 
-#include <QWidget>
-#include <QGraphicsRectItem>
-#include <QGraphicsScene>
-#include "cdiaporama.h"
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-class   cDiaporamaObject;
+// Specific inclusions
+#include "_Diaporama.h"
 
 namespace Ui {
     class wgt_QImageFilterTransform;

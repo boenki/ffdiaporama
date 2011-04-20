@@ -21,10 +21,11 @@
 #ifndef wgt_QImageFilterCorrect_H
 #define wgt_QImageFilterCorrect_H
 
-#include <QWidget>
-#include <QGraphicsRectItem>
-#include <QGraphicsScene>
-#include "cdiaporama.h"
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Specific inclusions
+#include "_Diaporama.h"
 
 class   cDiaporamaObject;
 

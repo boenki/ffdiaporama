@@ -21,7 +21,6 @@
 #include "wgt_QCustomScene.h"
 #include "ui_wgt_QCustomScene.h"
 #include "wgt_QCustomScene.h"
-#include "cdiaporama.h"
 
 //*****************************************************************************************************************************
 // Custom widget object

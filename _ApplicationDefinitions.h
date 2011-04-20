@@ -18,120 +18,16 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CAPPLICATIONCONFIG_H
-#define CAPPLICATIONCONFIG_H
+#ifndef APPLICATIONDEFINITIONS_H
+#define APPLICATIONDEFINITIONS_H
 
-#include <QString>
-#include <QWidget>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
-#include <QByteArray>
-#include <QString>
-#include <QWidget>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
-
-#define APPLICATION_NAME                    "ffDiaporama"
-#define CONFIGFILEEXT                       ".xml"                                  // File extension of configuration files
-#define CONFIGFILE_ROOTNAME                 "Configuration"                         // Name of root node in the config xml file
-#define APPLICATION_ROOTNAME                "Project"                               // Name of root node in the project xml file
-#define GLOBALCONFIGFILE                    2                                       // Type of config file : Global
-#define USERCONFIGFILE                      3                                       // Type of config file : USER
-
-/****************************************************************************
-  Definition of image format supported by the application
-****************************************************************************/
-
-// Image geometry definition
-#define GEOMETRY_4_3                        0
-#define GEOMETRY_16_9                       1
-#define GEOMETRY_40_17                      2
-
-// Standard definition
-#define STANDARD_PAL                        0
-#define STANDARD_NTSC                       1
-
-// Image size definition
-#define NBR_SIZEDEF                         4
-#define SIZE_VGA                            0
-#define SIZE_DVD                            1
-#define SIZE_720P                           2
-#define SIZE_1080p                          3
-
-struct sIMAGEDEF {
-    int     Width;          // Width
-    int     Height;         // Height
-    int     PARNUM;         // Pixel aspect ratio (num)
-    int     PARDEN;         // Pixel aspect ratio (den)
-    double  FPS;            // Frame per second
-    char    Name[100];      // Display name
-    int     Extend;         // Padding for cinema mode with DVD
-};
-extern sIMAGEDEF DefImageFormat [2][3][4];
-
-/****************************************************************************
- audio/video codec and file format definition
-****************************************************************************/
-
-struct sVideoCodecDef {
-    bool    IsFind;
-    int     Codec_id;
-    char    ShortName[50];
-    char    LongName[200];
-    char    PossibleBitrate[200];
-    char    DefaultBitrate[NBR_SIZEDEF][10];
-};
-#define NBR_VIDEOCODECDEF   5
-extern struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF];
-
-struct sAudioCodecDef {
-    bool    IsFind;
-    int     Codec_id;
-    char    ShortName[50];
-    char    LongName[200];
-    char    PossibleBitrate2CH[200];
-    bool    Possibly6CH;
-    char    PossibleBitrate6CH[200];
-    char    Default[10];
-};
-#define NBR_AUDIOCODECDEF   6
-extern struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF];
-
-struct sFormatDef {
-    bool    IsFind;
-    char    ShortName[50];
-    char    FileExtension[10];
-    char    LongName[200];
-    char    PossibleVideoCodec[200];
-    char    PossibleAudioCodec[200];
-};
-#define NBR_FORMATDEF   6
-extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];
-
-//****************************************************************************
-
-// Object type
-#define DIAPORAMAOBJECTTYPE_EMPTY           0
-#define DIAPORAMAOBJECTTYPE_IMAGE           1
-#define DIAPORAMAOBJECTTYPE_VIDEO           2
-
-// Speed wave forme
-#define SPEEDWAVE_LINEAR                    0
-#define SPEEDWAVE_SINQUARTER                1
-
-// Track definition
-#define TRACKBACKGROUND                     0
-#define TRACKMONTAGE                        1
-#define TRACKMUSIC                          2
-
-// Thubnails definitions
-#define ADJUSTXCOLUMN                       10      // width to add to object image for display transition
-#define TIMELINEMINHEIGH                    100     // min heigh of montage track
-#define TIMELINEMAXHEIGH                    140     // max heigh of montage track
-#define TIMELINESOUNDHEIGHT                 18      // Height of sound & music track
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
 // Utility use to retrieve number of processor
 int getCpuCount();
+
+//====================================================================================================================
 
 class cSaveWindowPosition {
 public:
@@ -238,4 +134,4 @@ public:
     virtual QString     GetFilterForMediaFile(FilterFile type);
 };
 
-#endif // CAPPLICATIONCONFIG_H
+#endif // APPLICATIONDEFINITIONS_H

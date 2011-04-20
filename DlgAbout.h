@@ -18,11 +18,11 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-
 #ifndef DLGABOUT_H
 #define DLGABOUT_H
 
-#include <QDialog>
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
 namespace Ui {
     class DlgAbout;

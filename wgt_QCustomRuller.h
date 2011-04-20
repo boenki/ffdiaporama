@@ -21,10 +21,11 @@
 #ifndef wgt_QCustomRuller_H
 #define wgt_QCustomRuller_H
 
-#include <QObject>
-#include <QLabel>
-#include <QWidget>
-#include <QSlider>
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Specific inclusions
+#include "_Diaporama.h"
 
 class wgt_QCustomRuller : public QLabel {
 Q_OBJECT

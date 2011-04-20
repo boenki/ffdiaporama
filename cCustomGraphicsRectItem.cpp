@@ -19,7 +19,6 @@
    ====================================================================== */
 
 #include "cCustomGraphicsRectItem.h"
-#include <QCursor>
 #include "wgt_QCustomScene.h"
 #include "wgt_QCompositionWidget.h"
 
