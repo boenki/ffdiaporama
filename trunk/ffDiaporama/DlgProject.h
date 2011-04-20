@@ -21,8 +21,11 @@
 #ifndef DLGPROJECT_H
 #define DLGPROJECT_H
 
-#include <QDialog>
-#include "cdiaporama.h"
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Specific inclusions
+#include "_Diaporama.h"
 
 namespace Ui {
     class DlgProject;

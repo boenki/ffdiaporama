@@ -18,595 +18,14 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-// TODO : Revoir cBrushDefinition::GetLibraryBrush pour fonctionner en une version allégée de cDiaporamaShot !
+// Specific inclusions
+#include "_Diaporama.h"
 
-#include <QtDebug>
-#include <QtCore>
-#include <QLabel>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
-#include <QCoreApplication>
-#include <QTextStream>
-#include <QMessageBox>
-#include <QColor>
-#include <QProcess>
-#include <QTime>
-#include <QFuture>
-#include <QFileInfo>
-#include <QDir>
-#include <QMessageBox>
-#include <QImage>
-#include <QBitmap>
-#include <QPainter>
-
-#include <math.h>
-#include "capplicationconfig.h"
-#include "cSoundDefinition.h"
-#include "cdiaporama.h"
-#include "cimagefilewrapper.h"
-#include "cvideofilewrapper.h"
-#include "fmt_filters.h"
 #include "wgt_QBackgroundWidget.h"
 #include "mainwindow.h"
-
-// static global variable to speed loading
-QImage          *LastLoadedBackgroundImage      =NULL;
-QString         LastLoadedBackgroundImageName   ="";
-cBackgroundList BackgroundList;
-cLumaList       LumaList_Bar;
-cLumaList       LumaList_Box;
-cLumaList       LumaList_Center;
-cLumaList       LumaList_Checker;
-cLumaList       LumaList_Clock;
-cLumaList       LumaList_Snake;
-cIconList       IconList;
-
-//*********************************************************************************************************************************************
-// Base object for music definition
-//*********************************************************************************************************************************************
-
-cMusicObject::cMusicObject(cDiaporamaObject *DiaporamaObject) {
-    Parent      =DiaporamaObject;
-    IsValide    =false;
-    FilePath    ="";
-    StartPos    =QTime(0,0,0,0);                // Start position
-    EndPos      =QTime(0,0,0,0);                // End position
-    Duration    =QTime(0,0,0,0);                // Duration
-    FadeIn      =false;
-    FadeOut     =false;
-    Volume      =1.0;                           // Volume as % from 1% to 150%
-    Music       =NULL;                          // Embeded Object (music is the same as video without video track !)
-}
-
-//====================================================================================================================
-
-cMusicObject::~cMusicObject() {
-    if (Music!=NULL) {
-        delete Music;
-        Music=NULL;
-    }
-}
-
-//====================================================================================================================
-
-void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
-    QDomDocument    DomDocument;
-    QDomElement     Element=DomDocument.createElement(ElementName);
-    QString         FileName;
-
-    if (PathForRelativPath!="") FileName=QDir(PathForRelativPath).relativeFilePath(FilePath); else FileName=FilePath;
-
-    Element.setAttribute("FilePath",FileName);
-    Element.setAttribute("StartPos",StartPos.toString());
-    Element.setAttribute("EndPos",  EndPos.toString());
-    Element.setAttribute("FadeIn",  FadeIn?"1":"0");
-    Element.setAttribute("FadeOut", FadeOut?"1":"0");
-    Element.setAttribute("Volume",  QString("%1").arg(Volume,0,'f'));
-
-    domDocument.appendChild(Element);
-}
-
-//====================================================================================================================
-
-bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath) {
-    if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
-        QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
-
-        QString FileName=Element.attribute("FilePath","");
-        if (PathForRelativPath!="") FilePath=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FileName)); else FilePath=FileName;
-
-        if (LoadMedia(FilePath)) {
-            StartPos=QTime().fromString(Element.attribute("StartPos"));
-            EndPos  =QTime().fromString(Element.attribute("EndPos"));
-            FadeIn  =Element.attribute("FadeIn")=="1";
-            FadeOut =Element.attribute("FadeOut")=="1";
-            Volume  =Element.attribute("Volume").toDouble();
-            return true;
-        } else return false;
-    } else return false;
-}
-
-//====================================================================================================================
-
-bool cMusicObject::LoadMedia(QString filename) {
-    // Clean all
-    if (Music!=NULL) {
-        delete Music;
-        Music=NULL;
-    }
-
-    FilePath=filename;
-    Music=new cvideofilewrapper();
-    IsValide=Music->GetInformationFromFile(filename,true);
-    StartPos=QTime(0,0,0,0);                // Start position
-    EndPos  =Music->Duration;
-    Duration=Music->Duration;
-    return IsValide;
-}
-
-//*********************************************************************************************************************************************
-// Base object for filters transformation image
-//*********************************************************************************************************************************************
-
-cFilterTransformObject::cFilterTransformObject() {
-    BlurSigma               = 0;
-    BlurRadius              = 5;
-    OnOffFilter             = 0;
-}
-
-//====================================================================================================================
-
-void cFilterTransformObject::ApplyFilter(QImage *Image) {
-    if (Image==NULL) return;
-    fmt_filters::image img(Image->bits(),Image->width(),Image->height());
-    if ((OnOffFilter & FilterDespeckle)==FilterDespeckle)   fmt_filters::despeckle(img);
-    if ((OnOffFilter & FilterEqualize)==FilterEqualize)     fmt_filters::equalize(img);
-    if ((OnOffFilter & FilterGray)==FilterGray)             fmt_filters::gray(img);
-    if (BlurSigma<0)                                        fmt_filters::blur(img,BlurRadius,-BlurSigma);
-    if (BlurSigma>0)                                        fmt_filters::sharpen(img,BlurRadius,BlurSigma);
-}
-
-//====================================================================================================================
-
-void cFilterTransformObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString /*PathForRelativPath*/) {
-    QDomDocument    DomDocument;
-    QDomElement     Element=DomDocument.createElement(ElementName);
-
-    // Attribut of the object
-    Element.setAttribute("BlurSigma",    BlurSigma);
-    Element.setAttribute("BlurRadius",   BlurRadius);
-    Element.setAttribute("OnOffFilter",  OnOffFilter);
-
-    domDocument.appendChild(Element);
-}
-
-//====================================================================================================================
-
-bool cFilterTransformObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString /*PathForRelativPath*/) {
-    if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
-        QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
-
-        BlurSigma=  Element.attribute("BlurSigma").toDouble();
-        BlurRadius= Element.attribute("BlurRadius").toDouble();
-        OnOffFilter=Element.attribute("OnOffFilter").toInt();
-
-        return true;
-    }
-    return false;
-}
-
-//*********************************************************************************************************************************************
-// Base object for filters correction image
-//*********************************************************************************************************************************************
-
-cFilterCorrectObject::cFilterCorrectObject() {
-    Brightness  = 0;
-    Contrast    = 0;
-    Gamma       = 1;
-    Red         = 0;
-    Green       = 0;
-    Blue        = 0;
-}
-
-//====================================================================================================================
-
-void cFilterCorrectObject::ApplyFilter(QImage *Image) {
-    if (Image==NULL) return;
-    fmt_filters::image img(Image->bits(),Image->width(),Image->height());
-    if (Brightness!=0)                      fmt_filters::brightness(img,Brightness);
-    if (Contrast!=0)                        fmt_filters::contrast(img,Contrast);
-    if (Gamma!=1)                           fmt_filters::gamma(img,Gamma);
-    if ((Red!=0)||(Green!=0)||(Blue!=0))    fmt_filters::colorize(img,Red,Green,Blue);
-}
-
-//====================================================================================================================
-
-void cFilterCorrectObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString /*PathForRelativPath*/) {
-    QDomDocument    DomDocument;
-    QDomElement     Element=DomDocument.createElement(ElementName);
-
-    // Attribut of the object
-    Element.setAttribute("Brightness",  Brightness);
-    Element.setAttribute("Contrast",    Contrast);
-    Element.setAttribute("Gamma",       Gamma);
-    Element.setAttribute("Red",         Red);
-    Element.setAttribute("Green",       Green);
-    Element.setAttribute("Blue",        Blue);
-
-    domDocument.appendChild(Element);
-}
-
-//====================================================================================================================
-
-bool cFilterCorrectObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString /*PathForRelativPath*/) {
-    if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
-        QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
-
-        Brightness= Element.attribute("Brightness").toInt();
-        Contrast=   Element.attribute("Contrast").toInt();
-        Gamma=      Element.attribute("Gamma").toDouble();
-        Red=        Element.attribute("Red").toInt();
-        Green=      Element.attribute("Green").toInt();
-        Blue=       Element.attribute("Blue").toInt();
-
-        return true;
-    }
-    return false;
-}
-
-//*********************************************************************************************************************************************
-// Object for Brush definition
-//*********************************************************************************************************************************************
-
-cBrushDefinition::cBrushDefinition() {
-    BrushType           =BRUSHTYPE_SOLID;       // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors, 5=brush library, 6=image disk
-    PatternType         =Qt::Dense4Pattern;     // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    GradientColors      =3;                     // Number of colors in gradient mode (2 or 3)
-    ColorD              ="#ffffff";             // First Color
-    ColorF              ="#000000";             // Last Color
-    ColorIntermed       ="#777777";             // Intermediate Color
-    Intermediate        =0.1;                   // Intermediate position of 2nd color (in %)
-    GradientOrientation =6;                     // 1=Up-Left, 2=Up, 3=Up-right, ...
-    BrushImage          ="";                    // Image name if brush library or brush disk
-}
-
-QBrush *cBrushDefinition::GetBrush(QRectF Rect) {
-    switch (BrushType) {
-        case BRUSHTYPE_NOBRUSH :        return new QBrush(Qt::NoBrush);
-        case BRUSHTYPE_SOLID :          return new QBrush(QColor(ColorD),Qt::SolidPattern);
-        case BRUSHTYPE_PATTERN :        return new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));
-        case BRUSHTYPE_GRADIENT2 :      return GetGradientBrush(Rect);
-        case BRUSHTYPE_GRADIENT3 :      return GetGradientBrush(Rect);
-        case BRUSHTYPE_IMAGELIBRARY :   return GetLibraryBrush(Rect);
-//        case BRUSHTYPE_IMAGEDISK :
-    }
-    return new QBrush(Qt::NoBrush);
-}
-
-QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
-    if ((LastLoadedBackgroundImage!=NULL)&&(LastLoadedBackgroundImageName!=BrushImage)) {
-        delete LastLoadedBackgroundImage;
-        LastLoadedBackgroundImage=NULL;
-        LastLoadedBackgroundImageName="";
-    }
-    if (LastLoadedBackgroundImage==NULL) {
-        for (int j=0;j<BackgroundList.List.count();j++) if (BrushImage==BackgroundList.List[j].Name) {
-            LastLoadedBackgroundImageName=BrushImage;
-            LastLoadedBackgroundImage    =new QImage(BackgroundList.List[j].FilePath);
-        }
-    }
-    if (LastLoadedBackgroundImage!=NULL) {
-        QImage  NewImg1=QImage(LastLoadedBackgroundImage->scaledToHeight(Rect.height()+1));
-        int W=NewImg1.width();
-        int H=GetHeightForWidth(W,Rect);
-        if (H<NewImg1.height()) {
-            H=NewImg1.height();
-            W=GetWidthForHeight(H,Rect);
-        }
-        if ((W!=NewImg1.width())||(H!=NewImg1.height())) {
-            QImage  NewImg2=QImage(NewImg1.copy(0,0,W,H));
-            return new QBrush(NewImg2);
-        } else return new QBrush(NewImg1);
-    } else return new QBrush(Qt::NoBrush);
-}
-
-QBrush *cBrushDefinition::GetGradientBrush(QRectF Rect) {
-    QGradient Gradient;
-    switch (GradientOrientation) {
-        case 0: Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()));                     break;          // Up-Left
-        case 1: Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()),QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()));    break;          // Up
-        case 2: Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()),QPointF(Rect.x(),Rect.y()+Rect.height()));                     break;          // Up-right
-        case 3: Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()/2),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2));   break;          // Left
-        case 4: Gradient=QRadialGradient(
-                    QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2),
-                    Rect.width()>Rect.height()?Rect.width():Rect.height(),
-                    QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2)
-                );  break;                                                                                                                                      // Radial
-        case 5: Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2),QPointF(Rect.x(),Rect.y()+Rect.height()/2));   break;          // Right
-        case 6: Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width(),Rect.y()));                     break;          // bt-Left
-        case 7: Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width()/2,Rect.y()));    break;          // bottom
-        case 8: Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()),QPointF(Rect.x(),Rect.y()));                     break;          // bt-right
-    }
-    Gradient.setColorAt(0,QColor(ColorD));
-    Gradient.setColorAt(1,QColor(ColorF));
-    if (BrushType==BRUSHTYPE_GRADIENT3) Gradient.setColorAt(Intermediate,QColor(ColorIntermed));
-    return new QBrush(Gradient);
-}
-
-// Return height for width depending on Rect geometry
-int cBrushDefinition::GetHeightForWidth(int WantedWith,QRectF Rect) {
-    double   Ratio=Rect.width()/Rect.height();
-    return int(double(double(WantedWith)/Ratio));
-}
-
-// Return width for height depending on Rect geometry
-int cBrushDefinition::GetWidthForHeight(int WantedHeight,QRectF Rect) {
-    double   Ratio=Rect.height()/Rect.width();
-    return int(double(double(WantedHeight)/Ratio));
-}
-
-//====================================================================================================================
-
-void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QString /*PathForRelativPath*/) {
-    QDomDocument    DomDocument;
-    QDomElement     Element=DomDocument.createElement(ElementName);
-
-    // Attribut of the object
-    Element.setAttribute("BrushType",BrushType);                        // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-    Element.setAttribute("PatternType",PatternType);                    // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    Element.setAttribute("GradientColors",GradientColors);              // Number of colors in gradient mode (2 or 3)
-    Element.setAttribute("ColorD",ColorD);                              // First Color
-    Element.setAttribute("ColorF",ColorF);                              // Last Color
-    Element.setAttribute("ColorIntermed",ColorIntermed);                // Intermediate Color
-    Element.setAttribute("Intermediate",Intermediate);                  // Intermediate position of 2nd color (in %)
-    Element.setAttribute("GradientOrientation",GradientOrientation);    // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
-    Element.setAttribute("BrushImage",BrushImage);                      // Image name if brush library or brush disk
-
-    domDocument.appendChild(Element);
-}
-
-//====================================================================================================================
-
-bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,QString /*PathForRelativPath*/) {
-    if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
-        QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
-
-        // Attribut of the object
-        BrushType=          Element.attribute("BrushType").toInt();             // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-        PatternType=        Element.attribute("PatternType").toInt();           // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-        GradientColors=     Element.attribute("GradientColors").toInt();        // Number of colors in gradient mode (2 or 3)
-        ColorD=             Element.attribute("ColorD");                        // First Color
-        ColorF=             Element.attribute("ColorF");                        // Last Color
-        ColorIntermed=      Element.attribute("ColorIntermed");                 // Intermediate Color
-        Intermediate=       Element.attribute("Intermediate").toDouble();       // Intermediate position of 2nd color (in %)
-        GradientOrientation=Element.attribute("GradientOrientation").toInt();   // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
-        BrushImage         =Element.attribute("BrushImage");                    // Image name if brush library or brush disk
-        return true;
-    }
-    return false;
-}
-
-//*********************************************************************************************************************************************
-// Base object for composition definition
-//*********************************************************************************************************************************************
-
-cBackgroundObject::cBackgroundObject(QString FileName,int TheGeometry) {
-    IsValide    = false;
-    FilePath    = QFileInfo(FileName).path()+QDir::separator()+QFileInfo(FileName).baseName()+".jpg";
-    Name        = "";
-    WebSite     = "";
-    Licence     = "";
-
-    // Make Icon
-    QImage *BrushImage=new QImage();
-    BrushImage->load(FilePath);
-    if (!BrushImage->isNull()) {
-        Geometry = TheGeometry;
-        int     H,W;
-        QImage  *NewImg;
-        switch (Geometry) {
-            case GEOMETRY_4_3 :
-                H=BrushImage->height();
-                W=int(double(4)*(double(H)/double(3)));
-                NewImg=new QImage(BrushImage->copy((BrushImage->width()-W)/2,(BrushImage->height()-H)/2,W,H));
-                delete BrushImage;
-                BrushImage=NewImg;
-                break;
-            case GEOMETRY_40_17 :
-                W=BrushImage->width();
-                H=int(double(17)*(double(W)/double(40)));
-                NewImg=new QImage(BrushImage->copy((BrushImage->width()-W)/2,(BrushImage->height()-H)/2,W,H));
-                delete BrushImage;
-                BrushImage=NewImg;
-                break;
-        }
-
-        Icon=QPixmap(QPixmap::fromImage(BrushImage->scaledToHeight(64)));
-        delete BrushImage;
-    }
-    IsValide=!Icon.isNull() && LoadInfo(QFileInfo(FileName).path()+QDir::separator()+QFileInfo(FileName).baseName()+".txt");
-}
-
-//====================================================================================================================
-
-bool cBackgroundObject::LoadInfo(QString FileName) {
-    QFile   file(FileName);
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        while (!file.atEnd()) {
-            QString Line=file.readLine();
-            Line.replace("\n","");
-            if (Name=="")            Name=Line;
-            else if (WebSite=="")    WebSite=Line;
-            else if (Licence=="")    Licence=Line;
-        }
-        file.close();
-    }
-    return (Name!="")&&(WebSite!="")&&(Licence!="");
-}
-
-//*********************************************************************************************************************************************
-// Global class containing background library
-//*********************************************************************************************************************************************
-cBackgroundList::cBackgroundList() {
-    Geometry=-1;
-}
-
-//====================================================================================================================
-
-cBackgroundList::~cBackgroundList() {
-    List.clear();
-}
-
-//====================================================================================================================
-
-void cBackgroundList::ScanDisk(QString Path,int TheGeometry) {
-    if (Geometry==TheGeometry) return;
-    Geometry=TheGeometry;
-
-    QDir                Folder(Path);
-    QFileInfoList       Files=Folder.entryInfoList();;
-
-    List.clear();
-    for (int i=0;i<Files.count();i++) if (Files[i].isFile() && QString(Files[i].suffix()).toLower()=="txt") {
-        if (QFileInfo(QString(QFileInfo(Files[i]).path()+QDir::separator()+QFileInfo(Files[i]).baseName()+".jpg")).isFile()) List.append(cBackgroundObject(Files[i].absoluteFilePath(),Geometry));
-    }
-    qDebug()<<"Load background images library from"<<QDir(Path).absolutePath()<<"-"<<List.count()<<"images found";
-}
-
-//====================================================================================================================
-
-void cBackgroundList::PopulateTable(QTableWidget *Table) {
-    for (int i=0;i<List.count();i++) if (List[i].IsValide==true) {
-        wgt_QBackgroundWidget   *Widget=new wgt_QBackgroundWidget();
-        Widget->SetupWidget(&List[i]);
-        Table->insertRow(Table->rowCount());
-        Table->setRowHeight(Table->rowCount()-1,64);
-        Table->setCellWidget(Table->rowCount()-1,0,Widget);
-    }
-}
-
-int cBackgroundList::SearchImage(QString NameToFind) {
-    int Ret=-1;
-    int j=0;
-    while ((j<List.count())&&(Ret==-1)) if (List[j].Name==NameToFind) Ret=j; else j++;
-    return Ret;
-}
-
-//*********************************************************************************************************************************************
-// Global class containing icons of transitions
-//*********************************************************************************************************************************************
-
-cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType) {
-    TransitionFamilly=TheTransitionFamilly;
-    TransitionSubType=TheTransitionSubType;
-    QString Familly=QString("%1").arg(TransitionFamilly);   if (Familly.length()<2) Familly="0"+Familly;
-    QString SubType=QString("%1").arg(TransitionSubType);   if (SubType.length()<2) SubType="0"+SubType;
-    QString FileName="transitions-icons/tr-"+Familly+"-"+SubType+".png";
-    Icon=QImage(FileName);
-    if (Icon.isNull()) {
-        Icon=QImage("transitions-icons/tr-icon-error.png");
-        qDebug()<<"Icon not found:"<<QDir(FileName).absolutePath();
-    }
-}
-
-//====================================================================================================================
-
-cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType,QImage LumaImage) {
-    TransitionFamilly=TheTransitionFamilly;
-    TransitionSubType=TheTransitionSubType;
-    Icon=LumaImage.scaled(QSize(32,32),Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-}
-
-//====================================================================================================================
-
-cIconObject::~cIconObject() {
-
-}
-
-//*********************************************************************************************************************************************
-// Global class containing icons library
-//*********************************************************************************************************************************************
-
-cIconList::cIconList() {
-
-}
-
-//====================================================================================================================
-
-cIconList::~cIconList() {
-    List.clear();
-}
-
-//====================================================================================================================
-
-QImage *cIconList::GetIcon(int TransitionFamilly,int TransitionSubType) {
-    int i=0;
-    while ((i<List.count())&&((List[i].TransitionFamilly!=TransitionFamilly)||(List[i].TransitionSubType!=TransitionSubType))) i++;
-    if (i<List.count()) return new QImage(List[i].Icon);
-        else return new QImage("transitions-icons/tr-icon-error.png");
-}
-
-//*********************************************************************************************************************************************
-// Global class for luma object
-//*********************************************************************************************************************************************
-int  LUMADLG_WIDTH=0;
-
-cLumaListObject::cLumaListObject(QString FileName) {
-    OriginalLuma=QImage(FileName);
-    DlgLumaImage=QImage(OriginalLuma.scaled(LUMADLG_WIDTH,LUMADLG_HEIGHT,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
-    Name        =QFileInfo(FileName).baseName();
-}
-
-//====================================================================================================================
-
-cLumaListObject::~cLumaListObject() {
-}
-
-//*********************************************************************************************************************************************
-// Global class containing luma library
-//*********************************************************************************************************************************************
-
-cLumaList::cLumaList() {
-    Geometry=GEOMETRY_16_9;
-    LUMADLG_WIDTH=int((double(LUMADLG_HEIGHT)/double(9))*double(16));
-}
-
-//====================================================================================================================
-
-cLumaList::~cLumaList() {
-    List.clear();
-}
-
-//====================================================================================================================
-
-void cLumaList::ScanDisk(QString Path,int TransitionFamilly) {
-    QDir                Folder(Path);
-    QFileInfoList       Files=Folder.entryInfoList();;
-
-    List.clear();
-    for (int i=0;i<Files.count();i++) if (Files[i].isFile() && QString(Files[i].suffix()).toLower()=="png") List.append(cLumaListObject(Files[i].absoluteFilePath()));
-    // Sort list by name
-    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j].Name>List[j+1].Name) List.swap(j,j+1);
-    // Register icons for this list
-    for (int i=0;i<List.count();i++) IconList.List.append(cIconObject(TransitionFamilly,i,List[i].OriginalLuma));
-    qDebug()<<"Load luma images library from"<<QDir(Path).absolutePath()<<"-"<<List.count()<<"images found";
-}
-
-//====================================================================================================================
-
-void cLumaList::SetGeometry(int TheGeometry) {
-    if (Geometry==TheGeometry) return;
-    Geometry=TheGeometry;
-    switch (Geometry) {
-    case GEOMETRY_4_3   : LUMADLG_WIDTH=int((double(LUMADLG_HEIGHT)/double(3))*double(4));    break;
-    case GEOMETRY_16_9  : LUMADLG_WIDTH=int((double(LUMADLG_HEIGHT)/double(9))*double(16));   break;
-    case GEOMETRY_40_17 :
-    default             : LUMADLG_WIDTH=int((double(LUMADLG_HEIGHT)/double(17))*double(40));  break;
-    }
-    for (int i=0;i<List.count();i++)
-        List[i].DlgLumaImage=QImage(List[i].OriginalLuma.scaled(LUMADLG_WIDTH,LUMADLG_HEIGHT,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
-}
 
 //*********************************************************************************************************************************************
 // Base object for composition definition
@@ -705,8 +124,6 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 }
 
 //====================================================================================================================
-
-#define SCALINGTEXTFACTOR   400
 
 void cCompositionObject::DrawCompositionObject(QPainter &Painter,int AddX,int AddY,int width,int height) {
     width--;
@@ -1589,10 +1006,10 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             MusicType         =Element.attribute("MusicType")=="1";                     // Music type : false=same as precedent - true=new playlist definition
             MusicPause        =Element.attribute("MusicPause")=="1";                    // true if music is pause during this object
             MusicReduceVolume =Element.attribute("MusicReduceVolume")=="1";             // true if volume if reduce by MusicReduceFactor
-            MusicReduceFactor=Element.attribute("MusicReduceFactor").toDouble();       // factor for volume reduction if MusicReduceVolume is true
+            MusicReduceFactor =Element.attribute("MusicReduceFactor").toDouble();       // factor for volume reduction if MusicReduceVolume is true
             int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
             for (int i=0;i<MusicNumber;i++) {
-                cMusicObject *MusicObject=new cMusicObject(this);
+                cMusicObject *MusicObject=new cMusicObject();
                 if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
                 MusicList.append(*MusicObject);
             }
@@ -2073,7 +1490,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,int Extend,
 //=============================================================================================================================
 // Function use directly or with thread to make assembly of background and images and make mix (sound & music) when transition
 //=============================================================================================================================
-void cDiaporama::DoAssemblyImages(cDiaporamaObjectInfo *Info,int W,int H) {
+void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
     if (Info->RenderedImage!=NULL) return;    // return immediatly if we have image
 
     // Prepare image
@@ -2085,7 +1502,7 @@ void cDiaporama::DoAssemblyImages(cDiaporamaObjectInfo *Info,int W,int H) {
         // Draw background
         if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
             if ((Info->TransitObject)&&(Info->TransitObject_PreparedBackground)) {
-                P.setOpacity(1-Info->TransitionPCTDone);
+                //P.setOpacity(1-Info->TransitionPCTDone);
                 P.drawImage(0,0,*Info->TransitObject_PreparedBackground);
             } else P.fillRect(QRect(0,0,W,H),Qt::black);
             if (Info->CurrentObject_PreparedBackground) {
@@ -2196,10 +1613,10 @@ void cDiaporama::DoZoom(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
             P->setOpacity(1);
         }
     } else {
-        // New image will apear progressively during the old image is moving out
-        P->setOpacity(Info->TransitionPCTDone);
+        // New image will apear immediatly during the old image is moving out
+        //P->setOpacity(Info->TransitionPCTDone);
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
-        P->setOpacity(1);
+        //P->setOpacity(1);
     }
     P->drawImage(box,(Reverse?Info->TransitObject_PreparedImage:Info->CurrentObject_PreparedImage)->scaled(QSize(wt,ht)));
 }
@@ -2240,10 +1657,10 @@ void cDiaporama::DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
             P->setOpacity(1);
         }
     } else {
-        // New image will apear progressively during the old image is moving out
-        P->setOpacity(Info->TransitionPCTDone);
+        // New image will apear immediatly during the old image is moving out
+        //P->setOpacity(Info->TransitionPCTDone);
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
-        P->setOpacity(1);
+        //P->setOpacity(1);
     }
     P->drawImage(box2,Reverse?*Info->TransitObject_PreparedImage:*Info->CurrentObject_PreparedImage,box1);
 }
@@ -2329,9 +1746,11 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
 // Assume SourceImage is null
 //============================================================================================
 
-void cDiaporama::LoadSourceImage(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode) {
+void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode) {
     QFuture<void> ThreadLoadSourceImage;
     QFuture<void> ThreadLoadTransitImage;
+    QFuture<void> ThreadPrepareMusic;         // Thread preparation of music
+    QFuture<void> ThreadPrepareMusicTransit;  // Thread preparation of music of transit object
 
     if (Info->CurrentObject==NULL) {
         // Special for preview if no object
@@ -2412,7 +1831,13 @@ void cDiaporama::LoadSourceImage(cDiaporamaObjectInfo *Info,int W,int H,bool Pre
             for (int j=0;j<List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List.count();j++) List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H);
             P.end();
         }
+        // Start threads for next music bloc
+        if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
+            ThreadPrepareMusic=QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
+        if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack))
+            ThreadPrepareMusicTransit=QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
     }
+
     // Wait for threads to be finished
     ThreadLoadSourceImage.waitForFinished();
     ThreadLoadTransitImage.waitForFinished();
@@ -2453,6 +1878,41 @@ void cDiaporama::LoadSourceImage(cDiaporamaObjectInfo *Info,int W,int H,bool Pre
                 *(Buf1++)=int16_t(mix);
                 // Right channel : Adjust if necessary (16 bits)
                 if (Buf2) mix=int32_t(double(*(Buf1))*FadeAdjust+double(*(Buf2++))*FadeAdjust2); else mix=int32_t(double(*(Buf1))*FadeAdjust);
+                if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                *(Buf1++)=int16_t(mix);
+            }
+            if (Paquet) delete Paquet;
+        }
+    }
+
+    // Ensure thread for music is finished
+    ThreadPrepareMusic.waitForFinished();
+    ThreadPrepareMusicTransit.waitForFinished();
+
+    // Mix music with fade out of previous music track (if needed)
+    if ((Info->IsTransition)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->List.count()>0)) {
+        int MaxPacket=0;
+        MaxPacket=Info->CurrentObject_MusicTrack->List.count();
+        if ((MaxPacket>Info->TransitObject_MusicTrack->List.count())) MaxPacket=Info->TransitObject_MusicTrack->List.count();
+        if (MaxPacket>Info->CurrentObject_MusicTrack->NbrPacketForFPS) MaxPacket=Info->CurrentObject_MusicTrack->NbrPacketForFPS;
+
+        for (int i=0;i<MaxPacket;i++) {
+            // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
+            int16_t *Paquet=Info->TransitObject_MusicTrack->DetachFirstPacket();
+            int32_t mix;
+            int16_t *Buf1=Info->CurrentObject_MusicTrack->List[i];
+            int     Max=Info->CurrentObject_MusicTrack->SoundPacketSize/(Info->CurrentObject_MusicTrack->SampleBytes*Info->CurrentObject_MusicTrack->Channels);
+            double  FadeDelta=(double(i)/double(MaxPacket))*(Info->TransitionPCTEnd-Info->TransitionPCTDone);
+            double  FadeAdjust2  =(1-Info->TransitionPCTDone-FadeDelta);
+
+            int16_t *Buf2=(Paquet!=NULL)?Paquet:NULL;
+            for (int j=0;j<Max;j++) {
+                // Left channel : Adjust if necessary (16 bits)
+                mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
+                if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                *(Buf1++)=int16_t(mix);
+                // Right channel : Adjust if necessary (16 bits)
+                mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
                 if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
                 *(Buf1++)=int16_t(mix);
             }
@@ -2508,6 +1968,9 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     CurrentObject_FreeSoundTrackMontage =false;                                             // True if allow to delete CurrentObject_SoundTrackMontage during destructor
     CurrentObject_PreparedImage         =PreviousFrame->CurrentObject_PreparedImage;        // Current image prepared
     CurrentObject_FreePreparedImage     =false;                                             // True if allow to delete CurrentObject_PreparedImage during destructor
+    CurrentObject_MusicTrack            =PreviousFrame->CurrentObject_MusicTrack;           // Sound for playing music from music track
+    CurrentObject_FreeMusicTrack        =false;                                             // True if allow to delete CurrentObject_MusicTrack during destructor
+    CurrentObject_MusicObject           =PreviousFrame->CurrentObject_MusicObject;          // Ref to the current playing music
 
     // Transitionnal object
     IsTransition                        =PreviousFrame->IsTransition;                       // True if transition in progress
@@ -2533,6 +1996,9 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     TransitObject_FreeSoundTrackMontage =false;                                             // True if allow to delete TransitObject_SoundTrackMontage during destructor
     TransitObject_PreparedImage         =PreviousFrame->TransitObject_PreparedImage;        // Current image prepared
     TransitObject_FreePreparedImage     =false;                                             // True if allow to delete TransitObject_PreparedImage during destructor
+    TransitObject_MusicTrack            =PreviousFrame->TransitObject_MusicTrack;           // Sound for playing music from music track
+    TransitObject_FreeMusicTrack        =false;                                             // True if allow to delete TransitObject_MusicTrack during destructor
+    TransitObject_MusicObject           =PreviousFrame->TransitObject_MusicObject;          // Ref to the current playing music
 
     RenderedImage                       =NULL;                                              // Final image rendered
     FreeRenderedImage                   =true;                                              // True if allow to delete RenderedImage during destructor
@@ -2566,6 +2032,9 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     CurrentObject_FreeSoundTrackMontage =true;              // True if allow to delete CurrentObject_SoundTrackMontage during destructor
     CurrentObject_PreparedImage         =NULL;              // Current image prepared
     CurrentObject_FreePreparedImage     =true;              // True if allow to delete CurrentObject_PreparedImage during destructor
+    CurrentObject_MusicTrack            =NULL;              // Sound for playing music from music track
+    CurrentObject_FreeMusicTrack        =true;              // True if allow to delete CurrentObject_MusicTrack during destructor
+    CurrentObject_MusicObject           =NULL;              // Ref to the current playing music
 
     // Transitionnal object
     IsTransition                        =false;             // True if transition in progress
@@ -2591,6 +2060,9 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     TransitObject_FreeSoundTrackMontage =true;              // True if allow to delete TransitObject_SoundTrackMontage during destructor
     TransitObject_PreparedImage         =NULL;              // Current image prepared
     TransitObject_FreePreparedImage     =true;              // True if allow to delete TransitObject_PreparedImage during destructor
+    TransitObject_MusicTrack            =NULL;              // Sound for playing music from music track
+    TransitObject_FreeMusicTrack        =true;              // True if allow to delete TransitObject_MusicTrack during destructor
+    TransitObject_MusicObject           =NULL;              // Ref to the current playing music
 
     RenderedImage                       =NULL;              // Final image rendered
     FreeRenderedImage                   =true;              // True if allow to delete RenderedImage during destructor
@@ -2707,24 +2179,29 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
         }
     }
 
+    // Search music objects
+    int StartPosition;
+    if (CurrentObject!=NULL) CurrentObject_MusicObject=Diaporama->GetMusicObject(CurrentObject_Number,StartPosition);
+    if (TransitObject!=NULL) TransitObject_MusicObject=Diaporama->GetMusicObject(TransitObject_Number,StartPosition);
+
     //==============> Try to re-use values from PreviousFrame
     if (PreviousFrame) {
         //************ Background
         if (PreviousFrame->CurrentObject_BackgroundIndex==CurrentObject_BackgroundIndex) {
-            CurrentObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;         // Use the same background
-            PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                             // Set tag to not delete previous background
+            CurrentObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;             // Use the same background
+            PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                                 // Set tag to not delete previous background
             CurrentObject_PreparedBackground=PreviousFrame->CurrentObject_PreparedBackground;
             PreviousFrame->CurrentObject_FreePreparedBackground=false;
         }
         // Background of transition Object
         if (PreviousFrame->CurrentObject_BackgroundIndex==TransitObject_BackgroundIndex) {
-            TransitObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;  // Use the same background
-            PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                      // Set tag to not delete previous background
+            TransitObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;             // Use the same background
+            PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                                 // Set tag to not delete previous background
             TransitObject_PreparedBackground=PreviousFrame->CurrentObject_PreparedBackground;
             PreviousFrame->CurrentObject_FreePreparedBackground=false;
         } else if (PreviousFrame->TransitObject_BackgroundIndex==TransitObject_BackgroundIndex) {
-                TransitObject_BackgroundBrush=PreviousFrame->TransitObject_BackgroundBrush;  // Use the same background
-                PreviousFrame->TransitObject_FreeBackgroundBrush=false;                      // Set tag to not delete previous background
+                TransitObject_BackgroundBrush=PreviousFrame->TransitObject_BackgroundBrush;         // Use the same background
+                PreviousFrame->TransitObject_FreeBackgroundBrush=false;                             // Set tag to not delete previous background
                 TransitObject_PreparedBackground=PreviousFrame->TransitObject_PreparedBackground;
                 PreviousFrame->TransitObject_FreePreparedBackground=false;
         }
@@ -2736,52 +2213,73 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
 
         //************ SourceImage
         if ((PreviousFrame->CurrentObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
-            CurrentObject_SourceImage=PreviousFrame->CurrentObject_SourceImage;         // Use the same image source
-            PreviousFrame->CurrentObject_FreeSourceImage=false;                         // Set tag to not delete previous source image
+            CurrentObject_SourceImage=PreviousFrame->CurrentObject_SourceImage;                     // Use the same image source
+            PreviousFrame->CurrentObject_FreeSourceImage=false;                                     // Set tag to not delete previous source image
         }
         // SourceImage of transition Object
         if (TransitObject) {
             if ((PreviousFrame->CurrentObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->CurrentObject_Number==TransitObject_Number)) {
-                TransitObject_SourceImage=PreviousFrame->CurrentObject_SourceImage;         // Use the same image source
-                PreviousFrame->CurrentObject_FreeSourceImage=false;                         // Set tag to not delete previous source image
+                TransitObject_SourceImage=PreviousFrame->CurrentObject_SourceImage;                 // Use the same image source
+                PreviousFrame->CurrentObject_FreeSourceImage=false;                                 // Set tag to not delete previous source image
             } else if ((PreviousFrame->TransitObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->TransitObject_Number==TransitObject_Number)) {
-                    TransitObject_SourceImage=PreviousFrame->TransitObject_SourceImage;         // Use the same image source
-                    PreviousFrame->TransitObject_FreeSourceImage=false;                         // Set tag to not delete previous source image
+                    TransitObject_SourceImage=PreviousFrame->TransitObject_SourceImage;             // Use the same image source
+                    PreviousFrame->TransitObject_FreeSourceImage=false;                             // Set tag to not delete previous source image
             }
         }
 
         //************ SoundTrackMontage
         if ((PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
-            CurrentObject_SoundTrackMontage=PreviousFrame->CurrentObject_SoundTrackMontage;   // Use the same SoundTrackMontage
-            PreviousFrame->CurrentObject_FreeSoundTrackMontage=false;                         // Set tag to not delete previous SoundTrackMontage
+            CurrentObject_SoundTrackMontage=PreviousFrame->CurrentObject_SoundTrackMontage;         // Use the same SoundTrackMontage
+            PreviousFrame->CurrentObject_FreeSoundTrackMontage=false;                               // Set tag to not delete previous SoundTrackMontage
         }
         // SoundTrackMontage of transition Object
         if (TransitObject) {
             if ((PreviousFrame->CurrentObject_Number==TransitObject_Number)) {
-                TransitObject_SoundTrackMontage=PreviousFrame->CurrentObject_SoundTrackMontage;   // Use the same SoundTrackMontage
-                PreviousFrame->CurrentObject_FreeSoundTrackMontage=false;                         // Set tag to not delete previous SoundTrackMontage
+                TransitObject_SoundTrackMontage=PreviousFrame->CurrentObject_SoundTrackMontage;     // Use the same SoundTrackMontage
+                PreviousFrame->CurrentObject_FreeSoundTrackMontage=false;                           // Set tag to not delete previous SoundTrackMontage
             } else if ((PreviousFrame->TransitObject_Number==TransitObject_Number)) {
-                TransitObject_SoundTrackMontage=PreviousFrame->TransitObject_SoundTrackMontage;   // Use the same SoundTrackMontage
-                PreviousFrame->TransitObject_FreeSoundTrackMontage=false;                         // Set tag to not delete previous SoundTrackMontage
+                TransitObject_SoundTrackMontage=PreviousFrame->TransitObject_SoundTrackMontage;     // Use the same SoundTrackMontage
+                PreviousFrame->TransitObject_FreeSoundTrackMontage=false;                           // Set tag to not delete previous SoundTrackMontage
             }
         }
 
+        //************ Music
+        if ((PreviousFrame->CurrentObject_MusicObject==CurrentObject_MusicObject)) {
+            CurrentObject_MusicTrack=PreviousFrame->CurrentObject_MusicTrack;                       // Use the same Music track
+            PreviousFrame->CurrentObject_FreeMusicTrack=false;                                      // Set tag to not delete previous SoundTrackMontage
+        }
+        // Music of transition Object
+        if (TransitObject) {
+            if ((PreviousFrame->CurrentObject_MusicObject==TransitObject_MusicObject)) {
+                TransitObject_MusicTrack=PreviousFrame->CurrentObject_MusicTrack;                   // Use the same SoundTrackMontage
+                PreviousFrame->CurrentObject_FreeMusicTrack=false;                                  // Set tag to not delete previous SoundTrackMontage
+            } else if ((PreviousFrame->TransitObject_MusicObject==TransitObject_MusicObject)) {
+                TransitObject_MusicTrack=PreviousFrame->TransitObject_MusicTrack;                   // Use the same SoundTrackMontage
+                PreviousFrame->TransitObject_FreeMusicTrack=false;                                  // Set tag to not delete previous SoundTrackMontage
+            }
+        }
+        // Special case to disable TransitObject_MusicTrack if transit object and current object use the same
+        if (CurrentObject_MusicObject==TransitObject_MusicObject) {
+            TransitObject_FreeMusicTrack=false;
+            TransitObject_MusicTrack=NULL;
+        }
+
         //************ PreparedImage
-        if ((PreviousFrame->CurrentObject_CurrentShot==CurrentObject_CurrentShot)&&     // Same shot
+        if ((PreviousFrame->CurrentObject_CurrentShot==CurrentObject_CurrentShot)&&                 // Same shot
             (PreviousFrame->CurrentObject_CurrentShotType==SHOTTYPE_STATIC)&&(CurrentObject_CurrentShotType==SHOTTYPE_STATIC)) {
-            CurrentObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;     // Use the same PreparedImage
-            PreviousFrame->CurrentObject_FreePreparedImage=false;                       // Set tag to not delete previous PreparedImage
+            CurrentObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;                 // Use the same PreparedImage
+            PreviousFrame->CurrentObject_FreePreparedImage=false;                                   // Set tag to not delete previous PreparedImage
         }
         // PreparedImage of transition Object
         if (TransitObject) {
-            if ((PreviousFrame->CurrentObject_CurrentShot==TransitObject_CurrentShot)&&     // Same shot
+            if ((PreviousFrame->CurrentObject_CurrentShot==TransitObject_CurrentShot)&&             // Same shot
                 (PreviousFrame->CurrentObject_CurrentShotType==SHOTTYPE_STATIC)&&(TransitObject_CurrentShotType==SHOTTYPE_STATIC)) {
-                TransitObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;     // Use the same PreparedImage
-                PreviousFrame->CurrentObject_FreePreparedImage=false;                       // Set tag to not delete previous PreparedImage
-            } else if ((PreviousFrame->TransitObject_CurrentShot==TransitObject_CurrentShot)&&     // Same shot
+                TransitObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;             // Use the same PreparedImage
+                PreviousFrame->CurrentObject_FreePreparedImage=false;                               // Set tag to not delete previous PreparedImage
+            } else if ((PreviousFrame->TransitObject_CurrentShot==TransitObject_CurrentShot)&&      // Same shot
                 (PreviousFrame->TransitObject_CurrentShotType==SHOTTYPE_STATIC)&&(TransitObject_CurrentShotType==SHOTTYPE_STATIC)) {
-                TransitObject_PreparedImage=PreviousFrame->TransitObject_PreparedImage;     // Use the same PreparedImage
-                PreviousFrame->TransitObject_FreePreparedImage=false;                       // Set tag to not delete previous PreparedImage
+                TransitObject_PreparedImage=PreviousFrame->TransitObject_PreparedImage;             // Use the same PreparedImage
+                PreviousFrame->TransitObject_FreePreparedImage=false;                               // Set tag to not delete previous PreparedImage
             }
         }
     }
@@ -2808,6 +2306,11 @@ cDiaporamaObjectInfo::~cDiaporamaObjectInfo() {
         delete CurrentObject_PreparedImage;
         CurrentObject_PreparedImage=NULL;
     }
+    if ((CurrentObject_FreeMusicTrack)&&(CurrentObject_MusicTrack)) {
+        delete CurrentObject_MusicTrack;
+        CurrentObject_MusicTrack=NULL;
+    }
+
     // Transition Object
     if ((TransitObject_FreeBackgroundBrush)&&(TransitObject_BackgroundBrush)) {
         delete TransitObject_BackgroundBrush;
@@ -2825,6 +2328,11 @@ cDiaporamaObjectInfo::~cDiaporamaObjectInfo() {
         delete TransitObject_PreparedImage;
         TransitObject_PreparedImage=NULL;
     }
+    if ((TransitObject_FreeMusicTrack)&&(TransitObject_MusicTrack)) {
+        delete TransitObject_MusicTrack;
+        TransitObject_MusicTrack=NULL;
+    }
+
     // Common
     if ((FreeRenderedImage)&&(RenderedImage)) {
         delete RenderedImage;

@@ -1059,7 +1059,7 @@
            </item>
            <item>
             <property name="text">
-             <string>18.75</string>
+             <string notr="true">18.75</string>
             </property>
            </item>
           </widget>

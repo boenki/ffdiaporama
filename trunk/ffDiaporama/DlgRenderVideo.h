@@ -21,26 +21,11 @@
 #ifndef DLGRENDERVIDEO_H
 #define DLGRENDERVIDEO_H
 
-#ifdef __cplusplus
-#define __STDC_CONSTANT_MACROS
-#ifdef _STDINT_H
-#undef _STDINT_H
-#endif
-# include <stdint.h>
-#endif
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-#ifdef __cplusplus
-extern "C" {
-    #include <libavutil/common.h>
-    #include <libavcodec/avcodec.h>
-    #include <libavformat/avformat.h>
-    #include <libswscale/swscale.h>
-}
-#endif
-
-#include <QDialog>
-#include <QFuture>
-#include "cdiaporama.h"
+// Specific inclusions
+#include "_Diaporama.h"
 
 namespace Ui {
     class DlgRenderVideo;
@@ -67,8 +52,6 @@ public:
 
 
     // Sound blocs
-    cSoundBlockList MusicTrack;                     // Sound for playing sound from music track
-    cSoundBlockList PreviousMusicTrack;             // Sound for playing sound from previous music track
     cSoundBlockList MixedMusic;                     // Sound to play
     cSoundBlockList EncodedAudio;
 
@@ -86,7 +69,6 @@ public:
     AVCodec         *AudioCodec;
 
     // Thread control
-    QFuture<void>   ThreadPrepareMusic;         // Thread preparation of music
     QFuture<void>   ThreadDoAssembly;           // Thread for make assembly of background and images
     QFuture<bool>   ThreadWriteVideoFrame;      // Thread write video frame
     bool            IsThreadWriteVideoFrame;    // true if ThreadWriteVideoFrame was previously started

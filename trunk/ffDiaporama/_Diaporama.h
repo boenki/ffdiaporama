@@ -21,238 +21,22 @@
 #ifndef CDIAPORAMA_H
 #define CDIAPORAMA_H
 
-#include <QColor>
-#include <QTableWidget>
-#include <QSizeF>
-#include <QTime>
-#include <QDomElement>
+//========================================
+// Basic inclusions (common to all files)
+//========================================
+#include "_GlobalDefines.h"
 
-#include "cSoundDefinition.h"
-#include "cimagefilewrapper.h"
-#include "cvideofilewrapper.h"
-#include "capplicationconfig.h"
+//===============================
+// Specific inclusions
+//===============================
+#include "_ApplicationDefinitions.h"
+#include "_ImagesDefinitions.h"
+#include "_SoundDefinitions.h"
+#include "_ImageFileWrapper.h"
+#include "_VideoFileWrapper.h"
 
 class cDiaporama;
-
-//*********************************************************************************************************************************************
-
-// 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-#define BRUSHTYPE_NOBRUSH       0
-#define BRUSHTYPE_SOLID         1
-#define BRUSHTYPE_PATTERN       2
-#define BRUSHTYPE_GRADIENT2     3
-#define BRUSHTYPE_GRADIENT3     4
-#define BRUSHTYPE_IMAGELIBRARY  5
-#define BRUSHTYPE_IMAGEDISK     6
-
-// OnOffFilter
-#define FilterEqualize          0x01
-#define FilterDespeckle         0x02
-#define FilterGray              0x04
-
-// Transition familly
-#define TRANSITIONFAMILLY_BASE          0
-#define TRANSITIONFAMILLY_ZOOMINOUT     1
-#define TRANSITIONFAMILLY_SLIDE         2
-#define TRANSITIONFAMILLY_PUSH          3
-#define TRANSITIONFAMILLY_LUMA_BAR      4
-#define TRANSITIONFAMILLY_LUMA_BOX      5
-#define TRANSITIONFAMILLY_LUMA_CENTER   6
-#define TRANSITIONFAMILLY_LUMA_CHECKER  7
-#define TRANSITIONFAMILLY_LUMA_CLOCK    8
-#define TRANSITIONFAMILLY_LUMA_SNAKE    9
-
-// Transition number of sub type
-#define TRANSITIONMAXSUBTYPE_BASE       2
-#define TRANSITIONMAXSUBTYPE_ZOOMINOUT  18
-#define TRANSITIONMAXSUBTYPE_SLIDE      16
-#define TRANSITIONMAXSUBTYPE_PUSH       8
-
-// Shot type
-#define SHOTTYPE_STATIC 0
-#define SHOTTYPE_MOBIL  1
-#define SHOTTYPE_VIDEO  2
-
-//*********************************************************************************************************************************************
-// Base object for filters image
-//*********************************************************************************************************************************************
-
-class   cFilterTransformObject {
-public:
-    double   BlurSigma;
-    double   BlurRadius;
-    int     OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
-
-    cFilterTransformObject();
-
-    void        ApplyFilter(QImage *Image);
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
-};
-
-class   cFilterCorrectObject {
-public:
-    int     Brightness;
-    int     Contrast;
-    double   Gamma;
-    int     Red;
-    int     Green;
-    int     Blue;
-
-    cFilterCorrectObject();
-
-    void        ApplyFilter(QImage *Image);
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
-};
-
-//*********************************************************************************************************************************************
-// Base object for background library object
-//*********************************************************************************************************************************************
-
-class   cBackgroundObject {
-public:
-    bool        IsValide;
-    QString     FilePath;
-    QString     Name;
-    QString     WebSite;
-    QString     Licence;
-    QPixmap     Icon;
-    int         Geometry;
-
-    cBackgroundObject(QString FileName,int Geometry);
-
-    bool    LoadInfo(QString FileName);
-    void    SetGeometry(int Geometry);
-};
-
-//*********************************************************************************************************************************************
-// Global class containing background library
-//*********************************************************************************************************************************************
-
-class   cBackgroundList {
-public:
-    int                         Geometry;
-    QList<cBackgroundObject>    List;                       // list of brush
-
-    cBackgroundList();
-    ~cBackgroundList();
-
-    void    ScanDisk(QString Path,int Geometry);
-    void    PopulateTable(QTableWidget *Table);
-    int     SearchImage(QString NameToFind);
-};
-
-//*********************************************************************************************************************************************
-// Global class containing icons of transitions
-//*********************************************************************************************************************************************
-
-class cIconObject {
-public:
-    QImage  Icon;                       // The icon
-    int     TransitionFamilly;          // Transition familly
-    int     TransitionSubType;          // Transition type in the familly
-
-    cIconObject(int TransitionFamilly,int TransitionSubType);
-    cIconObject(int TransitionFamilly,int TransitionSubType,QImage LumaImage);
-    ~cIconObject();
-};
-
-//*********************************************************************************************************************************************
-// Global class containing icons library
-//*********************************************************************************************************************************************
-
-class   cIconList {
-public:
-    QList<cIconObject>  List;                       // list of icons
-
-    cIconList();
-    ~cIconList();
-
-    QImage *GetIcon(int TransitionFamilly,int TransitionSubType);
-};
-
-//*********************************************************************************************************************************************
-// Global class containing luma library
-//*********************************************************************************************************************************************
-#define     LUMADLG_HEIGHT  80
-extern int  LUMADLG_WIDTH;
-
-class   cLumaListObject {
-public:
-    QImage  OriginalLuma;
-    QImage  DlgLumaImage;
-    QString Name;
-
-    cLumaListObject(QString FileName);
-    ~cLumaListObject();
-};
-
-class   cLumaList {
-public:
-    int                     Geometry;
-    QList<cLumaListObject>  List;                       // list of Luma
-
-    cLumaList();
-    ~cLumaList();
-
-    void    ScanDisk(QString Path,int TransitionFamilly);
-    void    SetGeometry(int Geometry);
-};
-
-//*********************************************************************************************************************************************
-// Base object for music definition
-//*********************************************************************************************************************************************
-
-class cMusicObject {
-public:
-    cDiaporamaObject    *Parent;
-    bool                IsValide;
-    QString             FilePath;
-    QTime               StartPos;               // Start position
-    QTime               EndPos;                 // End position
-    QTime               Duration;               // Duration
-    bool                FadeIn;
-    bool                FadeOut;
-    double              Volume;                 // Volume as % from 10% to 150%
-    cvideofilewrapper   *Music;                 // Embeded Object (music is the same as video without video track !)
-
-    cMusicObject(cDiaporamaObject *Parent);
-    ~cMusicObject();
-
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadMedia(QString filename);
-};
-
-//*********************************************************************************************************************************************
-// Base object for brush object
-//*********************************************************************************************************************************************
-
-class cBrushDefinition {
-public:
-    int         BrushType;              // 0=no brush, 1=Solid, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-    int         PatternType;            // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    int         GradientColors;         // Number of colors in gradient mode (2 or 3)
-    int         GradientOrientation;    // 0=Radial, 1->4=Linear from a corner, 5->9=Linear from a border
-    QString     ColorD;                 // First Color
-    QString     ColorF;                 // Last Color
-    QString     ColorIntermed;          // Intermediate Color
-    double       Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
-    QString     BrushImage;             // Image name if brush library or brush disk
-
-    cBrushDefinition();
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
-    QBrush      *GetBrush(QRectF Rect);
-
-private:
-    QBrush      *GetGradientBrush(QRectF Rect);
-    QBrush      *GetLibraryBrush(QRectF Rect);
-    QBrush      *GetImageDiskBrush(QRectF Rect);
-    int         GetHeightForWidth(int WantedWith,QRectF Rect);
-    int         GetWidthForHeight(int WantedHeight,QRectF Rect);
-};
+class cDiaporamaObject;
 
 //*********************************************************************************************************************************************
 // Base object for composition definition
@@ -422,6 +206,9 @@ public:
     bool                CurrentObject_FreeSoundTrackMontage;    // True if allow to delete CurrentObject_SoundTrackMontage during destructor
     QImage              *CurrentObject_PreparedImage;           // Current image prepared
     bool                CurrentObject_FreePreparedImage;        // True if allow to delete CurrentObject_PreparedImage during destructor
+    cSoundBlockList     *CurrentObject_MusicTrack;              // Sound for playing music from music track
+    bool                CurrentObject_FreeMusicTrack;           // True if allow to delete CurrentObject_MusicTrack during destructor
+    cMusicObject        *CurrentObject_MusicObject;             // Ref to the current playing music
 
     //=====> Transitionnal object
     bool                IsTransition;                           // True if transition in progress
@@ -450,6 +237,9 @@ public:
     bool                TransitObject_FreeSoundTrackMontage;    // True if allow to delete TransitObject_SoundTrackMontage during destructor
     QImage              *TransitObject_PreparedImage;           // Current image prepared
     bool                TransitObject_FreePreparedImage;        // True if allow to delete TransitObject_PreparedImage during destructor
+    cSoundBlockList     *TransitObject_MusicTrack;              // Sound for playing music from music track
+    bool                TransitObject_FreeMusicTrack;           // True if allow to delete TransitObject_MusicTrack during destructor
+    cMusicObject        *TransitObject_MusicObject;             // Ref to the current playing music
 
     QImage              *RenderedImage;                         // Final image rendered
     bool                FreeRenderedImage;                      // True if allow to delete RenderedImage during destructor
@@ -516,8 +306,8 @@ public:
     // Thread functions
     void                PrepareMusicBloc(int Column,int Position,cSoundBlockList *MusicTrack);
     void                PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,int Extend,bool IsCurrentObject);
-    void                LoadSourceImage(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode);
-    void                DoAssemblyImages(cDiaporamaObjectInfo *Info,int W,int H);
+    void                LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode);
+    void                DoAssembly(cDiaporamaObjectInfo *Info,int W,int H);
 
     // Transition
     void                DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
@@ -534,16 +324,6 @@ public:
 
 };
 
-// static global variable to speed loading
-extern  QImage          *LastLoadedBackgroundImage;
-extern  QString         LastLoadedBackgroundImageName;
-extern  cBackgroundList BackgroundList;
-extern  cLumaList       LumaList_Bar;
-extern  cLumaList       LumaList_Box;
-extern  cLumaList       LumaList_Center;
-extern  cLumaList       LumaList_Checker;
-extern  cLumaList       LumaList_Clock;
-extern  cLumaList       LumaList_Snake;
-extern  cIconList       IconList;
+//****************************************************************************
 
 #endif // CDIAPORAMA_H

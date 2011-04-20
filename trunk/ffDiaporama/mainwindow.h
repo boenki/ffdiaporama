@@ -21,12 +21,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QMouseEvent>
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-#include "capplicationconfig.h"
-#include "cSoundDefinition.h"
-#include "cdiaporama.h"
+// Specific inclusions
+#include "_Diaporama.h"
 
 namespace Ui {
     class MainWindow;

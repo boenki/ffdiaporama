@@ -17,64 +17,67 @@ OBJECTS_DIR += ../build/
 MOC_DIR     += ../build/
 UI_DIR      += ../build/
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    cvideofilewrapper.cpp \
-    capplicationconfig.cpp \
-    wgt_QVideoPlayer.cpp \
-    wgt_QCustomRuller.cpp \
-    cdiaporama.cpp \
-    cimagefilewrapper.cpp \
-    wgt_QCustomThumbnails.cpp \
-    DlgImageProperties.cpp \
-    DlgVideoProperties.cpp \
-    wgt_QCustomScene.cpp \
-    fmt_filters.cpp \
-    wgt_QImageFilterTransform.cpp \
-    wgt_QImageFilterCorrect.cpp \
-    wgt_QBackgroundWidget.cpp \
-    wgt_QBackgroundDefWidget.cpp \
-    DlgProject.cpp \
-    DlgApplicationSettings.cpp \
-    DlgBackgroundProperties.cpp \
-    wgt_QCompositionWidget.cpp \
-    cCustomGraphicsRectItem.cpp \
-    cCustomComboBox.cpp \
-    wgt_QCustomBrush.cpp \
-    DlgMusicProperties.cpp \
-    DlgRenderVideo.cpp \
-    DlgTransitionProperties.cpp \
-    DlgAbout.cpp \
-    cSoundDefinition.cpp
+SOURCES +=  _ApplicationDefinitions.cpp \
+            _SoundDefinitions.cpp \
+            _ImagesDefinitions.cpp \
+            _ImageFileWrapper.cpp \
+            _VideoFileWrapper.cpp \
+            _Diaporama.cpp \
+            wgt_QVideoPlayer.cpp \
+            wgt_QCustomRuller.cpp \
+            wgt_QCustomThumbnails.cpp \
+            DlgImageProperties.cpp \
+            DlgVideoProperties.cpp \
+            wgt_QCustomScene.cpp \
+            fmt_filters.cpp \
+            wgt_QImageFilterTransform.cpp \
+            wgt_QImageFilterCorrect.cpp \
+            wgt_QBackgroundWidget.cpp \
+            wgt_QBackgroundDefWidget.cpp \
+            DlgProject.cpp \
+            DlgApplicationSettings.cpp \
+            DlgBackgroundProperties.cpp \
+            wgt_QCompositionWidget.cpp \
+            cCustomGraphicsRectItem.cpp \
+            cCustomComboBox.cpp \
+            wgt_QCustomBrush.cpp \
+            DlgMusicProperties.cpp \
+            DlgRenderVideo.cpp \
+            DlgTransitionProperties.cpp \
+            DlgAbout.cpp \
+            mainwindow.cpp \
+            main.cpp
 
-HEADERS  += mainwindow.h \
-    cvideofilewrapper.h \
-    capplicationconfig.h \
-    wgt_QVideoPlayer.h \
-    wgt_QCustomRuller.h \
-    cdiaporama.h \
-    cimagefilewrapper.h \
-    wgt_QCustomThumbnails.h \
-    DlgImageProperties.h \
-    DlgVideoProperties.h \
-    wgt_QCustomScene.h \
-    fmt_filters.h \
-    wgt_QImageFilterTransform.h \
-    wgt_QImageFilterCorrect.h \
-    wgt_QBackgroundWidget.h \
-    wgt_QBackgroundDefWidget.h \
-    DlgProject.h \
-    DlgApplicationSettings.h \
-    DlgBackgroundProperties.h \
-    wgt_QCompositionWidget.h \
-    cCustomGraphicsRectItem.h \
-    cCustomComboBox.h \
-    wgt_QCustomBrush.h \
-    DlgMusicProperties.h \
-    DlgRenderVideo.h \
-    DlgTransitionProperties.h \
-    DlgAbout.h \
-    cSoundDefinition.h
+HEADERS  += _GlobalDefines.h \
+            _SoundDefinitions.h \
+            _ImagesDefinitions.h \
+            _ApplicationDefinitions.h \
+            _ImageFileWrapper.h \
+            _VideoFileWrapper.h \
+            _Diaporama.h \
+            wgt_QVideoPlayer.h \
+            wgt_QCustomRuller.h \
+            wgt_QCustomThumbnails.h \
+            DlgImageProperties.h \
+            DlgVideoProperties.h \
+            wgt_QCustomScene.h \
+            fmt_filters.h \
+            wgt_QImageFilterTransform.h \
+            wgt_QImageFilterCorrect.h \
+            wgt_QBackgroundWidget.h \
+            wgt_QBackgroundDefWidget.h \
+            DlgProject.h \
+            DlgApplicationSettings.h \
+            DlgBackgroundProperties.h \
+            wgt_QCompositionWidget.h \
+            cCustomGraphicsRectItem.h \
+            cCustomComboBox.h \
+            wgt_QCustomBrush.h \
+            DlgMusicProperties.h \
+            DlgRenderVideo.h \
+            DlgTransitionProperties.h \
+            DlgAbout.h \
+            mainwindow.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \

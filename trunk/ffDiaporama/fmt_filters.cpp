@@ -1,7 +1,13 @@
 /*
  * Copyright (c) 2005 Dmitry Baryshev <ksquirrel.iv@gmail.com>
+ */
 
- This file is part of the KDE libraries
+/*
+ * All methods (except redeye) in this namespace are ported from KDE 3.2.3.
+ * All of them are copyrighted by their authors. See fmt_filters_README for more.
+ */
+
+/* This file is part of the KDE libraries
     Copyright (C) 1998, 1999, 2001, 2002 Daniel M. Duley <mosfet@kde.org>
     (C) 1998, 1999 Christian Tibirna <ctibirna@total.net>
     (C) 1998, 1999 Dirk A. Mueller <mueller@kde.org>
@@ -30,13 +36,15 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+*/
+
 //
 // ===================================================================
 // Effects originally ported from ImageMagick for PixiePlus, plus a few
 // new ones. (mosfet 05/26/2003)
 // ===================================================================
 //
-
+/*
  Portions of this software are based on ImageMagick. Such portions are clearly
 marked as being ported from ImageMagick. ImageMagick is copyrighted under the
 following conditions:
@@ -60,25 +68,26 @@ fitness for a particular purpose and noninfringement.  In no event shall
 ImageMagick Studio be liable for any claim, damages or other liability,
 whether in an action of contract, tort or otherwise, arising from, out of or
 in connection with ImageMagick or the use or other dealings in ImageMagick.
-
-Except as contained in this notice, the name of the ImageMagick Studio shall
-not be used in advertising or otherwise to promote the sale, use or other
-dealings in ImageMagick without prior written authorization from the
-ImageMagick Studio.
 */
 
-#include "fmt_filters.h"
+//========================================
+// Basic inclusions (common to all files)
+//========================================
+#include "_GlobalDefines.h"
 
-#include <QtCore>
+//===============================
+// Specific inclusions
+//===============================
 #include <cmath>
 #include <algorithm>
+#include "fmt_filters.h"
 
 namespace fmt_filters
 {
 
 #define MaxRGB 255L
-#define DegreesToRadians(x) ((x)*M_PI/180.0)
-#define MagickSQ2PI 2.50662827463100024161235523934010416269302368164062
+#define DegreesToRadians(x) ((x)*M_PI/1800)
+#define MagickSQ2PI 2.5066282746310002416123552393401041626930236164062
 #define MagickEpsilon  1.0e-12
 #define MagickPI  3.14159265358979323846264338327950288419716939937510
 

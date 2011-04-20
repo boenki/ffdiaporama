@@ -21,11 +21,15 @@
 #ifndef cCustomColorComboBox_H
 #define cCustomColorComboBox_H
 
-#include "cdiaporama.h"
-#include <QComboBox>
-#include <QListView>
-#include <QStyledItemDelegate>
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
+// Specific inclusions
+#include "_Diaporama.h"
+
+//======================================
+// Specific defines for this dialog box
+//======================================
 #define COMBOTYPEITEM_COLOR     0
 #define COMBOTYPEITEM_BRUSH     1
 

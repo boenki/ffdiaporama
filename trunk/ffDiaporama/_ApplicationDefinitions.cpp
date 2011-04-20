@@ -18,19 +18,11 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtDebug>
-#include <QApplication>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
-#include <QCoreApplication>
-#include <QDir>
-#include <QByteArray>
-#include <QMainWindow>
-#include <QMessageBox>
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-#include "cdiaporama.h"
-#include "capplicationconfig.h"
-#include "cvideofilewrapper.h"
+// Specific inclusions
+#include "_ApplicationDefinitions.h"
 
 //====================================================================================================================
 
@@ -123,10 +115,6 @@ struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
 };
 // Note : depending on ffmpeg version :
 //       => aac codec is libfaac or aac
-//       => divx codec is libxvid or mpeg4
-//       => h264 codec is libfx264 or h264
-//       => mp3 codec is libmp3lame or mp3
-//       => ogg codec is libvorbis or vorbis
 
 /****************************************************************************
 functions used to retrieve number of processor

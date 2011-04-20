@@ -18,17 +18,6 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtDebug>
-#include <QString>
-#include <QTimer>
-#include <QFileInfo>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QPainter>
-#include <QImage>
-#include <QtCore>
-#include <math.h>
-
 #include "DlgRenderVideo.h"
 #include "ui_DlgRenderVideo.h"
 
@@ -143,7 +132,7 @@ void DlgRenderVideo::InitImageSizeCombo(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::SelectDestinationFile() {
-    int     OutputFileFormat=ui->FileFormatCB->currentIndex();
+    int     OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
     QString FileFormat      =QString(FORMATDEF[OutputFileFormat].LongName)+" (*."+QString(FORMATDEF[OutputFileFormat].FileExtension)+")";
     QString OutputFileName  =QFileDialog::getSaveFileName(this,QCoreApplication::translate("MainWindow","Select destination file"),Diaporama->ApplicationConfig->LastRenderVideoPath,FileFormat);
     if (OutputFileName!="") {
@@ -406,7 +395,7 @@ void DlgRenderVideo::accept() {
         int                     CurrentFrameNumber;
 
         cDiaporamaObjectInfo    *PreviousFrame  =NULL;
-        cDiaporamaObjectInfo    *CurrentFrame   =NULL;
+        cDiaporamaObjectInfo    *Frame   =NULL;
 
         Position                =0;                                                     // Current position
         ColumnStart             =-1;                                                    // Start position of current object
@@ -423,10 +412,8 @@ void DlgRenderVideo::accept() {
                                               (AudioStream->codec->codec_id==CODEC_ID_PCM_S16LE)||(AudioStream->codec->codec_id==CODEC_ID_PCM_S16BE)))
                 audio_input_frame_size=MixedMusic.SoundPacketSize; else audio_input_frame_size*=MixedMusic.SampleBytes*MixedMusic.Channels;
 
-            MixedMusic.ClearList();         MixedMusic.SetFPS(Diaporama->VideoFrameRate);
-            MusicTrack.ClearList();         MusicTrack.SetFPS(Diaporama->VideoFrameRate);
-            PreviousMusicTrack.ClearList(); PreviousMusicTrack.SetFPS(Diaporama->VideoFrameRate);
-
+            MixedMusic.ClearList();
+            MixedMusic.SetFPS(Diaporama->VideoFrameRate);
             EncodedAudio.SetFrameSize(audio_input_frame_size);
         }
 
@@ -450,13 +437,6 @@ void DlgRenderVideo::accept() {
                     ui->SlideProgressBar->setMaximum(ForSlider);
                 }
                 RefreshDisplay =true;
-/*
-                // Swap music track
-                PreviousMusicTrack.ClearList();
-                while (MusicTrack.List.count()>0) PreviousMusicTrack.AppendPacket(MusicTrack.DetachFirstPacket());
-                PreviousMusicTrack.AppendData((int16_t *)MusicTrack.TempData,MusicTrack.CurrentTempSize);
-                MusicTrack.CurrentTempSize=0;
-*/
             } else {
                 int DurationProcess=LastCheckTime.msecsTo(QTime::currentTime());
                 RefreshDisplay =(DurationProcess>=1000);    // Refresh display only one time per second
@@ -469,29 +449,32 @@ void DlgRenderVideo::accept() {
             QCoreApplication::processEvents();
 
             //==================================================
-            CurrentFrame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
+            Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
 
-            // Start music preparation in thread mode
-            if (AudioStream!=NULL) {
-                ThreadPrepareMusic=QtConcurrent::run(Diaporama,&cDiaporama::PrepareMusicBloc,CurrentFrame->CurrentObject_Number,CurrentFrame->CurrentObject_InObjectTime,&MusicTrack);
-/*
-                if ((CurrentFrame->IsTransition)&&(CurrentFrame->CurrentObject->MusicType)&&(CurrentFrame->TransitObject)) {
-                    int     StartPosition;
-                    cMusicObject *PreviousMusic=Diaporama->GetMusicObject(CurrentFrame->TransitObject_Number,StartPosition);
-                    if (PreviousMusic!=Diaporama->GetMusicObject(CurrentFrame->CurrentObject_Number,StartPosition))
-                        Diaporama->PrepareMusicBloc(CurrentFrame->TransitObject_Number,CurrentFrame->TransitObject_InObjectTime,&PreviousMusicTrack);         // Create music bloc
-                }
-*/
+            // Ensure MusicTracks are ready
+            if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
+                Frame->CurrentObject_MusicTrack=new cSoundBlockList();
+                Frame->CurrentObject_MusicTrack->SetFPS(Diaporama->VideoFrameRate);
             }
-            if (CurrentFrame->CurrentObject_SoundTrackMontage==NULL) {
-                CurrentFrame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
-                CurrentFrame->CurrentObject_SoundTrackMontage->SetFPS(Diaporama->VideoFrameRate);
+            if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
+                Frame->TransitObject_MusicTrack=new cSoundBlockList();
+                Frame->TransitObject_MusicTrack->SetFPS(Diaporama->VideoFrameRate);
+            }
+
+            // Ensure SoundTracks are ready
+            if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)&&(Frame->CurrentObject->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
+                Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
+                Frame->CurrentObject_SoundTrackMontage->SetFPS(Diaporama->VideoFrameRate);
+            }
+            if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)&&(Frame->TransitObject->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
+                Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
+                Frame->TransitObject_SoundTrackMontage->SetFPS(Diaporama->VideoFrameRate);
             }
 
             IsImageUpdated=true;
 
             // Ensure background, image and soundtrack is ready (in thread mode)
-            Diaporama->LoadSourceImage(CurrentFrame,W,H,false);
+            Diaporama->LoadSources(Frame,W,H,false);
 
             // Give time to interface !
             QCoreApplication::processEvents();
@@ -499,9 +482,9 @@ void DlgRenderVideo::accept() {
             //============================================
             // Prepare image
             //============================================
-            Diaporama->PrepareImage(CurrentFrame,W,H,Extend,true);                                                 // Current Object
-            if (CurrentFrame->IsTransition) Diaporama->PrepareImage(CurrentFrame,W,H,Extend,false);                // Transition Object
-            ThreadDoAssembly=QtConcurrent::run(Diaporama,&cDiaporama::DoAssemblyImages,CurrentFrame,W,H+Extend);
+            Diaporama->PrepareImage(Frame,W,H,Extend,true);                                                 // Current Object
+            if (Frame->IsTransition) Diaporama->PrepareImage(Frame,W,H,Extend,false);                // Transition Object
+            ThreadDoAssembly=QtConcurrent::run(Diaporama,&cDiaporama::DoAssembly,Frame,W,H+Extend);
 
             // Give time to interface !
             QCoreApplication::processEvents();
@@ -510,45 +493,12 @@ void DlgRenderVideo::accept() {
             // Prepare mixed buffer for sound & music
             //============================================
             if (AudioStream!=NULL) {
-                ThreadPrepareMusic.waitForFinished();
                 // Calc number of packet to mix
-                int MaxPacket=MusicTrack.List.count();
-                if ((CurrentFrame->CurrentObject_SoundTrackMontage!=NULL)&&(MaxPacket>CurrentFrame->CurrentObject_SoundTrackMontage->List.count())) MaxPacket=CurrentFrame->CurrentObject_SoundTrackMontage->List.count();
+                int MaxPacket=Frame->CurrentObject_MusicTrack->List.count();
+                if ((Frame->CurrentObject_SoundTrackMontage!=NULL)&&(MaxPacket>Frame->CurrentObject_SoundTrackMontage->List.count())) MaxPacket=Frame->CurrentObject_SoundTrackMontage->List.count();
                 if (MaxPacket>MixedMusic.NbrPacketForFPS) MaxPacket=MixedMusic.NbrPacketForFPS;
                 // Transfert and mix audio data
-                for (int j=0;j<MaxPacket;j++) MixedMusic.MixAppendPacket(MusicTrack.DetachFirstPacket(),(CurrentFrame->CurrentObject_SoundTrackMontage!=NULL)?CurrentFrame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
-/*
-                // Mix music with fade out of previous music track
-                if ((CurrentFrame->IsTransition)&&(PreviousMusicTrack.List.count()>0)) {
-                    int MaxPacket=0;
-                    MaxPacket=MixedMusic.List.count();
-                    if ((MaxPacket>PreviousMusicTrack.List.count())) MaxPacket=PreviousMusicTrack.List.count();
-                    if (MaxPacket>MixedMusic.NbrPacketForFPS) MaxPacket=MixedMusic.NbrPacketForFPS;
-
-                    for (int i=0;i<MaxPacket;i++) {
-                        // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
-                        int16_t *Paquet=PreviousMusicTrack.DetachFirstPacket();
-                        int32_t mix;
-                        int16_t *Buf1=MixedMusic.List[i];
-                        int     Max=MixedMusic.SoundPacketSize/(MixedMusic.SampleBytes*MixedMusic.Channels);
-                        double  FadeDelta=(double(i)/double(MaxPacket))*(CurrentFrame->TransitionPCTEnd-CurrentFrame->TransitionPCTDone);
-                        double  FadeAdjust2  =(1-CurrentFrame->TransitionPCTDone-FadeDelta);
-
-                        int16_t *Buf2=(Paquet!=NULL)?Paquet:NULL;
-                        for (int j=0;j<Max;j++) {
-                            // Left channel : Adjust if necessary (16 bits)
-                            mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
-                            if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                            *(Buf1++)=int16_t(mix);
-                            // Right channel : Adjust if necessary (16 bits)
-                            mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
-                            if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                            *(Buf1++)=int16_t(mix);
-                        }
-                        if (Paquet) delete Paquet;
-                    }
-                }
-*/
+                for (int j=0;j<MaxPacket;j++) MixedMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
                 // Give time to interface !
                 QCoreApplication::processEvents();
             }
@@ -571,7 +521,7 @@ void DlgRenderVideo::accept() {
                         av_free(VideoFramePicture);
                         VideoFramePicture=NULL;
                     }
-                    VideoFramePicture=QImageToYUVStream(CurrentFrame->RenderedImage);
+                    VideoFramePicture=QImageToYUVStream(Frame->RenderedImage);
                 }
                 ThreadWriteVideoFrame=QtConcurrent::run(this,&DlgRenderVideo::WriteVideoFrame,CurrentFrameNumber,VideoFramePicture,W,H);
                 IsThreadWriteVideoFrame=true;
@@ -579,7 +529,7 @@ void DlgRenderVideo::accept() {
                 QCoreApplication::processEvents();
             }
 
-            if (AudioStream!=NULL) while ((Continue)&&(MixedMusic.List.count()>0)) {
+            if (AudioStream!=NULL) for (int audiof=0;Continue && audiof<MixedMusic.NbrPacketForFPS;audiof++) {//while ((Continue)&&(MixedMusic.List.count()>0)) {
                 if (IsThreadWriteAudioFrame) {
                     ThreadWriteAudioFrame.waitForFinished();
                     Continue=Continue && (bool)ThreadWriteAudioFrame.result();
@@ -589,7 +539,6 @@ void DlgRenderVideo::accept() {
                 // Give time to interface !
                 QCoreApplication::processEvents();
             }
-
             //***************************************************************************************************************************
             // Go to next frame
             //***************************************************************************************************************************
@@ -604,8 +553,8 @@ void DlgRenderVideo::accept() {
             // Calculate next position
             Position     +=(FPS/1000);
             if (PreviousFrame!=NULL) delete PreviousFrame;
-            PreviousFrame=CurrentFrame;
-            CurrentFrame =NULL;
+            PreviousFrame=Frame;
+            Frame =NULL;
 
             if ((Continue==false)||(StopProcessWanted==true)) break;   // Stop the process if error occur or user ask to stop
         }
@@ -613,7 +562,7 @@ void DlgRenderVideo::accept() {
         // Give time to interface !
         QCoreApplication::processEvents();
 
-        if (Continue) ui->SlideProgressBar->setValue(ui->SlideProgressBar->maximum());
+        if (Continue && !StopProcessWanted) ui->SlideProgressBar->setValue(ui->SlideProgressBar->maximum());
 
         // wait for the ThreadWriteVideoFrame is finished
         if (IsThreadWriteVideoFrame) {
@@ -627,9 +576,22 @@ void DlgRenderVideo::accept() {
         }
 
         // write the trailer
-        if (Continue) {
+        if (Continue && !StopProcessWanted) {
             flush_ffmpeg_VideoStream(W,H);              // Flush delayed video frame
             QCoreApplication::processEvents();          // Give time to interface !
+
+            // Flush audio frame
+            if (AudioStream!=NULL) while ((Continue)&&(MixedMusic.List.count()>0)) {
+                if (IsThreadWriteAudioFrame) {
+                    ThreadWriteAudioFrame.waitForFinished();
+                    Continue=Continue && (bool)ThreadWriteAudioFrame.result();
+                }
+                ThreadWriteAudioFrame=QtConcurrent::run(this,&DlgRenderVideo::WriteAudioFrame,MixedMusic.DetachFirstPacket(),MixedMusic.SoundPacketSize);
+                IsThreadWriteAudioFrame=true;
+                // Give time to interface !
+                QCoreApplication::processEvents();
+            }
+
             av_write_trailer(OutputFormatContext);      // Write de trailer
         }
 
@@ -652,7 +614,7 @@ void DlgRenderVideo::accept() {
         RefreshDisplayControl();
 
         // Inform user of success
-        if (Continue) QMessageBox::information(this,QCoreApplication::translate("DlgRenderVideo","Render video"),QCoreApplication::translate("DlgRenderVideo","Job completed succesfully !"));
+        if (Continue && !StopProcessWanted) QMessageBox::information(this,QCoreApplication::translate("DlgRenderVideo","Render video"),QCoreApplication::translate("DlgRenderVideo","Job completed succesfully !"));
         // Save Window size and position
         Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);
         // Close the dialog box
@@ -752,11 +714,13 @@ bool DlgRenderVideo::CreateAudioStream() {
         AudioStream->stream_copy         = 1;
 
         // Set codec specific
-        AudioCodecContext->bit_rate      = Diaporama->AudioBitRate*1000;
-        AudioCodecContext->rc_max_rate   = Diaporama->AudioBitRate*1000;
-        AudioCodecContext->rc_min_rate   = Diaporama->AudioBitRate*1000;
-        AudioCodecContext->channels      = 2;
-        AudioCodecContext->channel_layout= CH_LAYOUT_STEREO;
+        AudioCodecContext->bit_rate             = Diaporama->AudioBitRate*1000;
+        AudioCodecContext->rc_max_rate          = Diaporama->AudioBitRate*1000;
+        AudioCodecContext->rc_min_rate          = Diaporama->AudioBitRate*1000;
+        AudioCodecContext->bit_rate_tolerance   = Diaporama->AudioBitRate*100;
+        AudioCodecContext->rc_buffer_size       = 0;
+        AudioCodecContext->channels             = 2;
+        AudioCodecContext->channel_layout= CH_LAYOUT_STEREO_DOWNMIX;    //CH_LAYOUT_STEREO;
 
         // Ensure the container stream uses the same aspect ratio & frame rate
         AudioCodecContext->time_base    =(AVRational){1,AudioCodecContext->sample_rate};
@@ -902,8 +866,33 @@ bool DlgRenderVideo::CreateVideoStream() {
             break;
 
         case CODEC_ID_H264 :
-            VideoCodecContext->ticks_per_frame          = 2;
+            VideoCodecContext->codec_id                 = CODEC_ID_H264;
+            VideoCodecContext->pix_fmt                  = PIX_FMT_YUV420P;
             VideoCodecContext->bit_rate                 = Diaporama->VideoBitRate*1000;
+            VideoCodecContext->bit_rate_tolerance       = Diaporama->VideoBitRate*100;
+            VideoCodecContext->rc_max_rate              = 0;
+            VideoCodecContext->rc_buffer_size           = 0;
+
+            VideoCodecContext->gop_size = 40;
+            VideoCodecContext->max_b_frames = 3;
+            VideoCodecContext->b_frame_strategy = 1;
+            VideoCodecContext->coder_type = 1;
+            VideoCodecContext->me_cmp = 1;
+            VideoCodecContext->me_range = 16;
+            VideoCodecContext->qmin = 10;
+            VideoCodecContext->qmax = 51;
+            VideoCodecContext->scenechange_threshold = 40;
+            VideoCodecContext->flags |= CODEC_FLAG_LOOP_FILTER;
+            VideoCodecContext->me_method = ME_HEX;
+            VideoCodecContext->me_subpel_quality = 5;
+            VideoCodecContext->i_quant_factor = 0.71;
+            VideoCodecContext->qcompress = 0.6;
+            VideoCodecContext->max_qdiff = 4;
+            VideoCodecContext->directpred = 1;
+            VideoCodecContext->flags2 |= CODEC_FLAG2_FASTPSKIP;
+
+            /*
+            VideoCodecContext->ticks_per_frame          = 2;
             VideoCodecContext->rc_buffer_size           = VideoCodecContext->bit_rate*2;        // vbv_buf_size
             VideoCodecContext->rc_min_vbv_overflow_use  = VideoCodecContext->bit_rate;          // vbv_maxrate ?
             VideoCodecContext->rc_max_available_vbv_use = VideoCodecContext->bit_rate;
@@ -911,9 +900,7 @@ bool DlgRenderVideo::CreateVideoStream() {
             VideoCodecContext->rc_max_rate              = VideoCodecContext->bit_rate;
             VideoCodecContext->rc_min_rate              = VideoCodecContext->bit_rate;
 
-            VideoCodecContext->codec_id                 = CODEC_ID_H264;
             VideoCodecContext->codec_tag                = MKTAG('a','v','c','1');
-            VideoCodecContext->pix_fmt                  = PIX_FMT_YUV420P;
 
             // values from HQ preset !
             VideoCodecContext->me_method                = ME_UMH;                               // Motion estimation algorithm used for video coding.
@@ -942,6 +929,34 @@ bool DlgRenderVideo::CreateVideoStream() {
             VideoCodecContext->flags2                   |=CODEC_FLAG2_MIXED_REFS+CODEC_FLAG2_WPRED+CODEC_FLAG2_8X8DCT+CODEC_FLAG2_FASTPSKIP;    // flags2=+bpyramid+mixed_refs+wpred+dct8x8+fastpskip
             VideoCodecContext->keyint_min               = 25;                                   // keyint_min=25
             VideoCodecContext->gop_size                 = 250;                                  // Ref frame number : emit one intra frame every 1/4 sec
+            */
+/*            // libx264-medium.ffpreset preset
+            VideoCodecContext->coder_type = 1;  // coder = 1
+            VideoCodecContext->flags|=CODEC_FLAG_LOOP_FILTER;   // flags=+loop
+            VideoCodecContext->me_cmp|= 1;  // cmp=+chroma, where CHROMA = 1
+            VideoCodecContext->partitions|=X264_PART_I8X8+X264_PART_I4X4+X264_PART_P8X8+X264_PART_B8X8; // partitions=+parti8x8+parti4x4+partp8x8+partb8x8
+            VideoCodecContext->me_method=ME_HEX;    // me_method=hex
+            VideoCodecContext->me_subpel_quality = 7;   // subq=7
+            VideoCodecContext->me_range = 16;   // me_range=16
+            VideoCodecContext->gop_size = 250;  // g=250
+            VideoCodecContext->keyint_min = 25; // keyint_min=25
+            VideoCodecContext->scenechange_threshold = 40;  // sc_threshold=40
+            VideoCodecContext->i_quant_factor = 0.71; // i_qfactor=0.71
+            VideoCodecContext->b_frame_strategy = 1;  // b_strategy=1
+            VideoCodecContext->qcompress = 0.6; // qcomp=0.6
+            VideoCodecContext->qmin = 10;   // qmin=10
+            VideoCodecContext->qmax = 51;   // qmax=51
+            VideoCodecContext->max_qdiff = 4;   // qdiff=4
+            VideoCodecContext->max_b_frames = 3;    // bf=3
+            VideoCodecContext->refs = 3;    // refs=3
+            VideoCodecContext->directpred = 1;  // directpred=1
+            VideoCodecContext->trellis = 1; // trellis=1
+            VideoCodecContext->flags2|=CODEC_FLAG2_BPYRAMID+CODEC_FLAG2_MIXED_REFS+CODEC_FLAG2_WPRED+CODEC_FLAG2_8X8DCT+CODEC_FLAG2_FASTPSKIP;  // flags2=+bpyramid+mixed_refs+wpred+dct8x8+fastpskip
+            VideoCodecContext->weighted_p_pred = 2; // wpredp=2
+            // libx264-main.ffpreset preset
+            VideoCodecContext->flags2|=CODEC_FLAG2_8X8DCT;
+            //VideoCodecContext->flags2^=CODEC_FLAG2_8X8DCT;    // flags2=-dct8x8
+*/
             break;
 
         case CODEC_ID_MJPEG:

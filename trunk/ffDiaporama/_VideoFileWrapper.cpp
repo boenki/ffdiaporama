@@ -18,39 +18,13 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-//====================================================================================================================
-// QT inclusion
-//====================================================================================================================
-#include <QtDebug>
-#include <QtCore>
-#include <QProcess>
-#include <QTime>
-#include <QCoreApplication>
-#include <QString>
-#include <QStringList>
-#include <QProcess>
-#include <QMessageBox>
-#include <QFileInfo>
-#include <QImage>
-#include <QPainter>
-#include <QPaintDevice>
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-//====================================================================================================================
-// Application specifique inclusion
-//====================================================================================================================
-#include "capplicationconfig.h"
-#include "cSoundDefinition.h"
-#include "cdiaporama.h"
-#include "cvideofilewrapper.h"
-
-/*
-Principe de décodage des vidéo :
-    Pour obtenir une image, il faut décoder les packets depuis la dernière ref-frame jusqu'à la frame voulue
-    Pour ne pas tout décoder (en preview on skip des frames !), on spool les packets dans une liste
-    La liste est vidée chaque fois qu'une ref-frame apparait ou qu'un seek est demandé
-    Quand la position est atteinte, on decode tout les packets restant dans la liste
-    Pour ne pas perdre la dernière ref-frame, le spool est conservé dans l'object
-*/
+// Specific inclusions
+#include "_ApplicationDefinitions.h"
+#include "_SoundDefinitions.h"
+#include "_VideoFileWrapper.h"
 
 //*************************************************************************************************************************************
 

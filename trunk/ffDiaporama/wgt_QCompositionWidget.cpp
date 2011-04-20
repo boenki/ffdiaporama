@@ -18,8 +18,6 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QColorDialog>
-#include "cdiaporama.h"
 #include "wgt_QCustomBrush.h"
 #include "wgt_QCompositionWidget.h"
 #include "ui_wgt_QCompositionWidget.h"

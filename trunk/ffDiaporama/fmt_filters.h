@@ -68,15 +68,15 @@ fitness for a particular purpose and noninfringement.  In no event shall
 ImageMagick Studio be liable for any claim, damages or other liability,
 whether in an action of contract, tort or otherwise, arising from, out of or
 in connection with ImageMagick or the use or other dealings in ImageMagick.
-
-Except as contained in this notice, the name of the ImageMagick Studio shall
-not be used in advertising or otherwise to promote the sale, use or other
-dealings in ImageMagick without prior written authorization from the
-ImageMagick Studio.
 */
 
 #ifndef FMT_FILTERS_H
 #define FMT_FILTERS_H
+
+//========================================
+// Basic inclusions (common to all files)
+//========================================
+#include "_GlobalDefines.h"
 
 //////////////////////////////////////////
 //                                      //

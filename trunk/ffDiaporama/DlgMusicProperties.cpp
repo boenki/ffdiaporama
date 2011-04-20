@@ -18,12 +18,6 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtDebug>
-#include <QShowEvent>
-#include <QTimer>
-#include <QFileDialog>
-#include <QMessageBox>
-
 #include "DlgMusicProperties.h"
 #include "ui_DlgMusicProperties.h"
 
@@ -208,7 +202,7 @@ void DlgMusicProperties::s_AddMusic() {
         if (DiaporamaObject->Parent->ApplicationConfig->RememberLastDirectories)
             DiaporamaObject->Parent->ApplicationConfig->LastMusicPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
-        DiaporamaObject->MusicList.insert(CurIndex,cMusicObject(DiaporamaObject));
+        DiaporamaObject->MusicList.insert(CurIndex,cMusicObject());
         if (DiaporamaObject->MusicList[CurIndex].LoadMedia(NewFile)) {
 
             // Add music to PlayListTable

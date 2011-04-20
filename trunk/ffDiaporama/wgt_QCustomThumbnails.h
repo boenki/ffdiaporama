@@ -21,14 +21,11 @@
 #ifndef WGT_QCUSTOMTHUMBNAILS_H
 #define WGT_QCUSTOMTHUMBNAILS_H
 
-#include <QLabel>
-#include <QTableWidget>
-#include "cdiaporama.h"
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-#define THUMBNAILTYPE_IMAGESEQUENCE     0
-#define THUMBNAILTYPE_OBJECTBACKGROUND  1
-#define THUMBNAILTYPE_OBJECTSEQUENCE    2
-#define THUMBNAILTYPE_OBJECTMUSIC       3
+// Specific inclusions
+#include "_Diaporama.h"
 
 class wgt_QCustomThumbnails : public QLabel {
 Q_OBJECT

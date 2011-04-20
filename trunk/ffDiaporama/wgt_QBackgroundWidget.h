@@ -21,11 +21,11 @@
 #ifndef WGT_QBACKGROUNDWIDGET_H
 #define WGT_QBACKGROUNDWIDGET_H
 
-#include <QWidget>
-#include "cdiaporama.h"
-#include "cimagefilewrapper.h"
-#include "cvideofilewrapper.h"
-#include "capplicationconfig.h"
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Specific inclusions
+#include "_Diaporama.h"
 
 namespace Ui {
     class wgt_QBackgroundWidget;

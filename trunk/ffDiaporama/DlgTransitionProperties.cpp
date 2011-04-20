@@ -18,13 +18,14 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtDebug>
-#include <QTimer>
-#include <QPainter>
-#include <QStyledItemDelegate>
-#include "cdiaporama.h"
 #include "DlgTransitionProperties.h"
 #include "ui_DlgTransitionProperties.h"
+
+//======================================
+// Specific defines for this dialog box
+//======================================
+#define ROWHEIGHT   80
+#define DECAL       10
 
 int     CurrentSelectRow,CurrentSelectCol;
 
@@ -80,7 +81,7 @@ DlgTransitionProperties::DlgTransitionProperties(cDiaporamaObject *DiaporamaObje
 
     // Retrieve object informations and create PreviousFrame
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);
-    DiaporamaObject->Parent->LoadSourceImage(PreviousFrame,W,H,true);                       // Load background and image
+    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true);                       // Load background and image
     DiaporamaObject->Parent->PrepareImage(PreviousFrame,W,H,0,true);                        // Current Object
     DiaporamaObject->Parent->PrepareImage(PreviousFrame,W,H,0,false);                       // Transition Object
 
@@ -205,7 +206,7 @@ void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
             delete Frame->RenderedImage;
             Frame->RenderedImage=NULL;
         }
-        DiaporamaObject->Parent->DoAssemblyImages(Frame,W,H);
+        DiaporamaObject->Parent->DoAssembly(Frame,W,H);
 
         // Create a label object to handle the bitmap
         QLabel *Widget=new QLabel();
@@ -259,7 +260,7 @@ void DlgTransitionProperties::s_ChTransitionDurationCB(int) {
 
     // Retrieve object informations and create PreviousFrame
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);
-    DiaporamaObject->Parent->LoadSourceImage(PreviousFrame,W,H,true);                       // Load background and image
+    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true);                       // Load background and image
     DiaporamaObject->Parent->PrepareImage(PreviousFrame,W,H,0,true);                        // Current Object
     DiaporamaObject->Parent->PrepareImage(PreviousFrame,W,H,0,false);                       // Transition Object
 
@@ -304,7 +305,7 @@ void DlgTransitionProperties::s_TimerEvent() {
             delete Frame->RenderedImage;
             Frame->RenderedImage=NULL;
         }
-        DiaporamaObject->Parent->DoAssemblyImages(Frame,W,H);
+        DiaporamaObject->Parent->DoAssembly(Frame,W,H);
 
         // Add icon in the bottom left corner
         QPainter P;

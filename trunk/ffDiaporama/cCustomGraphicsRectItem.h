@@ -21,10 +21,15 @@
 #ifndef CCUSTOMGRAPHICSRECTITEM_H
 #define CCUSTOMGRAPHICSRECTITEM_H
 
-#include <QGraphicsScene>
-#include <QGraphicsItem>
-#include <QGraphicsRectItem>
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
+// Specific inclusions
+#include "_Diaporama.h"
+
+//======================================
+// Specific defines for this dialog box
+//======================================
 #define TYPE_wgt_QCustomScene           0
 #define TYPE_wgt_QCompositionWidget     1
 

@@ -21,12 +21,11 @@
 #ifndef DLGTRANSITIONPROPERTIES_H
 #define DLGTRANSITIONPROPERTIES_H
 
-#include <QDialog>
-#include <QTimer>
-#include "cdiaporama.h"
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-#define ROWHEIGHT   80
-#define DECAL       10
+// Specific inclusions
+#include "_Diaporama.h"
 
 namespace Ui {
     class DlgTransitionProperties;

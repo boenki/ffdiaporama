@@ -18,13 +18,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtDebug>
-#include <QShowEvent>
-#include <QTimer>
-#include <QPainter>
-
 #include "wgt_QBackgroundDefWidget.h"
-#include "cdiaporama.h"
 #include "DlgBackgroundProperties.h"
 #include "ui_DlgBackgroundProperties.h"
 

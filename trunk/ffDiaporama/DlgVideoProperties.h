@@ -21,12 +21,11 @@
 #ifndef DlgVideoProperties_H
 #define DlgVideoProperties_H
 
-#include <QDialog>
-#include <QLabel>
-#include <QImage>
-#include <QIcon>
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-#include "cdiaporama.h"
+// Specific inclusions
+#include "_Diaporama.h"
 
 namespace Ui {
     class DlgVideoProperties;

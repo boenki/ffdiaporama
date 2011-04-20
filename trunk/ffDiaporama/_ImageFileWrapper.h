@@ -18,16 +18,14 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CIMAGEFILEWRAPPER_H
-#define CIMAGEFILEWRAPPER_H
+#ifndef IMAGEFILEWRAPPER_H
+#define IMAGEFILEWRAPPER_H
 
-#include <QString>
-#include <QStringList>
-#include <QDateTime>
-#include <QImage>
-#include "capplicationconfig.h"
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-class cDiaporamaObject;
+// Specific inclusions
+#include "_ApplicationDefinitions.h"
 
 class cimagefilewrapper {
 public:
@@ -49,4 +47,4 @@ public:
     QImage  *ImageAt(bool PreviewMode,int PreviewMaxHeight,bool ForceLoadDisk);
 };
 
-#endif // CIMAGEFILEWRAPPER_H
+#endif // IMAGEFILEWRAPPER_H

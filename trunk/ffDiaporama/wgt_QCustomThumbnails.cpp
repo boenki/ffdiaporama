@@ -18,16 +18,11 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtDebug>
-#include <QtCore>
-#include <QPainter>
-#include <QFileInfo>
-#include <QMouseEvent>
-
-#include "capplicationconfig.h"
-#include "cdiaporama.h"
 #include "wgt_QCustomThumbnails.h"
 
+//======================================
+// Specific defines for this dialog box
+//======================================
 #define TransitionSize          36
 #define WidgetSelection_Color   Qt::blue
 #define WidgetBackground_Color  0xC2C7CB
@@ -153,6 +148,17 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                         (Type==THUMBNAILTYPE_OBJECTSEQUENCE)?IconList.GetIcon(Diaporama->List[Col].TransitionFamilly,Diaporama->List[Col].TransitionSubType):
                         IconList.GetIcon(0,1)
                         ):IconList.GetIcon(0,0));
+                // Draw transition duration
+                if (Type==THUMBNAILTYPE_OBJECTSEQUENCE) {
+                    QString sDuration=QString("%1").arg(double(Object->TransitionDuration)/double(1000),0,'f');
+                    while (sDuration.endsWith('0')) sDuration=sDuration.left(sDuration.length()-1);
+                    while (sDuration.endsWith('.')) sDuration=sDuration.left(sDuration.length()-1);
+                    Pen.setColor(Qt::black);
+                    Pen.setWidth(1);
+                    Pen.setStyle(Qt::SolidLine);
+                    Painter.setPen(Pen);
+                    Painter.drawText(QRectF(2,2-1+34,32,16),sDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                }
             }
 
             if (Type==THUMBNAILTYPE_OBJECTSEQUENCE) {                       // Draw a decorated thumbnail object
@@ -190,6 +196,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     case DIAPORAMAOBJECTTYPE_IMAGE :
                         Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,Diaporama->Transparent);
                         Object->CanvasImageAt(ThumbWidth,ThumbHeight,0,&Painter,TransitionSize+3,2-1,NULL,NULL,true,true,true,NULL);   // Draw Thumb
+                        if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32,QImage(ICON_SHOTPRESENCE));
                         DrawThumbnailsBox(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,Painter,NULL);
                         MediaObjectRect=QRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight);
                         break;
@@ -204,6 +211,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                         // Draw thumb part
                         Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,Diaporama->Transparent);
                         Object->CanvasImageAt(NewThumbWidth,NewThumbHeight,0,&Painter,TransitionSize+3+BarWidth,2-1,NULL,NULL,true,true,true,NULL);   // Draw Thumb
+                        if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+BarWidth+NewThumbWidth-32,2-1+NewThumbHeight-32,QImage(ICON_SHOTPRESENCE));
                         DrawThumbnailsBox(TransitionSize+3+BarWidth,2-1,NewThumbWidth,NewThumbHeight,Painter,NULL);
                         DrawThumbnailsBox(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,Painter,NULL);
                         MediaObjectRect=QRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight);
@@ -384,7 +392,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Painter.setPen(Pen);
                     Painter.drawPolygon(Table,5);
 
-                    if (DrawPause) Painter.drawImage((Width-34-TransitionSize)/2+34,2,QImage("icons/player_pause.png"));
+                    if (DrawPause) Painter.drawImage((Width-34-TransitionSize)/2+34,2,QImage(ICON_PLAYERPAUSE));
                 } else {
                     // Draw out transition from a previous object
                     if ((Col>0)&&(Object->Parent->GetMusicObject(Col-1,StartPosition)!=NULL)) {

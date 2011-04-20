@@ -18,19 +18,6 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-//====================================================================================================================
-// QT inclusion
-//====================================================================================================================
-#include <QtDebug>
-#include <QMessageBox>
-#include <QPainter>
-#include <QImage>
-#include <QtCore>
-
-//====================================================================================================================
-// Application specifique inclusion
-//====================================================================================================================
-#include "cdiaporama.h"
 #include "wgt_QVideoPlayer.h"
 #include "ui_wgt_QVideoPlayer.h"
 
@@ -117,7 +104,7 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
 
     DisplayMSec             = false;
     IconPlay                = QIcon("icons/player_play.png");
-    IconPause               = QIcon("icons/player_pause.png");
+    IconPause               = QIcon(ICON_PLAYERPAUSE);
     MplayerPlayMode         = false;                                // Is MPlayer currently play mode
     MplayerPauseMode        = false;                                // Is MPlayer currently plause mode
     IsSliderProcess         = false;
@@ -163,7 +150,6 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
 
 wgt_QVideoPlayer::~wgt_QVideoPlayer() {
     ThreadPrepareMontage.waitForFinished();   // Thread preparation of image
-    ThreadPrepareMusic.waitForFinished();     // Thread preparation of music
     ThreadDoAssembly.waitForFinished();       // Thread for make assembly of background and images
     if (MplayerProcess.state()==QProcess::Running) {
         MplayerProcess.kill();
@@ -453,15 +439,11 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
 
         // Init MixedMusic
         MixedMusic.ClearList();
-        MusicTrack.ClearList();
-        PreviousMusicTrack.ClearList();
 
         // Free ImageList
         ImageList.ClearList();
 
         MixedMusic.SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
-        MusicTrack.SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
-        PreviousMusicTrack.SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
 
         // Desired AudioSpec
         SDL_AudioSpec Desired;
@@ -511,8 +493,6 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
 
         // Free sound buffers
         MixedMusic.ClearList();
-        MusicTrack.ClearList();
-        PreviousMusicTrack.ClearList();
 
         // Free ImageList
         ImageList.ClearList();
@@ -621,8 +601,6 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
             // Free sound buffers
             MixedMusic.ClearList();
-            MusicTrack.ClearList();
-            PreviousMusicTrack.ClearList();
 
             // Free ImageList
             ImageList.ClearList();
@@ -683,14 +661,6 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             // Create a new frame object
             cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
 
-            if ((PreviousFrame)&&(NewFrame->CurrentObject_Number!=PreviousFrame->CurrentObject_Number)&&(NewFrame->IsTransition)&&(NewFrame->CurrentObject->MusicType)) {
-                // Swap music track
-                PreviousMusicTrack.ClearList();
-                while (MusicTrack.List.count()>0) PreviousMusicTrack.AppendPacket(MusicTrack.DetachFirstPacket());
-                PreviousMusicTrack.AppendData((int16_t *)MusicTrack.TempData,MusicTrack.CurrentTempSize);
-                MusicTrack.CurrentTempSize=0;
-            }
-
             // Start thread to prepare
             ThreadPrepareMontage=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true);
         }
@@ -714,15 +684,16 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
 void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted) {
     if (SoundWanted) {
-
-        // Start thread for next music bloc
-        ThreadPrepareMusic=QtConcurrent::run(Diaporama,&cDiaporama::PrepareMusicBloc,Frame->CurrentObject_Number,Frame->CurrentObject_InObjectTime,&MusicTrack);         // Create music bloc
-        if ((Frame->IsTransition)&&(Frame->CurrentObject->MusicType)&&(Frame->TransitObject)) {
-            int     StartPosition;
-            cMusicObject *PreviousMusic=Diaporama->GetMusicObject(Frame->TransitObject_Number,StartPosition);
-            if (PreviousMusic!=Diaporama->GetMusicObject(Frame->CurrentObject_Number,StartPosition))
-                Diaporama->PrepareMusicBloc(Frame->TransitObject_Number,Frame->TransitObject_InObjectTime,&PreviousMusicTrack);         // Create music bloc
+        // Ensure MusicTracks are ready
+        if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
+            Frame->CurrentObject_MusicTrack=new cSoundBlockList();
+            Frame->CurrentObject_MusicTrack->SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
         }
+        if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
+            Frame->TransitObject_MusicTrack=new cSoundBlockList();
+            Frame->TransitObject_MusicTrack->SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
+        }
+
         // Ensure SoundTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)&&(Frame->CurrentObject->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
             Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
@@ -735,60 +706,25 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     }
 
     // Ensure background, image and soundtrack is ready (in thread mode)
-    Diaporama->LoadSourceImage(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),true);
+    Diaporama->LoadSources(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),true);
 
     // Prepare images
     Diaporama->PrepareImage(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),0,true);                             // Current Object
     if (Frame->IsTransition) Diaporama->PrepareImage(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),0,false);   // Transition Object
 
     // Do Assembly
-    ThreadDoAssembly=QtConcurrent::run(Diaporama,&cDiaporama::DoAssemblyImages,Frame,ui->MovieFrame->width(),ui->MovieFrame->height());
-
-    // Ensure thread for music is finished
-    ThreadPrepareMusic.waitForFinished();
+    ThreadDoAssembly=QtConcurrent::run(Diaporama,&cDiaporama::DoAssembly,Frame,ui->MovieFrame->width(),ui->MovieFrame->height());
 
     if ((SoundWanted)&&(Frame->CurrentObject)) {
-
         // Calc number of packet to mix
-        int MaxPacket=MusicTrack.List.count();
+        int MaxPacket=Frame->CurrentObject_MusicTrack->List.count();
         if ((Frame->CurrentObject_SoundTrackMontage)&&(MaxPacket>Frame->CurrentObject_SoundTrackMontage->List.count())) MaxPacket=Frame->CurrentObject_SoundTrackMontage->List.count();
         if (MaxPacket>MixedMusic.NbrPacketForFPS) MaxPacket=MixedMusic.NbrPacketForFPS;
 
         // Append mixed musique to the queue
         SDL_LockAudio();    // Ensure callback will not be call now
         for (int j=0;j<MaxPacket;j++)
-            MixedMusic.MixAppendPacket(MusicTrack.DetachFirstPacket(),
-                                       (Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
-        // Mix music with fade out of previous music track
-        if ((Frame->IsTransition)&&(PreviousMusicTrack.List.count()>0)) {
-            int MaxPacket=0;
-            MaxPacket=MixedMusic.List.count();
-            if ((MaxPacket>PreviousMusicTrack.List.count())) MaxPacket=PreviousMusicTrack.List.count();
-            if (MaxPacket>MixedMusic.NbrPacketForFPS) MaxPacket=MixedMusic.NbrPacketForFPS;
-
-            for (int i=0;i<MaxPacket;i++) {
-                // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
-                int16_t *Paquet=PreviousMusicTrack.DetachFirstPacket();
-                int32_t mix;
-                int16_t *Buf1=MixedMusic.List[i];
-                int     Max=MixedMusic.SoundPacketSize/(MixedMusic.SampleBytes*MixedMusic.Channels);
-                double  FadeDelta=(double(i)/double(MaxPacket))*(Frame->TransitionPCTEnd-Frame->TransitionPCTDone);
-                double  FadeAdjust2  =(1-Frame->TransitionPCTDone-FadeDelta);
-
-                int16_t *Buf2=(Paquet!=NULL)?Paquet:NULL;
-                for (int j=0;j<Max;j++) {
-                    // Left channel : Adjust if necessary (16 bits)
-                    mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
-                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                    *(Buf1++)=int16_t(mix);
-                    // Right channel : Adjust if necessary (16 bits)
-                    mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
-                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                    *(Buf1++)=int16_t(mix);
-                }
-                if (Paquet) delete Paquet;
-            }
-        }
+            MixedMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
         SDL_UnlockAudio();  // Ensure callback can now be call
     }
     // Append this image to the queue

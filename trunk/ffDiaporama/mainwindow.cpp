@@ -20,17 +20,6 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
-#include <QCoreApplication>
-#include <QScrollBar>
-#include <QStringList>
-#include <QFileDialog>
-#include <QMouseEvent>
-#include <QMessageBox>
-#include <QTimer>
-
-#include "capplicationconfig.h"
-#include "cdiaporama.h"
 #include "wgt_QCustomThumbnails.h"
 
 #include "DlgAbout.h"
@@ -405,9 +394,9 @@ void MainWindow::UpdateDockInfo() {
 
 void MainWindow::s_RenderVideo() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    if (DlgRenderVideo(*Diaporama,this).exec()==0) {
-
-    }
+    DlgRenderVideo(*Diaporama,this).exec();
+    SetModifyFlag(true);
+    AdjustRuller();
 }
 
 //====================================================================================================================

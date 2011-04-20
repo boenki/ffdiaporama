@@ -18,13 +18,11 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QFileInfo>
-#include <QImage>
-#include <QPainter>
-#include <QMatrix>
-#include <QProcess>
-#include "cimagefilewrapper.h"
-#include "cdiaporama.h"
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Specific inclusions
+#include "_ImageFileWrapper.h"
 
 //*********************************************************************************************************************************************
 // Global class containing image sequences

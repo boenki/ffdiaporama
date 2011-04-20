@@ -18,34 +18,18 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef cvideofilewrapper_H
-#define cvideofilewrapper_H
+#ifndef VIDEOFILEWRAPPER_H
+#define VIDEOFILEWRAPPER_H
 
-#ifdef __cplusplus
-#define __STDC_CONSTANT_MACROS
-#ifdef _STDINT_H
-#undef _STDINT_H
-#endif
-# include <stdint.h>
-#endif
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
 
-#ifdef __cplusplus
-extern "C" {
-    #include <libavutil/common.h>
-    #include <libavcodec/avcodec.h>
-    #include <libavformat/avformat.h>
-    #include <libswscale/swscale.h>
-}
-#endif
+// Specific inclusions
+#include "_SoundDefinitions.h"
 
-#include <QString>
-#include <QTime>
-#include <QDateTime>
-#include <QImage>
-#include <QProcess>
-
-#include "cSoundDefinition.h"
-#include "cdiaporama.h"
+//*********************************************************************************************************************************************
+// Internal object / object list to spool image to decode
+//*********************************************************************************************************************************************
 
 class DecodeVideoObject {
 public:
@@ -102,8 +86,8 @@ public:
     cvideofilewrapper();
     ~cvideofilewrapper();
 
-    bool    GetInformationFromFile(QString GivenFileName,bool MusicOnly);
-    QImage  *ImageAt(bool PreviewMode,int PreviewMaxHeight,int Position,bool CachedMode,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume);
+    bool        GetInformationFromFile(QString GivenFileName,bool MusicOnly);
+    QImage      *ImageAt(bool PreviewMode,int PreviewMaxHeight,int Position,bool CachedMode,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume);
 
     int         PreviousPosition;
     bool        IsReadVideoStarted;
@@ -123,4 +107,4 @@ private:
     QImage      *YUVStreamToQImage(double dPosition,bool GetFirstValide);
 };
 
-#endif // cvideofilewrapper_H
+#endif // VIDEOFILEWRAPPER_H

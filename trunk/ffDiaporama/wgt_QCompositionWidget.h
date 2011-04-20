@@ -21,15 +21,12 @@
 #ifndef WGT_QCOMPOSITIONWIDGET_H
 #define WGT_QCOMPOSITIONWIDGET_H
 
-#include <QGraphicsScene>
-#include <QGraphicsRectItem>
-#include <QGraphicsScene>
-#include <QWidget>
-#include <QFont>
-#include <QString>
-#include <QComboBox>
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Specific inclusions
+#include "_Diaporama.h"
 #include "cCustomGraphicsRectItem.h"
-#include "cdiaporama.h"
 
 namespace Ui {
     class wgt_QCompositionWidget;
