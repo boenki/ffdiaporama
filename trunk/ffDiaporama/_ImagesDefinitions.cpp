@@ -366,9 +366,10 @@ void cBackgroundList::ScanDisk(QString Path,int TheGeometry) {
 
     List.clear();
     for (int i=0;i<Files.count();i++) if (Files[i].isFile() && QString(Files[i].suffix()).toLower()=="txt") {
-        if (QFileInfo(QString(QFileInfo(Files[i]).path()+QDir::separator()+QFileInfo(Files[i]).baseName()+".jpg")).isFile()) List.append(cBackgroundObject(Files[i].absoluteFilePath(),Geometry));
+        QString FileName=QFileInfo(Files[i]).path()+QDir::separator()+QFileInfo(Files[i]).baseName()+".jpg";
+        if (QFileInfo(QString(FileName)).isFile())
+            List.append(cBackgroundObject(Files[i].absoluteFilePath(),Geometry));
     }
-    qDebug()<<"Load background images library from"<<QDir(Path).absolutePath()<<"-"<<List.count()<<"images found";
 }
 
 //====================================================================================================================
@@ -485,7 +486,6 @@ void cLumaList::ScanDisk(QString Path,int TransitionFamilly) {
     for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j].Name>List[j+1].Name) List.swap(j,j+1);
     // Register icons for this list
     for (int i=0;i<List.count();i++) IconList.List.append(cIconObject(TransitionFamilly,i,List[i].OriginalLuma));
-    qDebug()<<"Load luma images library from"<<QDir(Path).absolutePath()<<"-"<<List.count()<<"images found";
 }
 
 //====================================================================================================================

@@ -19,130 +19,49 @@
    ====================================================================== */
 
 #include "mainwindow.h"
+#include <QTranslator>
 
 int main(int argc, char *argv[]) {
     QApplication::setGraphicsSystem("raster");
-    //QApplication::setStyle(new QWindowsStyle);
     QApplication app(argc, argv);
 
+    AddToSystemProperties(QString(APPLICATION_NAME)+" "+QString(APPLICATION_VERSION));
+    AddSeparatorToSystemProperties();
     app.setApplicationName(APPLICATION_NAME);
 
     QString CurrentPath=QDir::currentPath();
     if (!CurrentPath.endsWith(QDir::separator())) CurrentPath=CurrentPath+QDir::separator();
 
+    AddToSystemProperties("Starting path="+QDir::currentPath());
+#if defined(Q_OS_WIN)
+    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
+    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString(APPLICATION_NAME));
+#endif
+
     // Ensure correct path
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    qDebug() << "Previous path=" << QDir::currentPath();
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("../")+QString(APPLICATION_NAME));
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
     if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("/usr/share/")+QString(APPLICATION_NAME));
-    qDebug() << "Current path=" << QDir::currentPath();
-    #endif
+#endif
+    AddToSystemProperties("Working path set to "+QDir::currentPath());
 
-    // Install translation
-    QString locale = QLocale::system().name();
+
+    // Search system language
     QTranslator translator;
-    translator.load(QString("locale")+QDir::separator()+QString("locale_")+locale.left(2));
-    app.installTranslator(&translator);
+    CurrentLanguage=QLocale::system().name().left(2);
+    AddToSystemProperties("System locale="+CurrentLanguage);
 
-    // Register all formats and codecs for libavformat/libavcodec/etc ...
-    qDebug()<<"Init Libavformat and registered codecs";
-    avcodec_init();
-    av_register_all();
+    // Validate if system language is supported and if not force use of "en"
+    if (CurrentLanguage!="fr") CurrentLanguage="en";
 
-    // Check codec to know if they was finded
-    AVCodec *p=NULL;
-    while ((p=av_codec_next(p))) {
-        if (p->type==AVMEDIA_TYPE_AUDIO) for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(p->encode!=NULL)&&(!AUDIOCODECDEF[i].IsFind)) {
-            AUDIOCODECDEF[i].IsFind=true;
-            strcpy(AUDIOCODECDEF[i].ShortName,p->name);
-        }
-        if (p->type==AVMEDIA_TYPE_VIDEO) for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(p->encode!=NULL)&&(!VIDEOCODECDEF[i].IsFind)) {
-            VIDEOCODECDEF[i].IsFind=true;
-            strcpy(VIDEOCODECDEF[i].ShortName,p->name);
-        }
+    // Install translation (if needed)
+    if (CurrentLanguage!="en") {
+        if (!translator.load(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm"))
+            ExitApplicationWithFatalError("Error loading translation file ...");
+        app.installTranslator(&translator);
+        AddToSystemProperties("Translation file loaded="+QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm"));
     }
-
-    // Supprime les codecs pas encore programmé !
-    VIDEOCODECDEF[0].IsFind=false;  //CODEC_ID_MJPEG        => Ecrit un jpeg au lieu d'une vidéo
-    VIDEOCODECDEF[1].IsFind=false;  //CODEC_ID_MPEG2VIDEO   => Erreur en fin de fichier vidéo
-    //VIDEOCODECDEF[2].IsFind=false;    //CODEC_ID_MPEG4    => OK
-    //VIDEOCODECDEF[3].IsFind=false;    //CODEC_ID_H264     => OK
-    VIDEOCODECDEF[4].IsFind=false;  //CODEC_ID_VP8          => pas commencé
-
-    //AUDIOCODECDEF[0].IsFind=false;  //CODEC_ID_PCM_S16LE  => OK
-    //AUDIOCODECDEF[1].IsFind=false;  //CODEC_ID_MP3        => OK
-    //AUDIOCODECDEF[2].IsFind=false;  //CODEC_ID_AAC        => OK
-    AUDIOCODECDEF[3].IsFind=false;  //CODEC_ID_AC3          => Erreur de vitesse !!!!!!!!
-    //AUDIOCODECDEF[4].IsFind=false;  //CODEC_ID_VORBIS     => OK
-    //AUDIOCODECDEF[5].IsFind=false;  //CODEC_ID_MP2        => OK
-
-    // Check format to know if they was finded
-    AVOutputFormat *ofmt=NULL;
-    while ((ofmt=av_oformat_next(ofmt))) {
-        for (int i=0;i<NBR_FORMATDEF;i++) if (strcmp(ofmt->name,FORMATDEF[i].ShortName)==0) {
-            QString     AllowedCodec=FORMATDEF[i].PossibleVideoCodec;
-            QString     Codec="";
-            int         Index=0;
-            bool        IsFindVideoCodec=false;
-            bool        IsFindAudioCodec=false;
-
-            while (AllowedCodec.length()>0) {
-                Index=AllowedCodec.indexOf("#");
-                if (Index>0) {
-                    Codec=AllowedCodec.left(Index);
-                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
-                } else {
-                    Codec=AllowedCodec;
-                    AllowedCodec="";
-                }
-                // Now find index of this codec in the VIDEOCODECDEF
-                Index=0;
-                while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].ShortName))) Index++;
-                if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) IsFindVideoCodec=true;
-            }
-            AllowedCodec=FORMATDEF[i].PossibleAudioCodec;
-            Codec="";
-            Index=0;
-            while (AllowedCodec.length()>0) {
-                Index=AllowedCodec.indexOf("#");
-                if (Index>0) {
-                    Codec=AllowedCodec.left(Index);
-                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
-                } else {
-                    Codec=AllowedCodec;
-                    AllowedCodec="";
-                }
-                // Now find index of this codec in the AUDIOCODECDEF
-                Index=0;
-                while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
-                if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
-            }
-            FORMATDEF[i].IsFind=IsFindAudioCodec && IsFindVideoCodec;
-        }
-    }
-
-    // Display finding codecs & formats
-    qDebug()<<" Video codecs :";
-    for (int i=0;i<NBR_VIDEOCODECDEF;i++) if (VIDEOCODECDEF[i].IsFind) qDebug()<<"  =>"<<VIDEOCODECDEF[i].LongName<<"Codec:"<<VIDEOCODECDEF[i].ShortName;
-    qDebug()<<" Audio codecs :";
-    for (int i=0;i<NBR_AUDIOCODECDEF;i++) if (AUDIOCODECDEF[i].IsFind) qDebug()<<"  =>"<<AUDIOCODECDEF[i].LongName<<"Codec:"<<AUDIOCODECDEF[i].ShortName;
-    qDebug()<<" Container formats :";
-    for (int i=0;i<NBR_FORMATDEF;i++)     if (FORMATDEF[i].IsFind) qDebug()<<"  =>"<<FORMATDEF[i].LongName;
-
-    BackgroundList.ScanDisk("background",GEOMETRY_16_9);
-
-    qDebug()<<"Loading transitions and transition icons";
-    for (int i=0;i<TRANSITIONMAXSUBTYPE_BASE;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_BASE,i));
-    for (int i=0;i<TRANSITIONMAXSUBTYPE_ZOOMINOUT;i++)  IconList.List.append(cIconObject(TRANSITIONFAMILLY_ZOOMINOUT,i));
-    for (int i=0;i<TRANSITIONMAXSUBTYPE_SLIDE;i++)      IconList.List.append(cIconObject(TRANSITIONFAMILLY_SLIDE,i));
-    for (int i=0;i<TRANSITIONMAXSUBTYPE_PUSH;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_PUSH,i));
-    LumaList_Bar.ScanDisk("luma/Bar",           TRANSITIONFAMILLY_LUMA_BAR);
-    LumaList_Box.ScanDisk("luma/Box",           TRANSITIONFAMILLY_LUMA_BOX);
-    LumaList_Center.ScanDisk("luma/Center",     TRANSITIONFAMILLY_LUMA_CENTER);
-    LumaList_Checker.ScanDisk("luma/Checker",   TRANSITIONFAMILLY_LUMA_CHECKER);
-    LumaList_Clock.ScanDisk("luma/Clock",       TRANSITIONFAMILLY_LUMA_CLOCK);
-    LumaList_Snake.ScanDisk("luma/Snake",       TRANSITIONFAMILLY_LUMA_SNAKE);
-    qDebug()<<"  =>"<<IconList.List.count()<<"transitions loaded";
+    AddSeparatorToSystemProperties();
 
     MainWindow w(CurrentPath);
 

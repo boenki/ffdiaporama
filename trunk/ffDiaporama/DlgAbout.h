@@ -23,6 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
+#include "_ApplicationDefinitions.h"
 
 namespace Ui {
     class DlgAbout;

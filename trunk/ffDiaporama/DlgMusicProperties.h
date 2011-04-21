@@ -49,8 +49,9 @@ protected:
 private slots:
     void    SetSavedWindowGeometry();
     void    s_SameMusic();
-    void    s_SameMusicPause();
+    void    s_SameMusicNormal();
     void    s_SameMusicReduceVolume();
+    void    s_SameMusicPause();
     void    s_NewMusic();
     void    s_AddMusic();
     void    s_RemoveMusic();

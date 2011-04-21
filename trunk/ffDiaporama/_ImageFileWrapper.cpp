@@ -49,7 +49,7 @@ cimagefilewrapper::~cimagefilewrapper() {
 //====================================================================================================================
 
 bool cimagefilewrapper::GetInformationFromFile(cApplicationConfig *ApplicationConfig,QString GivenFileName) {
-    FileName    =GivenFileName;
+    FileName    =QFileInfo(GivenFileName).absoluteFilePath();
     if (QFileInfo(FileName).exists()) {
         CreatDateTime=QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
         ModifDateTime=QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
@@ -62,6 +62,10 @@ bool cimagefilewrapper::GetInformationFromFile(cApplicationConfig *ApplicationCo
         QString   Info,Part;
 
         Commande = ApplicationConfig->PathEXIV2+" print -pa \""+GivenFileName+"\"";
+        #ifdef Q_OS_WIN
+        Commande.replace("/","\\");
+        #endif
+        qDebug()<<"Start:"<<Commande;
         QProcess Process;
         Process.setProcessChannelMode(QProcess::MergedChannels);
         Process.start(Commande);
@@ -75,7 +79,7 @@ bool cimagefilewrapper::GetInformationFromFile(cApplicationConfig *ApplicationCo
         }
         if (Process.exitStatus()!=QProcess::NormalExit) {
           //QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading source file","Error message"),QMessageBox::Close);
-          return false;   // If crash then error
+          //return false;   // If crash then error
         }
         Info=QString(Process.readAllStandardOutput());
 
@@ -138,6 +142,7 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,bool Fo
         // If error then free CacheImage
         IsValide=false;
         delete Image;
+        Image=NULL;
 
     } else {
 
@@ -173,7 +178,8 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,bool Fo
 
         // Get image width
         ImageWidth =Image->width();
+
+        if (PreviewMode) CacheImage=new QImage(Image->copy());
     }
-    if (PreviewMode) CacheImage=new QImage(Image->copy());
     return Image;
 }

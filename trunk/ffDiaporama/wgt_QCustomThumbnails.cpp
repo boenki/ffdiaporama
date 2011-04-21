@@ -310,11 +310,10 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 int     CurrentCountObjet   =0;
                 int     StartPosition       =0;
                 int     NextStartPosition   =0;
-                double  CurrentFactor       =Object->MusicReduceVolume?Object->MusicReduceFactor:1;
+                double  CurrentFactor       =Object->MusicPause?0:Object->MusicReduceVolume?Object->MusicReduceFactor:1;
                 double  PreviousFactor      =0;
-                if ((Col>0)&&(Object->Parent->GetMusicObject(Col-1,StartPosition)!=NULL)) {
-                    if (Object->Parent->List[Col-1].MusicReduceVolume) PreviousFactor=Object->Parent->List[Col-1].MusicReduceFactor; else PreviousFactor=1;
-                }
+                if ((Col>0)&&(Object->Parent->GetMusicObject(Col-1,StartPosition)!=NULL))
+                    PreviousFactor=(Object->Parent->List[Col-1].MusicPause)?0:(Object->Parent->List[Col-1].MusicReduceVolume)?Object->Parent->List[Col-1].MusicReduceFactor:1;
 
                 bool    EndMusic            =true;
                 bool    DrawVolumeTransition=(PreviousFactor!=CurrentFactor);
@@ -336,9 +335,6 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 } else if (CurMusic) EndMusic=(QTime(0,0,0,0).msecsTo(CurMusic->Duration)-StartPosition)<Object->GetDuration();
 
                 if (CurMusic!=NULL) {
-                    // Search if it's the last object
-                    //if (Col==Object->Parent->List.count()-1) DrawOutTransition=true;
-
                     // Search if sound end during the slide
                     if ((EndMusic)&&(NextMusic==NULL)) DrawOutCut=true;
 
@@ -351,7 +347,6 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                         }
                     // continue Playlist from a previous object
                     } else if (Object->MusicPause) DrawPause=true;
-
                     if (DrawInTransition && IsTransition) {
                         if ((Col>0)&&(Object->Parent->GetMusicObject(Col-1,StartPosition)!=NULL)) {
                             if ((CurrentCountObjet & 1)!=1) {
@@ -392,7 +387,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Painter.setPen(Pen);
                     Painter.drawPolygon(Table,5);
 
-                    if (DrawPause) Painter.drawImage((Width-34-TransitionSize)/2+34,2,QImage(ICON_PLAYERPAUSE));
+                    if (DrawPause) Painter.drawImage((Width-24-TransitionSize)/2+TransitionSize,Height-24,QImage(ICON_PLAYERPAUSE));
                 } else {
                     // Draw out transition from a previous object
                     if ((Col>0)&&(Object->Parent->GetMusicObject(Col-1,StartPosition)!=NULL)) {

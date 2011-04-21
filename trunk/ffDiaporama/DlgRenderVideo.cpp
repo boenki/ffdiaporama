@@ -410,10 +410,10 @@ void DlgRenderVideo::accept() {
             int audio_input_frame_size=AudioStream->codec->frame_size; // frame size in samples
             if ((audio_input_frame_size<=1)&&((AudioStream->codec->codec_id==CODEC_ID_PCM_S16LE)||(AudioStream->codec->codec_id==CODEC_ID_PCM_S16BE)||
                                               (AudioStream->codec->codec_id==CODEC_ID_PCM_S16LE)||(AudioStream->codec->codec_id==CODEC_ID_PCM_S16BE)))
-                audio_input_frame_size=MixedMusic.SoundPacketSize; else audio_input_frame_size*=MixedMusic.SampleBytes*MixedMusic.Channels;
+                audio_input_frame_size=RenderMusic.SoundPacketSize; else audio_input_frame_size*=RenderMusic.SampleBytes*RenderMusic.Channels;
 
-            MixedMusic.ClearList();
-            MixedMusic.SetFPS(Diaporama->VideoFrameRate);
+            RenderMusic.ClearList();
+            RenderMusic.SetFPS(Diaporama->VideoFrameRate);
             EncodedAudio.SetFrameSize(audio_input_frame_size);
         }
 
@@ -496,9 +496,9 @@ void DlgRenderVideo::accept() {
                 // Calc number of packet to mix
                 int MaxPacket=Frame->CurrentObject_MusicTrack->List.count();
                 if ((Frame->CurrentObject_SoundTrackMontage!=NULL)&&(MaxPacket>Frame->CurrentObject_SoundTrackMontage->List.count())) MaxPacket=Frame->CurrentObject_SoundTrackMontage->List.count();
-                if (MaxPacket>MixedMusic.NbrPacketForFPS) MaxPacket=MixedMusic.NbrPacketForFPS;
+                if (MaxPacket>RenderMusic.NbrPacketForFPS) MaxPacket=RenderMusic.NbrPacketForFPS;
                 // Transfert and mix audio data
-                for (int j=0;j<MaxPacket;j++) MixedMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
+                for (int j=0;j<MaxPacket;j++) RenderMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
                 // Give time to interface !
                 QCoreApplication::processEvents();
             }
@@ -529,12 +529,12 @@ void DlgRenderVideo::accept() {
                 QCoreApplication::processEvents();
             }
 
-            if (AudioStream!=NULL) for (int audiof=0;Continue && audiof<MixedMusic.NbrPacketForFPS;audiof++) {//while ((Continue)&&(MixedMusic.List.count()>0)) {
+            if (AudioStream!=NULL) for (int audiof=0;Continue && audiof<RenderMusic.NbrPacketForFPS;audiof++) {//while ((Continue)&&(RenderMusic.List.count()>0)) {
                 if (IsThreadWriteAudioFrame) {
                     ThreadWriteAudioFrame.waitForFinished();
                     Continue=Continue && (bool)ThreadWriteAudioFrame.result();
                 }
-                ThreadWriteAudioFrame=QtConcurrent::run(this,&DlgRenderVideo::WriteAudioFrame,MixedMusic.DetachFirstPacket(),MixedMusic.SoundPacketSize);
+                ThreadWriteAudioFrame=QtConcurrent::run(this,&DlgRenderVideo::WriteAudioFrame,RenderMusic.DetachFirstPacket(),RenderMusic.SoundPacketSize);
                 IsThreadWriteAudioFrame=true;
                 // Give time to interface !
                 QCoreApplication::processEvents();
@@ -581,12 +581,12 @@ void DlgRenderVideo::accept() {
             QCoreApplication::processEvents();          // Give time to interface !
 
             // Flush audio frame
-            if (AudioStream!=NULL) while ((Continue)&&(MixedMusic.List.count()>0)) {
+            if (AudioStream!=NULL) while ((Continue)&&(RenderMusic.List.count()>0)) {
                 if (IsThreadWriteAudioFrame) {
                     ThreadWriteAudioFrame.waitForFinished();
                     Continue=Continue && (bool)ThreadWriteAudioFrame.result();
                 }
-                ThreadWriteAudioFrame=QtConcurrent::run(this,&DlgRenderVideo::WriteAudioFrame,MixedMusic.DetachFirstPacket(),MixedMusic.SoundPacketSize);
+                ThreadWriteAudioFrame=QtConcurrent::run(this,&DlgRenderVideo::WriteAudioFrame,RenderMusic.DetachFirstPacket(),RenderMusic.SoundPacketSize);
                 IsThreadWriteAudioFrame=true;
                 // Give time to interface !
                 QCoreApplication::processEvents();

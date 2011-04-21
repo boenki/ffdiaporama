@@ -32,6 +32,15 @@
 #ifndef GLOBALDEFINES_H
 #define GLOBALDEFINES_H
 
+// SDL Library must be include before any other
+extern "C" {
+    #include <SDL/SDL.h>
+}
+
+#ifdef __MINGW32__
+    #undef main // We don't want SDL to override our main()
+#endif
+
 //============================================
 // Basic inclusions (common to all files)
 //============================================
@@ -104,29 +113,16 @@
 #include <QtXml/QDomElement>
 
 //============================================
-// Third party library inclusions
+// Other third party library inclusions
 //============================================
 
 // ffmpeg
-#ifdef __cplusplus
-    extern "C" {
-        #include <libavutil/common.h>
-        #include <libavcodec/avcodec.h>
-        #include <libavformat/avformat.h>
-        #include <libswscale/swscale.h>
-    }
-#endif
-
-// SDL
-#ifdef __cplusplus
-    extern "C" {
-        #include <SDL/SDL.h>
-    }
-#endif
-
-#ifdef __MINGW32__
-    #undef main // We don't want SDL to override our main()
-#endif
+extern "C" {
+    #include <libavutil/common.h>
+    #include <libavcodec/avcodec.h>
+    #include <libavformat/avformat.h>
+    #include <libswscale/swscale.h>
+}
 
 // FMT_FILTERS
 #include "fmt_filters.h"
@@ -136,6 +132,7 @@
 //============================================
 
 #define APPLICATION_NAME                    "ffDiaporama"
+#define APPLICATION_VERSION                 "0.99.alpha1"
 #define CONFIGFILEEXT                       ".xml"                                  // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                         // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                               // Name of root node in the project xml file
@@ -143,6 +140,7 @@
 #define USERCONFIGFILE                      3                                       // Type of config file : USER
 #define BUFFERING_NBR_FRAME                 5                                       // Number of frame wanted in the playing buffer
 
+#define ICON_PLAYERPLAY                     "icons/player_play.png"                 // FileName of play icon
 #define ICON_PLAYERPAUSE                    "icons/player_pause.png"                // FileName of pause icon
 #define ICON_SHOTPRESENCE                   "icons/zoom.png"                        // FileName of icon representing shots in the timeline
 

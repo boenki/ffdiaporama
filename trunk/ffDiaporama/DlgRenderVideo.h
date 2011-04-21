@@ -52,7 +52,7 @@ public:
 
 
     // Sound blocs
-    cSoundBlockList MixedMusic;                     // Sound to play
+    cSoundBlockList RenderMusic;                    // Sound to play
     cSoundBlockList EncodedAudio;
 
     // Select dest file values

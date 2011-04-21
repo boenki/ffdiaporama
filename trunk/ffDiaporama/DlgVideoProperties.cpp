@@ -79,8 +79,10 @@ DlgVideoProperties::~DlgVideoProperties() {
 void DlgVideoProperties::showEvent(QShowEvent *) {
     DiaporamaObject->Parent->ApplicationConfig->DlgVideoPropertiesWSP->ApplyToWindow(this);
     if (!ui->VideoPlayer->IsValide) {
-        ui->VideoPlayer->StartPlay(DiaporamaObject->Video);
-        ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].EndPos),-1,0,-1,0);
+        ui->VideoPlayer->StartPlay(DiaporamaObject->Video,DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);
+        ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),
+                                        QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].EndPos)-QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),
+                                        -1,0,-1,0);
     }
 }
 
@@ -143,7 +145,9 @@ void DlgVideoProperties::s_CompositionNeedRefreshBackgroundImage() {
 void DlgVideoProperties::s_DefStartPos() {
     DiaporamaObject->List[0].StartPos=ui->VideoPlayer->GetCurrentPos();
     ui->StartPosEd->setTime(DiaporamaObject->List[0].StartPos);
-    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].EndPos),-1,0,-1,0);
+    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),
+                                    QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].EndPos)-QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),
+                                    -1,0,-1,0);
     SetActualDuration();
 }
 
@@ -152,7 +156,9 @@ void DlgVideoProperties::s_DefStartPos() {
 void DlgVideoProperties::s_EditStartPos(QTime NewValue) {
     DiaporamaObject->List[0].StartPos=NewValue;
     ui->StartPosEd->setTime(DiaporamaObject->List[0].StartPos);
-    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].EndPos),-1,0,-1,0);
+    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),
+                                    QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].EndPos)-QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),
+                                    -1,0,-1,0);
     SetActualDuration();
 }
 
@@ -173,7 +179,9 @@ void DlgVideoProperties::SetActualDuration() {
 void DlgVideoProperties::s_DefEndPos() {
     DiaporamaObject->List[0].EndPos=ui->VideoPlayer->GetCurrentPos();
     ui->EndPosEd->setTime(DiaporamaObject->List[0].EndPos);
-    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].EndPos),-1,0,-1,0);
+    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),
+                                    QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].EndPos)-QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),
+                                    -1,0,-1,0);
     SetActualDuration();
 }
 
@@ -182,7 +190,9 @@ void DlgVideoProperties::s_DefEndPos() {
 void DlgVideoProperties::s_EditEndPos(QTime NewValue) {
     DiaporamaObject->List[0].EndPos=NewValue;
     ui->EndPosEd->setTime(DiaporamaObject->List[0].EndPos);
-    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].EndPos),-1,0,-1,0);
+    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),
+                                    QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].EndPos)-QTime(0,0,0,0).msecsTo(DiaporamaObject->List[0].StartPos),
+                                    -1,0,-1,0);
     SetActualDuration();
 }
 

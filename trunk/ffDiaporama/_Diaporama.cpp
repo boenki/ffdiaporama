@@ -2067,219 +2067,221 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     RenderedImage                       =NULL;              // Final image rendered
     FreeRenderedImage                   =true;              // True if allow to delete RenderedImage during destructor
 
-    //==============> Retrieve object informations depending on position (in msec)
-    // Search wich object for given time position
-    while ((CurrentObject_Number<Diaporama->List.count())&&
-           ((CurrentObject_StartTime+(Diaporama->List[CurrentObject_Number].GetDuration()-Diaporama->GetTransitionDuration(CurrentObject_Number+1))<=TimePosition))) {
+    if (Diaporama) {
+        //==============> Retrieve object informations depending on position (in msec)
+        // Search wich object for given time position
+        while ((CurrentObject_Number<Diaporama->List.count())&&
+               ((CurrentObject_StartTime+(Diaporama->List[CurrentObject_Number].GetDuration()-Diaporama->GetTransitionDuration(CurrentObject_Number+1))<=TimePosition))) {
 
-        CurrentObject_StartTime=CurrentObject_StartTime+Diaporama->List[CurrentObject_Number].GetDuration()-Diaporama->GetTransitionDuration(CurrentObject_Number+1);
-        CurrentObject_Number++;
-    }
-    // Adjust CurrentObject_Number
-    if (CurrentObject_Number>=Diaporama->List.count()) {
-        if (Diaporama->List.count()>0) {   // Force to last object
-            CurrentObject_Number    =Diaporama->List.count()-1;
-            CurrentObject           =&Diaporama->List[CurrentObject_Number];
-            CurrentObject_StartTime =Diaporama->GetObjectStartPosition(CurrentObject_Number);
-        } else {                // Force to first or none object
-            CurrentObject_Number   =0;
-            CurrentObject_StartTime=0;
-            CurrentObject=NULL;
+            CurrentObject_StartTime=CurrentObject_StartTime+Diaporama->List[CurrentObject_Number].GetDuration()-Diaporama->GetTransitionDuration(CurrentObject_Number+1);
+            CurrentObject_Number++;
         }
-    } else CurrentObject=&Diaporama->List[CurrentObject_Number];
-    CurrentObject_InObjectTime=TimePosition-CurrentObject_StartTime;
+        // Adjust CurrentObject_Number
+        if (CurrentObject_Number>=Diaporama->List.count()) {
+            if (Diaporama->List.count()>0) {   // Force to last object
+                CurrentObject_Number    =Diaporama->List.count()-1;
+                CurrentObject           =&Diaporama->List[CurrentObject_Number];
+                CurrentObject_StartTime =Diaporama->GetObjectStartPosition(CurrentObject_Number);
+            } else {                // Force to first or none object
+                CurrentObject_Number   =0;
+                CurrentObject_StartTime=0;
+                CurrentObject=NULL;
+            }
+        } else CurrentObject=&Diaporama->List[CurrentObject_Number];
+        CurrentObject_InObjectTime=TimePosition-CurrentObject_StartTime;
 
-    // Now calculate wich sequence in the current object is
-    if (CurrentObject) {
-        int CurPos  =0;
-        while ((CurrentObject_ShotSequenceNumber<CurrentObject->List.count()-1)&&
-               ((CurPos+(CurrentObject_ShotSequenceNumber>0?CurrentObject->List[CurrentObject_ShotSequenceNumber].GetMobilDuration():0)+
-                 CurrentObject->List[CurrentObject_ShotSequenceNumber].GetStaticDuration())<=CurrentObject_InObjectTime)) {
-            CurPos=CurPos+(CurrentObject_ShotSequenceNumber>0?CurrentObject->List[CurrentObject_ShotSequenceNumber].GetMobilDuration():0)+
-                   CurrentObject->List[CurrentObject_ShotSequenceNumber].GetStaticDuration();
-            CurrentObject_ShotSequenceNumber++;
+        // Now calculate wich sequence in the current object is
+        if (CurrentObject) {
+            int CurPos  =0;
+            while ((CurrentObject_ShotSequenceNumber<CurrentObject->List.count()-1)&&
+                   ((CurPos+(CurrentObject_ShotSequenceNumber>0?CurrentObject->List[CurrentObject_ShotSequenceNumber].GetMobilDuration():0)+
+                     CurrentObject->List[CurrentObject_ShotSequenceNumber].GetStaticDuration())<=CurrentObject_InObjectTime)) {
+                CurPos=CurPos+(CurrentObject_ShotSequenceNumber>0?CurrentObject->List[CurrentObject_ShotSequenceNumber].GetMobilDuration():0)+
+                       CurrentObject->List[CurrentObject_ShotSequenceNumber].GetStaticDuration();
+                CurrentObject_ShotSequenceNumber++;
+            }
+            CurrentObject_CurrentShot=&CurrentObject->List[CurrentObject_ShotSequenceNumber];
+
+            // Now calculate type of sequence and PCTDone for mobile sequence and CurrentObject_EndStaticShot for static sequence
+            if ((CurrentObject_ShotSequenceNumber>0)&&((CurrentObject_InObjectTime-CurPos)<(CurrentObject_ShotSequenceNumber>0?CurrentObject_CurrentShot->GetMobilDuration():0))) {
+                CurrentObject_CurrentShotType =SHOTTYPE_MOBIL;
+                switch (Diaporama->SpeedWave) {
+                case SPEEDWAVE_LINEAR :
+                    CurrentObject_MobilPCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetMobilDuration()));
+                    break;
+                case SPEEDWAVE_SINQUARTER :
+                    CurrentObject_MobilPCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetMobilDuration()));
+                    CurrentObject_MobilPCTDone=sin(1.5708*CurrentObject_MobilPCTDone);
+                    break;
+                }
+
+            } else {
+                if (CurrentObject->Video==NULL) {
+                    CurrentObject_CurrentShotType=SHOTTYPE_STATIC;
+                    CurrentObject_EndStaticShot  =CurrentObject_InObjectTime+CurrentObject_CurrentShot->GetStaticDuration();
+                } else CurrentObject_CurrentShotType=SHOTTYPE_VIDEO;
+            }
+        } else {
+            CurrentObject_ShotSequenceNumber=0;
+            CurrentObject_CurrentShot       =NULL;
+            CurrentObject_CurrentShotType   =SHOTTYPE_STATIC;
         }
-        CurrentObject_CurrentShot=&CurrentObject->List[CurrentObject_ShotSequenceNumber];
 
-        // Now calculate type of sequence and PCTDone for mobile sequence and CurrentObject_EndStaticShot for static sequence
-        if ((CurrentObject_ShotSequenceNumber>0)&&((CurrentObject_InObjectTime-CurPos)<(CurrentObject_ShotSequenceNumber>0?CurrentObject_CurrentShot->GetMobilDuration():0))) {
-            CurrentObject_CurrentShotType =SHOTTYPE_MOBIL;
+        // Calculate wich BackgroundIndex to be use (Background type : false=same as precedent - true=new background definition)
+        CurrentObject_BackgroundIndex=CurrentObject_Number;
+        while ((CurrentObject_BackgroundIndex>0)&&(!Diaporama->List[CurrentObject_BackgroundIndex].BackgroundType)) CurrentObject_BackgroundIndex--;
+
+        // Define if for this position we have a transition with a previous object
+        if ((CurrentObject!=NULL)&&((CurrentObject->TransitionFamilly!=0)||(CurrentObject->TransitionSubType!=0))&&(CurrentObject_InObjectTime<CurrentObject->TransitionDuration)) {
+            TransitionFamilly =CurrentObject->TransitionFamilly;                      // Transition familly
+            TransitionSubType =CurrentObject->TransitionSubType;                      // Transition type in the familly
+            TransitionDuration=CurrentObject->TransitionDuration;                     // Transition duration (in msec)
+            IsTransition      =true;
             switch (Diaporama->SpeedWave) {
             case SPEEDWAVE_LINEAR :
-                CurrentObject_MobilPCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetMobilDuration()));
+                TransitionPCTDone=double(CurrentObject_InObjectTime)/double(TransitionDuration);
                 break;
             case SPEEDWAVE_SINQUARTER :
-                CurrentObject_MobilPCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetMobilDuration()));
-                CurrentObject_MobilPCTDone=sin(1.5708*CurrentObject_MobilPCTDone);
+                TransitionPCTDone=double(CurrentObject_InObjectTime)/double(TransitionDuration);
+                TransitionPCTDone=sin(1.5708*TransitionPCTDone);
+                TransitionPCTEnd =(double(CurrentObject_InObjectTime)+FrameDuration)/double(TransitionDuration);
+                TransitionPCTEnd =sin(1.5708*TransitionPCTDone);
                 break;
             }
-
-        } else {
-            if (CurrentObject->Video==NULL) {
-                CurrentObject_CurrentShotType=SHOTTYPE_STATIC;
-                CurrentObject_EndStaticShot  =CurrentObject_InObjectTime+CurrentObject_CurrentShot->GetStaticDuration();
-            } else CurrentObject_CurrentShotType=SHOTTYPE_VIDEO;
-        }
-    } else {
-        CurrentObject_ShotSequenceNumber=0;
-        CurrentObject_CurrentShot       =NULL;
-        CurrentObject_CurrentShotType   =SHOTTYPE_STATIC;
-    }
-
-    // Calculate wich BackgroundIndex to be use (Background type : false=same as precedent - true=new background definition)
-    CurrentObject_BackgroundIndex=CurrentObject_Number;
-    while ((CurrentObject_BackgroundIndex>0)&&(!Diaporama->List[CurrentObject_BackgroundIndex].BackgroundType)) CurrentObject_BackgroundIndex--;
-
-    // Define if for this position we have a transition with a previous object
-    if ((CurrentObject!=NULL)&&((CurrentObject->TransitionFamilly!=0)||(CurrentObject->TransitionSubType!=0))&&(CurrentObject_InObjectTime<CurrentObject->TransitionDuration)) {
-        TransitionFamilly =CurrentObject->TransitionFamilly;                      // Transition familly
-        TransitionSubType =CurrentObject->TransitionSubType;                      // Transition type in the familly
-        TransitionDuration=CurrentObject->TransitionDuration;                     // Transition duration (in msec)
-        IsTransition      =true;
-        switch (Diaporama->SpeedWave) {
-        case SPEEDWAVE_LINEAR :
-            TransitionPCTDone=double(CurrentObject_InObjectTime)/double(TransitionDuration);
-            break;
-        case SPEEDWAVE_SINQUARTER :
-            TransitionPCTDone=double(CurrentObject_InObjectTime)/double(TransitionDuration);
-            TransitionPCTDone=sin(1.5708*TransitionPCTDone);
-            TransitionPCTEnd =(double(CurrentObject_InObjectTime)+FrameDuration)/double(TransitionDuration);
-            TransitionPCTEnd =sin(1.5708*TransitionPCTDone);
-            break;
-        }
-        // If CurrentObject if not the first object
-        if (CurrentObject_Number>0) {
-            TransitObject_Number        =CurrentObject_Number-1;
-            TransitObject               =&Diaporama->List[TransitObject_Number];
-            TransitObject_StartTime     =Diaporama->GetObjectStartPosition(TransitObject_Number);
-            TransitObject_InObjectTime  =TimePosition-TransitObject_StartTime;
-            // Now calculate wich sequence in the Transition object is
-            int CurPos  =0;
-            while ((TransitObject_ShotSequenceNumber<TransitObject->List.count()-1)&&
-                   ((CurPos+(TransitObject_ShotSequenceNumber>0?TransitObject->List[TransitObject_ShotSequenceNumber].GetMobilDuration():0)+
-                     TransitObject->List[TransitObject_ShotSequenceNumber].GetStaticDuration())<=TransitObject_InObjectTime)) {
-                CurPos=CurPos+(TransitObject_ShotSequenceNumber>0?TransitObject->List[TransitObject_ShotSequenceNumber].GetMobilDuration():0)+
-                       TransitObject->List[TransitObject_ShotSequenceNumber].GetStaticDuration();
-                TransitObject_ShotSequenceNumber++;
-            }
-            TransitObject_CurrentShot=&TransitObject->List[TransitObject_ShotSequenceNumber];
-            // Now calculate type of sequence and PCTDone for mobile sequence and CurrentObject_EndStaticShot for static sequence
-            if ((TransitObject_ShotSequenceNumber>0)&&((TransitObject_InObjectTime-CurPos)<(TransitObject_ShotSequenceNumber>0?TransitObject_CurrentShot->GetMobilDuration():0))) {
-                TransitObject_CurrentShotType =SHOTTYPE_MOBIL;
-                TransitObject_MobilPCTDone    =(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->GetMobilDuration()));
-            } else {
-                if (TransitObject->Video==NULL) {
-                    TransitObject_CurrentShotType=SHOTTYPE_STATIC;
-                    TransitObject_EndStaticShot  =TransitObject_InObjectTime+TransitObject_CurrentShot->GetStaticDuration();
-                } else TransitObject_CurrentShotType=SHOTTYPE_VIDEO;
-            }
-            // Calculate wich BackgroundIndex to be use for transition object (Background type : false=same as precedent - true=new background definition)
-            TransitObject_BackgroundIndex=TransitObject_Number;
-            while ((TransitObject_BackgroundIndex>0)&&(!Diaporama->List[TransitObject_BackgroundIndex].BackgroundType)) TransitObject_BackgroundIndex--;
-        }
-    }
-
-    // Search music objects
-    int StartPosition;
-    if (CurrentObject!=NULL) CurrentObject_MusicObject=Diaporama->GetMusicObject(CurrentObject_Number,StartPosition);
-    if (TransitObject!=NULL) TransitObject_MusicObject=Diaporama->GetMusicObject(TransitObject_Number,StartPosition);
-
-    //==============> Try to re-use values from PreviousFrame
-    if (PreviousFrame) {
-        //************ Background
-        if (PreviousFrame->CurrentObject_BackgroundIndex==CurrentObject_BackgroundIndex) {
-            CurrentObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;             // Use the same background
-            PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                                 // Set tag to not delete previous background
-            CurrentObject_PreparedBackground=PreviousFrame->CurrentObject_PreparedBackground;
-            PreviousFrame->CurrentObject_FreePreparedBackground=false;
-        }
-        // Background of transition Object
-        if (PreviousFrame->CurrentObject_BackgroundIndex==TransitObject_BackgroundIndex) {
-            TransitObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;             // Use the same background
-            PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                                 // Set tag to not delete previous background
-            TransitObject_PreparedBackground=PreviousFrame->CurrentObject_PreparedBackground;
-            PreviousFrame->CurrentObject_FreePreparedBackground=false;
-        } else if (PreviousFrame->TransitObject_BackgroundIndex==TransitObject_BackgroundIndex) {
-                TransitObject_BackgroundBrush=PreviousFrame->TransitObject_BackgroundBrush;         // Use the same background
-                PreviousFrame->TransitObject_FreeBackgroundBrush=false;                             // Set tag to not delete previous background
-                TransitObject_PreparedBackground=PreviousFrame->TransitObject_PreparedBackground;
-                PreviousFrame->TransitObject_FreePreparedBackground=false;
-        }
-        // Special case to disable free of background brush if transit object and current object use the same
-        if (TransitObject_BackgroundBrush==CurrentObject_BackgroundBrush) {
-            TransitObject_FreeBackgroundBrush=false;
-            TransitObject_FreePreparedBackground=false;
-        }
-
-        //************ SourceImage
-        if ((PreviousFrame->CurrentObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
-            CurrentObject_SourceImage=PreviousFrame->CurrentObject_SourceImage;                     // Use the same image source
-            PreviousFrame->CurrentObject_FreeSourceImage=false;                                     // Set tag to not delete previous source image
-        }
-        // SourceImage of transition Object
-        if (TransitObject) {
-            if ((PreviousFrame->CurrentObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->CurrentObject_Number==TransitObject_Number)) {
-                TransitObject_SourceImage=PreviousFrame->CurrentObject_SourceImage;                 // Use the same image source
-                PreviousFrame->CurrentObject_FreeSourceImage=false;                                 // Set tag to not delete previous source image
-            } else if ((PreviousFrame->TransitObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->TransitObject_Number==TransitObject_Number)) {
-                    TransitObject_SourceImage=PreviousFrame->TransitObject_SourceImage;             // Use the same image source
-                    PreviousFrame->TransitObject_FreeSourceImage=false;                             // Set tag to not delete previous source image
+            // If CurrentObject if not the first object
+            if (CurrentObject_Number>0) {
+                TransitObject_Number        =CurrentObject_Number-1;
+                TransitObject               =&Diaporama->List[TransitObject_Number];
+                TransitObject_StartTime     =Diaporama->GetObjectStartPosition(TransitObject_Number);
+                TransitObject_InObjectTime  =TimePosition-TransitObject_StartTime;
+                // Now calculate wich sequence in the Transition object is
+                int CurPos  =0;
+                while ((TransitObject_ShotSequenceNumber<TransitObject->List.count()-1)&&
+                       ((CurPos+(TransitObject_ShotSequenceNumber>0?TransitObject->List[TransitObject_ShotSequenceNumber].GetMobilDuration():0)+
+                         TransitObject->List[TransitObject_ShotSequenceNumber].GetStaticDuration())<=TransitObject_InObjectTime)) {
+                    CurPos=CurPos+(TransitObject_ShotSequenceNumber>0?TransitObject->List[TransitObject_ShotSequenceNumber].GetMobilDuration():0)+
+                           TransitObject->List[TransitObject_ShotSequenceNumber].GetStaticDuration();
+                    TransitObject_ShotSequenceNumber++;
+                }
+                TransitObject_CurrentShot=&TransitObject->List[TransitObject_ShotSequenceNumber];
+                // Now calculate type of sequence and PCTDone for mobile sequence and CurrentObject_EndStaticShot for static sequence
+                if ((TransitObject_ShotSequenceNumber>0)&&((TransitObject_InObjectTime-CurPos)<(TransitObject_ShotSequenceNumber>0?TransitObject_CurrentShot->GetMobilDuration():0))) {
+                    TransitObject_CurrentShotType =SHOTTYPE_MOBIL;
+                    TransitObject_MobilPCTDone    =(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->GetMobilDuration()));
+                } else {
+                    if (TransitObject->Video==NULL) {
+                        TransitObject_CurrentShotType=SHOTTYPE_STATIC;
+                        TransitObject_EndStaticShot  =TransitObject_InObjectTime+TransitObject_CurrentShot->GetStaticDuration();
+                    } else TransitObject_CurrentShotType=SHOTTYPE_VIDEO;
+                }
+                // Calculate wich BackgroundIndex to be use for transition object (Background type : false=same as precedent - true=new background definition)
+                TransitObject_BackgroundIndex=TransitObject_Number;
+                while ((TransitObject_BackgroundIndex>0)&&(!Diaporama->List[TransitObject_BackgroundIndex].BackgroundType)) TransitObject_BackgroundIndex--;
             }
         }
 
-        //************ SoundTrackMontage
-        if ((PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
-            CurrentObject_SoundTrackMontage=PreviousFrame->CurrentObject_SoundTrackMontage;         // Use the same SoundTrackMontage
-            PreviousFrame->CurrentObject_FreeSoundTrackMontage=false;                               // Set tag to not delete previous SoundTrackMontage
-        }
-        // SoundTrackMontage of transition Object
-        if (TransitObject) {
-            if ((PreviousFrame->CurrentObject_Number==TransitObject_Number)) {
-                TransitObject_SoundTrackMontage=PreviousFrame->CurrentObject_SoundTrackMontage;     // Use the same SoundTrackMontage
-                PreviousFrame->CurrentObject_FreeSoundTrackMontage=false;                           // Set tag to not delete previous SoundTrackMontage
-            } else if ((PreviousFrame->TransitObject_Number==TransitObject_Number)) {
-                TransitObject_SoundTrackMontage=PreviousFrame->TransitObject_SoundTrackMontage;     // Use the same SoundTrackMontage
-                PreviousFrame->TransitObject_FreeSoundTrackMontage=false;                           // Set tag to not delete previous SoundTrackMontage
-            }
-        }
+        // Search music objects
+        int StartPosition;
+        if (CurrentObject!=NULL) CurrentObject_MusicObject=Diaporama->GetMusicObject(CurrentObject_Number,StartPosition);
+        if (TransitObject!=NULL) TransitObject_MusicObject=Diaporama->GetMusicObject(TransitObject_Number,StartPosition);
 
-        //************ Music
-        if ((PreviousFrame->CurrentObject_MusicObject==CurrentObject_MusicObject)) {
-            CurrentObject_MusicTrack=PreviousFrame->CurrentObject_MusicTrack;                       // Use the same Music track
-            PreviousFrame->CurrentObject_FreeMusicTrack=false;                                      // Set tag to not delete previous SoundTrackMontage
-        }
-        // Music of transition Object
-        if (TransitObject) {
-            if ((PreviousFrame->CurrentObject_MusicObject==TransitObject_MusicObject)) {
-                TransitObject_MusicTrack=PreviousFrame->CurrentObject_MusicTrack;                   // Use the same SoundTrackMontage
-                PreviousFrame->CurrentObject_FreeMusicTrack=false;                                  // Set tag to not delete previous SoundTrackMontage
-            } else if ((PreviousFrame->TransitObject_MusicObject==TransitObject_MusicObject)) {
-                TransitObject_MusicTrack=PreviousFrame->TransitObject_MusicTrack;                   // Use the same SoundTrackMontage
-                PreviousFrame->TransitObject_FreeMusicTrack=false;                                  // Set tag to not delete previous SoundTrackMontage
+        //==============> Try to re-use values from PreviousFrame
+        if (PreviousFrame) {
+            //************ Background
+            if (PreviousFrame->CurrentObject_BackgroundIndex==CurrentObject_BackgroundIndex) {
+                CurrentObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;             // Use the same background
+                PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                                 // Set tag to not delete previous background
+                CurrentObject_PreparedBackground=PreviousFrame->CurrentObject_PreparedBackground;
+                PreviousFrame->CurrentObject_FreePreparedBackground=false;
             }
-        }
-        // Special case to disable TransitObject_MusicTrack if transit object and current object use the same
-        if (CurrentObject_MusicObject==TransitObject_MusicObject) {
-            TransitObject_FreeMusicTrack=false;
-            TransitObject_MusicTrack=NULL;
-        }
+            // Background of transition Object
+            if (PreviousFrame->CurrentObject_BackgroundIndex==TransitObject_BackgroundIndex) {
+                TransitObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;             // Use the same background
+                PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                                 // Set tag to not delete previous background
+                TransitObject_PreparedBackground=PreviousFrame->CurrentObject_PreparedBackground;
+                PreviousFrame->CurrentObject_FreePreparedBackground=false;
+            } else if (PreviousFrame->TransitObject_BackgroundIndex==TransitObject_BackgroundIndex) {
+                    TransitObject_BackgroundBrush=PreviousFrame->TransitObject_BackgroundBrush;         // Use the same background
+                    PreviousFrame->TransitObject_FreeBackgroundBrush=false;                             // Set tag to not delete previous background
+                    TransitObject_PreparedBackground=PreviousFrame->TransitObject_PreparedBackground;
+                    PreviousFrame->TransitObject_FreePreparedBackground=false;
+            }
+            // Special case to disable free of background brush if transit object and current object use the same
+            if (TransitObject_BackgroundBrush==CurrentObject_BackgroundBrush) {
+                TransitObject_FreeBackgroundBrush=false;
+                TransitObject_FreePreparedBackground=false;
+            }
 
-        //************ PreparedImage
-        if ((PreviousFrame->CurrentObject_CurrentShot==CurrentObject_CurrentShot)&&                 // Same shot
-            (PreviousFrame->CurrentObject_CurrentShotType==SHOTTYPE_STATIC)&&(CurrentObject_CurrentShotType==SHOTTYPE_STATIC)) {
-            CurrentObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;                 // Use the same PreparedImage
-            PreviousFrame->CurrentObject_FreePreparedImage=false;                                   // Set tag to not delete previous PreparedImage
-        }
-        // PreparedImage of transition Object
-        if (TransitObject) {
-            if ((PreviousFrame->CurrentObject_CurrentShot==TransitObject_CurrentShot)&&             // Same shot
-                (PreviousFrame->CurrentObject_CurrentShotType==SHOTTYPE_STATIC)&&(TransitObject_CurrentShotType==SHOTTYPE_STATIC)) {
-                TransitObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;             // Use the same PreparedImage
-                PreviousFrame->CurrentObject_FreePreparedImage=false;                               // Set tag to not delete previous PreparedImage
-            } else if ((PreviousFrame->TransitObject_CurrentShot==TransitObject_CurrentShot)&&      // Same shot
-                (PreviousFrame->TransitObject_CurrentShotType==SHOTTYPE_STATIC)&&(TransitObject_CurrentShotType==SHOTTYPE_STATIC)) {
-                TransitObject_PreparedImage=PreviousFrame->TransitObject_PreparedImage;             // Use the same PreparedImage
-                PreviousFrame->TransitObject_FreePreparedImage=false;                               // Set tag to not delete previous PreparedImage
+            //************ SourceImage
+            if ((PreviousFrame->CurrentObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
+                CurrentObject_SourceImage=PreviousFrame->CurrentObject_SourceImage;                     // Use the same image source
+                PreviousFrame->CurrentObject_FreeSourceImage=false;                                     // Set tag to not delete previous source image
+            }
+            // SourceImage of transition Object
+            if (TransitObject) {
+                if ((PreviousFrame->CurrentObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->CurrentObject_Number==TransitObject_Number)) {
+                    TransitObject_SourceImage=PreviousFrame->CurrentObject_SourceImage;                 // Use the same image source
+                    PreviousFrame->CurrentObject_FreeSourceImage=false;                                 // Set tag to not delete previous source image
+                } else if ((PreviousFrame->TransitObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->TransitObject_Number==TransitObject_Number)) {
+                        TransitObject_SourceImage=PreviousFrame->TransitObject_SourceImage;             // Use the same image source
+                        PreviousFrame->TransitObject_FreeSourceImage=false;                             // Set tag to not delete previous source image
+                }
+            }
+
+            //************ SoundTrackMontage
+            if ((PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
+                CurrentObject_SoundTrackMontage=PreviousFrame->CurrentObject_SoundTrackMontage;         // Use the same SoundTrackMontage
+                PreviousFrame->CurrentObject_FreeSoundTrackMontage=false;                               // Set tag to not delete previous SoundTrackMontage
+            }
+            // SoundTrackMontage of transition Object
+            if (TransitObject) {
+                if ((PreviousFrame->CurrentObject_Number==TransitObject_Number)) {
+                    TransitObject_SoundTrackMontage=PreviousFrame->CurrentObject_SoundTrackMontage;     // Use the same SoundTrackMontage
+                    PreviousFrame->CurrentObject_FreeSoundTrackMontage=false;                           // Set tag to not delete previous SoundTrackMontage
+                } else if ((PreviousFrame->TransitObject_Number==TransitObject_Number)) {
+                    TransitObject_SoundTrackMontage=PreviousFrame->TransitObject_SoundTrackMontage;     // Use the same SoundTrackMontage
+                    PreviousFrame->TransitObject_FreeSoundTrackMontage=false;                           // Set tag to not delete previous SoundTrackMontage
+                }
+            }
+
+            //************ Music
+            if ((PreviousFrame->CurrentObject_MusicObject==CurrentObject_MusicObject)) {
+                CurrentObject_MusicTrack=PreviousFrame->CurrentObject_MusicTrack;                       // Use the same Music track
+                PreviousFrame->CurrentObject_FreeMusicTrack=false;                                      // Set tag to not delete previous SoundTrackMontage
+            }
+            // Music of transition Object
+            if (TransitObject) {
+                if ((PreviousFrame->CurrentObject_MusicObject==TransitObject_MusicObject)) {
+                    TransitObject_MusicTrack=PreviousFrame->CurrentObject_MusicTrack;                   // Use the same SoundTrackMontage
+                    PreviousFrame->CurrentObject_FreeMusicTrack=false;                                  // Set tag to not delete previous SoundTrackMontage
+                } else if ((PreviousFrame->TransitObject_MusicObject==TransitObject_MusicObject)) {
+                    TransitObject_MusicTrack=PreviousFrame->TransitObject_MusicTrack;                   // Use the same SoundTrackMontage
+                    PreviousFrame->TransitObject_FreeMusicTrack=false;                                  // Set tag to not delete previous SoundTrackMontage
+                }
+            }
+            // Special case to disable TransitObject_MusicTrack if transit object and current object use the same
+            if (CurrentObject_MusicObject==TransitObject_MusicObject) {
+                TransitObject_FreeMusicTrack=false;
+                TransitObject_MusicTrack=NULL;
+            }
+
+            //************ PreparedImage
+            if ((PreviousFrame->CurrentObject_CurrentShot==CurrentObject_CurrentShot)&&                 // Same shot
+                (PreviousFrame->CurrentObject_CurrentShotType==SHOTTYPE_STATIC)&&(CurrentObject_CurrentShotType==SHOTTYPE_STATIC)) {
+                CurrentObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;                 // Use the same PreparedImage
+                PreviousFrame->CurrentObject_FreePreparedImage=false;                                   // Set tag to not delete previous PreparedImage
+            }
+            // PreparedImage of transition Object
+            if (TransitObject) {
+                if ((PreviousFrame->CurrentObject_CurrentShot==TransitObject_CurrentShot)&&             // Same shot
+                    (PreviousFrame->CurrentObject_CurrentShotType==SHOTTYPE_STATIC)&&(TransitObject_CurrentShotType==SHOTTYPE_STATIC)) {
+                    TransitObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;             // Use the same PreparedImage
+                    PreviousFrame->CurrentObject_FreePreparedImage=false;                               // Set tag to not delete previous PreparedImage
+                } else if ((PreviousFrame->TransitObject_CurrentShot==TransitObject_CurrentShot)&&      // Same shot
+                    (PreviousFrame->TransitObject_CurrentShotType==SHOTTYPE_STATIC)&&(TransitObject_CurrentShotType==SHOTTYPE_STATIC)) {
+                    TransitObject_PreparedImage=PreviousFrame->TransitObject_PreparedImage;             // Use the same PreparedImage
+                    PreviousFrame->TransitObject_FreePreparedImage=false;                               // Set tag to not delete previous PreparedImage
+                }
             }
         }
     }
