@@ -48,13 +48,136 @@ MainWindow::MainWindow(QString TheCurrentPath,QWidget *parent) : QMainWindow(par
     ApplicationConfig->LoadConfigurationFile(GLOBALCONFIGFILE);                                                 // Get values from global configuration file (overwrite previously initialized values)
     if (!ApplicationConfig->LoadConfigurationFile(USERCONFIGFILE)) ApplicationConfig->SaveConfigurationFile();  // Load values from user configuration file (overwrite previously initialized values)
 
+    AddSeparatorToSystemProperties();
+    AddToSystemProperties("fmt_filters version:0.6.4-Licence=LGPL");
+
+    // Now, we have application settings then we can init SDL
+    AddSeparatorToSystemProperties();
+    SDLFirstInit(ApplicationConfig->PreviewFPS);
+    AddToSystemProperties("SDL version:"+QString("%1").arg(SDL_MAJOR_VERSION)+"."+QString("%1").arg(SDL_MINOR_VERSION)+"."+QString("%1").arg(SDL_PATCHLEVEL)+"-Licence=GPL version 2.1 or later");
+
+    // Register all formats and codecs for libavformat/libavcodec/etc ...
+    AddSeparatorToSystemProperties();
+    avcodec_init();
+    av_register_all();
+    QString Conf;
+
+    AddToSystemProperties("LIBAVCODEC version:"+QString("%1").arg(LIBAVCODEC_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MINOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MICRO)+"."+QString("%1").arg(avcodec_version())+"-Licence="+QString(avcodec_license()));
+    Conf=QString(avcodec_configuration());  Conf.replace(" --","\n  --");
+    AddToSystemProperties("  "+Conf);
+
+    AddToSystemProperties("\nLIBAVFORMAT version:"+QString("%1").arg(LIBAVFORMAT_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MINOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MICRO)+"."+QString("%1").arg(avformat_version())+"-Licence="+QString(avformat_license()));
+    Conf=QString(avformat_configuration());  Conf.replace(" --","\n  --");
+    AddToSystemProperties("  "+Conf);
+
+    AddToSystemProperties("\nLIBSWSCALE version:"+QString("%1").arg(LIBSWSCALE_VERSION_MAJOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MINOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MICRO)+"."+QString("%1").arg(swscale_version())+"-Licence="+QString(swscale_license()));
+    Conf=QString(swscale_configuration());  Conf.replace(" --","\n  --");
+    AddToSystemProperties("  "+Conf);
+
+    // Check codec to know if they was finded
+    AVCodec *p=NULL;
+    while ((p=av_codec_next(p))) {
+        if (p->type==AVMEDIA_TYPE_AUDIO) for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(p->encode!=NULL)&&(!AUDIOCODECDEF[i].IsFind)) {
+            AUDIOCODECDEF[i].IsFind=true;
+            strcpy(AUDIOCODECDEF[i].ShortName,p->name);
+        }
+        if (p->type==AVMEDIA_TYPE_VIDEO) for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(p->encode!=NULL)&&(!VIDEOCODECDEF[i].IsFind)) {
+            VIDEOCODECDEF[i].IsFind=true;
+            strcpy(VIDEOCODECDEF[i].ShortName,p->name);
+        }
+    }
+
+    // Supprime les codecs pas encore programmé !
+    VIDEOCODECDEF[0].IsFind=false;  //CODEC_ID_MJPEG        => Ecrit un jpeg au lieu d'une vidéo
+    VIDEOCODECDEF[1].IsFind=false;  //CODEC_ID_MPEG2VIDEO   => Erreur en fin de fichier vidéo
+    //VIDEOCODECDEF[2].IsFind=false;    //CODEC_ID_MPEG4    => OK
+    //VIDEOCODECDEF[3].IsFind=false;    //CODEC_ID_H264     => OK
+    VIDEOCODECDEF[4].IsFind=false;  //CODEC_ID_VP8          => pas commencé
+
+    //AUDIOCODECDEF[0].IsFind=false;  //CODEC_ID_PCM_S16LE  => OK
+    //AUDIOCODECDEF[1].IsFind=false;  //CODEC_ID_MP3        => OK
+    //AUDIOCODECDEF[2].IsFind=false;  //CODEC_ID_AAC        => OK
+    AUDIOCODECDEF[3].IsFind=false;  //CODEC_ID_AC3          => Erreur de vitesse !!!!!!!!
+    //AUDIOCODECDEF[4].IsFind=false;  //CODEC_ID_VORBIS     => OK
+    //AUDIOCODECDEF[5].IsFind=false;  //CODEC_ID_MP2        => OK
+
+    // Check format to know if they was finded
+    AVOutputFormat *ofmt=NULL;
+    while ((ofmt=av_oformat_next(ofmt))) {
+        for (int i=0;i<NBR_FORMATDEF;i++) if (strcmp(ofmt->name,FORMATDEF[i].ShortName)==0) {
+            QString     AllowedCodec=FORMATDEF[i].PossibleVideoCodec;
+            QString     Codec="";
+            int         Index=0;
+            bool        IsFindVideoCodec=false;
+            bool        IsFindAudioCodec=false;
+
+            while (AllowedCodec.length()>0) {
+                Index=AllowedCodec.indexOf("#");
+                if (Index>0) {
+                    Codec=AllowedCodec.left(Index);
+                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+                } else {
+                    Codec=AllowedCodec;
+                    AllowedCodec="";
+                }
+                // Now find index of this codec in the VIDEOCODECDEF
+                Index=0;
+                while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].ShortName))) Index++;
+                if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) IsFindVideoCodec=true;
+            }
+            AllowedCodec=FORMATDEF[i].PossibleAudioCodec;
+            Codec="";
+            Index=0;
+            while (AllowedCodec.length()>0) {
+                Index=AllowedCodec.indexOf("#");
+                if (Index>0) {
+                    Codec=AllowedCodec.left(Index);
+                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+                } else {
+                    Codec=AllowedCodec;
+                    AllowedCodec="";
+                }
+                // Now find index of this codec in the AUDIOCODECDEF
+                Index=0;
+                while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
+                if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
+            }
+            FORMATDEF[i].IsFind=IsFindAudioCodec && IsFindVideoCodec;
+        }
+    }
+
+    // Display finding codecs & formats
+    AddToSystemProperties("\nRegistered video codecs for encoding :");
+    for (int i=0;i<NBR_VIDEOCODECDEF;i++) if (VIDEOCODECDEF[i].IsFind) AddToSystemProperties("  "+QString(VIDEOCODECDEF[i].LongName)+"-ffmpeg codec:"+QString(VIDEOCODECDEF[i].ShortName));
+    AddToSystemProperties("\nRegistered audio codecs for encoding :");
+    for (int i=0;i<NBR_AUDIOCODECDEF;i++) if (AUDIOCODECDEF[i].IsFind) AddToSystemProperties("  "+QString(AUDIOCODECDEF[i].LongName)+"-ffmpeg codec:"+QString(AUDIOCODECDEF[i].ShortName));
+    AddToSystemProperties("\nRegistered container formats for encoding :");
+    for (int i=0;i<NBR_FORMATDEF;i++)     if (FORMATDEF[i].IsFind) AddToSystemProperties("  "+QString(FORMATDEF[i].LongName));
+
+    AddSeparatorToSystemProperties();
+    QString Path;
+    for (int i=0;i<TRANSITIONMAXSUBTYPE_BASE;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_BASE,i));
+    for (int i=0;i<TRANSITIONMAXSUBTYPE_ZOOMINOUT;i++)  IconList.List.append(cIconObject(TRANSITIONFAMILLY_ZOOMINOUT,i));
+    for (int i=0;i<TRANSITIONMAXSUBTYPE_SLIDE;i++)      IconList.List.append(cIconObject(TRANSITIONFAMILLY_SLIDE,i));
+    for (int i=0;i<TRANSITIONMAXSUBTYPE_PUSH;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_PUSH,i));
+    AddToSystemProperties(QString("%1").arg(IconList.List.count())+" no-luma transitions loaded into the transition-library");
+    Path="luma/Bar";        LumaList_Bar.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BAR);         AddToSystemProperties(QString("%1").arg(LumaList_Bar.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    Path="luma/Box";        LumaList_Box.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BOX);         AddToSystemProperties(QString("%1").arg(LumaList_Box.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    Path="luma/Center";     LumaList_Center.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CENTER);   AddToSystemProperties(QString("%1").arg(LumaList_Center.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    Path="luma/Checker";    LumaList_Checker.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CHECKER); AddToSystemProperties(QString("%1").arg(LumaList_Checker.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    Path="luma/Clock";      LumaList_Clock.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CLOCK);     AddToSystemProperties(QString("%1").arg(LumaList_Clock.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("%1").arg(LumaList_Snake.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    AddToSystemProperties("  =>Total="+QString("%1").arg(IconList.List.count())+" transitions loded into the transition-library");
+    AddSeparatorToSystemProperties();
+    Path="background";
+    BackgroundList.ScanDisk(Path,GEOMETRY_16_9); AddToSystemProperties(QString("%1").arg(BackgroundList.List.count())+" images loaded into the background-library from "+QDir(Path).absolutePath());
+
     // Force timeline scroll bar properties
     ui->timeline->horizontalScrollBar()->setStyleSheet("height: 14px; margin: 0px; padding: 0px;");
     ui->timeline->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
     ui->timeline->verticalHeader()->setResizeMode(QHeaderView::Fixed);
 
     Diaporama=new cDiaporama(ApplicationConfig);
-
     Diaporama->Timeline=ui->timeline;
     ui->preview->InitDiaporamaPlay(Diaporama);
 
@@ -97,6 +220,7 @@ MainWindow::~MainWindow() {
     delete ui;
     delete Diaporama;
     delete ApplicationConfig;
+    SDLLastClose();
 }
 
 //====================================================================================================================
@@ -416,8 +540,9 @@ void MainWindow::s_ChangeProjectSettings() {
 //====================================================================================================================
 
 void MainWindow::s_ChangeApplicationSettings() {
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview->SetPlayerToPause();                            // Ensure player is stop
     DlgApplicationSettings(*ApplicationConfig,this).exec();
+    SDLSetFPS(ApplicationConfig->PreviewFPS);                   // Reinit SDL if Preview FPS has changed
 }
 
 //====================================================================================================================

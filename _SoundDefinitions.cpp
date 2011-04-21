@@ -24,11 +24,86 @@
 // Specific inclusions
 #include "_SoundDefinitions.h"
 #include "_VideoFileWrapper.h"
+#include "_ApplicationDefinitions.h"
 
 //======================================
 // Specific defines for this file
 //======================================
 #define MAXSOUNDPACKETSIZE      4096
+
+//*********************************************************************************************************************************************
+// SDL global define values
+//*********************************************************************************************************************************************
+
+bool                SDLIsAudioOpen=false;   // true if SDL work at least one time
+double              SDLCurrentFPS =-1;      // Current FPS setting for SDL
+SDL_AudioSpec       AudioSpec;              // SDL param bloc
+cSoundBlockList     MixedMusic;             // Sound to play
+
+//*********************************************************************************************************************************************
+// SDL Audio Call Back
+//*********************************************************************************************************************************************
+
+void SDLAudioCallback(void *,Uint8 *stream,int len) {
+    if (len!=MixedMusic.SoundPacketSize) {
+        qDebug()<<"Error in SDLAudioCallback : Wanted len("<<len<<")<>MixedMusic.SoundPacketSize("<<MixedMusic.SoundPacketSize<<")";
+        return;
+    }
+    int16_t *Packet=MixedMusic.DetachFirstPacket();
+
+    // Copy data to hardware buffer
+    if (Packet!=NULL) {
+        memcpy(stream,(Uint8 *)Packet,MixedMusic.SoundPacketSize);
+        av_free(Packet);
+    }
+}
+
+//*********************************************************************************************************************************************
+// SDL Init/Reinit function
+//*********************************************************************************************************************************************
+
+void SDLFirstInit(double WantedFPS) {
+    // Start SDL
+    if (SDL_Init(SDL_INIT_AUDIO)) ExitApplicationWithFatalError("SDLFirstInit=Could not initialize SDL :"+QString("%1").arg(SDL_GetError()));
+    SDLSetFPS(WantedFPS);
+}
+
+void SDLLastClose() {
+    if (SDLIsAudioOpen) {
+        SDL_CloseAudio();                                               // Close audio
+        SDL_Quit();                                                     // Close library
+        SDLIsAudioOpen=false;
+    }
+}
+
+void SDLSetFPS(double WantedFPS) {
+    if (SDLCurrentFPS==WantedFPS) return;
+
+    if (SDLIsAudioOpen) SDL_CloseAudio();                               // Close audio
+
+    // Init MixedMusic
+    SDL_LockAudio();                                                    // Ensure callback will not be call now
+    MixedMusic.ClearList();                                             // Free sound buffers
+    SDL_UnlockAudio();                                                  // Ensure callback can now be call
+    MixedMusic.SetFPS(WantedFPS);
+
+    // Init SDL
+    SDL_AudioSpec Desired;
+    Desired.channels=MixedMusic.Channels;                               // Number of chanels
+    Desired.format  =AUDIO_S16SYS;                                      // Sound format (pcm16le)
+    Desired.freq    =MixedMusic.SamplingRate;                           // Frequency in Hz
+    Desired.userdata=NULL;                                              // userdata parameter : not used
+    Desired.callback=SDLAudioCallback;                                  // Link to callback function
+    Desired.samples =MixedMusic.SoundPacketSize/MixedMusic.Channels;    // In samples unit * chanels number for Linux version
+#if defined(Q_OS_WIN32)
+    Desired.samples/=MixedMusic.SampleBytes;                            // In byte for Windows Version
+#endif
+    Desired.silence =0;
+    if (SDL_OpenAudio(&Desired,&AudioSpec)<0) {
+        ExitApplicationWithFatalError("SDLSetFPS=Error in SDL_OpenAudio");
+    }
+    SDLIsAudioOpen=true;
+}
 
 //*********************************************************************************************************************************************
 // Base object for sound manipulation

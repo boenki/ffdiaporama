@@ -67,6 +67,20 @@
           </widget>
          </item>
          <item>
+          <widget class="QToolButton" name="SeekLeftBt">
+           <property name="toolTip">
+            <string extracomment="Tooltip in dialog box">Move to start position</string>
+           </property>
+           <property name="text">
+            <string notr="true">...</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>icons/player_rew.png</normaloff>icons/player_rew.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QToolButton" name="DefStartPosBT">
            <property name="toolTip">
             <string extracomment="Tooltip in dialog box">Use current position as start position</string>
@@ -125,34 +139,6 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="SeekLeftBt">
-           <property name="toolTip">
-            <string extracomment="Tooltip in dialog box">Move to start position</string>
-           </property>
-           <property name="text">
-            <string notr="true">...</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>icons/player_rew.png</normaloff>icons/player_rew.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="DefEndPosBT">
-           <property name="toolTip">
-            <string extracomment="Tooltip in dialog box">Use current position as end position</string>
-           </property>
-           <property name="text">
-            <string notr="true">...</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>icons/PosEnd.png</normaloff>icons/PosEnd.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QDateTimeEdit" name="EndPosEd">
            <property name="minimumSize">
             <size>
@@ -180,6 +166,20 @@
            </property>
            <property name="displayFormat">
             <string notr="true">HH:mm:ss.zzz</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="DefEndPosBT">
+           <property name="toolTip">
+            <string extracomment="Tooltip in dialog box">Use current position as end position</string>
+           </property>
+           <property name="text">
+            <string notr="true">...</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>icons/PosEnd.png</normaloff>icons/PosEnd.png</iconset>
            </property>
           </widget>
          </item>

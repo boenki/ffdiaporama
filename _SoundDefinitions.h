@@ -25,6 +25,14 @@
 #include "_GlobalDefines.h"
 
 //*********************************************************************************************************************************************
+// Functions to manage SDL library
+//*********************************************************************************************************************************************
+void SDLAudioCallback(void *,Uint8 *stream,int len);
+void SDLFirstInit(double WantedFPS);
+void SDLLastClose();
+void SDLSetFPS(double WantedFPS);
+
+//*********************************************************************************************************************************************
 // Base object for sound manipulation
 //*********************************************************************************************************************************************
 
@@ -82,5 +90,13 @@ public:
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadMedia(QString filename);
 };
+
+//*********************************************************************************************************************************************
+// SDL global define values
+//*********************************************************************************************************************************************
+extern bool                SDLIsAudioOpen;          // true if SDL work at least one time
+extern double              SDLCurrentFPS;           // Current FPS setting for SDL
+extern SDL_AudioSpec       AudioSpec;               // SDL param bloc
+extern cSoundBlockList     MixedMusic;              // Sound to play
 
 #endif // SOUNDDEFINITIONS_H

@@ -25,6 +25,9 @@
 #include "_ApplicationDefinitions.h"
 
 //====================================================================================================================
+#if defined(Q_OS_WIN32)
+#   include <windows.h>
+#endif
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
 #   include <unistd.h>
@@ -115,6 +118,28 @@ struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
 };
 // Note : depending on ffmpeg version :
 //       => aac codec is libfaac or aac
+
+/****************************************************************************
+  Other
+****************************************************************************/
+QString CurrentLanguage;                                        // Current language code (en, fr, ...)
+QString SystemProperties="";                                    // System properties log
+
+void AddToSystemProperties(QString StringToAdd) {
+    if (SystemProperties.length()>0) SystemProperties=SystemProperties+"\n";
+    SystemProperties=SystemProperties+StringToAdd;
+}
+
+void AddSeparatorToSystemProperties() {
+    AddToSystemProperties("------------------------------------------------------------------------------");
+}
+
+void ExitApplicationWithFatalError(QString StringToAdd) {
+    AddSeparatorToSystemProperties();
+    AddToSystemProperties(StringToAdd);
+    puts(SystemProperties.toLocal8Bit());     // Print out SystemProperties
+    exit(1);
+}
 
 /****************************************************************************
 functions used to retrieve number of processor
@@ -221,9 +246,9 @@ cApplicationConfig::cApplicationConfig() {
     //qDebug() << "IN:cApplicationConfig::cApplicationConfig";
     ParentWindow=NULL;
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     // Search plateforme and define specific value depending on plateforme
-    switch (QSysInfo().WindowsVersion) :
+    switch (QSysInfo().WindowsVersion) {
         case 0x0010 : Plateforme="Windows NT (operating system version 4.0)";   break;
         case 0x0020 : Plateforme="Windows 2000 (operating system version 5.0)"; break;
         case 0x0030 : Plateforme="Windows XP (operating system version 5.1)";   break;
@@ -233,15 +258,12 @@ cApplicationConfig::cApplicationConfig() {
         default     : Plateforme="Unknown version"; break;
     }
 
-    //RelatifBasePath=QFileInfo(ProjectFilePathName).absolutePath()
-    //PathToTransform=unicode(QDir(RelatifBasePath).absoluteFilePath(PathToTransform))
-
     // AERO Flag for MPlayer
-    if (QSysInfo().WindowsVersion>=0x0080) AEROCOMPATIBILITY=True;     // True pour prendre en charge AERO (Vista/Windows 7)
-    else                                   AEROCOMPATIBILITY=False;    // False pour ne pas prendre en charge AERO (Vista/Windows 7)
+    if (QSysInfo().WindowsVersion>=0x0080) AEROCOMPATIBILITY=true;     // True pour prendre en charge AERO (Vista/Windows 7)
+    else                                   AEROCOMPATIBILITY=false;    // False pour ne pas prendre en charge AERO (Vista/Windows 7)
 
     // Load registry value for specific Windows Folder
-    QSettings Settings(HKEY_CURRENT_USER,"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
+    QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
     WINDOWS_APPDATA  =Settings.value("AppData").toString();
     WINDOWS_MUSIC    =Settings.value("My Music").toString();
     WINDOWS_PICTURES =Settings.value("My Pictures").toString();
@@ -253,7 +275,7 @@ cApplicationConfig::cApplicationConfig() {
     Plateforme="Unix/Linux";
 #endif
 
-    qDebug()<<"Plateforme="<<Plateforme<<" - "<<getCpuCount()<<"CPU found";
+    AddToSystemProperties("System="+Plateforme+" - "+QString("%1").arg(getCpuCount())+" Core/CPU");
 
     // Prepare lists of allowed extension
     //************************************
@@ -281,11 +303,11 @@ cApplicationConfig::cApplicationConfig() {
     GlobalConfigFile=QString(APPLICATION_NAME)+QString(CONFIGFILEEXT);
 
     // set UserConfigFile value (depending on operating system)
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     UserConfigFile=WINDOWS_APPDATA;
     if (UserConfigFile[UserConfigFile.length()-1]!=QDir::separator()) UserConfigFile=UserConfigFile+QDir::separator();
-    UserConfigFile=UserConfigFile+ApplicationName+QDir::separator()+ApplicationName+CONFIGFILEEXT;
-    PathEXIV2 = "exiv2/exiv2.exe";             // FileName of exiv2 (with path) : Windows version
+    UserConfigFile=UserConfigFile+APPLICATION_NAME+QDir::separator()+APPLICATION_NAME+CONFIGFILEEXT;
+    PathEXIV2 = "exiv2\\exiv2.exe";             // FileName of exiv2 (with path) : Windows version
 #endif
 #ifdef Q_WS_X11
     UserConfigFile=QDir::homePath();
@@ -374,7 +396,7 @@ bool cApplicationConfig::InitConfigurationValues() {
     DefaultTransitionSubType    =1;                         // Transition type in the familly
     DefaultTransitionDuration   =1000;                      // Transition duration (in msec)
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     LastMediaPath           = WINDOWS_PICTURES;             // Last folder use for image/video
     LastProjectPath         = WINDOWS_DOCUMENTS;            // Last folder use for project
     LastMusicPath           = WINDOWS_MUSIC;                // Last folder use for music

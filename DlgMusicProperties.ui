@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>500</height>
+    <width>500</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>700</width>
-    <height>500</height>
+    <width>500</width>
+    <height>300</height>
    </size>
   </property>
   <property name="font">
@@ -34,93 +34,41 @@
    <item>
     <widget class="QRadioButton" name="SameMusicRD">
      <property name="text">
-      <string>Continue playlist of precedent object</string>
+      <string>Continue current playlist (defined in a previous slide)</string>
      </property>
+     <attribute name="buttonGroup">
+      <string>buttonGroup</string>
+     </attribute>
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="leftMargin">
+      <number>30</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
      <property name="spacing">
       <number>2</number>
      </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>20</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>20</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string notr="true"/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="SameMusicPauseRD">
-       <property name="text">
-        <string>Continue playlist of precedent object but set to pause for this object</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <property name="spacing">
-      <number>2</number>
-     </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>20</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>20</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string notr="true"/>
-       </property>
-      </widget>
-     </item>
-     <item>
+     <item row="1" column="0">
       <widget class="QRadioButton" name="SameMusicReduceVolumeRD">
        <property name="text">
-        <string>Continue playlist of precedent object but reduce volume to :</string>
+        <string>Change volume level to :</string>
        </property>
+       <attribute name="buttonGroup">
+        <string>buttonGroup_2</string>
+       </attribute>
       </widget>
      </item>
-     <item>
+     <item row="1" column="1">
       <widget class="QComboBox" name="VolumeReductionFactorCB">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -190,7 +138,7 @@
        </item>
       </widget>
      </item>
-     <item>
+     <item row="1" column="2">
       <widget class="QLabel" name="label_3">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -203,13 +151,36 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="0" colspan="3">
+      <widget class="QRadioButton" name="SameMusicPauseRD">
+       <property name="text">
+        <string>Set to pause</string>
+       </property>
+       <attribute name="buttonGroup">
+        <string>buttonGroup_2</string>
+       </attribute>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="3">
+      <widget class="QRadioButton" name="SameMusicNormalRD">
+       <property name="text">
+        <string>Normal</string>
+       </property>
+       <attribute name="buttonGroup">
+        <string>buttonGroup_2</string>
+       </attribute>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
     <widget class="QRadioButton" name="NewMusicRD">
      <property name="text">
-      <string>Start a new playlist</string>
+      <string>Start a new playlist from this slide</string>
      </property>
+     <attribute name="buttonGroup">
+      <string>buttonGroup</string>
+     </attribute>
     </widget>
    </item>
    <item>
@@ -265,42 +236,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_4">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>20</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>20</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string notr="true"/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="EditMusicBt">
-       <property name="text">
-        <string notr="true"/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>icons/aktion.png</normaloff>icons/aktion.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="Label1">
        <property name="text">
         <string>Total playlist duration : </string>
@@ -342,9 +277,12 @@
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
-     <attribute name="horizontalHeaderStretchLastSection">
-      <bool>true</bool>
-     </attribute>
+     <property name="wordWrap">
+      <bool>false</bool>
+     </property>
+     <property name="cornerButtonEnabled">
+      <bool>false</bool>
+     </property>
      <attribute name="verticalHeaderVisible">
       <bool>false</bool>
      </attribute>
@@ -370,26 +308,6 @@
      </column>
      <column>
       <property name="text">
-       <string>Start</string>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>9</pointsize>
-       </font>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>End</string>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>9</pointsize>
-       </font>
-      </property>
-     </column>
-     <column>
-      <property name="text">
        <string>Volume</string>
       </property>
       <property name="font">
@@ -400,17 +318,7 @@
      </column>
      <column>
       <property name="text">
-       <string>Fade In</string>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>9</pointsize>
-       </font>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Fade Out</string>
+       <string>Source folder</string>
       </property>
       <property name="font">
        <font>
@@ -473,16 +381,23 @@
  </widget>
  <tabstops>
   <tabstop>SameMusicRD</tabstop>
+  <tabstop>SameMusicNormalRD</tabstop>
+  <tabstop>SameMusicReduceVolumeRD</tabstop>
+  <tabstop>VolumeReductionFactorCB</tabstop>
+  <tabstop>SameMusicPauseRD</tabstop>
   <tabstop>NewMusicRD</tabstop>
   <tabstop>AddMusicBt</tabstop>
   <tabstop>RemoveMusicBt</tabstop>
   <tabstop>UpMusicBt</tabstop>
   <tabstop>DownMusicBt</tabstop>
-  <tabstop>EditMusicBt</tabstop>
   <tabstop>PlayListTable</tabstop>
   <tabstop>OKBT</tabstop>
   <tabstop>CloseBT</tabstop>
  </tabstops>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>

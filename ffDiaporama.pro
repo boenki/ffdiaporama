@@ -11,11 +11,26 @@ PREFIX      = /usr
 TARGETAPP   = ffDiaporama
 TARGET      = $$TARGETAPP
 TEMPLATE    = app
-LIBS        += -lavformat -lavcodec -lavutil -lswscale -lSDL -lSDL_mixer
-DESTDIR     += ../build/
-OBJECTS_DIR += ../build/
-MOC_DIR     += ../build/
-UI_DIR      += ../build/
+unix {
+    LIBS        += -lavformat -lavcodec -lavutil -lswscale -lSDL
+    DESTDIR     += ../build/
+    OBJECTS_DIR += ../build/
+    MOC_DIR     += ../build/
+    UI_DIR      += ../build/
+}
+win32 {
+    DESTDIR     += ../winbuild/
+    OBJECTS_DIR += ../winbuild/
+    MOC_DIR     += ../winbuild/
+    UI_DIR      += ../winbuild/
+    INCLUDEPATH += . \
+                   D:\Qt\ffmpeg-git-c967860-win32-dev\include \        #------ ffmpeg library path
+                   D:\Qt\SDL-1.2.14\include                            #------ SDL library path
+
+    LIBS        += -L"D:\Qt\ffmpeg-git-c967860-win32-dev\lib" \        #------ ffmpeg library path
+                   -L"D:\Qt\SDL-1.2.14\lib" \                          #------ SDL library path
+                   -lavformat -lavcodec -lavutil -lswscale -lSDL
+}
 
 SOURCES +=  _ApplicationDefinitions.cpp \
             _SoundDefinitions.cpp \

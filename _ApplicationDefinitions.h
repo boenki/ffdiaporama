@@ -27,6 +27,12 @@
 // Utility use to retrieve number of processor
 int getCpuCount();
 
+extern QString CurrentLanguage;                                 // Current language code (en, fr, ...)
+extern QString SystemProperties;                                // System properties log
+void AddToSystemProperties(QString StringToAdd);
+void AddSeparatorToSystemProperties();
+void ExitApplicationWithFatalError(QString StringToAdd);
+
 //====================================================================================================================
 
 class cSaveWindowPosition {
@@ -57,7 +63,7 @@ public:
     QWidget             *ParentWindow;                              // Link to the top window
     QString             CurrentFolder;                              // Current folder
 
-    #if defined(Q_WS_WIN)
+    #if defined(Q_OS_WIN)
         bool    AEROCOMPATIBILITY;                                  // True pour prendre en charge AERO (Vista/Windows 7)
         // registry value for specific Windows Folder
         QString WINDOWS_APPDATA;                                    // specific Windows Folder : AppData

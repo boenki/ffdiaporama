@@ -118,13 +118,13 @@
                <property name="minimumSize">
                 <size>
                  <width>30</width>
-                 <height>31</height>
+                 <height>32</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>30</width>
-                 <height>31</height>
+                 <height>32</height>
                 </size>
                </property>
                <property name="font">
@@ -243,7 +243,7 @@ subcontrol-position: top right;
 padding: 0px;
 spacing: 2px;
 border-top: 1px solid #202020;
-border-bottom: 1px solid white;
+border-bottom: 0px;
 border-left: 0px;
 border-right: 0px;
 font: 9pt;
@@ -260,7 +260,7 @@ color: white;
                   <number>0</number>
                  </property>
                  <property name="text">
-                  <string notr="true">00:00:00</string>
+                  <string notr="true">00:00:00 / 00:00:00</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -291,6 +291,20 @@ color: white;
                   <font>
                    <pointsize>1</pointsize>
                   </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QProgressBar:horizontal {
+border: 0px;
+border-radius: 0px;
+background: black;
+padding-top: 1px;
+padding-bottom: 2px;
+padding-left: 1px;
+padding-right: 1px;
+}
+QProgressBar::chunk:horizontal {
+background: red;
+}</string>
                  </property>
                  <property name="maximum">
                   <number>5</number>

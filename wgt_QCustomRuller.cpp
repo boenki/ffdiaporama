@@ -23,30 +23,6 @@
 //======================================
 // Specific defines for this dialog box
 //======================================
-#define SLIDERSTYLE_SHEET "QSlider {\n"\
-                          "  background: transparent;\n"\
-                          "}\n"\
-                          "QSlider::groove:horizontal {\n"\
-                          "  height: 6px;\n"\
-                          "}\n"\
-                          "QSlider::add-page:horizontal {\n"\
-                          "  border: 1px solid #999999;\n"\
-                          "  background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);\n"\
-                          "  border-radius: 3px;\n"\
-                          "}\n"\
-                          "QSlider::sub-page:horizontal {\n"\
-                          "  border: 1px solid #999999;\n"\
-                          "  background: red;\n"\
-                          "  border-radius: 3px;\n"\
-                          "}\n"\
-                          "QSlider::handle:horizontal {\n"\
-                          "  border: 1px solid #5c5c5c;\n"\
-                          "  width: 18px;\n"\
-                          "  border-radius: 3px;\n"\
-                          "  background: white;\n"\
-                          "}"
-
-
 #define TAQUET_SIZE         9       // TAQUET_SIZE is QSlider::handle:horizontal (width+margin)/2
 #define CompletTickH1       2       // Y start position of the complete tick line
 #define CompletTickH2       20      // Y end position of the complete tick line
@@ -76,8 +52,7 @@ void wgt_QCustomRuller::ActiveSlider(int TotalDuration) {
         Slider=new QSlider(Qt::Horizontal,this);
         Slider->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
         Slider->setFixedHeight(30);
-        //Slider->setMinimumWidth(this->width());
-        Slider->setStyleSheet(SLIDERSTYLE_SHEET);
+        Slider->setStyleSheet("QSlider {background: transparent;\n width: 18px;}");
     }
 }
 

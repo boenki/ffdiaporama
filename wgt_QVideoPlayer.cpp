@@ -21,24 +21,6 @@
 #include "wgt_QVideoPlayer.h"
 #include "ui_wgt_QVideoPlayer.h"
 
-//====================================================================================================================
-
-void AudioCallback(void *userdata, Uint8 *stream, int len) {
-    wgt_QVideoPlayer *VideoPlayer=(wgt_QVideoPlayer *)userdata;
-
-    if (len!=VideoPlayer->MixedMusic.SoundPacketSize) {
-        return;
-    }
-    int16_t *Packet=VideoPlayer->MixedMusic.DetachFirstPacket();
-
-    // Copy data to hardware buffer
-    if (Packet!=NULL) {
-        memcpy(stream,(Uint8 *)Packet,VideoPlayer->MixedMusic.SoundPacketSize);
-        av_free(Packet);
-    }
-}
-
-
 //*********************************************************************************************************************************************
 // Base object for image manipulation
 //*********************************************************************************************************************************************
@@ -94,7 +76,6 @@ void cImageList::AppendImage(cDiaporamaObjectInfo *Frame) {
 
 wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui::wgt_QVideoPlayer) {
     ui->setupUi(this);
-    SDLIsAudioOpen          = false;
     FLAGSTOPITEMSELECTION   = NULL;
     FileInfo                = NULL;
     Diaporama               = NULL;
@@ -103,12 +84,13 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     IsInit                  = false;
 
     DisplayMSec             = false;
-    IconPlay                = QIcon("icons/player_play.png");
+    IconPlay                = QIcon(ICON_PLAYERPLAY);
     IconPause               = QIcon(ICON_PLAYERPAUSE);
-    MplayerPlayMode         = false;                                // Is MPlayer currently play mode
-    MplayerPauseMode        = false;                                // Is MPlayer currently plause mode
+    PlayerPlayMode          = false;                                // Is player currently play mode
+    PlayerPauseMode         = false;                                // Is player currently plause mode
     IsSliderProcess         = false;
     ActualPosition          = -1;
+    tDuration               =QTime(0,0,0,0);
 
     ui->Position->setFixedWidth(DisplayMSec?160:120);
     ui->BufferState->setFixedWidth(DisplayMSec?160:120);
@@ -134,42 +116,19 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     connect(ui->CustomRuller->Slider,SIGNAL(sliderPressed()),this,SLOT(s_SliderPressed()));
     connect(ui->CustomRuller->Slider,SIGNAL(sliderReleased()),this,SLOT(s_SliderReleased()));
     connect(ui->CustomRuller->Slider,SIGNAL(sliderMoved(int)),this,SLOT(s_SliderMoved(int)));
-
-    // MPlayer signals
-    connect(&MplayerProcess,SIGNAL(readyReadStandardOutput()),this,SLOT(s_MPlayerMessage()));
-    connect(&MplayerProcess,SIGNAL(finished(int,QProcess::ExitStatus)),this,SLOT(s_MPlayerFinished(int,QProcess::ExitStatus)));
-
-    // Start SDL
-    if (SDL_Init(SDL_INIT_AUDIO)) {
-        qDebug()<<"wgt_QVideoPlayer::SetPlayerToPlay=Could not initialize SDL - "<<SDL_GetError();
-        exit(1);
-    }
 }
 
 //============================================================================================
 
 wgt_QVideoPlayer::~wgt_QVideoPlayer() {
-    ThreadPrepareMontage.waitForFinished();   // Thread preparation of image
-    ThreadDoAssembly.waitForFinished();       // Thread for make assembly of background and images
-    if (MplayerProcess.state()==QProcess::Running) {
-        MplayerProcess.kill();
-        MplayerProcess.waitForFinished();
-    }
-    Clean();
-    if (SDLIsAudioOpen) SDL_Quit();
+    SetPlayerToPause();         // Ensure player is correctly stoped
     delete ui;
 }
 
 //============================================================================================
 
-void wgt_QVideoPlayer::SendToMPlayer(QString Message) {
-    if (MplayerProcess.state()==QProcess::Running) MplayerProcess.write(Message.toLocal8Bit());
-}
-
-//============================================================================================
-
 void wgt_QVideoPlayer::closeEvent(QCloseEvent *) {
-    if (IsValide) Clean();
+    SetPlayerToPause();
 }
 
 //====================================================================================================================
@@ -182,18 +141,6 @@ void wgt_QVideoPlayer::showEvent(QShowEvent *) {
 }
 
 //============================================================================================
-
-void wgt_QVideoPlayer::Clean() {
-    SetPlayerToPause(); // Stop sound
-
-    if (IsValide) {
-        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-        SendToMPlayer("stop\n");
-        //if (!MplayerProcess.waitForFinished()) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error stoping MPlayer !","Error message"),QMessageBox::Close);
-        IsValide=false;
-        QApplication::restoreOverrideCursor();
-    }
-}
 
 //============================================================================================
 
@@ -265,12 +212,10 @@ bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
     ImageList.Diaporama =Diaporama;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
     ui->CustomRuller->ActiveSlider(Diaporama->GetDuration());
-    MplayerPlayMode  = true;
-    MplayerPauseMode = true;
+    PlayerPlayMode  = true;
+    PlayerPauseMode = true;
     ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
-
     QApplication::restoreOverrideCursor();
     return true;
 }
@@ -279,139 +224,20 @@ bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
 // Init a video show
 //============================================================================================
 
-bool wgt_QVideoPlayer::StartPlay(cvideofilewrapper *FileInfo) {
+bool wgt_QVideoPlayer::StartPlay(cvideofilewrapper *FileInfo,double WantedFPS) {
     if (FileInfo==NULL) return false;
-    this->FileInfo=FileInfo;
+    this->FileInfo =FileInfo;
+    this->WantedFPS=WantedFPS;
+    IsValide=true;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-    ui->CustomRuller->ActiveSlider(QTime(0,0,0,0).msecsTo(FileInfo->Duration));
+    SetActualDuration(QTime(0,0,0,0).msecsTo(FileInfo->Duration));
     resizeEvent(NULL);
-
-    QString Commande;
-
-    // Compute MPlayer commande
-    #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
-    PathMPLAYER = "mplayer/mplayer.exe";
-    #else
-    PathMPLAYER = "/usr/bin/mplayer";
-    #endif
-    Commande=PathMPLAYER+" -osdlevel 0 -slave -quiet -wid ";
-
-    #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
-    Commande=Commande+QString().number(ui->MovieFrame->winId(),16);
-
-    // AERO Flag for MPlayer (Vista/Windows 7)
-    if (QSysInfo().WindowsVersion>=0x0080) Commande=Commande+" -vo gl:glfinish";
-    else                                   Commande=Commande+" -vo directx:noaccel";
-    #else
-    Commande=Commande+QString().number(ui->MovieFrame->winId(),10);
-    #endif
-
-    Commande=Commande+" \""+FileInfo->FileName+"\"";
-    MplayerProcess.start(Commande);
-    if (!MplayerProcess.waitForStarted()) {
-        QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error starting MPlayer. Please check configuration !","Error message"),QMessageBox::Close);
-        Clean();
-        QApplication::restoreOverrideCursor();
-        return false;
-    }
+    PlayerPlayMode  = true;
+    PlayerPauseMode = true;
+    ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
     QApplication::restoreOverrideCursor();
     return true;
-}
-
-//============================================================================================
-// Trap mplayer messages
-//============================================================================================
-
-void wgt_QVideoPlayer::s_MPlayerMessage() {
-    QString Message;
-    while ((MplayerProcess.state()==QProcess::Running)&&(MplayerProcess.canReadLine())) {
-
-        // Get Line
-        Message=QString(MplayerProcess.readLine());         // Read a line
-        Message.replace("\n","");                           // Remove end of line
-
-        if (Message.startsWith("MPlayer")) {
-
-
-        } if (Message.startsWith("Playing")) {
-
-            if (!IsValide) SendToMPlayer("get_time_length\n");      // ask mplayer for movie length
-
-        } else if (Message.startsWith("ANS_LENGTH")) {
-
-            // Answer to get_time_length : ANS_LENGTH=xx.yy
-            Message=Message.mid(QString("ANS_LENGTH=").length(),Message.length()-QString("ANS_LENGTH=").length());
-            Message.replace("'","");
-            Message.replace(" ","");
-            Message.replace("\r","");
-            bool Ok=false;
-            long Duration=Message.toDouble(&Ok)*1000;
-            if (Ok) {
-                ui->CustomRuller->Slider->setMaximum(int(Duration)-1);
-                ui->CustomRuller->TotalDuration=Duration;
-                ui->CustomRuller->repaint();
-
-                int     TimeMSec    =(Duration %1000);
-                int     TimeSec     =int(Duration/1000);
-                int     TimeHour    =TimeSec/(60*60);
-                int     TimeMinute  =(TimeSec%(60*60))/60;
-                tDuration.setHMS(TimeHour,TimeMinute,TimeSec%60,TimeMSec);
-                SendToMPlayer("get_time_pos\n");      // ask mplayer for time position
-
-                IsValide=true;
-                EnableWidget(true);
-            }
-
-            MplayerPlayMode  = true;
-            MplayerPauseMode = false;
-            ui->VideoPlayerPlayPauseBT->setIcon(IconPlay);
-            ui->Position->setFixedWidth(DisplayMSec?160:120);
-            ui->BufferState->setFixedWidth(DisplayMSec?160:120);
-
-            // Start Timer
-            Timer.start(100);
-
-            // Switch player to pause !
-            SetPlayerToPause();
-
-        } else if (Message.startsWith("ANS_TIME_POSITION")) {
-
-            // Answer to get_time_pos : ANS_TIME_POSITION=xx.y
-            if (IsValide) {
-                Message=Message.mid(QString("ANS_TIME_POSITION=").length(),Message.length()-QString("ANS_TIME_POSITION=").length());
-                Message.replace("'","");
-                Message.replace(" ","");
-                Message.replace("\r","");
-                bool Ok=false;
-                double Position=Message.toDouble(&Ok)*1000;
-                if (Ok) {
-                    ui->CustomRuller->Slider->setValue(int(Position));
-                    ActualPosition=int(Position);
-                    ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss")+"\n"+tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
-                }
-            }
-
-        } else {
-
-            // Unknown message
-
-        }
-    }
-}
-
-//============================================================================================
-// MPlayerFinished is call when mplayer process end
-//============================================================================================
-
-void wgt_QVideoPlayer::s_MPlayerFinished(int,QProcess::ExitStatus) {
-    // Function call when play is finish
-    IsValide        = false;
-    MplayerPlayMode = false;
-    MplayerPauseMode= false;
-    EnableWidget(false);
-    ui->VideoPlayerPlayPauseBT->setIcon(IconPlay);
 }
 
 //============================================================================================
@@ -419,55 +245,14 @@ void wgt_QVideoPlayer::s_MPlayerFinished(int,QProcess::ExitStatus) {
 //============================================================================================
 
 void wgt_QVideoPlayer::SetPlayerToPlay() {
-    if (!(MplayerPlayMode && MplayerPauseMode)) return;
-    if (FileInfo!=NULL) {
-        if ((!MplayerPlayMode)||(MplayerProcess.state()==QProcess::NotRunning)) {
-            // Stop -> play
-            StartPlay(FileInfo);
-        } else {
-            if (IsValide) {
-                MplayerPlayMode  = true;
-                MplayerPauseMode = false;
-                ui->VideoPlayerPlayPauseBT->setIcon(IconPlay);
-                SendToMPlayer("pause\n");
-            }
-        }
-    } else if (Diaporama!=NULL) {
-        MplayerPlayMode  = true;
-        MplayerPauseMode = false;
-        ui->VideoPlayerPlayPauseBT->setIcon(IconPlay);
+    if (!(PlayerPlayMode && PlayerPauseMode)) return;
+    PlayerPlayMode  = true;
+    PlayerPauseMode = false;
+    ui->VideoPlayerPlayPauseBT->setIcon(IconPlay);
 
-        // Init MixedMusic
-        MixedMusic.ClearList();
-
-        // Free ImageList
-        ImageList.ClearList();
-
-        MixedMusic.SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
-
-        // Desired AudioSpec
-        SDL_AudioSpec Desired;
-        Desired.channels=MixedMusic.Channels;                               // Number of chanels
-        Desired.format  =AUDIO_S16SYS;                                      // Sound format (pcm16le)
-        Desired.freq    =MixedMusic.SamplingRate;                           // Frequency in Hz
-        Desired.userdata=this;                                              // Link to MixedMusic object as userdata parameter
-        Desired.callback=AudioCallback;                                     // Link to callback function
-        Desired.samples =MixedMusic.SoundPacketSize/MixedMusic.Channels;    // In samples unit * chanels number !
-        Desired.silence =0;
-
-        // Initialisation of SDL_mixer
-        if (SDL_OpenAudio(&Desired,&AudioSpec)<0) {
-            qDebug()<<"wgt_QVideoPlayer::SetPlayerToPlay=Error in SDL_OpenAudio";
-            exit(1);
-        }
-        SDLIsAudioOpen=true;
-        // Display first frame
-        //s_SliderMoved(Diaporama->CurrentPosition);
-
-        // Start timer
-        TimerTick=true;
-        Timer.start(int((double((uint64_t)AV_TIME_BASE)/double(Diaporama->ApplicationConfig->PreviewFPS))/1000)/2);   // Start Timer emulating FPS
-    }
+    // Start timer
+    TimerTick=true;
+    Timer.start(int((double((uint64_t)AV_TIME_BASE)/double(FileInfo?WantedFPS:Diaporama->ApplicationConfig->PreviewFPS))/1000)/2);   // Start Timer emulating FPS
 }
 
 //============================================================================================
@@ -475,28 +260,18 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
 //============================================================================================
 
 void wgt_QVideoPlayer::SetPlayerToPause() {
-    if (!(MplayerPlayMode && !MplayerPauseMode)) return;
-    if (FileInfo!=NULL) {
-        if (IsValide) {
-            MplayerPlayMode  = true;
-            MplayerPauseMode = true;
-            ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
-            SendToMPlayer("pause\n");
-        }
-    } else if (Diaporama!=NULL) {
-        MplayerPlayMode  = true;
-        MplayerPauseMode = true;
-        ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
-        Timer.stop();       // Stop Timer
-        SDL_PauseAudio(1);  // Stop sound
-        SDL_CloseAudio();   // Close audio
-
-        // Free sound buffers
-        MixedMusic.ClearList();
-
-        // Free ImageList
-        ImageList.ClearList();
-    }
+    if (!(PlayerPlayMode && !PlayerPauseMode)) return;
+    Timer.stop();                                   // Stop Timer
+    ThreadPrepareMontage.waitForFinished();         // Thread preparation of image
+    ThreadDoAssembly.waitForFinished();             // Thread for make assembly of background and images
+    SDL_LockAudio();                                // Ensure callback will not be call now
+    MixedMusic.ClearList();                         // Free sound buffers
+    SDL_UnlockAudio();  // Ensure callback can now be call
+    ImageList.ClearList();                          // Free ImageList
+    PlayerPlayMode  = true;
+    PlayerPauseMode = true;
+    ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
+    ui->BufferState->setValue(0);
 }
 
 //============================================================================================
@@ -504,8 +279,8 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_VideoPlayerPlayPauseBT() {
-    if ((!MplayerPlayMode)||((MplayerPlayMode && MplayerPauseMode)))    SetPlayerToPlay();      // Stop/Pause -> play
-        else if (MplayerPlayMode && !MplayerPauseMode)                  SetPlayerToPause();     // Pause -> play
+    if ((!PlayerPlayMode)||((PlayerPlayMode && PlayerPauseMode)))    SetPlayerToPlay();      // Stop/Pause -> play
+        else if (PlayerPlayMode && !PlayerPauseMode)                  SetPlayerToPause();     // Pause -> play
 }
 
 //============================================================================================
@@ -513,7 +288,7 @@ void wgt_QVideoPlayer::s_VideoPlayerPlayPauseBT() {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_SliderPressed() {
-    PreviousPause    = MplayerPauseMode;    // Save pause state
+    PreviousPause    = PlayerPauseMode;    // Save pause state
     IsSliderProcess  = true;
     SetPlayerToPause();
 }
@@ -543,30 +318,22 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
     // Update display in controls
     ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss")+" / "+tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
 
+    //***********************************************************************
+    // If playing
+    //***********************************************************************
+    if (PlayerPlayMode && !PlayerPauseMode) {
+        if (((FileInfo)&&(ActualPosition>=QTime(0,0,0,0).msecsTo(tDuration)))||((Diaporama)&&(Value>=Diaporama->GetDuration()))) {
+            SetPlayerToPause();    // Stop sound if it's the end
+        } else {
+            if (ImageList.List.count()>0) {                        // Process
+                // Retrieve frame informations
+                cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();
 
-    if (FileInfo!=NULL) {
-        // Send a seek command : when result will send by mplayer, s_MPlayerMessage() function trap it and set slider position
-        // SEEK x 2=is a seek to an absolute position of <value> seconds
-        if (!IsSliderProcess) {
-            QString Commande=((MplayerPauseMode==true)?"pausing_keep ":"")+QString("seek %1 2\n").arg(Value/1000);
-            SendToMPlayer(Commande.toLocal8Bit());
-            ui->CustomRuller->Slider->setValue(int(Value));
-        }
-    } else if (Diaporama!=NULL) {
-        //***********************************************************************
-        // If playing
-        //***********************************************************************
-        if (MplayerPlayMode && !MplayerPauseMode) {
-            if (Value>=Diaporama->GetDuration()) SetPlayerToPause();    // Stop sound if it's the end
-            else {
-                if (ImageList.List.count()>0) {                        // Process
-                    // Retrieve frame informations
-                    cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();
+                // Display frame
+                if (Frame->RenderedImage) ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));
 
-                    // Display frame
-                    ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));
-
-                    // If needed, set Diaporama to an other object
+                // If Diaporama mode and needed, set Diaporama to an other object
+                if (Diaporama) {
                     if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
                         if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
                         Diaporama->CurrentCol=Frame->CurrentObject_Number;
@@ -586,35 +353,40 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
                     }
                     Diaporama->CurrentPosition=Value;
-
-                    // Free frame
-                    delete Frame;
-
-                    // Start sound (if not previously started)
-                    if ((MplayerPlayMode) && (!MplayerPauseMode) && (SDL_GetAudioStatus()!=SDL_AUDIO_PLAYING)) SDL_PauseAudio(0);
                 }
+
+                // Free frame
+                delete Frame;
+
+                // Start sound (if not previously started)
+                if ((PlayerPlayMode) && (!PlayerPauseMode) && (SDL_GetAudioStatus()!=SDL_AUDIO_PLAYING)) SDL_PauseAudio(0);
             }
-        //***********************************************************************
-        // If moving by user
-        //***********************************************************************
-        } else {
+        }
+    //***********************************************************************
+    // If moving by user
+    //***********************************************************************
+    } else {
 
-            // Free sound buffers
-            MixedMusic.ClearList();
+        // Free sound buffers
+        SDL_LockAudio();                                // Ensure callback will not be call now
+        MixedMusic.ClearList();                         // Free sound buffers
+        SDL_UnlockAudio();                              // Ensure callback can now be call
 
-            // Free ImageList
-            ImageList.ClearList();
-            ui->BufferState->setValue(0);
+        // Free ImageList
+        ImageList.ClearList();
 
-            // Retrieve object informations
+        if (FileInfo) {
+
+            QImage *VideoImage=FileInfo->ImageAt(true,this->height(),ActualPosition,false,false,NULL,1);
+            ui->MovieFrame->setPixmap(QPixmap().fromImage(*VideoImage));  // Display frame
+            delete VideoImage;
+
+        } else if (Diaporama) {
+            // Create a frame from actual position
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Value,Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
-
-            // Update display in preview
             PrepareImage(Frame,false);          // This will add frame to the ImageList
             Frame=ImageList.DetachFirstImage(); // Then detach frame from the ImageList
-
-            // Display frame
-            ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));
+            ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));  // Display frame
 
             // If needed, set Diaporama to an other object
             if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
@@ -648,31 +420,45 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 void wgt_QVideoPlayer::s_TimerEvent() {
     if ((Flag_InTimer==true)||(IsSliderProcess)) return;
     Flag_InTimer=true;
-    if (FileInfo!=NULL) {
+    cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
+    int LastPosition=0;
 
-        if (IsValide && !MplayerPauseMode && !IsSliderProcess) SendToMPlayer("get_time_pos\n");      // ask mplayer for movie length
+    // Add image to the list if it's not full
+    if ((ImageList.List.count()<BUFFERING_NBR_FRAME)&&(ThreadPrepareMontage.isRunning()==false)) {
 
-    } else if (Diaporama!=NULL) {
-        cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
-        int LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
+        if (FileInfo) {
+            // Calc LastPosition
+            LastPosition=(PreviousFrame==NULL)?ActualPosition:PreviousFrame->CurrentObject_InObjectTime;
+            // Create a new frame object
+            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
+            NewFrame->CurrentObject_StartTime   =0;
+            NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
+            NewFrame->RenderedImage=FileInfo->ImageAt(true,ui->MovieFrame->height(),ActualPosition,false,false,&MixedMusic,1);
+            if (NewFrame->RenderedImage) ImageList.AppendImage(NewFrame); else delete NewFrame;
 
-        // Add image to the list if it's not full
-        if ((ImageList.List.count()<BUFFERING_NBR_FRAME)&&(ThreadPrepareMontage.isRunning()==false)) {
+        } else if (Diaporama) {
+            // Calc LastPosition
+            LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
             // Create a new frame object
             cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
-
             // Start thread to prepare
             ThreadPrepareMontage=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true);
         }
-        ui->BufferState->setValue(ImageList.List.count());
+    }
+    ui->BufferState->setValue(ImageList.List.count());
+    if (ImageList.List.count()<2)
+        ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: red;\n}");
+    else if (ImageList.List.count()<4)
+        ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: yellow;\n}");
+    else if (ImageList.List.count()<=BUFFERING_NBR_FRAME)
+        ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: green;\n}");
 
-        // if TimerTick update the preview
-        if (TimerTick) {
-            if (ImageList.List.count()==0) ThreadPrepareMontage.waitForFinished();
-            // Move slider to the position of the next frame
-            if ((ImageList.List.count()>1)&&(ui->CustomRuller->Slider!=NULL))
-                s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
-        }
+    // if TimerTick update the preview
+    if (TimerTick) {
+        if (ImageList.List.count()==0) ThreadPrepareMontage.waitForFinished();
+        // Move slider to the position of the next frame
+        if ((ImageList.List.count()>1)&&(ui->CustomRuller->Slider!=NULL))
+            s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
     }
     Flag_InTimer=false;
     if (TimerTick) TimerTick=false; else TimerTick=true;
@@ -722,10 +508,8 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
         if (MaxPacket>MixedMusic.NbrPacketForFPS) MaxPacket=MixedMusic.NbrPacketForFPS;
 
         // Append mixed musique to the queue
-        SDL_LockAudio();    // Ensure callback will not be call now
         for (int j=0;j<MaxPacket;j++)
             MixedMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
-        SDL_UnlockAudio();  // Ensure callback can now be call
     }
     // Append this image to the queue
     ThreadDoAssembly.waitForFinished();
