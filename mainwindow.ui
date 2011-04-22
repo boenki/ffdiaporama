@@ -513,7 +513,7 @@
   <action name="action_About">
    <property name="icon">
     <iconset>
-     <normaloff>icons/videoporama.png</normaloff>icons/videoporama.png</iconset>
+     <normaloff>icons/logo.png</normaloff>icons/logo.png</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>

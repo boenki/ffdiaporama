@@ -60,63 +60,66 @@ bool cimagefilewrapper::GetInformationFromFile(cApplicationConfig *ApplicationCo
     if (IsValide==true) {
         QString   Commande;
         QString   Info,Part;
+        bool      ExifOK=true;
 
+        ImageOrientation=1; // Set default image orientation
+
+        // start exiv2
         Commande = ApplicationConfig->PathEXIV2+" print -pa \""+GivenFileName+"\"";
         #ifdef Q_OS_WIN
         Commande.replace("/","\\");
         #endif
-        qDebug()<<"Start:"<<Commande;
         QProcess Process;
         Process.setProcessChannelMode(QProcess::MergedChannels);
         Process.start(Commande);
         if (!Process.waitForStarted()) {
-            //QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error starting ffmpeg\nPlease check configuration !","Error message"),QMessageBox::Close);
-            return false;   // If crash then starting commande
+            qDebug()<<"Impossible to start exiv2 - no exif informations we be decode for"<<GivenFileName;
+            ExifOK=false;
         }
-        if (!Process.waitForFinished()) {
-            //QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error during ffmpeg process","Error message"),QMessageBox::Close);
-            return false;   // If crash then error
+        if (ExifOK && !Process.waitForFinished()) {
+            qDebug()<<"Error during exiv2 process - no exif informations we be decode for"<<GivenFileName;
+            ExifOK=false;
         }
-        if (Process.exitStatus()!=QProcess::NormalExit) {
-          //QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading source file","Error message"),QMessageBox::Close);
-          //return false;   // If crash then error
+        if (ExifOK && (Process.exitStatus()<0)) {
+            qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations we be decode for"<<GivenFileName;
+            ExifOK=false;
         }
-        Info=QString(Process.readAllStandardOutput());
+        if (ExifOK) {
+            Info=QString(Process.readAllStandardOutput());
 
-        while (Info.length()>0) {
-            if (Info.contains("\n")) {
-                Part=Info.left(Info.indexOf("\n"));
-                Info=Info.mid(Info.indexOf("\n")+QString("\n").length());
-            } else {
-                Part=Info;
-                Info="";
-            }
-            QString Designation,Value;
-            bool    GetValueOrientation;
-            if (Part.contains(" ")) {
-                Designation=Part.left(Part.indexOf(" "));
-                GetValueOrientation=(Designation=="Exif.Image.Orientation");
-                while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
-                Value=(Part.mid(Part.indexOf(" ")+QString(" ").length())).trimmed();
-                if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
-                if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
-                if (Part.contains(" ")) Part=Part.left(Part.indexOf(" "));
-                if (Part.startsWith("Exif.")) Part=Part.mid(QString("Exif.").length());
-                ExivValue.append(Part+"##"+Value);
-                if (GetValueOrientation) {
-                    ImageOrientation=1;
-                    if (Value=="top, left")     ImageOrientation=1;
-                    if (Value=="top, right")    ImageOrientation=2;
-                    if (Value=="bottom, right") ImageOrientation=3;
-                    if (Value=="bottom, left")  ImageOrientation=4;
-                    if (Value=="left, top")     ImageOrientation=5;
-                    if (Value=="right, top")    ImageOrientation=6;
-                    if (Value=="right, bottom") ImageOrientation=7;
-                    if (Value=="left, bottom")  ImageOrientation=8;
+            while (Info.length()>0) {
+                if (Info.contains("\n")) {
+                    Part=Info.left(Info.indexOf("\n"));
+                    Info=Info.mid(Info.indexOf("\n")+QString("\n").length());
+                } else {
+                    Part=Info;
+                    Info="";
+                }
+                QString Designation,Value;
+                bool    GetValueOrientation;
+                if (Part.contains(" ")) {
+                    Designation=Part.left(Part.indexOf(" "));
+                    GetValueOrientation=(Designation=="Exif.Image.Orientation");
+                    while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
+                    Value=(Part.mid(Part.indexOf(" ")+QString(" ").length())).trimmed();
+                    if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
+                    if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
+                    if (Part.contains(" ")) Part=Part.left(Part.indexOf(" "));
+                    if (Part.startsWith("Exif.")) Part=Part.mid(QString("Exif.").length());
+                    ExivValue.append(Part+"##"+Value);
+                    if (GetValueOrientation) {
+                        if (Value=="top, left")     ImageOrientation=1;
+                        if (Value=="top, right")    ImageOrientation=2;
+                        if (Value=="bottom, right") ImageOrientation=3;
+                        if (Value=="bottom, left")  ImageOrientation=4;
+                        if (Value=="left, top")     ImageOrientation=5;
+                        if (Value=="right, top")    ImageOrientation=6;
+                        if (Value=="right, bottom") ImageOrientation=7;
+                        if (Value=="left, bottom")  ImageOrientation=8;
+                    }
                 }
             }
         }
-
     }
     return IsValide;
 }

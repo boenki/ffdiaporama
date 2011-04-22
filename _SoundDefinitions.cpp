@@ -115,7 +115,11 @@ cSoundBlockList::cSoundBlockList() {
     SoundPacketSize     =MAXSOUNDPACKETSIZE;                                                // Size of a packet (depending on FPS)
     Channels            =2;                                                                 // Number of channels
     SamplingRate        =48000;                                                             // Sampling rate (frequency)
+#if FF_API_OLD_SAMPLE_FMT
+    SampleBytes         =av_get_bits_per_sample_fmt(SAMPLE_FMT_S16)>>3;                     // Size of a sample
+#else
     SampleBytes         =av_get_bits_per_sample_format(SAMPLE_FMT_S16)>>3;                  // Size of a sample
+#endif
     dDuration           =double(SoundPacketSize)/double(Channels*SampleBytes*SamplingRate); // Duration of a packet
     NbrPacketForFPS     =1;                                                                 // Number of packet for FPS
 }
