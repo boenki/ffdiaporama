@@ -108,7 +108,11 @@ DlgRenderVideo::~DlgRenderVideo() {
         AudioStream=NULL;
 
         // close the file
+        #if FF_API_OLD_AVIO
+        if (OutputFormatContext->pb!=NULL) avio_close(OutputFormatContext->pb);
+        #else
         if (OutputFormatContext->pb!=NULL) url_fclose(OutputFormatContext->pb);
+        #endif
 
         // free the stream
         if (OutputFormatContext!=NULL) {
@@ -673,7 +677,11 @@ bool DlgRenderVideo::OpenDestFile(int VideoCodecIndex,int AudioCodecIndex) {
     }
 
     // open the file for writing
+    #if FF_API_OLD_AVIO
+    if (avio_open(&OutputFormatContext->pb,Diaporama->OutputFileName.toLocal8Bit(),AVIO_WRONLY)<0) {
+    #else
     if (url_fopen(&OutputFormatContext->pb,Diaporama->OutputFileName.toLocal8Bit(),URL_WRONLY)<0) {
+    #endif
         av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
         QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error creating output video file !");
         return false;
@@ -1094,7 +1102,7 @@ AVFrame *DlgRenderVideo::QImageToYUVStream(QImage *Image) {
 //============================================================================================
 bool DlgRenderVideo::WriteAudioFrame(int16_t *Packet,int AudioLen) {
     //uint8_t         *Buffer=(uint8_t *)Packet;
-    int64_t         AVNOPTSVALUE=0x8000000000000000; // to solve type error with Qt
+    int64_t         AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
     bool            IsOk=true;
     AVPacket        pkt;
     int             audio_outbuf_size=FF_MIN_BUFFER_SIZE; //AudioLen
@@ -1145,7 +1153,7 @@ bool DlgRenderVideo::WriteAudioFrame(int16_t *Packet,int AudioLen) {
 // Write video frame
 //============================================================================================
 bool DlgRenderVideo::WriteVideoFrame(int FrameNumber,AVFrame *VideoFramePicture,int Width,int Height) {
-    int64_t     AVNOPTSVALUE=0x8000000000000000; // to solve type error with Qt
+    int64_t     AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
     bool        IsOk=true;
     AVPacket    pkt;
     int         video_outbuf_size =4*Width*Height;  if (video_outbuf_size<FF_MIN_BUFFER_SIZE) video_outbuf_size=FF_MIN_BUFFER_SIZE;
@@ -1199,7 +1207,7 @@ bool DlgRenderVideo::WriteVideoFrame(int FrameNumber,AVFrame *VideoFramePicture,
 // Write video frame previously delayed
 //============================================================================================
 void DlgRenderVideo::flush_ffmpeg_VideoStream(int Width,int Height) {
-    int64_t     AVNOPTSVALUE=0x8000000000000000; // to solve type error with Qt
+    int64_t     AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
     int         video_outbuf_size =4*Width*Height;  if (video_outbuf_size<FF_MIN_BUFFER_SIZE) video_outbuf_size=FF_MIN_BUFFER_SIZE;
     uint8_t     *video_outbuf     =(uint8_t*)av_malloc(video_outbuf_size);
     AVPacket    pkt;

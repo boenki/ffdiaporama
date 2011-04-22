@@ -113,11 +113,17 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTra
     // Ensure file was previously open
     if ((ffmpegVideoFile==NULL)||((MusicOnly==false)&&(VideoDecoderCodec==NULL))||((MusicOnly==true)&&(AudioDecoderCodec==NULL))) return NULL;
 
-    int64_t         AVNOPTSVALUE        =0x8000000000000000; // to solve type error with Qt
+    int64_t         AVNOPTSVALUE        =INT64_C(0x8000000000000000); // to solve type error with Qt
     QImage          *RetImage           =NULL;
     AVStream        *AudioStream        =ffmpegVideoFile->streams[AudioStreamNumber];
     AVStream        *VideoStream        =ffmpegVideoFile->streams[VideoStreamNumber];
+
+    #if FF_API_OLD_SAMPLE_FMT
+    int64_t         SrcSampleSize       =(av_get_bits_per_sample_fmt(AudioStream->codec->sample_fmt)>>3)*int64_t(AudioStream->codec->channels);
+    #else
     int64_t         SrcSampleSize       =(av_get_bits_per_sample_format(AudioStream->codec->sample_fmt)>>3)*int64_t(AudioStream->codec->channels);
+    #endif
+
     int64_t         DstSampleSize       =((SoundTrackBloc!=NULL)?(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels):0);
     AVPacket        *StreamPacket       =NULL;
     uint8_t         *BufferToDecode     =NULL;

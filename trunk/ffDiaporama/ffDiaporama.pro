@@ -17,12 +17,14 @@ unix {
     OBJECTS_DIR += ../build/
     MOC_DIR     += ../build/
     UI_DIR      += ../build/
+    ICON         = icons/logo.png
 }
 win32 {
     DESTDIR     += ../winbuild/
     OBJECTS_DIR += ../winbuild/
     MOC_DIR     += ../winbuild/
     UI_DIR      += ../winbuild/
+    RC_FILE     = ffDiaporama.rc
     INCLUDEPATH += . \
                    D:\Qt\ffmpeg-git-c967860-win32-dev\include \        #------ ffmpeg library path
                    D:\Qt\SDL-1.2.14\include                            #------ SDL library path
@@ -119,7 +121,8 @@ OTHER_FILES += \
     ../TODO-LIST.txt \
     ../licences.txt \
     ../licences.rtf \
-    ../readme.txt
+    ../readme.txt \
+    ffDiaporama.rc
 
 TRANSLATIONS += locale/locale_fr.ts
 

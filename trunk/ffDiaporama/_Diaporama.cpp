@@ -1881,7 +1881,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
                 *(Buf1++)=int16_t(mix);
             }
-            if (Paquet) delete Paquet;
+            if (Paquet) av_free(Paquet);
         }
     }
 
@@ -1916,7 +1916,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
                 *(Buf1++)=int16_t(mix);
             }
-            if (Paquet) delete Paquet;
+            if (Paquet) av_free(Paquet);
         }
     }
 }
