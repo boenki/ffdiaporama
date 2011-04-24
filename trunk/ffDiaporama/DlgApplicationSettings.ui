@@ -54,7 +54,7 @@
         <x>0</x>
         <y>0</y>
         <width>674</width>
-        <height>660</height>
+        <height>683</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
@@ -1091,6 +1091,13 @@
           </spacer>
          </item>
         </layout>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QCheckBox" name="DisableSSE2CB">
+         <property name="text">
+          <string>Disable SSE2 hardware acceleration (if errors occurs with preview) - need application restart</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
