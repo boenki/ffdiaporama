@@ -86,11 +86,15 @@ private slots:
     void    s_CopyToClipboard();
     void    s_PasteFromClipboard();
     void    s_ChangeProjectSettings();
+
+    // Tools menu
+    void    s_RenderVideo();
     void    s_ChangeApplicationSettings();
 
-    void    s_RenderVideo();
-
+    // Help menu
     void    s_About();
+    void    s_Documentation();
+    void    s_NewFunctions();
 
 private:
     Ui::MainWindow *ui;

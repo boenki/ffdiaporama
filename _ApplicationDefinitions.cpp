@@ -275,7 +275,7 @@ cApplicationConfig::cApplicationConfig() {
     Plateforme="Unix/Linux";
 #endif
 
-    AddToSystemProperties("System="+Plateforme+" - "+QString("%1").arg(getCpuCount())+" Core/CPU");
+    AddToSystemProperties(QString(OPERATINGSYSTEM_STR)+Plateforme+" - "+QString("%1").arg(getCpuCount())+" Core/CPU");
 
     // Prepare lists of allowed extension
     //************************************

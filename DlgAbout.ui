@@ -78,7 +78,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -293,7 +293,7 @@ p, li { white-space: pre-wrap; }
                 <x>0</x>
                 <y>0</y>
                 <width>478</width>
-                <height>494</height>
+                <height>508</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_2">
@@ -322,22 +322,18 @@ p, li { white-space: pre-wrap; }
                  </property>
                 </widget>
                </item>
-               <item row="1" column="2">
-                <widget class="QLineEdit" name="lineEdit">
-                 <property name="text">
-                  <string notr="true">http://qt.nokia.com/products/</string>
-                 </property>
-                 <property name="readOnly">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_4">
                  <property name="minimumSize">
                   <size>
                    <width>20</width>
                    <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>20</width>
+                   <height>16777215</height>
                   </size>
                  </property>
                  <property name="text">
@@ -364,14 +360,7 @@ p, li { white-space: pre-wrap; }
                  <property name="alignment">
                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
                  </property>
-                </widget>
-               </item>
-               <item row="3" column="2">
-                <widget class="QLineEdit" name="lineEdit_2">
-                 <property name="text">
-                  <string notr="true">http://www.ffmpeg.org/</string>
-                 </property>
-                 <property name="readOnly">
+                 <property name="wordWrap">
                   <bool>true</bool>
                  </property>
                 </widget>
@@ -402,14 +391,7 @@ p, li { white-space: pre-wrap; }
                  <property name="alignment">
                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
                  </property>
-                </widget>
-               </item>
-               <item row="5" column="2">
-                <widget class="QLineEdit" name="lineEdit_3">
-                 <property name="text">
-                  <string notr="true">http://www.libsdl.org/</string>
-                 </property>
-                 <property name="readOnly">
+                 <property name="wordWrap">
                   <bool>true</bool>
                  </property>
                 </widget>
@@ -440,14 +422,7 @@ p, li { white-space: pre-wrap; }
                  <property name="alignment">
                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
                  </property>
-                </widget>
-               </item>
-               <item row="7" column="2">
-                <widget class="QLineEdit" name="lineEdit_4">
-                 <property name="text">
-                  <string notr="true">http://www.exiv2.org/</string>
-                 </property>
-                 <property name="readOnly">
+                 <property name="wordWrap">
                   <bool>true</bool>
                  </property>
                 </widget>
@@ -478,14 +453,7 @@ p, li { white-space: pre-wrap; }
                  <property name="alignment">
                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
                  </property>
-                </widget>
-               </item>
-               <item row="15" column="2">
-                <widget class="QLineEdit" name="lineEdit_5">
-                 <property name="text">
-                  <string notr="true">http://creativecommons.org/</string>
-                 </property>
-                 <property name="readOnly">
+                 <property name="wordWrap">
                   <bool>true</bool>
                  </property>
                 </widget>
@@ -523,14 +491,7 @@ p, li { white-space: pre-wrap; }
                  <property name="alignment">
                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
                  </property>
-                </widget>
-               </item>
-               <item row="11" column="2">
-                <widget class="QLineEdit" name="lineEdit_6">
-                 <property name="text">
-                  <string notr="true">http://www.everaldo.com/crystal/</string>
-                 </property>
-                 <property name="readOnly">
+                 <property name="wordWrap">
                   <bool>true</bool>
                  </property>
                 </widget>
@@ -554,14 +515,7 @@ p, li { white-space: pre-wrap; }
                  <property name="alignment">
                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
                  </property>
-                </widget>
-               </item>
-               <item row="9" column="2">
-                <widget class="QLineEdit" name="lineEdit_7">
-                 <property name="text">
-                  <string notr="true">http://ksquirrel.sourceforge.net/subprojects.php</string>
-                 </property>
-                 <property name="readOnly">
+                 <property name="wordWrap">
                   <bool>true</bool>
                  </property>
                 </widget>
@@ -585,6 +539,97 @@ p, li { white-space: pre-wrap; }
                   </size>
                  </property>
                 </spacer>
+               </item>
+               <item row="1" column="2">
+                <widget class="QPushButton" name="QtWebSiteBT">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true">http://qt.nokia.com/products/</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2">
+                <widget class="QPushButton" name="ffMPEGWebSiteBT">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true">http://www.ffmpeg.org/</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="2">
+                <widget class="QPushButton" name="SDLWebSiteBT">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true">http://www.libsdl.org/</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="2">
+                <widget class="QPushButton" name="EXIV2WebSiteBT">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true">http://www.exiv2.org/</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="2">
+                <widget class="QPushButton" name="FMTFWebSiteBT">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true">http://ksquirrel.sourceforge.net/subprojects.php</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="11" column="2">
+                <widget class="QPushButton" name="CrystalWebSiteBT">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true">http://www.everaldo.com/crystal/</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="15" column="2">
+                <widget class="QPushButton" name="CC2WebSiteBT">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true">http://creativecommons.org/</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -644,25 +689,9 @@ p, li { white-space: pre-wrap; }
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="label_6">
+      <widget class="QPushButton" name="OpenffDiaporamaWebBT">
        <property name="text">
-        <string>Visit us at</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_8">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string notr="true">http://ffdiaporama.tuxfamily.org/</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
+        <string notr="true">Visit us on http://ffdiaporama.tuxfamily.org/</string>
        </property>
       </widget>
      </item>
