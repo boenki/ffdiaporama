@@ -48,31 +48,42 @@ MainWindow::MainWindow(QString TheCurrentPath,QWidget *parent) : QMainWindow(par
     ApplicationConfig->LoadConfigurationFile(GLOBALCONFIGFILE);                                                 // Get values from global configuration file (overwrite previously initialized values)
     if (!ApplicationConfig->LoadConfigurationFile(USERCONFIGFILE)) ApplicationConfig->SaveConfigurationFile();  // Load values from user configuration file (overwrite previously initialized values)
 
-    AddSeparatorToSystemProperties();
-    AddToSystemProperties("fmt_filters version:0.6.4-Licence=LGPL");
+    // Search if a BUILDVERSION.txt file exist
+    QFile file("BUILDVERSION.txt");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QString Line=QString(file.readLine());
+        if (Line.endsWith("\n")) Line=Line.left(Line.length()-QString("\n").length());
+        AddToSystemProperties(QString(BUILDVERSION_STR)+QString(Line));
+     }
+    file.close();
+    // Search if a _BUILDVERSION.txt file exist
+    QFile fileCommon("_BUILDVERSION.txt");
+    if (fileCommon.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QString Line=QString(fileCommon.readLine());
+        if (Line.endsWith("\n")) Line=Line.left(Line.length()-QString("\n").length());
+        AddToSystemProperties(QString(COMMONPARTVERSION_STR)+QString(Line));
+     }
+    fileCommon.close();
+    AddToSystemProperties(QString(VERSIONQT_STR)+QString(qVersion()));
+    AddToSystemProperties(QString(FMTFILTERVERSION_STR)+"0.6.4-Licence=LGPL");
 
     // Now, we have application settings then we can init SDL
-    AddSeparatorToSystemProperties();
     SDLFirstInit(ApplicationConfig->PreviewFPS);
-    AddToSystemProperties("SDL version:"+QString("%1").arg(SDL_MAJOR_VERSION)+"."+QString("%1").arg(SDL_MINOR_VERSION)+"."+QString("%1").arg(SDL_PATCHLEVEL)+"-Licence=GPL version 2.1 or later");
+    AddToSystemProperties(QString(SDLVERSION_STR)+QString("%1").arg(SDL_MAJOR_VERSION)+"."+QString("%1").arg(SDL_MINOR_VERSION)+"."+QString("%1").arg(SDL_PATCHLEVEL)+"-Licence=GPL version 2.1 or later");
 
     // Register all formats and codecs for libavformat/libavcodec/etc ...
-    AddSeparatorToSystemProperties();
     avcodec_init();
     av_register_all();
-    QString Conf;
+    //QString Conf;
 
-    AddToSystemProperties("LIBAVCODEC version:"+QString("%1").arg(LIBAVCODEC_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MINOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MICRO)+"."+QString("%1").arg(avcodec_version())+"-Licence="+QString(avcodec_license()));
-    Conf=QString(avcodec_configuration());  Conf.replace(" --","\n  --");
-    AddToSystemProperties("  "+Conf);
+    AddToSystemProperties(QString(LIBAVCODECVERSION_STR)+QString("%1").arg(LIBAVCODEC_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MINOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MICRO)+"."+QString("%1").arg(avcodec_version())+"-Licence="+QString(avcodec_license()));
+    //Conf=QString(avcodec_configuration());  Conf.replace(" --","\n  --"); AddToSystemProperties("  "+Conf+"\n");
 
-    AddToSystemProperties("\nLIBAVFORMAT version:"+QString("%1").arg(LIBAVFORMAT_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MINOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MICRO)+"."+QString("%1").arg(avformat_version())+"-Licence="+QString(avformat_license()));
-    Conf=QString(avformat_configuration());  Conf.replace(" --","\n  --");
-    AddToSystemProperties("  "+Conf);
+    AddToSystemProperties(QString(LIBAVFORMATVERSION_STR)+QString("%1").arg(LIBAVFORMAT_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MINOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MICRO)+"."+QString("%1").arg(avformat_version())+"-Licence="+QString(avformat_license()));
+    //Conf=QString(avformat_configuration());  Conf.replace(" --","\n  --");  AddToSystemProperties("  "+Conf+"\n");
 
-    AddToSystemProperties("\nLIBSWSCALE version:"+QString("%1").arg(LIBSWSCALE_VERSION_MAJOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MINOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MICRO)+"."+QString("%1").arg(swscale_version())+"-Licence="+QString(swscale_license()));
-    Conf=QString(swscale_configuration());  Conf.replace(" --","\n  --");
-    AddToSystemProperties("  "+Conf);
+    AddToSystemProperties(QString(LIBSWSCALEVERSION_STR)+QString("%1").arg(LIBSWSCALE_VERSION_MAJOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MINOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MICRO)+"."+QString("%1").arg(swscale_version())+"-Licence="+QString(swscale_license()));
+    //Conf=QString(swscale_configuration());  Conf.replace(" --","\n  --");   AddToSystemProperties("  "+Conf+"\n");
 
     // Check codec to know if they was finded
     AVCodec *p=NULL;
@@ -147,30 +158,28 @@ MainWindow::MainWindow(QString TheCurrentPath,QWidget *parent) : QMainWindow(par
     }
 
     // Display finding codecs & formats
-    AddToSystemProperties("\nRegistered video codecs for encoding :");
+    AddSeparatorToSystemProperties();   AddToSystemProperties("Registered video codecs for encoding :");
     for (int i=0;i<NBR_VIDEOCODECDEF;i++) if (VIDEOCODECDEF[i].IsFind) AddToSystemProperties("  "+QString(VIDEOCODECDEF[i].LongName)+"-ffmpeg codec:"+QString(VIDEOCODECDEF[i].ShortName));
-    AddToSystemProperties("\nRegistered audio codecs for encoding :");
+    AddSeparatorToSystemProperties();   AddToSystemProperties("Registered audio codecs for encoding :");
     for (int i=0;i<NBR_AUDIOCODECDEF;i++) if (AUDIOCODECDEF[i].IsFind) AddToSystemProperties("  "+QString(AUDIOCODECDEF[i].LongName)+"-ffmpeg codec:"+QString(AUDIOCODECDEF[i].ShortName));
-    AddToSystemProperties("\nRegistered container formats for encoding :");
+    AddSeparatorToSystemProperties();   AddToSystemProperties("Registered container formats for encoding :");
     for (int i=0;i<NBR_FORMATDEF;i++)     if (FORMATDEF[i].IsFind) AddToSystemProperties("  "+QString(FORMATDEF[i].LongName));
 
-    AddSeparatorToSystemProperties();
+    AddSeparatorToSystemProperties();   AddToSystemProperties("Library :");
     QString Path;
+    Path="background";      BackgroundList.ScanDisk(Path,GEOMETRY_16_9); AddToSystemProperties(QString("  %1").arg(BackgroundList.List.count())+" images loaded into the background-library from "+QDir(Path).absolutePath());
     for (int i=0;i<TRANSITIONMAXSUBTYPE_BASE;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_BASE,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_ZOOMINOUT;i++)  IconList.List.append(cIconObject(TRANSITIONFAMILLY_ZOOMINOUT,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_SLIDE;i++)      IconList.List.append(cIconObject(TRANSITIONFAMILLY_SLIDE,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_PUSH;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_PUSH,i));
-    AddToSystemProperties(QString("%1").arg(IconList.List.count())+" no-luma transitions loaded into the transition-library");
-    Path="luma/Bar";        LumaList_Bar.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BAR);         AddToSystemProperties(QString("%1").arg(LumaList_Bar.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
-    Path="luma/Box";        LumaList_Box.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BOX);         AddToSystemProperties(QString("%1").arg(LumaList_Box.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
-    Path="luma/Center";     LumaList_Center.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CENTER);   AddToSystemProperties(QString("%1").arg(LumaList_Center.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
-    Path="luma/Checker";    LumaList_Checker.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CHECKER); AddToSystemProperties(QString("%1").arg(LumaList_Checker.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
-    Path="luma/Clock";      LumaList_Clock.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CLOCK);     AddToSystemProperties(QString("%1").arg(LumaList_Clock.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
-    Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("%1").arg(LumaList_Snake.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
-    AddToSystemProperties("  =>Total="+QString("%1").arg(IconList.List.count())+" transitions loded into the transition-library");
-    AddSeparatorToSystemProperties();
-    Path="background";
-    BackgroundList.ScanDisk(Path,GEOMETRY_16_9); AddToSystemProperties(QString("%1").arg(BackgroundList.List.count())+" images loaded into the background-library from "+QDir(Path).absolutePath());
+    AddToSystemProperties(QString("  %1").arg(IconList.List.count())+" no-luma transitions loaded into the transition-library");
+    Path="luma/Bar";        LumaList_Bar.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BAR);         AddToSystemProperties(QString("  %1").arg(LumaList_Bar.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    Path="luma/Box";        LumaList_Box.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BOX);         AddToSystemProperties(QString("  %1").arg(LumaList_Box.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    Path="luma/Center";     LumaList_Center.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CENTER);   AddToSystemProperties(QString("  %1").arg(LumaList_Center.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    Path="luma/Checker";    LumaList_Checker.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CHECKER); AddToSystemProperties(QString("  %1").arg(LumaList_Checker.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    Path="luma/Clock";      LumaList_Clock.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CLOCK);     AddToSystemProperties(QString("  %1").arg(LumaList_Clock.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("  %1").arg(LumaList_Snake.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    AddToSystemProperties("  Total:"+QString("%1").arg(IconList.List.count())+" transitions loded into the transition-library");
 
     // Force timeline scroll bar properties
     ui->timeline->horizontalScrollBar()->setStyleSheet("height: 14px; margin: 0px; padding: 0px;");
@@ -181,37 +190,48 @@ MainWindow::MainWindow(QString TheCurrentPath,QWidget *parent) : QMainWindow(par
     Diaporama->Timeline=ui->timeline;
     ui->preview->InitDiaporamaPlay(Diaporama);
 
+    SetModifyFlag(false);
+    ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
+    ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
+
+    // Help menu
     connect(ui->action_About,SIGNAL(triggered()),this,SLOT(s_About()));
+    connect(ui->actionDocumentation,SIGNAL(triggered()),this,SLOT(s_Documentation()));
+    connect(ui->actionNewFunctions,SIGNAL(triggered()),this,SLOT(s_NewFunctions()));
+
+    // File menu
     connect(ui->action_New,SIGNAL(triggered()),this,SLOT(s_action_New()));
     connect(ui->action_Open,SIGNAL(triggered()),this,SLOT(s_action_Open()));
     connect(ui->action_Save,SIGNAL(triggered()),this,SLOT(s_action_Save()));
     connect(ui->actionSave_as,SIGNAL(triggered()),this,SLOT(s_action_SaveAs()));
-
     connect(ui->action_Exit,SIGNAL(triggered()),this,SLOT(s_action_Exit()));
+
+    // Project menu
     connect(ui->actionAdd,SIGNAL(triggered()),this,SLOT(s_action_AddFile()));
     connect(ui->actionAddtitle,SIGNAL(triggered()),this,SLOT(s_action_AddTitle()));
     connect(ui->actionAddProject,SIGNAL(triggered()),this,SLOT(s_action_AddProject()));
     connect(ui->actionRemove,SIGNAL(triggered()),this,SLOT(s_RemoveObject()));
     connect(ui->actionMove_left,SIGNAL(triggered()),this,SLOT(s_LeftObject()));
     connect(ui->actionMove_right,SIGNAL(triggered()),this,SLOT(s_RightObject()));
-
     connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(s_CutToClipboard()));
     connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(s_CopyToClipboard()));
     connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(s_PasteFromClipboard()));
+    connect(ui->actionChangeProjectSettings,SIGNAL(triggered()),this,SLOT(s_ChangeProjectSettings()));
+    connect(ui->ChangeProjectSettingsBt,SIGNAL(pressed()),this,SLOT(s_ChangeProjectSettings()));
+    connect(ui->actionEdit_background,SIGNAL(triggered()),this,SLOT(s_BackgroundDoubleClicked()));
+    connect(ui->actionEdit_background_transition,SIGNAL(triggered()),this,SLOT(s_TransitionBackgroundDoubleClicked()));
+    connect(ui->actionEdit_object,SIGNAL(triggered()),this,SLOT(s_ItemDoubleClicked()));
+    connect(ui->actionEdit_object_in_transition,SIGNAL(triggered()),this,SLOT(s_TransitionItemDoubleClicked()));
+    connect(ui->actionEdit_music,SIGNAL(triggered()),this,SLOT(s_MusicDoubleClicked()));
 
+    // Tools menu
     connect(ui->actionRender,SIGNAL(triggered()),this,SLOT(s_RenderVideo()));
-
-    connect(ui->actionChangeProjectSettings,SIGNAL(triggered()),this,SLOT(s_ChangeProjectSettings()));  connect(ui->ChangeProjectSettingsBt,SIGNAL(pressed()),this,SLOT(s_ChangeProjectSettings()));
     connect(ui->actionConfiguration,SIGNAL(triggered()),this,SLOT(s_ChangeApplicationSettings()));      connect(ui->ConfigurationBt,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));
 
+    // Timeline
     connect(ui->ZoomPlusBT,SIGNAL(pressed()),this,SLOT(s_action_ZoomPlus()));
     connect(ui->ZoomMinusBT,SIGNAL(pressed()),this,SLOT(s_action_ZoomMinus()));
-
     connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
-
-    SetModifyFlag(false);
-    ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
-    ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
 }
 
 //====================================================================================================================
@@ -280,6 +300,13 @@ void MainWindow::RefreshControls() {
     ui->action_Save->setEnabled(Diaporama->IsModify);
     ui->actionSave_as->setEnabled(Diaporama->IsModify);
 
+    // Project menu
+    ui->actionEdit_background->setEnabled(ui->timeline->columnCount()>0);
+    ui->actionEdit_background_transition->setEnabled(ui->timeline->columnCount()>0);
+    ui->actionEdit_object->setEnabled(ui->timeline->columnCount()>0);
+    ui->actionEdit_object_in_transition->setEnabled(ui->timeline->columnCount()>0);
+    ui->actionEdit_music->setEnabled(ui->timeline->columnCount()>0);
+
     // Clipboard
     ui->actionPaste->setEnabled(Clipboard!=NULL);
     ui->actionCopy->setEnabled(ui->timeline->currentColumn()>=0);
@@ -300,6 +327,18 @@ void MainWindow::SetModifyFlag(bool IsModify) {
 
 void MainWindow::s_About() {
     DlgAbout(this).exec();
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Documentation() {
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/Support.html")));
+}
+
+//====================================================================================================================
+
+void MainWindow::s_NewFunctions() {
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/News.html")));
 }
 
 //====================================================================================================================
@@ -366,8 +405,7 @@ void MainWindow::s_TransitionItemDoubleClicked() {
 //====================================================================================================================
 
 void MainWindow::s_SoundItemDoubleClicked() {
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    QMessageBox::critical(this,QCoreApplication::translate("MainWindow","Not implemented"),QCoreApplication::translate("MainWindow","Sorry, not yet done !"));
+    s_ItemDoubleClicked();  // No separated process at this time !
 }
 
 //====================================================================================================================

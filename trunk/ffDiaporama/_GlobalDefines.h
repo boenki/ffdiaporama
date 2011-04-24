@@ -66,6 +66,7 @@ extern "C" {
 #include <QComboBox>
 #include <QCursor>
 #include <QDateTime>
+#include <QDesktopServices>
 #include <QDialog>
 #include <QDir>
 #include <QFileDialog>
@@ -130,7 +131,6 @@ extern "C" {
 //============================================
 // Global defines
 //============================================
-
 #define APPLICATION_NAME                    "ffDiaporama"
 #define APPLICATION_VERSION                 "0.99.alpha1"
 #define CONFIGFILEEXT                       ".xml"                                  // File extension of configuration files
@@ -226,7 +226,23 @@ extern "C" {
 #define TRANSITIONMAXSUBTYPE_SLIDE          16
 #define TRANSITIONMAXSUBTYPE_PUSH           8
 
+//============================================
+// String to include in the system properties
+//============================================
+
+#define OPERATINGSYSTEM_STR                 "Operating system version\t: "
+#define BUILDVERSION_STR                    "Build version\t\t: "
+#define COMMONPARTVERSION_STR               "Common part version\t: "
+#define VERSIONQT_STR                       "QT version\t\t: "
+#define FMTFILTERVERSION_STR                "fmt_filters version\t: "
+#define SDLVERSION_STR                      "SDL version\t\t: "
+#define LIBAVCODECVERSION_STR               "LIBAVCODEC version\t: "
+#define LIBAVFORMATVERSION_STR              "LIBAVFORMAT version\t: "
+#define LIBSWSCALEVERSION_STR               "LIBSWSCALE version\t: "
+
+//============================================
 // Image format definition
+//============================================
 struct sIMAGEDEF {
     int     Width;                                              // Width
     int     Height;                                             // Height
@@ -238,7 +254,9 @@ struct sIMAGEDEF {
 };
 extern sIMAGEDEF DefImageFormat [2][3][4];                      // Real definition in capplicationconfig.cpp
 
+//============================================
 // Video codec definitions
+//============================================
 struct sVideoCodecDef {
     bool    IsFind;                                             // true if codec is supported by installed version of ffmpeg
     int     Codec_id;                                           // ffmpeg codec id
@@ -250,7 +268,9 @@ struct sVideoCodecDef {
 #define NBR_VIDEOCODECDEF   5
 extern struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF];  // Real definition in capplicationconfig.cpp
 
+//============================================
 // Audio codec definitions
+//============================================
 struct sAudioCodecDef {
     bool    IsFind;                                             // true if codec is supported by installed version of ffmpeg
     int     Codec_id;                                           // ffmpeg codec id
@@ -264,7 +284,9 @@ struct sAudioCodecDef {
 #define NBR_AUDIOCODECDEF   6
 extern struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF];  // Real definition in capplicationconfig.cpp
 
+//============================================
 // Format container definitions
+//============================================
 struct sFormatDef {
     bool    IsFind;                                             // true if format container is supported by installed version of ffmpeg
     char    ShortName[50];                                      // short name of the format container (copy of the ffmpeg value)

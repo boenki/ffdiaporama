@@ -32,8 +32,49 @@ DlgAbout::DlgAbout(QWidget *parent):QDialog(parent),ui(new Ui::DlgAbout) {
     ui->SystemInfoED->setText(SystemProperties);
     ui->tabWidget->setCurrentIndex(0);
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
+    connect(ui->OpenffDiaporamaWebBT,SIGNAL(clicked()),this,SLOT(OpenffDiaporamaWeb()));
+    connect(ui->QtWebSiteBT,SIGNAL(clicked()),this,SLOT(WQtWebSite()));
+    connect(ui->ffMPEGWebSiteBT,SIGNAL(clicked()),this,SLOT(ffMPEGWebSite()));
+    connect(ui->SDLWebSiteBT,SIGNAL(clicked()),this,SLOT(SDLWebSite()));
+    connect(ui->EXIV2WebSiteBT,SIGNAL(clicked()),this,SLOT(EXIV2WebSite()));
+    connect(ui->FMTFWebSiteBT,SIGNAL(clicked()),this,SLOT(FMTFWebSite()));
+    connect(ui->CrystalWebSiteBT,SIGNAL(clicked()),this,SLOT(CrystalWebSite()));
+    connect(ui->CC2WebSiteBT,SIGNAL(clicked()),this,SLOT(CC2WebSite()));
+
 }
 
 DlgAbout::~DlgAbout() {
     delete ui;
+}
+
+void DlgAbout::OpenffDiaporamaWeb() {
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/Features.html")));
+}
+
+void DlgAbout::WQtWebSite() {
+    QDesktopServices::openUrl(QUrl("http://qt.nokia.com/products/"));
+}
+
+void DlgAbout::ffMPEGWebSite() {
+    QDesktopServices::openUrl(QUrl("http://www.ffmpeg.org/"));
+}
+
+void DlgAbout::SDLWebSite() {
+    QDesktopServices::openUrl(QUrl("http://www.libsdl.org/"));
+}
+
+void DlgAbout::EXIV2WebSite() {
+    QDesktopServices::openUrl(QUrl("http://www.exiv2.org/"));
+}
+
+void DlgAbout::FMTFWebSite() {
+    QDesktopServices::openUrl(QUrl("http://ksquirrel.sourceforge.net/subprojects.php"));
+}
+
+void DlgAbout::CrystalWebSite() {
+    QDesktopServices::openUrl(QUrl("http://www.everaldo.com/crystal/"));
+}
+
+void DlgAbout::CC2WebSite() {
+    QDesktopServices::openUrl(QUrl("http://creativecommons.org/"));
 }

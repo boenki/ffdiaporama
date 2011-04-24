@@ -36,6 +36,16 @@ public:
     explicit DlgAbout(QWidget *parent = 0);
     ~DlgAbout();
 
+private slots:
+    void    OpenffDiaporamaWeb();
+    void    WQtWebSite();
+    void    ffMPEGWebSite();
+    void    SDLWebSite();
+    void    EXIV2WebSite();
+    void    FMTFWebSite();
+    void    CrystalWebSite();
+    void    CC2WebSite();
+
 private:
     Ui::DlgAbout *ui;
 };

@@ -49,9 +49,9 @@ int main(int argc, char *argv[]) {
     // Search system language
     QTranslator translator;
     CurrentLanguage=QLocale::system().name().left(2);
-    AddToSystemProperties("System locale="+CurrentLanguage);
+    AddToSystemProperties("Detected system locale="+CurrentLanguage);
 
-    // Validate if system language is supported and if not force use of "en"
+    // Validate if system locale is supported and if not force use of "en"
     if (CurrentLanguage!="fr") CurrentLanguage="en";
 
     // Install translation (if needed)

@@ -132,7 +132,7 @@
          <bool>false</bool>
         </attribute>
         <attribute name="verticalHeaderVisible">
-         <bool>true</bool>
+         <bool>false</bool>
         </attribute>
         <attribute name="verticalHeaderHighlightSections">
          <bool>false</bool>
@@ -268,6 +268,12 @@
           <property name="icon">
            <iconset>
             <normaloff>icons/configure.png</normaloff>icons/configure.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
           </property>
          </widget>
         </item>
@@ -416,6 +422,16 @@
     <property name="title">
      <string>&amp;Project</string>
     </property>
+    <widget class="QMenu" name="menuEdit_properties">
+     <property name="title">
+      <string>Edit properties...</string>
+     </property>
+     <addaction name="actionEdit_background"/>
+     <addaction name="actionEdit_background_transition"/>
+     <addaction name="actionEdit_object"/>
+     <addaction name="actionEdit_object_in_transition"/>
+     <addaction name="actionEdit_music"/>
+    </widget>
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
@@ -427,6 +443,8 @@
     <addaction name="actionMove_left"/>
     <addaction name="actionRemove"/>
     <addaction name="actionMove_right"/>
+    <addaction name="separator"/>
+    <addaction name="menuEdit_properties"/>
     <addaction name="separator"/>
     <addaction name="actionChangeProjectSettings"/>
    </widget>
@@ -654,7 +672,7 @@
      <normaloff>icons/Help.png</normaloff>icons/Help.png</iconset>
    </property>
    <property name="text">
-    <string>Documentation</string>
+    <string>Support and help</string>
    </property>
   </action>
   <action name="actionCut">
@@ -730,6 +748,31 @@
    </property>
    <property name="text">
     <string>&amp;Project settings</string>
+   </property>
+  </action>
+  <action name="actionEdit_background">
+   <property name="text">
+    <string>Edit background</string>
+   </property>
+  </action>
+  <action name="actionEdit_object">
+   <property name="text">
+    <string>Edit object</string>
+   </property>
+  </action>
+  <action name="actionEdit_music">
+   <property name="text">
+    <string>Edit music</string>
+   </property>
+  </action>
+  <action name="actionEdit_object_in_transition">
+   <property name="text">
+    <string>Edit object transition</string>
+   </property>
+  </action>
+  <action name="actionEdit_background_transition">
+   <property name="text">
+    <string>Edit background transition</string>
    </property>
   </action>
  </widget>

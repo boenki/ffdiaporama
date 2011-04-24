@@ -59,61 +59,60 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="321"/>
-        <location filename="../DlgAbout.ui" line="382"/>
-        <location filename="../DlgAbout.ui" line="420"/>
-        <location filename="../DlgAbout.ui" line="458"/>
-        <location filename="../DlgAbout.ui" line="503"/>
-        <location filename="../DlgAbout.ui" line="572"/>
+        <location filename="../DlgAbout.ui" line="371"/>
+        <location filename="../DlgAbout.ui" line="402"/>
+        <location filename="../DlgAbout.ui" line="433"/>
+        <location filename="../DlgAbout.ui" line="471"/>
+        <location filename="../DlgAbout.ui" line="526"/>
         <source>WEB site &amp; licence :</source>
         <translation>Site WEB et licence :</translation>
     </message>
     <message>
-        <location filename="../DlgAbout.ui" line="362"/>
+        <location filename="../DlgAbout.ui" line="358"/>
         <source>Video decoding and encoding engines are based on ffmpeg</source>
         <translation>Les moteurs d&apos;encodage et de décodage vidéo sont basés sur ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgAbout.ui" line="521"/>
+        <location filename="../DlgAbout.ui" line="489"/>
         <source>Many icons are from the Crystal Project</source>
         <translation>Un grand nombre d&apos;icônes sont issus du projet Crystal</translation>
     </message>
     <message>
-        <location filename="../DlgAbout.ui" line="649"/>
         <source>Visit us at</source>
-        <translation>Visitez-nous à l&apos;adresse</translation>
+        <translation type="obsolete">Visitez-nous à l&apos;adresse</translation>
     </message>
     <message>
-        <location filename="../DlgAbout.ui" line="400"/>
+        <location filename="../DlgAbout.ui" line="389"/>
         <source>Sound engine for preview is based on SDL - Simple DirectMedia Layer</source>
         <translation>Le moteur audio utilisé pour la prévisualisation est basé sur SDL - Simple DirectMedia Layer</translation>
     </message>
     <message>
-        <location filename="../DlgAbout.ui" line="438"/>
+        <location filename="../DlgAbout.ui" line="420"/>
         <source>Image exif decoding is based on Exiv2 - Image metadata library and tools</source>
         <translation>Le décodage exif des images est basé sur Exiv2 - Image metadata library and tools</translation>
     </message>
     <message>
-        <location filename="../DlgAbout.ui" line="476"/>
+        <location filename="../DlgAbout.ui" line="451"/>
         <source>Other images and graphical material are using Creative Common Licence  2</source>
         <translation>Les autres images et composant graphiques utilisent la licence Creative Common Licence  2</translation>
     </message>
     <message>
-        <location filename="../DlgAbout.ui" line="496"/>
+        <location filename="../DlgAbout.ui" line="464"/>
         <source>C.C. WEB site :</source>
         <translation>Site WEB de C.C. :</translation>
     </message>
     <message>
-        <location filename="../DlgAbout.ui" line="552"/>
+        <location filename="../DlgAbout.ui" line="513"/>
         <source>Image effects are based on fmt_filters</source>
         <translation>Les effets d&apos;images sont basés sur fmt_filters</translation>
     </message>
     <message>
-        <location filename="../DlgAbout.ui" line="597"/>
+        <location filename="../DlgAbout.ui" line="642"/>
         <source>System informations</source>
         <translation>Informations système</translation>
     </message>
     <message>
-        <location filename="../DlgAbout.ui" line="685"/>
+        <location filename="../DlgAbout.ui" line="714"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
@@ -654,37 +653,37 @@ p, li { white-space: pre-wrap; }
     <name>DlgRenderVideo</name>
     <message>
         <location filename="../DlgRenderVideo.ui" line="25"/>
-        <location filename="../DlgRenderVideo.cpp" line="352"/>
-        <location filename="../DlgRenderVideo.cpp" line="361"/>
-        <location filename="../DlgRenderVideo.cpp" line="617"/>
-        <location filename="../DlgRenderVideo.cpp" line="633"/>
-        <location filename="../DlgRenderVideo.cpp" line="643"/>
-        <location filename="../DlgRenderVideo.cpp" line="658"/>
-        <location filename="../DlgRenderVideo.cpp" line="666"/>
-        <location filename="../DlgRenderVideo.cpp" line="671"/>
-        <location filename="../DlgRenderVideo.cpp" line="678"/>
-        <location filename="../DlgRenderVideo.cpp" line="693"/>
-        <location filename="../DlgRenderVideo.cpp" line="704"/>
-        <location filename="../DlgRenderVideo.cpp" line="761"/>
-        <location filename="../DlgRenderVideo.cpp" line="775"/>
-        <location filename="../DlgRenderVideo.cpp" line="980"/>
-        <location filename="../DlgRenderVideo.cpp" line="992"/>
-        <location filename="../DlgRenderVideo.cpp" line="998"/>
-        <location filename="../DlgRenderVideo.cpp" line="1037"/>
-        <location filename="../DlgRenderVideo.cpp" line="1040"/>
-        <location filename="../DlgRenderVideo.cpp" line="1060"/>
-        <location filename="../DlgRenderVideo.cpp" line="1065"/>
-        <location filename="../DlgRenderVideo.cpp" line="1069"/>
-        <location filename="../DlgRenderVideo.cpp" line="1072"/>
-        <location filename="../DlgRenderVideo.cpp" line="1104"/>
-        <location filename="../DlgRenderVideo.cpp" line="1127"/>
-        <location filename="../DlgRenderVideo.cpp" line="1131"/>
-        <location filename="../DlgRenderVideo.cpp" line="1155"/>
-        <location filename="../DlgRenderVideo.cpp" line="1183"/>
-        <location filename="../DlgRenderVideo.cpp" line="1188"/>
-        <location filename="../DlgRenderVideo.cpp" line="1208"/>
-        <location filename="../DlgRenderVideo.cpp" line="1221"/>
-        <location filename="../DlgRenderVideo.cpp" line="1240"/>
+        <location filename="../DlgRenderVideo.cpp" line="356"/>
+        <location filename="../DlgRenderVideo.cpp" line="365"/>
+        <location filename="../DlgRenderVideo.cpp" line="621"/>
+        <location filename="../DlgRenderVideo.cpp" line="637"/>
+        <location filename="../DlgRenderVideo.cpp" line="647"/>
+        <location filename="../DlgRenderVideo.cpp" line="662"/>
+        <location filename="../DlgRenderVideo.cpp" line="670"/>
+        <location filename="../DlgRenderVideo.cpp" line="675"/>
+        <location filename="../DlgRenderVideo.cpp" line="686"/>
+        <location filename="../DlgRenderVideo.cpp" line="701"/>
+        <location filename="../DlgRenderVideo.cpp" line="712"/>
+        <location filename="../DlgRenderVideo.cpp" line="769"/>
+        <location filename="../DlgRenderVideo.cpp" line="783"/>
+        <location filename="../DlgRenderVideo.cpp" line="988"/>
+        <location filename="../DlgRenderVideo.cpp" line="1000"/>
+        <location filename="../DlgRenderVideo.cpp" line="1006"/>
+        <location filename="../DlgRenderVideo.cpp" line="1045"/>
+        <location filename="../DlgRenderVideo.cpp" line="1048"/>
+        <location filename="../DlgRenderVideo.cpp" line="1068"/>
+        <location filename="../DlgRenderVideo.cpp" line="1073"/>
+        <location filename="../DlgRenderVideo.cpp" line="1077"/>
+        <location filename="../DlgRenderVideo.cpp" line="1080"/>
+        <location filename="../DlgRenderVideo.cpp" line="1112"/>
+        <location filename="../DlgRenderVideo.cpp" line="1135"/>
+        <location filename="../DlgRenderVideo.cpp" line="1139"/>
+        <location filename="../DlgRenderVideo.cpp" line="1163"/>
+        <location filename="../DlgRenderVideo.cpp" line="1191"/>
+        <location filename="../DlgRenderVideo.cpp" line="1196"/>
+        <location filename="../DlgRenderVideo.cpp" line="1216"/>
+        <location filename="../DlgRenderVideo.cpp" line="1229"/>
+        <location filename="../DlgRenderVideo.cpp" line="1248"/>
         <source>Render video</source>
         <translation>Générer le film</translation>
     </message>
@@ -816,7 +815,7 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Annulé</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="617"/>
+        <location filename="../DlgRenderVideo.cpp" line="621"/>
         <source>Job completed succesfully !</source>
         <translation>Génération terminée avec succès !</translation>
     </message>
@@ -1001,194 +1000,228 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.ui" line="417"/>
+        <location filename="../mainwindow.ui" line="423"/>
         <source>&amp;Project</source>
         <translation>&amp;Projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="435"/>
+        <location filename="../mainwindow.ui" line="427"/>
+        <source>Edit properties...</source>
+        <translation>Editer les propriétés ...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="453"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="443"/>
+        <location filename="../mainwindow.ui" line="461"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="454"/>
+        <location filename="../mainwindow.ui" line="472"/>
         <source>&amp;Action</source>
         <translation>&amp;Action</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="382"/>
+        <location filename="../mainwindow.ui" line="388"/>
         <source>Propertie</source>
         <translation>Propriété</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="392"/>
+        <location filename="../mainwindow.ui" line="398"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="519"/>
+        <location filename="../mainwindow.ui" line="537"/>
         <source>&amp;About</source>
         <translation>&amp;A propos de</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="528"/>
+        <location filename="../mainwindow.ui" line="546"/>
         <source>Application settings</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="537"/>
+        <location filename="../mainwindow.ui" line="555"/>
         <source>&amp;New</source>
         <translation>&amp;Nouveau</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="540"/>
+        <location filename="../mainwindow.ui" line="558"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="549"/>
+        <location filename="../mainwindow.ui" line="567"/>
         <source>&amp;Open</source>
         <translation>&amp;Ouvrir</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="552"/>
+        <location filename="../mainwindow.ui" line="570"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="561"/>
+        <location filename="../mainwindow.ui" line="579"/>
         <source>&amp;Save</source>
         <translation>&amp;Enregistrer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="564"/>
+        <location filename="../mainwindow.ui" line="582"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="573"/>
+        <location filename="../mainwindow.ui" line="591"/>
         <source>&amp;Exit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="576"/>
+        <location filename="../mainwindow.ui" line="594"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="585"/>
+        <location filename="../mainwindow.ui" line="603"/>
         <source>Add file</source>
         <translation>Ajouter un fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="588"/>
+        <location filename="../mainwindow.ui" line="606"/>
         <source>Add image</source>
         <translation>Ajouter une image</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="591"/>
+        <location filename="../mainwindow.ui" line="609"/>
         <source>Ins</source>
         <translation>Ins</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="600"/>
-        <location filename="../mainwindow.ui" line="603"/>
+        <location filename="../mainwindow.ui" line="618"/>
+        <location filename="../mainwindow.ui" line="621"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="606"/>
+        <location filename="../mainwindow.ui" line="624"/>
         <source>Remove current object</source>
         <translation>Supprimer l&apos;objet actuel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="609"/>
+        <location filename="../mainwindow.ui" line="627"/>
         <source>Del</source>
         <translation>Suppr</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="618"/>
+        <location filename="../mainwindow.ui" line="636"/>
         <source>Move &amp;left</source>
         <translation>Déplacer à &amp;gauche</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="627"/>
+        <location filename="../mainwindow.ui" line="645"/>
         <source>Move &amp;right</source>
         <translation>Déplacer à &amp;droite</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="636"/>
+        <location filename="../mainwindow.ui" line="654"/>
         <source>Save &amp;as</source>
         <translation>En&amp;registrer sous</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="645"/>
-        <location filename="../mainwindow.ui" line="648"/>
+        <location filename="../mainwindow.ui" line="663"/>
+        <location filename="../mainwindow.ui" line="666"/>
         <source>Add title</source>
         <translation>Ajouter un titre</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="657"/>
-        <source>Documentation</source>
-        <translation>Documentation</translation>
+        <location filename="../mainwindow.ui" line="755"/>
+        <source>Edit background</source>
+        <translation>Propriétés de l&apos;arrière plan</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="666"/>
+        <location filename="../mainwindow.ui" line="760"/>
+        <source>Edit object</source>
+        <translation>Propriétés de l&apos;objet</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="765"/>
+        <source>Edit music</source>
+        <translation>Propriétés de la musique</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="770"/>
+        <source>Edit object transition</source>
+        <translation>Propriétés de la transition</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="775"/>
+        <source>Edit background transition</source>
+        <translation>Propriétés de la transition d&apos;arrière plan</translation>
+    </message>
+    <message>
+        <source>Documentation</source>
+        <translation type="obsolete">Documentation</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="684"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="669"/>
+        <location filename="../mainwindow.ui" line="687"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="678"/>
+        <location filename="../mainwindow.ui" line="696"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="681"/>
+        <location filename="../mainwindow.ui" line="699"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="690"/>
+        <location filename="../mainwindow.ui" line="708"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="693"/>
+        <location filename="../mainwindow.ui" line="711"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="702"/>
+        <location filename="../mainwindow.ui" line="720"/>
         <source>What&apos;s new</source>
         <translation>Nouveautés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="711"/>
+        <location filename="../mainwindow.ui" line="729"/>
         <source>Add project</source>
         <translation>Ajouter un projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="732"/>
+        <location filename="../mainwindow.ui" line="750"/>
         <source>&amp;Project settings</source>
         <translation>&amp;Propriétés du projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="714"/>
+        <location filename="../mainwindow.ui" line="732"/>
         <source>Add a previously saved project at the end of this project</source>
         <translation>Ajouter un projet précédemment créé à la fin du projet en cours</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="723"/>
+        <location filename="../mainwindow.ui" line="675"/>
+        <source>Support and help</source>
+        <translation>Aide et support</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="741"/>
         <source>Render video</source>
         <translation>Générer le film</translation>
     </message>
@@ -1216,7 +1249,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../_Diaporama.cpp" line="1265"/>
         <location filename="../_Diaporama.cpp" line="1271"/>
         <location filename="../_Diaporama.cpp" line="1278"/>
-        <location filename="../mainwindow.cpp" line="737"/>
+        <location filename="../mainwindow.cpp" line="775"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erreur</translation>
@@ -1278,150 +1311,148 @@ p, li { white-space: pre-wrap; }
         <translation>Le fichier n&apos;est pas un fichier projet valide</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="247"/>
-        <location filename="../mainwindow.cpp" line="554"/>
-        <location filename="../mainwindow.cpp" line="590"/>
+        <location filename="../mainwindow.cpp" line="267"/>
+        <location filename="../mainwindow.cpp" line="592"/>
+        <location filename="../mainwindow.cpp" line="628"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>Le projet en cours a été modifié.
 Voulez-vous l&apos;enregistrer ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="247"/>
+        <location filename="../mainwindow.cpp" line="267"/>
         <source>Close application</source>
         <translation>Quitter l&apos;application</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="295"/>
+        <location filename="../mainwindow.cpp" line="322"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation>&lt;Nouveau projet&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="370"/>
-        <location filename="../mainwindow.cpp" line="392"/>
-        <location filename="../mainwindow.cpp" line="756"/>
+        <location filename="../mainwindow.cpp" line="430"/>
+        <location filename="../mainwindow.cpp" line="794"/>
         <source>Not implemented</source>
         <translation>Pas encore programmé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="370"/>
-        <location filename="../mainwindow.cpp" line="392"/>
-        <location filename="../mainwindow.cpp" line="756"/>
+        <location filename="../mainwindow.cpp" line="430"/>
+        <location filename="../mainwindow.cpp" line="794"/>
         <source>Sorry, not yet done !</source>
         <translation>Désolé, cette fonction n&apos;est pas encore disponible !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="453"/>
+        <location filename="../mainwindow.cpp" line="491"/>
         <source>Object type</source>
         <translation>Type d&apos;objet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="454"/>
+        <location filename="../mainwindow.cpp" line="492"/>
         <source>Title</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="455"/>
+        <location filename="../mainwindow.cpp" line="493"/>
         <source>Image</source>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="456"/>
+        <location filename="../mainwindow.cpp" line="494"/>
         <source>Video</source>
         <translation>Vidéo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="459"/>
+        <location filename="../mainwindow.cpp" line="497"/>
         <source>Duration</source>
         <translation>Durée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="464"/>
+        <location filename="../mainwindow.cpp" line="502"/>
         <source>Filename</source>
         <translation>Nom de fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="474"/>
+        <location filename="../mainwindow.cpp" line="512"/>
         <source>Image size</source>
         <translation>Taille d&apos;image</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="478"/>
+        <location filename="../mainwindow.cpp" line="516"/>
         <source>Video format</source>
         <translation>Format vidéo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="482"/>
+        <location filename="../mainwindow.cpp" line="520"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="486"/>
+        <location filename="../mainwindow.cpp" line="524"/>
         <source>Frame rate</source>
         <translation>Images par seconde</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="490"/>
+        <location filename="../mainwindow.cpp" line="528"/>
         <source>fps</source>
         <comment>frame per second</comment>
         <translation>i/s</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="493"/>
+        <location filename="../mainwindow.cpp" line="531"/>
         <source>Aspect ratio</source>
         <translation>Géométrie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="497"/>
+        <location filename="../mainwindow.cpp" line="535"/>
         <source>Audio format</source>
         <translation>Format audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="501"/>
+        <location filename="../mainwindow.cpp" line="539"/>
         <source>Frequency</source>
         <translation>Fréquence</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="503"/>
+        <location filename="../mainwindow.cpp" line="541"/>
         <source>hz</source>
         <comment>audio frequency</comment>
         <translation>hz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="506"/>
+        <location filename="../mainwindow.cpp" line="544"/>
         <source>Channels</source>
         <translation>Cannaux</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="554"/>
+        <location filename="../mainwindow.cpp" line="592"/>
         <source>New project</source>
         <translation>Nouveau projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="590"/>
-        <location filename="../mainwindow.cpp" line="594"/>
+        <location filename="../mainwindow.cpp" line="628"/>
+        <location filename="../mainwindow.cpp" line="632"/>
         <source>Open project</source>
         <translation>Ouvrir un projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="644"/>
+        <location filename="../mainwindow.cpp" line="682"/>
         <source>Save project as</source>
         <translation>Enregistrer le projet sous</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="694"/>
+        <location filename="../mainwindow.cpp" line="732"/>
         <source>Add files</source>
         <translation>Ajouter des fichiers</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="737"/>
+        <location filename="../mainwindow.cpp" line="775"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Format non supporté</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="137"/>
+        <location filename="../DlgRenderVideo.cpp" line="141"/>
         <source>Select destination file</source>
         <translation>Selectionner un fichier de destination</translation>
     </message>
