@@ -40,7 +40,7 @@ public:
     QDomDocument        *Clipboard;
     QString             CurrentPath;
 
-    explicit MainWindow(QString CurrentPath,QWidget *parent = 0);
+    explicit MainWindow(QString CurrentPath,cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
     ~MainWindow();
 
     void    RefreshControls();

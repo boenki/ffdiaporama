@@ -34,19 +34,15 @@
 
 //====================================================================================================================
 
-MainWindow::MainWindow(QString TheCurrentPath,QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QString TheCurrentPath,cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     CurrentPath             =TheCurrentPath;
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
     Clipboard               =NULL;
     ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
 
-    // Initialise configuration options
-    ApplicationConfig=new cApplicationConfig();
+    ApplicationConfig=TheCurrentApplicationConfig;
     ApplicationConfig->ParentWindow=this;
-    ApplicationConfig->InitConfigurationValues();                                                               // Init all values
-    ApplicationConfig->LoadConfigurationFile(GLOBALCONFIGFILE);                                                 // Get values from global configuration file (overwrite previously initialized values)
-    if (!ApplicationConfig->LoadConfigurationFile(USERCONFIGFILE)) ApplicationConfig->SaveConfigurationFile();  // Load values from user configuration file (overwrite previously initialized values)
 
     // Search if a BUILDVERSION.txt file exist
     QFile file("BUILDVERSION.txt");

@@ -26,11 +26,11 @@ win32 {
     UI_DIR      += ../winbuild/
     RC_FILE     = ffDiaporama.rc
     INCLUDEPATH += . \
-                   D:\Qt\ffmpeg-git-c967860-win32-dev\include \        #------ ffmpeg library path
-                   D:\Qt\SDL-1.2.14\include                            #------ SDL library path
+                   C:\Qt\ffmpeg-git-c967860-win32-dev\include \        #------ ffmpeg library path
+                   C:\Qt\SDL-1.2.14\include                            #------ SDL library path
 
-    LIBS        += -L"D:\Qt\ffmpeg-git-c967860-win32-dev\lib" \        #------ ffmpeg library path
-                   -L"D:\Qt\SDL-1.2.14\lib" \                          #------ SDL library path
+    LIBS        += -L"C:\Qt\ffmpeg-git-c967860-win32-dev\lib" \        #------ ffmpeg library path
+                   -L"C:\Qt\SDL-1.2.14\lib" \                          #------ SDL library path
                    -lavformat -lavcodec -lavutil -lswscale -lSDL
 }
 

@@ -78,6 +78,7 @@ void SDLLastClose() {
 
 void SDLSetFPS(double WantedFPS) {
     if (SDLCurrentFPS==WantedFPS) return;
+    SDLCurrentFPS=WantedFPS;
 
     if (SDLIsAudioOpen) SDL_CloseAudio();                               // Close audio
 
