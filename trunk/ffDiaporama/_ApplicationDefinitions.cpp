@@ -428,21 +428,18 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     int             errorLine,errorColumn;
 
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading configuration file","Error message"),QMessageBox::Close);
-            else                printf("%s\n",QCoreApplication::translate("MainWindow","Error reading configuration file","Error message").toLocal8Bit().constData());
+        qDebug()<<QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading configuration file","Error message");
         return false;
     }
 
     if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading content of configuration file","Error message"),QMessageBox::Close);
-            else                printf("%s\n",QCoreApplication::translate("MainWindow","Error reading content of configuration file","Error message").toLocal8Bit().constData());
+        qDebug()<<QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading content of configuration file","Error message");
         return false;
     }
 
     root = domDocument.documentElement();
     if (root.tagName()!=CONFIGFILE_ROOTNAME) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","The file is not a valid configuration file","Error message"),QMessageBox::Close);
-            else                printf("%s\n",QCoreApplication::translate("MainWindow","The file is not a valid configuration file","Error message").toLocal8Bit().constData());
+        qDebug()<<QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","The file is not a valid configuration file","Error message");
         return false;
     }
 
@@ -583,8 +580,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error creating configuration file","Error message"),QMessageBox::Close);
-            else                printf("%s\n",QCoreApplication::translate("MainWindow","Error creating configuration file","Error message").toLocal8Bit().constData());
+        ExitApplicationWithFatalError(QCoreApplication::translate("MainWindow","Error creating configuration file","Error message"));
         return false;
     }
     QTextStream out(&file);

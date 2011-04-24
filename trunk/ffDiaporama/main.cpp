@@ -22,6 +22,13 @@
 #include <QTranslator>
 
 int main(int argc, char *argv[]) {
+    // Initialise configuration options
+    cApplicationConfig *ApplicationConfig=new cApplicationConfig();
+    ApplicationConfig->ParentWindow=NULL;
+    ApplicationConfig->InitConfigurationValues();                                                               // Init all values
+    ApplicationConfig->LoadConfigurationFile(GLOBALCONFIGFILE);                                                 // Get values from global configuration file (overwrite previously initialized values)
+    if (!ApplicationConfig->LoadConfigurationFile(USERCONFIGFILE)) ApplicationConfig->SaveConfigurationFile();  // Load values from user configuration file (overwrite previously initialized values)
+
     QApplication::setGraphicsSystem("raster");
     QApplication app(argc, argv);
 
@@ -63,7 +70,7 @@ int main(int argc, char *argv[]) {
     }
     AddSeparatorToSystemProperties();
 
-    MainWindow w(CurrentPath);
+    MainWindow w(CurrentPath,ApplicationConfig);
 
     if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
 
