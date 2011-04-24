@@ -325,6 +325,7 @@ cApplicationConfig::cApplicationConfig() {
     DlgApplicationSettingsWSP   =new cSaveWindowPosition("DlgApplicationSettings",RestoreWindow,false);     // Dialog box "Application settings" - Window size and position
     DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);          // Dialog box "Render Video" - Window size and position
     DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false); // Dialog box "Transition properties" - Window size and position
+    DisableSSE2                 =0;
  }
 
 //====================================================================================================================
@@ -374,6 +375,7 @@ bool cApplicationConfig::InitConfigurationValues() {
     CurrentFolder   =QDir::currentPath();
 
     // Initialise all variables and set them default value
+    DisableSSE2                 = 0;
     RememberLastDirectories     = true;                     // If true, Remember all directories for future use
     RestoreWindow               = true;                     // If true, restore window state and position at startup
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
@@ -464,6 +466,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         TimelineHeight           =Element.attribute("TimelineHeight").toInt();
         DefaultFraming           =Element.attribute("DefaultFraming").toInt();
         PreviewFPS               =Element.attribute("PreviewFPS").toDouble();
+        DisableSSE2              =Element.attribute("DisableSSE2")=="1";
         RandomTransition         =Element.attribute("RandomTransition")=="1";
         DefaultTransitionFamilly =Element.attribute("DefaultTransitionFamilly").toInt();
         DefaultTransitionSubType =Element.attribute("DefaultTransitionSubType").toInt();
@@ -502,6 +505,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     DlgRenderVideoWSP->LoadFromXML(root);                           // Dialog box "Render video" - Window size and position
     DlgTransitionPropertiesWSP->LoadFromXML(root);                  // Dialog box "Transition properties" - Window size and position
 
+    if (DisableSSE2) qputenv("QT_NO_SSE2","1");
     return true;
 }
 
@@ -538,6 +542,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("AppendObject",             AppendObject?"1":"0");
     Element.setAttribute("TimelineHeight",           (QString("%1").arg(TimelineHeight)));
     Element.setAttribute("DefaultFraming",           (QString("%1").arg(DefaultFraming)));
+    Element.setAttribute("DisableSSE2",              DisableSSE2?"1":"0");
     Element.setAttribute("PreviewFPS",               (QString("%1").arg(PreviewFPS,0,'f')));
     Element.setAttribute("RandomTransition",         RandomTransition?"1":"0");
     Element.setAttribute("DefaultTransitionFamilly", (QString("%1").arg(DefaultTransitionFamilly)));

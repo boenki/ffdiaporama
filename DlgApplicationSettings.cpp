@@ -81,6 +81,10 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     // RestoreWindow part
     //********************************
     ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
+    //********************************
+    // SSE2 part
+    //********************************
+    ui->DisableSSE2CB->setChecked(ApplicationConfig->DisableSSE2);
 
     // Define handler
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
@@ -152,6 +156,7 @@ void DlgApplicationSettings::accept() {
 
     // RestoreWindow part
     ApplicationConfig->RestoreWindow    =ui->RestoreWindowCH->isChecked();
+    ApplicationConfig->DisableSSE2      =ui->DisableSSE2CB->isChecked();
 
     // Save Window size and position
     ApplicationConfig->DlgApplicationSettingsWSP->SaveWindowState(this);

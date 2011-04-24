@@ -88,6 +88,7 @@ public:
     QString             LastRenderVideoPath;                        // Last folder use for render video
 
     // Preferences
+    bool                DisableSSE2;                                // Disable SSE2 processor extension if error with hardware acceleration
     bool                RestoreWindow;                              // If true, restore window state and position at startup
     bool                AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
     int                 DefaultFraming;                             // 0=Width, 1=Height
