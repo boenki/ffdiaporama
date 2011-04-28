@@ -66,22 +66,20 @@ bool cimagefilewrapper::GetInformationFromFile(cApplicationConfig *ApplicationCo
 
         // start exiv2
         Commande = ApplicationConfig->PathEXIV2+" print -pa \""+GivenFileName+"\"";
-        #ifdef Q_OS_WIN
-        Commande.replace("/","\\");
-        #endif
+        Commande = AdjustDirForOS(Commande);
         QProcess Process;
         Process.setProcessChannelMode(QProcess::MergedChannels);
         Process.start(Commande);
         if (!Process.waitForStarted()) {
-            qDebug()<<"Impossible to start exiv2 - no exif informations we be decode for"<<GivenFileName;
+            qDebug()<<"Impossible to start exiv2 - no exif informations will be decode for"<<GivenFileName;
             ExifOK=false;
         }
         if (ExifOK && !Process.waitForFinished()) {
-            qDebug()<<"Error during exiv2 process - no exif informations we be decode for"<<GivenFileName;
+            qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<GivenFileName;
             ExifOK=false;
         }
         if (ExifOK && (Process.exitStatus()<0)) {
-            qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations we be decode for"<<GivenFileName;
+            qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode for"<<GivenFileName;
             ExifOK=false;
         }
         if (ExifOK) {

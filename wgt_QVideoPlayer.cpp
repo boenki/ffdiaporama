@@ -377,7 +377,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
         if (FileInfo) {
 
-            QImage *VideoImage=FileInfo->ImageAt(true,this->height(),ActualPosition,false,false,NULL,1);
+            QImage *VideoImage=FileInfo->ImageAt(true,this->height(),ActualPosition,false,false,NULL,1,false);
             ui->MovieFrame->setPixmap(QPixmap().fromImage(*VideoImage));  // Display frame
             delete VideoImage;
 
@@ -433,7 +433,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
             NewFrame->CurrentObject_StartTime   =0;
             NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
-            NewFrame->RenderedImage=FileInfo->ImageAt(true,ui->MovieFrame->height(),ActualPosition,false,false,&MixedMusic,1);
+            NewFrame->RenderedImage=FileInfo->ImageAt(true,ui->MovieFrame->height(),ActualPosition,false,false,&MixedMusic,1,false);
             if (NewFrame->RenderedImage) ImageList.AppendImage(NewFrame); else delete NewFrame;
 
         } else if (Diaporama) {
@@ -504,7 +504,9 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     if ((SoundWanted)&&(Frame->CurrentObject)) {
         // Calc number of packet to mix
         int MaxPacket=Frame->CurrentObject_MusicTrack->List.count();
-        if ((Frame->CurrentObject_SoundTrackMontage)&&(MaxPacket>Frame->CurrentObject_SoundTrackMontage->List.count())) MaxPacket=Frame->CurrentObject_SoundTrackMontage->List.count();
+        if ((Frame->CurrentObject_SoundTrackMontage)&&
+            (Frame->CurrentObject_SoundTrackMontage->List.count()>0)&&
+            (MaxPacket>Frame->CurrentObject_SoundTrackMontage->List.count())) MaxPacket=Frame->CurrentObject_SoundTrackMontage->List.count();
         if (MaxPacket>MixedMusic.NbrPacketForFPS) MaxPacket=MixedMusic.NbrPacketForFPS;
 
         // Append mixed musique to the queue

@@ -534,7 +534,7 @@ void cDiaporamaObject::ApplyDefaultFraming(int DefaultFraming) {
     double   RealImageW=Parent->InternalWidth;
     double   RealImageH=Parent->InternalHeight;
 
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1);  // Video
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false);  // Video
     else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,true);                // Image
 
     if (ReturnImage!=NULL) {
@@ -591,7 +591,7 @@ void cDiaporamaObject::SwitchShotsToNormalCanvas() {
     double   NormalCanvasW;
     double   NormalCanvasH;
 
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1);  // Video
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false);  // Video
     else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,true);                // Image
 
     // Calc size
@@ -626,7 +626,7 @@ void cDiaporamaObject::SwitchShotsToFullCanvas() {
     double   NormalCanvasW;
     double   NormalCanvasH;
 
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1);  // Video
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false);  // Video
     else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,true);                // Image
 
     // Calc size
@@ -661,7 +661,7 @@ QImage  *cDiaporamaObject::GetImageAt(int Position,bool VideoCachedMode,cSoundBl
     QImage  *ReturnImage=NULL;
 
     // Try to load image from source
-    if (Video!=NULL) ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,Position,VideoCachedMode,false,SoundTrackMontage,1);   // Video
+    if (Video!=NULL) ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,Position,VideoCachedMode,false,SoundTrackMontage,1,false);   // Video
     else if (Image!=NULL) ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,false);                                           // Image
     else {                                                                                                                                              // Title
         // Create an empty transparent image
@@ -1336,7 +1336,7 @@ void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *Music
         cMusicObject *CurMusic=GetMusicObject(Column,StartPosition);                                         // Get current music file from column and position
         if (CurMusic!=NULL) {
             int OldBlock=MusicTrack->List.count();
-            CurMusic->Music->ImageAt(false,0,Position+StartPosition,false,false,MusicTrack,1);               // Get music bloc at correct position
+            CurMusic->Music->ImageAt(false,0,Position+StartPosition,false,false,MusicTrack,1,false);               // Get music bloc at correct position
             double Factor=CurMusic->Volume;
             if (List[Column].MusicReduceVolume) Factor=Factor*List[Column].MusicReduceFactor;
             if (Factor!=1.0) for (int i=OldBlock;i<MusicTrack->List.count();i++) MusicTrack->ApplyVolume(i,Factor);
@@ -1350,10 +1350,11 @@ void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *Music
 //  IsCurrentObject : If true : prepare CurrentObject - If false : prepare Transition Object
 //============================================================================================
 void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,int Extend,bool IsCurrentObject) {
+    bool SoundOnly=((W==0)&&(H==0));
     if ((IsCurrentObject)&&(Info->CurrentObject_PreparedImage!=NULL)) return;     // return immediatly if we have image
     if (!IsCurrentObject) {
         if (Info->TransitObject_PreparedImage!=NULL) return;    // return immediatly if we have image
-        if (Info->TransitObject_SourceImage==NULL) {
+        if ((!SoundOnly)&&(Info->TransitObject_SourceImage==NULL)) {
             // Special case for transition image of first slide
             Info->TransitObject_PreparedImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
             QPainter P;
@@ -1379,111 +1380,114 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,int Extend,
     double                  XFactor,YFactor,ZoomFactor,RotateFactor;        // Transformation value
     cFilterCorrectObject    FilterCorrection;                               // Filter correction value
     QImage                  *ImageToUse=NULL;
+    QImage                  *Image=NULL;
     QImage                  Image1,Image2;                                  // Temporary object use to create frame (Image2 is the rendered image for montage)
 
     // Prepare image
-    QImage  *Image=new QImage(W,H+Extend+Extend,QImage::Format_ARGB32_Premultiplied);
-    QPainter P;
-    P.begin(Image);
-    P.setCompositionMode(QPainter::CompositionMode_Source);
-    P.fillRect(0,0,W,H+Extend+Extend,Qt::transparent);
-    P.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    if ((List.count()>0)&&(SourceImage!=NULL)) {
+    if (!SoundOnly) {
+        Image=new QImage(W,H+Extend+Extend,QImage::Format_ARGB32_Premultiplied);
+        QPainter P;
+        P.begin(Image);
+        P.setCompositionMode(QPainter::CompositionMode_Source);
+        P.fillRect(0,0,W,H+Extend+Extend,Qt::transparent);
+        P.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        if ((List.count()>0)&&(SourceImage!=NULL)) {
 
-        // Calc real image size
-        RealImageW=double(SourceImage->width());
-        RealImageH=double(SourceImage->height());
-        VirtImageW=0;
-        VirtImageH=0;
+            // Calc real image size
+            RealImageW=double(SourceImage->width());
+            RealImageH=double(SourceImage->height());
+            VirtImageW=0;
+            VirtImageH=0;
 
-        // Calc canvas
-        if (CurObject->FullCanvas) CurObject->CalcFullCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
-         else CurObject->CalcNormalCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
+            // Calc canvas
+            if (CurObject->FullCanvas) CurObject->CalcFullCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
+             else CurObject->CalcNormalCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
 
-        // Global image Composition
-        QImage      GlobalImageComposition(RealImageW,RealImageH,QImage::Format_ARGB32_Premultiplied);
-        QPainter    PB;
-        PB.begin(&GlobalImageComposition);
-        PB.setCompositionMode(QPainter::CompositionMode_Source);
-        PB.fillRect(QRect(0,0,GlobalImageComposition.width(),GlobalImageComposition.height()),Qt::transparent);
-        PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        for (int j=0;j<CurObject->ObjectComposition.List.count();j++) CurObject->ObjectComposition.List[j].DrawCompositionObject(PB,0,0,RealImageW,RealImageH);
-        PB.end();
+            // Global image Composition
+            QImage      GlobalImageComposition(RealImageW,RealImageH,QImage::Format_ARGB32_Premultiplied);
+            QPainter    PB;
+            PB.begin(&GlobalImageComposition);
+            PB.setCompositionMode(QPainter::CompositionMode_Source);
+            PB.fillRect(QRect(0,0,GlobalImageComposition.width(),GlobalImageComposition.height()),Qt::transparent);
+            PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            for (int j=0;j<CurObject->ObjectComposition.List.count();j++) CurObject->ObjectComposition.List[j].DrawCompositionObject(PB,0,0,RealImageW,RealImageH);
+            PB.end();
 
-        XFactor         =CurShot->X;
-        YFactor         =CurShot->Y;
-        ZoomFactor      =CurShot->ZoomFactor;
-        RotateFactor    =CurShot->ImageRotation;
-        FilterCorrection=CurShot->FilterCorrection;
+            XFactor         =CurShot->X;
+            YFactor         =CurShot->Y;
+            ZoomFactor      =CurShot->ZoomFactor;
+            RotateFactor    =CurShot->ImageRotation;
+            FilterCorrection=CurShot->FilterCorrection;
 
-        if (ShotType==SHOTTYPE_MOBIL) CurObject->CalcTransformations(ShotSeqNum,MobilPCTDone,XFactor,YFactor,ZoomFactor,RotateFactor,FilterCorrection);
+            if (ShotType==SHOTTYPE_MOBIL) CurObject->CalcTransformations(ShotSeqNum,MobilPCTDone,XFactor,YFactor,ZoomFactor,RotateFactor,FilterCorrection);
 
-        // Rotate image if needed
-        if (RotateFactor!=0) {
-            QTransform matrix;
-            matrix.rotate(RotateFactor,Qt::ZAxis);
-            ImageToUse=new QImage(SourceImage->transformed(matrix));
-            GlobalImageComposition=GlobalImageComposition.transformed(matrix);
+            // Rotate image if needed
+            if (RotateFactor!=0) {
+                QTransform matrix;
+                matrix.rotate(RotateFactor,Qt::ZAxis);
+                ImageToUse=new QImage(SourceImage->transformed(matrix));
+                GlobalImageComposition=GlobalImageComposition.transformed(matrix);
 
-            // update real image size
-            RealImageW=double(ImageToUse->width());
-            RealImageH=double(ImageToUse->height());
-        } else ImageToUse=SourceImage;
+                // update real image size
+                RealImageW=double(ImageToUse->width());
+                RealImageH=double(ImageToUse->height());
+            } else ImageToUse=SourceImage;
 
-        // Calc source and destination size
-        DestX=0;                                                    // X Position in the virtual image of the destination image
-        DestY=0;                                                    // Y Position in the virtual image of the destination image
-        DestW=VirtImageW;                                           // with of the destination image in the virtual image
-        DestH=VirtImageH;                                           // height of the destination image in the virtual image
+            // Calc source and destination size
+            DestX=0;                                                    // X Position in the virtual image of the destination image
+            DestY=0;                                                    // Y Position in the virtual image of the destination image
+            DestW=VirtImageW;                                           // with of the destination image in the virtual image
+            DestH=VirtImageH;                                           // height of the destination image in the virtual image
 
-        SrcX=(XFactor*VirtImageW-(VirtImageW-RealImageW)/2);        // X Position in the source image of the destination image
-        SrcY=(YFactor*VirtImageH-(VirtImageH-RealImageH)/2);        // Y Position in the source image of the destination image
-        SrcW=(ZoomFactor*VirtImageW);                               // with of the destination image in the source image
-        SrcH=(ZoomFactor*VirtImageH);                               // height of the destination image in the source image
+            SrcX=(XFactor*VirtImageW-(VirtImageW-RealImageW)/2);        // X Position in the source image of the destination image
+            SrcY=(YFactor*VirtImageH-(VirtImageH-RealImageH)/2);        // Y Position in the source image of the destination image
+            SrcW=(ZoomFactor*VirtImageW);                               // with of the destination image in the source image
+            SrcH=(ZoomFactor*VirtImageH);                               // height of the destination image in the source image
 
-        // Adjust positions by croping to the source image
-        if (SrcX<0)                 {   SrcW=SrcW+SrcX;                                 DestW=DestW+SrcX/ZoomFactor;    DestX=DestX-SrcX/ZoomFactor;    SrcX=0;     }
-        if (SrcY<0)                 {   SrcH=SrcH+SrcY;                                 DestH=DestH+SrcY/ZoomFactor;    DestY=DestY-SrcY/ZoomFactor;    SrcY=0;     }
-        if (SrcX+SrcW>RealImageW)   {   DestW=DestW-(SrcX+SrcW-RealImageW)/ZoomFactor;  SrcW=(RealImageW-SrcX);                                                     }
-        if (SrcY+SrcH>RealImageH)   {   DestH=DestH-(SrcY+SrcH-RealImageH)/ZoomFactor;  SrcH=(RealImageH-SrcY);                                                     }
+            // Adjust positions by croping to the source image
+            if (SrcX<0)                 {   SrcW=SrcW+SrcX;                                 DestW=DestW+SrcX/ZoomFactor;    DestX=DestX-SrcX/ZoomFactor;    SrcX=0;     }
+            if (SrcY<0)                 {   SrcH=SrcH+SrcY;                                 DestH=DestH+SrcY/ZoomFactor;    DestY=DestY-SrcY/ZoomFactor;    SrcY=0;     }
+            if (SrcX+SrcW>RealImageW)   {   DestW=DestW-(SrcX+SrcW-RealImageW)/ZoomFactor;  SrcW=(RealImageW-SrcX);                                                     }
+            if (SrcY+SrcH>RealImageH)   {   DestH=DestH-(SrcY+SrcH-RealImageH)/ZoomFactor;  SrcH=(RealImageH-SrcY);                                                     }
 
-        // translate DestX,DestY,DestW,DestH to destination coordinates
-        DestX=((double(W)/VirtImageW)*DestX);
-        DestW=((double(W)/VirtImageW)*DestW);
-        DestY=((double(H)/VirtImageH)*DestY);
-        DestH=((double(H)/VirtImageH)*DestH);
+            // translate DestX,DestY,DestW,DestH to destination coordinates
+            DestX=((double(W)/VirtImageW)*DestX);
+            DestW=((double(W)/VirtImageW)*DestW);
+            DestY=((double(H)/VirtImageH)*DestY);
+            DestH=((double(H)/VirtImageH)*DestH);
 
-        //**********************************
-        // Draw image layer
-        //**********************************
-        // Shrink to used part of the image
-        Image1=ImageToUse->copy(SrcX,SrcY,SrcW,SrcH);
-        if (ImageToUse!=SourceImage) {
-            delete ImageToUse;
-            ImageToUse=NULL;
+            //**********************************
+            // Draw image layer
+            //**********************************
+            // Shrink to used part of the image
+            Image1=ImageToUse->copy(SrcX,SrcY,SrcW,SrcH);
+            if (ImageToUse!=SourceImage) {
+                delete ImageToUse;
+                ImageToUse=NULL;
+            }
+
+            // Scaled part as needed
+            Image2=Image1.scaled(DestW-DestX,DestH-DestY);
+
+            // Apply global filter to part image
+            if (CurObject->TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY) CurObject->FilterTransform.ApplyFilter(&Image2);
+
+            // Apply shot filter to part image
+            if (CurObject->TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY) FilterCorrection.ApplyFilter(&Image2);
+
+            P.drawImage(QRectF(DestX,DestY+Extend,DestW,DestH),Image2,QRectF(0,0,Image2.width(),Image2.height()));
+
+            //**********************************
+            // Composition layers
+            //**********************************
+            // Add global image composition layer
+            P.drawImage(QRectF(DestX,DestY+Extend,DestW,DestH),GlobalImageComposition,QRectF(SrcX,SrcY,SrcW,SrcH));
+            // Add static shot composition
+            for (int j=0;j<CurShot->ShotComposition.List.count();j++) CurShot->ShotComposition.List[j].DrawCompositionObject(P,0,Extend,W,H);
         }
 
-        // Scaled part as needed
-        Image2=Image1.scaled(DestW-DestX,DestH-DestY);
-
-        // Apply global filter to part image
-        if (CurObject->TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY) CurObject->FilterTransform.ApplyFilter(&Image2);
-
-        // Apply shot filter to part image
-        if (CurObject->TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY) FilterCorrection.ApplyFilter(&Image2);
-
-        P.drawImage(QRectF(DestX,DestY+Extend,DestW,DestH),Image2,QRectF(0,0,Image2.width(),Image2.height()));
-
-        //**********************************
-        // Composition layers
-        //**********************************
-        // Add global image composition layer
-        P.drawImage(QRectF(DestX,DestY+Extend,DestW,DestH),GlobalImageComposition,QRectF(SrcX,SrcY,SrcW,SrcH));
-        // Add static shot composition
-        for (int j=0;j<CurShot->ShotComposition.List.count();j++) CurShot->ShotComposition.List[j].DrawCompositionObject(P,0,Extend,W,H);
+        P.end();
     }
-
-    P.end();
     if (IsCurrentObject) Info->CurrentObject_PreparedImage=Image; else Info->TransitObject_PreparedImage=Image;
 }
 
@@ -1492,46 +1496,49 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,int Extend,
 //=============================================================================================================================
 void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
     if (Info->RenderedImage!=NULL) return;    // return immediatly if we have image
+    bool SoundOnly=((W==0)&&(H==0));
 
     // Prepare image
-    QImage  *Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-    QPainter P;
-    P.begin(Image);
-    P.fillRect(0,0,W,H,Qt::black);  // Always start with a black frame
-    if (List.count()>0) {
-        // Draw background
-        if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
-            if ((Info->TransitObject)&&(Info->TransitObject_PreparedBackground)) {
-                //P.setOpacity(1-Info->TransitionPCTDone);
-                P.drawImage(0,0,*Info->TransitObject_PreparedBackground);
-            } else P.fillRect(QRect(0,0,W,H),Qt::black);
-            if (Info->CurrentObject_PreparedBackground) {
-                P.setOpacity(Info->TransitionPCTDone);
-                P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
+    if (!SoundOnly) {
+        QImage  *Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+        QPainter P;
+        P.begin(Image);
+        P.fillRect(0,0,W,H,Qt::black);  // Always start with a black frame
+        if (List.count()>0) {
+            // Draw background
+            if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
+                if ((Info->TransitObject)&&(Info->TransitObject_PreparedBackground)) {
+                    //P.setOpacity(1-Info->TransitionPCTDone);
+                    P.drawImage(0,0,*Info->TransitObject_PreparedBackground);
+                } else P.fillRect(QRect(0,0,W,H),Qt::black);
+                if (Info->CurrentObject_PreparedBackground) {
+                    P.setOpacity(Info->TransitionPCTDone);
+                    P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
+                }
+                P.setOpacity(1);
+            } else {
+                if (Info->CurrentObject_PreparedBackground) P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
+                    else P.fillRect(QRect(0,0,W,H),Qt::black);
             }
-            P.setOpacity(1);
-        } else {
-            if (Info->CurrentObject_PreparedBackground) P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
-                else P.fillRect(QRect(0,0,W,H),Qt::black);
+            // Add prepared images
+            if ((Info->IsTransition)&&(Info->TransitObject_PreparedImage!=NULL)&&(Info->CurrentObject_PreparedImage!=NULL)) {
+                switch (Info->TransitionFamilly) {
+                case TRANSITIONFAMILLY_BASE        : DoBasic(Info,&P,W,H);                  break;
+                case TRANSITIONFAMILLY_ZOOMINOUT   : DoZoom(Info,&P,W,H);                   break;
+                case TRANSITIONFAMILLY_PUSH        : DoPush(Info,&P,W,H);                   break;
+                case TRANSITIONFAMILLY_SLIDE       : DoSlide(Info,&P,W,H);                  break;
+                case TRANSITIONFAMILLY_LUMA_BAR    : DoLuma(&LumaList_Bar,Info,&P,W,H);     break;
+                case TRANSITIONFAMILLY_LUMA_BOX    : DoLuma(&LumaList_Box,Info,&P,W,H);     break;
+                case TRANSITIONFAMILLY_LUMA_CENTER : DoLuma(&LumaList_Center,Info,&P,W,H);  break;
+                case TRANSITIONFAMILLY_LUMA_CHECKER: DoLuma(&LumaList_Checker,Info,&P,W,H); break;
+                case TRANSITIONFAMILLY_LUMA_CLOCK  : DoLuma(&LumaList_Clock,Info,&P,W,H);   break;
+                case TRANSITIONFAMILLY_LUMA_SNAKE  : DoLuma(&LumaList_Snake,Info,&P,W,H);   break;
+                }
+            } else if (Info->CurrentObject_PreparedImage!=NULL) P.drawImage(0,0,*Info->CurrentObject_PreparedImage);
         }
-        // Add prepared images
-        if ((Info->IsTransition)&&(Info->TransitObject_PreparedImage!=NULL)&&(Info->CurrentObject_PreparedImage!=NULL)) {
-            switch (Info->TransitionFamilly) {
-            case TRANSITIONFAMILLY_BASE        : DoBasic(Info,&P,W,H);                  break;
-            case TRANSITIONFAMILLY_ZOOMINOUT   : DoZoom(Info,&P,W,H);                   break;
-            case TRANSITIONFAMILLY_PUSH        : DoPush(Info,&P,W,H);                   break;
-            case TRANSITIONFAMILLY_SLIDE       : DoSlide(Info,&P,W,H);                  break;
-            case TRANSITIONFAMILLY_LUMA_BAR    : DoLuma(&LumaList_Bar,Info,&P,W,H);     break;
-            case TRANSITIONFAMILLY_LUMA_BOX    : DoLuma(&LumaList_Box,Info,&P,W,H);     break;
-            case TRANSITIONFAMILLY_LUMA_CENTER : DoLuma(&LumaList_Center,Info,&P,W,H);  break;
-            case TRANSITIONFAMILLY_LUMA_CHECKER: DoLuma(&LumaList_Checker,Info,&P,W,H); break;
-            case TRANSITIONFAMILLY_LUMA_CLOCK  : DoLuma(&LumaList_Clock,Info,&P,W,H);   break;
-            case TRANSITIONFAMILLY_LUMA_SNAKE  : DoLuma(&LumaList_Snake,Info,&P,W,H);   break;
-            }
-        } else if (Info->CurrentObject_PreparedImage!=NULL) P.drawImage(0,0,*Info->CurrentObject_PreparedImage);
+        P.end();
+        Info->RenderedImage=Image;
     }
-    P.end();
-    Info->RenderedImage=Image;
 }
 
 
@@ -1744,9 +1751,11 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
 //============================================================================================
 // Function use directly or with thread to load source image
 // Assume SourceImage is null
+// Produce sound only if W and H=0
 //============================================================================================
 
 void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode) {
+    bool SoundOnly=((W==0)&&(H==0));
     QFuture<void> ThreadLoadSourceImage;
     QFuture<void> ThreadLoadTransitImage;
     QFuture<void> ThreadPrepareMusic;         // Thread preparation of music
@@ -1755,13 +1764,15 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     if (Info->CurrentObject==NULL) {
         // Special for preview if no object
         // create an empty transparent image
-        Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-        QPainter PT;
-        PT.begin(Info->CurrentObject_SourceImage);
-        PT.setCompositionMode(QPainter::CompositionMode_Source);
-        PT.fillRect(QRect(0,0,W,H),Qt::transparent);
-        PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        PT.end();
+        if (!SoundOnly) {
+            Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+            QPainter PT;
+            PT.begin(Info->CurrentObject_SourceImage);
+            PT.setCompositionMode(QPainter::CompositionMode_Source);
+            PT.fillRect(QRect(0,0,W,H),Qt::transparent);
+            PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            PT.end();
+        }
     } else {
         //==============> Image part
         // Title or image mode : Get source image only if SourceImageColumn!=Column
@@ -1769,19 +1780,21 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
             if ((Info->CurrentObject->Video==NULL)) {
                 // Get source image (without any preparation)
                 if (Info->CurrentObject->Image!=NULL) {                                 // Image
-                    ThreadLoadSourceImage=QtConcurrent::run(this,&cDiaporama::ThreadLoadSourcePhotoImage,Info,PreviewMode);
+                    if (!SoundOnly) ThreadLoadSourceImage=QtConcurrent::run(this,&cDiaporama::ThreadLoadSourcePhotoImage,Info,PreviewMode);
                 } else {                                                                // Title
-                    // create an empty transparent image
-                    Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-                    QPainter PT;
-                    PT.begin(Info->CurrentObject_SourceImage);
-                    PT.setCompositionMode(QPainter::CompositionMode_Source);
-                    PT.fillRect(QRect(0,0,W,H),Qt::transparent);
-                    PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                    PT.end();
+                    if (!SoundOnly) {
+                        // create an empty transparent image
+                        Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+                        QPainter PT;
+                        PT.begin(Info->CurrentObject_SourceImage);
+                        PT.setCompositionMode(QPainter::CompositionMode_Source);
+                        PT.fillRect(QRect(0,0,W,H),Qt::transparent);
+                        PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                        PT.end();
+                    }
                 }
             // Video mode : Get source image (without any preparation)
-            } else ThreadLoadSourceImage=QtConcurrent::run(this,&cDiaporama::ThreadLoadSourceVideoImage,Info,PreviewMode);
+            } else ThreadLoadSourceImage=QtConcurrent::run(this,&cDiaporama::ThreadLoadSourceVideoImage,Info,PreviewMode,SoundOnly);
         }
         // same job for Transition Object if a previous was not keep !
         if ((Info->TransitObject)&&(Info->TransitObject_SourceImage==NULL)) {
@@ -1790,17 +1803,19 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (Info->TransitObject->Image!=NULL) {                                // Image
                     ThreadLoadTransitImage=QtConcurrent::run(this,&cDiaporama::ThreadLoadTransitPhotoImage,Info,PreviewMode);
                 } else {                                                               // Title
-                    // create an empty transparent image
-                    Info->TransitObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-                    QPainter PT;
-                    PT.begin(Info->TransitObject_SourceImage);
-                    PT.setCompositionMode(QPainter::CompositionMode_Source);
-                    PT.fillRect(QRect(0,0,W,H),Qt::transparent);
-                    PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                    PT.end();
+                    if (!SoundOnly) {
+                        // create an empty transparent image
+                        Info->TransitObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+                        QPainter PT;
+                        PT.begin(Info->TransitObject_SourceImage);
+                        PT.setCompositionMode(QPainter::CompositionMode_Source);
+                        PT.fillRect(QRect(0,0,W,H),Qt::transparent);
+                        PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                        PT.end();
+                    }
                 }
             // Video mode : Get source image (without any preparation)
-            } else ThreadLoadTransitImage=QtConcurrent::run(this,&cDiaporama::ThreadLoadTransitVideoImage,Info,PreviewMode);
+            } else ThreadLoadTransitImage=QtConcurrent::run(this,&cDiaporama::ThreadLoadTransitVideoImage,Info,PreviewMode,SoundOnly);
         }
         //==============> Background part
         // Search background context for CurrentObject if a previous was not keep !
@@ -1809,13 +1824,15 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 Info->CurrentObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
                 else Info->CurrentObject_BackgroundBrush=List[Info->CurrentObject_BackgroundIndex].BackgroundBrush.GetBrush(QRectF(0,0,W,H));
             // Create PreparedBackground
-            Info->CurrentObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-            QPainter P;
-            P.begin(Info->CurrentObject_PreparedBackground);
-            if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
-            // Apply composition to background
-            for (int j=0;j<List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List.count();j++) List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H);
-            P.end();
+            if (!SoundOnly) {
+                Info->CurrentObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+                QPainter P;
+                P.begin(Info->CurrentObject_PreparedBackground);
+                if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
+                // Apply composition to background
+                for (int j=0;j<List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List.count();j++) List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H);
+                P.end();
+            }
         }
         // same job for Transition Object if a previous was not keep !
         if ((Info->TransitObject)&&(Info->TransitObject_BackgroundBrush==NULL)) {
@@ -1823,13 +1840,15 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 Info->TransitObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
                 else Info->TransitObject_BackgroundBrush=List[Info->TransitObject_BackgroundIndex].BackgroundBrush.GetBrush(QRectF(0,0,W,H));
             // Create PreparedBackground
-            Info->TransitObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-            QPainter P;
-            P.begin(Info->TransitObject_PreparedBackground);
-            if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
-            // Apply composition to background
-            for (int j=0;j<List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List.count();j++) List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H);
-            P.end();
+            if (!SoundOnly) {
+                Info->TransitObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+                QPainter P;
+                P.begin(Info->TransitObject_PreparedBackground);
+                if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
+                // Apply composition to background
+                for (int j=0;j<List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List.count();j++) List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H);
+                P.end();
+            }
         }
         // Start threads for next music bloc
         if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
@@ -1866,9 +1885,9 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
             int32_t mix;
             int16_t *Buf1=Info->CurrentObject_SoundTrackMontage->List[i];
             int     Max=Info->CurrentObject_SoundTrackMontage->SoundPacketSize/(Info->CurrentObject_SoundTrackMontage->SampleBytes*Info->CurrentObject_SoundTrackMontage->Channels);
-            double FadeDelta=(double(i)/double(MaxPacket))*(Info->TransitionPCTEnd-Info->TransitionPCTDone);
-            double FadeAdjust   =(Info->TransitionPCTDone+FadeDelta);;
-            double FadeAdjust2  =(1-Info->TransitionPCTDone-FadeDelta);
+            double  FadeDelta=(double(i)/double(MaxPacket))*(Info->TransitionPCTEnd-Info->TransitionPCTDone);
+            double  FadeAdjust   =(Info->TransitionPCTDone+FadeDelta);;
+            double  FadeAdjust2  =(1-Info->TransitionPCTDone-FadeDelta);
 
             int16_t *Buf2=(Paquet!=NULL)?Paquet:NULL;
             for (int j=0;j<Max;j++) {
@@ -1921,20 +1940,20 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     }
 }
 
-void cDiaporama::ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode) {
+void cDiaporama::ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,bool SoundOnly) {
     Info->CurrentObject_SourceImage=Info->CurrentObject->Video->ImageAt(PreviewMode,ApplicationConfig->PreviewMaxHeight,
         Info->CurrentObject_InObjectTime+QTime(0,0,0,0).msecsTo(Info->CurrentObject->List[0].StartPos),
-        false,false,Info->CurrentObject_SoundTrackMontage,Info->CurrentObject->SoundVolume);
+        false,false,Info->CurrentObject_SoundTrackMontage,Info->CurrentObject->SoundVolume,SoundOnly);
 }
 
 void cDiaporama::ThreadLoadSourcePhotoImage(cDiaporamaObjectInfo *Info,bool PreviewMode) {
     Info->CurrentObject_SourceImage=Info->CurrentObject->Image->ImageAt(PreviewMode,ApplicationConfig->PreviewMaxHeight,false);
 }
 
-void cDiaporama::ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode) {
+void cDiaporama::ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,bool SoundOnly) {
     Info->TransitObject_SourceImage=Info->TransitObject->Video->ImageAt( // Video
         PreviewMode,ApplicationConfig->PreviewMaxHeight,Info->TransitObject_InObjectTime+QTime(0,0,0,0).msecsTo(Info->TransitObject->List[0].StartPos),
-        false,false,Info->TransitObject_SoundTrackMontage,Info->TransitObject->SoundVolume);
+        false,false,Info->TransitObject_SoundTrackMontage,Info->TransitObject->SoundVolume,SoundOnly);
 }
 
 void cDiaporama::ThreadLoadTransitPhotoImage(cDiaporamaObjectInfo *Info,bool PreviewMode) {
@@ -2195,21 +2214,23 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 PreviousFrame->CurrentObject_FreePreparedBackground=false;
             }
             // Background of transition Object
-            if (PreviousFrame->CurrentObject_BackgroundIndex==TransitObject_BackgroundIndex) {
-                TransitObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;             // Use the same background
-                PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                                 // Set tag to not delete previous background
-                TransitObject_PreparedBackground=PreviousFrame->CurrentObject_PreparedBackground;
-                PreviousFrame->CurrentObject_FreePreparedBackground=false;
-            } else if (PreviousFrame->TransitObject_BackgroundIndex==TransitObject_BackgroundIndex) {
+            if (TransitObject) {
+                if (PreviousFrame->CurrentObject_BackgroundIndex==TransitObject_BackgroundIndex) {
+                    TransitObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;             // Use the same background
+                    PreviousFrame->CurrentObject_FreeBackgroundBrush=false;                                 // Set tag to not delete previous background
+                    TransitObject_PreparedBackground=PreviousFrame->CurrentObject_PreparedBackground;
+                    PreviousFrame->CurrentObject_FreePreparedBackground=false;
+                } else if (PreviousFrame->TransitObject_BackgroundIndex==TransitObject_BackgroundIndex) {
                     TransitObject_BackgroundBrush=PreviousFrame->TransitObject_BackgroundBrush;         // Use the same background
                     PreviousFrame->TransitObject_FreeBackgroundBrush=false;                             // Set tag to not delete previous background
                     TransitObject_PreparedBackground=PreviousFrame->TransitObject_PreparedBackground;
                     PreviousFrame->TransitObject_FreePreparedBackground=false;
-            }
-            // Special case to disable free of background brush if transit object and current object use the same
-            if (TransitObject_BackgroundBrush==CurrentObject_BackgroundBrush) {
-                TransitObject_FreeBackgroundBrush=false;
-                TransitObject_FreePreparedBackground=false;
+                }
+                // Special case to disable free of background brush if transit object and current object use the same
+                if (TransitObject_BackgroundBrush==CurrentObject_BackgroundBrush) {
+                    TransitObject_FreeBackgroundBrush=false;
+                    TransitObject_FreePreparedBackground=false;
+                }
             }
 
             //************ SourceImage
@@ -2258,11 +2279,11 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                     TransitObject_MusicTrack=PreviousFrame->TransitObject_MusicTrack;                   // Use the same SoundTrackMontage
                     PreviousFrame->TransitObject_FreeMusicTrack=false;                                  // Set tag to not delete previous SoundTrackMontage
                 }
-            }
-            // Special case to disable TransitObject_MusicTrack if transit object and current object use the same
-            if (CurrentObject_MusicObject==TransitObject_MusicObject) {
-                TransitObject_FreeMusicTrack=false;
-                TransitObject_MusicTrack=NULL;
+                // Special case to disable TransitObject_MusicTrack if transit object and current object use the same
+                if (CurrentObject_MusicObject==TransitObject_MusicObject) {
+                    TransitObject_FreeMusicTrack=false;
+                    TransitObject_MusicTrack=NULL;
+                }
             }
 
             //************ PreparedImage

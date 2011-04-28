@@ -109,9 +109,9 @@ void cvideofilewrapper::CloseVideoFileReader() {
 // Read a video frame from current stream
 //====================================================================================================================
 
-QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume) {
+QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly) {
     // Ensure file was previously open
-    if ((ffmpegVideoFile==NULL)||((MusicOnly==false)&&(VideoDecoderCodec==NULL))||((MusicOnly==true)&&(AudioDecoderCodec==NULL))) return NULL;
+    if ((ffmpegVideoFile==NULL)||((MusicOnly==false)&&(ForceSoundOnly==false)&&(VideoDecoderCodec==NULL))||(((MusicOnly==true)||(ForceSoundOnly==true))&&(AudioDecoderCodec==NULL))) return NULL;
 
     int64_t         AVNOPTSVALUE        =INT64_C(0x8000000000000000); // to solve type error with Qt
     QImage          *RetImage           =NULL;
@@ -148,10 +148,10 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTra
     }
     // Calc if we need to seek to a position
     if ((Position==0)
-        ||(SoundTrackBloc==NULL)                    // If no SoundTrackBloc then it's a dialog box or seek preview without playing
+//        ||(SoundTrackBloc==NULL)                    // If no SoundTrackBloc then it's a dialog box or seek preview without playing
         ||(DiffTimePosition>2)                      // Allow 2 msec diff (rounded double !)
         ) {
-        // qDebug()<<"SEEK Ancien="<<NextPacketPosition<<"Nouveau="<<Position<<"Diff="<<DiffTimePosition<<"AdjustTimeStamp="<<AdjustTimeStamp;
+         //qDebug()<<"SEEK Ancien="<<NextPacketPosition<<"Nouveau="<<Position<<"Diff="<<DiffTimePosition<<"AdjustTimeStamp="<<AdjustTimeStamp;
         // Flush all buffers
         for (unsigned int i=0;i<ffmpegVideoFile->nb_streams;i++)  {
             AVCodecContext *codec_context = ffmpegVideoFile->streams[i]->codec;
@@ -175,7 +175,7 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTra
     double  FrameDuration   =0;
     double  FrameEndPosition=0;
 
-    if (MusicOnly) IsVideoFind=true;
+    if (MusicOnly || ForceSoundOnly) IsVideoFind=true;
 
     // Parse VideoObjectList to find if we already have the packet for image
     for (int j=0;j<VideoObjectList.List.count();j++) {
@@ -212,7 +212,7 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTra
                 //===================================================================================
                 // Decode video
                 //===================================================================================
-                if ((!MusicOnly)&&(StreamPacket->stream_index==VideoStreamNumber)) {
+                if ((!MusicOnly)&&(!ForceSoundOnly)&&(StreamPacket->stream_index==VideoStreamNumber)) {
                     VideoObjectList.List.append(new DecodeVideoObject(StreamPacket,FramePosition,VideoStream,dPosition,(StreamPacket->flags & PKT_FLAG_KEY)>0));
 
                     if ((!IsVideoFind)&&(FramePosition>=dPosition)) {
@@ -561,7 +561,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
 
         // Try to load one image to be sure we can make something with this file
         IsValide    =true; // Disable IsValide test for ImageAt
-        QImage *Img =ImageAt(true,720,0,false,true,NULL,1);
+        QImage *Img =ImageAt(true,720,0,false,true,NULL,1,false);
         if ((Img==NULL)&&(VideoObjectList.List.count()>0)) {
 
             // Allocate structure for YUV image
@@ -575,7 +575,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
                 if (FrameDecoded>0) AdjustTimeStamp=int(Packet->FramePosition*1000)+1;
                 delete Packet;
             }
-            if (FrameDecoded>0) Img =ImageAt(true,720,0,false,true,NULL,1);
+            if (FrameDecoded>0) Img =ImageAt(true,720,0,false,true,NULL,1,false);
             av_free(FrameBufferYUV);
         }
         IsValide    =(Img!=NULL);
@@ -587,7 +587,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
 
 //====================================================================================================================
 
-QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,int Position,bool CachedMode,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume) {
+QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,int Position,bool CachedMode,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly) {
     if (!IsValide) return NULL;
 
     // If ForceLoadDisk then ensure CacheImage is null
@@ -599,9 +599,9 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,int Pos
     if (PreviewMode && CacheFirstImage && CachedMode) return new QImage(CacheFirstImage->copy());
 
     // Load a video frame
-    QImage *LoadedImage=ReadVideoFrame(Position+AdjustTimeStamp,SoundTrackBloc,Volume);
+    QImage *LoadedImage=ReadVideoFrame(Position+AdjustTimeStamp,SoundTrackBloc,Volume,ForceSoundOnly);
 
-    if ((!MusicOnly)&&(LoadedImage)) {
+    if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
         // Scale image if anamorphous codec
         if (AspectRatio!=1) {
             QImage *NewLoadedImage=new QImage(LoadedImage->scaled(int(double(ImageWidth)*AspectRatio),ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));

@@ -121,8 +121,9 @@ OTHER_FILES += \
     ../TODO-LIST.txt \
     ../licences.txt \
     ../licences.rtf \
-    ../readme.txt \
-    ffDiaporama.rc
+    ffDiaporama.rc \
+    _BUILDVERSION.txt \
+    BUILDVERSION.txt
 
 TRANSLATIONS += locale/locale_fr.ts
 
@@ -155,7 +156,7 @@ unix {
     documentation.path  = $$PREFIX/share/$$TARGETAPP/help
     documentation.files = help/*.*
     General.path        = $$PREFIX/share/$$TARGETAPP
-    General.files       = ffDiaporama.xml ../licence.rtf ../licences.txt ../readme.txt
+    General.files       = ffDiaporama.xml BUILDVERSION.txt _BUILDVERSION.txt ../licence.rtf ../licences.txt
 }
 
 INSTALLS += TARGET translation background icons tr_icons luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake documentation General

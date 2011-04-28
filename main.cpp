@@ -32,41 +32,39 @@ int main(int argc, char *argv[]) {
     QApplication::setGraphicsSystem("raster");
     QApplication app(argc, argv);
 
-    AddToSystemProperties(QString(APPLICATION_NAME)+" "+QString(APPLICATION_VERSION));
-    AddSeparatorToSystemProperties();
-    app.setApplicationName(APPLICATION_NAME);
+    app.setApplicationName(QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION));
 
     QString CurrentPath=QDir::currentPath();
     if (!CurrentPath.endsWith(QDir::separator())) CurrentPath=CurrentPath+QDir::separator();
 
-    AddToSystemProperties("Starting path="+QDir::currentPath());
-#if defined(Q_OS_WIN)
+    AddToSystemProperties(QString(STARTINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
+    #if defined(Q_OS_WIN)
     if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
     if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString(APPLICATION_NAME));
-#endif
+    #endif
 
     // Ensure correct path
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
     if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("/usr/share/")+QString(APPLICATION_NAME));
-#endif
-    AddToSystemProperties("Working path set to "+QDir::currentPath());
+    #endif
+    AddToSystemProperties(QString(WORKINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
 
 
     // Search system language
     QTranslator translator;
     CurrentLanguage=QLocale::system().name().left(2);
-    AddToSystemProperties("Detected system locale="+CurrentLanguage);
+    AddToSystemProperties(QString(SYSTEMLOCAL_STR)+CurrentLanguage);
 
     // Validate if system locale is supported and if not force use of "en"
     if (CurrentLanguage!="fr") CurrentLanguage="en";
 
     // Install translation (if needed)
     if (CurrentLanguage!="en") {
-        if (!translator.load(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm"))
+        if (!translator.load(AdjustDirForOS(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm")))
             ExitApplicationWithFatalError("Error loading translation file ...");
         app.installTranslator(&translator);
-        AddToSystemProperties("Translation file loaded="+QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm"));
+        AddToSystemProperties(QString(LOADEDLOCAL_STR)+AdjustDirForOS(QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm")));
     }
     AddSeparatorToSystemProperties();
 

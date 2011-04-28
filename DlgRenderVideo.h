@@ -40,73 +40,32 @@ public:
     int             VideoCodecIndex;                // Index of video codec
     int             AudioCodecIndex;                // Index of audio codec
     double          FPS;
-
-    // Display control
     int             NbrFrame;                       // Number of frame to generate
-    int             Position;                       // Render current position
-    int             ColumnStart;                    // Render start position of current object
-    int             Column;                         // Render current object
-    int             RenderedFrame;                  // Real number of rendered frame (delayed frame included)
     QTime           StartTime;                      // Time the process start
     QTime           LastCheckTime;                  // Last time the loop start
-
-
-    // Sound blocs
-    cSoundBlockList RenderMusic;                    // Sound to play
-    cSoundBlockList EncodedAudio;
-
-    // Select dest file values
-    QString         FileFormat;
-
-    // LIBAV part
-    bool            IsDestFileOpen;
-    AVFormatContext *OutputFormatContext;
-    AVStream        *VideoStream;
-    AVStream        *AudioStream;
-    AVCodecContext  *VideoCodecContext;
-    AVCodecContext  *AudioCodecContext;
-    AVCodec         *VideoCodec;
-    AVCodec         *AudioCodec;
-
-    // Thread control
-    QFuture<void>   ThreadDoAssembly;           // Thread for make assembly of background and images
-    QFuture<bool>   ThreadWriteVideoFrame;      // Thread write video frame
-    bool            IsThreadWriteVideoFrame;    // true if ThreadWriteVideoFrame was previously started
-    QFuture<bool>   ThreadWriteAudioFrame;      // Thread write audio frame
-    bool            IsThreadWriteAudioFrame;    // true if ThreadWriteAudioFrame was previously started
+    bool            IsDestFileOpen;                 // true if encoding is started
+    QString         FileFormat;                     // Select dest file values
 
     explicit DlgRenderVideo(cDiaporama &Diaporama,QWidget *parent = 0);
     ~DlgRenderVideo();
 
+    bool            WriteTempAudioFile(QString TempWAVFileName);
+
 protected:
-    virtual void showEvent(QShowEvent *);
-    virtual void reject();
-    virtual void accept();
+    virtual void    showEvent(QShowEvent *);
+    virtual void    reject();
+    virtual void    accept();
 
 private slots:
-    void        SetSavedWindowGeometry();
-    void        InitImageSizeCombo(int);
-    void        SelectDestinationFile();
-    void        AdjustDestinationFile();
-    void        FileFormatCombo(int);
-    void        InitVideoBitRateCB(int);
-    void        InitAudioBitRateCB(int);
+    void            SetSavedWindowGeometry();
+    void            InitImageSizeCombo(int);
+    void            SelectDestinationFile();
+    void            AdjustDestinationFile();
+    void            FileFormatCombo(int);
+    void            InitVideoBitRateCB(int);
+    void            InitAudioBitRateCB(int);
 
 private:
-    QImage  *PrepareImage(int Column,int Position);
-
-    bool    OpenDestFile(int VideoCodecIndex,int AudioCodecIndex);
-    bool    CreateVideoStream();
-    bool    CreateAudioStream();
-
-    bool    WriteVideoFrame(int FrameNumber,AVFrame *VideoFramePicture,int Width,int Height);
-    bool    WriteAudioFrame(int16_t *Buffer,int AudioLen);
-    void    flush_ffmpeg_VideoStream(int Width,int Height);
-
-    void    RefreshDisplayControl();
-
-    AVFrame *QImageToYUVStream(QImage *Image);
-
     Ui::DlgRenderVideo *ui;
 };
 

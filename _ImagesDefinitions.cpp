@@ -297,7 +297,7 @@ cBackgroundObject::cBackgroundObject(QString FileName,int TheGeometry) {
 
     // Make Icon
     QImage *BrushImage=new QImage();
-    BrushImage->load(FilePath);
+    BrushImage->load(AdjustDirForOS(FilePath));
     if (!BrushImage->isNull()) {
         Geometry = TheGeometry;
         int     H,W;
@@ -328,7 +328,7 @@ cBackgroundObject::cBackgroundObject(QString FileName,int TheGeometry) {
 //====================================================================================================================
 
 bool cBackgroundObject::LoadInfo(QString FileName) {
-    QFile   file(FileName);
+    QFile   file(AdjustDirForOS(FileName));
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         while (!file.atEnd()) {
             QString Line=file.readLine();
@@ -366,7 +366,7 @@ void cBackgroundList::ScanDisk(QString Path,int TheGeometry) {
 
     List.clear();
     for (int i=0;i<Files.count();i++) if (Files[i].isFile() && QString(Files[i].suffix()).toLower()=="txt") {
-        QString FileName=QFileInfo(Files[i]).path()+QDir::separator()+QFileInfo(Files[i]).baseName()+".jpg";
+        QString FileName=AdjustDirForOS(QFileInfo(Files[i]).path()+QDir::separator()+QFileInfo(Files[i]).baseName()+".jpg");
         if (QFileInfo(QString(FileName)).isFile())
             List.append(cBackgroundObject(Files[i].absoluteFilePath(),Geometry));
     }
@@ -401,10 +401,10 @@ cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType) {
     QString Familly=QString("%1").arg(TransitionFamilly);   if (Familly.length()<2) Familly="0"+Familly;
     QString SubType=QString("%1").arg(TransitionSubType);   if (SubType.length()<2) SubType="0"+SubType;
     QString FileName="transitions-icons/tr-"+Familly+"-"+SubType+".png";
-    Icon=QImage(FileName);
+    Icon=QImage(AdjustDirForOS(FileName));
     if (Icon.isNull()) {
-        Icon=QImage("transitions-icons/tr-icon-error.png");
-        qDebug()<<"Icon not found:"<<QDir(FileName).absolutePath();
+        Icon=QImage(AdjustDirForOS("transitions-icons/tr-icon-error.png"));
+        qDebug()<<"Icon not found:"<<AdjustDirForOS(QDir(FileName).absolutePath());
     }
 }
 

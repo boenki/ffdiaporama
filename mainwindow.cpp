@@ -49,7 +49,7 @@ MainWindow::MainWindow(QString TheCurrentPath,cApplicationConfig *TheCurrentAppl
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QString Line=QString(file.readLine());
         if (Line.endsWith("\n")) Line=Line.left(Line.length()-QString("\n").length());
-        AddToSystemProperties(QString(BUILDVERSION_STR)+QString(Line));
+        AddToSystemProperties(QString(BUILDVERSION_STR)+QString(APPLICATION_NAME)+" "+QString(APPLICATION_VERSION)+" "+QString(Line));
      }
     file.close();
     // Search if a _BUILDVERSION.txt file exist
@@ -84,29 +84,19 @@ MainWindow::MainWindow(QString TheCurrentPath,cApplicationConfig *TheCurrentAppl
     // Check codec to know if they was finded
     AVCodec *p=NULL;
     while ((p=av_codec_next(p))) {
-        if (p->type==AVMEDIA_TYPE_AUDIO) for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(p->encode!=NULL)&&(!AUDIOCODECDEF[i].IsFind)) {
-            AUDIOCODECDEF[i].IsFind=true;
-            strcpy(AUDIOCODECDEF[i].ShortName,p->name);
+        if (p->type==AVMEDIA_TYPE_AUDIO) {
+            for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(p->encode!=NULL)&&(!AUDIOCODECDEF[i].IsFind)) {
+                AUDIOCODECDEF[i].IsFind=true;
+                strcpy(AUDIOCODECDEF[i].ShortName,p->name);
+            }
+            if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
         }
         if (p->type==AVMEDIA_TYPE_VIDEO) for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(p->encode!=NULL)&&(!VIDEOCODECDEF[i].IsFind)) {
             VIDEOCODECDEF[i].IsFind=true;
             strcpy(VIDEOCODECDEF[i].ShortName,p->name);
         }
+        if (QString(p->name)==QString("libxvid")) strcpy(VIDEOCODECDEF[2].ShortName,p->name);
     }
-
-    // Supprime les codecs pas encore programmé !
-    VIDEOCODECDEF[0].IsFind=false;  //CODEC_ID_MJPEG        => Ecrit un jpeg au lieu d'une vidéo
-    VIDEOCODECDEF[1].IsFind=false;  //CODEC_ID_MPEG2VIDEO   => Erreur en fin de fichier vidéo
-    //VIDEOCODECDEF[2].IsFind=false;    //CODEC_ID_MPEG4    => OK
-    //VIDEOCODECDEF[3].IsFind=false;    //CODEC_ID_H264     => OK
-    VIDEOCODECDEF[4].IsFind=false;  //CODEC_ID_VP8          => pas commencé
-
-    //AUDIOCODECDEF[0].IsFind=false;  //CODEC_ID_PCM_S16LE  => OK
-    //AUDIOCODECDEF[1].IsFind=false;  //CODEC_ID_MP3        => OK
-    //AUDIOCODECDEF[2].IsFind=false;  //CODEC_ID_AAC        => OK
-    AUDIOCODECDEF[3].IsFind=false;  //CODEC_ID_AC3          => Erreur de vitesse !!!!!!!!
-    //AUDIOCODECDEF[4].IsFind=false;  //CODEC_ID_VORBIS     => OK
-    //AUDIOCODECDEF[5].IsFind=false;  //CODEC_ID_MP2        => OK
 
     // Check format to know if they was finded
     AVOutputFormat *ofmt=NULL;
@@ -163,18 +153,18 @@ MainWindow::MainWindow(QString TheCurrentPath,cApplicationConfig *TheCurrentAppl
 
     AddSeparatorToSystemProperties();   AddToSystemProperties("Library :");
     QString Path;
-    Path="background";      BackgroundList.ScanDisk(Path,GEOMETRY_16_9); AddToSystemProperties(QString("  %1").arg(BackgroundList.List.count())+" images loaded into the background-library from "+QDir(Path).absolutePath());
+    Path="background";      BackgroundList.ScanDisk(Path,GEOMETRY_16_9); AddToSystemProperties(QString("  %1").arg(BackgroundList.List.count())+" images loaded into the background-library from "+AdjustDirForOS(QDir(Path).absolutePath()));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_BASE;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_BASE,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_ZOOMINOUT;i++)  IconList.List.append(cIconObject(TRANSITIONFAMILLY_ZOOMINOUT,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_SLIDE;i++)      IconList.List.append(cIconObject(TRANSITIONFAMILLY_SLIDE,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_PUSH;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_PUSH,i));
     AddToSystemProperties(QString("  %1").arg(IconList.List.count())+" no-luma transitions loaded into the transition-library");
-    Path="luma/Bar";        LumaList_Bar.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BAR);         AddToSystemProperties(QString("  %1").arg(LumaList_Bar.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
-    Path="luma/Box";        LumaList_Box.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BOX);         AddToSystemProperties(QString("  %1").arg(LumaList_Box.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
-    Path="luma/Center";     LumaList_Center.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CENTER);   AddToSystemProperties(QString("  %1").arg(LumaList_Center.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
-    Path="luma/Checker";    LumaList_Checker.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CHECKER); AddToSystemProperties(QString("  %1").arg(LumaList_Checker.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
-    Path="luma/Clock";      LumaList_Clock.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CLOCK);     AddToSystemProperties(QString("  %1").arg(LumaList_Clock.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
-    Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("  %1").arg(LumaList_Snake.List.count())+" luma transitions loaded into the transition-library from "+QDir(Path).absolutePath());
+    Path="luma/Bar";        LumaList_Bar.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BAR);         AddToSystemProperties(QString("  %1").arg(LumaList_Bar.List.count())+" luma transitions loaded into the transition-library from "+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="luma/Box";        LumaList_Box.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BOX);         AddToSystemProperties(QString("  %1").arg(LumaList_Box.List.count())+" luma transitions loaded into the transition-library from "+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="luma/Center";     LumaList_Center.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CENTER);   AddToSystemProperties(QString("  %1").arg(LumaList_Center.List.count())+" luma transitions loaded into the transition-library from "+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="luma/Checker";    LumaList_Checker.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CHECKER); AddToSystemProperties(QString("  %1").arg(LumaList_Checker.List.count())+" luma transitions loaded into the transition-library from "+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="luma/Clock";      LumaList_Clock.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CLOCK);     AddToSystemProperties(QString("  %1").arg(LumaList_Clock.List.count())+" luma transitions loaded into the transition-library from "+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("  %1").arg(LumaList_Snake.List.count())+" luma transitions loaded into the transition-library from "+AdjustDirForOS(QDir(Path).absolutePath()));
     AddToSystemProperties("  Total:"+QString("%1").arg(IconList.List.count())+" transitions loded into the transition-library");
 
     // Force timeline scroll bar properties
@@ -315,7 +305,9 @@ void MainWindow::RefreshControls() {
 
 void MainWindow::SetModifyFlag(bool IsModify) {
     Diaporama->IsModify=IsModify;
-    this->setWindowTitle(APPLICATION_NAME+QString("-")+(Diaporama->ProjectFileName!=""?Diaporama->ProjectFileName:QCoreApplication::translate("MainWindow","<new project>","when project have no name define"))+(Diaporama->IsModify?"*":""));
+    this->setWindowTitle(QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION)+QString("-")+
+                         (Diaporama->ProjectFileName!=""?Diaporama->ProjectFileName:QCoreApplication::translate("MainWindow","<new project>","when project have no name define"))+
+                         (Diaporama->IsModify?"*":""));
     RefreshControls();
 }
 
@@ -328,13 +320,13 @@ void MainWindow::s_About() {
 //====================================================================================================================
 
 void MainWindow::s_Documentation() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/Support.html")));
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/Support.php")));
 }
 
 //====================================================================================================================
 
 void MainWindow::s_NewFunctions() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/News.html")));
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/News.php")));
 }
 
 //====================================================================================================================
@@ -496,7 +488,7 @@ void MainWindow::UpdateDockInfo() {
         if ((Obj->Image!=NULL)||(Obj->Video!=NULL)) {
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Filename")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Obj->Image!=NULL?Obj->Image->FileName:Obj->Video!=NULL?Obj->Video->FileName:""));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Obj->Image!=NULL?AdjustDirForOS(Obj->Image->FileName):Obj->Video!=NULL?AdjustDirForOS(Obj->Video->FileName):""));
         }
         if (Obj->Image!=NULL) for (int i=0;i<Obj->Image->ExivValue.count();i++) {
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());

@@ -24,14 +24,16 @@
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
-// Utility use to retrieve number of processor
-int getCpuCount();
-
+// Global values
 extern QString CurrentLanguage;                                 // Current language code (en, fr, ...)
 extern QString SystemProperties;                                // System properties log
-void AddToSystemProperties(QString StringToAdd);
-void AddSeparatorToSystemProperties();
-void ExitApplicationWithFatalError(QString StringToAdd);
+
+// Utility functions
+int     getCpuCount();                                          // Retrieve number of processor
+QString AdjustDirForOS(QString Dir);                            // Adjust separator in pathname depending on operating system
+void    AddToSystemProperties(QString StringToAdd);             // Add a string to the system properties log
+void    AddSeparatorToSystemProperties();                       // Add a separator line to the system properties log
+void    ExitApplicationWithFatalError(QString StringToAdd);     // Exit application with error code 1 if error adding a string to the system properties log and and display it
 
 //====================================================================================================================
 
@@ -58,6 +60,7 @@ public:
 class cApplicationConfig {
 public:
     QString             PathEXIV2;                                  // Filename with path to exiv2 binary
+    QString             PathFFMPEG;                                 // Filename with path to ffmpeg binary
 
     QString             Plateforme;                                 // Operating system in use
     QWidget             *ParentWindow;                              // Link to the top window
@@ -77,6 +80,7 @@ public:
     QStringList         AllowImageExtension;                        // List of all file extension allowed for image
 
     // User contexte
+    QString             UserConfigPath;                             // Path and filename to user profil path
     QString             UserConfigFile;                             // Path and filename to user configuration file
     QString             GlobalConfigFile;                           // Path and filename to global configuration file (in binary directory)
 

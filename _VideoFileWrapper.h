@@ -87,7 +87,7 @@ public:
     ~cvideofilewrapper();
 
     bool        GetInformationFromFile(QString GivenFileName,bool MusicOnly);
-    QImage      *ImageAt(bool PreviewMode,int PreviewMaxHeight,int Position,bool CachedMode,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume);
+    QImage      *ImageAt(bool PreviewMode,int PreviewMaxHeight,int Position,bool CachedMode,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly);
 
     int         PreviousPosition;
     bool        IsReadVideoStarted;
@@ -103,7 +103,7 @@ public:
 
 private:
     void        CloseVideoFileReader();
-    QImage      *ReadVideoFrame(int Position,cSoundBlockList *SoundTrackMontage,double Volume);
+    QImage      *ReadVideoFrame(int Position,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly);
     QImage      *YUVStreamToQImage(double dPosition,bool GetFirstValide);
 };
 
