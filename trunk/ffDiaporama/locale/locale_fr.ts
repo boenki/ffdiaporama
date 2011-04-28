@@ -78,10 +78,6 @@ p, li { white-space: pre-wrap; }
         <translation>Un grand nombre d&apos;icônes sont issus du projet Crystal</translation>
     </message>
     <message>
-        <source>Visit us at</source>
-        <translation type="obsolete">Visitez-nous à l&apos;adresse</translation>
-    </message>
-    <message>
         <location filename="../DlgAbout.ui" line="389"/>
         <source>Sound engine for preview is based on SDL - Simple DirectMedia Layer</source>
         <translation>Le moteur audio utilisé pour la prévisualisation est basé sur SDL - Simple DirectMedia Layer</translation>
@@ -334,12 +330,27 @@ p, li { white-space: pre-wrap; }
         <translation>(Réduire cette valeur pour un PC lent)</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1127"/>
+        <location filename="../DlgApplicationSettings.ui" line="1098"/>
+        <source>Disable SSE2 hardware acceleration (if errors occurs with preview) - need application restart</source>
+        <translation>Désactiver l&apos;accélération matériel SSE2 (Si des erreurs surviennent) - redémarage nécessaire</translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1105"/>
+        <source>Force use of libfaac instead of ffmpeg internal aac encoder</source>
+        <translation>Forcer libfaac au lieu de l&apos;encoder aac interne de ffmpeg</translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1112"/>
+        <source>AAC codec :</source>
+        <translation>Encoder AAC :</translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1151"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1138"/>
+        <location filename="../DlgApplicationSettings.ui" line="1162"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annulé</translation>
     </message>
@@ -653,37 +664,23 @@ p, li { white-space: pre-wrap; }
     <name>DlgRenderVideo</name>
     <message>
         <location filename="../DlgRenderVideo.ui" line="25"/>
-        <location filename="../DlgRenderVideo.cpp" line="356"/>
-        <location filename="../DlgRenderVideo.cpp" line="365"/>
-        <location filename="../DlgRenderVideo.cpp" line="621"/>
-        <location filename="../DlgRenderVideo.cpp" line="637"/>
-        <location filename="../DlgRenderVideo.cpp" line="647"/>
-        <location filename="../DlgRenderVideo.cpp" line="662"/>
-        <location filename="../DlgRenderVideo.cpp" line="670"/>
+        <location filename="../DlgRenderVideo.cpp" line="332"/>
+        <location filename="../DlgRenderVideo.cpp" line="341"/>
+        <location filename="../DlgRenderVideo.cpp" line="423"/>
+        <location filename="../DlgRenderVideo.cpp" line="442"/>
+        <location filename="../DlgRenderVideo.cpp" line="574"/>
+        <location filename="../DlgRenderVideo.cpp" line="611"/>
+        <location filename="../DlgRenderVideo.cpp" line="619"/>
+        <location filename="../DlgRenderVideo.cpp" line="631"/>
+        <location filename="../DlgRenderVideo.cpp" line="641"/>
+        <location filename="../DlgRenderVideo.cpp" line="653"/>
         <location filename="../DlgRenderVideo.cpp" line="675"/>
-        <location filename="../DlgRenderVideo.cpp" line="686"/>
-        <location filename="../DlgRenderVideo.cpp" line="701"/>
-        <location filename="../DlgRenderVideo.cpp" line="712"/>
-        <location filename="../DlgRenderVideo.cpp" line="769"/>
-        <location filename="../DlgRenderVideo.cpp" line="783"/>
-        <location filename="../DlgRenderVideo.cpp" line="988"/>
-        <location filename="../DlgRenderVideo.cpp" line="1000"/>
-        <location filename="../DlgRenderVideo.cpp" line="1006"/>
-        <location filename="../DlgRenderVideo.cpp" line="1045"/>
-        <location filename="../DlgRenderVideo.cpp" line="1048"/>
-        <location filename="../DlgRenderVideo.cpp" line="1068"/>
-        <location filename="../DlgRenderVideo.cpp" line="1073"/>
-        <location filename="../DlgRenderVideo.cpp" line="1077"/>
-        <location filename="../DlgRenderVideo.cpp" line="1080"/>
-        <location filename="../DlgRenderVideo.cpp" line="1112"/>
-        <location filename="../DlgRenderVideo.cpp" line="1135"/>
-        <location filename="../DlgRenderVideo.cpp" line="1139"/>
-        <location filename="../DlgRenderVideo.cpp" line="1163"/>
-        <location filename="../DlgRenderVideo.cpp" line="1191"/>
-        <location filename="../DlgRenderVideo.cpp" line="1196"/>
-        <location filename="../DlgRenderVideo.cpp" line="1216"/>
-        <location filename="../DlgRenderVideo.cpp" line="1229"/>
-        <location filename="../DlgRenderVideo.cpp" line="1248"/>
+        <location filename="../DlgRenderVideo.cpp" line="696"/>
+        <location filename="../DlgRenderVideo.cpp" line="705"/>
+        <location filename="../DlgRenderVideo.cpp" line="713"/>
+        <location filename="../DlgRenderVideo.cpp" line="808"/>
+        <location filename="../DlgRenderVideo.cpp" line="812"/>
+        <location filename="../DlgRenderVideo.cpp" line="836"/>
         <source>Render video</source>
         <translation>Générer le film</translation>
     </message>
@@ -693,44 +690,59 @@ p, li { white-space: pre-wrap; }
         <translation>Fichier destination :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="293"/>
+        <location filename="../DlgRenderVideo.ui" line="307"/>
         <source>Video codec :</source>
         <translation>Codec vidéo :</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="58"/>
-        <location filename="../DlgRenderVideo.ui" line="334"/>
+        <location filename="../DlgRenderVideo.ui" line="348"/>
         <source>Image format :</source>
         <translation>Format d&apos;image :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="199"/>
-        <location filename="../DlgRenderVideo.ui" line="235"/>
+        <location filename="../DlgRenderVideo.ui" line="206"/>
+        <location filename="../DlgRenderVideo.ui" line="249"/>
         <source>Bit rate :</source>
         <translation>Compression :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="283"/>
+        <location filename="../DlgRenderVideo.ui" line="297"/>
         <source>Audio codec :</source>
         <translation>Codec audio :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="324"/>
+        <location filename="../DlgRenderVideo.ui" line="338"/>
         <source>Rendering to :</source>
         <translation>Générer le fichier :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="344"/>
+        <location filename="../DlgRenderVideo.ui" line="358"/>
         <source>Video format :</source>
         <translation>Format vidéo :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="354"/>
+        <location filename="../DlgRenderVideo.ui" line="368"/>
         <source>Audio format :</source>
         <translation>Format audio :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="568"/>
+        <location filename="../DlgRenderVideo.ui" line="429"/>
+        <source>Audio track - Total progression</source>
+        <translation>Génération de la piste audio</translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.ui" line="459"/>
+        <source>Video track - Current slide progression</source>
+        <translation>Génération de la piste vidéo - Dispositive en cours</translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.ui" line="517"/>
+        <source>Video track - Total progression</source>
+        <translation>Génération de la piste vidéo - Progression globale</translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.ui" line="616"/>
         <source>fps</source>
         <translation>fps</translation>
     </message>
@@ -770,52 +782,72 @@ p, li { white-space: pre-wrap; }
         <translation>Géométrie :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="263"/>
+        <location filename="../DlgRenderVideo.ui" line="277"/>
         <source>File format :</source>
         <translation>Format de fichier :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="421"/>
-        <source>Current slide progression</source>
-        <translation>Progression dans la diapositive</translation>
-    </message>
-    <message>
-        <location filename="../DlgRenderVideo.ui" line="428"/>
-        <source>Slide :</source>
-        <translation>Diapositive :</translation>
-    </message>
-    <message>
-        <location filename="../DlgRenderVideo.ui" line="474"/>
-        <source>Total progression</source>
-        <translation>Progression globale</translation>
-    </message>
-    <message>
-        <location filename="../DlgRenderVideo.ui" line="481"/>
-        <source>Frame :</source>
-        <translation>Image :</translation>
-    </message>
-    <message>
-        <location filename="../DlgRenderVideo.ui" line="522"/>
+        <location filename="../DlgRenderVideo.ui" line="570"/>
         <source>Elapsed time :</source>
         <translation>Temps écoulé :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="532"/>
+        <location filename="../DlgRenderVideo.ui" line="580"/>
         <source>Average render speed :</source>
         <translation>Vitesse moyenne de génération :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="618"/>
+        <location filename="../DlgRenderVideo.ui" line="666"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="629"/>
+        <location filename="../DlgRenderVideo.ui" line="677"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annulé</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="621"/>
+        <location filename="../DlgRenderVideo.cpp" line="471"/>
+        <location filename="../DlgRenderVideo.cpp" line="520"/>
+        <location filename="../DlgRenderVideo.cpp" line="527"/>
+        <location filename="../DlgRenderVideo.cpp" line="562"/>
+        <location filename="../DlgRenderVideo.cpp" line="566"/>
+        <source>Error</source>
+        <comment>Error message</comment>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.cpp" line="471"/>
+        <source>Error starting ffmpeg</source>
+        <comment>Error message</comment>
+        <translation>Erreur lors du lancement de ffmpeg</translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.cpp" line="520"/>
+        <source>Error sending image to ffmpeg</source>
+        <comment>Error message</comment>
+        <translation>Erreur lors de la transmission de l&apos;image à ffmeg</translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.cpp" line="527"/>
+        <source>ffmpeg error</source>
+        <comment>Error message</comment>
+        <translation>Erreur ffmpeg</translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.cpp" line="562"/>
+        <source>Error during ffmpeg process</source>
+        <comment>Error message</comment>
+        <translation>Erreur durant le processus ffmpeg</translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.cpp" line="566"/>
+        <source>Error exiting ffmpeg</source>
+        <comment>Error message</comment>
+        <translation>Erreur lors de l&apos;arret de ffmpeg</translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.cpp" line="574"/>
         <source>Job completed succesfully !</source>
         <translation>Génération terminée avec succès !</translation>
     </message>
@@ -1162,10 +1194,6 @@ p, li { white-space: pre-wrap; }
         <translation>Propriétés de la transition d&apos;arrière plan</translation>
     </message>
     <message>
-        <source>Documentation</source>
-        <translation type="obsolete">Documentation</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="684"/>
         <source>Cut</source>
         <translation>Couper</translation>
@@ -1226,58 +1254,53 @@ p, li { white-space: pre-wrap; }
         <translation>Générer le film</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="349"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="354"/>
         <source>All suported file (</source>
         <translation>Fichiers supportés (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="356"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="361"/>
         <source>Image file (</source>
         <translation>Fichiers images (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="362"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="367"/>
         <source>Video file (</source>
         <translation>Fichiers vidéos (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="429"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="435"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="442"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="581"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="436"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="441"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="447"/>
         <location filename="../_Diaporama.cpp" line="1242"/>
         <location filename="../_Diaporama.cpp" line="1265"/>
         <location filename="../_Diaporama.cpp" line="1271"/>
         <location filename="../_Diaporama.cpp" line="1278"/>
-        <location filename="../mainwindow.cpp" line="775"/>
+        <location filename="../mainwindow.cpp" line="758"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="429"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="430"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="436"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la lecture du fichier de configuration</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="435"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="436"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="441"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la lecture du contenu du fichier de configuration</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="442"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="443"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="447"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Le fichier de configuration n&apos;est pas valide</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="581"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="582"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="590"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la création du fichier de configuration</translation>
@@ -1311,148 +1334,148 @@ p, li { white-space: pre-wrap; }
         <translation>Le fichier n&apos;est pas un fichier projet valide</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="267"/>
-        <location filename="../mainwindow.cpp" line="592"/>
-        <location filename="../mainwindow.cpp" line="628"/>
+        <location filename="../mainwindow.cpp" line="250"/>
+        <location filename="../mainwindow.cpp" line="575"/>
+        <location filename="../mainwindow.cpp" line="611"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>Le projet en cours a été modifié.
 Voulez-vous l&apos;enregistrer ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="267"/>
+        <location filename="../mainwindow.cpp" line="250"/>
         <source>Close application</source>
         <translation>Quitter l&apos;application</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="322"/>
+        <location filename="../mainwindow.cpp" line="305"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation>&lt;Nouveau projet&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="430"/>
-        <location filename="../mainwindow.cpp" line="794"/>
+        <location filename="../mainwindow.cpp" line="413"/>
+        <location filename="../mainwindow.cpp" line="777"/>
         <source>Not implemented</source>
         <translation>Pas encore programmé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="430"/>
-        <location filename="../mainwindow.cpp" line="794"/>
+        <location filename="../mainwindow.cpp" line="413"/>
+        <location filename="../mainwindow.cpp" line="777"/>
         <source>Sorry, not yet done !</source>
         <translation>Désolé, cette fonction n&apos;est pas encore disponible !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="491"/>
+        <location filename="../mainwindow.cpp" line="474"/>
         <source>Object type</source>
         <translation>Type d&apos;objet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="492"/>
+        <location filename="../mainwindow.cpp" line="475"/>
         <source>Title</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="493"/>
+        <location filename="../mainwindow.cpp" line="476"/>
         <source>Image</source>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="494"/>
+        <location filename="../mainwindow.cpp" line="477"/>
         <source>Video</source>
         <translation>Vidéo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="497"/>
+        <location filename="../mainwindow.cpp" line="480"/>
         <source>Duration</source>
         <translation>Durée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="502"/>
+        <location filename="../mainwindow.cpp" line="485"/>
         <source>Filename</source>
         <translation>Nom de fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="512"/>
+        <location filename="../mainwindow.cpp" line="495"/>
         <source>Image size</source>
         <translation>Taille d&apos;image</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="516"/>
+        <location filename="../mainwindow.cpp" line="499"/>
         <source>Video format</source>
         <translation>Format vidéo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="520"/>
+        <location filename="../mainwindow.cpp" line="503"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="524"/>
+        <location filename="../mainwindow.cpp" line="507"/>
         <source>Frame rate</source>
         <translation>Images par seconde</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="528"/>
+        <location filename="../mainwindow.cpp" line="511"/>
         <source>fps</source>
         <comment>frame per second</comment>
         <translation>i/s</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="531"/>
+        <location filename="../mainwindow.cpp" line="514"/>
         <source>Aspect ratio</source>
         <translation>Géométrie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="535"/>
+        <location filename="../mainwindow.cpp" line="518"/>
         <source>Audio format</source>
         <translation>Format audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="539"/>
+        <location filename="../mainwindow.cpp" line="522"/>
         <source>Frequency</source>
         <translation>Fréquence</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="541"/>
+        <location filename="../mainwindow.cpp" line="524"/>
         <source>hz</source>
         <comment>audio frequency</comment>
         <translation>hz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="544"/>
+        <location filename="../mainwindow.cpp" line="527"/>
         <source>Channels</source>
         <translation>Cannaux</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="592"/>
+        <location filename="../mainwindow.cpp" line="575"/>
         <source>New project</source>
         <translation>Nouveau projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="628"/>
-        <location filename="../mainwindow.cpp" line="632"/>
+        <location filename="../mainwindow.cpp" line="611"/>
+        <location filename="../mainwindow.cpp" line="615"/>
         <source>Open project</source>
         <translation>Ouvrir un projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="682"/>
+        <location filename="../mainwindow.cpp" line="665"/>
         <source>Save project as</source>
         <translation>Enregistrer le projet sous</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="732"/>
+        <location filename="../mainwindow.cpp" line="715"/>
         <source>Add files</source>
         <translation>Ajouter des fichiers</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="775"/>
+        <location filename="../mainwindow.cpp" line="758"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Format non supporté</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="141"/>
+        <location filename="../DlgRenderVideo.cpp" line="104"/>
         <source>Select destination file</source>
         <translation>Selectionner un fichier de destination</translation>
     </message>

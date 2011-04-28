@@ -43,36 +43,36 @@
 sIMAGEDEF DefImageFormat [2][3][4] = {
     {   // STANDARD_PAL
         {   // GEOMETRY_4_3
-            {640,480,1,1,25,"VGA - 640x480 - 25 FPS",0},                        // SIZE_VGA
-            {720,576,16,15,25,"DVD - 720x576 - 25 FPS",0},                      // SIZE_DVD
-            {960,720,1,1,25,"720p - 960x720 - 25 FPS",0},                       // SIZE_720P
-            {1440,1080,1,1,25,"1080p - 1440x1080 - 25 FPS",0}                   // SIZE_1080p
+            {640,480,4,3,25,"25","VGA - 640x480 - 25 FPS",0},                        // SIZE_VGA
+            {720,576,16,15,25,"25","DVD - 720x576 - 25 FPS",0},                      // SIZE_DVD
+            {960,720,4,3,25,"25","720p - 960x720 - 25 FPS",0},                       // SIZE_720P
+            {1440,1080,4,3,25,"25","1080p - 1440x1080 - 25 FPS",0}                   // SIZE_1080p
         },{     // GEOMETRY_16_9
-            {640,360,1,1,25,"VGA - 640x360 - 25 FPS",0},                        // SIZE_VGA
-            {720,576,64,45,25,"DVD - 720x576 WIDE - 25 FPS",0},                 // SIZE_DVD
-            {1280,720,1,1,25,"720p - 1280x720 - 25 FPS",0},                     // SIZE_720P
-            {1920,1080,1,1,25,"1080p - 1920x1080 - 25 FPS",0}                   // SIZE_1080p
+            {640,360,16,9,25,"25","VGA - 640x360 - 25 FPS",0},                        // SIZE_VGA
+            {720,576,64,45,25,"25","DVD - 720x576 WIDE - 25 FPS",0},                 // SIZE_DVD
+            {1280,720,16,9,25,"25","720p - 1280x720 - 25 FPS",0},                     // SIZE_720P
+            {1920,1080,16,9,25,"25","1080p - 1920x1080 - 25 FPS",0}                   // SIZE_1080p
         },{     // GEOMETRY_40_17
-            {640,272,1,1,25,"VGA - 640x272 - 25 FPS",0},                        // SIZE_VGA
-            {720,436,64,45,25,"DVD - 720x436 WIDE+PAD - 25 FPS",70},            // SIZE_DVD
-            {1280,544,1,1,25,"720p - 1280x544 - 25 FPS",0},                     // SIZE_720P
-            {1920,816,1,1,25,"1080p - 1920x816 - 25 FPS",0}                     // SIZE_1080p
+            {640,272,40,17,25,"25","VGA - 640x272 - 25 FPS",0},                        // SIZE_VGA
+            {720,436,64,45,25,"25","DVD - 720x436 WIDE+PAD - 25 FPS",70},            // SIZE_DVD
+            {1280,544,40,17,25,"25","720p - 1280x544 - 25 FPS",0},                     // SIZE_720P
+            {1920,816,40,17,25,"25","1080p - 1920x816 - 25 FPS",0}                     // SIZE_1080p
     }},{// STANDARD_NTSC
         {   // GEOMETRY_4_3
-            {640,480,1,1,(double)30000/1001,"VGA - 640x480 - 29.97 FPS",0},             // SIZE_VGA
-            {720,480,8,9,(double)30000/1001,"DVD - 720x480 WIDE - 29.97 FPS",0},        // SIZE_DVD
-            {960,720,1,1,(double)24000/1001,"720p - 960x720 - 23.976 FPS",0},           // SIZE_720P
-            {1440,1080,1,1,(double)24000/1001,"1080p - 1440x1080 - 23.976 FPS",0}       // SIZE_1080p
+            {640,480,1,1,double(30000)/double(1001),"30000/1001","VGA - 640x480 - 29.97 FPS",0},             // SIZE_VGA
+            {720,480,8,9,double(30000)/double(1001),"30000/1001","DVD - 720x480 WIDE - 29.97 FPS",0},        // SIZE_DVD
+            {960,720,1,1,double(24000)/double(1001),"24000/1001","720p - 960x720 - 23.976 FPS",0},           // SIZE_720P
+            {1440,1080,1,1,double(24000)/double(1001),"24000/1001","1080p - 1440x1080 - 23.976 FPS",0}       // SIZE_1080p
         },{     // GEOMETRY_16_9
-            {640,360,1,1,(double)30000/1001,"VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
-            {720,480,32,27,(double)30000/1001,"DVD - 720x480 WIDE - 29.97 FPS",0},      // SIZE_DVD
-            {1280,720,1,1,(double)24000/1001,"720p - 1280x720 - 23.976 FPS",0},         // SIZE_720P
-            {1920,1080,1,1,(double)24000/1001,"1080p - 1920x1080 - 23.976 FPS",0}       // SIZE_1080p
+            {640,360,1,1,double(30000)/double(1001),"30000/1001","VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
+            {720,480,32,27,double(30000)/double(1001),"30000/1001","DVD - 720x480 WIDE - 29.97 FPS",0},      // SIZE_DVD
+            {1280,720,1,1,double(24000)/double(1001),"24000/1001","720p - 1280x720 - 23.976 FPS",0},         // SIZE_720P
+            {1920,1080,1,1,double(24000)/double(1001),"24000/1001","1080p - 1920x1080 - 23.976 FPS",0}       // SIZE_1080p
         },{     // GEOMETRY_40_17
-            {640,272,1,1,(double)30000/1001,"VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
-            {720,362,32,27,(double)30000/1001,"DVD - 720x362 WIDE+PAD - 29.97 FPS",59}, // SIZE_DVD
-            {1280,544,1,1,(double)24000/1001,"720p - 1280x544 - 23.976 FPS",0},         // SIZE_720P
-            {1920,816,1,1,(double)24000/1001,"1080p - 1920x816 - 23.976 FPS",0}         // SIZE_1080p
+            {640,272,1,1,double(30000)/double(1001),"30000/1001","VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
+            {720,362,32,27,double(30000)/double(1001),"30000/1001","DVD - 720x362 WIDE+PAD - 29.97 FPS",59}, // SIZE_DVD
+            {1280,544,1,1,double(24000)/double(1001),"24000/1001","720p - 1280x544 - 23.976 FPS",0},         // SIZE_720P
+            {1920,816,1,1,double(24000)/double(1001),"24000/1001","1080p - 1920x816 - 23.976 FPS",0}         // SIZE_1080p
     }}
 };
 
@@ -81,8 +81,7 @@ sIMAGEDEF DefImageFormat [2][3][4] = {
 ****************************************************************************/
 
 struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
-    {false, CODEC_ID_MJPEG,     "mjpeg",        "Motion JPEG",
-     "250k#500k#750k#1000k#1500k#2000k",                                                {"500k","750k","1000k","2000k"}},
+    {false, CODEC_ID_MJPEG,     "mjpeg",        "Motion JPEG",       "",                {""}},
     {false, CODEC_ID_MPEG2VIDEO,"mpeg2video",   "MPEG-2 video",
      "2000k#3000k#4000k#6000k#8000k#10000k#12000k#15000k#20000k",                       {"3000k","6000k","12000k","20000k"}},
     {false, CODEC_ID_MPEG4,    "libxvid",       "DivX/XVid/MPEG-4",
@@ -90,6 +89,8 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
     {false, CODEC_ID_H264,     "libx264",       "H.264 AVC/MPEG-4 AVC",
      "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#12000k",  {"1500k","2500k","5000k","8000k"}},
     {false, CODEC_ID_VP8,      "libvpx",        "WebM-VP8",
+     "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k",                {"1500k","2500k","5000k","8000k"}},
+    {false, 22,                "flv",           "Flash Video / Sorenson H.263",
      "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k",                {"1500k","2500k","5000k","8000k"}}
 };
 
@@ -105,7 +106,7 @@ struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
     {false, CODEC_ID_VORBIS,   "libvorbis",     "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",
      false,"","128k"},
     {false, CODEC_ID_MP2,      "mp2",           "MP2 (MPEG audio layer 2)",             "64k#96k#128k#192k#256k#500k",
-     false,"","128k"},
+     false,"","128k"}
 };
 
 struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
@@ -114,7 +115,10 @@ struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
     {false, "matroska", "mkv",  "MKV (Matroska) file format",   "libxvid#mpeg4#libx264#h264",                  "pcm_s16le#libmp3lame#mp3#libfaac#aac#ac3#libvorbis#vorbis"},
     {false, "mjpeg",    "avi",  "MJPEG video",                  "mjpeg",                                       "pcm_s16le"},
     {false, "mp4",      "mp4",  "MP4 file format",              "libxvid#mpeg4#libx264#h264",                  "libmp3lame#mp3#libfaac#aac"},
-    {false, "webm",     "webm", "WEBM file format",             "libvpx",                                      "libvorbis#vorbis"}
+    {false, "mpeg",     "mpg",  "MPEG file format",             "mpeg2video",                                  "mp2"},
+    {false, "webm",     "webm", "WEBM file format",             "libvpx",                                      "libvorbis#vorbis"},
+    {false, "flv",      "flv",  "Flash file format (2005)",     "flv",                                         "libmp3lame#mp3"},
+    {false, "flv",      "flv",  "Flash file format (2008)",     "libx264#h264",                                "libfaac#aac"},
 };
 // Note : depending on ffmpeg version :
 //       => aac codec is libfaac or aac
@@ -139,6 +143,14 @@ void ExitApplicationWithFatalError(QString StringToAdd) {
     AddToSystemProperties(StringToAdd);
     puts(SystemProperties.toLocal8Bit());     // Print out SystemProperties
     exit(1);
+}
+
+QString AdjustDirForOS(QString Dir) {
+    #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
+    Dir.replace("/","\\");
+    Dir.replace("\\\\","\\");
+    #endif
+    return Dir;
 }
 
 /****************************************************************************
@@ -303,18 +315,24 @@ cApplicationConfig::cApplicationConfig() {
     GlobalConfigFile=QString(APPLICATION_NAME)+QString(CONFIGFILEEXT);
 
     // set UserConfigFile value (depending on operating system)
-#ifdef Q_OS_WIN
-    UserConfigFile=WINDOWS_APPDATA;
-    if (UserConfigFile[UserConfigFile.length()-1]!=QDir::separator()) UserConfigFile=UserConfigFile+QDir::separator();
-    UserConfigFile=UserConfigFile+APPLICATION_NAME+QDir::separator()+APPLICATION_NAME+CONFIGFILEEXT;
-    PathEXIV2 = "exiv2\\exiv2.exe";             // FileName of exiv2 (with path) : Windows version
-#endif
-#ifdef Q_WS_X11
-    UserConfigFile=QDir::homePath();
-    if (UserConfigFile[UserConfigFile.length()-1]!=QDir::separator()) UserConfigFile=UserConfigFile+QDir::separator();
-    UserConfigFile=UserConfigFile+"."+APPLICATION_NAME+QDir::separator()+APPLICATION_NAME+CONFIGFILEEXT;
-    PathEXIV2="/usr/bin/exiv2";               // FileName of exiv2 (with path) : Linux version
-#endif
+    #ifdef Q_OS_WIN
+    UserConfigPath=WINDOWS_APPDATA;
+    if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
+    UserConfigPath  = UserConfigPath+APPLICATION_NAME+QDir::separator();
+    PathEXIV2       = "exiv2\\exiv2.exe";             // FileName of exiv2 (with path) : Windows version
+    PathFFMPEG      = "ffmpeg\\bin\\ffmpeg.exe";      // FileName of ffmpeg (with path) : Windows version
+    #endif
+    #ifdef Q_WS_X11
+    UserConfigPath=QDir::homePath();
+    if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
+    UserConfigPath  = UserConfigPath+"."+APPLICATION_NAME+QDir::separator();
+    PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
+    PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
+    #endif
+    UserConfigPath=AdjustDirForOS(UserConfigPath);
+    UserConfigFile=UserConfigPath+APPLICATION_NAME+CONFIGFILEEXT;
+    AddToSystemProperties(QString(TEMPDIR_STR)+UserConfigPath);
+    AddToSystemProperties(QString(USERCONFIGFILE_STR)+UserConfigFile);
 
     MainWinWSP                  =new cSaveWindowPosition("MainWindow",RestoreWindow,true);                  // MainWindow - Window size and position
     DlgImagePropertiesWSP       =new cSaveWindowPosition("DlgImageProperties",RestoreWindow,false);         // Dialog box "Image properties" - Window size and position

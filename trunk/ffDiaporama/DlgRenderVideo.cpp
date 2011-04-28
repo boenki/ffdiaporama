@@ -25,16 +25,8 @@
 
 DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,QWidget *parent):QDialog(parent),ui(new Ui::DlgRenderVideo) {
     ui->setupUi(this);
-    Diaporama=&TheDiaporama;
-
-    // Init LIBAV values
-    IsDestFileOpen   =false;
-    VideoStream      =NULL;
-    AudioStream      =NULL;
-    VideoCodecContext=NULL;
-    AudioCodecContext=NULL;
-    VideoCodec       =NULL;
-    AudioCodec       =NULL;
+    Diaporama       =&TheDiaporama;
+    IsDestFileOpen  =false;
 
     // For the first step, only SelectDestWidget is display and enable
     ui->SelectDestScroll->setEnabled(true);     ui->SelectDestScroll->setVisible(true);
@@ -91,35 +83,6 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,QWidget *parent):QDialog
 
 DlgRenderVideo::~DlgRenderVideo() {
     delete ui;
-
-    if (IsDestFileOpen) {
-        // close each codec
-        if (VideoStream!=NULL) {
-            avcodec_close(VideoStream->codec);
-        }
-
-        // free the streams
-        for(int i = 0; i < (int)OutputFormatContext->nb_streams; i++) {
-            av_freep(&OutputFormatContext->streams[i]->codec);
-            av_freep(&OutputFormatContext->streams[i]);
-            OutputFormatContext->streams[i]=NULL;
-        }
-        VideoStream=NULL;
-        AudioStream=NULL;
-
-        // close the file
-        #if FF_API_OLD_AVIO
-        if (OutputFormatContext->pb!=NULL) avio_close(OutputFormatContext->pb);
-        #else
-        if (OutputFormatContext->pb!=NULL) url_fclose(OutputFormatContext->pb);
-        #endif
-
-        // free the stream
-        if (OutputFormatContext!=NULL) {
-            av_free(OutputFormatContext);
-            OutputFormatContext=NULL;
-        }
-    }
 }
 
 //====================================================================================================================
@@ -294,7 +257,7 @@ void DlgRenderVideo::AdjustDestinationFile() {
 
     OutputFileName=QFileInfo(OutputFileName).absoluteFilePath();
     if (QFileInfo(OutputFileName).suffix().length()>0) OutputFileName=OutputFileName.left(OutputFileName.length()-QFileInfo(OutputFileName).suffix().length()-1);
-    OutputFileName=OutputFileName+"."+FileFormat;
+    OutputFileName=AdjustDirForOS(OutputFileName+"."+FileFormat);
     ui->DestinationFilePath->setText(OutputFileName);
 }
 
@@ -326,9 +289,22 @@ void DlgRenderVideo::reject() {
 //====================================================================================================================
 
 void DlgRenderVideo::accept() {
+    cDiaporamaObjectInfo    *PreviousFrame  =NULL;
+    cDiaporamaObjectInfo    *Frame          =NULL;
+    QString                 TempWAVFileName;
+    QString                 vCodec,aCodec;
+    QString                 ffmpegCommand;
+    int                     W,H;
+    QProcess                Process;        Process.setProcessChannelMode(QProcess::ForwardedChannels);
+    bool                    RefreshDisplay;
+    int                     DurationProcess;        // Display informations
+    QString                 DisplayText;            // Display informations
+
     if (IsDestFileOpen) {
         StopProcessWanted=true;
     } else {
+        bool Continue=true;                                  // Loop control
+
         // if process encoding was not started then start it
 
         // Only ProcessWidget must be display and enable
@@ -348,7 +324,7 @@ void DlgRenderVideo::accept() {
         Diaporama->ImageGeometry    =ui->GeometryCombo->currentIndex();
         Diaporama->LastStandard     =ui->StandardCombo->currentIndex();
         Diaporama->LastImageSize    =ui->ImageSizeCombo->currentIndex();
-        Diaporama->VideoFrameRate   =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].FPS;
+        Diaporama->VideoFrameRate   =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].dFPS;
         Diaporama->AudioFrequency   =48000;
 
         VideoCodecIndex             =ui->VideoFormatCB->currentIndex();
@@ -375,84 +351,398 @@ void DlgRenderVideo::accept() {
         // Special case for WAV
         if (AUDIOCODECDEF[AudioCodecIndex].Codec_id==CODEC_ID_PCM_S16LE) Diaporama->AudioBitRate=1536;
 
+        // Special case for FLV
+        if (QString(FORMATDEF[Diaporama->OutputFileFormat].ShortName)==QString("flv")) Diaporama->AudioFrequency=44100;
+
         ui->InformationLabel1->setText(Diaporama->OutputFileName);
         ui->InformationLabel2->setText(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Name);
         ui->InformationLabel3->setText(QString(VIDEOCODECDEF[VideoCodecIndex].LongName)+" - "+QString("%1").arg(Diaporama->VideoBitRate)+" kb/s");
-        ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+" - 48000 Hz - "+QString("%1").arg(Diaporama->AudioBitRate)+" kb/s");
+        ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+QString(" - %1 Hz - ").arg(Diaporama->AudioFrequency)+QString("%1").arg(Diaporama->AudioBitRate)+" kb/s");
 
-        if (!OpenDestFile(VideoCodecIndex,AudioCodecIndex)) {
-            // Save Window size and position
-            Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);
-            done(1); // close box with error !
-            return;
-        }
-        FPS     =(uint64_t)AV_TIME_BASE/Diaporama->VideoFrameRate;                      // Time duration of a frame
-        NbrFrame=int(double(Diaporama->GetDuration()*1000)/double(FPS));                // Number of frame to generate
+        //**********************************************************************************************************************************
 
-        int                     W=VideoStream->codec->width;                            // Width to generate
-        int                     H=VideoStream->codec->height-Extend-Extend;             // Height to generate
-        AVFrame                 *VideoFramePicture=NULL;                                                // Image in YUV mode
-        bool                    IsImageUpdated  =false;                                 // True if image was modified (then YUV buffer must be update)
-        bool                    Continue        =true;                                  // Loop control
-        bool                    RefreshDisplay  =true;                                  // Display control : true if display need to ne refresh
-        QImage                  *Image=NULL;
-        int                     CurrentFrameNumber;
+        FPS     =(uint64_t)AV_TIME_BASE/Diaporama->VideoFrameRate;          // Time duration of a frame
+        NbrFrame=int(double(Diaporama->GetDuration()*1000)/double(FPS));    // Number of frame to generate
 
-        cDiaporamaObjectInfo    *PreviousFrame  =NULL;
-        cDiaporamaObjectInfo    *Frame   =NULL;
-
-        Position                =0;                                                     // Current position
-        ColumnStart             =-1;                                                    // Start position of current object
-        Column                  =-1;                                                    // Current object
-        StartTime               =QTime::currentTime();                                  // Display control : time the process start
-        LastCheckTime           =StartTime;                                             // Display control : last time the loop start
-        IsThreadWriteVideoFrame =false;
-        IsThreadWriteAudioFrame =false;
-
-        // Init sound objects
-        if (AudioStream!=NULL) {
-            int audio_input_frame_size=AudioStream->codec->frame_size; // frame size in samples
-            if ((audio_input_frame_size<=1)&&((AudioStream->codec->codec_id==CODEC_ID_PCM_S16LE)||(AudioStream->codec->codec_id==CODEC_ID_PCM_S16BE)||
-                                              (AudioStream->codec->codec_id==CODEC_ID_PCM_S16LE)||(AudioStream->codec->codec_id==CODEC_ID_PCM_S16BE)))
-                audio_input_frame_size=RenderMusic.SoundPacketSize; else audio_input_frame_size*=RenderMusic.SampleBytes*RenderMusic.Channels;
-
-            RenderMusic.ClearList();
-            RenderMusic.SetFPS(Diaporama->VideoFrameRate);
-            EncodedAudio.SetFrameSize(audio_input_frame_size);
-        }
-
+        ui->SoundProgressBar->setValue(0);
+        ui->SoundProgressBar->setMaximum(NbrFrame);
+        ui->SlideProgressBar->setValue(0);
+        ui->TotalProgressBar->setValue(0);
         ui->TotalProgressBar->setMaximum(NbrFrame);
+        ui->SlideNumberLabel->setText("");
+        ui->FrameNumberLabel->setText("");
 
-        // write the header
-        av_write_header(OutputFormatContext);
+        //**********************************************************************************************************************************
+        // 1st step encoding : produce WAV file with sound
+        //**********************************************************************************************************************************
 
-        RenderedFrame    =0;
+        StartTime=QTime::currentTime();                                  // Display control : time the process start
 
-        for (CurrentFrameNumber=0;CurrentFrameNumber<NbrFrame;CurrentFrameNumber++) {
+        // Create tempwavefile in the same directory as destination file
+        TempWAVFileName=QFileInfo(ui->DestinationFilePath->text()).absolutePath();
+        TempWAVFileName=TempWAVFileName+"/temp.wav";
+        TempWAVFileName=AdjustDirForOS(TempWAVFileName);
 
-            //============================================
+        Continue=WriteTempAudioFile(TempWAVFileName);
+
+        //**********************************************************************************************************************************
+        // 2nd step encoding : produce final file using temporary WAV file with sound
+        //**********************************************************************************************************************************
+
+        // Construct ffmpeg command line
+        if (Continue) {
+            W       =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Width;
+            H       =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Height;
+            Extend  =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Extend;
+
+            // Video codec part
+            switch (VIDEOCODECDEF[VideoCodecIndex].Codec_id) {
+                case CODEC_ID_MPEG2VIDEO :  vCodec=QString("-vcodec mpeg2video -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
+                                                   .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
+                                                   .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
+                                                   .arg(Diaporama->VideoBitRate*2)
+                                                   .arg(Diaporama->VideoBitRate);
+                                            break;
+                case CODEC_ID_MPEG4 :       if (QString(VIDEOCODECDEF[VideoCodecIndex].ShortName)==QString("mpeg4"))
+                                                vCodec=QString("-vcodec mpeg4 -vtag xvid -b %1k").arg(Diaporama->VideoBitRate);
+                                                else vCodec=QString("-vcodec libxvid -b %1k").arg(Diaporama->VideoBitRate);
+                                            break;
+                case CODEC_ID_H264 :        vCodec=QString("-vcodec libx264 -vpre libx264-hq -refs 3 -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
+                                                   .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
+                                                   .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
+                                                   .arg(Diaporama->VideoBitRate*2)
+                                                   .arg(Diaporama->VideoBitRate);
+                                            break;
+                case CODEC_ID_MJPEG:        vCodec="-vcodec mjpeg -qscale 2 -qmin 2 -qmax 2";   break;
+                case CODEC_ID_VP8:              vCodec=QString("-vcodec libvpx -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
+                                                   .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
+                                                   .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
+                                                   .arg(Diaporama->VideoBitRate*2)
+                                                   .arg(Diaporama->VideoBitRate);
+                                            break;
+                case 22 :                   vCodec=QString("-vcodec flv -b %1k").arg(Diaporama->VideoBitRate);
+                                            break;
+                default:
+                    QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Unknown video codec");
+                    Continue=false;
+                    break;
+            }
+
+            // Audio codec part
+            switch (AUDIOCODECDEF[AudioCodecIndex].Codec_id) {
+                case CODEC_ID_PCM_S16LE:    aCodec=QString("-acodec pcm_s16le -ab %1k").arg(Diaporama->AudioBitRate); break;
+                case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1k").arg(Diaporama->AudioBitRate); break;
+                case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1k").arg(Diaporama->AudioBitRate); break;
+                case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))
+                                                aCodec=QString("-acodec aac -strict experimental -ab %1k").arg(Diaporama->AudioBitRate);
+                                                else aCodec=QString("-acodec libfaac -ab %1k").arg(Diaporama->AudioBitRate);
+                                            break;
+                case CODEC_ID_AC3:          aCodec=QString("-acodec ac3 -ab %1k").arg(Diaporama->AudioBitRate); break;
+                case CODEC_ID_VORBIS:       aCodec=QString("-acodec libvorbis -ab %1k").arg(Diaporama->AudioBitRate); break;
+
+                default:
+                    QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Unknown audio codec");
+                    Continue=false;
+                    break;
+            }
+
+            if (Continue) {
+                ffmpegCommand=Diaporama->ApplicationConfig->PathFFMPEG+QString(" -y -f image2pipe -vcodec ppm -i - -i \"")+TempWAVFileName+"\" "+vCodec+" -r "+
+                      QString(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].FPS)+
+                      " "+aCodec+QString(" -ar %1 -ac 2 -aspect %2:%3")
+                      .arg(Diaporama->AudioFrequency)
+                      .arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARNUM)
+                      .arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARDEN);
+
+                // Activate multithreading support if getCpuCount()>1 and codec is h264 or VP8
+                if ((getCpuCount()>1)&&(
+                        (VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_H264)||
+                        (VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_VP8)
+                        )) ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount());
+
+                ffmpegCommand=ffmpegCommand+" \""+Diaporama->OutputFileName+"\"";
+
+                ffmpegCommand=AdjustDirForOS(ffmpegCommand);
+
+                qDebug()<<ffmpegCommand;
+            }
+        }
+
+        // Start ffmpegCommand
+        if (Continue) {
+            Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);
+            if (!Process.waitForStarted()) {
+                QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),QCoreApplication::translate("DlgRenderVideo","Error starting ffmpeg","Error message"),QMessageBox::Close);
+                Continue=false;
+            }
+        }
+
+        // Encode video
+        if (Continue) {
+            LastCheckTime   =StartTime;     // Display control : last time the loop start
+            int Position    =0;             // Render current position
+            int ColumnStart =-1;            // Render start position of current object
+            int Column      =-1;            // Render current object
+
+            for (int RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
+                if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))<=Position))) {
+                    Column++;
+                    ColumnStart=Position;
+                    if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))/(FPS/double(1000)))-1);
+                    RefreshDisplay =true;
+                } else RefreshDisplay =(LastCheckTime.msecsTo(QTime::currentTime())>=1000);    // Refresh display only one time per second
+
+                // Refresh Display (if needed)
+                if (RefreshDisplay) {
+                    DurationProcess=StartTime.msecsTo(QTime::currentTime());
+                    DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
+                    DisplayText=QString("%1").arg(double(RenderedFrame)/(double(DurationProcess)/1000),0,'f',1);        ui->FPSLabel->setText(DisplayText);
+                    DisplayText=QString("%1/%2").arg(Column+1).arg(Diaporama->List.count());                            ui->SlideNumberLabel->setText(DisplayText);
+                    DisplayText=QString("%1/%2").arg(RenderedFrame).arg(NbrFrame);                                      ui->FrameNumberLabel->setText(DisplayText);
+                    ui->SlideProgressBar->setValue(int(double(Position-ColumnStart)/(FPS/double(1000))));
+                    ui->TotalProgressBar->setValue(RenderedFrame);
+                    LastCheckTime=QTime::currentTime();
+                }
+
+                // Get current frame
+                Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
+
+                // Prepare frame with correct W and H
+                Diaporama->LoadSources(Frame,W,H,false);                                            // Load source images
+                Diaporama->PrepareImage(Frame,W,H,Extend,true);                                     // Prepare image Current Object
+                if (Frame->IsTransition) Diaporama->PrepareImage(Frame,W,H,Extend,false);           // Prepare image Transition Object
+                Diaporama->DoAssembly(Frame,W,H+Extend);                                            // Make final assembly
+                // Special case when no sound !
+                if ((Frame->CurrentObject)&&(Frame->CurrentObject->Video)) Frame->CurrentObject->Video->NextPacketPosition+=FPS/1000;
+                if ((Frame->TransitObject)&&(Frame->TransitObject->Video)) Frame->TransitObject->Video->NextPacketPosition+=FPS/1000;
+
+                // Give time to interface !
+                QCoreApplication::processEvents();
+
+                // Save image to the pipe
+                if (!Frame->RenderedImage->save(&Process,"PPM",100)) {
+                    QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),QCoreApplication::translate("DlgRenderVideo","Error sending image to ffmpeg","Error message"),QMessageBox::Close);
+                    Continue=false;
+                }
+
+                // Wait until ffmpeg processed the frame
+                while (Continue &&(Process.bytesToWrite()>0)) {
+                    if (!Process.waitForBytesWritten()) {
+                        QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),QCoreApplication::translate("DlgRenderVideo","ffmpeg error","Error message"),QMessageBox::Close);
+                        Continue=false;
+                    }
+                    // Give time to interface !
+                    QCoreApplication::processEvents();
+                    // Stop the process if error occur or user ask to stop
+                    Continue=Continue && !StopProcessWanted;;
+                }
+
+                // Calculate next position
+                Position+=(FPS/1000);
+
+                if (PreviousFrame!=NULL) delete PreviousFrame;
+                PreviousFrame=Frame;
+                Frame =NULL;
+
+                // Stop the process if error occur or user ask to stop
+                Continue=Continue && !StopProcessWanted;;
+            }
+            // Clean PreviousFrame
+            if (PreviousFrame!=NULL) delete PreviousFrame;
+
+            // Close the pipe to stop ffmpeg process
+            Process.closeWriteChannel();
+
+            // Last information update
+            DurationProcess=StartTime.msecsTo(QTime::currentTime());
+            DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
+            DisplayText=QString("%1").arg(double(NbrFrame)/(double(DurationProcess)/1000),0,'f',1);             ui->FPSLabel->setText(DisplayText);
+            DisplayText=QString("%1/%2").arg(Column+1).arg(Diaporama->List.count());                            ui->SlideNumberLabel->setText(DisplayText);
+            DisplayText=QString("%1/%2").arg(NbrFrame).arg(NbrFrame);                                           ui->FrameNumberLabel->setText(DisplayText);
+            ui->SlideProgressBar->setValue(int(double(Position-ColumnStart)/(FPS/double(1000))));
+            ui->TotalProgressBar->setValue(NbrFrame);
+
+            if (!Process.waitForFinished(30000)) { // 30 sec max to close ffmpeg
+                QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),QCoreApplication::translate("DlgRenderVideo","Error during ffmpeg process","Error message"),QMessageBox::Close);
+                Process.terminate();
+                Continue=false;
+            } else if (Process.exitStatus()!=QProcess::NormalExit) {
+              QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),QCoreApplication::translate("DlgRenderVideo","Error exiting ffmpeg","Error message"),QMessageBox::Close);
+              Continue=false;
+            }
+        }
+
+        QFile::remove(TempWAVFileName);
+
+        // Inform user of success
+        if (Continue) QMessageBox::information(this,QCoreApplication::translate("DlgRenderVideo","Render video"),QCoreApplication::translate("DlgRenderVideo","Job completed succesfully !"));
+
+        // Save Window size and position
+        Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);
+
+        // Close the dialog box
+        done(0);
+    }
+}
+
+//============================================================================================
+// Make audio temp file
+//============================================================================================
+
+bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
+    bool                    Continue            =true;      // true if no error occur
+    cDiaporamaObjectInfo    *PreviousFrame      =NULL;
+    cDiaporamaObjectInfo    *Frame              =NULL;
+    AVOutputFormat          *Fmt                =NULL;      // No delete needed !
+    AVFormatContext         *OutputFormatContext=NULL;
+    AVStream                *AudioStream        =NULL;
+    AVCodecContext          *AudioCodecContext  =NULL;
+    AVCodec                 *AudioCodec         =NULL;
+    uint8_t                 *audio_outbuf       =NULL;
+    AVFormatParameters      fpOutFile;          memset(&fpOutFile,0,sizeof(AVFormatParameters));
+    cSoundBlockList         RenderMusic;
+    cSoundBlockList         EncodedAudio;
+
+    //    AVStream        *VideoStream        =NULL;
+    //    AVCodecContext  *VideoCodecContext  =NULL;
+    //    AVCodec         *VideoCodec         =NULL;
+
+    ui->SoundProgressBar->setMaximum(NbrFrame);
+
+    // Get the container format
+    Fmt=av_guess_format(NULL,TempWAVFileName.toLocal8Bit(),NULL);
+    if (Fmt==NULL) {
+        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary wav file !");
+        Continue=false;
+    } else Fmt->audio_codec=CODEC_ID_PCM_S16LE;
+
+    // allocate the output media context
+    if (Continue) {
+        OutputFormatContext = avformat_alloc_context();
+        if (!OutputFormatContext) {
+            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : Unable to allocate OutputFormatContext !");
+            Continue=false;
+        } else {
+            memcpy(OutputFormatContext->filename,TempWAVFileName.toLocal8Bit(),strlen(TempWAVFileName.toLocal8Bit())+1);
+            OutputFormatContext->oformat  =Fmt;
+            OutputFormatContext->timestamp=0;
+            OutputFormatContext->bit_rate =1536;
+            //OutputFormatContext->preload  = (int)(0.5 * AV_TIME_BASE);
+            //OutputFormatContext->max_delay= (int)(0.7 * AV_TIME_BASE);
+            // set the output parameters
+            if (av_set_parameters(OutputFormatContext,&fpOutFile)<0) {
+                av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+                QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Invalid output format parameters !");
+                Continue=false;
+            }
+        }
+    }
+
+    // Allocate AudioStream
+    if (Continue) {
+        AudioStream=av_new_stream(OutputFormatContext,0);
+        if (AudioStream==NULL) {
+            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream !");
+            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+            Continue=false;
+        }
+    }
+
+    // Open audio codec
+    if (Continue) {
+        AudioCodecContext=AudioStream->codec;
+        avcodec_get_context_defaults2(AudioCodecContext,CODEC_TYPE_AUDIO);  // Fill stream with default values
+        AudioCodec=avcodec_find_encoder(CODEC_ID_PCM_S16LE);                // Open Audio encoder
+        if (!AudioCodec) {
+            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found !");
+            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+            Continue=false;
+        } else {
+            AudioCodecContext->codec_id             = CODEC_ID_PCM_S16LE;
+            AudioCodecContext->codec_type           = AVMEDIA_TYPE_AUDIO;
+            AudioCodecContext->sample_fmt           = SAMPLE_FMT_S16;
+            AudioCodecContext->sample_rate          = 48000;
+            AudioCodecContext->bit_rate             = 48000;
+            AudioCodecContext->rc_max_rate          = 0;
+            AudioCodecContext->rc_min_rate          = 0;
+            AudioCodecContext->bit_rate_tolerance   = 0;
+            AudioCodecContext->rc_buffer_size       = 0;
+            AudioCodecContext->channels             = 2;
+            AudioCodecContext->channel_layout       = CH_LAYOUT_STEREO_DOWNMIX;    //CH_LAYOUT_STEREO;
+            AudioCodecContext->time_base            = (AVRational){1,AudioCodecContext->sample_rate};
+            AudioStream->r_frame_rate               = AudioCodecContext->time_base;
+            AudioStream->time_base                  = AudioCodecContext->time_base;
+            AudioCodecContext->flags               |= CODEC_FLAG_GLOBAL_HEADER;
+
+            // open the codec
+            if (avcodec_open(AudioCodecContext,AudioCodec)<0) {
+                QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"could not open audio codec !");
+                av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+                Continue=false;
+            } else {
+                // Init sound blocks
+                int audio_input_frame_size=AudioStream->codec->frame_size;                          // frame size in samples
+                if (audio_input_frame_size<=1) audio_input_frame_size=RenderMusic.SoundPacketSize; else audio_input_frame_size*=RenderMusic.SampleBytes*RenderMusic.Channels;
+                RenderMusic.SetFPS(Diaporama->VideoFrameRate);
+                EncodedAudio.SetFrameSize(audio_input_frame_size);
+            }
+        }
+    }
+
+    // open the file for writing
+    if (Continue) {
+        #if FF_API_OLD_AVIO
+        if (avio_open(&OutputFormatContext->pb,TempWAVFileName.toLocal8Bit(),AVIO_WRONLY)<0) {
+        #else
+        if (url_fopen(&OutputFormatContext->pb,TempWAVFileName.toLocal8Bit(),URL_WRONLY)<0) {
+        #endif
+            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary audio file !");
+            Continue=false;
+        }
+    }
+
+    // Allocate buffer to encode
+    if (Continue) {
+        audio_outbuf=(uint8_t *)av_malloc(FF_MIN_BUFFER_SIZE);
+        if (audio_outbuf==NULL) {
+            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio buffer !");
+            Continue=false;
+        }
+    }
+
+    // write the header
+    if ((Continue)&&(av_write_header(OutputFormatContext)!=0)) {
+        av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file !");
+        Continue=false;
+    }
+
+    // Encode the file
+    if (Continue) {
+        LastCheckTime   =StartTime;     // Display control : last time the loop start
+        int Position    =0;             // Render current position
+        int ColumnStart =-1;            // Render start position of current object
+        int Column      =-1;            // Render current object
+        for (int RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
             // Calculate position & column
-            //============================================
             if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))<=Position))) {
                 Column++;
                 ColumnStart=Position;
-                if (Column<Diaporama->List.count()) {
-                    int ForSlider=int(double(Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))/(FPS/double(1000)))-1;
-                    ui->SlideProgressBar->setMaximum(ForSlider);
-                }
-                RefreshDisplay =true;
-            } else {
-                int DurationProcess=LastCheckTime.msecsTo(QTime::currentTime());
-                RefreshDisplay =(DurationProcess>=1000);    // Refresh display only one time per second
+            }
+            // Refresh Display (if needed)
+            if (LastCheckTime.msecsTo(QTime::currentTime())>=1000) {    // Refresh display only one time per second
+                int         DurationProcess =0;
+                QString     DisplayText     ="";
+
+                DurationProcess=StartTime.msecsTo(QTime::currentTime());
+                DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
+                DisplayText=QString("%1").arg(double(RenderedFrame)/(double(DurationProcess)/1000),0,'f',1);        ui->FPSLabel->setText(DisplayText);
+                LastCheckTime=QTime::currentTime();
+                ui->SoundProgressBar->setValue(RenderedFrame);
             }
 
-            // Refresh Display (if needed)
-            if (RefreshDisplay) RefreshDisplayControl();
-
-            // Give time to interface !
-            QCoreApplication::processEvents();
-
-            //==================================================
+            // Get current frame
             Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
 
             // Ensure MusicTracks are ready
@@ -475,84 +765,64 @@ void DlgRenderVideo::accept() {
                 Frame->TransitObject_SoundTrackMontage->SetFPS(Diaporama->VideoFrameRate);
             }
 
-            IsImageUpdated=true;
-
-            // Ensure background, image and soundtrack is ready (in thread mode)
-            Diaporama->LoadSources(Frame,W,H,false);
-
-            // Give time to interface !
-            QCoreApplication::processEvents();
-
-            //============================================
-            // Prepare image
-            //============================================
-            Diaporama->PrepareImage(Frame,W,H,Extend,true);                                                 // Current Object
-            if (Frame->IsTransition) Diaporama->PrepareImage(Frame,W,H,Extend,false);                // Transition Object
-            ThreadDoAssembly=QtConcurrent::run(Diaporama,&cDiaporama::DoAssembly,Frame,W,H+Extend);
+            // Prepare frame with W and H =0 to force SoundMusicOnly ! (thread mode is not necessary here)
+            Diaporama->LoadSources(Frame,0,0,false);
+            Diaporama->PrepareImage(Frame,0,0,Extend,true);                                     // Prepare image Current Object
+            if (Frame->IsTransition) Diaporama->PrepareImage(Frame,0,0,Extend,false);           // Prepare image Transition Object
 
             // Give time to interface !
             QCoreApplication::processEvents();
 
-            //============================================
-            // Prepare mixed buffer for sound & music
-            //============================================
-            if (AudioStream!=NULL) {
-                // Calc number of packet to mix
-                int MaxPacket=Frame->CurrentObject_MusicTrack->List.count();
-                if ((Frame->CurrentObject_SoundTrackMontage!=NULL)&&(MaxPacket>Frame->CurrentObject_SoundTrackMontage->List.count())) MaxPacket=Frame->CurrentObject_SoundTrackMontage->List.count();
-                if (MaxPacket>RenderMusic.NbrPacketForFPS) MaxPacket=RenderMusic.NbrPacketForFPS;
-                // Transfert and mix audio data
-                for (int j=0;j<MaxPacket;j++) RenderMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
-                // Give time to interface !
-                QCoreApplication::processEvents();
-            }
+            // Calc number of packet to mix
+            int MaxPacket=Frame->CurrentObject_MusicTrack->List.count();
+            if ((Frame->CurrentObject_SoundTrackMontage!=NULL)&&
+                (Frame->CurrentObject_SoundTrackMontage->List.count()>0)&&
+                (MaxPacket>Frame->CurrentObject_SoundTrackMontage->List.count())) MaxPacket=Frame->CurrentObject_SoundTrackMontage->List.count();
+            if (MaxPacket>RenderMusic.NbrPacketForFPS) MaxPacket=RenderMusic.NbrPacketForFPS;
 
-            //***************************************************************************************************************************
-            // Encode and write this frame
-            //***************************************************************************************************************************
+            // mix audio data
+            for (int j=0;j<MaxPacket;j++)
+                RenderMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
 
-            if (VideoStream!=NULL) {
-                ThreadDoAssembly.waitForFinished();
+            // Flush audio frame
+            while ((Continue)&&(RenderMusic.List.count()>0)) {
+                int16_t     *Packet=RenderMusic.DetachFirstPacket();
+                AVPacket    pkt;
 
-                if (IsThreadWriteVideoFrame) {
-                    ThreadWriteVideoFrame.waitForFinished();
-                    Continue=Continue && (bool)ThreadWriteVideoFrame.result();
-                }
-                // Update YUV buffer if image was modified since last frame
-                if (IsImageUpdated) {
-                    if (VideoFramePicture!=NULL) {
-                        if (VideoFramePicture->data[0]!=NULL) av_free(VideoFramePicture->data[0]);
-                        av_free(VideoFramePicture);
-                        VideoFramePicture=NULL;
+                EncodedAudio.AppendData(Packet,RenderMusic.SoundPacketSize);
+                while (EncodedAudio.List.count()>0) {
+                    int16_t *PacketSound=EncodedAudio.DetachFirstPacket();
+                    int out_size= avcodec_encode_audio(AudioCodecContext,audio_outbuf,EncodedAudio.SoundPacketSize,(short int *)PacketSound);
+                    if (out_size>0) {
+                        av_init_packet(&pkt);
+
+                        if ((AudioCodecContext->coded_frame!=NULL)&&(AudioCodecContext->coded_frame->pts!=int64_t(INT64_C(0x8000000000000000))))
+                            pkt.pts=av_rescale_q(AudioCodecContext->coded_frame->pts,AudioCodecContext->time_base,AudioStream->time_base);
+
+                        if ((AudioCodecContext->coded_frame!=NULL)&&(AudioCodecContext->coded_frame->key_frame))
+                            pkt.flags|=AV_PKT_FLAG_KEY;
+
+                        pkt.stream_index=AudioStream->index;
+                        pkt.data        =audio_outbuf;
+                        pkt.size        =out_size;
+
+                        // write the compressed frame in the media file
+                        if (av_interleaved_write_frame(OutputFormatContext,&pkt)!=0) {
+                            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+                            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame !");
+                            Continue=false;
+                        }
+                    } else if (out_size<0) {
+                        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound !");
+                        Continue=false;
                     }
-                    VideoFramePicture=QImageToYUVStream(Frame->RenderedImage);
+                    av_free(PacketSound);
                 }
-                ThreadWriteVideoFrame=QtConcurrent::run(this,&DlgRenderVideo::WriteVideoFrame,CurrentFrameNumber,VideoFramePicture,W,H);
-                IsThreadWriteVideoFrame=true;
-                // Give time to interface !
-                QCoreApplication::processEvents();
-            }
 
-            if (AudioStream!=NULL) for (int audiof=0;Continue && audiof<RenderMusic.NbrPacketForFPS;audiof++) {//while ((Continue)&&(RenderMusic.List.count()>0)) {
-                if (IsThreadWriteAudioFrame) {
-                    ThreadWriteAudioFrame.waitForFinished();
-                    Continue=Continue && (bool)ThreadWriteAudioFrame.result();
-                }
-                ThreadWriteAudioFrame=QtConcurrent::run(this,&DlgRenderVideo::WriteAudioFrame,RenderMusic.DetachFirstPacket(),RenderMusic.SoundPacketSize);
-                IsThreadWriteAudioFrame=true;
-                // Give time to interface !
-                QCoreApplication::processEvents();
-            }
-            //***************************************************************************************************************************
-            // Go to next frame
-            //***************************************************************************************************************************
-            QCoreApplication::processEvents();
+                av_free(Packet);
 
-            // Free Image buffer
-            if (Image!=NULL) {
-                delete Image;
-                Image=NULL;
             }
+            QCoreApplication::processEvents();  // Give time to interface !
 
             // Calculate next position
             Position     +=(FPS/1000);
@@ -560,716 +830,38 @@ void DlgRenderVideo::accept() {
             PreviousFrame=Frame;
             Frame =NULL;
 
-            if ((Continue==false)||(StopProcessWanted==true)) break;   // Stop the process if error occur or user ask to stop
+            // Stop the process if error occur or user ask to stop
+            Continue=Continue && !StopProcessWanted;;
         }
 
-        // Give time to interface !
-        QCoreApplication::processEvents();
-
-        if (Continue && !StopProcessWanted) ui->SlideProgressBar->setValue(ui->SlideProgressBar->maximum());
-
-        // wait for the ThreadWriteVideoFrame is finished
-        if (IsThreadWriteVideoFrame) {
-            ThreadWriteVideoFrame.waitForFinished();
-            Continue=Continue && (bool)ThreadWriteVideoFrame.result();
-        }
-        // wait for the ThreadWriteAudioFrame is finished
-        if (IsThreadWriteAudioFrame) {
-            ThreadWriteAudioFrame.waitForFinished();
-            Continue=Continue && (bool)ThreadWriteAudioFrame.result();
-        }
-
-        // write the trailer
-        if (Continue && !StopProcessWanted) {
-            flush_ffmpeg_VideoStream(W,H);              // Flush delayed video frame
-            QCoreApplication::processEvents();          // Give time to interface !
-
-            // Flush audio frame
-            if (AudioStream!=NULL) while ((Continue)&&(RenderMusic.List.count()>0)) {
-                if (IsThreadWriteAudioFrame) {
-                    ThreadWriteAudioFrame.waitForFinished();
-                    Continue=Continue && (bool)ThreadWriteAudioFrame.result();
-                }
-                ThreadWriteAudioFrame=QtConcurrent::run(this,&DlgRenderVideo::WriteAudioFrame,RenderMusic.DetachFirstPacket(),RenderMusic.SoundPacketSize);
-                IsThreadWriteAudioFrame=true;
-                // Give time to interface !
-                QCoreApplication::processEvents();
-            }
-
-            av_write_trailer(OutputFormatContext);      // Write de trailer
-        }
-
-        // Delete image buffer
-        if (Image!=NULL) {
-            delete Image;
-            Image=NULL;
-        }
-        if (VideoFramePicture!=NULL) {
-            if (VideoFramePicture->data[0]!=NULL) av_free(VideoFramePicture->data[0]);
-            av_free(VideoFramePicture);
-            VideoFramePicture=NULL;
-        }
-        if (PreviousFrame!=NULL) {
-            delete PreviousFrame;
-            PreviousFrame=NULL;
-        }
-
-        // Last information update
-        RefreshDisplayControl();
-
-        // Inform user of success
-        if (Continue && !StopProcessWanted) QMessageBox::information(this,QCoreApplication::translate("DlgRenderVideo","Render video"),QCoreApplication::translate("DlgRenderVideo","Job completed succesfully !"));
-        // Save Window size and position
-        Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);
-        // Close the dialog box
-        done(0);
-    }
-}
-
-//============================================================================================
-//============================================================================================
-bool DlgRenderVideo::OpenDestFile(int VideoCodecIndex,int AudioCodecIndex) {
-    //=====================================
-    // Create the container
-    //=====================================
-    AVOutputFormat *Fmt=av_guess_format(Diaporama->VideoCodec.toLocal8Bit(),Diaporama->OutputFileName.toLocal8Bit(),NULL);
-    if ((Fmt==NULL)||(Fmt->video_codec==CODEC_ID_NONE)) {
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error creating output format !");
-        return false;
-    }
-    // Force codec ID
-    Fmt->video_codec=(CodecID)VIDEOCODECDEF[VideoCodecIndex].Codec_id;
-    Fmt->audio_codec=(CodecID)AUDIOCODECDEF[AudioCodecIndex].Codec_id;
-
-    // allocate and format the output media context
-    OutputFormatContext = avformat_alloc_context();
-    if (!OutputFormatContext) {
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : Unable to allocate OutputFormatContext !");
-        return false;
-    }
-
-    memcpy(OutputFormatContext->filename,Diaporama->OutputFileName.toLocal8Bit(),strlen(Diaporama->OutputFileName.toLocal8Bit())+1);
-    OutputFormatContext->oformat  =Fmt;
-    OutputFormatContext->timestamp=0;
-    OutputFormatContext->bit_rate =Diaporama->AudioBitRate+Diaporama->VideoBitRate;      // Video bitrate+audio bitrate ?
-
-    AVFormatParameters	fpOutFile;
-    memset(&fpOutFile,0,sizeof(AVFormatParameters));
-
-    // set the output parameters
-    if (av_set_parameters(OutputFormatContext,&fpOutFile)<0) {
-        av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Invalid output format parameters !");
-        return false;
-    }
-
-    OutputFormatContext->preload   = (int)(0.5 * AV_TIME_BASE);
-    OutputFormatContext->max_delay = (int)(0.7 * AV_TIME_BASE);
-
-    if (!CreateVideoStream()) {
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error creating video stream !");
-        return false;
-    }
-
-    if (!CreateAudioStream()) { // Audio stream must be create after video stream
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error creating audio stream !");
-        return false;
-    }
-
-    // open the file for writing
-    #if FF_API_OLD_AVIO
-    if (avio_open(&OutputFormatContext->pb,Diaporama->OutputFileName.toLocal8Bit(),AVIO_WRONLY)<0) {
-    #else
-    if (url_fopen(&OutputFormatContext->pb,Diaporama->OutputFileName.toLocal8Bit(),URL_WRONLY)<0) {
-    #endif
-        av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error creating output video file !");
-        return false;
-    }
-
-    // File is correctly open
-    return true;
-}
-
-//============================================================================================
-// Create the audio streams
-//============================================================================================
-
-bool DlgRenderVideo::CreateAudioStream() {
-    AudioStream = av_new_stream(OutputFormatContext,0);
-    if (AudioStream==NULL) {
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream !");
-        av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-        return false;
-    } else {
-        AudioCodecContext=AudioStream->codec;
-        // Fill stream with default values
-        avcodec_get_context_defaults2(AudioCodecContext,CODEC_TYPE_AUDIO);
-
-        //===== Open Audio encoder
-        AudioCodec=avcodec_find_encoder((CodecID)AUDIOCODECDEF[AudioCodecIndex].Codec_id);
-        if (!AudioCodec) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found !");
+        // Write de trailer
+        if ((Continue)&&(av_write_trailer(OutputFormatContext)!=0)) {
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-            return false;
-        }
-
-        // Set standard custom values
-        AudioCodecContext->codec_id=(CodecID)AUDIOCODECDEF[AudioCodecIndex].Codec_id;
-        AudioCodecContext->codec_type    = AVMEDIA_TYPE_AUDIO;
-        AudioCodecContext->sample_fmt    = SAMPLE_FMT_S16;
-        AudioCodecContext->sample_rate   = Diaporama->AudioFrequency;
-        AudioStream->stream_copy         = 1;
-
-        // Set codec specific
-        AudioCodecContext->bit_rate             = Diaporama->AudioBitRate*1000;
-        AudioCodecContext->rc_max_rate          = Diaporama->AudioBitRate*1000;
-        AudioCodecContext->rc_min_rate          = Diaporama->AudioBitRate*1000;
-        AudioCodecContext->bit_rate_tolerance   = Diaporama->AudioBitRate*100;
-        AudioCodecContext->rc_buffer_size       = 0;
-        AudioCodecContext->channels             = 2;
-        AudioCodecContext->channel_layout= CH_LAYOUT_STEREO_DOWNMIX;    //CH_LAYOUT_STEREO;
-
-        // Ensure the container stream uses the same aspect ratio & frame rate
-        AudioCodecContext->time_base    =(AVRational){1,AudioCodecContext->sample_rate};
-        AudioStream->r_frame_rate       =VideoCodecContext->time_base;
-        AudioStream->time_base          =AudioCodecContext->time_base;
-
-
-        if (OutputFormatContext->oformat->flags & AVFMT_GLOBALHEADER) AudioCodecContext->flags|=CODEC_FLAG_GLOBAL_HEADER;
-
-        switch (AudioCodecContext->codec_id) {
-        case CODEC_ID_PCM_S16LE:
-            //AudioCodecContext->codec_tag=MKTAG('s','o','w','t');
-            break;
-        case CODEC_ID_MP2:
-        case CODEC_ID_MP3:
-            //AudioCodecContext->codec_tag=MKTAG('.','m','p','3');
-            if(AudioCodecContext->block_align==1) AudioCodecContext->block_align= 0;
-            break;
-        case CODEC_ID_AAC:
-            //AudioCodecContext->profile  =FF_PROFILE_AAC_MAIN; // Not working with internal aac encoder
-            //AudioCodecContext->codec_tag=MKTAG('m','p','4','a');
-            break;
-        case CODEC_ID_AC3:
-            //AudioCodecContext->codec_tag    =MKTAG('m','s',0x20,0x00); /* Dolby AC-3 */
-            AudioCodecContext->block_align  =0;
-            AudioCodecContext->flags        |=AVFMT_NOTIMESTAMPS;
-            AudioCodecContext->flags        |=CODEC_FLAG_GLOBAL_HEADER;
-            break;
-        case CODEC_ID_VORBIS:
-            //AudioCodecContext->codec_tag=MKTAG('O','g','g','S');
-            break;
-        default:
-            break;
-        }
-
-        // open the codec
-        if (avcodec_open(AudioCodecContext,AudioCodec)<0) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"could not open audio codec !");
-            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-            return false;
-        }
-    }
-    return true;
-}
-
-//============================================================================================
-// Create the video streams
-//============================================================================================
-bool DlgRenderVideo::CreateVideoStream() {
-    VideoStream = av_new_stream(OutputFormatContext,0);
-    if (VideoStream==NULL) {
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate video stream !");
-        av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-        return false;
-    } else {
-        VideoCodecContext=VideoStream->codec;
-
-        // Fill stream with default values
-        avcodec_get_context_defaults(VideoCodecContext);
-        VideoCodecContext->codec_id   = OutputFormatContext->oformat->video_codec;
-        VideoCodecContext->codec_type = CODEC_TYPE_VIDEO;
-
-        // Set image size and pixel aspect ratio (PAR)
-        Extend                                      = DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Extend;
-        VideoCodecContext->sample_aspect_ratio.num  = DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARNUM;
-        VideoCodecContext->sample_aspect_ratio.den  = DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARDEN;
-        VideoCodecContext->width                    = DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Width;
-        VideoCodecContext->height                   = DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Height+Extend+Extend;
-
-        // Activate multithreading support if getCpuCount()>1
-        if (getCpuCount()>1) VideoCodecContext->thread_count=getCpuCount();
-
-        // Set frame rate
-        if (Diaporama->VideoFrameRate==(double)24000/1001) {
-            VideoCodecContext->time_base.den=24000;
-            VideoCodecContext->time_base.num=1001;
-            //av_set_pts_info(VideoStream,33,1001,24000);
-        } else if (Diaporama->VideoFrameRate==25) {
-            VideoCodecContext->time_base.den=25;
-            VideoCodecContext->time_base.num=1;
-            //av_set_pts_info(VideoStream,33,1,90000);
-        } else if (Diaporama->VideoFrameRate==(double)30000/1001) {
-            VideoCodecContext->time_base.den=30000;
-            VideoCodecContext->time_base.num=1001;
-            //av_set_pts_info(VideoStream,33,1001,30000);
-        }
-
-        // Ensure the container stream uses the same aspect ratio & frame rate
-        VideoStream->sample_aspect_ratio=VideoCodecContext->sample_aspect_ratio;
-        VideoStream->time_base          =VideoCodecContext->time_base;
-        VideoStream->r_frame_rate       =VideoCodecContext->time_base;
-
-        // Specific values depending on codec
-        switch (VideoCodecContext->codec_id) {
-        case CODEC_ID_MPEG2VIDEO :
-            VideoCodecContext->bit_rate                 = Diaporama->VideoBitRate*1000;
-            VideoCodecContext->codec_id                 = CODEC_ID_MPEG2VIDEO;
-            VideoCodecContext->codec_tag                = MKTAG('M','P','E','G');
-            VideoCodecContext->pix_fmt                  = PIX_FMT_YUV420P;
-            VideoCodecContext->me_method                = ME_EPZS;                              // Motion estimation algorithm used for video coding.
-            VideoCodecContext->qcompress                = 0.5;                                  // amount of qscale change between easy & hard scenes (0.0-1.0)
-            VideoCodecContext->qblur                    = 0.5;                                  // amount of qscale smoothing over time (0.0-1.0)
-            VideoCodecContext->qmin                     = 2;                                    // minimum quantizer (def:2)
-            VideoCodecContext->qmax                     = 16;                                   // maximum quantizer (def:31)
-            VideoCodecContext->max_qdiff                = 3;                                    // maximum quantizer difference between frames (def:3)
-            VideoCodecContext->mpeg_quant               = 0;                                    // 0 -> h263 quant, 1 -> mpeg quant. (def:0)
-            VideoCodecContext->strict_std_compliance    = -1;                                   // strictly follow the standard (MPEG4, ...)
-            VideoCodecContext->luma_elim_threshold      = 0;                                    // luma single coefficient elimination threshold
-            VideoCodecContext->chroma_elim_threshold    = 0;                                    // chroma single coeff elimination threshold
-            VideoCodecContext->lumi_masking             = 0.0;
-            VideoCodecContext->dark_masking             = 0.0;
-            VideoCodecContext->gop_size                 = Diaporama->VideoFrameRate/2;          // Ref frame number : emit one intra frame every 1/2 sec
-            VideoCodecContext->rc_buffer_size           = 1835000;                              // DVD standard !
-            VideoCodecContext->bit_rate_tolerance       = VideoCodecContext->bit_rate/10;
-            VideoCodecContext->rc_max_rate              = VideoCodecContext->bit_rate;
-            VideoCodecContext->rc_min_rate              = VideoCodecContext->bit_rate;
-
-            VideoCodecContext->max_b_frames             = 2;
-            break;
-
-        case CODEC_ID_MPEG4 :
-            VideoCodecContext->bit_rate                 = Diaporama->VideoBitRate*1000;
-            VideoCodecContext->codec_id                 = CODEC_ID_MPEG4;
-            VideoCodecContext->codec_tag                = MKTAG('D','I','V','X');               // By default the fourcc is 'FMP4' but Windows Media Player doesn't recognize it. We'll force to 'XVID' fourcc. (similar as -vtag XVID) even if it wasn't the XviD codec that encoded the video :-(
-            VideoCodecContext->pix_fmt                  = PIX_FMT_YUV420P;
-            VideoCodecContext->me_method                = ME_EPZS;                              // Motion estimation algorithm used for video coding.
-            VideoCodecContext->qcompress                = 0.5;                                  // amount of qscale change between easy & hard scenes (0.0-1.0)
-            VideoCodecContext->qblur                    = 0.5;                                  // amount of qscale smoothing over time (0.0-1.0)
-            VideoCodecContext->qmin                     = 2;                                    // minimum quantizer (def:2)
-            VideoCodecContext->qmax                     = 16;                                   // maximum quantizer (def:31)
-            VideoCodecContext->max_qdiff                = 3;                                    // maximum quantizer difference between frames (def:3)
-            VideoCodecContext->mpeg_quant               = 0;                                    // 0 -> h263 quant, 1 -> mpeg quant. (def:0)
-            VideoCodecContext->strict_std_compliance    = -1;                                   // strictly follow the standard (MPEG4, ...)
-            VideoCodecContext->luma_elim_threshold      = 0;                                    // luma single coefficient elimination threshold
-            VideoCodecContext->chroma_elim_threshold    = 0;                                    // chroma single coeff elimination threshold
-            VideoCodecContext->lumi_masking             = 0.0;
-            VideoCodecContext->dark_masking             = 0.0;
-            VideoCodecContext->gop_size                 = Diaporama->VideoFrameRate/2;          // Ref frame number : emit one intra frame every 1/2 sec
-            VideoCodecContext->rc_buffer_size           = 1835000;                              // DVD standard !
-            VideoCodecContext->bit_rate_tolerance       = VideoCodecContext->bit_rate/10;
-            VideoCodecContext->rc_max_rate              = VideoCodecContext->bit_rate;
-            VideoCodecContext->rc_min_rate              = VideoCodecContext->bit_rate;
-            break;
-
-        case CODEC_ID_H264 :
-            VideoCodecContext->codec_id                 = CODEC_ID_H264;
-            VideoCodecContext->pix_fmt                  = PIX_FMT_YUV420P;
-            VideoCodecContext->bit_rate                 = Diaporama->VideoBitRate*1000;
-            VideoCodecContext->bit_rate_tolerance       = Diaporama->VideoBitRate*100;
-            VideoCodecContext->rc_max_rate              = 0;
-            VideoCodecContext->rc_buffer_size           = 0;
-
-            VideoCodecContext->gop_size = 40;
-            VideoCodecContext->max_b_frames = 3;
-            VideoCodecContext->b_frame_strategy = 1;
-            VideoCodecContext->coder_type = 1;
-            VideoCodecContext->me_cmp = 1;
-            VideoCodecContext->me_range = 16;
-            VideoCodecContext->qmin = 10;
-            VideoCodecContext->qmax = 51;
-            VideoCodecContext->scenechange_threshold = 40;
-            VideoCodecContext->flags |= CODEC_FLAG_LOOP_FILTER;
-            VideoCodecContext->me_method = ME_HEX;
-            VideoCodecContext->me_subpel_quality = 5;
-            VideoCodecContext->i_quant_factor = 0.71;
-            VideoCodecContext->qcompress = 0.6;
-            VideoCodecContext->max_qdiff = 4;
-            VideoCodecContext->directpred = 1;
-            VideoCodecContext->flags2 |= CODEC_FLAG2_FASTPSKIP;
-
-            /*
-            VideoCodecContext->ticks_per_frame          = 2;
-            VideoCodecContext->rc_buffer_size           = VideoCodecContext->bit_rate*2;        // vbv_buf_size
-            VideoCodecContext->rc_min_vbv_overflow_use  = VideoCodecContext->bit_rate;          // vbv_maxrate ?
-            VideoCodecContext->rc_max_available_vbv_use = VideoCodecContext->bit_rate;
-            VideoCodecContext->bit_rate_tolerance       = VideoCodecContext->bit_rate/10;
-            VideoCodecContext->rc_max_rate              = VideoCodecContext->bit_rate;
-            VideoCodecContext->rc_min_rate              = VideoCodecContext->bit_rate;
-
-            VideoCodecContext->codec_tag                = MKTAG('a','v','c','1');
-
-            // values from HQ preset !
-            VideoCodecContext->me_method                = ME_UMH;                               // Motion estimation algorithm used for video coding.
-            VideoCodecContext->qcompress                = 0.6;                                  // amount of qscale change between easy & hard scenes (0.0-1.0)
-            VideoCodecContext->me_range                 = 16;                                   // maximum motion estimation search range in subpel units
-            VideoCodecContext->me_subpel_quality        = 8;                                    // subpel ME quality
-                                                                                            //      - 1:Fastest, but extremely low quality
-                                                                                            //      - 2-5:Progressively better and slower
-                                                                                            //      - 6-7:6 is the default. Activates rate-distortion optimization for partition decision. This can considerably improve efficiency, though it has a notable speed cost. 6 activates it in I/P frames, and subme7 activates it in B frames.
-                                                                                            //      - 8-9: Activates rate-distortion refinement, which uses RDO to refine both motion vectors and intra prediction modes. Slower than subme 6, but again, more efficient.
-            VideoCodecContext->qmin                     = 10;                                   // minimum quantizer
-            VideoCodecContext->qmax                     = 51;                                   // maximum quantizer
-            VideoCodecContext->max_qdiff                = 4;                                    // maximum quantizer difference between frames
-            VideoCodecContext->i_quant_factor           = 0.71;                                 // qscale factor between P and I-frames
-            VideoCodecContext->b_frame_strategy         = 2;                                    // 0: Very fast 1: Fast, default mode in x264 2: A much slower but more accurate B-frame
-            VideoCodecContext->max_b_frames             = 3;                                    // maximum number of B-frames between non-B-frames
-            VideoCodecContext->refs                     = 4;                                    // number of reference frames
-            VideoCodecContext->scenechange_threshold    = 40;                                   // scene change detection threshold
-            VideoCodecContext->directpred               = 3;                                    // direct MV prediction mode - 0 (none), 1 (spatial), 2 (temporal), 3 (auto)
-            VideoCodecContext->trellis                  = 1;                                    // trellis RD quantization
-            VideoCodecContext->weighted_p_pred          = 2;                                    // explicit P-frame weighted prediction analysis method
-            VideoCodecContext->me_cmp                   |= 1;                                   // cmp=+chroma, where CHROMA = 1
-            VideoCodecContext->flags                    |=CODEC_FLAG_LOOP_FILTER;               // flags=+loop
-            VideoCodecContext->coder_type               = 1;                                    // coder = 1
-            VideoCodecContext->partitions               |=X264_PART_I8X8+X264_PART_I4X4+X264_PART_P8X8+X264_PART_B8X8;                          // partitions=+parti8x8+parti4x4+partp8x8+partb8x8
-            VideoCodecContext->flags2                   |=CODEC_FLAG2_MIXED_REFS+CODEC_FLAG2_WPRED+CODEC_FLAG2_8X8DCT+CODEC_FLAG2_FASTPSKIP;    // flags2=+bpyramid+mixed_refs+wpred+dct8x8+fastpskip
-            VideoCodecContext->keyint_min               = 25;                                   // keyint_min=25
-            VideoCodecContext->gop_size                 = 250;                                  // Ref frame number : emit one intra frame every 1/4 sec
-            */
-/*            // libx264-medium.ffpreset preset
-            VideoCodecContext->coder_type = 1;  // coder = 1
-            VideoCodecContext->flags|=CODEC_FLAG_LOOP_FILTER;   // flags=+loop
-            VideoCodecContext->me_cmp|= 1;  // cmp=+chroma, where CHROMA = 1
-            VideoCodecContext->partitions|=X264_PART_I8X8+X264_PART_I4X4+X264_PART_P8X8+X264_PART_B8X8; // partitions=+parti8x8+parti4x4+partp8x8+partb8x8
-            VideoCodecContext->me_method=ME_HEX;    // me_method=hex
-            VideoCodecContext->me_subpel_quality = 7;   // subq=7
-            VideoCodecContext->me_range = 16;   // me_range=16
-            VideoCodecContext->gop_size = 250;  // g=250
-            VideoCodecContext->keyint_min = 25; // keyint_min=25
-            VideoCodecContext->scenechange_threshold = 40;  // sc_threshold=40
-            VideoCodecContext->i_quant_factor = 0.71; // i_qfactor=0.71
-            VideoCodecContext->b_frame_strategy = 1;  // b_strategy=1
-            VideoCodecContext->qcompress = 0.6; // qcomp=0.6
-            VideoCodecContext->qmin = 10;   // qmin=10
-            VideoCodecContext->qmax = 51;   // qmax=51
-            VideoCodecContext->max_qdiff = 4;   // qdiff=4
-            VideoCodecContext->max_b_frames = 3;    // bf=3
-            VideoCodecContext->refs = 3;    // refs=3
-            VideoCodecContext->directpred = 1;  // directpred=1
-            VideoCodecContext->trellis = 1; // trellis=1
-            VideoCodecContext->flags2|=CODEC_FLAG2_BPYRAMID+CODEC_FLAG2_MIXED_REFS+CODEC_FLAG2_WPRED+CODEC_FLAG2_8X8DCT+CODEC_FLAG2_FASTPSKIP;  // flags2=+bpyramid+mixed_refs+wpred+dct8x8+fastpskip
-            VideoCodecContext->weighted_p_pred = 2; // wpredp=2
-            // libx264-main.ffpreset preset
-            VideoCodecContext->flags2|=CODEC_FLAG2_8X8DCT;
-            //VideoCodecContext->flags2^=CODEC_FLAG2_8X8DCT;    // flags2=-dct8x8
-*/
-            break;
-
-        case CODEC_ID_MJPEG:
-            VideoCodecContext->bit_rate                 = Diaporama->VideoBitRate*1000;
-            VideoCodecContext->codec_tag                = MKTAG('m','j','p','b');
-            VideoCodecContext->mb_lmin                  = VideoCodecContext->qmin*FF_QP2LAMBDA;
-            VideoCodecContext->lmin                     = VideoCodecContext->qmin*FF_QP2LAMBDA;
-            VideoCodecContext->mb_lmax                  = VideoCodecContext->qmax*FF_QP2LAMBDA;
-            VideoCodecContext->lmax                     = VideoCodecContext->qmax*FF_QP2LAMBDA;
-            VideoCodecContext->global_quality           = VideoCodecContext->qmin*FF_QP2LAMBDA;
-            VideoCodecContext->flags                    |= CODEC_FLAG_QSCALE;
-            VideoCodecContext->pix_fmt                  = PIX_FMT_YUVJ420P;
-            VideoCodecContext->gop_size                 = 1000;                                     // Ref frame number : emit one intra frame every 1 sec
-            VideoCodecContext->rc_buffer_size           = 1835000;                                  // DVD standard !
-            VideoCodecContext->bit_rate_tolerance       = VideoCodecContext->bit_rate/10;
-            VideoCodecContext->rc_max_rate              = VideoCodecContext->bit_rate;
-            VideoCodecContext->rc_min_rate              = VideoCodecContext->bit_rate;
-            break;
-
-        default:
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Unknown codec");
-            return false;
-            break;
-        }
-
-        // Some formats want stream headers to be separate
-        if (OutputFormatContext->oformat->flags & AVFMT_GLOBALHEADER) VideoCodecContext->flags|=CODEC_FLAG_GLOBAL_HEADER;
-
-        //===== Open Video encoder
-
-        VideoCodec=avcodec_find_encoder(VideoCodecContext->codec_id);
-        if (!VideoCodec) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Video codec not found !");
-            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-            return false;
-        }
-        // open the codec
-        if (avcodec_open(VideoCodecContext,VideoCodec)<0) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"could not open video codec !");
-            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-            return false;
-        }
-    }
-    return true;
-}
-
-//============================================================================================
-// Convert QImage to a YUV AVFrame
-//============================================================================================
-AVFrame *DlgRenderVideo::QImageToYUVStream(QImage *Image) {
-    // Calc destination size
-    int W=Image->width();
-    int H=Image->height();
-
-    AVFrame *InputFrame     =NULL;
-    int     SizeInputBuf    =0;
-    uint8_t *InputFrameBuf  =NULL;
-
-    AVFrame *OutputFrame    =NULL;
-    int     SizeOutputBuf   =0;
-    uint8_t *OutputFrameBuf =NULL;
-
-    bool    IsOk            = true;
-
-    // Allocate the input frame that we will fill up with the bitmap.
-    InputFrame=avcodec_alloc_frame();
-    if (InputFrame!=NULL) {
-        // Allocate the buffer holding actual frame data.
-        SizeInputBuf = avpicture_get_size(PIX_FMT_BGR24,Image->width(),Image->height());
-        InputFrameBuf= (uint8_t*)av_malloc(SizeInputBuf);
-        if (InputFrameBuf!=NULL) {
-            // Setting up various pointers between the buffers.
-            avpicture_fill((AVPicture *)InputFrame,InputFrameBuf,PIX_FMT_BGRA,W,H);
-            // Associate the Bitmap to the AVFrame
-            InputFrame->data[0]    =(uint8_t*)Image->bits();
-            InputFrame->linesize[0]=W*4;
-        } else {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Input frame buffer not allocated !");
-            av_free(InputFrame);
-        }
-    } else QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Input frame not allocated !");
-
-    // if error at this point : end function
-    if (InputFrame==NULL) return NULL;
-
-    // Allocate the buffer holding future frame data
-    OutputFrame = avcodec_alloc_frame();
-    if (OutputFrame!=NULL) {
-        if (VideoCodecContext->codec_id==CODEC_ID_MJPEG) OutputFrame->quality=VideoCodecContext->global_quality;
-
-        SizeOutputBuf =avpicture_get_size(VideoCodecContext->pix_fmt,W,H);
-        OutputFrameBuf=(uint8_t*)av_malloc(SizeOutputBuf);
-        if (OutputFrameBuf!=NULL) {
-            // Setting up various pointers between the buffers.
-            avpicture_fill((AVPicture *)OutputFrame,OutputFrameBuf,VideoCodecContext->pix_fmt,W,H);
-            // Create a scaling context for conversion
-            SwsContext *scalingContext=sws_getContext(W,H,PIX_FMT_BGRA,W,H,VideoCodecContext->pix_fmt,SWS_BICUBIC,NULL,NULL,NULL);
-            if (scalingContext!=NULL) {
-                // Convert image
-                if (sws_scale(scalingContext,InputFrame->data,InputFrame->linesize,0,H,OutputFrame->data,OutputFrame->linesize)<0)  {
-                    QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"scaling failed !");
-                    IsOk=false;
-                }
-                sws_freeContext(scalingContext);
-            } else {
-                QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error creating scaling context !");
-                IsOk=false;
-            }
-        } else {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Output frame buffer not allocated !");
-            av_free(OutputFrame);   OutputFrame=NULL;
-        }
-    } else QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Output frame not allocated !");
-
-    // Cleanup input buffer (no longer need it)
-    av_free(InputFrameBuf); InputFrameBuf=NULL;
-    av_free(InputFrame);    InputFrame   =NULL;
-
-    // Cleanup output buffer if error occur
-    if (!IsOk) {
-        if (OutputFrameBuf!=NULL) {
-            av_free(OutputFrameBuf);
-            OutputFrameBuf=NULL;
-        }
-        if (OutputFrame!=NULL) {
-            av_free(OutputFrame);
-            OutputFrame=NULL;
+            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error writing the trailer of the temporary audio file !");
+            Continue=false;
         }
     }
 
-    return OutputFrame;
-}
+    // Ensure sound progress bar is at 100%
+    if (Continue) ui->SoundProgressBar->setValue(ui->SoundProgressBar->maximum());
 
-//============================================================================================
-//============================================================================================
-bool DlgRenderVideo::WriteAudioFrame(int16_t *Packet,int AudioLen) {
-    //uint8_t         *Buffer=(uint8_t *)Packet;
-    int64_t         AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
-    bool            IsOk=true;
-    AVPacket        pkt;
-    int             audio_outbuf_size=FF_MIN_BUFFER_SIZE; //AudioLen
-    uint8_t         *audio_outbuf=(uint8_t *)av_malloc(audio_outbuf_size);
+    // Clean all
 
-    if (audio_outbuf==NULL) {
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio buffer !");
-        return false;
-    }
-    EncodedAudio.AppendData(Packet,AudioLen);
-    while (EncodedAudio.List.count()>0) {
-        int16_t *PacketSound=EncodedAudio.DetachFirstPacket();
-        int out_size= avcodec_encode_audio(AudioCodecContext,audio_outbuf,EncodedAudio.SoundPacketSize,(short int *)PacketSound);
-        if (out_size>0) {
-            av_init_packet(&pkt);
-
-            if ((AudioCodecContext->coded_frame!=NULL)&&(AudioCodecContext->coded_frame->pts!=AVNOPTSVALUE))
-                pkt.pts=av_rescale_q(AudioCodecContext->coded_frame->pts,AudioCodecContext->time_base,AudioStream->time_base);
-
-            if ((AudioCodecContext->coded_frame!=NULL)&&(AudioCodecContext->coded_frame->key_frame))
-                pkt.flags|=AV_PKT_FLAG_KEY;
-
-            pkt.stream_index=AudioStream->index;
-            pkt.data        =audio_outbuf;
-            pkt.size        =out_size;
-
-            // write the compressed frame in the media file
-            if (av_interleaved_write_frame(OutputFormatContext,&pkt)!=0) {
-                av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-                QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame !");
-                IsOk=false;
-            }
-        } else if (out_size<0) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound !");
-            IsOk=false;
+    if (audio_outbuf)   av_free(audio_outbuf);
+    if (PreviousFrame)  delete PreviousFrame;
+    if (Frame)          delete Frame;
+    if (OutputFormatContext) {
+        #if FF_API_OLD_AVIO
+        if (OutputFormatContext->pb) avio_close(OutputFormatContext->pb);                                   // close the file
+        #else
+        if (OutputFormatContext->pb) url_fclose(OutputFormatContext->pb);                                   // close the file
+        #endif
+        if (OutputFormatContext->streams[0]) {
+            avcodec_close(AudioStream->codec);                                                              // close codec
+            if (OutputFormatContext->streams[0]->codec) av_freep(&OutputFormatContext->streams[0]->codec);  // free the audiostream
         }
-        av_free(PacketSound);
-    }
-    // Cleanup buffer
-    av_free(audio_outbuf);
-
-    av_free(Packet);
-
-    return IsOk;
-}
-
-//============================================================================================
-// Write video frame
-//============================================================================================
-bool DlgRenderVideo::WriteVideoFrame(int FrameNumber,AVFrame *VideoFramePicture,int Width,int Height) {
-    int64_t     AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
-    bool        IsOk=true;
-    AVPacket    pkt;
-    int         video_outbuf_size =4*Width*Height;  if (video_outbuf_size<FF_MIN_BUFFER_SIZE) video_outbuf_size=FF_MIN_BUFFER_SIZE;
-    uint8_t     *video_outbuf     =(uint8_t*)av_malloc(video_outbuf_size);
-
-    if (video_outbuf==NULL) {
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate video buffer !");
-        return false;
+        av_free(OutputFormatContext);                                                                       // free the container
     }
 
-    if (VideoFramePicture==NULL) return false;
-
-    memset(video_outbuf,0,video_outbuf_size);
-
-    // encode the image
-    VideoFramePicture->pts      =FrameNumber;
-    VideoFramePicture->quality  =VideoCodecContext->global_quality;
-    int out_size=avcodec_encode_video(VideoCodecContext,video_outbuf,video_outbuf_size,VideoFramePicture);
-
-    if (out_size>0) {
-        av_init_packet(&pkt);
-
-        if ((VideoCodecContext->coded_frame!=NULL)&&(VideoCodecContext->coded_frame->pts!=AVNOPTSVALUE))
-            pkt.pts=av_rescale_q(VideoCodecContext->coded_frame->pts,VideoCodecContext->time_base,VideoStream->time_base);
-
-        if ((VideoCodecContext->coded_frame!=NULL)&&(VideoCodecContext->coded_frame->key_frame)) pkt.flags|=AV_PKT_FLAG_KEY;
-
-        pkt.stream_index=VideoStream->index;
-        pkt.data        =video_outbuf;
-        pkt.size        =out_size;
-
-        // write the compressed frame in the media file
-        if (av_interleaved_write_frame(OutputFormatContext,&pkt)!=0) {
-            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error while writing video frame !");
-            IsOk=false;
-        } else RenderedFrame++;
-
-    } else if (out_size<0) {
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error encoding image !");
-        IsOk=false;
-    }
-
-    // Cleanup buffer
-    av_free(video_outbuf);
-
-    return IsOk;
-}
-
-//============================================================================================
-// Write video frame previously delayed
-//============================================================================================
-void DlgRenderVideo::flush_ffmpeg_VideoStream(int Width,int Height) {
-    int64_t     AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
-    int         video_outbuf_size =4*Width*Height;  if (video_outbuf_size<FF_MIN_BUFFER_SIZE) video_outbuf_size=FF_MIN_BUFFER_SIZE;
-    uint8_t     *video_outbuf     =(uint8_t*)av_malloc(video_outbuf_size);
-    AVPacket    pkt;
-
-    if (video_outbuf==NULL) {
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate video buffer !");
-        return;
-    }
-
-    memset(video_outbuf,0,video_outbuf_size);
-
-    // get the delayed frames
-    while (1) {
-        AVPacket packet;
-        av_init_packet(&packet);
-
-        int out_size = avcodec_encode_video(VideoCodecContext,video_outbuf,video_outbuf_size,NULL);
-        if (out_size < 0) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error encoding delayed frame !");
-            break;
-        }
-        if (out_size==0) break;
-
-        av_init_packet(&pkt);
-
-        if ((VideoCodecContext->coded_frame!=NULL)&&(VideoCodecContext->coded_frame->pts!=AVNOPTSVALUE))
-            pkt.pts=av_rescale_q(VideoCodecContext->coded_frame->pts,VideoCodecContext->time_base,VideoStream->time_base);
-
-        if ((VideoCodecContext->coded_frame!=NULL)&&(VideoCodecContext->coded_frame->key_frame)) pkt.flags|=AV_PKT_FLAG_KEY;
-
-        pkt.stream_index=VideoStream->index;
-        pkt.data        =video_outbuf;
-        pkt.size        =out_size;
-
-        // write the compressed frame in the media file
-        if (av_interleaved_write_frame(OutputFormatContext,&pkt)!=0) {
-            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error while writing video frame !");
-        } else {
-            RenderedFrame++;
-            RefreshDisplayControl();            // Refresh Display
-            QCoreApplication::processEvents();  // Give time to interface !
-        }
-    }
-    avcodec_flush_buffers(VideoCodecContext);
-    // Cleanup buffer
-    av_free(video_outbuf);
-}
-
-//============================================
-// Refresh Display controls
-//============================================
-void DlgRenderVideo::RefreshDisplayControl() {
-    int         DurationProcess =0;
-    QString     DisplayText     ="";
-
-    DurationProcess=StartTime.msecsTo(QTime::currentTime());
-    DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
-    DisplayText=QString("%1").arg(double(RenderedFrame)/(double(DurationProcess)/1000),0,'f',1);        ui->FPSLabel->setText(DisplayText);
-    DisplayText=QString("%1/%2").arg(Column+1).arg(Diaporama->List.count());                            ui->SlideNumberLabel->setText(DisplayText);
-    DisplayText=QString("%1/%2").arg(RenderedFrame).arg(NbrFrame);                                      ui->FrameNumberLabel->setText(DisplayText);
-    ui->SlideProgressBar->setValue(int(double(Position-ColumnStart)/(FPS/double(1000))));
-    ui->TotalProgressBar->setValue(RenderedFrame);
-    LastCheckTime=QTime::currentTime();
+    return Continue;
 }

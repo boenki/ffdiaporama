@@ -48,7 +48,7 @@ DlgAbout::~DlgAbout() {
 }
 
 void DlgAbout::OpenffDiaporamaWeb() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/index.html")));
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/index.php")));
 }
 
 void DlgAbout::WQtWebSite() {

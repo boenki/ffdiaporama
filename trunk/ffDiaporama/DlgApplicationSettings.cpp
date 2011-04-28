@@ -60,7 +60,6 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     //********************************
     // RenderDefault part
     //********************************
-
     // Init format container combo
     for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
         ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));

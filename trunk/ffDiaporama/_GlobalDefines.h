@@ -231,6 +231,10 @@ extern "C" {
 //============================================
 
 #define OPERATINGSYSTEM_STR                 "Operating system version\t: "
+#define STARTINGPATH_STR                    "Starting path\t\t: "
+#define WORKINGPATH_STR                     "Working path set to\t: "
+#define SYSTEMLOCAL_STR                     "Detected system locale\t: "
+#define LOADEDLOCAL_STR                     "Translation file loaded\t: "
 #define BUILDVERSION_STR                    "Build version\t\t: "
 #define COMMONPARTVERSION_STR               "Common part version\t: "
 #define VERSIONQT_STR                       "QT version\t\t: "
@@ -239,6 +243,8 @@ extern "C" {
 #define LIBAVCODECVERSION_STR               "LIBAVCODEC version\t: "
 #define LIBAVFORMATVERSION_STR              "LIBAVFORMAT version\t: "
 #define LIBSWSCALEVERSION_STR               "LIBSWSCALE version\t: "
+#define TEMPDIR_STR                         "Temp directory to be use\t: "
+#define USERCONFIGFILE_STR                  "User config file to be use\t: "
 
 //============================================
 // Image format definition
@@ -248,7 +254,8 @@ struct sIMAGEDEF {
     int     Height;                                             // Height
     int     PARNUM;                                             // Pixel aspect ratio (num)
     int     PARDEN;                                             // Pixel aspect ratio (den)
-    double  FPS;                                                // Frame per second
+    double  dFPS;                                               // Frame per second
+    char    FPS[20];                                            // Frame per second
     char    Name[100];                                          // Display name
     int     Extend;                                             // Padding for cinema mode with DVD
 };
@@ -265,7 +272,7 @@ struct sVideoCodecDef {
     char    PossibleBitrate[200];                               // list of possible compression bit rate (define by this application)
     char    DefaultBitrate[NBR_SIZEDEF][10];                    // prefered compression bit rate for each possible size
 };
-#define NBR_VIDEOCODECDEF   5
+#define NBR_VIDEOCODECDEF   6
 extern struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF];  // Real definition in capplicationconfig.cpp
 
 //============================================
@@ -295,7 +302,7 @@ struct sFormatDef {
     char    PossibleVideoCodec[200];                            // list of possible video codec for this format container (define by this application)
     char    PossibleAudioCodec[200];                            // list of possible audio codec for this format container (define by this application)
 };
-#define NBR_FORMATDEF   6
+#define NBR_FORMATDEF   9
 extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];              // Real definition in capplicationconfig.cpp
 
 #endif // GLOBALDEFINES_H
