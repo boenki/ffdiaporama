@@ -77,12 +77,19 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,QWidget *parent):QDialog
     // Define handler
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OkBt,SIGNAL(clicked()),this,SLOT(accept()));
+    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
 }
 
 //====================================================================================================================
 
 DlgRenderVideo::~DlgRenderVideo() {
     delete ui;
+}
+
+//====================================================================================================================
+
+void DlgRenderVideo::Help() {
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpRenderVideo.php")));
 }
 
 //====================================================================================================================
@@ -295,7 +302,7 @@ void DlgRenderVideo::accept() {
     QString                 vCodec,aCodec;
     QString                 ffmpegCommand;
     int                     W,H;
-    QProcess                Process;        Process.setProcessChannelMode(QProcess::ForwardedChannels);
+    QProcess                Process;
     bool                    RefreshDisplay;
     int                     DurationProcess;        // Display informations
     QString                 DisplayText;            // Display informations
@@ -396,6 +403,14 @@ void DlgRenderVideo::accept() {
             Extend  =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Extend;
 
             // Video codec part
+            #ifdef Q_OS_WIN
+            QString Preset=AdjustDirForOS(QDir::currentPath());
+            if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
+            Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
+            #endif
+            #ifdef Q_WS_X11
+            QString Preset="-vpre libx264-hq";
+            #endif
             switch (VIDEOCODECDEF[VideoCodecIndex].Codec_id) {
                 case CODEC_ID_MPEG2VIDEO :  vCodec=QString("-vcodec mpeg2video -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
                                                    .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
@@ -407,18 +422,18 @@ void DlgRenderVideo::accept() {
                                                 vCodec=QString("-vcodec mpeg4 -vtag xvid -b %1k").arg(Diaporama->VideoBitRate);
                                                 else vCodec=QString("-vcodec libxvid -b %1k").arg(Diaporama->VideoBitRate);
                                             break;
-                case CODEC_ID_H264 :        vCodec=QString("-vcodec libx264 -vpre libx264-hq -refs 3 -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
-                                                   .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
-                                                   .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
-                                                   .arg(Diaporama->VideoBitRate*2)
-                                                   .arg(Diaporama->VideoBitRate);
+                case CODEC_ID_H264 :        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -refs 3 -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
+                                                .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
+                                                .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
+                                                .arg(Diaporama->VideoBitRate*2)
+                                                .arg(Diaporama->VideoBitRate);
                                             break;
                 case CODEC_ID_MJPEG:        vCodec="-vcodec mjpeg -qscale 2 -qmin 2 -qmax 2";   break;
-                case CODEC_ID_VP8:              vCodec=QString("-vcodec libvpx -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
-                                                   .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
-                                                   .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
-                                                   .arg(Diaporama->VideoBitRate*2)
-                                                   .arg(Diaporama->VideoBitRate);
+                case CODEC_ID_VP8:          vCodec=QString("-vcodec libvpx -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
+                                                .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
+                                                .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
+                                                .arg(Diaporama->VideoBitRate*2)
+                                                .arg(Diaporama->VideoBitRate);
                                             break;
                 case 22 :                   vCodec=QString("-vcodec flv -b %1k").arg(Diaporama->VideoBitRate);
                                             break;
@@ -470,7 +485,9 @@ void DlgRenderVideo::accept() {
 
         // Start ffmpegCommand
         if (Continue) {
-            Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);
+            Process.setProcessChannelMode(QProcess::ForwardedChannels);                     // Forward standard and error message to the ffdiaporama console
+            //Process.setWorkingDirectory(Diaporama->ApplicationConfig->UserConfigPath);      // Set working directory to user folder (for log generation)
+            Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);            // Start command
             if (!Process.waitForStarted()) {
                 QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),QCoreApplication::translate("DlgRenderVideo","Error starting ffmpeg","Error message"),QMessageBox::Close);
                 Continue=false;
@@ -559,7 +576,7 @@ void DlgRenderVideo::accept() {
             DisplayText=QString("%1").arg(double(NbrFrame)/(double(DurationProcess)/1000),0,'f',1);             ui->FPSLabel->setText(DisplayText);
             DisplayText=QString("%1/%2").arg(Column+1).arg(Diaporama->List.count());                            ui->SlideNumberLabel->setText(DisplayText);
             DisplayText=QString("%1/%2").arg(NbrFrame).arg(NbrFrame);                                           ui->FrameNumberLabel->setText(DisplayText);
-            ui->SlideProgressBar->setValue(int(double(Position-ColumnStart)/(FPS/double(1000))));
+            ui->SlideProgressBar->setValue(ui->SlideProgressBar->maximum());
             ui->TotalProgressBar->setValue(NbrFrame);
 
             if (!Process.waitForFinished(30000)) { // 30 sec max to close ffmpeg

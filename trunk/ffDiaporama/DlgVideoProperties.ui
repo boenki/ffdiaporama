@@ -344,6 +344,17 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="HelpBT">
+       <property name="text">
+        <string>&amp;Help</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>

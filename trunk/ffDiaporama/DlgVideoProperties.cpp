@@ -55,6 +55,8 @@ DlgVideoProperties::DlgVideoProperties(cDiaporamaObject *DiaporamaObject,QWidget
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
+    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
+
     connect(ui->CompositionWidget,SIGNAL(NeedRefreshBackgroundImage()),this,SLOT(s_CompositionNeedRefreshBackgroundImage()));
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(s_TabCurrentChanged(int)));
 
@@ -72,6 +74,12 @@ DlgVideoProperties::DlgVideoProperties(cDiaporamaObject *DiaporamaObject,QWidget
 DlgVideoProperties::~DlgVideoProperties() {
     delete ui;
     delete Undo;
+}
+
+//====================================================================================================================
+
+void DlgVideoProperties::Help() {
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpVideoProperties.php")));
 }
 
 //====================================================================================================================

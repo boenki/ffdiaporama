@@ -38,9 +38,8 @@ public:
     cApplicationConfig  *ApplicationConfig;
     cDiaporama          *Diaporama;
     QDomDocument        *Clipboard;
-    QString             CurrentPath;
 
-    explicit MainWindow(QString CurrentPath,cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
+    explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
     ~MainWindow();
 
     void    RefreshControls();

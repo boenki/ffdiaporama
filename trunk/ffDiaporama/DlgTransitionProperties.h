@@ -57,6 +57,7 @@ protected:
     virtual void    accept();
 
 private slots:
+    void            Help();
     void            SetSavedWindowGeometry();
     void            s_ChTransitionTypeCB(int);
     void            s_TimerEvent();

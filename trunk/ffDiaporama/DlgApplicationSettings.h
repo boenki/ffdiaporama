@@ -45,6 +45,7 @@ protected:
     virtual void accept();
 
 private slots:
+    void        Help();
     void        SetSavedWindowGeometry();
     void        FileFormatCombo(int);
     void        InitVideoBitRateCB(int);

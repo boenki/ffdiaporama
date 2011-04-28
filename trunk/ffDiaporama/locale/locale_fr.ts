@@ -734,7 +734,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../DlgRenderVideo.ui" line="459"/>
         <source>Video track - Current slide progression</source>
-        <translation>Génération de la piste vidéo - Dispositive en cours</translation>
+        <translation>Génération de la piste vidéo - Diapositive en cours</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="517"/>

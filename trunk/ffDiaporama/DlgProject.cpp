@@ -37,12 +37,19 @@ DlgProject::DlgProject(cDiaporama &TheDiaporama,bool NewProjectMode,QWidget *par
     // Define handler
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OkBt,SIGNAL(clicked()),this,SLOT(accept()));
+    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
 }
 
 //====================================================================================================================
 
 DlgProject::~DlgProject() {
     delete ui;
+}
+
+//====================================================================================================================
+
+void DlgProject::Help() {
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpProjectSettings.php")));
 }
 
 //====================================================================================================================

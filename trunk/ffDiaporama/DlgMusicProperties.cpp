@@ -59,6 +59,7 @@ DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,QWid
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
+    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
 
     connect(ui->SameMusicRD,SIGNAL(clicked()),this,SLOT(s_SameMusic()));
     connect(ui->SameMusicNormalRD,SIGNAL(clicked()),this,SLOT(s_SameMusicNormal()));
@@ -76,6 +77,12 @@ DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,QWid
 
 DlgMusicProperties::~DlgMusicProperties() {
     delete ui;
+}
+
+//====================================================================================================================
+
+void DlgMusicProperties::Help() {
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpMusicProperties.php")));
 }
 
 //====================================================================================================================

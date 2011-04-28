@@ -45,6 +45,9 @@
    </property>
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -52,17 +55,17 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-233</y>
-        <width>674</width>
-        <height>683</height>
+        <y>0</y>
+        <width>673</width>
+        <height>654</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <property name="margin">
-        <number>0</number>
+        <number>4</number>
        </property>
        <property name="spacing">
-        <number>2</number>
+        <number>4</number>
        </property>
        <item row="0" column="0" colspan="3">
         <widget class="QLabel" name="label_3">
@@ -1147,6 +1150,17 @@
        <property name="icon">
         <iconset>
          <normaloff>icons/agt_action_fail.png</normaloff>icons/agt_action_fail.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="HelpBT">
+       <property name="text">
+        <string>&amp;Help</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
        </property>
       </widget>
      </item>

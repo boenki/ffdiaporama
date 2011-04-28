@@ -88,12 +88,19 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     // Define handler
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OkBt,SIGNAL(clicked()),this,SLOT(accept()));
+    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
 }
 
 //====================================================================================================================
 
 DlgApplicationSettings::~DlgApplicationSettings() {
     delete ui;
+}
+
+//====================================================================================================================
+
+void DlgApplicationSettings::Help() {
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpApplicationSettings.php")));
 }
 
 //====================================================================================================================

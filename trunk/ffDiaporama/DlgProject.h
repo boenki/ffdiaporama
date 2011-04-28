@@ -44,6 +44,7 @@ protected:
     virtual void accept();
 
 private slots:
+    void        Help();
     void        SetSavedWindowGeometry();
 
 private:

@@ -108,6 +108,7 @@ DlgTransitionProperties::DlgTransitionProperties(cDiaporamaObject *DiaporamaObje
     connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
+    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
 }
 
 //====================================================================================================================
@@ -119,6 +120,12 @@ DlgTransitionProperties::~DlgTransitionProperties() {
         delete PreviousFrame;
         PreviousFrame=NULL;
     }
+}
+
+//====================================================================================================================
+
+void DlgTransitionProperties::Help() {
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpTransitionProperties.php")));
 }
 
 //====================================================================================================================

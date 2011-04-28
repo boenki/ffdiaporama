@@ -40,8 +40,9 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
-    connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(s_TabCurrentChanged(int)));
+    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
 
+    connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(s_TabCurrentChanged(int)));
     connect(ui->CompositionWidget,SIGNAL(NeedRefreshBackgroundImage()),this,SLOT(s_CompositionNeedRefreshBackgroundImage()));
     connect(ui->BackgroundDefWidget,SIGNAL(BackgroundTypeChange()),this,SLOT(s_BackgroundTypeChange()));
 
@@ -53,6 +54,12 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
 DlgBackgroundProperties::~DlgBackgroundProperties() {
     delete ui;
     delete Undo;
+}
+
+//====================================================================================================================
+
+void DlgBackgroundProperties::Help() {
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpBackgroundProperties.php")));
 }
 
 //====================================================================================================================

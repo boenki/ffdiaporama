@@ -48,6 +48,7 @@ protected:
     virtual void accept();
 
 private slots:
+    void        Help();
     void        s_TabCurrentChanged(int Page);
     void        s_CompositionNeedRefreshBackgroundImage();
     void        s_DefStartPos();
