@@ -34,23 +34,6 @@ int main(int argc, char *argv[]) {
 
     app.setApplicationName(QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION));
 
-    QString CurrentPath=QDir::currentPath();
-    if (!CurrentPath.endsWith(QDir::separator())) CurrentPath=CurrentPath+QDir::separator();
-
-    AddToSystemProperties(QString(STARTINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
-    #if defined(Q_OS_WIN)
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString(APPLICATION_NAME));
-    #endif
-
-    // Ensure correct path
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("/usr/share/")+QString(APPLICATION_NAME));
-    #endif
-    AddToSystemProperties(QString(WORKINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
-
-
     // Search system language
     QTranslator translator;
     CurrentLanguage=QLocale::system().name().left(2);
@@ -68,7 +51,7 @@ int main(int argc, char *argv[]) {
     }
     AddSeparatorToSystemProperties();
 
-    MainWindow w(CurrentPath,ApplicationConfig);
+    MainWindow w(ApplicationConfig);
 
     if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
 

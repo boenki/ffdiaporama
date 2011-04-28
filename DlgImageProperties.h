@@ -58,6 +58,7 @@ protected:
     virtual void accept();
 
 private slots:
+    void        Help();
     void        SetSavedWindowGeometry();
     void        s_TabCurrentChanged(int Page);
 

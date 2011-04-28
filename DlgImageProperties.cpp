@@ -62,6 +62,8 @@ DlgImageProperties::DlgImageProperties(cDiaporamaObject *DiaporamaObject,QWidget
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
+    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
+
     connect(ui->CompositionWidget,SIGNAL(NeedRefreshBackgroundImage()),this,SLOT(s_CompositionNeedRefreshBackgroundImage()));
 
     // Select first tab to display
@@ -82,6 +84,12 @@ DlgImageProperties::DlgImageProperties(cDiaporamaObject *DiaporamaObject,QWidget
 DlgImageProperties::~DlgImageProperties() {
     delete ui;
     delete Undo;
+}
+
+//====================================================================================================================
+
+void DlgImageProperties::Help() {
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpImageProperties.php")));
 }
 
 //====================================================================================================================

@@ -32,17 +32,23 @@
 #include "DlgApplicationSettings.h"
 #include "DlgRenderVideo.h"
 
+#include "QSplashScreen"
+
 //====================================================================================================================
 
-MainWindow::MainWindow(QString TheCurrentPath,cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    CurrentPath             =TheCurrentPath;
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
     Clipboard               =NULL;
     ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
 
     ApplicationConfig=TheCurrentApplicationConfig;
     ApplicationConfig->ParentWindow=this;
+
+    QSplashScreen screen;
+    screen.setPixmap(QPixmap("icons/splash.png"));
+    screen.show();
+    QCoreApplication::processEvents();  // Give time to interface !
 
     // Search if a BUILDVERSION.txt file exist
     QFile file("BUILDVERSION.txt");
@@ -64,10 +70,12 @@ MainWindow::MainWindow(QString TheCurrentPath,cApplicationConfig *TheCurrentAppl
     AddToSystemProperties(QString(FMTFILTERVERSION_STR)+"0.6.4-Licence=LGPL");
 
     // Now, we have application settings then we can init SDL
+    screen.showMessage("Starting SDL...",Qt::AlignHCenter|Qt::AlignBottom);
     SDLFirstInit(ApplicationConfig->PreviewFPS);
     AddToSystemProperties(QString(SDLVERSION_STR)+QString("%1").arg(SDL_MAJOR_VERSION)+"."+QString("%1").arg(SDL_MINOR_VERSION)+"."+QString("%1").arg(SDL_PATCHLEVEL)+"-Licence=GPL version 2.1 or later");
 
     // Register all formats and codecs for libavformat/libavcodec/etc ...
+    screen.showMessage("Starting ffmpeg...",Qt::AlignHCenter|Qt::AlignBottom);
     avcodec_init();
     av_register_all();
     //QString Conf;
@@ -153,12 +161,15 @@ MainWindow::MainWindow(QString TheCurrentPath,cApplicationConfig *TheCurrentAppl
 
     AddSeparatorToSystemProperties();   AddToSystemProperties("Library :");
     QString Path;
+    screen.showMessage("Loading background library...",Qt::AlignHCenter|Qt::AlignBottom);
     Path="background";      BackgroundList.ScanDisk(Path,GEOMETRY_16_9); AddToSystemProperties(QString("  %1").arg(BackgroundList.List.count())+" images loaded into the background-library from "+AdjustDirForOS(QDir(Path).absolutePath()));
+    screen.showMessage("Loading no-luma transitions...",Qt::AlignHCenter|Qt::AlignBottom);
     for (int i=0;i<TRANSITIONMAXSUBTYPE_BASE;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_BASE,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_ZOOMINOUT;i++)  IconList.List.append(cIconObject(TRANSITIONFAMILLY_ZOOMINOUT,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_SLIDE;i++)      IconList.List.append(cIconObject(TRANSITIONFAMILLY_SLIDE,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_PUSH;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_PUSH,i));
     AddToSystemProperties(QString("  %1").arg(IconList.List.count())+" no-luma transitions loaded into the transition-library");
+    screen.showMessage("Loading luma transitions...",Qt::AlignHCenter|Qt::AlignBottom);
     Path="luma/Bar";        LumaList_Bar.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BAR);         AddToSystemProperties(QString("  %1").arg(LumaList_Bar.List.count())+" luma transitions loaded into the transition-library from "+AdjustDirForOS(QDir(Path).absolutePath()));
     Path="luma/Box";        LumaList_Box.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BOX);         AddToSystemProperties(QString("  %1").arg(LumaList_Box.List.count())+" luma transitions loaded into the transition-library from "+AdjustDirForOS(QDir(Path).absolutePath()));
     Path="luma/Center";     LumaList_Center.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CENTER);   AddToSystemProperties(QString("  %1").arg(LumaList_Center.List.count())+" luma transitions loaded into the transition-library from "+AdjustDirForOS(QDir(Path).absolutePath()));
@@ -179,6 +190,8 @@ MainWindow::MainWindow(QString TheCurrentPath,cApplicationConfig *TheCurrentAppl
     SetModifyFlag(false);
     ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
     ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
+
+    screen.hide();
 
     // Help menu
     connect(ui->action_About,SIGNAL(triggered()),this,SLOT(s_About()));

@@ -314,13 +314,28 @@ cApplicationConfig::cApplicationConfig() {
 
     GlobalConfigFile=QString(APPLICATION_NAME)+QString(CONFIGFILEEXT);
 
+    QString CurrentPath=QDir::currentPath();
+    AddToSystemProperties(QString(STARTINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
+    // Ensure correct path
+    #if defined(Q_OS_WIN)
+    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
+    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString(APPLICATION_NAME));
+    #endif
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
+    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("/usr/share/")+QString(APPLICATION_NAME));
+    #endif
+    AddToSystemProperties(QString(WORKINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
+    CurrentPath=QDir::currentPath();
+    if (!CurrentPath.endsWith(QDir::separator())) CurrentPath=CurrentPath+QDir::separator();
+
     // set UserConfigFile value (depending on operating system)
     #ifdef Q_OS_WIN
     UserConfigPath=WINDOWS_APPDATA;
     if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
     UserConfigPath  = UserConfigPath+APPLICATION_NAME+QDir::separator();
-    PathEXIV2       = "exiv2\\exiv2.exe";             // FileName of exiv2 (with path) : Windows version
-    PathFFMPEG      = "ffmpeg\\bin\\ffmpeg.exe";      // FileName of ffmpeg (with path) : Windows version
+    PathEXIV2       = "exiv2\\exiv2.exe";                                       // FileName of exiv2 (with path) : Windows version
+    PathFFMPEG      = AdjustDirForOS(CurrentPath+"ffmpeg\\bin\\ffmpeg.exe");    // FileName of ffmpeg (with path) : Windows version
     #endif
     #ifdef Q_WS_X11
     UserConfigPath=QDir::homePath();
@@ -329,8 +344,9 @@ cApplicationConfig::cApplicationConfig() {
     PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
     PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
     #endif
-    UserConfigPath=AdjustDirForOS(UserConfigPath);
     UserConfigFile=UserConfigPath+APPLICATION_NAME+CONFIGFILEEXT;
+    if (UserConfigPath.endsWith("/")||UserConfigPath.endsWith("\\")) UserConfigPath=UserConfigPath.left(UserConfigPath.length()-QString("/").length());
+    UserConfigPath=AdjustDirForOS(UserConfigPath);
     AddToSystemProperties(QString(TEMPDIR_STR)+UserConfigPath);
     AddToSystemProperties(QString(USERCONFIGFILE_STR)+UserConfigFile);
 
