@@ -171,7 +171,7 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,bool Fo
 
         // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
         if ((PreviewMode)&&(ImageHeight>PreviewMaxHeight)) {
-            QImage *NewImage=new QImage(Image->scaledToHeight(PreviewMaxHeight));
+            QImage *NewImage=new QImage(Image->scaledToHeight(PreviewMaxHeight,Qt::SmoothTransformation));
             delete Image;
             Image =NewImage;
             ImageHeight=Image->height();

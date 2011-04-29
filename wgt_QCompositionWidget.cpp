@@ -217,10 +217,29 @@ void wgt_QCompositionWidget::SetCompositionObject(cCompositionList *TheCompositi
     CompositionList =TheCompositionList;
     BackgroundImage =TheBackgroundImage;
     if ((CompositionList!=NULL)&&(BackgroundImage!=NULL)) {
+
+        //--------------------------------------------------------------------
+        // Prepare the scene
+        //--------------------------------------------------------------------
+        // Calc and adjust ui->SceneBox depending on geometry
         xmax=double(ui->SceneBox->width());
-        ymax=double(ui->SceneBox->width())*(double(double(BackgroundImage->height())/BackgroundImage->width()));
+        ymax=double(ui->SceneBox->height());
+        //ymax=double(ui->SceneBox->width())/(double(double(BackgroundImage->width())/BackgroundImage->height()));
+
+        // re-create the scene
+        delete scene;
+        scene = new QGraphicsScene();
+        connect(scene,SIGNAL(selectionChanged()),this,SLOT(s_SelectionChangeEvent()));
         scene->setSceneRect(QRectF(0,0,xmax,ymax));
+
+        // Setup scene to control
+        ui->SceneBox->setScene(scene);
+        ui->SceneBox->setInteractive(true);
+        ui->SceneBox->setDragMode(QGraphicsView::ScrollHandDrag);
         ui->SceneBox->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
+
+        IsInit=false;
+        RefreshBackgroundImage();
 
         if (!IsInit) {
             // Create cCustomGraphicsRectItem associate to existing cCompositionObject
@@ -238,6 +257,7 @@ void wgt_QCompositionWidget::SetCompositionObject(cCompositionList *TheCompositi
 
         RefreshControls();
     }
+
     // Resize et repos all item in the scene
     if (BackgroundImage!=NULL) {
         for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {

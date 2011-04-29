@@ -292,7 +292,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string notr="true">Define a custom mobil duration</string>
+                  <string>Use project value for mobil duration</string>
                  </property>
                 </widget>
                </item>
@@ -360,7 +360,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string notr="true">Define a custom static duration</string>
+                  <string>Use project value for static duration</string>
                  </property>
                 </widget>
                </item>

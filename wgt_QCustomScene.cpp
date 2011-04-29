@@ -92,7 +92,32 @@ void wgt_QCustomScene::SetDiaporamaScene(cDiaporamaShot *DiaporamaScene) {
         delete CacheImage;
         CacheImage=NULL;
     }
+    if (scene!=NULL) {
+        delete scene;
+        scene=NULL;
+    }
     this->DiaporamaScene=DiaporamaScene;
+    //--------------------------------------------------------------------
+    // Prepare the scene
+    //--------------------------------------------------------------------
+    // Calc and adjust ui->GraphicsView depending on geometry
+    xmax=ui->GraphicsView->width();
+    ymax=DiaporamaScene->Parent->Parent->GetHeightForWidth(xmax);
+    if (ymax<ui->GraphicsView->height()) {
+        ymax=ui->GraphicsView->height();
+        xmax=DiaporamaScene->Parent->Parent->GetWidthForHeight(ymax);
+    }
+    // Create the scene
+    scene = new QGraphicsScene();
+    scene->setSceneRect(QRectF(0,0,xmax,ymax));
+
+    // Setup scene to control
+    ui->GraphicsView->setScene(scene);
+    ui->GraphicsView->setInteractive(true);
+    ui->GraphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
+    ui->GraphicsView->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
+    RefreshWidget();
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -284,6 +309,7 @@ void wgt_QCustomScene::RefreshBackgroundImage(bool ResetCache) {
         scene->removeItem(im);
         delete im;
     }
+    scene->clearSelection();
 
     // Ensure CacheImage is OK
     if ((ResetCache==true)&&(CacheImage!=NULL)) {
