@@ -245,7 +245,7 @@ void DlgImageProperties::RefreshControls() {
     //--------------------------------------------------------------------
     // Update controls
     //--------------------------------------------------------------------
-    ui->StaticSetCustomBt->setChecked(!DiaporamaObject->List[Current].DefaultStaticDuration);
+    ui->StaticSetCustomBt->setChecked(DiaporamaObject->List[Current].DefaultStaticDuration);
     ui->StaticCustomEd->setValue(DiaporamaObject->List[Current].StaticDuration/1000);
     if (DiaporamaObject->List[Current].DefaultStaticDuration) {
         ui->StaticCustomEd->setEnabled(false);
@@ -273,7 +273,7 @@ void DlgImageProperties::RefreshControls() {
         ui->StaticDefault->setText(QString(QCoreApplication::translate("DlgImageProperties","Lengthened to %1 sec to allow transitions")).arg((DiaporamaObject->List[Current].GetStaticDuration()+AddingDuration)/1000));
     }
 
-    ui->MobilSetCustomBt->setChecked(!DiaporamaObject->List[Current].DefaultMobilDuration);
+    ui->MobilSetCustomBt->setChecked(DiaporamaObject->List[Current].DefaultMobilDuration);
     ui->MobilCustomEd->setValue(DiaporamaObject->List[Current].MobilDuration/1000);
 
     if (Current>0) {
@@ -333,8 +333,7 @@ void DlgImageProperties::s_ItemSelectionChanged() {
 void DlgImageProperties::s_StaticSetCustom() {
     int Current=ui->TableSeq->currentRow();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
-    DiaporamaObject->List[Current].DefaultStaticDuration=!ui->StaticSetCustomBt->isChecked();
-    ui->StaticSetCustomBt->setChecked(!DiaporamaObject->List[Current].DefaultStaticDuration);
+    DiaporamaObject->List[Current].DefaultStaticDuration=ui->StaticSetCustomBt->isChecked();
     ui->StaticCustomEd->setEnabled(!DiaporamaObject->List[Current].DefaultStaticDuration);
     RefreshControls();
 }
@@ -353,9 +352,8 @@ void DlgImageProperties::s_DefineCustom(int Value) {
 void DlgImageProperties::s_MobilSetCustom() {
     int Current=ui->TableSeq->currentRow();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
-    DiaporamaObject->List[Current].DefaultMobilDuration=!ui->MobilSetCustomBt->isChecked();
-    ui->MobilSetCustomBt->setChecked(!DiaporamaObject->List[Current].DefaultMobilDuration);
-    ui->MobilCustomEd->setEnabled(!DiaporamaObject->List[Current].DefaultMobilDuration);
+    DiaporamaObject->List[Current].DefaultMobilDuration=ui->MobilSetCustomBt->isChecked();
+    ui->MobilCustomEd->setEnabled(DiaporamaObject->List[Current].DefaultMobilDuration);
     RefreshControls();
 }
 

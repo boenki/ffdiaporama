@@ -604,12 +604,12 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,int Pos
     if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
         // Scale image if anamorphous codec
         if (AspectRatio!=1) {
-            QImage *NewLoadedImage=new QImage(LoadedImage->scaled(int(double(ImageWidth)*AspectRatio),ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+            QImage *NewLoadedImage=new QImage(LoadedImage->scaled(int(double(ImageWidth)*AspectRatio),ImageHeight,Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/));
             delete LoadedImage;
             LoadedImage=NewLoadedImage;
         }
         // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
-        if ((PreviewMode)&&(ImageHeight>PreviewMaxHeight)) {
+        if ((PreviewMode)&&(ImageHeight>(PreviewMaxHeight*2))) {
             QImage *NewImage=new QImage(LoadedImage->scaledToHeight(PreviewMaxHeight));
             delete LoadedImage;
             LoadedImage =NewImage;

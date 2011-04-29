@@ -696,7 +696,7 @@ QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPaint
     QImage *SourceImage = GetImageAt(Position+QTime(0,0,0,0).msecsTo(List[0].StartPos),VideoCachedMode,SoundTrackMontage);
     QImage *ReturnImage = NULL;
 
-    if (SourceImage==NULL) return NULL;
+    if ((SourceImage==NULL)||(SourceImage->isNull())) return NULL;
 
     if (Painter!=NULL) {
         PrepareImage(Painter,Width,Height,Position,SourceImage,AddX,AddY,ImagePosition,ForcedImageRotation,ApplyShotText,ApplyShotFilter);
@@ -815,20 +815,22 @@ void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Positio
     QImage Image1=SourceImage->copy(SrcX,SrcY,SrcW,SrcH);
 
     // Scaled part as needed
-    QImage Image2=Image1.scaled(int(DestW-DestX-AddX),int(DestH-DestY-AddY),Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+    QImage Image2=Image1.scaled(int(DestW),int(DestH),Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 
     // Apply global filter to part image
     if (TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY) FilterTransform.ApplyFilter(&Image2);
 
     // Apply shot filter to part image
     if ((TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY)&&(ApplyShotFilter)) FilterCorrection.ApplyFilter(&Image2);
-    P->drawImage(QRectF(DestX+AddX,DestY+AddY,DestW,DestH),Image2,QRectF(0,0,Image2.width(),Image2.height()));
+
+    P->drawImage(QRectF(DestX+AddX,DestY+AddY,DestW,DestH),Image2);
 
     //**********************************
     // Composition layers
     //**********************************
     // Add global image composition layer
     P->drawImage(QRectF(DestX+AddX,DestY+AddY,DestW,DestH),GlobalImageComposition,QRectF(SrcX,SrcY,SrcW,SrcH));
+
     // Add static shot composition
     if (ApplyShotText) for (int j=0;j<List[Sequence].ShotComposition.List.count();j++) List[Sequence].ShotComposition.List[j].DrawCompositionObject(*P,AddX,AddY,Width,Height);
 
@@ -1467,7 +1469,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,int Extend,
             }
 
             // Scaled part as needed
-            Image2=Image1.scaled(DestW-DestX,DestH-DestY);
+            Image2=Image1.scaled(DestW,DestH,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 
             // Apply global filter to part image
             if (CurObject->TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY) CurObject->FilterTransform.ApplyFilter(&Image2);
@@ -1475,7 +1477,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,int Extend,
             // Apply shot filter to part image
             if (CurObject->TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY) FilterCorrection.ApplyFilter(&Image2);
 
-            P.drawImage(QRectF(DestX,DestY+Extend,DestW,DestH),Image2,QRectF(0,0,Image2.width(),Image2.height()));
+            P.drawImage(QRectF(DestX,DestY+Extend,DestW,DestH),Image2);
 
             //**********************************
             // Composition layers
@@ -1564,7 +1566,7 @@ void cDiaporama::DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int,int) {
 void cDiaporama::DoLuma(cLumaList *LumaList,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
     // Get a copy of luma image scaled to correct size
     QImage  Luma=((W==LUMADLG_WIDTH)&&(H==LUMADLG_HEIGHT))?LumaList->List[Info->TransitionSubType].DlgLumaImage:
-                    LumaList->List[Info->TransitionSubType].OriginalLuma.scaled(Info->CurrentObject_PreparedImage->size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation).convertToFormat(QImage::Format_ARGB32_Premultiplied);
+                    LumaList->List[Info->TransitionSubType].OriginalLuma.scaled(Info->CurrentObject_PreparedImage->size(),Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/).convertToFormat(QImage::Format_ARGB32_Premultiplied);
     QImage  Img=Info->CurrentObject_PreparedImage->copy();
 
     // Apply PCTDone to luma mask

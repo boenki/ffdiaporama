@@ -458,6 +458,7 @@ void MainWindow::s_MusicDoubleClicked() {
 void MainWindow::s_ItemSelectionChanged() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     if (!FLAGSTOPITEMSELECTION) {
+        if (Diaporama->CurrentCol<0) Diaporama->CurrentCol=0;
         if ((Diaporama->CurrentCol!=ui->timeline->currentColumn())||((Diaporama->List.count()==1)&&(Diaporama->CurrentCol==0))) {
             //************************************************************
             // We are here only if user has click on the timeline

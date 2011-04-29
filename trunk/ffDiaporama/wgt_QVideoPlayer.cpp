@@ -537,6 +537,7 @@ void wgt_QVideoPlayer::SetStartEndPos(int StartPos,int Duration,int PreviousStar
 //============================================================================================
 
 void wgt_QVideoPlayer::SeekPlayer(int Value) {
+    ActualPosition=-1;
     s_SliderMoved(Value);
 }
 

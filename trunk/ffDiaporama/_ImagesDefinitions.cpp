@@ -413,7 +413,7 @@ cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType) {
 cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType,QImage LumaImage) {
     TransitionFamilly=TheTransitionFamilly;
     TransitionSubType=TheTransitionSubType;
-    Icon=LumaImage.scaled(QSize(32,32),Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+    Icon=LumaImage.scaled(QSize(32,32),Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/);
 }
 
 //====================================================================================================================
@@ -450,7 +450,7 @@ QImage *cIconList::GetIcon(int TransitionFamilly,int TransitionSubType) {
 //*********************************************************************************************************************************************
 cLumaListObject::cLumaListObject(QString FileName) {
     OriginalLuma=QImage(FileName);
-    DlgLumaImage=QImage(OriginalLuma.scaled(LUMADLG_WIDTH,LUMADLG_HEIGHT,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
+    DlgLumaImage=QImage(OriginalLuma.scaled(LUMADLG_WIDTH,LUMADLG_HEIGHT,Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
     Name        =QFileInfo(FileName).baseName();
 }
 
@@ -500,5 +500,5 @@ void cLumaList::SetGeometry(int TheGeometry) {
     default             : LUMADLG_WIDTH=int((double(LUMADLG_HEIGHT)/double(17))*double(40));  break;
     }
     for (int i=0;i<List.count();i++)
-        List[i].DlgLumaImage=QImage(List[i].OriginalLuma.scaled(LUMADLG_WIDTH,LUMADLG_HEIGHT,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
+        List[i].DlgLumaImage=QImage(List[i].OriginalLuma.scaled(LUMADLG_WIDTH,LUMADLG_HEIGHT,Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
 }

@@ -403,14 +403,9 @@ void DlgRenderVideo::accept() {
             Extend  =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Extend;
 
             // Video codec part
-            #ifdef Q_OS_WIN
             QString Preset=AdjustDirForOS(QDir::currentPath());
             if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
             Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
-            #endif
-            #ifdef Q_WS_X11
-            QString Preset="-vpre libx264-hq";
-            #endif
             switch (VIDEOCODECDEF[VideoCodecIndex].Codec_id) {
                 case CODEC_ID_MPEG2VIDEO :  vCodec=QString("-vcodec mpeg2video -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
                                                    .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
