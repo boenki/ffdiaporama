@@ -600,7 +600,7 @@
      <normaloff>icons/add_image.png</normaloff>icons/add_image.png</iconset>
    </property>
    <property name="text">
-    <string>Add file</string>
+    <string>Add files</string>
    </property>
    <property name="toolTip">
     <string>Add image</string>

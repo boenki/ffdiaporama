@@ -58,6 +58,7 @@ private slots:
     void        s_EditStartPos(QTime NewValue);
     void        s_EditEndPos(QTime NewValue);
     void        s_FullCanvas();
+    void        MusicReduceFactorChange(int);
 
 private:
     Ui::DlgVideoProperties *ui;

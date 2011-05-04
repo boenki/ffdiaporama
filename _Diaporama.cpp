@@ -24,7 +24,6 @@
 // Specific inclusions
 #include "_Diaporama.h"
 
-#include "wgt_QBackgroundWidget.h"
 #include "mainwindow.h"
 
 //*********************************************************************************************************************************************
@@ -743,8 +742,8 @@ void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Positio
         XFactor         =List[Sequence].X;
         YFactor         =List[Sequence].Y;
         ZoomFactor      =List[Sequence].ZoomFactor;
-        FilterCorrection=List[Sequence].FilterCorrection;
     }
+    FilterCorrection=List[Sequence].FilterCorrection;
 
     if ((Sequence>0)&&((Position-CurPos)<(Sequence>0?List[Sequence].GetMobilDuration():0))) {
         double   PctDone=(double(Position)-double(CurPos))/(double(List[Sequence].GetMobilDuration()));
@@ -1327,6 +1326,65 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString ProjectFileName) {
     return IsOk;
 }
 
+//====================================================================================================================
+
+bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName) {
+    QFile           file(ProjectFileName);
+    QDomDocument    domDocument;
+    QDomElement     root;
+    QString         errorStr;
+    int             errorLine,errorColumn;
+
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading project file","Error message"),QMessageBox::Close);
+            else                printf("%s\n",QCoreApplication::translate("MainWindow","Error reading project file","Error message").toLocal8Bit().constData());
+        return false;
+    }
+
+    if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
+        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
+            else                printf("%s\n",QCoreApplication::translate("MainWindow","Error reading content of project file","Error message").toLocal8Bit().constData());
+        return false;
+    }
+
+    root = domDocument.documentElement();
+    if (root.tagName()!=APPLICATION_ROOTNAME) {
+        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","The file is not a valid project file","Error message"),QMessageBox::Close);
+            else                printf("%s\n",QCoreApplication::translate("MainWindow","The file is not a valid project file","Error message").toLocal8Bit().constData());
+        return false;
+    }
+
+    if ((root.elementsByTagName("Project").length()>0)&&(root.elementsByTagName("Project").item(0).isElement()==true)) {
+        QDomElement Element=root.elementsByTagName("Project").item(0).toElement();
+        int TheImageGeometry   =Element.attribute("ImageGeometry").toInt();
+        if (TheImageGeometry!=ImageGeometry) {
+            if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Impossible to import this file :\nImage geometry in this file is not the same than the current project","Error message"),QMessageBox::Close);
+                else                printf("%s\n",QCoreApplication::translate("MainWindow","Impossible to import this file :\nImage geometry in this file is not the same than the current project","Error message").toLocal8Bit().constData());
+            return false;
+        }
+    }
+
+    // Load basic information on project
+    bool IsOk=true;
+    if ((root.elementsByTagName("Project").length()>0)&&(root.elementsByTagName("Project").item(0).isElement()==true)) {
+        QDomElement Element=root.elementsByTagName("Project").item(0).toElement();
+
+        // Load object list
+        int ObjectNumber=Element.attribute("ObjectNumber").toInt();
+        for (int i=0;i<ObjectNumber;i++) if ((root.elementsByTagName("Object-"+QString("%1").arg(i)).length()>0)&&
+                                             (root.elementsByTagName("Object-"+QString("%1").arg(i)).item(0).isElement()==true)) {
+            List.append(cDiaporamaObject(this));
+            if (List[List.count()-1].LoadFromXML(root,"Object-"+QString("%1").arg(i).trimmed(),QFileInfo(ProjectFileName).absolutePath())) {
+                if (ParentWindow!=NULL) ((MainWindow *)ParentWindow)->AddObjectToTimeLine(i);
+            } else {
+                List.removeLast();
+                IsOk=false;
+            }
+        }
+    } else IsOk=false;
+    return IsOk;
+}
+
 //============================================================================================
 // Function use directly or with thread to prepare an image number Column at given position
 // Note : Position is relative to the start of the Column object !
@@ -1337,11 +1395,10 @@ void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *Music
     if ((Column<List.count())&&(!List[Column].MusicPause)) {
         cMusicObject *CurMusic=GetMusicObject(Column,StartPosition);                                         // Get current music file from column and position
         if (CurMusic!=NULL) {
-            int OldBlock=MusicTrack->List.count();
             CurMusic->Music->ImageAt(false,0,Position+StartPosition,false,false,MusicTrack,1,false);               // Get music bloc at correct position
             double Factor=CurMusic->Volume;
             if (List[Column].MusicReduceVolume) Factor=Factor*List[Column].MusicReduceFactor;
-            if (Factor!=1.0) for (int i=OldBlock;i<MusicTrack->List.count();i++) MusicTrack->ApplyVolume(i,Factor);
+            if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
         } else for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
     } else for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
 }
@@ -1509,12 +1566,15 @@ void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
         if (List.count()>0) {
             // Draw background
             if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
+                double Opacity;
                 if ((Info->TransitObject)&&(Info->TransitObject_PreparedBackground)) {
-                    //P.setOpacity(1-Info->TransitionPCTDone);
+                    Opacity=1-(Info->TransitionPCTDone);
+                    P.setOpacity(Opacity);
                     P.drawImage(0,0,*Info->TransitObject_PreparedBackground);
-                } else P.fillRect(QRect(0,0,W,H),Qt::black);
+                }
                 if (Info->CurrentObject_PreparedBackground) {
-                    P.setOpacity(Info->TransitionPCTDone);
+                    Opacity=(Info->TransitionPCTDone);
+                    P.setOpacity(Opacity);
                     P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
                 }
                 P.setOpacity(1);
@@ -1564,21 +1624,23 @@ void cDiaporama::DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int,int) {
 //============================================================================================
 
 void cDiaporama::DoLuma(cLumaList *LumaList,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
-    // Get a copy of luma image scaled to correct size
-    QImage  Luma=((W==LUMADLG_WIDTH)&&(H==LUMADLG_HEIGHT))?LumaList->List[Info->TransitionSubType].DlgLumaImage:
-                    LumaList->List[Info->TransitionSubType].OriginalLuma.scaled(Info->CurrentObject_PreparedImage->size(),Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/).convertToFormat(QImage::Format_ARGB32_Premultiplied);
     QImage  Img=Info->CurrentObject_PreparedImage->copy();
+    if (Info->TransitionSubType<LumaList->List.count()) {
+        // Get a copy of luma image scaled to correct size
+        QImage  Luma=((W==LUMADLG_WIDTH)&&(H==LUMADLG_HEIGHT))?LumaList->List[Info->TransitionSubType].DlgLumaImage:
+                        LumaList->List[Info->TransitionSubType].OriginalLuma.scaled(Info->CurrentObject_PreparedImage->size(),Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/).convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-    // Apply PCTDone to luma mask
-    uint8_t limit    =uint8_t(Info->TransitionPCTDone*double(0xff))+1;
-    uint32_t *LumaData=(uint32_t *)Luma.bits();
-    uint32_t *ImgData =(uint32_t *)Img.bits();
-    uint32_t *ImgData2=(uint32_t *)Info->TransitObject_PreparedImage->bits();
+        // Apply PCTDone to luma mask
+        uint8_t limit    =uint8_t(Info->TransitionPCTDone*double(0xff))+1;
+        uint32_t *LumaData=(uint32_t *)Luma.bits();
+        uint32_t *ImgData =(uint32_t *)Img.bits();
+        uint32_t *ImgData2=(uint32_t *)Info->TransitObject_PreparedImage->bits();
 
-    for (int i=0;i<W*H;i++) {
-        if (((*LumaData++) & 0xff)>limit) *ImgData=*ImgData2;
-        ImgData++;
-        ImgData2++;
+        for (int i=0;i<W*H;i++) {
+            if (((*LumaData++) & 0xff)>limit) *ImgData=*ImgData2;
+            ImgData++;
+            ImgData2++;
+        }
     }
     // Draw transformed image
     P->drawImage(0,0,Img);
@@ -2319,6 +2381,10 @@ cDiaporamaObjectInfo::~cDiaporamaObjectInfo() {
         delete CurrentObject_BackgroundBrush;
         CurrentObject_BackgroundBrush=NULL;
     }
+    if ((CurrentObject_FreePreparedBackground)&&(CurrentObject_PreparedBackground)) {
+        delete CurrentObject_PreparedBackground;
+        CurrentObject_PreparedBackground=NULL;
+    }
     if ((CurrentObject_FreeSourceImage)&&(CurrentObject_SourceImage)) {
         delete CurrentObject_SourceImage;
         CurrentObject_SourceImage=NULL;
@@ -2340,6 +2406,10 @@ cDiaporamaObjectInfo::~cDiaporamaObjectInfo() {
     if ((TransitObject_FreeBackgroundBrush)&&(TransitObject_BackgroundBrush)) {
         delete TransitObject_BackgroundBrush;
         TransitObject_BackgroundBrush=NULL;
+    }
+    if ((TransitObject_FreePreparedBackground)&&(TransitObject_PreparedBackground)) {
+        delete TransitObject_PreparedBackground;
+        TransitObject_PreparedBackground=NULL;
     }
     if ((TransitObject_FreeSourceImage)&&(TransitObject_SourceImage)) {
         delete TransitObject_SourceImage;

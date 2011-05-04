@@ -32,8 +32,7 @@
 #define PAGE_FRAMING                2
 
 #define SUBPAGE_SHOTFRAMING         0
-#define SUBPAGE_SHOTFILTER          1
-#define SUBPAGE_SHOTCOMPOSITION     2
+#define SUBPAGE_SHOTCOMPOSITION     1
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Dialog box
@@ -50,7 +49,7 @@ DlgImageProperties::DlgImageProperties(cDiaporamaObject *DiaporamaObject,QWidget
     Undo->appendChild(root);                                // Add object to xml document
 
     // Init embeded widgets
-    ui->CustomScene->SetDiaporamaScene(&DiaporamaObject->List[0]);
+    ui->CustomScene->SetDiaporamaShot(&DiaporamaObject->List[0]);
     ui->ImageFilterTransform->SetFilter(&DiaporamaObject->FilterTransform,DiaporamaObject);
     ui->CompositionWidget->SetCompositionObject(&DiaporamaObject->ObjectComposition,NULL);
 
@@ -70,7 +69,6 @@ DlgImageProperties::DlgImageProperties(cDiaporamaObject *DiaporamaObject,QWidget
     if (DiaporamaObject->TypeObject==DIAPORAMAOBJECTTYPE_EMPTY) {
         ui->tabWidget->setTabEnabled(PAGE_GLOBALFILTER,false);          // disable global filter tab
         ui->tabWidget->setCurrentIndex(PAGE_FRAMING);
-        ui->ShotTabWidget->setTabEnabled(SUBPAGE_SHOTFILTER,false);     // disable shot filter tab
     } else {
         ui->tabWidget->setCurrentIndex(PAGE_FRAMING);
         ui->ShotTabWidget->setCurrentIndex(0);
@@ -205,7 +203,6 @@ void DlgImageProperties::SetTabAnimation() {
         // Init embeded widgets
 //          ui->ImageFilters->SetDiaporamaObject(DiaporamaObject);
         ui->CompositionShotWidget->SetCompositionObject(&DiaporamaObject->List[0].ShotComposition,NULL);
-        ui->ImageFilterCorrect->SetFilter(&DiaporamaObject->List[0].FilterCorrection,&DiaporamaObject->List[0]);
 
         // Connect signals
         connect(ui->StaticSetCustomBt,SIGNAL(clicked()),this,SLOT(s_StaticSetCustom()));
@@ -218,7 +215,6 @@ void DlgImageProperties::SetTabAnimation() {
         connect(ui->DownSequenceBT,SIGNAL(clicked()),this,SLOT(s_DownSequence()));
         connect(ui->TableSeq,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
         connect(ui->CustomScene,SIGNAL(ModifyDataSignal()),this,SLOT(s_CustomSceneModifyFlag()));
-        connect(ui->ImageFilterCorrect,SIGNAL(ModifyDataSignal()),this,SLOT(s_CustomSceneModifyFlag()));
         connect(ui->FullCanvasCB,SIGNAL(clicked()),this,SLOT(s_FullCanvas()));
         connect(ui->CompositionShotWidget,SIGNAL(NeedRefreshBackgroundImage()),this,SLOT(s_CompositionInShotNeedRefreshBackgroundImage()));
         connect(ui->CompositionShotWidget,SIGNAL(BackgroundImageUpdated()),this,SLOT(s_BackgroundImageUpdated()));
@@ -231,7 +227,6 @@ void DlgImageProperties::SetTabAnimation() {
     } else {
         ui->CustomScene->RefreshWidget();
         ui->CompositionShotWidget->SetCompositionObject(&DiaporamaObject->List[0].ShotComposition,NULL);
-        ui->ImageFilterCorrect->SetFilter(&DiaporamaObject->List[0].FilterCorrection,&DiaporamaObject->List[0]);
     }
 }
 
@@ -320,11 +315,10 @@ void DlgImageProperties::s_ItemSelectionChanged() {
     int Current=ui->TableSeq->currentRow();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
     // Refresh embeded widget
-    ui->CustomScene->SetDiaporamaScene(&DiaporamaObject->List[Current]);
+    ui->CustomScene->SetDiaporamaShot(&DiaporamaObject->List[Current]);
     ui->CustomScene->RefreshWidget();
     ui->CompositionShotWidget->SetCompositionObject(&DiaporamaObject->List[Current].ShotComposition,NULL);
-    ui->ImageFilterCorrect->SetFilter(&DiaporamaObject->List[Current].FilterCorrection,&DiaporamaObject->List[Current]);
-    if (ui->ShotTabWidget->currentIndex()==2) s_CompositionInShotNeedRefreshBackgroundImage();
+    if (ui->ShotTabWidget->currentIndex()==SUBPAGE_SHOTCOMPOSITION) s_CompositionInShotNeedRefreshBackgroundImage();
     RefreshControls();
 }
 
@@ -387,7 +381,6 @@ void DlgImageProperties::s_addSequence() {
     ui->TableSeq->setCurrentCell(ui->TableSeq->rowCount()-1,0);
     ui->CustomScene->RefreshWidget();
     ui->CompositionShotWidget->SetCompositionObject(&DiaporamaObject->List[ui->TableSeq->currentRow()].ShotComposition,NULL);
-    ui->ImageFilterCorrect->SetFilter(&DiaporamaObject->List[ui->TableSeq->currentRow()].FilterCorrection,&DiaporamaObject->List[ui->TableSeq->currentRow()]);
     RefreshControls();
 }
 
@@ -403,7 +396,6 @@ void DlgImageProperties::s_removeSequence() {
     ui->TableSeq->setUpdatesEnabled(true);
     ui->CustomScene->RefreshControls();
     ui->CompositionShotWidget->SetCompositionObject(&DiaporamaObject->List[ui->TableSeq->currentRow()].ShotComposition,NULL);
-    ui->ImageFilterCorrect->SetFilter(&DiaporamaObject->List[ui->TableSeq->currentRow()].FilterCorrection,&DiaporamaObject->List[ui->TableSeq->currentRow()]);
     RefreshControls();
 }
 
@@ -488,9 +480,6 @@ void DlgImageProperties::s_BackgroundImageUpdated() {
 //====================================================================================================================
 
 void DlgImageProperties::s_ShotTabWidgetCurrentChanged(int Page) {
-    switch (Page) {
-        case SUBPAGE_SHOTFILTER      : ui->ImageFilterCorrect->SetFilter(&DiaporamaObject->List[ui->TableSeq->currentRow()].FilterCorrection,&DiaporamaObject->List[ui->TableSeq->currentRow()]);   break;
-        case SUBPAGE_SHOTCOMPOSITION : s_CompositionInShotNeedRefreshBackgroundImage();                                                       break; // Refresh background image
-    }
+    if (Page==SUBPAGE_SHOTCOMPOSITION) s_CompositionInShotNeedRefreshBackgroundImage(); // Refresh background image
 }
 

@@ -56,13 +56,15 @@ public:
 class cCustomColorComboBox : public QComboBox {
 Q_OBJECT
 public:
-    QString                     CurrentColor;
+    QString                     *CurrentColor;
+    QString                     SavedCustomColor;
     bool                        StandardColor;
+    bool                        STOPMAJ;
     cCustomColorComboBoxItem    ItemDelegate;
 
     explicit    cCustomColorComboBox(QWidget *parent = 0);
     void        MakeIcons();
-    void        SetCurrentColor(QString Color);
+    void        SetCurrentColor(QString *Color);
     QString     GetCurrentColor();
 
 protected:
@@ -70,6 +72,7 @@ protected:
 signals:
 
 public slots:
+    void s_ItemSelectionChanged();
 };
 
 //******************************************************************************************************************
@@ -95,6 +98,7 @@ public:
 class cCustomBrushComboBox : public QComboBox {
 Q_OBJECT
 public:
+    bool                        STOPMAJ;
     cBrushDefinition            Brush;
     cCustomBrushComboBoxItem    ItemDelegate;
 
@@ -108,6 +112,7 @@ protected:
 signals:
 
 public slots:
+    void s_ItemSelectionChanged();
 };
 
 
@@ -134,6 +139,7 @@ public:
 class cGradientOrientationComboBox : public QComboBox {
 Q_OBJECT
 public:
+    bool                                STOPMAJ;
     cBrushDefinition                    Brush;
     cGradientOrientationComboBoxItem    ItemDelegate;
 
@@ -147,6 +153,7 @@ protected:
 signals:
 
 public slots:
+    void s_ItemSelectionChanged();
 };
 
 //******************************************************************************************************************
@@ -172,12 +179,12 @@ public:
 class cOnOffFilterComboBox : public QComboBox {
 Q_OBJECT
 public:
-    int                         CurrentFilter;
+    int                         *CurrentFilter;
     cOnOffFilterComboBoxItem    ItemDelegate;
     QImage                      SourceImage;
 
     explicit    cOnOffFilterComboBox(QWidget *parent = 0);
-    void        SetCurrentFilter(QImage *TheSourceImage,int OnOffFilter);
+    void        SetCurrentFilter(QImage *TheSourceImage,int *OnOffFilter);
     int         GetCurrentFilter();
 
 protected:
@@ -185,6 +192,47 @@ protected:
 signals:
 
 public slots:
+    void s_ItemSelectionChanged();
+};
+
+//******************************************************************************************************************
+// Custom QAbstractItemDelegate for Background ComboBox
+//******************************************************************************************************************
+
+class cBackgroundComboBox;
+class cBackgroundComboBoxItem : public QStyledItemDelegate {
+Q_OBJECT
+public:
+    cBackgroundComboBox    *ComboBox;
+
+    explicit cBackgroundComboBoxItem(QObject *parent=0);
+
+    virtual void    paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const;
+    virtual QSize   sizeHint(const QStyleOptionViewItem &option,const QModelIndex &index) const;
+};
+
+//******************************************************************************************************************
+// Custom Brush ComboBox
+//******************************************************************************************************************
+
+class cBackgroundComboBox : public QComboBox {
+Q_OBJECT
+public:
+    bool                       STOPMAJ;
+    QString                    BrushImage;
+    cBackgroundComboBoxItem    ItemDelegate;
+
+    explicit            cBackgroundComboBox(QWidget *parent = 0);
+    void                MakeIcons();
+    void                SetCurrentBackground(QString BrushImage);
+    QString             GetCurrentBackground();
+
+protected:
+
+signals:
+
+public slots:
+    void s_ItemSelectionChanged();
 };
 
 #endif // cCustomColorComboBox_H

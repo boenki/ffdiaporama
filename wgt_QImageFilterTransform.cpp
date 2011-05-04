@@ -61,7 +61,7 @@ void wgt_QImageFilterTransform::SetFilter(cFilterTransformObject *TheFilter,cDia
         else if (DiaporamaObject->Image!=NULL)   SourceImage=DiaporamaObject->Image->ImageAt(true,DiaporamaObject->Parent->ApplicationConfig->PreviewMaxHeight,true);
     }
 
-    ui->TransformationCB->SetCurrentFilter(SourceImage,Filter->OnOffFilter);
+    ui->TransformationCB->SetCurrentFilter(SourceImage,&Filter->OnOffFilter);
     connect(ui->TransformationCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChTransformationCB(int)));
 
     // Other filter

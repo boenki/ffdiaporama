@@ -44,7 +44,6 @@ public:
     void        RefreshControls(cBrushDefinition *CurrentTextItem,bool Allowed);
 
 private slots:
-    void        s_BackgroundTableSelectionChanged();
     void        s_ChangeBrushTypeCombo(int);
 
     // Intermediate position for gradient 3 colors
@@ -62,6 +61,7 @@ private slots:
     void        s_ChIndexGradientFirstColorCombo(int);
     void        s_ChIndexGradientFinalColorCombo(int);
     void        s_ChIndexGradientIntermColorCombo(int);
+    void        s_ChIndexBackgroundCombo(int);
 
 signals:
     void        NeedRefreshControls();

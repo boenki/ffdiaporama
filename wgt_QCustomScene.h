@@ -39,20 +39,20 @@ namespace Ui {
 class wgt_QCustomScene : public QWidget {
 Q_OBJECT
 public:
-    bool                    FLAGSTOPED;             // Flag to stop spin box during settings
+    bool                    IsFirstInitDone;                // true when first show window was done
+    bool                    FLAGSTOPED;                     // Flag to stop spin box during settings
     QIcon                   *RulerOn,*RulerOff;
     sMagneticRuller         MagneticRuller;
     QGraphicsScene          *scene;
     cCustomGraphicsRectItem *cadre;
-    QPixmap                 *CacheImage;
     double                   xmax,ymax;
-    cDiaporamaShot          *DiaporamaScene;
+    cDiaporamaShot          *DiaporamaShot;
 
     explicit wgt_QCustomScene(QWidget *parent = 0);
     ~wgt_QCustomScene();
 
-    void SetDiaporamaScene(cDiaporamaShot *DiaporamaScene);
-    void RefreshBackgroundImage(bool ResetCache);
+    void SetDiaporamaShot(cDiaporamaShot *DiaporamaShot);
+    void RefreshBackgroundImage();
     void RefreshControls();
     void RefreshWidget();
 
@@ -71,6 +71,13 @@ private slots:
     void        s_AdjustH();
     void        s_AdjustWH();
     void        s_MagneticEdgeBt();
+    void        s_BrightnessSliderMoved(int Value);
+    void        s_ContrastSliderMoved(int Value);
+    void        s_GammaSliderMoved(int Value);
+    void        s_GammaValueED(double Value);
+    void        s_RedSliderMoved(int Value);
+    void        s_GreenSliderMoved(int Value);
+    void        s_BlueSliderMoved(int Value);
 
 signals:
     void        ModifyDataSignal();

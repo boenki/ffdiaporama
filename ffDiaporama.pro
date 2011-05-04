@@ -48,8 +48,6 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             wgt_QCustomScene.cpp \
             fmt_filters.cpp \
             wgt_QImageFilterTransform.cpp \
-            wgt_QImageFilterCorrect.cpp \
-            wgt_QBackgroundWidget.cpp \
             wgt_QBackgroundDefWidget.cpp \
             DlgProject.cpp \
             DlgApplicationSettings.cpp \
@@ -80,8 +78,6 @@ HEADERS  += _GlobalDefines.h \
             wgt_QCustomScene.h \
             fmt_filters.h \
             wgt_QImageFilterTransform.h \
-            wgt_QImageFilterCorrect.h \
-            wgt_QBackgroundWidget.h \
             wgt_QBackgroundDefWidget.h \
             DlgProject.h \
             DlgApplicationSettings.h \
@@ -102,8 +98,6 @@ FORMS    += mainwindow.ui \
     DlgVideoProperties.ui \
     wgt_QCustomScene.ui \
     wgt_QImageFilterTransform.ui \
-    wgt_QImageFilterCorrect.ui \
-    wgt_QBackgroundWidget.ui \
     wgt_QBackgroundDefWidget.ui \
     DlgProject.ui \
     DlgApplicationSettings.ui \
@@ -134,7 +128,7 @@ unix {
     translation.path    = $$PREFIX/share/$$TARGETAPP/locale
     translation.files   = locale/*.qm
     background.path     = $$PREFIX/share/$$TARGETAPP/background
-    background.files    = ../background/*.*
+    background.files    = background/*.*
     icons.path          = $$PREFIX/share/$$TARGETAPP/icons
     icons.files         = icons/*.*
     tr_icons.path       = $$PREFIX/share/$$TARGETAPP/transitions-icons
@@ -156,7 +150,7 @@ unix {
     documentation.path  = $$PREFIX/share/$$TARGETAPP/help
     documentation.files = help/*.*
     General.path        = $$PREFIX/share/$$TARGETAPP
-    General.files       = ffDiaporama.xml BUILDVERSION.txt _BUILDVERSION.txt ../licence.rtf ../licences.txt
+    General.files       = ffDiaporama.xml BUILDVERSION.txt _BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset
 }
 
 INSTALLS += TARGET translation background icons tr_icons luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake documentation General

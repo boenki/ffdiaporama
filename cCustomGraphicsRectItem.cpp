@@ -61,6 +61,17 @@ cResizeGraphicsRectItem::cResizeGraphicsRectItem(QGraphicsScene *scene,cCustomGr
 
 //====================================================================================================================
 
+cResizeGraphicsRectItem::~cResizeGraphicsRectItem() {
+    switch (TypeItem) {
+        case 0 :  RectItem->UpperLeft=NULL;     break;  // Upper-Left corner
+        case 1 :  RectItem->UpperRight=NULL;    break;  // Upper-Right corner
+        case 2 :  RectItem->BottomLeft=NULL;    break;  // Bottom-Left corner
+        case 3 :  RectItem->BottomRight=NULL;   break;  // Bottom-Right corner
+    }
+}
+
+//====================================================================================================================
+
 void cResizeGraphicsRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     QGraphicsRectItem::mousePressEvent(event);
       IsCapture = true;
@@ -414,11 +425,12 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
 // class use to crop rectangle into the image
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // x,y and zoom or w/h are always give in %
-cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *scene,int ZValue,double *Thex,double *They,double *Thezoom,double *Thew,double *Theh,double xmax,double ymax,
+cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZValue,double *Thex,double *They,double *Thezoom,double *Thew,double *Theh,double xmax,double ymax,
                                                  bool TheKeepAspectRatio,sMagneticRuller *TheMagneticRuller,QWidget *TheParentWidget,int TheParentWidgetType)
                                                 :QGraphicsRectItem((*Thex)*xmax,(*They)*ymax,xmax*(*((Thezoom!=NULL)?Thezoom:Thew)),ymax*(*((Thezoom!=NULL)?Thezoom:Theh)),NULL)
 
 {
+    scene           = TheScene;
     ParentWidget    = TheParentWidget;
     ParentWidgetType= TheParentWidgetType;
     MagneticRuller  = TheMagneticRuller;
@@ -474,7 +486,26 @@ cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *scene,int ZValu
 //====================================================================================================================
 
 cCustomGraphicsRectItem::~cCustomGraphicsRectItem() {
-    // nothing to do : embeded cResizeGraphicsRectItem are deleted by scene deletion !
+    if (UpperLeft) {
+        scene->removeItem(UpperLeft);
+        delete UpperLeft;
+        UpperLeft=NULL;
+    }
+    if (UpperRight) {
+        scene->removeItem(UpperRight);
+        delete UpperRight;
+        UpperRight=NULL;
+    }
+    if (BottomLeft) {
+        scene->removeItem(BottomLeft);
+        delete BottomLeft;
+        BottomLeft=NULL;
+    }
+    if (BottomRight) {
+        scene->removeItem(BottomRight);
+        delete BottomRight;
+        BottomRight=NULL;
+    }
 }
 
 //====================================================================================================================
@@ -504,8 +535,8 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
     if (change == QGraphicsItem::ItemPositionChange) {
         QPointF newpos = value.toPointF();
         if (IsCapture==true) {
-            double xmax = double(scene()->sceneRect().width());
-            double ymax = double(scene()->sceneRect().height());
+            double xmax = double(scene->sceneRect().width());
+            double ymax = double(scene->sceneRect().height());
             *x = newpos.x()/xmax;
             *y = newpos.y()/ymax;
             // calcul width and height;
@@ -538,8 +569,8 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
 void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
     RecalcEmbededResizeRectItem();
     switch (ParentWidgetType) {
-        case TYPE_wgt_QCustomScene:         ((wgt_QCustomScene *)ParentWidget)->RefreshBackgroundImage(false);      break;
-        case TYPE_wgt_QCompositionWidget:   ((wgt_QCompositionWidget *)ParentWidget)->StartRefreshControls();            break;
+        case TYPE_wgt_QCustomScene:         ((wgt_QCustomScene *)ParentWidget)->RefreshBackgroundImage();      break;
+        case TYPE_wgt_QCompositionWidget:   ((wgt_QCompositionWidget *)ParentWidget)->StartRefreshControls();  break;
     }
 }
 

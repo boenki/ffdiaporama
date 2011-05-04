@@ -28,11 +28,11 @@
 
 wgt_QCustomScene::wgt_QCustomScene(QWidget *parent):QWidget(parent),ui(new Ui::wgt_QCustomScene) {
     ui->setupUi(this);
+    IsFirstInitDone = false;                 // true when first show window was done
     FLAGSTOPED      = false;
-    DiaporamaScene  = NULL;
+    DiaporamaShot   = NULL;
     scene           = NULL;
     cadre           = NULL;
-    CacheImage      = NULL;
     RulerOn         = new QIcon("icons/ruler_ok.png");
     RulerOff        = new QIcon("icons/ruler_ko.png");
 
@@ -59,6 +59,19 @@ wgt_QCustomScene::wgt_QCustomScene(QWidget *parent):QWidget(parent),ui(new Ui::w
     connect(ui->AdjustWBT,SIGNAL(clicked()),this,SLOT(s_AdjustW()));
     connect(ui->AdjustWHBT,SIGNAL(clicked()),this,SLOT(s_AdjustWH()));
     connect(ui->MagneticEdgeBt,SIGNAL(clicked()),this,SLOT(s_MagneticEdgeBt()));
+
+    connect(ui->BrightnessSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_BrightnessSliderMoved(int)));
+    connect(ui->BrightnessValue,SIGNAL(valueChanged(int)),this,SLOT(s_BrightnessSliderMoved(int)));
+    connect(ui->ContrastSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_ContrastSliderMoved(int)));
+    connect(ui->ContrastValue,SIGNAL(valueChanged(int)),this,SLOT(s_ContrastSliderMoved(int)));
+    connect(ui->GammaSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_GammaSliderMoved(int)));
+    connect(ui->GammaValue,SIGNAL(valueChanged(double)),this,SLOT(s_GammaValueED(double)));
+    connect(ui->RedSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_RedSliderMoved(int)));
+    connect(ui->RedValue,SIGNAL(valueChanged(int)),this,SLOT(s_RedSliderMoved(int)));
+    connect(ui->GreenSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_GreenSliderMoved(int)));
+    connect(ui->GreenValue,SIGNAL(valueChanged(int)),this,SLOT(s_GreenSliderMoved(int)));
+    connect(ui->BlueSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_BlueSliderMoved(int)));
+    connect(ui->BlueValue,SIGNAL(valueChanged(int)),this,SLOT(s_BlueSliderMoved(int)));
 }
 
 //====================================================================================================================
@@ -66,10 +79,6 @@ wgt_QCustomScene::wgt_QCustomScene(QWidget *parent):QWidget(parent),ui(new Ui::w
 wgt_QCustomScene::~wgt_QCustomScene() {
     delete ui;  // Deleting this make deletion of scene and all included object
     scene=NULL;
-    if (CacheImage!=NULL) {
-        delete CacheImage;
-        CacheImage=NULL;
-    }
     if (RulerOn) {
         delete RulerOn;
         RulerOn=NULL;
@@ -82,30 +91,39 @@ wgt_QCustomScene::~wgt_QCustomScene() {
 
 //====================================================================================================================
 
-void wgt_QCustomScene::SetDiaporamaScene(cDiaporamaShot *DiaporamaScene) {
+void wgt_QCustomScene::showEvent(QShowEvent *) {
+    if (!IsFirstInitDone) {
+        IsFirstInitDone=true;                   // Set this flag to true to indicate that now we can prepeare display
+        SetDiaporamaShot(DiaporamaShot);        // Make a new object init process
+    }
+}
+
+//====================================================================================================================
+
+void wgt_QCustomScene::resizeEvent(QResizeEvent *) {
+    if (IsFirstInitDone) SetDiaporamaShot(DiaporamaShot);        // Make a new object init process
+}
+
+//====================================================================================================================
+
+void wgt_QCustomScene::SetDiaporamaShot(cDiaporamaShot *TheDiaporamaShot) {
+    DiaporamaShot=TheDiaporamaShot;
     if (cadre!=NULL) {
         scene->removeItem(cadre);
         delete cadre;
         cadre=NULL;
     }
-    if (CacheImage!=NULL) {
-        delete CacheImage;
-        CacheImage=NULL;
-    }
     if (scene!=NULL) {
         delete scene;
         scene=NULL;
     }
-    this->DiaporamaScene=DiaporamaScene;
-    //--------------------------------------------------------------------
-    // Prepare the scene
-    //--------------------------------------------------------------------
+
     // Calc and adjust ui->GraphicsView depending on geometry
     xmax=ui->GraphicsView->width();
-    ymax=DiaporamaScene->Parent->Parent->GetHeightForWidth(xmax);
+    ymax=DiaporamaShot->Parent->Parent->GetHeightForWidth(xmax);
     if (ymax<ui->GraphicsView->height()) {
         ymax=ui->GraphicsView->height();
-        xmax=DiaporamaScene->Parent->Parent->GetWidthForHeight(ymax);
+        xmax=DiaporamaShot->Parent->Parent->GetWidthForHeight(ymax);
     }
     // Create the scene
     scene = new QGraphicsScene();
@@ -122,104 +140,60 @@ void wgt_QCustomScene::SetDiaporamaScene(cDiaporamaShot *DiaporamaScene) {
 
 //====================================================================================================================
 
-void wgt_QCustomScene::resizeEvent(QResizeEvent *) {
-    if (scene!=NULL) {
-        // Calc and adjust ui->GraphicsView depending on geometry
-        xmax=ui->GraphicsView->width();
-        ymax=DiaporamaScene->Parent->Parent->GetHeightForWidth(xmax);
-        if (ymax<ui->GraphicsView->height()) {
-            ymax=ui->GraphicsView->height();
-            xmax=DiaporamaScene->Parent->Parent->GetWidthForHeight(ymax);
-        }
-        // Create the scene
-        scene->setSceneRect(QRectF(0,0,xmax,ymax));
-        ui->GraphicsView->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
-        RefreshWidget();
-    }
-}
-
-//====================================================================================================================
-
 void wgt_QCustomScene::RefreshWidget() {
     if (scene!=NULL) {
         // Resize et repos all item in the scene
         for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {
             cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
-            RectItem->setPos(DiaporamaScene->X*xmax,DiaporamaScene->Y*ymax);
-            QRectF Rect=RectItem->mapRectFromScene(QRectF(DiaporamaScene->X*xmax,DiaporamaScene->Y*ymax,xmax*DiaporamaScene->ZoomFactor,ymax*DiaporamaScene->ZoomFactor));
+            RectItem->setPos(DiaporamaShot->X*xmax,DiaporamaShot->Y*ymax);
+            QRectF Rect=RectItem->mapRectFromScene(QRectF(DiaporamaShot->X*xmax,DiaporamaShot->Y*ymax,xmax*DiaporamaShot->ZoomFactor,ymax*DiaporamaShot->ZoomFactor));
             RectItem->setRect(Rect);
             RectItem->RecalcEmbededResizeRectItem();
         }
         // Refresh image
-        RefreshBackgroundImage(true);
+        RefreshBackgroundImage();
     }
 }
 
 //====================================================================================================================
 
-void wgt_QCustomScene::showEvent(QShowEvent *) {
-    if (scene==NULL) {
-        //--------------------------------------------------------------------
-        // Prepare the scene
-        //--------------------------------------------------------------------
-        // Calc and adjust ui->GraphicsView depending on geometry
-        xmax=ui->GraphicsView->width();
-        ymax=DiaporamaScene->Parent->Parent->GetHeightForWidth(xmax);
-        if (ymax<ui->GraphicsView->height()) {
-            ymax=ui->GraphicsView->height();
-            xmax=DiaporamaScene->Parent->Parent->GetWidthForHeight(ymax);
-        }
-        // Create the scene
-        scene = new QGraphicsScene();
-        scene->setSceneRect(QRectF(0,0,xmax,ymax));
-
-        // Setup scene to control
-        ui->GraphicsView->setScene(scene);
-        ui->GraphicsView->setInteractive(true);
-        ui->GraphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
-        ui->GraphicsView->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
-    } else RefreshWidget();
-}
-
-//====================================================================================================================
-
 void wgt_QCustomScene::s_XValueEDChanged(double Value) {
-    if (FLAGSTOPED || (DiaporamaScene==NULL)) return;
-    DiaporamaScene->X=Value/100;
-    RefreshBackgroundImage(true);
+    if (FLAGSTOPED || (DiaporamaShot==NULL)) return;
+    DiaporamaShot->X=Value/100;
+    RefreshBackgroundImage();
 }
 
 //====================================================================================================================
 
 void wgt_QCustomScene::s_YValueEDChanged(double Value) {
-    if (FLAGSTOPED || (DiaporamaScene==NULL)) return;
-    DiaporamaScene->Y=Value/100;
-    RefreshBackgroundImage(true);
+    if (FLAGSTOPED || (DiaporamaShot==NULL)) return;
+    DiaporamaShot->Y=Value/100;
+    RefreshBackgroundImage();
 }
 
 //====================================================================================================================
 
 void wgt_QCustomScene::s_ZoomValueEDChanged(double Value) {
-    if (FLAGSTOPED || (DiaporamaScene==NULL)) return;
-    DiaporamaScene->ZoomFactor=Value/100;
-    RefreshBackgroundImage(true);
+    if (FLAGSTOPED || (DiaporamaShot==NULL)) return;
+    DiaporamaShot->ZoomFactor=Value/100;
+    RefreshBackgroundImage();
 }
 
 //====================================================================================================================
 
 void wgt_QCustomScene::s_RotationEDChanged(int Value) {
-    if (FLAGSTOPED || (DiaporamaScene==NULL)) return;
+    if (FLAGSTOPED || (DiaporamaShot==NULL)) return;
     if (Value<-180) Value=360-Value;
     if (Value>180)  Value=-360-Value;
-    DiaporamaScene->ImageRotation=Value;
-    RefreshBackgroundImage(true);
+    DiaporamaShot->ImageRotation=Value;
+    RefreshBackgroundImage();
 }
 
 //====================================================================================================================
 
 void wgt_QCustomScene::s_RotateLeft() {
-    if (DiaporamaScene==NULL) return;
-    int Value=(((DiaporamaScene->ImageRotation-90)/90)*90);
+    if (DiaporamaShot==NULL) return;
+    int Value=(((DiaporamaShot->ImageRotation-90)/90)*90);
     if (Value<=-180) Value=360-Value;
     ui->RotateED->setValue(Value);
 }
@@ -227,8 +201,8 @@ void wgt_QCustomScene::s_RotateLeft() {
 //====================================================================================================================
 
 void wgt_QCustomScene::s_RotateRight() {
-    if (DiaporamaScene==NULL) return;
-    int Value=(((DiaporamaScene->ImageRotation+90)/90)*90);
+    if (DiaporamaShot==NULL) return;
+    int Value=(((DiaporamaShot->ImageRotation+90)/90)*90);
     if (Value>180) Value=-360+Value;
     ui->RotateED->setValue(Value);
 }
@@ -236,49 +210,58 @@ void wgt_QCustomScene::s_RotateRight() {
 //====================================================================================================================
 
 void wgt_QCustomScene::s_AdjustW() {
-    if (DiaporamaScene==NULL) return;
-    DiaporamaScene->X=MagneticRuller.MagnetX1/xmax;
-    DiaporamaScene->ZoomFactor=(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1)/xmax;
-    DiaporamaScene->Y=((ymax-DiaporamaScene->Parent->Parent->GetHeightForWidth(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1))/2)/ymax;
+    if (DiaporamaShot==NULL) return;
+    DiaporamaShot->X=MagneticRuller.MagnetX1/xmax;
+    DiaporamaShot->ZoomFactor=(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1)/xmax;
+    DiaporamaShot->Y=((ymax-DiaporamaShot->Parent->Parent->GetHeightForWidth(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1))/2)/ymax;
     RefreshWidget();
 }
 
 //====================================================================================================================
 
 void wgt_QCustomScene::s_AdjustH() {
-    if (DiaporamaScene==NULL) return;
-    DiaporamaScene->Y=MagneticRuller.MagnetY1/ymax;
-    DiaporamaScene->ZoomFactor=(MagneticRuller.MagnetY2-MagneticRuller.MagnetY1)/ymax;
-    DiaporamaScene->X=((xmax-DiaporamaScene->Parent->Parent->GetWidthForHeight(MagneticRuller.MagnetY2-MagneticRuller.MagnetY1))/2)/xmax;
+    if (DiaporamaShot==NULL) return;
+    DiaporamaShot->Y=MagneticRuller.MagnetY1/ymax;
+    DiaporamaShot->ZoomFactor=(MagneticRuller.MagnetY2-MagneticRuller.MagnetY1)/ymax;
+    DiaporamaShot->X=((xmax-DiaporamaShot->Parent->Parent->GetWidthForHeight(MagneticRuller.MagnetY2-MagneticRuller.MagnetY1))/2)/xmax;
     RefreshWidget();
 }
 
 //====================================================================================================================
 
 void wgt_QCustomScene::s_AdjustWH() {
-    if (DiaporamaScene==NULL) return;
-    DiaporamaScene->X=MagneticRuller.MagnetX1/xmax;
-    DiaporamaScene->ZoomFactor=(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1)/xmax;
-    DiaporamaScene->Y=((ymax-DiaporamaScene->Parent->Parent->GetHeightForWidth(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1))/2)/ymax;
-    if (DiaporamaScene->Y>MagneticRuller.MagnetY1/ymax) s_AdjustH(); else RefreshWidget();
+    if (DiaporamaShot==NULL) return;
+    DiaporamaShot->X=MagneticRuller.MagnetX1/xmax;
+    DiaporamaShot->ZoomFactor=(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1)/xmax;
+    DiaporamaShot->Y=((ymax-DiaporamaShot->Parent->Parent->GetHeightForWidth(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1))/2)/ymax;
+    if (DiaporamaShot->Y>MagneticRuller.MagnetY1/ymax) s_AdjustH(); else RefreshWidget();
 }
 
 //====================================================================================================================
 
 void wgt_QCustomScene::RefreshControls() {
-    if (DiaporamaScene==NULL) return;
+    if (DiaporamaShot==NULL) return;
     FLAGSTOPED=true;
-    ui->XValue->setRange(0,100-DiaporamaScene->ZoomFactor*100);
+    ui->XValue->setRange(0,100-DiaporamaShot->ZoomFactor*100);
     ui->XValue->setSingleStep(double(100)/20);
-    ui->XValue->setValue(DiaporamaScene->X*100);
-    ui->YValue->setRange(0,100-DiaporamaScene->ZoomFactor*100);
+    ui->XValue->setValue(DiaporamaShot->X*100);
+    ui->YValue->setRange(0,100-DiaporamaShot->ZoomFactor*100);
     ui->YValue->setSingleStep(double(100)/20);
-    ui->YValue->setValue(DiaporamaScene->Y*100);
+    ui->YValue->setValue(DiaporamaShot->Y*100);
     ui->ZoomValue->setRange(1,100);
     ui->ZoomValue->setSingleStep(double(100)/20);
-    ui->ZoomValue->setValue(DiaporamaScene->ZoomFactor*100);
+    ui->ZoomValue->setValue(DiaporamaShot->ZoomFactor*100);
 
-    ui->RotateED->setValue(DiaporamaScene->ImageRotation);
+    ui->RotateED->setValue(DiaporamaShot->ImageRotation);
+
+    // FilterCorrection
+    ui->BrightnessSlider->setValue(DiaporamaShot->FilterCorrection.Brightness);     ui->BrightnessValue->setValue(DiaporamaShot->FilterCorrection.Brightness);
+    ui->ContrastSlider->setValue(DiaporamaShot->FilterCorrection.Contrast);         ui->ContrastValue->setValue(DiaporamaShot->FilterCorrection.Contrast);
+    ui->GammaSlider->setValue(DiaporamaShot->FilterCorrection.Gamma*100);           ui->GammaValue->setValue(DiaporamaShot->FilterCorrection.Gamma);
+    ui->RedSlider->setValue(DiaporamaShot->FilterCorrection.Red);                   ui->RedValue->setValue(DiaporamaShot->FilterCorrection.Red);
+    ui->GreenSlider->setValue(DiaporamaShot->FilterCorrection.Green);               ui->GreenValue->setValue(DiaporamaShot->FilterCorrection.Green);
+    ui->BlueSlider->setValue(DiaporamaShot->FilterCorrection.Blue);                 ui->BlueValue->setValue(DiaporamaShot->FilterCorrection.Blue);
+
     FLAGSTOPED=false;
     emit ModifyDataSignal();
 }
@@ -288,13 +271,13 @@ void wgt_QCustomScene::RefreshControls() {
 void wgt_QCustomScene::s_MagneticEdgeBt() {
     if (MagneticRuller.MagneticRuler==true) MagneticRuller.MagneticRuler=false; else MagneticRuller.MagneticRuler=true;
     ui->MagneticEdgeBt->setIcon(*(MagneticRuller.MagneticRuler?RulerOn:RulerOff));
-    RefreshBackgroundImage(false);
+    RefreshBackgroundImage();
 }
 
 //====================================================================================================================
 
-void wgt_QCustomScene::RefreshBackgroundImage(bool ResetCache) {
-    if (DiaporamaScene==NULL) return;
+void wgt_QCustomScene::RefreshBackgroundImage() {
+    if (DiaporamaShot==NULL) return;
 
     // Ensure scene is valide
     if (scene==NULL) return;
@@ -311,51 +294,38 @@ void wgt_QCustomScene::RefreshBackgroundImage(bool ResetCache) {
     }
     scene->clearSelection();
 
-    // Ensure CacheImage is OK
-    if ((ResetCache==true)&&(CacheImage!=NULL)) {
-        delete CacheImage;
-        CacheImage=NULL;
-    }
-
     // Create selection box
     if (cadre==NULL) {
         xmax=ui->GraphicsView->width();
-        ymax=DiaporamaScene->Parent->Parent->GetHeightForWidth(xmax);
+        ymax=DiaporamaShot->Parent->Parent->GetHeightForWidth(xmax);
         if (ymax<ui->GraphicsView->height()) {
             ymax=ui->GraphicsView->height();
-            xmax=DiaporamaScene->Parent->Parent->GetWidthForHeight(ymax);
+            xmax=DiaporamaShot->Parent->Parent->GetWidthForHeight(ymax);
         }
-        cadre=new cCustomGraphicsRectItem(scene,300,&DiaporamaScene->X,&DiaporamaScene->Y,&DiaporamaScene->ZoomFactor,NULL,NULL,xmax,ymax,true,&MagneticRuller,this,TYPE_wgt_QCustomScene);
+        cadre=new cCustomGraphicsRectItem(scene,300,&DiaporamaShot->X,&DiaporamaShot->Y,&DiaporamaShot->ZoomFactor,NULL,NULL,xmax,ymax,true,&MagneticRuller,this,TYPE_wgt_QCustomScene);
     }
 
     // Prepare CacheImage
-    if (CacheImage==NULL) {
-        QRectF  ImagePosition;
-        QImage *CacheImageImage=DiaporamaScene->Parent->CanvasImageAt(xmax,ymax,0,NULL,0,0,&ImagePosition,&DiaporamaScene->ImageRotation,true,false,true,NULL);
-        DiaporamaScene->FilterCorrection.ApplyFilter(CacheImageImage);
-        CacheImage=new QPixmap(QPixmap::fromImage(*CacheImageImage));
-        delete CacheImageImage;
-
-        // Calc magnetic ruller guides positions
-        MagneticRuller.MagnetX1=ImagePosition.x();
-        MagneticRuller.MagnetX2=ImagePosition.x()+ImagePosition.width();
-        MagneticRuller.MagnetY1=ImagePosition.y();
-        MagneticRuller.MagnetY2=ImagePosition.y()+ImagePosition.height();
-    }
+    QRectF  ImagePosition;
+    QImage *NewImage=DiaporamaShot->Parent->CanvasImageAt(xmax,ymax,0,NULL,0,0,&ImagePosition,&DiaporamaShot->ImageRotation,true,true,true,NULL);
+    // Calc magnetic ruller guides positions
+    MagneticRuller.MagnetX1=ImagePosition.x();
+    MagneticRuller.MagnetX2=ImagePosition.x()+ImagePosition.width();
+    MagneticRuller.MagnetY1=ImagePosition.y();
+    MagneticRuller.MagnetY2=ImagePosition.y()+ImagePosition.height();
 
     // Draw selection rectangle for cadre
 
     // draw rect out of the rectangle
-    QPixmap *NewImage=new QPixmap(CacheImage->copy());
     QPainter P;
     P.begin(NewImage);
     P.setPen(Qt::NoPen);
     P.setBrush(QBrush(0x555555));
     P.setOpacity(0.75);
-    P.drawRect(QRectF(0,0,xmax,DiaporamaScene->Y*ymax));
-    P.drawRect(QRectF(0,DiaporamaScene->Y*ymax,DiaporamaScene->X*xmax,DiaporamaScene->ZoomFactor*ymax));
-    P.drawRect(QRectF(DiaporamaScene->X*xmax+DiaporamaScene->ZoomFactor*xmax,DiaporamaScene->Y*ymax,xmax,DiaporamaScene->ZoomFactor*ymax));
-    P.drawRect(QRectF(0,DiaporamaScene->Y*ymax+DiaporamaScene->ZoomFactor*ymax,xmax,ymax));
+    P.drawRect(QRectF(0,0,xmax,DiaporamaShot->Y*ymax));
+    P.drawRect(QRectF(0,DiaporamaShot->Y*ymax,DiaporamaShot->X*xmax,DiaporamaShot->ZoomFactor*ymax));
+    P.drawRect(QRectF(DiaporamaShot->X*xmax+DiaporamaShot->ZoomFactor*xmax,DiaporamaShot->Y*ymax,xmax,DiaporamaShot->ZoomFactor*ymax));
+    P.drawRect(QRectF(0,DiaporamaShot->Y*ymax+DiaporamaShot->ZoomFactor*ymax,xmax,ymax));
     P.setOpacity(1);
     P.setBrush(Qt::NoBrush);
 
@@ -377,11 +347,82 @@ void wgt_QCustomScene::RefreshBackgroundImage(bool ResetCache) {
     P.end();
 
     // Add image to the background of the scene
-    QGraphicsPixmapItem *im=scene->addPixmap(*NewImage);    // Image will be delete by scene
+    QGraphicsPixmapItem *im=scene->addPixmap(QPixmap::fromImage(*NewImage));    // Image will be delete by scene
     im->setData(0,QVariant(QString("image")));
     im->setZValue(200);
     im->setPos(0,0);
-//    delete NewImage;
+    delete NewImage;
+
     RefreshControls();
     QApplication::restoreOverrideCursor();
+}
+
+//====================================================================================================================
+
+void wgt_QCustomScene::s_BrightnessSliderMoved(int Value) {
+    DiaporamaShot->FilterCorrection.Brightness=Value;
+    ui->BrightnessSlider->setValue(DiaporamaShot->FilterCorrection.Brightness);
+    ui->BrightnessValue->setValue(DiaporamaShot->FilterCorrection.Brightness);
+    RefreshBackgroundImage();
+    emit ModifyDataSignal();
+}
+
+//====================================================================================================================
+
+void wgt_QCustomScene::s_ContrastSliderMoved(int Value) {
+    DiaporamaShot->FilterCorrection.Contrast=Value;
+    ui->ContrastSlider->setValue(DiaporamaShot->FilterCorrection.Contrast);
+    ui->ContrastValue->setValue(DiaporamaShot->FilterCorrection.Contrast);
+    RefreshBackgroundImage();
+    emit ModifyDataSignal();
+}
+
+//====================================================================================================================
+
+void wgt_QCustomScene::s_GammaSliderMoved(int Value) {
+    DiaporamaShot->FilterCorrection.Gamma=double(Value)/100;
+    ui->GammaSlider->setValue(DiaporamaShot->FilterCorrection.Gamma*100);
+    ui->GammaValue->setValue(DiaporamaShot->FilterCorrection.Gamma);
+    RefreshBackgroundImage();
+    emit ModifyDataSignal();
+}
+
+//====================================================================================================================
+
+void wgt_QCustomScene::s_GammaValueED(double Value) {
+    DiaporamaShot->FilterCorrection.Gamma=Value;
+    ui->GammaSlider->setValue(DiaporamaShot->FilterCorrection.Gamma*100);
+    ui->GammaValue->setValue(DiaporamaShot->FilterCorrection.Gamma);
+    RefreshBackgroundImage();
+    emit ModifyDataSignal();
+}
+
+//====================================================================================================================
+
+void wgt_QCustomScene::s_RedSliderMoved(int Value) {
+    DiaporamaShot->FilterCorrection.Red=Value;
+    ui->RedSlider->setValue(DiaporamaShot->FilterCorrection.Red);
+    ui->RedValue->setValue(DiaporamaShot->FilterCorrection.Red);
+    RefreshBackgroundImage();
+    emit ModifyDataSignal();
+}
+
+//====================================================================================================================
+
+void wgt_QCustomScene::s_GreenSliderMoved(int Value) {
+    DiaporamaShot->FilterCorrection.Green=Value;
+    ui->GreenSlider->setValue(DiaporamaShot->FilterCorrection.Green);
+    ui->GreenValue->setValue(DiaporamaShot->FilterCorrection.Green);
+    RefreshBackgroundImage();
+    emit ModifyDataSignal();
+}
+
+//====================================================================================================================
+
+void wgt_QCustomScene::s_BlueSliderMoved(int Value) {
+    DiaporamaShot->FilterCorrection.Blue=Value;
+    ui->BlueSlider->setValue(DiaporamaShot->FilterCorrection.Blue);
+    ui->BlueValue->setValue(DiaporamaShot->FilterCorrection.Blue);
+    RefreshBackgroundImage();
+    emit ModifyDataSignal();
 }
