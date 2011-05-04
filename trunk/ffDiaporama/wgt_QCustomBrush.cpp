@@ -58,17 +58,13 @@ void wgt_QCustomBrush::InitWidget(bool AllowBrushTypeNoBrush,bool AllowBrushType
     ui->BrushTypeCombo->addItem(QCoreApplication::translate("wgt_QCustomBrush","Image from library"));
     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGELIBRARY)));
 
-    // Init Image library table
-    ui->ImageLibraryTable->insertColumn(0);
-    BackgroundList.PopulateTable(ui->ImageLibraryTable);
-    connect(ui->ImageLibraryTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_BackgroundTableSelectionChanged()));
-
     // Handler for custom color/brush/pattern/gradient combo box index change
     connect(ui->PatternBrushCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexPatternBrushCombo(int)));
     connect(ui->OrientationCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientOrientationCombo(int)));
     connect(ui->FirstColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientFirstColorCombo(int)));
     connect(ui->FinalColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientFinalColorCombo(int)));
     connect(ui->IntermColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientIntermColorCombo(int)));
+    connect(ui->BackgroundCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexBackgroundCombo(int)));
 
     // Handler for custom buttons of each custom color combo box
     connect(ui->FirstColorCustomBt,SIGNAL(pressed()),this,SLOT(s_CustomFirstColorBt()));
@@ -86,14 +82,18 @@ void wgt_QCustomBrush::RefreshControls(cBrushDefinition *TheCurrentBrush,bool Al
     CurrentBrush=TheCurrentBrush;
 
     if (CurrentBrush!=NULL) {
+
+        // Ensure BrushImage is valide
+        if ((BackgroundList.SearchImage(CurrentBrush->BrushImage)==-1)&&(BackgroundList.List.count()>0)) CurrentBrush->BrushImage=BackgroundList.List[0].Name;
+
         StopMAJSpinbox=true;    // Disable reintrence in this RefreshControls function
         for (int i=0;i<ui->BrushTypeCombo->count();i++) if (ui->BrushTypeCombo->itemData(i).toInt()==CurrentBrush->BrushType) ui->BrushTypeCombo->setCurrentIndex(i);
-        ui->FirstColorCombo->SetCurrentColor(CurrentBrush->ColorD);
-        ui->FinalColorCombo->SetCurrentColor(CurrentBrush->ColorF);
-        ui->IntermColorCombo->SetCurrentColor(CurrentBrush->ColorIntermed);
+        ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
+        ui->FinalColorCombo->SetCurrentColor(&CurrentBrush->ColorF);
+        ui->IntermColorCombo->SetCurrentColor(&CurrentBrush->ColorIntermed);
         ui->PatternBrushCombo->SetCurrentBrush(*CurrentBrush);
         ui->OrientationCombo->SetCurrentBrush(*CurrentBrush);
-        ui->ImageLibraryTable->setCurrentCell(BackgroundList.SearchImage(CurrentBrush->BrushImage),0);
+        ui->BackgroundCombo->SetCurrentBackground(CurrentBrush->BrushImage);
         ui->IntermPosSlider->setValue(CurrentBrush->Intermediate*100);
         ui->IntermPosED->setValue(CurrentBrush->Intermediate*100);
         StopMAJSpinbox=false;
@@ -143,7 +143,7 @@ void wgt_QCustomBrush::RefreshControls(cBrushDefinition *TheCurrentBrush,bool Al
         ui->OrientationCombo->setEnabled((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)));
 
         ui->ImageLibraryLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY));
-        ui->ImageLibraryTable->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY));
+        ui->BackgroundCombo->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY));
 
     } else {
         ui->BrushTypeLabel->setVisible(false);
@@ -164,18 +164,8 @@ void wgt_QCustomBrush::RefreshControls(cBrushDefinition *TheCurrentBrush,bool Al
         ui->IntermPosED->setVisible(false);         ui->IntermPosED->setEnabled(false);
         ui->OrientationLabel->setVisible(false);    ui->OrientationSpacer->setVisible(false);
         ui->OrientationCombo->setVisible(false);    ui->OrientationCombo->setEnabled(false);
-        ui->ImageLibraryLabel->setVisible(false);   ui->ImageLibraryTable->setVisible(false);
+        ui->ImageLibraryLabel->setVisible(false);   ui->BackgroundCombo->setVisible(false);
     }
-}
-
-//====================================================================================================================
-
-void wgt_QCustomBrush::s_BackgroundTableSelectionChanged() {
-    if (StopMAJSpinbox) return;
-    if (CurrentBrush==NULL) return;
-    if (ui->ImageLibraryTable->currentRow()<0) return;
-    CurrentBrush->BrushImage=BackgroundList.List[ui->ImageLibraryTable->currentRow()].Name;
-    emit NeedRefreshControls();
 }
 
 //====================================================================================================================
@@ -216,7 +206,7 @@ void wgt_QCustomBrush::s_CustomFirstColorBt() {
     QColor color=QColorDialog::getColor(CurrentBrush->ColorD);
     if (color.isValid()) {
         CurrentBrush->ColorD=color.name();
-        ui->FirstColorCombo->SetCurrentColor(CurrentBrush->ColorD);
+        ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
         emit NeedRefreshControls();
     }
 }
@@ -228,7 +218,7 @@ void wgt_QCustomBrush::s_CustomFinalColorBt() {
     QColor color=QColorDialog::getColor(CurrentBrush->ColorF);
     if (color.isValid()) {
         CurrentBrush->ColorF=color.name();
-        ui->FinalColorCombo->SetCurrentColor(CurrentBrush->ColorF);
+        ui->FinalColorCombo->SetCurrentColor(&CurrentBrush->ColorF);
         emit NeedRefreshControls();
     }
 }
@@ -240,7 +230,7 @@ void wgt_QCustomBrush::s_CustomIntermColorBt() {
     QColor color=QColorDialog::getColor(CurrentBrush->ColorIntermed);
     if (color.isValid()) {
         CurrentBrush->ColorIntermed=color.name();
-        ui->IntermColorCombo->SetCurrentColor(CurrentBrush->ColorIntermed);
+        ui->IntermColorCombo->SetCurrentColor(&CurrentBrush->ColorIntermed);
         emit NeedRefreshControls();
     }
 }
@@ -286,5 +276,13 @@ void wgt_QCustomBrush::s_ChIndexGradientIntermColorCombo(int) {
     if (StopMAJSpinbox) return;
     if (CurrentBrush==NULL) return;
     CurrentBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
+    emit NeedRefreshControls();
+}
+
+//========= Background image
+void wgt_QCustomBrush::s_ChIndexBackgroundCombo(int) {
+    if (StopMAJSpinbox) return;
+    if (CurrentBrush==NULL) return;
+    CurrentBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
     emit NeedRefreshControls();
 }

@@ -25,6 +25,9 @@
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
+// Specific inclusions
+#include "_ApplicationDefinitions.h"
+
 //*********************************************************************************************************************************************
 // Base object for filters image = transform filters
 //*********************************************************************************************************************************************
@@ -75,7 +78,7 @@ public:
     QString     ColorD;                 // First Color
     QString     ColorF;                 // Last Color
     QString     ColorIntermed;          // Intermediate Color
-    double       Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
+    double       Intermediate;          // Intermediate position of 2nd color (in %) for gradient 3 colors
     QString     BrushImage;             // Image name if brush library or brush disk
 
     cBrushDefinition();
@@ -100,14 +103,11 @@ public:
     bool        IsValide;
     QString     FilePath;
     QString     Name;
-    QString     WebSite;
-    QString     Licence;
     QPixmap     Icon;
     int         Geometry;
 
     cBackgroundObject(QString FileName,int Geometry);
 
-    bool    LoadInfo(QString FileName);
     void    SetGeometry(int Geometry);
 };
 
@@ -124,7 +124,6 @@ public:
     ~cBackgroundList();
 
     void    ScanDisk(QString Path,int Geometry);
-    void    PopulateTable(QTableWidget *Table);
     int     SearchImage(QString NameToFind);
 };
 

@@ -302,6 +302,7 @@ public:
     void                DefineSizeAndGeometry(int Geometry);                        // Init size and geometry
     bool                SaveFile(QWidget *ParentWindow);
     bool                LoadFile(QWidget *ParentWindow,QString ProjectFileName);
+    bool                AppendFile(QWidget *ParentWindow,QString ProjectFileName);
 
     // Thread functions
     void                PrepareMusicBloc(int Column,int Position,cSoundBlockList *MusicTrack);

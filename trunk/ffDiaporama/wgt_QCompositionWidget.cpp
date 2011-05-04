@@ -24,7 +24,7 @@
 
 wgt_QCompositionWidget::wgt_QCompositionWidget(QWidget *parent):QWidget(parent),ui(new Ui::wgt_QCompositionWidget) {
     ui->setupUi(this);
-    IsInit          = false;
+    IsFirstInitDone = false;                 // true when first show window was done
     scene           = NULL;
     NextZValue      = 500;
     BackgroundImage = NULL;
@@ -132,72 +132,16 @@ wgt_QCompositionWidget::~wgt_QCompositionWidget() {
 //====================================================================================================================
 
 void wgt_QCompositionWidget::resizeEvent(QResizeEvent *) {
-    if ((scene!=NULL)&&(BackgroundImage!=NULL)) {
-        // Calc and adjust ui->SceneBox depending on geometry
-        xmax=double(ui->SceneBox->width());
-        ymax=double(ui->SceneBox->width())*(double(double(BackgroundImage->height())/BackgroundImage->width()));
-        // Setup the scene
-        scene->setSceneRect(QRectF(0,0,xmax,ymax));
-        ui->SceneBox->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
-
-        // send a message to parent to refresh background image
-        emit NeedRefreshBackgroundImage();
-    }
+    if (IsFirstInitDone) emit NeedRefreshBackgroundImage();     // send a message to parent to refresh background image
 }
 
 //====================================================================================================================
 
 void wgt_QCompositionWidget::showEvent(QShowEvent *) {
-    // Make vertical dispay text for some label
-    QPainter Painter;
-    QFont   Font("Helvetica",10,QFont::Normal,true);
-/*
-    QPixmap Image(ui->BorderLabel->width(),ui->BorderLabel->height());
-    Painter.begin(&Image);
-    Painter.setFont(Font);
-    Painter.setPen(Qt::black);
-    Painter.fillRect(QRectF(0,0,ui->BorderLabel->width(),ui->BorderLabel->height()),QColor(Qt::white));
-    Painter.rotate(-90);
-    Painter.translate(-ui->BorderLabel->height(),-ui->BorderLabel->width()/2);
-    Painter.drawText(QPointF(0,ui->BorderLabel->width()),QCoreApplication::translate("wgt_QCompositionWidget","Border"));
-    Painter.end();
-    ui->BorderLabel->setPixmap(Image);
-
-    QPixmap Image2(ui->ColorLabel->width(),ui->ColorLabel->height());
-    Painter.begin(&Image2);
-    Painter.setFont(Font);
-    Painter.setPen(Qt::black);
-    Painter.fillRect(QRectF(0,0,ui->ColorLabel->width(),ui->ColorLabel->height()),QColor(Qt::white));
-    Painter.rotate(-90);
-    Painter.translate(-ui->ColorLabel->height(),-ui->ColorLabel->width()/2);
-    Painter.drawText(QPointF(0,ui->ColorLabel->width()),QCoreApplication::translate("wgt_QCompositionWidget","Gradient colors"));
-    Painter.end();
-    ui->ColorLabel->setPixmap(Image2);
-*/
-    if (scene==NULL) {
-        //--------------------------------------------------------------------
-        // Prepare the scene
-        //--------------------------------------------------------------------
-        // Calc and adjust ui->SceneBox depending on geometry
-        xmax=double(ui->SceneBox->width());
-        ymax=double(ui->SceneBox->height());
-        //ymax=double(ui->SceneBox->width())/(double(double(BackgroundImage->width())/BackgroundImage->height()));
-
-        // Create the scene
-        scene = new QGraphicsScene();
-        connect(scene,SIGNAL(selectionChanged()),this,SLOT(s_SelectionChangeEvent()));
-        scene->setSceneRect(QRectF(0,0,xmax,ymax));
-
-        // Setup scene to control
-        ui->SceneBox->setScene(scene);
-        ui->SceneBox->setInteractive(true);
-        ui->SceneBox->setDragMode(QGraphicsView::ScrollHandDrag);
-        ui->SceneBox->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
-
-        // send a message to parent to refresh background image (because now we know size)
-        emit NeedRefreshBackgroundImage();
-
-    } else RefreshBackgroundImage();
+    if (!IsFirstInitDone) {
+        IsFirstInitDone=true;                                   // Set this flag to true to indicate that now we can prepeare display
+        SetCompositionObject(CompositionList,BackgroundImage);  // Make a new object init process
+    }
 }
 
 //====================================================================================================================
@@ -208,26 +152,41 @@ QSize wgt_QCompositionWidget::GetSceneBoxSize() {
 
 //====================================================================================================================
 
-void wgt_QCompositionWidget::SetCompositionObject(cCompositionList *TheCompositionList,QPixmap *TheBackgroundImage) {
-    if (scene==NULL) return;
-    if (BackgroundImage!=NULL) {
-        delete BackgroundImage;
-        BackgroundImage=NULL;
-    }
-    CompositionList =TheCompositionList;
-    BackgroundImage =TheBackgroundImage;
-    if ((CompositionList!=NULL)&&(BackgroundImage!=NULL)) {
+void wgt_QCompositionWidget::Clean() {
+    // Delete scene and all of it's content, if exist
+    if (scene!=NULL) {
+        // delete all items
+        while (scene->items().count()>0) {
+            QGraphicsItem *Item=scene->items().at(0);
+            QString       data =Item->data(0).toString();
 
-        //--------------------------------------------------------------------
-        // Prepare the scene
-        //--------------------------------------------------------------------
-        // Calc and adjust ui->SceneBox depending on geometry
-        xmax=double(ui->SceneBox->width());
-        ymax=double(ui->SceneBox->height());
-        //ymax=double(ui->SceneBox->width())/(double(double(BackgroundImage->width())/BackgroundImage->height()));
+            scene->removeItem(Item);    // Remove item from the scene
 
-        // re-create the scene
+            if (data=="CustomGraphicsRectItem")         delete (cCustomGraphicsRectItem *)Item;
+            else if (data=="ResizeGraphicsRectItem")    delete ((cResizeGraphicsRectItem *)Item)->RectItem;
+            else if (data=="image")                     delete (QGraphicsPixmapItem *)Item;
+            else ExitApplicationWithFatalError("Unkwnon item type in wgt_QCompositionWidget::Clean");
+        }
+
         delete scene;
+        scene=NULL;
+    }
+}
+
+//====================================================================================================================
+
+void wgt_QCompositionWidget::SetCompositionObject(cCompositionList *TheCompositionList,QPixmap *TheBackgroundImage) {
+    Clean(); // Clean scene
+    CompositionList=TheCompositionList;
+    if (TheBackgroundImage) BackgroundImage=TheBackgroundImage;
+
+    // Ensure widget was visible and we know his size !
+    if ((IsFirstInitDone)&&(CompositionList)&&(BackgroundImage)) {
+        // Calc and adjust ui->SceneBox depending on geometry
+        xmax=ui->SceneBox->width();
+        ymax=int(double(xmax)*(double(BackgroundImage->height())/double(BackgroundImage->width())));
+
+        // create the scene
         scene = new QGraphicsScene();
         connect(scene,SIGNAL(selectionChanged()),this,SLOT(s_SelectionChangeEvent()));
         scene->setSceneRect(QRectF(0,0,xmax,ymax));
@@ -238,39 +197,20 @@ void wgt_QCompositionWidget::SetCompositionObject(cCompositionList *TheCompositi
         ui->SceneBox->setDragMode(QGraphicsView::ScrollHandDrag);
         ui->SceneBox->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
 
-        IsInit=false;
-        RefreshBackgroundImage();
+        RefreshBackgroundImage();   // Prepare the background
 
-        if (!IsInit) {
-            // Create cCustomGraphicsRectItem associate to existing cCompositionObject
-            NextZValue=500;
-            for (int i=0;i<CompositionList->List.count();i++) {
-                // Create and add to scene a cCustomGraphicsRectItem
-                new cCustomGraphicsRectItem(scene,CompositionList->List[i].ZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
-                                            NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,false,NULL,this,TYPE_wgt_QCompositionWidget);
-                if (NextZValue<CompositionList->List[i].ZValue) NextZValue=CompositionList->List[i].ZValue;
-            }
-            NextZValue+=10;  // 10 by 10 step for ZValue
-
-            IsInit=true;
+        // Create cCustomGraphicsRectItem associate to existing cCompositionObject
+        NextZValue=500;
+        for (int i=0;i<CompositionList->List.count();i++) {
+            // Create and add to scene a cCustomGraphicsRectItem
+            new cCustomGraphicsRectItem(scene,CompositionList->List[i].ZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
+                                        NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,false,NULL,this,TYPE_wgt_QCompositionWidget);
+            if (NextZValue<CompositionList->List[i].ZValue) NextZValue=CompositionList->List[i].ZValue;
         }
+        NextZValue+=10;  // 10 by 10 step for ZValue
 
         RefreshControls();
     }
-
-    // Resize et repos all item in the scene
-    if (BackgroundImage!=NULL) {
-        for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {
-            cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
-            for (int j=0;j<CompositionList->List.count();j++) if (CompositionList->List[j].ZValue==RectItem->zValue()) {
-                cCompositionObject  *CurrentTextItem=&CompositionList->List[j];
-                RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
-                QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
-                RectItem->setRect(Rect);
-                RectItem->RecalcEmbededResizeRectItem();
-            }
-        }
-    } else emit NeedRefreshBackgroundImage();
 }
 
 //====================================================================================================================
@@ -313,12 +253,12 @@ void wgt_QCompositionWidget::RefreshControls() {
         ui->fontEffectCB->setDisabled(false);   ui->fontEffectCB->setCurrentIndex(CurrentTextItem->StyleText);
 
         ui->FontColorCombo->setDisabled(false);
-        ui->FontColorCombo->SetCurrentColor(CurrentTextItem->FontColor);
+        ui->FontColorCombo->SetCurrentColor(&CurrentTextItem->FontColor);
         ui->fontColorB->setVisible(ui->FontColorCombo->StandardColor==false);
         ui->fontColorB->setEnabled(ui->FontColorCombo->StandardColor==false);
 
         ui->StyleShadowColorCombo->setDisabled(CurrentTextItem->StyleText==0);
-        ui->StyleShadowColorCombo->SetCurrentColor(CurrentTextItem->FontShadowColor);
+        ui->StyleShadowColorCombo->SetCurrentColor(&CurrentTextItem->FontShadowColor);
         ui->StyleShadowColorBt->setVisible((ui->StyleShadowColorCombo->StandardColor==false)&&(CurrentTextItem->StyleText!=0));
         ui->StyleShadowColorBt->setEnabled((ui->StyleShadowColorCombo->StandardColor==false)&&(CurrentTextItem->StyleText!=0));
 
@@ -327,7 +267,7 @@ void wgt_QCompositionWidget::RefreshControls() {
         //***********************
         StopMAJSpinbox=true;    // Disable reintrence in this RefreshControls function
         ui->BackgroundTransparentCB->setCurrentIndex(CurrentTextItem->BackgroundTransparent);
-        ui->PenColorCombo->SetCurrentColor(CurrentTextItem->PenColor);
+        ui->PenColorCombo->SetCurrentColor(&CurrentTextItem->PenColor);
         StopMAJSpinbox=false;
 
         ui->BackgroundFormCB->setDisabled(false);   ui->BackgroundFormCB->setCurrentIndex(CurrentTextItem->BackgroundForm);
@@ -397,7 +337,8 @@ void wgt_QCompositionWidget::RefreshControls() {
 //====================================================================================================================
 
 void wgt_QCompositionWidget::RefreshBackgroundImage() {
-    if ((scene==NULL)||(BackgroundImage==NULL)) return;
+    if ((!IsFirstInitDone)||(BackgroundImage==NULL)) return;
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Remove old image if exist
@@ -446,7 +387,7 @@ void wgt_QCompositionWidget::RefreshBackgroundImage() {
     im->setData(0,QVariant(QString("image")));
     im->setZValue(200);
     im->setPos(0,0);
-//    delete NewImage;
+    delete NewImage;
 
     QApplication::restoreOverrideCursor();
     emit BackgroundImageUpdated();
@@ -779,8 +720,7 @@ void wgt_QCompositionWidget::MakeTextStyleIcon(QComboBox *UICB) {
         Object.BackgroundForm   =0;
         Object.BackgroundTransparent=0;
         QPixmap  Image(32,32);
-        QPainter Painter;
-        Painter.begin(&Image);
+        QPainter Painter;        Painter.begin(&Image);
         Painter.fillRect(QRectF(0,0,32,32),Qt::lightGray);
         Object.DrawCompositionObject(Painter,0,0,32,32);
         Painter.end();
@@ -799,7 +739,7 @@ void wgt_QCompositionWidget::s_CustomFontColorBt() {
     QColor color=QColorDialog::getColor(QColor(CurrentTextItem->FontColor));
     if (color.isValid()) {
         CurrentTextItem->FontColor=color.name();
-        ui->FontColorCombo->SetCurrentColor(CurrentTextItem->FontColor);
+        ui->FontColorCombo->SetCurrentColor(&CurrentTextItem->FontColor);
         RefreshControls();
     }
 }
@@ -811,7 +751,7 @@ void wgt_QCompositionWidget::s_CustomShadowColorBt() {
     QColor color=QColorDialog::getColor(QColor(CurrentTextItem->FontShadowColor));
     if (color.isValid()) {
         CurrentTextItem->FontShadowColor=color.name();
-        ui->StyleShadowColorCombo->SetCurrentColor(CurrentTextItem->FontShadowColor);
+        ui->StyleShadowColorCombo->SetCurrentColor(&CurrentTextItem->FontShadowColor);
         RefreshControls();
     }
 }
@@ -824,7 +764,7 @@ void wgt_QCompositionWidget::s_CustomPenColorBt() {
     QColor color=QColorDialog::getColor(CurrentTextItem->PenColor);
     if (color.isValid()) {
         CurrentTextItem->PenColor=color.name();
-        ui->PenColorCombo->SetCurrentColor(CurrentTextItem->PenColor);
+        ui->PenColorCombo->SetCurrentColor(&CurrentTextItem->PenColor);
         RefreshControls();
     }
 }

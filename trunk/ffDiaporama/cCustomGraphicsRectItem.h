@@ -54,7 +54,9 @@ public:
     bool                    BlockRecursion;
 
     explicit cResizeGraphicsRectItem(QGraphicsScene *scene,cCustomGraphicsRectItem *RectItem,int ZValue,int TypeItem,QGraphicsItem *parent=NULL);
-    void CalcPosition();
+    virtual ~cResizeGraphicsRectItem();
+
+    void                CalcPosition();
 
 protected:
     virtual void        mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -63,10 +65,10 @@ protected:
     virtual void        paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget=NULL);
 
 private:
-    void ResizeUpperLeft(QPointF &newpos);
-    void ResizeUpperRight(QPointF &newpos);
-    void ResizeBottomLeft(QPointF &newpos);
-    void ResizeBottomRight(QPointF &newpos);
+    void                ResizeUpperLeft(QPointF &newpos);
+    void                ResizeUpperRight(QPointF &newpos);
+    void                ResizeBottomLeft(QPointF &newpos);
+    void                ResizeBottomRight(QPointF &newpos);
 };
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -82,6 +84,7 @@ public:
     bool                BlockZoomChange;    // flag to block zoom changing during change % to pixel
     bool                IsCapture;
     bool                KeepAspectRatio;    // true if aspect ratio is keep during resize
+    QGraphicsScene      *scene;
 
     cResizeGraphicsRectItem *UpperLeft;
     cResizeGraphicsRectItem *UpperRight;
@@ -89,7 +92,7 @@ public:
     cResizeGraphicsRectItem *BottomRight;
 
     explicit cCustomGraphicsRectItem(QGraphicsScene *scene,int ZValue,double *x,double *y,double *zoom,double *w,double *h,double xmax,double ymax,bool KeepAspectRatio,sMagneticRuller *MagneticRuller,QWidget *ParentWidget,int ParentWidgetType);
-    ~cCustomGraphicsRectItem();
+    virtual ~cCustomGraphicsRectItem();
 
     void                SendRefreshBackgroundImage();
     void                RecalcEmbededResizeRectItem();

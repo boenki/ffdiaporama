@@ -42,8 +42,9 @@ DlgVideoProperties::DlgVideoProperties(cDiaporamaObject *DiaporamaObject,QWidget
     Undo->appendChild(root);                                // Add object to xml document
 
     // Init embeded widgets
+    for (int Factor=150;Factor>=10;Factor-=10) ui->VolumeReductionFactorCB->addItem(QString("%1%").arg(Factor));
     ui->ImageFilters->SetFilter(&DiaporamaObject->FilterTransform,DiaporamaObject);
-    ui->CustomScene->SetDiaporamaScene(&DiaporamaObject->List[0]);
+    ui->CustomScene->SetDiaporamaShot(&DiaporamaObject->List[0]);
     ui->CompositionWidget->SetCompositionObject(&DiaporamaObject->ObjectComposition,NULL);
 
     ui->tabWidget->setCurrentIndex(0);
@@ -60,6 +61,7 @@ DlgVideoProperties::DlgVideoProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->CompositionWidget,SIGNAL(NeedRefreshBackgroundImage()),this,SLOT(s_CompositionNeedRefreshBackgroundImage()));
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(s_TabCurrentChanged(int)));
 
+    connect(ui->VolumeReductionFactorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(MusicReduceFactorChange(int)));
     connect(ui->DefStartPosBT,SIGNAL(clicked()),this,SLOT(s_DefStartPos()));
     connect(ui->DefEndPosBT,SIGNAL(clicked()),this,SLOT(s_DefEndPos()));
     connect(ui->SeekLeftBt,SIGNAL(clicked()),this,SLOT(s_SeekLeft()));
@@ -180,6 +182,15 @@ void DlgVideoProperties::SetActualDuration() {
     ui->ActualDuration->setText(Duration.toString("hh:mm:ss.zzz"));
     ui->EndPosEd->setMinimumTime(DiaporamaObject->List[0].StartPos);
     ui->StartPosEd->setMaximumTime(DiaporamaObject->List[0].EndPos);
+    ui->VolumeReductionFactorCB->setCurrentIndex(ui->VolumeReductionFactorCB->findText(QString("%1%").arg(int(DiaporamaObject->SoundVolume*100))));
+}
+
+//====================================================================================================================
+
+void DlgVideoProperties::MusicReduceFactorChange(int) {
+    QString Volume=ui->VolumeReductionFactorCB->currentText();
+    if (Volume!="") Volume=Volume.left(Volume.length()-1);  // Remove %
+    DiaporamaObject->SoundVolume=double(Volume.toInt())/100;
 }
 
 //====================================================================================================================

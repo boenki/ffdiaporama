@@ -64,7 +64,7 @@ void cCustomColorComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
         painter->drawRect(option.rect);
     } else {
         if (ColorNum==MAXCOLORREF) {
-            painter->fillRect(option.rect,QColor(ComboBox->CurrentColor));
+            painter->fillRect(option.rect,QColor(ComboBox->SavedCustomColor));
             QImage  Img("icons/colorize.png");
             painter->drawImage(QRectF(option.rect.x()+option.rect.width()-16,option.rect.y()+option.rect.height()-16,16,16),Img);
         } else {
@@ -92,6 +92,8 @@ QSize cCustomColorComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,
 //******************************************************************************************************************
 
 cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
+    STOPMAJ=false;
+    CurrentColor=NULL;
     QTableWidget    *Table=new QTableWidget();
     Table->horizontalHeader()->hide();
     Table->verticalHeader()->hide();
@@ -102,7 +104,7 @@ cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
     setModel(Table->model());
     setView(Table);
     int i=0;
-    while (i<=MAXCOLORREF) {    // = to add extra custom color (with icon)
+    while (i<=MAXCOLORREF) {
         if ((i/4)>=Table->rowCount()) {
             addItem("");        // automaticaly do a Table->insertRow(Table->rowCount());
             Table->setRowHeight(Table->rowCount()-1,24);
@@ -111,47 +113,61 @@ cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
     }
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
-    CurrentColor="#FEFEFE";
     MakeIcons();
+    connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 
 //========================================================================================================================
 
-void cCustomColorComboBox::SetCurrentColor(QString Color) {
+void cCustomColorComboBox::SetCurrentColor(QString *Color) {
+    if (STOPMAJ) return;
+    CurrentColor=Color;
     int i=0;
-    while ((i<MAXCOLORREF)&&(ColorRef[i]!=Color)) i++;
-    ((QTableWidget *)view())->setCurrentCell(i/4,i-(i/4)*4);
-    setCurrentIndex(i/4);
-    StandardColor=(i<MAXCOLORREF);
-    if (i>=MAXCOLORREF) CurrentColor=Color;
+    while ((i<MAXCOLORREF)&&(ColorRef[i]!=*CurrentColor)) i++;
+    int Row=i/4;
+    int Col=i-(i/4)*4;
+    ((QTableWidget *)view())->setCurrentCell(Row,Col);
+    setCurrentIndex(Row);
+    StandardColor=((i>=0)&&(i<MAXCOLORREF));
+    if (!StandardColor) SavedCustomColor=*CurrentColor; else SavedCustomColor="#fefefe";
     MakeIcons();
 }
 
 //========================================================================================================================
 
 QString cCustomColorComboBox::GetCurrentColor() {
-    int i=currentIndex()*4+((QTableWidget *)view())->currentColumn();
-    if ((i>=0)&&(i<MAXCOLORREF)) return ColorRef[i]; else return CurrentColor;
+    int i=((QTableWidget *)view())->currentRow()*4+((QTableWidget *)view())->currentColumn();
+    StandardColor=((i>=0)&&(i<MAXCOLORREF));
+    if ((CurrentColor)&&(i>=0)&&(i<MAXCOLORREF)) *CurrentColor=ColorRef[i]; else *CurrentColor=SavedCustomColor;
+    return *CurrentColor;
 }
 
 //========================================================================================================================
 
 void cCustomColorComboBox::MakeIcons() {
-    int CurrentRow=currentIndex();
-    if (CurrentRow<0) return;
-    int CurrentCol=((QTableWidget *)view())->currentColumn();
-    if (CurrentCol<0) CurrentCol=0;
+    int CurrentRow=((QTableWidget *)view())->currentRow();      if (CurrentRow<0) CurrentRow=0;
+    int CurrentCol=((QTableWidget *)view())->currentColumn();   if (CurrentCol<0) CurrentCol=0;
     int ColorNum=CurrentRow*4+CurrentCol;
     QPixmap  Image(64,16);
     QPainter Painter;
     Painter.begin(&Image);
     if (ColorNum<MAXCOLORREF) Painter.fillRect(QRectF(0,0,64,16),QColor(ColorRef[ColorNum])); else {
-        Painter.fillRect(QRectF(0,0,64,16),QColor(CurrentColor));
+        Painter.fillRect(QRectF(0,0,64,16),QColor(SavedCustomColor));
         QImage  Img("icons/colorize.png");
         Painter.drawImage(QRectF(64-16,0,16,16),Img,QRectF(0,0,Img.width(),Img.height()));
     }
     Painter.end();
-    setItemIcon(CurrentRow,QIcon(Image));
+    setItemIcon(currentIndex(),QIcon(Image));
+}
+
+//========================================================================================================================
+
+void cCustomColorComboBox::s_ItemSelectionChanged() {
+    STOPMAJ=true;
+    setCurrentIndex(((QTableWidget *)view())->currentRow());
+    MakeIcons();
+    emit currentIndexChanged(((QTableWidget *)view())->currentRow()*4+((QTableWidget *)view())->currentColumn());
+    STOPMAJ=false;
 }
 
 //******************************************************************************************************************
@@ -197,6 +213,7 @@ QSize cCustomBrushComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,
 //******************************************************************************************************************
 
 cCustomBrushComboBox::cCustomBrushComboBox(QWidget *parent):QComboBox(parent) {
+    STOPMAJ=false;
     QTableWidget    *Table=new QTableWidget();
     Table->horizontalHeader()->hide();
     Table->verticalHeader()->hide();
@@ -217,14 +234,16 @@ cCustomBrushComboBox::cCustomBrushComboBox(QWidget *parent):QComboBox(parent) {
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
     MakeIcons();
+    connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 
 //========================================================================================================================
 
 void cCustomBrushComboBox::SetCurrentBrush(cBrushDefinition TheBrush) {
+    if (STOPMAJ) return;
     Brush=TheBrush;
-    setCurrentIndex(Brush.PatternType/4);
     ((QTableWidget *)view())->setCurrentCell(Brush.PatternType/4,Brush.PatternType-(Brush.PatternType/4)*4);
+    setCurrentIndex(Brush.PatternType/4);
     MakeIcons();
 }
 
@@ -263,6 +282,16 @@ void cCustomBrushComboBox::MakeIcons() {
     }
     Painter.end();
     setItemIcon(CurrentRow,QIcon(Image));
+}
+
+//========================================================================================================================
+
+void cCustomBrushComboBox::s_ItemSelectionChanged() {
+    STOPMAJ=true;
+    setCurrentIndex(((QTableWidget *)view())->currentRow());
+    MakeIcons();
+    emit currentIndexChanged(((QTableWidget *)view())->currentRow()*4+((QTableWidget *)view())->currentColumn());
+    STOPMAJ=false;
 }
 
 //******************************************************************************************************************
@@ -306,6 +335,7 @@ QSize cGradientOrientationComboBoxItem::sizeHint(const QStyleOptionViewItem &/*o
 //******************************************************************************************************************
 
 cGradientOrientationComboBox::cGradientOrientationComboBox(QWidget *parent):QComboBox(parent) {
+    STOPMAJ=false;
     QTableWidget    *Table=new QTableWidget();
     Table->horizontalHeader()->hide();
     Table->verticalHeader()->hide();
@@ -326,11 +356,13 @@ cGradientOrientationComboBox::cGradientOrientationComboBox(QWidget *parent):QCom
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
     MakeIcons();
+    connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 
 //========================================================================================================================
 
 void cGradientOrientationComboBox::SetCurrentBrush(cBrushDefinition TheBrush) {
+    if (STOPMAJ) return;
     Brush=TheBrush;
     setCurrentIndex(Brush.GradientOrientation/3);
     ((QTableWidget *)view())->setCurrentCell(Brush.GradientOrientation/3,Brush.GradientOrientation-(Brush.GradientOrientation/3)*3);
@@ -369,6 +401,16 @@ void cGradientOrientationComboBox::MakeIcons() {
     }
     Painter.end();
     setItemIcon(CurrentRow,QIcon(Image));
+}
+
+//========================================================================================================================
+
+void cGradientOrientationComboBox::s_ItemSelectionChanged() {
+    STOPMAJ=true;
+    setCurrentIndex(((QTableWidget *)view())->currentRow());
+    MakeIcons();
+    emit currentIndexChanged(((QTableWidget *)view())->currentRow()*3+((QTableWidget *)view())->currentColumn());
+    STOPMAJ=false;
 }
 
 //******************************************************************************************************************
@@ -416,6 +458,7 @@ QSize cOnOffFilterComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,
 //******************************************************************************************************************
 
 cOnOffFilterComboBox::cOnOffFilterComboBox(QWidget *parent):QComboBox(parent) {
+    CurrentFilter=NULL;
     QTableWidget    *Table=new QTableWidget();
     Table->horizontalHeader()->hide();
     Table->verticalHeader()->hide();
@@ -427,7 +470,7 @@ cOnOffFilterComboBox::cOnOffFilterComboBox(QWidget *parent):QComboBox(parent) {
     setView(Table);
     QString Text="";
     int i=0;
-    while (i<MAXONOFFFILTER) {    // = to add extra custom color (with icon)
+    while (i<MAXONOFFFILTER) {
         if ((i/4)>=Table->rowCount()) {
             addItem("");        // automaticaly do a Table->insertRow(Table->rowCount());
             Table->setRowHeight(Table->rowCount()-1,24);
@@ -438,24 +481,41 @@ cOnOffFilterComboBox::cOnOffFilterComboBox(QWidget *parent):QComboBox(parent) {
         if ((i & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Despeckle");
         if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
         Table->setItem(i/4,i-(i/4)*4,new QTableWidgetItem(Text));
-
         i++;
     }
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
-    CurrentFilter=0;
+    connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 
 //========================================================================================================================
 
-void cOnOffFilterComboBox::SetCurrentFilter(QImage *TheSourceImage,int OnOffFilter) {
+void cOnOffFilterComboBox::s_ItemSelectionChanged() {
+    if (CurrentFilter) *CurrentFilter=((QTableWidget *)view())->currentRow()*4+((QTableWidget *)view())->currentColumn();
+    QString Text="";
+    if ((*CurrentFilter & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Gray");
+    if ((*CurrentFilter & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Equalize");
+    if ((*CurrentFilter & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Despeckle");
+    if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
+    setItemText(*CurrentFilter/4,Text);
+}
+
+//========================================================================================================================
+
+void cOnOffFilterComboBox::SetCurrentFilter(QImage *TheSourceImage,int *OnOffFilter) {
     if (TheSourceImage==NULL) return;
     CurrentFilter=OnOffFilter;
     SourceImage=TheSourceImage->scaledToWidth(this->width()/4);
-    setCurrentIndex(OnOffFilter/4);
-    ((QTableWidget *)view())->setCurrentCell(OnOffFilter/4,OnOffFilter-(OnOffFilter/4)*4);
+    ((QTableWidget *)view())->setCurrentCell(*CurrentFilter/4,*CurrentFilter-(*CurrentFilter/4)*4);
     for (int i=0;i<4;i++)                  ((QTableWidget *)view())->setColumnWidth(i,SourceImage.width());
     for (int i=0;i<(MAXONOFFFILTER/4);i++) ((QTableWidget *)view())->setRowHeight(i,SourceImage.height());
+    QString Text="";
+    if ((*CurrentFilter & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Gray");
+    if ((*CurrentFilter & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Equalize");
+    if ((*CurrentFilter & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Despeckle");
+    if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
+    setItemText(*OnOffFilter/4,Text);
+    setCurrentIndex(*OnOffFilter/4);
 }
 
 //========================================================================================================================
@@ -465,6 +525,120 @@ int cOnOffFilterComboBox::GetCurrentFilter() {
     if (CurrentRow<0) return 0;
     int CurrentCol=((QTableWidget *)view())->currentColumn();
     if (CurrentCol<0) CurrentCol=0;
-    CurrentFilter=CurrentRow*4+CurrentCol;
-    return CurrentFilter;
+    *CurrentFilter=CurrentRow*4+CurrentCol;
+    return *CurrentFilter;
+}
+
+//******************************************************************************************************************
+// Custom Brush ComboBox ITEM
+//******************************************************************************************************************
+
+cBackgroundComboBoxItem::cBackgroundComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
+}
+
+//========================================================================================================================
+void cBackgroundComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    int BackgroundNum=index.row();
+    if (BackgroundNum<BackgroundList.List.count()) {
+        painter->drawPixmap(option.rect.left(),option.rect.top(),BackgroundList.List[BackgroundNum].Icon);
+    } else {
+        painter->fillRect(option.rect,Qt::white);
+    }
+    if (option.state & QStyle::State_Selected) {
+        painter->setPen(QPen(Qt::blue));
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(option.rect.x(),option.rect.y(),option.rect.width()-1,option.rect.height()-1);
+        painter->drawRect(option.rect.x()+1,option.rect.y()+1,option.rect.width()-1-2,option.rect.height()-1-2);
+        painter->setPen(QPen(Qt::black));
+        painter->drawRect(option.rect.x()+2,option.rect.y()+2,option.rect.width()-1-4,option.rect.height()-1-4);
+    }
+}
+
+//========================================================================================================================
+
+QSize cBackgroundComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
+    if (BackgroundList.List.count()>0) return QSize(BackgroundList.List[0].Icon.width(),64);
+        else return QSize(114,64);
+}
+
+//******************************************************************************************************************
+// Custom Brush ComboBox
+//******************************************************************************************************************
+
+cBackgroundComboBox::cBackgroundComboBox(QWidget *parent):QComboBox(parent) {
+    STOPMAJ=false;
+    QTableWidget    *Table=new QTableWidget();
+    Table->horizontalHeader()->hide();
+    Table->verticalHeader()->hide();
+    int ThumbWith=(BackgroundList.List.count()>0)?BackgroundList.List[0].Icon.width():114;
+    setIconSize(QSize(ThumbWith,64));
+    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,ThumbWith);
+    setModel(Table->model());
+    setView(Table);
+    int i=0;
+    while (i<BackgroundList.List.count()) {
+        addItem("");    //automaticaly do a Table->insertRow(Table->rowCount());
+        Table->setRowHeight(Table->rowCount()-1,64);
+        i++;
+    }
+    ItemDelegate.ComboBox=this;
+    setItemDelegate(&ItemDelegate);
+    MakeIcons();
+    connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
+}
+
+//========================================================================================================================
+
+void cBackgroundComboBox::SetCurrentBackground(QString BrushImage) {
+    if (STOPMAJ) return;
+    int i=0;
+    while ((i<BackgroundList.List.count())&&(BrushImage!=BackgroundList.List[i].Name)) i++;
+    if (i>=BackgroundList.List.count()) {
+        i=0;
+        ((QTableWidget *)view())->setCurrentCell(0,i);
+        s_ItemSelectionChanged();
+    }
+    ((QTableWidget *)view())->setCurrentCell(0,i);
+    setCurrentIndex(i);
+    MakeIcons();
+}
+
+//========================================================================================================================
+
+QString cBackgroundComboBox::GetCurrentBackground() {
+    int i=currentIndex();
+    MakeIcons();
+    return BackgroundList.List[i].Name;
+}
+
+//========================================================================================================================
+
+void cBackgroundComboBox::MakeIcons() {
+    int CurrentRow=currentIndex();
+    if (CurrentRow<0) return;
+    int CurrentCol=((QTableWidget *)view())->currentColumn();
+    if (CurrentCol<0) CurrentCol=0;
+    int BackgroundNum=CurrentRow;
+    int ThumbWith=(BackgroundList.List.count()>0)?BackgroundList.List[0].Icon.width():114;
+    QPixmap  Image(ThumbWith,64);
+    QPainter Painter;
+    Painter.begin(&Image);
+    if (BackgroundNum<BackgroundList.List.count()) {
+        Painter.drawPixmap(0,0,BackgroundList.List[BackgroundNum].Icon);
+    } else {
+        Painter.setBrush(QBrush(Qt::white));
+        Painter.drawRect(QRectF(0,0,ThumbWith,64));
+    }
+    Painter.end();
+    setItemIcon(CurrentRow,QIcon(Image));
+}
+
+//========================================================================================================================
+
+void cBackgroundComboBox::s_ItemSelectionChanged() {
+    STOPMAJ=true;
+    setCurrentIndex(((QTableWidget *)view())->currentRow());
+    MakeIcons();
+    emit currentIndexChanged(((QTableWidget *)view())->currentRow());
+    STOPMAJ=false;
 }

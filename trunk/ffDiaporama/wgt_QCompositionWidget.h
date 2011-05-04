@@ -35,14 +35,14 @@ namespace Ui {
 class wgt_QCompositionWidget : public QWidget {
 Q_OBJECT
 public:
-    bool                IsInit;
-    bool                StopMAJSpinbox;
-    bool                BLOCKCHSIZE;
-    cCompositionList    *CompositionList;   // Link to Composition List
-    double               xmax,ymax;          // Size of the scene
-    int                 NextZValue;         // Current zvalue
-    QGraphicsScene      *scene;             // Link to the scene
-    QPixmap             *BackgroundImage;   // Background Image
+    bool                    IsFirstInitDone;                // true when first show window was done
+    bool                    StopMAJSpinbox;
+    bool                    BLOCKCHSIZE;
+    cCompositionList        *CompositionList;               // Link to Composition List
+    double                   xmax,ymax;                     // Size of the scene
+    int                     NextZValue;                     // Current zvalue
+    QGraphicsScene          *scene;                         // Link to the scene
+    QPixmap                 *BackgroundImage;               // Background Image
 
     explicit wgt_QCompositionWidget(QWidget *parent = 0);
     ~wgt_QCompositionWidget();
@@ -98,6 +98,7 @@ signals:
     void                    BackgroundImageUpdated();
 
 private:
+    void                    Clean();
     void                    MakeFormIcon(QComboBox *UICB);
     void                    MakeTextStyleIcon(QComboBox *UICB);
     Ui::wgt_QCompositionWidget *ui;

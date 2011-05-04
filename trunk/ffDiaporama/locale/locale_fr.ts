@@ -385,19 +385,18 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../DlgImageProperties.ui" line="41"/>
-        <location filename="../DlgImageProperties.ui" line="526"/>
-        <source>Image correction</source>
-        <translation>Correction d&apos;image</translation>
+        <source>Global image transformation</source>
+        <translation>Transformation de l&apos;image (global)</translation>
     </message>
     <message>
         <location filename="../DlgImageProperties.ui" line="57"/>
-        <source>Image composition</source>
-        <translation>Composition sur l&apos;image</translation>
+        <source>Global image composition</source>
+        <translation>Composition sur l&apos;image (global)</translation>
     </message>
     <message>
         <location filename="../DlgImageProperties.ui" line="73"/>
-        <source>Framing and animation</source>
-        <translation>Cadrage et animation</translation>
+        <source>Animation settings</source>
+        <translation>Paramètres de l&apos;animation</translation>
     </message>
     <message>
         <location filename="../DlgImageProperties.ui" line="98"/>
@@ -422,59 +421,59 @@ p, li { white-space: pre-wrap; }
         <translation>Espace complet</translation>
     </message>
     <message>
-        <location filename="../DlgImageProperties.ui" line="239"/>
-        <source>Shots</source>
-        <translation>Plans</translation>
+        <location filename="../DlgImageProperties.ui" line="247"/>
+        <source>Framing and correction</source>
+        <translation>Recadrage et correction</translation>
     </message>
     <message>
-        <location filename="../DlgImageProperties.ui" line="295"/>
+        <location filename="../DlgImageProperties.ui" line="270"/>
+        <source>Shot composition</source>
+        <translation>Composition des plans</translation>
+    </message>
+    <message>
+        <location filename="../DlgImageProperties.ui" line="315"/>
         <source>Use project value for mobil duration</source>
         <translation>Utiliser la valeur du projet pour la durée du plan mobile</translation>
     </message>
     <message>
-        <location filename="../DlgImageProperties.ui" line="363"/>
+        <location filename="../DlgImageProperties.ui" line="335"/>
+        <source>Shots properties :</source>
+        <translation>Propriétés des plans :</translation>
+    </message>
+    <message>
+        <location filename="../DlgImageProperties.ui" line="390"/>
         <source>Use project value for static duration</source>
         <translation>Utiliser la valeur du projet pour la durée du plan fixe</translation>
     </message>
     <message>
-        <location filename="../DlgImageProperties.ui" line="308"/>
-        <source>Static and mobile shots durations :</source>
-        <translation>Durées des plans fixes et mobiles :</translation>
-    </message>
-    <message>
-        <location filename="../DlgImageProperties.ui" line="542"/>
-        <source>Static shot composition</source>
-        <translation>Composition de plan fixe</translation>
-    </message>
-    <message>
-        <location filename="../DlgImageProperties.ui" line="590"/>
+        <location filename="../DlgImageProperties.ui" line="581"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../DlgImageProperties.ui" line="601"/>
+        <location filename="../DlgImageProperties.ui" line="592"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annulé</translation>
     </message>
     <message>
-        <location filename="../DlgImageProperties.ui" line="612"/>
+        <location filename="../DlgImageProperties.ui" line="603"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../DlgImageProperties.cpp" line="270"/>
-        <location filename="../DlgImageProperties.cpp" line="285"/>
+        <location filename="../DlgImageProperties.cpp" line="265"/>
+        <location filename="../DlgImageProperties.cpp" line="280"/>
         <source>Default project value=%1 sec</source>
         <translation>Valeur par défaut du projet=%1 sec</translation>
     </message>
     <message>
-        <location filename="../DlgImageProperties.cpp" line="271"/>
-        <location filename="../DlgImageProperties.cpp" line="290"/>
+        <location filename="../DlgImageProperties.cpp" line="266"/>
+        <location filename="../DlgImageProperties.cpp" line="285"/>
         <source>sec</source>
         <translation>sec</translation>
     </message>
     <message>
-        <location filename="../DlgImageProperties.cpp" line="273"/>
+        <location filename="../DlgImageProperties.cpp" line="268"/>
         <source>Lengthened to %1 sec to allow transitions</source>
         <translation>Allongée à %1 sec pour les transitions</translation>
     </message>
@@ -684,21 +683,21 @@ p, li { white-space: pre-wrap; }
         <location filename="../DlgRenderVideo.ui" line="25"/>
         <location filename="../DlgRenderVideo.cpp" line="339"/>
         <location filename="../DlgRenderVideo.cpp" line="348"/>
-        <location filename="../DlgRenderVideo.cpp" line="441"/>
-        <location filename="../DlgRenderVideo.cpp" line="459"/>
-        <location filename="../DlgRenderVideo.cpp" line="595"/>
-        <location filename="../DlgRenderVideo.cpp" line="632"/>
-        <location filename="../DlgRenderVideo.cpp" line="640"/>
-        <location filename="../DlgRenderVideo.cpp" line="652"/>
-        <location filename="../DlgRenderVideo.cpp" line="662"/>
-        <location filename="../DlgRenderVideo.cpp" line="674"/>
-        <location filename="../DlgRenderVideo.cpp" line="696"/>
-        <location filename="../DlgRenderVideo.cpp" line="717"/>
-        <location filename="../DlgRenderVideo.cpp" line="726"/>
-        <location filename="../DlgRenderVideo.cpp" line="734"/>
-        <location filename="../DlgRenderVideo.cpp" line="829"/>
-        <location filename="../DlgRenderVideo.cpp" line="833"/>
-        <location filename="../DlgRenderVideo.cpp" line="857"/>
+        <location filename="../DlgRenderVideo.cpp" line="436"/>
+        <location filename="../DlgRenderVideo.cpp" line="454"/>
+        <location filename="../DlgRenderVideo.cpp" line="590"/>
+        <location filename="../DlgRenderVideo.cpp" line="627"/>
+        <location filename="../DlgRenderVideo.cpp" line="635"/>
+        <location filename="../DlgRenderVideo.cpp" line="647"/>
+        <location filename="../DlgRenderVideo.cpp" line="657"/>
+        <location filename="../DlgRenderVideo.cpp" line="669"/>
+        <location filename="../DlgRenderVideo.cpp" line="691"/>
+        <location filename="../DlgRenderVideo.cpp" line="712"/>
+        <location filename="../DlgRenderVideo.cpp" line="721"/>
+        <location filename="../DlgRenderVideo.cpp" line="729"/>
+        <location filename="../DlgRenderVideo.cpp" line="824"/>
+        <location filename="../DlgRenderVideo.cpp" line="828"/>
+        <location filename="../DlgRenderVideo.cpp" line="852"/>
         <source>Render video</source>
         <translation>Générer le film</translation>
     </message>
@@ -830,47 +829,47 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Annulé</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="492"/>
-        <location filename="../DlgRenderVideo.cpp" line="541"/>
-        <location filename="../DlgRenderVideo.cpp" line="548"/>
-        <location filename="../DlgRenderVideo.cpp" line="583"/>
-        <location filename="../DlgRenderVideo.cpp" line="587"/>
+        <location filename="../DlgRenderVideo.cpp" line="487"/>
+        <location filename="../DlgRenderVideo.cpp" line="536"/>
+        <location filename="../DlgRenderVideo.cpp" line="543"/>
+        <location filename="../DlgRenderVideo.cpp" line="578"/>
+        <location filename="../DlgRenderVideo.cpp" line="582"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="492"/>
+        <location filename="../DlgRenderVideo.cpp" line="487"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Erreur lors du lancement de ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="541"/>
+        <location filename="../DlgRenderVideo.cpp" line="536"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation>Erreur lors de la transmission de l&apos;image à ffmeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="548"/>
+        <location filename="../DlgRenderVideo.cpp" line="543"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation>Erreur ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="583"/>
+        <location filename="../DlgRenderVideo.cpp" line="578"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation>Erreur durant le processus ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="587"/>
+        <location filename="../DlgRenderVideo.cpp" line="582"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Erreur lors de l&apos;arret de ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="595"/>
+        <location filename="../DlgRenderVideo.cpp" line="590"/>
         <source>Job completed succesfully !</source>
         <translation>Génération terminée avec succès !</translation>
     </message>
@@ -998,6 +997,11 @@ p, li { white-space: pre-wrap; }
         <translation>Fin :</translation>
     </message>
     <message>
+        <location filename="../DlgVideoProperties.ui" line="311"/>
+        <source>Framing and correction</source>
+        <translation>Recadrage et correction</translation>
+    </message>
+    <message>
         <location filename="../DlgVideoProperties.ui" line="72"/>
         <source>Move to start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
@@ -1027,37 +1031,37 @@ p, li { white-space: pre-wrap; }
         <translation>Durée :</translation>
     </message>
     <message>
-        <location filename="../DlgVideoProperties.ui" line="238"/>
+        <location filename="../DlgVideoProperties.ui" line="241"/>
+        <source>Volume :</source>
+        <translation>Volume :</translation>
+    </message>
+    <message>
+        <location filename="../DlgVideoProperties.ui" line="279"/>
         <source>Image correction</source>
         <translation>Correction d&apos;image</translation>
     </message>
     <message>
-        <location filename="../DlgVideoProperties.ui" line="254"/>
+        <location filename="../DlgVideoProperties.ui" line="295"/>
         <source>Image composition</source>
         <translation>Composition sur l&apos;image</translation>
     </message>
     <message>
-        <location filename="../DlgVideoProperties.ui" line="270"/>
-        <source>Framing</source>
-        <translation>Cadrage</translation>
-    </message>
-    <message>
-        <location filename="../DlgVideoProperties.ui" line="308"/>
+        <location filename="../DlgVideoProperties.ui" line="349"/>
         <source>Full canvas</source>
         <translation>Espace complet</translation>
     </message>
     <message>
-        <location filename="../DlgVideoProperties.ui" line="328"/>
+        <location filename="../DlgVideoProperties.ui" line="369"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../DlgVideoProperties.ui" line="339"/>
+        <location filename="../DlgVideoProperties.ui" line="380"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annulé</translation>
     </message>
     <message>
-        <location filename="../DlgVideoProperties.ui" line="350"/>
+        <location filename="../DlgVideoProperties.ui" line="391"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
@@ -1148,11 +1152,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="594"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="603"/>
-        <source>Add file</source>
-        <translation>Ajouter un fichier</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="606"/>
@@ -1305,11 +1304,15 @@ p, li { white-space: pre-wrap; }
         <location filename="../_ApplicationDefinitions.cpp" line="465"/>
         <location filename="../_ApplicationDefinitions.cpp" line="470"/>
         <location filename="../_ApplicationDefinitions.cpp" line="476"/>
-        <location filename="../_Diaporama.cpp" line="1244"/>
-        <location filename="../_Diaporama.cpp" line="1267"/>
-        <location filename="../_Diaporama.cpp" line="1273"/>
-        <location filename="../_Diaporama.cpp" line="1280"/>
-        <location filename="../mainwindow.cpp" line="777"/>
+        <location filename="../_Diaporama.cpp" line="1243"/>
+        <location filename="../_Diaporama.cpp" line="1266"/>
+        <location filename="../_Diaporama.cpp" line="1272"/>
+        <location filename="../_Diaporama.cpp" line="1279"/>
+        <location filename="../_Diaporama.cpp" line="1339"/>
+        <location filename="../_Diaporama.cpp" line="1345"/>
+        <location filename="../_Diaporama.cpp" line="1352"/>
+        <location filename="../_Diaporama.cpp" line="1361"/>
+        <location filename="../mainwindow.cpp" line="780"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erreur</translation>
@@ -1339,173 +1342,267 @@ p, li { white-space: pre-wrap; }
         <translation>Erreur durant la création du fichier de configuration</translation>
     </message>
     <message>
+        <location filename="../_Diaporama.cpp" line="1243"/>
         <location filename="../_Diaporama.cpp" line="1244"/>
-        <location filename="../_Diaporama.cpp" line="1245"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la création du fichier de données</translation>
     </message>
     <message>
+        <location filename="../_Diaporama.cpp" line="1266"/>
         <location filename="../_Diaporama.cpp" line="1267"/>
-        <location filename="../_Diaporama.cpp" line="1268"/>
+        <location filename="../_Diaporama.cpp" line="1339"/>
+        <location filename="../_Diaporama.cpp" line="1340"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la lecture du fichier projet</translation>
     </message>
     <message>
+        <location filename="../_Diaporama.cpp" line="1272"/>
         <location filename="../_Diaporama.cpp" line="1273"/>
-        <location filename="../_Diaporama.cpp" line="1274"/>
+        <location filename="../_Diaporama.cpp" line="1345"/>
+        <location filename="../_Diaporama.cpp" line="1346"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la lecture du contenu du fichier projet</translation>
     </message>
     <message>
+        <location filename="../_Diaporama.cpp" line="1279"/>
         <location filename="../_Diaporama.cpp" line="1280"/>
-        <location filename="../_Diaporama.cpp" line="1281"/>
+        <location filename="../_Diaporama.cpp" line="1352"/>
+        <location filename="../_Diaporama.cpp" line="1353"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation>Le fichier n&apos;est pas un fichier projet valide</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="266"/>
-        <location filename="../mainwindow.cpp" line="594"/>
-        <location filename="../mainwindow.cpp" line="630"/>
+        <location filename="../_Diaporama.cpp" line="1361"/>
+        <location filename="../_Diaporama.cpp" line="1362"/>
+        <source>Impossible to import this file :
+Image geometry in this file is not the same than the current project</source>
+        <comment>Error message</comment>
+        <translation>Impossible d&apos;importer ce fichier :
+La géométrie d&apos;image de ce fichier ne correspond pas à celle du projet en cours</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="74"/>
+        <source>Starting SDL...</source>
+        <translation>Démarrage de SDL...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="79"/>
+        <source>Starting ffmpeg...</source>
+        <translation>Démarrage de ffmpeg...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="156"/>
+        <source>Registered video codecs for encoding :</source>
+        <translation>Codecs vidéo disponibles pour l&apos;encodage :</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="158"/>
+        <source>Registered audio codecs for encoding :</source>
+        <translation>Codecs audio disponibles pour l&apos;encodage :</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="160"/>
+        <source>Registered container formats for encoding :</source>
+        <translation>Formats de fichier disponibles pour l&apos;encodage :</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="163"/>
+        <source>Library :</source>
+        <translation>Librairie :</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="165"/>
+        <source>Loading background library...</source>
+        <translation>Chargement des images d&apos;arrière-plan ...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="166"/>
+        <source> images loaded into the background-library from </source>
+        <translation> images chargées dans la librairie des images d&apos;arrière-plan depuis </translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="167"/>
+        <source>Loading no-luma transitions...</source>
+        <translation>Chargement des transitions non luma...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="172"/>
+        <source> no-luma transitions loaded into the transition-library</source>
+        <translation> transitions non luma chargées dans la librairie des transitions</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="173"/>
+        <source>Loading luma transitions...</source>
+        <translation>Chargement des transitions luma...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="174"/>
+        <location filename="../mainwindow.cpp" line="175"/>
+        <location filename="../mainwindow.cpp" line="176"/>
+        <location filename="../mainwindow.cpp" line="177"/>
+        <location filename="../mainwindow.cpp" line="178"/>
+        <location filename="../mainwindow.cpp" line="179"/>
+        <source> luma transitions loaded into the transition-library from </source>
+        <translation> transitions luma chargées dans la librairie des transitions depuis </translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="180"/>
+        <source>  Total:</source>
+        <translation>  Total:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="180"/>
+        <source> transitions loaded into the transition-library</source>
+        <translation> transitions chargées dans la librairie des transitions</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="267"/>
+        <location filename="../mainwindow.cpp" line="597"/>
+        <location filename="../mainwindow.cpp" line="633"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>Le projet en cours a été modifié.
 Voulez-vous l&apos;enregistrer ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="266"/>
+        <location filename="../mainwindow.cpp" line="267"/>
         <source>Close application</source>
         <translation>Quitter l&apos;application</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="322"/>
+        <location filename="../mainwindow.cpp" line="325"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation>&lt;Nouveau projet&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="431"/>
-        <location filename="../mainwindow.cpp" line="796"/>
+        <location filename="../mainwindow.cpp" line="434"/>
         <source>Not implemented</source>
         <translation>Pas encore programmé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="431"/>
-        <location filename="../mainwindow.cpp" line="796"/>
+        <location filename="../mainwindow.cpp" line="434"/>
         <source>Sorry, not yet done !</source>
         <translation>Désolé, cette fonction n&apos;est pas encore disponible !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="493"/>
+        <location filename="../mainwindow.cpp" line="496"/>
         <source>Object type</source>
         <translation>Type d&apos;objet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="494"/>
+        <location filename="../mainwindow.cpp" line="497"/>
         <source>Title</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="495"/>
+        <location filename="../mainwindow.cpp" line="498"/>
         <source>Image</source>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="496"/>
+        <location filename="../mainwindow.cpp" line="499"/>
         <source>Video</source>
         <translation>Vidéo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="499"/>
+        <location filename="../mainwindow.cpp" line="502"/>
         <source>Duration</source>
         <translation>Durée</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="504"/>
+        <location filename="../mainwindow.cpp" line="507"/>
         <source>Filename</source>
         <translation>Nom de fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="514"/>
+        <location filename="../mainwindow.cpp" line="517"/>
         <source>Image size</source>
         <translation>Taille d&apos;image</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="518"/>
+        <location filename="../mainwindow.cpp" line="521"/>
         <source>Video format</source>
         <translation>Format vidéo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="522"/>
+        <location filename="../mainwindow.cpp" line="525"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="526"/>
+        <location filename="../mainwindow.cpp" line="529"/>
         <source>Frame rate</source>
         <translation>Images par seconde</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="530"/>
+        <location filename="../mainwindow.cpp" line="533"/>
         <source>fps</source>
         <comment>frame per second</comment>
         <translation>i/s</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="533"/>
+        <location filename="../mainwindow.cpp" line="536"/>
         <source>Aspect ratio</source>
         <translation>Géométrie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="537"/>
+        <location filename="../mainwindow.cpp" line="540"/>
         <source>Audio format</source>
         <translation>Format audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="541"/>
+        <location filename="../mainwindow.cpp" line="544"/>
         <source>Frequency</source>
         <translation>Fréquence</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="543"/>
+        <location filename="../mainwindow.cpp" line="546"/>
         <source>hz</source>
         <comment>audio frequency</comment>
         <translation>hz</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="546"/>
+        <location filename="../mainwindow.cpp" line="549"/>
         <source>Channels</source>
         <translation>Cannaux</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="594"/>
+        <location filename="../mainwindow.cpp" line="597"/>
         <source>New project</source>
         <translation>Nouveau projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="630"/>
-        <location filename="../mainwindow.cpp" line="634"/>
+        <location filename="../mainwindow.cpp" line="633"/>
+        <location filename="../mainwindow.cpp" line="637"/>
         <source>Open project</source>
         <translation>Ouvrir un projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="684"/>
+        <location filename="../mainwindow.cpp" line="687"/>
         <source>Save project as</source>
         <translation>Enregistrer le projet sous</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="734"/>
+        <location filename="../mainwindow.ui" line="603"/>
+        <location filename="../mainwindow.cpp" line="737"/>
         <source>Add files</source>
         <translation>Ajouter des fichiers</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="777"/>
+        <location filename="../mainwindow.cpp" line="780"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Format non supporté</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="800"/>
+        <source>Add a sub project</source>
+        <translation>Ajouter un projet</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="111"/>
@@ -1529,19 +1626,6 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <location filename="../wgt_QBackgroundDefWidget.ui" line="38"/>
         <source>Select a new background</source>
         <translation>Définir un nouvel arrière plan</translation>
-    </message>
-</context>
-<context>
-    <name>wgt_QBackgroundWidget</name>
-    <message>
-        <location filename="../wgt_QBackgroundWidget.ui" line="128"/>
-        <source>Licence :</source>
-        <translation>Licence :</translation>
-    </message>
-    <message>
-        <location filename="../wgt_QBackgroundWidget.ui" line="146"/>
-        <source>Web site :</source>
-        <translation>Adresse WEB :</translation>
     </message>
 </context>
 <context>
@@ -1787,7 +1871,7 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>Ombre en bas à droite</translation>
     </message>
     <message>
-        <location filename="../wgt_QCompositionWidget.cpp" line="471"/>
+        <location filename="../wgt_QCompositionWidget.cpp" line="432"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Texte</translation>
@@ -1806,32 +1890,32 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>2eme couleur :</translation>
     </message>
     <message>
-        <location filename="../wgt_QCustomBrush.ui" line="202"/>
+        <location filename="../wgt_QCustomBrush.ui" line="387"/>
         <source>Position :</source>
         <translation>Position :</translation>
     </message>
     <message>
-        <location filename="../wgt_QCustomBrush.ui" line="297"/>
+        <location filename="../wgt_QCustomBrush.ui" line="458"/>
         <source>Final color :</source>
         <translation>Couleur finale :</translation>
     </message>
     <message>
-        <location filename="../wgt_QCustomBrush.ui" line="382"/>
+        <location filename="../wgt_QCustomBrush.ui" line="215"/>
         <source>Brush type :</source>
         <translation>Type de brosse :</translation>
     </message>
     <message>
-        <location filename="../wgt_QCustomBrush.ui" line="446"/>
+        <location filename="../wgt_QCustomBrush.ui" line="279"/>
         <source>Pattern :</source>
         <translation>Motif :</translation>
     </message>
     <message>
-        <location filename="../wgt_QCustomBrush.ui" line="507"/>
+        <location filename="../wgt_QCustomBrush.ui" line="397"/>
         <source>Orientation :</source>
         <translation>Orientation :</translation>
     </message>
     <message>
-        <location filename="../wgt_QCustomBrush.ui" line="579"/>
+        <location filename="../wgt_QCustomBrush.ui" line="569"/>
         <source>Image :</source>
         <translation>Image :</translation>
     </message>
@@ -1908,36 +1992,33 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <source>Rotate to right</source>
         <translation>Tourner vers la droite</translation>
     </message>
-</context>
-<context>
-    <name>wgt_QImageFilterCorrect</name>
     <message>
-        <location filename="../wgt_QImageFilterCorrect.ui" line="286"/>
+        <location filename="../wgt_QCustomScene.ui" line="565"/>
         <source>Brightness :</source>
         <translation>Luminosité :</translation>
     </message>
     <message>
-        <location filename="../wgt_QImageFilterCorrect.ui" line="296"/>
+        <location filename="../wgt_QCustomScene.ui" line="575"/>
         <source>Contrast :</source>
         <translation>Contraste :</translation>
     </message>
     <message>
-        <location filename="../wgt_QImageFilterCorrect.ui" line="306"/>
+        <location filename="../wgt_QCustomScene.ui" line="585"/>
         <source>Gamma :</source>
         <translation>Gamma :</translation>
     </message>
     <message>
-        <location filename="../wgt_QImageFilterCorrect.ui" line="322"/>
+        <location filename="../wgt_QCustomScene.ui" line="601"/>
         <source>Red :</source>
         <translation>Rouge :</translation>
     </message>
     <message>
-        <location filename="../wgt_QImageFilterCorrect.ui" line="338"/>
+        <location filename="../wgt_QCustomScene.ui" line="617"/>
         <source>Green :</source>
         <translation>Vert :</translation>
     </message>
     <message>
-        <location filename="../wgt_QImageFilterCorrect.ui" line="354"/>
+        <location filename="../wgt_QCustomScene.ui" line="633"/>
         <source>Blue :</source>
         <translation>Bleu :</translation>
     </message>
@@ -1965,26 +2046,34 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>Filtre</translation>
     </message>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="393"/>
-        <location filename="../cCustomComboBox.cpp" line="436"/>
+        <location filename="../cCustomComboBox.cpp" line="435"/>
+        <location filename="../cCustomComboBox.cpp" line="479"/>
+        <location filename="../cCustomComboBox.cpp" line="496"/>
+        <location filename="../cCustomComboBox.cpp" line="513"/>
         <source>Gray</source>
         <translation>Niveaux de gris</translation>
     </message>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="394"/>
-        <location filename="../cCustomComboBox.cpp" line="437"/>
+        <location filename="../cCustomComboBox.cpp" line="436"/>
+        <location filename="../cCustomComboBox.cpp" line="480"/>
+        <location filename="../cCustomComboBox.cpp" line="497"/>
+        <location filename="../cCustomComboBox.cpp" line="514"/>
         <source>Equalize</source>
         <translation>Egaliser</translation>
     </message>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="395"/>
-        <location filename="../cCustomComboBox.cpp" line="438"/>
+        <location filename="../cCustomComboBox.cpp" line="437"/>
+        <location filename="../cCustomComboBox.cpp" line="481"/>
+        <location filename="../cCustomComboBox.cpp" line="498"/>
+        <location filename="../cCustomComboBox.cpp" line="515"/>
         <source>Despeckle</source>
         <translation>Dépoussierer</translation>
     </message>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="396"/>
-        <location filename="../cCustomComboBox.cpp" line="439"/>
+        <location filename="../cCustomComboBox.cpp" line="438"/>
+        <location filename="../cCustomComboBox.cpp" line="482"/>
+        <location filename="../cCustomComboBox.cpp" line="499"/>
+        <location filename="../cCustomComboBox.cpp" line="516"/>
         <source>No transformation</source>
         <translation>Aucune transformation</translation>
     </message>
@@ -1992,7 +2081,7 @@ Voulez-vous l&apos;enregistrer ?</translation>
 <context>
     <name>wgt_QVideoPlayer</name>
     <message>
-        <location filename="../wgt_QVideoPlayer.ui" line="136"/>
+        <location filename="../wgt_QVideoPlayer.ui" line="95"/>
         <source>Click to start play, click again to pause the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Cliquer pour commencer la lecteur, cliquer à nouveau pour passer la lecture en pause</translation>

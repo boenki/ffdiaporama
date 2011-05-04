@@ -23,7 +23,6 @@
 
 // Specific inclusions
 #include "_ImagesDefinitions.h"
-#include "wgt_QBackgroundWidget.h"
 
 // static global values
 cBackgroundList BackgroundList;
@@ -290,10 +289,8 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 
 cBackgroundObject::cBackgroundObject(QString FileName,int TheGeometry) {
     IsValide    = false;
-    FilePath    = QFileInfo(FileName).path()+QDir::separator()+QFileInfo(FileName).baseName()+".jpg";
-    Name        = "";
-    WebSite     = "";
-    Licence     = "";
+    FilePath    = FileName;
+    Name        = QFileInfo(FileName).baseName();
 
     // Make Icon
     QImage *BrushImage=new QImage();
@@ -322,24 +319,7 @@ cBackgroundObject::cBackgroundObject(QString FileName,int TheGeometry) {
         Icon=QPixmap(QPixmap::fromImage(BrushImage->scaledToHeight(64)));
         delete BrushImage;
     }
-    IsValide=!Icon.isNull() && LoadInfo(QFileInfo(FileName).path()+QDir::separator()+QFileInfo(FileName).baseName()+".txt");
-}
-
-//====================================================================================================================
-
-bool cBackgroundObject::LoadInfo(QString FileName) {
-    QFile   file(AdjustDirForOS(FileName));
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        while (!file.atEnd()) {
-            QString Line=file.readLine();
-            Line.replace("\n","");
-            if (Name=="")            Name=Line;
-            else if (WebSite=="")    WebSite=Line;
-            else if (Licence=="")    Licence=Line;
-        }
-        file.close();
-    }
-    return (Name!="")&&(WebSite!="")&&(Licence!="");
+    IsValide=!Icon.isNull();
 }
 
 //*********************************************************************************************************************************************
@@ -365,24 +345,13 @@ void cBackgroundList::ScanDisk(QString Path,int TheGeometry) {
     QFileInfoList       Files=Folder.entryInfoList();;
 
     List.clear();
-    for (int i=0;i<Files.count();i++) if (Files[i].isFile() && QString(Files[i].suffix()).toLower()=="txt") {
-        QString FileName=AdjustDirForOS(QFileInfo(Files[i]).path()+QDir::separator()+QFileInfo(Files[i]).baseName()+".jpg");
-        if (QFileInfo(QString(FileName)).isFile())
-            List.append(cBackgroundObject(Files[i].absoluteFilePath(),Geometry));
+    for (int i=0;i<Files.count();i++) if (Files[i].isFile() && ((QString(Files[i].suffix()).toLower()=="jpg")||(QString(Files[i].suffix()).toLower()=="png"))) {
+        QString FileName=AdjustDirForOS(QFileInfo(Files[i]).absoluteFilePath());
+        if (QFileInfo(QString(FileName)).isFile()) List.append(cBackgroundObject(Files[i].absoluteFilePath(),Geometry));
     }
 }
 
 //====================================================================================================================
-
-void cBackgroundList::PopulateTable(QTableWidget *Table) {
-    for (int i=0;i<List.count();i++) if (List[i].IsValide==true) {
-        wgt_QBackgroundWidget *Widget=new wgt_QBackgroundWidget();
-        Widget->SetupWidget(&List[i]);
-        Table->insertRow(Table->rowCount());
-        Table->setRowHeight(Table->rowCount()-1,64);
-        Table->setCellWidget(Table->rowCount()-1,0,Widget);
-    }
-}
 
 int cBackgroundList::SearchImage(QString NameToFind) {
     int Ret=-1;

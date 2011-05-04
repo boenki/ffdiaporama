@@ -115,10 +115,15 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
         Painter.save();
         int Col=0;
         while ((Col<Timeline->columnCount())&&(Timeline->cellWidget(TRACKBACKGROUND,Col)!=this)&&(Timeline->cellWidget(TRACKMONTAGE,Col)!=this)&&(Timeline->cellWidget(TRACKMUSIC,Col)!=this)) Col++;
-        cDiaporamaObject    *Object=(Col<Timeline->columnCount())?&Diaporama->List[Col]:NULL;
-        bool                IsTransition=(Object!=NULL)&&((Object->TransitionFamilly!=0)||(Object->TransitionSubType!=0));
-        double              Width =double(this->width());
-        double              Height=double(this->height());
+        cDiaporamaObject    *Object         = (Col<Timeline->columnCount())?&Diaporama->List[Col]:NULL;
+        bool                IsTransition    = (Object!=NULL)&&((Object->TransitionFamilly!=0)||(Object->TransitionSubType!=0));
+        double              Width           = double(this->width());
+        double              Height          = double(this->height());
+        int                 ThumbHeight     = Height-5;
+        int                 ThumbWidth      = Diaporama->GetWidthForHeight(ThumbHeight);
+        int                 NewThumbHeight  = ThumbHeight-TIMELINESOUNDHEIGHT-2;
+        int                 NewThumbWidth   = Diaporama->GetWidthForHeight(NewThumbHeight);
+        int                 BarWidth        = (ThumbWidth-NewThumbWidth)/2;
         QPointF             Table[10];
 
         // Draw background widget
@@ -148,17 +153,6 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                         (Type==THUMBNAILTYPE_OBJECTSEQUENCE)?IconList.GetIcon(Diaporama->List[Col].TransitionFamilly,Diaporama->List[Col].TransitionSubType):
                         IconList.GetIcon(0,1)
                         ):IconList.GetIcon(0,0));
-                // Draw transition duration
-                if (Type==THUMBNAILTYPE_OBJECTSEQUENCE) {
-                    QString sDuration=QString("%1").arg(double(Object->TransitionDuration)/double(1000),0,'f');
-                    while (sDuration.endsWith('0')) sDuration=sDuration.left(sDuration.length()-1);
-                    while (sDuration.endsWith('.')) sDuration=sDuration.left(sDuration.length()-1);
-                    Pen.setColor(Qt::black);
-                    Pen.setWidth(1);
-                    Pen.setStyle(Qt::SolidLine);
-                    Painter.setPen(Pen);
-                    Painter.drawText(QRectF(2,2-1+34,32,16),sDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-                }
             }
 
             if (Type==THUMBNAILTYPE_OBJECTSEQUENCE) {                       // Draw a decorated thumbnail object
@@ -188,9 +182,6 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Painter.drawPolygon(Table,3);
                 }
 
-                int ThumbHeight = Height-5;
-                int ThumbWidth  = Diaporama->GetWidthForHeight(ThumbHeight);
-
                 switch(Object->TypeObject) {
                     case DIAPORAMAOBJECTTYPE_EMPTY :
                     case DIAPORAMAOBJECTTYPE_IMAGE :
@@ -201,9 +192,6 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                         MediaObjectRect=QRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight);
                         break;
                     case DIAPORAMAOBJECTTYPE_VIDEO :
-                        int NewThumbHeight=ThumbHeight-TIMELINESOUNDHEIGHT-2;
-                        int NewThumbWidth =Diaporama->GetWidthForHeight(NewThumbHeight);
-                        int BarWidth      =(ThumbWidth-NewThumbWidth)/2;
                         int H3            =NewThumbHeight/5;
                         int HH3           =(NewThumbHeight-H3*3)/4;
                         int RHeight       =int(double(TIMELINESOUNDHEIGHT)*(Diaporama->List[Col].SoundVolume/1.5));
@@ -414,6 +402,46 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 Painter.setPen(Pen);
                 Painter.drawLine(QPointF(TransitionSize,2),QPointF(TransitionSize,Height));
                 Painter.drawLine(QPointF(this->width()-1,2),QPointF(this->width()-1,Height));
+            }
+
+            if (((Type==THUMBNAILTYPE_OBJECTSEQUENCE)||((Type==THUMBNAILTYPE_OBJECTBACKGROUND)&&((Object->BackgroundType))))&&(Type==THUMBNAILTYPE_OBJECTSEQUENCE)) {
+                QFont font= QApplication::font();
+                font.setPointSizeF(double(3500)/double(SCALINGTEXTFACTOR));                  // Scale font
+                Painter.setFont(font);
+                Pen.setWidth(1);
+                Pen.setStyle(Qt::SolidLine);
+
+                // Draw transition duration, slide duration and image name
+                QString SlideDuration=QTime(0,0,0,0).addMSecs(Object->GetDuration()).toString("hh:mm:ss.zzz");
+                QString FileName=Object->Image?QFileInfo(Object->Image->FileName).fileName():Object->Video?QFileInfo(Object->Video->FileName).fileName():"";
+                QString TransitionDuration=QTime(0,0,0,0).addMSecs(Object->TransitionDuration).toString("ss.zzz");
+                TransitionDuration=TransitionDuration.right(TransitionDuration.length()-1);   // Cut first 0
+
+                if (Object->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO) {
+                    Pen.setColor(Qt::black);
+                    Painter.setPen(Pen);
+                    Painter.drawText(QRectF(TransitionSize+3+BarWidth+1,2-1+1,NewThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(TransitionSize+3+BarWidth+1,2-1+1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(2+1,2-1+34+1,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+
+                    Pen.setColor(Qt::white);
+                    Painter.setPen(Pen);
+                    Painter.drawText(QRectF(TransitionSize+3+BarWidth,2-1,NewThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(TransitionSize+3+BarWidth,2-1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(2,2-1+34,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                } else {
+                    Pen.setColor(Qt::black);
+                    Painter.setPen(Pen);
+                    Painter.drawText(QRectF(TransitionSize+3+1,2-1+1,ThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                    if (Object->Image) Painter.drawText(QRectF(TransitionSize+3+1,2-1+1+ThumbHeight-16,ThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(2+1,2-1+34+1,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+
+                    Pen.setColor(Qt::white);
+                    Painter.setPen(Pen);
+                    Painter.drawText(QRectF(TransitionSize+3,2-1,ThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                    if (Object->Image) Painter.drawText(QRectF(TransitionSize+3,2-1+ThumbHeight-16,ThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(2,2-1+34,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                }
             }
         }
         // --------------------------
