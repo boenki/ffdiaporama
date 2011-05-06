@@ -34,7 +34,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-58</y>
+        <y>0</y>
         <width>252</width>
         <height>272</height>
        </rect>
@@ -99,17 +99,6 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="FirstColorCustomBt">
-           <property name="text">
-            <string notr="true">...</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>icons/colorize.png</normaloff>icons/colorize.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QLabel" name="FirstColorSpacer">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -167,17 +156,6 @@
              <width>64</width>
              <height>16</height>
             </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="IntermColorCustomBt">
-           <property name="text">
-            <string notr="true">...</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>icons/colorize.png</normaloff>icons/colorize.png</iconset>
            </property>
           </widget>
          </item>
@@ -495,17 +473,6 @@
              <width>64</width>
              <height>16</height>
             </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="FinalColorCustomBt">
-           <property name="text">
-            <string notr="true">...</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>icons/colorize.png</normaloff>icons/colorize.png</iconset>
            </property>
           </widget>
          </item>

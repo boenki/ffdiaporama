@@ -72,7 +72,8 @@ protected:
 signals:
 
 public slots:
-    void s_ItemSelectionChanged();
+    void        s_ItemSelectionChanged();
+    void        s_ItemPressed(int Row,int Col);
 };
 
 //******************************************************************************************************************

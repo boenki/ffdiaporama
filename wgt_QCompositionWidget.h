@@ -83,15 +83,15 @@ private slots:
     void                    s_ChgHeightValue(double);
     void                    s_ChangeBackgroundForm(int);
     void                    s_ChangeBackgroundTransparent(int);
-    void                    s_ChgPenSize(int);
     void                    s_plainTextEditChange();
-
-    void                    s_CustomFontColorBt();
-    void                    s_CustomShadowColorBt();
-    void                    s_CustomPenColorBt();
     void                    s_ChIndexFontColorCombo(int);
     void                    s_ChIndexFontShadowColorCombo(int);
-    void                    s_ChIndexPenColorCombo(int);
+
+    void                    s_ChgPenSize(int);
+    void                    s_ChPenColorCB(int);
+    void                    s_ChgInternalPenSize(int);
+    void                    s_ChInternalColor1CB(int);
+    void                    s_ChInternalColor2CB(int);
 
 signals:
     void                    NeedRefreshBackgroundImage();

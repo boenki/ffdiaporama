@@ -203,6 +203,17 @@ extern "C" {
 #define BRUSHTYPE_IMAGELIBRARY              5
 #define BRUSHTYPE_IMAGEDISK                 6
 
+// Brush Gradient orientation
+#define GRADIENTORIENTATION_UPLEFT          0
+#define GRADIENTORIENTATION_UP              1
+#define GRADIENTORIENTATION_UPRIGHT         2
+#define GRADIENTORIENTATION_LEFT            3
+#define GRADIENTORIENTATION_RADIAL          4
+#define GRADIENTORIENTATION_RIGHT           5
+#define GRADIENTORIENTATION_BOTTOMLEFT      6
+#define GRADIENTORIENTATION_BOTTOM          7
+#define GRADIENTORIENTATION_BOTTOMRIGHT     8
+
 // OnOffFilter mask definition
 #define FilterEqualize                      0x01
 #define FilterDespeckle                     0x02
@@ -225,6 +236,28 @@ extern "C" {
 #define TRANSITIONMAXSUBTYPE_ZOOMINOUT      18
 #define TRANSITIONMAXSUBTYPE_SLIDE          16
 #define TRANSITIONMAXSUBTYPE_PUSH           8
+
+//============================================
+// Default values
+//============================================
+#define DEFAULT_FONT_FAMILLY                "Arial"
+#define DEFAULT_FONT_SIZE                   12
+#define DEFAULT_FONT_COLOR                  "#ffffaa"
+#define DEFAULT_FONT_SHADOWCOLOR            "#333333"
+#define DEFAULT_FONT_ISBOLD                 false
+#define DEFAULT_FONT_ISITALIC               false
+#define DEFAULT_FONT_ISUNDERLINE            false
+#define DEFAULT_FONT_HALIGN                 1
+#define DEFAULT_FONT_VALIGN                 1
+#define DEFAULT_FONT_TEXTEFFECT             5
+
+#define DEFAULT_SHAPE_OPACITY               0
+#define DEFAULT_SHAPE_BORDERSIZE            1
+#define DEFAULT_SHAPE_BORDERCOLOR           "#333333"
+#define DEFAULT_SHAPE_INTERNALBORDERSIZE    6
+#define DEFAULT_SHAPE_INTERNALBORDERCOLOR1  "#808080"
+#define DEFAULT_SHAPE_INTERNALBORDERCOLOR2  "#c0c0c0"
+#define DEFAULT_SHAPE_BRUSHCOLORD           "#808080"
 
 //============================================
 // String to include in the system properties

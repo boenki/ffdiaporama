@@ -28,6 +28,9 @@
 // Specific inclusions
 #include "_ApplicationDefinitions.h"
 
+// Utility function to create a gradient brush
+QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QString ColorD,QString ColorF,QString ColorIntermed,double Intermediate);
+
 //*********************************************************************************************************************************************
 // Base object for filters image = transform filters
 //*********************************************************************************************************************************************
@@ -73,12 +76,11 @@ class cBrushDefinition {
 public:
     int         BrushType;              // 0=no brush, 1=Solid, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
     int         PatternType;            // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    int         GradientColors;         // Number of colors in gradient mode (2 or 3)
     int         GradientOrientation;    // 0=Radial, 1->4=Linear from a corner, 5->9=Linear from a border
     QString     ColorD;                 // First Color
     QString     ColorF;                 // Last Color
     QString     ColorIntermed;          // Intermediate Color
-    double       Intermediate;          // Intermediate position of 2nd color (in %) for gradient 3 colors
+    double      Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
     QString     BrushImage;             // Image name if brush library or brush disk
 
     cBrushDefinition();
@@ -87,7 +89,6 @@ public:
     QBrush      *GetBrush(QRectF Rect);
 
 private:
-    QBrush      *GetGradientBrush(QRectF Rect);
     QBrush      *GetLibraryBrush(QRectF Rect);
     QBrush      *GetImageDiskBrush(QRectF Rect);
     int         GetHeightForWidth(int WantedWith,QRectF Rect);
