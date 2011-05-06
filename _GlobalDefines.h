@@ -32,6 +32,18 @@
 #ifndef GLOBALDEFINES_H
 #define GLOBALDEFINES_H
 
+//============================================
+// Basic inclusions (common to all files)
+//============================================
+
+#ifdef _STDINT_H
+    #undef _STDINT_H            // Remove previous inclusion (if exist)
+#endif
+
+#define __STDC_CONSTANT_MACROS  // Activate macro for stdint
+#include <stdint.h>             // Include stdint with macro activated
+#include <math.h>
+
 // SDL Library must be include before any other
 extern "C" {
     #include <SDL/SDL.h>
@@ -41,17 +53,6 @@ extern "C" {
     #undef main // We don't want SDL to override our main()
 #endif
 
-//============================================
-// Basic inclusions (common to all files)
-//============================================
-#ifdef __cplusplus
-#define __STDC_CONSTANT_MACROS
-#ifdef _STDINT_H
-#undef _STDINT_H
-#endif
-# include <stdint.h>
-#endif
-#include <math.h>
 //============================================
 // Standard QT inclusions needed by all files
 //============================================
