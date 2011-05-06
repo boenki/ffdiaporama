@@ -38,23 +38,27 @@ cCompositionObject::cCompositionObject() {
     y               = 0.25;
     w               = 0.5;
     h               = 0.5;
-    FontName        = "";           // font name
-    FontSize        = 9;            // font size
-    FontColor       = "#ffffff";    // font color
-    FontShadowColor = "#000000";    // font shadow color
-    IsBold          = false;        // true if bold mode
-    IsItalic        = false;        // true if Italic mode
-    IsUnderline     = false;        // true if Underline mode
-    HAlign          = 0;            // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-    VAlign          = 0;            // Vertical alignement : 0=up, 1=center, 2=bottom
-    StyleText       = 0;            // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+    FontName        = DEFAULT_FONT_FAMILLY;                             // font name
+    FontSize        = DEFAULT_FONT_SIZE;                                // font size
+    FontColor       = DEFAULT_FONT_COLOR;                               // font color
+    FontShadowColor = DEFAULT_FONT_SHADOWCOLOR;                         // font shadow color
+    IsBold          = DEFAULT_FONT_ISBOLD;                              // true if bold mode
+    IsItalic        = DEFAULT_FONT_ISITALIC;                            // true if Italic mode
+    IsUnderline     = DEFAULT_FONT_ISUNDERLINE;                         // true if Underline mode
+    HAlign          = DEFAULT_FONT_HALIGN;                              // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+    VAlign          = DEFAULT_FONT_VALIGN;                              // Vertical alignement : 0=up, 1=center, 2=bottom
+    StyleText       = DEFAULT_FONT_TEXTEFFECT;                          // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
 
     // Attribut of the form object
     BackgroundForm          = 0;            // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-    BackgroundTransparent   = 0;            // Style of the background of the form
-    PenSize                 = 0;            // Width of the pen of the form
-    PenColor                = "#ffffff";    // Color of the pen of the form
-    // BackgroundBrush is initilise par object constructor
+    BackgroundTransparent   = DEFAULT_SHAPE_OPACITY;                     // Style of the background of the form
+    PenSize                 = DEFAULT_SHAPE_BORDERSIZE;                  // Width of the border of the form
+    PenStyle                = Qt::SolidLine;                             // Style of the pen border of the form
+    PenColor                = DEFAULT_SHAPE_BORDERCOLOR;                 // Color of the border of the form
+    InternalPenSize         = DEFAULT_SHAPE_INTERNALBORDERSIZE;          // Width of the internal border of the form
+    InternalColor1          = DEFAULT_SHAPE_INTERNALBORDERCOLOR1;        // Color 1 of the internal border of the form
+    InternalColor2          = DEFAULT_SHAPE_INTERNALBORDERCOLOR2;        // Color 2 of the internal border of the form
+    // BackgroundBrush is initilise by object constructor
 }
 
 //====================================================================================================================
@@ -82,8 +86,12 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("StyleText",StyleText);                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
     Element.setAttribute("BackgroundForm",BackgroundForm);      // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
     Element.setAttribute("BackgroundTransparent",BackgroundTransparent);    // Style of the background of the form
-    Element.setAttribute("PenSize",PenSize);                    // Width of the pen of the form
-    Element.setAttribute("PenColor",PenColor);                  // Color of the pen of the form
+    Element.setAttribute("PenSize",PenSize);                    // Width of the border of the form
+    Element.setAttribute("PenStyle",PenStyle);                  // Style of the pen border of the form
+    Element.setAttribute("PenColor",PenColor);                  // Color of the border of the form
+    Element.setAttribute("InternalPenSize",InternalPenSize);    // Width of the internal border of the form
+    Element.setAttribute("InternalColor1",InternalColor1);      // Color 1 of the internal border of the form
+    Element.setAttribute("InternalColor2",InternalColor2);      // Color 2 of the internal border of the form
     BackgroundBrush.SaveToXML(Element,"BackgroundBrush",PathForRelativPath);        // Brush of the background of the form
 
     domDocument.appendChild(Element);
@@ -114,8 +122,12 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         StyleText       =Element.attribute("StyleText").toInt();        // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
         BackgroundForm  =Element.attribute("BackgroundForm").toInt();   // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
         BackgroundTransparent =Element.attribute("BackgroundTransparent").toInt();  // Style of the background of the form
-        PenSize         =Element.attribute("PenSize").toInt();          // Width of the pen of the form
-        PenColor        =Element.attribute("PenColor");                 // Color of the pen of the form
+        PenSize         =Element.attribute("PenSize").toInt();          // Width of the border of the form
+        PenStyle        =Element.attribute("PenStyle").toInt();         // Style of the pen border of the form
+        PenColor        =Element.attribute("PenColor");                 // Color of the border of the form
+        InternalPenSize =Element.attribute("InternalPenSize").toInt();  // Width of the internal border of the form
+        InternalColor1  =Element.attribute("InternalColor1");           // Color 1 of the internal border of the form
+        InternalColor2  =Element.attribute("InternalColor2");           // Color 2 of the internal border of the form
         BackgroundBrush.LoadFromXML(Element,"BackgroundBrush",PathForRelativPath);        // Brush of the background of the form
         return true;
     }
@@ -124,16 +136,22 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 
 //====================================================================================================================
 
-void cCompositionObject::DrawCompositionObject(QPainter &Painter,int AddX,int AddY,int width,int height) {
+void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,int AddY,int width,int height) {
+    QBrush  *InternalBorderBrush=NULL;
+    QPen    Pen;
+
     width--;
     height--;
-    Painter.save();
-    Painter.translate(AddX+x*double(width),AddY+y*double(height));
+    QImage   Img(width,height,QImage::Format_ARGB32_Premultiplied);
+    QPainter Painter;
+    Painter.begin(&Img);
+    Painter.setCompositionMode(QPainter::CompositionMode_Source);
+    Painter.fillRect(QRect(0,0,width,height),Qt::transparent);
+    Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
     // Create font and TextOption
     QTextOption OptionText;
     QFont       font=QFont(FontName,10/*int(FontSize)*/,IsBold?QFont::Bold:QFont::Normal,IsItalic?QFont::StyleItalic:QFont::StyleNormal);
-    QPen        Pen;
     font.setUnderline(IsUnderline);                                                                                             // Set underline
     font.setPointSizeF((double(width)/double(SCALINGTEXTFACTOR))*double(FontSize));                  // Scale font
     //font.setPixelSize(int((double(width)/double(SCALINGTEXTFACTOR))*double(FontSize)));                  // Scale font
@@ -157,126 +175,114 @@ void cCompositionObject::DrawCompositionObject(QPainter &Painter,int AddX,int Ad
           MarginY=MarginY+(sin45*RY);
     }
 
-    double   CenterX=w*double(width)/2;
-    double   CenterY=h*double(height)/2;
-
     // Paint background if needed
     if (BackgroundForm!=0) {                        // other than 0=None
-        // Prepare Pen & Brush
-        if (PenSize==0) Pen=Qt::NoPen; else {
-            Pen=QPen(QColor(PenColor));
-            Pen.setWidth(PenSize);
-            Pen.setJoinStyle(Qt::RoundJoin);
-        }
-        Painter.setPen(Pen);
 
+        if (PenSize==0) Painter.setPen(Qt::NoPen); else {
+            Pen.setCapStyle(Qt::RoundCap);
+            Pen.setJoinStyle(Qt::RoundJoin);
+            Pen.setColor(PenColor);
+            Pen.setWidth(PenSize);
+            Pen.setStyle((Qt::PenStyle)PenStyle);
+            Painter.setPen(Pen);
+        }
         // Draw the form
         double   RayX,RayY;
-        QPointF Table[10];
-        double   vcos,vsin,Angle;
-        int     i;
 
         // Set brush
-        if (BackgroundTransparent<4) {
+        if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
             QBrush *BR=BackgroundBrush.GetBrush(QRectF(0,0,w*width,h*height));
             Painter.setBrush(*BR);
             delete BR;
-            Painter.setOpacity(BackgroundTransparent==0?1:BackgroundTransparent==1?0.75:BackgroundTransparent==2?0.50:0.25);
-        } else Painter.setBrush(Qt::NoBrush);
+        }
+        int CenterX=(w/2)*width;
+        int CenterY=(h/2)*height;
+        double dPointSize=InternalPenSize;
+
+        if (dPointSize>0) {
+            dPointSize=dPointSize*double(height)/double(1080);
+            if (dPointSize<1) dPointSize=1;
+            InternalBorderBrush=GetGradientBrush(QRectF(0,0,w*width,h*height),BRUSHTYPE_GRADIENT2,GRADIENTORIENTATION_BOTTOMRIGHT,InternalColor1,InternalColor2,InternalColor1,0.1);
+        }
 
         switch (BackgroundForm) {
             //0 = no shape
             case 1:
-                Painter.drawRect(QRectF(0,0,w*width,h*height));
+                if (dPointSize>0) {
+                    Painter.save();
+                    Painter.setBrush(*InternalBorderBrush);
+                    Painter.drawRect(QRectF(0,0,w*width,h*height));
+                    Painter.restore();
+                    Painter.setPen(Qt::NoPen);
+                }
+                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
+                Painter.drawRect(QRectF(dPointSize,dPointSize,w*width-dPointSize*2,h*height-dPointSize*2));
+                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
                 break;
             case 2:
                 RayX=double(width)/10;    if (RayX>16) RayX=16; else if (RayX<8)  RayX=8;
                 RayY=double(height)/10;   if (RayY>16) RayY=16; else if (RayY<8)  RayY=8;
-                Painter.drawRoundedRect(QRectF(0,0,w*width,h*height),RayX,RayY,Qt::AbsoluteSize);
+                if (dPointSize>0) {
+                    Painter.save();
+                    Painter.setBrush(*InternalBorderBrush);
+                    Painter.drawRoundedRect(QRectF(0,0,w*width,h*height),RayX,RayY,Qt::AbsoluteSize);
+                    Painter.restore();
+                    Painter.setPen(Qt::NoPen);
+                }
+                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
+                Painter.drawRoundedRect(QRectF(dPointSize,dPointSize,w*width-dPointSize*2,h*height-dPointSize*2),RayX,RayY,Qt::AbsoluteSize);
+                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
                 break;
             case 3:
-                RayX=2*double(width)/10;    //if (RayX>50) RayX=16; else if (RayX<8)  RayX=8;
-                RayY=2*double(height)/10;   //if (RayY>16) RayY=16; else if (RayY<8)  RayY=8;
-                Painter.drawRoundedRect(QRectF(0,0,w*width,h*height),RayX,RayY,Qt::AbsoluteSize);
+                RayX=2*double(width)/10;
+                RayY=2*double(height)/10;
+                if (dPointSize>0) {
+                    Painter.save();
+                    Painter.setBrush(*InternalBorderBrush);
+                    Painter.drawRoundedRect(QRectF(0,0,w*width,h*height),RayX,RayY,Qt::AbsoluteSize);
+                    Painter.restore();
+                    Painter.setPen(Qt::NoPen);
+                }
+                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
+                Painter.drawRoundedRect(QRectF(dPointSize,dPointSize,w*width-dPointSize*2,h*height-dPointSize*2),RayX,RayY,Qt::AbsoluteSize);
+                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
                 break;
             case 4:
-                Painter.drawEllipse(QRectF(0,0,w*width,h*height));
-                break;
-            case 5:     // Triangle UP
-                Table[0]=QPointF((w/2)*width,0);
-                Table[1]=QPointF(0,h*height);
-                Table[2]=QPointF(w*width,h*height);
-                Painter.drawPolygon(Table,3);
-                break;
-            case 6:     // Triangle Right
-                Table[0]=QPointF(0,0);
-                Table[1]=QPointF(0,h*height);
-                Table[2]=QPointF(w*width,(h/2)*height);
-                Painter.drawPolygon(Table,3);
-                break;
-            case 7:     // Triangle Down
-                Table[0]=QPointF(0,0);
-                Table[1]=QPointF(w*width,0);
-                Table[2]=QPointF((w/2)*width,h*height);
-                Painter.drawPolygon(Table,3);
-                break;
-            case 8:     // Triangle left
-                Table[0]=QPointF(w*width,0);
-                Table[1]=QPointF(w*width,h*height);
-                Table[2]=QPointF(0,(h/2)*height);
-                Painter.drawPolygon(Table,3);
-                break;
-            case 9:     // Losange
-                Table[0]=QPointF(w*width/2,0);
-                Table[1]=QPointF(w*width,h*height/2);
-                Table[2]=QPointF(w*width/2,h*height);
-                Table[3]=QPointF(0,h*height/2);
-                Painter.drawPolygon(Table,4);
-                break;
-            case 10:     // Pentagone
-                Angle=90-(double(360)/5);
-                for (i=0;i<5;i++) {
-                    vcos=cos(Angle*3.14159265/180)*(w*width/2);
-                    vsin=sin(Angle*3.14159265/180)*(h*height/2);
-                    Table[i]=QPointF(CenterX+vcos,CenterY-vsin);
-                    Angle=Angle+(double(360)/5);
-                    if (Angle>360) Angle=-Angle+360;
+                if (dPointSize>0) {
+                    Painter.save();
+                    Painter.setBrush(*InternalBorderBrush);
+                    Painter.drawEllipse(QRectF(0,0,w*width,h*height));
+                    Painter.restore();
+                    Painter.setPen(Qt::NoPen);
                 }
-                Painter.drawPolygon(Table,5);
+                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
+                Painter.drawEllipse(QRectF(dPointSize,dPointSize,w*width-dPointSize*2,h*height-dPointSize*2));
+                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
                 break;
-            case 11:    // Hexagone
-                Angle=-(double(360)/6);
-                for (i=0;i<6;i++) {
-                    vcos=cos(Angle*3.14159265/180)*(w*width/2);
-                    vsin=sin(Angle*3.14159265/180)*(h*height/2);
-                    Table[i]=QPointF(CenterX+vcos,CenterY-vsin);
-                    Angle=Angle+(double(360)/6);
-                    if (Angle>360) Angle=-Angle+360;
-                }
-                Painter.drawPolygon(Table,6);
-                break;
-            case 12:    // Octogone
-                Angle=-(double(360)/8);
-                for (i=0;i<8;i++) {
-                    vcos=cos(Angle*3.14159265/180)*(w*width/2);
-                    vsin=sin(Angle*3.14159265/180)*(h*height/2);
-                    Table[i]=QPointF(CenterX+vcos,CenterY-vsin);
-                    Angle=Angle+(double(360)/8);
-                    if (Angle>360) Angle=-Angle+360;
-                }
-                Painter.drawPolygon(Table,8);
-                break;
+            case 5: DrawPolygon(Painter,width,height,CenterX,CenterY,3,90,dPointSize,InternalBorderBrush);                     break;      // Triangle UP
+            case 6: DrawPolygon(Painter,width,height,CenterX,CenterY,3,0,dPointSize,InternalBorderBrush);                      break;      // Triangle Right
+            case 7: DrawPolygon(Painter,width,height,CenterX,CenterY,3,-90,dPointSize,InternalBorderBrush);                    break;      // Triangle Down
+            case 8: DrawPolygon(Painter,width,height,CenterX,CenterY,3,-180,dPointSize,InternalBorderBrush);                   break;      // Triangle left
+            case 9: DrawPolygon(Painter,width,height,CenterX,CenterY,4,0,dPointSize,InternalBorderBrush);                      break;      // Losange
+            case 10: DrawPolygon(Painter,width,height,CenterX,CenterY,5,90-(double(360)/5),dPointSize,InternalBorderBrush);    break;      // pentagone
+            case 11: DrawPolygon(Painter,width,height,CenterX,CenterY,6,-(double(360)/6),dPointSize,InternalBorderBrush);      break;      // hexagone
+            case 12: DrawPolygon(Painter,width,height,CenterX,CenterY,8,-(double(360)/8),dPointSize,InternalBorderBrush);      break;      // Octogone
         }
 
-        Painter.setOpacity(1);
         Painter.setBrush(Qt::NoBrush);
+        if (InternalBorderBrush) {
+            delete InternalBorderBrush;
+            InternalBorderBrush=NULL;
+        }
     }
 
     // Paint Shadow of the text
     Painter.setFont(font);
-    Pen=QPen(QColor(FontShadowColor));
+    Pen.setColor(FontShadowColor);
     Pen.setCapStyle(Qt::RoundCap);
     Pen.setJoinStyle(Qt::RoundJoin);
+    Pen.setWidth(1);
+    Pen.setStyle(Qt::SolidLine);
     Painter.setPen(Pen);
 
     switch (StyleText) {
@@ -309,7 +315,47 @@ void cCompositionObject::DrawCompositionObject(QPainter &Painter,int AddX,int Ad
     // Paint text
     Painter.setPen(QColor(FontColor));
     Painter.drawText(QRectF(MarginX,MarginY,w*double(width)-2*MarginX,h*double(height)-2*MarginY),Text,OptionText);
-    Painter.restore();
+
+
+    Painter.end();
+    DestPainter.save();
+    //DestPainter.translate(AddX+x*double(width),AddY+y*double(height));
+    if ((BackgroundTransparent>0)&&(BackgroundTransparent<4)) DestPainter.setOpacity(BackgroundTransparent==1?0.75:BackgroundTransparent==2?0.50:0.25);
+    DestPainter.drawImage(AddX+x*double(width),AddY+y*double(height),Img);
+    DestPainter.restore();
+}
+
+void cCompositionObject::DrawPolygon(QPainter &Painter,int width,int height,int CenterX,int CenterY,int MaxPoint,double StartAngle,double dPointSize,QBrush *InternalBorderBrush) {
+    QPointF Table[10];
+    double  vcos,vsin,Angle;
+    int     i;
+
+    if (dPointSize>0) {
+        Painter.save();
+        Painter.setBrush(*InternalBorderBrush);
+        Angle=StartAngle;
+        for (i=0;i<MaxPoint;i++) {
+            vcos=cos(Angle*3.14159265/180)*(w*width/2);
+            vsin=sin(Angle*3.14159265/180)*(h*height/2);
+            Table[i]=QPointF(CenterX+vcos,CenterY-vsin);
+            Angle=Angle+(double(360)/MaxPoint);
+            if (Angle>=360) Angle=-Angle+360;
+        }
+        Painter.drawPolygon(Table,MaxPoint);
+        Painter.restore();
+        Painter.setPen(Qt::NoPen);
+    }
+    if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
+    Angle=StartAngle;
+    for (i=0;i<MaxPoint;i++) {
+        vcos=cos(Angle*3.14159265/180)*((w*width-dPointSize*2)/2);
+        vsin=sin(Angle*3.14159265/180)*((h*height-dPointSize*2)/2);
+        Table[i]=QPointF(CenterX+vcos,CenterY-vsin);
+        Angle=Angle+(double(360)/MaxPoint);
+        if (Angle>=360) Angle=-Angle+360;
+    }
+    Painter.drawPolygon(Table,MaxPoint);
+    if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 }
 
 //*********************************************************************************************************************************************

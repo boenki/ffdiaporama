@@ -66,7 +66,7 @@ void cCustomColorComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
         if (ColorNum==MAXCOLORREF) {
             painter->fillRect(option.rect,QColor(ComboBox->SavedCustomColor));
             QImage  Img("icons/colorize.png");
-            painter->drawImage(QRectF(option.rect.x()+option.rect.width()-16,option.rect.y()+option.rect.height()-16,16,16),Img);
+            painter->drawImage(QRectF(option.rect.x()+(option.rect.width()-16)/2,option.rect.y()+(option.rect.height()-16)/2,16,16),Img);
         } else {
             painter->fillRect(option.rect,Qt::white);
         }
@@ -115,6 +115,7 @@ cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
     setItemDelegate(&ItemDelegate);
     MakeIcons();
     connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
+    connect(Table,SIGNAL(cellPressed(int,int)),this,SLOT(s_ItemPressed(int,int)));
 }
 
 //========================================================================================================================
@@ -148,13 +149,13 @@ void cCustomColorComboBox::MakeIcons() {
     int CurrentRow=((QTableWidget *)view())->currentRow();      if (CurrentRow<0) CurrentRow=0;
     int CurrentCol=((QTableWidget *)view())->currentColumn();   if (CurrentCol<0) CurrentCol=0;
     int ColorNum=CurrentRow*4+CurrentCol;
-    QPixmap  Image(64,16);
+    QPixmap  Image(iconSize());
     QPainter Painter;
     Painter.begin(&Image);
-    if (ColorNum<MAXCOLORREF) Painter.fillRect(QRectF(0,0,64,16),QColor(ColorRef[ColorNum])); else {
-        Painter.fillRect(QRectF(0,0,64,16),QColor(SavedCustomColor));
+    if (ColorNum<MAXCOLORREF) Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),QColor(ColorRef[ColorNum])); else {
+        Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),QColor(SavedCustomColor));
         QImage  Img("icons/colorize.png");
-        Painter.drawImage(QRectF(64-16,0,16,16),Img,QRectF(0,0,Img.width(),Img.height()));
+        Painter.drawImage(QRectF((iconSize().width()-16)/2,(iconSize().height()-16)/2,16,16),Img,QRectF(0,0,Img.width(),Img.height()));
     }
     Painter.end();
     setItemIcon(currentIndex(),QIcon(Image));
@@ -168,6 +169,25 @@ void cCustomColorComboBox::s_ItemSelectionChanged() {
     MakeIcons();
     emit currentIndexChanged(((QTableWidget *)view())->currentRow()*4+((QTableWidget *)view())->currentColumn());
     STOPMAJ=false;
+}
+
+//========================================================================================================================
+
+void cCustomColorComboBox::s_ItemPressed(int,int) {
+    int CurrentRow=((QTableWidget *)view())->currentRow();      if (CurrentRow<0) CurrentRow=0;
+    int CurrentCol=((QTableWidget *)view())->currentColumn();   if (CurrentCol<0) CurrentCol=0;
+    int ColorNum=CurrentRow*4+CurrentCol;
+    if (ColorNum>=MAXCOLORREF) {
+        // Open box to select custom color
+        QColor color=QColorDialog::getColor(SavedCustomColor);
+        if (color.isValid()) {
+            STOPMAJ=true;
+            SavedCustomColor=color.name();
+            MakeIcons();
+            emit currentIndexChanged(((QTableWidget *)view())->currentRow()*4+((QTableWidget *)view())->currentColumn());
+            STOPMAJ=false;
+        }
+    }
 }
 
 //******************************************************************************************************************

@@ -50,11 +50,6 @@ private slots:
     void        s_IntermPosSliderMoved(int);
     void        s_IntermPosED(int);
 
-    // Handler for custom buttons of each custom color combo box
-    void        s_CustomFirstColorBt();
-    void        s_CustomFinalColorBt();
-    void        s_CustomIntermColorBt();
-
     // Handler for custom color/brush/pattern/gradient combo box index change
     void        s_ChIndexPatternBrushCombo(int);
     void        s_ChIndexGradientOrientationCombo(int);

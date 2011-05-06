@@ -66,11 +66,6 @@ void wgt_QCustomBrush::InitWidget(bool AllowBrushTypeNoBrush,bool AllowBrushType
     connect(ui->IntermColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientIntermColorCombo(int)));
     connect(ui->BackgroundCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexBackgroundCombo(int)));
 
-    // Handler for custom buttons of each custom color combo box
-    connect(ui->FirstColorCustomBt,SIGNAL(pressed()),this,SLOT(s_CustomFirstColorBt()));
-    connect(ui->FinalColorCustomBt,SIGNAL(pressed()),this,SLOT(s_CustomFinalColorBt()));
-    connect(ui->IntermColorCustomBt,SIGNAL(pressed()),this,SLOT(s_CustomIntermColorBt()));
-
     // Intermediate position for gradient 3 colors
     connect(ui->IntermPosSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_IntermPosSliderMoved(int)));
     connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
@@ -108,8 +103,6 @@ void wgt_QCustomBrush::RefreshControls(cBrushDefinition *TheCurrentBrush,bool Al
         ui->FirstColorSpacer->setVisible((Allowed)&&(FirstColorAllowed));
         ui->FirstColorCombo->setVisible((Allowed)&&(FirstColorAllowed));
         ui->FirstColorCombo->setEnabled((Allowed)&&(FirstColorAllowed));
-        ui->FirstColorCustomBt->setVisible((Allowed)&&(FirstColorAllowed)&&(!ui->FirstColorCombo->StandardColor));
-        ui->FirstColorCustomBt->setEnabled((Allowed)&&(FirstColorAllowed)&&(!ui->FirstColorCombo->StandardColor));
 
         ui->PatternSpacer->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_PATTERN));
         ui->PatternLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_PATTERN));
@@ -120,15 +113,11 @@ void wgt_QCustomBrush::RefreshControls(cBrushDefinition *TheCurrentBrush,bool Al
         ui->FinalColorSpacer->setVisible((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)));
         ui->FinalColorCombo->setVisible((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)));
         ui->FinalColorCombo->setEnabled((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)));
-        ui->FinalColorCustomBt->setVisible((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3))&&(!ui->FinalColorCombo->StandardColor));
-        ui->FinalColorCustomBt->setEnabled((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3))&&(!ui->FinalColorCombo->StandardColor));
 
         ui->IntermColorLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
         ui->IntermColorSpacer->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
         ui->IntermColorCombo->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
         ui->IntermColorCombo->setEnabled((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermColorCustomBt->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)&&(!ui->IntermColorCombo->StandardColor));
-        ui->IntermColorCustomBt->setEnabled((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)&&(!ui->IntermColorCombo->StandardColor));
 
         ui->IntermPosLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
         ui->IntermPosSpacer->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
@@ -150,15 +139,12 @@ void wgt_QCustomBrush::RefreshControls(cBrushDefinition *TheCurrentBrush,bool Al
         ui->BrushTypeCombo->setDisabled(true);      ui->BrushTypeCombo->setVisible(false);
         ui->FirstColorLabel->setVisible(false);     ui->FirstColorSpacer->setVisible(false);
         ui->FirstColorCombo->setEnabled(false);     ui->FirstColorCombo->setVisible(false);
-        ui->FirstColorCustomBt->setVisible(false);  ui->FirstColorCustomBt->setEnabled(false);
         ui->PatternLabel->setVisible(false);        ui->PatternSpacer->setVisible(false);
         ui->PatternBrushCombo->setEnabled(false);   ui->PatternBrushCombo->setVisible(false);
         ui->FinalColorLabel->setVisible(false);     ui->FinalColorSpacer->setVisible(false);
         ui->FinalColorCombo->setVisible(false);     ui->FinalColorCombo->setEnabled(false);
-        ui->FinalColorCustomBt->setVisible(false);  ui->FinalColorCustomBt->setEnabled(false);
         ui->IntermColorLabel->setVisible(false);    ui->IntermColorSpacer->setVisible(false);
         ui->IntermColorCombo->setVisible(false);    ui->IntermColorCombo->setEnabled(false);
-        ui->IntermColorCustomBt->setVisible(false); ui->IntermColorCustomBt->setEnabled(false);
         ui->IntermPosLabel->setVisible(false);      ui->IntermPosSpacer->setVisible(false);
         ui->IntermPosSlider->setVisible(false);     ui->IntermPosSlider->setEnabled(false);
         ui->IntermPosED->setVisible(false);         ui->IntermPosED->setEnabled(false);
@@ -193,46 +179,6 @@ void wgt_QCustomBrush::s_IntermPosED(int Value) {
     if (CurrentBrush==NULL) return;
     CurrentBrush->Intermediate=double(Value)/100;
     emit NeedRefreshControls();
-}
-
-//====================================================================================================================
-// Functions call by custom button of each custom color combo box
-//====================================================================================================================
-
-//========= Shape/Gradient shape first color
-void wgt_QCustomBrush::s_CustomFirstColorBt() {
-    if (StopMAJSpinbox) return;
-    if (CurrentBrush==NULL) return;
-    QColor color=QColorDialog::getColor(CurrentBrush->ColorD);
-    if (color.isValid()) {
-        CurrentBrush->ColorD=color.name();
-        ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
-        emit NeedRefreshControls();
-    }
-}
-
-//========= Gradient shape last color
-void wgt_QCustomBrush::s_CustomFinalColorBt() {
-    if (StopMAJSpinbox) return;
-    if (CurrentBrush==NULL) return;
-    QColor color=QColorDialog::getColor(CurrentBrush->ColorF);
-    if (color.isValid()) {
-        CurrentBrush->ColorF=color.name();
-        ui->FinalColorCombo->SetCurrentColor(&CurrentBrush->ColorF);
-        emit NeedRefreshControls();
-    }
-}
-
-//========= Gradient shape intermediate color
-void wgt_QCustomBrush::s_CustomIntermColorBt() {
-    if (StopMAJSpinbox) return;
-    if (CurrentBrush==NULL) return;
-    QColor color=QColorDialog::getColor(CurrentBrush->ColorIntermed);
-    if (color.isValid()) {
-        CurrentBrush->ColorIntermed=color.name();
-        ui->IntermColorCombo->SetCurrentColor(&CurrentBrush->ColorIntermed);
-        emit NeedRefreshControls();
-    }
 }
 
 //====================================================================================================================

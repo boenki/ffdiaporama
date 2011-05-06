@@ -41,6 +41,34 @@ QString         LastLoadedBackgroundImageName   ="";
 // static local values use to work with luma images
 int  LUMADLG_WIDTH=0;
 
+
+//*********************************************************************************************************************************************
+// Utility function to create a gradient brush
+//*********************************************************************************************************************************************
+
+QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QString ColorD,QString ColorF,QString ColorIntermed,double Intermediate) {
+    QGradient Gradient;
+    switch (GradientOrientation) {
+        case GRADIENTORIENTATION_UPLEFT:        Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()));                     break;          // Up-Left
+        case GRADIENTORIENTATION_UP:            Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()),QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()));    break;          // Up
+        case GRADIENTORIENTATION_UPRIGHT:       Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()),QPointF(Rect.x(),Rect.y()+Rect.height()));                     break;          // Up-right
+        case GRADIENTORIENTATION_LEFT:          Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()/2),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2));   break;          // Left
+        case GRADIENTORIENTATION_RADIAL:        Gradient=QRadialGradient(
+                    QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2),
+                    Rect.width()>Rect.height()?Rect.width():Rect.height(),
+                    QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2)
+                );  break;                                                                                                                                      // Radial
+        case GRADIENTORIENTATION_RIGHT:         Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2),QPointF(Rect.x(),Rect.y()+Rect.height()/2));   break;          // Right
+        case GRADIENTORIENTATION_BOTTOMLEFT:    Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width(),Rect.y()));                     break;          // bt-Left
+        case GRADIENTORIENTATION_BOTTOM:        Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width()/2,Rect.y()));    break;          // bottom
+        case GRADIENTORIENTATION_BOTTOMRIGHT:   Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()),QPointF(Rect.x(),Rect.y()));                     break;          // bt-right
+    }
+    Gradient.setColorAt(0,QColor(ColorD));
+    Gradient.setColorAt(1,QColor(ColorF));
+    if (BrushType==BRUSHTYPE_GRADIENT3) Gradient.setColorAt(Intermediate,QColor(ColorIntermed));
+    return new QBrush(Gradient);
+}
+
 //*********************************************************************************************************************************************
 // Base object for filters transformation image
 //*********************************************************************************************************************************************
@@ -158,8 +186,7 @@ bool cFilterCorrectObject::LoadFromXML(QDomElement domDocument,QString ElementNa
 cBrushDefinition::cBrushDefinition() {
     BrushType           =BRUSHTYPE_SOLID;       // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors, 5=brush library, 6=image disk
     PatternType         =Qt::Dense4Pattern;     // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    GradientColors      =3;                     // Number of colors in gradient mode (2 or 3)
-    ColorD              ="#ffffff";             // First Color
+    ColorD              =DEFAULT_SHAPE_BRUSHCOLORD;             // First Color
     ColorF              ="#000000";             // Last Color
     ColorIntermed       ="#777777";             // Intermediate Color
     Intermediate        =0.1;                   // Intermediate position of 2nd color (in %)
@@ -172,8 +199,8 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect) {
         case BRUSHTYPE_NOBRUSH :        return new QBrush(Qt::NoBrush);
         case BRUSHTYPE_SOLID :          return new QBrush(QColor(ColorD),Qt::SolidPattern);
         case BRUSHTYPE_PATTERN :        return new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));
-        case BRUSHTYPE_GRADIENT2 :      return GetGradientBrush(Rect);
-        case BRUSHTYPE_GRADIENT3 :      return GetGradientBrush(Rect);
+        case BRUSHTYPE_GRADIENT2 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
+        case BRUSHTYPE_GRADIENT3 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_IMAGELIBRARY :   return GetLibraryBrush(Rect);
 //        case BRUSHTYPE_IMAGEDISK :
     }
@@ -193,41 +220,23 @@ QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
         }
     }
     if (LastLoadedBackgroundImage!=NULL) {
-        QImage  NewImg1=QImage(LastLoadedBackgroundImage->scaledToHeight(Rect.height()+1));
-        int W=NewImg1.width();
-        int H=GetHeightForWidth(W,Rect);
+        double Ratio=double(LastLoadedBackgroundImage->height())/double(LastLoadedBackgroundImage->width());
+        double H    =Rect.height()+1;
+        double W    =H/Ratio;
+        QImage NewImg1;
+        if (W<(Rect.width()+1)) {
+            NewImg1=QImage(LastLoadedBackgroundImage->scaledToWidth(Rect.width()+1));
+        } else {
+            NewImg1=QImage(LastLoadedBackgroundImage->scaledToHeight(Rect.height()+1));
+        }
+        W=NewImg1.width();
+        H=GetHeightForWidth(W,Rect);
         if (H<NewImg1.height()) {
             H=NewImg1.height();
             W=GetWidthForHeight(H,Rect);
         }
-        if ((W!=NewImg1.width())||(H!=NewImg1.height())) {
-            QImage  NewImg2=QImage(NewImg1.copy(0,0,W,H));
-            return new QBrush(NewImg2);
-        } else return new QBrush(NewImg1);
+        if ((W!=NewImg1.width())||(H!=NewImg1.height())) return new QBrush(QImage(NewImg1.copy(0,0,W,H))); else return new QBrush(NewImg1);
     } else return new QBrush(Qt::NoBrush);
-}
-
-QBrush *cBrushDefinition::GetGradientBrush(QRectF Rect) {
-    QGradient Gradient;
-    switch (GradientOrientation) {
-        case 0: Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()));                     break;          // Up-Left
-        case 1: Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()),QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()));    break;          // Up
-        case 2: Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()),QPointF(Rect.x(),Rect.y()+Rect.height()));                     break;          // Up-right
-        case 3: Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()/2),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2));   break;          // Left
-        case 4: Gradient=QRadialGradient(
-                    QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2),
-                    Rect.width()>Rect.height()?Rect.width():Rect.height(),
-                    QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2)
-                );  break;                                                                                                                                      // Radial
-        case 5: Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2),QPointF(Rect.x(),Rect.y()+Rect.height()/2));   break;          // Right
-        case 6: Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width(),Rect.y()));                     break;          // bt-Left
-        case 7: Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width()/2,Rect.y()));    break;          // bottom
-        case 8: Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()),QPointF(Rect.x(),Rect.y()));                     break;          // bt-right
-    }
-    Gradient.setColorAt(0,QColor(ColorD));
-    Gradient.setColorAt(1,QColor(ColorF));
-    if (BrushType==BRUSHTYPE_GRADIENT3) Gradient.setColorAt(Intermediate,QColor(ColorIntermed));
-    return new QBrush(Gradient);
 }
 
 // Return height for width depending on Rect geometry
@@ -251,7 +260,6 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     // Attribut of the object
     Element.setAttribute("BrushType",BrushType);                        // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
     Element.setAttribute("PatternType",PatternType);                    // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    Element.setAttribute("GradientColors",GradientColors);              // Number of colors in gradient mode (2 or 3)
     Element.setAttribute("ColorD",ColorD);                              // First Color
     Element.setAttribute("ColorF",ColorF);                              // Last Color
     Element.setAttribute("ColorIntermed",ColorIntermed);                // Intermediate Color
@@ -271,7 +279,6 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         // Attribut of the object
         BrushType=          Element.attribute("BrushType").toInt();             // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
         PatternType=        Element.attribute("PatternType").toInt();           // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-        GradientColors=     Element.attribute("GradientColors").toInt();        // Number of colors in gradient mode (2 or 3)
         ColorD=             Element.attribute("ColorD");                        // First Color
         ColorF=             Element.attribute("ColorF");                        // Last Color
         ColorIntermed=      Element.attribute("ColorIntermed");                 // Intermediate Color
