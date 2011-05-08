@@ -101,7 +101,7 @@ void SDLSetFPS(double WantedFPS) {
 #endif
     Desired.silence =0;
     if (SDL_OpenAudio(&Desired,&AudioSpec)<0) {
-        ExitApplicationWithFatalError("SDLSetFPS=Error in SDL_OpenAudio");
+        ExitApplicationWithFatalError("SDLSetFPS=Error in SDL_OpenAudio:"+QString(SDL_GetError()));
     }
     SDLIsAudioOpen=true;
 }

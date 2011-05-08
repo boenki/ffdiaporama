@@ -170,8 +170,8 @@ public:
     QImage                  *GetImageAt(int Position,bool VideoCachedMode,cSoundBlockList *SoundTrackMontage);
 
     // Load image and put it on a Canvas of size Width x Height
-    QImage                  *CanvasImageAt(int Width,int Height,int Position,QPainter *Painter,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool VideoCachedMode,bool ApplyShotText,bool ApplyShotFilter,cSoundBlockList *SoundTrackMontage);
-    void                    PrepareImage(QPainter *P,int Width,int Height,int Position,QImage *LastLoadedImage,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool ApplyShotText,bool ApplyShotFilter);
+    QImage                  *CanvasImageAt(int Width,int Height,int Position,QPainter *Painter,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool VideoCachedMode,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming,cSoundBlockList *SoundTrackMontage);
+    void                    PrepareImage(QPainter *P,int Width,int Height,int Position,QImage *LastLoadedImage,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming);
 
     // Function to calculate canvas
     void                    CalcFullCanvas(double RealImageW,double RealImageH,double &VirtImageW,double &VirtImageH);

@@ -93,6 +93,7 @@ extern "C" {
 #include <QPaintDevice>
 #include <QPainter>
 #include <QProcess>
+#include <QProgressBar>
 #include <QScrollBar>
 #include <QShowEvent>
 #include <QSize>
