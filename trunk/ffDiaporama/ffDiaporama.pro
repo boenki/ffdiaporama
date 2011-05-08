@@ -17,7 +17,8 @@ unix {
     OBJECTS_DIR += ../build/
     MOC_DIR     += ../build/
     UI_DIR      += ../build/
-    ICON         = icons/logo.png
+    ICON        = icons/logo.png
+    INCLUDEPATH += /usr/include/ffmpeg/  # Specific for Fedora
 }
 win32 {
     DESTDIR     += ../winbuild/
