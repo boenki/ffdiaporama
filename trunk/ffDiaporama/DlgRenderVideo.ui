@@ -18,6 +18,7 @@
   </property>
   <property name="font">
    <font>
+    <family>Sans Serif</family>
     <pointsize>9</pointsize>
    </font>
   </property>
@@ -44,8 +45,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>401</width>
-        <height>160</height>
+        <width>402</width>
+        <height>188</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">

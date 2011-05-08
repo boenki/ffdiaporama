@@ -735,7 +735,7 @@ QImage  *cDiaporamaObject::GetImageAt(int Position,bool VideoCachedMode,cSoundBl
 //====================================================================================================================
 
 QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPainter *Painter,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,
-                                        bool VideoCachedMode,bool ApplyShotText,bool ApplyShotFilter,cSoundBlockList *SoundTrackMontage) {
+                                        bool VideoCachedMode,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming,cSoundBlockList *SoundTrackMontage) {
 
     // Call PrepareImage on a painter to put image on a canvas
     QImage *SourceImage = GetImageAt(Position+QTime(0,0,0,0).msecsTo(List[0].StartPos),VideoCachedMode,SoundTrackMontage);
@@ -744,7 +744,7 @@ QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPaint
     if ((SourceImage==NULL)||(SourceImage->isNull())) return NULL;
 
     if (Painter!=NULL) {
-        PrepareImage(Painter,Width,Height,Position,SourceImage,AddX,AddY,ImagePosition,ForcedImageRotation,ApplyShotText,ApplyShotFilter);
+        PrepareImage(Painter,Width,Height,Position,SourceImage,AddX,AddY,ImagePosition,ForcedImageRotation,ApplyShotText,ApplyShotFilter,ApplyFraming);
     } else {
         // Call only by QCustomScene (Painter is NULL)
         // Prepare a background with transparent brush (emulating transparency)
@@ -752,7 +752,7 @@ QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPaint
         QPainter    P;
         P.begin(ReturnImage);
         P.fillRect(0,0,Width,Height,Parent->Transparent);
-        PrepareImage(&P,Width,Height,Position,SourceImage,AddX,AddY,ImagePosition,ForcedImageRotation,ApplyShotText,ApplyShotFilter);
+        PrepareImage(&P,Width,Height,Position,SourceImage,AddX,AddY,ImagePosition,ForcedImageRotation,ApplyShotText,ApplyShotFilter,ApplyFraming);
         P.end();
     }
 
@@ -766,7 +766,7 @@ QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPaint
 
 // PrepareImage subfunction (Call only by CanvasImageAt)
 void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Position,QImage *LastLoadedImage,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,
-                                    bool ApplyShotText,bool ApplyShotFilter) {
+                                    bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming) {
     double                   XFactor     =0;
     double                   YFactor     =0;
     double                   ZoomFactor  =1;
@@ -784,14 +784,14 @@ void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Positio
     // Calc image modification factor depending on position
     if (ForcedImageRotation!=NULL) RotateFactor=double(*ForcedImageRotation); else RotateFactor=List[Sequence].ImageRotation;
 
-    if (ImagePosition==NULL) {
+    if ((ImagePosition==NULL)&&(ApplyFraming)) {
         XFactor         =List[Sequence].X;
         YFactor         =List[Sequence].Y;
         ZoomFactor      =List[Sequence].ZoomFactor;
     }
     FilterCorrection=List[Sequence].FilterCorrection;
 
-    if ((Sequence>0)&&((Position-CurPos)<(Sequence>0?List[Sequence].GetMobilDuration():0))) {
+    if ((ApplyFraming)&&(Sequence>0)&&((Position-CurPos)<(Sequence>0?List[Sequence].GetMobilDuration():0))) {
         double   PctDone=(double(Position)-double(CurPos))/(double(List[Sequence].GetMobilDuration()));
         CalcTransformations(Sequence,PctDone,XFactor,YFactor,ZoomFactor,RotateFactor,FilterCorrection);
     }

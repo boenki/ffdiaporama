@@ -12,6 +12,7 @@
   </property>
   <property name="font">
    <font>
+    <family>Sans Serif</family>
     <pointsize>9</pointsize>
    </font>
   </property>
@@ -1300,15 +1301,15 @@ QComboBox QAbstractItemView {
  </widget>
  <customwidgets>
   <customwidget>
-   <class>cCustomColorComboBox</class>
-   <extends>QComboBox</extends>
-   <header>cCustomComboBox.h</header>
-  </customwidget>
-  <customwidget>
    <class>wgt_QCustomBrush</class>
    <extends>QWidget</extends>
    <header>wgt_QCustomBrush.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>cCustomColorComboBox</class>
+   <extends>QComboBox</extends>
+   <header>cCustomComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -30,6 +30,7 @@ int main(int argc, char *argv[]) {
     if (!ApplicationConfig->LoadConfigurationFile(USERCONFIGFILE)) ApplicationConfig->SaveConfigurationFile();  // Load values from user configuration file (overwrite previously initialized values)
 
     QApplication::setGraphicsSystem("raster");
+
     QApplication app(argc, argv);
 
     app.setApplicationName(QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION));
