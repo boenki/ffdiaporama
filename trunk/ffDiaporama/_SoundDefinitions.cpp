@@ -69,11 +69,9 @@ void SDLFirstInit(double WantedFPS) {
 }
 
 void SDLLastClose() {
-    if (SDLIsAudioOpen) {
-        SDL_CloseAudio();                                               // Close audio
-        SDL_Quit();                                                     // Close library
-        SDLIsAudioOpen=false;
-    }
+    if (SDLIsAudioOpen) SDL_CloseAudio();                               // Close audio
+    SDLIsAudioOpen=false;
+    SDL_Quit();                                                         // Close library
 }
 
 void SDLSetFPS(double WantedFPS) {

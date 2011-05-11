@@ -38,6 +38,12 @@
 class cDiaporama;
 class cDiaporamaObject;
 
+//============================================
+// Global static
+//============================================
+
+extern  double  ADJUST_RATIO;   // Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
+
 //*********************************************************************************************************************************************
 // Base object for composition definition
 //*********************************************************************************************************************************************
@@ -47,8 +53,14 @@ public:
     int         ZValue;             // Z value ordering (low is background)
 
     // Attribut of the text object
-    QString             Text;                   // Text of the object
     double              x,y,w,h;                // Position (x,y) and size (width,height)
+    double              RotateZAxis;            // Rotation from Z axis
+    double              RotateXAxis;            // Rotation from X axis
+    double              RotateYAxis;            // Rotation from Y axis
+    int                 Opacity;                // Opacity of the form
+
+    // Attribut of the text part
+    QString             Text;                   // Text of the object
     QString             FontName;               // font name
     int                 FontSize;               // font size
     QString             FontColor;              // font color
@@ -60,23 +72,26 @@ public:
     int                 VAlign;                 // Vertical alignement : 0=up, 1=center, 2=bottom
     int                 StyleText;              // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
 
-    // Attribut of the form object
+    // Attribut of the shap part
     int                 BackgroundForm;         // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
     cBrushDefinition    BackgroundBrush;        // Brush of the background of the form
-    int                 BackgroundTransparent;  // Transparency of the background of the form
     int                 PenSize;                // Width of the border of the form
     int                 PenStyle;               // Style of the pen border of the form
     QString             PenColor;               // Color of the border of the form
-    int                 InternalPenSize;        // Width of the internal border of the form
-    QString             InternalColor1;         // Color 1 of the internal border of the form
-    QString             InternalColor2;         // Color 2 of the internal border of the form
+    //int                 InternalPenSize;        // Width of the internal border of the form
+    //QString             InternalColor1;         // Color 1 of the internal border of the form
+    //QString             InternalColor2;         // Color 2 of the internal border of the form
 
     cCompositionObject();
 
     void        DrawCompositionObject(QPainter &Painter,int AddX,int AddY,int width,int height);
-    void        DrawPolygon(QPainter &Painter,int width,int height,int CenterX,int CenterY,int MaxPoint,double StartAngle,double dPointSize,QBrush *InternalBorderBrush);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
+
+private:
+    void        DrawShape(QPainter &Painter,double left,double right,double width,double height,double CenterX,double CenterY,double RayX,double RayY);
+    void        DrawPolygonR(QPainter &Painter,double width,double height,double CenterX,double CenterY,int MaxPoint,double StartAngle);
+
 };
 
 //*********************************************************************************************************************************************
