@@ -68,10 +68,10 @@ wgt_QCompositionWidget::wgt_QCompositionWidget(QWidget *parent):QWidget(parent),
     MakeFormIcon(ui->BackgroundFormCB);
 
     // Init combo box Background opacity
-    ui->BackgroundTransparentCB->addItem("100%");
-    ui->BackgroundTransparentCB->addItem(" 75%");
-    ui->BackgroundTransparentCB->addItem(" 50%");
-    ui->BackgroundTransparentCB->addItem(" 25%");
+    ui->OpacityCB->addItem("100%");
+    ui->OpacityCB->addItem(" 75%");
+    ui->OpacityCB->addItem(" 50%");
+    ui->OpacityCB->addItem(" 25%");
 
     // Init Spinbox
     ui->PosXEd->setDecimals(2);
@@ -101,17 +101,14 @@ wgt_QCompositionWidget::wgt_QCompositionWidget(QWidget *parent):QWidget(parent),
     connect(ui->WidthEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgWidthValue(double)));
     connect(ui->HeightEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgHeightValue(double)));
     connect(ui->BackgroundFormCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeBackgroundForm(int)));
-    connect(ui->BackgroundTransparentCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeBackgroundTransparent(int)));
+    connect(ui->OpacityCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeOpacity(int)));
     connect(ui->plainTextEdit,SIGNAL(textChanged()),this,SLOT(s_plainTextEditChange()));
     connect(ui->FontColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontColorCombo(int)));
     connect(ui->StyleShadowColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontShadowColorCombo(int)));
 
     // Init shape Borders
-    ui->PenSizeEd->setMinimum(0);       ui->PenSizeEd->setMaximum(9);           connect(ui->PenSizeEd,SIGNAL(valueChanged(int)),this,SLOT(s_ChgPenSize(int)));
-    ui->InternalSizeEd->setMinimum(0);  ui->InternalSizeEd->setMaximum(30);     connect(ui->InternalSizeEd,SIGNAL(valueChanged(int)),this,SLOT(s_ChgInternalPenSize(int)));
+    ui->PenSizeEd->setMinimum(0);       ui->PenSizeEd->setMaximum(30);          connect(ui->PenSizeEd,SIGNAL(valueChanged(int)),this,SLOT(s_ChgPenSize(int)));
     connect(ui->PenColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChPenColorCB(int)));
-    connect(ui->InternalColor1CB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChInternalColor1CB(int)));
-    connect(ui->InternalColor2CB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChInternalColor2CB(int)));
 }
 
 //====================================================================================================================
@@ -225,7 +222,7 @@ void wgt_QCompositionWidget::RefreshControls() {
 
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     ui->CustomBrushWidget->RefreshControls((CurrentTextItem!=NULL)?&CurrentTextItem->BackgroundBrush:NULL,
-                                           (CurrentTextItem!=NULL)&&(CurrentTextItem->BackgroundForm!=0)&&(CurrentTextItem->BackgroundTransparent<4));
+                                           (CurrentTextItem!=NULL)&&(CurrentTextItem->BackgroundForm!=0)&&(CurrentTextItem->Opacity<4));
 
     if (CurrentTextItem!=NULL) {
         //***********************
@@ -264,18 +261,18 @@ void wgt_QCompositionWidget::RefreshControls() {
         StopMAJSpinbox=true;    // Disable reintrence in this RefreshControls function
         ui->BackgroundFormCB->setDisabled(false);
         ui->BackgroundFormCB->setCurrentIndex(CurrentTextItem->BackgroundForm);
-        ui->BackgroundTransparentCB->setDisabled(CurrentTextItem->BackgroundForm==0);
-        ui->BackgroundTransparentCB->setCurrentIndex(CurrentTextItem->BackgroundTransparent);
+        ui->OpacityCB->setDisabled(CurrentTextItem->BackgroundForm==0);
+        ui->OpacityCB->setCurrentIndex(CurrentTextItem->Opacity);
         ui->PenSizeEd->setEnabled(CurrentTextItem->BackgroundForm!=0);
         ui->PenSizeEd->setValue(int(CurrentTextItem->PenSize));
         ui->PenColorCB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->PenSize==0));
         ui->PenColorCB->SetCurrentColor(&CurrentTextItem->PenColor);
-        ui->InternalSizeEd->setEnabled(CurrentTextItem->BackgroundForm!=0);
-        ui->InternalSizeEd->setValue(int(CurrentTextItem->InternalPenSize));
-        ui->InternalColor1CB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->InternalPenSize==0));
-        ui->InternalColor1CB->SetCurrentColor(&CurrentTextItem->InternalColor1);
-        ui->InternalColor2CB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->InternalPenSize==0));
-        ui->InternalColor2CB->SetCurrentColor(&CurrentTextItem->InternalColor2);
+        //ui->InternalSizeEd->setEnabled(CurrentTextItem->BackgroundForm!=0);
+        //ui->InternalSizeEd->setValue(int(CurrentTextItem->InternalPenSize));
+        //ui->InternalColor1CB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->InternalPenSize==0));
+        //ui->InternalColor1CB->SetCurrentColor(&CurrentTextItem->InternalColor1);
+        //ui->InternalColor2CB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->InternalPenSize==0));
+        //ui->InternalColor2CB->SetCurrentColor(&CurrentTextItem->InternalColor2);
         StopMAJSpinbox=false;
 
         //***********************
@@ -313,12 +310,12 @@ void wgt_QCompositionWidget::RefreshControls() {
         // Shape TAB
         //***********************
         ui->BackgroundFormCB->setDisabled(true);
-        ui->BackgroundTransparentCB->setDisabled(true);
+        ui->OpacityCB->setDisabled(true);
         ui->PenSizeEd->setDisabled(true);
         ui->PenColorCB->setDisabled(true);
-        ui->InternalSizeEd->setDisabled(true);
-        ui->InternalColor1CB->setDisabled(true);
-        ui->InternalColor2CB->setDisabled(true);
+        //ui->InternalSizeEd->setDisabled(true);
+        //ui->InternalColor1CB->setDisabled(true);
+        //ui->InternalColor2CB->setDisabled(true);
 
         //***********************
         // Size & Position TAB
@@ -352,6 +349,8 @@ void wgt_QCompositionWidget::RefreshBackgroundImage() {
     QPixmap *NewImage=new QPixmap(BackgroundImage->scaled(xmax,ymax));
     QPainter P;
     P.begin(NewImage);
+
+    ADJUST_RATIO=double(ymax)/double(1080);    // fixe Adjustment ratio for this slide
 
     for (int i=0;i<CompositionList->List.count();i++) {
         // Draw composition
@@ -649,11 +648,11 @@ void wgt_QCompositionWidget::s_ChangeBackgroundForm(int Style) {
 
 //====================================================================================================================
 
-void wgt_QCompositionWidget::s_ChangeBackgroundTransparent(int Style) {
+void wgt_QCompositionWidget::s_ChangeOpacity(int Style) {
     if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
-    CurrentTextItem->BackgroundTransparent=Style;
+    CurrentTextItem->Opacity=Style;
     RefreshControls();
 }
 
@@ -664,16 +663,6 @@ void wgt_QCompositionWidget::s_ChgPenSize(int Value) {
     if (CurrentTextItem==NULL) return;
     if (StopMAJSpinbox) return;
     CurrentTextItem->PenSize=Value;
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void wgt_QCompositionWidget::s_ChgInternalPenSize(int Value) {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if (CurrentTextItem==NULL) return;
-    if (StopMAJSpinbox) return;
-    CurrentTextItem->InternalPenSize=Value;
     RefreshControls();
 }
 
@@ -691,19 +680,22 @@ void wgt_QCompositionWidget::s_plainTextEditChange() {
 void wgt_QCompositionWidget::MakeFormIcon(QComboBox *UICB) {
     for (int i=0;i<UICB->count();i++) {
         cCompositionObject Object;
-        Object.Text                     ="";
-        Object.x                        =0;
-        Object.y                        =0;
-        Object.w                        =1;
-        Object.h                        =1;
-        Object.PenSize                  =2;
-        Object.PenColor                 ="#000000";
-        Object.BackgroundForm           =i;
-        Object.BackgroundTransparent    =4;
+        Object.Text                 ="";
+        Object.x                    =0;
+        Object.y                    =0;
+        Object.w                    =1;
+        Object.h                    =1;
+        Object.BackgroundForm       =i;
+        Object.Opacity=4;
+        Object.PenSize              =1;
+        Object.PenStyle             =Qt::SolidLine;
+        Object.PenColor             ="#000000";
+        Object.BackgroundBrush.BrushType=BRUSHTYPE_NOBRUSH;
         QPixmap  Image(32,32);
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRectF(0,0,32,32),Qt::white);
+        ADJUST_RATIO=1;
         Object.DrawCompositionObject(Painter,0,0,32,32);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
@@ -727,7 +719,7 @@ void wgt_QCompositionWidget::MakeTextStyleIcon(QComboBox *UICB) {
         Object.IsBold           =true;
         Object.PenSize          =0;
         Object.BackgroundForm   =0;
-        Object.BackgroundTransparent=0;
+        Object.Opacity=0;
         QPixmap  Image(32,32);
         QPainter Painter;        Painter.begin(&Image);
         Painter.fillRect(QRectF(0,0,32,32),Qt::lightGray);
@@ -765,25 +757,5 @@ void wgt_QCompositionWidget::s_ChPenColorCB(int) {
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->PenColor=ui->PenColorCB->GetCurrentColor();
-    RefreshControls();
-}
-
-//========= Shape internal border color 1
-
-void wgt_QCompositionWidget::s_ChInternalColor1CB(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if (CurrentTextItem==NULL) return;
-    CurrentTextItem->InternalColor1=ui->InternalColor1CB->GetCurrentColor();
-    RefreshControls();
-}
-
-//========= Shape internal border color 1
-
-void wgt_QCompositionWidget::s_ChInternalColor2CB(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if (CurrentTextItem==NULL) return;
-    CurrentTextItem->InternalColor2=ui->InternalColor2CB->GetCurrentColor();
     RefreshControls();
 }

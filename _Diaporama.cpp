@@ -26,38 +26,48 @@
 
 #include "mainwindow.h"
 
+//============================================
+// Global static
+//============================================
+
+double  ADJUST_RATIO=1;   // Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
+
 //*********************************************************************************************************************************************
 // Base object for composition definition
 //*********************************************************************************************************************************************
 
 cCompositionObject::cCompositionObject() {
     // Attribut of the text object
-    ZValue          = 500;
-    Text            = "";           // Text of the object
-    x               = 0.25;         // Position (x,y) and size (width,height)
-    y               = 0.25;
-    w               = 0.5;
-    h               = 0.5;
-    FontName        = DEFAULT_FONT_FAMILLY;                             // font name
-    FontSize        = DEFAULT_FONT_SIZE;                                // font size
-    FontColor       = DEFAULT_FONT_COLOR;                               // font color
-    FontShadowColor = DEFAULT_FONT_SHADOWCOLOR;                         // font shadow color
-    IsBold          = DEFAULT_FONT_ISBOLD;                              // true if bold mode
-    IsItalic        = DEFAULT_FONT_ISITALIC;                            // true if Italic mode
-    IsUnderline     = DEFAULT_FONT_ISUNDERLINE;                         // true if Underline mode
-    HAlign          = DEFAULT_FONT_HALIGN;                              // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-    VAlign          = DEFAULT_FONT_VALIGN;                              // Vertical alignement : 0=up, 1=center, 2=bottom
-    StyleText       = DEFAULT_FONT_TEXTEFFECT;                          // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+    ZValue                  = 500;
+    x                       = 0.25;         // Position (x,y) and size (width,height)
+    y                       = 0.25;
+    w                       = 0.5;
+    h                       = 0.5;
 
-    // Attribut of the form object
+    RotateZAxis             = 45;            // Rotation from Z axis
+    RotateXAxis             = 45;            // Rotation from X axis
+    RotateYAxis             = 45;            // Rotation from Y axis
+
+    // Text part
+    Text                    = "";           // Text of the object
+    FontName                = DEFAULT_FONT_FAMILLY;                             // font name
+    FontSize                = DEFAULT_FONT_SIZE;                                // font size
+    FontColor               = DEFAULT_FONT_COLOR;                               // font color
+    FontShadowColor         = DEFAULT_FONT_SHADOWCOLOR;                         // font shadow color
+    IsBold                  = DEFAULT_FONT_ISBOLD;                              // true if bold mode
+    IsItalic                = DEFAULT_FONT_ISITALIC;                            // true if Italic mode
+    IsUnderline             = DEFAULT_FONT_ISUNDERLINE;                         // true if Underline mode
+    HAlign                  = DEFAULT_FONT_HALIGN;                              // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+    VAlign                  = DEFAULT_FONT_VALIGN;                              // Vertical alignement : 0=up, 1=center, 2=bottom
+    StyleText               = DEFAULT_FONT_TEXTEFFECT;                          // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+
+    // Shap part
     BackgroundForm          = 0;            // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-    BackgroundTransparent   = DEFAULT_SHAPE_OPACITY;                     // Style of the background of the form
+    Opacity   = DEFAULT_SHAPE_OPACITY;                     // Style of the background of the form
     PenSize                 = DEFAULT_SHAPE_BORDERSIZE;                  // Width of the border of the form
     PenStyle                = Qt::SolidLine;                             // Style of the pen border of the form
     PenColor                = DEFAULT_SHAPE_BORDERCOLOR;                 // Color of the border of the form
-    InternalPenSize         = DEFAULT_SHAPE_INTERNALBORDERSIZE;          // Width of the internal border of the form
-    InternalColor1          = DEFAULT_SHAPE_INTERNALBORDERCOLOR1;        // Color 1 of the internal border of the form
-    InternalColor2          = DEFAULT_SHAPE_INTERNALBORDERCOLOR2;        // Color 2 of the internal border of the form
+
     // BackgroundBrush is initilise by object constructor
 }
 
@@ -69,11 +79,17 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
 
     // Attribut of the object
     Element.setAttribute("ZValue",ZValue);                      // Z value ordering (low is background)
-    Element.setAttribute("Text",Text);                          // Text of the object
     Element.setAttribute("x",x);                                // Position x
     Element.setAttribute("y",y);                                // Position x
     Element.setAttribute("w",w);                                // size width
     Element.setAttribute("h",h);                                // size height
+    Element.setAttribute("RotateZAxis",RotateZAxis);            // Rotation from Z axis
+    Element.setAttribute("RotateXAxis",RotateZAxis);            // Rotation from X axis
+    Element.setAttribute("RotateYAxis",RotateZAxis);            // Rotation from Y axis
+    Element.setAttribute("BackgroundTransparent",Opacity);      // Opacity of the form
+
+    // Text part
+    Element.setAttribute("Text",Text);                          // Text of the object
     Element.setAttribute("FontName",FontName);                  // font name
     Element.setAttribute("FontSize",FontSize);                  // font size
     Element.setAttribute("FontColor",FontColor);                // font color
@@ -84,14 +100,12 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("HAlign",HAlign);                      // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
     Element.setAttribute("VAlign",VAlign);                      // Vertical alignement : 0=up, 1=center, 2=bottom
     Element.setAttribute("StyleText",StyleText);                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+
+    // Shap part
     Element.setAttribute("BackgroundForm",BackgroundForm);      // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-    Element.setAttribute("BackgroundTransparent",BackgroundTransparent);    // Style of the background of the form
     Element.setAttribute("PenSize",PenSize);                    // Width of the border of the form
     Element.setAttribute("PenStyle",PenStyle);                  // Style of the pen border of the form
     Element.setAttribute("PenColor",PenColor);                  // Color of the border of the form
-    Element.setAttribute("InternalPenSize",InternalPenSize);    // Width of the internal border of the form
-    Element.setAttribute("InternalColor1",InternalColor1);      // Color 1 of the internal border of the form
-    Element.setAttribute("InternalColor2",InternalColor2);      // Color 2 of the internal border of the form
     BackgroundBrush.SaveToXML(Element,"BackgroundBrush",PathForRelativPath);        // Brush of the background of the form
 
     domDocument.appendChild(Element);
@@ -104,30 +118,35 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
         // Attribut of the object
-        ZValue          =Element.attribute("ZValue").toInt();           // Z value ordering (low is background)
-        Text            =Element.attribute("Text");                     // Text of the object
-        x               =Element.attribute("x").toDouble();              // Position x
-        y               =Element.attribute("y").toDouble();              // Position x
-        w               =Element.attribute("w").toDouble();              // size width
-        h               =Element.attribute("h").toDouble();              // size height
-        FontName        =Element.attribute("FontName");                 // font name
-        FontSize        =Element.attribute("FontSize").toInt();         // font size
-        FontColor       =Element.attribute("FontColor");                // font color
-        FontShadowColor =Element.attribute("FontShadowColor");          // font shadow color
-        IsBold          =Element.attribute("IsBold")=="1";              // true if bold mode
-        IsItalic        =Element.attribute("IsItalic")=="1";            // true if Italic mode
-        IsUnderline     =Element.attribute("IsUnderline")=="1";         // true if Underline mode
-        HAlign          =Element.attribute("HAlign").toInt();           // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-        VAlign          =Element.attribute("VAlign").toInt();           // Vertical alignement : 0=up, 1=center, 2=bottom
-        StyleText       =Element.attribute("StyleText").toInt();        // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
-        BackgroundForm  =Element.attribute("BackgroundForm").toInt();   // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-        BackgroundTransparent =Element.attribute("BackgroundTransparent").toInt();  // Style of the background of the form
-        PenSize         =Element.attribute("PenSize").toInt();          // Width of the border of the form
-        PenStyle        =Element.attribute("PenStyle").toInt();         // Style of the pen border of the form
-        PenColor        =Element.attribute("PenColor");                 // Color of the border of the form
-        InternalPenSize =Element.attribute("InternalPenSize").toInt();  // Width of the internal border of the form
-        InternalColor1  =Element.attribute("InternalColor1");           // Color 1 of the internal border of the form
-        InternalColor2  =Element.attribute("InternalColor2");           // Color 2 of the internal border of the form
+        ZValue          =Element.attribute("ZValue").toInt();                   // Z value ordering (low is background)
+        x               =Element.attribute("x").toDouble();                     // Position x
+        y               =Element.attribute("y").toDouble();                     // Position x
+        w               =Element.attribute("w").toDouble();                     // size width
+        h               =Element.attribute("h").toDouble();                     // size height
+        Opacity         =Element.attribute("BackgroundTransparent").toInt();    // Style Opacity of the background of the form
+        RotateZAxis     =Element.attribute("RotateZAxis").toDouble();           // Rotation from Z axis
+        RotateZAxis     =Element.attribute("RotateXAxis").toDouble();           // Rotation from X axis
+        RotateZAxis     =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
+
+        // Text part
+        Text            =Element.attribute("Text");                             // Text of the object
+        FontName        =Element.attribute("FontName");                         // font name
+        FontSize        =Element.attribute("FontSize").toInt();                 // font size
+        FontColor       =Element.attribute("FontColor");                        // font color
+        FontShadowColor =Element.attribute("FontShadowColor");                  // font shadow color
+        IsBold          =Element.attribute("IsBold")=="1";                      // true if bold mode
+        IsItalic        =Element.attribute("IsItalic")=="1";                    // true if Italic mode
+        IsUnderline     =Element.attribute("IsUnderline")=="1";                 // true if Underline mode
+        HAlign          =Element.attribute("HAlign").toInt();                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+        VAlign          =Element.attribute("VAlign").toInt();                   // Vertical alignement : 0=up, 1=center, 2=bottom
+        StyleText       =Element.attribute("StyleText").toInt();                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+
+        // Shap part
+        BackgroundForm  =Element.attribute("BackgroundForm").toInt();           // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
+        PenSize         =Element.attribute("PenSize").toInt();                  // Width of the border of the form
+        PenStyle        =Element.attribute("PenStyle").toInt();                 // Style of the pen border of the form
+        PenColor        =Element.attribute("PenColor");                         // Color of the border of the form
+
         BackgroundBrush.LoadFromXML(Element,"BackgroundBrush",PathForRelativPath);        // Brush of the background of the form
         return true;
     }
@@ -137,225 +156,170 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 //====================================================================================================================
 
 void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,int AddY,int width,int height) {
-    QBrush  *InternalBorderBrush=NULL;
     QPen    Pen;
+    double  FullMargin=0;
+    double  W=w*double(width);
+    double  H=h*double(height);
 
-    width--;
-    height--;
-    QImage   Img(width,height,QImage::Format_ARGB32_Premultiplied);
+    QImage   Img(W+2,H+2,QImage::Format_ARGB32_Premultiplied);
     QPainter Painter;
     Painter.begin(&Img);
     Painter.setCompositionMode(QPainter::CompositionMode_Source);
-    Painter.fillRect(QRect(0,0,width,height),Qt::transparent);
+    Painter.fillRect(QRect(0,0,W+2,H+2),Qt::transparent);
     Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+    Pen.setCapStyle(Qt::RoundCap);
+    Pen.setJoinStyle(Qt::RoundJoin);
+    Pen.setCosmetic(false);
+
+    Pen.setStyle(Qt::SolidLine);
+
+    // All coordonates from center
+    QTransform  Matrix;
+    Matrix.translate(W/2,H/2);
+    if (RotateZAxis!=0) Matrix.rotate(RotateZAxis,Qt::ZAxis);   // Standard axis
+    if (RotateXAxis!=0) Matrix.rotate(RotateXAxis,Qt::XAxis);   // Rotate from X axis
+    if (RotateYAxis!=0) Matrix.rotate(RotateYAxis,Qt::YAxis);   // Rotate from Y axis
+    Painter.setWorldTransform(Matrix,false);
+
+    // Paint background if needed
+    if (BackgroundForm!=0) {                        // other than 0=None
+        double  RayX,RayY;
+
+        // Roundrect values
+        if (BackgroundForm==2) {
+            RayX=W/10;    if (RayX>16) RayX=16; else if (RayX<8)  RayX=8;
+            RayY=H/10;    if (RayY>16) RayY=16; else if (RayY<8)  RayY=8;
+        } else if (BackgroundForm==3) {
+            RayX=2*W/10;
+            RayY=2*H/10;
+        }
+
+        // Draw ExternalBorder border
+        if (PenSize==0) Painter.setPen(Qt::NoPen); else {
+            Pen.setColor(PenColor);
+            FullMargin=double(PenSize)*ADJUST_RATIO/2;
+            Pen.setWidthF(double(PenSize)*ADJUST_RATIO);
+            Pen.setStyle((Qt::PenStyle)PenStyle);
+            Painter.setPen(Pen);
+        }
+        // Draw internal shape
+        if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
+            QBrush *BR=BackgroundBrush.GetBrush(QRectF(FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2));
+            Painter.setBrush(*BR);
+            delete BR;
+        }
+        if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
+        //DrawShape(Painter,FullMargin,FullMargin,W-FullMargin*2,H-FullMargin*2,W/2,H/2,RayX,RayY);
+        DrawShape(Painter,FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2,0,0,RayX,RayY);
+        if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+        Painter.setPen(Qt::NoPen);
+        FullMargin=FullMargin*2;
+    }
 
     // Create font and TextOption
     QTextOption OptionText;
-    QFont       font=QFont(FontName,10/*int(FontSize)*/,IsBold?QFont::Bold:QFont::Normal,IsItalic?QFont::StyleItalic:QFont::StyleNormal);
+    QFont       font=QFont(FontName,10,IsBold?QFont::Bold:QFont::Normal,IsItalic?QFont::StyleItalic:QFont::StyleNormal);        // FontSize is always 10 and size if given with setPointSizeF !
     font.setUnderline(IsUnderline);                                                                                             // Set underline
-    font.setPointSizeF((double(width)/double(SCALINGTEXTFACTOR))*double(FontSize));                  // Scale font
-    //font.setPixelSize(int((double(width)/double(SCALINGTEXTFACTOR))*double(FontSize)));                  // Scale font
+    font.setPointSizeF((double(width)/double(SCALINGTEXTFACTOR))*double(FontSize));                                             // Scale font
     OptionText=QTextOption(((HAlign==0)?Qt::AlignLeft:(HAlign==1)?Qt::AlignHCenter:(HAlign==2)?Qt::AlignRight:Qt::AlignJustify) // Setup horizontal alignement
                 |(VAlign==0?Qt::AlignTop:VAlign==1?Qt::AlignVCenter:Qt::AlignBottom));                                          // Setup vertical alignement
     OptionText.setWrapMode(QTextOption::WordWrap);                                                                              // Setup word wrap text option
 
-    // Calc margin (depending on form)
-    double MarginX=double(PenSize)/2+1+1;
-    double MarginY=double(PenSize)/2+1;
+    double MarginX=FullMargin;
+    double MarginY=FullMargin;
 
     if (BackgroundForm==3) {                        // 3=Buble
-        MarginX=MarginX+double(width)/250;
-        MarginY=MarginY+double(height)/250;
+        MarginX=MarginX+W/250;
+        MarginY=MarginY+H/250;
     } else if (BackgroundForm==4) {                 // 2=Ellipse
-          double RX=double(w)*double(width)/2;
-          double RY=double(h)*double(height)/2;
-          double cos45=0.29;   // 1-cos(radians(45))
-          double sin45=0.29;   // 1-sin(radians(45))
-          MarginX=MarginX+(cos45*RX);
-          MarginY=MarginY+(sin45*RY);
-    }
-
-    // Paint background if needed
-    if (BackgroundForm!=0) {                        // other than 0=None
-
-        if (PenSize==0) Painter.setPen(Qt::NoPen); else {
-            Pen.setCapStyle(Qt::RoundCap);
-            Pen.setJoinStyle(Qt::RoundJoin);
-            Pen.setColor(PenColor);
-            Pen.setWidth(PenSize);
-            Pen.setStyle((Qt::PenStyle)PenStyle);
-            Painter.setPen(Pen);
-        }
-        // Draw the form
-        double   RayX,RayY;
-
-        // Set brush
-        if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
-            QBrush *BR=BackgroundBrush.GetBrush(QRectF(0,0,w*width,h*height));
-            Painter.setBrush(*BR);
-            delete BR;
-        }
-        int CenterX=(w/2)*width;
-        int CenterY=(h/2)*height;
-        double dPointSize=InternalPenSize;
-
-        if (dPointSize>0) {
-            dPointSize=dPointSize*double(height)/double(1080);
-            if (dPointSize<1) dPointSize=1;
-            InternalBorderBrush=GetGradientBrush(QRectF(0,0,w*width,h*height),BRUSHTYPE_GRADIENT2,GRADIENTORIENTATION_BOTTOMRIGHT,InternalColor1,InternalColor2,InternalColor1,0.1);
-        }
-
-        switch (BackgroundForm) {
-            //0 = no shape
-            case 1:
-                if (dPointSize>0) {
-                    Painter.save();
-                    Painter.setBrush(*InternalBorderBrush);
-                    Painter.drawRect(QRectF(0,0,w*width,h*height));
-                    Painter.restore();
-                    Painter.setPen(Qt::NoPen);
-                }
-                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-                Painter.drawRect(QRectF(dPointSize,dPointSize,w*width-dPointSize*2,h*height-dPointSize*2));
-                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                break;
-            case 2:
-                RayX=double(width)/10;    if (RayX>16) RayX=16; else if (RayX<8)  RayX=8;
-                RayY=double(height)/10;   if (RayY>16) RayY=16; else if (RayY<8)  RayY=8;
-                if (dPointSize>0) {
-                    Painter.save();
-                    Painter.setBrush(*InternalBorderBrush);
-                    Painter.drawRoundedRect(QRectF(0,0,w*width,h*height),RayX,RayY,Qt::AbsoluteSize);
-                    Painter.restore();
-                    Painter.setPen(Qt::NoPen);
-                }
-                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-                Painter.drawRoundedRect(QRectF(dPointSize,dPointSize,w*width-dPointSize*2,h*height-dPointSize*2),RayX,RayY,Qt::AbsoluteSize);
-                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                break;
-            case 3:
-                RayX=2*double(width)/10;
-                RayY=2*double(height)/10;
-                if (dPointSize>0) {
-                    Painter.save();
-                    Painter.setBrush(*InternalBorderBrush);
-                    Painter.drawRoundedRect(QRectF(0,0,w*width,h*height),RayX,RayY,Qt::AbsoluteSize);
-                    Painter.restore();
-                    Painter.setPen(Qt::NoPen);
-                }
-                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-                Painter.drawRoundedRect(QRectF(dPointSize,dPointSize,w*width-dPointSize*2,h*height-dPointSize*2),RayX,RayY,Qt::AbsoluteSize);
-                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                break;
-            case 4:
-                if (dPointSize>0) {
-                    Painter.save();
-                    Painter.setBrush(*InternalBorderBrush);
-                    Painter.drawEllipse(QRectF(0,0,w*width,h*height));
-                    Painter.restore();
-                    Painter.setPen(Qt::NoPen);
-                }
-                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-                Painter.drawEllipse(QRectF(dPointSize,dPointSize,w*width-dPointSize*2,h*height-dPointSize*2));
-                if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                break;
-            case 5: DrawPolygon(Painter,width,height,CenterX,CenterY,3,90,dPointSize,InternalBorderBrush);                     break;      // Triangle UP
-            case 6: DrawPolygon(Painter,width,height,CenterX,CenterY,3,0,dPointSize,InternalBorderBrush);                      break;      // Triangle Right
-            case 7: DrawPolygon(Painter,width,height,CenterX,CenterY,3,-90,dPointSize,InternalBorderBrush);                    break;      // Triangle Down
-            case 8: DrawPolygon(Painter,width,height,CenterX,CenterY,3,-180,dPointSize,InternalBorderBrush);                   break;      // Triangle left
-            case 9: DrawPolygon(Painter,width,height,CenterX,CenterY,4,0,dPointSize,InternalBorderBrush);                      break;      // Losange
-            case 10: DrawPolygon(Painter,width,height,CenterX,CenterY,5,90-(double(360)/5),dPointSize,InternalBorderBrush);    break;      // pentagone
-            case 11: DrawPolygon(Painter,width,height,CenterX,CenterY,6,-(double(360)/6),dPointSize,InternalBorderBrush);      break;      // hexagone
-            case 12: DrawPolygon(Painter,width,height,CenterX,CenterY,8,-(double(360)/8),dPointSize,InternalBorderBrush);      break;      // Octogone
-        }
-
-        Painter.setBrush(Qt::NoBrush);
-        if (InternalBorderBrush) {
-            delete InternalBorderBrush;
-            InternalBorderBrush=NULL;
-        }
+        MarginX=MarginX+(0.29*(W/2));               // 0.29=1-cos(radians(45°))
+        MarginY=MarginY+(0.29*(H/2));               // 0.29=1-sin(radians(45°))
     }
 
     // Paint Shadow of the text
     Painter.setFont(font);
     Pen.setColor(FontShadowColor);
-    Pen.setCapStyle(Qt::RoundCap);
-    Pen.setJoinStyle(Qt::RoundJoin);
     Pen.setWidth(1);
     Pen.setStyle(Qt::SolidLine);
     Painter.setPen(Pen);
+    Painter.setBrush(Qt::NoBrush);
 
     switch (StyleText) {
         case 0 :                // 0=normal
             break;
         case 1 :                // 1=outerline
-            Painter.drawText(QRectF(MarginX-1,MarginY-1,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX-1,MarginY+1,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX+1,MarginY+1,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX+1,MarginY-1,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX  ,MarginY-1,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX  ,MarginY+1,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX-1,MarginY  ,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX+1,MarginY  ,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX-1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX-1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX+1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX+1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX  -W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX  -W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX-1-W/2,MarginY  -H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX+1-W/2,MarginY  -H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
             break;
         case 2:                 //2=shadow up-left
-            Painter.drawText(QRectF(MarginX-1,MarginY-1,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX-1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
             break;
         case 3:                 //3=shadow up-right
-            Painter.drawText(QRectF(MarginX+1,MarginY-1,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX+1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
             break;
         case 4:                 //4=shadow bt-left
-            Painter.drawText(QRectF(MarginX-1,MarginY+1,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX-1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
             break;
         case 5:                 //5=shadow bt-right
-            Painter.drawText(QRectF(MarginX+1,MarginY+1,w*width-2*MarginX,h*height-2*MarginY),Text,OptionText);
+            Painter.drawText(QRectF(MarginX+1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
             break;
     }
 
     // Paint text
     Painter.setPen(QColor(FontColor));
-    Painter.drawText(QRectF(MarginX,MarginY,w*double(width)-2*MarginX,h*double(height)-2*MarginY),Text,OptionText);
-
-
+    Painter.drawText(QRectF(MarginX-W/2,MarginY-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
     Painter.end();
+
     DestPainter.save();
-    //DestPainter.translate(AddX+x*double(width),AddY+y*double(height));
-    if ((BackgroundTransparent>0)&&(BackgroundTransparent<4)) DestPainter.setOpacity(BackgroundTransparent==1?0.75:BackgroundTransparent==2?0.50:0.25);
+    if ((Opacity>0)&&(Opacity<4)) DestPainter.setOpacity(Opacity==1?0.75:Opacity==2?0.50:0.25);
     DestPainter.drawImage(AddX+x*double(width),AddY+y*double(height),Img);
     DestPainter.restore();
 }
 
-void cCompositionObject::DrawPolygon(QPainter &Painter,int width,int height,int CenterX,int CenterY,int MaxPoint,double StartAngle,double dPointSize,QBrush *InternalBorderBrush) {
+//====================================================================================================================
+
+void cCompositionObject::DrawShape(QPainter &Painter,double left,double top,double width,double height,double CenterX,double CenterY,double RayX,double RayY) {
+    switch (BackgroundForm) {
+        //0 = no shape
+        case 1 : Painter.drawRect(QRectF(left,top,width-1,height-1));                                   break;  // Rectangle
+        case 2 : Painter.drawRoundedRect(QRectF(left,top,width-1,height-1),RayX,RayY,Qt::AbsoluteSize); break;  // Round rect
+        case 3 : Painter.drawRoundedRect(QRectF(left,top,width-1,height-1),RayX,RayY,Qt::AbsoluteSize); break;  // Buble
+        case 4 : Painter.drawEllipse(QRectF(left,top,width-1,height-1));                                break;  // Ellipse
+        case 5 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,90);                               break;  // Triangle UP
+        case 6 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,0);                                break;  // Triangle Right
+        case 7 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-90);                              break;  // Triangle Down
+        case 8 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-180);                             break;  // Triangle left
+        case 9 : DrawPolygonR(Painter,width,height,CenterX,CenterY,4,0);                                break;  // Losange
+        case 10: DrawPolygonR(Painter,width,height,CenterX,CenterY,5,90-(double(360)/5));               break;  // pentagone
+        case 11: DrawPolygonR(Painter,width,height,CenterX,CenterY,6,-(double(360)/6));                 break;  // hexagone
+        case 12: DrawPolygonR(Painter,width,height,CenterX,CenterY,8,-(double(360)/8));                 break;  // Octogone
+    }
+}
+
+//====================================================================================================================
+
+void cCompositionObject::DrawPolygonR(QPainter &Painter,double width,double height,double CenterX,double CenterY,int MaxPoint,double StartAngle) {
     QPointF Table[10];
     double  vcos,vsin,Angle;
     int     i;
 
-    if (dPointSize>0) {
-        Painter.save();
-        Painter.setBrush(*InternalBorderBrush);
-        Angle=StartAngle;
-        for (i=0;i<MaxPoint;i++) {
-            vcos=cos(Angle*3.14159265/180)*(w*width/2);
-            vsin=sin(Angle*3.14159265/180)*(h*height/2);
-            Table[i]=QPointF(CenterX+vcos,CenterY-vsin);
-            Angle=Angle+(double(360)/MaxPoint);
-            if (Angle>=360) Angle=-Angle+360;
-        }
-        Painter.drawPolygon(Table,MaxPoint);
-        Painter.restore();
-        Painter.setPen(Qt::NoPen);
-    }
-    if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
     Angle=StartAngle;
     for (i=0;i<MaxPoint;i++) {
-        vcos=cos(Angle*3.14159265/180)*((w*width-dPointSize*2)/2);
-        vsin=sin(Angle*3.14159265/180)*((h*height-dPointSize*2)/2);
+        vcos=cos(Angle*3.14159265/180)*(width/2);
+        vsin=sin(Angle*3.14159265/180)*(height/2);
         Table[i]=QPointF(CenterX+vcos,CenterY-vsin);
         Angle=Angle+(double(360)/MaxPoint);
         if (Angle>=360) Angle=-Angle+360;
     }
     Painter.drawPolygon(Table,MaxPoint);
-    if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 }
 
 //*********************************************************************************************************************************************
@@ -765,8 +729,10 @@ QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPaint
 
 
 // PrepareImage subfunction (Call only by CanvasImageAt)
-void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Position,QImage *LastLoadedImage,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,
-                                    bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming) {
+void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Position,QImage *LastLoadedImage,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming) {
+
+    ADJUST_RATIO=double(Height)/double(1080);    // fixe Adjustment ratio for this slide
+
     double                   XFactor     =0;
     double                   YFactor     =0;
     double                   ZoomFactor  =1;
@@ -1455,6 +1421,8 @@ void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *Music
 //  IsCurrentObject : If true : prepare CurrentObject - If false : prepare Transition Object
 //============================================================================================
 void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,int Extend,bool IsCurrentObject) {
+    ADJUST_RATIO=double(H)/double(1080);    // fixe Adjustment ratio for this slide
+
     bool SoundOnly=((W==0)&&(H==0));
     if ((IsCurrentObject)&&(Info->CurrentObject_PreparedImage!=NULL)) return;     // return immediatly if we have image
     if (!IsCurrentObject) {
