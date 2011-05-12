@@ -109,7 +109,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="SizePositionTab">
       <attribute name="title">
@@ -124,13 +124,34 @@
        </property>
        <item>
         <layout class="QGridLayout" name="gridLayout_6">
-         <property name="topMargin">
-          <number>10</number>
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>2</number>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="PosX">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>24</height>
+            </size>
+           </property>
            <property name="text">
-            <string>X :</string>
+            <string>X / Y :</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -168,17 +189,17 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
+         <item row="1" column="0">
           <widget class="QLabel" name="Width">
            <property name="text">
-            <string>Width :</string>
+            <string>Taille :</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
+         <item row="1" column="1">
           <widget class="QDoubleSpinBox" name="WidthEd">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -209,7 +230,7 @@
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
+         <item row="3" column="0">
           <widget class="QLabel" name="label_21">
            <property name="text">
             <string>Opacity :</string>
@@ -219,7 +240,7 @@
            </property>
           </widget>
          </item>
-         <item row="5" column="1">
+         <item row="3" column="1">
           <widget class="QComboBox" name="OpacityCB">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -241,8 +262,30 @@
            </property>
           </widget>
          </item>
+         <item row="7" column="1">
+          <widget class="QSpinBox" name="RotateZED">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>24</height>
+            </size>
+           </property>
+          </widget>
+         </item>
          <item row="8" column="1">
-          <widget class="QSpinBox" name="spinBox">
+          <widget class="QSpinBox" name="RotateXED">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -264,7 +307,7 @@
           </widget>
          </item>
          <item row="9" column="1">
-          <widget class="QSpinBox" name="spinBox_2">
+          <widget class="QSpinBox" name="RotateYED">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -285,30 +328,27 @@
            </property>
           </widget>
          </item>
-         <item row="10" column="1">
-          <widget class="QSpinBox" name="spinBox_3">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
+         <item row="7" column="2">
+          <widget class="QSlider" name="RotateZSLD">
            <property name="minimumSize">
             <size>
-             <width>80</width>
+             <width>0</width>
              <height>24</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>80</width>
+             <width>16777215</width>
              <height>24</height>
             </size>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
          <item row="8" column="2">
-          <widget class="QSlider" name="horizontalSlider">
+          <widget class="QSlider" name="RotateXSLD">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -327,7 +367,7 @@
           </widget>
          </item>
          <item row="9" column="2">
-          <widget class="QSlider" name="horizontalSlider_2">
+          <widget class="QSlider" name="RotateYSLD">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -345,78 +385,84 @@
            </property>
           </widget>
          </item>
-         <item row="10" column="2">
-          <widget class="QSlider" name="horizontalSlider_3">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="0">
+         <item row="7" column="0">
           <widget class="QLabel" name="label_6">
            <property name="text">
-            <string>RZ :</string>
+            <string notr="true"/>
            </property>
-          </widget>
-         </item>
-         <item row="9" column="0">
-          <widget class="QLabel" name="label_10">
-           <property name="text">
-            <string>RX :</string>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="0">
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>RZ :</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0" colspan="3">
-          <widget class="Line" name="line">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0" colspan="3">
-          <widget class="Line" name="line_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0">
-          <widget class="QLabel" name="label_12">
-           <property name="text">
-            <string>Shadow :</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="Height">
-           <property name="text">
-            <string>Height :</string>
+           <property name="pixmap">
+            <pixmap>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/RotateZ.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
+         <item row="8" column="0">
+          <widget class="QLabel" name="label_10">
+           <property name="text">
+            <string notr="true"/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/RotateY.png</pixmap>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string notr="true"/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/RotateX.png</pixmap>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="3">
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QDoubleSpinBox" name="PosYEd">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Define Y position of selected text</string>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::PlusMinus</enum>
+           </property>
+           <property name="suffix">
+            <string notr="true">%</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
           <widget class="QDoubleSpinBox" name="HeightEd">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -447,18 +493,49 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="PosY">
+         <item row="6" column="0" colspan="3">
+          <widget class="QLabel" name="label_8">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+             <underline>true</underline>
+            </font>
+           </property>
            <property name="text">
-            <string>Y :</string>
+            <string>Rotations :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="3">
+          <widget class="Line" name="line_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_13">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+             <underline>false</underline>
+            </font>
+           </property>
+           <property name="text">
+            <string>Shadow :</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="PosYEd">
+         <item row="4" column="1">
+          <widget class="QComboBox" name="ShadowEffectCB">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -477,14 +554,27 @@
              <height>24</height>
             </size>
            </property>
-           <property name="toolTip">
-            <string>Define Y position of selected text</string>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QSpinBox" name="ShadowEffectED">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::PlusMinus</enum>
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>24</height>
+            </size>
            </property>
-           <property name="suffix">
-            <string notr="true">%</string>
+           <property name="maximumSize">
+            <size>
+             <width>60</width>
+             <height>24</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -717,6 +807,13 @@
              <property name="toolTip">
               <string>Select font effect (outerline, shadow)</string>
              </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox QAbstractItemView {
+background: #ffffff;
+select-background: #ffff00;
+color: #000000;
+}</string>
+             </property>
             </widget>
            </item>
            <item>
@@ -737,12 +834,6 @@
               <size>
                <width>48</width>
                <height>24</height>
-              </size>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>64</width>
-               <height>16</height>
               </size>
              </property>
             </widget>
@@ -798,12 +889,6 @@
              </property>
              <property name="editable">
               <bool>false</bool>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>64</width>
-               <height>16</height>
-              </size>
              </property>
             </widget>
            </item>
@@ -1115,6 +1200,16 @@
        <property name="spacing">
         <number>2</number>
        </property>
+       <item row="6" column="0">
+        <widget class="wgt_QCustomBrush" name="CustomBrushWidget" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
        <item row="4" column="0">
         <layout class="QGridLayout" name="gridLayout_5">
          <property name="margin">
@@ -1157,19 +1252,10 @@
             <string>Select a shape for selected text</string>
            </property>
            <property name="styleSheet">
-            <string notr="true">QComboBox {
-     border: 1px solid gray;
-     border-radius: 3px;
-     padding: 1px 1px 1px 3px;
-}
-QComboBox:!editable {
-	background: white;
- }
-
-QComboBox QAbstractItemView {
-	border: 2px solid darkgray;
-    selection-background-color: darkgray;
-	background: white;
+            <string notr="true">QComboBox QAbstractItemView {
+background: #ffffff;
+select-background: #ffff00;
+color: #000000;
 }</string>
            </property>
            <property name="editable">
@@ -1177,37 +1263,17 @@ QComboBox QAbstractItemView {
            </property>
           </widget>
          </item>
-         <item row="2" column="0" colspan="2">
-          <widget class="QLabel" name="label_3">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-             <underline>true</underline>
-            </font>
-           </property>
-           <property name="text">
-            <string>Border</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
+         <item row="2" column="0">
           <widget class="QLabel" name="label_4">
            <property name="text">
-            <string>External :</string>
+            <string>Border :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
+         <item row="2" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout_8">
            <property name="spacing">
             <number>0</number>
@@ -1266,6 +1332,35 @@ QComboBox QAbstractItemView {
             </widget>
            </item>
            <item>
+            <widget class="QComboBox" name="PenStyleCB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>48</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>48</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox QAbstractItemView {
+background: #ffffff;
+select-background: #ffff00;
+color: #000000;
+}</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QLabel" name="spacer_2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -1280,17 +1375,30 @@ QComboBox QAbstractItemView {
            </item>
           </layout>
          </item>
+         <item row="8" column="0" colspan="2">
+          <widget class="QLabel" name="label_17">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+             <underline>true</underline>
+            </font>
+           </property>
+           <property name="text">
+            <string>Brush :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+           </property>
+          </widget>
+         </item>
         </layout>
-       </item>
-       <item row="6" column="0">
-        <widget class="wgt_QCustomBrush" name="CustomBrushWidget" native="true">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>

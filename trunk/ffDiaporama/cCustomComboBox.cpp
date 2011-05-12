@@ -23,7 +23,7 @@
 //======================================
 // Specific defines for this dialog box
 //======================================
-#define MAXCOLORREF             47
+#define MAXCOLORREF             99
 #define MAXBRUSHPATTERN         12
 #define MAXGRADIENTORIENTATION  9
 #define MAXONOFFFILTER          8
@@ -33,20 +33,28 @@
 //******************************************************************************************************************
 // Custom Color ComboBox ITEM
 //******************************************************************************************************************
-
 QString  ColorRef[MAXCOLORREF]={
-    "#ffffff","#ffffaa","#ffff66","#ffff00",    // Qt::white, very light yellow to yellow
-    "#b4b400","#808000","#00ff00","#008000",    // to dark yellow, Qt::green to Qt::darkGreen
-    "#ccff66","#99ff33","#66ff00","#498000",    // very light green to green
-    "#338000","#205000","#ff00ff","#800080",    //to dark green Qt::magenta to Qt::darkMagenta
-    "#ff0000","#ff99ff","#ff66cc","#ff3399",    // Qt::red then very light pink to dark pink
-    "#ff0066","#800033","#ffcc66","#ff9933",    //very light brown to dark red
-    "#ff6600","#804900","#803300","#800000",    // Qt::cyan
-    "#00ffff","#66ccff","#3399ff","#0066ff",    //very light blue to dark blue
-    "#0049b4","#003380","#0000ff","#000080",
-    "#66ffcc","#33ffcc","#00ffcc","#00b4b4",    //very light cyan to dark cyan
-    "#008080","#005050","#c0c0c0","#a0a0a4",    // Qt::lightGrayto Qt::darkGray
-    "#808080","#333333","#000000"               // Qt::black
+    "#f2f2f2","#d8d8d8","#bfbfbf","#a5a5a5","#7f7f7f",      // LIGHT-GRAY
+    "#595959","#3f3f3f","#262626","#0c0c0c","#000000",      // DARK-GRAY
+    "#dae1eb","#b5c4d7","#91a7c3","#3c526f","#28374a",      // BLUE-GRAY
+    "#c8eefc","#91defa","#5acef8","#0578a2","#03506c",      // BLUE-1
+    "#e0e6f5","#c1ceeb","#a2b5e2","#365bb0","#243c75",      // BLUE-2
+    "#e8eeee","#d1dede","#b9cdce","#61888a","#405b5c",      // BLUE-3
+    "#e5ecd8","#cbd9b2","#b2c78c","#5c7237","#3d4c25",      // GREEN-1
+    "#e8efe8","#d2dfd1","#bbcfba","#648c60","#425d40",      // GREEN-2
+    "#e1dca5","#d0c974","#a29a36","#514d1b","#201e0a",      // GREEN-3
+    "#f5f2d8","#ece5b2","#e2d88c","#a39428","#6d621a",      // GREEN-4
+    "#f2eee8","#e6ded1","#dacdba","#a38557","#6d593a",      // MARROON-1
+    "#f6e6d5","#eeceaa","#e6b681","#a2641f","#6c4315",      // MARROON-2
+    "#f2e0c6","#e6c28d","#daa454","#664515","#442e0e",      // MARROON-3
+    "#fff7c1","#fff084","#ffe947","#998700","#665a00",      // YELLOW-1
+    "#fde1d1","#fcc3a3","#fba576","#c94b05","#863203",      // ORANGE
+    "#fbc7bc","#f78f7a","#f35838","#711806","#4b1004",      // RED-1
+    "#e5e1f4","#cbc3e9","#b1a6de","#533da9","#372970",      // VIOLET-1
+    "#ece4f1","#dac9e3","#c7aed6","#7d4d99","#533366",      // VIOLET-2
+
+    "#000000","#ff0000","#00ff00","#0000ff","#ffffff",      // Full-colors
+    "#ffff00","#ff00ff","#00ffff","#3a3a3a"
 };
 
 //========================================================================================================================
@@ -57,7 +65,7 @@ cCustomColorComboBoxItem::cCustomColorComboBoxItem(QObject *parent):QStyledItemD
 //========================================================================================================================
 
 void cCustomColorComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    int ColorNum=index.row()*4+index.column();
+    int ColorNum=index.row()*5+index.column();
     if (ColorNum<MAXCOLORREF) {
         painter->setPen(Qt::NoPen);
         painter->setBrush(QBrush(QColor(ColorRef[ColorNum])));
@@ -94,9 +102,12 @@ QSize cCustomColorComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,
 cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
     STOPMAJ=false;
     CurrentColor=NULL;
+    setIconSize(QSize(24*5-30,16));
     QTableWidget    *Table=new QTableWidget();
     Table->horizontalHeader()->hide();
     Table->verticalHeader()->hide();
+    Table->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
     Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
     Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
     Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
@@ -105,7 +116,7 @@ cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
     setView(Table);
     int i=0;
     while (i<=MAXCOLORREF) {
-        if ((i/4)>=Table->rowCount()) {
+        if ((i/5)>=Table->rowCount()) {
             addItem("");        // automaticaly do a Table->insertRow(Table->rowCount());
             Table->setRowHeight(Table->rowCount()-1,24);
         }
@@ -125,8 +136,8 @@ void cCustomColorComboBox::SetCurrentColor(QString *Color) {
     CurrentColor=Color;
     int i=0;
     while ((i<MAXCOLORREF)&&(ColorRef[i]!=*CurrentColor)) i++;
-    int Row=i/4;
-    int Col=i-(i/4)*4;
+    int Row=i/5;
+    int Col=i-(i/5)*5;
     ((QTableWidget *)view())->setCurrentCell(Row,Col);
     setCurrentIndex(Row);
     StandardColor=((i>=0)&&(i<MAXCOLORREF));
@@ -137,7 +148,7 @@ void cCustomColorComboBox::SetCurrentColor(QString *Color) {
 //========================================================================================================================
 
 QString cCustomColorComboBox::GetCurrentColor() {
-    int i=((QTableWidget *)view())->currentRow()*4+((QTableWidget *)view())->currentColumn();
+    int i=((QTableWidget *)view())->currentRow()*5+((QTableWidget *)view())->currentColumn();
     StandardColor=((i>=0)&&(i<MAXCOLORREF));
     if ((CurrentColor)&&(i>=0)&&(i<MAXCOLORREF)) *CurrentColor=ColorRef[i]; else *CurrentColor=SavedCustomColor;
     return *CurrentColor;
@@ -148,7 +159,7 @@ QString cCustomColorComboBox::GetCurrentColor() {
 void cCustomColorComboBox::MakeIcons() {
     int CurrentRow=((QTableWidget *)view())->currentRow();      if (CurrentRow<0) CurrentRow=0;
     int CurrentCol=((QTableWidget *)view())->currentColumn();   if (CurrentCol<0) CurrentCol=0;
-    int ColorNum=CurrentRow*4+CurrentCol;
+    int ColorNum=CurrentRow*5+CurrentCol;
     QPixmap  Image(iconSize());
     QPainter Painter;
     Painter.begin(&Image);
@@ -167,7 +178,7 @@ void cCustomColorComboBox::s_ItemSelectionChanged() {
     STOPMAJ=true;
     setCurrentIndex(((QTableWidget *)view())->currentRow());
     MakeIcons();
-    emit currentIndexChanged(((QTableWidget *)view())->currentRow()*4+((QTableWidget *)view())->currentColumn());
+    emit currentIndexChanged(((QTableWidget *)view())->currentRow()*5+((QTableWidget *)view())->currentColumn());
     STOPMAJ=false;
 }
 
@@ -176,7 +187,7 @@ void cCustomColorComboBox::s_ItemSelectionChanged() {
 void cCustomColorComboBox::s_ItemPressed(int,int) {
     int CurrentRow=((QTableWidget *)view())->currentRow();      if (CurrentRow<0) CurrentRow=0;
     int CurrentCol=((QTableWidget *)view())->currentColumn();   if (CurrentCol<0) CurrentCol=0;
-    int ColorNum=CurrentRow*4+CurrentCol;
+    int ColorNum=CurrentRow*5+CurrentCol;
     if (ColorNum>=MAXCOLORREF) {
         // Open box to select custom color
         QColor color=QColorDialog::getColor(SavedCustomColor);
@@ -184,7 +195,7 @@ void cCustomColorComboBox::s_ItemPressed(int,int) {
             STOPMAJ=true;
             SavedCustomColor=color.name();
             MakeIcons();
-            emit currentIndexChanged(((QTableWidget *)view())->currentRow()*4+((QTableWidget *)view())->currentColumn());
+            emit currentIndexChanged(((QTableWidget *)view())->currentRow()*5+((QTableWidget *)view())->currentColumn());
             STOPMAJ=false;
         }
     }

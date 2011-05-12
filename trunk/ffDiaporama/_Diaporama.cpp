@@ -44,9 +44,9 @@ cCompositionObject::cCompositionObject() {
     w                       = 0.5;
     h                       = 0.5;
 
-    RotateZAxis             = 45;            // Rotation from Z axis
-    RotateXAxis             = 45;            // Rotation from X axis
-    RotateYAxis             = 45;            // Rotation from Y axis
+    RotateZAxis             = 0;            // Rotation from Z axis
+    RotateXAxis             = 0;            // Rotation from X axis
+    RotateYAxis             = 0;            // Rotation from Y axis
 
     // Text part
     Text                    = "";           // Text of the object
@@ -62,11 +62,13 @@ cCompositionObject::cCompositionObject() {
     StyleText               = DEFAULT_FONT_TEXTEFFECT;                          // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
 
     // Shap part
-    BackgroundForm          = 0;            // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-    Opacity   = DEFAULT_SHAPE_OPACITY;                     // Style of the background of the form
-    PenSize                 = DEFAULT_SHAPE_BORDERSIZE;                  // Width of the border of the form
-    PenStyle                = Qt::SolidLine;                             // Style of the pen border of the form
-    PenColor                = DEFAULT_SHAPE_BORDERCOLOR;                 // Color of the border of the form
+    BackgroundForm          = 0;                                                // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
+    Opacity                 = DEFAULT_SHAPE_OPACITY;                            // Style of the background of the form
+    PenSize                 = DEFAULT_SHAPE_BORDERSIZE;                         // Width of the border of the form
+    PenStyle                = Qt::SolidLine;                                    // Style of the pen border of the form
+    PenColor                = DEFAULT_SHAPE_BORDERCOLOR;                        // Color of the border of the form
+    FormShadow              = 0;                                                // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+    FormShadowDistance      = 5;                                                // Distance from form to shadow
 
     // BackgroundBrush is initilise by object constructor
 }
@@ -84,8 +86,8 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("w",w);                                // size width
     Element.setAttribute("h",h);                                // size height
     Element.setAttribute("RotateZAxis",RotateZAxis);            // Rotation from Z axis
-    Element.setAttribute("RotateXAxis",RotateZAxis);            // Rotation from X axis
-    Element.setAttribute("RotateYAxis",RotateZAxis);            // Rotation from Y axis
+    Element.setAttribute("RotateXAxis",RotateXAxis);            // Rotation from X axis
+    Element.setAttribute("RotateYAxis",RotateYAxis);            // Rotation from Y axis
     Element.setAttribute("BackgroundTransparent",Opacity);      // Opacity of the form
 
     // Text part
@@ -102,11 +104,13 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("StyleText",StyleText);                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
 
     // Shap part
-    Element.setAttribute("BackgroundForm",BackgroundForm);      // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-    Element.setAttribute("PenSize",PenSize);                    // Width of the border of the form
-    Element.setAttribute("PenStyle",PenStyle);                  // Style of the pen border of the form
-    Element.setAttribute("PenColor",PenColor);                  // Color of the border of the form
-    BackgroundBrush.SaveToXML(Element,"BackgroundBrush",PathForRelativPath);        // Brush of the background of the form
+    Element.setAttribute("BackgroundForm",BackgroundForm);                      // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
+    Element.setAttribute("PenSize",PenSize);                                    // Width of the border of the form
+    Element.setAttribute("PenStyle",PenStyle);                                  // Style of the pen border of the form
+    Element.setAttribute("PenColor",PenColor);                                  // Color of the border of the form
+    Element.setAttribute("FormShadow",FormShadow);                              // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+    Element.setAttribute("FormShadowDistance",FormShadowDistance);              // Distance from form to shadow
+    BackgroundBrush.SaveToXML(Element,"BackgroundBrush",PathForRelativPath);    // Brush of the background of the form
 
     domDocument.appendChild(Element);
 }
@@ -118,36 +122,38 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
         // Attribut of the object
-        ZValue          =Element.attribute("ZValue").toInt();                   // Z value ordering (low is background)
-        x               =Element.attribute("x").toDouble();                     // Position x
-        y               =Element.attribute("y").toDouble();                     // Position x
-        w               =Element.attribute("w").toDouble();                     // size width
-        h               =Element.attribute("h").toDouble();                     // size height
-        Opacity         =Element.attribute("BackgroundTransparent").toInt();    // Style Opacity of the background of the form
-        RotateZAxis     =Element.attribute("RotateZAxis").toDouble();           // Rotation from Z axis
-        RotateZAxis     =Element.attribute("RotateXAxis").toDouble();           // Rotation from X axis
-        RotateZAxis     =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
+        ZValue              =Element.attribute("ZValue").toInt();                   // Z value ordering (low is background)
+        x                   =Element.attribute("x").toDouble();                     // Position x
+        y                   =Element.attribute("y").toDouble();                     // Position x
+        w                   =Element.attribute("w").toDouble();                     // size width
+        h                   =Element.attribute("h").toDouble();                     // size height
+        Opacity             =Element.attribute("BackgroundTransparent").toInt();    // Style Opacity of the background of the form
+        RotateZAxis         =Element.attribute("RotateZAxis").toDouble();           // Rotation from Z axis
+        RotateXAxis         =Element.attribute("RotateXAxis").toDouble();           // Rotation from X axis
+        RotateYAxis         =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
 
         // Text part
-        Text            =Element.attribute("Text");                             // Text of the object
-        FontName        =Element.attribute("FontName");                         // font name
-        FontSize        =Element.attribute("FontSize").toInt();                 // font size
-        FontColor       =Element.attribute("FontColor");                        // font color
-        FontShadowColor =Element.attribute("FontShadowColor");                  // font shadow color
-        IsBold          =Element.attribute("IsBold")=="1";                      // true if bold mode
-        IsItalic        =Element.attribute("IsItalic")=="1";                    // true if Italic mode
-        IsUnderline     =Element.attribute("IsUnderline")=="1";                 // true if Underline mode
-        HAlign          =Element.attribute("HAlign").toInt();                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-        VAlign          =Element.attribute("VAlign").toInt();                   // Vertical alignement : 0=up, 1=center, 2=bottom
-        StyleText       =Element.attribute("StyleText").toInt();                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+        Text                =Element.attribute("Text");                             // Text of the object
+        FontName            =Element.attribute("FontName");                         // font name
+        FontSize            =Element.attribute("FontSize").toInt();                 // font size
+        FontColor           =Element.attribute("FontColor");                        // font color
+        FontShadowColor     =Element.attribute("FontShadowColor");                  // font shadow color
+        IsBold              =Element.attribute("IsBold")=="1";                      // true if bold mode
+        IsItalic            =Element.attribute("IsItalic")=="1";                    // true if Italic mode
+        IsUnderline         =Element.attribute("IsUnderline")=="1";                 // true if Underline mode
+        HAlign              =Element.attribute("HAlign").toInt();                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+        VAlign              =Element.attribute("VAlign").toInt();                   // Vertical alignement : 0=up, 1=center, 2=bottom
+        StyleText           =Element.attribute("StyleText").toInt();                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
 
         // Shap part
-        BackgroundForm  =Element.attribute("BackgroundForm").toInt();           // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-        PenSize         =Element.attribute("PenSize").toInt();                  // Width of the border of the form
-        PenStyle        =Element.attribute("PenStyle").toInt();                 // Style of the pen border of the form
-        PenColor        =Element.attribute("PenColor");                         // Color of the border of the form
+        BackgroundForm      =Element.attribute("BackgroundForm").toInt();           // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
+        PenSize             =Element.attribute("PenSize").toInt();                  // Width of the border of the form
+        PenStyle            =Element.attribute("PenStyle").toInt();                 // Style of the pen border of the form
+        PenColor            =Element.attribute("PenColor");                         // Color of the border of the form
+        FormShadow          =Element.attribute("FormShadow").toInt();               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+        FormShadowDistance  =Element.attribute("FormShadowDistance").toInt();       // Distance from form to shadow
 
-        BackgroundBrush.LoadFromXML(Element,"BackgroundBrush",PathForRelativPath);        // Brush of the background of the form
+        BackgroundBrush.LoadFromXML(Element,"BackgroundBrush",PathForRelativPath);  // Brush of the background of the form
         return true;
     }
     return false;
@@ -160,12 +166,22 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
     double  FullMargin=0;
     double  W=w*double(width);
     double  H=h*double(height);
+    double  Wb=sqrt(W*W+H*H);
+    double  Hb=Wb*H/W;
+    if (Hb<W) {
+        Hb=Wb;
+        Wb=Hb*W/H;
+    }
 
-    QImage   Img(W+2,H+2,QImage::Format_ARGB32_Premultiplied);
+    Wb=Wb+double(PenSize)*ADJUST_RATIO*2;
+    Hb=Hb+double(PenSize)*ADJUST_RATIO*2;
+    AddX-=(Wb-W)/2;
+    AddY-=(Hb-H)/2;
+    QImage   Img(Wb+2,Hb+2,QImage::Format_ARGB32_Premultiplied);
     QPainter Painter;
     Painter.begin(&Img);
     Painter.setCompositionMode(QPainter::CompositionMode_Source);
-    Painter.fillRect(QRect(0,0,W+2,H+2),Qt::transparent);
+    Painter.fillRect(QRect(0,0,Wb+2,Hb+2),Qt::transparent);
     Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
     Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
     Pen.setCapStyle(Qt::RoundCap);
@@ -176,7 +192,7 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
 
     // All coordonates from center
     QTransform  Matrix;
-    Matrix.translate(W/2,H/2);
+    Matrix.translate(W/2+(Wb-W)/2,H/2+(Hb-H)/2);
     if (RotateZAxis!=0) Matrix.rotate(RotateZAxis,Qt::ZAxis);   // Standard axis
     if (RotateXAxis!=0) Matrix.rotate(RotateXAxis,Qt::XAxis);   // Rotate from X axis
     if (RotateYAxis!=0) Matrix.rotate(RotateYAxis,Qt::YAxis);   // Rotate from Y axis
@@ -194,7 +210,6 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
             RayX=2*W/10;
             RayY=2*H/10;
         }
-
         // Draw ExternalBorder border
         if (PenSize==0) Painter.setPen(Qt::NoPen); else {
             Pen.setColor(PenColor);
@@ -205,12 +220,14 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
         }
         // Draw internal shape
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
-            QBrush *BR=BackgroundBrush.GetBrush(QRectF(FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2));
+            QBrush      *BR=BackgroundBrush.GetBrush(QRectF(-1,-1,W-FullMargin*2,H-FullMargin*2));
+            QTransform  MatrixBR;
+            MatrixBR.translate(FullMargin-W/2,FullMargin-H/2);
+            BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
             Painter.setBrush(*BR);
             delete BR;
         }
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-        //DrawShape(Painter,FullMargin,FullMargin,W-FullMargin*2,H-FullMargin*2,W/2,H/2,RayX,RayY);
         DrawShape(Painter,FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2,0,0,RayX,RayY);
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
@@ -279,7 +296,25 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
     Painter.end();
 
     DestPainter.save();
-    if ((Opacity>0)&&(Opacity<4)) DestPainter.setOpacity(Opacity==1?0.75:Opacity==2?0.50:0.25);
+    if (FormShadow) {
+        double Distance=double(FormShadowDistance)*ADJUST_RATIO;
+        QImage ImgShadow=Img.copy();
+        Uint8  *Data=ImgShadow.bits();
+        for (int i=0;i<ImgShadow.height()*ImgShadow.width();i++) {
+            *Data++=0;  // R
+            *Data++=0;  // G
+            *Data++=0;  // B
+            Data++;     // Keep Alpha chanel
+        }
+        DestPainter.setOpacity(Opacity==0?0.75:Opacity==1?0.50:Opacity==2?0.25:0.10);
+        switch (FormShadow) {
+            case 1  : DestPainter.drawImage(AddX+x*double(width)-Distance,AddY+y*double(height)-Distance,ImgShadow); break;
+            case 2  : DestPainter.drawImage(AddX+x*double(width)+Distance,AddY+y*double(height)-Distance,ImgShadow); break;
+            case 3  : DestPainter.drawImage(AddX+x*double(width)-Distance,AddY+y*double(height)+Distance,ImgShadow); break;
+            default : DestPainter.drawImage(AddX+x*double(width)+Distance,AddY+y*double(height)+Distance,ImgShadow); break;
+        }
+    }
+    if ((Opacity>0)&&(Opacity<4)) DestPainter.setOpacity(Opacity==1?0.75:Opacity==2?0.50:0.25); else DestPainter.setOpacity(1);
     DestPainter.drawImage(AddX+x*double(width),AddY+y*double(height),Img);
     DestPainter.restore();
 }

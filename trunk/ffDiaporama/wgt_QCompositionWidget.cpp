@@ -67,17 +67,40 @@ wgt_QCompositionWidget::wgt_QCompositionWidget(QWidget *parent):QWidget(parent),
     for (int i=0;i<13;i++) ui->BackgroundFormCB->addItem("");
     MakeFormIcon(ui->BackgroundFormCB);
 
+    // Init combo box Background shadow form
+    ui->ShadowEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","None"));
+    ui->ShadowEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow upper left"));
+    ui->ShadowEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow upper right"));
+    ui->ShadowEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow bottom left"));
+    ui->ShadowEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow bottom right"));
+    ui->ShadowEffectED->setRange(1,30);
+
+    // Init combo box external border style
+    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::SolidLine);
+    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashLine);
+    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DotLine);
+    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashDotLine);
+    ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashDotDotLine);
+    MakeBorderStyleIcon(ui->PenStyleCB);
+
     // Init combo box Background opacity
     ui->OpacityCB->addItem("100%");
     ui->OpacityCB->addItem(" 75%");
     ui->OpacityCB->addItem(" 50%");
     ui->OpacityCB->addItem(" 25%");
 
+    ui->RotateXED->setRange(-180,180);     ui->RotateXSLD->setRange(-180,180);
+    ui->RotateYED->setRange(-180,180);     ui->RotateYSLD->setRange(-180,180);
+    ui->RotateZED->setRange(-180,180);     ui->RotateZSLD->setRange(-180,180);
+
     // Init Spinbox
     ui->PosXEd->setDecimals(2);
     ui->PosYEd->setDecimals(2);
     ui->WidthEd->setDecimals(2);
     ui->HeightEd->setDecimals(2);
+
+    // Init shape Borders
+    ui->PenSizeEd->setMinimum(0);       ui->PenSizeEd->setMaximum(30);
 
     // Set handler
     connect(ui->CustomBrushWidget,SIGNAL(NeedRefreshControls()),this,SLOT(RefreshControls()));
@@ -105,10 +128,14 @@ wgt_QCompositionWidget::wgt_QCompositionWidget(QWidget *parent):QWidget(parent),
     connect(ui->plainTextEdit,SIGNAL(textChanged()),this,SLOT(s_plainTextEditChange()));
     connect(ui->FontColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontColorCombo(int)));
     connect(ui->StyleShadowColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontShadowColorCombo(int)));
-
-    // Init shape Borders
-    ui->PenSizeEd->setMinimum(0);       ui->PenSizeEd->setMaximum(30);          connect(ui->PenSizeEd,SIGNAL(valueChanged(int)),this,SLOT(s_ChgPenSize(int)));
+    connect(ui->PenStyleCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangePenStyle(int)));
+    connect(ui->ShadowEffectCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChgShadowFormValue(int)));
+    connect(ui->ShadowEffectED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgShadowDistanceValue(int)));
+    connect(ui->RotateXED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateXValue(int))); connect(ui->RotateXSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateXValue(int)));
+    connect(ui->RotateYED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateYValue(int))); connect(ui->RotateYSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateYValue(int)));
+    connect(ui->RotateZED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int))); connect(ui->RotateZSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int)));
     connect(ui->PenColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChPenColorCB(int)));
+    connect(ui->PenSizeEd,SIGNAL(valueChanged(int)),this,SLOT(s_ChgPenSize(int)));
 }
 
 //====================================================================================================================
@@ -259,30 +286,30 @@ void wgt_QCompositionWidget::RefreshControls() {
         // Shape TAB
         //***********************
         StopMAJSpinbox=true;    // Disable reintrence in this RefreshControls function
-        ui->BackgroundFormCB->setDisabled(false);
-        ui->BackgroundFormCB->setCurrentIndex(CurrentTextItem->BackgroundForm);
-        ui->OpacityCB->setDisabled(CurrentTextItem->BackgroundForm==0);
-        ui->OpacityCB->setCurrentIndex(CurrentTextItem->Opacity);
-        ui->PenSizeEd->setEnabled(CurrentTextItem->BackgroundForm!=0);
-        ui->PenSizeEd->setValue(int(CurrentTextItem->PenSize));
-        ui->PenColorCB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->PenSize==0));
-        ui->PenColorCB->SetCurrentColor(&CurrentTextItem->PenColor);
-        //ui->InternalSizeEd->setEnabled(CurrentTextItem->BackgroundForm!=0);
-        //ui->InternalSizeEd->setValue(int(CurrentTextItem->InternalPenSize));
-        //ui->InternalColor1CB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->InternalPenSize==0));
-        //ui->InternalColor1CB->SetCurrentColor(&CurrentTextItem->InternalColor1);
-        //ui->InternalColor2CB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->InternalPenSize==0));
-        //ui->InternalColor2CB->SetCurrentColor(&CurrentTextItem->InternalColor2);
+        ui->BackgroundFormCB->setDisabled(false);                                                           ui->BackgroundFormCB->setCurrentIndex(CurrentTextItem->BackgroundForm);
+        ui->PenSizeEd->setEnabled(CurrentTextItem->BackgroundForm!=0);                                      ui->PenSizeEd->setValue(int(CurrentTextItem->PenSize));
+        ui->PenColorCB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->PenSize==0));   ui->PenColorCB->SetCurrentColor(&CurrentTextItem->PenColor);
+        ui->PenStyleCB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->PenSize==0));
+        for (int i=0;i<ui->PenStyleCB->count();i++) if (ui->PenStyleCB->itemData(i).toInt()==CurrentTextItem->PenStyle) {
+            ui->PenStyleCB->setCurrentIndex(i);
+            break;
+        }
         StopMAJSpinbox=false;
 
         //***********************
         // Size & Position TAB
         //***********************
         StopMAJSpinbox=true;    // Disable reintrence in this RefreshControls function
-        ui->PosXEd->setDisabled(false);     ui->PosXEd->setRange(0,99-CurrentTextItem->w*100);      ui->PosXEd->setValue(CurrentTextItem->x*100);   ui->PosXEd->setSingleStep(int(100/20));
-        ui->PosYEd->setDisabled(false);     ui->PosYEd->setRange(0,99-CurrentTextItem->h*100);      ui->PosYEd->setValue(CurrentTextItem->y*100);   ui->PosYEd->setSingleStep(int(100/20));
-        ui->WidthEd->setDisabled(false);    ui->WidthEd->setRange(3,99-CurrentTextItem->x*100);     ui->WidthEd->setValue(CurrentTextItem->w*100);  ui->WidthEd->setSingleStep(int(100/20));
-        ui->HeightEd->setDisabled(false);   ui->HeightEd->setRange(3,99-CurrentTextItem->y*100);    ui->HeightEd->setValue(CurrentTextItem->h*100); ui->HeightEd->setSingleStep(int(100/20));
+        ui->PosXEd->setDisabled(false);     ui->PosXEd->setRange(0,99-CurrentTextItem->w*100);          ui->PosXEd->setValue(CurrentTextItem->x*100);   ui->PosXEd->setSingleStep(int(100/20));
+        ui->PosYEd->setDisabled(false);     ui->PosYEd->setRange(0,99-CurrentTextItem->h*100);          ui->PosYEd->setValue(CurrentTextItem->y*100);   ui->PosYEd->setSingleStep(int(100/20));
+        ui->OpacityCB->setDisabled(false);  ui->OpacityCB->setCurrentIndex(CurrentTextItem->Opacity);
+        ui->WidthEd->setDisabled(false);    ui->WidthEd->setRange(3,99-CurrentTextItem->x*100);         ui->WidthEd->setValue(CurrentTextItem->w*100);  ui->WidthEd->setSingleStep(int(100/20));
+        ui->HeightEd->setDisabled(false);   ui->HeightEd->setRange(3,99-CurrentTextItem->y*100);        ui->HeightEd->setValue(CurrentTextItem->h*100); ui->HeightEd->setSingleStep(int(100/20));
+        ui->RotateXED->setDisabled(false);  ui->RotateXED->setValue(CurrentTextItem->RotateXAxis);      ui->RotateXSLD->setDisabled(false);             ui->RotateXSLD->setValue(CurrentTextItem->RotateXAxis);
+        ui->RotateYED->setDisabled(false);  ui->RotateYED->setValue(CurrentTextItem->RotateYAxis);      ui->RotateYSLD->setDisabled(false);             ui->RotateYSLD->setValue(CurrentTextItem->RotateYAxis);
+        ui->RotateZED->setDisabled(false);  ui->RotateZED->setValue(CurrentTextItem->RotateZAxis);      ui->RotateZSLD->setDisabled(false);             ui->RotateZSLD->setValue(CurrentTextItem->RotateZAxis);
+        ui->ShadowEffectCB->setDisabled(false);                                                             ui->ShadowEffectCB->setCurrentIndex(CurrentTextItem->FormShadow);
+        ui->ShadowEffectED->setDisabled(false);                                                             ui->ShadowEffectED->setValue(int(CurrentTextItem->FormShadowDistance));
         StopMAJSpinbox=false;
     } else {
         //***********************
@@ -310,12 +337,9 @@ void wgt_QCompositionWidget::RefreshControls() {
         // Shape TAB
         //***********************
         ui->BackgroundFormCB->setDisabled(true);
-        ui->OpacityCB->setDisabled(true);
         ui->PenSizeEd->setDisabled(true);
         ui->PenColorCB->setDisabled(true);
-        //ui->InternalSizeEd->setDisabled(true);
-        //ui->InternalColor1CB->setDisabled(true);
-        //ui->InternalColor2CB->setDisabled(true);
+        ui->PenStyleCB->setDisabled(true);
 
         //***********************
         // Size & Position TAB
@@ -324,6 +348,15 @@ void wgt_QCompositionWidget::RefreshControls() {
         ui->PosYEd->setDisabled(true);      ui->PosYEd->setValue(0);
         ui->WidthEd->setDisabled(true);     ui->WidthEd->setValue(0);
         ui->HeightEd->setDisabled(true);    ui->HeightEd->setValue(0);
+        ui->OpacityCB->setDisabled(true);
+        ui->RotateXED->setDisabled(true);   ui->RotateXED->setValue(0);
+        ui->RotateXSLD->setDisabled(true);  ui->RotateXSLD->setValue(0);
+        ui->RotateYED->setDisabled(true);   ui->RotateYED->setValue(0);
+        ui->RotateYSLD->setDisabled(true);  ui->RotateYSLD->setValue(0);
+        ui->RotateZED->setDisabled(true);   ui->RotateZED->setValue(0);
+        ui->RotateZSLD->setDisabled(true);  ui->RotateZSLD->setValue(0);
+        ui->ShadowEffectCB->setDisabled(true);
+        ui->ShadowEffectED->setDisabled(true);
     }
 
     StopMAJSpinbox=false;
@@ -677,24 +710,51 @@ void wgt_QCompositionWidget::s_plainTextEditChange() {
 
 //====================================================================================================================
 
+void wgt_QCompositionWidget::s_ChangePenStyle(int index) {
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if (CurrentTextItem==NULL) return;
+    CurrentTextItem->PenStyle=ui->PenStyleCB->itemData(index).toInt();
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void wgt_QCompositionWidget::s_ChgShadowFormValue(int value) {
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if (CurrentTextItem==NULL) return;
+    CurrentTextItem->FormShadow=value;
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void wgt_QCompositionWidget::s_ChgShadowDistanceValue(int value) {
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if (CurrentTextItem==NULL) return;
+    CurrentTextItem->FormShadowDistance =value;
+    RefreshControls();
+}
+
+//====================================================================================================================
+
 void wgt_QCompositionWidget::MakeFormIcon(QComboBox *UICB) {
     for (int i=0;i<UICB->count();i++) {
         cCompositionObject Object;
-        Object.Text                 ="";
-        Object.x                    =0;
-        Object.y                    =0;
-        Object.w                    =1;
-        Object.h                    =1;
-        Object.BackgroundForm       =i;
-        Object.Opacity=4;
-        Object.PenSize              =1;
-        Object.PenStyle             =Qt::SolidLine;
-        Object.PenColor             ="#000000";
+        Object.Text                     ="";
+        Object.x                        =0;
+        Object.y                        =0;
+        Object.w                        =1;
+        Object.h                        =1;
+        Object.BackgroundForm           =i;
+        Object.Opacity                  =4;
+        Object.PenSize                  =1;
+        Object.PenStyle                 =Qt::SolidLine;
+        Object.PenColor                 ="#000000";
         Object.BackgroundBrush.BrushType=BRUSHTYPE_NOBRUSH;
         QPixmap  Image(32,32);
         QPainter Painter;
         Painter.begin(&Image);
-        Painter.fillRect(QRectF(0,0,32,32),Qt::white);
+        Painter.fillRect(QRect(0,0,32,32),"#ffffff");
         ADJUST_RATIO=1;
         Object.DrawCompositionObject(Painter,0,0,32,32);
         Painter.end();
@@ -712,8 +772,8 @@ void wgt_QCompositionWidget::MakeTextStyleIcon(QComboBox *UICB) {
         Object.h=0.7;
         Object.HAlign           =1;                 // Center
         Object.VAlign           =1;                 // Center
-        Object.FontColor        ="#ffffff";         // White
-        Object.FontShadowColor  ="#000000";         // Black
+        Object.FontColor        ="#00ff00";
+        Object.FontShadowColor  ="#ff0000";
         Object.StyleText        =i;
         Object.FontSize         =200;
         Object.IsBold           =true;
@@ -721,9 +781,28 @@ void wgt_QCompositionWidget::MakeTextStyleIcon(QComboBox *UICB) {
         Object.BackgroundForm   =0;
         Object.Opacity=0;
         QPixmap  Image(32,32);
-        QPainter Painter;        Painter.begin(&Image);
-        Painter.fillRect(QRectF(0,0,32,32),Qt::lightGray);
+        QPainter Painter;
+        Painter.begin(&Image);
+        Painter.fillRect(QRect(0,0,32,32),"#ffffff");
         Object.DrawCompositionObject(Painter,0,0,32,32);
+        Painter.end();
+        UICB->setItemIcon(i,QIcon(Image));
+    }
+}
+
+void wgt_QCompositionWidget::MakeBorderStyleIcon(QComboBox *UICB) {
+    for (int i=0;i<UICB->count();i++) {
+        QPixmap  Image(32,32);
+        QPainter Painter;
+        Painter.begin(&Image);
+        Painter.fillRect(QRect(0,0,32,32),"#ffffff");
+        QPen Pen;
+        Pen.setColor(Qt::black);
+        Pen.setStyle((Qt::PenStyle)UICB->itemData(i).toInt());
+        Pen.setWidth(2);
+        Painter.setPen(Pen);
+        Painter.setBrush(QBrush(QColor("#ffffff")));
+        Painter.drawLine(0,16,32,16);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -757,5 +836,36 @@ void wgt_QCompositionWidget::s_ChPenColorCB(int) {
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->PenColor=ui->PenColorCB->GetCurrentColor();
+    RefreshControls();
+}
+
+//====================================================================================================================
+// Handler for rotation controls
+//====================================================================================================================
+
+//========= Z Value
+void wgt_QCompositionWidget::s_ChgRotateZValue(int Value) {
+    if (StopMAJSpinbox) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if (CurrentTextItem==NULL) return;
+    CurrentTextItem->RotateZAxis=Value;
+    RefreshControls();
+}
+
+//========= X Value
+void wgt_QCompositionWidget::s_ChgRotateXValue(int Value) {
+    if (StopMAJSpinbox) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if (CurrentTextItem==NULL) return;
+    CurrentTextItem->RotateXAxis=Value;
+    RefreshControls();
+}
+
+//========= Y Value
+void wgt_QCompositionWidget::s_ChgRotateYValue(int Value) {
+    if (StopMAJSpinbox) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if (CurrentTextItem==NULL) return;
+    CurrentTextItem->RotateYAxis=Value;
     RefreshControls();
 }
