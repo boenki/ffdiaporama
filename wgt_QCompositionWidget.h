@@ -87,8 +87,15 @@ private slots:
     void                    s_ChIndexFontColorCombo(int);
     void                    s_ChIndexFontShadowColorCombo(int);
 
+    void                    s_ChgShadowFormValue(int);
+    void                    s_ChgShadowDistanceValue(int);
     void                    s_ChgPenSize(int);
     void                    s_ChPenColorCB(int);
+    void                    s_ChangePenStyle(int);
+
+    void                    s_ChgRotateZValue(int);
+    void                    s_ChgRotateXValue(int);
+    void                    s_ChgRotateYValue(int);
 
 signals:
     void                    NeedRefreshBackgroundImage();
@@ -98,6 +105,8 @@ private:
     void                    Clean();
     void                    MakeFormIcon(QComboBox *UICB);
     void                    MakeTextStyleIcon(QComboBox *UICB);
+    void                    MakeBorderStyleIcon(QComboBox *UICB);
+
     Ui::wgt_QCompositionWidget *ui;
 };
 

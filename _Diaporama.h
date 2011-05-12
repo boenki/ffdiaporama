@@ -78,9 +78,8 @@ public:
     int                 PenSize;                // Width of the border of the form
     int                 PenStyle;               // Style of the pen border of the form
     QString             PenColor;               // Color of the border of the form
-    //int                 InternalPenSize;        // Width of the internal border of the form
-    //QString             InternalColor1;         // Color 1 of the internal border of the form
-    //QString             InternalColor2;         // Color 2 of the internal border of the form
+    int                 FormShadow;             // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+    int                 FormShadowDistance;     // Distance from form to shadow
 
     cCompositionObject();
 
