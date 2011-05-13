@@ -100,13 +100,13 @@ class cCustomBrushComboBox : public QComboBox {
 Q_OBJECT
 public:
     bool                        STOPMAJ;
-    cBrushDefinition            Brush;
+    cBrushDefinition            *Brush;
     cCustomBrushComboBoxItem    ItemDelegate;
 
     explicit            cCustomBrushComboBox(QWidget *parent = 0);
     void                MakeIcons();
-    void                SetCurrentBrush(cBrushDefinition Brush);
-    cBrushDefinition    GetCurrentBrush();
+    void                SetCurrentBrush(cBrushDefinition *Brush);
+    cBrushDefinition    *GetCurrentBrush();
 
 protected:
 
@@ -141,13 +141,13 @@ class cGradientOrientationComboBox : public QComboBox {
 Q_OBJECT
 public:
     bool                                STOPMAJ;
-    cBrushDefinition                    Brush;
+    cBrushDefinition                    *Brush;
     cGradientOrientationComboBoxItem    ItemDelegate;
 
     explicit            cGradientOrientationComboBox(QWidget *parent = 0);
     void                MakeIcons();
-    void                SetCurrentBrush(cBrushDefinition Brush);
-    cBrushDefinition    GetCurrentBrush();
+    void                SetCurrentBrush(cBrushDefinition *Brush);
+    cBrushDefinition    *GetCurrentBrush();
 
 protected:
 

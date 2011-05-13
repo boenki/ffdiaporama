@@ -212,7 +212,8 @@ cCustomBrushComboBoxItem::cCustomBrushComboBoxItem(QObject *parent):QStyledItemD
 void cCustomBrushComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
     int ColorNum=index.row()*4+index.column();
     if (ColorNum<MAXBRUSHPATTERN) {
-        cBrushDefinition Brush=ComboBox->Brush;
+        cBrushDefinition Brush;
+        Brush.ColorD     =ComboBox->Brush->ColorD;
         Brush.BrushType  =BRUSHTYPE_PATTERN;
         Brush.PatternType=ColorNum;
         painter->fillRect(option.rect,Brush.ColorD.toLower()!="#ffffff"?Qt::white:Qt::black);
@@ -245,6 +246,7 @@ QSize cCustomBrushComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,
 
 cCustomBrushComboBox::cCustomBrushComboBox(QWidget *parent):QComboBox(parent) {
     STOPMAJ=false;
+    Brush=NULL;
     QTableWidget    *Table=new QTableWidget();
     Table->horizontalHeader()->hide();
     Table->verticalHeader()->hide();
@@ -270,19 +272,19 @@ cCustomBrushComboBox::cCustomBrushComboBox(QWidget *parent):QComboBox(parent) {
 
 //========================================================================================================================
 
-void cCustomBrushComboBox::SetCurrentBrush(cBrushDefinition TheBrush) {
+void cCustomBrushComboBox::SetCurrentBrush(cBrushDefinition *TheBrush) {
     if (STOPMAJ) return;
     Brush=TheBrush;
-    ((QTableWidget *)view())->setCurrentCell(Brush.PatternType/4,Brush.PatternType-(Brush.PatternType/4)*4);
-    setCurrentIndex(Brush.PatternType/4);
+    ((QTableWidget *)view())->setCurrentCell(Brush->PatternType/4,Brush->PatternType-(Brush->PatternType/4)*4);
+    setCurrentIndex(Brush->PatternType/4);
     MakeIcons();
 }
 
 //========================================================================================================================
 
-cBrushDefinition cCustomBrushComboBox::GetCurrentBrush() {
-    Brush.BrushType  =BRUSHTYPE_PATTERN;
-    Brush.PatternType=currentIndex()*4+((QTableWidget *)view())->currentColumn();
+cBrushDefinition *cCustomBrushComboBox::GetCurrentBrush() {
+    Brush->BrushType  =BRUSHTYPE_PATTERN;
+    Brush->PatternType=currentIndex()*4+((QTableWidget *)view())->currentColumn();
     MakeIcons();
     return Brush;
 }
@@ -290,6 +292,7 @@ cBrushDefinition cCustomBrushComboBox::GetCurrentBrush() {
 //========================================================================================================================
 
 void cCustomBrushComboBox::MakeIcons() {
+    if (!Brush) return;
     int CurrentRow=currentIndex();
     if (CurrentRow<0) return;
     int CurrentCol=((QTableWidget *)view())->currentColumn();
@@ -299,7 +302,8 @@ void cCustomBrushComboBox::MakeIcons() {
     QPainter Painter;
     Painter.begin(&Image);
     if (ColorNum<MAXBRUSHPATTERN) {
-        cBrushDefinition TheBrush=Brush;
+        cBrushDefinition TheBrush;
+        TheBrush.ColorD=Brush->ColorD;
         TheBrush.BrushType  =BRUSHTYPE_PATTERN;
         TheBrush.PatternType=ColorNum;
         Painter.fillRect(QRectF(0,0,64,16),TheBrush.ColorD.toLower()!="#ffffff"?Qt::white:Qt::black);
@@ -336,7 +340,12 @@ cGradientOrientationComboBoxItem::cGradientOrientationComboBoxItem(QObject *pare
 void cGradientOrientationComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
     int ColorNum=index.row()*3+index.column();
     if (ColorNum<MAXGRADIENTORIENTATION) {
-        cBrushDefinition Brush=ComboBox->Brush;
+        cBrushDefinition Brush;
+        Brush.BrushType=ComboBox->Brush->BrushType;
+        Brush.ColorD=ComboBox->Brush->ColorD;
+        Brush.ColorF=ComboBox->Brush->ColorF;
+        Brush.ColorIntermed=ComboBox->Brush->ColorIntermed;
+        Brush.Intermediate=ComboBox->Brush->Intermediate;
         Brush.GradientOrientation=ColorNum;
         QBrush *BR=Brush.GetBrush(option.rect);
         painter->setBrush(*BR);
@@ -367,6 +376,7 @@ QSize cGradientOrientationComboBoxItem::sizeHint(const QStyleOptionViewItem &/*o
 
 cGradientOrientationComboBox::cGradientOrientationComboBox(QWidget *parent):QComboBox(parent) {
     STOPMAJ=false;
+    Brush=NULL;
     QTableWidget    *Table=new QTableWidget();
     Table->horizontalHeader()->hide();
     Table->verticalHeader()->hide();
@@ -392,18 +402,18 @@ cGradientOrientationComboBox::cGradientOrientationComboBox(QWidget *parent):QCom
 
 //========================================================================================================================
 
-void cGradientOrientationComboBox::SetCurrentBrush(cBrushDefinition TheBrush) {
+void cGradientOrientationComboBox::SetCurrentBrush(cBrushDefinition *TheBrush) {
     if (STOPMAJ) return;
     Brush=TheBrush;
-    setCurrentIndex(Brush.GradientOrientation/3);
-    ((QTableWidget *)view())->setCurrentCell(Brush.GradientOrientation/3,Brush.GradientOrientation-(Brush.GradientOrientation/3)*3);
+    setCurrentIndex(Brush->GradientOrientation/3);
+    ((QTableWidget *)view())->setCurrentCell(Brush->GradientOrientation/3,Brush->GradientOrientation-(Brush->GradientOrientation/3)*3);
     MakeIcons();
 }
 
 //========================================================================================================================
 
-cBrushDefinition cGradientOrientationComboBox::GetCurrentBrush() {
-    Brush.GradientOrientation=currentIndex()*3+((QTableWidget *)view())->currentColumn();
+cBrushDefinition *cGradientOrientationComboBox::GetCurrentBrush() {
+    Brush->GradientOrientation=currentIndex()*3+((QTableWidget *)view())->currentColumn();
     MakeIcons();
     return Brush;
 }
@@ -411,6 +421,7 @@ cBrushDefinition cGradientOrientationComboBox::GetCurrentBrush() {
 //========================================================================================================================
 
 void cGradientOrientationComboBox::MakeIcons() {
+    if (!Brush) return;
     int CurrentRow=currentIndex();
     if (CurrentRow<0) return;
     int CurrentCol=((QTableWidget *)view())->currentColumn();
@@ -420,7 +431,12 @@ void cGradientOrientationComboBox::MakeIcons() {
     QPainter Painter;
     Painter.begin(&Image);
     if (ColorNum<MAXGRADIENTORIENTATION) {
-        cBrushDefinition TheBrush=Brush;
+        cBrushDefinition TheBrush;
+        TheBrush.BrushType=Brush->BrushType;
+        TheBrush.ColorD=Brush->ColorD;
+        TheBrush.ColorF=Brush->ColorF;
+        TheBrush.ColorIntermed=Brush->ColorIntermed;
+        TheBrush.Intermediate=Brush->Intermediate;
         TheBrush.GradientOrientation=ColorNum;
         QBrush *BR=TheBrush.GetBrush(QRectF(0,0,64,16));
         Painter.setBrush(*BR);
