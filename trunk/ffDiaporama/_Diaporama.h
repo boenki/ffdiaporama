@@ -32,8 +32,6 @@
 #include "_ApplicationDefinitions.h"
 #include "_ImagesDefinitions.h"
 #include "_SoundDefinitions.h"
-#include "_ImageFileWrapper.h"
-#include "_VideoFileWrapper.h"
 
 class cDiaporama;
 class cDiaporamaObject;
@@ -124,8 +122,6 @@ public:
     int                     ImageRotation;          // Image rotation (in °)
     cFilterCorrectObject    FilterCorrection;       // Image correction
     cCompositionList        ShotComposition;        // Shot Composition object list
-    QTime                   StartPos;               // Start position (video only)
-    QTime                   EndPos;                 // End position (video only)
 
     cDiaporamaShot(cDiaporamaObject *Parent);
     ~cDiaporamaShot();
@@ -162,9 +158,6 @@ public:
     bool                    MusicReduceVolume;          // true if volume if reduce by MusicReduceFactor
     double                  MusicReduceFactor;          // factor for volume reduction if MusicReduceVolume is true
 
-    // Sound definition
-    double                  SoundVolume;                // Volume of soundtrack (for video only)
-
     // Transition
     int                     TransitionFamilly;          // Transition familly
     int                     TransitionSubType;          // Transition type in the familly
@@ -175,7 +168,7 @@ public:
     cDiaporamaObject(cDiaporama *Parent);
     ~cDiaporamaObject();
 
-    bool                    LoadMedia(QString filename,int MediaType);
+    bool                    LoadMedia(QString &filename,int MediaType);
     QString                 GetDisplayName();
     int                     GetCumulTransitDuration();
     int                     GetDuration();

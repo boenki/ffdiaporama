@@ -25,6 +25,7 @@
 #include "_ApplicationDefinitions.h"
 #include "_SoundDefinitions.h"
 #include "_VideoFileWrapper.h"
+#include "mainwindow.h"
 
 //*************************************************************************************************************************************
 
@@ -69,6 +70,9 @@ cvideofilewrapper::cvideofilewrapper() {
     VideoStreamNumber   = 0;
     NextPacketPosition  = -1;
     AdjustTimeStamp     = 0;
+    SoundVolume         = 1;                // Volume of soundtrack
+    StartPos            = QTime(0,0,0,0);   // Start position
+    EndPos              = QTime(0,0,0,0);   // End position
 }
 
 //====================================================================================================================
@@ -453,7 +457,7 @@ QImage *cvideofilewrapper::YUVStreamToQImage(double dPosition,bool GetFirstValid
 
 //====================================================================================================================
 
-bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusicOnly) {
+bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusicOnly) {
     // Clean memory if a previous file was loaded
     CloseVideoFileReader();
 
@@ -470,7 +474,26 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
     //====================================================================================================================
 
     // Open video file and retrieve stream information
-    if (av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
+    bool Continue=true;
+    while ((Continue)&&(av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0)) {
+        if (QMessageBox::question(GlobalMainWindow,QCoreApplication::translate("MainWindow","Open video file"),
+            QCoreApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QCoreApplication::translate("MainWindow","Do you want to select another file ?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
+
+            QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file"),
+               GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
+               GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(aMusicOnly?cApplicationConfig::MUSICFILE:cApplicationConfig::VIDEOFILE));
+            if (NewFileName!="") {
+                FileName=NewFileName;
+                GivenFileName=NewFileName;
+                if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(FileName).absolutePath();     // Keep folder for next use
+            } else Continue=false;
+        }
+    }
+    if (!Continue) {
+        qDebug()<<"Impossible to open file"<<FileName;
+        return false;
+    }
 
     // Setup AVFormatContext options
     ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.

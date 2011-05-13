@@ -311,6 +311,12 @@ cApplicationConfig::cApplicationConfig() {
     AllowImageExtension.append("tiff");    AllowImageExtension.append("TIFF");
     AllowImageExtension.append("xbm");     AllowImageExtension.append("XBM");
     AllowImageExtension.append("xpm");     AllowImageExtension.append("XPM");
+    // List of all file extension allowed for musique
+    AllowMusicExtension.append("wav");     AllowMusicExtension.append("WAV");
+    AllowMusicExtension.append("mp3");     AllowMusicExtension.append("MP3");
+    AllowMusicExtension.append("mp4");     AllowMusicExtension.append("MP4");
+    AllowMusicExtension.append("mpa");     AllowMusicExtension.append("MPA");
+    AllowMusicExtension.append("ogg");     AllowMusicExtension.append("OGG");
 
     GlobalConfigFile=QString(APPLICATION_NAME)+QString(CONFIGFILEEXT);
 
@@ -378,7 +384,7 @@ cApplicationConfig::~cApplicationConfig() {
 //====================================================================================================================
 
 QString cApplicationConfig::GetFilterForMediaFile(FilterFile type) {
-    // enum FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE};
+    // enum FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
     QString ReturnFile="";
     if (type==ALLFILE) {
         ReturnFile=ReturnFile+QApplication::translate("MainWindow","All suported file (");
@@ -396,6 +402,12 @@ QString cApplicationConfig::GetFilterForMediaFile(FilterFile type) {
         if (ReturnFile!="") ReturnFile=ReturnFile+";;";
         ReturnFile=ReturnFile+QApplication::translate("MainWindow","Video file (");
         for (int i=0;i<AllowVideoExtension.count();i++) ReturnFile=ReturnFile+(i>0?" *":"*.")+AllowVideoExtension[i];
+        ReturnFile=ReturnFile+")";
+    }
+    if (type==MUSICFILE) {
+        if (ReturnFile!="") ReturnFile=ReturnFile+";;";
+        ReturnFile=ReturnFile+QApplication::translate("MainWindow","Music file (");
+        for (int i=0;i<AllowMusicExtension.count();i++) ReturnFile=ReturnFile+(i>0?" *":"*.")+AllowMusicExtension[i];
         ReturnFile=ReturnFile+")";
     }
     return ReturnFile;

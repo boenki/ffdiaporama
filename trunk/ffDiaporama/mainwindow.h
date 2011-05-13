@@ -100,4 +100,6 @@ private:
     Ui::MainWindow *ui;
 };
 
+extern MainWindow  *GlobalMainWindow;
+
 #endif // MAINWINDOW_H

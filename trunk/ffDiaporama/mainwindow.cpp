@@ -34,9 +34,12 @@
 
 #include "QSplashScreen"
 
+MainWindow  *GlobalMainWindow=NULL;
+
 //====================================================================================================================
 
 MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+    GlobalMainWindow=this;
     IsFirstInitDone=false;                 // true when first show window was done
     ui->setupUi(this);
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
@@ -705,7 +708,7 @@ void MainWindow::s_action_AddTitle() {
 
     Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
     Diaporama->List[CurIndex].List[0].Parent=&Diaporama->List[CurIndex];
-    Diaporama->List[CurIndex].LoadMedia("",DIAPORAMAOBJECTTYPE_EMPTY);
+    Diaporama->List[CurIndex].TypeObject=DIAPORAMAOBJECTTYPE_EMPTY;
     Diaporama->List[CurIndex].ApplyDefaultFraming(ApplicationConfig->DefaultFraming);
     if (Diaporama->ApplicationConfig->RandomTransition) {
         qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));

@@ -62,6 +62,9 @@ public:
     bool                    IsValide;               // if true then object if fuly initialise
     bool                    MusicOnly;              // True if object is a music only file
     QString                 FileName;               // filename
+    double                  SoundVolume;            // Volume of soundtrack
+    QTime                   StartPos;               // Start position
+    QTime                   EndPos;                 // End position
     QString                 Container;              // Container type (get from file extension)
     QTime                   Duration;               // Duration of the video
     QDateTime               CreatDateTime;          // Original date/time
@@ -86,7 +89,7 @@ public:
     cvideofilewrapper();
     ~cvideofilewrapper();
 
-    bool        GetInformationFromFile(QString GivenFileName,bool MusicOnly);
+    bool        GetInformationFromFile(QString &GivenFileName,bool MusicOnly);
     QImage      *ImageAt(bool PreviewMode,int PreviewMaxHeight,int Position,bool CachedMode,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly);
 
     int         PreviousPosition;

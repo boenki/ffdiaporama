@@ -57,6 +57,7 @@ private slots:
     void        s_ChIndexGradientFinalColorCombo(int);
     void        s_ChIndexGradientIntermColorCombo(int);
     void        s_ChIndexBackgroundCombo(int);
+    void        s_SelectFile();
 
 signals:
     void        NeedRefreshControls();

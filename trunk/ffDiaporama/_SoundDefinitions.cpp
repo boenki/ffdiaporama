@@ -313,9 +313,8 @@ bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QStri
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
-        QString FileName=Element.attribute("FilePath","");
-        if (PathForRelativPath!="") FilePath=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FileName)); else FilePath=FileName;
-
+        FilePath=Element.attribute("FilePath","");
+        if (PathForRelativPath!="") FilePath=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FilePath));
         if (LoadMedia(FilePath)) {
             StartPos=QTime().fromString(Element.attribute("StartPos"));
             EndPos  =QTime().fromString(Element.attribute("EndPos"));
@@ -329,16 +328,16 @@ bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QStri
 
 //====================================================================================================================
 
-bool cMusicObject::LoadMedia(QString filename) {
+bool cMusicObject::LoadMedia(QString &filename) {
     // Clean all
     if (Music!=NULL) {
         delete Music;
         Music=NULL;
     }
 
-    FilePath=filename;
     Music=new cvideofilewrapper();
     IsValide=Music->GetInformationFromFile(filename,true);
+    FilePath=QFileInfo(filename).absoluteFilePath();
     StartPos=QTime(0,0,0,0);                // Start position
     EndPos  =Music->Duration;
     Duration=Music->Duration;

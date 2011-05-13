@@ -414,8 +414,6 @@ cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject) {
     X                       = 0;                // X position (in %) relative to up/left corner
     Y                       = 0;                // Y position (in %) relative to up/left corner
     ZoomFactor              = 1;                // Zoom factor (in %)
-    StartPos                = QTime(0,0,0,0);   // Start position
-    EndPos                  = QTime(0,0,0,0);   // End position
 }
 
 //====================================================================================================================
@@ -448,8 +446,6 @@ void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QStr
     Element.setAttribute("Y",Y);                                                        // Y position (in %) relative to up/left corner
     Element.setAttribute("ZoomFactor",ZoomFactor);                                      // Zoom factor (in %)
     Element.setAttribute("ImageRotation",ImageRotation);                                // Image rotation (in °)
-    Element.setAttribute("StartPos",StartPos.toString());                               // Start position (video only)
-    Element.setAttribute("EndPos",EndPos.toString());                                   // End position (video only)
     FilterCorrection.SaveToXML(Element,"FilterCorrection",PathForRelativPath);          // Image correction
     ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath);            // Composition list for this object
     domDocument.appendChild(Element);
@@ -469,10 +465,14 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
         Y                       =Element.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
         ZoomFactor              =Element.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
         ImageRotation           =Element.attribute("ImageRotation").toInt();            // Image rotation (in °)
-        StartPos                =QTime().fromString(Element.attribute("StartPos"));     // Start position (video only)
-        EndPos                  =QTime().fromString(Element.attribute("EndPos"));       // End position (video only)
         FilterCorrection.LoadFromXML(Element,"FilterCorrection",PathForRelativPath);    // Image correction
         ShotComposition.LoadFromXML(Element,"ShotComposition",PathForRelativPath);      // Composition list for this object
+//
+        if (Parent->Video) {
+            Parent->Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
+            Parent->Video->EndPos     =QTime().fromString(Element.attribute("EndPos"));     // End position (video only)
+        }
+
         return true;
     }
     return false;
@@ -502,7 +502,6 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
     TransitionFamilly           = TRANSITIONFAMILLY_BASE;   // Transition familly
     TransitionSubType           = 0;                        // Transition type in the familly
     TransitionDuration          = 1000;                     // Transition duration (in msec)
-    SoundVolume                 = 1;                        // Volume of soundtrack (for video only)
 
     // Add an empty scene
     List.append(cDiaporamaShot(this));
@@ -532,7 +531,7 @@ QString cDiaporamaObject::GetDisplayName() {
 
 //====================================================================================================================
 
-bool cDiaporamaObject::LoadMedia(QString filename,int MediaType) {
+bool cDiaporamaObject::LoadMedia(QString &filename,int MediaType) {
     // Clean all
     if (Image!=NULL) {
         delete Image;
@@ -552,16 +551,16 @@ bool cDiaporamaObject::LoadMedia(QString filename,int MediaType) {
             break;
         case DIAPORAMAOBJECTTYPE_IMAGE :
             Image=new cimagefilewrapper();
-            IsValide=Image->GetInformationFromFile(Parent->ApplicationConfig,filename);
+            IsValide=Image->GetInformationFromFile(filename);
             break;
         case DIAPORAMAOBJECTTYPE_VIDEO :
             Video=new cvideofilewrapper();
             IsValide=Video->GetInformationFromFile(filename,false);
-            List[0].StartPos             =QTime(0,0,0,0);
-            List[0].EndPos               =Video->Duration;
+            Video->StartPos              =QTime(0,0,0,0);
+            Video->EndPos                =Video->Duration;
             List[0].DefaultStaticDuration=false;
             List[0].DefaultMobilDuration =false;
-            List[0].StaticDuration       =List[0].StartPos.msecsTo(List[0].EndPos);
+            List[0].StaticDuration       =Video->StartPos.msecsTo(Video->EndPos);
             List[0].MobilDuration        =0;
             break;
     }
@@ -737,7 +736,7 @@ QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPaint
                                         bool VideoCachedMode,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming,cSoundBlockList *SoundTrackMontage) {
 
     // Call PrepareImage on a painter to put image on a canvas
-    QImage *SourceImage = GetImageAt(Position+QTime(0,0,0,0).msecsTo(List[0].StartPos),VideoCachedMode,SoundTrackMontage);
+    QImage *SourceImage = GetImageAt(Position+QTime(0,0,0,0).msecsTo(Video?Video->StartPos:QTime(0,0,0,0)),VideoCachedMode,SoundTrackMontage);
     QImage *ReturnImage = NULL;
 
     if ((SourceImage==NULL)||(SourceImage->isNull())) return NULL;
@@ -973,7 +972,11 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
     Element.setAttribute("ObjectFileName",  FileName);
     Element.setAttribute("TypeObject",      TypeObject);
-    Element.setAttribute("SoundVolume",     QString("%1").arg(SoundVolume,0,'f'));          // Volume of soundtrack (for video only)
+    if (Video!=NULL) {
+        Element.setAttribute("StartPos",Video->StartPos.toString());                        // Start position (video only)
+        Element.setAttribute("EndPos",Video->EndPos.toString());                            // End position (video only)
+        Element.setAttribute("SoundVolume",QString("%1").arg(Video->SoundVolume,0,'f'));    // Volume of soundtrack (for video only)
+    }
 
     QDomElement SubElement=DomDocument.createElement("Background");
     SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                       // Background type : false=same as precedent - true=new background definition
@@ -1019,7 +1022,11 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         if (LoadMedia(FileName,TheTypeObject)) {
             bool IsOk=true;
 
-            SoundVolume=Element.attribute("SoundVolume").toDouble();    // Volume of soundtrack (for video only)
+            if (Video!=NULL) {
+                Video->SoundVolume=Element.attribute("SoundVolume").toDouble();         // Volume of soundtrack (for video only)
+                Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
+                Video->EndPos     =QTime().fromString(Element.attribute("EndPos"));     // End position (video only)
+            }
 
             if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
                 QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
@@ -2055,8 +2062,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 
 void cDiaporama::ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,bool SoundOnly) {
     Info->CurrentObject_SourceImage=Info->CurrentObject->Video->ImageAt(PreviewMode,ApplicationConfig->PreviewMaxHeight,
-        Info->CurrentObject_InObjectTime+QTime(0,0,0,0).msecsTo(Info->CurrentObject->List[0].StartPos),
-        false,false,Info->CurrentObject_SoundTrackMontage,Info->CurrentObject->SoundVolume,SoundOnly);
+        Info->CurrentObject_InObjectTime+QTime(0,0,0,0).msecsTo(Info->CurrentObject->Video->StartPos),
+        false,false,Info->CurrentObject_SoundTrackMontage,Info->CurrentObject->Video->SoundVolume,SoundOnly);
 }
 
 void cDiaporama::ThreadLoadSourcePhotoImage(cDiaporamaObjectInfo *Info,bool PreviewMode) {
@@ -2065,8 +2072,8 @@ void cDiaporama::ThreadLoadSourcePhotoImage(cDiaporamaObjectInfo *Info,bool Prev
 
 void cDiaporama::ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,bool SoundOnly) {
     Info->TransitObject_SourceImage=Info->TransitObject->Video->ImageAt( // Video
-        PreviewMode,ApplicationConfig->PreviewMaxHeight,Info->TransitObject_InObjectTime+QTime(0,0,0,0).msecsTo(Info->TransitObject->List[0].StartPos),
-        false,false,Info->TransitObject_SoundTrackMontage,Info->TransitObject->SoundVolume,SoundOnly);
+        PreviewMode,ApplicationConfig->PreviewMaxHeight,Info->TransitObject_InObjectTime+QTime(0,0,0,0).msecsTo(Info->TransitObject->Video->StartPos),
+        false,false,Info->TransitObject_SoundTrackMontage,Info->TransitObject->Video->SoundVolume,SoundOnly);
 }
 
 void cDiaporama::ThreadLoadTransitPhotoImage(cDiaporamaObjectInfo *Info,bool PreviewMode) {
