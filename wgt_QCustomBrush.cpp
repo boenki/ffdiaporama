@@ -92,8 +92,8 @@ void wgt_QCustomBrush::RefreshControls(cBrushDefinition *TheCurrentBrush,bool Al
         ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
         ui->FinalColorCombo->SetCurrentColor(&CurrentBrush->ColorF);
         ui->IntermColorCombo->SetCurrentColor(&CurrentBrush->ColorIntermed);
-        ui->PatternBrushCombo->SetCurrentBrush(*CurrentBrush);
-        ui->OrientationCombo->SetCurrentBrush(*CurrentBrush);
+        ui->PatternBrushCombo->SetCurrentBrush(CurrentBrush);
+        ui->OrientationCombo->SetCurrentBrush(CurrentBrush);
         ui->BackgroundCombo->SetCurrentBackground(CurrentBrush->BrushImage);
         ui->IntermPosSlider->setValue(CurrentBrush->Intermediate*100);
         ui->IntermPosED->setValue(CurrentBrush->Intermediate*100);
@@ -191,6 +191,10 @@ void wgt_QCustomBrush::s_SelectFile() {
     QCoreApplication::processEvents();
     if (NewFile!="") {
         if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
+        if (CurrentBrush->CacheFileImage) {
+            delete CurrentBrush->CacheFileImage;
+            CurrentBrush->CacheFileImage=NULL;
+        }
         CurrentBrush->BrushFileName=QFileInfo(NewFile).absoluteFilePath();
         emit NeedRefreshControls();
     }
@@ -222,7 +226,7 @@ void wgt_QCustomBrush::s_IntermPosED(int Value) {
 void wgt_QCustomBrush::s_ChIndexPatternBrushCombo(int) {
     if (StopMAJSpinbox) return;
     if (CurrentBrush==NULL) return;
-    *CurrentBrush=ui->PatternBrushCombo->GetCurrentBrush();
+    CurrentBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
     emit NeedRefreshControls();
 }
 
@@ -230,7 +234,7 @@ void wgt_QCustomBrush::s_ChIndexPatternBrushCombo(int) {
 void wgt_QCustomBrush::s_ChIndexGradientOrientationCombo(int) {
     if (StopMAJSpinbox) return;
     if (CurrentBrush==NULL) return;
-    *CurrentBrush=ui->OrientationCombo->GetCurrentBrush();
+    CurrentBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
     emit NeedRefreshControls();
 }
 

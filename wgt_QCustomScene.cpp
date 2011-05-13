@@ -307,7 +307,7 @@ void wgt_QCustomScene::RefreshBackgroundImage() {
 
     // Prepare CacheImage
     QRectF  ImagePosition;
-    QImage *NewImage=DiaporamaShot->Parent->CanvasImageAt(xmax,ymax,0,NULL,0,0,&ImagePosition,&DiaporamaShot->ImageRotation,true,true,true,false,NULL);
+    QImage *NewImage=DiaporamaShot->Parent->CanvasImageAt(xmax,ymax,0,NULL,0,0,&ImagePosition,&DiaporamaShot->ImageRotation,true,false,true,false,NULL);
     // Calc magnetic ruller guides positions
     MagneticRuller.MagnetX1=ImagePosition.x();
     MagneticRuller.MagnetX2=ImagePosition.x()+ImagePosition.width();

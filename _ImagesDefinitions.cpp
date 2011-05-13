@@ -192,11 +192,30 @@ cBrushDefinition::cBrushDefinition() {
     ColorIntermed       ="#777777";             // Intermediate Color
     Intermediate        =0.1;                   // Intermediate position of 2nd color (in %)
     GradientOrientation =6;                     // 1=Up-Left, 2=Up, 3=Up-right, ...
-    BrushImage          ="";                    // Image name if brush library or brush disk
+    BrushImage          ="";                    // Image name if image from library
+    BrushFileName       ="";                    // Image name if image from disk
     Image               =NULL;
     Video               =NULL;
+    CacheFileImage      =NULL;
 }
 
+//====================================================================================================================
+cBrushDefinition::~cBrushDefinition() {
+    if (Image) {
+        delete Image;
+        Image=NULL;
+    }
+    if (Video) {
+        delete Video;
+        Video=NULL;
+    }
+    if (CacheFileImage) {
+        delete CacheFileImage;
+        CacheFileImage=NULL;
+    }
+}
+
+//====================================================================================================================
 QBrush *cBrushDefinition::GetBrush(QRectF Rect) {
     switch (BrushType) {
         case BRUSHTYPE_NOBRUSH :        return new QBrush(Qt::NoBrush);
@@ -205,11 +224,45 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect) {
         case BRUSHTYPE_GRADIENT2 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_GRADIENT3 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_IMAGELIBRARY :   return GetLibraryBrush(Rect);
-//        case BRUSHTYPE_IMAGEDISK :
+        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect);
     }
     return new QBrush(Qt::NoBrush);
 }
 
+//====================================================================================================================
+QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect) {
+    if (BrushFileName=="") return new QBrush(Qt::NoBrush);
+
+    if (!CacheFileImage) {
+        CacheFileImage=new QImage();
+        if ((!CacheFileImage->load(BrushFileName))||(CacheFileImage->isNull())) {
+            delete CacheFileImage;
+            CacheFileImage=NULL;
+            return new QBrush(Qt::NoBrush);
+        }
+    }
+
+    double Ratio=double(CacheFileImage->height())/double(CacheFileImage->width());
+    double H    =Rect.height()+1;
+    double W    =H/Ratio;
+
+    QImage NewImg1;
+    if (W<(Rect.width()+1)) {
+        NewImg1=QImage(CacheFileImage->scaledToWidth(Rect.width()+1));
+    } else {
+        NewImg1=QImage(CacheFileImage->scaledToHeight(Rect.height()+1));
+    }
+    W=NewImg1.width();
+    H=GetHeightForWidth(W,Rect);
+    if (H<NewImg1.height()) {
+        H=NewImg1.height();
+        W=GetWidthForHeight(H,Rect);
+    }
+    if ((W!=NewImg1.width())||(H!=NewImg1.height())) return new QBrush(QImage(NewImg1.copy(0,0,W,H))); else return new QBrush(NewImg1);
+}
+
+
+//====================================================================================================================
 QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
     if ((LastLoadedBackgroundImage!=NULL)&&(LastLoadedBackgroundImageName!=BrushImage)) {
         delete LastLoadedBackgroundImage;
@@ -242,12 +295,14 @@ QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
     } else return new QBrush(Qt::NoBrush);
 }
 
+//====================================================================================================================
 // Return height for width depending on Rect geometry
 int cBrushDefinition::GetHeightForWidth(int WantedWith,QRectF Rect) {
     double   Ratio=Rect.width()/Rect.height();
     return int(double(double(WantedWith)/Ratio));
 }
 
+//====================================================================================================================
 // Return width for height depending on Rect geometry
 int cBrushDefinition::GetWidthForHeight(int WantedHeight,QRectF Rect) {
     double   Ratio=Rect.height()/Rect.width();
