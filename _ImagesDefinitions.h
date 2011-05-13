@@ -39,7 +39,7 @@ class   cFilterTransformObject {
 public:
     double   BlurSigma;
     double   BlurRadius;
-    int     OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
+    int      OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
 
     cFilterTransformObject();
 
@@ -56,7 +56,7 @@ class   cFilterCorrectObject {
 public:
     int     Brightness;
     int     Contrast;
-    double   Gamma;
+    double  Gamma;
     int     Red;
     int     Green;
     int     Blue;
@@ -74,14 +74,19 @@ public:
 
 class cBrushDefinition {
 public:
-    int         BrushType;              // 0=no brush, 1=Solid, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-    int         PatternType;            // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    int         GradientOrientation;    // 0=Radial, 1->4=Linear from a corner, 5->9=Linear from a border
-    QString     ColorD;                 // First Color
-    QString     ColorF;                 // Last Color
-    QString     ColorIntermed;          // Intermediate Color
-    double      Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
-    QString     BrushImage;             // Image name if brush library or brush disk
+    int                     BrushType;              // 0=no brush, 1=Solid, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
+    int                     PatternType;            // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
+    int                     GradientOrientation;    // 0=Radial, 1->4=Linear from a corner, 5->9=Linear from a border
+    QString                 ColorD;                 // First Color
+    QString                 ColorF;                 // Last Color
+    QString                 ColorIntermed;          // Intermediate Color
+    double                  Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
+    QString                 BrushImage;             // Image name if image from library
+    QString                 BrushFileName;          // Image name if image from disk
+    cFilterCorrectObject    BrushFileCorrect;       // Image correction if image from disk
+    cFilterTransformObject  BrushFileTransform;     // Image transformation if image from disk
+    cimagefilewrapper       *Image;                 // Embeded Object for title and image type
+    cvideofilewrapper       *Video;                 // Embeded Object for video type
 
     cBrushDefinition();
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);

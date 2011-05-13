@@ -20,6 +20,7 @@
 
 #include "DlgMusicProperties.h"
 #include "ui_DlgMusicProperties.h"
+#include "mainwindow.h"
 
 DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,QWidget *parent) : QDialog(parent), ui(new Ui::DlgMusicProperties) {
     ui->setupUi(this);
@@ -214,7 +215,7 @@ void DlgMusicProperties::SetupUi() {
 void DlgMusicProperties::s_AddMusic() {
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("DlgMusicProperties","Add music files"),
                                                        DiaporamaObject->Parent->ApplicationConfig->RememberLastDirectories?DiaporamaObject->Parent->ApplicationConfig->LastMusicPath:"",
-                                                       QApplication::translate("MainWindow","Music files")+" (*.wav *.WAV *.mp3 *.MP3 *.mp4 *.MP4 *.mpa *.MPA *.ogg *.OGG)");
+                                                       GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::MUSICFILE));
     QCoreApplication::processEvents();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int CurIndex=DiaporamaObject->MusicList.count();

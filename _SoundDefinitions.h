@@ -88,7 +88,7 @@ public:
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadMedia(QString filename);
+    bool        LoadMedia(QString &filename);
 };
 
 //*********************************************************************************************************************************************

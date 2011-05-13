@@ -43,7 +43,7 @@ public:
     cimagefilewrapper();
     ~cimagefilewrapper();
 
-    bool    GetInformationFromFile(cApplicationConfig *ApplicationConfig,QString GivenFileName);
+    bool    GetInformationFromFile(QString &GivenFileName);
     QImage  *ImageAt(bool PreviewMode,int PreviewMaxHeight,bool ForceLoadDisk);
 };
 

@@ -20,6 +20,7 @@
 
 #include "wgt_QCustomBrush.h"
 #include "ui_wgt_QCustomBrush.h"
+#include "mainwindow.h"
 
 wgt_QCustomBrush::wgt_QCustomBrush(QWidget *parent) : QWidget(parent),ui(new Ui::wgt_QCustomBrush) {
     ui->setupUi(this);
@@ -58,6 +59,9 @@ void wgt_QCustomBrush::InitWidget(bool AllowBrushTypeNoBrush,bool AllowBrushType
     ui->BrushTypeCombo->addItem(QCoreApplication::translate("wgt_QCustomBrush","Image from library"));
     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGELIBRARY)));
 
+    ui->BrushTypeCombo->addItem(QCoreApplication::translate("wgt_QCustomBrush","Image from disk"));
+    ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGEDISK)));
+
     // Handler for custom color/brush/pattern/gradient combo box index change
     connect(ui->PatternBrushCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexPatternBrushCombo(int)));
     connect(ui->OrientationCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientOrientationCombo(int)));
@@ -69,6 +73,8 @@ void wgt_QCustomBrush::InitWidget(bool AllowBrushTypeNoBrush,bool AllowBrushType
     // Intermediate position for gradient 3 colors
     connect(ui->IntermPosSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_IntermPosSliderMoved(int)));
     connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
+
+    connect(ui->ImageFileBT,SIGNAL(pressed()),this,SLOT(s_SelectFile()));
 }
 
 //====================================================================================================================
@@ -134,6 +140,16 @@ void wgt_QCustomBrush::RefreshControls(cBrushDefinition *TheCurrentBrush,bool Al
         ui->ImageLibraryLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY));
         ui->BackgroundCombo->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY));
 
+        ui->ImageFileLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->ImageFileED->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->ImageFileBT->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->ImageGeometryLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->ImageGeometryCB->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->ImageEditCorrectBT->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->ImageEditTransformBT->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+
+        ui->ImageFileED->setText(CurrentBrush->BrushFileName);
+
     } else {
         ui->BrushTypeLabel->setVisible(false);
         ui->BrushTypeCombo->setDisabled(true);      ui->BrushTypeCombo->setVisible(false);
@@ -151,6 +167,9 @@ void wgt_QCustomBrush::RefreshControls(cBrushDefinition *TheCurrentBrush,bool Al
         ui->OrientationLabel->setVisible(false);    ui->OrientationSpacer->setVisible(false);
         ui->OrientationCombo->setVisible(false);    ui->OrientationCombo->setEnabled(false);
         ui->ImageLibraryLabel->setVisible(false);   ui->BackgroundCombo->setVisible(false);
+        ui->ImageFileLabel->setVisible(false);      ui->ImageFileED->setVisible(false);         ui->ImageFileBT->setVisible(false);
+        ui->ImageGeometryLabel->setVisible(false);  ui->ImageGeometryCB->setVisible(false);
+        ui->ImageEditCorrectBT->setVisible(false);  ui->ImageEditTransformBT->setVisible(false);
     }
 }
 
@@ -161,6 +180,20 @@ void wgt_QCustomBrush::s_ChangeBrushTypeCombo(int Value) {
     if (CurrentBrush==NULL) return;
     CurrentBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
     emit NeedRefreshControls();
+}
+
+//====================================================================================================================
+
+void wgt_QCustomBrush::s_SelectFile() {
+    QString NewFile=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Select a file"),
+                                                       GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
+                                                       GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
+    QCoreApplication::processEvents();
+    if (NewFile!="") {
+        if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
+        CurrentBrush->BrushFileName=QFileInfo(NewFile).absoluteFilePath();
+        emit NeedRefreshControls();
+    }
 }
 
 //====================================================================================================================

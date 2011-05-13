@@ -131,6 +131,12 @@ extern "C" {
 #include "fmt_filters.h"
 
 //============================================
+// Basic class from this project
+//============================================
+#include "_ImageFileWrapper.h"
+#include "_VideoFileWrapper.h"
+
+//============================================
 // Global defines
 //============================================
 #define APPLICATION_NAME                    "ffDiaporama"

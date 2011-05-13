@@ -23,6 +23,7 @@
 
 // Specific inclusions
 #include "_ImageFileWrapper.h"
+#include "mainwindow.h"
 
 //*********************************************************************************************************************************************
 // Global class containing image sequences
@@ -48,77 +49,93 @@ cimagefilewrapper::~cimagefilewrapper() {
 
 //====================================================================================================================
 
-bool cimagefilewrapper::GetInformationFromFile(cApplicationConfig *ApplicationConfig,QString GivenFileName) {
+bool cimagefilewrapper::GetInformationFromFile(QString &GivenFileName) {
     FileName    =QFileInfo(GivenFileName).absoluteFilePath();
-    if (QFileInfo(FileName).exists()) {
-        CreatDateTime=QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
-        ModifDateTime=QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
-        IsValide     =true;
-    } else IsValide=false;
 
-    // If all is Ok then load exiv2 value
-    if (IsValide==true) {
-        QString   Commande;
-        QString   Info,Part;
-        bool      ExifOK=true;
+    bool Continue=true;
+    while ((Continue)&&(!QFileInfo(FileName).exists())) {
+        if (QMessageBox::question(GlobalMainWindow,QCoreApplication::translate("MainWindow","Open image file"),
+            QCoreApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QCoreApplication::translate("MainWindow","Do you want to select another file ?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
 
-        ImageOrientation=1; // Set default image orientation
-
-        // start exiv2
-        Commande = ApplicationConfig->PathEXIV2+" print -pa \""+GivenFileName+"\"";
-        Commande = AdjustDirForOS(Commande);
-        QProcess Process;
-        Process.setProcessChannelMode(QProcess::MergedChannels);
-        Process.start(Commande);
-        if (!Process.waitForStarted()) {
-            qDebug()<<"Impossible to start exiv2 - no exif informations will be decode for"<<GivenFileName;
-            ExifOK=false;
+            QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file"),
+               GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
+               GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::IMAGEFILE));
+            if (NewFileName!="") {
+                FileName=NewFileName;
+                if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(FileName).absolutePath();     // Keep folder for next use
+            } else Continue=false;
         }
-        if (ExifOK && !Process.waitForFinished()) {
-            qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<GivenFileName;
-            ExifOK=false;
-        }
-        if (ExifOK && (Process.exitStatus()<0)) {
-            qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode for"<<GivenFileName;
-            ExifOK=false;
-        }
-        if (ExifOK) {
-            Info=QString(Process.readAllStandardOutput());
+    }
+    if (!Continue) {
+        qDebug()<<"Impossible to open file"<<FileName;
+        return false;
+    }
 
-            while (Info.length()>0) {
-                if (Info.contains("\n")) {
-                    Part=Info.left(Info.indexOf("\n"));
-                    Info=Info.mid(Info.indexOf("\n")+QString("\n").length());
-                } else {
-                    Part=Info;
-                    Info="";
-                }
-                QString Designation,Value;
-                bool    GetValueOrientation;
-                if (Part.contains(" ")) {
-                    Designation=Part.left(Part.indexOf(" "));
-                    GetValueOrientation=(Designation=="Exif.Image.Orientation");
-                    while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
-                    Value=(Part.mid(Part.indexOf(" ")+QString(" ").length())).trimmed();
-                    if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
-                    if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
-                    if (Part.contains(" ")) Part=Part.left(Part.indexOf(" "));
-                    if (Part.startsWith("Exif.")) Part=Part.mid(QString("Exif.").length());
-                    ExivValue.append(Part+"##"+Value);
-                    if (GetValueOrientation) {
-                        if (Value=="top, left")     ImageOrientation=1;
-                        if (Value=="top, right")    ImageOrientation=2;
-                        if (Value=="bottom, right") ImageOrientation=3;
-                        if (Value=="bottom, left")  ImageOrientation=4;
-                        if (Value=="left, top")     ImageOrientation=5;
-                        if (Value=="right, top")    ImageOrientation=6;
-                        if (Value=="right, bottom") ImageOrientation=7;
-                        if (Value=="left, bottom")  ImageOrientation=8;
-                    }
+    QString   Commande;
+    QString   Info,Part;
+    bool      ExifOK=true;
+
+    CreatDateTime   =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
+    ModifDateTime   =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
+    IsValide        =true;
+    ImageOrientation=1; // Set default image orientation
+
+    // start exiv2
+    Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pa \""+GivenFileName+"\"";
+    Commande = AdjustDirForOS(Commande);
+    QProcess Process;
+    Process.setProcessChannelMode(QProcess::MergedChannels);
+    Process.start(Commande);
+    if (!Process.waitForStarted()) {
+        qDebug()<<"Impossible to start exiv2 - no exif informations will be decode for"<<GivenFileName;
+        ExifOK=false;
+    }
+    if (ExifOK && !Process.waitForFinished()) {
+        qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<GivenFileName;
+        ExifOK=false;
+    }
+    if (ExifOK && (Process.exitStatus()<0)) {
+        qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode for"<<GivenFileName;
+        ExifOK=false;
+    }
+    if (ExifOK) {
+        Info=QString(Process.readAllStandardOutput());
+
+        while (Info.length()>0) {
+            if (Info.contains("\n")) {
+                Part=Info.left(Info.indexOf("\n"));
+                Info=Info.mid(Info.indexOf("\n")+QString("\n").length());
+            } else {
+                Part=Info;
+                Info="";
+            }
+            QString Designation,Value;
+            bool    GetValueOrientation;
+            if (Part.contains(" ")) {
+                Designation=Part.left(Part.indexOf(" "));
+                GetValueOrientation=(Designation=="Exif.Image.Orientation");
+                while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
+                Value=(Part.mid(Part.indexOf(" ")+QString(" ").length())).trimmed();
+                if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
+                if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
+                if (Part.contains(" ")) Part=Part.left(Part.indexOf(" "));
+                if (Part.startsWith("Exif.")) Part=Part.mid(QString("Exif.").length());
+                ExivValue.append(Part+"##"+Value);
+                if (GetValueOrientation) {
+                    if (Value=="top, left")     ImageOrientation=1;
+                    if (Value=="top, right")    ImageOrientation=2;
+                    if (Value=="bottom, right") ImageOrientation=3;
+                    if (Value=="bottom, left")  ImageOrientation=4;
+                    if (Value=="left, top")     ImageOrientation=5;
+                    if (Value=="right, top")    ImageOrientation=6;
+                    if (Value=="right, bottom") ImageOrientation=7;
+                    if (Value=="left, bottom")  ImageOrientation=8;
                 }
             }
         }
     }
+
     return IsValide;
 }
 

@@ -78,6 +78,7 @@ public:
 
     QStringList         AllowVideoExtension;                        // List of all file extension allowed for video
     QStringList         AllowImageExtension;                        // List of all file extension allowed for image
+    QStringList         AllowMusicExtension;                        // List of all file extension allowed for music
 
     // User contexte
     QString             UserConfigPath;                             // Path and filename to user profil path
@@ -141,7 +142,7 @@ public:
     virtual bool        LoadConfigurationFile(int TypeConfigFile);
     virtual bool        SaveConfigurationFile();
 
-    enum FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE};
+    enum FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
     virtual QString     GetFilterForMediaFile(FilterFile type);
 };
 

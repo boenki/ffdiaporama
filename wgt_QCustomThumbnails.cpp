@@ -175,7 +175,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Pen.setStyle(Qt::SolidLine);
                     Painter.setPen(Pen);
                     Painter.setBrush(QBrush(QColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
-                    int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(Diaporama->List[Col-1].SoundVolume/1.5));
+                    int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(Diaporama->List[Col-1].Video->SoundVolume/1.5));
                     Table[0]=QPointF(0,Height-RHeightPrevious-2);
                     Table[1]=QPointF(TransitionSize,Height-2);
                     Table[2]=QPointF(0,Height-2);
@@ -194,7 +194,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     case DIAPORAMAOBJECTTYPE_VIDEO :
                         int H3            =NewThumbHeight/5;
                         int HH3           =(NewThumbHeight-H3*3)/4;
-                        int RHeight       =int(double(TIMELINESOUNDHEIGHT)*(Diaporama->List[Col].SoundVolume/1.5));
+                        int RHeight       =int(double(TIMELINESOUNDHEIGHT)*(Diaporama->List[Col].Video->SoundVolume/1.5));
 
                         // Draw thumb part
                         Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,Diaporama->Transparent);
@@ -234,7 +234,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                                 Pen.setStyle(Qt::SolidLine);
                                 Painter.setPen(Pen);
                                 Painter.setBrush(QBrush(QColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
-                                int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(Diaporama->List[Col-1].SoundVolume/1.5));
+                                int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(Diaporama->List[Col-1].Video->SoundVolume/1.5));
                                 Table[0]=QPointF(0,Height-RHeightPrevious);
                                 Table[1]=QPointF(TransitionSize,Height);
                                 Table[2]=QPointF(0,Height);
