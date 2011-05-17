@@ -27,6 +27,7 @@
 #include "DlgImageProperties.h"
 #include "DlgBackgroundProperties.h"
 #include "DlgMusicProperties.h"
+#include "DlgSlideProperties.h"
 #include "DlgTransitionProperties.h"
 #include "DlgProject.h"
 #include "DlgApplicationSettings.h"
@@ -62,14 +63,6 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
         AddToSystemProperties(QString(BUILDVERSION_STR)+QString(APPLICATION_NAME)+" "+QString(APPLICATION_VERSION)+" "+QString(Line));
      }
     file.close();
-    // Search if a _BUILDVERSION.txt file exist
-    QFile fileCommon("_BUILDVERSION.txt");
-    if (fileCommon.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString Line=QString(fileCommon.readLine());
-        if (Line.endsWith("\n")) Line=Line.left(Line.length()-QString("\n").length());
-        AddToSystemProperties(QString(COMMONPARTVERSION_STR)+QString(Line));
-     }
-    fileCommon.close();
     AddToSystemProperties(QString(VERSIONQT_STR)+QString(qVersion()));
     AddToSystemProperties(QString(FMTFILTERVERSION_STR)+"0.6.4-Licence=LGPL");
 
@@ -383,7 +376,7 @@ void MainWindow::s_ItemDoubleClicked() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     bool IsOk=false;
     switch (Diaporama->List[Diaporama->CurrentCol].TypeObject) {
-        case DIAPORAMAOBJECTTYPE_EMPTY: IsOk=(DlgImageProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0);     break;
+        case DIAPORAMAOBJECTTYPE_EMPTY: IsOk=(DlgSlideProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0);     break;
         case DIAPORAMAOBJECTTYPE_IMAGE: IsOk=(DlgImageProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0);     break;
         case DIAPORAMAOBJECTTYPE_VIDEO: IsOk=(DlgVideoProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0);     break;
     }

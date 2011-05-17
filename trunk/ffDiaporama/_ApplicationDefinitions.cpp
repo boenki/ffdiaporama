@@ -365,6 +365,8 @@ cApplicationConfig::cApplicationConfig() {
     DlgApplicationSettingsWSP   =new cSaveWindowPosition("DlgApplicationSettings",RestoreWindow,false);     // Dialog box "Application settings" - Window size and position
     DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);          // Dialog box "Render Video" - Window size and position
     DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false); // Dialog box "Transition properties" - Window size and position
+    DlgSlidePropertiesWSP       =new cSaveWindowPosition("DlgSlidePropertiesWSP",RestoreWindow,false);      // Dialog box "Slide properties" - Window size and position
+
     DisableSSE2                 =0;
  }
 
@@ -379,6 +381,7 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgApplicationSettingsWSP;
     delete DlgRenderVideoWSP;
     delete DlgTransitionPropertiesWSP;
+    delete DlgSlidePropertiesWSP;
 }
 
 //====================================================================================================================
@@ -547,6 +550,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     DlgApplicationSettingsWSP->LoadFromXML(root);                   // Dialog box "Application settings" - Window size and position
     DlgRenderVideoWSP->LoadFromXML(root);                           // Dialog box "Render video" - Window size and position
     DlgTransitionPropertiesWSP->LoadFromXML(root);                  // Dialog box "Transition properties" - Window size and position
+    DlgSlidePropertiesWSP->LoadFromXML(root);                       // Dialog box "Slide properties" - Window size and position
 
     if (DisableSSE2) qputenv("QT_NO_SSE2","1");
     return true;
@@ -623,6 +627,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     DlgApplicationSettingsWSP->SaveToXML(root);                 // Dialog box "Application settings" - Window size and position
     DlgRenderVideoWSP->SaveToXML(root);                         // Dialog box "Render video" - Window size and position
     DlgTransitionPropertiesWSP->SaveToXML(root);                // Dialog box "Transition properties" - Window size and position
+    DlgSlidePropertiesWSP->SaveToXML(root);                     // Dialog box "Slide properties" - Window size and position
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {

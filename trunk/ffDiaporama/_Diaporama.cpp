@@ -62,7 +62,7 @@ cCompositionObject::cCompositionObject() {
     StyleText               = DEFAULT_FONT_TEXTEFFECT;                          // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
 
     // Shap part
-    BackgroundForm          = 0;                                                // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
+    BackgroundForm          = 1;                                                // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
     Opacity                 = DEFAULT_SHAPE_OPACITY;                            // Style of the background of the form
     PenSize                 = DEFAULT_SHAPE_BORDERSIZE;                         // Width of the border of the form
     PenStyle                = Qt::SolidLine;                                    // Style of the pen border of the form
@@ -153,7 +153,13 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         FormShadow          =Element.attribute("FormShadow").toInt();               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
         FormShadowDistance  =Element.attribute("FormShadowDistance").toInt();       // Distance from form to shadow
 
-        BackgroundBrush.LoadFromXML(Element,"BackgroundBrush",PathForRelativPath);  // Brush of the background of the form
+        // Compatibility with old release : remove case BackgroundForm==0
+        if (BackgroundForm==0) {
+            BackgroundForm           =1;        // Set to rectangle
+            PenSize                  =0;        // border=0
+            BackgroundBrush.BrushType=0;        // brushtype=no brush
+        } else BackgroundBrush.LoadFromXML(Element,"BackgroundBrush",PathForRelativPath);  // Brush of the background of the form
+
         return true;
     }
     return false;
@@ -199,41 +205,39 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
     Painter.setWorldTransform(Matrix,false);
 
     // Paint background if needed
-    if (BackgroundForm!=0) {                        // other than 0=None
-        double  RayX,RayY;
+    double  RayX=0,RayY=0;
 
-        // Roundrect values
-        if (BackgroundForm==2) {
-            RayX=W/10;    if (RayX>16) RayX=16; else if (RayX<8)  RayX=8;
-            RayY=H/10;    if (RayY>16) RayY=16; else if (RayY<8)  RayY=8;
-        } else if (BackgroundForm==3) {
-            RayX=2*W/10;
-            RayY=2*H/10;
-        }
-        // Draw ExternalBorder border
-        if (PenSize==0) Painter.setPen(Qt::NoPen); else {
-            Pen.setColor(PenColor);
-            FullMargin=double(PenSize)*ADJUST_RATIO/2;
-            Pen.setWidthF(double(PenSize)*ADJUST_RATIO);
-            Pen.setStyle((Qt::PenStyle)PenStyle);
-            Painter.setPen(Pen);
-        }
-        // Draw internal shape
-        if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
-            QBrush      *BR=BackgroundBrush.GetBrush(QRectF(-1,-1,W-FullMargin*2,H-FullMargin*2));
-            QTransform  MatrixBR;
-            MatrixBR.translate(FullMargin-W/2,FullMargin-H/2);
-            BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
-            Painter.setBrush(*BR);
-            delete BR;
-        }
-        if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-        DrawShape(Painter,FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2,0,0,RayX,RayY);
-        if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-
-        Painter.setPen(Qt::NoPen);
-        FullMargin=FullMargin*2;
+    // Roundrect values
+    if (BackgroundForm==2) {
+        RayX=W/10;    if (RayX>16) RayX=16; else if (RayX<8)  RayX=8;
+        RayY=H/10;    if (RayY>16) RayY=16; else if (RayY<8)  RayY=8;
+    } else if (BackgroundForm==3) {
+        RayX=2*W/10;
+        RayY=2*H/10;
     }
+    // Draw ExternalBorder border
+    if (PenSize==0) Painter.setPen(Qt::NoPen); else {
+        Pen.setColor(PenColor);
+        FullMargin=double(PenSize)*ADJUST_RATIO/2;
+        Pen.setWidthF(double(PenSize)*ADJUST_RATIO);
+        Pen.setStyle((Qt::PenStyle)PenStyle);
+        Painter.setPen(Pen);
+    }
+    // Draw internal shape
+    if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
+        QBrush      *BR=BackgroundBrush.GetBrush(QRectF(-1,-1,W-FullMargin*2,H-FullMargin*2));
+        QTransform  MatrixBR;
+        MatrixBR.translate(FullMargin-W/2,FullMargin-H/2);
+        BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
+        Painter.setBrush(*BR);
+        delete BR;
+    }
+    if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
+    DrawShape(Painter,FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2,0,0,RayX,RayY);
+    if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+    Painter.setPen(Qt::NoPen);
+    FullMargin=FullMargin*2;
 
     // Create font and TextOption
     QTextOption OptionText;
@@ -360,7 +364,7 @@ void cCompositionObject::DrawPolygonR(QPainter &Painter,double width,double heig
 //*********************************************************************************************************************************************
 
 cCompositionList::cCompositionList() {
-
+    TypeComposition=COMPOSITIONTYPE_BACKGROUND;
 }
 
 //====================================================================================================================
@@ -405,15 +409,12 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 //*********************************************************************************************************************************************
 
 cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject) {
-    Parent                  = DiaporamaObject;
-    DefaultStaticDuration   = true;             // true if object use Diaporama duration instead of it's own duration
-    DefaultMobilDuration    = true;             // true if object use Diaporama duration instead of it's own duration
-    StaticDuration          = 7000;             // Duration (in msec) of the static part animation
-    MobilDuration           = 3000;             // Duration (in msec) of the static part animation
-    ImageRotation           = 0;                // Image rotation
-    X                       = 0;                // X position (in %) relative to up/left corner
-    Y                       = 0;                // Y position (in %) relative to up/left corner
-    ZoomFactor              = 1;                // Zoom factor (in %)
+    Parent                          = DiaporamaObject;
+    DefaultStaticDuration           = true;                     // true if object use Diaporama duration instead of it's own duration
+    DefaultMobilDuration            = true;                     // true if object use Diaporama duration instead of it's own duration
+    StaticDuration                  = 7000;                     // Duration (in msec) of the static part animation
+    MobilDuration                   = 3000;                     // Duration (in msec) of the static part animation
+    ShotComposition.TypeComposition = COMPOSITIONTYPE_SHOT;
 }
 
 //====================================================================================================================
@@ -442,10 +443,6 @@ void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QStr
     Element.setAttribute("StaticDuration",StaticDuration);                              // Duration (in msec) of the static part animation
     Element.setAttribute("DefaultMobilDuration",DefaultMobilDuration?"1":"0");          // true if object use Diaporama duration instead of it's own duration
     Element.setAttribute("MobilDuration",MobilDuration);                                // Duration (in msec) of the static part animation
-    Element.setAttribute("X",X);                                                        // X position (in %) relative to up/left corner
-    Element.setAttribute("Y",Y);                                                        // Y position (in %) relative to up/left corner
-    Element.setAttribute("ZoomFactor",ZoomFactor);                                      // Zoom factor (in %)
-    Element.setAttribute("ImageRotation",ImageRotation);                                // Image rotation (in °)
     FilterCorrection.SaveToXML(Element,"FilterCorrection",PathForRelativPath);          // Image correction
     ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath);            // Composition list for this object
     domDocument.appendChild(Element);
@@ -461,11 +458,16 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
         StaticDuration          =Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
         DefaultMobilDuration    =Element.attribute("DefaultMobilDuration")=="1";        // true if object use Diaporama duration instead of it's own duration
         MobilDuration           =Element.attribute("MobilDuration").toInt();            // Duration (in msec) of the static part animation
-        X                       =Element.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
-        Y                       =Element.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
-        ZoomFactor              =Element.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
-        ImageRotation           =Element.attribute("ImageRotation").toInt();            // Image rotation (in °)
         FilterCorrection.LoadFromXML(Element,"FilterCorrection",PathForRelativPath);    // Image correction
+
+        // Recupération des anciennes sauvegardes (De la v0 à la 20110513 )
+        if (Element.hasAttribute("X")) {
+            FilterCorrection.X                       =Element.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
+            FilterCorrection.Y                       =Element.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
+            FilterCorrection.ZoomFactor              =Element.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
+            FilterCorrection.ImageRotation           =Element.attribute("ImageRotation").toInt();            // Image rotation (in °)
+        }
+
         ShotComposition.LoadFromXML(Element,"ShotComposition",PathForRelativPath);      // Composition list for this object
 //
         if (Parent->Video) {
@@ -489,20 +491,19 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
     TypeObject              = DIAPORAMAOBJECTTYPE_EMPTY;
 
     // Set default/initial value
-    BackgroundType              = false;                    // Background type : false=same as precedent - true=new background definition
-    BackgroundBrush.BrushType   =BRUSHTYPE_SOLID;
-    BackgroundBrush.ColorD      ="#000000";                 // Background color
-    FullCanvas                  = false;                    // true if Object use full canvas (height is hypothenuse of the image rectangle and width is calc from aspect ratio)
-    Image                       = NULL;                     // Embeded Object for title and image type
-    Video                       = NULL;                     // Embeded Object for video type
-    MusicType                   = false;                    // Music type : false=same as precedent - true=new playlist definition
-    MusicPause                  = false;                    // true if music is pause during this object
-    MusicReduceVolume           = false;                    // true if volume if reduce by MusicReduceFactor
-    MusicReduceFactor           = 0.2;                      // factor for volume reduction if MusicReduceVolume is true
-    TransitionFamilly           = TRANSITIONFAMILLY_BASE;   // Transition familly
-    TransitionSubType           = 0;                        // Transition type in the familly
-    TransitionDuration          = 1000;                     // Transition duration (in msec)
-
+    BackgroundType                          = false;                        // Background type : false=same as precedent - true=new background definition
+    BackgroundBrush.BrushType               = BRUSHTYPE_SOLID;
+    BackgroundBrush.ColorD                  = "#000000";                    // Background color
+    Image                                   = NULL;                         // Embeded Object for title and image type
+    Video                                   = NULL;                         // Embeded Object for video type
+    MusicType                               = false;                        // Music type : false=same as precedent - true=new playlist definition
+    MusicPause                              = false;                        // true if music is pause during this object
+    MusicReduceVolume                       = false;                        // true if volume if reduce by MusicReduceFactor
+    MusicReduceFactor                       = 0.2;                          // factor for volume reduction if MusicReduceVolume is true
+    TransitionFamilly                       = TRANSITIONFAMILLY_BASE;       // Transition familly
+    TransitionSubType                       = 0;                            // Transition type in the familly
+    TransitionDuration                      = 1000;                         // Transition duration (in msec)
+    BackgroundComposition.TypeComposition   = COMPOSITIONTYPE_BACKGROUND;
     // Add an empty scene
     List.append(cDiaporamaShot(this));
 }
@@ -589,8 +590,7 @@ void cDiaporamaObject::ApplyDefaultFraming(int DefaultFraming) {
     double   VirtImageW;
     double   VirtImageH;
 
-    if (FullCanvas) CalcFullCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
-     else CalcNormalCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
+    CalcFullCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
 
     double MagnetX1=(VirtImageW-RealImageW)/2;
     double MagnetX2=MagnetX1+RealImageW;
@@ -599,23 +599,23 @@ void cDiaporamaObject::ApplyDefaultFraming(int DefaultFraming) {
 
     switch (DefaultFraming) {
         case 0 :    // Adjust to Width
-            List[0].X=MagnetX1/VirtImageW;
-            List[0].ZoomFactor=(MagnetX2-MagnetX1)/VirtImageW;
-            List[0].Y=((VirtImageH-Parent->GetHeightForWidth(MagnetX2-MagnetX1))/2)/VirtImageH;
+            List[0].FilterCorrection.X=MagnetX1/VirtImageW;
+            List[0].FilterCorrection.ZoomFactor=(MagnetX2-MagnetX1)/VirtImageW;
+            List[0].FilterCorrection.Y=((VirtImageH-Parent->GetHeightForWidth(MagnetX2-MagnetX1))/2)/VirtImageH;
             break;
         case 1 :    // Adjust to Height
-            List[0].Y=MagnetY1/VirtImageH;
-            List[0].ZoomFactor=(MagnetY2-MagnetY1)/VirtImageH;
-            List[0].X=((VirtImageW-Parent->GetWidthForHeight(MagnetY2-MagnetY1))/2)/VirtImageW;
+            List[0].FilterCorrection.Y=MagnetY1/VirtImageH;
+            List[0].FilterCorrection.ZoomFactor=(MagnetY2-MagnetY1)/VirtImageH;
+            List[0].FilterCorrection.X=((VirtImageW-Parent->GetWidthForHeight(MagnetY2-MagnetY1))/2)/VirtImageW;
             break;
         case 2 :    // Adjust to Full
-            List[0].X=MagnetX1/VirtImageW;
-            List[0].ZoomFactor=(MagnetX2-MagnetX1)/VirtImageW;
-            List[0].Y=((VirtImageH-Parent->GetHeightForWidth(MagnetX2-MagnetX1))/2)/VirtImageH;
-            if (List[0].Y>MagnetY1/VirtImageH) {
-                List[0].Y=MagnetY1/VirtImageH;
-                List[0].ZoomFactor=(MagnetY2-MagnetY1)/VirtImageH;
-                List[0].X=((VirtImageW-Parent->GetWidthForHeight(MagnetY2-MagnetY1))/2)/VirtImageW;
+            List[0].FilterCorrection.X=MagnetX1/VirtImageW;
+            List[0].FilterCorrection.ZoomFactor=(MagnetX2-MagnetX1)/VirtImageW;
+            List[0].FilterCorrection.Y=((VirtImageH-Parent->GetHeightForWidth(MagnetX2-MagnetX1))/2)/VirtImageH;
+            if (List[0].FilterCorrection.Y>MagnetY1/VirtImageH) {
+                List[0].FilterCorrection.Y=MagnetY1/VirtImageH;
+                List[0].FilterCorrection.ZoomFactor=(MagnetY2-MagnetY1)/VirtImageH;
+                List[0].FilterCorrection.X=((VirtImageW-Parent->GetWidthForHeight(MagnetY2-MagnetY1))/2)/VirtImageW;
             }
             break;
     }
@@ -649,9 +649,9 @@ void cDiaporamaObject::SwitchShotsToNormalCanvas() {
 
     // Do transformation
     for (int i=0;i<List.count();i++) {
-        List[i].X=List[i].X*FullCanvasW/NormalCanvasW-((FullCanvasW-NormalCanvasW)/2)/NormalCanvasW;  if (List[i].X<0) List[i].X=0;
-        List[i].Y=List[i].Y*FullCanvasH/NormalCanvasH-((FullCanvasH-NormalCanvasH)/2)/NormalCanvasH;  if (List[i].Y<0) List[i].Y=0;;
-        List[i].ZoomFactor=List[i].ZoomFactor*FullCanvasW/NormalCanvasW;
+        List[i].FilterCorrection.X=List[i].FilterCorrection.X*FullCanvasW/NormalCanvasW-((FullCanvasW-NormalCanvasW)/2)/NormalCanvasW;  if (List[i].FilterCorrection.X<0) List[i].FilterCorrection.X=0;
+        List[i].FilterCorrection.Y=List[i].FilterCorrection.Y*FullCanvasH/NormalCanvasH-((FullCanvasH-NormalCanvasH)/2)/NormalCanvasH;  if (List[i].FilterCorrection.Y<0) List[i].FilterCorrection.Y=0;;
+        List[i].FilterCorrection.ZoomFactor=List[i].FilterCorrection.ZoomFactor*FullCanvasW/NormalCanvasW;
     }
     delete ReturnImage;
 }
@@ -684,9 +684,11 @@ void cDiaporamaObject::SwitchShotsToFullCanvas() {
 
     // Do transformation
     for (int i=0;i<List.count();i++) {
-        List[i].ZoomFactor=List[i].ZoomFactor*NormalCanvasW/FullCanvasW;
-        List[i].X=List[i].X*NormalCanvasW/FullCanvasW+((FullCanvasW-NormalCanvasW)/2)/FullCanvasW;  if (List[i].X+List[i].ZoomFactor>1) List[i].X=1-List[i].ZoomFactor;
-        List[i].Y=List[i].Y*NormalCanvasH/FullCanvasH+((FullCanvasH-NormalCanvasH)/2)/FullCanvasH;  if (List[i].Y+List[i].ZoomFactor>1) List[i].Y=1-List[i].ZoomFactor;
+        List[i].FilterCorrection.ZoomFactor=List[i].FilterCorrection.ZoomFactor*NormalCanvasW/FullCanvasW;
+        List[i].FilterCorrection.X=List[i].FilterCorrection.X*NormalCanvasW/FullCanvasW+((FullCanvasW-NormalCanvasW)/2)/FullCanvasW;
+        if (List[i].FilterCorrection.X+List[i].FilterCorrection.ZoomFactor>1) List[i].FilterCorrection.X=1-List[i].FilterCorrection.ZoomFactor;
+        List[i].FilterCorrection.Y=List[i].FilterCorrection.Y*NormalCanvasH/FullCanvasH+((FullCanvasH-NormalCanvasH)/2)/FullCanvasH;
+        if (List[i].FilterCorrection.Y+List[i].FilterCorrection.ZoomFactor>1) List[i].FilterCorrection.Y=1-List[i].FilterCorrection.ZoomFactor;
     }
     delete ReturnImage;
 }
@@ -767,12 +769,6 @@ void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Positio
 
     ADJUST_RATIO=double(Height)/double(1080);    // fixe Adjustment ratio for this slide
 
-    double                   XFactor     =0;
-    double                   YFactor     =0;
-    double                   ZoomFactor  =1;
-    double                   RotateFactor=0;
-    cFilterCorrectObject    FilterCorrection;
-
     // Calc current sequence depending on Position
     int Sequence=0;
     int CurPos  =0;
@@ -781,19 +777,28 @@ void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Positio
         Sequence++;
     }
 
+//==========>
+
+    QImage                  *SourceImage=NULL;
+    cFilterCorrectObject    *FilterCorrection=&List[Sequence].FilterCorrection;
+    double                  XFactor     =0;
+    double                  YFactor     =0;
+    double                  ZoomFactor  =1;
+    double                  RotateFactor=0;
+    double                  PctDone     =1;     // 100%
+
     // Calc image modification factor depending on position
-    if (ForcedImageRotation!=NULL) RotateFactor=double(*ForcedImageRotation); else RotateFactor=List[Sequence].ImageRotation;
+    if (ForcedImageRotation!=NULL) RotateFactor=double(*ForcedImageRotation); else RotateFactor=FilterCorrection->ImageRotation;
 
     if ((ImagePosition==NULL)&&(ApplyFraming)) {
-        XFactor         =List[Sequence].X;
-        YFactor         =List[Sequence].Y;
-        ZoomFactor      =List[Sequence].ZoomFactor;
+        XFactor         =FilterCorrection->X;
+        YFactor         =FilterCorrection->Y;
+        ZoomFactor      =FilterCorrection->ZoomFactor;
     }
-    FilterCorrection=List[Sequence].FilterCorrection;
 
     if ((ApplyFraming)&&(Sequence>0)&&((Position-CurPos)<(Sequence>0?List[Sequence].GetMobilDuration():0))) {
-        double   PctDone=(double(Position)-double(CurPos))/(double(List[Sequence].GetMobilDuration()));
-        CalcTransformations(Sequence,PctDone,XFactor,YFactor,ZoomFactor,RotateFactor,FilterCorrection);
+        PctDone=(double(Position)-double(CurPos))/(double(List[Sequence].GetMobilDuration()));
+        CalcTransformations(Sequence,PctDone,XFactor,YFactor,ZoomFactor,RotateFactor,*FilterCorrection);
     }
 
     // Calc real image size
@@ -803,8 +808,7 @@ void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Positio
     double   VirtImageH;
 
     // Calc canvas
-    if (FullCanvas) CalcFullCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
-     else CalcNormalCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
+    CalcFullCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
 
     // Global image Composition
     QImage      GlobalImageComposition(RealImageW,RealImageH,QImage::Format_ARGB32_Premultiplied);
@@ -813,10 +817,7 @@ void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Positio
     PB.setCompositionMode(QPainter::CompositionMode_Source);
     PB.fillRect(QRect(0,0,GlobalImageComposition.width(),GlobalImageComposition.height()),Qt::transparent);
     PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    for (int j=0;j<ObjectComposition.List.count();j++) ObjectComposition.List[j].DrawCompositionObject(PB,0,0,RealImageW,RealImageH);
     PB.end();
-
-    QImage  *SourceImage=NULL;
 
     // Rotate image if needed
     if (RotateFactor!=0) {
@@ -866,7 +867,9 @@ void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Positio
     if (TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY) FilterTransform.ApplyFilter(&Image2);
 
     // Apply shot filter to part image
-    if ((TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY)&&(ApplyShotFilter)) FilterCorrection.ApplyFilter(&Image2);
+    if ((TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY)&&(ApplyShotFilter)) FilterCorrection->ApplyFilter(&Image2);
+
+//==========>
 
     P->drawImage(QRectF(DestX+AddX,DestY+AddY,DestW,DestH),Image2);
 
@@ -890,10 +893,10 @@ void cDiaporamaObject::CalcTransformations(int Sequence,double PctDone,double &X
     cFilterCorrectObject AncFilterCorrection =List[Sequence-1].FilterCorrection;;
 
     // Adjust XFactor, YFactor and ZoomFactor depending on position in Mobil part animation
-    double AncXFactor     =List[Sequence-1].X;
-    double AncYFactor     =List[Sequence-1].Y;
-    double AncZoomFactor  =List[Sequence-1].ZoomFactor;
-    double AncRotateFactor=List[Sequence-1].ImageRotation;
+    double AncXFactor     =List[Sequence-1].FilterCorrection.X;
+    double AncYFactor     =List[Sequence-1].FilterCorrection.Y;
+    double AncZoomFactor  =List[Sequence-1].FilterCorrection.ZoomFactor;
+    double AncRotateFactor=List[Sequence-1].FilterCorrection.ImageRotation;
 
     if (AncXFactor!=XFactor)                                            XFactor                     =AncXFactor+(XFactor-AncXFactor)*PctDone;
     if (AncYFactor!=YFactor)                                            YFactor                     =AncYFactor+(YFactor-AncYFactor)*PctDone;
@@ -980,7 +983,6 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
     QDomElement SubElement=DomDocument.createElement("Background");
     SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                       // Background type : false=same as precedent - true=new background definition
-    SubElement.setAttribute("FullCanvas",FullCanvas?"1":"0");                               // true if Object use full canvas (height is hypothenuse of the image rectangle and width is calc from aspect ratio)
     BackgroundBrush.SaveToXML(SubElement,"BackgroundBrush",PathForRelativPath);             // Background brush
     BackgroundComposition.SaveToXML(SubElement,"BackgroundComposition",PathForRelativPath); // Background composition
     Element.appendChild(SubElement);
@@ -992,7 +994,6 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     Element.appendChild(SubElement);
 
     FilterTransform.SaveToXML(Element,"GlobalImageFilters",PathForRelativPath);             // Global Image filters
-    ObjectComposition.SaveToXML(Element,"GlobalImageComposition",PathForRelativPath);       // Global Image composition
 
     // Save shot list
     Element.setAttribute("ShotNumber",List.count());
@@ -1022,6 +1023,15 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         if (LoadMedia(FileName,TheTypeObject)) {
             bool IsOk=true;
 
+            // Load shot list
+            List.clear();
+            int ShotNumber=Element.attribute("ShotNumber").toInt();
+            for (int i=0;i<ShotNumber;i++) {
+                cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
+                if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
+                List.append(*imagesequence);
+            }
+
             if (Video!=NULL) {
                 Video->SoundVolume=Element.attribute("SoundVolume").toDouble();         // Volume of soundtrack (for video only)
                 Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
@@ -1031,7 +1041,11 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
                 QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
                 BackgroundType  =SubElement.attribute("BackgroundType")=="1";                                                           // Background type : false=same as precedent - true=new background definition
-                FullCanvas      =SubElement.attribute("FullCanvas")=="1";                                                               // true if Object use full canvas (height is hypothenuse of the image rectangle and width is calc from aspect ratio)
+
+                //==========> Récupération des données ! if Object don't use full canvas (height is hypothenuse of the image rectangle and width is calc from aspect ratio)
+                if ((SubElement.hasAttribute("FullCanvas"))&&(SubElement.attribute("FullCanvas")!="1"))
+                    SwitchShotsToFullCanvas();
+
                 if (!BackgroundBrush.LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath)) IsOk=false;                          // Background brush
                 if ((!IsOk)||(!BackgroundComposition.LoadFromXML(SubElement,"BackgroundComposition",PathForRelativPath))) IsOk=false;   // Background composition
             }
@@ -1045,16 +1059,21 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             }
 
             FilterTransform.LoadFromXML(Element,"GlobalImageFilters",PathForRelativPath);                                           // Global Image filters
-            ObjectComposition.LoadFromXML(Element,"GlobalImageComposition",PathForRelativPath);                                     // Global Image composition
 
-            // Load shot list
-            List.clear();
-            int ShotNumber=Element.attribute("ShotNumber").toInt();
-            for (int i=0;i<ShotNumber;i++) {
-                cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
-                if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
-                List.append(*imagesequence);
+            //==========> Récupération des données !
+            if (Element.elementsByTagName("GlobalImageComposition").length()>0) {
+                if ((Element.elementsByTagName("GlobalImageComposition").length()>0)&&(Element.elementsByTagName("GlobalImageComposition").item(0).isElement()==true)) {
+                    QDomElement SubElement=Element.elementsByTagName("GlobalImageComposition").item(0).toElement();
+                    int CompositionNumber=SubElement.attribute("CompositionNumber").toInt();
+                    for (int i=0;i<CompositionNumber;i++) {
+                        cCompositionObject *CompositionObject=new cCompositionObject();
+                        CompositionObject->LoadFromXML(SubElement,"Composition-"+QString("%1").arg(i),PathForRelativPath);
+                        List[0].ShotComposition.List.append(*CompositionObject);
+                    }
+                }
             }
+            //==========>
+
 
             // Load Music list
             MusicList.clear();
@@ -1515,8 +1534,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,int Extend,
             VirtImageH=0;
 
             // Calc canvas
-            if (CurObject->FullCanvas) CurObject->CalcFullCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
-             else CurObject->CalcNormalCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
+            CurObject->CalcFullCanvas(RealImageW,RealImageH,VirtImageW,VirtImageH);
 
             // Global image Composition
             QImage      GlobalImageComposition(RealImageW,RealImageH,QImage::Format_ARGB32_Premultiplied);
@@ -1525,13 +1543,12 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,int Extend,
             PB.setCompositionMode(QPainter::CompositionMode_Source);
             PB.fillRect(QRect(0,0,GlobalImageComposition.width(),GlobalImageComposition.height()),Qt::transparent);
             PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            for (int j=0;j<CurObject->ObjectComposition.List.count();j++) CurObject->ObjectComposition.List[j].DrawCompositionObject(PB,0,0,RealImageW,RealImageH);
             PB.end();
 
-            XFactor         =CurShot->X;
-            YFactor         =CurShot->Y;
-            ZoomFactor      =CurShot->ZoomFactor;
-            RotateFactor    =CurShot->ImageRotation;
+            XFactor         =CurShot->FilterCorrection.X;
+            YFactor         =CurShot->FilterCorrection.Y;
+            ZoomFactor      =CurShot->FilterCorrection.ZoomFactor;
+            RotateFactor    =CurShot->FilterCorrection.ImageRotation;
             FilterCorrection=CurShot->FilterCorrection;
 
             if (ShotType==SHOTTYPE_MOBIL) CurObject->CalcTransformations(ShotSeqNum,MobilPCTDone,XFactor,YFactor,ZoomFactor,RotateFactor,FilterCorrection);

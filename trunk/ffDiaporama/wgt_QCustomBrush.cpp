@@ -185,19 +185,6 @@ void wgt_QCustomBrush::s_ChangeBrushTypeCombo(int Value) {
 //====================================================================================================================
 
 void wgt_QCustomBrush::s_SelectFile() {
-    QString NewFile=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Select a file"),
-                                                       GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
-                                                       GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
-    QCoreApplication::processEvents();
-    if (NewFile!="") {
-        if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
-        if (CurrentBrush->CacheFileImage) {
-            delete CurrentBrush->CacheFileImage;
-            CurrentBrush->CacheFileImage=NULL;
-        }
-        CurrentBrush->BrushFileName=QFileInfo(NewFile).absoluteFilePath();
-        emit NeedRefreshControls();
-    }
 }
 
 //====================================================================================================================

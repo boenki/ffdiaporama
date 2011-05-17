@@ -26,8 +26,7 @@
 //======================================
 #define PAGE_EDITVIDEO              0
 #define PAGE_GLOBALFILTER           1
-#define PAGE_COMPOSITION            2
-#define PAGE_FRAMING                3
+#define PAGE_FRAMING                2
 
 //**********************************************************************************************************************************************
 
@@ -44,11 +43,9 @@ DlgVideoProperties::DlgVideoProperties(cDiaporamaObject *DiaporamaObject,QWidget
     // Init embeded widgets
     for (int Factor=150;Factor>=10;Factor-=10) ui->VolumeReductionFactorCB->addItem(QString("%1%").arg(Factor));
     ui->ImageFilters->SetFilter(&DiaporamaObject->FilterTransform,DiaporamaObject);
-    ui->CustomScene->SetDiaporamaShot(&DiaporamaObject->List[0]);
-    ui->CompositionWidget->SetCompositionObject(&DiaporamaObject->ObjectComposition,NULL);
+    ui->CustomScene->SetDiaporamaShot(&DiaporamaObject->List[0].FilterCorrection);
 
     ui->tabWidget->setCurrentIndex(0);
-    ui->FullCanvasCB->setVisible(false);
     ui->StartPosEd->setTime(DiaporamaObject->Video->StartPos);
     ui->EndPosEd->setTime(DiaporamaObject->Video->EndPos);
     SetActualDuration();
@@ -58,7 +55,6 @@ DlgVideoProperties::DlgVideoProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
 
-    connect(ui->CompositionWidget,SIGNAL(NeedRefreshBackgroundImage()),this,SLOT(s_CompositionNeedRefreshBackgroundImage()));
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(s_TabCurrentChanged(int)));
 
     connect(ui->VolumeReductionFactorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(MusicReduceFactorChange(int)));
@@ -68,7 +64,6 @@ DlgVideoProperties::DlgVideoProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->SeekRightBt,SIGNAL(clicked()),this,SLOT(s_SeekRight()));
     connect(ui->StartPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditStartPos(QTime)));
     connect(ui->EndPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditEndPos(QTime)));
-    connect(ui->FullCanvasCB,SIGNAL(clicked()),this,SLOT(s_FullCanvas()));
 }
 
 //====================================================================================================================
@@ -109,6 +104,7 @@ void DlgVideoProperties::reject() {
 //====================================================================================================================
 
 void DlgVideoProperties::accept() {
+    DiaporamaObject->SwitchShotsToFullCanvas();
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgVideoPropertiesWSP->SaveWindowState(this);
     // Close the box
@@ -120,34 +116,7 @@ void DlgVideoProperties::accept() {
 void DlgVideoProperties::s_TabCurrentChanged(int Page) {
     // Force player to pause if player tab is not use
     if (Page!=PAGE_EDITVIDEO) ui->VideoPlayer->SetPlayerToPause();
-    if (Page==PAGE_COMPOSITION) s_CompositionNeedRefreshBackgroundImage();
     if (Page==PAGE_FRAMING) ui->CustomScene->RefreshWidget();
-    ui->FullCanvasCB->setVisible(Page==PAGE_FRAMING);
-}
-
-//====================================================================================================================
-
-void DlgVideoProperties::s_CompositionNeedRefreshBackgroundImage() {
-    QSize SceneboxSize=ui->CompositionWidget->GetSceneBoxSize();
-    if (DiaporamaObject->Parent->GetHeightForWidth(SceneboxSize.width())<SceneboxSize.height()) SceneboxSize=QSize(DiaporamaObject->Parent->GetWidthForHeight(SceneboxSize.height()),SceneboxSize.height());
-        else SceneboxSize=QSize(SceneboxSize.width(),DiaporamaObject->Parent->GetHeightForWidth(SceneboxSize.width()));
-    // Set image
-    QPixmap *Image;
-    if (DiaporamaObject->TypeObject==DIAPORAMAOBJECTTYPE_EMPTY) {
-        QPainter Painter;
-        Image=new QPixmap(SceneboxSize.width(),SceneboxSize.height());
-        Painter.begin(Image);
-        DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),SceneboxSize.width(),SceneboxSize.height(),&Painter,0,0,false);
-        Painter.end();
-    } else {
-        QImage *TheImage1=DiaporamaObject->GetImageAt(0,true,NULL);
-        QImage TheImage2=TheImage1->scaled(SceneboxSize.width(),height());
-        DiaporamaObject->FilterTransform.ApplyFilter(&TheImage2);
-        Image=new QPixmap(QPixmap().fromImage(TheImage2));
-        delete TheImage1;
-    }
-    ui->CompositionWidget->SetCompositionObject(&DiaporamaObject->ObjectComposition,new QPixmap(Image->scaled(SceneboxSize.width(),SceneboxSize.height())));
-    delete Image;
 }
 
 //====================================================================================================================
@@ -225,17 +194,4 @@ void DlgVideoProperties::s_SeekLeft() {
 
 void DlgVideoProperties::s_SeekRight() {
     ui->VideoPlayer->SeekPlayer(QTime(0,0,0,0).msecsTo(DiaporamaObject->Video->EndPos));
-}
-
-//====================================================================================================================
-
-void DlgVideoProperties::s_FullCanvas() {
-    if (DiaporamaObject->FullCanvas) {
-        DiaporamaObject->FullCanvas=false;
-        DiaporamaObject->SwitchShotsToNormalCanvas(); // adapt all shot value
-    } else {
-        DiaporamaObject->FullCanvas=true;
-        DiaporamaObject->SwitchShotsToFullCanvas();   // adapt all shot value
-    }
-    ui->CustomScene->RefreshWidget();
 }

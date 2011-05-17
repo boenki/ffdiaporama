@@ -126,12 +126,163 @@ bool cFilterTransformObject::LoadFromXML(QDomElement domDocument,QString Element
 //*********************************************************************************************************************************************
 
 cFilterCorrectObject::cFilterCorrectObject() {
-    Brightness  = 0;
-    Contrast    = 0;
-    Gamma       = 1;
-    Red         = 0;
-    Green       = 0;
-    Blue        = 0;
+    ImageRotation   = 0;                // Image rotation
+    X               = 0;                // X position (in %) relative to up/left corner
+    Y               = 0;                // Y position (in %) relative to up/left corner
+    ZoomFactor      = 1;                // Zoom factor (in %)
+    Brightness      = 0;
+    Contrast        = 0;
+    Gamma           = 1;
+    Red             = 0;
+    Green           = 0;
+    Blue            = 0;
+}
+
+QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Height,double PctDone,cFilterCorrectObject *PreviousFilter) {
+    QImage  *SourceImage    =NULL;
+    double  TheXFactor      =X;
+    double  TheYFactor      =Y;
+    double  TheZoomFactor   =ZoomFactor;
+    double  TheRotateFactor =ImageRotation;
+    double  TheBrightness   =Brightness;
+    double  TheContrast     =Contrast;
+    double  TheGamma        =Gamma;
+    double  TheRed          =Red;
+    double  TheGreen        =Green;
+    double  TheBlue         =Blue;
+
+    // Adjust values depending on PctDone and previous Filter (if exist)
+    if (PreviousFilter) {
+        if (PreviousFilter->X!=TheXFactor)                  TheXFactor      =PreviousFilter->X+(TheXFactor-PreviousFilter->X)*PctDone;
+        if (PreviousFilter->Y!=TheYFactor)                  TheYFactor      =PreviousFilter->Y+(TheYFactor-PreviousFilter->Y)*PctDone;
+        if (PreviousFilter->ZoomFactor!=TheZoomFactor)      TheZoomFactor   =PreviousFilter->ZoomFactor+(TheZoomFactor-PreviousFilter->ZoomFactor)*PctDone;
+        if (PreviousFilter->ImageRotation!=TheRotateFactor) TheRotateFactor =PreviousFilter->ImageRotation+(TheRotateFactor-PreviousFilter->ImageRotation)*PctDone;
+        if (PreviousFilter->Brightness!=TheBrightness)      TheBrightness   =PreviousFilter->Brightness+(TheBrightness-PreviousFilter->Brightness)*PctDone;
+        if (PreviousFilter->Contrast!=TheContrast)          TheContrast     =PreviousFilter->Contrast+(TheContrast-PreviousFilter->Contrast)*PctDone;
+        if (PreviousFilter->Gamma!=TheGamma)                TheGamma        =PreviousFilter->Gamma+(TheGamma-PreviousFilter->Gamma)*PctDone;
+        if (PreviousFilter->Red!=TheRed)                    TheRed          =PreviousFilter->Red+(TheRed-PreviousFilter->Red)*PctDone;
+        if (PreviousFilter->Green!=TheGreen)                TheGreen        =PreviousFilter->Green+(TheGreen-PreviousFilter->Green)*PctDone;
+        if (PreviousFilter->Blue!=TheBlue)                  TheBlue         =PreviousFilter->Blue+(TheBlue-PreviousFilter->Blue)*PctDone;
+    }
+
+    // Prepare values from sourceimage size
+    double   RealImageW=double(LastLoadedImage->width());               // Get real image widht
+    double   RealImageH=double(LastLoadedImage->height());              // Get real image height
+    double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse of the image to define full canvas
+
+    // Rotate image if needed and create a SourceImage
+    if (TheRotateFactor!=0) {
+        QTransform matrix;
+        matrix.rotate(TheRotateFactor,Qt::ZAxis);
+        SourceImage=new QImage(LastLoadedImage->transformed(matrix));
+        // update real image size
+        RealImageW=double(SourceImage->width());
+        RealImageH=double(SourceImage->height());
+
+    // If no rotation then SourceImage=LastLoadedImage
+    } else SourceImage=LastLoadedImage;
+
+    // Calc coordinates of the part in the source image
+    double  ImageGeometry   =RealImageW/RealImageH;
+    double  SrcX            =Hyp*TheXFactor;
+    double  SrcY            =Hyp*TheYFactor;
+    double  SrcW            =Hyp*TheZoomFactor;
+    double  SrcH            =SrcW/ImageGeometry;
+    double  DstX            =0;
+    double  DstY            =0;
+    double  DstW            =Width;
+    double  DstH            =DstW/ImageGeometry;
+
+    // Adjust SrcW and SrcH depending on image geometry
+    if (SrcH>RealImageH) {
+        SrcH=Hyp*TheZoomFactor;
+        SrcW=SrcH*ImageGeometry;
+    }
+    if (DstH<Height) {
+        DstH=Height;
+        DstW=DstH*ImageGeometry;
+    }
+
+    // Prepare RetImage Composition with transparent background
+    QImage      *RetImage=new QImage(Width,Height,QImage::Format_ARGB32_Premultiplied);
+    QPainter    PB;
+    PB.begin(RetImage);
+    PB.setCompositionMode(QPainter::CompositionMode_Source);
+    PB.fillRect(QRect(0,0,Width,Height),Qt::transparent);
+    PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+    PB.drawImage(QRectF(DstX,DstY,DstW,DstH),*SourceImage,QRectF((RealImageW/2)-(Hyp/2)+SrcX,(RealImageH/2)-(Hyp/2)+SrcY,SrcW,SrcH));
+
+    PB.end();
+
+    // Delete SourceImage if we have created it
+    if (SourceImage!=LastLoadedImage) delete SourceImage;
+
+    // Apply correction filters to DestImage
+    fmt_filters::image img(RetImage->bits(),RetImage->width(),RetImage->height());
+    if (TheBrightness!=0)                           fmt_filters::brightness(img,TheBrightness);
+    if (TheContrast!=0)                             fmt_filters::contrast(img,TheContrast);
+    if (TheGamma!=1)                                fmt_filters::gamma(img,TheGamma);
+    if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))   fmt_filters::colorize(img,TheRed,TheGreen,TheBlue);
+
+    return RetImage;
+
+/*
+    double   VirtImageW;
+    double   VirtImageH;
+
+    // Calc canvas size
+    VirtImageW=Hyp;
+    VirtImageH=Hyp;
+
+    // Prepare global image Composition with transparent background
+    QImage      GlobalImageComposition(RealImageW,RealImageH,QImage::Format_ARGB32_Premultiplied);
+    QPainter    PB;
+    PB.begin(&GlobalImageComposition);
+    PB.setCompositionMode(QPainter::CompositionMode_Source);
+    PB.fillRect(QRect(0,0,GlobalImageComposition.width(),GlobalImageComposition.height()),Qt::transparent);
+    PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    PB.end();
+
+    // Calc source and destination, size and position
+    double   DestX=0;                                                    // X position in the virtual image of the destination image
+    double   DestY=0;                                                    // Y position in the virtual image of the destination image
+    double   DestW=VirtImageW;                                           // with of the destination image in the virtual image
+    double   DestH=VirtImageH;                                           // height of the destination image in the virtual image
+
+    double   SrcX=(TheXFactor*VirtImageW-(VirtImageW-RealImageW)/2);     // X position in the source image of the destination image
+    double   SrcY=(TheYFactor*VirtImageH-(VirtImageH-RealImageH)/2);     // Y position in the source image of the destination image
+    double   SrcW=(TheZoomFactor*VirtImageW);                            // with of the destination image in the source image
+    double   SrcH=(TheZoomFactor*VirtImageH);                            // height of the destination image in the source image
+
+    // Adjust positions by croping to the source image
+    if (SrcX<0)                 {   SrcW=SrcW+SrcX;                                     DestW=DestW+SrcX/TheZoomFactor;    DestX=DestX-SrcX/TheZoomFactor;    SrcX=0;       }
+    if (SrcY<0)                 {   SrcH=SrcH+SrcY;                                     DestH=DestH+SrcY/TheZoomFactor;    DestY=DestY-SrcY/TheZoomFactor;    SrcY=0;       }
+    if (SrcX+SrcW>RealImageW)   {   DestW=DestW-(SrcX+SrcW-RealImageW)/TheZoomFactor;   SrcW=(RealImageW-SrcX);                                                             }
+    if (SrcY+SrcH>RealImageH)   {   DestH=DestH-(SrcY+SrcH-RealImageH)/TheZoomFactor;   SrcH=(RealImageH-SrcY);                                                             }
+
+    // translate DestX,DestY,DestW,DestH to destination coordinates
+    DestX=((double(Width)/VirtImageW)*DestX);
+    DestW=((double(Width)/VirtImageW)*DestW);
+    DestY=((double(Height)/VirtImageH)*DestY);
+    DestH=((double(Height)/VirtImageH)*DestH);
+
+    // Shrink to used part of the image
+    QImage Image1=SourceImage->copy(SrcX,SrcY,SrcW,SrcH);
+
+    // Scaled part as needed
+    QImage *Image2=new QImage(Image1.scaled(int(DestW),int(DestH),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+
+    // Apply filters
+    fmt_filters::image img(Image2->bits(),Image2->width(),Image2->height());
+    if (TheBrightness!=0)                           fmt_filters::brightness(img,TheBrightness);
+    if (TheContrast!=0)                             fmt_filters::contrast(img,TheContrast);
+    if (TheGamma!=1)                                fmt_filters::gamma(img,TheGamma);
+    if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))   fmt_filters::colorize(img,TheRed,TheGreen,TheBlue);
+
+
+    return Image2;
+*/
 }
 
 //====================================================================================================================
@@ -152,12 +303,16 @@ void cFilterCorrectObject::SaveToXML(QDomElement &domDocument,QString ElementNam
     QDomElement     Element=DomDocument.createElement(ElementName);
 
     // Attribut of the object
-    Element.setAttribute("Brightness",  Brightness);
-    Element.setAttribute("Contrast",    Contrast);
-    Element.setAttribute("Gamma",       Gamma);
-    Element.setAttribute("Red",         Red);
-    Element.setAttribute("Green",       Green);
-    Element.setAttribute("Blue",        Blue);
+    Element.setAttribute("X",               X);                 // X position (in %) relative to up/left corner
+    Element.setAttribute("Y",               Y);                 // Y position (in %) relative to up/left corner
+    Element.setAttribute("ZoomFactor",      ZoomFactor);        // Zoom factor (in %)
+    Element.setAttribute("ImageRotation",   ImageRotation);     // Image rotation (in °)
+    Element.setAttribute("Brightness",      Brightness);
+    Element.setAttribute("Contrast",        Contrast);
+    Element.setAttribute("Gamma",           Gamma);
+    Element.setAttribute("Red",             Red);
+    Element.setAttribute("Green",           Green);
+    Element.setAttribute("Blue",            Blue);
 
     domDocument.appendChild(Element);
 }
@@ -168,12 +323,16 @@ bool cFilterCorrectObject::LoadFromXML(QDomElement domDocument,QString ElementNa
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
-        Brightness= Element.attribute("Brightness").toInt();
-        Contrast=   Element.attribute("Contrast").toInt();
-        Gamma=      Element.attribute("Gamma").toDouble();
-        Red=        Element.attribute("Red").toInt();
-        Green=      Element.attribute("Green").toInt();
-        Blue=       Element.attribute("Blue").toInt();
+        X               =Element.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
+        Y               =Element.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
+        ZoomFactor      =Element.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
+        ImageRotation   =Element.attribute("ImageRotation").toInt();            // Image rotation (in °)
+        Brightness      =Element.attribute("Brightness").toInt();
+        Contrast        =Element.attribute("Contrast").toInt();
+        Gamma           =Element.attribute("Gamma").toDouble();
+        Red             =Element.attribute("Red").toInt();
+        Green           =Element.attribute("Green").toInt();
+        Blue            =Element.attribute("Blue").toInt();
 
         return true;
     }
@@ -196,7 +355,7 @@ cBrushDefinition::cBrushDefinition() {
     BrushFileName       ="";                    // Image name if image from disk
     Image               =NULL;
     Video               =NULL;
-    CacheFileImage      =NULL;
+    BrushFileGeometry   =GlobalMainWindow->Diaporama->ImageGeometry;
 }
 
 //====================================================================================================================
@@ -208,10 +367,6 @@ cBrushDefinition::~cBrushDefinition() {
     if (Video) {
         delete Video;
         Video=NULL;
-    }
-    if (CacheFileImage) {
-        delete CacheFileImage;
-        CacheFileImage=NULL;
     }
 }
 
@@ -233,36 +388,20 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect) {
 QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect) {
     if (BrushFileName=="") return new QBrush(Qt::NoBrush);
 
-    if (!CacheFileImage) {
-        CacheFileImage=new QImage();
-        if ((!CacheFileImage->load(BrushFileName))||(CacheFileImage->isNull())) {
-            delete CacheFileImage;
-            CacheFileImage=NULL;
-            return new QBrush(Qt::NoBrush);
-        }
-    }
-
-    double Ratio=double(CacheFileImage->height())/double(CacheFileImage->width());
-    double H    =Rect.height()+1;
-    double W    =H/Ratio;
-
-    QImage NewImg1;
-    if (W<(Rect.width()+1)) {
-        NewImg1=QImage(CacheFileImage->scaledToWidth(Rect.width()+1));
-    } else {
-        NewImg1=QImage(CacheFileImage->scaledToHeight(Rect.height()+1));
-    }
-    W=NewImg1.width();
-    H=GetHeightForWidth(W,Rect);
-    if (H<NewImg1.height()) {
-        H=NewImg1.height();
-        W=GetWidthForHeight(H,Rect);
-    }
-    if ((W!=NewImg1.width())||(H!=NewImg1.height())) return new QBrush(QImage(NewImg1.copy(0,0,W,H))); else return new QBrush(NewImg1);
+    QImage *RenderImage=(Image?Image->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,false):
+                        Video?Video->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,0,true,false,NULL,1,false):
+                        NULL);
+    if (RenderImage) {
+        QImage *Img=BrushFileCorrect.GetImage(RenderImage,Rect.width(),Rect.height(),1,NULL);
+        QBrush *Ret=new QBrush(*Img);
+        delete Img;
+        delete RenderImage;
+        return Ret;
+    } return new QBrush(Qt::NoBrush);
 }
 
-
 //====================================================================================================================
+
 QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
     if ((LastLoadedBackgroundImage!=NULL)&&(LastLoadedBackgroundImageName!=BrushImage)) {
         delete LastLoadedBackgroundImage;
@@ -325,6 +464,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     Element.setAttribute("GradientOrientation",GradientOrientation);                // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
     Element.setAttribute("BrushImage",BrushImage);                                  // Image name if image from library
     Element.setAttribute("BrushFileName",BrushFileName);                            // Image name if image from disk
+    Element.setAttribute("BrushFileGeometry",BrushFileGeometry);                    // Geometry for embeded image
     if (Video!=NULL) Element.setAttribute("SoundVolume",QString("%1").arg(Video->SoundVolume,0,'f')); // Volume of soundtrack (for video only)
     BrushFileCorrect.SaveToXML(Element,"ImageCorrection",PathForRelativPath);       // Image correction if image from disk
     BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath); // Image transformation if image from disk
@@ -347,6 +487,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         GradientOrientation=Element.attribute("GradientOrientation").toInt();               // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
         BrushImage         =Element.attribute("BrushImage");                                // Image name if image from library
         BrushFileName      =Element.attribute("BrushFileName");                             // Image name if image from disk
+        BrushFileGeometry  =Element.attribute("BrushFileGeometry").toInt();                 // Geometry for embeded image
         BrushFileCorrect.LoadFromXML(Element,"ImageCorrection",PathForRelativPath);         // Image correction if image from disk
         BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);   // Image transformation if image from disk
 
@@ -356,11 +497,19 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
                 Image=new cimagefilewrapper();
                 IsValide=Image->GetInformationFromFile(BrushFileName);
+                if (!IsValide) {
+                    delete Image;
+                    Image=NULL;
+                }
                 break;
             }
             if (Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
                 Video=new cvideofilewrapper();
                 IsValide=Video->GetInformationFromFile(BrushFileName,false);
+                if (!IsValide) {
+                    delete Video;
+                    Video=NULL;
+                }
                 if (Video!=NULL) Video->SoundVolume=Element.attribute("SoundVolume").toDouble();    // Volume of soundtrack (for video only)
                 break;
             }
@@ -368,6 +517,73 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         return true;
     }
     return false;
+}
+
+//====================================================================================================================
+
+void cBrushDefinition::ApplyDefaultFraming(int DefaultFraming) {
+    // Ensure image is loaded
+    QImage   *ReturnImage=NULL;
+    double   RealImageW=GlobalMainWindow->Diaporama->InternalWidth;
+    double   RealImageH=GlobalMainWindow->Diaporama->InternalHeight;
+    double   VirtImageW;
+    double   VirtImageH;
+    double   dGeometry;
+
+    switch (BrushFileGeometry) {
+        case GEOMETRY_4_3    :  dGeometry=double(4)/double(3);       break;
+        case GEOMETRY_16_9   :  dGeometry=double(16)/double(9);      break;
+        case GEOMETRY_40_17  :  dGeometry=double(40)/double(17);     break;
+        case GEOMETRY_IMAGE  :  if (Image) dGeometry=double(Image->ImageWidth)/double(Image->ImageHeight); else if (Video) dGeometry=double(Video->ImageWidth)/double(Video->ImageHeight);  break;
+    }
+
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,GlobalMainWindow->Diaporama->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false); // Video
+    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,GlobalMainWindow->Diaporama->ApplicationConfig->PreviewMaxHeight,true);                     // Image
+
+    if (ReturnImage!=NULL) {
+        RealImageW=ReturnImage->width();
+        RealImageH=ReturnImage->height();
+    }
+    delete ReturnImage;
+
+    // Calc hypothenuse
+    double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);
+    // Calc canvas size
+    VirtImageW=Hyp;
+    VirtImageH=double(VirtImageW)/dGeometry;
+    // Ensure complete image
+    if (VirtImageH<Hyp) {
+        VirtImageH=Hyp;
+        VirtImageW=double(VirtImageH)*dGeometry;
+    }
+
+    double MagnetX1=(VirtImageW-RealImageW)/2;
+    double MagnetX2=MagnetX1+RealImageW;
+    double MagnetY1=(VirtImageH-RealImageH)/2;
+    double MagnetY2=MagnetY1+RealImageH;
+
+    switch (DefaultFraming) {
+        case 0 :    // Adjust to Width
+            BrushFileCorrect.X=MagnetX1/VirtImageW;
+            BrushFileCorrect.ZoomFactor=(MagnetX2-MagnetX1)/VirtImageW;
+            BrushFileCorrect.Y=((VirtImageH-(double(MagnetX2-MagnetX1)/dGeometry))/2)/VirtImageH;
+            break;
+        case 1 :    // Adjust to Height
+            BrushFileCorrect.Y=MagnetY1/VirtImageH;
+            BrushFileCorrect.ZoomFactor=(MagnetY2-MagnetY1)/VirtImageH;
+            BrushFileCorrect.X=((VirtImageW-(double(MagnetY2-MagnetY1)*dGeometry))/2)/VirtImageW;
+            break;
+        case 2 :    // Adjust to Full
+            BrushFileCorrect.X=MagnetX1/VirtImageW;
+            BrushFileCorrect.ZoomFactor=(MagnetX2-MagnetX1)/VirtImageW;
+            BrushFileCorrect.Y=((VirtImageH-(double(MagnetX2-MagnetX1)/dGeometry))/2)/VirtImageH;
+            if (BrushFileCorrect.Y>MagnetY1/VirtImageH) {
+                BrushFileCorrect.Y=MagnetY1/VirtImageH;
+                BrushFileCorrect.ZoomFactor=(MagnetY2-MagnetY1)/VirtImageH;
+                BrushFileCorrect.X=((VirtImageW-(double(MagnetY2-MagnetY1)*dGeometry))/2)/VirtImageW;
+            }
+            break;
+    }
 }
 
 //*********************************************************************************************************************************************

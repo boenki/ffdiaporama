@@ -21,6 +21,7 @@
 #include "cCustomGraphicsRectItem.h"
 #include "wgt_QCustomScene.h"
 #include "wgt_QCompositionWidget.h"
+#include "DlgSlideProperties.h"
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // class use to add interractive resize to QGraphicsRectItem object
@@ -571,6 +572,7 @@ void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
     switch (ParentWidgetType) {
         case TYPE_wgt_QCustomScene:         ((wgt_QCustomScene *)ParentWidget)->RefreshBackgroundImage();      break;
         case TYPE_wgt_QCompositionWidget:   ((wgt_QCompositionWidget *)ParentWidget)->StartRefreshControls();  break;
+        case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->RefreshBackgroundImage();    break;
     }
 }
 

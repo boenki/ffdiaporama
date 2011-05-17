@@ -123,14 +123,14 @@ bool cimagefilewrapper::GetInformationFromFile(QString &GivenFileName) {
                 if (Part.startsWith("Exif.")) Part=Part.mid(QString("Exif.").length());
                 ExivValue.append(Part+"##"+Value);
                 if (GetValueOrientation) {
-                    if (Value=="top, left")     ImageOrientation=1;
-                    if (Value=="top, right")    ImageOrientation=2;
-                    if (Value=="bottom, right") ImageOrientation=3;
-                    if (Value=="bottom, left")  ImageOrientation=4;
-                    if (Value=="left, top")     ImageOrientation=5;
-                    if (Value=="right, top")    ImageOrientation=6;
-                    if (Value=="right, bottom") ImageOrientation=7;
-                    if (Value=="left, bottom")  ImageOrientation=8;
+                    if ((Value=="top, left")||(Value==QApplication::translate("MainWindow","top, left","EXIV2 translation")))         ImageOrientation=1;
+                    if ((Value=="top, right")||(Value==QApplication::translate("MainWindow","top, right","EXIV2 translation")))       ImageOrientation=2;
+                    if ((Value=="bottom, right")||(Value==QApplication::translate("MainWindow","bottom, right","EXIV2 translation"))) ImageOrientation=3;
+                    if ((Value=="bottom, left")||(Value==QApplication::translate("MainWindow","bottom, left","EXIV2 translation")))   ImageOrientation=4;
+                    if ((Value=="left, top")||(Value==QApplication::translate("MainWindow","left, top","EXIV2 translation")))         ImageOrientation=5;
+                    if ((Value=="right, top")||(Value==QApplication::translate("MainWindow","right, top","EXIV2 translation")))       ImageOrientation=6;
+                    if ((Value=="right, bottom")||(Value==QApplication::translate("MainWindow","right, bottom","EXIV2 translation"))) ImageOrientation=7;
+                    if ((Value=="left, bottom")||(Value==QApplication::translate("MainWindow","left, bottom","EXIV2 translation")))   ImageOrientation=8;
                 }
             }
         }

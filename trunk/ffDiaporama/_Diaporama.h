@@ -97,7 +97,8 @@ private:
 
 class cCompositionList {
 public:
-    QList<cCompositionObject>     List;                       // list of cCompositionObject
+    int                         TypeComposition;            // Type of composition list
+    QList<cCompositionObject>   List;                       // list of cCompositionObject
 
     cCompositionList();
     ~cCompositionList();
@@ -116,10 +117,6 @@ public:
     int                     StaticDuration;         // Duration (in msec) of the static part animation
     bool                    DefaultMobilDuration;   // true if object use Diaporama duration instead of it's own duration
     int                     MobilDuration;          // Duration (in msec) of the static part animation
-    double                  X;                      // X position (in %) relative to up/left corner
-    double                  Y;                      // Y position (in %) relative to up/left corner
-    double                  ZoomFactor;             // Zoom factor (in %)
-    int                     ImageRotation;          // Image rotation (in °)
     cFilterCorrectObject    FilterCorrection;       // Image correction
     cCompositionList        ShotComposition;        // Shot Composition object list
 
@@ -143,14 +140,12 @@ public:
     cimagefilewrapper       *Image;                     // Embeded Object for title and image type
     cvideofilewrapper       *Video;                     // Embeded Object for video type
     QList<cDiaporamaShot>   List;                       // list of scene definition
-    cCompositionList        ObjectComposition;          // Object Composition object list
     cFilterTransformObject  FilterTransform;            // Filters tranformation value for source image
 
     // Background definition
     bool                    BackgroundType;             // Background type : false=same as precedent - true=new background definition
     cBrushDefinition        BackgroundBrush;            // Background brush
     cCompositionList        BackgroundComposition;      // Background Composition object list
-    bool                    FullCanvas;                 // true if Object use full canvas (height is hypothenuse of the image rectangle and width is calc from aspect ratio)
 
     // Music definition
     bool                    MusicType;                  // Music type : false=same as precedent - true=new playlist definition

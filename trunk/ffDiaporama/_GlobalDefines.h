@@ -140,7 +140,7 @@ extern "C" {
 // Global defines
 //============================================
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "0.99.alpha1"
+#define APPLICATION_VERSION                 "0.99.alpha2"
 #define CONFIGFILEEXT                       ".xml"                                  // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                         // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                               // Name of root node in the project xml file
@@ -156,6 +156,8 @@ extern "C" {
 #define GEOMETRY_4_3                        0
 #define GEOMETRY_16_9                       1
 #define GEOMETRY_40_17                      2
+#define GEOMETRY_IMAGE                      3
+#define GEOMETRY_CUSTOM                     4
 
 // Standard definition
 #define STANDARD_PAL                        0
@@ -173,6 +175,10 @@ extern "C" {
 #define DIAPORAMAOBJECTTYPE_IMAGE           1
 #define DIAPORAMAOBJECTTYPE_VIDEO           2
 
+// Composition type definition
+#define COMPOSITIONTYPE_BACKGROUND          0
+#define COMPOSITIONTYPE_SHOT                1
+
 // Shot type definition
 #define SHOTTYPE_STATIC                     0
 #define SHOTTYPE_MOBIL                      1
@@ -183,6 +189,7 @@ extern "C" {
 #define THUMBNAILTYPE_OBJECTBACKGROUND      1
 #define THUMBNAILTYPE_OBJECTSEQUENCE        2
 #define THUMBNAILTYPE_OBJECTMUSIC           3
+#define THUMBNAILTYPE_SHOT                  4
 
 // Speed wave forme definition
 #define SPEEDWAVE_LINEAR                    0
@@ -272,7 +279,7 @@ extern "C" {
 //============================================
 
 #define OPERATINGSYSTEM_STR                 "Operating system version\t: "
-#define STARTINGPATH_STR                    "Starting path\t\t: "
+#define STARTINGPATH_STR                    "Starting path\t: "
 #define WORKINGPATH_STR                     "Working path set to\t: "
 #define SYSTEMLOCAL_STR                     "Detected system locale\t: "
 #define LOADEDLOCAL_STR                     "Translation file loaded\t: "

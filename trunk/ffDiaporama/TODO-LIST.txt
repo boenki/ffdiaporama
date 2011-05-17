@@ -1,0 +1,52 @@
+Buggs :
+    Les transitions mangent les bandes noires en mode cinema + DVD
+
+A faire [urgent] :
+    Faire les fade in/out des musiques lors des changements de volume
+    Ajouter un skip de frame inutile dans cvideofilewrapper::ReadVideoFrame
+
+A faire [moins urgent] :
+    Faire les transitions de fonds (à réfléchir !) +Faire la boite de modif des transitions de fond
+    Revoir les messages d'erreurs lié à exiv2 dans _ImageFileWrapper
+
+-------------------------------------
+Changelog depuis la version 20110513
+-------------------------------------
+
+Passage en Alpha2 :
+
+    Le passage en alpha2 se justifie par la modification en cours de l'univers des slides :
+        Alpha1 comme videoporama definissent les slides comme étant une image ou une vidéo sur laquelle s'applique une composition global
+        Chaque slide est composé d'une série de couple de plan mobile/plan fixe.
+        Chaque couple de plan possede une composition
+
+    Dans le nouvel univers :
+        Chaque slide sera défini comme étant une composition et une série de plan
+        Pour chaque plan de la série on définira les propriétés des blocs de la composition (les blocs existeront dans tous les plans mais pourront etre masqué)
+        Les blocs de composition pourront etre du texte, une photo ou une vidéo
+
+    Ces modifications majeures entrainent une modification profonde de l'interface et du fichier de données.
+    (*Pour le moment une compatibilité ascendante des anciennes sauvegardes est assurée mais je ne garantie pas que ça va durer !)
+
+    Gains coté interface :
+        A terme l'interface se sera plus composée que d'une boite unique de composition. Cette boite appelant par des boutons les fonctions de recadrage/correction, de filtre et d'edition vidéo
+        Cela deviendra beaucoup plus simple à utiliser
+
+    Gains coté fonctionnalité :
+        Il deviendra possible d'avoir plusieurs images/video sur un meme slide
+        Il deviendra possible de réduire l'affichage des images/videos : Elles n'occupent plus forcément tout l'écran
+        Il deviendra possible d'ajouter des animations de positionnement des images/videos sur l'écran (en plus des effets ken burns)
+        Il deviendra possible de jouer avec le positionnement arrière plan/premier plan entre les blocs
+        Il deviendra possible d'appliquer une forme aux images/videos (cercle, triangle, etc...) alors qu'avant, seul le rectangle était possible
+
+Détails des modifications :
+
+- Creation d'une boite de dialogue spécifique pour les objets titre (Cette boite deviendra commune à tous quand elle sera prete !)
+- Déplacement des données de recadrage/rotation dans le sous object de correction d'image et modification du format de fichier (compatibilité ascendante des anciennes sauvegardes !)
+- Suppression des compositions globales (pour tous les types d'objet). Pour compatibilité ascendante des anciennes sauvegardes : transfert des blocs dans la composition du 1er plan
+- Supprime la notion de Canvas :
+    L'application fonctionne en FullCanvas uniquement
+    Pour compatibilité ascendante des anciennes sauvegardes : les anciennes coordonnées sont converties si elle étaient dans l'ancien mode "Normal Canvas"
+- Supprime la notion de "pas de forme" pour tous les blocs : Pour compatibilité ascendante des anciennes sauvegardes, les blocs sans forme passent en rectangle+bordure=0+brush=sans
+- Supprime le fichier flag _BUILDVERSION.txt (plus d'utilité maintenant que les paquets sont toujours entiers)
+

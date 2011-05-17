@@ -28,8 +28,7 @@
 // Specific defines for this dialog box
 //======================================
 #define PAGE_GLOBALFILTER           0
-#define PAGE_COMPOSITION            1
-#define PAGE_FRAMING                2
+#define PAGE_FRAMING                1
 
 #define SUBPAGE_SHOTFRAMING         0
 #define SUBPAGE_SHOTCOMPOSITION     1
@@ -49,9 +48,8 @@ DlgImageProperties::DlgImageProperties(cDiaporamaObject *DiaporamaObject,QWidget
     Undo->appendChild(root);                                // Add object to xml document
 
     // Init embeded widgets
-    ui->CustomScene->SetDiaporamaShot(&DiaporamaObject->List[0]);
+    ui->CustomScene->SetDiaporamaShot(&DiaporamaObject->List[0].FilterCorrection);
     ui->ImageFilterTransform->SetFilter(&DiaporamaObject->FilterTransform,DiaporamaObject);
-    ui->CompositionWidget->SetCompositionObject(&DiaporamaObject->ObjectComposition,NULL);
 
     IsTabCanvasInit         =false;                 // Flag for Tab Canvas
     IsTabImageInit          =false;                 // Flag for Tab Image
@@ -62,8 +60,6 @@ DlgImageProperties::DlgImageProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
-
-    connect(ui->CompositionWidget,SIGNAL(NeedRefreshBackgroundImage()),this,SLOT(s_CompositionNeedRefreshBackgroundImage()));
 
     // Select first tab to display
     if (DiaporamaObject->TypeObject==DIAPORAMAOBJECTTYPE_EMPTY) {
@@ -126,53 +122,8 @@ void DlgImageProperties::accept() {
 
 void DlgImageProperties::s_TabCurrentChanged(int Page) {
     switch (Page) {
-        case PAGE_COMPOSITION : s_CompositionNeedRefreshBackgroundImage();  break; // Refresh background image
         case PAGE_FRAMING     : SetTabAnimation(); break;
     }
-}
-
-//****************************************************************************************************************************
-//
-//
-//
-// Composition Tab
-//
-//
-//
-//****************************************************************************************************************************
-
-void DlgImageProperties::s_CompositionNeedRefreshBackgroundImage() {
-    QSize SceneboxSize=ui->CompositionWidget->GetSceneBoxSize();
-    if (DiaporamaObject->Parent->GetHeightForWidth(SceneboxSize.width())<SceneboxSize.height()) SceneboxSize=QSize(DiaporamaObject->Parent->GetWidthForHeight(SceneboxSize.height()),SceneboxSize.height());
-        else SceneboxSize=QSize(SceneboxSize.width(),DiaporamaObject->Parent->GetHeightForWidth(SceneboxSize.width()));
-    // Set image
-    QPixmap *Image;
-    double   Ratio=1;
-    if (DiaporamaObject->TypeObject==DIAPORAMAOBJECTTYPE_EMPTY) {
-        QPainter Painter;
-        double w,h;
-        w=SceneboxSize.width();
-        h=DiaporamaObject->Parent->GetHeightForWidth(w);
-        if (h<SceneboxSize.height()) {
-            h=SceneboxSize.height();
-            w=DiaporamaObject->Parent->GetWidthForHeight(h);
-        }
-        Image=new QPixmap(SceneboxSize.width(),SceneboxSize.height());
-        Painter.begin(Image);
-        DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),SceneboxSize.width(),SceneboxSize.height(),&Painter,0,0,false);
-        Painter.end();
-        Ratio=w/h;
-    } else {
-        if (DiaporamaObject->Image!=NULL) Ratio=double(DiaporamaObject->Image->ImageWidth)/double(DiaporamaObject->Image->ImageHeight);
-            else if (DiaporamaObject->Video!=NULL) Ratio=double(DiaporamaObject->Video->ImageWidth)/double(DiaporamaObject->Video->ImageHeight);
-        QImage *TheImage1=DiaporamaObject->GetImageAt(0,true,NULL);
-        QImage TheImage2=TheImage1->scaled(SceneboxSize.width(),int(double(SceneboxSize.width())/Ratio));
-        DiaporamaObject->FilterTransform.ApplyFilter(&TheImage2);
-        Image=new QPixmap(QPixmap().fromImage(TheImage2));
-        delete TheImage1;
-    }
-    ui->CompositionWidget->SetCompositionObject(&DiaporamaObject->ObjectComposition,new QPixmap(Image->scaled(SceneboxSize.width(),int(double(SceneboxSize.width())/Ratio))));
-    delete Image;
 }
 
 //****************************************************************************************************************************
@@ -205,6 +156,8 @@ void DlgImageProperties::SetTabAnimation() {
         ui->CompositionShotWidget->SetCompositionObject(&DiaporamaObject->List[0].ShotComposition,NULL);
 
         // Connect signals
+        connect(ui->TableSeq,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
+
         connect(ui->StaticSetCustomBt,SIGNAL(clicked()),this,SLOT(s_StaticSetCustom()));
         connect(ui->StaticCustomEd,SIGNAL(valueChanged(int)),this,SLOT(s_DefineCustom(int)));
         connect(ui->MobilSetCustomBt,SIGNAL(clicked()),this,SLOT(s_MobilSetCustom()));
@@ -213,9 +166,7 @@ void DlgImageProperties::SetTabAnimation() {
         connect(ui->removeSequenceBT,SIGNAL(clicked()),this,SLOT(s_removeSequence()));
         connect(ui->UpSequenceBT,SIGNAL(clicked()),this,SLOT(s_UpSequence()));
         connect(ui->DownSequenceBT,SIGNAL(clicked()),this,SLOT(s_DownSequence()));
-        connect(ui->TableSeq,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
         connect(ui->CustomScene,SIGNAL(ModifyDataSignal()),this,SLOT(s_CustomSceneModifyFlag()));
-        connect(ui->FullCanvasCB,SIGNAL(clicked()),this,SLOT(s_FullCanvas()));
         connect(ui->CompositionShotWidget,SIGNAL(NeedRefreshBackgroundImage()),this,SLOT(s_CompositionInShotNeedRefreshBackgroundImage()));
         connect(ui->CompositionShotWidget,SIGNAL(BackgroundImageUpdated()),this,SLOT(s_BackgroundImageUpdated()));
         connect(ui->ShotTabWidget,SIGNAL(currentChanged(int)),this,SLOT(s_ShotTabWidgetCurrentChanged(int)));
@@ -293,7 +244,6 @@ void DlgImageProperties::RefreshControls() {
     ui->removeSequenceBT->setEnabled(ui->TableSeq->rowCount()>1);
     ui->UpSequenceBT->setEnabled((Current>0)&&(ui->TableSeq->rowCount()>1));
     ui->DownSequenceBT->setEnabled(Current<ui->TableSeq->rowCount()-1);
-    ui->FullCanvasCB->setChecked(DiaporamaObject->FullCanvas);
 
     ui->CustomScene->RefreshControls();
 
@@ -315,7 +265,7 @@ void DlgImageProperties::s_ItemSelectionChanged() {
     int Current=ui->TableSeq->currentRow();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
     // Refresh embeded widget
-    ui->CustomScene->SetDiaporamaShot(&DiaporamaObject->List[Current]);
+    ui->CustomScene->SetDiaporamaShot(&DiaporamaObject->List[Current].FilterCorrection);
     ui->CustomScene->RefreshWidget();
     ui->CompositionShotWidget->SetCompositionObject(&DiaporamaObject->List[Current].ShotComposition,NULL);
     if (ui->ShotTabWidget->currentIndex()==SUBPAGE_SHOTCOMPOSITION) s_CompositionInShotNeedRefreshBackgroundImage();
@@ -367,10 +317,6 @@ void DlgImageProperties::s_addSequence() {
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
 
     cDiaporamaShot *imagesequence   =new cDiaporamaShot(DiaporamaObject);
-    imagesequence->ZoomFactor       =DiaporamaObject->List[Current].ZoomFactor;
-    imagesequence->X                =DiaporamaObject->List[Current].X;
-    imagesequence->Y                =DiaporamaObject->List[Current].Y;
-    imagesequence->ImageRotation    =DiaporamaObject->List[Current].ImageRotation;
     imagesequence->FilterCorrection =DiaporamaObject->List[Current].FilterCorrection;
 
     DiaporamaObject->List.append(*imagesequence);
@@ -417,20 +363,6 @@ void DlgImageProperties::s_DownSequence() {
     DiaporamaObject->List.swap(Current,Current+1);
     ui->TableSeq->setCurrentCell(Current+1,0);
     ui->CustomScene->RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgImageProperties::s_FullCanvas() {
-    if (DiaporamaObject->FullCanvas) {
-        DiaporamaObject->FullCanvas=false;
-        DiaporamaObject->SwitchShotsToNormalCanvas(); // adapt all shot value
-    } else {
-        DiaporamaObject->FullCanvas=true;
-        DiaporamaObject->SwitchShotsToFullCanvas();   // adapt all shot value
-    }
-    RefreshControls();
-    ui->CustomScene->RefreshWidget();
 }
 
 //====================================================================================================================
