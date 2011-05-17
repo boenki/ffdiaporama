@@ -45,13 +45,13 @@ public:
     sMagneticRuller         MagneticRuller;
     QGraphicsScene          *scene;
     cCustomGraphicsRectItem *cadre;
-    double                   xmax,ymax;
-    cDiaporamaShot          *DiaporamaShot;
+    double                  xmax,ymax;
+    cFilterCorrectObject    *CorrectObject;
 
     explicit wgt_QCustomScene(QWidget *parent = 0);
     ~wgt_QCustomScene();
 
-    void SetDiaporamaShot(cDiaporamaShot *DiaporamaShot);
+    void SetDiaporamaShot(cFilterCorrectObject *CorrectObject);
     void RefreshBackgroundImage();
     void RefreshControls();
     void RefreshWidget();

@@ -50,14 +50,12 @@ protected:
 private slots:
     void        Help();
     void        s_TabCurrentChanged(int Page);
-    void        s_CompositionNeedRefreshBackgroundImage();
     void        s_DefStartPos();
     void        s_DefEndPos();
     void        s_SeekLeft();
     void        s_SeekRight();
     void        s_EditStartPos(QTime NewValue);
     void        s_EditEndPos(QTime NewValue);
-    void        s_FullCanvas();
     void        MusicReduceFactorChange(int);
 
 private:

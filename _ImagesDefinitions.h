@@ -54,18 +54,24 @@ public:
 
 class   cFilterCorrectObject {
 public:
-    int     Brightness;
-    int     Contrast;
-    double  Gamma;
-    int     Red;
-    int     Green;
-    int     Blue;
+    double      X;                      // X position (in %) relative to up/left corner
+    double      Y;                      // Y position (in %) relative to up/left corner
+    double      ZoomFactor;             // Zoom factor (in %)
+    int         ImageRotation;          // Image rotation (in °)
+    int         Brightness;             // Brightness adjustment
+    int         Contrast;               // Contrast adjustment
+    double      Gamma;                  // Gamma adjustment
+    int         Red;                    // Red adjustment
+    int         Green;                  // Green adjustment
+    int         Blue;                   // Blue adjustment
 
     cFilterCorrectObject();
 
     void        ApplyFilter(QImage *Image);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
+
+    QImage      *GetImage(QImage *SourceImage,int Width,int Height,double PCTDone,cFilterCorrectObject *PreviousFilter);
 };
 
 //*********************************************************************************************************************************************
@@ -83,17 +89,18 @@ public:
     double                  Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
     QString                 BrushImage;             // Image name if image from library
     QString                 BrushFileName;          // Image name if image from disk
-    QImage                  *CacheFileImage;
     cFilterCorrectObject    BrushFileCorrect;       // Image correction if image from disk
     cFilterTransformObject  BrushFileTransform;     // Image transformation if image from disk
     cimagefilewrapper       *Image;                 // Embeded Object for title and image type
     cvideofilewrapper       *Video;                 // Embeded Object for video type
+    int                     BrushFileGeometry;      // Geometry for embeded image
 
     cBrushDefinition();
     ~cBrushDefinition();
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
     QBrush      *GetBrush(QRectF Rect);
+    void        ApplyDefaultFraming(int DefaultFraming);
 
 private:
     QBrush      *GetLibraryBrush(QRectF Rect);

@@ -64,7 +64,7 @@ wgt_QCompositionWidget::wgt_QCompositionWidget(QWidget *parent):QWidget(parent),
     MakeTextStyleIcon(ui->fontEffectCB);
 
     // Init combo box Background form
-    for (int i=0;i<13;i++) ui->BackgroundFormCB->addItem("");
+    for (int i=0;i<12;i++) ui->BackgroundFormCB->addItem("");
     MakeFormIcon(ui->BackgroundFormCB);
 
     // Init combo box Background shadow form
@@ -249,7 +249,7 @@ void wgt_QCompositionWidget::RefreshControls() {
 
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     ui->CustomBrushWidget->RefreshControls((CurrentTextItem!=NULL)?&CurrentTextItem->BackgroundBrush:NULL,
-                                           (CurrentTextItem!=NULL)&&(CurrentTextItem->BackgroundForm!=0)&&(CurrentTextItem->Opacity<4));
+                                           (CurrentTextItem!=NULL)&&(CurrentTextItem->Opacity<4));
 
     if (CurrentTextItem!=NULL) {
         //***********************
@@ -286,10 +286,10 @@ void wgt_QCompositionWidget::RefreshControls() {
         // Shape TAB
         //***********************
         StopMAJSpinbox=true;    // Disable reintrence in this RefreshControls function
-        ui->BackgroundFormCB->setDisabled(false);                                                           ui->BackgroundFormCB->setCurrentIndex(CurrentTextItem->BackgroundForm);
-        ui->PenSizeEd->setEnabled(CurrentTextItem->BackgroundForm!=0);                                      ui->PenSizeEd->setValue(int(CurrentTextItem->PenSize));
-        ui->PenColorCB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->PenSize==0));   ui->PenColorCB->SetCurrentColor(&CurrentTextItem->PenColor);
-        ui->PenStyleCB->setDisabled((CurrentTextItem->BackgroundForm==0)||(CurrentTextItem->PenSize==0));
+        ui->BackgroundFormCB->setDisabled(false);                   ui->BackgroundFormCB->setCurrentIndex(CurrentTextItem->BackgroundForm-1);
+        ui->PenSizeEd->setEnabled(true);                            ui->PenSizeEd->setValue(int(CurrentTextItem->PenSize));
+        ui->PenColorCB->setDisabled(CurrentTextItem->PenSize==0);   ui->PenColorCB->SetCurrentColor(&CurrentTextItem->PenColor);
+        ui->PenStyleCB->setDisabled(CurrentTextItem->PenSize==0);
         for (int i=0;i<ui->PenStyleCB->count();i++) if (ui->PenStyleCB->itemData(i).toInt()==CurrentTextItem->PenStyle) {
             ui->PenStyleCB->setCurrentIndex(i);
             break;
@@ -675,7 +675,7 @@ void wgt_QCompositionWidget::s_ChangeBackgroundForm(int Style) {
     if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
-    CurrentTextItem->BackgroundForm=Style;
+    CurrentTextItem->BackgroundForm=Style+1;
     RefreshControls();
 }
 
@@ -745,7 +745,7 @@ void wgt_QCompositionWidget::MakeFormIcon(QComboBox *UICB) {
         Object.y                        =0;
         Object.w                        =1;
         Object.h                        =1;
-        Object.BackgroundForm           =i;
+        Object.BackgroundForm           =i+1;
         Object.Opacity                  =4;
         Object.PenSize                  =1;
         Object.PenStyle                 =Qt::SolidLine;
@@ -778,7 +778,7 @@ void wgt_QCompositionWidget::MakeTextStyleIcon(QComboBox *UICB) {
         Object.FontSize         =200;
         Object.IsBold           =true;
         Object.PenSize          =0;
-        Object.BackgroundForm   =0;
+        Object.BackgroundForm   =1;
         Object.Opacity=0;
         QPixmap  Image(32,32);
         QPainter Painter;

@@ -75,6 +75,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
     if (Type==THUMBNAILTYPE_IMAGESEQUENCE) {
 
         // Draw a standard thumbnail (just the image) at position of the current row
+        Painter.save();
 
         int Row=0;
         int Position = 0;
@@ -107,9 +108,53 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             }
             Row++;
             MediaObjectRect=QRect(0,0,Width,Height);
+
         }
+        Painter.restore();
 
     //===========================================================================================================================
+
+    } else if (Type==THUMBNAILTYPE_SHOT) {
+
+        // Draw a standard thumbnail (just the image) at position of the current row
+        Painter.save();
+
+        int Col=0;
+        int Position = 0;
+        while (Col<Timeline->columnCount()) if (Timeline->cellWidget(0,Col)!=this) {
+            Position=Position+(Col>0?Diaporama->List[Diaporama->CurrentCol].List[Col].GetMobilDuration():0)+
+                     Diaporama->List[Diaporama->CurrentCol].List[Col].GetStaticDuration();
+            Col++;
+        } else if (Timeline->cellWidget(0,Col)==this) {
+            if (Col>0) Position=Position+Diaporama->List[Diaporama->CurrentCol].List[Col].GetMobilDuration();
+
+            int Height=Timeline->rowHeight(0);
+            int Width =Timeline->columnWidth(Col);
+            if (Width!=Diaporama->GetWidthForHeight(Height)) {
+                Width=Diaporama->GetWidthForHeight(Height);
+                Timeline->setColumnWidth(Col,Width);
+            }
+
+            Painter.fillRect(0,0,Width,Height,Diaporama->Transparent);
+            Diaporama->List[Diaporama->CurrentCol].CanvasImageAt(Width,Height,Position,&Painter,0,0,NULL,NULL,true,true,true,true,NULL);
+
+            // -------------------------- Draw selected box (if needed)
+
+            if (Col==Timeline->currentColumn()) {
+                QPen Pen;
+                Pen.setColor(Qt::blue);
+                Pen.setWidth(6);
+                Painter.setPen(Pen);
+                Painter.setBrush(Qt::NoBrush);
+                Painter.drawRect(0,0,this->width()-1,this->height()-1);
+            }
+            Col++;
+            MediaObjectRect=QRect(0,0,Width,Height);
+
+        }
+        Painter.restore();
+
+        //===========================================================================================================================
 
     } else {
         Painter.save();

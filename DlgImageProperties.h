@@ -63,11 +63,6 @@ private slots:
     void        s_TabCurrentChanged(int Page);
 
     //**************************************************************
-    // Composition Tab
-    //**************************************************************
-    void        s_CompositionNeedRefreshBackgroundImage();
-
-    //**************************************************************
     // Animation Tab
     //**************************************************************
     void        s_ItemSelectionChanged();
@@ -80,7 +75,6 @@ private slots:
     void        s_UpSequence();
     void        s_DownSequence();
     void        s_CustomSceneModifyFlag();
-    void        s_FullCanvas();
     void        s_CompositionInShotNeedRefreshBackgroundImage();
     void        s_ShotTabWidgetCurrentChanged(int);
     void        s_BackgroundImageUpdated();

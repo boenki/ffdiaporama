@@ -32,6 +32,7 @@
 //======================================
 #define TYPE_wgt_QCustomScene           0
 #define TYPE_wgt_QCompositionWidget     1
+#define TYPE_DlgSlideProperties         2
 
 struct  sMagneticRuller {
     bool    MagneticRuler;

@@ -35,7 +35,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="ImageTab">
       <attribute name="title">
@@ -50,22 +50,6 @@
        </property>
        <item>
         <widget class="wgt_QImageFilterTransform" name="ImageFilterTransform" native="true"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="CompositionTab">
-      <attribute name="title">
-       <string>Global image composition</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <property name="spacing">
-        <number>2</number>
-       </property>
-       <property name="margin">
-        <number>2</number>
-       </property>
-       <item>
-        <widget class="wgt_QCompositionWidget" name="CompositionWidget" native="true"/>
        </item>
       </layout>
      </widget>
@@ -216,13 +200,6 @@
              <string>Sequence</string>
             </property>
            </column>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="FullCanvasCB">
-           <property name="text">
-            <string>Full canvas</string>
-           </property>
           </widget>
          </item>
         </layout>

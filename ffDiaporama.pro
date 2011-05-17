@@ -62,7 +62,8 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             DlgTransitionProperties.cpp \
             DlgAbout.cpp \
             mainwindow.cpp \
-            main.cpp
+            main.cpp \
+    DlgSlideProperties.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
@@ -91,7 +92,8 @@ HEADERS  += _GlobalDefines.h \
             DlgRenderVideo.h \
             DlgTransitionProperties.h \
             DlgAbout.h \
-            mainwindow.h
+            mainwindow.h \
+    DlgSlideProperties.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \
@@ -108,16 +110,15 @@ FORMS    += mainwindow.ui \
     DlgMusicProperties.ui \
     DlgRenderVideo.ui \
     DlgTransitionProperties.ui \
-    DlgAbout.ui
+    DlgAbout.ui \
+    DlgSlideProperties.ui
 
 OTHER_FILES += \
     ffDiaporama.xml \
-    help/Rendering.ods \
-    ../TODO-LIST.txt \
-    ../licences.txt \
-    ../licences.rtf \
+    TODO-LIST.txt \
+    licences.txt \
+    licences.rtf \
     ffDiaporama.rc \
-    _BUILDVERSION.txt \
     BUILDVERSION.txt
 
 TRANSLATIONS += locale/locale_fr.ts
@@ -151,7 +152,7 @@ unix {
     documentation.path  = $$PREFIX/share/$$TARGETAPP/help
     documentation.files = help/*.*
     General.path        = $$PREFIX/share/$$TARGETAPP
-    General.files       = ffDiaporama.xml BUILDVERSION.txt _BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset
+    General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset
 }
 
 INSTALLS += TARGET translation background icons tr_icons luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake documentation General
