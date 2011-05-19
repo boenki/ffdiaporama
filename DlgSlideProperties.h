@@ -50,8 +50,9 @@ public:
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent = 0);
     ~DlgSlideProperties();
 
-    void                    SetCompositionObject(cCompositionList *CompositionList);
-    void                    RefreshBackgroundImage();
+    void            SetCompositionObject(cCompositionList *CompositionList);
+    void            RefreshBackgroundImage();
+    void            RefreshControls();
 
     // Utility functions
     cCustomGraphicsRectItem *GetSelectItem();                   // Return selected item
@@ -67,15 +68,21 @@ protected:
 
 private slots:
     void            Help();
-    void            s_SelectFile();
     void            SetSavedWindowGeometry();
+    void            ImageEditCorrect();
+    void            ImageEditTransform();
+    void            VideoEdit();
+
     void            s_CurrentShotSelectionChanged();
     void            s_addShot();
     void            s_removeShot();
 
     void            s_SelectionChangeEvent();
-    void            s_AddNewBloc();
-    void            s_RemoveBloc();
+
+    void            s_AddNewTextBlock();
+    void            s_AddNewFileBlock();
+    void            s_RemoveBlock();
+
     void            s_ChangeFont(QFont);
     void            s_ChangeSizeFont(QString);
     void            s_SetBold();
@@ -124,12 +131,14 @@ private slots:
     void            s_ChIndexGradientIntermColorCombo(int);
     void            s_ChIndexBackgroundCombo(int);
 
+    // Image part
+    void            s_ChangeImageGeometry(int);
+
 private:
     void            Clean();
     void            MakeFormIcon(QComboBox *UICB);
     void            MakeTextStyleIcon(QComboBox *UICB);
     void            MakeBorderStyleIcon(QComboBox *UICB);
-    void            RefreshControls();
 
     Ui::DlgSlideProperties *ui;
 };

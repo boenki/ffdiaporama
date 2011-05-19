@@ -63,7 +63,10 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             DlgAbout.cpp \
             mainwindow.cpp \
             main.cpp \
-    DlgSlideProperties.cpp
+    DlgSlideProperties.cpp \
+    DlgImageCorrection.cpp \
+    DlgImageTransformation.cpp \
+    DlgVideoEdit.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
@@ -93,7 +96,10 @@ HEADERS  += _GlobalDefines.h \
             DlgTransitionProperties.h \
             DlgAbout.h \
             mainwindow.h \
-    DlgSlideProperties.h
+    DlgSlideProperties.h \
+    DlgImageCorrection.h \
+    DlgImageTransformation.h \
+    DlgVideoEdit.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \
@@ -111,7 +117,10 @@ FORMS    += mainwindow.ui \
     DlgRenderVideo.ui \
     DlgTransitionProperties.ui \
     DlgAbout.ui \
-    DlgSlideProperties.ui
+    DlgSlideProperties.ui \
+    DlgImageCorrection.ui \
+    DlgImageTransformation.ui \
+    DlgVideoEdit.ui
 
 OTHER_FILES += \
     ffDiaporama.xml \

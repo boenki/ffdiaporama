@@ -148,7 +148,17 @@ QVariant cResizeGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
 // Redefine paint to don't allow selection rectangle
 //====================================================================================================================
 
-void cResizeGraphicsRectItem::paint(QPainter */*painter*/,const QStyleOptionGraphicsItem */*option*/,QWidget */*widget*/) {
+void cResizeGraphicsRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget) {
+    if (RectItem->zoom==NULL) {
+        cCustomGraphicsRectItem *CurrentTextItem=NULL;
+        for (int i=0;i<scene()->selectedItems().count();i++) {
+            QGraphicsItem   *Item=scene()->selectedItems()[i];
+            QString         data =Item->data(0).toString();
+            if (data=="CustomGraphicsRectItem")      CurrentTextItem=(cCustomGraphicsRectItem *)Item;
+            else if (data=="ResizeGraphicsRectItem") CurrentTextItem=((cResizeGraphicsRectItem *)Item)->RectItem;
+        }
+        if (CurrentTextItem==RectItem) QGraphicsRectItem::paint(painter,option,widget);
+    }
 }
 
 //====================================================================================================================
@@ -179,8 +189,8 @@ void cResizeGraphicsRectItem::ResizeUpperLeft(QPointF &newpos) {
         }
     }
     // get value of opposite resize corner
-    double blockx = RectItem->BottomRight->pos().x()-w;
-    double blocky = RectItem->BottomRight->pos().y()-h;
+    double blockx = RectItem->BottomRight->pos().x();//-w;
+    double blocky = RectItem->BottomRight->pos().y();//-h;
 
     // crop rectangle in the image
     if (x<-(w/2))   x=-w/2;
@@ -192,19 +202,32 @@ void cResizeGraphicsRectItem::ResizeUpperLeft(QPointF &newpos) {
     double imgw;
     double imgh;
     if (RectItem->KeepAspectRatio) {
-        double Aspect = xmax/ymax;
-        imgw         = blockx-x;
-        imgh         = imgw/Aspect;
+        imgw = blockx-x;
+        if (imgw<w) {
+            imgw=w;
+            x=blockx-imgw;
+        }
+        imgh = imgw*RectItem->AspectRatio;
         if (blocky-imgh<-(h/2)) {
             imgh = blocky-y;
-            imgw = imgh*Aspect;
+            if (imgh<h) imgh=h;
+            imgw = imgh/RectItem->AspectRatio;
             x    = blockx-imgw;
         } else  y = blocky-imgh;
+    } else {
+        imgw=(RectItem->BottomRight->pos().x()-x);
+        imgh=(RectItem->BottomRight->pos().y()-y);
+        if (imgw<w) {
+            imgw=w;
+            x=blockx-imgw;
+        }
+        if (imgh<h) {
+            imgh=h;
+            y=blocky-imgh;
+        }
     }
 
     // Now, update RectItem
-    imgw=(RectItem->BottomRight->pos().x()-x);
-    imgh=(RectItem->BottomRight->pos().y()-y);
     if (RectItem->zoom!=NULL) (*RectItem->zoom)=(imgw/xmax); else {
         (*RectItem->w)=(imgw/xmax);
         (*RectItem->h)=(imgh/ymax);
@@ -248,8 +271,8 @@ void cResizeGraphicsRectItem::ResizeUpperRight(QPointF &newpos) {
         }
     }
     // get value of opposite resize corner
-    double blockx = RectItem->BottomLeft->pos().x()+w;
-    double blocky = RectItem->BottomLeft->pos().y()-h;
+    double blockx = RectItem->BottomLeft->pos().x();
+    double blocky = RectItem->BottomLeft->pos().y();
 
     // crop rectangle in the image
     if (x<blockx)       x=blockx;
@@ -261,19 +284,32 @@ void cResizeGraphicsRectItem::ResizeUpperRight(QPointF &newpos) {
     double imgw;
     double imgh;
     if (RectItem->KeepAspectRatio) {
-        double Aspect = xmax/ymax;
-        imgw         = x-blockx;
-        imgh         = imgw/Aspect;
+        imgw = x-blockx;
+        if (imgw<w) {
+            imgw=w;
+            x=blockx+imgw;
+        }
+        imgh = imgw*RectItem->AspectRatio;
         if (blocky-imgh<-(h/2)) {
             imgh = blocky-y;
-            imgw = imgh*Aspect;
+            if (imgh<h) imgh=h;
+            imgw = imgh/RectItem->AspectRatio;
             x    = blockx+imgw;
         } else y = blocky-imgh;
+    } else {
+        imgw=(x-RectItem->BottomLeft->pos().x());
+        imgh=(RectItem->BottomLeft->pos().y()-y);
+        if (imgw<w) {
+            imgw=w;
+            x=blockx+imgw;
+        }
+        if (imgh<h) {
+            imgh=h;
+            y=blocky-imgh;
+        }
     }
 
     //Now, update RectItem
-    imgw=(x-RectItem->BottomLeft->pos().x());
-    imgh=(RectItem->BottomLeft->pos().y()-y);
     if (RectItem->zoom!=NULL) (*RectItem->zoom)=(imgw/xmax); else {
         (*RectItem->w)=(imgw/xmax);
         (*RectItem->h)=(imgh/ymax);
@@ -316,8 +352,8 @@ void cResizeGraphicsRectItem::ResizeBottomLeft(QPointF &newpos) {
           }
     }
     // get value of opposite resize corner
-    double blockx = RectItem->UpperRight->pos().x()-w;
-    double blocky = RectItem->UpperRight->pos().y()+h;
+    double blockx = RectItem->UpperRight->pos().x();//-w;
+    double blocky = RectItem->UpperRight->pos().y();//+h;
     // crop rectangle in the image
     if (x<-(w/2)) x=-w/2;
     if (x>blockx) x=blockx;
@@ -328,19 +364,32 @@ void cResizeGraphicsRectItem::ResizeBottomLeft(QPointF &newpos) {
     double imgw;
     double imgh;
     if (RectItem->KeepAspectRatio) {
-        double Aspect = xmax/ymax;
-        imgw         = blockx-x;
-        imgh         = imgw/Aspect;
+        imgw = blockx-x;
+        if (imgw<w) {
+            imgw=w;
+            x=blockx-imgw;
+        }
+        imgh = imgw*RectItem->AspectRatio;
         if (imgh+blocky>ymax-(h/2)) {
             imgh = y-blocky;
-            imgw = imgh*Aspect;
+            if (imgh<h) imgh=h;
+            imgw = imgh/RectItem->AspectRatio;
             x    = blockx-imgw;
         } else y = blocky+imgh;
+    } else {
+        imgw=(RectItem->UpperRight->pos().x()-x);
+        imgh=(y-RectItem->UpperRight->pos().y());
+        if (imgw<w) {
+            imgw=w;
+            x=blockx-imgw;
+        }
+        if (imgh<h) {
+            imgh=h;
+            y=blocky+imgh;
+        }
     }
 
     // Now, update RectItem
-    imgw=(RectItem->UpperRight->pos().x()-x);
-    imgh=(y-RectItem->UpperRight->pos().y());
     if (RectItem->zoom!=NULL) (*RectItem->zoom)=(imgw/xmax); else {
         (*RectItem->w)=(imgw/xmax);
         (*RectItem->h)=(imgh/ymax);
@@ -383,8 +432,8 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
         }
     }
     // get value of opposite resize corner
-    double blockx = RectItem->UpperLeft->pos().x()+w;
-    double blocky = RectItem->UpperLeft->pos().y()+h;
+    double blockx = RectItem->UpperLeft->pos().x();
+    double blocky = RectItem->UpperLeft->pos().y();
 
     // crop rectangle in the image
     if (x<blockx)      x=blockx;
@@ -396,19 +445,30 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
     double imgw;
     double imgh;
     if (RectItem->KeepAspectRatio) {
-        double Aspect = xmax/ymax;
-        imgw         = x-blockx;
-        imgh         = imgw/Aspect;
+        imgw = x-blockx;
+        if (imgw<w) imgw=w;
+        imgh = imgw*RectItem->AspectRatio;
         if (imgh+blocky>ymax-(h/2)) {
             imgh = y-blocky;
-            imgw = imgh*Aspect;
-            x    = blockx+imgw;
-        } else y = blocky+imgh;
+            if (imgh<h) imgh=h;
+            imgw = imgh/RectItem->AspectRatio;
+        }
+        x = blockx+imgw;
+        y = blocky+imgh;
+    } else {
+        imgw=(x-RectItem->UpperLeft->pos().x());
+        imgh=(y-RectItem->UpperLeft->pos().y());
+        if (imgw<w) {
+            imgw=w;
+            x=blockx+imgw;
+        }
+        if (imgh<h) {
+            imgh=h;
+            y=blocky+imgh;
+        }
     }
 
     // Now, update RectItem
-    imgw=(x-RectItem->UpperLeft->pos().x());
-    imgh=(y-RectItem->UpperLeft->pos().y());
     if (RectItem->zoom!=NULL) (*RectItem->zoom)=(imgw/xmax); else {
         (*RectItem->w)=(imgw/xmax);
         (*RectItem->h)=(imgh/ymax);
@@ -427,7 +487,7 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // x,y and zoom or w/h are always give in %
 cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZValue,double *Thex,double *They,double *Thezoom,double *Thew,double *Theh,double xmax,double ymax,
-                                                 bool TheKeepAspectRatio,sMagneticRuller *TheMagneticRuller,QWidget *TheParentWidget,int TheParentWidgetType)
+                                                 bool TheKeepAspectRatio,double TheAspectRatio,sMagneticRuller *TheMagneticRuller,QWidget *TheParentWidget,int TheParentWidgetType)
                                                 :QGraphicsRectItem((*Thex)*xmax,(*They)*ymax,xmax*(*((Thezoom!=NULL)?Thezoom:Thew)),ymax*(*((Thezoom!=NULL)?Thezoom:Theh)),NULL)
 
 {
@@ -435,19 +495,21 @@ cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZV
     ParentWidget    = TheParentWidget;
     ParentWidgetType= TheParentWidgetType;
     MagneticRuller  = TheMagneticRuller;
-    KeepAspectRatio = TheKeepAspectRatio;
     x               = Thex;
     y               = They;
     zoom            = Thezoom;
+    KeepAspectRatio = TheKeepAspectRatio;
 
     if (zoom!=NULL) {
         // If zoom mode is use
         w=&StockW;    *(w) = xmax*(*zoom);
         h=&StockH;    *(h) = ymax*(*zoom);
+        AspectRatio=ymax/xmax;
     } else {
         // If zoom mode is not use
         w=Thew;
         h=Theh;
+        AspectRatio=TheAspectRatio;
     }
     BlockZoomChange = false;            // flag to block zoom changing during change % to pixel
     IsCapture       = false;
@@ -507,6 +569,7 @@ cCustomGraphicsRectItem::~cCustomGraphicsRectItem() {
         delete BottomRight;
         BottomRight=NULL;
     }
+    scene->removeItem(this);
 }
 
 //====================================================================================================================
@@ -570,9 +633,9 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
 void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
     RecalcEmbededResizeRectItem();
     switch (ParentWidgetType) {
-        case TYPE_wgt_QCustomScene:         ((wgt_QCustomScene *)ParentWidget)->RefreshBackgroundImage();      break;
-        case TYPE_wgt_QCompositionWidget:   ((wgt_QCompositionWidget *)ParentWidget)->StartRefreshControls();  break;
-        case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->RefreshBackgroundImage();    break;
+        case TYPE_wgt_QCustomScene:         ((wgt_QCustomScene *)ParentWidget)->RefreshBackgroundImage();       break;
+        case TYPE_wgt_QCompositionWidget:   ((wgt_QCompositionWidget *)ParentWidget)->StartRefreshControls();   break;
+        case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->RefreshControls();            break;
     }
 }
 

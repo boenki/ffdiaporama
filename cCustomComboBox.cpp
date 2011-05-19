@@ -148,9 +148,10 @@ void cCustomColorComboBox::SetCurrentColor(QString *Color) {
 //========================================================================================================================
 
 QString cCustomColorComboBox::GetCurrentColor() {
+    if (!CurrentColor) return SavedCustomColor;
     int i=((QTableWidget *)view())->currentRow()*5+((QTableWidget *)view())->currentColumn();
     StandardColor=((i>=0)&&(i<MAXCOLORREF));
-    if ((CurrentColor)&&(i>=0)&&(i<MAXCOLORREF)) *CurrentColor=ColorRef[i]; else *CurrentColor=SavedCustomColor;
+    if ((i>=0)&&(i<MAXCOLORREF)) *CurrentColor=ColorRef[i];
     return *CurrentColor;
 }
 
@@ -339,7 +340,7 @@ cGradientOrientationComboBoxItem::cGradientOrientationComboBoxItem(QObject *pare
 //========================================================================================================================
 void cGradientOrientationComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
     int ColorNum=index.row()*3+index.column();
-    if (ColorNum<MAXGRADIENTORIENTATION) {
+    if ((ColorNum>=0)&&(ColorNum<MAXGRADIENTORIENTATION)) {
         cBrushDefinition Brush;
         Brush.BrushType=ComboBox->Brush->BrushType;
         Brush.ColorD=ComboBox->Brush->ColorD;
@@ -383,7 +384,6 @@ cGradientOrientationComboBox::cGradientOrientationComboBox(QWidget *parent):QCom
     Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,32);
     Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,32);
     Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,32);
-    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,32);
     setModel(Table->model());
     setView(Table);
     int i=0;
@@ -413,8 +413,10 @@ void cGradientOrientationComboBox::SetCurrentBrush(cBrushDefinition *TheBrush) {
 //========================================================================================================================
 
 cBrushDefinition *cGradientOrientationComboBox::GetCurrentBrush() {
-    Brush->GradientOrientation=currentIndex()*3+((QTableWidget *)view())->currentColumn();
-    MakeIcons();
+    if (Brush) {
+        Brush->GradientOrientation=currentIndex()*3+((QTableWidget *)view())->currentColumn();
+        MakeIcons();
+    }
     return Brush;
 }
 
@@ -430,7 +432,7 @@ void cGradientOrientationComboBox::MakeIcons() {
     QPixmap  Image(64,16);
     QPainter Painter;
     Painter.begin(&Image);
-    if (ColorNum<MAXGRADIENTORIENTATION) {
+    if ((ColorNum>=0)&&(ColorNum<MAXGRADIENTORIENTATION)) {
         cBrushDefinition TheBrush;
         TheBrush.BrushType=Brush->BrushType;
         TheBrush.ColorD=Brush->ColorD;
