@@ -366,6 +366,9 @@ cApplicationConfig::cApplicationConfig() {
     DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);          // Dialog box "Render Video" - Window size and position
     DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false); // Dialog box "Transition properties" - Window size and position
     DlgSlidePropertiesWSP       =new cSaveWindowPosition("DlgSlidePropertiesWSP",RestoreWindow,false);      // Dialog box "Slide properties" - Window size and position
+    DlgImageTransformationWSP   =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);  // Dialog box "Image transformation" - Window size and position
+    DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
+    DlgVideoEditWSP             =new cSaveWindowPosition("DlgVideoEditWSP",RestoreWindow,false);            // Dialog box "Edit video" - Window size and position
 
     DisableSSE2                 =0;
  }
@@ -382,6 +385,10 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgRenderVideoWSP;
     delete DlgTransitionPropertiesWSP;
     delete DlgSlidePropertiesWSP;
+    delete DlgImageTransformationWSP;
+    delete DlgImageCorrectionWSP;
+    delete DlgVideoEditWSP;
+
 }
 
 //====================================================================================================================
@@ -542,15 +549,18 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     NodeList=root.elementsByTagName("RestoreWindow");               if ((NodeList.length()>0)&&(NodeList.at(0).childNodes().length()>0)) RestoreWindow=NodeList.at(0).childNodes().at(0).nodeValue()=="1";
     // Load windows size and position
     MainWinWSP->LoadFromXML(root);                                  // MainWindow - Window size and position
-    DlgImagePropertiesWSP->LoadFromXML(root);                       // Dialog box "Image properties" - Window size and position
-    DlgVideoPropertiesWSP->LoadFromXML(root);                       // Dialog box "Video properties" - Window size and position
-    DlgBackgroundPropertiesWSP->LoadFromXML(root);                  // Dialog box "Background properties" - Window size and position
-    DlgMusicPropertiesWSP->LoadFromXML(root);                       // Dialog box "Music properties" - Window size and position
-    DlgProjectSettingsWSP->LoadFromXML(root);                       // Dialog box "Project settings" - Window size and position
-    DlgApplicationSettingsWSP->LoadFromXML(root);                   // Dialog box "Application settings" - Window size and position
-    DlgRenderVideoWSP->LoadFromXML(root);                           // Dialog box "Render video" - Window size and position
-    DlgTransitionPropertiesWSP->LoadFromXML(root);                  // Dialog box "Transition properties" - Window size and position
-    DlgSlidePropertiesWSP->LoadFromXML(root);                       // Dialog box "Slide properties" - Window size and position
+    DlgImagePropertiesWSP->LoadFromXML(root);
+    DlgVideoPropertiesWSP->LoadFromXML(root);
+    DlgBackgroundPropertiesWSP->LoadFromXML(root);
+    DlgMusicPropertiesWSP->LoadFromXML(root);
+    DlgProjectSettingsWSP->LoadFromXML(root);
+    DlgApplicationSettingsWSP->LoadFromXML(root);
+    DlgRenderVideoWSP->LoadFromXML(root);
+    DlgTransitionPropertiesWSP->LoadFromXML(root);
+    DlgSlidePropertiesWSP->LoadFromXML(root);
+    DlgImageTransformationWSP->LoadFromXML(root);
+    DlgImageCorrectionWSP->LoadFromXML(root);
+    DlgVideoEditWSP->LoadFromXML(root);
 
     if (DisableSSE2) qputenv("QT_NO_SSE2","1");
     return true;
@@ -619,15 +629,18 @@ bool cApplicationConfig::SaveConfigurationFile() {
 
     // Save windows size and position
     MainWinWSP->SaveToXML(root);                                // MainWindow - Window size and position
-    DlgImagePropertiesWSP->SaveToXML(root);                     // Dialog box "Image properties" - Window size and position
-    DlgVideoPropertiesWSP->SaveToXML(root);                     // Dialog box "Video properties" - Window size and position
-    DlgBackgroundPropertiesWSP->SaveToXML(root);                // Dialog box "Background properties" - Window size and position
-    DlgMusicPropertiesWSP->SaveToXML(root);                     // Dialog box "Music properties" - Window size and position
-    DlgProjectSettingsWSP->SaveToXML(root);                     // Dialog box "Project settings" - Window size and position
-    DlgApplicationSettingsWSP->SaveToXML(root);                 // Dialog box "Application settings" - Window size and position
-    DlgRenderVideoWSP->SaveToXML(root);                         // Dialog box "Render video" - Window size and position
-    DlgTransitionPropertiesWSP->SaveToXML(root);                // Dialog box "Transition properties" - Window size and position
-    DlgSlidePropertiesWSP->SaveToXML(root);                     // Dialog box "Slide properties" - Window size and position
+    DlgImagePropertiesWSP->SaveToXML(root);
+    DlgVideoPropertiesWSP->SaveToXML(root);
+    DlgBackgroundPropertiesWSP->SaveToXML(root);
+    DlgMusicPropertiesWSP->SaveToXML(root);
+    DlgProjectSettingsWSP->SaveToXML(root);
+    DlgApplicationSettingsWSP->SaveToXML(root);
+    DlgRenderVideoWSP->SaveToXML(root);
+    DlgTransitionPropertiesWSP->SaveToXML(root);
+    DlgSlidePropertiesWSP->SaveToXML(root);
+    DlgImageTransformationWSP->SaveToXML(root);
+    DlgImageCorrectionWSP->SaveToXML(root);
+    DlgVideoEditWSP->SaveToXML(root);
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {

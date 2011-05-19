@@ -135,6 +135,9 @@ public:
     cSaveWindowPosition *DlgRenderVideoWSP;                         // Dialog box "Render Video" - Window size and position
     cSaveWindowPosition *DlgTransitionPropertiesWSP;                // Dialog box "Transition properties" - Window size and position
     cSaveWindowPosition *DlgSlidePropertiesWSP;                     // Dialog box "Slide properties" - Window size and position
+    cSaveWindowPosition *DlgImageTransformationWSP;                 // Dialog box "Image Transformation" - Window size and position
+    cSaveWindowPosition *DlgImageCorrectionWSP;                     // Dialog box "Image Correction" - Window size and position
+    cSaveWindowPosition *DlgVideoEditWSP;                           // Dialog box "Edit video" - Window size and position
 
     cApplicationConfig();
     ~cApplicationConfig();

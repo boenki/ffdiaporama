@@ -126,18 +126,28 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     ui->BrushTypeCombo->addItem(QCoreApplication::translate("DlgSlideProperties","Gradient 2 colors"));     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT2)));
     ui->BrushTypeCombo->addItem(QCoreApplication::translate("DlgSlideProperties","Gradient 3 colors"));     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT3)));
     ui->BrushTypeCombo->addItem(QCoreApplication::translate("DlgSlideProperties","Image from library"));    ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGELIBRARY)));
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("DlgSlideProperties","Image from disk"));       ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGEDISK)));
+
+    // Init image geometry combo box
+    ui->ImageGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Project geometry"));
+    ui->ImageGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Image geometry"));
+    ui->ImageGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Custom geometry"));
 
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
-    connect(ui->ImageFileBT,SIGNAL(pressed()),this,SLOT(s_SelectFile()));
+
+    connect(ui->ImageEditCorrectBT,SIGNAL(clicked()),this,SLOT(ImageEditCorrect()));
+    connect(ui->ImageEditTransformBT,SIGNAL(clicked()),this,SLOT(ImageEditTransform()));
+    connect(ui->VideoEditBT,SIGNAL(clicked()),this,SLOT(VideoEdit()));
 
     connect(ui->ShotTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_CurrentShotSelectionChanged()));
 
-    connect(ui->AddText,SIGNAL(pressed()),this,SLOT(s_AddNewBloc()));
-    connect(ui->RemoveBloc,SIGNAL(pressed()),this,SLOT(s_RemoveBloc()));
+    connect(ui->AddTextBlock,SIGNAL(pressed()),this,SLOT(s_AddNewTextBlock()));
+    connect(ui->AddFileBlock,SIGNAL(pressed()),this,SLOT(s_AddNewFileBlock()));
+    connect(ui->RemoveBlock,SIGNAL(pressed()),this,SLOT(s_RemoveBlock()));
+
+
     connect(ui->fontStyleCB,SIGNAL(currentFontChanged(QFont)),this,SLOT(s_ChangeFont(QFont)));
     connect(ui->fontSize,SIGNAL(currentIndexChanged(QString)),this,SLOT(s_ChangeSizeFont(QString)));
     connect(ui->bold,SIGNAL(released()),this,SLOT(s_SetBold()));
@@ -163,6 +173,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->PenStyleCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangePenStyle(int)));
     connect(ui->ShadowEffectCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChgShadowFormValue(int)));
     connect(ui->ShadowEffectED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgShadowDistanceValue(int)));
+
     connect(ui->RotateXED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateXValue(int))); connect(ui->RotateXSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateXValue(int)));
     connect(ui->RotateYED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateYValue(int))); connect(ui->RotateYSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateYValue(int)));
     connect(ui->RotateZED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int))); connect(ui->RotateZSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int)));
@@ -179,6 +190,9 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->BackgroundCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexBackgroundCombo(int)));
     connect(ui->IntermPosSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_IntermPosSliderMoved(int)));
     connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
+
+    // Image part
+    connect(ui->ImageGeometryCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeImageGeometry(int)));
 
     // Set current shot object to finish dialog initialisation
     ui->ShotTable->setCurrentCell(0,0);
@@ -284,82 +298,6 @@ void DlgSlideProperties::accept() {
 
 //====================================================================================================================
 
-void DlgSlideProperties::s_SelectFile() {
-    QString NewFile=QFileDialog::getOpenFileName(GlobalMainWindow/*this*/,
-                                                 QApplication::translate("DlgSlideProperties","Select a file"),
-                                                 GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
-                                                 GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
-    QCoreApplication::processEvents();
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush   =GetCurrentBrush();
-    if (!CurrentBrush) return;
-    if (NewFile!="") {
-        if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
-        CurrentBrush->BrushFileName=QFileInfo(NewFile).absoluteFilePath();
-        // Delete old image wrapper object (if exist)
-        if (CurrentBrush->Image) {
-            delete CurrentBrush->Image;
-            CurrentBrush->Image=NULL;
-        }
-        // Delete old video wrapper object (if exist)
-        if (CurrentBrush->Video) {
-            delete CurrentBrush->Video;
-            CurrentBrush->Video=NULL;
-        }
-        bool IsValide=false;
-        QString Extension=QFileInfo(CurrentBrush->BrushFileName).suffix().toLower();
-        // Search if file is an image
-        for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
-            // Create an image wrapper
-            CurrentBrush->Image=new cimagefilewrapper();
-            IsValide=CurrentBrush->Image->GetInformationFromFile(CurrentBrush->BrushFileName);
-            if (!IsValide) {
-                delete CurrentBrush->Image;
-                CurrentBrush->Image=NULL;
-            }
-            break;
-        }
-        // If is not an image : search if file is a video
-        if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
-            // Create a video wrapper
-            CurrentBrush->Video=new cvideofilewrapper();
-            IsValide=CurrentBrush->Video->GetInformationFromFile(CurrentBrush->BrushFileName,false);
-            if (!IsValide) {
-                delete CurrentBrush->Video;
-                CurrentBrush->Video=NULL;
-            }
-            break;
-        }
-        if (IsValide) {
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,true):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false):
-                           NULL);
-            if (Image) {
-                // Calc hypothenuse of the image rectangle
-                double  Hyp     =sqrt(Image->width()*Image->width()+Image->height()*Image->height());
-
-                // setup BrushFileCorrect to full image
-                CurrentBrush->BrushFileGeometry          =GEOMETRY_IMAGE;
-                CurrentBrush->BrushFileCorrect.X         =((Hyp-double(Image->width()))/2)/Hyp;
-                CurrentBrush->BrushFileCorrect.Y         =((Hyp-double(Image->height()))/2)/Hyp;
-                CurrentBrush->BrushFileCorrect.ZoomFactor=double(Image->width())/Hyp;
-                double NewW=CurrentTextItem->w;
-                double NewH=((NewW*double(GlobalMainWindow->Diaporama->InternalWidth))/(double(Image->width())/double(Image->height())))/double(GlobalMainWindow->Diaporama->InternalHeight);
-                if (NewH>1) {
-                    NewH=CurrentTextItem->h;
-                    NewW=((NewH*double(GlobalMainWindow->Diaporama->InternalHeight))*(double(Image->width())/double(Image->height())))/double(GlobalMainWindow->Diaporama->InternalWidth);
-                }
-                CurrentTextItem->w=NewW;
-                CurrentTextItem->h=NewH;
-                delete Image;
-            }
-        }
-        RefreshControls();
-    }
-}
-
-//====================================================================================================================
-
 void DlgSlideProperties::s_CurrentShotSelectionChanged() {
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
@@ -454,13 +392,69 @@ void DlgSlideProperties::RefreshControls() {
     //====================================================================================================================
 
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush=NULL;
-    bool                Allowed=false;
+    cBrushDefinition    *CurrentBrush   =(CurrentTextItem!=NULL)?&CurrentTextItem->BackgroundBrush:NULL;
+
+    // Brush TAB part
+    bool Allow_Brush  =(CurrentBrush!=NULL)&&(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK);
+    bool Allow_Color1 =(Allow_Brush)&&((CurrentBrush->BrushType==BRUSHTYPE_SOLID)||(CurrentBrush->BrushType==BRUSHTYPE_PATTERN)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
+    bool Allow_Color2 =(Allow_Brush)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
+    bool Allow_Color3 =(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3);
+    bool Allow_Pattern=(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_PATTERN);
+    bool Allow_Library=(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY);
+    bool Allow_File   =(CurrentBrush!=NULL)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK);
+
+    ui->BackgroundLine->setVisible(Allow_Brush);        ui->BrushTypeLabel->setVisible(Allow_Brush);        ui->BrushTypeCombo->setVisible(Allow_Brush);
+    ui->ColorLabel1->setVisible(Allow_Color1);          ui->ColorLabel2->setVisible(Allow_Color1);
+    ui->FirstColorCombo->setVisible(Allow_Color1);      ui->FinalColorCombo->setVisible(Allow_Color2);      ui->IntermColorCombo->setVisible(Allow_Color3);
+    ui->OrientationLabel->setVisible(Allow_Color2);     ui->OrientationCombo->setVisible(Allow_Color2);
+    ui->IntermPosLabel->setVisible(Allow_Color3);       ui->IntermPosSlider->setVisible(Allow_Color3);      ui->IntermPosED->setVisible(Allow_Color3);
+    ui->PatternLabel->setVisible(Allow_Pattern);        ui->PatternBrushCombo->setVisible(Allow_Pattern);
+    ui->ImageLibraryLabel->setVisible(Allow_Library);   ui->BackgroundCombo->setVisible(Allow_Library);
+    ui->LineImage->setVisible(Allow_File);              ui->FileNameLabel->setVisible(Allow_File);
+    ui->FileNameED->setVisible(Allow_File);             ui->FileNameBT->setVisible(Allow_File);
+    ui->ImageGeometryLabel->setVisible(Allow_File);     ui->ImageGeometryCB->setVisible(Allow_File);
+    ui->ImageEditCorrectBT->setVisible(Allow_File);     ui->ImageEditTransformBT->setVisible(Allow_File);
+    ui->ImageEditTransformLabel->setVisible(Allow_File);
+    ui->VideoEditLabel->setVisible(Allow_File && (CurrentBrush->Video!=NULL));
+    ui->VideoEditBT->setVisible(Allow_File && (CurrentBrush->Video!=NULL));
+
+    if (CurrentBrush!=NULL) {
+        // Set brush type combo index
+        for (int i=0;i<ui->BrushTypeCombo->count();i++) if (ui->BrushTypeCombo->itemData(i).toInt()==CurrentBrush->BrushType) ui->BrushTypeCombo->setCurrentIndex(i);
+        ui->PatternBrushCombo->SetCurrentBrush(CurrentBrush);
+        ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
+        ui->IntermColorCombo->SetCurrentColor(&CurrentBrush->ColorIntermed);
+        ui->FinalColorCombo->SetCurrentColor(&CurrentBrush->ColorF);
+        ui->OrientationCombo->SetCurrentBrush(CurrentBrush);
+        ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
+
+        // Set controls depending on brush type
+        switch (CurrentBrush->BrushType) {
+            case BRUSHTYPE_NOBRUSH :
+                break;
+            case BRUSHTYPE_PATTERN :
+            case BRUSHTYPE_SOLID :          break;
+                ui->ColorLabel1->setText(QCoreApplication::translate("DlgSlideProperties","Color"));
+                break;
+            case BRUSHTYPE_GRADIENT3 :
+            case BRUSHTYPE_GRADIENT2 :
+                ui->IntermPosSlider->setValue(CurrentBrush->Intermediate*100);
+                ui->IntermPosED->setValue(CurrentBrush->Intermediate*100);
+                ui->ColorLabel1->setText(QCoreApplication::translate("DlgSlideProperties","Colors"));
+                break;
+            case BRUSHTYPE_IMAGELIBRARY :
+                // Ensure BrushImage is valide
+                if ((BackgroundList.SearchImage(CurrentBrush->BrushImage)==-1)&&(BackgroundList.List.count()>0)) CurrentBrush->BrushImage=BackgroundList.List[0].Name;
+                ui->BackgroundCombo->SetCurrentBackground(CurrentBrush->BrushImage);
+                break;
+            case BRUSHTYPE_IMAGEDISK :
+                ui->FileNameED->setText(CurrentBrush->BrushFileName);
+                ui->ImageGeometryCB->setCurrentIndex(CurrentBrush->BrushFileCorrect.ImageGeometry);
+                break;
+        }
+    }
 
     if (CurrentTextItem!=NULL) {
-
-        CurrentBrush=&CurrentTextItem->BackgroundBrush;
-        Allowed=(CurrentTextItem->Opacity<4);
 
         //***********************
         // Text TAB
@@ -470,7 +464,8 @@ void DlgSlideProperties::RefreshControls() {
         ui->fontSize->setCurrentIndex(ui->fontSize->findText(QString("%1").arg(CurrentTextItem->FontSize)));
         BLOCKCHSIZE=false;
 
-        ui->RemoveBloc->setDisabled(false);
+        ui->RemoveBlock->setDisabled(false);
+
         ui->textLeft->setDisabled(false);       ui->textLeft->setChecked(CurrentTextItem->HAlign==0);       ui->textLeft->setDown(CurrentTextItem->HAlign==0);
         ui->textCenter->setDisabled(false);     ui->textCenter->setChecked(CurrentTextItem->HAlign==1);     ui->textCenter->setDown(CurrentTextItem->HAlign==1);
         ui->textJustif->setDisabled(false);     ui->textJustif->setChecked(CurrentTextItem->HAlign==3);     ui->textJustif->setDown(CurrentTextItem->HAlign==3);
@@ -520,11 +515,12 @@ void DlgSlideProperties::RefreshControls() {
 
     } else {
 
+        ui->RemoveBlock->setDisabled(true);
+
         //***********************
         // Text TAB
         //***********************
         ui->fontSize->setDisabled(true);
-        ui->RemoveBloc->setDisabled(true);
         ui->textLeft->setDisabled(true);
         ui->textCenter->setDisabled(true);
         ui->textJustif->setDisabled(true);
@@ -565,82 +561,6 @@ void DlgSlideProperties::RefreshControls() {
         ui->RotateZSLD->setDisabled(true);  ui->RotateZSLD->setValue(0);
         ui->ShadowEffectCB->setDisabled(true);
         ui->ShadowEffectED->setDisabled(true);
-    }
-
-    ui->BrushTypeLabel->setEnabled(Allowed);
-    ui->BrushTypeCombo->setEnabled(Allowed);
-    ui->BrushTypeCombo->setEnabled(Allowed);
-
-    if (CurrentBrush!=NULL) {
-
-        // Ensure BrushImage is valide
-        if ((BackgroundList.SearchImage(CurrentBrush->BrushImage)==-1)&&(BackgroundList.List.count()>0)) CurrentBrush->BrushImage=BackgroundList.List[0].Name;
-
-        for (int i=0;i<ui->BrushTypeCombo->count();i++) if (ui->BrushTypeCombo->itemData(i).toInt()==CurrentBrush->BrushType) ui->BrushTypeCombo->setCurrentIndex(i);
-        ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
-        ui->FinalColorCombo->SetCurrentColor(&CurrentBrush->ColorF);
-        ui->IntermColorCombo->SetCurrentColor(&CurrentBrush->ColorIntermed);
-        ui->PatternBrushCombo->SetCurrentBrush(CurrentBrush);
-        ui->OrientationCombo->SetCurrentBrush(CurrentBrush);
-        ui->BackgroundCombo->SetCurrentBackground(CurrentBrush->BrushImage);
-        ui->IntermPosSlider->setValue(CurrentBrush->Intermediate*100);
-        ui->IntermPosED->setValue(CurrentBrush->Intermediate*100);
-
-        bool FirstColorAllowed=(Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_SOLID)||(CurrentBrush->BrushType==BRUSHTYPE_PATTERN)||
-                                           (CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-        ui->FirstColorLabel->setVisible((Allowed)&&(FirstColorAllowed));
-        ui->FirstColorCombo->setVisible((Allowed)&&(FirstColorAllowed));
-        ui->FirstColorCombo->setEnabled((Allowed)&&(FirstColorAllowed));
-
-        ui->PatternLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_PATTERN));
-        ui->PatternBrushCombo->setEnabled((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_PATTERN));
-        ui->PatternBrushCombo->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_PATTERN));
-
-        ui->FinalColorLabel->setVisible((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)));
-        ui->FinalColorCombo->setVisible((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)));
-        ui->FinalColorCombo->setEnabled((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)));
-
-        ui->IntermColorLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermColorCombo->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermColorCombo->setEnabled((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-
-        ui->IntermPosLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermPosSlider->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermPosSlider->setEnabled((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermPosED->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermPosED->setEnabled((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-
-        ui->OrientationLabel->setVisible((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)));
-        ui->OrientationCombo->setVisible((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)));
-        ui->OrientationCombo->setEnabled((Allowed)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3)));
-
-        ui->ImageLibraryLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY));
-        ui->BackgroundCombo->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY));
-
-        ui->ImageFileLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->ImageFileED->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->ImageFileBT->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->ImageGeometryLabel->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->ImageGeometryCB->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->ImageEditCorrectBT->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->ImageEditTransformBT->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
-
-        ui->ImageFileED->setText(CurrentBrush->BrushFileName);
-
-    } else {
-
-        ui->FirstColorLabel->setVisible(false);     ui->FirstColorCombo->setEnabled(false);     ui->FirstColorCombo->setVisible(false);
-        ui->PatternLabel->setVisible(false);        ui->PatternBrushCombo->setEnabled(false);   ui->PatternBrushCombo->setVisible(false);
-        ui->FinalColorLabel->setVisible(false);     ui->FinalColorCombo->setVisible(false);     ui->FinalColorCombo->setEnabled(false);
-        ui->IntermColorLabel->setVisible(false);    ui->IntermColorCombo->setVisible(false);    ui->IntermColorCombo->setEnabled(false);
-        ui->IntermPosLabel->setVisible(false);      ui->IntermPosSlider->setVisible(false);     ui->IntermPosSlider->setEnabled(false);
-                                                    ui->IntermPosED->setVisible(false);         ui->IntermPosED->setEnabled(false);
-        ui->OrientationLabel->setVisible(false);    ui->OrientationCombo->setVisible(false);    ui->OrientationCombo->setEnabled(false);
-        ui->ImageLibraryLabel->setVisible(false);   ui->BackgroundCombo->setVisible(false);
-        ui->ImageFileLabel->setVisible(false);      ui->ImageFileED->setVisible(false);         ui->ImageFileBT->setVisible(false);
-        ui->ImageGeometryLabel->setVisible(false);  ui->ImageGeometryCB->setVisible(false);
-        ui->ImageEditCorrectBT->setVisible(false);
-        ui->ImageEditTransformBT->setVisible(false);
     }
 
     RefreshBackgroundImage();
@@ -713,7 +633,7 @@ void DlgSlideProperties::RefreshBackgroundImage() {
         for (int i=0;i<CompositionList->List.count();i++) {
             // Create and add to scene a cCustomGraphicsRectItem
             new cCustomGraphicsRectItem(scene,CompositionList->List[i].ZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
-                                        NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,false,NULL,this,TYPE_DlgSlideProperties);
+                                        NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,false,0,NULL,this,TYPE_DlgSlideProperties);
             if (NextZValue<CompositionList->List[i].ZValue) NextZValue=CompositionList->List[i].ZValue;
         }
         NextZValue+=10;  // 10 by 10 step for ZValue
@@ -846,7 +766,7 @@ void DlgSlideProperties::s_removeShot() {
 
 //====================================================================================================================
 
-void DlgSlideProperties::s_AddNewBloc() {
+void DlgSlideProperties::s_AddNewTextBlock() {
     CompositionList->List.append(cCompositionObject());
     cCompositionObject *CompositionObject=&CompositionList->List[CompositionList->List.count()-1];
     CompositionObject->ZValue=NextZValue;
@@ -857,7 +777,7 @@ void DlgSlideProperties::s_AddNewBloc() {
 
     // Create and add to scene a cCustomGraphicsRectItem
     cCustomGraphicsRectItem *GraphicsRectItem=new cCustomGraphicsRectItem(scene,NextZValue,&CompositionObject->x,&CompositionObject->y,
-                                                                          NULL,&CompositionObject->w,&CompositionObject->h,xmax,ymax,false,NULL,this,TYPE_DlgSlideProperties);
+                                                                          NULL,&CompositionObject->w,&CompositionObject->h,xmax,ymax,false,0,NULL,this,TYPE_DlgSlideProperties);
 
     // select new item
     GraphicsRectItem->setSelected(true);
@@ -869,15 +789,111 @@ void DlgSlideProperties::s_AddNewBloc() {
 
 //====================================================================================================================
 
-void DlgSlideProperties::s_RemoveBloc() {
+void DlgSlideProperties::s_AddNewFileBlock() {
+    QString NewFile=QFileDialog::getOpenFileName(this,
+                                                 QApplication::translate("DlgSlideProperties","Select a file"),
+                                                 GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
+                                                 GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
+    QCoreApplication::processEvents();
+    if (NewFile=="") return;
+    if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
+
+    // Create a new block item and append it on the list
+    CompositionList->List.append(cCompositionObject());
+    cCompositionObject *CurrentBlock=&CompositionList->List[CompositionList->List.count()-1];
+    cBrushDefinition   *CurrentBrush=&CurrentBlock->BackgroundBrush;
+
+    CurrentBlock->ZValue       =NextZValue;
+    CurrentBlock->Text         ="";
+    CurrentBlock->PenSize      =0;
+    CurrentBrush->BrushFileName=QFileInfo(NewFile).absoluteFilePath();
+    CurrentBrush->BrushType    =BRUSHTYPE_IMAGEDISK;
+
+    bool    IsValide =false;
+    QString Extension=QFileInfo(CurrentBrush->BrushFileName).suffix().toLower();
+
+    // Search if file is an image
+    for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
+        // Create an image wrapper
+        CurrentBrush->Image=new cimagefilewrapper();
+        IsValide=CurrentBrush->Image->GetInformationFromFile(CurrentBrush->BrushFileName);
+        if (!IsValide) {
+            delete CurrentBrush->Image;
+            CurrentBrush->Image=NULL;
+        }
+        break;
+    }
+    // If it's not an image : search if file is a video
+    if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
+        // Create a video wrapper
+        CurrentBrush->Video=new cvideofilewrapper();
+        IsValide=CurrentBrush->Video->GetInformationFromFile(CurrentBrush->BrushFileName,false);
+        if (!IsValide) {
+            delete CurrentBrush->Video;
+            CurrentBrush->Video=NULL;
+        }
+        break;
+    }
+    if (IsValide) {
+
+        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,true):
+                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false):
+                       NULL);
+        if (Image) {
+            // Calc hypothenuse of the image rectangle
+            double  Hyp     =sqrt(Image->width()*Image->width()+Image->height()*Image->height());
+
+            // setup BrushFileCorrect to full image
+            CurrentBrush->BrushFileCorrect.ImageGeometry=GEOMETRY_IMAGE;
+            CurrentBrush->BrushFileCorrect.X            =((Hyp-double(Image->width()))/2)/Hyp;
+            CurrentBrush->BrushFileCorrect.Y            =((Hyp-double(Image->height()))/2)/Hyp;
+            CurrentBrush->BrushFileCorrect.ZoomFactor   =double(Image->width())/Hyp;
+            CurrentBrush->BrushFileCorrect.AspectRatio  =double(Image->height())/double(Image->width());
+            double NewW=CurrentBlock->w*GlobalMainWindow->Diaporama->InternalWidth;
+            double NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
+            NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
+            NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+            if (NewH>1) {
+                NewH=CurrentBlock->h*GlobalMainWindow->Diaporama->InternalHeight;
+                NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
+                NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
+                NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+            }
+            CurrentBlock->w=NewW;
+            CurrentBlock->h=NewH;
+            delete Image;
+        }
+    }
+
+    // Now, add this new block to the scene
+
+    // Unselect all item
+    while (scene->selectedItems().count()>0) scene->selectedItems()[0]->setSelected(false);
+
+    // Create and add to scene a cCustomGraphicsRectItem
+    cCustomGraphicsRectItem *GraphicsRectItem=new cCustomGraphicsRectItem(scene,NextZValue,&CurrentBlock->x,&CurrentBlock->y,NULL,&CurrentBlock->w,&CurrentBlock->h,xmax,ymax,
+                                                                          CurrentBrush->BrushFileCorrect.ImageGeometry!=GEOMETRY_CUSTOM,CurrentBrush->BrushFileCorrect.AspectRatio,
+                                                                          NULL,this,TYPE_DlgSlideProperties);
+
+    // select new item
+    GraphicsRectItem->setSelected(true);
+
+    // 10 by 10 step for ZValue
+    NextZValue+=10;
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_RemoveBlock() {
     cCompositionObject      *CurrentComposeItem=GetSelectedCompositionObject();
     cCustomGraphicsRectItem *CurrentRectItem   =GetSelectItem();
     if ((CurrentComposeItem==NULL)||(CurrentRectItem==NULL)) return;
     int i=0;
     while ((i<CompositionList->List.count())&&(&CompositionList->List[i]!=CurrentComposeItem)) i++;
     if ((i<CompositionList->List.count())&&(&CompositionList->List[i]==CurrentComposeItem)) {
-        scene->removeItem(CurrentRectItem);
-        CompositionList->List.removeAt(i);
+        delete CurrentRectItem;             // delete object from the scene
+        CompositionList->List.removeAt(i);  // delete CurrentComposeItem is done by removeAt
     }
     RefreshControls();
 }
@@ -1034,9 +1050,11 @@ void DlgSlideProperties::s_ChgPosYValue(double Value) {
 void DlgSlideProperties::s_ChgWidthValue(double Value) {
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
+    cCustomGraphicsRectItem *RectItem=GetSelectItem();
+    if (RectItem==NULL) return;
     if (StopMAJSpinbox) return;
     CurrentTextItem->w=Value/100;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();
+    if (RectItem->KeepAspectRatio) CurrentTextItem->h=((CurrentTextItem->w*xmax)*RectItem->AspectRatio)/ymax;
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
     RectItem->setRect(Rect);
@@ -1049,9 +1067,11 @@ void DlgSlideProperties::s_ChgWidthValue(double Value) {
 void DlgSlideProperties::s_ChgHeightValue(double Value) {
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
+    cCustomGraphicsRectItem *RectItem=GetSelectItem();
+    if (RectItem==NULL) return;
     if (StopMAJSpinbox) return;
     CurrentTextItem->h=Value/100;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();
+    if (RectItem->KeepAspectRatio) CurrentTextItem->w=((CurrentTextItem->h*ymax)/RectItem->AspectRatio)/xmax;
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
     RectItem->setRect(Rect);
@@ -1346,4 +1366,70 @@ void DlgSlideProperties::s_ChIndexBackgroundCombo(int) {
     if (!CurrentBrush) return;
     CurrentBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
     RefreshControls();
+}
+
+//========= geometry of embeded image or video
+void DlgSlideProperties::s_ChangeImageGeometry(int) {
+    if (StopMAJSpinbox) return;
+    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();    if (!CurrentTextItem)   return;
+    cBrushDefinition        *CurrentBrush   =GetCurrentBrush();                 if (!CurrentBrush)      return;
+    cCustomGraphicsRectItem *RectItem       =GetSelectItem();                   if (!RectItem)          return;
+    QImage                  *Image          =CurrentBrush->Image?CurrentBrush->Image->CacheImage:CurrentBrush->Video?CurrentBrush->Video->CacheFirstImage:NULL;
+    if (!Image) return;
+
+    CurrentBrush->BrushFileCorrect.ImageGeometry=ui->ImageGeometryCB->currentIndex();
+
+    if ((CurrentBrush->BrushFileCorrect.ImageGeometry==GEOMETRY_PROJECT)||(CurrentBrush->BrushFileCorrect.ImageGeometry==GEOMETRY_IMAGE)) {
+
+        if (CurrentBrush->BrushFileCorrect.ImageGeometry==GEOMETRY_IMAGE) CurrentBrush->BrushFileCorrect.AspectRatio=double(Image->height())/double(Image->width());
+        else if (CurrentBrush->BrushFileCorrect.ImageGeometry==GEOMETRY_PROJECT) CurrentBrush->BrushFileCorrect.AspectRatio=double(GlobalMainWindow->Diaporama->InternalHeight)/double(GlobalMainWindow->Diaporama->InternalWidth);
+
+        double NewW=CurrentTextItem->w*GlobalMainWindow->Diaporama->InternalWidth;
+        double NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
+        NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
+        NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+        if (NewH>1) {
+            NewH=CurrentTextItem->h*GlobalMainWindow->Diaporama->InternalHeight;
+            NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
+            NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
+            NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+        }
+        CurrentTextItem->w=NewW;
+        CurrentTextItem->h=NewH;
+
+        // Update RectItem
+        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+        RectItem->KeepAspectRatio=true;
+        RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
+        QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
+        RectItem->setRect(Rect);
+        RectItem->RecalcEmbededResizeRectItem();
+
+        RefreshControls();
+    } else {
+        RectItem->AspectRatio=1;
+        RectItem->KeepAspectRatio=false;
+    }
+}
+
+//========= Button opending Dialog box
+void DlgSlideProperties::ImageEditCorrect() {
+    if (StopMAJSpinbox) return;
+    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    if (!CurrentBrush) return;
+
+}
+
+void DlgSlideProperties::ImageEditTransform() {
+    if (StopMAJSpinbox) return;
+    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    if (!CurrentBrush) return;
+
+}
+
+void DlgSlideProperties::VideoEdit() {
+    if (StopMAJSpinbox) return;
+    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    if (!CurrentBrush) return;
+
 }

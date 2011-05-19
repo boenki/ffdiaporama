@@ -303,7 +303,7 @@ void wgt_QCustomScene::RefreshBackgroundImage() {
             ymax=ui->GraphicsView->height();
             xmax=GlobalMainWindow->Diaporama->GetWidthForHeight(ymax);
         }
-        cadre=new cCustomGraphicsRectItem(scene,300,&CorrectObject->X,&CorrectObject->Y,&CorrectObject->ZoomFactor,NULL,NULL,xmax,ymax,true,&MagneticRuller,this,TYPE_wgt_QCustomScene);
+        cadre=new cCustomGraphicsRectItem(scene,300,&CorrectObject->X,&CorrectObject->Y,&CorrectObject->ZoomFactor,NULL,NULL,xmax,ymax,true,CorrectObject->AspectRatio,&MagneticRuller,this,TYPE_wgt_QCustomScene);
     }
 
     // Prepare CacheImage

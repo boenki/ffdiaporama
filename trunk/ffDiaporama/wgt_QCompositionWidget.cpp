@@ -228,7 +228,8 @@ void wgt_QCompositionWidget::SetCompositionObject(cCompositionList *TheCompositi
         for (int i=0;i<CompositionList->List.count();i++) {
             // Create and add to scene a cCustomGraphicsRectItem
             new cCustomGraphicsRectItem(scene,CompositionList->List[i].ZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
-                                        NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,false,NULL,this,TYPE_wgt_QCompositionWidget);
+                                        NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,
+                                        false,0,NULL,this,TYPE_wgt_QCompositionWidget);
             if (NextZValue<CompositionList->List[i].ZValue) NextZValue=CompositionList->List[i].ZValue;
         }
         NextZValue+=10;  // 10 by 10 step for ZValue
@@ -467,7 +468,8 @@ void wgt_QCompositionWidget::s_AddNewTextToImage() {
 
     // Create and add to scene a cCustomGraphicsRectItem
     cCustomGraphicsRectItem *GraphicsRectItem=new cCustomGraphicsRectItem(scene,NextZValue,&CompositionObject->x,&CompositionObject->y,
-                                                                          NULL,&CompositionObject->w,&CompositionObject->h,xmax,ymax,false,NULL,this,TYPE_wgt_QCompositionWidget);
+                                                                          NULL,&CompositionObject->w,&CompositionObject->h,xmax,ymax,
+                                                                          false,0,NULL,this,TYPE_wgt_QCompositionWidget);
 
     // select new item
     GraphicsRectItem->setSelected(true);
@@ -486,8 +488,8 @@ void wgt_QCompositionWidget::s_RemoveTextFromImage() {
     int i=0;
     while ((i<CompositionList->List.count())&&(&CompositionList->List[i]!=CurrentComposeItem)) i++;
     if ((i<CompositionList->List.count())&&(&CompositionList->List[i]==CurrentComposeItem)) {
-        scene->removeItem(CurrentRectItem);
-        CompositionList->List.removeAt(i);
+        delete CurrentRectItem;             // delete object from the scene
+        CompositionList->List.removeAt(i);  // delete CurrentComposeItem is done by removeAt
     }
     RefreshControls();
 }

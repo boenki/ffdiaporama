@@ -42,6 +42,7 @@ Passage en Alpha2 :
 Détails des modifications :
 
 - Creation d'une boite de dialogue spécifique pour les objets titre (Cette boite deviendra commune à tous quand elle sera prete !)
+    et de 3 sous boites pour la correction d'image, la transformation d'image et l'edition video
 - Déplacement des données de recadrage/rotation dans le sous object de correction d'image et modification du format de fichier (compatibilité ascendante des anciennes sauvegardes !)
 - Suppression des compositions globales (pour tous les types d'objet). Pour compatibilité ascendante des anciennes sauvegardes : transfert des blocs dans la composition du 1er plan
 - Supprime la notion de Canvas :

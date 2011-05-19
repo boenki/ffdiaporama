@@ -59,9 +59,6 @@ void wgt_QCustomBrush::InitWidget(bool AllowBrushTypeNoBrush,bool AllowBrushType
     ui->BrushTypeCombo->addItem(QCoreApplication::translate("wgt_QCustomBrush","Image from library"));
     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGELIBRARY)));
 
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("wgt_QCustomBrush","Image from disk"));
-    ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGEDISK)));
-
     // Handler for custom color/brush/pattern/gradient combo box index change
     connect(ui->PatternBrushCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexPatternBrushCombo(int)));
     connect(ui->OrientationCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientOrientationCombo(int)));

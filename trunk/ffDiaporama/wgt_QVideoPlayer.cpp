@@ -92,8 +92,8 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     ActualPosition          = -1;
     tDuration               =QTime(0,0,0,0);
 
-    ui->Position->setFixedWidth(DisplayMSec?160:120);
-    ui->BufferState->setFixedWidth(DisplayMSec?160:120);
+    ui->Position->setFixedWidth(DisplayMSec?170:130);
+    ui->BufferState->setFixedWidth(DisplayMSec?170:130);
     ui->Position->setText(QTime(0,0,0,0).toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
     this->FileInfo      = FileInfo;
     ui->CustomRuller->ActiveSlider(0);
@@ -581,7 +581,7 @@ void wgt_QVideoPlayer::SetActualDuration(int Duration) {
     int     TimeHour    =TimeSec/(60*60);
     int     TimeMinute  =(TimeSec%(60*60))/60;
     tDuration.setHMS(TimeHour,TimeMinute,TimeSec%60,TimeMSec);
-    ui->Position->setFixedWidth(DisplayMSec?160:120);
-    ui->BufferState->setFixedWidth(DisplayMSec?160:120);
+    ui->Position->setFixedWidth(DisplayMSec?170:130);
+    ui->BufferState->setFixedWidth(DisplayMSec?170:130);
     ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss")+" / "+tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
 }

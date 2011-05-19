@@ -152,12 +152,15 @@ extern "C" {
 #define ICON_PLAYERPAUSE                    "icons/player_pause.png"                // FileName of pause icon
 #define ICON_SHOTPRESENCE                   "icons/zoom.png"                        // FileName of icon representing shots in the timeline
 
-// Image geometry definition
+// Project geometry definition
 #define GEOMETRY_4_3                        0
 #define GEOMETRY_16_9                       1
 #define GEOMETRY_40_17                      2
-#define GEOMETRY_IMAGE                      3
-#define GEOMETRY_CUSTOM                     4
+
+// Image geometry definition
+#define GEOMETRY_PROJECT                    0
+#define GEOMETRY_IMAGE                      1
+#define GEOMETRY_CUSTOM                     2
 
 // Standard definition
 #define STANDARD_PAL                        0

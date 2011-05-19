@@ -64,6 +64,8 @@ public:
     int         Red;                    // Red adjustment
     int         Green;                  // Green adjustment
     int         Blue;                   // Blue adjustment
+    int         ImageGeometry;          // Geometry for embeded image
+    double      AspectRatio;            // Aspect Ratio of image
 
     cFilterCorrectObject();
 
@@ -93,7 +95,6 @@ public:
     cFilterTransformObject  BrushFileTransform;     // Image transformation if image from disk
     cimagefilewrapper       *Image;                 // Embeded Object for title and image type
     cvideofilewrapper       *Video;                 // Embeded Object for video type
-    int                     BrushFileGeometry;      // Geometry for embeded image
 
     cBrushDefinition();
     ~cBrushDefinition();
