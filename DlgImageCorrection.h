@@ -26,6 +26,7 @@
 
 // Specific inclusions
 #include "_Diaporama.h"
+#include "cCustomGraphicsRectItem.h"
 
 namespace Ui {
     class DlgImageCorrection;
@@ -35,12 +36,26 @@ class DlgImageCorrection : public QDialog {
 Q_OBJECT
 public:
     cBrushDefinition        *CurrentBrush;
+    cFilterCorrectObject    *BrushFileCorrect;
     QDomDocument            *Undo;                          // Save object before modification for cancel button
+    bool                    IsFirstInitDone;                // true when first show window was done
+    bool                    FLAGSTOPED;                     // Flag to stop spin box during settings
+    QIcon                   *RulerOn,*RulerOff;
+    sMagneticRuller         MagneticRuller;
+    QGraphicsScene          *scene;
+    cCustomGraphicsRectItem *cadre;
+    int                     BackgroundForm;
+    double                  xmax,ymax;
+    QImage                  *CachedImage;                   // Link to the image to work
 
-    explicit DlgImageCorrection(cBrushDefinition *CurrentBrush,QWidget *parent = 0);
+    explicit DlgImageCorrection(int BackgroundForm,cBrushDefinition *CurrentBrush,cFilterCorrectObject *BrushFileCorrect,QWidget *parent = 0);
     ~DlgImageCorrection();
 
+    void            RefreshBackgroundImage();
+    void            RefreshControls();
+
 protected:
+    virtual void    resizeEvent(QResizeEvent *);
     virtual void    showEvent(QShowEvent *);
     virtual void    reject();
     virtual void    accept();
@@ -48,6 +63,24 @@ protected:
 private slots:
     void            Help();
     void            SetSavedWindowGeometry();
+
+    void            s_RotationEDChanged(int Value);
+    void            s_XValueEDChanged(double Value);
+    void            s_YValueEDChanged(double Value);
+    void            s_ZoomValueEDChanged(double Value);
+    void            s_RotateLeft();
+    void            s_RotateRight();
+    void            s_AdjustW();
+    void            s_AdjustH();
+    void            s_AdjustWH();
+    void            s_MagneticEdgeBt();
+    void            s_BrightnessSliderMoved(int Value);
+    void            s_ContrastSliderMoved(int Value);
+    void            s_GammaSliderMoved(int Value);
+    void            s_GammaValueED(double Value);
+    void            s_RedSliderMoved(int Value);
+    void            s_GreenSliderMoved(int Value);
+    void            s_BlueSliderMoved(int Value);
 
 private:
     Ui::DlgImageCorrection *ui;

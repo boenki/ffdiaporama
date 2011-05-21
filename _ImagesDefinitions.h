@@ -80,6 +80,9 @@ public:
 // Base object for brush object
 //*********************************************************************************************************************************************
 
+class cimagefilewrapper;
+class cvideofilewrapper;
+
 class cBrushDefinition {
 public:
     int                     BrushType;              // 0=no brush, 1=Solid, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors

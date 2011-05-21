@@ -31,10 +31,32 @@ DlgVideoEdit::DlgVideoEdit(cBrushDefinition *TheCurrentBrush,QWidget *parent):QD
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
     CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","");     // Save object
     Undo->appendChild(root);                                // Add object to xml document
+
+    // Init embeded widgets
+    for (int Factor=150;Factor>=10;Factor-=10) ui->VolumeReductionFactorCB->addItem(QString("%1%").arg(Factor));
+    ui->StartPosEd->setTime(CurrentBrush->Video->StartPos);
+    ui->EndPosEd->setTime(CurrentBrush->Video->EndPos);
+    SetActualDuration();
+
+    // Define handler
+    connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
+    connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
+    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
+
+    connect(ui->VolumeReductionFactorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(MusicReduceFactorChange(int)));
+    connect(ui->DefStartPosBT,SIGNAL(clicked()),this,SLOT(s_DefStartPos()));
+    connect(ui->DefEndPosBT,SIGNAL(clicked()),this,SLOT(s_DefEndPos()));
+    connect(ui->SeekLeftBt,SIGNAL(clicked()),this,SLOT(s_SeekLeft()));
+    connect(ui->SeekRightBt,SIGNAL(clicked()),this,SLOT(s_SeekRight()));
+    connect(ui->StartPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditStartPos(QTime)));
+    connect(ui->EndPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditEndPos(QTime)));
 }
+
+//====================================================================================================================
 
 DlgVideoEdit::~DlgVideoEdit() {
     delete ui;
+    delete Undo;
 }
 
 //====================================================================================================================
@@ -47,6 +69,12 @@ void DlgVideoEdit::Help() {
 
 void DlgVideoEdit::SetSavedWindowGeometry() {
     GlobalMainWindow->ApplicationConfig->DlgVideoEditWSP->ApplyToWindow(this);
+    if (!ui->VideoPlayer->IsValide) {
+        ui->VideoPlayer->StartPlay(CurrentBrush->Video,GlobalMainWindow->ApplicationConfig->PreviewFPS);
+        ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                        QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                        -1,0,-1,0);
+    }
 }
 
 //====================================================================================================================
@@ -77,3 +105,82 @@ void DlgVideoEdit::accept() {
     done(0);
 }
 
+//====================================================================================================================
+
+void DlgVideoEdit::s_DefStartPos() {
+    CurrentBrush->Video->StartPos=ui->VideoPlayer->GetCurrentPos();
+    ui->StartPosEd->setTime(CurrentBrush->Video->StartPos);
+    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                    QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                    -1,0,-1,0);
+    SetActualDuration();
+}
+
+//====================================================================================================================
+
+void DlgVideoEdit::s_EditStartPos(QTime NewValue) {
+    CurrentBrush->Video->StartPos=NewValue;
+    ui->StartPosEd->setTime(CurrentBrush->Video->StartPos);
+    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                    QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                    -1,0,-1,0);
+    SetActualDuration();
+}
+
+//====================================================================================================================
+
+void DlgVideoEdit::SetActualDuration() {
+    QTime Duration;
+
+    Duration=QTime(0,0,0,0).addMSecs(CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos));
+//CurrentBrush->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
+
+    ui->ActualDuration->setText(Duration.toString("hh:mm:ss.zzz"));
+    ui->EndPosEd->setMinimumTime(CurrentBrush->Video->StartPos);
+    ui->StartPosEd->setMaximumTime(CurrentBrush->Video->EndPos);
+    ui->VolumeReductionFactorCB->setCurrentIndex(ui->VolumeReductionFactorCB->findText(QString("%1%").arg(int(CurrentBrush->Video->SoundVolume*100))));
+}
+
+//====================================================================================================================
+
+void DlgVideoEdit::MusicReduceFactorChange(int) {
+    QString Volume=ui->VolumeReductionFactorCB->currentText();
+    if (Volume!="") Volume=Volume.left(Volume.length()-1);  // Remove %
+    CurrentBrush->Video->SoundVolume=double(Volume.toInt())/100;
+}
+
+//====================================================================================================================
+
+void DlgVideoEdit::s_DefEndPos() {
+    CurrentBrush->Video->EndPos=ui->VideoPlayer->GetCurrentPos();
+    ui->EndPosEd->setTime(CurrentBrush->Video->EndPos);
+    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                    QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                    -1,0,-1,0);
+    SetActualDuration();
+}
+
+//====================================================================================================================
+
+void DlgVideoEdit::s_EditEndPos(QTime NewValue) {
+    CurrentBrush->Video->EndPos=NewValue;
+    ui->EndPosEd->setTime(CurrentBrush->Video->EndPos);
+    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                    QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                    -1,0,-1,0);
+    SetActualDuration();
+}
+
+//====================================================================================================================
+
+void DlgVideoEdit::s_SeekLeft() {
+    ui->VideoPlayer->SetPlayerToPause();
+    ui->VideoPlayer->SeekPlayer(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos));
+}
+
+//====================================================================================================================
+
+void DlgVideoEdit::s_SeekRight() {
+    ui->VideoPlayer->SetPlayerToPause();
+    ui->VideoPlayer->SeekPlayer(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos));
+}

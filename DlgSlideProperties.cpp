@@ -22,6 +22,9 @@
 #include "ui_DlgSlideProperties.h"
 #include "wgt_QCustomThumbnails.h"
 #include "mainwindow.h"
+#include "DlgImageCorrection.h"
+#include "DlgImageTransformation.h"
+#include "DlgVideoEdit.h"
 
 DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgSlideProperties) {
     ui->setupUi(this);
@@ -448,6 +451,9 @@ void DlgSlideProperties::RefreshControls() {
                 ui->BackgroundCombo->SetCurrentBackground(CurrentBrush->BrushImage);
                 break;
             case BRUSHTYPE_IMAGEDISK :
+                cCustomGraphicsRectItem *RectItem=GetSelectItem();
+                // Adjust aspect ratio (if custom mode)
+                if ((RectItem)&&(!RectItem->KeepAspectRatio)) CurrentBrush->BrushFileCorrect.AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
                 ui->FileNameED->setText(CurrentBrush->BrushFileName);
                 ui->ImageGeometryCB->setCurrentIndex(CurrentBrush->BrushFileCorrect.ImageGeometry);
                 break;
@@ -836,8 +842,8 @@ void DlgSlideProperties::s_AddNewFileBlock() {
     }
     if (IsValide) {
 
-        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,true):
-                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false):
+        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,true,&CurrentBrush->BrushFileTransform):
+                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false,&CurrentBrush->BrushFileTransform):
                        NULL);
         if (Image) {
             // Calc hypothenuse of the image rectangle
@@ -1048,10 +1054,9 @@ void DlgSlideProperties::s_ChgPosYValue(double Value) {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ChgWidthValue(double Value) {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if (CurrentTextItem==NULL) return;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();
-    if (RectItem==NULL) return;
+    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();    if (!CurrentTextItem)   return;
+    cBrushDefinition        *CurrentBrush   =GetCurrentBrush();                 if (!CurrentBrush)      return;
+    cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (RectItem==NULL)     return;
     if (StopMAJSpinbox) return;
     CurrentTextItem->w=Value/100;
     if (RectItem->KeepAspectRatio) CurrentTextItem->h=((CurrentTextItem->w*xmax)*RectItem->AspectRatio)/ymax;
@@ -1065,10 +1070,9 @@ void DlgSlideProperties::s_ChgWidthValue(double Value) {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ChgHeightValue(double Value) {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if (CurrentTextItem==NULL) return;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();
-    if (RectItem==NULL) return;
+    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();    if (!CurrentTextItem)   return;
+    cBrushDefinition        *CurrentBrush   =GetCurrentBrush();                 if (!CurrentBrush)      return;
+    cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (RectItem==NULL)     return;
     if (StopMAJSpinbox) return;
     CurrentTextItem->h=Value/100;
     if (RectItem->KeepAspectRatio) CurrentTextItem->w=((CurrentTextItem->h*ymax)/RectItem->AspectRatio)/xmax;
@@ -1415,21 +1419,34 @@ void DlgSlideProperties::s_ChangeImageGeometry(int) {
 //========= Button opending Dialog box
 void DlgSlideProperties::ImageEditCorrect() {
     if (StopMAJSpinbox) return;
-    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if (!CurrentTextItem)   return;
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
     if (!CurrentBrush) return;
-
+    DlgImageCorrection(CurrentTextItem->BackgroundForm,CurrentBrush,&CurrentBrush->BrushFileCorrect,this).exec();
+    RefreshControls();
 }
 
 void DlgSlideProperties::ImageEditTransform() {
     if (StopMAJSpinbox) return;
     cBrushDefinition *CurrentBrush=GetCurrentBrush();
     if (!CurrentBrush) return;
-
+    if (DlgImageTransformation(CurrentBrush,this).exec()==0) {
+        if ((CurrentBrush->Image)&&(CurrentBrush->Image->CacheImage)) {
+            delete CurrentBrush->Image->CacheImage;
+            CurrentBrush->Image->CacheImage=NULL;
+        }
+        if ((CurrentBrush->Video)&&(CurrentBrush->Video->CacheFirstImage)) {
+            delete CurrentBrush->Video->CacheFirstImage;
+            CurrentBrush->Video->CacheFirstImage=NULL;
+        }
+    }
+    RefreshControls();
 }
 
 void DlgSlideProperties::VideoEdit() {
     if (StopMAJSpinbox) return;
     cBrushDefinition *CurrentBrush=GetCurrentBrush();
     if (!CurrentBrush) return;
-
+    DlgVideoEdit(CurrentBrush,this).exec();
+    RefreshControls();
 }

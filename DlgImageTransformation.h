@@ -36,11 +36,17 @@ Q_OBJECT
 public:
     cBrushDefinition        *CurrentBrush;
     QDomDocument            *Undo;                          // Save object before modification for cancel button
+    QGraphicsScene          *scene;
+    double                   xmax,ymax;
+    cFilterTransformObject  *Filter;
+    QImage                  *SourceImage;
+    double                   ZoomLevel;
 
     explicit DlgImageTransformation(cBrushDefinition *CurrentBrush,QWidget *parent = 0);
     ~DlgImageTransformation();
 
 protected:
+    virtual void    resizeEvent(QResizeEvent *);
     virtual void    showEvent(QShowEvent *);
     virtual void    reject();
     virtual void    accept();
@@ -48,6 +54,15 @@ protected:
 private slots:
     void            Help();
     void            SetSavedWindowGeometry();
+    void            RefreshBackgroundImage();
+    void            s_ChTransformationCB(int);
+
+    void            s_ZoomPlus();
+    void            s_ZoomMinus();
+
+    void            s_BlurSigmaSliderMoved(int Value);
+    void            s_BlurSigmaValueED(double Value);
+    void            s_BlurRadiusSliderMoved(int Value);
 
 private:
     Ui::DlgImageTransformation *ui;

@@ -50,4 +50,3 @@ Détails des modifications :
     Pour compatibilité ascendante des anciennes sauvegardes : les anciennes coordonnées sont converties si elle étaient dans l'ancien mode "Normal Canvas"
 - Supprime la notion de "pas de forme" pour tous les blocs : Pour compatibilité ascendante des anciennes sauvegardes, les blocs sans forme passent en rectangle+bordure=0+brush=sans
 - Supprime le fichier flag _BUILDVERSION.txt (plus d'utilité maintenant que les paquets sont toujours entiers)
-

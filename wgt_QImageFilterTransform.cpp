@@ -57,8 +57,8 @@ void wgt_QImageFilterTransform::SetFilter(cFilterTransformObject *TheFilter,cDia
     // Load image from source at position 0 with no filter
     if (Filter!=NULL) {
         // Try to load image from source
-        if (DiaporamaObject->Video!=NULL)        SourceImage=DiaporamaObject->Video->ImageAt(true,DiaporamaObject->Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false);
-        else if (DiaporamaObject->Image!=NULL)   SourceImage=DiaporamaObject->Image->ImageAt(true,DiaporamaObject->Parent->ApplicationConfig->PreviewMaxHeight,true);
+        if (DiaporamaObject->Video!=NULL)        SourceImage=DiaporamaObject->Video->ImageAt(true,DiaporamaObject->Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false,NULL);
+        else if (DiaporamaObject->Image!=NULL)   SourceImage=DiaporamaObject->Image->ImageAt(true,DiaporamaObject->Parent->ApplicationConfig->PreviewMaxHeight,true,NULL);
     }
 
     ui->TransformationCB->SetCurrentFilter(SourceImage,&Filter->OnOffFilter);

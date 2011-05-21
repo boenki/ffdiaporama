@@ -22,6 +22,7 @@
 #include "wgt_QCustomScene.h"
 #include "wgt_QCompositionWidget.h"
 #include "DlgSlideProperties.h"
+#include "DlgImageCorrection.h"
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // class use to add interractive resize to QGraphicsRectItem object
@@ -106,11 +107,13 @@ void cResizeGraphicsRectItem::CalcPosition() {
             break;
         case 2 :    // Bottom-Left corner
             x = (*RectItem->x)*xmax;
-            y = (*RectItem->y)*ymax+ymax*(*((RectItem->zoom!=NULL)?RectItem->zoom:RectItem->h));
+            if (RectItem->zoom!=NULL)   y=(*RectItem->y)*ymax+xmax*(*RectItem->zoom)*RectItem->AspectRatio;
+                else                    y=(*RectItem->y)*ymax+ymax*(*RectItem->h);
             break;
         case 3 :    // Bottom-Right corner
             x = (*RectItem->x)*xmax+xmax*(*((RectItem->zoom!=NULL)?RectItem->zoom:RectItem->w));
-            y = (*RectItem->y)*ymax+ymax*(*((RectItem->zoom!=NULL)?RectItem->zoom:RectItem->h));
+            if (RectItem->zoom!=NULL)   y=(*RectItem->y)*ymax+xmax*(*RectItem->zoom)*RectItem->AspectRatio;
+                else                    y=(*RectItem->y)*ymax+ymax*(*RectItem->h);
             break;
     }
     x=x-w/2;
@@ -158,7 +161,7 @@ void cResizeGraphicsRectItem::paint(QPainter *painter,const QStyleOptionGraphics
             else if (data=="ResizeGraphicsRectItem") CurrentTextItem=((cResizeGraphicsRectItem *)Item)->RectItem;
         }
         if (CurrentTextItem==RectItem) QGraphicsRectItem::paint(painter,option,widget);
-    }
+    } else QGraphicsRectItem::paint(painter,option,widget);
 }
 
 //====================================================================================================================
@@ -182,7 +185,7 @@ void cResizeGraphicsRectItem::ResizeUpperLeft(QPointF &newpos) {
         if ((RectItem->MagneticRuller->MagnetX1!=-1)&&(x+(w/2)>(RectItem->MagneticRuller->MagnetX1-mw))&&(x+(w/2)<(RectItem->MagneticRuller->MagnetX1+mw)))    x=RectItem->MagneticRuller->MagnetX1-(w/2);
         if ((RectItem->MagneticRuller->MagnetY1!=-1)&&(y+(h/2)>(RectItem->MagneticRuller->MagnetY1-mh))&&(y+(h/2)<(RectItem->MagneticRuller->MagnetY1+mh))) {
             y=RectItem->MagneticRuller->MagnetY1-(h/2);
-            double imgh=RectItem->BottomRight->pos().y()-h/2-y+h/2;
+            double imgh=(RectItem->BottomRight->pos().y()-h/2-y+h/2)/RectItem->AspectRatio;
             double zoom=(imgh/ymax);
             double imgw=xmax*zoom;
             x=RectItem->BottomRight->pos().x()+w/2-imgw-w/2;
@@ -264,7 +267,7 @@ void cResizeGraphicsRectItem::ResizeUpperRight(QPointF &newpos) {
         if ((RectItem->MagneticRuller->MagnetX2!=-1)&&(x+(w/2)>(RectItem->MagneticRuller->MagnetX2-mw))&&(x+(w/2)<(RectItem->MagneticRuller->MagnetX2+mw)))    x=RectItem->MagneticRuller->MagnetX2-(w/2);
         if ((RectItem->MagneticRuller->MagnetY1!=-1)&&(y+(h/2)>(RectItem->MagneticRuller->MagnetY1-mh))&&(y+(h/2)<(RectItem->MagneticRuller->MagnetY1+mh))) {
             y=RectItem->MagneticRuller->MagnetY1-(h/2);
-            double imgh=RectItem->BottomLeft->pos().y()-h/2-y+h/2;
+            double imgh=(RectItem->BottomLeft->pos().y()-h/2-y+h/2)/RectItem->AspectRatio;
             double zoom=(imgh/ymax);
             double imgw=xmax*zoom;
             x=RectItem->BottomLeft->pos().x()+w/2+imgw-w/2;
@@ -345,7 +348,7 @@ void cResizeGraphicsRectItem::ResizeBottomLeft(QPointF &newpos) {
         if ((RectItem->MagneticRuller->MagnetX1!=-1)&&(x+(w/2)>(RectItem->MagneticRuller->MagnetX1-mw))&&(x+(w/2)<(RectItem->MagneticRuller->MagnetX1+mw)))    x=RectItem->MagneticRuller->MagnetX1-(w/2);
         if ((RectItem->MagneticRuller->MagnetY2!=-1)&&(y+(h/2)>(RectItem->MagneticRuller->MagnetY2-mh))&&(y+(h/2)<(RectItem->MagneticRuller->MagnetY2+mh))) {
             y=RectItem->MagneticRuller->MagnetY2-(h/2);
-            double imgh=y+h/2-RectItem->UpperRight->pos().y()-h/2;
+            double imgh=(y+h/2-RectItem->UpperRight->pos().y()-h/2)/RectItem->AspectRatio;
             double zoom=(imgh/ymax);
             double imgw=xmax*zoom;
             x=RectItem->UpperRight->pos().x()+w/2-imgw-w/2;
@@ -425,7 +428,7 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
         if ((RectItem->MagneticRuller->MagnetX2!=-1)&&(x+(w/2)>(RectItem->MagneticRuller->MagnetX2-mw))&&(x+(w/2)<(RectItem->MagneticRuller->MagnetX2+mw)))    x=RectItem->MagneticRuller->MagnetX2-(w/2);
         if ((RectItem->MagneticRuller->MagnetY2!=-1)&&(y+(h/2)>(RectItem->MagneticRuller->MagnetY2-mh))&&(y+(h/2)<(RectItem->MagneticRuller->MagnetY2+mh))) {
             y=RectItem->MagneticRuller->MagnetY2-(h/2);
-            double imgh=y+h/2-RectItem->UpperLeft->pos().y()-h/2;
+            double imgh=(y+h/2-RectItem->UpperLeft->pos().y()-h/2)/RectItem->AspectRatio;
             double zoom=(imgh/ymax);
             double imgw=xmax*zoom;
             x=RectItem->UpperLeft->pos().x()+w/2+imgw-w/2;
@@ -499,17 +502,16 @@ cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZV
     y               = They;
     zoom            = Thezoom;
     KeepAspectRatio = TheKeepAspectRatio;
+    AspectRatio     = TheAspectRatio;
 
     if (zoom!=NULL) {
         // If zoom mode is use
         w=&StockW;    *(w) = xmax*(*zoom);
         h=&StockH;    *(h) = ymax*(*zoom);
-        AspectRatio=ymax/xmax;
     } else {
         // If zoom mode is not use
         w=Thew;
         h=Theh;
-        AspectRatio=TheAspectRatio;
     }
     BlockZoomChange = false;            // flag to block zoom changing during change % to pixel
     IsCapture       = false;
@@ -605,7 +607,7 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
             *y = newpos.y()/ymax;
             // calcul width and height;
             double W = xmax*(*((zoom!=NULL)?zoom:w));
-            double H = ymax*(*((zoom!=NULL)?zoom:h));
+            double H = ymax*((zoom!=NULL)?((*zoom)*AspectRatio):(*h));
             // crop rectangle in the image
             if ((*x)*xmax<0)        *x=0;
             if ((*x)*xmax>xmax-W)   *x=(xmax-W)/xmax;
@@ -636,6 +638,7 @@ void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
         case TYPE_wgt_QCustomScene:         ((wgt_QCustomScene *)ParentWidget)->RefreshBackgroundImage();       break;
         case TYPE_wgt_QCompositionWidget:   ((wgt_QCompositionWidget *)ParentWidget)->StartRefreshControls();   break;
         case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->RefreshControls();            break;
+        case TYPE_DlgImageCorrection:       ((DlgImageCorrection *)ParentWidget)->RefreshControls();            break;
     }
 }
 

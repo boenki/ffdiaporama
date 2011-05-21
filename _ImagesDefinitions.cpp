@@ -184,25 +184,14 @@ QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Hei
     } else SourceImage=LastLoadedImage;
 
     // Calc coordinates of the part in the source image
-    double  ImageGeometry   =RealImageW/RealImageH;
     double  SrcX            =Hyp*TheXFactor;
     double  SrcY            =Hyp*TheYFactor;
     double  SrcW            =Hyp*TheZoomFactor;
-    double  SrcH            =SrcW/ImageGeometry;
+    double  SrcH            =SrcW*AspectRatio;
     double  DstX            =0;
     double  DstY            =0;
     double  DstW            =Width;
-    double  DstH            =DstW/ImageGeometry;
-
-    // Adjust SrcW and SrcH depending on image geometry
-    if (SrcH>RealImageH) {
-        SrcH=Hyp*TheZoomFactor;
-        SrcW=SrcH*ImageGeometry;
-    }
-    if (DstH<Height) {
-        DstH=Height;
-        DstW=DstH*ImageGeometry;
-    }
+    double  DstH            =DstW*AspectRatio;
 
     // Prepare RetImage Composition with transparent background
     QImage      *RetImage=new QImage(Width,Height,QImage::Format_ARGB32_Premultiplied);
@@ -335,8 +324,8 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect) {
 QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect) {
     if (BrushFileName=="") return new QBrush(Qt::NoBrush);
 
-    QImage *RenderImage=(Image?Image->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,false):
-                        Video?Video->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,0,true,false,NULL,1,false):
+    QImage *RenderImage=(Image?Image->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,false,&BrushFileTransform):
+                        Video?Video->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,0,true,false,NULL,1,false,&BrushFileTransform):
                         NULL);
     if (RenderImage) {
         QImage *Img=BrushFileCorrect.GetImage(RenderImage,Rect.width(),Rect.height(),1,NULL);
@@ -489,8 +478,8 @@ void cBrushDefinition::ApplyDefaultFraming(int DefaultFraming) {
             break;
     }
 
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,GlobalMainWindow->Diaporama->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false); // Video
-    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,GlobalMainWindow->Diaporama->ApplicationConfig->PreviewMaxHeight,true);                     // Image
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,GlobalMainWindow->Diaporama->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false,&BrushFileTransform); // Video
+    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,GlobalMainWindow->Diaporama->ApplicationConfig->PreviewMaxHeight,true,&BrushFileTransform);                     // Image
 
     if (ReturnImage!=NULL) {
         RealImageW=ReturnImage->width();

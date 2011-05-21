@@ -90,7 +90,7 @@ public:
     ~cvideofilewrapper();
 
     bool        GetInformationFromFile(QString &GivenFileName,bool MusicOnly);
-    QImage      *ImageAt(bool PreviewMode,int PreviewMaxHeight,int Position,bool CachedMode,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly);
+    QImage      *ImageAt(bool PreviewMode,int PreviewMaxHeight,int Position,bool CachedMode,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter);
 
     int         PreviousPosition;
     bool        IsReadVideoStarted;

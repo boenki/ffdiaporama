@@ -40,6 +40,8 @@ public:
     explicit DlgVideoEdit(cBrushDefinition *CurrentBrush,QWidget *parent = 0);
     ~DlgVideoEdit();
 
+    void            SetActualDuration();
+
 protected:
     virtual void    showEvent(QShowEvent *);
     virtual void    reject();
@@ -48,6 +50,13 @@ protected:
 private slots:
     void            Help();
     void            SetSavedWindowGeometry();
+    void            s_DefStartPos();
+    void            s_DefEndPos();
+    void            s_SeekLeft();
+    void            s_SeekRight();
+    void            s_EditStartPos(QTime NewValue);
+    void            s_EditEndPos(QTime NewValue);
+    void            MusicReduceFactorChange(int);
 
 private:
     Ui::DlgVideoEdit *ui;

@@ -53,6 +53,7 @@ public:
     void            SetCompositionObject(cCompositionList *CompositionList);
     void            RefreshBackgroundImage();
     void            RefreshControls();
+    void            AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
 
     // Utility functions
     cCustomGraphicsRectItem *GetSelectItem();                   // Return selected item
