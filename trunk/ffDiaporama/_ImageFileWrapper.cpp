@@ -141,7 +141,7 @@ bool cimagefilewrapper::GetInformationFromFile(QString &GivenFileName) {
 
 //====================================================================================================================
 
-QImage *cimagefilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,bool ForceLoadDisk) {
+QImage *cimagefilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,bool ForceLoadDisk,cFilterTransformObject *Filter) {
     if (!IsValide) return NULL;
 
     // If ForceLoadDisk then ensure CacheImage is null
@@ -196,6 +196,8 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,bool Fo
 
         // Get image width
         ImageWidth =Image->width();
+
+        if (Filter) Filter->ApplyFilter(Image);
 
         if (PreviewMode) CacheImage=new QImage(Image->copy());
     }

@@ -26,6 +26,7 @@
 
 // Specific inclusions
 #include "_ApplicationDefinitions.h"
+#include "_ImagesDefinitions.h"
 
 class cimagefilewrapper {
 public:
@@ -44,7 +45,7 @@ public:
     ~cimagefilewrapper();
 
     bool    GetInformationFromFile(QString &GivenFileName);
-    QImage  *ImageAt(bool PreviewMode,int PreviewMaxHeight,bool ForceLoadDisk);
+    QImage  *ImageAt(bool PreviewMode,int PreviewMaxHeight,bool ForceLoadDisk,cFilterTransformObject *Filter);
 };
 
 #endif // IMAGEFILEWRAPPER_H

@@ -32,6 +32,56 @@
 
 double  ADJUST_RATIO=1;   // Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 
+//====================================================================================================================
+// Utility function to draw a shape
+//====================================================================================================================
+
+void DrawShape(QPainter &Painter,int BackgroundForm,double left,double top,double width,double height,double CenterX,double CenterY) {
+    double RayX=0,RayY=0;
+
+    switch (BackgroundForm) {
+        //0 = no shape
+        case 1 : Painter.drawRect(QRectF(left,top,width-1,height-1));                                   break;  // Rectangle
+        case 2 :                                                                                                // Round rect
+            RayX=width/10;     if (RayX>16) RayX=16; else if (RayX<8)  RayX=8;
+            RayY=height/10;    if (RayY>16) RayY=16; else if (RayY<8)  RayY=8;
+            Painter.drawRoundedRect(QRectF(left,top,width-1,height-1),RayX,RayY,Qt::AbsoluteSize);
+            break;
+        case 3 :                                                                                                // Buble
+            RayX=2*width/10;
+            RayY=2*height/10;
+            Painter.drawRoundedRect(QRectF(left,top,width-1,height-1),RayX,RayY,Qt::AbsoluteSize);
+            break;
+        case 4 : Painter.drawEllipse(QRectF(left,top,width-1,height-1));                                break;  // Ellipse
+        case 5 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,90);                               break;  // Triangle UP
+        case 6 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,0);                                break;  // Triangle Right
+        case 7 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-90);                              break;  // Triangle Down
+        case 8 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-180);                             break;  // Triangle left
+        case 9 : DrawPolygonR(Painter,width,height,CenterX,CenterY,4,0);                                break;  // Losange
+        case 10: DrawPolygonR(Painter,width,height,CenterX,CenterY,5,90-(double(360)/5));               break;  // pentagone
+        case 11: DrawPolygonR(Painter,width,height,CenterX,CenterY,6,-(double(360)/6));                 break;  // hexagone
+        case 12: DrawPolygonR(Painter,width,height,CenterX,CenterY,8,-(double(360)/8));                 break;  // Octogone
+    }
+}
+
+//====================================================================================================================
+
+void DrawPolygonR(QPainter &Painter,double width,double height,double CenterX,double CenterY,int MaxPoint,double StartAngle) {
+    QPointF Table[10];
+    double  vcos,vsin,Angle;
+    int     i;
+
+    Angle=StartAngle;
+    for (i=0;i<MaxPoint;i++) {
+        vcos=cos(Angle*3.14159265/180)*(width/2);
+        vsin=sin(Angle*3.14159265/180)*(height/2);
+        Table[i]=QPointF(CenterX+vcos,CenterY-vsin);
+        Angle=Angle+(double(360)/MaxPoint);
+        if (Angle>=360) Angle=-Angle+360;
+    }
+    Painter.drawPolygon(Table,MaxPoint);
+}
+
 //*********************************************************************************************************************************************
 // Base object for composition definition
 //*********************************************************************************************************************************************
@@ -204,17 +254,6 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
     if (RotateYAxis!=0) Matrix.rotate(RotateYAxis,Qt::YAxis);   // Rotate from Y axis
     Painter.setWorldTransform(Matrix,false);
 
-    // Paint background if needed
-    double  RayX=0,RayY=0;
-
-    // Roundrect values
-    if (BackgroundForm==2) {
-        RayX=W/10;    if (RayX>16) RayX=16; else if (RayX<8)  RayX=8;
-        RayY=H/10;    if (RayY>16) RayY=16; else if (RayY<8)  RayY=8;
-    } else if (BackgroundForm==3) {
-        RayX=2*W/10;
-        RayY=2*H/10;
-    }
     // Draw ExternalBorder border
     if (PenSize==0) Painter.setPen(Qt::NoPen); else {
         Pen.setColor(PenColor);
@@ -233,7 +272,7 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
         delete BR;
     }
     if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-    DrawShape(Painter,FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2,0,0,RayX,RayY);
+    DrawShape(Painter,BackgroundForm,FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2,0,0);
     if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
     Painter.setPen(Qt::NoPen);
@@ -321,44 +360,6 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
     if ((Opacity>0)&&(Opacity<4)) DestPainter.setOpacity(Opacity==1?0.75:Opacity==2?0.50:0.25); else DestPainter.setOpacity(1);
     DestPainter.drawImage(AddX+x*double(width),AddY+y*double(height),Img);
     DestPainter.restore();
-}
-
-//====================================================================================================================
-
-void cCompositionObject::DrawShape(QPainter &Painter,double left,double top,double width,double height,double CenterX,double CenterY,double RayX,double RayY) {
-    switch (BackgroundForm) {
-        //0 = no shape
-        case 1 : Painter.drawRect(QRectF(left,top,width-1,height-1));                                   break;  // Rectangle
-        case 2 : Painter.drawRoundedRect(QRectF(left,top,width-1,height-1),RayX,RayY,Qt::AbsoluteSize); break;  // Round rect
-        case 3 : Painter.drawRoundedRect(QRectF(left,top,width-1,height-1),RayX,RayY,Qt::AbsoluteSize); break;  // Buble
-        case 4 : Painter.drawEllipse(QRectF(left,top,width-1,height-1));                                break;  // Ellipse
-        case 5 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,90);                               break;  // Triangle UP
-        case 6 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,0);                                break;  // Triangle Right
-        case 7 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-90);                              break;  // Triangle Down
-        case 8 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-180);                             break;  // Triangle left
-        case 9 : DrawPolygonR(Painter,width,height,CenterX,CenterY,4,0);                                break;  // Losange
-        case 10: DrawPolygonR(Painter,width,height,CenterX,CenterY,5,90-(double(360)/5));               break;  // pentagone
-        case 11: DrawPolygonR(Painter,width,height,CenterX,CenterY,6,-(double(360)/6));                 break;  // hexagone
-        case 12: DrawPolygonR(Painter,width,height,CenterX,CenterY,8,-(double(360)/8));                 break;  // Octogone
-    }
-}
-
-//====================================================================================================================
-
-void cCompositionObject::DrawPolygonR(QPainter &Painter,double width,double height,double CenterX,double CenterY,int MaxPoint,double StartAngle) {
-    QPointF Table[10];
-    double  vcos,vsin,Angle;
-    int     i;
-
-    Angle=StartAngle;
-    for (i=0;i<MaxPoint;i++) {
-        vcos=cos(Angle*3.14159265/180)*(width/2);
-        vsin=sin(Angle*3.14159265/180)*(height/2);
-        Table[i]=QPointF(CenterX+vcos,CenterY-vsin);
-        Angle=Angle+(double(360)/MaxPoint);
-        if (Angle>=360) Angle=-Angle+360;
-    }
-    Painter.drawPolygon(Table,MaxPoint);
 }
 
 //*********************************************************************************************************************************************
@@ -578,8 +579,8 @@ void cDiaporamaObject::ApplyDefaultFraming(int DefaultFraming) {
     double   RealImageW=Parent->InternalWidth;
     double   RealImageH=Parent->InternalHeight;
 
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false);  // Video
-    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,true);                // Image
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false,NULL);  // Video
+    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,true,NULL);                // Image
 
     if (ReturnImage!=NULL) {
         RealImageW=ReturnImage->width();
@@ -634,8 +635,8 @@ void cDiaporamaObject::SwitchShotsToNormalCanvas() {
     double   NormalCanvasW;
     double   NormalCanvasH;
 
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false);  // Video
-    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,true);                // Image
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false,NULL);  // Video
+    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,true,NULL);                // Image
 
     // Calc size
     RealImageW=Parent->InternalWidth;
@@ -669,8 +670,8 @@ void cDiaporamaObject::SwitchShotsToFullCanvas() {
     double   NormalCanvasW;
     double   NormalCanvasH;
 
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false);  // Video
-    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,true);                // Image
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false,NULL);  // Video
+    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,true,NULL);                // Image
 
     // Calc size
     RealImageW=Parent->InternalWidth;
@@ -706,8 +707,8 @@ QImage  *cDiaporamaObject::GetImageAt(int Position,bool VideoCachedMode,cSoundBl
     QImage  *ReturnImage=NULL;
 
     // Try to load image from source
-    if (Video!=NULL) ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,Position,VideoCachedMode,false,SoundTrackMontage,1,false);   // Video
-    else if (Image!=NULL) ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,false);                                           // Image
+    if (Video!=NULL) ReturnImage=Video->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,Position,VideoCachedMode,false,SoundTrackMontage,1,false,NULL);   // Video
+    else if (Image!=NULL) ReturnImage=Image->ImageAt(true,Parent->ApplicationConfig->PreviewMaxHeight,false,NULL);                                           // Image
     else {                                                                                                                                              // Title
         // Create an empty transparent image
         ReturnImage=new QImage(Parent->InternalWidth,Parent->InternalHeight,QImage::Format_ARGB32_Premultiplied);
@@ -1468,7 +1469,7 @@ void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *Music
     if ((Column<List.count())&&(!List[Column].MusicPause)) {
         cMusicObject *CurMusic=GetMusicObject(Column,StartPosition);                                         // Get current music file from column and position
         if (CurMusic!=NULL) {
-            CurMusic->Music->ImageAt(false,0,Position+StartPosition,false,false,MusicTrack,1,false);               // Get music bloc at correct position
+            CurMusic->Music->ImageAt(false,0,Position+StartPosition,false,false,MusicTrack,1,false,NULL);               // Get music bloc at correct position
             double Factor=CurMusic->Volume;
             if (List[Column].MusicReduceVolume) Factor=Factor*List[Column].MusicReduceFactor;
             if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
@@ -2080,21 +2081,21 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 void cDiaporama::ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,bool SoundOnly) {
     Info->CurrentObject_SourceImage=Info->CurrentObject->Video->ImageAt(PreviewMode,ApplicationConfig->PreviewMaxHeight,
         Info->CurrentObject_InObjectTime+QTime(0,0,0,0).msecsTo(Info->CurrentObject->Video->StartPos),
-        false,false,Info->CurrentObject_SoundTrackMontage,Info->CurrentObject->Video->SoundVolume,SoundOnly);
+        false,false,Info->CurrentObject_SoundTrackMontage,Info->CurrentObject->Video->SoundVolume,SoundOnly,NULL);
 }
 
 void cDiaporama::ThreadLoadSourcePhotoImage(cDiaporamaObjectInfo *Info,bool PreviewMode) {
-    Info->CurrentObject_SourceImage=Info->CurrentObject->Image->ImageAt(PreviewMode,ApplicationConfig->PreviewMaxHeight,false);
+    Info->CurrentObject_SourceImage=Info->CurrentObject->Image->ImageAt(PreviewMode,ApplicationConfig->PreviewMaxHeight,false,NULL);
 }
 
 void cDiaporama::ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,bool SoundOnly) {
     Info->TransitObject_SourceImage=Info->TransitObject->Video->ImageAt( // Video
         PreviewMode,ApplicationConfig->PreviewMaxHeight,Info->TransitObject_InObjectTime+QTime(0,0,0,0).msecsTo(Info->TransitObject->Video->StartPos),
-        false,false,Info->TransitObject_SoundTrackMontage,Info->TransitObject->Video->SoundVolume,SoundOnly);
+        false,false,Info->TransitObject_SoundTrackMontage,Info->TransitObject->Video->SoundVolume,SoundOnly,NULL);
 }
 
 void cDiaporama::ThreadLoadTransitPhotoImage(cDiaporamaObjectInfo *Info,bool PreviewMode) {
-    Info->TransitObject_SourceImage=Info->TransitObject->Image->ImageAt(PreviewMode,ApplicationConfig->PreviewMaxHeight,false);
+    Info->TransitObject_SourceImage=Info->TransitObject->Image->ImageAt(PreviewMode,ApplicationConfig->PreviewMaxHeight,false,NULL);
 }
 
 //*********************************************************************************************************************************************

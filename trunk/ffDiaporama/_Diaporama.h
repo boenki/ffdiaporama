@@ -42,6 +42,12 @@ class cDiaporamaObject;
 
 extern  double  ADJUST_RATIO;   // Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 
+//============================================
+// Utility function
+//============================================
+void    DrawShape(QPainter &Painter,int BackgroundForm,double left,double top,double width,double height,double CenterX,double CenterY);
+void    DrawPolygonR(QPainter &Painter,double width,double height,double CenterX,double CenterY,int MaxPoint,double StartAngle);
+
 //*********************************************************************************************************************************************
 // Base object for composition definition
 //*********************************************************************************************************************************************
@@ -84,11 +90,6 @@ public:
     void        DrawCompositionObject(QPainter &Painter,int AddX,int AddY,int width,int height);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
-
-private:
-    void        DrawShape(QPainter &Painter,double left,double right,double width,double height,double CenterX,double CenterY,double RayX,double RayY);
-    void        DrawPolygonR(QPainter &Painter,double width,double height,double CenterX,double CenterY,int MaxPoint,double StartAngle);
-
 };
 
 //*********************************************************************************************************************************************
