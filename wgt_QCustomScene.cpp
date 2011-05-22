@@ -303,12 +303,13 @@ void wgt_QCustomScene::RefreshBackgroundImage() {
             ymax=ui->GraphicsView->height();
             xmax=GlobalMainWindow->Diaporama->GetWidthForHeight(ymax);
         }
+        CorrectObject->AspectRatio=ymax/xmax;
         cadre=new cCustomGraphicsRectItem(scene,300,&CorrectObject->X,&CorrectObject->Y,&CorrectObject->ZoomFactor,NULL,NULL,xmax,ymax,true,CorrectObject->AspectRatio,&MagneticRuller,this,TYPE_wgt_QCustomScene);
     }
 
     // Prepare CacheImage
     QRectF  ImagePosition;
-    QImage *NewImage=GlobalMainWindow->Diaporama->List[GlobalMainWindow->Diaporama->CurrentCol].CanvasImageAt(xmax,ymax,0,NULL,0,0,&ImagePosition,&CorrectObject->ImageRotation,true,false,true,false,NULL);
+    QImage *NewImage=GlobalMainWindow->Diaporama->List[GlobalMainWindow->Diaporama->CurrentCol].CanvasImageAt(xmax,ymax,0,NULL,0,0,&ImagePosition,&CorrectObject->ImageRotation,false,true,false,NULL);
     // Calc magnetic ruller guides positions
     MagneticRuller.MagnetX1=ImagePosition.x();
     MagneticRuller.MagnetX2=ImagePosition.x()+ImagePosition.width();

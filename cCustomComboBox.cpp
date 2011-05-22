@@ -218,7 +218,7 @@ void cCustomBrushComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
         Brush.BrushType  =BRUSHTYPE_PATTERN;
         Brush.PatternType=ColorNum;
         painter->fillRect(option.rect,Brush.ColorD.toLower()!="#ffffff"?Qt::white:Qt::black);
-        QBrush *BR=Brush.GetBrush(option.rect);
+        QBrush *BR=Brush.GetBrush(option.rect,true,0,NULL);
         painter->setBrush(*BR);
         delete BR;
         painter->drawRect(option.rect);
@@ -308,7 +308,7 @@ void cCustomBrushComboBox::MakeIcons() {
         TheBrush.BrushType  =BRUSHTYPE_PATTERN;
         TheBrush.PatternType=ColorNum;
         Painter.fillRect(QRectF(0,0,64,16),TheBrush.ColorD.toLower()!="#ffffff"?Qt::white:Qt::black);
-        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,64,16));
+        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,64,16),true,0,NULL);
         Painter.setBrush(*BR);
         delete BR;
         Painter.drawRect(QRectF(0,0,64,16));
@@ -348,7 +348,7 @@ void cGradientOrientationComboBoxItem::paint(QPainter *painter,const QStyleOptio
         Brush.ColorIntermed=ComboBox->Brush->ColorIntermed;
         Brush.Intermediate=ComboBox->Brush->Intermediate;
         Brush.GradientOrientation=ColorNum;
-        QBrush *BR=Brush.GetBrush(option.rect);
+        QBrush *BR=Brush.GetBrush(option.rect,true,0,NULL);
         painter->setBrush(*BR);
         delete BR;
         painter->drawRect(option.rect);
@@ -440,7 +440,7 @@ void cGradientOrientationComboBox::MakeIcons() {
         TheBrush.ColorIntermed=Brush->ColorIntermed;
         TheBrush.Intermediate=Brush->Intermediate;
         TheBrush.GradientOrientation=ColorNum;
-        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,64,16));
+        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,64,16),true,0,NULL);
         Painter.setBrush(*BR);
         delete BR;
         Painter.drawRect(QRectF(0,0,64,16));

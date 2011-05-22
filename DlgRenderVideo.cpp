@@ -521,8 +521,6 @@ void DlgRenderVideo::accept() {
 
                 // Prepare frame with correct W and H
                 Diaporama->LoadSources(Frame,W,H,false);                                            // Load source images
-                Diaporama->PrepareImage(Frame,W,H,Extend,true);                                     // Prepare image Current Object
-                if (Frame->IsTransition) Diaporama->PrepareImage(Frame,W,H,Extend,false);           // Prepare image Transition Object
                 Diaporama->DoAssembly(Frame,W,H+Extend);                                            // Make final assembly
                 // Special case when no sound !
                 if ((Frame->CurrentObject)&&(Frame->CurrentObject->Video)) Frame->CurrentObject->Video->NextPacketPosition+=FPS/1000;
@@ -779,8 +777,6 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
 
             // Prepare frame with W and H =0 to force SoundMusicOnly ! (thread mode is not necessary here)
             Diaporama->LoadSources(Frame,0,0,false);
-            Diaporama->PrepareImage(Frame,0,0,Extend,true);                                     // Prepare image Current Object
-            if (Frame->IsTransition) Diaporama->PrepareImage(Frame,0,0,Extend,false);           // Prepare image Transition Object
 
             // Give time to interface !
             QCoreApplication::processEvents();

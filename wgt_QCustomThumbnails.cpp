@@ -94,7 +94,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             }
 
             Painter.fillRect(0,0,Width,Height,Diaporama->Transparent);
-            Diaporama->List[Diaporama->CurrentCol].CanvasImageAt(Width,Height,Position,&Painter,0,0,NULL,NULL,true,true,true,true,NULL);
+            Diaporama->List[Diaporama->CurrentCol].CanvasImageAt(Width,Height,Position,&Painter,0,0,NULL,NULL,true,true,true,NULL);
 
             // -------------------------- Draw selected box (if needed)
 
@@ -136,7 +136,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             }
 
             Painter.fillRect(0,0,Width,Height,Diaporama->Transparent);
-            Diaporama->List[Diaporama->CurrentCol].CanvasImageAt(Width,Height,Position,&Painter,0,0,NULL,NULL,true,true,true,true,NULL);
+            Diaporama->List[Diaporama->CurrentCol].CanvasImageAt(Width,Height,Position,&Painter,0,0,NULL,NULL,true,true,true,NULL);
 
             // -------------------------- Draw selected box (if needed)
 
@@ -231,7 +231,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     case DIAPORAMAOBJECTTYPE_EMPTY :
                     case DIAPORAMAOBJECTTYPE_IMAGE :
                         Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,Diaporama->Transparent);
-                        Object->CanvasImageAt(ThumbWidth,ThumbHeight,0,&Painter,TransitionSize+3,2-1,NULL,NULL,true,true,true,true,NULL);   // Draw Thumb
+                        Object->CanvasImageAt(ThumbWidth,ThumbHeight,0,&Painter,TransitionSize+3,2-1,NULL,NULL,true,true,true,NULL);   // Draw Thumb
                         if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32,QImage(ICON_SHOTPRESENCE));
                         DrawThumbnailsBox(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,Painter,NULL);
                         MediaObjectRect=QRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight);
@@ -243,7 +243,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 
                         // Draw thumb part
                         Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,Diaporama->Transparent);
-                        Object->CanvasImageAt(NewThumbWidth,NewThumbHeight,0,&Painter,TransitionSize+3+BarWidth,2-1,NULL,NULL,true,true,true,true,NULL);   // Draw Thumb
+                        Object->CanvasImageAt(NewThumbWidth,NewThumbHeight,0,&Painter,TransitionSize+3+BarWidth,2-1,NULL,NULL,true,true,true,NULL);   // Draw Thumb
                         if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+BarWidth+NewThumbWidth-32,2-1+NewThumbHeight-32,QImage(ICON_SHOTPRESENCE));
                         DrawThumbnailsBox(TransitionSize+3+BarWidth,2-1,NewThumbWidth,NewThumbHeight,Painter,NULL);
                         DrawThumbnailsBox(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,Painter,NULL);

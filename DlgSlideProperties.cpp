@@ -654,7 +654,7 @@ void DlgSlideProperties::RefreshBackgroundImage() {
 
     for (int i=0;i<CompositionList->List.count();i++) {
         // Draw composition
-        CompositionList->List[i].DrawCompositionObject(P,0,0,xmax,ymax);
+        CompositionList->List[i].DrawCompositionObject(P,0,0,xmax,ymax,true,0,NULL);
         // Draw border
         if (GetSelectedCompositionObject()==&CompositionList->List[i]) {
             // draw rect out of the rectangle
@@ -837,13 +837,15 @@ void DlgSlideProperties::s_AddNewFileBlock() {
         if (!IsValide) {
             delete CurrentBrush->Video;
             CurrentBrush->Video=NULL;
+        } else {
+            DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
         }
         break;
     }
     if (IsValide) {
 
-        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,true,&CurrentBrush->BrushFileTransform):
-                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false,&CurrentBrush->BrushFileTransform):
+        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->BrushFileTransform):
+                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->BrushFileTransform):
                        NULL);
         if (Image) {
             // Calc hypothenuse of the image rectangle
@@ -1170,7 +1172,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
         ADJUST_RATIO=1;
-        Object.DrawCompositionObject(Painter,0,0,32,32);
+        Object.DrawCompositionObject(Painter,0,0,32,32,true,0,NULL);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -1198,7 +1200,7 @@ void DlgSlideProperties::MakeTextStyleIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        Object.DrawCompositionObject(Painter,0,0,32,32);
+        Object.DrawCompositionObject(Painter,0,0,32,32,true,0,NULL);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -1448,5 +1450,6 @@ void DlgSlideProperties::VideoEdit() {
     cBrushDefinition *CurrentBrush=GetCurrentBrush();
     if (!CurrentBrush) return;
     DlgVideoEdit(CurrentBrush,this).exec();
+    DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
     RefreshControls();
 }

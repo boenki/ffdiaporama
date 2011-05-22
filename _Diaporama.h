@@ -87,7 +87,7 @@ public:
 
     cCompositionObject();
 
-    void        DrawCompositionObject(QPainter &Painter,int AddX,int AddY,int width,int height);
+    void        DrawCompositionObject(QPainter &Painter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
 };
@@ -169,20 +169,11 @@ public:
     int                     GetCumulTransitDuration();
     int                     GetDuration();
 
-    // Load image from source object at given position(video) and Apply filter
-    QImage                  *GetImageAt(int Position,bool VideoCachedMode,cSoundBlockList *SoundTrackMontage);
-
-    // Load image and put it on a Canvas of size Width x Height
-    QImage                  *CanvasImageAt(int Width,int Height,int Position,QPainter *Painter,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool VideoCachedMode,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming,cSoundBlockList *SoundTrackMontage);
+    QImage                  *GetImageAt(int Position,cSoundBlockList *SoundTrackMontage);
+    QImage                  *CanvasImageAt(int Width,int Height,int Position,QPainter *Painter,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming,cSoundBlockList *SoundTrackMontage);
     void                    PrepareImage(QPainter *P,int Width,int Height,int Position,QImage *LastLoadedImage,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming);
-
-    // Function to calculate canvas
-    void                    CalcFullCanvas(double RealImageW,double RealImageH,double &VirtImageW,double &VirtImageH);
-    void                    CalcNormalCanvas(double RealImageW,double RealImageH,double &VirtImageW,double &VirtImageH);
     void                    CalcTransformations(int Sequence,double PctDone,double &XFactor,double &YFactor,double &ZoomFactor,double &RotateFactor,cFilterCorrectObject &FilterCorrection);
     void                    ApplyDefaultFraming(int DefaultFraming);
-    void                    SwitchShotsToNormalCanvas();
-    void                    SwitchShotsToFullCanvas();
 
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
@@ -314,7 +305,6 @@ public:
 
     // Thread functions
     void                PrepareMusicBloc(int Column,int Position,cSoundBlockList *MusicTrack);
-    void                PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,int Extend,bool IsCurrentObject);
     void                LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode);
     void                DoAssembly(cDiaporamaObjectInfo *Info,int W,int H);
 
@@ -326,11 +316,11 @@ public:
     void                DoLuma(cLumaList *List,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
 
     // Threaded functions
-    void ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,bool SoundOnly);
-    void ThreadLoadSourcePhotoImage(cDiaporamaObjectInfo *Info,bool PreviewMode);
-    void ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,bool SoundOnly);
-    void ThreadLoadTransitPhotoImage(cDiaporamaObjectInfo *Info,bool PreviewMode);
+    void ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H);
+    void ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H);
 
+private:
+    void                PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode);
 };
 
 //****************************************************************************

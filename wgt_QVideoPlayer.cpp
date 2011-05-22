@@ -377,8 +377,8 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
         if (FileInfo) {
 
-            QImage *VideoImage=FileInfo->ImageAt(true,this->height(),ActualPosition,false,false,NULL,1,false,NULL);
-            ui->MovieFrame->setPixmap(QPixmap().fromImage(*VideoImage));  // Display frame
+            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,false,NULL,1,false,NULL);
+            ui->MovieFrame->setPixmap(QPixmap().fromImage(VideoImage->scaledToHeight(ui->MovieFrame->height())));  // Display frame
             delete VideoImage;
 
         } else if (Diaporama) {
@@ -433,7 +433,10 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
             NewFrame->CurrentObject_StartTime   =0;
             NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
-            NewFrame->RenderedImage=FileInfo->ImageAt(true,ui->MovieFrame->height(),ActualPosition,false,false,&MixedMusic,1,false,NULL);
+            QImage *Temp=FileInfo->ImageAt(true,ActualPosition,false,&MixedMusic,1,false,NULL);
+            QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
+            NewFrame->RenderedImage=Temp2;
+            delete Temp;
             if (NewFrame->RenderedImage) ImageList.AppendImage(NewFrame); else delete NewFrame;
 
         } else if (Diaporama) {
@@ -493,10 +496,6 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
 
     // Ensure background, image and soundtrack is ready (in thread mode)
     Diaporama->LoadSources(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),true);
-
-    // Prepare images
-    Diaporama->PrepareImage(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),0,true);                             // Current Object
-    if (Frame->IsTransition) Diaporama->PrepareImage(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),0,false);   // Transition Object
 
     // Do Assembly
     ThreadDoAssembly=QtConcurrent::run(Diaporama,&cDiaporama::DoAssembly,Frame,ui->MovieFrame->width(),ui->MovieFrame->height());

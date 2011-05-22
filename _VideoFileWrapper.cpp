@@ -584,7 +584,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
 
         // Try to load one image to be sure we can make something with this file
         IsValide    =true; // Disable IsValide test for ImageAt
-        QImage *Img =ImageAt(true,720,0,false,true,NULL,1,false,NULL);
+        QImage *Img =ImageAt(true,0,true,NULL,1,false,NULL);
         if ((Img==NULL)&&(VideoObjectList.List.count()>0)) {
 
             // Allocate structure for YUV image
@@ -598,7 +598,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
                 if (FrameDecoded>0) AdjustTimeStamp=int(Packet->FramePosition*1000)+1;
                 delete Packet;
             }
-            if (FrameDecoded>0) Img =ImageAt(true,720,0,false,true,NULL,1,false,NULL);
+            if (FrameDecoded>0) Img =ImageAt(true,0,true,NULL,1,false,NULL);
             av_free(FrameBufferYUV);
         }
         IsValide    =(Img!=NULL);
@@ -610,7 +610,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
 
 //====================================================================================================================
 
-QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,int Position,bool CachedMode,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter) {
+QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter) {
     if (!IsValide) return NULL;
 
     // If ForceLoadDisk then ensure CacheImage is null
@@ -619,7 +619,7 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,int Pos
         CacheFirstImage=NULL;
     }
 
-    if (PreviewMode && CacheFirstImage && CachedMode) return new QImage(CacheFirstImage->copy());
+    if ((PreviewMode)&&(CacheFirstImage)&&(Position==0)) return new QImage(CacheFirstImage->copy());
 
     // Load a video frame
     QImage *LoadedImage=ReadVideoFrame(Position+AdjustTimeStamp,SoundTrackBloc,Volume,ForceSoundOnly);
@@ -632,13 +632,13 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,int Pos
             LoadedImage=NewLoadedImage;
         }
         // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
-        if ((PreviewMode)&&(ImageHeight>(PreviewMaxHeight*2))) {
-            QImage *NewImage=new QImage(LoadedImage->scaledToHeight(PreviewMaxHeight));
+        if ((PreviewMode)&&(ImageHeight>GlobalMainWindow->ApplicationConfig->PreviewMaxHeight*2)) {
+            QImage *NewImage=new QImage(LoadedImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight));
             delete LoadedImage;
             LoadedImage =NewImage;
         }
         if (Filter) Filter->ApplyFilter(LoadedImage);
-        if ((PreviewMode)&&(CachedMode==true)) {
+        if ((PreviewMode)&&(Position==0)) {
             if (CacheFirstImage!=NULL) delete CacheFirstImage;
             CacheFirstImage=LoadedImage;
             LoadedImage=new QImage(CacheFirstImage->copy());

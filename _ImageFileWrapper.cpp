@@ -34,13 +34,18 @@ cimagefilewrapper::cimagefilewrapper() {
     FileName            = "";       // filename
     ImageWidth          = 0;        // Widht of normal image
     ImageHeight         = 0;        // Height of normal image
-    CacheImage          = NULL;     // Cache image
+    CacheImage          = NULL;     // Cache image for preview mode
+    CacheFullImage      = NULL;     // Cache image for Full image mode
     ImageOrientation    = 0;        // Image orientation (EXIF)
 }
 
 //====================================================================================================================
 
 cimagefilewrapper::~cimagefilewrapper() {
+    if (CacheFullImage!=NULL) {
+        if (CacheFullImage!=CacheImage) delete CacheFullImage;
+        CacheFullImage=NULL;
+    }
     if (CacheImage!=NULL) {
         delete CacheImage;
         CacheImage=NULL;
@@ -141,65 +146,73 @@ bool cimagefilewrapper::GetInformationFromFile(QString &GivenFileName) {
 
 //====================================================================================================================
 
-QImage *cimagefilewrapper::ImageAt(bool PreviewMode,int PreviewMaxHeight,bool ForceLoadDisk,cFilterTransformObject *Filter) {
+QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter) {
     if (!IsValide) return NULL;
 
     // If ForceLoadDisk then ensure CacheImage is null
-    if ((ForceLoadDisk)&&(CacheImage!=NULL)) {
-        delete CacheImage;
-        CacheImage=NULL;
+    if (ForceLoadDisk) {
+        if (CacheFullImage!=NULL) {
+            if (CacheFullImage!=CacheImage) delete CacheFullImage;
+            CacheFullImage=NULL;
+        }
+        if (CacheImage!=NULL) {
+            delete CacheImage;
+            CacheImage=NULL;
+        }
     }
-
-    // If image already loaded then return it
-    if ((PreviewMode)&&(CacheImage)) return new QImage(CacheImage->copy());
 
     // Try to load image from FileName
-    QImage *Image=new QImage(FileName);
-    if (Image->isNull()) {
-
-        // If error then free CacheImage
-        IsValide=false;
-        delete Image;
-        Image=NULL;
-
-    } else {
-
-        // A good explanation of the exif orientation tag is available at http://jpegclub.org/exif_orientation.html
-        QMatrix matrix;
-        if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
-              matrix.rotate(-90);
-              QImage *NewImage=new QImage(Image->transformed(matrix));
-              delete Image;
-              Image=NewImage;
-        } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
-              matrix.rotate(180);
-              QImage *NewImage=new QImage(Image->transformed(matrix));
-              delete Image;
-              Image=NewImage;
-        } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
-              matrix.rotate(90);
-              QImage *NewImage=new QImage(Image->transformed(matrix));
-              delete Image;
-              Image=NewImage;
+    if (((!PreviewMode)&&(!CacheFullImage))||((PreviewMode)&&(!CacheImage))) {
+        // Make sure we have nothing !
+        if (CacheFullImage!=NULL) {
+            if (CacheFullImage!=CacheImage) delete CacheFullImage;
+            CacheFullImage=NULL;
         }
-
-        // If ok, get image height
-        ImageHeight=Image->height();
-
-        // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
-        if ((PreviewMode)&&(ImageHeight>PreviewMaxHeight)) {
-            QImage *NewImage=new QImage(Image->scaledToHeight(PreviewMaxHeight,Qt::SmoothTransformation));
-            delete Image;
-            Image =NewImage;
-            ImageHeight=Image->height();
+        if (CacheImage!=NULL) {
+            delete CacheImage;
+            CacheImage=NULL;
         }
+        // Make cache image
+        CacheFullImage=new QImage(FileName);
+        if (CacheFullImage->isNull()) {
+            // If error then free CacheFullImage
+            IsValide=false;
+            delete CacheFullImage;
+            CacheFullImage=NULL;
+        } else {
+            // If image is ok then apply exif orientation (if needed)
+            // A good explanation of the exif orientation tag is available at http://jpegclub.org/exif_orientation.html
+            QMatrix matrix;
+            if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+                  matrix.rotate(-90);
+                  QImage *NewImage=new QImage(CacheFullImage->transformed(matrix));
+                  delete CacheFullImage;
+                  CacheFullImage=NewImage;
+            } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+                  matrix.rotate(180);
+                  QImage *NewImage=new QImage(CacheFullImage->transformed(matrix));
+                  delete CacheFullImage;
+                  CacheFullImage=NewImage;
+            } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+                  matrix.rotate(90);
+                  QImage *NewImage=new QImage(CacheFullImage->transformed(matrix));
+                  delete CacheFullImage;
+                  CacheFullImage=NewImage;
+            }
+            // if filter then apply filter
+            if (Filter) Filter->ApplyFilter(CacheFullImage);
 
-        // Get image width
-        ImageWidth =Image->width();
+            // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
+            if (CacheFullImage->height()<=GlobalMainWindow->ApplicationConfig->PreviewMaxHeight*2)  CacheImage=CacheFullImage;
+                else CacheImage=new QImage(CacheFullImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
 
-        if (Filter) Filter->ApplyFilter(Image);
-
-        if (PreviewMode) CacheImage=new QImage(Image->copy());
+            // Get preview image size
+            ImageHeight=CacheImage->height();
+            ImageWidth =CacheImage->width();
+        }
     }
-    return Image;
+    // return wanted image
+    if ((PreviewMode)&&(CacheImage))      return new QImage(CacheImage->copy());
+    if ((!PreviewMode)&&(CacheFullImage)) return new QImage(CacheFullImage->copy());
+    return NULL; // if image is not valide
 }

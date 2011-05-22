@@ -701,6 +701,10 @@ void MainWindow::s_action_AddTitle() {
 
     Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
     Diaporama->List[CurIndex].List[0].Parent=&Diaporama->List[CurIndex];
+//
+    Diaporama->List[CurIndex].List[0].DefaultStaticDuration=0;
+    Diaporama->List[CurIndex].List[0].DefaultMobilDuration=0;
+//
     Diaporama->List[CurIndex].TypeObject=DIAPORAMAOBJECTTYPE_EMPTY;
     Diaporama->List[CurIndex].ApplyDefaultFraming(ApplicationConfig->DefaultFraming);
     if (Diaporama->ApplicationConfig->RandomTransition) {
