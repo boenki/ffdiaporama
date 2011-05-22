@@ -27,6 +27,7 @@
 
 // Specific inclusions
 #include "_ApplicationDefinitions.h"
+#include "_SoundDefinitions.h"
 
 // Utility function to create a gradient brush
 QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QString ColorD,QString ColorF,QString ColorIntermed,double Intermediate);
@@ -103,12 +104,12 @@ public:
     ~cBrushDefinition();
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
-    QBrush      *GetBrush(QRectF Rect);
+    QBrush      *GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage);
     void        ApplyDefaultFraming(int DefaultFraming);
 
 private:
     QBrush      *GetLibraryBrush(QRectF Rect);
-    QBrush      *GetImageDiskBrush(QRectF Rect);
+    QBrush      *GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage);
     int         GetHeightForWidth(int WantedWith,QRectF Rect);
     int         GetWidthForHeight(int WantedHeight,QRectF Rect);
 };

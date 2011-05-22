@@ -37,7 +37,8 @@ public:
     int                 ImageWidth;             // Widht of normal image
     int                 ImageHeight;            // Height of normal image
     int                 ImageOrientation;       // Image orientation (EXIF)
-    QImage              *CacheImage;            // Cache image (Preview mode only)
+    QImage              *CacheImage;            // Cache image (Preview mode)
+    QImage              *CacheFullImage;        // Cache image (Full image mode)
 
     QStringList         ExivValue;
 
@@ -45,7 +46,7 @@ public:
     ~cimagefilewrapper();
 
     bool    GetInformationFromFile(QString &GivenFileName);
-    QImage  *ImageAt(bool PreviewMode,int PreviewMaxHeight,bool ForceLoadDisk,cFilterTransformObject *Filter);
+    QImage  *ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter);
 };
 
 #endif // IMAGEFILEWRAPPER_H

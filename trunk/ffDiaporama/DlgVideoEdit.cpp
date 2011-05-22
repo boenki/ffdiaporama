@@ -133,7 +133,6 @@ void DlgVideoEdit::SetActualDuration() {
     QTime Duration;
 
     Duration=QTime(0,0,0,0).addMSecs(CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos));
-//CurrentBrush->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
 
     ui->ActualDuration->setText(Duration.toString("hh:mm:ss.zzz"));
     ui->EndPosEd->setMinimumTime(CurrentBrush->Video->StartPos);

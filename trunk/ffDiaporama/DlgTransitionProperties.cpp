@@ -82,8 +82,6 @@ DlgTransitionProperties::DlgTransitionProperties(cDiaporamaObject *DiaporamaObje
     // Retrieve object informations and create PreviousFrame
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);
     DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true);                       // Load background and image
-    DiaporamaObject->Parent->PrepareImage(PreviousFrame,W,H,0,true);                        // Current Object
-    DiaporamaObject->Parent->PrepareImage(PreviousFrame,W,H,0,false);                       // Transition Object
 
     // Set old values
     DiaporamaObject->TransitionFamilly =TransitionFamilly;
@@ -268,8 +266,6 @@ void DlgTransitionProperties::s_ChTransitionDurationCB(int) {
     // Retrieve object informations and create PreviousFrame
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);
     DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true);                       // Load background and image
-    DiaporamaObject->Parent->PrepareImage(PreviousFrame,W,H,0,true);                        // Current Object
-    DiaporamaObject->Parent->PrepareImage(PreviousFrame,W,H,0,false);                       // Transition Object
 
     // Set old values
     DiaporamaObject->TransitionFamilly =TransitionFamilly;

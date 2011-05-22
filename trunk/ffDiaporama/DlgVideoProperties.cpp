@@ -104,7 +104,6 @@ void DlgVideoProperties::reject() {
 //====================================================================================================================
 
 void DlgVideoProperties::accept() {
-    DiaporamaObject->SwitchShotsToFullCanvas();
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgVideoPropertiesWSP->SaveWindowState(this);
     // Close the box

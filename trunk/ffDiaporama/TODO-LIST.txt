@@ -1,11 +1,13 @@
 Buggs :
-    Les transitions mangent les bandes noires en mode cinema + DVD
+    Les transitions mangent les bandes noires en mode cinema + DVD => Extend supprimé de PrepareImage : à remettre dans DoAssembly
+    Pas de son dans les videos des compositions
+    L'image video affichée n'est pas la bonne dans la boite Slide
 
-A faire [urgent] :
+A faire  :
+    Quand les vidéos fonctionneront en mode composition : Suppression des objets video et transfert vers objet titre
+
     Faire les fade in/out des musiques lors des changements de volume
     Ajouter un skip de frame inutile dans cvideofilewrapper::ReadVideoFrame
-
-A faire [moins urgent] :
     Faire les transitions de fonds (à réfléchir !) +Faire la boite de modif des transitions de fond
     Revoir les messages d'erreurs lié à exiv2 dans _ImageFileWrapper
 

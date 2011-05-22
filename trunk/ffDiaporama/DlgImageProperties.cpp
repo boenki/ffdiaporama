@@ -394,7 +394,7 @@ void DlgImageProperties::s_CompositionInShotNeedRefreshBackgroundImage() {
         int Position = 0;
         for (int i=0;i<Current;i++) Position=Position+(i>0?DiaporamaObject->List[i].GetMobilDuration():0)+DiaporamaObject->List[i].GetStaticDuration();
         Position=Position+(Current>0?DiaporamaObject->List[Current].GetMobilDuration():0);
-        Image=DiaporamaObject->CanvasImageAt(SceneboxSize.width(),SceneboxSize.height(),Position,NULL,0,0,NULL,NULL,true,false,true,true,NULL);
+        Image=DiaporamaObject->CanvasImageAt(SceneboxSize.width(),SceneboxSize.height(),Position,NULL,0,0,NULL,NULL,false,true,true,NULL);
     }
     ui->CompositionShotWidget->SetCompositionObject(&DiaporamaObject->List[Current].ShotComposition,new QPixmap(QPixmap().fromImage(*Image)));
     delete Image;

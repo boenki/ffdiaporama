@@ -307,7 +307,7 @@ cBrushDefinition::~cBrushDefinition() {
 }
 
 //====================================================================================================================
-QBrush *cBrushDefinition::GetBrush(QRectF Rect) {
+QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage) {
     switch (BrushType) {
         case BRUSHTYPE_NOBRUSH :        return new QBrush(Qt::NoBrush);
         case BRUSHTYPE_SOLID :          return new QBrush(QColor(ColorD),Qt::SolidPattern);
@@ -315,17 +315,17 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect) {
         case BRUSHTYPE_GRADIENT2 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_GRADIENT3 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_IMAGELIBRARY :   return GetLibraryBrush(Rect);
-        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect);
+        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage);
     }
     return new QBrush(Qt::NoBrush);
 }
 
 //====================================================================================================================
-QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect) {
+QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage) {
     if (BrushFileName=="") return new QBrush(Qt::NoBrush);
 
-    QImage *RenderImage=(Image?Image->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,false,&BrushFileTransform):
-                        Video?Video->ImageAt(true,GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,0,true,false,NULL,1,false,&BrushFileTransform):
+    QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&BrushFileTransform):
+                        Video?Video->ImageAt(PreviewMode,Position,false,SoundTrackMontage,Video->SoundVolume,false,&BrushFileTransform):
                         NULL);
     if (RenderImage) {
         QImage *Img=BrushFileCorrect.GetImage(RenderImage,Rect.width(),Rect.height(),1,NULL);
@@ -400,7 +400,11 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     Element.setAttribute("GradientOrientation",GradientOrientation);                // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
     Element.setAttribute("BrushImage",BrushImage);                                  // Image name if image from library
     Element.setAttribute("BrushFileName",BrushFileName);                            // Image name if image from disk
-    if (Video!=NULL) Element.setAttribute("SoundVolume",QString("%1").arg(Video->SoundVolume,0,'f')); // Volume of soundtrack (for video only)
+    if (Video!=NULL) {
+        Element.setAttribute("SoundVolume",QString("%1").arg(Video->SoundVolume,0,'f')); // Volume of soundtrack (for video only)
+        Element.setAttribute("StartPos",Video->StartPos.toString());                     // Start position (video only)
+        Element.setAttribute("EndPos",Video->EndPos.toString());                         // End position (video only)
+    }
     BrushFileCorrect.SaveToXML(Element,"ImageCorrection",PathForRelativPath);       // Image correction if image from disk
     BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath); // Image transformation if image from disk
     domDocument.appendChild(Element);
@@ -444,7 +448,11 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     delete Video;
                     Video=NULL;
                 }
-                if (Video!=NULL) Video->SoundVolume=Element.attribute("SoundVolume").toDouble();    // Volume of soundtrack (for video only)
+                if (Video!=NULL) {
+                    Video->SoundVolume=Element.attribute("SoundVolume").toDouble();    // Volume of soundtrack (for video only)
+                    Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
+                    Video->EndPos     =QTime().fromString(Element.attribute("EndPos"));     // End position (video only)
+                }
                 break;
             }
         }
@@ -478,8 +486,8 @@ void cBrushDefinition::ApplyDefaultFraming(int DefaultFraming) {
             break;
     }
 
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,GlobalMainWindow->Diaporama->ApplicationConfig->PreviewMaxHeight,0,true,true,NULL,1,false,&BrushFileTransform); // Video
-    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,GlobalMainWindow->Diaporama->ApplicationConfig->PreviewMaxHeight,true,&BrushFileTransform);                     // Image
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,0,false,NULL,1,false,&BrushFileTransform); // Video
+    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,false,&BrushFileTransform);                // Image
 
     if (ReturnImage!=NULL) {
         RealImageW=ReturnImage->width();
