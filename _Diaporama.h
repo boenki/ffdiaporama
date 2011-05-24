@@ -159,6 +159,8 @@ public:
     int                     TransitionSubType;          // Transition type in the familly
     int                     TransitionDuration;         // Transition duration (in msec)
 
+    QImage                  *Thumbnail;                 // Thumbnail cached image
+
     QList<cMusicObject>     MusicList;                  // List of music definition
 
     cDiaporamaObject(cDiaporama *Parent);
@@ -171,6 +173,9 @@ public:
 
     QImage                  *GetImageAt(int Position,cSoundBlockList *SoundTrackMontage);
     QImage                  *CanvasImageAt(int Width,int Height,int Position,QPainter *Painter,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming,cSoundBlockList *SoundTrackMontage);
+
+    void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY);   // Draw Thumb
+
     void                    PrepareImage(QPainter *P,int Width,int Height,int Position,QImage *LastLoadedImage,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming);
     void                    CalcTransformations(int Sequence,double PctDone,double &XFactor,double &YFactor,double &ZoomFactor,double &RotateFactor,cFilterCorrectObject &FilterCorrection);
     void                    ApplyDefaultFraming(int DefaultFraming);
@@ -184,6 +189,11 @@ public:
 //*********************************************************************************************************************************************
 class cDiaporamaObjectInfo {
 public:
+    //=====> All objects
+    QImage              *RenderedImage;                         // Final image rendered
+    bool                FreeRenderedImage;                      // True if allow to delete RenderedImage during destructor
+    double              FrameDuration;                          // Duration of a frame
+
     //=====> Current object
     int                 CurrentObject_Number;                   // Object number
     int                 CurrentObject_StartTime;                // Position (in msec) of the first frame relative to the diaporama
@@ -239,9 +249,6 @@ public:
     cSoundBlockList     *TransitObject_MusicTrack;              // Sound for playing music from music track
     bool                TransitObject_FreeMusicTrack;           // True if allow to delete TransitObject_MusicTrack during destructor
     cMusicObject        *TransitObject_MusicObject;             // Ref to the current playing music
-
-    QImage              *RenderedImage;                         // Final image rendered
-    bool                FreeRenderedImage;                      // True if allow to delete RenderedImage during destructor
 
     cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame);
     cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int TimePosition,cDiaporama *Diaporama,double FrameDuration);

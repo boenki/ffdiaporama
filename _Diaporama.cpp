@@ -218,148 +218,159 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 //====================================================================================================================
 
 void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage) {
-    QPen    Pen;
-    double  FullMargin=0;
-    double  W=w*double(width);
-    double  H=h*double(height);
-    double  Wb=sqrt(W*W+H*H);
-    double  Hb=Wb*H/W;
-    if (Hb<W) {
-        Hb=Wb;
-        Wb=Hb*W/H;
-    }
+    // W and H = 0 when producing sound track in render process
+    bool    SoundOnly=((width==0)&&(height==0));
 
-    Wb=Wb+double(PenSize)*ADJUST_RATIO*2;
-    Hb=Hb+double(PenSize)*ADJUST_RATIO*2;
-    AddX-=(Wb-W)/2;
-    AddY-=(Hb-H)/2;
-    QImage   Img(Wb+2,Hb+2,QImage::Format_ARGB32_Premultiplied);
-    QPainter Painter;
-    Painter.begin(&Img);
-    Painter.setCompositionMode(QPainter::CompositionMode_Source);
-    Painter.fillRect(QRect(0,0,Wb+2,Hb+2),Qt::transparent);
-    Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-    Pen.setCapStyle(Qt::RoundCap);
-    Pen.setJoinStyle(Qt::RoundJoin);
-    Pen.setCosmetic(false);
+    if (SoundOnly) {
+        // if SoundOnly then load Brush of type BRUSHTYPE_IMAGEDISK to SoundTrackMontage
+        if (BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK) {
+            QBrush *BR=BackgroundBrush.GetBrush(QRectF(0,0,0,0),PreviewMode,Position,SoundTrackMontage);
+            delete BR;
+        }
+    } else {
+        QPen    Pen;
+        double  FullMargin=0;
+        double  W=w*double(width);
+        double  H=h*double(height);
+        double  Wb=sqrt(W*W+H*H);
+        double  Hb=Wb*H/W;
+        if (Hb<W) {
+            Hb=Wb;
+            Wb=Hb*W/H;
+        }
 
-    Pen.setStyle(Qt::SolidLine);
+        Wb=Wb+double(PenSize)*ADJUST_RATIO*2;
+        Hb=Hb+double(PenSize)*ADJUST_RATIO*2;
+        AddX-=(Wb-W)/2;
+        AddY-=(Hb-H)/2;
+        QImage   Img(Wb+2,Hb+2,QImage::Format_ARGB32_Premultiplied);
+        QPainter Painter;
+        Painter.begin(&Img);
+        Painter.setCompositionMode(QPainter::CompositionMode_Source);
+        Painter.fillRect(QRect(0,0,Wb+2,Hb+2),Qt::transparent);
+        Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+        Pen.setCapStyle(Qt::RoundCap);
+        Pen.setJoinStyle(Qt::RoundJoin);
+        Pen.setCosmetic(false);
 
-    // All coordonates from center
-    QTransform  Matrix;
-    Matrix.translate(W/2+(Wb-W)/2,H/2+(Hb-H)/2);
-    if (RotateZAxis!=0) Matrix.rotate(RotateZAxis,Qt::ZAxis);   // Standard axis
-    if (RotateXAxis!=0) Matrix.rotate(RotateXAxis,Qt::XAxis);   // Rotate from X axis
-    if (RotateYAxis!=0) Matrix.rotate(RotateYAxis,Qt::YAxis);   // Rotate from Y axis
-    Painter.setWorldTransform(Matrix,false);
+        Pen.setStyle(Qt::SolidLine);
 
-    // Draw ExternalBorder border
-    if (PenSize==0) Painter.setPen(Qt::NoPen); else {
-        Pen.setColor(PenColor);
-        FullMargin=double(PenSize)*ADJUST_RATIO/2;
-        Pen.setWidthF(double(PenSize)*ADJUST_RATIO);
-        Pen.setStyle((Qt::PenStyle)PenStyle);
+        // All coordonates from center
+        QTransform  Matrix;
+        Matrix.translate(W/2+(Wb-W)/2,H/2+(Hb-H)/2);
+        if (RotateZAxis!=0) Matrix.rotate(RotateZAxis,Qt::ZAxis);   // Standard axis
+        if (RotateXAxis!=0) Matrix.rotate(RotateXAxis,Qt::XAxis);   // Rotate from X axis
+        if (RotateYAxis!=0) Matrix.rotate(RotateYAxis,Qt::YAxis);   // Rotate from Y axis
+        Painter.setWorldTransform(Matrix,false);
+
+        // Draw ExternalBorder border
+        if (PenSize==0) Painter.setPen(Qt::NoPen); else {
+            Pen.setColor(PenColor);
+            FullMargin=double(PenSize)*ADJUST_RATIO/2;
+            Pen.setWidthF(double(PenSize)*ADJUST_RATIO);
+            Pen.setStyle((Qt::PenStyle)PenStyle);
+            Painter.setPen(Pen);
+        }
+        // Draw internal shape
+        if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
+            QBrush      *BR=BackgroundBrush.GetBrush(QRectF(-1,-1,W-FullMargin*2,H-FullMargin*2),PreviewMode,Position,SoundTrackMontage);
+            QTransform  MatrixBR;
+            MatrixBR.translate(FullMargin-W/2,FullMargin-H/2);
+            BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
+            Painter.setBrush(*BR);
+            delete BR;
+        }
+        if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
+        DrawShape(Painter,BackgroundForm,FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2,0,0);
+        if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+        Painter.setPen(Qt::NoPen);
+        FullMargin=FullMargin*2;
+
+        // Create font and TextOption
+        QTextOption OptionText;
+        QFont       font=QFont(FontName,10,IsBold?QFont::Bold:QFont::Normal,IsItalic?QFont::StyleItalic:QFont::StyleNormal);        // FontSize is always 10 and size if given with setPointSizeF !
+        font.setUnderline(IsUnderline);                                                                                             // Set underline
+        font.setPointSizeF((double(width)/double(SCALINGTEXTFACTOR))*double(FontSize));                                             // Scale font
+        OptionText=QTextOption(((HAlign==0)?Qt::AlignLeft:(HAlign==1)?Qt::AlignHCenter:(HAlign==2)?Qt::AlignRight:Qt::AlignJustify) // Setup horizontal alignement
+                    |(VAlign==0?Qt::AlignTop:VAlign==1?Qt::AlignVCenter:Qt::AlignBottom));                                          // Setup vertical alignement
+        OptionText.setWrapMode(QTextOption::WordWrap);                                                                              // Setup word wrap text option
+
+        double MarginX=FullMargin;
+        double MarginY=FullMargin;
+
+        if (BackgroundForm==3) {                        // 3=Buble
+            MarginX=MarginX+W/250;
+            MarginY=MarginY+H/250;
+        } else if (BackgroundForm==4) {                 // 2=Ellipse
+            MarginX=MarginX+(0.29*(W/2));               // 0.29=1-cos(radians(45°))
+            MarginY=MarginY+(0.29*(H/2));               // 0.29=1-sin(radians(45°))
+        }
+
+        // Paint Shadow of the text
+        Painter.setFont(font);
+        Pen.setColor(FontShadowColor);
+        Pen.setWidth(1);
+        Pen.setStyle(Qt::SolidLine);
         Painter.setPen(Pen);
-    }
-    // Draw internal shape
-    if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
-        QBrush      *BR=BackgroundBrush.GetBrush(QRectF(-1,-1,W-FullMargin*2,H-FullMargin*2),PreviewMode,Position+(BackgroundBrush.Video?QTime(0,0,0,0).msecsTo(BackgroundBrush.Video->StartPos):0),SoundTrackMontage);
-        QTransform  MatrixBR;
-        MatrixBR.translate(FullMargin-W/2,FullMargin-H/2);
-        BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
-        Painter.setBrush(*BR);
-        delete BR;
-    }
-    if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-    DrawShape(Painter,BackgroundForm,FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2,0,0);
-    if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        Painter.setBrush(Qt::NoBrush);
 
-    Painter.setPen(Qt::NoPen);
-    FullMargin=FullMargin*2;
-
-    // Create font and TextOption
-    QTextOption OptionText;
-    QFont       font=QFont(FontName,10,IsBold?QFont::Bold:QFont::Normal,IsItalic?QFont::StyleItalic:QFont::StyleNormal);        // FontSize is always 10 and size if given with setPointSizeF !
-    font.setUnderline(IsUnderline);                                                                                             // Set underline
-    font.setPointSizeF((double(width)/double(SCALINGTEXTFACTOR))*double(FontSize));                                             // Scale font
-    OptionText=QTextOption(((HAlign==0)?Qt::AlignLeft:(HAlign==1)?Qt::AlignHCenter:(HAlign==2)?Qt::AlignRight:Qt::AlignJustify) // Setup horizontal alignement
-                |(VAlign==0?Qt::AlignTop:VAlign==1?Qt::AlignVCenter:Qt::AlignBottom));                                          // Setup vertical alignement
-    OptionText.setWrapMode(QTextOption::WordWrap);                                                                              // Setup word wrap text option
-
-    double MarginX=FullMargin;
-    double MarginY=FullMargin;
-
-    if (BackgroundForm==3) {                        // 3=Buble
-        MarginX=MarginX+W/250;
-        MarginY=MarginY+H/250;
-    } else if (BackgroundForm==4) {                 // 2=Ellipse
-        MarginX=MarginX+(0.29*(W/2));               // 0.29=1-cos(radians(45°))
-        MarginY=MarginY+(0.29*(H/2));               // 0.29=1-sin(radians(45°))
-    }
-
-    // Paint Shadow of the text
-    Painter.setFont(font);
-    Pen.setColor(FontShadowColor);
-    Pen.setWidth(1);
-    Pen.setStyle(Qt::SolidLine);
-    Painter.setPen(Pen);
-    Painter.setBrush(Qt::NoBrush);
-
-    switch (StyleText) {
-        case 0 :                // 0=normal
-            break;
-        case 1 :                // 1=outerline
-            Painter.drawText(QRectF(MarginX-1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX-1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX+1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX+1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX  -W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX  -W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX-1-W/2,MarginY  -H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            Painter.drawText(QRectF(MarginX+1-W/2,MarginY  -H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            break;
-        case 2:                 //2=shadow up-left
-            Painter.drawText(QRectF(MarginX-1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            break;
-        case 3:                 //3=shadow up-right
-            Painter.drawText(QRectF(MarginX+1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            break;
-        case 4:                 //4=shadow bt-left
-            Painter.drawText(QRectF(MarginX-1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            break;
-        case 5:                 //5=shadow bt-right
-            Painter.drawText(QRectF(MarginX+1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-            break;
-    }
-
-    // Paint text
-    Painter.setPen(QColor(FontColor));
-    Painter.drawText(QRectF(MarginX-W/2,MarginY-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-    Painter.end();
-
-    DestPainter.save();
-    if (FormShadow) {
-        double Distance=double(FormShadowDistance)*ADJUST_RATIO;
-        QImage ImgShadow=Img.copy();
-        Uint8  *Data=ImgShadow.bits();
-        for (int i=0;i<ImgShadow.height()*ImgShadow.width();i++) {
-            *Data++=0;  // R
-            *Data++=0;  // G
-            *Data++=0;  // B
-            Data++;     // Keep Alpha chanel
+        switch (StyleText) {
+            case 0 :                // 0=normal
+                break;
+            case 1 :                // 1=outerline
+                Painter.drawText(QRectF(MarginX-1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                Painter.drawText(QRectF(MarginX-1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                Painter.drawText(QRectF(MarginX+1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                Painter.drawText(QRectF(MarginX+1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                Painter.drawText(QRectF(MarginX  -W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                Painter.drawText(QRectF(MarginX  -W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                Painter.drawText(QRectF(MarginX-1-W/2,MarginY  -H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                Painter.drawText(QRectF(MarginX+1-W/2,MarginY  -H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                break;
+            case 2:                 //2=shadow up-left
+                Painter.drawText(QRectF(MarginX-1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                break;
+            case 3:                 //3=shadow up-right
+                Painter.drawText(QRectF(MarginX+1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                break;
+            case 4:                 //4=shadow bt-left
+                Painter.drawText(QRectF(MarginX-1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                break;
+            case 5:                 //5=shadow bt-right
+                Painter.drawText(QRectF(MarginX+1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+                break;
         }
-        DestPainter.setOpacity(Opacity==0?0.75:Opacity==1?0.50:Opacity==2?0.25:0.10);
-        switch (FormShadow) {
-            case 1  : DestPainter.drawImage(AddX+x*double(width)-Distance,AddY+y*double(height)-Distance,ImgShadow); break;
-            case 2  : DestPainter.drawImage(AddX+x*double(width)+Distance,AddY+y*double(height)-Distance,ImgShadow); break;
-            case 3  : DestPainter.drawImage(AddX+x*double(width)-Distance,AddY+y*double(height)+Distance,ImgShadow); break;
-            default : DestPainter.drawImage(AddX+x*double(width)+Distance,AddY+y*double(height)+Distance,ImgShadow); break;
+
+        // Paint text
+        Painter.setPen(QColor(FontColor));
+        Painter.drawText(QRectF(MarginX-W/2,MarginY-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
+        Painter.end();
+
+        DestPainter.save();
+        if (FormShadow) {
+            double Distance=double(FormShadowDistance)*ADJUST_RATIO;
+            QImage ImgShadow=Img.copy();
+            Uint8  *Data=ImgShadow.bits();
+            for (int i=0;i<ImgShadow.height()*ImgShadow.width();i++) {
+                *Data++=0;  // R
+                *Data++=0;  // G
+                *Data++=0;  // B
+                Data++;     // Keep Alpha chanel
+            }
+            DestPainter.setOpacity(Opacity==0?0.75:Opacity==1?0.50:Opacity==2?0.25:0.10);
+            switch (FormShadow) {
+                case 1  : DestPainter.drawImage(AddX+x*double(width)-Distance,AddY+y*double(height)-Distance,ImgShadow); break;
+                case 2  : DestPainter.drawImage(AddX+x*double(width)+Distance,AddY+y*double(height)-Distance,ImgShadow); break;
+                case 3  : DestPainter.drawImage(AddX+x*double(width)-Distance,AddY+y*double(height)+Distance,ImgShadow); break;
+                default : DestPainter.drawImage(AddX+x*double(width)+Distance,AddY+y*double(height)+Distance,ImgShadow); break;
+            }
         }
+        if ((Opacity>0)&&(Opacity<4)) DestPainter.setOpacity(Opacity==1?0.75:Opacity==2?0.50:0.25); else DestPainter.setOpacity(1);
+        DestPainter.drawImage(AddX+x*double(width),AddY+y*double(height),Img);
+        DestPainter.restore();
     }
-    if ((Opacity>0)&&(Opacity<4)) DestPainter.setOpacity(Opacity==1?0.75:Opacity==2?0.50:0.25); else DestPainter.setOpacity(1);
-    DestPainter.drawImage(AddX+x*double(width),AddY+y*double(height),Img);
-    DestPainter.restore();
 }
 
 //*********************************************************************************************************************************************
@@ -505,6 +516,8 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
     TransitionSubType                       = 0;                            // Transition type in the familly
     TransitionDuration                      = 1000;                         // Transition duration (in msec)
     BackgroundComposition.TypeComposition   = COMPOSITIONTYPE_BACKGROUND;
+    Thumbnail                               = NULL;
+
     // Add an empty scene
     List.append(cDiaporamaShot(this));
 }
@@ -520,6 +533,10 @@ cDiaporamaObject::~cDiaporamaObject() {
     if (Video!=NULL) {
         delete Video;
         Video=NULL;
+    }
+    if (Thumbnail) {
+        delete Thumbnail;
+        Thumbnail=NULL;
     }
 }
 
@@ -671,7 +688,7 @@ QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPaint
                                         bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming,cSoundBlockList *SoundTrackMontage) {
 
     // Call PrepareImage on a painter to put image on a canvas
-    QImage *SourceImage = GetImageAt(Position+QTime(0,0,0,0).msecsTo(Video?Video->StartPos:QTime(0,0,0,0)),SoundTrackMontage);
+    QImage *SourceImage = GetImageAt(Position,SoundTrackMontage);
     QImage *ReturnImage = NULL;
 
     if ((SourceImage==NULL)||(SourceImage->isNull())) return NULL;
@@ -821,6 +838,13 @@ void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Positio
     if (ImagePosition!=NULL) *ImagePosition=QRectF(DestX,DestY,DestW,DestH);
 
     if (SourceImage!=LastLoadedImage) delete SourceImage;
+}
+
+//===============================================================
+// Draw Thumb
+void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY) {
+    if (!Thumbnail) Thumbnail=CanvasImageAt(ThumbWidth,ThumbHeight,0,NULL,0,0,NULL,NULL,true,true,true,NULL);
+    Painter->drawImage(AddX,AddY,*Thumbnail);
 }
 
 //===============================================================
@@ -1425,7 +1449,9 @@ void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *Music
 void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode) {
     ADJUST_RATIO=double(H)/double(1080);    // fixe Adjustment ratio for this slide
 
+    // W and H = 0 when producing sound track in render process
     bool SoundOnly=((W==0)&&(H==0));
+
     if ((IsCurrentObject)&&(Info->CurrentObject_PreparedImage!=NULL)) return;     // return immediatly if we have image
     if (!IsCurrentObject) {
         if (Info->TransitObject_PreparedImage!=NULL) return;    // return immediatly if we have image
@@ -1457,17 +1483,20 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     QImage                  *ImageToUse=NULL;
     QImage                  *Image=NULL;
     QImage                  Image1,Image2;                                  // Temporary object use to create frame (Image2 is the rendered image for montage)
+    QPainter                P;
 
-    // Prepare image
     if (!SoundOnly) {
         Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-        QPainter P;
         P.begin(Image);
         P.setCompositionMode(QPainter::CompositionMode_Source);
         P.fillRect(0,0,W,H,Qt::transparent);
         P.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        if ((List.count()>0)&&(SourceImage!=NULL)) {
+    }
 
+    if ((List.count()>0)&&(SourceImage!=NULL)) {
+
+        // Prepare image
+        if (!SoundOnly) {
             // Calc real image size
             RealImageW=double(SourceImage->width());
             RealImageH=double(SourceImage->height());
@@ -1557,18 +1586,19 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
             //**********************************
             // Composition layers
             //**********************************
-            // Add global image composition layer
             P.drawImage(QRectF(DestX,DestY,DestW,DestH),GlobalImageComposition,QRectF(SrcX,SrcY,SrcW,SrcH));
-//ICI !!!!
-            // Add static shot composition
-            for (int j=0;j<CurShot->ShotComposition.List.count();j++)
-                CurShot->ShotComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,
-                    IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime,
-                    IsCurrentObject?Info->CurrentObject_SoundTrackMontage:Info->TransitObject_SoundTrackMontage);
-//ICI !!!!
         }
 
-        P.end();
+        cSoundBlockList *SoundTrackMontage=(IsCurrentObject?Info->CurrentObject_SoundTrackMontage:Info->TransitObject_SoundTrackMontage);
+        for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
+            CurShot->ShotComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime,SoundTrackMontage);
+            // Special case when no sound and video object
+            if ((!SoundTrackMontage)&&(CurShot->ShotComposition.List[j].BackgroundBrush.Video)) CurShot->ShotComposition.List[j].BackgroundBrush.Video->NextPacketPosition+=Info->FrameDuration;
+        }
+        // Special case when no sound and video object
+        if ((!SoundTrackMontage)&&(CurObject->Video)) CurObject->Video->NextPacketPosition+=Info->FrameDuration;
+
+        if (!SoundOnly) P.end();
     }
     if (IsCurrentObject) Info->CurrentObject_PreparedImage=Image; else Info->TransitObject_PreparedImage=Image;
 }
@@ -1586,41 +1616,44 @@ void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
         QPainter P;
         P.begin(Image);
         P.fillRect(0,0,W,H,Qt::black);  // Always start with a black frame
-        if (List.count()>0) {
-            // Draw background
-            if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
-                double Opacity;
-                if ((Info->TransitObject)&&(Info->TransitObject_PreparedBackground)) {
-                    Opacity=1-(Info->TransitionPCTDone);
-                    P.setOpacity(Opacity);
-                    P.drawImage(0,0,*Info->TransitObject_PreparedBackground);
-                }
-                if (Info->CurrentObject_PreparedBackground) {
-                    Opacity=(Info->TransitionPCTDone);
-                    P.setOpacity(Opacity);
-                    P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
-                }
-                P.setOpacity(1);
-            } else {
-                if (Info->CurrentObject_PreparedBackground) P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
-                    else P.fillRect(QRect(0,0,W,H),Qt::black);
+        // Draw background
+        if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
+            double Opacity;
+            if ((Info->TransitObject)&&(Info->TransitObject_PreparedBackground)) {
+                Opacity=1-(Info->TransitionPCTDone);
+                P.setOpacity(Opacity);
+                P.drawImage(0,0,*Info->TransitObject_PreparedBackground);
             }
-            // Add prepared images
-            if ((Info->IsTransition)&&(Info->TransitObject_PreparedImage!=NULL)&&(Info->CurrentObject_PreparedImage!=NULL)) {
-                switch (Info->TransitionFamilly) {
-                case TRANSITIONFAMILLY_BASE        : DoBasic(Info,&P,W,H);                  break;
-                case TRANSITIONFAMILLY_ZOOMINOUT   : DoZoom(Info,&P,W,H);                   break;
-                case TRANSITIONFAMILLY_PUSH        : DoPush(Info,&P,W,H);                   break;
-                case TRANSITIONFAMILLY_SLIDE       : DoSlide(Info,&P,W,H);                  break;
-                case TRANSITIONFAMILLY_LUMA_BAR    : DoLuma(&LumaList_Bar,Info,&P,W,H);     break;
-                case TRANSITIONFAMILLY_LUMA_BOX    : DoLuma(&LumaList_Box,Info,&P,W,H);     break;
-                case TRANSITIONFAMILLY_LUMA_CENTER : DoLuma(&LumaList_Center,Info,&P,W,H);  break;
-                case TRANSITIONFAMILLY_LUMA_CHECKER: DoLuma(&LumaList_Checker,Info,&P,W,H); break;
-                case TRANSITIONFAMILLY_LUMA_CLOCK  : DoLuma(&LumaList_Clock,Info,&P,W,H);   break;
-                case TRANSITIONFAMILLY_LUMA_SNAKE  : DoLuma(&LumaList_Snake,Info,&P,W,H);   break;
-                }
-            } else if (Info->CurrentObject_PreparedImage!=NULL) P.drawImage(0,0,*Info->CurrentObject_PreparedImage);
+            if (Info->CurrentObject_PreparedBackground) {
+                Opacity=(Info->TransitionPCTDone);
+                P.setOpacity(Opacity);
+                P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
+            }
+            P.setOpacity(1);
+        } else {
+            if (Info->CurrentObject_PreparedBackground) P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
+                else P.fillRect(QRect(0,0,W,H),Qt::black);
         }
+        // Add prepared images
+        if ((Info->IsTransition)&&(Info->CurrentObject_PreparedImage!=NULL)) {
+            if (Info->TransitObject_PreparedImage==NULL) {
+                Info->TransitObject_PreparedImage=new QImage(Info->CurrentObject_PreparedImage->width(),Info->CurrentObject_PreparedImage->height(),QImage::Format_ARGB32_Premultiplied);
+                Info->TransitObject_PreparedImage->fill(0);
+                Info->TransitObject_FreePreparedImage=true;
+            }
+            switch (Info->TransitionFamilly) {
+            case TRANSITIONFAMILLY_BASE        : DoBasic(Info,&P,W,H);                  break;
+            case TRANSITIONFAMILLY_ZOOMINOUT   : DoZoom(Info,&P,W,H);                   break;
+            case TRANSITIONFAMILLY_PUSH        : DoPush(Info,&P,W,H);                   break;
+            case TRANSITIONFAMILLY_SLIDE       : DoSlide(Info,&P,W,H);                  break;
+            case TRANSITIONFAMILLY_LUMA_BAR    : DoLuma(&LumaList_Bar,Info,&P,W,H);     break;
+            case TRANSITIONFAMILLY_LUMA_BOX    : DoLuma(&LumaList_Box,Info,&P,W,H);     break;
+            case TRANSITIONFAMILLY_LUMA_CENTER : DoLuma(&LumaList_Center,Info,&P,W,H);  break;
+            case TRANSITIONFAMILLY_LUMA_CHECKER: DoLuma(&LumaList_Checker,Info,&P,W,H); break;
+            case TRANSITIONFAMILLY_LUMA_CLOCK  : DoLuma(&LumaList_Clock,Info,&P,W,H);   break;
+            case TRANSITIONFAMILLY_LUMA_SNAKE  : DoLuma(&LumaList_Snake,Info,&P,W,H);   break;
+            }
+        } else if (Info->CurrentObject_PreparedImage!=NULL) P.drawImage(0,0,*Info->CurrentObject_PreparedImage);
         P.end();
         Info->RenderedImage=Image;
     }
@@ -1842,6 +1875,9 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
 //============================================================================================
 
 void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode) {
+    // W and H = 0 when producing sound track in render process
+    bool SoundOnly=((W==0)&&(H==0));
+
     QFuture<void> ThreadLoadSourceImage;
     QFuture<void> ThreadLoadTransitImage;
     QFuture<void> ThreadPrepareMusic;         // Thread preparation of music
@@ -1850,48 +1886,52 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     if (Info->CurrentObject==NULL) {
         // Special for preview if no object
         // create an empty transparent image
-        Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-        QPainter PT;
-        PT.begin(Info->CurrentObject_SourceImage);
-        PT.setCompositionMode(QPainter::CompositionMode_Source);
-        PT.fillRect(QRect(0,0,W,H),Qt::transparent);
-        PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        PT.end();
+        if (!SoundOnly) {
+            Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+            QPainter PT;
+            PT.begin(Info->CurrentObject_SourceImage);
+            PT.setCompositionMode(QPainter::CompositionMode_Source);
+            PT.fillRect(QRect(0,0,W,H),Qt::transparent);
+            PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            PT.end();
+        } else Info->CurrentObject_SourceImage=new QImage(5,5,QImage::Format_ARGB32_Premultiplied); // Create a very small image to have a ptr !
     } else {
         //==============> Image part
         ThreadLoadSourceImage=QtConcurrent::run(this,&cDiaporama::ThreadLoadSourceVideoImage,Info,PreviewMode,W,H);
         // same job for Transition Object if a previous was not keep !
         if (Info->TransitObject) ThreadLoadTransitImage=QtConcurrent::run(this,&cDiaporama::ThreadLoadTransitVideoImage,Info,PreviewMode,W,H);
         //==============> Background part
-        // Search background context for CurrentObject if a previous was not keep !
-        if (Info->CurrentObject_BackgroundBrush==NULL) {
-            if ((Info->CurrentObject_BackgroundIndex>=List.count())||(List[Info->CurrentObject_BackgroundIndex].BackgroundType==false))
-                Info->CurrentObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
-                else Info->CurrentObject_BackgroundBrush=List[Info->CurrentObject_BackgroundIndex].BackgroundBrush.GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL);
-            // Create PreparedBackground
-            Info->CurrentObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-            QPainter P;
-            P.begin(Info->CurrentObject_PreparedBackground);
-            if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
-            // Apply composition to background
-            for (int j=0;j<List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List.count();j++)
-                List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,0,NULL);
-            P.end();
-        }
-        // same job for Transition Object if a previous was not keep !
-        if ((Info->TransitObject)&&(Info->TransitObject_BackgroundBrush==NULL)) {
-            if ((Info->TransitObject_BackgroundIndex>=List.count())||(List[Info->TransitObject_BackgroundIndex].BackgroundType==false))
-                Info->TransitObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
-                else Info->TransitObject_BackgroundBrush=List[Info->TransitObject_BackgroundIndex].BackgroundBrush.GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL);
-            // Create PreparedBackground
-            Info->TransitObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-            QPainter P;
-            P.begin(Info->TransitObject_PreparedBackground);
-            if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
-            // Apply composition to background
-            for (int j=0;j<List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List.count();j++)
-                List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,0,NULL);
-            P.end();
+        if (!SoundOnly) {
+            // Search background context for CurrentObject if a previous was not keep !
+            if (Info->CurrentObject_BackgroundBrush==NULL) {
+                if ((Info->CurrentObject_BackgroundIndex>=List.count())||(List[Info->CurrentObject_BackgroundIndex].BackgroundType==false))
+                    Info->CurrentObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
+                    else Info->CurrentObject_BackgroundBrush=List[Info->CurrentObject_BackgroundIndex].BackgroundBrush.GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL);
+                // Create PreparedBackground
+                Info->CurrentObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+                QPainter P;
+                P.begin(Info->CurrentObject_PreparedBackground);
+                if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
+                // Apply composition to background
+                for (int j=0;j<List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List.count();j++)
+                    List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,0,NULL);
+                P.end();
+            }
+            // same job for Transition Object if a previous was not keep !
+            if ((Info->TransitObject)&&(Info->TransitObject_BackgroundBrush==NULL)) {
+                if ((Info->TransitObject_BackgroundIndex>=List.count())||(List[Info->TransitObject_BackgroundIndex].BackgroundType==false))
+                    Info->TransitObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
+                    else Info->TransitObject_BackgroundBrush=List[Info->TransitObject_BackgroundIndex].BackgroundBrush.GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL);
+                // Create PreparedBackground
+                Info->TransitObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+                QPainter P;
+                P.begin(Info->TransitObject_PreparedBackground);
+                if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
+                // Apply composition to background
+                for (int j=0;j<List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List.count();j++)
+                    List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,0,NULL);
+                P.end();
+            }
         }
         // Start threads for next music bloc
         if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
@@ -1985,19 +2025,24 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 
 void cDiaporama::ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H) {
     if (Info->CurrentObject->Video) {
-        Info->CurrentObject_SourceImage=Info->CurrentObject->Video->ImageAt(PreviewMode,Info->CurrentObject_InObjectTime+QTime(0,0,0,0).msecsTo(Info->CurrentObject->Video->StartPos),
-            false,Info->CurrentObject_SoundTrackMontage,Info->CurrentObject->Video->SoundVolume,false,NULL);
+        Info->CurrentObject_SourceImage=Info->CurrentObject->Video->ImageAt(PreviewMode,Info->CurrentObject_InObjectTime,false,Info->CurrentObject_SoundTrackMontage,Info->CurrentObject->Video->SoundVolume,false,NULL);
     } else if (Info->CurrentObject->Image) {
         if (Info->CurrentObject_SourceImage==NULL) Info->CurrentObject_SourceImage=Info->CurrentObject->Image->ImageAt(PreviewMode,false,NULL);
     } else {
-        // Title mode : create an empty transparent image
-        Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-        QPainter PT;
-        PT.begin(Info->CurrentObject_SourceImage);
-        PT.setCompositionMode(QPainter::CompositionMode_Source);
-        PT.fillRect(QRect(0,0,W,H),Qt::transparent);
-        PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        PT.end();
+        // W and H = 0 when producing sound track in render process
+        if ((W!=0)&&(H!=0)) {
+            // Title mode : create an empty transparent image
+            Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+            QPainter PT;
+            PT.begin(Info->CurrentObject_SourceImage);
+            PT.setCompositionMode(QPainter::CompositionMode_Source);
+            PT.fillRect(QRect(0,0,W,H),Qt::transparent);
+            PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            PT.end();
+        } else {
+            // Create a very small image to have a ptr
+            Info->CurrentObject_SourceImage=new QImage(5,5,QImage::Format_ARGB32_Premultiplied);
+        }
     }
     // Prepare images for Current Object
     PrepareImage(Info,W,H,true,PreviewMode);
@@ -2007,8 +2052,7 @@ void cDiaporama::ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool Prev
 void cDiaporama::ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H) {
     if (Info->TransitObject->Video) {
         Info->TransitObject_SourceImage=Info->TransitObject->Video->ImageAt( // Video
-            PreviewMode,Info->TransitObject_InObjectTime+QTime(0,0,0,0).msecsTo(Info->TransitObject->Video->StartPos),
-            false,Info->TransitObject_SoundTrackMontage,Info->TransitObject->Video->SoundVolume,false,NULL);
+            PreviewMode,Info->TransitObject_InObjectTime,false,Info->TransitObject_SoundTrackMontage,Info->TransitObject->Video->SoundVolume,false,NULL);
     } else if ((Info->TransitObject->Image)&&(Info->TransitObject_SourceImage==NULL)) {
         Info->TransitObject_SourceImage=Info->TransitObject->Image->ImageAt(PreviewMode,false,NULL);
     } else {
@@ -2031,6 +2075,13 @@ void cDiaporama::ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool Pre
 
 // make a copy of PreviousFrame
 cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) {
+    FrameDuration                       =PreviousFrame->FrameDuration;
+    RenderedImage                       =NULL;                                              // Final image rendered
+    FreeRenderedImage                   =true;                                              // True if allow to delete RenderedImage during destructor
+    TransitionFamilly                   =PreviousFrame->TransitionFamilly;                  // Transition familly
+    TransitionSubType                   =PreviousFrame->TransitionSubType;                  // Transition type in the familly
+    TransitionDuration                  =PreviousFrame->TransitionDuration;                 // Transition duration (in msec)
+
     // Current object
     CurrentObject_Number                =PreviousFrame->CurrentObject_Number;               // Object number
     CurrentObject_StartTime             =PreviousFrame->CurrentObject_StartTime;            // Position (in msec) of the first frame relative to the diaporama
@@ -2083,17 +2134,14 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     TransitObject_MusicTrack            =PreviousFrame->TransitObject_MusicTrack;           // Sound for playing music from music track
     TransitObject_FreeMusicTrack        =false;                                             // True if allow to delete TransitObject_MusicTrack during destructor
     TransitObject_MusicObject           =PreviousFrame->TransitObject_MusicObject;          // Ref to the current playing music
-
-    RenderedImage                       =NULL;                                              // Final image rendered
-    FreeRenderedImage                   =true;                                              // True if allow to delete RenderedImage during destructor
-    TransitionFamilly                   =PreviousFrame->TransitionFamilly;                  // Transition familly
-    TransitionSubType                   =PreviousFrame->TransitionSubType;                  // Transition type in the familly
-    TransitionDuration                  =PreviousFrame->TransitionDuration;                 // Transition duration (in msec)
 }
 
 
-cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int TimePosition,cDiaporama *Diaporama,double FrameDuration) {
+cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int TimePosition,cDiaporama *Diaporama,double TheFrameDuration) {
     //==============> Pre-initialise all values
+    FrameDuration                       =TheFrameDuration;
+    RenderedImage                       =NULL;              // Final image rendered
+    FreeRenderedImage                   =true;              // True if allow to delete RenderedImage during destructor
 
     // Current object
     CurrentObject_Number                =0;                 // Object number
@@ -2147,9 +2195,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     TransitObject_MusicTrack            =NULL;              // Sound for playing music from music track
     TransitObject_FreeMusicTrack        =true;              // True if allow to delete TransitObject_MusicTrack during destructor
     TransitObject_MusicObject           =NULL;              // Ref to the current playing music
-
-    RenderedImage                       =NULL;              // Final image rendered
-    FreeRenderedImage                   =true;              // True if allow to delete RenderedImage during destructor
 
     if (Diaporama) {
         //==============> Retrieve object informations depending on position (in msec)

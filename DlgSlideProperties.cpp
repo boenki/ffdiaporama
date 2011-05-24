@@ -599,30 +599,21 @@ void DlgSlideProperties::RefreshBackgroundImage() {
         if (DiaporamaObject->Parent->GetHeightForWidth(SceneboxSize.width())<SceneboxSize.height()) SceneboxSize=QSize(DiaporamaObject->Parent->GetWidthForHeight(SceneboxSize.height()),SceneboxSize.height());
             else SceneboxSize=QSize(SceneboxSize.width(),DiaporamaObject->Parent->GetHeightForWidth(SceneboxSize.width()));
 
-        double   Ratio=1;
-        if (DiaporamaObject->TypeObject==DIAPORAMAOBJECTTYPE_EMPTY) {
-            QPainter Painter;
-            double w,h;
-            w=SceneboxSize.width();
-            h=DiaporamaObject->Parent->GetHeightForWidth(w);
-            if (h<SceneboxSize.height()) {
-                h=SceneboxSize.height();
-                w=DiaporamaObject->Parent->GetWidthForHeight(h);
-            }
-            BackgroundImage=new QImage(SceneboxSize.width(),SceneboxSize.height(),QImage::Format_ARGB32_Premultiplied);
-            Painter.begin(BackgroundImage);
-            DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),SceneboxSize.width(),SceneboxSize.height(),&Painter,0,0,false);
-            Painter.end();
-            Ratio=w/h;
+        QPainter Painter;
+        xmax=ui->GraphicsView->width();
+        ymax=GlobalMainWindow->Diaporama->GetHeightForWidth(xmax);
+        if (ymax>SceneboxSize.height()) {
+            ymax=SceneboxSize.height();
+            xmax=GlobalMainWindow->Diaporama->GetWidthForHeight(ymax);
         }
+        BackgroundImage=new QImage(xmax,ymax,QImage::Format_ARGB32_Premultiplied);
+        Painter.begin(BackgroundImage);
+        DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),xmax,ymax,&Painter,0,0,false);
+        Painter.end();
     }
 
     // Ensure scene is created
     if (!scene) {
-        // Calc and adjust ui->SceneBox depending on geometry
-        xmax=ui->GraphicsView->width();
-        ymax=int(double(xmax)*(double(BackgroundImage->height())/double(BackgroundImage->width())));
-
         // create the scene
         scene = new QGraphicsScene();
         connect(scene,SIGNAL(selectionChanged()),this,SLOT(s_SelectionChangeEvent()));
@@ -646,9 +637,9 @@ void DlgSlideProperties::RefreshBackgroundImage() {
     }
 
     // Draw image of the scene under the background
-    QPixmap *NewImage=new QPixmap(QPixmap::fromImage(BackgroundImage->scaled(xmax,ymax)));
+    QPixmap NewImage=QPixmap::fromImage(*BackgroundImage);
     QPainter P;
-    P.begin(NewImage);
+    P.begin(&NewImage);
 
     ADJUST_RATIO=double(ymax)/double(1080);    // fixe Adjustment ratio for this slide
 
@@ -690,11 +681,11 @@ void DlgSlideProperties::RefreshBackgroundImage() {
     }
 
     // Add image to the background of the scene
-    QGraphicsPixmapItem *im=scene->addPixmap(*NewImage);    // Image will be delete by scene
+    QGraphicsPixmapItem *im=scene->addPixmap(NewImage);    // Image will be delete by scene
     im->setData(0,QVariant(QString("image")));
     im->setZValue(200);
     im->setPos(0,0);
-    delete NewImage;
+    //delete NewImage;
 
     QApplication::restoreOverrideCursor();
 }
@@ -838,6 +829,7 @@ void DlgSlideProperties::s_AddNewFileBlock() {
             delete CurrentBrush->Video;
             CurrentBrush->Video=NULL;
         } else {
+            CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
             DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
         }
         break;

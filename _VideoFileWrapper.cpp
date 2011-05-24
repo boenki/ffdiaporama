@@ -116,7 +116,6 @@ void cvideofilewrapper::CloseVideoFileReader() {
 QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly) {
     // Ensure file was previously open
     if ((ffmpegVideoFile==NULL)||((MusicOnly==false)&&(ForceSoundOnly==false)&&(VideoDecoderCodec==NULL))||(((MusicOnly==true)||(ForceSoundOnly==true))&&(AudioDecoderCodec==NULL))) return NULL;
-
     int64_t         AVNOPTSVALUE        =INT64_C(0x8000000000000000); // to solve type error with Qt
     QImage          *RetImage           =NULL;
     AVStream        *AudioStream        =ffmpegVideoFile->streams[AudioStreamNumber];
@@ -355,12 +354,7 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTra
 
     if (SoundTrackBloc!=NULL) {
         // Now ensure SoundTrackBloc have correct wanted packet (if no then add nullsound)
-        while (SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS) {
-            SoundTrackBloc->AppendNullSoundPacket();
-            qDebug()<<"Allongement SoundTrackBloc :"
-                    <<SoundTrackBloc->List.count()<<"/"<<SoundTrackBloc->NbrPacketForFPS
-                    <<"TempSize:"<<SoundTrackBloc->CurrentTempSize;
-        }
+        while (SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS) SoundTrackBloc->AppendNullSoundPacket();
     }
 
     if (BufferToDecode)   av_free(BufferToDecode);
@@ -622,7 +616,7 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,bool ForceLoadD
     if ((PreviewMode)&&(CacheFirstImage)&&(Position==0)) return new QImage(CacheFirstImage->copy());
 
     // Load a video frame
-    QImage *LoadedImage=ReadVideoFrame(Position+AdjustTimeStamp,SoundTrackBloc,Volume,ForceSoundOnly);
+    QImage *LoadedImage=ReadVideoFrame(Position+AdjustTimeStamp+QTime(0,0,0,0).msecsTo(StartPos),SoundTrackBloc,Volume,ForceSoundOnly);
 
     if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
         // Scale image if anamorphous codec
