@@ -458,11 +458,12 @@ void DlgRenderVideo::accept() {
 
             if (Continue) {
                 ffmpegCommand=Diaporama->ApplicationConfig->PathFFMPEG+QString(" -y -f image2pipe -vcodec ppm -i - -i \"")+TempWAVFileName+"\" "+vCodec+" -r "+
-                      QString(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].FPS)+
+                      QString(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].FPS)+                        
                       " "+aCodec+QString(" -ar %1 -ac 2 -aspect %2:%3")
                       .arg(Diaporama->AudioFrequency)
                       .arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARNUM)
                       .arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARDEN);
+                if (Extend>0) ffmpegCommand=ffmpegCommand+QString(" -padtop %1 -padbottom %2").arg(Extend).arg(Extend);
 
                 // Activate multithreading support if getCpuCount()>1 and codec is h264 or VP8
                 if ((getCpuCount()>1)&&(
@@ -520,11 +521,8 @@ void DlgRenderVideo::accept() {
                 Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
 
                 // Prepare frame with correct W and H
-                Diaporama->LoadSources(Frame,W,H,false);                                            // Load source images
-                Diaporama->DoAssembly(Frame,W,H+Extend);                                            // Make final assembly
-                // Special case when no sound !
-                if ((Frame->CurrentObject)&&(Frame->CurrentObject->Video)) Frame->CurrentObject->Video->NextPacketPosition+=FPS/1000;
-                if ((Frame->TransitObject)&&(Frame->TransitObject->Video)) Frame->TransitObject->Video->NextPacketPosition+=FPS/1000;
+                Diaporama->LoadSources(Frame,W,H,false);                                     // Load source images
+                Diaporama->DoAssembly(Frame,W,H);                                            // Make final assembly
 
                 // Give time to interface !
                 QCoreApplication::processEvents();
@@ -766,11 +764,11 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
             }
 
             // Ensure SoundTracks are ready
-            if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)&&(Frame->CurrentObject->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
+            if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)&&(Frame->CurrentObject->TypeObject!=DIAPORAMAOBJECTTYPE_IMAGE)) {
                 Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
                 Frame->CurrentObject_SoundTrackMontage->SetFPS(Diaporama->VideoFrameRate);
             }
-            if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)&&(Frame->TransitObject->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
+            if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)&&(Frame->TransitObject->TypeObject!=DIAPORAMAOBJECTTYPE_IMAGE)) {
                 Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
                 Frame->TransitObject_SoundTrackMontage->SetFPS(Diaporama->VideoFrameRate);
             }

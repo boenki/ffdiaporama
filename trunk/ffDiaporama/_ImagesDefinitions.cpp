@@ -324,16 +324,22 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSo
 QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage) {
     if (BrushFileName=="") return new QBrush(Qt::NoBrush);
 
+    // W and H = 0 when producing sound track in render process
+    bool    SoundOnly=((Rect.width()==0)&&(Rect.height()==0));
+
     QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&BrushFileTransform):
-                        Video?Video->ImageAt(PreviewMode,Position,false,SoundTrackMontage,Video->SoundVolume,false,&BrushFileTransform):
+                        Video?Video->ImageAt(PreviewMode,Position,false,SoundTrackMontage,Video->SoundVolume,SoundOnly,&BrushFileTransform):
                         NULL);
-    if (RenderImage) {
+    if ((!SoundOnly)&&(RenderImage)) {
         QImage *Img=BrushFileCorrect.GetImage(RenderImage,Rect.width(),Rect.height(),1,NULL);
         QBrush *Ret=new QBrush(*Img);
         delete Img;
         delete RenderImage;
         return Ret;
-    } return new QBrush(Qt::NoBrush);
+    } else {
+        if (RenderImage) delete RenderImage;
+        return new QBrush(Qt::NoBrush);
+    }
 }
 
 //====================================================================================================================

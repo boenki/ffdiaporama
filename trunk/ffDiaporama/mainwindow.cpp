@@ -382,6 +382,10 @@ void MainWindow::s_ItemDoubleClicked() {
     }
     if (IsOk) {
         SetModifyFlag(true);
+        if (Diaporama->List[Diaporama->CurrentCol].Thumbnail) {
+            delete Diaporama->List[Diaporama->CurrentCol].Thumbnail;
+            Diaporama->List[Diaporama->CurrentCol].Thumbnail=NULL;
+        }
         ui->preview->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
     }

@@ -484,11 +484,11 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
         }
 
         // Ensure SoundTracks are ready
-        if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)&&(Frame->CurrentObject->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
+        if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)&&(Frame->CurrentObject->TypeObject!=DIAPORAMAOBJECTTYPE_IMAGE)) {
             Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
             Frame->CurrentObject_SoundTrackMontage->SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
         }
-        if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)&&(Frame->TransitObject->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
+        if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)&&(Frame->TransitObject->TypeObject!=DIAPORAMAOBJECTTYPE_IMAGE)) {
             Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
             Frame->TransitObject_SoundTrackMontage->SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
         }
