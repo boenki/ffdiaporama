@@ -199,7 +199,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/view_bottom.png</normaloff>icons/view_bottom.png</iconset>
+         <normaloff>icons/object_sound.png</normaloff>icons/object_sound.png</iconset>
        </property>
       </widget>
      </item>
@@ -210,7 +210,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/view_remove.png</normaloff>icons/view_remove.png</iconset>
+         <normaloff>icons/trash.png</normaloff>icons/trash.png</iconset>
        </property>
       </widget>
      </item>
@@ -221,7 +221,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/up.png</normaloff>icons/up.png</iconset>
+         <normaloff>icons/arrow_up.png</normaloff>icons/arrow_up.png</iconset>
        </property>
       </widget>
      </item>
@@ -232,7 +232,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/down.png</normaloff>icons/down.png</iconset>
+         <normaloff>icons/arrow_down.png</normaloff>icons/arrow_down.png</iconset>
        </property>
       </widget>
      </item>
@@ -361,7 +361,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/agt_action_success.png</normaloff>icons/agt_action_success.png</iconset>
+         <normaloff>icons/action_ok.png</normaloff>icons/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -372,7 +372,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/agt_action_fail.png</normaloff>icons/agt_action_fail.png</iconset>
+         <normaloff>icons/action_cancel.png</normaloff>icons/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
