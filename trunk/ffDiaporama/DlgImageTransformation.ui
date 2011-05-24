@@ -245,7 +245,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/agt_action_success.png</normaloff>icons/agt_action_success.png</iconset>
+         <normaloff>icons/action_ok.png</normaloff>icons/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -256,7 +256,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/agt_action_fail.png</normaloff>icons/agt_action_fail.png</iconset>
+         <normaloff>icons/action_cancel.png</normaloff>icons/action_cancel.png</iconset>
        </property>
       </widget>
      </item>

@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons/videoporama_big.png</normaloff>icons/videoporama_big.png</iconset>
+    <normaloff>icons/logo.png</normaloff>icons/logo.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="font">
@@ -156,7 +156,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons/aktion.png</normaloff>icons/aktion.png</iconset>
+           <normaloff>icons/object_movie.png</normaloff>icons/object_movie.png</iconset>
          </property>
         </row>
         <row>
@@ -165,7 +165,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons/lsongs.png</normaloff>icons/lsongs.png</iconset>
+           <normaloff>icons/object_sound.png</normaloff>icons/object_sound.png</iconset>
          </property>
         </row>
        </widget>
@@ -631,7 +631,7 @@
   <action name="actionMove_left">
    <property name="icon">
     <iconset>
-     <normaloff>icons/back.png</normaloff>icons/back.png</iconset>
+     <normaloff>icons/arrow_left.png</normaloff>icons/arrow_left.png</iconset>
    </property>
    <property name="text">
     <string>Move &amp;left</string>
@@ -640,7 +640,7 @@
   <action name="actionMove_right">
    <property name="icon">
     <iconset>
-     <normaloff>icons/forward.png</normaloff>icons/forward.png</iconset>
+     <normaloff>icons/arrow_right.png</normaloff>icons/arrow_right.png</iconset>
    </property>
    <property name="text">
     <string>Move &amp;right</string>
@@ -670,7 +670,7 @@
   <action name="actionDocumentation">
    <property name="icon">
     <iconset>
-     <normaloff>icons/Help.png</normaloff>icons/Help.png</iconset>
+     <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
    </property>
    <property name="text">
     <string>Support and help</string>
@@ -715,7 +715,7 @@
   <action name="actionNewFunctions">
    <property name="icon">
     <iconset>
-     <normaloff>icons/Help.png</normaloff>icons/Help.png</iconset>
+     <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
    </property>
    <property name="text">
     <string>What's new</string>
