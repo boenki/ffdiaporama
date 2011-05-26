@@ -1,6 +1,6 @@
 /* ======================================================================
-    This file is part of ffDiaporama
-    ffDiaporama is a tools to make diaporama as video
+    This file is part of ffGlobalMainWindow->Diaporama
+    ffGlobalMainWindow->Diaporama is a tools to make GlobalMainWindow->Diaporama as video
     Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,7 @@
    ====================================================================== */
 
 #include "wgt_QCustomThumbnails.h"
+#include "mainwindow.h"
 
 //======================================
 // Specific defines for this dialog box
@@ -36,10 +37,10 @@
 
 //===========================================================================================================================
 
-wgt_QCustomThumbnails::wgt_QCustomThumbnails(QTableWidget *TheTimeline,cDiaporama *TheDiaporama,int TheType) : QLabel(TheTimeline) {
+wgt_QCustomThumbnails::wgt_QCustomThumbnails(QTableWidget *TheTimeline,int TheType) : QLabel(TheTimeline) {
     Timeline        =TheTimeline;
-    Diaporama       =TheDiaporama;
     Type            =TheType;
+    DiaporamaObject =NULL;
     HasTransition   =false;
     TransitionRect  =QRect(0,0,0,0);
     HasSoundTrack   =false;
@@ -80,21 +81,21 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
         int Row=0;
         int Position = 0;
         while (Row<Timeline->rowCount()) if (Timeline->cellWidget(Row,0)!=this) {
-            Position=Position+(Row>0?Diaporama->List[Diaporama->CurrentCol].List[Row].GetMobilDuration():0)+
-                     Diaporama->List[Diaporama->CurrentCol].List[Row].GetStaticDuration();
+            Position=Position+(Row>0?GlobalMainWindow->Diaporama->List[GlobalMainWindow->Diaporama->CurrentCol].List[Row].GetMobilDuration():0)+
+                     GlobalMainWindow->Diaporama->List[GlobalMainWindow->Diaporama->CurrentCol].List[Row].GetStaticDuration();
             Row++;
         } else if (Timeline->cellWidget(Row,0)==this) {
-            if (Row>0) Position=Position+Diaporama->List[Diaporama->CurrentCol].List[Row].GetMobilDuration();
+            if (Row>0) Position=Position+GlobalMainWindow->Diaporama->List[GlobalMainWindow->Diaporama->CurrentCol].List[Row].GetMobilDuration();
 
             int Width =Timeline->columnWidth(0);
             int Height=Timeline->rowHeight(Row);
-            if (Height!=Diaporama->GetHeightForWidth(Width)) {
-                Height=Diaporama->GetHeightForWidth(Width);
+            if (Height!=GlobalMainWindow->Diaporama->GetHeightForWidth(Width)) {
+                Height=GlobalMainWindow->Diaporama->GetHeightForWidth(Width);
                 Timeline->setRowHeight(Row,Height);
             }
 
-            Painter.fillRect(0,0,Width,Height,Diaporama->Transparent);
-            Diaporama->List[Diaporama->CurrentCol].CanvasImageAt(Width,Height,Position,&Painter,0,0,NULL,NULL,true,true,true,NULL);
+            Painter.fillRect(0,0,Width,Height,GlobalMainWindow->Diaporama->Transparent);
+            GlobalMainWindow->Diaporama->List[GlobalMainWindow->Diaporama->CurrentCol].CanvasImageAt(Width,Height,Position,&Painter,0,0,NULL,NULL,true,true,true,NULL);
 
             // -------------------------- Draw selected box (if needed)
 
@@ -116,58 +117,58 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 
     } else if (Type==THUMBNAILTYPE_SHOT) {
 
-        // Draw a standard thumbnail (just the image) at position of the current row
-        Painter.save();
+        if (DiaporamaObject) {
+            // Draw a standard thumbnail (just the image) at position of the current row
+            Painter.save();
 
-        int Col=0;
-        int Position = 0;
-        while (Col<Timeline->columnCount()) if (Timeline->cellWidget(0,Col)!=this) {
-            Position=Position+(Col>0?Diaporama->List[Diaporama->CurrentCol].List[Col].GetMobilDuration():0)+
-                     Diaporama->List[Diaporama->CurrentCol].List[Col].GetStaticDuration();
-            Col++;
-        } else if (Timeline->cellWidget(0,Col)==this) {
-            if (Col>0) Position=Position+Diaporama->List[Diaporama->CurrentCol].List[Col].GetMobilDuration();
+            int Col=0;
+            int Position = 0;
+            while (Col<Timeline->columnCount()) if (Timeline->cellWidget(0,Col)!=this) {
+                Position=Position+(Col>0?DiaporamaObject->List[Col].GetMobilDuration():0)+DiaporamaObject->List[Col].GetStaticDuration();
+                Col++;
+            } else if (Timeline->cellWidget(0,Col)==this) {
+                if (Col>0) Position=Position+DiaporamaObject->List[Col].GetMobilDuration();
 
-            int Height=Timeline->rowHeight(0);
-            int Width =Timeline->columnWidth(Col);
-            if (Width!=Diaporama->GetWidthForHeight(Height)) {
-                Width=Diaporama->GetWidthForHeight(Height);
-                Timeline->setColumnWidth(Col,Width);
+                int Height=Timeline->rowHeight(0);
+                int Width =Timeline->columnWidth(Col);
+                if (Width!=GlobalMainWindow->Diaporama->GetWidthForHeight(Height)) {
+                    Width=GlobalMainWindow->Diaporama->GetWidthForHeight(Height);
+                    Timeline->setColumnWidth(Col,Width);
+                }
+
+                Painter.fillRect(0,0,Width,Height,GlobalMainWindow->Diaporama->Transparent);
+                DiaporamaObject->CanvasImageAt(Width,Height,Position,&Painter,0,0,NULL,NULL,true,true,true,NULL);
+
+                // -------------------------- Draw selected box (if needed)
+
+                if (Col==Timeline->currentColumn()) {
+                    QPen Pen;
+                    Pen.setColor(Qt::blue);
+                    Pen.setWidth(6);
+                    Painter.setPen(Pen);
+                    Painter.setBrush(Qt::NoBrush);
+                    Painter.drawRect(0,0,this->width()-1,this->height()-1);
+                }
+                Col++;
+                MediaObjectRect=QRect(0,0,Width,Height);
+
             }
-
-            Painter.fillRect(0,0,Width,Height,Diaporama->Transparent);
-            Diaporama->List[Diaporama->CurrentCol].CanvasImageAt(Width,Height,Position,&Painter,0,0,NULL,NULL,true,true,true,NULL);
-
-            // -------------------------- Draw selected box (if needed)
-
-            if (Col==Timeline->currentColumn()) {
-                QPen Pen;
-                Pen.setColor(Qt::blue);
-                Pen.setWidth(6);
-                Painter.setPen(Pen);
-                Painter.setBrush(Qt::NoBrush);
-                Painter.drawRect(0,0,this->width()-1,this->height()-1);
-            }
-            Col++;
-            MediaObjectRect=QRect(0,0,Width,Height);
-
+            Painter.restore();
         }
-        Painter.restore();
-
         //===========================================================================================================================
 
     } else {
         Painter.save();
         int Col=0;
         while ((Col<Timeline->columnCount())&&(Timeline->cellWidget(TRACKBACKGROUND,Col)!=this)&&(Timeline->cellWidget(TRACKMONTAGE,Col)!=this)&&(Timeline->cellWidget(TRACKMUSIC,Col)!=this)) Col++;
-        cDiaporamaObject    *Object         = (Col<Timeline->columnCount())?&Diaporama->List[Col]:NULL;
+        cDiaporamaObject    *Object         = (Col<Timeline->columnCount())?&GlobalMainWindow->Diaporama->List[Col]:NULL;
         bool                IsTransition    = (Object!=NULL)&&((Object->TransitionFamilly!=0)||(Object->TransitionSubType!=0));
         double              Width           = double(this->width());
         double              Height          = double(this->height());
         int                 ThumbHeight     = Height-5;
-        int                 ThumbWidth      = Diaporama->GetWidthForHeight(ThumbHeight);
+        int                 ThumbWidth      = GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
         int                 NewThumbHeight  = ThumbHeight-TIMELINESOUNDHEIGHT-2;
-        int                 NewThumbWidth   = Diaporama->GetWidthForHeight(NewThumbHeight);
+        int                 NewThumbWidth   = GlobalMainWindow->Diaporama->GetWidthForHeight(NewThumbHeight);
         int                 BarWidth        = (ThumbWidth-NewThumbWidth)/2;
         QPointF             Table[10];
 
@@ -195,7 +196,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 HasTransition =true;
                 TransitionRect=QRect(0,0,TransitionSize,TransitionSize);
                 DrawThumbnailsBox(2,(Type==THUMBNAILTYPE_OBJECTBACKGROUND)?(Height-32)/2:2-1,32,32,Painter,IsTransition?(
-                        (Type==THUMBNAILTYPE_OBJECTSEQUENCE)?IconList.GetIcon(Diaporama->List[Col].TransitionFamilly,Diaporama->List[Col].TransitionSubType):
+                        (Type==THUMBNAILTYPE_OBJECTSEQUENCE)?IconList.GetIcon(GlobalMainWindow->Diaporama->List[Col].TransitionFamilly,GlobalMainWindow->Diaporama->List[Col].TransitionSubType):
                         IconList.GetIcon(0,1)
                         ):IconList.GetIcon(0,0));
             }
@@ -203,7 +204,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             if (Type==THUMBNAILTYPE_OBJECTSEQUENCE) {                       // Draw a decorated thumbnail object
 
                 // Draw transition out of previous track if it was a DIAPORAMAOBJECTTYPE_VIDEO
-                if ((IsTransition)&&(Object->TypeObject!=DIAPORAMAOBJECTTYPE_VIDEO)&&(Col>0)&&(Diaporama->List[Col-1].TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
+                if ((IsTransition)&&(Object->TypeObject!=DIAPORAMAOBJECTTYPE_VIDEO)&&(Col>0)&&(GlobalMainWindow->Diaporama->List[Col-1].TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
                     // If Current object is not DIAPORAMAOBJECTTYPE_VIDEO draw a soundtrack background for previous object
                     Pen.setColor(ObjectBackground_Ruller);
                     Pen.setWidth(1);
@@ -220,7 +221,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Pen.setStyle(Qt::SolidLine);
                     Painter.setPen(Pen);
                     Painter.setBrush(QBrush(QColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
-                    int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(Diaporama->List[Col-1].Video->SoundVolume/1.5));
+                    int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(GlobalMainWindow->Diaporama->List[Col-1].Video->SoundVolume/1.5));
                     Table[0]=QPointF(0,Height-RHeightPrevious-2);
                     Table[1]=QPointF(TransitionSize,Height-2);
                     Table[2]=QPointF(0,Height-2);
@@ -230,7 +231,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 switch(Object->TypeObject) {
                     case DIAPORAMAOBJECTTYPE_EMPTY :
                     case DIAPORAMAOBJECTTYPE_IMAGE :
-                        Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,Diaporama->Transparent);
+                        Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,GlobalMainWindow->Diaporama->Transparent);
                         Object->DrawThumbnail(ThumbWidth,ThumbHeight,&Painter,TransitionSize+3,2-1);   // Draw Thumb
                         if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32,QImage(ICON_SHOTPRESENCE));
                         DrawThumbnailsBox(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,Painter,NULL);
@@ -239,10 +240,10 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     case DIAPORAMAOBJECTTYPE_VIDEO :
                         int H3            =NewThumbHeight/5;
                         int HH3           =(NewThumbHeight-H3*3)/4;
-                        int RHeight       =int(double(TIMELINESOUNDHEIGHT)*(Diaporama->List[Col].Video->SoundVolume/1.5));
+                        int RHeight       =int(double(TIMELINESOUNDHEIGHT)*(GlobalMainWindow->Diaporama->List[Col].Video->SoundVolume/1.5));
 
                         // Draw thumb part
-                        Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,Diaporama->Transparent);
+                        Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,GlobalMainWindow->Diaporama->Transparent);
                         Object->DrawThumbnail(NewThumbWidth,NewThumbHeight,&Painter,TransitionSize+3+BarWidth,2-1);   // Draw Thumb
                         if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+BarWidth+NewThumbWidth-32,2-1+NewThumbHeight-32,QImage(ICON_SHOTPRESENCE));
                         DrawThumbnailsBox(TransitionSize+3+BarWidth,2-1,NewThumbWidth,NewThumbHeight,Painter,NULL);
@@ -279,7 +280,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                                 Pen.setStyle(Qt::SolidLine);
                                 Painter.setPen(Pen);
                                 Painter.setBrush(QBrush(QColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
-                                int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(Diaporama->List[Col-1].Video->SoundVolume/1.5));
+                                int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(GlobalMainWindow->Diaporama->List[Col-1].Video->SoundVolume/1.5));
                                 Table[0]=QPointF(0,Height-RHeightPrevious);
                                 Table[1]=QPointF(TransitionSize,Height);
                                 Table[2]=QPointF(0,Height);
@@ -321,7 +322,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             } else if (Type==THUMBNAILTYPE_OBJECTBACKGROUND) {              // Draw a decorated thumbnail background
 
                 int         ThumbHeight = Height-6;
-                int         ThumbWidth  = Diaporama->GetWidthForHeight(ThumbHeight);
+                int         ThumbWidth  = GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
 
                 Object->Parent->PrepareBackground(Col,ThumbWidth,ThumbHeight,&Painter,TransitionSize+3,2,true);  // Draw Thumb
                 DrawThumbnailsBox(TransitionSize+3,2,ThumbWidth,ThumbHeight,Painter,NULL);
@@ -493,7 +494,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 
         Painter.restore();
         // Draw selected box (if needed)
-        if (Col==Diaporama->CurrentCol) {
+        if (Col==GlobalMainWindow->Diaporama->CurrentCol) {
             Painter.save();
             Pen.setColor(WidgetSelection_Color);
             Pen.setStyle(Qt::SolidLine);

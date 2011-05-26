@@ -2,6 +2,8 @@ Buggs :
     Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 
 A faire  :
+    Transfere le control de volume de la boite video à la boite slide
+    Empecher 2 videos d'avoir le son en meme temps
     Quand les vidéos fonctionneront en mode composition : Suppression des objets video et transfert vers objet titre
     Calculer et afficher la durée mini des blocs
     Autoriser les blocs à sortir de l'écran
@@ -53,4 +55,4 @@ Détails des modifications :
     Pour compatibilité ascendante des anciennes sauvegardes : les anciennes coordonnées sont converties si elle étaient dans l'ancien mode "Normal Canvas"
 - Supprime la notion de "pas de forme" pour tous les blocs : Pour compatibilité ascendante des anciennes sauvegardes, les blocs sans forme passent en rectangle+bordure=0+brush=sans
 - Supprime le fichier flag _BUILDVERSION.txt (plus d'utilité maintenant que les paquets sont toujours entiers)
-- Fait le ménage dans les icones => Supprime les icones non utilisées et renome certains icones
+- Fait le ménage dans les icones => Supprime les icones non utilisées et renome certaines icones

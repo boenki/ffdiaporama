@@ -815,16 +815,16 @@ void MainWindow::s_action_AddProject() {
 //====================================================================================================================
 
 void MainWindow::AddObjectToTimeLine(int CurIndex) {
-    wgt_QCustomThumbnails *ObjectBackground=new wgt_QCustomThumbnails(ui->timeline,Diaporama,THUMBNAILTYPE_OBJECTBACKGROUND);
+    wgt_QCustomThumbnails *ObjectBackground=new wgt_QCustomThumbnails(ui->timeline,THUMBNAILTYPE_OBJECTBACKGROUND);
     connect(ObjectBackground,SIGNAL(EditMediaObject()),this,SLOT(s_BackgroundDoubleClicked()));
     connect(ObjectBackground,SIGNAL(EditTransition()),this,SLOT(s_TransitionBackgroundDoubleClicked()));
 
-    wgt_QCustomThumbnails *ObjectObject    =new wgt_QCustomThumbnails(ui->timeline,Diaporama,THUMBNAILTYPE_OBJECTSEQUENCE);
+    wgt_QCustomThumbnails *ObjectObject    =new wgt_QCustomThumbnails(ui->timeline,THUMBNAILTYPE_OBJECTSEQUENCE);
     connect(ObjectObject,SIGNAL(EditMediaObject()),this,SLOT(s_ItemDoubleClicked()));
     connect(ObjectObject,SIGNAL(EditTransition()),this,SLOT(s_TransitionItemDoubleClicked()));
     connect(ObjectObject,SIGNAL(EditSoundTrack()),this,SLOT(s_SoundItemDoubleClicked()));
 
-    wgt_QCustomThumbnails *ObjectMusic     =new wgt_QCustomThumbnails(ui->timeline,Diaporama,THUMBNAILTYPE_OBJECTMUSIC);
+    wgt_QCustomThumbnails *ObjectMusic     =new wgt_QCustomThumbnails(ui->timeline,THUMBNAILTYPE_OBJECTMUSIC);
     connect(ObjectMusic,SIGNAL(EditSoundTrack()),this,SLOT(s_MusicDoubleClicked()));
 
     ui->timeline->insertColumn(CurIndex);

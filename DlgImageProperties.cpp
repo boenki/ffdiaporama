@@ -146,7 +146,7 @@ void DlgImageProperties::SetTabAnimation() {
         // Fill the TableSeq
         for (int i=0;i<DiaporamaObject->List.count();i++) {
             ui->TableSeq->insertRow(i);
-            wgt_QCustomThumbnails *Object=new wgt_QCustomThumbnails(ui->TableSeq,DiaporamaObject->Parent,THUMBNAILTYPE_IMAGESEQUENCE);
+            wgt_QCustomThumbnails *Object=new wgt_QCustomThumbnails(ui->TableSeq,THUMBNAILTYPE_IMAGESEQUENCE);
             ui->TableSeq->setCellWidget(i,0,Object);
             ui->TableSeq->setRowHeight(i,DiaporamaObject->Parent->GetHeightForWidth(ui->TableSeq->columnWidth(0)));
         }
@@ -321,7 +321,7 @@ void DlgImageProperties::s_addSequence() {
 
     DiaporamaObject->List.append(*imagesequence);
     ui->TableSeq->insertRow(ui->TableSeq->rowCount());
-    wgt_QCustomThumbnails *Object=new wgt_QCustomThumbnails(ui->TableSeq,DiaporamaObject->Parent,THUMBNAILTYPE_IMAGESEQUENCE);
+    wgt_QCustomThumbnails *Object=new wgt_QCustomThumbnails(ui->TableSeq,THUMBNAILTYPE_IMAGESEQUENCE);
     ui->TableSeq->setCellWidget(ui->TableSeq->rowCount()-1,0,Object);
     ui->TableSeq->setRowHeight(ui->TableSeq->rowCount()-1,DiaporamaObject->Parent->GetHeightForWidth(ui->TableSeq->columnWidth(0)));
     ui->TableSeq->setCurrentCell(ui->TableSeq->rowCount()-1,0);
