@@ -30,16 +30,16 @@
 class wgt_QCustomThumbnails : public QLabel {
 Q_OBJECT
 public:
-    QTableWidget    *Timeline;
-    cDiaporama      *Diaporama;
-    int             Type;
-    bool            HasTransition;
-    QRect           TransitionRect;
-    bool            HasSoundTrack;
-    QRect           SoundTrackRect;
-    QRect           MediaObjectRect;
+    QTableWidget        *Timeline;
+    cDiaporamaObject    *DiaporamaObject;   // Use only for THUMBNAILTYPE_SHOT
+    int                 Type;
+    bool                HasTransition;
+    QRect               TransitionRect;
+    bool                HasSoundTrack;
+    QRect               SoundTrackRect;
+    QRect               MediaObjectRect;
 
-    explicit wgt_QCustomThumbnails(QTableWidget *Timeline,cDiaporama *Diaporama,int Type);
+    explicit wgt_QCustomThumbnails(QTableWidget *Timeline,int Type);
     ~wgt_QCustomThumbnails();
 
 signals:

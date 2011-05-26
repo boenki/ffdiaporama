@@ -38,6 +38,15 @@ public:
     cDiaporamaObject        *DiaporamaObject;
     QDomDocument            *Undo;                      // Save object before modification for cancel button
 
+    bool                    ArrowBT_BlockList;
+    bool                    ArrowBT_ShotProperties;
+    bool                    ArrowBT_GlobalBlock;
+    bool                    ArrowBT_ShapeProperties;
+    bool                    ArrowBT_TexProperties;
+    bool                    ArrowBT_DuringShotProperties;
+    bool                    ArrowBT_VideoProperties;
+    bool                    ArrowBT_ImageProperties;
+
     bool                    IsFirstInitDone;            // true when first show window was done
     bool                    StopMAJSpinbox;
     bool                    BLOCKCHSIZE;
@@ -50,7 +59,6 @@ public:
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent = 0);
     ~DlgSlideProperties();
 
-    void            SetCompositionObject(cCompositionList *CompositionList);
     void            RefreshBackgroundImage();
     void            RefreshControls();
     void            AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
@@ -59,7 +67,6 @@ public:
     cCustomGraphicsRectItem *GetSelectItem();                   // Return selected item
     cCompositionObject      *GetSelectedCompositionObject();    // Return selected CompositionObject
     cBrushDefinition        *GetCurrentBrush();                 // Return selected brush
-    QSize                   GetSceneBoxSize();                  // Return current scene size
 
 protected:
     virtual void    resizeEvent(QResizeEvent *);
@@ -70,19 +77,32 @@ protected:
 private slots:
     void            Help();
     void            SetSavedWindowGeometry();
+
+    // Arrow buttons
+    void            SwitchArrowBT_BlockList();
+    void            SwitchArrowBT_TexProperties();
+    void            SwitchArrowBT_ShotProperties();
+    void            SwitchArrowBT_GlobalBlock();
+    void            SwitchArrowBT_ShapeProperties();
+    void            SwitchArrowBT_DuringShotProperties();
+    void            SwitchArrowBT_VideoProperties();
+    void            SwitchArrowBT_ImageProperties();
+
     void            ImageEditCorrect();
     void            ImageEditTransform();
     void            VideoEdit();
 
-    void            s_CurrentShotSelectionChanged();
-    void            s_addShot();
-    void            s_removeShot();
+    // Shot table part
+    void            s_ShotTable_SelectionChanged();             // User select a shot in the ShotTable widget
+    void            s_ShotTable_AddShot();
+    void            s_ShotTable_RemoveShot();
 
-    void            s_SelectionChangeEvent();
-
-    void            s_AddNewTextBlock();
-    void            s_AddNewFileBlock();
-    void            s_RemoveBlock();
+    // Block table/scene part
+    void            s_BlockTable_SelectionChanged();            // User select a block in the BlocTable widget
+    void            s_Scene_SelectionChanged();                 // User select a block in the scene widget
+    void            s_BlockTable_AddNewTextBlock();
+    void            s_BlockTable_AddNewFileBlock();
+    void            s_BlockTable_RemoveBlock();
 
     void            s_ChangeFont(QFont);
     void            s_ChangeSizeFont(QString);
@@ -140,6 +160,9 @@ private:
     void            MakeFormIcon(QComboBox *UICB);
     void            MakeTextStyleIcon(QComboBox *UICB);
     void            MakeBorderStyleIcon(QComboBox *UICB);
+
+    void            RefreshShotTable(int SetCurrentIndex);
+    void            RefreshBlockTable(int SetCurrentIndex);
 
     Ui::DlgSlideProperties *ui;
 };
