@@ -39,7 +39,6 @@ public:
     QDomDocument            *Undo;                      // Save object before modification for cancel button
 
     bool                    ArrowBT_BlockList;
-    bool                    ArrowBT_ShotProperties;
     bool                    ArrowBT_GlobalBlock;
     bool                    ArrowBT_ShapeProperties;
     bool                    ArrowBT_TexProperties;
@@ -77,11 +76,12 @@ protected:
 private slots:
     void            Help();
     void            SetSavedWindowGeometry();
+    void            s_SlideNameChange(QString NewText);
+    void            s_ShotDurationChange(double NewValue);
 
     // Arrow buttons
     void            SwitchArrowBT_BlockList();
     void            SwitchArrowBT_TexProperties();
-    void            SwitchArrowBT_ShotProperties();
     void            SwitchArrowBT_GlobalBlock();
     void            SwitchArrowBT_ShapeProperties();
     void            SwitchArrowBT_DuringShotProperties();

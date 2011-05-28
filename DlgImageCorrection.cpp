@@ -245,9 +245,11 @@ void DlgImageCorrection::s_RotateRight() {
 
 void DlgImageCorrection::s_AdjustW() {
     if (BrushFileCorrect==NULL) return;
-    BrushFileCorrect->X=MagneticRuller.MagnetX1/xmax;
-    BrushFileCorrect->ZoomFactor=(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1)/xmax;
-    BrushFileCorrect->Y=((ymax-GlobalMainWindow->Diaporama->GetHeightForWidth(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1))/2)/ymax;
+    double W=MagneticRuller.MagnetX2-MagneticRuller.MagnetX1;
+    double H=W*BrushFileCorrect->AspectRatio;
+    BrushFileCorrect->X=((xmax-W)/2)/xmax;
+    BrushFileCorrect->Y=((ymax-H)/2)/ymax;
+    BrushFileCorrect->ZoomFactor=W/xmax;
     RefreshControls();
 }
 
@@ -255,9 +257,11 @@ void DlgImageCorrection::s_AdjustW() {
 
 void DlgImageCorrection::s_AdjustH() {
     if (BrushFileCorrect==NULL) return;
-    BrushFileCorrect->Y=MagneticRuller.MagnetY1/ymax;
-    BrushFileCorrect->ZoomFactor=(MagneticRuller.MagnetY2-MagneticRuller.MagnetY1)/ymax;
-    BrushFileCorrect->X=((xmax-GlobalMainWindow->Diaporama->GetWidthForHeight(MagneticRuller.MagnetY2-MagneticRuller.MagnetY1))/2)/xmax;
+    double H=MagneticRuller.MagnetY2-MagneticRuller.MagnetY1;
+    double W=H/BrushFileCorrect->AspectRatio;
+    BrushFileCorrect->X=((xmax-W)/2)/xmax;
+    BrushFileCorrect->Y=((ymax-H)/2)/ymax;
+    BrushFileCorrect->ZoomFactor=W/xmax;
     RefreshControls();
 }
 
@@ -265,10 +269,9 @@ void DlgImageCorrection::s_AdjustH() {
 
 void DlgImageCorrection::s_AdjustWH() {
     if (BrushFileCorrect==NULL) return;
-    BrushFileCorrect->X=MagneticRuller.MagnetX1/xmax;
-    BrushFileCorrect->ZoomFactor=(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1)/xmax;
-    BrushFileCorrect->Y=((ymax-GlobalMainWindow->Diaporama->GetHeightForWidth(MagneticRuller.MagnetX2-MagneticRuller.MagnetX1))/2)/ymax;
-    if (BrushFileCorrect->Y>MagneticRuller.MagnetY1/ymax) s_AdjustH(); else RefreshControls();
+    double W=MagneticRuller.MagnetX2-MagneticRuller.MagnetX1;
+    double H=W*BrushFileCorrect->AspectRatio;
+    if (H<MagneticRuller.MagnetY2-MagneticRuller.MagnetY1) s_AdjustH(); else s_AdjustW();
 }
 
 //====================================================================================================================

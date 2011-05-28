@@ -149,9 +149,24 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Painter.setBrush(Qt::NoBrush);
                     Painter.drawRect(0,0,this->width()-1,this->height()-1);
                 }
+
+                // -------------------------- Draw shot duration
+                QPen  Pen;
+                QFont font= QApplication::font();
+                font.setPointSizeF(double(3500)/double(SCALINGTEXTFACTOR));                  // Scale font
+                Painter.setFont(font);
+                Pen.setWidth(1);
+                Pen.setStyle(Qt::SolidLine);
+                QString ShotDuration=QTime(0,0,0,0).addMSecs(DiaporamaObject->List[Col].StaticDuration).toString("hh:mm:ss.zzz");
+                Pen.setColor(Qt::black);
+                Painter.setPen(Pen);
+                Painter.drawText(QRectF(1,4+1,this->width(),this->height()),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+                Pen.setColor(Qt::white);
+                Painter.setPen(Pen);
+                Painter.drawText(QRectF(0,4,this->width()-1,this->height()-1),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+
                 Col++;
                 MediaObjectRect=QRect(0,0,Width,Height);
-
             }
             Painter.restore();
         }
@@ -319,6 +334,43 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                         break;
                 }
 
+                // Draw transition duration, slide duration and slide name
+                QFont font= QApplication::font();
+                font.setPointSizeF(double(3500)/double(SCALINGTEXTFACTOR));                  // Scale font
+                Painter.setFont(font);
+                Pen.setWidth(1);
+                Pen.setStyle(Qt::SolidLine);
+                QString SlideDuration=QTime(0,0,0,0).addMSecs(Object->GetDuration()).toString("hh:mm:ss.zzz");
+                QString FileName=Object->SlideName;
+                QString TransitionDuration=QTime(0,0,0,0).addMSecs(Object->TransitionDuration).toString("ss.zzz");
+                TransitionDuration=TransitionDuration.right(TransitionDuration.length()-1);   // Cut first 0
+
+                if (Object->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO) {
+                    Pen.setColor(Qt::black);
+                    Painter.setPen(Pen);
+                    Painter.drawText(QRectF(TransitionSize+3+BarWidth+1,2-1+1,NewThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(TransitionSize+3+BarWidth+1,2-1+1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(2+1,2-1+34+1,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+
+                    Pen.setColor(Qt::white);
+                    Painter.setPen(Pen);
+                    Painter.drawText(QRectF(TransitionSize+3+BarWidth,2-1,NewThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(TransitionSize+3+BarWidth,2-1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(2,2-1+34,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                } else {
+                    Pen.setColor(Qt::black);
+                    Painter.setPen(Pen);
+                    Painter.drawText(QRectF(TransitionSize+3+1,2-1+1,ThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(TransitionSize+3+1,2-1+1+ThumbHeight-16,ThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(2+1,2-1+34+1,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+
+                    Pen.setColor(Qt::white);
+                    Painter.setPen(Pen);
+                    Painter.drawText(QRectF(TransitionSize+3,2-1,ThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(TransitionSize+3,2-1+ThumbHeight-16,ThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+                    Painter.drawText(QRectF(2,2-1+34,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                }
+
             } else if (Type==THUMBNAILTYPE_OBJECTBACKGROUND) {              // Draw a decorated thumbnail background
 
                 int         ThumbHeight = Height-6;
@@ -448,46 +500,6 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 Painter.setPen(Pen);
                 Painter.drawLine(QPointF(TransitionSize,2),QPointF(TransitionSize,Height));
                 Painter.drawLine(QPointF(this->width()-1,2),QPointF(this->width()-1,Height));
-            }
-
-            if (((Type==THUMBNAILTYPE_OBJECTSEQUENCE)||((Type==THUMBNAILTYPE_OBJECTBACKGROUND)&&((Object->BackgroundType))))&&(Type==THUMBNAILTYPE_OBJECTSEQUENCE)) {
-                QFont font= QApplication::font();
-                font.setPointSizeF(double(3500)/double(SCALINGTEXTFACTOR));                  // Scale font
-                Painter.setFont(font);
-                Pen.setWidth(1);
-                Pen.setStyle(Qt::SolidLine);
-
-                // Draw transition duration, slide duration and image name
-                QString SlideDuration=QTime(0,0,0,0).addMSecs(Object->GetDuration()).toString("hh:mm:ss.zzz");
-                QString FileName=Object->Image?QFileInfo(Object->Image->FileName).fileName():Object->Video?QFileInfo(Object->Video->FileName).fileName():"";
-                QString TransitionDuration=QTime(0,0,0,0).addMSecs(Object->TransitionDuration).toString("ss.zzz");
-                TransitionDuration=TransitionDuration.right(TransitionDuration.length()-1);   // Cut first 0
-
-                if (Object->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO) {
-                    Pen.setColor(Qt::black);
-                    Painter.setPen(Pen);
-                    Painter.drawText(QRectF(TransitionSize+3+BarWidth+1,2-1+1,NewThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-                    Painter.drawText(QRectF(TransitionSize+3+BarWidth+1,2-1+1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-                    Painter.drawText(QRectF(2+1,2-1+34+1,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-
-                    Pen.setColor(Qt::white);
-                    Painter.setPen(Pen);
-                    Painter.drawText(QRectF(TransitionSize+3+BarWidth,2-1,NewThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-                    Painter.drawText(QRectF(TransitionSize+3+BarWidth,2-1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-                    Painter.drawText(QRectF(2,2-1+34,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-                } else {
-                    Pen.setColor(Qt::black);
-                    Painter.setPen(Pen);
-                    Painter.drawText(QRectF(TransitionSize+3+1,2-1+1,ThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-                    if (Object->Image) Painter.drawText(QRectF(TransitionSize+3+1,2-1+1+ThumbHeight-16,ThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-                    Painter.drawText(QRectF(2+1,2-1+34+1,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-
-                    Pen.setColor(Qt::white);
-                    Painter.setPen(Pen);
-                    Painter.drawText(QRectF(TransitionSize+3,2-1,ThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-                    if (Object->Image) Painter.drawText(QRectF(TransitionSize+3,2-1+ThumbHeight-16,ThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-                    Painter.drawText(QRectF(2,2-1+34,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-                }
             }
         }
         // --------------------------

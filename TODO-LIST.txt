@@ -1,10 +1,10 @@
 Buggs :
     Tester les générations avec plusieurs lecteurs : géométrie douteuse !
+    Détecter si un slide contient des videos et ajuster le thumbnail en fonction
 
 A faire  :
     Transfere le control de volume de la boite video à la boite slide
     Empecher 2 videos d'avoir le son en meme temps
-    Quand les vidéos fonctionneront en mode composition : Suppression des objets video et transfert vers objet titre
     Calculer et afficher la durée mini des blocs
     Autoriser les blocs à sortir de l'écran
     Ajouter les boutons/fonctions pour ordonner les blocs dans un plan (devant/derriere)
@@ -56,3 +56,4 @@ Détails des modifications :
 - Supprime la notion de "pas de forme" pour tous les blocs : Pour compatibilité ascendante des anciennes sauvegardes, les blocs sans forme passent en rectangle+bordure=0+brush=sans
 - Supprime le fichier flag _BUILDVERSION.txt (plus d'utilité maintenant que les paquets sont toujours entiers)
 - Fait le ménage dans les icones => Supprime les icones non utilisées et renome certaines icones
+- Supprime la notion de durée du projet (les durées sont toutes définies dans les slides et ne font plus références aux durées par défaut du projet)

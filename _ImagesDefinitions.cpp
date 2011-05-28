@@ -281,15 +281,16 @@ bool cFilterCorrectObject::LoadFromXML(QDomElement domDocument,QString ElementNa
 //*********************************************************************************************************************************************
 
 cBrushDefinition::cBrushDefinition() {
-    BrushType           =BRUSHTYPE_SOLID;       // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors, 5=brush library, 6=image disk
-    PatternType         =Qt::Dense4Pattern;     // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    ColorD              =DEFAULT_SHAPE_BRUSHCOLORD;             // First Color
-    ColorF              ="#000000";             // Last Color
-    ColorIntermed       ="#777777";             // Intermediate Color
-    Intermediate        =0.1;                   // Intermediate position of 2nd color (in %)
-    GradientOrientation =6;                     // 1=Up-Left, 2=Up, 3=Up-right, ...
-    BrushImage          ="";                    // Image name if image from library
-    BrushFileName       ="";                    // Image name if image from disk
+    TypeComposition     =COMPOSITIONTYPE_BACKGROUND;
+    BrushType           =BRUSHTYPE_SOLID;               // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors, 5=brush library, 6=image disk
+    PatternType         =Qt::Dense4Pattern;             // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
+    ColorD              =DEFAULT_SHAPE_BRUSHCOLORD;     // First Color
+    ColorF              ="#000000";                     // Last Color
+    ColorIntermed       ="#777777";                     // Intermediate Color
+    Intermediate        =0.1;                           // Intermediate position of 2nd color (in %)
+    GradientOrientation =6;                             // 1=Up-Left, 2=Up, 3=Up-right, ...
+    BrushImage          ="";                            // Image name if image from library
+    BrushFileName       ="";                            // Image name if image from disk
     Image               =NULL;
     Video               =NULL;
 }
@@ -297,17 +298,17 @@ cBrushDefinition::cBrushDefinition() {
 //====================================================================================================================
 cBrushDefinition::~cBrushDefinition() {
     if (Image) {
-        delete Image;
+        if (TypeComposition!=COMPOSITIONTYPE_SHOT) delete Image;
         Image=NULL;
     }
     if (Video) {
-        delete Video;
+        if (TypeComposition!=COMPOSITIONTYPE_SHOT) delete Video;
         Video=NULL;
     }
 }
 
 //====================================================================================================================
-QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage) {
+QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
     switch (BrushType) {
         case BRUSHTYPE_NOBRUSH :        return new QBrush(Qt::NoBrush);
         case BRUSHTYPE_SOLID :          return new QBrush(QColor(ColorD),Qt::SolidPattern);
@@ -315,13 +316,13 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSo
         case BRUSHTYPE_GRADIENT2 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_GRADIENT3 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_IMAGELIBRARY :   return GetLibraryBrush(Rect);
-        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage);
+        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage,PctDone,PreviousBrush);
     }
     return new QBrush(Qt::NoBrush);
 }
 
 //====================================================================================================================
-QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage) {
+QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
     if (BrushFileName=="") return new QBrush(Qt::NoBrush);
 
     // W and H = 0 when producing sound track in render process
@@ -331,7 +332,8 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                         Video?Video->ImageAt(PreviewMode,Position,false,SoundTrackMontage,Video->SoundVolume,SoundOnly,&BrushFileTransform):
                         NULL);
     if ((!SoundOnly)&&(RenderImage)) {
-        QImage *Img=BrushFileCorrect.GetImage(RenderImage,Rect.width(),Rect.height(),1,NULL);
+        // Create brush image with ken burns effect !
+        QImage *Img=BrushFileCorrect.GetImage(RenderImage,Rect.width(),Rect.height(),PctDone,PreviousBrush?&PreviousBrush->BrushFileCorrect:NULL);
         QBrush *Ret=new QBrush(*Img);
         delete Img;
         delete RenderImage;
@@ -391,12 +393,33 @@ int cBrushDefinition::GetWidthForHeight(int WantedHeight,QRectF Rect) {
 }
 
 //====================================================================================================================
+// create a COMPOSITIONTYPE_SHOT brush as a copy of a given brush
+
+void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
+    TypeComposition     =COMPOSITIONTYPE_SHOT;
+    BrushType           =BrushToCopy->BrushType;
+    PatternType         =BrushToCopy->PatternType;
+    GradientOrientation =BrushToCopy->GradientOrientation;
+    ColorD              =BrushToCopy->ColorD;
+    ColorF              =BrushToCopy->ColorF;
+    ColorIntermed       =BrushToCopy->ColorIntermed;
+    Intermediate        =BrushToCopy->Intermediate;
+    BrushImage          =BrushToCopy->BrushImage;
+    BrushFileName       =BrushToCopy->BrushFileName;
+    Image               =BrushToCopy->Image;
+    Video               =BrushToCopy->Video;
+    BrushFileCorrect    =BrushToCopy->BrushFileCorrect;
+    BrushFileTransform  =BrushToCopy->BrushFileTransform;
+}
+
+//====================================================================================================================
 
 void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
     // Attribut of the object
+    Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("BrushType",BrushType);                                    // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
     Element.setAttribute("PatternType",PatternType);                                // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
     Element.setAttribute("ColorD",ColorD);                                          // First Color
@@ -406,7 +429,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     Element.setAttribute("GradientOrientation",GradientOrientation);                // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
     Element.setAttribute("BrushImage",BrushImage);                                  // Image name if image from library
     Element.setAttribute("BrushFileName",BrushFileName);                            // Image name if image from disk
-    if (Video!=NULL) {
+    if ((TypeComposition!=COMPOSITIONTYPE_SHOT)&&(Video!=NULL)) {
         Element.setAttribute("SoundVolume",QString("%1").arg(Video->SoundVolume,0,'f')); // Volume of soundtrack (for video only)
         Element.setAttribute("StartPos",Video->StartPos.toString());                     // Start position (video only)
         Element.setAttribute("EndPos",Video->EndPos.toString());                         // End position (video only)
@@ -423,6 +446,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
         // Attribut of the object
+        TypeComposition=    Element.attribute("TypeComposition").toInt();
         BrushType=          Element.attribute("BrushType").toInt();                         // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
         PatternType=        Element.attribute("PatternType").toInt();                       // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
         ColorD=             Element.attribute("ColorD");                                    // First Color
@@ -435,7 +459,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         BrushFileCorrect.LoadFromXML(Element,"ImageCorrection",PathForRelativPath);         // Image correction if image from disk
         BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);   // Image transformation if image from disk
 
-        if (BrushType==BRUSHTYPE_IMAGEDISK) {
+        if ((TypeComposition!=COMPOSITIONTYPE_SHOT)&&(BrushType==BRUSHTYPE_IMAGEDISK)) {
             bool IsValide=false;
             QString Extension=QFileInfo(BrushFileName).suffix().toLower();
             for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {

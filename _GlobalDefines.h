@@ -185,7 +185,8 @@ extern "C" {
 
 // Composition type definition
 #define COMPOSITIONTYPE_BACKGROUND          0
-#define COMPOSITIONTYPE_SHOT                1
+#define COMPOSITIONTYPE_OBJECT              1
+#define COMPOSITIONTYPE_SHOT                2
 
 // Shot type definition
 #define SHOTTYPE_STATIC                     0

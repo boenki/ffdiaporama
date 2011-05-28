@@ -158,9 +158,7 @@ void DlgImageProperties::SetTabAnimation() {
         // Connect signals
         connect(ui->TableSeq,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 
-        connect(ui->StaticSetCustomBt,SIGNAL(clicked()),this,SLOT(s_StaticSetCustom()));
         connect(ui->StaticCustomEd,SIGNAL(valueChanged(int)),this,SLOT(s_DefineCustom(int)));
-        connect(ui->MobilSetCustomBt,SIGNAL(clicked()),this,SLOT(s_MobilSetCustom()));
         connect(ui->MobilCustomEd,SIGNAL(valueChanged(int)),this,SLOT(s_MobilCustom(int)));
         connect(ui->addSequenceBT,SIGNAL(clicked()),this,SLOT(s_addSequence()));
         connect(ui->removeSequenceBT,SIGNAL(clicked()),this,SLOT(s_removeSequence()));
@@ -191,17 +189,10 @@ void DlgImageProperties::RefreshControls() {
     //--------------------------------------------------------------------
     // Update controls
     //--------------------------------------------------------------------
-    ui->StaticSetCustomBt->setChecked(DiaporamaObject->List[Current].DefaultStaticDuration);
     ui->StaticCustomEd->setValue(DiaporamaObject->List[Current].StaticDuration/1000);
-    if (DiaporamaObject->List[Current].DefaultStaticDuration) {
-        ui->StaticCustomEd->setEnabled(false);
-        ui->StaticCustomEd->setVisible(false);
-        ui->StaticSpacer->setVisible(true);
-    } else {
-        ui->StaticCustomEd->setEnabled(true);
-        ui->StaticCustomEd->setVisible(true);
-        ui->StaticSpacer->setVisible(false);
-    }
+    ui->StaticCustomEd->setEnabled(true);
+    ui->StaticCustomEd->setVisible(true);
+    ui->StaticSpacer->setVisible(false);
 
     int  AddingDuration=0;
     if (Current==(DiaporamaObject->List.count()-1)) {   // If it's the last shot
@@ -211,33 +202,20 @@ void DlgImageProperties::RefreshControls() {
         if (Duration<TotalDuration) AddingDuration=TotalDuration-Duration;
     }
     if (AddingDuration==0) {
-        if (DiaporamaObject->List[Current].DefaultStaticDuration) {
-            int Default=((DiaporamaObject->List.count()>1?DiaporamaObject->Parent->FixedDuration:DiaporamaObject->Parent->NoShotDuration)/1000);
-            ui->StaticDefault->setText(QString(QCoreApplication::translate("DlgImageProperties","Default project value=%1 sec")).arg(Default));
-        } else ui->StaticDefault->setText(QCoreApplication::translate("DlgImageProperties","sec"));
+        ui->StaticDefault->setText(QCoreApplication::translate("DlgImageProperties","sec"));
     } else {
         ui->StaticDefault->setText(QString(QCoreApplication::translate("DlgImageProperties","Lengthened to %1 sec to allow transitions")).arg((DiaporamaObject->List[Current].GetStaticDuration()+AddingDuration)/1000));
     }
 
-    ui->MobilSetCustomBt->setChecked(DiaporamaObject->List[Current].DefaultMobilDuration);
     ui->MobilCustomEd->setValue(DiaporamaObject->List[Current].MobilDuration/1000);
 
     if (Current>0) {
-        ui->MobilSetCustomBt->setVisible(true);
-        if (DiaporamaObject->List[Current].DefaultMobilDuration) {
-            ui->MobilCustomEd->setEnabled(false);
-            ui->MobilCustomEd->setVisible(false);
-            ui->MobilSpacer->setVisible(true);
-            ui->MobilDefault->setText(QString(QCoreApplication::translate("DlgImageProperties","Default project value=%1 sec")).arg(DiaporamaObject->Parent->MobilDuration/1000));
-        } else {
-            ui->MobilCustomEd->setEnabled(true);
-            ui->MobilCustomEd->setVisible(true);
-            ui->MobilSpacer->setVisible(false);
-            ui->MobilDefault->setText(QCoreApplication::translate("DlgImageProperties","sec"));
-        }
+        ui->MobilCustomEd->setEnabled(true);
+        ui->MobilCustomEd->setVisible(true);
+        ui->MobilSpacer->setVisible(false);
+        ui->MobilDefault->setText(QCoreApplication::translate("DlgImageProperties","sec"));
     } else {
         ui->MobilDefault->setText("");
-        ui->MobilSetCustomBt->setVisible(false);
         ui->MobilCustomEd->setVisible(false);
     }
 
@@ -274,30 +252,10 @@ void DlgImageProperties::s_ItemSelectionChanged() {
 
 //====================================================================================================================
 
-void DlgImageProperties::s_StaticSetCustom() {
-    int Current=ui->TableSeq->currentRow();
-    if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
-    DiaporamaObject->List[Current].DefaultStaticDuration=ui->StaticSetCustomBt->isChecked();
-    ui->StaticCustomEd->setEnabled(!DiaporamaObject->List[Current].DefaultStaticDuration);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
 void DlgImageProperties::s_DefineCustom(int Value) {
     int Current=ui->TableSeq->currentRow();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
     DiaporamaObject->List[Current].StaticDuration=Value*1000;
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgImageProperties::s_MobilSetCustom() {
-    int Current=ui->TableSeq->currentRow();
-    if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
-    DiaporamaObject->List[Current].DefaultMobilDuration=ui->MobilSetCustomBt->isChecked();
-    ui->MobilCustomEd->setEnabled(DiaporamaObject->List[Current].DefaultMobilDuration);
     RefreshControls();
 }
 

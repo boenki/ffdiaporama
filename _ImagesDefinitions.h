@@ -86,6 +86,7 @@ class cvideofilewrapper;
 
 class cBrushDefinition {
 public:
+    int                     TypeComposition;        // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
     int                     BrushType;              // 0=no brush, 1=Solid, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
     int                     PatternType;            // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
     int                     GradientOrientation;    // 0=Radial, 1->4=Linear from a corner, 5->9=Linear from a border
@@ -102,14 +103,15 @@ public:
 
     cBrushDefinition();
     ~cBrushDefinition();
+    void        CopyFromBrushDefinition(cBrushDefinition *BrushToCopy);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
-    QBrush      *GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage);
+    QBrush      *GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
     void        ApplyDefaultFraming(int DefaultFraming);
 
 private:
     QBrush      *GetLibraryBrush(QRectF Rect);
-    QBrush      *GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage);
+    QBrush      *GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
     int         GetHeightForWidth(int WantedWith,QRectF Rect);
     int         GetWidthForHeight(int WantedHeight,QRectF Rect);
 };

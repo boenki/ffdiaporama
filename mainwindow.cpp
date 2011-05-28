@@ -704,13 +704,12 @@ void MainWindow::s_action_AddTitle() {
     if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
 
     Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
-    Diaporama->List[CurIndex].List[0].Parent=&Diaporama->List[CurIndex];
-//
-    Diaporama->List[CurIndex].List[0].DefaultStaticDuration=0;
-    Diaporama->List[CurIndex].List[0].DefaultMobilDuration=0;
-//
-    Diaporama->List[CurIndex].TypeObject=DIAPORAMAOBJECTTYPE_EMPTY;
-    Diaporama->List[CurIndex].ApplyDefaultFraming(ApplicationConfig->DefaultFraming);
+    cDiaporamaObject *DiaporamaObject=&Diaporama->List[CurIndex];
+    DiaporamaObject->List[0].Parent        =DiaporamaObject;
+    DiaporamaObject->List[0].StaticDuration=Diaporama->NoShotDuration;
+    DiaporamaObject->Parent                =Diaporama;
+    DiaporamaObject->TypeObject            =DIAPORAMAOBJECTTYPE_EMPTY;
+
     if (Diaporama->ApplicationConfig->RandomTransition) {
         qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
         int Random=qrand();
@@ -761,9 +760,110 @@ void MainWindow::s_action_AddFile() {
         if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
         Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
-        Diaporama->List[CurIndex].List[0].Parent=&Diaporama->List[CurIndex];
-        if (Diaporama->List[CurIndex].LoadMedia(NewFile,ApplicationConfig->AllowImageExtension.contains(QFileInfo(NewFile).suffix())?DIAPORAMAOBJECTTYPE_IMAGE:DIAPORAMAOBJECTTYPE_VIDEO)) {
-            Diaporama->List[CurIndex].ApplyDefaultFraming(ApplicationConfig->DefaultFraming);
+        cDiaporamaObject *DiaporamaObject=&Diaporama->List[CurIndex];
+        DiaporamaObject->List[0].Parent        =DiaporamaObject;
+        DiaporamaObject->List[0].StaticDuration=Diaporama->NoShotDuration;
+        DiaporamaObject->Parent                =Diaporama;
+        DiaporamaObject->TypeObject            =DIAPORAMAOBJECTTYPE_EMPTY;
+
+        // Create and append a composition block to the object list
+        DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
+        cCompositionObject *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+        cBrushDefinition   *CurrentBrush=&CompositionObject->BackgroundBrush;
+
+        // Set CompositionObject to full screen
+        CompositionObject->x=0;
+        CompositionObject->y=0;
+        CompositionObject->w=1;
+        CompositionObject->h=1;
+
+        // Set other values
+        CompositionObject->Text     ="";
+        CompositionObject->PenSize  =0;
+        CurrentBrush->BrushFileName =QFileInfo(NewFile).absoluteFilePath();
+        CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
+        DiaporamaObject->SlideName  =QFileInfo(NewFile).fileName();
+
+        bool    IsValide =false;
+        QString Extension=QFileInfo(CurrentBrush->BrushFileName).suffix().toLower();
+
+        // Search if file is an image
+        for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
+            // Create an image wrapper
+            CurrentBrush->Image=new cimagefilewrapper();
+            IsValide=CurrentBrush->Image->GetInformationFromFile(CurrentBrush->BrushFileName);
+            if (!IsValide) {
+                delete CurrentBrush->Image;
+                CurrentBrush->Image=NULL;
+            }
+            break;
+        }
+        // If it's not an image : search if file is a video
+        if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
+            // Create a video wrapper
+            CurrentBrush->Video=new cvideofilewrapper();
+            IsValide=CurrentBrush->Video->GetInformationFromFile(CurrentBrush->BrushFileName,false);
+            if (!IsValide) {
+                delete CurrentBrush->Video;
+                CurrentBrush->Video=NULL;
+            } else {
+                CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
+                DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
+            }
+            break;
+        }
+        if (IsValide) {
+            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->BrushFileTransform):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->BrushFileTransform):
+                           NULL);
+            if (Image) {
+                CurrentBrush->BrushFileCorrect.ImageGeometry=GEOMETRY_PROJECT;
+                CurrentBrush->BrushFileCorrect.AspectRatio  =double(Diaporama->InternalHeight)/double(Diaporama->InternalWidth);
+
+                double  RealImageW=Image->width();
+                double  RealImageH=Image->height();
+                double  Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse
+                double  VirtImageW=Hyp;                                            // Calc canvas size
+                double  VirtImageH=Hyp;//Diaporama->GetHeightForWidth(VirtImageW);       // Calc canvas size
+                double  MagnetX1=(VirtImageW-RealImageW)/2;
+                double  MagnetX2=MagnetX1+RealImageW;
+                double  MagnetY1=(VirtImageH-RealImageH)/2;
+                double  MagnetY2=MagnetY1+RealImageH;
+                double  W;
+                double  H;
+                switch (ApplicationConfig->DefaultFraming) {
+                    case 0 :    // Adjust to Width
+                        W=MagnetX2-MagnetX1;
+                        H=W*CurrentBrush->BrushFileCorrect.AspectRatio;
+                        break;
+                    case 1 :    // Adjust to Height
+                        H=MagnetY2-MagnetY1;
+                        W=H/CurrentBrush->BrushFileCorrect.AspectRatio;
+                        break;
+                    case 2 :    // Adjust to Full
+                        W=MagnetX2-MagnetX1;
+                        H=W*CurrentBrush->BrushFileCorrect.AspectRatio;
+                        if (H>MagnetY2-MagnetY1) {
+                            H=MagnetY2-MagnetY1;
+                            W=H/CurrentBrush->BrushFileCorrect.AspectRatio;
+                        }
+                        break;
+                }
+                CurrentBrush->BrushFileCorrect.X=((VirtImageW-W)/2)/VirtImageW;
+                CurrentBrush->BrushFileCorrect.Y=((VirtImageH-H)/2)/VirtImageH;
+                CurrentBrush->BrushFileCorrect.ZoomFactor=W/VirtImageW;
+                delete Image;
+            }
+
+            // Now create and append a shot composition block to all shot
+            for (int i=0;i<DiaporamaObject->List.count();i++) {
+                DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
+                DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(CompositionObject);
+            }
+
+            // Inc NextIndexKey
+            DiaporamaObject->NextIndexKey++;
+
             if (Diaporama->ApplicationConfig->RandomTransition) {
                 qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
                 int Random=qrand();
@@ -780,6 +880,7 @@ void MainWindow::s_action_AddFile() {
             AddObjectToTimeLine(CurIndex);
             CurIndex++;
             SetModifyFlag(true);
+
         } else {
             QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+QCoreApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
             Diaporama->List.removeAt(CurIndex);

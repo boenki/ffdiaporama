@@ -54,7 +54,9 @@ void    DrawPolygonR(QPainter &Painter,double width,double height,double CenterX
 
 class cCompositionObject {
 public:
-    int         ZValue;             // Z value ordering (low is background)
+    int                 ZValue;                 // Z value ordering (low is background)
+    int                 TypeComposition;        // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
+    int                 IndexKey;
 
     // Attribut of the text object
     double              x,y,w,h;                // Position (x,y) and size (width,height)
@@ -85,9 +87,10 @@ public:
     int                 FormShadow;             // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
     int                 FormShadowDistance;     // Distance from form to shadow
 
-    cCompositionObject();
+    cCompositionObject(int TypeComposition,int IndexKey);
 
-    void        DrawCompositionObject(QPainter &Painter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage);
+    void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
+    void        DrawCompositionObject(QPainter &Painter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
 };
@@ -114,9 +117,7 @@ public:
 class cDiaporamaShot {
 public:
     cDiaporamaObject        *Parent;
-    bool                    DefaultStaticDuration;  // true if object use Diaporama duration instead of it's own duration
     int                     StaticDuration;         // Duration (in msec) of the static part animation
-    bool                    DefaultMobilDuration;   // true if object use Diaporama duration instead of it's own duration
     int                     MobilDuration;          // Duration (in msec) of the static part animation
     cFilterCorrectObject    FilterCorrection;       // Image correction
     cCompositionList        ShotComposition;        // Shot Composition object list
@@ -138,6 +139,7 @@ class cDiaporamaObject {
 public:
     cDiaporama              *Parent;                    // Link to global object
     int                     TypeObject;                 // Type of object
+    QString                 SlideName;                  // Display name of the slide
     cimagefilewrapper       *Image;                     // Embeded Object for title and image type
     cvideofilewrapper       *Video;                     // Embeded Object for video type
     QList<cDiaporamaShot>   List;                       // list of scene definition
@@ -147,6 +149,10 @@ public:
     bool                    BackgroundType;             // Background type : false=same as precedent - true=new background definition
     cBrushDefinition        BackgroundBrush;            // Background brush
     cCompositionList        BackgroundComposition;      // Background Composition object list
+
+    // Object definition
+    cCompositionList        ObjectComposition;          // Composition object list
+    int                     NextIndexKey;               // Next index key (incremental value)
 
     // Music definition
     bool                    MusicType;                  // Music type : false=same as precedent - true=new playlist definition
@@ -204,6 +210,7 @@ public:
     int                 CurrentObject_CurrentShotType;          // Type of the current shot : Static/Mobil/Video
     int                 CurrentObject_EndStaticShot;            // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     double              CurrentObject_MobilPCTDone;             // PCT achevement for mobil shot (if CurrentObject_CurrentShotType=SHOTTYPE_MOBIL)
+    double              CurrentObject_PCTDone;                  // PCT achevement for static shot
     QImage              *CurrentObject_SourceImage;             // Current image loaded for image or video or created for title
     bool                CurrentObject_FreeSourceImage;          // True if allow to delete CurrentObject_SourceImage during destructor
     int                 CurrentObject_BackgroundIndex;          // Object number containing current background definition
@@ -235,6 +242,7 @@ public:
     int                 TransitObject_CurrentShotType;          // Type of the current shot : Static/Mobil/Video
     int                 TransitObject_EndStaticShot;            // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
     double              TransitObject_MobilPCTDone;             // PCT achevement for mobil shot (if TransitObject_CurrentShotType=SHOTTYPE_MOBIL)
+    double              TransitObject_PCTDone;                  // PCT achevement for static shot
     QImage              *TransitObject_SourceImage;             // Current image loaded for image or video or created for title
     bool                TransitObject_FreeSourceImage;          // True if allow to delete TransitObject_SourceImage during destructor
     int                 TransitObject_BackgroundIndex;          // Object number containing current background definition
