@@ -388,7 +388,7 @@ void wgt_QCompositionWidget::RefreshBackgroundImage() {
 
     for (int i=0;i<CompositionList->List.count();i++) {
         // Draw composition
-        CompositionList->List[i].DrawCompositionObject(P,0,0,xmax,ymax,true,0,NULL);
+        CompositionList->List[i].DrawCompositionObject(P,0,0,xmax,ymax,true,0,NULL,1,NULL);
         // Draw border
         if (GetSelectedCompositionObject()==&CompositionList->List[i]) {
             // draw rect out of the rectangle
@@ -458,7 +458,7 @@ void wgt_QCompositionWidget::s_SelectionChangeEvent() {
 //====================================================================================================================
 
 void wgt_QCompositionWidget::s_AddNewTextToImage() {
-    CompositionList->List.append(cCompositionObject());
+    CompositionList->List.append(cCompositionObject(COMPOSITIONTYPE_BACKGROUND,0));
     cCompositionObject *CompositionObject=&CompositionList->List[CompositionList->List.count()-1];
     CompositionObject->ZValue=NextZValue;
     CompositionObject->Text=QCoreApplication::translate("wgt_QCompositionWidget","Text","Default text value");
@@ -741,7 +741,7 @@ void wgt_QCompositionWidget::s_ChgShadowDistanceValue(int value) {
 
 void wgt_QCompositionWidget::MakeFormIcon(QComboBox *UICB) {
     for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object;
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0);
         Object.Text                     ="";
         Object.x                        =0;
         Object.y                        =0;
@@ -758,7 +758,7 @@ void wgt_QCompositionWidget::MakeFormIcon(QComboBox *UICB) {
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
         ADJUST_RATIO=1;
-        Object.DrawCompositionObject(Painter,0,0,32,32,true,0,NULL);
+        Object.DrawCompositionObject(Painter,0,0,32,32,true,0,NULL,1,NULL);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -766,7 +766,7 @@ void wgt_QCompositionWidget::MakeFormIcon(QComboBox *UICB) {
 
 void wgt_QCompositionWidget::MakeTextStyleIcon(QComboBox *UICB) {
     for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object;
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0);
         Object.Text="T";
         Object.x=0.15;
         Object.y=0.15;
@@ -786,7 +786,7 @@ void wgt_QCompositionWidget::MakeTextStyleIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        Object.DrawCompositionObject(Painter,0,0,32,32,true,0,NULL);
+        Object.DrawCompositionObject(Painter,0,0,32,32,true,0,NULL,1,NULL);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }

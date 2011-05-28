@@ -86,9 +86,12 @@ void DrawPolygonR(QPainter &Painter,double width,double height,double CenterX,do
 // Base object for composition definition
 //*********************************************************************************************************************************************
 
-cCompositionObject::cCompositionObject() {
+cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey) {
     // Attribut of the text object
     ZValue                  = 500;
+    TypeComposition         = TheTypeComposition;
+    IndexKey                = TheIndexKey;
+
     x                       = 0.25;         // Position (x,y) and size (width,height)
     y                       = 0.25;
     w                       = 0.5;
@@ -120,7 +123,8 @@ cCompositionObject::cCompositionObject() {
     FormShadow              = 0;                                                // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
     FormShadowDistance      = 5;                                                // Distance from form to shadow
 
-    // BackgroundBrush is initilise by object constructor
+    // BackgroundBrush is initilise by object constructor except TypeComposition and key
+    BackgroundBrush.TypeComposition = TypeComposition;
 }
 
 //====================================================================================================================
@@ -128,6 +132,9 @@ cCompositionObject::cCompositionObject() {
 void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
+
+    Element.setAttribute("TypeComposition",TypeComposition);
+    Element.setAttribute("IndexKey",IndexKey);
 
     // Attribut of the object
     Element.setAttribute("ZValue",ZValue);                      // Z value ordering (low is background)
@@ -170,6 +177,9 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
 bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
+
+        TypeComposition     =Element.attribute("TypeComposition").toInt();
+        IndexKey            =Element.attribute("IndexKey").toInt();
 
         // Attribut of the object
         ZValue              =Element.attribute("ZValue").toInt();                   // Z value ordering (low is background)
@@ -217,21 +227,72 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 
 //====================================================================================================================
 
-void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage) {
+void cCompositionObject::CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy) {
+    ZValue               =CompositionObjectToCopy->ZValue;
+    x                    =CompositionObjectToCopy->x;
+    y                    =CompositionObjectToCopy->y;
+    w                    =CompositionObjectToCopy->w;
+    h                    =CompositionObjectToCopy->h;
+    RotateZAxis          =CompositionObjectToCopy->RotateZAxis;
+    RotateXAxis          =CompositionObjectToCopy->RotateXAxis;
+    RotateYAxis          =CompositionObjectToCopy->RotateYAxis;
+    Opacity              =CompositionObjectToCopy->Opacity;
+    Text                 =CompositionObjectToCopy->Text;
+    FontName             =CompositionObjectToCopy->FontName;
+    FontSize             =CompositionObjectToCopy->FontSize;
+    FontColor            =CompositionObjectToCopy->FontColor;
+    FontShadowColor      =CompositionObjectToCopy->FontShadowColor;
+    IsBold               =CompositionObjectToCopy->IsBold;
+    IsItalic             =CompositionObjectToCopy->IsItalic;
+    IsUnderline          =CompositionObjectToCopy->IsUnderline;
+    HAlign               =CompositionObjectToCopy->HAlign;
+    VAlign               =CompositionObjectToCopy->VAlign;
+    StyleText            =CompositionObjectToCopy->StyleText;
+    BackgroundForm       =CompositionObjectToCopy->BackgroundForm;
+    PenSize              =CompositionObjectToCopy->PenSize;
+    PenStyle             =CompositionObjectToCopy->PenStyle;
+    PenColor             =CompositionObjectToCopy->PenColor;
+    FormShadow           =CompositionObjectToCopy->FormShadow;
+    FormShadowDistance   =CompositionObjectToCopy->FormShadowDistance;
+
+    BackgroundBrush.CopyFromBrushDefinition(&CompositionObjectToCopy->BackgroundBrush);
+}
+
+//====================================================================================================================
+
+void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject) {
     // W and H = 0 when producing sound track in render process
     bool    SoundOnly=((width==0)&&(height==0));
 
     if (SoundOnly) {
         // if SoundOnly then load Brush of type BRUSHTYPE_IMAGEDISK to SoundTrackMontage
         if (BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK) {
-            QBrush *BR=BackgroundBrush.GetBrush(QRectF(0,0,0,0),PreviewMode,Position,SoundTrackMontage);
+            QBrush *BR=BackgroundBrush.GetBrush(QRectF(0,0,0,0),PreviewMode,Position,SoundTrackMontage,1,NULL);
             delete BR;
         }
     } else {
+        // Define values depending on PctDone and PrevCompoObject
+        double TheX=x;
+        double TheY=y;
+        double TheW=w;
+        double TheH=h;
+        double TheRotateZAxis=RotateZAxis;
+        double TheRotateXAxis=RotateXAxis;
+        double TheRotateYAxis=RotateYAxis;
+        if (PrevCompoObject) {
+            if (PrevCompoObject->x!=TheX)                       TheX          =PrevCompoObject->x+(TheX-PrevCompoObject->x)*PctDone;
+            if (PrevCompoObject->y!=TheY)                       TheY          =PrevCompoObject->y+(TheY-PrevCompoObject->y)*PctDone;
+            if (PrevCompoObject->w!=TheW)                       TheW          =PrevCompoObject->w+(TheW-PrevCompoObject->w)*PctDone;
+            if (PrevCompoObject->h!=TheH)                       TheH          =PrevCompoObject->h+(TheH-PrevCompoObject->h)*PctDone;
+            if (PrevCompoObject->RotateZAxis!=TheRotateZAxis)   TheRotateZAxis=PrevCompoObject->RotateZAxis+(TheRotateZAxis-PrevCompoObject->RotateZAxis)*PctDone;
+            if (PrevCompoObject->RotateXAxis!=TheRotateXAxis)   TheRotateXAxis=PrevCompoObject->RotateXAxis+(TheRotateXAxis-PrevCompoObject->RotateXAxis)*PctDone;
+            if (PrevCompoObject->RotateYAxis!=TheRotateYAxis)   TheRotateYAxis=PrevCompoObject->RotateYAxis+(TheRotateYAxis-PrevCompoObject->RotateYAxis)*PctDone;
+        }
+
         QPen    Pen;
         double  FullMargin=0;
-        double  W=w*double(width);
-        double  H=h*double(height);
+        double  W=TheW*double(width);
+        double  H=TheH*double(height);
         double  Wb=sqrt(W*W+H*H);
         double  Hb=Wb*H/W;
         if (Hb<W) {
@@ -259,9 +320,9 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
         // All coordonates from center
         QTransform  Matrix;
         Matrix.translate(W/2+(Wb-W)/2,H/2+(Hb-H)/2);
-        if (RotateZAxis!=0) Matrix.rotate(RotateZAxis,Qt::ZAxis);   // Standard axis
-        if (RotateXAxis!=0) Matrix.rotate(RotateXAxis,Qt::XAxis);   // Rotate from X axis
-        if (RotateYAxis!=0) Matrix.rotate(RotateYAxis,Qt::YAxis);   // Rotate from Y axis
+        if (TheRotateZAxis!=0) Matrix.rotate(TheRotateZAxis,Qt::ZAxis);   // Standard axis
+        if (TheRotateXAxis!=0) Matrix.rotate(TheRotateXAxis,Qt::XAxis);   // Rotate from X axis
+        if (TheRotateYAxis!=0) Matrix.rotate(TheRotateYAxis,Qt::YAxis);   // Rotate from Y axis
         Painter.setWorldTransform(Matrix,false);
 
         // Draw ExternalBorder border
@@ -274,7 +335,8 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
         }
         // Draw internal shape
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
-            QBrush      *BR=BackgroundBrush.GetBrush(QRectF(-1,-1,W-FullMargin*2,H-FullMargin*2),PreviewMode,Position,SoundTrackMontage);
+            // Create brush with Ken Burns effect !
+            QBrush      *BR=BackgroundBrush.GetBrush(QRectF(-1,-1,W-FullMargin*2,H-FullMargin*2),PreviewMode,Position,SoundTrackMontage,PctDone,PrevCompoObject?&PrevCompoObject->BackgroundBrush:NULL);
             QTransform  MatrixBR;
             MatrixBR.translate(FullMargin-W/2,FullMargin-H/2);
             BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
@@ -361,14 +423,14 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
             }
             DestPainter.setOpacity(Opacity==0?0.75:Opacity==1?0.50:Opacity==2?0.25:0.10);
             switch (FormShadow) {
-                case 1  : DestPainter.drawImage(AddX+x*double(width)-Distance,AddY+y*double(height)-Distance,ImgShadow); break;
-                case 2  : DestPainter.drawImage(AddX+x*double(width)+Distance,AddY+y*double(height)-Distance,ImgShadow); break;
-                case 3  : DestPainter.drawImage(AddX+x*double(width)-Distance,AddY+y*double(height)+Distance,ImgShadow); break;
-                default : DestPainter.drawImage(AddX+x*double(width)+Distance,AddY+y*double(height)+Distance,ImgShadow); break;
+                case 1  : DestPainter.drawImage(AddX+TheX*double(width)-Distance,AddY+TheY*double(height)-Distance,ImgShadow); break;
+                case 2  : DestPainter.drawImage(AddX+TheX*double(width)+Distance,AddY+TheY*double(height)-Distance,ImgShadow); break;
+                case 3  : DestPainter.drawImage(AddX+TheX*double(width)-Distance,AddY+TheY*double(height)+Distance,ImgShadow); break;
+                default : DestPainter.drawImage(AddX+TheX*double(width)+Distance,AddY+TheY*double(height)+Distance,ImgShadow); break;
             }
         }
         if ((Opacity>0)&&(Opacity<4)) DestPainter.setOpacity(Opacity==1?0.75:Opacity==2?0.50:0.25); else DestPainter.setOpacity(1);
-        DestPainter.drawImage(AddX+x*double(width),AddY+y*double(height),Img);
+        DestPainter.drawImage(AddX+TheX*double(width),AddY+TheY*double(height),Img);
         DestPainter.restore();
     }
 }
@@ -391,6 +453,7 @@ void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     // Save composition list
+    Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("CompositionNumber",List.count());
     for (int i=0;i<List.count();i++) List[i].SaveToXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath);
     domDocument.appendChild(Element);
@@ -404,9 +467,10 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         bool IsOk=true;
         // Load composition list
         List.clear();
+        TypeComposition=Element.attribute("TypeComposition").toInt();
         int CompositionNumber=Element.attribute("CompositionNumber").toInt();
         for (int i=0;i<CompositionNumber;i++) {
-            cCompositionObject *CompositionObject=new cCompositionObject();
+            cCompositionObject *CompositionObject=new cCompositionObject(TypeComposition,0);    // IndexKey will be load from XML
             if (!CompositionObject->LoadFromXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
             List.append(*CompositionObject);
         }
@@ -422,10 +486,8 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 
 cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject) {
     Parent                          = DiaporamaObject;
-    DefaultStaticDuration           = true;                     // true if object use Diaporama duration instead of it's own duration
-    DefaultMobilDuration            = true;                     // true if object use Diaporama duration instead of it's own duration
-    StaticDuration                  = 7000;                     // Duration (in msec) of the static part animation
-    MobilDuration                   = 3000;                     // Duration (in msec) of the static part animation
+    StaticDuration                  = Parent->Parent->FixedDuration;    // Duration (in msec) of the static part animation
+    MobilDuration                   = Parent->Parent->MobilDuration;    // Duration (in msec) of the mobil part animation
     ShotComposition.TypeComposition = COMPOSITIONTYPE_SHOT;
 }
 
@@ -438,11 +500,12 @@ cDiaporamaShot::~cDiaporamaShot() {
 //====================================================================================================================
 
 int cDiaporamaShot::GetStaticDuration() {
-    if (DefaultStaticDuration) return Parent->List.count()>1?Parent->Parent->FixedDuration:Parent->Parent->NoShotDuration; else return StaticDuration;
+    return StaticDuration;
 }
 
 int cDiaporamaShot::GetMobilDuration() {
-    if (DefaultMobilDuration) return Parent->Parent->MobilDuration; else return MobilDuration;
+    if (Parent->TypeObject==DIAPORAMAOBJECTTYPE_EMPTY) return 0;
+    return MobilDuration;
 }
 
 //===============================================================
@@ -451,9 +514,7 @@ void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QStr
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
-    Element.setAttribute("DefaultStaticDuration",DefaultStaticDuration?"1":"0");        // true if object use Diaporama duration instead of it's own duration
     Element.setAttribute("StaticDuration",StaticDuration);                              // Duration (in msec) of the static part animation
-    Element.setAttribute("DefaultMobilDuration",DefaultMobilDuration?"1":"0");          // true if object use Diaporama duration instead of it's own duration
     Element.setAttribute("MobilDuration",MobilDuration);                                // Duration (in msec) of the static part animation
     FilterCorrection.SaveToXML(Element,"FilterCorrection",PathForRelativPath);          // Image correction
     ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath);            // Composition list for this object
@@ -466,10 +527,13 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
-        DefaultStaticDuration   =Element.attribute("DefaultStaticDuration")=="1";       // true if object use Diaporama duration instead of it's own duration
-        StaticDuration          =Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
-        DefaultMobilDuration    =Element.attribute("DefaultMobilDuration")=="1";        // true if object use Diaporama duration instead of it's own duration
-        MobilDuration           =Element.attribute("MobilDuration").toInt();            // Duration (in msec) of the static part animation
+        //==========> Récupération des données !
+        if (Element.attribute("DefaultStaticDuration")=="1") StaticDuration=-1;
+            else StaticDuration=Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
+
+        if (Element.attribute("DefaultMobilDuration")=="1") MobilDuration=Parent->Parent->MobilDuration;
+            else MobilDuration=Element.attribute("MobilDuration").toInt();            // Duration (in msec) of the static part animation
+
         FilterCorrection.LoadFromXML(Element,"FilterCorrection",PathForRelativPath);    // Image correction
 
         // Recupération des anciennes sauvegardes (De la v0 à la 20110513 )
@@ -499,8 +563,10 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
 //*********************************************************************************************************************************************
 
 cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
-    Parent                  = Diaporama;
-    TypeObject              = DIAPORAMAOBJECTTYPE_EMPTY;
+    Parent                                  = Diaporama;
+    TypeObject                              = DIAPORAMAOBJECTTYPE_EMPTY;
+    SlideName                               = QCoreApplication::translate("MainWindow","Title","Default slide name when no file");
+    NextIndexKey                            = 1;
 
     // Set default/initial value
     BackgroundType                          = false;                        // Background type : false=same as precedent - true=new background definition
@@ -516,6 +582,7 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
     TransitionSubType                       = 0;                            // Transition type in the familly
     TransitionDuration                      = 1000;                         // Transition duration (in msec)
     BackgroundComposition.TypeComposition   = COMPOSITIONTYPE_BACKGROUND;
+    ObjectComposition.TypeComposition       = COMPOSITIONTYPE_OBJECT;
     Thumbnail                               = NULL;
 
     // Add an empty scene
@@ -561,7 +628,7 @@ bool cDiaporamaObject::LoadMedia(QString &filename,int MediaType) {
         Video=NULL;
     }
 
-    TypeObject=MediaType;
+    TypeObject=DIAPORAMAOBJECTTYPE_EMPTY;//MediaType;
 
     bool IsValide=false;
     switch (MediaType) {
@@ -577,8 +644,6 @@ bool cDiaporamaObject::LoadMedia(QString &filename,int MediaType) {
             IsValide=Video->GetInformationFromFile(filename,false);
             Video->StartPos              =QTime(0,0,0,0);
             Video->EndPos                =Video->Duration;
-            List[0].DefaultStaticDuration=false;
-            List[0].DefaultMobilDuration =false;
             List[0].StaticDuration       =Video->StartPos.msecsTo(Video->EndPos);
             List[0].MobilDuration        =0;
             break;
@@ -833,7 +898,20 @@ void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Positio
     P->drawImage(QRectF(DestX+AddX,DestY+AddY,DestW,DestH),GlobalImageComposition,QRectF(SrcX,SrcY,SrcW,SrcH));
 
     // Add static shot composition
-    if (ApplyShotText) for (int j=0;j<List[Sequence].ShotComposition.List.count();j++) List[Sequence].ShotComposition.List[j].DrawCompositionObject(*P,AddX,AddY,Width,Height,true,0,NULL);
+    if (ApplyShotText) for (int j=0;j<List[Sequence].ShotComposition.List.count();j++) {
+        cCompositionObject *PrevCompoObject=NULL;
+        if (Sequence>0) {
+            int k=0;
+            while (k<List[Sequence-1].ShotComposition.List.count()) {
+                if (List[Sequence-1].ShotComposition.List[k].IndexKey==List[Sequence].ShotComposition.List[j].IndexKey) {
+                    PrevCompoObject=&List[Sequence-1].ShotComposition.List[k];
+                    k=List[Sequence-1].ShotComposition.List.count();
+                } else k++;
+            }
+        }
+
+        List[Sequence].ShotComposition.List[j].DrawCompositionObject(*P,AddX,AddY,Width,Height,true,0,NULL,PctDone,PrevCompoObject);
+    }
 
     if (ImagePosition!=NULL) *ImagePosition=QRectF(DestX,DestY,DestW,DestH);
 
@@ -903,10 +981,11 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     if ((Image!=NULL)&&(Image->FileName!=""))       FileName=Image->FileName;
     else if ((Video!=NULL)&&(Video->FileName!=""))  FileName=Video->FileName;
 
-    if (PathForRelativPath!="") FileName=QDir(PathForRelativPath).relativeFilePath(FileName);
+    Element.setAttribute("TypeObject",TypeObject);
+    Element.setAttribute("SlideName", SlideName);
 
+    if (PathForRelativPath!="") FileName=QDir(PathForRelativPath).relativeFilePath(FileName);
     Element.setAttribute("ObjectFileName",  FileName);
-    Element.setAttribute("TypeObject",      TypeObject);
     if (Video!=NULL) {
         Element.setAttribute("StartPos",Video->StartPos.toString());                        // Start position (video only)
         Element.setAttribute("EndPos",Video->EndPos.toString());                            // End position (video only)
@@ -926,6 +1005,9 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     Element.appendChild(SubElement);
 
     FilterTransform.SaveToXML(Element,"GlobalImageFilters",PathForRelativPath);             // Global Image filters
+
+    Element.setAttribute("NextIndexKey",    NextIndexKey);
+    ObjectComposition.SaveToXML(SubElement,"ObjectComposition",PathForRelativPath);         // ObjectComposition
 
     // Save shot list
     Element.setAttribute("ShotNumber",List.count());
@@ -948,6 +1030,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
+        SlideName=Element.attribute("SlideName");
         QString FileName=Element.attribute("ObjectFileName","");
         if (PathForRelativPath!="") FileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FileName));
 
@@ -963,6 +1046,9 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
                 List.append(*imagesequence);
             }
+            //==========> Récupération des données : Adjust duration
+            for (int i=0;i<ShotNumber;i++) if (List[i].StaticDuration==-1) List[i].StaticDuration=ShotNumber>1?Parent->FixedDuration:Parent->NoShotDuration;
+            //==========>
 
             if (Video!=NULL) {
                 Video->SoundVolume=Element.attribute("SoundVolume").toDouble();         // Volume of soundtrack (for video only)
@@ -972,9 +1058,10 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 
             if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
                 QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
-                BackgroundType  =SubElement.attribute("BackgroundType")=="1";                                                           // Background type : false=same as precedent - true=new background definition
+                BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
 
                 //==========> Récupération des données ! if Object don't use full canvas (height is hypothenuse of the image rectangle and width is calc from aspect ratio)
+                // Note : C'était idiot mais l'attribut full canvas était placé sur le background !
                 if ((SubElement.hasAttribute("FullCanvas"))&&(SubElement.attribute("FullCanvas")!="1")) {
                     // Recalculate all shot size and position for normal to full canvas
                     QImage   *ReturnImage=NULL;
@@ -1031,13 +1118,34 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     QDomElement SubElement=Element.elementsByTagName("GlobalImageComposition").item(0).toElement();
                     int CompositionNumber=SubElement.attribute("CompositionNumber").toInt();
                     for (int i=0;i<CompositionNumber;i++) {
-                        cCompositionObject *CompositionObject=new cCompositionObject();
+
+                        cCompositionObject *CompositionObject    =new cCompositionObject(COMPOSITIONTYPE_OBJECT,NextIndexKey);
                         CompositionObject->LoadFromXML(SubElement,"Composition-"+QString("%1").arg(i),PathForRelativPath);
-                        List[0].ShotComposition.List.append(*CompositionObject);
+                        ObjectComposition.List.append(*CompositionObject);
+
+                        cCompositionObject *CompositionShotObject=new cCompositionObject(COMPOSITIONTYPE_SHOT,NextIndexKey);
+                        CompositionShotObject->CopyFromCompositionObject(CompositionObject);
+                        List[0].ShotComposition.List.append(*CompositionShotObject);
+                        NextIndexKey++;
                     }
                 }
             }
             //==========>
+
+            NextIndexKey=Element.attribute("NextIndexKey").toInt();
+            ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath);         // ObjectComposition
+
+            // Construct link to video and image object from DiaporamaObject->ObjectComposition to all DiaporamaShotObject.ShotComposition objects !
+            for (int i=0;i<List.count();i++) for (int j=0;j<List[i].ShotComposition.List.count();j++) {
+                int k=0;
+                while (k<ObjectComposition.List.count()) {
+                    if (ObjectComposition.List[k].IndexKey==List[i].ShotComposition.List[j].IndexKey) {
+                        List[i].ShotComposition.List[j].BackgroundBrush.Video=ObjectComposition.List[k].BackgroundBrush.Video;
+                        List[i].ShotComposition.List[j].BackgroundBrush.Image=ObjectComposition.List[k].BackgroundBrush.Image;
+                        k=ObjectComposition.List.count();
+                    } else k++;
+                }
+            }
 
 
             // Load Music list
@@ -1052,6 +1160,10 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
                 MusicList.append(*MusicObject);
             }
+
+            //==========> Récupération des données !
+            if (SlideName=="") SlideName=Image?QFileInfo(Image->FileName).fileName():Video?QFileInfo(Video->FileName).fileName():QCoreApplication::translate("MainWindow","Title","Default slide name when no file");;
+            //==========> Récupération des données !
 
             return IsOk;
         } else return false;
@@ -1194,12 +1306,12 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
     Painter->save();
     Painter->translate(AddX,AddY);
     if (!List[Index].BackgroundType) Painter->fillRect(QRect(0,0,Width,Height),QBrush(Qt::black)); else {
-        QBrush *BR=List[Index].BackgroundBrush.GetBrush(QRectF(0,0,Width,Height),true,0,NULL);
+        QBrush *BR=List[Index].BackgroundBrush.GetBrush(QRectF(0,0,Width,Height),true,0,NULL,1,NULL);
         Painter->fillRect(QRect(0,0,Width,Height),*BR);
         delete BR;
     }
     //
-    if (ApplyComposition) for (int j=0;j<List[Index].BackgroundComposition.List.count();j++) List[Index].BackgroundComposition.List[j].DrawCompositionObject(*Painter,0,0,Width,Height,true,0,NULL);
+    if (ApplyComposition) for (int j=0;j<List[Index].BackgroundComposition.List.count();j++) List[Index].BackgroundComposition.List[j].DrawCompositionObject(*Painter,0,0,Width,Height,true,0,NULL,1,NULL);
     Painter->restore();
 }
 
@@ -1474,6 +1586,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     int                     ShotType    =IsCurrentObject?Info->CurrentObject_CurrentShotType:Info->TransitObject_CurrentShotType;
     int                     ShotSeqNum  =IsCurrentObject?Info->CurrentObject_ShotSequenceNumber:Info->TransitObject_ShotSequenceNumber;
     double                  MobilPCTDone=IsCurrentObject?Info->CurrentObject_MobilPCTDone:Info->TransitObject_MobilPCTDone;
+    double                  PCTDone     =IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone;
 
     double                  DestX,DestY,DestW,DestH;                        // Coordonates of destination image in the virtual image
     double                  SrcX,SrcY,SrcW,SrcH;                            // Coordonates of the destination image in the source image
@@ -1484,6 +1597,8 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     QImage                  *Image=NULL;
     QImage                  Image1,Image2;                                  // Temporary object use to create frame (Image2 is the rendered image for montage)
     QPainter                P;
+
+    qDebug()<<"PCTDone"<<PCTDone;
 
     if (!SoundOnly) {
         Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
@@ -1590,8 +1705,21 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
         }
 
         cSoundBlockList *SoundTrackMontage=(IsCurrentObject?Info->CurrentObject_SoundTrackMontage:Info->TransitObject_SoundTrackMontage);
+        int             ObjectNumber =IsCurrentObject?Info->CurrentObject_Number:Info->TransitObject_Number;
+        int             ShotNumber   =IsCurrentObject?Info->CurrentObject_ShotSequenceNumber:Info->TransitObject_ShotSequenceNumber;
+        cDiaporamaShot  *PreviousShot=(ShotNumber>0?&List[ObjectNumber].List[ShotNumber-1]:NULL);
         for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
-            CurShot->ShotComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime,SoundTrackMontage);
+            cCompositionObject *PrevCompoObject=NULL;
+            if (PreviousShot) {
+                int k=0;
+                while (k<PreviousShot->ShotComposition.List.count()) {
+                    if (PreviousShot->ShotComposition.List[k].IndexKey==CurShot->ShotComposition.List[j].IndexKey) {
+                        PrevCompoObject=&PreviousShot->ShotComposition.List[k];
+                        k=PreviousShot->ShotComposition.List.count();
+                    } else k++;
+                }
+            }
+            CurShot->ShotComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime,SoundTrackMontage,PCTDone,PrevCompoObject);
             // Special case when no sound and video object
             if ((!SoundTrackMontage)&&(CurShot->ShotComposition.List[j].BackgroundBrush.Video)) CurShot->ShotComposition.List[j].BackgroundBrush.Video->NextPacketPosition+=Info->FrameDuration;
         }
@@ -1906,7 +2034,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
             if (Info->CurrentObject_BackgroundBrush==NULL) {
                 if ((Info->CurrentObject_BackgroundIndex>=List.count())||(List[Info->CurrentObject_BackgroundIndex].BackgroundType==false))
                     Info->CurrentObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
-                    else Info->CurrentObject_BackgroundBrush=List[Info->CurrentObject_BackgroundIndex].BackgroundBrush.GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL);
+                    else Info->CurrentObject_BackgroundBrush=List[Info->CurrentObject_BackgroundIndex].BackgroundBrush.GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL,1,NULL);
                 // Create PreparedBackground
                 Info->CurrentObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
                 QPainter P;
@@ -1914,14 +2042,14 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
                 // Apply composition to background
                 for (int j=0;j<List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List.count();j++)
-                    List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,0,NULL);
+                    List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,0,NULL,1,NULL);
                 P.end();
             }
             // same job for Transition Object if a previous was not keep !
             if ((Info->TransitObject)&&(Info->TransitObject_BackgroundBrush==NULL)) {
                 if ((Info->TransitObject_BackgroundIndex>=List.count())||(List[Info->TransitObject_BackgroundIndex].BackgroundType==false))
                     Info->TransitObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
-                    else Info->TransitObject_BackgroundBrush=List[Info->TransitObject_BackgroundIndex].BackgroundBrush.GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL);
+                    else Info->TransitObject_BackgroundBrush=List[Info->TransitObject_BackgroundIndex].BackgroundBrush.GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL,1,NULL);
                 // Create PreparedBackground
                 Info->TransitObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
                 QPainter P;
@@ -1929,7 +2057,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
                 // Apply composition to background
                 for (int j=0;j<List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List.count();j++)
-                    List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,0,NULL);
+                    List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,0,NULL,1,NULL);
                 P.end();
             }
         }
@@ -2092,6 +2220,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     CurrentObject_CurrentShotType       =PreviousFrame->CurrentObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
     CurrentObject_EndStaticShot         =PreviousFrame->CurrentObject_EndStaticShot;        // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     CurrentObject_MobilPCTDone          =PreviousFrame->CurrentObject_MobilPCTDone;         // PCT achevement for mobil shot (if CurrentObject_CurrentShotType=SHOTTYPE_MOBIL)
+    CurrentObject_PCTDone               =PreviousFrame->CurrentObject_PCTDone;
     CurrentObject_SourceImage           =PreviousFrame->CurrentObject_SourceImage;          // Source image
     CurrentObject_FreeSourceImage       =false;                                             // True if allow to delete CurrentObject_SourceImage during destructor
     CurrentObject_BackgroundIndex       =PreviousFrame->CurrentObject_BackgroundIndex;      // Object number containing current background definition
@@ -2120,6 +2249,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     TransitObject_CurrentShotType       =PreviousFrame->TransitObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
     TransitObject_EndStaticShot         =PreviousFrame->TransitObject_EndStaticShot;        // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
     TransitObject_MobilPCTDone          =PreviousFrame->TransitObject_MobilPCTDone;         // PCT achevement for mobil shot (if TransitObject_CurrentShotType=SHOTTYPE_MOBIL)
+    TransitObject_PCTDone               =PreviousFrame->TransitObject_PCTDone;
     TransitObject_SourceImage           =PreviousFrame->TransitObject_SourceImage;          // Source image
     TransitObject_FreeSourceImage       =false;                                             // True if allow to delete TransitObject_SourceImage during destructor
     TransitObject_BackgroundIndex       =PreviousFrame->TransitObject_BackgroundIndex;      // Object number containing current background definition
@@ -2153,6 +2283,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     CurrentObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
     CurrentObject_EndStaticShot         =0;                 // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     CurrentObject_MobilPCTDone          =0;                 // PCT achevement for mobil shot (if CurrentObject_CurrentShotType=SHOTTYPE_MOBIL)
+    CurrentObject_PCTDone               =0;                 // PCT achevement for static shot
     CurrentObject_SourceImage           =NULL;              // Source image
     CurrentObject_FreeSourceImage       =true;              // True if allow to delete CurrentObject_SourceImage during destructor
     CurrentObject_BackgroundIndex       =0;                 // Object number containing current background definition
@@ -2181,6 +2312,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     TransitObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
     TransitObject_EndStaticShot         =0;                 // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
     TransitObject_MobilPCTDone          =0;                 // PCT achevement for mobil shot (if TransitObject_CurrentShotType=SHOTTYPE_MOBIL)
+    TransitObject_PCTDone               =0;                 // PCT achevement for static shot
     TransitObject_SourceImage           =NULL;              // Source image
     TransitObject_FreeSourceImage       =true;              // True if allow to delete TransitObject_SourceImage during destructor
     TransitObject_BackgroundIndex       =0;                 // Object number containing current background definition
@@ -2245,10 +2377,18 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 }
 
             } else {
-                /*if (CurrentObject->Video==NULL) {
-                    CurrentObject_CurrentShotType=SHOTTYPE_STATIC;
-                    CurrentObject_EndStaticShot  =CurrentObject_InObjectTime+CurrentObject_CurrentShot->GetStaticDuration();
-                } else CurrentObject_CurrentShotType=SHOTTYPE_VIDEO;*/
+
+                CurrentObject_CurrentShotType =SHOTTYPE_STATIC;
+                switch (Diaporama->SpeedWave) {
+                case SPEEDWAVE_LINEAR :
+                    CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetStaticDuration()));
+                    break;
+                case SPEEDWAVE_SINQUARTER :
+                    CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetStaticDuration()));
+                    CurrentObject_PCTDone=sin(1.5708*CurrentObject_PCTDone);
+                    break;
+                }
+
                 // Force all to SHOTTYPE_VIDEO
                 CurrentObject_CurrentShotType=SHOTTYPE_VIDEO;
             }

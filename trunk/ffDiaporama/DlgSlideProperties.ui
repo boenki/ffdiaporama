@@ -256,7 +256,7 @@
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
          <property name="tabKeyNavigation">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="showDropIndicator" stdset="0">
           <bool>false</bool>
@@ -268,7 +268,7 @@
           <enum>QAbstractItemView::SingleSelection</enum>
          </property>
          <property name="selectionBehavior">
-          <enum>QAbstractItemView::SelectRows</enum>
+          <enum>QAbstractItemView::SelectColumns</enum>
          </property>
          <property name="wordWrap">
           <bool>false</bool>
@@ -302,14 +302,14 @@
         <widget class="QGraphicsView" name="GraphicsView"/>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_9">
-         <property name="spacing">
-          <number>2</number>
-         </property>
+        <layout class="QGridLayout" name="gridLayout_5">
          <property name="margin">
           <number>0</number>
          </property>
-         <item>
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <item row="0" column="0">
           <widget class="QLabel" name="label_28">
            <property name="text">
             <string>Slide name :</string>
@@ -319,8 +319,93 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="1">
           <widget class="QLineEdit" name="SlideNameED"/>
+         </item>
+         <item row="2" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="QDoubleSpinBox" name="ShotDurationED">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_23">
+             <property name="font">
+              <font>
+               <italic>true</italic>
+              </font>
+             </property>
+             <property name="text">
+              <string>(Minimum :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="MinShotDurationLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string notr="true">00:00:00.000</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_25">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>)</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Shot duration :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_29">
+           <property name="text">
+            <string>Total slide duration :</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="SlideDurationLabel">
+           <property name="text">
+            <string notr="true">00:00:00.000</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -585,12 +670,12 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-664</y>
+            <y>0</y>
             <width>282</width>
-            <height>1244</height>
+            <height>1176</height>
            </rect>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,0,0">
+          <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,0">
            <property name="spacing">
             <number>2</number>
            </property>
@@ -693,25 +778,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="ArrowBT_ShotProperties">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Shot properties</string>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-             <property name="arrowType">
-              <enum>Qt::RightArrow</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QWidget" name="ShotPropertiesWidget" native="true">
              <layout class="QGridLayout" name="gridLayout_3">
               <property name="margin">
@@ -720,54 +786,6 @@
               <property name="spacing">
                <number>2</number>
               </property>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_15">
-                <property name="text">
-                 <string>Shot duration :</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QSpinBox" name="spinBox">
-                <property name="minimumSize">
-                 <size>
-                  <width>60</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>60</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_23">
-                <property name="font">
-                 <font>
-                  <italic>true</italic>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Minimum shot duration :</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="MiniShotDurationLabel">
-                <property name="text">
-                 <string notr="true">0</string>
-                </property>
-               </widget>
-              </item>
              </layout>
             </widget>
            </item>

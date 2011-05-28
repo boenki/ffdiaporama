@@ -269,31 +269,6 @@
            <property name="spacing">
             <number>0</number>
            </property>
-           <item row="5" column="3">
-            <widget class="QCheckBox" name="MobilSetCustomBt">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Use project value for mobil duration</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="3" colspan="5">
             <widget class="QLabel" name="label_3">
              <property name="font">
@@ -341,31 +316,6 @@
              </property>
              <property name="text">
               <string notr="true">(0)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="3">
-            <widget class="QCheckBox" name="StaticSetCustomBt">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Use project value for static duration</string>
              </property>
             </widget>
            </item>

@@ -66,9 +66,7 @@ private slots:
     // Animation Tab
     //**************************************************************
     void        s_ItemSelectionChanged();
-    void        s_StaticSetCustom();
     void        s_DefineCustom(int Value);
-    void        s_MobilSetCustom();
     void        s_MobilCustom(int Value);
     void        s_addSequence();
     void        s_removeSequence();
