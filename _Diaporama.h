@@ -58,14 +58,13 @@ public:
     int                 TypeComposition;        // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
     int                 IndexKey;
 
-    // Attribut of the text object
+    // Attribut of the text object (Shot values)
     double              x,y,w,h;                // Position (x,y) and size (width,height)
     double              RotateZAxis;            // Rotation from Z axis
     double              RotateXAxis;            // Rotation from X axis
     double              RotateYAxis;            // Rotation from Y axis
-    int                 Opacity;                // Opacity of the form
 
-    // Attribut of the text part
+    // Attribut of the text part (Global values)
     QString             Text;                   // Text of the object
     QString             FontName;               // font name
     int                 FontSize;               // font size
@@ -78,7 +77,7 @@ public:
     int                 VAlign;                 // Vertical alignement : 0=up, 1=center, 2=bottom
     int                 StyleText;              // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
 
-    // Attribut of the shap part
+    // Attribut of the shap part (Global values)
     int                 BackgroundForm;         // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
     cBrushDefinition    BackgroundBrush;        // Brush of the background of the form
     int                 PenSize;                // Width of the border of the form
@@ -86,6 +85,7 @@ public:
     QString             PenColor;               // Color of the border of the form
     int                 FormShadow;             // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
     int                 FormShadowDistance;     // Distance from form to shadow
+    int                 Opacity;                // Opacity of the form
 
     cCompositionObject(int TypeComposition,int IndexKey);
 

@@ -1,9 +1,9 @@
 Buggs :
     Tester les générations avec plusieurs lecteurs : géométrie douteuse !
-    Détecter si un slide contient des videos et ajuster le thumbnail en fonction
+    Les sauvegardes des positions de fenetres sont fausse avec GNOME Classic
 
 A faire  :
-    Transfere le control de volume de la boite video à la boite slide
+    Transferer le control de volume de la boite video à la boite slide
     Empecher 2 videos d'avoir le son en meme temps
     Calculer et afficher la durée mini des blocs
     Autoriser les blocs à sortir de l'écran

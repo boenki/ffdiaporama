@@ -243,95 +243,105 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Painter.drawPolygon(Table,3);
                 }
 
-                switch(Object->TypeObject) {
-                    case DIAPORAMAOBJECTTYPE_EMPTY :
-                    case DIAPORAMAOBJECTTYPE_IMAGE :
-                        Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,GlobalMainWindow->Diaporama->Transparent);
-                        Object->DrawThumbnail(ThumbWidth,ThumbHeight,&Painter,TransitionSize+3,2-1);   // Draw Thumb
-                        if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32,QImage(ICON_SHOTPRESENCE));
-                        DrawThumbnailsBox(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,Painter,NULL);
-                        MediaObjectRect=QRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight);
-                        break;
-                    case DIAPORAMAOBJECTTYPE_VIDEO :
-                        int H3            =NewThumbHeight/5;
-                        int HH3           =(NewThumbHeight-H3*3)/4;
-                        int RHeight       =int(double(TIMELINESOUNDHEIGHT)*(GlobalMainWindow->Diaporama->List[Col].Video->SoundVolume/1.5));
+                // Parse ObjectComposition table to determine if slide have sound
+                bool                HaveSound   =false;
+                double              SoundVolume =0;
+                for (int i=0;i<Object->ObjectComposition.List.count();i++) if ((Object->ObjectComposition.List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
+                    (Object->ObjectComposition.List[i].BackgroundBrush.Video)&&(Object->ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume!=0)) {
 
-                        // Draw thumb part
-                        Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,GlobalMainWindow->Diaporama->Transparent);
-                        Object->DrawThumbnail(NewThumbWidth,NewThumbHeight,&Painter,TransitionSize+3+BarWidth,2-1);   // Draw Thumb
-                        if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+BarWidth+NewThumbWidth-32,2-1+NewThumbHeight-32,QImage(ICON_SHOTPRESENCE));
-                        DrawThumbnailsBox(TransitionSize+3+BarWidth,2-1,NewThumbWidth,NewThumbHeight,Painter,NULL);
-                        DrawThumbnailsBox(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,Painter,NULL);
-                        MediaObjectRect=QRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight);
+                    HaveSound=true;
+                    if (Object->ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume>SoundVolume) SoundVolume=Object->ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume;
+                }
+                if (!HaveSound) {
+                    // Display a thumb with no sound
 
-                        // Draw black bar for cinema decoration at left & right
-                        Painter.fillRect(TransitionSize+3,2-1,BarWidth-2,NewThumbHeight,QBrush(Qt::black));
-                        Painter.fillRect(TransitionSize+3+BarWidth+NewThumbWidth+2,2-1,ThumbWidth-NewThumbWidth-BarWidth-2,NewThumbHeight,QBrush(Qt::black));
-                        // Draw cinema decoration at left & right
-                        int YPos=(Height-ThumbHeight-2)/2;
-                        for (int HH=0;HH<3;HH++) {
-                            Painter.fillRect(TransitionSize+3+4,YPos+HH3+(H3+HH3)*HH-1,BarWidth-2-8,H3,QBrush(Qt::lightGray));
-                            Painter.fillRect(TransitionSize+3+BarWidth+NewThumbWidth+2+4,YPos+HH3+(H3+HH3)*HH-1,BarWidth-2-8,H3,QBrush(Qt::lightGray));
+                    Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,GlobalMainWindow->Diaporama->Transparent);
+                    Object->DrawThumbnail(ThumbWidth,ThumbHeight,&Painter,TransitionSize+3,2-1);   // Draw Thumb
+                    if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32,QImage(ICON_SHOTPRESENCE));
+                    DrawThumbnailsBox(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,Painter,NULL);
+                    MediaObjectRect=QRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight);
+
+                } else {
+                    // Display a thumb with sound track
+
+                    int H3            =NewThumbHeight/5;
+                    int HH3           =(NewThumbHeight-H3*3)/4;
+                    int RHeight       =int(double(TIMELINESOUNDHEIGHT)*(SoundVolume/1.5));
+
+                    // Draw thumb part
+                    Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,GlobalMainWindow->Diaporama->Transparent);
+                    Object->DrawThumbnail(NewThumbWidth,NewThumbHeight,&Painter,TransitionSize+3+BarWidth,2-1);   // Draw Thumb
+                    if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+BarWidth+NewThumbWidth-32,2-1+NewThumbHeight-32,QImage(ICON_SHOTPRESENCE));
+                    DrawThumbnailsBox(TransitionSize+3+BarWidth,2-1,NewThumbWidth,NewThumbHeight,Painter,NULL);
+                    DrawThumbnailsBox(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,Painter,NULL);
+                    MediaObjectRect=QRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight);
+
+                    // Draw black bar for cinema decoration at left & right
+                    Painter.fillRect(TransitionSize+3,2-1,BarWidth-2,NewThumbHeight,QBrush(Qt::black));
+                    Painter.fillRect(TransitionSize+3+BarWidth+NewThumbWidth+2,2-1,ThumbWidth-NewThumbWidth-BarWidth-2,NewThumbHeight,QBrush(Qt::black));
+                    // Draw cinema decoration at left & right
+                    int YPos=(Height-ThumbHeight-2)/2;
+                    for (int HH=0;HH<3;HH++) {
+                        Painter.fillRect(TransitionSize+3+4,YPos+HH3+(H3+HH3)*HH-1,BarWidth-2-8,H3,QBrush(Qt::lightGray));
+                        Painter.fillRect(TransitionSize+3+BarWidth+NewThumbWidth+2+4,YPos+HH3+(H3+HH3)*HH-1,BarWidth-2-8,H3,QBrush(Qt::lightGray));
+                    }
+                    Height-=2;
+
+                    // Draw background for soundtrack
+                    Pen.setColor(ObjectBackground_Ruller);
+                    Pen.setWidth(1);
+                    Pen.setStyle(Qt::SolidLine);
+                    Painter.setPen(Pen);
+                    Painter.setBrush(QBrush(QColor(ObjectBackground_Ruller)));
+                    Painter.drawRect(0,Height-TIMELINESOUNDHEIGHT,Width,TIMELINESOUNDHEIGHT);
+                    SoundTrackRect=QRect(0,Height-TIMELINESOUNDHEIGHT,Width,TIMELINESOUNDHEIGHT);
+                    HasSoundTrack =true;
+
+                    // Draw transitions
+                    if (IsTransition) {
+                        // Draw transition out for previous soundtrack
+                        if ((Col>0)&&(Object->Parent->List[Col-1].TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
+                            Pen.setColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color);
+                            Pen.setWidth(1);
+                            Pen.setStyle(Qt::SolidLine);
+                            Painter.setPen(Pen);
+                            Painter.setBrush(QBrush(QColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
+                            int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(SoundVolume/1.5));
+                            Table[0]=QPointF(0,Height-RHeightPrevious);
+                            Table[1]=QPointF(TransitionSize,Height);
+                            Table[2]=QPointF(0,Height);
+                            Painter.drawPolygon(Table,3);
                         }
-                        Height-=2;
-
-                        // Draw background for soundtrack
-                        Pen.setColor(ObjectBackground_Ruller);
+                        // Draw in transition + soundtrack
+                        Pen.setColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color);
                         Pen.setWidth(1);
                         Pen.setStyle(Qt::SolidLine);
                         Painter.setPen(Pen);
-                        Painter.setBrush(QBrush(QColor(ObjectBackground_Ruller)));
-                        Painter.drawRect(0,Height-TIMELINESOUNDHEIGHT,Width,TIMELINESOUNDHEIGHT);
-                        SoundTrackRect=QRect(0,Height-TIMELINESOUNDHEIGHT,Width,TIMELINESOUNDHEIGHT);
-                        HasSoundTrack =true;
-
-                        // Draw transitions
-                        if (IsTransition) {
-                            // Draw transition out for previous soundtrack
-                            if ((Col>0)&&(Object->Parent->List[Col-1].TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
-                                Pen.setColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color);
-                                Pen.setWidth(1);
-                                Pen.setStyle(Qt::SolidLine);
-                                Painter.setPen(Pen);
-                                Painter.setBrush(QBrush(QColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
-                                int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(GlobalMainWindow->Diaporama->List[Col-1].Video->SoundVolume/1.5));
-                                Table[0]=QPointF(0,Height-RHeightPrevious);
-                                Table[1]=QPointF(TransitionSize,Height);
-                                Table[2]=QPointF(0,Height);
-                                Painter.drawPolygon(Table,3);
-                            }
-                            // Draw in transition + soundtrack
-                            Pen.setColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color);
-                            Pen.setWidth(1);
-                            Pen.setStyle(Qt::SolidLine);
-                            Painter.setPen(Pen);
-                            Painter.setBrush(QBrush(QColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color)));
-                            Table[0]=QPointF(0,Height);
-                            Table[1]=QPointF(TransitionSize,Height-RHeight);
-                            Table[2]=QPointF(Width,Height-RHeight);                                            // Draw soundtrack without transition
-                            Table[3]=QPointF(Width,Height);
-                            Painter.drawPolygon(Table,4);
-                        } else {
-                            Pen.setColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color);
-                            Pen.setWidth(1);
-                            Pen.setStyle(Qt::SolidLine);
-                            Painter.setPen(Pen);
-                            Painter.setBrush(QBrush(QColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color)));
-                            Table[0]=QPointF(0,Height);
-                            Table[1]=QPointF(0,Height-RHeight);
-                            Table[2]=QPointF(Width,Height-RHeight);                                            // Draw soundtrack without transition
-                            Table[3]=QPointF(Width,Height);
-                            Painter.drawPolygon(Table,4);
-                        }
-                        // Draw separated line
+                        Painter.setBrush(QBrush(QColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color)));
+                        Table[0]=QPointF(0,Height);
+                        Table[1]=QPointF(TransitionSize,Height-RHeight);
+                        Table[2]=QPointF(Width,Height-RHeight);                                            // Draw soundtrack without transition
+                        Table[3]=QPointF(Width,Height);
+                        Painter.drawPolygon(Table,4);
+                    } else {
+                        Pen.setColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color);
                         Pen.setWidth(1);
-                        Pen.setStyle(Qt::DotLine);
-                        Pen.setColor(DotLine_Color);
+                        Pen.setStyle(Qt::SolidLine);
                         Painter.setPen(Pen);
-                        Painter.drawLine(QPointF(TransitionSize,Height-TIMELINESOUNDHEIGHT),QPointF(TransitionSize,Height));
-                        Painter.drawLine(QPointF(this->width()-1,Height-TIMELINESOUNDHEIGHT),QPointF(this->width()-1,Height));
-                        break;
+                        Painter.setBrush(QBrush(QColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color)));
+                        Table[0]=QPointF(0,Height);
+                        Table[1]=QPointF(0,Height-RHeight);
+                        Table[2]=QPointF(Width,Height-RHeight);                                            // Draw soundtrack without transition
+                        Table[3]=QPointF(Width,Height);
+                        Painter.drawPolygon(Table,4);
+                    }
+                    // Draw separated line
+                    Pen.setWidth(1);
+                    Pen.setStyle(Qt::DotLine);
+                    Pen.setColor(DotLine_Color);
+                    Painter.setPen(Pen);
+                    Painter.drawLine(QPointF(TransitionSize,Height-TIMELINESOUNDHEIGHT),QPointF(TransitionSize,Height));
+                    Painter.drawLine(QPointF(this->width()-1,Height-TIMELINESOUNDHEIGHT),QPointF(this->width()-1,Height));
                 }
 
                 // Draw transition duration, slide duration and slide name

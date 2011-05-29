@@ -63,9 +63,12 @@ public:
     void            AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
 
     // Utility functions
-    cCustomGraphicsRectItem *GetSelectItem();                   // Return selected item
-    cCompositionObject      *GetSelectedCompositionObject();    // Return selected CompositionObject
-    cBrushDefinition        *GetCurrentBrush();                 // Return selected brush
+    cCustomGraphicsRectItem *GetSelectItem();                       // Return selected item
+    cCompositionObject      *GetSelectedCompositionObject();        // Return selected CompositionObject
+    cCompositionObject      *GetSelectedGlobalCompositionObject();  // Return selected CompositionObject in the global composition list
+    cBrushDefinition        *GetCurrentBrush();                     // Return selected brush
+    cBrushDefinition        *GetCurrentGlobalBrush();               // Return brush of selected CompositionObject in the global composition list
+    void                    ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock);
 
 protected:
     virtual void    resizeEvent(QResizeEvent *);

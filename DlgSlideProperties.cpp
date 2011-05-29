@@ -714,12 +714,26 @@ cCustomGraphicsRectItem *DlgSlideProperties::GetSelectItem() {
 
 //====================================================================================================================
 
+cCompositionObject *DlgSlideProperties::GetSelectedGlobalCompositionObject() {
+    int CurrentBlock=ui->BlockTable->currentRow();
+    if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return NULL;
+    int i=0;
+    while ((i<DiaporamaObject->ObjectComposition.List.count())&&(DiaporamaObject->ObjectComposition.List[i].IndexKey!=CompositionList->List[CurrentBlock].IndexKey)) i++;
+    if (i<DiaporamaObject->ObjectComposition.List.count()) return &DiaporamaObject->ObjectComposition.List[i]; else return NULL;
+}
+
 cCompositionObject *DlgSlideProperties::GetSelectedCompositionObject() {
     cCustomGraphicsRectItem *CurrentCustomGraphicsRectItem=GetSelectItem();
     if (CurrentCustomGraphicsRectItem!=NULL) {
         for (int i=0;i<CompositionList->List.count();i++) if (CompositionList->List[i].ZValue==CurrentCustomGraphicsRectItem->zValue()) return &CompositionList->List[i];
     }
     return NULL;
+}
+
+cBrushDefinition *DlgSlideProperties::GetCurrentGlobalBrush() {
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    if ((CurrentTextItem)&&(CurrentTextItem->Opacity<4)) return &CurrentTextItem->BackgroundBrush;
+        else return NULL;
 }
 
 cBrushDefinition *DlgSlideProperties::GetCurrentBrush() {
@@ -731,117 +745,160 @@ cBrushDefinition *DlgSlideProperties::GetCurrentBrush() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_SetBold() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     if (CurrentTextItem->IsBold==true) CurrentTextItem->IsBold=false; else CurrentTextItem->IsBold=true;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_SetItalic() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     if (CurrentTextItem->IsItalic==true) CurrentTextItem->IsItalic=false; else CurrentTextItem->IsItalic=true;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_SetUnderline() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     if (CurrentTextItem->IsUnderline==true) CurrentTextItem->IsUnderline=false; else CurrentTextItem->IsUnderline=true;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_SetTextLeft() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->HAlign=0;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_SetTextCenter() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->HAlign=1;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_SetTextRight() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->HAlign=2;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_SetTextJustif() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->HAlign=3;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_SetTextUp() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->VAlign=0;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_SetTextVCenter() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->VAlign=1;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_SetTextBottom() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->VAlign=2;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_ChangeFont(QFont font) {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     if (font.family()!="") CurrentTextItem->FontName=font.family();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_ChangeSizeFont(QString size) {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     if ((size!="")&&(BLOCKCHSIZE==false)) CurrentTextItem->FontSize=size.toInt();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_ChangeStyleFont(int Style) {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->StyleText=Style;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_plainTextEditChange() {
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    if (CurrentTextItem==NULL) return;
+    CurrentTextItem->Text=ui->plainTextEdit->toPlainText();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
+    RefreshControls();
+}
+
+//========= Font color
+void DlgSlideProperties::s_ChIndexFontColorCombo(int) {
+    if (StopMAJSpinbox) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    if (CurrentTextItem==NULL) return;
+    CurrentTextItem->FontColor=ui->FontColorCombo->GetCurrentColor();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
+    RefreshControls();
+}
+
+//========= Text shadow color
+void DlgSlideProperties::s_ChIndexFontShadowColorCombo(int) {
+    if (StopMAJSpinbox) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    if (CurrentTextItem==NULL) return;
+    CurrentTextItem->FontShadowColor=ui->StyleShadowColorCombo->GetCurrentColor();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
@@ -911,9 +968,10 @@ void DlgSlideProperties::s_ChgHeightValue(double Value) {
 
 void DlgSlideProperties::s_ChangeBackgroundForm(int Style) {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->BackgroundForm=Style+1;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
@@ -921,55 +979,62 @@ void DlgSlideProperties::s_ChangeBackgroundForm(int Style) {
 
 void DlgSlideProperties::s_ChangeOpacity(int Style) {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->Opacity=Style;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_ChgPenSize(int Value) {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     if (StopMAJSpinbox) return;
     CurrentTextItem->PenSize=Value;
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_plainTextEditChange() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if (CurrentTextItem==NULL) return;
-    CurrentTextItem->Text=ui->plainTextEdit->toPlainText();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_ChangePenStyle(int index) {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->PenStyle=ui->PenStyleCB->itemData(index).toInt();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_ChPenColorCB(int) {
+    if (StopMAJSpinbox) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    if (CurrentTextItem==NULL) return;
+    CurrentTextItem->PenColor=ui->PenColorCB->GetCurrentColor();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_ChgShadowFormValue(int value) {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->FormShadow=value;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_ChgShadowDistanceValue(int value) {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if (CurrentTextItem==NULL) return;
     CurrentTextItem->FormShadowDistance =value;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
@@ -1047,37 +1112,6 @@ void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
 }
 
 //====================================================================================================================
-// Handler for custom color/brush/pattern/gradient combo box index change
-//====================================================================================================================
-
-//========= Font color
-void DlgSlideProperties::s_ChIndexFontColorCombo(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if (CurrentTextItem==NULL) return;
-    CurrentTextItem->FontColor=ui->FontColorCombo->GetCurrentColor();
-    RefreshControls();
-}
-
-//========= Text shadow color
-void DlgSlideProperties::s_ChIndexFontShadowColorCombo(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if (CurrentTextItem==NULL) return;
-    CurrentTextItem->FontShadowColor=ui->StyleShadowColorCombo->GetCurrentColor();
-    RefreshControls();
-}
-
-//========= Shape border color
-void DlgSlideProperties::s_ChPenColorCB(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if (CurrentTextItem==NULL) return;
-    CurrentTextItem->PenColor=ui->PenColorCB->GetCurrentColor();
-    RefreshControls();
-}
-
-//====================================================================================================================
 // Handler for rotation controls
 //====================================================================================================================
 
@@ -1112,9 +1146,11 @@ void DlgSlideProperties::s_ChgRotateYValue(int Value) {
 
 void DlgSlideProperties::s_ChangeBrushTypeCombo(int Value) {
     if (StopMAJSpinbox) return;
-    cBrushDefinition *CurrentBrush=GetCurrentBrush();
-    if (!CurrentBrush) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    if ((!CurrentTextItem)||(!CurrentBrush)) return;
     CurrentBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
@@ -1122,9 +1158,12 @@ void DlgSlideProperties::s_ChangeBrushTypeCombo(int Value) {
 
 void DlgSlideProperties::s_IntermPosSliderMoved(int Value) {
     if (StopMAJSpinbox) return;
-    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    if ((!CurrentTextItem)||(!CurrentBrush)) return;
     if (!CurrentBrush) return;
     CurrentBrush->Intermediate=double(Value)/100;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
@@ -1132,9 +1171,12 @@ void DlgSlideProperties::s_IntermPosSliderMoved(int Value) {
 
 void DlgSlideProperties::s_IntermPosED(int Value) {
     if (StopMAJSpinbox) return;
-    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    if ((!CurrentTextItem)||(!CurrentBrush)) return;
     if (!CurrentBrush) return;
     CurrentBrush->Intermediate=double(Value)/100;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
@@ -1145,54 +1187,72 @@ void DlgSlideProperties::s_IntermPosED(int Value) {
 //========= Pattern shape combo
 void DlgSlideProperties::s_ChIndexPatternBrushCombo(int) {
     if (StopMAJSpinbox) return;
-    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    if ((!CurrentTextItem)||(!CurrentBrush)) return;
     if (!CurrentBrush) return;
     CurrentBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //========= Gradient shape orientation
 void DlgSlideProperties::s_ChIndexGradientOrientationCombo(int) {
     if (StopMAJSpinbox) return;
-    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    if ((!CurrentTextItem)||(!CurrentBrush)) return;
     if (!CurrentBrush) return;
     CurrentBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //========= Shape/Gradient shape first color
 void DlgSlideProperties::s_ChIndexGradientFirstColorCombo(int) {
     if (StopMAJSpinbox) return;
-    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    if ((!CurrentTextItem)||(!CurrentBrush)) return;
     if (!CurrentBrush) return;
     CurrentBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //========= Gradient shape last color
 void DlgSlideProperties::s_ChIndexGradientFinalColorCombo(int) {
     if (StopMAJSpinbox) return;
-    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    if ((!CurrentTextItem)||(!CurrentBrush)) return;
     if (!CurrentBrush) return;
     CurrentBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //========= Gradient shape intermediate color
 void DlgSlideProperties::s_ChIndexGradientIntermColorCombo(int) {
     if (StopMAJSpinbox) return;
-    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    if ((!CurrentTextItem)||(!CurrentBrush)) return;
     if (!CurrentBrush) return;
     CurrentBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
 //========= Background image
 void DlgSlideProperties::s_ChIndexBackgroundCombo(int) {
     if (StopMAJSpinbox) return;
-    cBrushDefinition *CurrentBrush=GetCurrentBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    if ((!CurrentTextItem)||(!CurrentBrush)) return;
     if (!CurrentBrush) return;
     CurrentBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
@@ -1484,6 +1544,8 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
     DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
     cCompositionObject *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
     CompositionObject->ZValue=NextZValue;
+    CompositionObject->BackgroundBrush.BrushFileCorrect.ImageGeometry=GEOMETRY_CUSTOM;
+    CompositionObject->BackgroundBrush.BrushFileCorrect.AspectRatio=1;
     CompositionObject->Text=QCoreApplication::translate("DlgSlideProperties","Text","Default text value");
 
     // Now create and append a shot composition block to all shot
@@ -1625,4 +1687,45 @@ void DlgSlideProperties::s_BlockTable_RemoveBlock() {
         StopMAJSpinbox=false;
     }
     RefreshBlockTable(CurrentRow>0?CurrentRow-1:0);
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock) {
+    for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i].ShotComposition.List.count();j++) if (GlobalBlock->IndexKey==DiaporamaObject->List[i].ShotComposition.List[j].IndexKey) {
+        // Attribut of the text part
+        DiaporamaObject->List[i].ShotComposition.List[j].Text           =GlobalBlock->Text;                   // Text of the object
+        DiaporamaObject->List[i].ShotComposition.List[j].FontName       =GlobalBlock->FontName;               // font name
+        DiaporamaObject->List[i].ShotComposition.List[j].FontSize       =GlobalBlock->FontSize;               // font size
+        DiaporamaObject->List[i].ShotComposition.List[j].FontColor      =GlobalBlock->FontColor;              // font color
+        DiaporamaObject->List[i].ShotComposition.List[j].FontShadowColor=GlobalBlock->FontShadowColor;        // font shadow color
+        DiaporamaObject->List[i].ShotComposition.List[j].IsBold         =GlobalBlock->IsBold;                 // true if bold mode
+        DiaporamaObject->List[i].ShotComposition.List[j].IsItalic       =GlobalBlock->IsItalic;               // true if Italic mode
+        DiaporamaObject->List[i].ShotComposition.List[j].IsUnderline    =GlobalBlock->IsUnderline;            // true if Underline mode
+        DiaporamaObject->List[i].ShotComposition.List[j].HAlign         =GlobalBlock->HAlign;                 // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+        DiaporamaObject->List[i].ShotComposition.List[j].VAlign         =GlobalBlock->VAlign;                 // Vertical alignement : 0=up, 1=center, 2=bottom
+        DiaporamaObject->List[i].ShotComposition.List[j].StyleText      =GlobalBlock->StyleText;              // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+
+        // Attribut of the shap part
+        DiaporamaObject->List[i].ShotComposition.List[j].BackgroundForm     =GlobalBlock->BackgroundForm;       // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
+        DiaporamaObject->List[i].ShotComposition.List[j].PenSize            =GlobalBlock->PenSize;              // Width of the border of the form
+        DiaporamaObject->List[i].ShotComposition.List[j].PenStyle           =GlobalBlock->PenStyle;             // Style of the pen border of the form
+        DiaporamaObject->List[i].ShotComposition.List[j].PenColor           =GlobalBlock->PenColor;             // Color of the border of the form
+        DiaporamaObject->List[i].ShotComposition.List[j].FormShadow         =GlobalBlock->FormShadow;           // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+        DiaporamaObject->List[i].ShotComposition.List[j].FormShadowDistance =GlobalBlock->FormShadowDistance;   // Distance from form to shadow
+        DiaporamaObject->List[i].ShotComposition.List[j].Opacity            =GlobalBlock->Opacity;              // Opacity of the form
+
+        // Attribut of the BackgroundBrush of the shap part
+        cBrushDefinition *BrushToCopy=&DiaporamaObject->List[i].ShotComposition.List[j].BackgroundBrush;
+        BrushToCopy->BrushType           =GlobalBlock->BackgroundBrush.BrushType;
+        BrushToCopy->PatternType         =GlobalBlock->BackgroundBrush.PatternType;
+        BrushToCopy->GradientOrientation =GlobalBlock->BackgroundBrush.GradientOrientation;
+        BrushToCopy->ColorD              =GlobalBlock->BackgroundBrush.ColorD;
+        BrushToCopy->ColorF              =GlobalBlock->BackgroundBrush.ColorF;
+        BrushToCopy->ColorIntermed       =GlobalBlock->BackgroundBrush.ColorIntermed;
+        BrushToCopy->Intermediate        =GlobalBlock->BackgroundBrush.Intermediate;
+        BrushToCopy->BrushImage          =GlobalBlock->BackgroundBrush.BrushImage;
+        //BrushToCopy->BrushFileName       =GlobalBlock->BackgroundBrush.BrushFileName;
+
+    }
 }
