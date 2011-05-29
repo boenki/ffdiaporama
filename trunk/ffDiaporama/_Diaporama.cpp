@@ -538,9 +538,9 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
 
         // Recupération des anciennes sauvegardes (De la v0 à la 20110513 )
         if (Element.hasAttribute("X")) {
-            FilterCorrection.X                       =Element.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
-            FilterCorrection.Y                       =Element.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
-            FilterCorrection.ZoomFactor              =Element.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
+            FilterCorrection.X                       =Element.attribute("X").toDouble();                     // X position (in %) relative to up/left corner
+            FilterCorrection.Y                       =Element.attribute("Y").toDouble();                     // Y position (in %) relative to up/left corner
+            FilterCorrection.ZoomFactor              =Element.attribute("ZoomFactor").toDouble();            // Zoom factor (in %)
             FilterCorrection.ImageRotation           =Element.attribute("ImageRotation").toInt();            // Image rotation (in °)
         }
 
@@ -981,45 +981,39 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     if ((Image!=NULL)&&(Image->FileName!=""))       FileName=Image->FileName;
     else if ((Video!=NULL)&&(Video->FileName!=""))  FileName=Video->FileName;
 
-    Element.setAttribute("TypeObject",TypeObject);
+    // Slide properties
     Element.setAttribute("SlideName", SlideName);
+    Element.setAttribute("NextIndexKey",    NextIndexKey);
 
-    if (PathForRelativPath!="") FileName=QDir(PathForRelativPath).relativeFilePath(FileName);
-    Element.setAttribute("ObjectFileName",  FileName);
-    if (Video!=NULL) {
-        Element.setAttribute("StartPos",Video->StartPos.toString());                        // Start position (video only)
-        Element.setAttribute("EndPos",Video->EndPos.toString());                            // End position (video only)
-        Element.setAttribute("SoundVolume",QString("%1").arg(Video->SoundVolume,0,'f'));    // Volume of soundtrack (for video only)
-    }
-
+    // Background properties
     QDomElement SubElement=DomDocument.createElement("Background");
     SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                       // Background type : false=same as precedent - true=new background definition
     BackgroundBrush.SaveToXML(SubElement,"BackgroundBrush",PathForRelativPath);             // Background brush
     BackgroundComposition.SaveToXML(SubElement,"BackgroundComposition",PathForRelativPath); // Background composition
     Element.appendChild(SubElement);
 
+    // Transition properties
     SubElement=DomDocument.createElement("Transition");
     SubElement.setAttribute("TransitionFamilly",TransitionFamilly);                         // Transition familly
     SubElement.setAttribute("TransitionSubType",TransitionSubType);                         // Transition type in the familly
     SubElement.setAttribute("TransitionDuration",TransitionDuration);                       // Transition duration (in msec)
     Element.appendChild(SubElement);
 
-    FilterTransform.SaveToXML(Element,"GlobalImageFilters",PathForRelativPath);             // Global Image filters
-
-    Element.setAttribute("NextIndexKey",    NextIndexKey);
-    ObjectComposition.SaveToXML(SubElement,"ObjectComposition",PathForRelativPath);         // ObjectComposition
-
-    // Save shot list
-    Element.setAttribute("ShotNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i].SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath);
-
-    // Save music type and list
+    // Music properties
     Element.setAttribute("MusicType",         MusicType?"1":"0");                           // Music type : false=same as precedent - true=new playlist definition
     Element.setAttribute("MusicPause",        MusicPause?"1":"0");                          // true if music is pause during this object
     Element.setAttribute("MusicReduceVolume", MusicReduceVolume?"1":"0");                   // true if volume if reduce by MusicReduceFactor
     Element.setAttribute("MusicReduceFactor",QString("%1").arg(MusicReduceFactor,0,'f'));   // factor for volume reduction if MusicReduceVolume is true
     Element.setAttribute("MusicNumber",       MusicList.count());                           // Number of file in the playlist
     for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath);
+
+    // Global blocks composition table
+    ObjectComposition.SaveToXML(SubElement,"ObjectComposition",PathForRelativPath);         // ObjectComposition
+
+    // Shots definitions
+    Element.setAttribute("ShotNumber",List.count());
+    for (int i=0;i<List.count();i++) List[i].SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath);
+
 
     domDocument.appendChild(Element);
 }
@@ -1030,78 +1024,168 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
-        SlideName=Element.attribute("SlideName");
-        QString FileName=Element.attribute("ObjectFileName","");
-        if (PathForRelativPath!="") FileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FileName));
+        if (Element.hasAttribute("ObjectFileName")) {   // ALPHA1 Data loading
+            //************************************************************
+            // ALPHA1 Data loading
+            //************************************************************
+            QString FileName=Element.attribute("ObjectFileName","");
 
-        int TheTypeObject=Element.attribute("TypeObject").toInt();
-        if (LoadMedia(FileName,TheTypeObject)) {
+            if (PathForRelativPath!="") FileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FileName));
+            int TheTypeObject=Element.attribute("TypeObject").toInt();
+            if (LoadMedia(FileName,TheTypeObject)) {
+                bool IsOk=true;
+
+                // Load shot list
+                List.clear();
+                int ShotNumber=Element.attribute("ShotNumber").toInt();
+                for (int i=0;i<ShotNumber;i++) {
+                    cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
+                    if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
+                    List.append(*imagesequence);
+                }
+                //==========> Récupération des données : Adjust duration
+                for (int i=0;i<ShotNumber;i++) if (List[i].StaticDuration==-1) List[i].StaticDuration=ShotNumber>1?Parent->FixedDuration:Parent->NoShotDuration;
+                //==========>
+
+                if (Video!=NULL) {
+                    Video->SoundVolume=Element.attribute("SoundVolume").toDouble();         // Volume of soundtrack (for video only)
+                    Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
+                    Video->EndPos     =QTime().fromString(Element.attribute("EndPos"));     // End position (video only)
+                }
+
+                if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
+                    QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
+                    BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
+
+                    //==========> Récupération des données ! if Object don't use full canvas (height is hypothenuse of the image rectangle and width is calc from aspect ratio)
+                    // Note : C'était idiot mais l'attribut full canvas était placé sur le background !
+                    if ((SubElement.hasAttribute("FullCanvas"))&&(SubElement.attribute("FullCanvas")!="1")) {
+                        // Recalculate all shot size and position for normal to full canvas
+                        QImage   *ReturnImage=NULL;
+
+                        if (Video!=NULL)        ReturnImage=Video->ImageAt(true,0,true,NULL,1,false,NULL);  // Video
+                        else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,true,NULL);                // Image
+
+                        if (ReturnImage!=NULL) {
+                            // Calc size
+                            double   RealImageW     =ReturnImage->width();
+                            double   RealImageH     =ReturnImage->height();
+                            double   Hyp            =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);         // Calc hypothenuse
+                            double   FullCanvasW    =Hyp;                                                       // Calc full canvas size
+                            double   FullCanvasH    =Parent->GetHeightForWidth(FullCanvasW);
+                            double   NormalCanvasW  =RealImageW;                                                // Calc normal canvas size
+                            double   NormalCanvasH  =Parent->GetHeightForWidth(NormalCanvasW);
+                            if (FullCanvasH<Hyp) {          // Ensure complete image
+                                FullCanvasH=Hyp;
+                                FullCanvasW=Parent->GetWidthForHeight(FullCanvasH);
+                            }
+                            if (NormalCanvasH<RealImageH) { // Ensure complete image
+                                NormalCanvasH=RealImageH;
+                                NormalCanvasW=Parent->GetWidthForHeight(NormalCanvasH);
+                            }
+                            // Do transformation
+                            for (int i=0;i<List.count();i++) {
+                                List[i].FilterCorrection.ZoomFactor=List[i].FilterCorrection.ZoomFactor*NormalCanvasW/FullCanvasW;
+                                List[i].FilterCorrection.X=List[i].FilterCorrection.X*NormalCanvasW/FullCanvasW+((FullCanvasW-NormalCanvasW)/2)/FullCanvasW;
+                                if (List[i].FilterCorrection.X+List[i].FilterCorrection.ZoomFactor>1) List[i].FilterCorrection.X=1-List[i].FilterCorrection.ZoomFactor;
+                                List[i].FilterCorrection.Y=List[i].FilterCorrection.Y*NormalCanvasH/FullCanvasH+((FullCanvasH-NormalCanvasH)/2)/FullCanvasH;
+                                if (List[i].FilterCorrection.Y+List[i].FilterCorrection.ZoomFactor>1) List[i].FilterCorrection.Y=1-List[i].FilterCorrection.ZoomFactor;
+                            }
+                            delete ReturnImage;
+                        }
+                    }
+                    //==========> Récupération des données !
+                    if (!BackgroundBrush.LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath)) IsOk=false;                          // Background brush
+                    if ((!IsOk)||(!BackgroundComposition.LoadFromXML(SubElement,"BackgroundComposition",PathForRelativPath))) IsOk=false;   // Background composition
+                }
+
+                if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
+                    QDomElement SubElement=Element.elementsByTagName("Transition").item(0).toElement();
+                    TransitionFamilly =SubElement.attribute("TransitionFamilly").toInt();                                                   // Transition familly
+                    TransitionSubType =SubElement.attribute("TransitionSubType").toInt();                                                   // Transition type in the familly
+                    TransitionDuration=SubElement.attribute("TransitionDuration").toInt();                                                  // Transition duration (in msec)
+                    Element.appendChild(SubElement);
+                }
+
+                FilterTransform.LoadFromXML(Element,"GlobalImageFilters",PathForRelativPath);                                           // Global Image filters
+
+                //==========> Récupération des données !
+                if (Element.elementsByTagName("GlobalImageComposition").length()>0) {
+                    if ((Element.elementsByTagName("GlobalImageComposition").length()>0)&&(Element.elementsByTagName("GlobalImageComposition").item(0).isElement()==true)) {
+                        QDomElement SubElement=Element.elementsByTagName("GlobalImageComposition").item(0).toElement();
+                        int CompositionNumber=SubElement.attribute("CompositionNumber").toInt();
+                        for (int i=0;i<CompositionNumber;i++) {
+
+                            cCompositionObject *CompositionObject    =new cCompositionObject(COMPOSITIONTYPE_OBJECT,NextIndexKey);
+                            CompositionObject->LoadFromXML(SubElement,"Composition-"+QString("%1").arg(i),PathForRelativPath);
+                            ObjectComposition.List.append(*CompositionObject);
+
+                            cCompositionObject *CompositionShotObject=new cCompositionObject(COMPOSITIONTYPE_SHOT,NextIndexKey);
+                            CompositionShotObject->CopyFromCompositionObject(CompositionObject);
+                            List[0].ShotComposition.List.append(*CompositionShotObject);
+                            NextIndexKey++;
+                        }
+                    }
+                }
+                //==========>
+
+                NextIndexKey=Element.attribute("NextIndexKey").toInt();
+                ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath);         // ObjectComposition
+
+                // Construct link to video and image object from DiaporamaObject->ObjectComposition to all DiaporamaShotObject.ShotComposition objects !
+                for (int i=0;i<List.count();i++) for (int j=0;j<List[i].ShotComposition.List.count();j++) {
+                    int k=0;
+                    while (k<ObjectComposition.List.count()) {
+                        if (ObjectComposition.List[k].IndexKey==List[i].ShotComposition.List[j].IndexKey) {
+                            List[i].ShotComposition.List[j].BackgroundBrush.Video=ObjectComposition.List[k].BackgroundBrush.Video;
+                            List[i].ShotComposition.List[j].BackgroundBrush.Image=ObjectComposition.List[k].BackgroundBrush.Image;
+                            k=ObjectComposition.List.count();
+                        } else k++;
+                    }
+                }
+
+
+                // Load Music list
+                MusicList.clear();
+                MusicType         =Element.attribute("MusicType")=="1";                     // Music type : false=same as precedent - true=new playlist definition
+                MusicPause        =Element.attribute("MusicPause")=="1";                    // true if music is pause during this object
+                MusicReduceVolume =Element.attribute("MusicReduceVolume")=="1";             // true if volume if reduce by MusicReduceFactor
+                MusicReduceFactor =Element.attribute("MusicReduceFactor").toDouble();       // factor for volume reduction if MusicReduceVolume is true
+                int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
+                for (int i=0;i<MusicNumber;i++) {
+                    cMusicObject *MusicObject=new cMusicObject();
+                    if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
+                    MusicList.append(*MusicObject);
+                }
+
+                //==========> Récupération des données !
+                if (SlideName=="") SlideName=Image?QFileInfo(Image->FileName).fileName():Video?QFileInfo(Video->FileName).fileName():QCoreApplication::translate("MainWindow","Title","Default slide name when no file");;
+                //==========> Récupération des données !
+
+                return IsOk;
+            } else return false;
+
+        } else { // Since ALPHA2 Data loading
+            //************************************************************
+            // Since ALPHA2 Data loading
+            //************************************************************
             bool IsOk=true;
 
             // Load shot list
-            List.clear();
-            int ShotNumber=Element.attribute("ShotNumber").toInt();
-            for (int i=0;i<ShotNumber;i++) {
-                cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
-                if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
-                List.append(*imagesequence);
-            }
-            //==========> Récupération des données : Adjust duration
-            for (int i=0;i<ShotNumber;i++) if (List[i].StaticDuration==-1) List[i].StaticDuration=ShotNumber>1?Parent->FixedDuration:Parent->NoShotDuration;
-            //==========>
+            List.clear();   // Remove default 1st shot create by constructor
 
-            if (Video!=NULL) {
-                Video->SoundVolume=Element.attribute("SoundVolume").toDouble();         // Volume of soundtrack (for video only)
-                Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
-                Video->EndPos     =QTime().fromString(Element.attribute("EndPos"));     // End position (video only)
-            }
+            // Slide properties
+            SlideName=Element.attribute("SlideName");
+            NextIndexKey=Element.attribute("NextIndexKey").toInt();
 
+            // Background properties
             if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
                 QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
                 BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
-
-                //==========> Récupération des données ! if Object don't use full canvas (height is hypothenuse of the image rectangle and width is calc from aspect ratio)
-                // Note : C'était idiot mais l'attribut full canvas était placé sur le background !
-                if ((SubElement.hasAttribute("FullCanvas"))&&(SubElement.attribute("FullCanvas")!="1")) {
-                    // Recalculate all shot size and position for normal to full canvas
-                    QImage   *ReturnImage=NULL;
-
-                    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,0,true,NULL,1,false,NULL);  // Video
-                    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,true,NULL);                // Image
-
-                    if (ReturnImage!=NULL) {
-                        // Calc size
-                        double   RealImageW     =ReturnImage->width();
-                        double   RealImageH     =ReturnImage->height();
-                        double   Hyp            =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);         // Calc hypothenuse
-                        double   FullCanvasW    =Hyp;                                                       // Calc full canvas size
-                        double   FullCanvasH    =Parent->GetHeightForWidth(FullCanvasW);
-                        double   NormalCanvasW  =RealImageW;                                                // Calc normal canvas size
-                        double   NormalCanvasH  =Parent->GetHeightForWidth(NormalCanvasW);
-                        if (FullCanvasH<Hyp) {          // Ensure complete image
-                            FullCanvasH=Hyp;
-                            FullCanvasW=Parent->GetWidthForHeight(FullCanvasH);
-                        }
-                        if (NormalCanvasH<RealImageH) { // Ensure complete image
-                            NormalCanvasH=RealImageH;
-                            NormalCanvasW=Parent->GetWidthForHeight(NormalCanvasH);
-                        }
-                        // Do transformation
-                        for (int i=0;i<List.count();i++) {
-                            List[i].FilterCorrection.ZoomFactor=List[i].FilterCorrection.ZoomFactor*NormalCanvasW/FullCanvasW;
-                            List[i].FilterCorrection.X=List[i].FilterCorrection.X*NormalCanvasW/FullCanvasW+((FullCanvasW-NormalCanvasW)/2)/FullCanvasW;
-                            if (List[i].FilterCorrection.X+List[i].FilterCorrection.ZoomFactor>1) List[i].FilterCorrection.X=1-List[i].FilterCorrection.ZoomFactor;
-                            List[i].FilterCorrection.Y=List[i].FilterCorrection.Y*NormalCanvasH/FullCanvasH+((FullCanvasH-NormalCanvasH)/2)/FullCanvasH;
-                            if (List[i].FilterCorrection.Y+List[i].FilterCorrection.ZoomFactor>1) List[i].FilterCorrection.Y=1-List[i].FilterCorrection.ZoomFactor;
-                        }
-                        delete ReturnImage;
-                    }
-                }
-                //==========> Récupération des données !
                 if (!BackgroundBrush.LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath)) IsOk=false;                          // Background brush
                 if ((!IsOk)||(!BackgroundComposition.LoadFromXML(SubElement,"BackgroundComposition",PathForRelativPath))) IsOk=false;   // Background composition
             }
-
+            // Transition properties
             if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
                 QDomElement SubElement=Element.elementsByTagName("Transition").item(0).toElement();
                 TransitionFamilly =SubElement.attribute("TransitionFamilly").toInt();                                                   // Transition familly
@@ -1109,31 +1193,29 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 TransitionDuration=SubElement.attribute("TransitionDuration").toInt();                                                  // Transition duration (in msec)
                 Element.appendChild(SubElement);
             }
-
-            FilterTransform.LoadFromXML(Element,"GlobalImageFilters",PathForRelativPath);                                           // Global Image filters
-
-            //==========> Récupération des données !
-            if (Element.elementsByTagName("GlobalImageComposition").length()>0) {
-                if ((Element.elementsByTagName("GlobalImageComposition").length()>0)&&(Element.elementsByTagName("GlobalImageComposition").item(0).isElement()==true)) {
-                    QDomElement SubElement=Element.elementsByTagName("GlobalImageComposition").item(0).toElement();
-                    int CompositionNumber=SubElement.attribute("CompositionNumber").toInt();
-                    for (int i=0;i<CompositionNumber;i++) {
-
-                        cCompositionObject *CompositionObject    =new cCompositionObject(COMPOSITIONTYPE_OBJECT,NextIndexKey);
-                        CompositionObject->LoadFromXML(SubElement,"Composition-"+QString("%1").arg(i),PathForRelativPath);
-                        ObjectComposition.List.append(*CompositionObject);
-
-                        cCompositionObject *CompositionShotObject=new cCompositionObject(COMPOSITIONTYPE_SHOT,NextIndexKey);
-                        CompositionShotObject->CopyFromCompositionObject(CompositionObject);
-                        List[0].ShotComposition.List.append(*CompositionShotObject);
-                        NextIndexKey++;
-                    }
-                }
+            // Music properties
+            MusicList.clear();
+            MusicType         =Element.attribute("MusicType")=="1";                     // Music type : false=same as precedent - true=new playlist definition
+            MusicPause        =Element.attribute("MusicPause")=="1";                    // true if music is pause during this object
+            MusicReduceVolume =Element.attribute("MusicReduceVolume")=="1";             // true if volume if reduce by MusicReduceFactor
+            MusicReduceFactor =Element.attribute("MusicReduceFactor").toDouble();       // factor for volume reduction if MusicReduceVolume is true
+            int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
+            for (int i=0;i<MusicNumber;i++) {
+                cMusicObject *MusicObject=new cMusicObject();
+                if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
+                MusicList.append(*MusicObject);
             }
-            //==========>
 
-            NextIndexKey=Element.attribute("NextIndexKey").toInt();
+            // Global blocks composition table
             ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath);         // ObjectComposition
+
+            // Shots definitions
+            int ShotNumber=Element.attribute("ShotNumber").toInt();
+            for (int i=0;i<ShotNumber;i++) {
+                cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
+                if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
+                List.append(*imagesequence);
+            }
 
             // Construct link to video and image object from DiaporamaObject->ObjectComposition to all DiaporamaShotObject.ShotComposition objects !
             for (int i=0;i<List.count();i++) for (int j=0;j<List[i].ShotComposition.List.count();j++) {
@@ -1147,26 +1229,8 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 }
             }
 
-
-            // Load Music list
-            MusicList.clear();
-            MusicType         =Element.attribute("MusicType")=="1";                     // Music type : false=same as precedent - true=new playlist definition
-            MusicPause        =Element.attribute("MusicPause")=="1";                    // true if music is pause during this object
-            MusicReduceVolume =Element.attribute("MusicReduceVolume")=="1";             // true if volume if reduce by MusicReduceFactor
-            MusicReduceFactor =Element.attribute("MusicReduceFactor").toDouble();       // factor for volume reduction if MusicReduceVolume is true
-            int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
-            for (int i=0;i<MusicNumber;i++) {
-                cMusicObject *MusicObject=new cMusicObject();
-                if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
-                MusicList.append(*MusicObject);
-            }
-
-            //==========> Récupération des données !
-            if (SlideName=="") SlideName=Image?QFileInfo(Image->FileName).fileName():Video?QFileInfo(Video->FileName).fileName():QCoreApplication::translate("MainWindow","Title","Default slide name when no file");;
-            //==========> Récupération des données !
-
             return IsOk;
-        } else return false;
+        }
     } else return false;
 }
 
