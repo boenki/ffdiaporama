@@ -43,11 +43,12 @@ public:
     int                     NextZValue;                     // Current zvalue
     QGraphicsScene          *scene;                         // Link to the scene
     QPixmap                 *BackgroundImage;               // Background Image
+    int                     *IndexKey;
 
     explicit wgt_QCompositionWidget(QWidget *parent = 0);
     ~wgt_QCompositionWidget();
 
-    void                    SetCompositionObject(cCompositionList *CompositionList,QPixmap *BackgroundImage);
+    void                    SetCompositionObject(cCompositionList *CompositionList,QPixmap *BackgroundImage,int *IndexKey);
     void                    RefreshBackgroundImage();
     cCustomGraphicsRectItem *GetSelectItem();
     cCompositionObject      *GetSelectedCompositionObject();

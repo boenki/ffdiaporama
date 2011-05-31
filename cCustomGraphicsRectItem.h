@@ -30,10 +30,9 @@
 //======================================
 // Specific defines for this dialog box
 //======================================
-#define TYPE_wgt_QCustomScene           0
-#define TYPE_wgt_QCompositionWidget     1
-#define TYPE_DlgSlideProperties         2
-#define TYPE_DlgImageCorrection         3
+#define TYPE_wgt_QCompositionWidget     0
+#define TYPE_DlgSlideProperties         1
+#define TYPE_DlgImageCorrection         2
 
 struct  sMagneticRuller {
     bool     MagneticRuler;
@@ -87,7 +86,7 @@ public:
     bool                IsCapture;
     bool                KeepAspectRatio;    // true if aspect ratio is keep during resize
     double              AspectRatio;
-    QGraphicsScene      *scene;
+    int                 IndexKey;
 
     cResizeGraphicsRectItem *UpperLeft;
     cResizeGraphicsRectItem *UpperRight;
@@ -95,7 +94,7 @@ public:
     cResizeGraphicsRectItem *BottomRight;
 
     explicit cCustomGraphicsRectItem(QGraphicsScene *scene,int ZValue,double *x,double *y,double *zoom,double *w,double *h,double xmax,double ymax,
-                                     bool KeepAspectRatio,double AspectRatio,sMagneticRuller *MagneticRuller,QWidget *ParentWidget,int ParentWidgetType);
+                                     bool KeepAspectRatio,double AspectRatio,sMagneticRuller *MagneticRuller,QWidget *ParentWidget,int ParentWidgetType,int IndexKey);
     virtual ~cCustomGraphicsRectItem();
 
     void                SendRefreshBackgroundImage();

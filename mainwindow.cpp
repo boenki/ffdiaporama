@@ -23,8 +23,6 @@
 #include "wgt_QCustomThumbnails.h"
 
 #include "DlgAbout.h"
-#include "DlgVideoProperties.h"
-#include "DlgImageProperties.h"
 #include "DlgBackgroundProperties.h"
 #include "DlgMusicProperties.h"
 #include "DlgSlideProperties.h"
@@ -374,13 +372,7 @@ void MainWindow::s_action_ZoomMinus() {
 
 void MainWindow::s_ItemDoubleClicked() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    bool IsOk=false;
-    switch (Diaporama->List[Diaporama->CurrentCol].TypeObject) {
-        case DIAPORAMAOBJECTTYPE_EMPTY: IsOk=(DlgSlideProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0);     break;
-        case DIAPORAMAOBJECTTYPE_IMAGE: IsOk=(DlgImageProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0);     break;
-        case DIAPORAMAOBJECTTYPE_VIDEO: IsOk=(DlgVideoProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0);     break;
-    }
-    if (IsOk) {
+    if (DlgSlideProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0) {
         SetModifyFlag(true);
         if (Diaporama->List[Diaporama->CurrentCol].Thumbnail) {
             delete Diaporama->List[Diaporama->CurrentCol].Thumbnail;
@@ -501,7 +493,7 @@ void MainWindow::UpdateDockInfo() {
         ui->TableInfo->insertRow(ui->TableInfo->rowCount());
         ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Duration")));
         ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem((QString("%1").arg(double(Obj->GetDuration())/1000,0,'f',1)).trimmed()));
-
+/*
         if ((Obj->Image!=NULL)||(Obj->Video!=NULL)) {
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Filename")));
@@ -549,6 +541,7 @@ void MainWindow::UpdateDockInfo() {
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Channels")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(Obj->Video->ffmpegVideoFile->streams[Obj->Video->AudioStreamNumber]->codec->channels)));
         }
+  */
         ui->TableInfo->resizeColumnsToContents();
         ui->TableInfo->resizeRowsToContents();
     }

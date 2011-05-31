@@ -700,7 +700,11 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
     // open the file for writing
     if (Continue) {
         #if FF_API_OLD_AVIO
+        #if AVIO_WRONLY
         if (avio_open(&OutputFormatContext->pb,TempWAVFileName.toLocal8Bit(),AVIO_WRONLY)<0) {
+        #else
+        if (avio_open(&OutputFormatContext->pb,TempWAVFileName.toLocal8Bit(),URL_WRONLY)<0) {
+        #endif
         #else
         if (url_fopen(&OutputFormatContext->pb,TempWAVFileName.toLocal8Bit(),URL_WRONLY)<0) {
         #endif

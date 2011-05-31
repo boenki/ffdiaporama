@@ -40,13 +40,10 @@ void    ExitApplicationWithFatalError(QString StringToAdd);     // Exit applicat
 class cSaveWindowPosition {
 public:
     QString     WindowName;     // Name of the Window
-    int         WinRx;          // WindowsSettings-x
-    int         WinRy;          // WindowsSettings-y
-    int         WinRw;          // WindowsSettings-width
-    int         WinRh;          // WindowsSettings-height
     bool        *RestoreWindow; // Link to RestoreWindow boolean variable
     bool        IsMainWindow;   // true if window is a QDockWidget
-    QString     MainWinSS;      // if QMainWindow, array for saveState
+    QString     WindowGeo;      // Array for saveGeometry (All windows)
+    QString     MainWinSS;      // Array for saveState (QMainWindow only)
 
     cSaveWindowPosition(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
     void    ApplyToWindow(QWidget *Window);

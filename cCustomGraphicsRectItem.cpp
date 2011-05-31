@@ -19,7 +19,6 @@
    ====================================================================== */
 
 #include "cCustomGraphicsRectItem.h"
-#include "wgt_QCustomScene.h"
 #include "wgt_QCompositionWidget.h"
 #include "DlgSlideProperties.h"
 #include "DlgImageCorrection.h"
@@ -490,11 +489,11 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // x,y and zoom or w/h are always give in %
 cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZValue,double *Thex,double *They,double *Thezoom,double *Thew,double *Theh,double xmax,double ymax,
-                                                 bool TheKeepAspectRatio,double TheAspectRatio,sMagneticRuller *TheMagneticRuller,QWidget *TheParentWidget,int TheParentWidgetType)
+                                                 bool TheKeepAspectRatio,double TheAspectRatio,sMagneticRuller *TheMagneticRuller,QWidget *TheParentWidget,int TheParentWidgetType,int TheIndexKey)
                                                 :QGraphicsRectItem((*Thex)*xmax,(*They)*ymax,xmax*(*((Thezoom!=NULL)?Thezoom:Thew)),ymax*(*((Thezoom!=NULL)?Thezoom:Theh)),NULL)
 
 {
-    scene           = TheScene;
+    IndexKey        = TheIndexKey;
     ParentWidget    = TheParentWidget;
     ParentWidgetType= TheParentWidgetType;
     MagneticRuller  = TheMagneticRuller;
@@ -541,37 +540,37 @@ cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZV
     setData(0,QVariant("CustomGraphicsRectItem"));
 
     // Add this item to the scene and create resize box
-    scene->addItem(this);
-    UpperLeft  =new cResizeGraphicsRectItem(scene,this,ZValue+1,0);
-    UpperRight =new cResizeGraphicsRectItem(scene,this,ZValue+1,1);
-    BottomLeft =new cResizeGraphicsRectItem(scene,this,ZValue+1,2);
-    BottomRight=new cResizeGraphicsRectItem(scene,this,ZValue+1,3);
+    TheScene->addItem(this);
+    UpperLeft  =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,0);
+    UpperRight =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,1);
+    BottomLeft =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,2);
+    BottomRight=new cResizeGraphicsRectItem(TheScene,this,ZValue+1,3);
 }
 
 //====================================================================================================================
 
 cCustomGraphicsRectItem::~cCustomGraphicsRectItem() {
     if (UpperLeft) {
-        scene->removeItem(UpperLeft);
+        if (UpperLeft->scene()) UpperLeft->scene()->removeItem(UpperLeft);
         delete UpperLeft;
         UpperLeft=NULL;
     }
     if (UpperRight) {
-        scene->removeItem(UpperRight);
+        if (UpperRight->scene()) UpperRight->scene()->removeItem(UpperRight);
         delete UpperRight;
         UpperRight=NULL;
     }
     if (BottomLeft) {
-        scene->removeItem(BottomLeft);
+        if (BottomLeft->scene()) BottomLeft->scene()->removeItem(BottomLeft);
         delete BottomLeft;
         BottomLeft=NULL;
     }
     if (BottomRight) {
-        scene->removeItem(BottomRight);
+        if (BottomRight->scene()) BottomRight->scene()->removeItem(BottomRight);
         delete BottomRight;
         BottomRight=NULL;
     }
-    scene->removeItem(this);
+    if (scene()) scene()->removeItem(this);
 }
 
 //====================================================================================================================
@@ -601,8 +600,8 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
     if (change == QGraphicsItem::ItemPositionChange) {
         QPointF newpos = value.toPointF();
         if (IsCapture==true) {
-            double xmax = double(scene->sceneRect().width());
-            double ymax = double(scene->sceneRect().height());
+            double xmax = double(scene()->sceneRect().width());
+            double ymax = double(scene()->sceneRect().height());
             *x = newpos.x()/xmax;
             *y = newpos.y()/ymax;
             // calcul width and height;
@@ -635,7 +634,6 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
 void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
     RecalcEmbededResizeRectItem();
     switch (ParentWidgetType) {
-        case TYPE_wgt_QCustomScene:         ((wgt_QCustomScene *)ParentWidget)->RefreshBackgroundImage();       break;
         case TYPE_wgt_QCompositionWidget:   ((wgt_QCompositionWidget *)ParentWidget)->StartRefreshControls();   break;
         case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->RefreshControls();            break;
         case TYPE_DlgImageCorrection:       ((DlgImageCorrection *)ParentWidget)->RefreshControls();            break;

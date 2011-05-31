@@ -38,14 +38,6 @@ public:
     cDiaporamaObject        *DiaporamaObject;
     QDomDocument            *Undo;                      // Save object before modification for cancel button
 
-    bool                    ArrowBT_BlockList;
-    bool                    ArrowBT_GlobalBlock;
-    bool                    ArrowBT_ShapeProperties;
-    bool                    ArrowBT_TexProperties;
-    bool                    ArrowBT_DuringShotProperties;
-    bool                    ArrowBT_VideoProperties;
-    bool                    ArrowBT_ImageProperties;
-
     bool                    IsFirstInitDone;            // true when first show window was done
     bool                    StopMAJSpinbox;
     bool                    BLOCKCHSIZE;
@@ -81,6 +73,13 @@ private slots:
     void            SetSavedWindowGeometry();
     void            s_SlideNameChange(QString NewText);
     void            s_ShotDurationChange(double NewValue);
+    void            ChangeVisibleState();
+
+    void            ShotLeft();
+    void            ShotRight();
+    void            BlockUp();
+    void            BlockDown();
+
 
     // Arrow buttons
     void            SwitchArrowBT_BlockList();

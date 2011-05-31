@@ -189,10 +189,9 @@ cSaveWindowPosition::cSaveWindowPosition(QString TheWindowName,bool &TheRestoreW
     RestoreWindow   =&TheRestoreWindow;
     WindowName      =TheWindowName;
     IsMainWindow    =TheIsMainWindow;
-    WinRx           =-1;          // WindowsSettings-x
-    WinRy           =-1;          // WindowsSettings-y
-    WinRw           =-1;          // WindowsSettings-width
-    WinRh           =-1;          // WindowsSettings-height
+    WindowGeo       ="";
+    MainWinSS       ="";
+
 }
 
 //***********************************************
@@ -201,8 +200,9 @@ void cSaveWindowPosition::ApplyToWindow(QWidget *Window) {
     if ((Window==NULL)||(*RestoreWindow==false)) return;
 
     // Restore window size and position
-    if (WinRx>0) {
-        Window->setGeometry(WinRx,WinRy,WinRw,WinRh);
+    if (WindowGeo!="") {
+        QByteArray WinBA=QByteArray::fromHex(WindowGeo.toUtf8());
+        Window->restoreGeometry(WinBA);
         if (IsMainWindow) {
             QByteArray MainWinBA=QByteArray::fromHex(MainWinSS.toUtf8());
             ((QMainWindow *)Window)->restoreState(MainWinBA);
@@ -215,11 +215,8 @@ void cSaveWindowPosition::ApplyToWindow(QWidget *Window) {
 void cSaveWindowPosition::SaveWindowState(QWidget *Window) {
     if ((Window==NULL)||(*RestoreWindow==false)) return;
     // Save window size & position (if needed)
-    QRect size=Window->geometry();
-    WinRx = size.x();
-    WinRy = size.y();
-    WinRw = size.width();
-    WinRh = size.height();
+    QByteArray WinBA=QByteArray(Window->saveGeometry());
+    WindowGeo=QString(WinBA.toHex());
     if (IsMainWindow) {
         QByteArray MainWinBA=QByteArray(((QMainWindow *)Window)->saveState());
         MainWinSS=QString(MainWinBA.toHex());
@@ -231,10 +228,7 @@ void cSaveWindowPosition::SaveWindowState(QWidget *Window) {
 void cSaveWindowPosition::SaveToXML(QDomElement &domDocument) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(WindowName);
-    Element.setAttribute("Rx",WinRx);
-    Element.setAttribute("Ry",WinRy);
-    Element.setAttribute("Rw",WinRw);
-    Element.setAttribute("Rh",WinRh);
+    Element.setAttribute("saveGeometry",WindowGeo);
     if (IsMainWindow) Element.setAttribute("saveState",MainWinSS);
     domDocument.appendChild(Element);
 }
@@ -244,10 +238,7 @@ void cSaveWindowPosition::SaveToXML(QDomElement &domDocument) {
 void cSaveWindowPosition::LoadFromXML(QDomElement domDocument) {
     if ((domDocument.elementsByTagName(WindowName).length()>0)&&(domDocument.elementsByTagName(WindowName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(WindowName).item(0).toElement();
-        WinRx=Element.attribute("Rx","-1").toInt();
-        WinRy=Element.attribute("Ry","-1").toInt();
-        WinRw=Element.attribute("Rw","-1").toInt();
-        WinRh=Element.attribute("Rh","-1").toInt();
+        WindowGeo=Element.attribute("saveGeometry");
         if (IsMainWindow) MainWinSS=Element.attribute("saveState");
     }
 }

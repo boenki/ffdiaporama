@@ -44,11 +44,7 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             wgt_QVideoPlayer.cpp \
             wgt_QCustomRuller.cpp \
             wgt_QCustomThumbnails.cpp \
-            DlgImageProperties.cpp \
-            DlgVideoProperties.cpp \
-            wgt_QCustomScene.cpp \
             fmt_filters.cpp \
-            wgt_QImageFilterTransform.cpp \
             wgt_QBackgroundDefWidget.cpp \
             DlgProject.cpp \
             DlgApplicationSettings.cpp \
@@ -78,11 +74,7 @@ HEADERS  += _GlobalDefines.h \
             wgt_QVideoPlayer.h \
             wgt_QCustomRuller.h \
             wgt_QCustomThumbnails.h \
-            DlgImageProperties.h \
-            DlgVideoProperties.h \
-            wgt_QCustomScene.h \
             fmt_filters.h \
-            wgt_QImageFilterTransform.h \
             wgt_QBackgroundDefWidget.h \
             DlgProject.h \
             DlgApplicationSettings.h \
@@ -103,10 +95,6 @@ HEADERS  += _GlobalDefines.h \
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \
-    DlgImageProperties.ui \
-    DlgVideoProperties.ui \
-    wgt_QCustomScene.ui \
-    wgt_QImageFilterTransform.ui \
     wgt_QBackgroundDefWidget.ui \
     DlgProject.ui \
     DlgApplicationSettings.ui \

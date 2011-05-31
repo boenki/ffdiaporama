@@ -73,49 +73,7 @@ void wgt_QCustomThumbnails::mouseDoubleClickEvent(QMouseEvent *Event) {
 void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
     QPainter Painter(this);
 
-    if (Type==THUMBNAILTYPE_IMAGESEQUENCE) {
-
-        // Draw a standard thumbnail (just the image) at position of the current row
-        Painter.save();
-
-        int Row=0;
-        int Position = 0;
-        while (Row<Timeline->rowCount()) if (Timeline->cellWidget(Row,0)!=this) {
-            Position=Position+(Row>0?GlobalMainWindow->Diaporama->List[GlobalMainWindow->Diaporama->CurrentCol].List[Row].GetMobilDuration():0)+
-                     GlobalMainWindow->Diaporama->List[GlobalMainWindow->Diaporama->CurrentCol].List[Row].GetStaticDuration();
-            Row++;
-        } else if (Timeline->cellWidget(Row,0)==this) {
-            if (Row>0) Position=Position+GlobalMainWindow->Diaporama->List[GlobalMainWindow->Diaporama->CurrentCol].List[Row].GetMobilDuration();
-
-            int Width =Timeline->columnWidth(0);
-            int Height=Timeline->rowHeight(Row);
-            if (Height!=GlobalMainWindow->Diaporama->GetHeightForWidth(Width)) {
-                Height=GlobalMainWindow->Diaporama->GetHeightForWidth(Width);
-                Timeline->setRowHeight(Row,Height);
-            }
-
-            Painter.fillRect(0,0,Width,Height,GlobalMainWindow->Diaporama->Transparent);
-            GlobalMainWindow->Diaporama->List[GlobalMainWindow->Diaporama->CurrentCol].CanvasImageAt(Width,Height,Position,&Painter,0,0,NULL,NULL,true,true,true,NULL);
-
-            // -------------------------- Draw selected box (if needed)
-
-            if (Row==Timeline->currentRow()) {
-                QPen Pen;
-                Pen.setColor(Qt::blue);
-                Pen.setWidth(6);
-                Painter.setPen(Pen);
-                Painter.setBrush(Qt::NoBrush);
-                Painter.drawRect(0,0,this->width()-1,this->height()-1);
-            }
-            Row++;
-            MediaObjectRect=QRect(0,0,Width,Height);
-
-        }
-        Painter.restore();
-
-    //===========================================================================================================================
-
-    } else if (Type==THUMBNAILTYPE_SHOT) {
+    if (Type==THUMBNAILTYPE_SHOT) {
 
         if (DiaporamaObject) {
             // Draw a standard thumbnail (just the image) at position of the current row
@@ -124,11 +82,9 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             int Col=0;
             int Position = 0;
             while (Col<Timeline->columnCount()) if (Timeline->cellWidget(0,Col)!=this) {
-                Position=Position+(Col>0?DiaporamaObject->List[Col].GetMobilDuration():0)+DiaporamaObject->List[Col].GetStaticDuration();
+                Position=Position+DiaporamaObject->List[Col].GetStaticDuration();
                 Col++;
             } else if (Timeline->cellWidget(0,Col)==this) {
-                if (Col>0) Position=Position+DiaporamaObject->List[Col].GetMobilDuration();
-
                 int Height=Timeline->rowHeight(0);
                 int Width =Timeline->columnWidth(Col);
                 if (Width!=GlobalMainWindow->Diaporama->GetWidthForHeight(Height)) {
@@ -137,7 +93,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 }
 
                 Painter.fillRect(0,0,Width,Height,GlobalMainWindow->Diaporama->Transparent);
-                DiaporamaObject->CanvasImageAt(Width,Height,Position,&Painter,0,0,NULL,NULL,true,true,true,NULL);
+                DiaporamaObject->CanvasImageAt(Width,Height,Position,&Painter);
 
                 // -------------------------- Draw selected box (if needed)
 
@@ -218,8 +174,23 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 
             if (Type==THUMBNAILTYPE_OBJECTSEQUENCE) {                       // Draw a decorated thumbnail object
 
+                // Parse previous object.ObjectComposition table to determine if prvious slide have sound
+                bool    PreviousHaveSound=false;
+                double  PreviousSoundVolume=0;
+                if (Col>0) {
+                    for (int i=0;i<GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List.count();i++)
+                            if ((GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
+                                (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.Video)&&
+                                (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume!=0)) {
+
+                        PreviousHaveSound=true;
+                        if (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume>PreviousSoundVolume)
+                            PreviousSoundVolume=GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume;
+                    }
+                }
+
                 // Draw transition out of previous track if it was a DIAPORAMAOBJECTTYPE_VIDEO
-                if ((IsTransition)&&(Object->TypeObject!=DIAPORAMAOBJECTTYPE_VIDEO)&&(Col>0)&&(GlobalMainWindow->Diaporama->List[Col-1].TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
+                if (IsTransition && PreviousHaveSound) {
                     // If Current object is not DIAPORAMAOBJECTTYPE_VIDEO draw a soundtrack background for previous object
                     Pen.setColor(ObjectBackground_Ruller);
                     Pen.setWidth(1);
@@ -236,7 +207,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Pen.setStyle(Qt::SolidLine);
                     Painter.setPen(Pen);
                     Painter.setBrush(QBrush(QColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
-                    int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(GlobalMainWindow->Diaporama->List[Col-1].Video->SoundVolume/1.5));
+                    int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(PreviousSoundVolume/1.5));
                     Table[0]=QPointF(0,Height-RHeightPrevious-2);
                     Table[1]=QPointF(TransitionSize,Height-2);
                     Table[2]=QPointF(0,Height-2);
