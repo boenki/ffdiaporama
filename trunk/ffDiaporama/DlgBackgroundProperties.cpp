@@ -34,7 +34,7 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
 
     // Init embeded widgets
     ui->BackgroundDefWidget->SetDiaporamaObject(DiaporamaObject);
-    ui->CompositionWidget->SetCompositionObject(&DiaporamaObject->BackgroundComposition,NULL/*BackgroundImage*/);
+    ui->CompositionWidget->SetCompositionObject(&DiaporamaObject->BackgroundComposition,NULL/*BackgroundImage*/,&DiaporamaObject->NextIndexKey);
     ui->tabWidget->setCurrentIndex(0);  // Start to first tab
 
     // Define handler
@@ -104,7 +104,7 @@ void DlgBackgroundProperties::s_CompositionNeedRefreshBackgroundImage() {
     DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),SceneboxSize.width(),SceneboxSize.height(),&Painter,0,0,false);
     Painter.end();
     // Set need image
-    ui->CompositionWidget->SetCompositionObject(&DiaporamaObject->BackgroundComposition,BackgroundImage);
+    ui->CompositionWidget->SetCompositionObject(&DiaporamaObject->BackgroundComposition,BackgroundImage,&DiaporamaObject->NextIndexKey);
 }
 
 //====================================================================================================================

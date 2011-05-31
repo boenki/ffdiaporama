@@ -156,6 +156,9 @@ extern "C" {
 #define ICON_OBJECT_SOUND                   "icons/object_sound.png"
 #define ICON_OBJECT_MOVIE                   "icons/object_movie.png"
 #define ICON_OBJECT_IMAGE                   "icons/object_image.png"
+#define ICON_OBJECT_TEXTHIDE                "icons/object_textHide.png"
+#define ICON_OBJECT_MOVIEHIDE               "icons/object_movieHide.png"
+#define ICON_OBJECT_IMAGEHIDE               "icons/object_imageHide.png"
 
 // Project geometry definition
 #define GEOMETRY_4_3                        0
@@ -194,11 +197,10 @@ extern "C" {
 #define SHOTTYPE_VIDEO                      2
 
 // Thumbnail type definition
-#define THUMBNAILTYPE_IMAGESEQUENCE         0
-#define THUMBNAILTYPE_OBJECTBACKGROUND      1
-#define THUMBNAILTYPE_OBJECTSEQUENCE        2
-#define THUMBNAILTYPE_OBJECTMUSIC           3
-#define THUMBNAILTYPE_SHOT                  4
+#define THUMBNAILTYPE_OBJECTBACKGROUND      0
+#define THUMBNAILTYPE_OBJECTSEQUENCE        1
+#define THUMBNAILTYPE_OBJECTMUSIC           2
+#define THUMBNAILTYPE_SHOT                  3
 
 // Speed wave forme definition
 #define SPEEDWAVE_LINEAR                    0

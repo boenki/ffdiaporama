@@ -24,6 +24,7 @@
 
 wgt_QCompositionWidget::wgt_QCompositionWidget(QWidget *parent):QWidget(parent),ui(new Ui::wgt_QCompositionWidget) {
     ui->setupUi(this);
+    IndexKey        = NULL;
     IsFirstInitDone = false;                 // true when first show window was done
     scene           = NULL;
     NextZValue      = 500;
@@ -163,8 +164,8 @@ void wgt_QCompositionWidget::resizeEvent(QResizeEvent *) {
 
 void wgt_QCompositionWidget::showEvent(QShowEvent *) {
     if (!IsFirstInitDone) {
-        IsFirstInitDone=true;                                   // Set this flag to true to indicate that now we can prepeare display
-        SetCompositionObject(CompositionList,BackgroundImage);  // Make a new object init process
+        IsFirstInitDone=true;                                           // Set this flag to true to indicate that now we can prepeare display
+        SetCompositionObject(CompositionList,BackgroundImage,IndexKey); // Make a new object init process
     }
 }
 
@@ -199,9 +200,10 @@ void wgt_QCompositionWidget::Clean() {
 
 //====================================================================================================================
 
-void wgt_QCompositionWidget::SetCompositionObject(cCompositionList *TheCompositionList,QPixmap *TheBackgroundImage) {
+void wgt_QCompositionWidget::SetCompositionObject(cCompositionList *TheCompositionList,QPixmap *TheBackgroundImage,int *TheIndexKey) {
     Clean(); // Clean scene
     CompositionList=TheCompositionList;
+    IndexKey=TheIndexKey;
     if (TheBackgroundImage) BackgroundImage=TheBackgroundImage;
 
     // Ensure widget was visible and we know his size !
@@ -227,10 +229,9 @@ void wgt_QCompositionWidget::SetCompositionObject(cCompositionList *TheCompositi
         NextZValue=500;
         for (int i=0;i<CompositionList->List.count();i++) {
             // Create and add to scene a cCustomGraphicsRectItem
-            new cCustomGraphicsRectItem(scene,CompositionList->List[i].ZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
+            new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
                                         NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,
-                                        false,0,NULL,this,TYPE_wgt_QCompositionWidget);
-            if (NextZValue<CompositionList->List[i].ZValue) NextZValue=CompositionList->List[i].ZValue;
+                                        false,0,NULL,this,TYPE_wgt_QCompositionWidget,CompositionList->List[i].IndexKey);
         }
         NextZValue+=10;  // 10 by 10 step for ZValue
 
@@ -444,7 +445,7 @@ cCustomGraphicsRectItem *wgt_QCompositionWidget::GetSelectItem() {
 cCompositionObject *wgt_QCompositionWidget::GetSelectedCompositionObject() {
     cCustomGraphicsRectItem *CurrentCustomGraphicsRectItem=GetSelectItem();
     if (CurrentCustomGraphicsRectItem!=NULL) {
-        for (int i=0;i<CompositionList->List.count();i++) if (CompositionList->List[i].ZValue==CurrentCustomGraphicsRectItem->zValue()) return &CompositionList->List[i];
+        for (int i=0;i<CompositionList->List.count();i++) if (CompositionList->List[i].IndexKey==CurrentCustomGraphicsRectItem->IndexKey) return &CompositionList->List[i];
     }
     return NULL;
 }
@@ -458,9 +459,8 @@ void wgt_QCompositionWidget::s_SelectionChangeEvent() {
 //====================================================================================================================
 
 void wgt_QCompositionWidget::s_AddNewTextToImage() {
-    CompositionList->List.append(cCompositionObject(COMPOSITIONTYPE_BACKGROUND,0));
+    CompositionList->List.append(cCompositionObject(COMPOSITIONTYPE_BACKGROUND,(*IndexKey)++));
     cCompositionObject *CompositionObject=&CompositionList->List[CompositionList->List.count()-1];
-    CompositionObject->ZValue=NextZValue;
     CompositionObject->Text=QCoreApplication::translate("wgt_QCompositionWidget","Text","Default text value");
 
     // Unselect all item
@@ -469,7 +469,7 @@ void wgt_QCompositionWidget::s_AddNewTextToImage() {
     // Create and add to scene a cCustomGraphicsRectItem
     cCustomGraphicsRectItem *GraphicsRectItem=new cCustomGraphicsRectItem(scene,NextZValue,&CompositionObject->x,&CompositionObject->y,
                                                                           NULL,&CompositionObject->w,&CompositionObject->h,xmax,ymax,
-                                                                          false,0,NULL,this,TYPE_wgt_QCompositionWidget);
+                                                                          false,0,NULL,this,TYPE_wgt_QCompositionWidget,CompositionObject->IndexKey);
 
     // select new item
     GraphicsRectItem->setSelected(true);

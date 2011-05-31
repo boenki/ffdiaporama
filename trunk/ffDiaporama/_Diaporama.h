@@ -54,9 +54,9 @@ void    DrawPolygonR(QPainter &Painter,double width,double height,double CenterX
 
 class cCompositionObject {
 public:
-    int                 ZValue;                 // Z value ordering (low is background)
     int                 TypeComposition;        // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
     int                 IndexKey;
+    bool                IsVisible;              // True if block is visible during this shot
 
     // Attribut of the text object (Shot values)
     double              x,y,w,h;                // Position (x,y) and size (width,height)
@@ -118,16 +118,12 @@ class cDiaporamaShot {
 public:
     cDiaporamaObject        *Parent;
     int                     StaticDuration;         // Duration (in msec) of the static part animation
-    int                     MobilDuration;          // Duration (in msec) of the static part animation
-    cFilterCorrectObject    FilterCorrection;       // Image correction
     cCompositionList        ShotComposition;        // Shot Composition object list
 
     cDiaporamaShot(cDiaporamaObject *Parent);
     ~cDiaporamaShot();
 
     int         GetStaticDuration();
-    int         GetMobilDuration();
-
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
 };
@@ -140,8 +136,6 @@ public:
     cDiaporama              *Parent;                    // Link to global object
     int                     TypeObject;                 // Type of object
     QString                 SlideName;                  // Display name of the slide
-    cimagefilewrapper       *Image;                     // Embeded Object for title and image type
-    cvideofilewrapper       *Video;                     // Embeded Object for video type
     QList<cDiaporamaShot>   List;                       // list of scene definition
     cFilterTransformObject  FilterTransform;            // Filters tranformation value for source image
 
@@ -172,20 +166,11 @@ public:
     cDiaporamaObject(cDiaporama *Parent);
     ~cDiaporamaObject();
 
-    bool                    LoadMedia(QString &filename,int MediaType);
     QString                 GetDisplayName();
     int                     GetCumulTransitDuration();
     int                     GetDuration();
-
-    QImage                  *GetImageAt(int Position,cSoundBlockList *SoundTrackMontage);
-    QImage                  *CanvasImageAt(int Width,int Height,int Position,QPainter *Painter,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming,cSoundBlockList *SoundTrackMontage);
-
+    QImage                  *CanvasImageAt(int Width,int Height,int Position,QPainter *Painter);
     void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY);   // Draw Thumb
-
-    void                    PrepareImage(QPainter *P,int Width,int Height,int Position,QImage *LastLoadedImage,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming);
-    void                    CalcTransformations(int Sequence,double PctDone,double &XFactor,double &YFactor,double &ZoomFactor,double &RotateFactor,cFilterCorrectObject &FilterCorrection);
-    void                    ApplyDefaultFraming(int DefaultFraming);
-
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
 };
@@ -209,7 +194,6 @@ public:
     cDiaporamaShot      *CurrentObject_CurrentShot;             // Link to the current shot in the current object
     int                 CurrentObject_CurrentShotType;          // Type of the current shot : Static/Mobil/Video
     int                 CurrentObject_EndStaticShot;            // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
-    double              CurrentObject_MobilPCTDone;             // PCT achevement for mobil shot (if CurrentObject_CurrentShotType=SHOTTYPE_MOBIL)
     double              CurrentObject_PCTDone;                  // PCT achevement for static shot
     QImage              *CurrentObject_SourceImage;             // Current image loaded for image or video or created for title
     bool                CurrentObject_FreeSourceImage;          // True if allow to delete CurrentObject_SourceImage during destructor
@@ -241,7 +225,6 @@ public:
     cDiaporamaShot      *TransitObject_CurrentShot;             // Link to the current shot in the current object
     int                 TransitObject_CurrentShotType;          // Type of the current shot : Static/Mobil/Video
     int                 TransitObject_EndStaticShot;            // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
-    double              TransitObject_MobilPCTDone;             // PCT achevement for mobil shot (if TransitObject_CurrentShotType=SHOTTYPE_MOBIL)
     double              TransitObject_PCTDone;                  // PCT achevement for static shot
     QImage              *TransitObject_SourceImage;             // Current image loaded for image or video or created for title
     bool                TransitObject_FreeSourceImage;          // True if allow to delete TransitObject_SourceImage during destructor

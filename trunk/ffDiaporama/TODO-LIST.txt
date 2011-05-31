@@ -1,6 +1,13 @@
 Buggs :
+    Erreur de sélection de l'image de départ pour les transitions quand plusieurs sequences dans un slide
+    Truc bizare dans la gestion des plans
+    Finir le nettoyage du code :
+        Arriver à supprimer CanvasImageAt et sous fonctions associées
+            => Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
+
     Tester les générations avec plusieurs lecteurs : géométrie douteuse !
-    Les sauvegardes des positions de fenetres sont fausse avec GNOME Classic
+    Perte des compositions statiques en récupération des données alpha1
+    Erreur de géométrie en récupération des données alpha1
 
 A faire  :
     Transferer le control de volume de la boite video à la boite slide
@@ -8,6 +15,7 @@ A faire  :
     Calculer et afficher la durée mini des blocs
     Autoriser les blocs à sortir de l'écran
     Ajouter les boutons/fonctions pour ordonner les blocs dans un plan (devant/derriere)
+    Faire du nettoyage mémoire => Ne pas conserver les images en full size tout le temps
 
     Faire les fade in/out des musiques lors des changements de volume
     Ajouter un skip de frame inutile dans cvideofilewrapper::ReadVideoFrame
@@ -57,3 +65,7 @@ Détails des modifications :
 - Supprime le fichier flag _BUILDVERSION.txt (plus d'utilité maintenant que les paquets sont toujours entiers)
 - Fait le ménage dans les icones => Supprime les icones non utilisées et renome certaines icones
 - Supprime la notion de durée du projet (les durées sont toutes définies dans les slides et ne font plus références aux durées par défaut du projet)
+- Corrige le problème de compilation sous Fedora 15 avec la nouvelle version de fmmpeg
+- Corrige la sauvegarde des positions des fenetres qui étaient fausses avec GNOME Classic
+- Conserve le dernier état des boutons à fleches (voir/cacher) des options dans la boite slide (durant la session uniquement)
+- Suppression du ZValue des blocks : L'ordre des blocks dans la table définie l'ordre d'affichage

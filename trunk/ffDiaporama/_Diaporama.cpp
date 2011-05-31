@@ -88,9 +88,9 @@ void DrawPolygonR(QPainter &Painter,double width,double height,double CenterX,do
 
 cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey) {
     // Attribut of the text object
-    ZValue                  = 500;
     TypeComposition         = TheTypeComposition;
     IndexKey                = TheIndexKey;
+    IsVisible               = true;
 
     x                       = 0.25;         // Position (x,y) and size (width,height)
     y                       = 0.25;
@@ -135,9 +135,9 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
 
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("IndexKey",IndexKey);
+    Element.setAttribute("IsVisible",IsVisible?"1":"0");
 
     // Attribut of the object
-    Element.setAttribute("ZValue",ZValue);                      // Z value ordering (low is background)
     Element.setAttribute("x",x);                                // Position x
     Element.setAttribute("y",y);                                // Position x
     Element.setAttribute("w",w);                                // size width
@@ -180,9 +180,9 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 
         TypeComposition     =Element.attribute("TypeComposition").toInt();
         IndexKey            =Element.attribute("IndexKey").toInt();
+        IsVisible           =Element.attribute("IsVisible")=="1";
 
         // Attribut of the object
-        ZValue              =Element.attribute("ZValue").toInt();                   // Z value ordering (low is background)
         x                   =Element.attribute("x").toDouble();                     // Position x
         y                   =Element.attribute("y").toDouble();                     // Position x
         w                   =Element.attribute("w").toDouble();                     // size width
@@ -228,7 +228,7 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 //====================================================================================================================
 
 void cCompositionObject::CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy) {
-    ZValue               =CompositionObjectToCopy->ZValue;
+    IsVisible            =CompositionObjectToCopy->IsVisible;
     x                    =CompositionObjectToCopy->x;
     y                    =CompositionObjectToCopy->y;
     w                    =CompositionObjectToCopy->w;
@@ -262,6 +262,8 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 
 void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject) {
     // W and H = 0 when producing sound track in render process
+    if (!IsVisible) return;
+
     bool    SoundOnly=((width==0)&&(height==0));
 
     if (SoundOnly) {
@@ -487,7 +489,6 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject) {
     Parent                          = DiaporamaObject;
     StaticDuration                  = Parent->Parent->FixedDuration;    // Duration (in msec) of the static part animation
-    MobilDuration                   = Parent->Parent->MobilDuration;    // Duration (in msec) of the mobil part animation
     ShotComposition.TypeComposition = COMPOSITIONTYPE_SHOT;
 }
 
@@ -503,11 +504,6 @@ int cDiaporamaShot::GetStaticDuration() {
     return StaticDuration;
 }
 
-int cDiaporamaShot::GetMobilDuration() {
-    if (Parent->TypeObject==DIAPORAMAOBJECTTYPE_EMPTY) return 0;
-    return MobilDuration;
-}
-
 //===============================================================
 
 void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
@@ -515,8 +511,6 @@ void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QStr
     QDomElement     Element=DomDocument.createElement(ElementName);
 
     Element.setAttribute("StaticDuration",StaticDuration);                              // Duration (in msec) of the static part animation
-    Element.setAttribute("MobilDuration",MobilDuration);                                // Duration (in msec) of the static part animation
-    FilterCorrection.SaveToXML(Element,"FilterCorrection",PathForRelativPath);          // Image correction
     ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath);            // Composition list for this object
     domDocument.appendChild(Element);
 }
@@ -526,31 +520,8 @@ void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QStr
 bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
-
-        //==========> Récupération des données !
-        if (Element.attribute("DefaultStaticDuration")=="1") StaticDuration=-1;
-            else StaticDuration=Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
-
-        if (Element.attribute("DefaultMobilDuration")=="1") MobilDuration=Parent->Parent->MobilDuration;
-            else MobilDuration=Element.attribute("MobilDuration").toInt();            // Duration (in msec) of the static part animation
-
-        FilterCorrection.LoadFromXML(Element,"FilterCorrection",PathForRelativPath);    // Image correction
-
-        // Recupération des anciennes sauvegardes (De la v0 à la 20110513 )
-        if (Element.hasAttribute("X")) {
-            FilterCorrection.X                       =Element.attribute("X").toDouble();                     // X position (in %) relative to up/left corner
-            FilterCorrection.Y                       =Element.attribute("Y").toDouble();                     // Y position (in %) relative to up/left corner
-            FilterCorrection.ZoomFactor              =Element.attribute("ZoomFactor").toDouble();            // Zoom factor (in %)
-            FilterCorrection.ImageRotation           =Element.attribute("ImageRotation").toInt();            // Image rotation (in °)
-        }
-
+        StaticDuration=Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
         ShotComposition.LoadFromXML(Element,"ShotComposition",PathForRelativPath);      // Composition list for this object
-//
-        if (Parent->Video) {
-            Parent->Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
-            Parent->Video->EndPos     =QTime().fromString(Element.attribute("EndPos"));     // End position (video only)
-        }
-
         return true;
     }
     return false;
@@ -572,8 +543,6 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
     BackgroundType                          = false;                        // Background type : false=same as precedent - true=new background definition
     BackgroundBrush.BrushType               = BRUSHTYPE_SOLID;
     BackgroundBrush.ColorD                  = "#000000";                    // Background color
-    Image                                   = NULL;                         // Embeded Object for title and image type
-    Video                                   = NULL;                         // Embeded Object for video type
     MusicType                               = false;                        // Music type : false=same as precedent - true=new playlist definition
     MusicPause                              = false;                        // true if music is pause during this object
     MusicReduceVolume                       = false;                        // true if volume if reduce by MusicReduceFactor
@@ -593,14 +562,6 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
 
 cDiaporamaObject::~cDiaporamaObject() {
     List.clear();
-    if (Image!=NULL) {
-        delete Image;
-        Image=NULL;
-    }
-    if (Video!=NULL) {
-        delete Video;
-        Video=NULL;
-    }
     if (Thumbnail) {
         delete Thumbnail;
         Thumbnail=NULL;
@@ -610,132 +571,7 @@ cDiaporamaObject::~cDiaporamaObject() {
 //====================================================================================================================
 
 QString cDiaporamaObject::GetDisplayName() {
-    if (Image!=NULL) return QFileInfo(Image->FileName).baseName();
-    else if (Video!=NULL) return QFileInfo(Video->FileName).baseName();
-    return "";
-}
-
-//====================================================================================================================
-
-bool cDiaporamaObject::LoadMedia(QString &filename,int MediaType) {
-    // Clean all
-    if (Image!=NULL) {
-        delete Image;
-        Image=NULL;
-    }
-    if (Video!=NULL) {
-        delete Video;
-        Video=NULL;
-    }
-
-    TypeObject=DIAPORAMAOBJECTTYPE_EMPTY;//MediaType;
-
-    bool IsValide=false;
-    switch (MediaType) {
-        case DIAPORAMAOBJECTTYPE_EMPTY :
-            IsValide=true;
-            break;
-        case DIAPORAMAOBJECTTYPE_IMAGE :
-            Image=new cimagefilewrapper();
-            IsValide=Image->GetInformationFromFile(filename);
-            break;
-        case DIAPORAMAOBJECTTYPE_VIDEO :
-            Video=new cvideofilewrapper();
-            IsValide=Video->GetInformationFromFile(filename,false);
-            Video->StartPos              =QTime(0,0,0,0);
-            Video->EndPos                =Video->Duration;
-            List[0].StaticDuration       =Video->StartPos.msecsTo(Video->EndPos);
-            List[0].MobilDuration        =0;
-            break;
-    }
-    return IsValide;
-}
-
-//====================================================================================================================
-// Apply Default framing to first shot (used when add new object)
-//====================================================================================================================
-
-void cDiaporamaObject::ApplyDefaultFraming(int DefaultFraming) {
-    // Ensure image is loaded
-    QImage *ReturnImage=NULL;
-    double   RealImageW=Parent->InternalWidth;
-    double   RealImageH=Parent->InternalHeight;
-
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,0,true,NULL,1,false,NULL);  // Video
-    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,true,NULL);                // Image
-
-    if (ReturnImage!=NULL) {
-        RealImageW=ReturnImage->width();
-        RealImageH=ReturnImage->height();
-    }
-    delete ReturnImage;
-
-    double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse
-    double   VirtImageW=Hyp;                                            // Calc canvas size
-    double   VirtImageH=Parent->GetHeightForWidth(VirtImageW);          // Calc canvas size
-    // Ensure complete image
-    if (VirtImageH<Hyp) {
-        VirtImageH=Hyp;
-        VirtImageW=Parent->GetWidthForHeight(VirtImageH);
-    }
-
-    double MagnetX1=(VirtImageW-RealImageW)/2;
-    double MagnetX2=MagnetX1+RealImageW;
-    double MagnetY1=(VirtImageH-RealImageH)/2;
-    double MagnetY2=MagnetY1+RealImageH;
-
-    switch (DefaultFraming) {
-        case 0 :    // Adjust to Width
-            List[0].FilterCorrection.X=MagnetX1/VirtImageW;
-            List[0].FilterCorrection.ZoomFactor=(MagnetX2-MagnetX1)/VirtImageW;
-            List[0].FilterCorrection.Y=((VirtImageH-Parent->GetHeightForWidth(MagnetX2-MagnetX1))/2)/VirtImageH;
-            break;
-        case 1 :    // Adjust to Height
-            List[0].FilterCorrection.Y=MagnetY1/VirtImageH;
-            List[0].FilterCorrection.ZoomFactor=(MagnetY2-MagnetY1)/VirtImageH;
-            List[0].FilterCorrection.X=((VirtImageW-Parent->GetWidthForHeight(MagnetY2-MagnetY1))/2)/VirtImageW;
-            break;
-        case 2 :    // Adjust to Full
-            List[0].FilterCorrection.X=MagnetX1/VirtImageW;
-            List[0].FilterCorrection.ZoomFactor=(MagnetX2-MagnetX1)/VirtImageW;
-            List[0].FilterCorrection.Y=((VirtImageH-Parent->GetHeightForWidth(MagnetX2-MagnetX1))/2)/VirtImageH;
-            if (List[0].FilterCorrection.Y>MagnetY1/VirtImageH) {
-                List[0].FilterCorrection.Y=MagnetY1/VirtImageH;
-                List[0].FilterCorrection.ZoomFactor=(MagnetY2-MagnetY1)/VirtImageH;
-                List[0].FilterCorrection.X=((VirtImageW-Parent->GetWidthForHeight(MagnetY2-MagnetY1))/2)/VirtImageW;
-            }
-            break;
-    }
-}
-
-//====================================================================================================================
-// Load image from source object at given position(video) and Apply filter if ApplyFilter==true
-// return new image (in all case)
-// Call by :
-//      DlgImageProperties for s_CompositionNeedRefreshBackgroundImage()
-//      DlgVideoProperties for s_CompositionNeedRefreshBackgroundImage()
-//  and by CanvasImageAt
-//====================================================================================================================
-
-QImage  *cDiaporamaObject::GetImageAt(int Position,cSoundBlockList *SoundTrackMontage) {
-    QImage  *ReturnImage=NULL;
-
-    // Try to load image from source
-    if (Video!=NULL) ReturnImage=Video->ImageAt(true,Position,false,SoundTrackMontage,1,false,NULL);   // Video
-    else if (Image!=NULL) ReturnImage=Image->ImageAt(true,false,NULL);                                           // Image
-    else {                                                                                                                                              // Title
-        // Create an empty transparent image
-        ReturnImage=new QImage(Parent->InternalWidth,Parent->InternalHeight,QImage::Format_ARGB32_Premultiplied);
-        QPainter P;
-        P.begin(ReturnImage);
-        P.setCompositionMode(QPainter::CompositionMode_Source);
-        P.fillRect(QRect(0,0,Parent->InternalWidth,Parent->InternalHeight),Qt::transparent);
-        P.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        P.end();
-    }
-    if (SoundTrackMontage!=NULL) for (int j=0;j<SoundTrackMontage->NbrPacketForFPS;j++) SoundTrackMontage->AppendNullSoundPacket();
-
-    return ReturnImage;
+    return SlideName;
 }
 
 //====================================================================================================================
@@ -749,203 +585,42 @@ QImage  *cDiaporamaObject::GetImageAt(int Position,cSoundBlockList *SoundTrackMo
 //      if VideoCachedMode=true then use cached image instead of read image from disk (usefull for thumbnails)
 //====================================================================================================================
 
-QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPainter *Painter,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,
-                                        bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming,cSoundBlockList *SoundTrackMontage) {
+QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPainter *Painter) {
+    QImage      *ReturnImage = NULL;
+    QPainter    *P=Painter;
 
-    // Call PrepareImage on a painter to put image on a canvas
-    QImage *SourceImage = GetImageAt(Position,SoundTrackMontage);
-    QImage *ReturnImage = NULL;
-
-    if ((SourceImage==NULL)||(SourceImage->isNull())) return NULL;
-
-    if (Painter!=NULL) {
-        PrepareImage(Painter,Width,Height,Position,SourceImage,AddX,AddY,ImagePosition,ForcedImageRotation,ApplyShotText,ApplyShotFilter,ApplyFraming);
-    } else {
-        // Call only by QCustomScene (Painter is NULL)
-        // Prepare a background with transparent brush (emulating transparency)
+    if (P==NULL) {
         ReturnImage = new QImage(Width,Height,QImage::Format_ARGB32_Premultiplied);
-        QPainter    P;
-        P.begin(ReturnImage);
-        P.fillRect(0,0,Width,Height,Parent->Transparent);
-        PrepareImage(&P,Width,Height,Position,SourceImage,AddX,AddY,ImagePosition,ForcedImageRotation,ApplyShotText,ApplyShotFilter,ApplyFraming);
-        P.end();
+        P=new QPainter();
+        P->begin(ReturnImage);
+        P->fillRect(0,0,Width,Height,Parent->Transparent);
     }
 
-    // No future need of source image
-    delete SourceImage;
+    // Calc current sequence depending on Position
+    int Sequence=0;
+    int CurPos  =0;
+    while ((Sequence<List.count()-1)&&((CurPos+List[Sequence].GetStaticDuration())<=Position)) {
+        CurPos=CurPos+List[Sequence].GetStaticDuration();
+        Sequence++;
+    }
+
+    // Add static shot composition
+    for (int j=0;j<List[Sequence].ShotComposition.List.count();j++) List[Sequence].ShotComposition.List[j].DrawCompositionObject(*P,0,0,Width,Height,true,0,NULL,0,NULL);
+
+    if (P!=Painter) {
+        P->end();
+        delete P;
+    }
 
     // return new image
     return ReturnImage;
 }
 
-
-// PrepareImage subfunction (Call only by CanvasImageAt)
-void cDiaporamaObject::PrepareImage(QPainter *P,int Width,int Height,int Position,QImage *LastLoadedImage,int AddX,int AddY,QRectF *ImagePosition,int *ForcedImageRotation,bool ApplyShotText,bool ApplyShotFilter,bool ApplyFraming) {
-
-    ADJUST_RATIO=double(Height)/double(1080);    // fixe Adjustment ratio for this slide
-
-    // Calc current sequence depending on Position
-    int Sequence=0;
-    int CurPos  =0;
-    while ((Sequence<List.count()-1)&&((CurPos+(Sequence>0?List[Sequence].GetMobilDuration():0)+List[Sequence].GetStaticDuration())<=Position)) {
-        CurPos=CurPos+(Sequence>0?List[Sequence].GetMobilDuration():0)+List[Sequence].GetStaticDuration();
-        Sequence++;
-    }
-
-//==========>
-
-    QImage                  *SourceImage=NULL;
-    cFilterCorrectObject    *FilterCorrection=&List[Sequence].FilterCorrection;
-    double                  XFactor     =0;
-    double                  YFactor     =0;
-    double                  ZoomFactor  =1;
-    double                  RotateFactor=0;
-    double                  PctDone     =1;     // 100%
-
-    // Calc image modification factor depending on position
-    if (ForcedImageRotation!=NULL) RotateFactor=double(*ForcedImageRotation); else RotateFactor=FilterCorrection->ImageRotation;
-
-    if ((ImagePosition==NULL)&&(ApplyFraming)) {
-        XFactor         =FilterCorrection->X;
-        YFactor         =FilterCorrection->Y;
-        ZoomFactor      =FilterCorrection->ZoomFactor;
-    }
-
-    if ((ApplyFraming)&&(Sequence>0)&&((Position-CurPos)<(Sequence>0?List[Sequence].GetMobilDuration():0))) {
-        PctDone=(double(Position)-double(CurPos))/(double(List[Sequence].GetMobilDuration()));
-        CalcTransformations(Sequence,PctDone,XFactor,YFactor,ZoomFactor,RotateFactor,*FilterCorrection);
-    }
-
-    // Calc real image size
-    double   RealImageW=double(LastLoadedImage->width());
-    double   RealImageH=double(LastLoadedImage->height());
-    double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse
-    double   VirtImageW=Hyp;                                            // Calc canvas size
-    double   VirtImageH=Parent->GetHeightForWidth(VirtImageW);          // Calc canvas size
-    // Ensure complete image
-    if (VirtImageH<Hyp) {
-        VirtImageH=Hyp;
-        VirtImageW=Parent->GetWidthForHeight(VirtImageH);
-    }
-
-    // Global image Composition
-    QImage      GlobalImageComposition(RealImageW,RealImageH,QImage::Format_ARGB32_Premultiplied);
-    QPainter    PB;
-    PB.begin(&GlobalImageComposition);
-    PB.setCompositionMode(QPainter::CompositionMode_Source);
-    PB.fillRect(QRect(0,0,GlobalImageComposition.width(),GlobalImageComposition.height()),Qt::transparent);
-    PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    PB.end();
-
-    // Rotate image if needed
-    if (RotateFactor!=0) {
-        QTransform matrix;
-        matrix.rotate(RotateFactor,Qt::ZAxis);
-        SourceImage=new QImage(LastLoadedImage->transformed(matrix));
-        GlobalImageComposition=GlobalImageComposition.transformed(matrix);
-
-        // update real image size
-        RealImageW=double(SourceImage->width());
-        RealImageH=double(SourceImage->height());
-    } else SourceImage=LastLoadedImage;
-
-    // Calc source and destination, size and position
-    double   DestX=0;                                                    // X position in the virtual image of the destination image
-    double   DestY=0;                                                    // Y position in the virtual image of the destination image
-    double   DestW=VirtImageW;                                           // with of the destination image in the virtual image
-    double   DestH=VirtImageH;                                           // height of the destination image in the virtual image
-
-    double   SrcX=(XFactor*VirtImageW-(VirtImageW-RealImageW)/2);        // X position in the source image of the destination image
-    double   SrcY=(YFactor*VirtImageH-(VirtImageH-RealImageH)/2);        // Y position in the source image of the destination image
-    double   SrcW=(ZoomFactor*VirtImageW);                               // with of the destination image in the source image
-    double   SrcH=(ZoomFactor*VirtImageH);                               // height of the destination image in the source image
-
-    // Adjust positions by croping to the source image
-    if (SrcX<0)                 {   SrcW=SrcW+SrcX;                                 DestW=DestW+SrcX/ZoomFactor;    DestX=DestX-SrcX/ZoomFactor;    SrcX=0;     }
-    if (SrcY<0)                 {   SrcH=SrcH+SrcY;                                 DestH=DestH+SrcY/ZoomFactor;    DestY=DestY-SrcY/ZoomFactor;    SrcY=0;     }
-    if (SrcX+SrcW>RealImageW)   {   DestW=DestW-(SrcX+SrcW-RealImageW)/ZoomFactor;  SrcW=(RealImageW-SrcX);                                                     }
-    if (SrcY+SrcH>RealImageH)   {   DestH=DestH-(SrcY+SrcH-RealImageH)/ZoomFactor;  SrcH=(RealImageH-SrcY);                                                     }
-
-    // translate DestX,DestY,DestW,DestH to destination coordinates
-    DestX=((double(Width)/VirtImageW)*DestX);
-    DestW=((double(Width)/VirtImageW)*DestW);
-    DestY=((double(Height)/VirtImageH)*DestY);
-    DestH=((double(Height)/VirtImageH)*DestH);
-
-    //**********************************
-    // Draw image layer
-    //**********************************
-    // Shrink to used part of the image
-    QImage Image1=SourceImage->copy(SrcX,SrcY,SrcW,SrcH);
-
-    // Scaled part as needed
-    QImage Image2=Image1.scaled(int(DestW),int(DestH),Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-
-    // Apply global filter to part image
-    if (TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY) FilterTransform.ApplyFilter(&Image2);
-
-    // Apply shot filter to part image
-    if ((TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY)&&(ApplyShotFilter)) FilterCorrection->ApplyFilter(&Image2);
-
-//==========>
-
-    P->drawImage(QRectF(DestX+AddX,DestY+AddY,DestW,DestH),Image2);
-
-    //**********************************
-    // Composition layers
-    //**********************************
-    // Add global image composition layer
-    P->drawImage(QRectF(DestX+AddX,DestY+AddY,DestW,DestH),GlobalImageComposition,QRectF(SrcX,SrcY,SrcW,SrcH));
-
-    // Add static shot composition
-    if (ApplyShotText) for (int j=0;j<List[Sequence].ShotComposition.List.count();j++) {
-        cCompositionObject *PrevCompoObject=NULL;
-        if (Sequence>0) {
-            int k=0;
-            while (k<List[Sequence-1].ShotComposition.List.count()) {
-                if (List[Sequence-1].ShotComposition.List[k].IndexKey==List[Sequence].ShotComposition.List[j].IndexKey) {
-                    PrevCompoObject=&List[Sequence-1].ShotComposition.List[k];
-                    k=List[Sequence-1].ShotComposition.List.count();
-                } else k++;
-            }
-        }
-
-        List[Sequence].ShotComposition.List[j].DrawCompositionObject(*P,AddX,AddY,Width,Height,true,0,NULL,PctDone,PrevCompoObject);
-    }
-
-    if (ImagePosition!=NULL) *ImagePosition=QRectF(DestX,DestY,DestW,DestH);
-
-    if (SourceImage!=LastLoadedImage) delete SourceImage;
-}
-
 //===============================================================
 // Draw Thumb
 void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY) {
-    if (!Thumbnail) Thumbnail=CanvasImageAt(ThumbWidth,ThumbHeight,0,NULL,0,0,NULL,NULL,true,true,true,NULL);
+    if (!Thumbnail) Thumbnail=CanvasImageAt(ThumbWidth,ThumbHeight,0,NULL);
     Painter->drawImage(AddX,AddY,*Thumbnail);
-}
-
-//===============================================================
-
-void cDiaporamaObject::CalcTransformations(int Sequence,double PctDone,double &XFactor,double &YFactor,double &ZoomFactor,double &RotateFactor,cFilterCorrectObject &FilterCorrection) {
-    cFilterCorrectObject AncFilterCorrection =List[Sequence-1].FilterCorrection;;
-
-    // Adjust XFactor, YFactor and ZoomFactor depending on position in Mobil part animation
-    double AncXFactor     =List[Sequence-1].FilterCorrection.X;
-    double AncYFactor     =List[Sequence-1].FilterCorrection.Y;
-    double AncZoomFactor  =List[Sequence-1].FilterCorrection.ZoomFactor;
-    double AncRotateFactor=List[Sequence-1].FilterCorrection.ImageRotation;
-
-    if (AncXFactor!=XFactor)                                            XFactor                     =AncXFactor+(XFactor-AncXFactor)*PctDone;
-    if (AncYFactor!=YFactor)                                            YFactor                     =AncYFactor+(YFactor-AncYFactor)*PctDone;
-    if (AncZoomFactor!=ZoomFactor)                                      ZoomFactor                  =AncZoomFactor+(ZoomFactor-AncZoomFactor)*PctDone;
-    if (AncRotateFactor!=RotateFactor)                                  RotateFactor                =AncRotateFactor+(RotateFactor-AncRotateFactor)*PctDone;
-    if (AncFilterCorrection.Brightness!=FilterCorrection.Brightness)    FilterCorrection.Brightness =AncFilterCorrection.Brightness+(FilterCorrection.Brightness-AncFilterCorrection.Brightness)*PctDone;
-    if (AncFilterCorrection.Contrast!=FilterCorrection.Contrast)        FilterCorrection.Contrast   =AncFilterCorrection.Contrast+(FilterCorrection.Contrast-AncFilterCorrection.Contrast)*PctDone;
-    if (AncFilterCorrection.Gamma!=FilterCorrection.Gamma)              FilterCorrection.Gamma      =AncFilterCorrection.Gamma+(FilterCorrection.Gamma-AncFilterCorrection.Gamma)*PctDone;
-    if (AncFilterCorrection.Red!=FilterCorrection.Red)                  FilterCorrection.Red        =AncFilterCorrection.Red+(FilterCorrection.Red-AncFilterCorrection.Red)*PctDone;
-    if (AncFilterCorrection.Green!=FilterCorrection.Green)              FilterCorrection.Green      =AncFilterCorrection.Green+(FilterCorrection.Green-AncFilterCorrection.Green)*PctDone;
-    if (AncFilterCorrection.Blue!=FilterCorrection.Blue)                FilterCorrection.Blue       =AncFilterCorrection.Blue+(FilterCorrection.Blue-AncFilterCorrection.Blue)*PctDone;
 }
 
 //===============================================================
@@ -962,7 +637,7 @@ int cDiaporamaObject::GetCumulTransitDuration() {
 
 int cDiaporamaObject::GetDuration() {
     int Duration=0;
-    for (int i=0;i<List.count();i++) Duration=Duration+(i>0?List[i].GetMobilDuration():0)+List[i].GetStaticDuration();
+    for (int i=0;i<List.count();i++) Duration=Duration+List[i].GetStaticDuration();
 
     // Adjust duration to ensure transition will be full !
     int TransitDuration=GetCumulTransitDuration();
@@ -976,10 +651,6 @@ int cDiaporamaObject::GetDuration() {
 void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
-    QString         FileName;
-
-    if ((Image!=NULL)&&(Image->FileName!=""))       FileName=Image->FileName;
-    else if ((Video!=NULL)&&(Video->FileName!=""))  FileName=Video->FileName;
 
     // Slide properties
     Element.setAttribute("SlideName", SlideName);
@@ -1028,30 +699,139 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             //************************************************************
             // ALPHA1 Data loading
             //************************************************************
+
+            // Then, now we can load media file in the global composition object
             QString FileName=Element.attribute("ObjectFileName","");
 
             if (PathForRelativPath!="") FileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FileName));
             int TheTypeObject=Element.attribute("TypeObject").toInt();
-            if (LoadMedia(FileName,TheTypeObject)) {
-                bool IsOk=true;
 
-                // Load shot list
-                List.clear();
-                int ShotNumber=Element.attribute("ShotNumber").toInt();
-                for (int i=0;i<ShotNumber;i++) {
-                    cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
-                    if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
-                    List.append(*imagesequence);
-                }
+            cCompositionObject  *CompositionObject=NULL;
+            cBrushDefinition    *CurrentBrush=NULL;
+            bool                IsOk=true;
+            int                 ShotNumber=0;
+            int                 i;
+            QDomElement         SubElement;
+            cCompositionObject  *CurShot=NULL;
+
+            switch (TheTypeObject) {
+                case DIAPORAMAOBJECTTYPE_IMAGE :
+                    List.clear();
+                    // Create and append a composition block to the object list
+                    ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,NextIndexKey));
+                    CompositionObject=&ObjectComposition.List[ObjectComposition.List.count()-1];
+                    CurrentBrush=&CompositionObject->BackgroundBrush;
+                    // Set CompositionObject to full screen
+                    CompositionObject->x=0;
+                    CompositionObject->y=0;
+                    CompositionObject->w=1;
+                    CompositionObject->h=1;
+                    // Set other values
+                    CompositionObject->Text     ="";
+                    CompositionObject->PenSize  =0;
+                    CurrentBrush->BrushFileName =QFileInfo(FileName).absoluteFilePath();
+                    CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
+                    SlideName                   =QFileInfo(FileName).fileName();
+                    CurrentBrush->Image=new cimagefilewrapper();
+                    IsOk=CurrentBrush->Image->GetInformationFromFile(FileName);
+                    if (IsOk) {
+                        ShotNumber=Element.attribute("ShotNumber").toInt();
+                        for (i=0;i<ShotNumber;i++) {
+                            List.append(cDiaporamaShot(this));
+                            List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
+                            CurShot=&List[i].ShotComposition.List[List[i].ShotComposition.List.count()-1];
+                            CurShot->CopyFromCompositionObject(CompositionObject);
+
+                            //List[i].LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath);
+                            if ((Element.elementsByTagName("Shot-"+QString("%1").arg(i)).length()>0)&&(Element.elementsByTagName("Shot-"+QString("%1").arg(i)).item(0).isElement()==true)) {
+                                SubElement=Element.elementsByTagName("Shot-"+QString("%1").arg(i)).item(0).toElement();
+
+                                if (i>0) {
+                                    // Duration (in msec) of the mobil part animation
+                                    if (SubElement.attribute("DefaultMobilDuration")=="1") List[i].StaticDuration=Parent->FixedDuration;
+                                        else List[i].StaticDuration=SubElement.attribute("MobilDuration").toInt();
+                                    CurShot->CopyFromCompositionObject(&List[i-1].ShotComposition.List[List[i-1].ShotComposition.List.count()-1]);
+                                    List.append(cDiaporamaShot(this));
+                                    i++;
+                                    ShotNumber++;
+                                    List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
+                                    CurShot=&List[i].ShotComposition.List[List[i].ShotComposition.List.count()-1];
+                                    CurShot->CopyFromCompositionObject(CompositionObject);
+                                    // Duration (in msec) of the static part animation
+                                    if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=Parent->FixedDuration;
+                                        else List[i].StaticDuration=SubElement.attribute("StaticDuration").toInt();
+
+                                } else {
+                                    // Duration (in msec) of the static part animation
+                                    if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=Parent->NoShotDuration;
+                                        else List[i].StaticDuration=SubElement.attribute("StaticDuration").toInt();
+                                }
+
+                                CurShot->BackgroundBrush.BrushFileCorrect.LoadFromXML(SubElement,"FilterCorrection",PathForRelativPath);    // Image correction
+                                CurShot->BackgroundBrush.BrushFileCorrect.X             =SubElement.attribute("X").toDouble();              // X position (in %) relative to up/left corner
+                                CurShot->BackgroundBrush.BrushFileCorrect.Y             =SubElement.attribute("Y").toDouble();              // Y position (in %) relative to up/left corner
+                                CurShot->BackgroundBrush.BrushFileCorrect.ZoomFactor    =SubElement.attribute("ZoomFactor").toDouble();     // Zoom factor (in %)
+                                CurShot->BackgroundBrush.BrushFileCorrect.ImageRotation =SubElement.attribute("ImageRotation").toInt();     // Image rotation (in °)
+                            }
+                        }
+                    }
+                    break;
+                case DIAPORAMAOBJECTTYPE_VIDEO :
+                    List.clear();
+                    // Create and append a composition block to the object list
+                    ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,NextIndexKey));
+                    CompositionObject=&ObjectComposition.List[ObjectComposition.List.count()-1];
+                    CurrentBrush=&CompositionObject->BackgroundBrush;
+                    // Set CompositionObject to full screen
+                    CompositionObject->x=0;
+                    CompositionObject->y=0;
+                    CompositionObject->w=1;
+                    CompositionObject->h=1;
+                    // Set other values
+                    CompositionObject->Text     ="";
+                    CompositionObject->PenSize  =0;
+                    CurrentBrush->BrushFileName =QFileInfo(FileName).absoluteFilePath();
+                    CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
+                    SlideName                   =QFileInfo(FileName).fileName();
+                    CurrentBrush->Video         =new cvideofilewrapper();
+                    IsOk=CurrentBrush->Video->GetInformationFromFile(FileName,false);
+                    if (IsOk) {
+                        CurrentBrush->Video->StartPos   =QTime(0,0,0,0);
+                        CurrentBrush->Video->EndPos     =CurrentBrush->Video->Duration;
+                        CurrentBrush->Video->SoundVolume=Element.attribute("SoundVolume").toDouble();         // Volume of soundtrack (for video only)
+                        CurrentBrush->Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
+                        CurrentBrush->Video->EndPos     =QTime().fromString(Element.attribute("EndPos"));     // End position (video only)
+                        ShotNumber=Element.attribute("ShotNumber").toInt();
+                        for (i=0;i<ShotNumber;i++) {
+                            List.append(cDiaporamaShot(this));
+                            List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
+                            CurShot=&List[i].ShotComposition.List[List[i].ShotComposition.List.count()-1];
+                            CurShot->CopyFromCompositionObject(CompositionObject);
+
+                            //List[i].LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath);
+                            if ((Element.elementsByTagName("Shot-"+QString("%1").arg(i)).length()>0)&&(Element.elementsByTagName("Shot-"+QString("%1").arg(i)).item(0).isElement()==true)) {
+                                SubElement=Element.elementsByTagName("Shot-"+QString("%1").arg(i)).item(0).toElement();
+                                // Duration (in msec) of the static part animation
+                                if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=Parent->NoShotDuration;
+                                    else List[i].StaticDuration=SubElement.attribute("StaticDuration").toInt();
+                                CurShot->BackgroundBrush.BrushFileCorrect.LoadFromXML(SubElement,"FilterCorrection",PathForRelativPath);    // Image correction
+                                CurShot->BackgroundBrush.BrushFileCorrect.X             =SubElement.attribute("X").toDouble();              // X position (in %) relative to up/left corner
+                                CurShot->BackgroundBrush.BrushFileCorrect.Y             =SubElement.attribute("Y").toDouble();              // Y position (in %) relative to up/left corner
+                                CurShot->BackgroundBrush.BrushFileCorrect.ZoomFactor    =SubElement.attribute("ZoomFactor").toDouble();     // Zoom factor (in %)
+                                CurShot->BackgroundBrush.BrushFileCorrect.ImageRotation =SubElement.attribute("ImageRotation").toInt();     // Image rotation (in °)
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            if (IsOk) {
+
                 //==========> Récupération des données : Adjust duration
                 for (int i=0;i<ShotNumber;i++) if (List[i].StaticDuration==-1) List[i].StaticDuration=ShotNumber>1?Parent->FixedDuration:Parent->NoShotDuration;
                 //==========>
 
-                if (Video!=NULL) {
-                    Video->SoundVolume=Element.attribute("SoundVolume").toDouble();         // Volume of soundtrack (for video only)
-                    Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
-                    Video->EndPos     =QTime().fromString(Element.attribute("EndPos"));     // End position (video only)
-                }
+                FilterTransform.LoadFromXML(Element,"GlobalImageFilters",PathForRelativPath);                                           // Global Image filters
 
                 if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
                     QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
@@ -1060,38 +840,43 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     //==========> Récupération des données ! if Object don't use full canvas (height is hypothenuse of the image rectangle and width is calc from aspect ratio)
                     // Note : C'était idiot mais l'attribut full canvas était placé sur le background !
                     if ((SubElement.hasAttribute("FullCanvas"))&&(SubElement.attribute("FullCanvas")!="1")) {
-                        // Recalculate all shot size and position for normal to full canvas
-                        QImage   *ReturnImage=NULL;
+                        // Do transformation
+                        for (int i=0;i<List.count();i++) for (int j=0;j<List[i].ShotComposition.List.count();j++) {
+                            // Recalculate all shot size and position for normal to full canvas
+                            QImage   *ReturnImage=NULL;
 
-                        if (Video!=NULL)        ReturnImage=Video->ImageAt(true,0,true,NULL,1,false,NULL);  // Video
-                        else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,true,NULL);                // Image
+                            if (List[i].ShotComposition.List[j].BackgroundBrush.Video!=NULL)        ReturnImage=List[i].ShotComposition.List[j].BackgroundBrush.Video->ImageAt(true,0,true,NULL,1,false,NULL);  // Video
+                            else if (List[i].ShotComposition.List[j].BackgroundBrush.Image!=NULL)   ReturnImage=List[i].ShotComposition.List[j].BackgroundBrush.Image->ImageAt(true,true,NULL);                // Image
 
-                        if (ReturnImage!=NULL) {
-                            // Calc size
-                            double   RealImageW     =ReturnImage->width();
-                            double   RealImageH     =ReturnImage->height();
-                            double   Hyp            =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);         // Calc hypothenuse
-                            double   FullCanvasW    =Hyp;                                                       // Calc full canvas size
-                            double   FullCanvasH    =Parent->GetHeightForWidth(FullCanvasW);
-                            double   NormalCanvasW  =RealImageW;                                                // Calc normal canvas size
-                            double   NormalCanvasH  =Parent->GetHeightForWidth(NormalCanvasW);
-                            if (FullCanvasH<Hyp) {          // Ensure complete image
-                                FullCanvasH=Hyp;
-                                FullCanvasW=Parent->GetWidthForHeight(FullCanvasH);
+                            if (ReturnImage!=NULL) {
+                                // Calc size
+                                double   RealImageW     =ReturnImage->width();
+                                double   RealImageH     =ReturnImage->height();
+                                double   Hyp            =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);         // Calc hypothenuse
+                                double   FullCanvasW    =Hyp;                                                       // Calc full canvas size
+                                double   FullCanvasH    =Parent->GetHeightForWidth(FullCanvasW);
+                                double   NormalCanvasW  =RealImageW;                                                // Calc normal canvas size
+                                double   NormalCanvasH  =Parent->GetHeightForWidth(NormalCanvasW);
+                                if (FullCanvasH<Hyp) {          // Ensure complete image
+                                    FullCanvasH=Hyp;
+                                    FullCanvasW=Parent->GetWidthForHeight(FullCanvasH);
+                                }
+                                if (NormalCanvasH<RealImageH) { // Ensure complete image
+                                    NormalCanvasH=RealImageH;
+                                    NormalCanvasW=Parent->GetWidthForHeight(NormalCanvasH);
+                                }
+
+                                delete ReturnImage;
+                                cFilterCorrectObject *FilterCorrection=&List[i].ShotComposition.List[j].BackgroundBrush.BrushFileCorrect;
+                                FilterCorrection->ZoomFactor    =FilterCorrection->ZoomFactor*NormalCanvasW/FullCanvasW;
+                                FilterCorrection->X             =FilterCorrection->X*NormalCanvasW/FullCanvasW+((FullCanvasW-NormalCanvasW)/2)/FullCanvasW;
+                                FilterCorrection->Y             =FilterCorrection->Y*NormalCanvasH/FullCanvasH+((FullCanvasH-NormalCanvasH)/2)/FullCanvasH;
+                                FilterCorrection->AspectRatio   =double(Parent->InternalHeight)/double(Parent->InternalWidth);
+                                FilterCorrection->ImageGeometry =GEOMETRY_PROJECT;
+                                if (FilterCorrection->X+FilterCorrection->ZoomFactor>1) FilterCorrection->X=1-FilterCorrection->ZoomFactor;
+                                if (FilterCorrection->Y+FilterCorrection->ZoomFactor>1) FilterCorrection->Y=1-FilterCorrection->ZoomFactor;
+
                             }
-                            if (NormalCanvasH<RealImageH) { // Ensure complete image
-                                NormalCanvasH=RealImageH;
-                                NormalCanvasW=Parent->GetWidthForHeight(NormalCanvasH);
-                            }
-                            // Do transformation
-                            for (int i=0;i<List.count();i++) {
-                                List[i].FilterCorrection.ZoomFactor=List[i].FilterCorrection.ZoomFactor*NormalCanvasW/FullCanvasW;
-                                List[i].FilterCorrection.X=List[i].FilterCorrection.X*NormalCanvasW/FullCanvasW+((FullCanvasW-NormalCanvasW)/2)/FullCanvasW;
-                                if (List[i].FilterCorrection.X+List[i].FilterCorrection.ZoomFactor>1) List[i].FilterCorrection.X=1-List[i].FilterCorrection.ZoomFactor;
-                                List[i].FilterCorrection.Y=List[i].FilterCorrection.Y*NormalCanvasH/FullCanvasH+((FullCanvasH-NormalCanvasH)/2)/FullCanvasH;
-                                if (List[i].FilterCorrection.Y+List[i].FilterCorrection.ZoomFactor>1) List[i].FilterCorrection.Y=1-List[i].FilterCorrection.ZoomFactor;
-                            }
-                            delete ReturnImage;
                         }
                     }
                     //==========> Récupération des données !
@@ -1106,8 +891,6 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     TransitionDuration=SubElement.attribute("TransitionDuration").toInt();                                                  // Transition duration (in msec)
                     Element.appendChild(SubElement);
                 }
-
-                FilterTransform.LoadFromXML(Element,"GlobalImageFilters",PathForRelativPath);                                           // Global Image filters
 
                 //==========> Récupération des données !
                 if (Element.elementsByTagName("GlobalImageComposition").length()>0) {
@@ -1157,10 +940,6 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
                     MusicList.append(*MusicObject);
                 }
-
-                //==========> Récupération des données !
-                if (SlideName=="") SlideName=Image?QFileInfo(Image->FileName).fileName():Video?QFileInfo(Video->FileName).fileName():QCoreApplication::translate("MainWindow","Title","Default slide name when no file");;
-                //==========> Récupération des données !
 
                 return IsOk;
             } else return false;
@@ -1644,25 +1423,12 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
         }
     }
 
-    cDiaporamaObject        *CurObject  =IsCurrentObject?Info->CurrentObject:Info->TransitObject;
     cDiaporamaShot          *CurShot    =IsCurrentObject?Info->CurrentObject_CurrentShot:Info->TransitObject_CurrentShot;
     QImage                  *SourceImage=IsCurrentObject?Info->CurrentObject_SourceImage:Info->TransitObject_SourceImage;
-    int                     ShotType    =IsCurrentObject?Info->CurrentObject_CurrentShotType:Info->TransitObject_CurrentShotType;
-    int                     ShotSeqNum  =IsCurrentObject?Info->CurrentObject_ShotSequenceNumber:Info->TransitObject_ShotSequenceNumber;
-    double                  MobilPCTDone=IsCurrentObject?Info->CurrentObject_MobilPCTDone:Info->TransitObject_MobilPCTDone;
     double                  PCTDone     =IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone;
 
-    double                  DestX,DestY,DestW,DestH;                        // Coordonates of destination image in the virtual image
-    double                  SrcX,SrcY,SrcW,SrcH;                            // Coordonates of the destination image in the source image
-    double                  RealImageW,RealImageH,VirtImageW,VirtImageH;    // Destination image size
-    double                  XFactor,YFactor,ZoomFactor,RotateFactor;        // Transformation value
-    cFilterCorrectObject    FilterCorrection;                               // Filter correction value
-    QImage                  *ImageToUse=NULL;
     QImage                  *Image=NULL;
-    QImage                  Image1,Image2;                                  // Temporary object use to create frame (Image2 is the rendered image for montage)
     QPainter                P;
-
-    qDebug()<<"PCTDone"<<PCTDone;
 
     if (!SoundOnly) {
         Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
@@ -1674,104 +1440,11 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
 
     if ((List.count()>0)&&(SourceImage!=NULL)) {
 
-        // Prepare image
-        if (!SoundOnly) {
-            // Calc real image size
-            RealImageW=double(SourceImage->width());
-            RealImageH=double(SourceImage->height());
-            double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH); // Calc hypothenuse
-            VirtImageW=Hyp;                                                 // Calc canvas size
-            VirtImageH=CurObject->Parent->GetHeightForWidth(VirtImageW);    // Calc canvas size
-            // Ensure complete image
-            if (VirtImageH<Hyp) {
-                VirtImageH=Hyp;
-                VirtImageW=CurObject->Parent->GetWidthForHeight(VirtImageH);
-            }
-
-            // Global image Composition
-            QImage      GlobalImageComposition(RealImageW,RealImageH,QImage::Format_ARGB32_Premultiplied);
-            QPainter    PB;
-            PB.begin(&GlobalImageComposition);
-            PB.setCompositionMode(QPainter::CompositionMode_Source);
-            PB.fillRect(QRect(0,0,GlobalImageComposition.width(),GlobalImageComposition.height()),Qt::transparent);
-            PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            PB.end();
-
-            XFactor         =CurShot->FilterCorrection.X;
-            YFactor         =CurShot->FilterCorrection.Y;
-            ZoomFactor      =CurShot->FilterCorrection.ZoomFactor;
-            RotateFactor    =CurShot->FilterCorrection.ImageRotation;
-            FilterCorrection=CurShot->FilterCorrection;
-
-            if (ShotType==SHOTTYPE_MOBIL)
-                CurObject->CalcTransformations(ShotSeqNum,MobilPCTDone,XFactor,YFactor,ZoomFactor,RotateFactor,FilterCorrection);
-
-            // Rotate image if needed
-            if (RotateFactor!=0) {
-                QTransform matrix;
-                matrix.rotate(RotateFactor,Qt::ZAxis);
-                ImageToUse=new QImage(SourceImage->transformed(matrix));
-                GlobalImageComposition=GlobalImageComposition.transformed(matrix);
-
-                // update real image size
-                RealImageW=double(ImageToUse->width());
-                RealImageH=double(ImageToUse->height());
-            } else ImageToUse=SourceImage;
-
-            // Calc source and destination size
-            DestX=0;                                                    // X Position in the virtual image of the destination image
-            DestY=0;                                                    // Y Position in the virtual image of the destination image
-            DestW=VirtImageW;                                           // with of the destination image in the virtual image
-            DestH=VirtImageH;                                           // height of the destination image in the virtual image
-
-            SrcX=(XFactor*VirtImageW-(VirtImageW-RealImageW)/2);        // X Position in the source image of the destination image
-            SrcY=(YFactor*VirtImageH-(VirtImageH-RealImageH)/2);        // Y Position in the source image of the destination image
-            SrcW=(ZoomFactor*VirtImageW);                               // with of the destination image in the source image
-            SrcH=(ZoomFactor*VirtImageH);                               // height of the destination image in the source image
-
-            // Adjust positions by croping to the source image
-            if (SrcX<0)                 {   SrcW=SrcW+SrcX;                                 DestW=DestW+SrcX/ZoomFactor;    DestX=DestX-SrcX/ZoomFactor;    SrcX=0;     }
-            if (SrcY<0)                 {   SrcH=SrcH+SrcY;                                 DestH=DestH+SrcY/ZoomFactor;    DestY=DestY-SrcY/ZoomFactor;    SrcY=0;     }
-            if (SrcX+SrcW>RealImageW)   {   DestW=DestW-(SrcX+SrcW-RealImageW)/ZoomFactor;  SrcW=(RealImageW-SrcX);                                                     }
-            if (SrcY+SrcH>RealImageH)   {   DestH=DestH-(SrcY+SrcH-RealImageH)/ZoomFactor;  SrcH=(RealImageH-SrcY);                                                     }
-
-            // translate DestX,DestY,DestW,DestH to destination coordinates
-            DestX=((double(W)/VirtImageW)*DestX);
-            DestW=((double(W)/VirtImageW)*DestW);
-            DestY=((double(H)/VirtImageH)*DestY);
-            DestH=((double(H)/VirtImageH)*DestH);
-
-            //**********************************
-            // Draw image layer
-            //**********************************
-            // Shrink to used part of the image
-            Image1=ImageToUse->copy(SrcX,SrcY,SrcW,SrcH);
-            if (ImageToUse!=SourceImage) {
-                delete ImageToUse;
-                ImageToUse=NULL;
-            }
-
-            // Scaled part as needed
-            Image2=Image1.scaled(DestW,DestH,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-
-            // Apply global filter to part image
-            if (CurObject->TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY) CurObject->FilterTransform.ApplyFilter(&Image2);
-
-            // Apply shot filter to part image
-            if (CurObject->TypeObject!=DIAPORAMAOBJECTTYPE_EMPTY) FilterCorrection.ApplyFilter(&Image2);
-
-            P.drawImage(QRectF(DestX,DestY,DestW,DestH),Image2);
-
-            //**********************************
-            // Composition layers
-            //**********************************
-            P.drawImage(QRectF(DestX,DestY,DestW,DestH),GlobalImageComposition,QRectF(SrcX,SrcY,SrcW,SrcH));
-        }
-
         cSoundBlockList *SoundTrackMontage=(IsCurrentObject?Info->CurrentObject_SoundTrackMontage:Info->TransitObject_SoundTrackMontage);
         int             ObjectNumber =IsCurrentObject?Info->CurrentObject_Number:Info->TransitObject_Number;
         int             ShotNumber   =IsCurrentObject?Info->CurrentObject_ShotSequenceNumber:Info->TransitObject_ShotSequenceNumber;
         cDiaporamaShot  *PreviousShot=(ShotNumber>0?&List[ObjectNumber].List[ShotNumber-1]:NULL);
+
         for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
             cCompositionObject *PrevCompoObject=NULL;
             if (PreviousShot) {
@@ -1787,8 +1460,6 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
             // Special case when no sound and video object
             if ((!SoundTrackMontage)&&(CurShot->ShotComposition.List[j].BackgroundBrush.Video)) CurShot->ShotComposition.List[j].BackgroundBrush.Video->NextPacketPosition+=Info->FrameDuration;
         }
-        // Special case when no sound and video object
-        if ((!SoundTrackMontage)&&(CurObject->Video)) CurObject->Video->NextPacketPosition+=Info->FrameDuration;
 
         if (!SoundOnly) P.end();
     }
@@ -2216,25 +1887,19 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 }
 
 void cDiaporama::ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H) {
-    if (Info->CurrentObject->Video) {
-        Info->CurrentObject_SourceImage=Info->CurrentObject->Video->ImageAt(PreviewMode,Info->CurrentObject_InObjectTime,false,Info->CurrentObject_SoundTrackMontage,Info->CurrentObject->Video->SoundVolume,false,NULL);
-    } else if (Info->CurrentObject->Image) {
-        if (Info->CurrentObject_SourceImage==NULL) Info->CurrentObject_SourceImage=Info->CurrentObject->Image->ImageAt(PreviewMode,false,NULL);
+    // W and H = 0 when producing sound track in render process
+    if ((W!=0)&&(H!=0)) {
+        // Title mode : create an empty transparent image
+        Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+        QPainter PT;
+        PT.begin(Info->CurrentObject_SourceImage);
+        PT.setCompositionMode(QPainter::CompositionMode_Source);
+        PT.fillRect(QRect(0,0,W,H),Qt::transparent);
+        PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        PT.end();
     } else {
-        // W and H = 0 when producing sound track in render process
-        if ((W!=0)&&(H!=0)) {
-            // Title mode : create an empty transparent image
-            Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-            QPainter PT;
-            PT.begin(Info->CurrentObject_SourceImage);
-            PT.setCompositionMode(QPainter::CompositionMode_Source);
-            PT.fillRect(QRect(0,0,W,H),Qt::transparent);
-            PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            PT.end();
-        } else {
-            // Create a very small image to have a ptr
-            Info->CurrentObject_SourceImage=new QImage(5,5,QImage::Format_ARGB32_Premultiplied);
-        }
+        // Create a very small image to have a ptr
+        Info->CurrentObject_SourceImage=new QImage(5,5,QImage::Format_ARGB32_Premultiplied);
     }
     // Prepare images for Current Object
     PrepareImage(Info,W,H,true,PreviewMode);
@@ -2242,21 +1907,14 @@ void cDiaporama::ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool Prev
 }
 
 void cDiaporama::ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H) {
-    if (Info->TransitObject->Video) {
-        Info->TransitObject_SourceImage=Info->TransitObject->Video->ImageAt( // Video
-            PreviewMode,Info->TransitObject_InObjectTime,false,Info->TransitObject_SoundTrackMontage,Info->TransitObject->Video->SoundVolume,false,NULL);
-    } else if ((Info->TransitObject->Image)&&(Info->TransitObject_SourceImage==NULL)) {
-        Info->TransitObject_SourceImage=Info->TransitObject->Image->ImageAt(PreviewMode,false,NULL);
-    } else {
-        // Title mode : create an empty transparent image
-        Info->TransitObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-        QPainter PT;
-        PT.begin(Info->TransitObject_SourceImage);
-        PT.setCompositionMode(QPainter::CompositionMode_Source);
-        PT.fillRect(QRect(0,0,W,H),Qt::transparent);
-        PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        PT.end();
-    }
+    // create an empty transparent image
+    Info->TransitObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+    QPainter PT;
+    PT.begin(Info->TransitObject_SourceImage);
+    PT.setCompositionMode(QPainter::CompositionMode_Source);
+    PT.fillRect(QRect(0,0,W,H),Qt::transparent);
+    PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    PT.end();
     // Prepare images for Transit Object
     PrepareImage(Info,W,H,false,PreviewMode);
 }
@@ -2283,7 +1941,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     CurrentObject_CurrentShot           =PreviousFrame->CurrentObject_CurrentShot;          // Link to the current shot in the current object
     CurrentObject_CurrentShotType       =PreviousFrame->CurrentObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
     CurrentObject_EndStaticShot         =PreviousFrame->CurrentObject_EndStaticShot;        // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
-    CurrentObject_MobilPCTDone          =PreviousFrame->CurrentObject_MobilPCTDone;         // PCT achevement for mobil shot (if CurrentObject_CurrentShotType=SHOTTYPE_MOBIL)
     CurrentObject_PCTDone               =PreviousFrame->CurrentObject_PCTDone;
     CurrentObject_SourceImage           =PreviousFrame->CurrentObject_SourceImage;          // Source image
     CurrentObject_FreeSourceImage       =false;                                             // True if allow to delete CurrentObject_SourceImage during destructor
@@ -2312,7 +1969,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     TransitObject_CurrentShot           =PreviousFrame->TransitObject_CurrentShot;          // Link to the current shot in the current object
     TransitObject_CurrentShotType       =PreviousFrame->TransitObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
     TransitObject_EndStaticShot         =PreviousFrame->TransitObject_EndStaticShot;        // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
-    TransitObject_MobilPCTDone          =PreviousFrame->TransitObject_MobilPCTDone;         // PCT achevement for mobil shot (if TransitObject_CurrentShotType=SHOTTYPE_MOBIL)
     TransitObject_PCTDone               =PreviousFrame->TransitObject_PCTDone;
     TransitObject_SourceImage           =PreviousFrame->TransitObject_SourceImage;          // Source image
     TransitObject_FreeSourceImage       =false;                                             // True if allow to delete TransitObject_SourceImage during destructor
@@ -2346,7 +2002,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     CurrentObject_CurrentShot           =NULL;              // Link to the current shot in the current object
     CurrentObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
     CurrentObject_EndStaticShot         =0;                 // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
-    CurrentObject_MobilPCTDone          =0;                 // PCT achevement for mobil shot (if CurrentObject_CurrentShotType=SHOTTYPE_MOBIL)
     CurrentObject_PCTDone               =0;                 // PCT achevement for static shot
     CurrentObject_SourceImage           =NULL;              // Source image
     CurrentObject_FreeSourceImage       =true;              // True if allow to delete CurrentObject_SourceImage during destructor
@@ -2375,7 +2030,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     TransitObject_CurrentShot           =NULL;              // Link to the current shot in the current object
     TransitObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
     TransitObject_EndStaticShot         =0;                 // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
-    TransitObject_MobilPCTDone          =0;                 // PCT achevement for mobil shot (if TransitObject_CurrentShotType=SHOTTYPE_MOBIL)
     TransitObject_PCTDone               =0;                 // PCT achevement for static shot
     TransitObject_SourceImage           =NULL;              // Source image
     TransitObject_FreeSourceImage       =true;              // True if allow to delete TransitObject_SourceImage during destructor
@@ -2418,44 +2072,25 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
         // Now calculate wich sequence in the current object is
         if (CurrentObject) {
             int CurPos  =0;
-            while ((CurrentObject_ShotSequenceNumber<CurrentObject->List.count()-1)&&
-                   ((CurPos+(CurrentObject_ShotSequenceNumber>0?CurrentObject->List[CurrentObject_ShotSequenceNumber].GetMobilDuration():0)+
-                     CurrentObject->List[CurrentObject_ShotSequenceNumber].GetStaticDuration())<=CurrentObject_InObjectTime)) {
-                CurPos=CurPos+(CurrentObject_ShotSequenceNumber>0?CurrentObject->List[CurrentObject_ShotSequenceNumber].GetMobilDuration():0)+
-                       CurrentObject->List[CurrentObject_ShotSequenceNumber].GetStaticDuration();
+            while ((CurrentObject_ShotSequenceNumber<CurrentObject->List.count()-1)&&((CurPos+CurrentObject->List[CurrentObject_ShotSequenceNumber].GetStaticDuration())<=CurrentObject_InObjectTime)) {
+                CurPos=CurPos+CurrentObject->List[CurrentObject_ShotSequenceNumber].GetStaticDuration();
                 CurrentObject_ShotSequenceNumber++;
             }
             CurrentObject_CurrentShot=&CurrentObject->List[CurrentObject_ShotSequenceNumber];
 
-            // Now calculate type of sequence and PCTDone for mobile sequence and CurrentObject_EndStaticShot for static sequence
-            if ((CurrentObject_ShotSequenceNumber>0)&&((CurrentObject_InObjectTime-CurPos)<(CurrentObject_ShotSequenceNumber>0?CurrentObject_CurrentShot->GetMobilDuration():0))) {
-                CurrentObject_CurrentShotType =SHOTTYPE_MOBIL;
-                switch (Diaporama->SpeedWave) {
-                case SPEEDWAVE_LINEAR :
-                    CurrentObject_MobilPCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetMobilDuration()));
-                    break;
-                case SPEEDWAVE_SINQUARTER :
-                    CurrentObject_MobilPCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetMobilDuration()));
-                    CurrentObject_MobilPCTDone=sin(1.5708*CurrentObject_MobilPCTDone);
-                    break;
-                }
-
-            } else {
-
-                CurrentObject_CurrentShotType =SHOTTYPE_STATIC;
-                switch (Diaporama->SpeedWave) {
-                case SPEEDWAVE_LINEAR :
-                    CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetStaticDuration()));
-                    break;
-                case SPEEDWAVE_SINQUARTER :
-                    CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetStaticDuration()));
-                    CurrentObject_PCTDone=sin(1.5708*CurrentObject_PCTDone);
-                    break;
-                }
-
-                // Force all to SHOTTYPE_VIDEO
-                CurrentObject_CurrentShotType=SHOTTYPE_VIDEO;
+            switch (Diaporama->SpeedWave) {
+            case SPEEDWAVE_LINEAR :
+                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetStaticDuration()));
+                break;
+            case SPEEDWAVE_SINQUARTER :
+                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetStaticDuration()));
+                CurrentObject_PCTDone=sin(1.5708*CurrentObject_PCTDone);
+                break;
             }
+
+            // Force all to SHOTTYPE_VIDEO
+            CurrentObject_CurrentShotType=SHOTTYPE_VIDEO;
+
         } else {
             CurrentObject_ShotSequenceNumber=0;
             CurrentObject_CurrentShot       =NULL;
@@ -2491,26 +2126,12 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 TransitObject_InObjectTime  =TimePosition-TransitObject_StartTime;
                 // Now calculate wich sequence in the Transition object is
                 int CurPos  =0;
-                while ((TransitObject_ShotSequenceNumber<TransitObject->List.count()-1)&&
-                       ((CurPos+(TransitObject_ShotSequenceNumber>0?TransitObject->List[TransitObject_ShotSequenceNumber].GetMobilDuration():0)+
-                         TransitObject->List[TransitObject_ShotSequenceNumber].GetStaticDuration())<=TransitObject_InObjectTime)) {
-                    CurPos=CurPos+(TransitObject_ShotSequenceNumber>0?TransitObject->List[TransitObject_ShotSequenceNumber].GetMobilDuration():0)+
-                           TransitObject->List[TransitObject_ShotSequenceNumber].GetStaticDuration();
+                while ((TransitObject_ShotSequenceNumber<TransitObject->List.count()-1)&&((CurPos+TransitObject->List[TransitObject_ShotSequenceNumber].GetStaticDuration())<=TransitObject_InObjectTime)) {
+                    CurPos=CurPos+TransitObject->List[TransitObject_ShotSequenceNumber].GetStaticDuration();
                     TransitObject_ShotSequenceNumber++;
                 }
                 TransitObject_CurrentShot=&TransitObject->List[TransitObject_ShotSequenceNumber];
-                // Now calculate type of sequence and PCTDone for mobile sequence and CurrentObject_EndStaticShot for static sequence
-                if ((TransitObject_ShotSequenceNumber>0)&&((TransitObject_InObjectTime-CurPos)<(TransitObject_ShotSequenceNumber>0?TransitObject_CurrentShot->GetMobilDuration():0))) {
-                    TransitObject_CurrentShotType =SHOTTYPE_MOBIL;
-                    TransitObject_MobilPCTDone    =(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->GetMobilDuration()));
-                } else {
-                    /*if (TransitObject->Video==NULL) {
-                        TransitObject_CurrentShotType=SHOTTYPE_STATIC;
-                        TransitObject_EndStaticShot  =TransitObject_InObjectTime+TransitObject_CurrentShot->GetStaticDuration();
-                    } else TransitObject_CurrentShotType=SHOTTYPE_VIDEO;*/
-                    // Force all to SHOTTYPE_VIDEO
-                    TransitObject_CurrentShotType=SHOTTYPE_VIDEO;
-                }
+                TransitObject_CurrentShotType=SHOTTYPE_STATIC;
                 // Calculate wich BackgroundIndex to be use for transition object (Background type : false=same as precedent - true=new background definition)
                 TransitObject_BackgroundIndex=TransitObject_Number;
                 while ((TransitObject_BackgroundIndex>0)&&(!Diaporama->List[TransitObject_BackgroundIndex].BackgroundType)) TransitObject_BackgroundIndex--;

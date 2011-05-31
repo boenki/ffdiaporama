@@ -339,7 +339,7 @@ void DlgImageCorrection::RefreshBackgroundImage() {
 
     // Create selection box
     if (cadre==NULL) cadre=new cCustomGraphicsRectItem(scene,300,&BrushFileCorrect->X,&BrushFileCorrect->Y,&BrushFileCorrect->ZoomFactor,
-                                                       NULL,NULL,xmax,ymax,true,BrushFileCorrect->AspectRatio,&MagneticRuller,this,TYPE_DlgImageCorrection);
+                                                       NULL,NULL,xmax,ymax,true,BrushFileCorrect->AspectRatio,&MagneticRuller,this,TYPE_DlgImageCorrection,0);
 
     // Prepare CacheImage
     QImage   *NewImage=new QImage(xmax,ymax,QImage::Format_ARGB32_Premultiplied);
