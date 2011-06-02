@@ -519,7 +519,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/FolderOpen.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/FolderOpen.png</iconset>
+             <normaloff>icons/FolderOpen.png</normaloff>icons/FolderOpen.png</iconset>
            </property>
           </widget>
          </item>

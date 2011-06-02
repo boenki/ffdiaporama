@@ -260,7 +260,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 
 //====================================================================================================================
 
-void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject) {
+void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject) {
     // W and H = 0 when producing sound track in render process
     if (!IsVisible) return;
 
@@ -295,20 +295,21 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
         double  FullMargin=0;
         double  W=TheW*double(width);
         double  H=TheH*double(height);
-        double  Wb=sqrt(W*W+H*H);
-        double  Hb=Wb*H/W;
-        if (Hb<W) {
-            Hb=Wb;
-            Wb=Hb*W/H;
+        double  Hyp=sqrt(W*W+H*H);
+        double  Wb=Hyp;
+        double  Hb=Wb*(H/W);
+        if (Hb<H) {
+            Hb=Hyp;
+            Wb=Hb*(W/H);
         }
 
         Wb=Wb+double(PenSize)*ADJUST_RATIO*2;
         Hb=Hb+double(PenSize)*ADJUST_RATIO*2;
         AddX-=(Wb-W)/2;
         AddY-=(Hb-H)/2;
-        QImage   Img(Wb+2,Hb+2,QImage::Format_ARGB32_Premultiplied);
+        QImage   *Img=new QImage(Wb+2,Hb+2,QImage::Format_ARGB32_Premultiplied);
         QPainter Painter;
-        Painter.begin(&Img);
+        Painter.begin(Img);
         Painter.setCompositionMode(QPainter::CompositionMode_Source);
         Painter.fillRect(QRect(0,0,Wb+2,Hb+2),Qt::transparent);
         Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -412,10 +413,10 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
         Painter.drawText(QRectF(MarginX-W/2,MarginY-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
         Painter.end();
 
-        DestPainter.save();
+        //DestPainter.save();
         if (FormShadow) {
             double Distance=double(FormShadowDistance)*ADJUST_RATIO;
-            QImage ImgShadow=Img.copy();
+            QImage ImgShadow=Img->copy();
             Uint8  *Data=ImgShadow.bits();
             for (int i=0;i<ImgShadow.height()*ImgShadow.width();i++) {
                 *Data++=0;  // R
@@ -423,17 +424,47 @@ void cCompositionObject::DrawCompositionObject(QPainter &DestPainter,int AddX,in
                 *Data++=0;  // B
                 Data++;     // Keep Alpha chanel
             }
-            DestPainter.setOpacity(Opacity==0?0.75:Opacity==1?0.50:Opacity==2?0.25:0.10);
+            DestPainter->setOpacity(Opacity==0?0.75:Opacity==1?0.50:Opacity==2?0.25:0.10);
             switch (FormShadow) {
-                case 1  : DestPainter.drawImage(AddX+TheX*double(width)-Distance,AddY+TheY*double(height)-Distance,ImgShadow); break;
-                case 2  : DestPainter.drawImage(AddX+TheX*double(width)+Distance,AddY+TheY*double(height)-Distance,ImgShadow); break;
-                case 3  : DestPainter.drawImage(AddX+TheX*double(width)-Distance,AddY+TheY*double(height)+Distance,ImgShadow); break;
-                default : DestPainter.drawImage(AddX+TheX*double(width)+Distance,AddY+TheY*double(height)+Distance,ImgShadow); break;
+                case 1  : DestPainter->drawImage(AddX+TheX*double(width)-Distance,AddY+TheY*double(height)-Distance,ImgShadow); break;
+                case 2  : DestPainter->drawImage(AddX+TheX*double(width)+Distance,AddY+TheY*double(height)-Distance,ImgShadow); break;
+                case 3  : DestPainter->drawImage(AddX+TheX*double(width)-Distance,AddY+TheY*double(height)+Distance,ImgShadow); break;
+                default : DestPainter->drawImage(AddX+TheX*double(width)+Distance,AddY+TheY*double(height)+Distance,ImgShadow); break;
             }
         }
-        if ((Opacity>0)&&(Opacity<4)) DestPainter.setOpacity(Opacity==1?0.75:Opacity==2?0.50:0.25); else DestPainter.setOpacity(1);
-        DestPainter.drawImage(AddX+TheX*double(width),AddY+TheY*double(height),Img);
-        DestPainter.restore();
+        if ((Opacity>0)&&(Opacity<4)) DestPainter->setOpacity(Opacity==1?0.75:Opacity==2?0.50:0.25); else DestPainter->setOpacity(1);
+        double  DstX=AddX+TheX*double(width);
+        double  DstY=AddY+TheY*double(height);
+        double  DstW=Img->width();
+        double  DstH=Img->height();
+        double  SrcX=0;
+        double  SrcY=0;
+        double  SrcW=DstW;
+        double  SrcH=DstH;
+        if (DstX<0) {
+            SrcX=-DstX;
+            DstW+=DstX;
+            SrcW+=DstX;
+            DstX=0;
+        }
+        if (DstY<0) {
+            SrcY=-DstY;
+            DstH+=DstY;
+            SrcH+=DstY;
+            DstY=0;
+        }
+        if (DstW>width) {
+            SrcW=SrcW-(DstW-width);
+            DstW=width;
+        }
+        if (DstH>height) {
+            SrcH=SrcH-(DstH-height);
+            DstH=height;
+        }
+        if ((Img)&&(!Img->isNull())) DestPainter->drawImage(QRectF(DstX,DstY,DstW,DstH),*Img,QRectF(SrcX,SrcY,SrcW,SrcH));
+        //DestPainter.drawImage(AddX+TheX*double(width),AddY+TheY*double(height),*Img);
+        DestPainter->setOpacity(1);
+        //DestPainter.restore();
     }
 }
 
@@ -605,7 +636,7 @@ QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPaint
     }
 
     // Add static shot composition
-    for (int j=0;j<List[Sequence].ShotComposition.List.count();j++) List[Sequence].ShotComposition.List[j].DrawCompositionObject(*P,0,0,Width,Height,true,0,NULL,0,NULL);
+    for (int j=0;j<List[Sequence].ShotComposition.List.count();j++) List[Sequence].ShotComposition.List[j].DrawCompositionObject(P,0,0,Width,Height,true,0,NULL,0,NULL);
 
     if (P!=Painter) {
         P->end();
@@ -1154,7 +1185,7 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
         delete BR;
     }
     //
-    if (ApplyComposition) for (int j=0;j<List[Index].BackgroundComposition.List.count();j++) List[Index].BackgroundComposition.List[j].DrawCompositionObject(*Painter,0,0,Width,Height,true,0,NULL,1,NULL);
+    if (ApplyComposition) for (int j=0;j<List[Index].BackgroundComposition.List.count();j++) List[Index].BackgroundComposition.List[j].DrawCompositionObject(Painter,0,0,Width,Height,true,0,NULL,1,NULL);
     Painter->restore();
 }
 
@@ -1428,14 +1459,17 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     double                  PCTDone     =IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone;
 
     QImage                  *Image=NULL;
-    QPainter                P;
+    QPainter                *P=NULL;
 
     if (!SoundOnly) {
         Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-        P.begin(Image);
-        P.setCompositionMode(QPainter::CompositionMode_Source);
-        P.fillRect(0,0,W,H,Qt::transparent);
-        P.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        if ((Image)&&(!Image->isNull())) {
+            P=new QPainter();
+            P->begin(Image);
+            P->setCompositionMode(QPainter::CompositionMode_Source);
+            P->fillRect(0,0,W,H,Qt::transparent);
+            P->setCompositionMode(QPainter::CompositionMode_SourceOver);
+        }
     }
 
     if ((List.count()>0)&&(SourceImage!=NULL)) {
@@ -1456,12 +1490,16 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
                     } else k++;
                 }
             }
-            CurShot->ShotComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime,SoundTrackMontage,PCTDone,PrevCompoObject);
+            if (P) CurShot->ShotComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime,SoundTrackMontage,PCTDone,PrevCompoObject);
             // Special case when no sound and video object
             if ((!SoundTrackMontage)&&(CurShot->ShotComposition.List[j].BackgroundBrush.Video)) CurShot->ShotComposition.List[j].BackgroundBrush.Video->NextPacketPosition+=Info->FrameDuration;
         }
 
-        if (!SoundOnly) P.end();
+        if ((!SoundOnly)&&(P)) P->end();
+        if (P) {
+            delete P;
+            P=NULL;
+        }
     }
     if (IsCurrentObject) Info->CurrentObject_PreparedImage=Image; else Info->TransitObject_PreparedImage=Image;
 }
@@ -1777,7 +1815,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
                 // Apply composition to background
                 for (int j=0;j<List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List.count();j++)
-                    List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,0,NULL,1,NULL);
+                    List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,0,0,W,H,PreviewMode,0,NULL,1,NULL);
                 P.end();
             }
             // same job for Transition Object if a previous was not keep !
@@ -1792,7 +1830,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
                 // Apply composition to background
                 for (int j=0;j<List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List.count();j++)
-                    List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,0,NULL,1,NULL);
+                    List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,0,0,W,H,PreviewMode,0,NULL,1,NULL);
                 P.end();
             }
         }
@@ -2078,6 +2116,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
             }
             CurrentObject_CurrentShot=&CurrentObject->List[CurrentObject_ShotSequenceNumber];
 
+            // calculate CurrentObject_PCTDone
             switch (Diaporama->SpeedWave) {
             case SPEEDWAVE_LINEAR :
                 CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetStaticDuration()));
@@ -2131,7 +2170,20 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                     TransitObject_ShotSequenceNumber++;
                 }
                 TransitObject_CurrentShot=&TransitObject->List[TransitObject_ShotSequenceNumber];
-                TransitObject_CurrentShotType=SHOTTYPE_STATIC;
+                TransitObject_CurrentShotType=SHOTTYPE_VIDEO;
+
+                // calculate TransitObject_PCTDone
+                switch (Diaporama->SpeedWave) {
+                case SPEEDWAVE_LINEAR :
+                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->GetStaticDuration()));
+                    break;
+                case SPEEDWAVE_SINQUARTER :
+                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->GetStaticDuration()));
+                    TransitObject_PCTDone=sin(1.5708*TransitObject_PCTDone);
+                    break;
+                }
+
+                // Force all to SHOTTYPE_VIDEO
                 // Calculate wich BackgroundIndex to be use for transition object (Background type : false=same as precedent - true=new background definition)
                 TransitObject_BackgroundIndex=TransitObject_Number;
                 while ((TransitObject_BackgroundIndex>0)&&(!Diaporama->List[TransitObject_BackgroundIndex].BackgroundType)) TransitObject_BackgroundIndex--;

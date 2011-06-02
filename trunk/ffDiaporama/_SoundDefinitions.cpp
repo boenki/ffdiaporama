@@ -45,6 +45,7 @@ cSoundBlockList     MixedMusic;             // Sound to play
 //*********************************************************************************************************************************************
 
 void SDLAudioCallback(void *,Uint8 *stream,int len) {
+    SDLIsAudioOpen=true;
     if (len!=MixedMusic.SoundPacketSize) {
         qDebug()<<"Error in SDLAudioCallback : Wanted len("<<len<<")<>MixedMusic.SoundPacketSize("<<MixedMusic.SoundPacketSize<<")";
         return;
@@ -69,9 +70,11 @@ void SDLFirstInit(double WantedFPS) {
 }
 
 void SDLLastClose() {
-    if (SDLIsAudioOpen) SDL_CloseAudio();                               // Close audio
-    SDLIsAudioOpen=false;
-    SDL_Quit();                                                         // Close library
+    if (SDLIsAudioOpen) {
+        SDL_CloseAudio();                               // Close audio
+        SDLIsAudioOpen=false;
+        SDL_Quit();                                     // Close library
+    }
 }
 
 void SDLSetFPS(double WantedFPS) {
@@ -101,7 +104,7 @@ void SDLSetFPS(double WantedFPS) {
     if (SDL_OpenAudio(&Desired,&AudioSpec)<0) {
         ExitApplicationWithFatalError("SDLSetFPS=Error in SDL_OpenAudio:"+QString(SDL_GetError()));
     }
-    SDLIsAudioOpen=true;
+//    SDLIsAudioOpen=true;
 }
 
 //*********************************************************************************************************************************************

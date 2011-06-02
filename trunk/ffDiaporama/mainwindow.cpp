@@ -822,8 +822,8 @@ void MainWindow::s_action_AddFile() {
                 double  MagnetX2=MagnetX1+RealImageW;
                 double  MagnetY1=(VirtImageH-RealImageH)/2;
                 double  MagnetY2=MagnetY1+RealImageH;
-                double  W;
-                double  H;
+                double  W=0;
+                double  H=0;
                 switch (ApplicationConfig->DefaultFraming) {
                     case 0 :    // Adjust to Width
                         W=MagnetX2-MagnetX1;

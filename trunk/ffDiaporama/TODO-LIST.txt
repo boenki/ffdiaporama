@@ -1,6 +1,4 @@
 Buggs :
-    Erreur de sélection de l'image de départ pour les transitions quand plusieurs sequences dans un slide
-    Truc bizare dans la gestion des plans
     Finir le nettoyage du code :
         Arriver à supprimer CanvasImageAt et sous fonctions associées
             => Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
@@ -69,3 +67,6 @@ Détails des modifications :
 - Corrige la sauvegarde des positions des fenetres qui étaient fausses avec GNOME Classic
 - Conserve le dernier état des boutons à fleches (voir/cacher) des options dans la boite slide (durant la session uniquement)
 - Suppression du ZValue des blocks : L'ordre des blocks dans la table définie l'ordre d'affichage
+- [Windows] Passage aux versions QT 4.7.3 et ffmpeg 27/05/2011
+- Corrige le problème de fermture sous Windows (pas de SDL_CloseAudio si aucun son n'a été joué)
+- Corrige des liens absolus vers des images dans plusieurs boites de dialogue

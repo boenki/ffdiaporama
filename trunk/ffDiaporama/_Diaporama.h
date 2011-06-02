@@ -90,7 +90,7 @@ public:
     cCompositionObject(int TypeComposition,int IndexKey);
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
-    void        DrawCompositionObject(QPainter &Painter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject);
+    void        DrawCompositionObject(QPainter *Painter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
 };

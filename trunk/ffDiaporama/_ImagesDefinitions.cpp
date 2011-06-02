@@ -418,6 +418,9 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
+    if ((PathForRelativPath!="")&&(BrushFileName!=""))
+        BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).relativeFilePath(BrushFileName));
+
     // Attribut of the object
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("BrushType",BrushType);                                    // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
@@ -456,6 +459,10 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         GradientOrientation=Element.attribute("GradientOrientation").toInt();               // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
         BrushImage         =Element.attribute("BrushImage");                                // Image name if image from library
         BrushFileName      =Element.attribute("BrushFileName");                             // Image name if image from disk
+
+        if ((PathForRelativPath!="")&&(BrushFileName!=""))
+            BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
+
         BrushFileCorrect.LoadFromXML(Element,"ImageCorrection",PathForRelativPath);         // Image correction if image from disk
         BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);   // Image transformation if image from disk
 
@@ -500,7 +507,7 @@ void cBrushDefinition::ApplyDefaultFraming(int DefaultFraming) {
     double   RealImageH=GlobalMainWindow->Diaporama->InternalHeight;
     double   VirtImageW;
     double   VirtImageH;
-    double   dGeometry;
+    double   dGeometry=0;
 
     switch (BrushFileCorrect.ImageGeometry) {
         case GEOMETRY_PROJECT:

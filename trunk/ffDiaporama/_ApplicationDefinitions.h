@@ -123,8 +123,6 @@ public:
     // Main Window Size & Position
     bool                MainWinState;                               // WindowsSettings-ismaximized
     cSaveWindowPosition *MainWinWSP;                                // MainWindow - Window size and position
-    cSaveWindowPosition *DlgImagePropertiesWSP;                     // Dialog box "Image properties" - Window size and position
-    cSaveWindowPosition *DlgVideoPropertiesWSP;                     // Dialog box "Video properties" - Window size and position
     cSaveWindowPosition *DlgBackgroundPropertiesWSP;                // Dialog box "Background properties" - Window size and position
     cSaveWindowPosition *DlgMusicPropertiesWSP;                     // Dialog box "Music properties" - Window size and position
     cSaveWindowPosition *DlgProjectSettingsWSP;                     // Dialog box "Project settings" - Window size and position

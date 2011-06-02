@@ -391,7 +391,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/RotateZ.png</pixmap>
+            <pixmap>icons/RotateZ.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -404,7 +404,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/RotateY.png</pixmap>
+            <pixmap>icons/RotateY.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -417,7 +417,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/RotateX.png</pixmap>
+            <pixmap>icons/RotateX.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
