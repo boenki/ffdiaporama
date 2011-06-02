@@ -659,7 +659,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
     // Open audio codec
     if (Continue) {
         AudioCodecContext=AudioStream->codec;
-        avcodec_get_context_defaults2(AudioCodecContext,CODEC_TYPE_AUDIO);  // Fill stream with default values
+        avcodec_get_context_defaults2(AudioCodecContext,AVMEDIA_TYPE_AUDIO);  // Fill stream with default values
         AudioCodec=avcodec_find_encoder(CODEC_ID_PCM_S16LE);                // Open Audio encoder
         if (!AudioCodec) {
             QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found !");

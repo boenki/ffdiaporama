@@ -202,7 +202,7 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTra
         if (av_read_frame(ffmpegVideoFile,StreamPacket)==0) {
 
             //qDebug()<<"=>"<<((StreamPacket->stream_index==VideoStreamNumber)?"Video":(StreamPacket->stream_index==AudioStreamNumber)?"Audio":"Unknown")
-            //        <<"packet at"<<FramePosition<<"Is Keyframe"<<(((StreamPacket->flags & PKT_FLAG_KEY)>0)?"Yes":"No")<<"Flag"<<StreamPacket->flags
+            //        <<"packet at"<<FramePosition<<"Is Keyframe"<<(((StreamPacket->flags & AV_PKT_FLAG_KEY)>0)?"Yes":"No")<<"Flag"<<StreamPacket->flags
             //        <<"[PTS="<<StreamPacket->dts<<"-DTS="<<StreamPacket->pts<<"]";
 
             if ((StreamPacket->stream_index==VideoStreamNumber)||(StreamPacket->stream_index==AudioStreamNumber)) {
@@ -216,7 +216,7 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTra
                 // Decode video
                 //===================================================================================
                 if ((!MusicOnly)&&(!ForceSoundOnly)&&(StreamPacket->stream_index==VideoStreamNumber)) {
-                    VideoObjectList.List.append(new DecodeVideoObject(StreamPacket,FramePosition,VideoStream,dPosition,(StreamPacket->flags & PKT_FLAG_KEY)>0));
+                    VideoObjectList.List.append(new DecodeVideoObject(StreamPacket,FramePosition,VideoStream,dPosition,(StreamPacket->flags & AV_PKT_FLAG_KEY)>0));
 
                     if ((!IsVideoFind)&&(FramePosition>=dPosition)) {
                         // Now construct RetImage
@@ -508,7 +508,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
 
     // Find the first audio stream
     AudioStreamNumber=0;
-    while ((AudioStreamNumber<(int)ffmpegVideoFile->nb_streams)&&(ffmpegVideoFile->streams[AudioStreamNumber]->codec->codec_type!=CODEC_TYPE_AUDIO)) AudioStreamNumber++;
+    while ((AudioStreamNumber<(int)ffmpegVideoFile->nb_streams)&&(ffmpegVideoFile->streams[AudioStreamNumber]->codec->codec_type!=AVMEDIA_TYPE_AUDIO)) AudioStreamNumber++;
     if (AudioStreamNumber>=(int)ffmpegVideoFile->nb_streams) return false;
 
     // Setup STREAM options
@@ -535,7 +535,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
     VideoStreamNumber=0;
     VideoDecoderCodec=NULL;
     if (!MusicOnly) {
-        while ((VideoStreamNumber<(int)ffmpegVideoFile->nb_streams)&&(ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_type!=CODEC_TYPE_VIDEO)) VideoStreamNumber++;
+        while ((VideoStreamNumber<(int)ffmpegVideoFile->nb_streams)&&(ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_type!=AVMEDIA_TYPE_VIDEO)) VideoStreamNumber++;
         if (VideoStreamNumber>=(int)ffmpegVideoFile->nb_streams) return false;
 
         // Setup STREAM options

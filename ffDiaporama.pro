@@ -27,11 +27,11 @@ win32 {
     UI_DIR      += ../winbuild/
     RC_FILE     = ffDiaporama.rc
     INCLUDEPATH += . \
-                   C:\Qt\ffmpeg-git-c967860-win32-dev\include \        #------ ffmpeg library path
-                   C:\Qt\SDL-1.2.14\include                            #------ SDL library path
+                   C:\\Qt\\ffmpeg-win32-dev\\include \                  #------ ffmpeg library path
+                   C:\\Qt\\SDL-1.2.14\\include                          #------ SDL library path
 
-    LIBS        += -L"C:\Qt\ffmpeg-git-c967860-win32-dev\lib" \        #------ ffmpeg library path
-                   -L"C:\Qt\SDL-1.2.14\lib" \                          #------ SDL library path
+    LIBS        += -L"C:\\Qt\\ffmpeg-win32-dev\\lib" \                  #------ ffmpeg library path
+                   -L"C:\\Qt\\SDL-1.2.14\\lib" \                        #------ SDL library path
                    -lavformat -lavcodec -lavutil -lswscale -lSDL
 }
 
@@ -116,7 +116,7 @@ OTHER_FILES += \
     licences.txt \
     licences.rtf \
     ffDiaporama.rc \
-    BUILDVERSION.txt
+    BUILDVERSION.txt \
 
 TRANSLATIONS += locale/locale_fr.ts
 
@@ -150,6 +150,6 @@ unix {
     documentation.files = help/*.*
     General.path        = $$PREFIX/share/$$TARGETAPP
     General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset
-}
 
-INSTALLS += TARGET translation background icons tr_icons luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake documentation General
+    INSTALLS += TARGET translation background icons tr_icons luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake documentation General
+}

@@ -647,9 +647,9 @@ void DlgSlideProperties::RefreshControls() {
 
     ADJUST_RATIO=double(ymax)/double(1080);    // fixe Adjustment ratio for this slide
 
-    for (int i=0;i<CompositionList->List.count();i++) {
+    for (int i=0;i<CompositionList->List.count();i++) if (CompositionList->List[i].IsVisible) {
         // Draw composition
-        CompositionList->List[i].DrawCompositionObject(P,0,0,xmax,ymax,true,0,NULL,1,NULL);
+        CompositionList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,NULL,1,NULL);
         // Draw border
         if (GetSelectedCompositionObject()==&CompositionList->List[i]) {
             // draw rect out of the rectangle
@@ -1072,7 +1072,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
         ADJUST_RATIO=1;
-        Object.DrawCompositionObject(Painter,0,0,32,32,true,0,NULL,1,NULL);
+        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,NULL,1,NULL);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -1100,7 +1100,7 @@ void DlgSlideProperties::MakeTextStyleIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        Object.DrawCompositionObject(Painter,0,0,32,32,true,0,NULL,1,NULL);
+        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,NULL,1,NULL);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -1381,9 +1381,9 @@ void DlgSlideProperties::s_ShotTable_AddShot() {
 
     DiaporamaObject->List.insert(Current+1,cDiaporamaShot(DiaporamaObject));
     cDiaporamaShot *imagesequence=&DiaporamaObject->List[Current+1];
-    for (int i=0;i<DiaporamaObject->ObjectComposition.List.count();i++) {
-        imagesequence->ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,DiaporamaObject->ObjectComposition.List[i].IndexKey));
-        imagesequence->ShotComposition.List[i].CopyFromCompositionObject(&DiaporamaObject->List[Current].ShotComposition.List[i]);
+    for (int i=0;i<CompositionList->List.count();i++) {
+        imagesequence->ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionList->List[i].IndexKey));
+        imagesequence->ShotComposition.List[i].CopyFromCompositionObject(&CompositionList->List[i]);
     }
     RefreshShotTable(Current+1);
 }

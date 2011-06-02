@@ -348,8 +348,6 @@ cApplicationConfig::cApplicationConfig() {
     AddToSystemProperties(QString(USERCONFIGFILE_STR)+UserConfigFile);
 
     MainWinWSP                  =new cSaveWindowPosition("MainWindow",RestoreWindow,true);                  // MainWindow - Window size and position
-    DlgImagePropertiesWSP       =new cSaveWindowPosition("DlgImageProperties",RestoreWindow,false);         // Dialog box "Image properties" - Window size and position
-    DlgVideoPropertiesWSP       =new cSaveWindowPosition("DlgVideoProperties",RestoreWindow,false);         // Dialog box "Video properties" - Window size and position
     DlgBackgroundPropertiesWSP  =new cSaveWindowPosition("DlgBackgroundProperties",RestoreWindow,false);    // Dialog box "Background properties" - Window size and position
     DlgMusicPropertiesWSP       =new cSaveWindowPosition("DlgMusicProperties",RestoreWindow,false);         // Dialog box "Music properties" - Window size and position
     DlgProjectSettingsWSP       =new cSaveWindowPosition("DlgProjectSettings",RestoreWindow,false);         // Dialog box "Project settings" - Window size and position
@@ -367,8 +365,6 @@ cApplicationConfig::cApplicationConfig() {
 //====================================================================================================================
 cApplicationConfig::~cApplicationConfig() {
     delete MainWinWSP;
-    delete DlgImagePropertiesWSP;
-    delete DlgVideoPropertiesWSP;
     delete DlgMusicPropertiesWSP;
     delete DlgBackgroundPropertiesWSP;
     delete DlgProjectSettingsWSP;
@@ -540,8 +536,6 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     NodeList=root.elementsByTagName("RestoreWindow");               if ((NodeList.length()>0)&&(NodeList.at(0).childNodes().length()>0)) RestoreWindow=NodeList.at(0).childNodes().at(0).nodeValue()=="1";
     // Load windows size and position
     MainWinWSP->LoadFromXML(root);                                  // MainWindow - Window size and position
-    DlgImagePropertiesWSP->LoadFromXML(root);
-    DlgVideoPropertiesWSP->LoadFromXML(root);
     DlgBackgroundPropertiesWSP->LoadFromXML(root);
     DlgMusicPropertiesWSP->LoadFromXML(root);
     DlgProjectSettingsWSP->LoadFromXML(root);
@@ -620,8 +614,6 @@ bool cApplicationConfig::SaveConfigurationFile() {
 
     // Save windows size and position
     MainWinWSP->SaveToXML(root);                                // MainWindow - Window size and position
-    DlgImagePropertiesWSP->SaveToXML(root);
-    DlgVideoPropertiesWSP->SaveToXML(root);
     DlgBackgroundPropertiesWSP->SaveToXML(root);
     DlgMusicPropertiesWSP->SaveToXML(root);
     DlgProjectSettingsWSP->SaveToXML(root);

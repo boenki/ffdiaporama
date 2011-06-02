@@ -78,7 +78,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/add_project.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/add_project.png</iconset>
+             <normaloff>icons/add_project.png</normaloff>icons/add_project.png</iconset>
            </property>
           </widget>
          </item>
@@ -101,7 +101,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/trash.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/trash.png</iconset>
+             <normaloff>icons/trash.png</normaloff>icons/trash.png</iconset>
            </property>
           </widget>
          </item>
@@ -149,7 +149,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/arrow_left.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/arrow_left.png</iconset>
+             <normaloff>icons/arrow_left.png</normaloff>icons/arrow_left.png</iconset>
            </property>
           </widget>
          </item>
@@ -172,7 +172,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/arrow_right.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/arrow_right.png</iconset>
+             <normaloff>icons/arrow_right.png</normaloff>icons/arrow_right.png</iconset>
            </property>
           </widget>
          </item>
@@ -220,7 +220,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/ruler_ok.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/ruler_ok.png</iconset>
+             <normaloff>icons/ruler_ok.png</normaloff>icons/ruler_ok.png</iconset>
            </property>
           </widget>
          </item>
@@ -446,7 +446,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/add_text.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/add_text.png</iconset>
+             <normaloff>icons/add_text.png</normaloff>icons/add_text.png</iconset>
            </property>
           </widget>
          </item>
@@ -469,7 +469,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/add_image.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/add_image.png</iconset>
+             <normaloff>icons/add_image.png</normaloff>icons/add_image.png</iconset>
            </property>
           </widget>
          </item>
@@ -492,7 +492,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/trash.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/trash.png</iconset>
+             <normaloff>icons/trash.png</normaloff>icons/trash.png</iconset>
            </property>
           </widget>
          </item>
@@ -540,7 +540,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/editcopy.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/editcopy.png</iconset>
+             <normaloff>icons/editcopy.png</normaloff>icons/editcopy.png</iconset>
            </property>
           </widget>
          </item>
@@ -563,7 +563,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/editcut.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/editcut.png</iconset>
+             <normaloff>icons/editcut.png</normaloff>icons/editcut.png</iconset>
            </property>
           </widget>
          </item>
@@ -586,7 +586,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/editpaste.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/editpaste.png</iconset>
+             <normaloff>icons/editpaste.png</normaloff>icons/editpaste.png</iconset>
            </property>
           </widget>
          </item>
@@ -622,7 +622,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/arrow_up.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/arrow_up.png</iconset>
+             <normaloff>icons/arrow_up.png</normaloff>icons/arrow_up.png</iconset>
            </property>
           </widget>
          </item>
@@ -633,7 +633,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/arrow_down.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/arrow_down.png</iconset>
+             <normaloff>icons/arrow_down.png</normaloff>icons/arrow_down.png</iconset>
            </property>
           </widget>
          </item>
@@ -1135,7 +1135,7 @@
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/FolderOpen.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/FolderOpen.png</iconset>
+                       <normaloff>icons/FolderOpen.png</normaloff>icons/FolderOpen.png</iconset>
                      </property>
                     </widget>
                    </item>
@@ -2494,7 +2494,7 @@ color: #000000;
                  <string notr="true"/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/RotateZ.png</pixmap>
+                 <pixmap>icons/RotateZ.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2558,7 +2558,7 @@ color: #000000;
                  <string notr="true"/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/RotateY.png</pixmap>
+                 <pixmap>icons/RotateY.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2622,7 +2622,7 @@ color: #000000;
                  <string notr="true"/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/RotateX.png</pixmap>
+                 <pixmap>icons/RotateX.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2837,7 +2837,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/action_ok.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/action_ok.png</iconset>
+         <normaloff>icons/action_ok.png</normaloff>icons/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -2848,7 +2848,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/action_cancel.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/action_cancel.png</iconset>
+         <normaloff>icons/action_cancel.png</normaloff>icons/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -2859,7 +2859,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/help.png</normaloff>../../../../../../home/dominique/Public/Dev/ffDiaporama/ffDiaporama/icons/help.png</iconset>
+         <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
        </property>
       </widget>
      </item>
