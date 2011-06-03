@@ -365,7 +365,7 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     double  DstH=RealImageH*(ymax/Hyp);
 
     P.begin(NewImage);
-    P.fillRect(QRectF(0,0,xmax,ymax),GlobalMainWindow->Diaporama->Transparent);
+    P.fillRect(QRectF(0,0,xmax,ymax),Transparent);
     P.drawImage(QRectF(DstX,DstY,DstW,DstH),*SourceImage,QRectF(0,0,RealImageW,RealImageH));
     if (SourceImage!=CachedImage) delete SourceImage;
     BrushFileCorrect->ApplyFilter(NewImage);

@@ -235,86 +235,6 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QToolButton" name="ChangeProjectSettingsBt">
-          <property name="minimumSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"> QToolButton {
-     border: 1px solid #8f8f91;
-     border-radius: 2px;
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
- }
-
- QToolButton:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-</string>
-          </property>
-          <property name="text">
-           <string notr="true"/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>icons/configure.png</normaloff>icons/configure.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="ConfigurationBt">
-          <property name="minimumSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"> QToolButton {
-     border: 1px solid #8f8f91;
-     border-radius: 2px;
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
- }
-
- QToolButton:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
- }
-</string>
-          </property>
-          <property name="text">
-           <string notr="true"/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>icons/config.png</normaloff>icons/config.png</iconset>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
      </layout>
@@ -423,16 +343,6 @@
     <property name="title">
      <string>&amp;Project</string>
     </property>
-    <widget class="QMenu" name="menuEdit_properties">
-     <property name="title">
-      <string>Edit properties...</string>
-     </property>
-     <addaction name="actionEdit_background"/>
-     <addaction name="actionEdit_background_transition"/>
-     <addaction name="actionEdit_object"/>
-     <addaction name="actionEdit_object_in_transition"/>
-     <addaction name="actionEdit_music"/>
-    </widget>
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
@@ -445,9 +355,14 @@
     <addaction name="actionRemove"/>
     <addaction name="actionMove_right"/>
     <addaction name="separator"/>
-    <addaction name="menuEdit_properties"/>
+    <addaction name="actionEdit_background"/>
+    <addaction name="actionEdit_background_transition"/>
+    <addaction name="actionEdit_object"/>
+    <addaction name="actionEdit_object_in_transition"/>
+    <addaction name="actionEdit_music"/>
     <addaction name="separator"/>
-    <addaction name="actionChangeProjectSettings"/>
+    <addaction name="actionRender"/>
+    <addaction name="actionConfiguration"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -468,22 +383,17 @@
     <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>
-   <widget class="QMenu" name="menuAction">
-    <property name="title">
-     <string>&amp;Action</string>
-    </property>
-    <addaction name="separator"/>
-    <addaction name="actionRender"/>
-    <addaction name="separator"/>
-    <addaction name="actionConfiguration"/>
-   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
-   <addaction name="menuAction"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
    <property name="windowTitle">
     <string notr="true">toolBar</string>
    </property>
@@ -527,6 +437,7 @@
    <addaction name="separator"/>
    <addaction name="actionRender"/>
    <addaction name="separator"/>
+   <addaction name="actionConfiguration"/>
    <addaction name="action_Exit"/>
   </widget>
   <action name="action_About">
@@ -544,7 +455,7 @@
      <normaloff>icons/config.png</normaloff>icons/config.png</iconset>
    </property>
    <property name="text">
-    <string>Application settings</string>
+    <string>Settings</string>
    </property>
   </action>
   <action name="action_New">
@@ -740,15 +651,6 @@
    </property>
    <property name="text">
     <string>Render video</string>
-   </property>
-  </action>
-  <action name="actionChangeProjectSettings">
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/configure.png</normaloff>icons/configure.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Project settings</string>
    </property>
   </action>
   <action name="actionEdit_background">

@@ -21,19 +21,12 @@
 #include "DlgSlideProperties.h"
 #include "ui_DlgSlideProperties.h"
 #include "wgt_QCustomThumbnails.h"
-#include "mainwindow.h"
+#include "DlgSlideProperties.h"
 #include "DlgImageCorrection.h"
 #include "DlgImageTransformation.h"
 #include "DlgVideoEdit.h"
-
-// Arrow buttons flag definition
-bool    ArrowBT_BlockList           =true;
-bool    ArrowBT_GlobalBlock         =true;
-bool    ArrowBT_ShapeProperties     =true;
-bool    ArrowBT_TexProperties       =true;
-bool    ArrowBT_DuringShotProperties=true;
-bool    ArrowBT_VideoProperties     =true;
-bool    ArrowBT_ImageProperties     =true;
+#include "DlgTextEdit.h"
+#include "mainwindow.h"
 
 DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgSlideProperties) {
     ui->setupUi(this);
@@ -45,41 +38,15 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT","");  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 
-    IsFirstInitDone = false;                 // true when first show window was done
+    IsFirstInitDone     = false;                // True when first show window was done
+    InRefreshSceneImage = false;                // True if process is currently in RefreshSceneImage function
+
     scene           = NULL;
     NextZValue      = 500;
     BackgroundImage = NULL;
     CompositionList = NULL;
     StopMAJSpinbox  = false;
     BLOCKCHSIZE     = false;
-
-    // Init check box
-    ui->textLeft->setCheckable(true);
-    ui->textCenter->setCheckable(true);
-    ui->textJustif->setCheckable(true);
-    ui->textRight->setCheckable(true);
-    ui->textUp->setCheckable(true);
-    ui->textVCenter->setCheckable(true);
-    ui->textBottom->setCheckable(true);
-
-    // Init font size
-    QList<int>  sizes=QFontDatabase::standardSizes();
-    QStringList Ssizes;
-    for (int i=0;i<sizes.count();i++) Ssizes.append(QString("%1").arg(sizes[i]));
-    ui->fontSize->insertItems(0,Ssizes);
-    ui->fontSize->setCurrentIndex(6);
-
-    // Init editor
-    ui->plainTextEdit->setWordWrapMode(QTextOption::NoWrap);
-
-    // Init combo box FontEffect
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgSlideProperties","No effect"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgSlideProperties","Outerline"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgSlideProperties","Shadow upper left"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgSlideProperties","Shadow upper right"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgSlideProperties","Shadow bottom left"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgSlideProperties","Shadow bottom right"));
-    MakeTextStyleIcon(ui->fontEffectCB);
 
     // Init combo box Background form
     for (int i=0;i<12;i++) ui->BackgroundFormCB->addItem("");
@@ -100,6 +67,8 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashDotLine);
     ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashDotDotLine);
     MakeBorderStyleIcon(ui->PenStyleCB);
+    // Init shape Borders
+    ui->PenSizeEd->setMinimum(0);       ui->PenSizeEd->setMaximum(30);
 
     // Init combo box Background opacity
     ui->OpacityCB->addItem("100%");
@@ -107,18 +76,15 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     ui->OpacityCB->addItem(" 50%");
     ui->OpacityCB->addItem(" 25%");
 
-    ui->RotateXED->setRange(-180,180);     ui->RotateXSLD->setRange(-180,180);
-    ui->RotateYED->setRange(-180,180);     ui->RotateYSLD->setRange(-180,180);
-    ui->RotateZED->setRange(-180,180);     ui->RotateZSLD->setRange(-180,180);
+    ui->RotateXED->setRange(-180,180);      ui->RotateXSLD->setRange(-180,180);
+    ui->RotateYED->setRange(-180,180);      ui->RotateYSLD->setRange(-180,180);
+    ui->RotateZED->setRange(-180,180);      ui->RotateZSLD->setRange(-180,180);
 
     // Init Spinbox
-    ui->PosXEd->setDecimals(2);
-    ui->PosYEd->setDecimals(2);
-    ui->WidthEd->setDecimals(2);
-    ui->HeightEd->setDecimals(2);
-
-    // Init shape Borders
-    ui->PenSizeEd->setMinimum(0);       ui->PenSizeEd->setMaximum(30);
+    ui->PosXEd->setDecimals(2);             ui->PosXEd->setSingleStep(1);
+    ui->PosYEd->setDecimals(2);             ui->PosYEd->setSingleStep(1);
+    ui->WidthEd->setDecimals(2);            ui->WidthEd->setSingleStep(1);
+    ui->HeightEd->setDecimals(2);           ui->HeightEd->setSingleStep(1);
 
     // Init combo box Background  type
     ui->BrushTypeCombo->addItem(QCoreApplication::translate("DlgSlideProperties","No brush"));              ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_NOBRUSH)));
@@ -132,15 +98,13 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     ui->ImageGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Project geometry"));
     ui->ImageGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Image geometry"));
     ui->ImageGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Custom geometry"));
-    ui->VideoGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Project geometry"));
-    ui->VideoGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Image geometry"));
-    ui->VideoGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Custom geometry"));
 
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
-    connect(ui->IsVisibleCB,SIGNAL(clicked()),this,SLOT(ChangeVisibleState()));
+    connect(ui->VisibleBT,SIGNAL(clicked()),this,SLOT(ChangeVisibleState()));
+    connect(ui->SoundBT,SIGNAL(clicked()),this,SLOT(GetSound()));
 
     connect(ui->ShotLeftBt,SIGNAL(clicked()),this,SLOT(ShotLeft()));
     connect(ui->ShotRightBt,SIGNAL(clicked()),this,SLOT(ShotRight()));
@@ -150,41 +114,17 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->SlideNameED,SIGNAL(textEdited(QString)),this,SLOT(s_SlideNameChange(QString)));
     connect(ui->ShotDurationED,SIGNAL(valueChanged(double)),this,SLOT(s_ShotDurationChange(double)));
 
-    connect(ui->ArrowBT_BlockList,SIGNAL(clicked()),this,SLOT(SwitchArrowBT_BlockList()));
-    connect(ui->ArrowBT_GlobalBlock,SIGNAL(clicked()),this,SLOT(SwitchArrowBT_GlobalBlock()));
-    connect(ui->ArrowBT_ShapeProperties,SIGNAL(clicked()),this,SLOT(SwitchArrowBT_ShapeProperties()));
-    connect(ui->ArrowBT_TexProperties,SIGNAL(clicked()),this,SLOT(SwitchArrowBT_TexProperties()));
-    connect(ui->ArrowBT_DuringShotProperties,SIGNAL(clicked()),this,SLOT(SwitchArrowBT_DuringShotProperties()));
-    connect(ui->ArrowBT_VideoProperties,SIGNAL(clicked()),this,SLOT(SwitchArrowBT_VideoProperties()));
-    connect(ui->ArrowBT_ImageProperties,SIGNAL(clicked()),this,SLOT(SwitchArrowBT_ImageProperties()));
-
+    connect(ui->TextEditBT,SIGNAL(clicked()),this,SLOT(TextEditor()));
     connect(ui->ImageEditCorrectBT,SIGNAL(clicked()),this,SLOT(ImageEditCorrect()));
-    connect(ui->VideoEditCorrectBT,SIGNAL(clicked()),this,SLOT(ImageEditCorrect()));
-    connect(ui->ImageEditTransformBT,SIGNAL(clicked()),this,SLOT(ImageEditTransform()));
+    connect(ui->EditTransformBt,SIGNAL(clicked()),this,SLOT(ImageEditTransform()));
     connect(ui->VideoEditBT,SIGNAL(clicked()),this,SLOT(VideoEdit()));
 
-    connect(ui->fontStyleCB,SIGNAL(currentFontChanged(QFont)),this,SLOT(s_ChangeFont(QFont)));
-    connect(ui->fontSize,SIGNAL(currentIndexChanged(QString)),this,SLOT(s_ChangeSizeFont(QString)));
-    connect(ui->bold,SIGNAL(released()),this,SLOT(s_SetBold()));
-    connect(ui->Italic,SIGNAL(released()),this,SLOT(s_SetItalic()));
-    connect(ui->Souligne,SIGNAL(released()),this,SLOT(s_SetUnderline()));
-    connect(ui->textLeft,SIGNAL(pressed()),this,SLOT(s_SetTextLeft()));
-    connect(ui->textCenter,SIGNAL(pressed()),this,SLOT(s_SetTextCenter()));
-    connect(ui->textRight,SIGNAL(pressed()),this,SLOT(s_SetTextRight()));
-    connect(ui->textJustif,SIGNAL(pressed()),this,SLOT(s_SetTextJustif()));
-    connect(ui->textUp,SIGNAL(pressed()),this,SLOT(s_SetTextUp()));
-    connect(ui->textVCenter,SIGNAL(pressed()),this,SLOT(s_SetTextVCenter()));
-    connect(ui->textBottom,SIGNAL(pressed()),this,SLOT(s_SetTextBottom()));
-    connect(ui->fontEffectCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeStyleFont(int)));
     connect(ui->PosXEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgPosXValue(double)));
     connect(ui->PosYEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgPosYValue(double)));
     connect(ui->WidthEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgWidthValue(double)));
     connect(ui->HeightEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgHeightValue(double)));
     connect(ui->BackgroundFormCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeBackgroundForm(int)));
     connect(ui->OpacityCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeOpacity(int)));
-    connect(ui->plainTextEdit,SIGNAL(textChanged()),this,SLOT(s_plainTextEditChange()));
-    connect(ui->FontColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontColorCombo(int)));
-    connect(ui->StyleShadowColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontShadowColorCombo(int)));
     connect(ui->PenStyleCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangePenStyle(int)));
     connect(ui->ShadowEffectCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChgShadowFormValue(int)));
     connect(ui->ShadowEffectED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgShadowDistanceValue(int)));
@@ -208,7 +148,6 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
 
     // Image part
     connect(ui->ImageGeometryCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeImageGeometry(int)));
-    connect(ui->VideoGeometryCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeImageGeometry(int)));
 
     // Shot table part
     connect(ui->ShotTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_ShotTable_SelectionChanged()));
@@ -308,45 +247,6 @@ void DlgSlideProperties::s_ShotDurationChange(double NewValue) {
 }
 
 //====================================================================================================================
-// Arrow buttons
-//====================================================================================================================
-
-void DlgSlideProperties::SwitchArrowBT_BlockList() {
-    ArrowBT_BlockList=!ArrowBT_BlockList;
-    RefreshControls();
-}
-
-void DlgSlideProperties::SwitchArrowBT_GlobalBlock() {
-    ArrowBT_GlobalBlock=!ArrowBT_GlobalBlock;
-    RefreshControls();
-}
-
-void DlgSlideProperties::SwitchArrowBT_ShapeProperties() {
-    ArrowBT_ShapeProperties=!ArrowBT_ShapeProperties;
-    RefreshControls();
-}
-
-void DlgSlideProperties::SwitchArrowBT_TexProperties() {
-    ArrowBT_TexProperties=!ArrowBT_TexProperties;
-    RefreshControls();
-}
-
-void DlgSlideProperties::SwitchArrowBT_DuringShotProperties() {
-    ArrowBT_DuringShotProperties=!ArrowBT_DuringShotProperties;
-    RefreshControls();
-}
-
-void DlgSlideProperties::SwitchArrowBT_VideoProperties() {
-    ArrowBT_VideoProperties=!ArrowBT_VideoProperties;
-    RefreshControls();
-}
-
-void DlgSlideProperties::SwitchArrowBT_ImageProperties() {
-    ArrowBT_ImageProperties=!ArrowBT_ImageProperties;
-    RefreshControls();
-}
-
-//====================================================================================================================
 
 void DlgSlideProperties::reject() {
     // Save Window size and position
@@ -367,6 +267,29 @@ void DlgSlideProperties::accept() {
 
 //====================================================================================================================
 
+void DlgSlideProperties::GetSound() {
+    int CurrentShot=ui->ShotTable->currentColumn();
+    if ((CurrentShot>=0)&&(CurrentShot<DiaporamaObject->List.count())) CompositionList=&DiaporamaObject->List[CurrentShot].ShotComposition;
+    int CurrentBlock=ui->BlockTable->currentRow();
+    cCompositionObject  *CurrentTextItem=NULL;
+    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
+
+    bool IsVideo  =(CurrentTextItem)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentTextItem->BackgroundBrush.Video!=NULL);
+    bool HaveSound=IsVideo && (CurrentTextItem->BackgroundBrush.Video->SoundVolume!=0);
+
+    // Only if this block is a video and don't have sound yet
+    if (IsVideo && !HaveSound) {
+        for (int i=0;i<CompositionList->List.count();i++) {
+            if ((CurrentTextItem!=&CompositionList->List[i])&&(CompositionList->List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompositionList->List[i].BackgroundBrush.Video))
+                CompositionList->List[i].BackgroundBrush.Video->SoundVolume=0;
+        }
+        CurrentTextItem->BackgroundBrush.Video->SoundVolume=1;
+        RefreshBlockTable(ui->BlockTable->currentRow());
+    }
+}
+
+//====================================================================================================================
+
 void DlgSlideProperties::RefreshControls() {
     // Ensure box is init and Current contain index of currented selected sequence
     if ((!IsFirstInitDone)||(!CompositionList)||(StopMAJSpinbox)) return;
@@ -374,15 +297,6 @@ void DlgSlideProperties::RefreshControls() {
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
     StopMAJSpinbox=true;    // Disable reintrence in this RefreshControls function
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-    // Update arrow buttons
-    ui->ArrowBT_BlockList->setArrowType(ArrowBT_BlockList?Qt::DownArrow:Qt::RightArrow);
-    ui->ArrowBT_GlobalBlock->setArrowType(ArrowBT_GlobalBlock?Qt::DownArrow:Qt::RightArrow);
-    ui->ArrowBT_ShapeProperties->setArrowType(ArrowBT_ShapeProperties?Qt::DownArrow:Qt::RightArrow);
-    ui->ArrowBT_TexProperties->setArrowType(ArrowBT_TexProperties?Qt::DownArrow:Qt::RightArrow);
-    ui->ArrowBT_DuringShotProperties->setArrowType(ArrowBT_DuringShotProperties?Qt::DownArrow:Qt::RightArrow);
-    ui->ArrowBT_VideoProperties->setArrowType(ArrowBT_VideoProperties?Qt::DownArrow:Qt::RightArrow);
-    ui->ArrowBT_ImageProperties->setArrowType(ArrowBT_ImageProperties?Qt::DownArrow:Qt::RightArrow);
 
     // Slide name & duration and shot duration
     ui->SlideNameED->setText(DiaporamaObject->SlideName);
@@ -393,10 +307,13 @@ void DlgSlideProperties::RefreshControls() {
     // Update controls
     //--------------------------------------------------------------------
     int CurrentShot=ui->ShotTable->currentColumn();
+    if ((CurrentShot>=0)&&(CurrentShot<DiaporamaObject->List.count())) CompositionList=&DiaporamaObject->List[CurrentShot].ShotComposition;
     ui->ShotLeftBt->setEnabled(CurrentShot>0);
     ui->ShotRightBt->setEnabled(CurrentShot<ui->ShotTable->columnCount()-1);
 
     int CurrentBlock=ui->BlockTable->currentRow();
+    cCompositionObject  *CurrentTextItem=NULL;
+    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
     ui->BlockUpBT->setEnabled(CurrentBlock>0);
     ui->BlockDownBT->setEnabled(CurrentBlock<ui->BlockTable->rowCount()-1);
 
@@ -442,14 +359,14 @@ void DlgSlideProperties::RefreshControls() {
 
     //====================================================================================================================
 
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     cBrushDefinition    *CurrentBrush   =(CurrentTextItem!=NULL)?&CurrentTextItem->BackgroundBrush:NULL;
     bool                IsVisible       =(CurrentTextItem)&&(CurrentTextItem->IsVisible);
+    bool                IsVideo         =(CurrentTextItem)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentTextItem->BackgroundBrush.Video!=NULL);
+    bool                HaveSound       =IsVideo && (CurrentTextItem->BackgroundBrush.Video->SoundVolume!=0);
 
-    ui->IsVisibleCB->setChecked(IsVisible);
-
-    ui->ArrowBT_VideoProperties->setVisible(IsVisible);
-    ui->ArrowBT_ImageProperties->setVisible(IsVisible);
+    ui->VisibleBT->setIcon(QIcon(QString(IsVisible?ICON_VISIBLE_OK:ICON_VISIBLE_KO)));
+    ui->SoundBT->setIcon(QIcon(QString(HaveSound?ICON_SOUND_OK:ICON_SOUND_KO)));
+    ui->SoundBT->setEnabled(IsVideo);
 
     // Brush TAB part
     bool Allow_Brush  =(CurrentBrush!=NULL)&&(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK);
@@ -460,7 +377,6 @@ void DlgSlideProperties::RefreshControls() {
     bool Allow_Library=(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY);
     bool Allow_File   =(IsVisible)&&(CurrentBrush!=NULL)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK);
 
-    ui->BackgroundLine->setVisible(Allow_Brush);                                ui->BackgroundLine->setEnabled(IsVisible && Allow_Brush);
     ui->BrushTypeLabel->setVisible(Allow_Brush);                                ui->BrushTypeLabel->setEnabled(IsVisible && Allow_Brush);
     ui->BrushTypeCombo->setVisible(Allow_Brush);                                ui->BrushTypeCombo->setEnabled(IsVisible && Allow_Brush);
     ui->ColorLabel1->setVisible(Allow_Color1);                                  ui->ColorLabel1->setEnabled(IsVisible && Allow_Color1);
@@ -481,15 +397,13 @@ void DlgSlideProperties::RefreshControls() {
     ui->FileNameED->setVisible(Allow_File);                                     ui->FileNameED->setEnabled(IsVisible && Allow_File);
     ui->FileNameBT->setVisible(Allow_File);                                     ui->FileNameBT->setEnabled(IsVisible && Allow_File);
     ui->ImageGeometryLabel->setVisible(Allow_File);                             ui->ImageGeometryLabel->setEnabled(IsVisible && Allow_File);
-    ui->VideoGeometryLabel->setVisible(Allow_File);                             ui->VideoGeometryLabel->setEnabled(IsVisible && Allow_File);
     ui->ImageGeometryCB->setVisible(Allow_File);                                ui->ImageGeometryCB->setEnabled(IsVisible && Allow_File);
-    ui->VideoGeometryCB->setVisible(Allow_File);                                ui->VideoGeometryCB->setEnabled(IsVisible && Allow_File);
-    ui->ImageEditCorrectBT->setVisible(Allow_File);                             ui->ImageEditCorrectBT->setEnabled(IsVisible && Allow_File);
-    ui->VideoEditCorrectBT->setVisible(Allow_File);                             ui->VideoEditCorrectBT->setEnabled(IsVisible && Allow_File);
-    ui->ImageEditTransformBT->setVisible(Allow_File);                           ui->ImageEditTransformBT->setEnabled(IsVisible && Allow_File);
-    ui->ImageEditTransformLabel->setVisible(Allow_File);                        ui->ImageEditTransformLabel->setEnabled(IsVisible && Allow_File);
-    ui->VideoEditLabel->setVisible(Allow_File && (CurrentBrush->Video!=NULL));  ui->VideoEditLabel->setEnabled(IsVisible && Allow_File && (CurrentBrush->Video!=NULL));
-    ui->VideoEditBT->setVisible(Allow_File && (CurrentBrush->Video!=NULL));     ui->VideoEditBT->setEnabled(IsVisible && Allow_File && (CurrentBrush->Video!=NULL));
+
+    ui->ImageEditCorrectBT->setEnabled(IsVisible && Allow_File);
+    ui->EditTransformBt->setEnabled(IsVisible && Allow_File);
+    ui->VideoEditBT->setEnabled(IsVisible && Allow_File && (CurrentBrush->Video!=NULL));
+    ui->TextEditBT->setEnabled(IsVisible);
+    ui->VisibleBT->setEnabled(CurrentTextItem!=NULL);
 
     if (CurrentBrush!=NULL) {
         // Set brush type combo index
@@ -526,119 +440,71 @@ void DlgSlideProperties::RefreshControls() {
                 if ((RectItem)&&(!RectItem->KeepAspectRatio)) CurrentBrush->BrushFileCorrect.AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
                 ui->FileNameED->setText(CurrentBrush->BrushFileName);
                 ui->ImageGeometryCB->setCurrentIndex(CurrentBrush->BrushFileCorrect.ImageGeometry);
-                ui->VideoGeometryCB->setCurrentIndex(CurrentBrush->BrushFileCorrect.ImageGeometry);
                 break;
         }
     }
 
-    if (CurrentTextItem!=NULL) {
+    ui->RemoveBlock->setEnabled(IsVisible);
 
-        //***********************
-        // Text TAB
-        //***********************
-        BLOCKCHSIZE=true;
-        ui->fontSize->setEnabled(IsVisible);
-        ui->fontSize->setCurrentIndex(ui->fontSize->findText(QString("%1").arg(CurrentTextItem->FontSize)));
-        BLOCKCHSIZE=false;
+    //***********************
+    // Size & Position
+    //***********************
+    ui->PosXEd->setEnabled(IsVisible);
+    ui->PosYEd->setEnabled(IsVisible);
+    ui->WidthEd->setEnabled(IsVisible);
+    ui->HeightEd->setEnabled(IsVisible);
+    ui->RotateXED->setEnabled(IsVisible);
+    ui->RotateXSLD->setEnabled(IsVisible);
+    ui->RotateYED->setEnabled(IsVisible);
+    ui->RotateYSLD->setEnabled(IsVisible);
+    ui->RotateZED->setEnabled(IsVisible);
+    ui->RotateZSLD->setEnabled(IsVisible);
+    ui->PosSize_X->setEnabled(IsVisible);
+    ui->PosSize_Y->setEnabled(IsVisible);
+    ui->PosSize_Width->setEnabled(IsVisible);
+    ui->PosSize_Height->setEnabled(IsVisible);
+    ui->Rotate_X->setEnabled(IsVisible);
+    ui->Rotate_Y->setEnabled(IsVisible);
+    ui->Rotate_Z->setEnabled(IsVisible);
 
-        ui->RemoveBlock->setEnabled(IsVisible);
+    //***********************
+    // Shape part
+    //***********************
+    ui->BackgroundFormCB->setEnabled(IsVisible);
+    ui->PenSizeEd->setEnabled(IsVisible);
+    ui->PenColorCB->setEnabled(IsVisible&&(CurrentTextItem)&&(CurrentTextItem->PenSize!=0));
+    ui->PenStyleCB->setEnabled(IsVisible&&(CurrentTextItem)&&(CurrentTextItem->PenSize!=0));
+    ui->OpacityCB->setEnabled(IsVisible);
+    ui->ShadowEffectCB->setEnabled(IsVisible);
+    ui->ShadowEffectED->setEnabled(IsVisible);
 
-        ui->textLeft->setEnabled(IsVisible);        ui->textLeft->setChecked(CurrentTextItem->HAlign==0);       ui->textLeft->setDown(CurrentTextItem->HAlign==0);
-        ui->textCenter->setEnabled(IsVisible);      ui->textCenter->setChecked(CurrentTextItem->HAlign==1);     ui->textCenter->setDown(CurrentTextItem->HAlign==1);
-        ui->textJustif->setEnabled(IsVisible);      ui->textJustif->setChecked(CurrentTextItem->HAlign==3);     ui->textJustif->setDown(CurrentTextItem->HAlign==3);
-        ui->textRight->setEnabled(IsVisible);       ui->textRight->setChecked(CurrentTextItem->HAlign==2);      ui->textRight->setDown(CurrentTextItem->HAlign==2);
-        ui->textUp->setEnabled(IsVisible);          ui->textUp->setChecked(CurrentTextItem->VAlign==0);         ui->textUp->setDown(CurrentTextItem->VAlign==0);
-        ui->textVCenter->setEnabled(IsVisible);     ui->textVCenter->setChecked(CurrentTextItem->VAlign==1);    ui->textVCenter->setDown(CurrentTextItem->VAlign==1);
-        ui->textBottom->setEnabled(IsVisible);      ui->textBottom->setChecked(CurrentTextItem->VAlign==2);     ui->textBottom->setDown(CurrentTextItem->VAlign==2);
-        ui->bold->setEnabled(IsVisible);            ui->bold->setChecked(CurrentTextItem->IsBold);              ui->bold->setDown(CurrentTextItem->IsBold);
-        ui->Italic->setEnabled(IsVisible);          ui->Italic->setChecked(CurrentTextItem->IsItalic);          ui->Italic->setDown(CurrentTextItem->IsItalic);
-        ui->Souligne->setEnabled(IsVisible);        ui->Souligne->setChecked(CurrentTextItem->IsUnderline);     ui->Souligne->setDown(CurrentTextItem->IsUnderline);
+    // Refresh Scene Image
+    RefreshSceneImage();
 
-        ui->plainTextEdit->setEnabled(IsVisible);   if (ui->plainTextEdit->toPlainText()!=CurrentTextItem->Text) ui->plainTextEdit->setPlainText(CurrentTextItem->Text);
-        ui->fontStyleCB->setEnabled(IsVisible);     ui->fontStyleCB->setCurrentIndex(ui->fontStyleCB->findText(QString(CurrentTextItem->FontName)));
-        ui->fontEffectCB->setEnabled(IsVisible);    ui->fontEffectCB->setCurrentIndex(CurrentTextItem->StyleText);
+    // Refresh information zone
+    UpdateDockInfo();
 
-        ui->FontColorCombo->setEnabled(IsVisible);  ui->FontColorCombo->SetCurrentColor(&CurrentTextItem->FontColor);
+    QApplication::restoreOverrideCursor();
+    StopMAJSpinbox=false;
+}
 
-        ui->StyleShadowColorCombo->setEnabled(IsVisible && (CurrentTextItem->StyleText!=0));                    ui->StyleShadowColorCombo->SetCurrentColor(&CurrentTextItem->FontShadowColor);
+//====================================================================================================================
+// Refresh background image of the scene
 
-        //***********************
-        // Shape TAB
-        //***********************
-        ui->BackgroundFormCB->setEnabled(IsVisible);                            ui->BackgroundFormCB->setCurrentIndex(CurrentTextItem->BackgroundForm-1);
-        ui->PenSizeEd->setEnabled(IsVisible);                                   ui->PenSizeEd->setValue(int(CurrentTextItem->PenSize));
-        ui->PenColorCB->setEnabled(IsVisible&&(CurrentTextItem->PenSize!=0));   ui->PenColorCB->SetCurrentColor(&CurrentTextItem->PenColor);
-        ui->PenStyleCB->setEnabled(IsVisible&&(CurrentTextItem->PenSize&=0));
-        for (int i=0;i<ui->PenStyleCB->count();i++) if (ui->PenStyleCB->itemData(i).toInt()==CurrentTextItem->PenStyle) {
-            ui->PenStyleCB->setCurrentIndex(i);
-            break;
-        }
+void DlgSlideProperties::RefreshSceneImage() {
+    if (InRefreshSceneImage) return;
 
-        //***********************
-        // Size & Position TAB
-        //***********************
-        ui->PosXEd->setEnabled(IsVisible);     ui->PosXEd->setRange(0,99-CurrentTextItem->w*100);          ui->PosXEd->setValue(CurrentTextItem->x*100);   ui->PosXEd->setSingleStep(int(100/20));
-        ui->PosYEd->setEnabled(IsVisible);     ui->PosYEd->setRange(0,99-CurrentTextItem->h*100);          ui->PosYEd->setValue(CurrentTextItem->y*100);   ui->PosYEd->setSingleStep(int(100/20));
-        ui->OpacityCB->setEnabled(IsVisible);  ui->OpacityCB->setCurrentIndex(CurrentTextItem->Opacity);
-        ui->WidthEd->setEnabled(IsVisible);    ui->WidthEd->setRange(3,99-CurrentTextItem->x*100);         ui->WidthEd->setValue(CurrentTextItem->w*100);  ui->WidthEd->setSingleStep(int(100/20));
-        ui->HeightEd->setEnabled(IsVisible);   ui->HeightEd->setRange(3,99-CurrentTextItem->y*100);        ui->HeightEd->setValue(CurrentTextItem->h*100); ui->HeightEd->setSingleStep(int(100/20));
-        ui->RotateXED->setEnabled(IsVisible);  ui->RotateXED->setValue(CurrentTextItem->RotateXAxis);      ui->RotateXSLD->setDisabled(false);             ui->RotateXSLD->setValue(CurrentTextItem->RotateXAxis);
-        ui->RotateYED->setEnabled(IsVisible);  ui->RotateYED->setValue(CurrentTextItem->RotateYAxis);      ui->RotateYSLD->setDisabled(false);             ui->RotateYSLD->setValue(CurrentTextItem->RotateYAxis);
-        ui->RotateZED->setEnabled(IsVisible);  ui->RotateZED->setValue(CurrentTextItem->RotateZAxis);      ui->RotateZSLD->setDisabled(false);             ui->RotateZSLD->setValue(CurrentTextItem->RotateZAxis);
-        ui->ShadowEffectCB->setEnabled(IsVisible);                                                         ui->ShadowEffectCB->setCurrentIndex(CurrentTextItem->FormShadow);
-        ui->ShadowEffectED->setEnabled(IsVisible);                                                         ui->ShadowEffectED->setValue(int(CurrentTextItem->FormShadowDistance));
+    InRefreshSceneImage=true;
 
-    } else {
+    // Get current shot object composition list
+    int                 CurrentShot     =ui->ShotTable->currentColumn();
+    cCompositionList    *CurrentList    =NULL;
+    if ((CurrentShot>=0)&&(CurrentShot<DiaporamaObject->List.count())) CurrentList=&DiaporamaObject->List[CurrentShot].ShotComposition;
 
-        ui->RemoveBlock->setDisabled(true);
-
-        //***********************
-        // Text TAB
-        //***********************
-        ui->fontSize->setDisabled(true);
-        ui->textLeft->setDisabled(true);
-        ui->textCenter->setDisabled(true);
-        ui->textJustif->setDisabled(true);
-        ui->textRight->setDisabled(true);
-        ui->textUp->setDisabled(true);
-        ui->textVCenter->setDisabled(true);
-        ui->textBottom->setDisabled(true);
-        ui->bold->setDisabled(true);
-        ui->Italic->setDisabled(true);
-        ui->Souligne->setDisabled(true);
-        ui->plainTextEdit->setPlainText("");
-        ui->fontStyleCB->setDisabled(true);
-        ui->fontEffectCB->setDisabled(true);
-        ui->FontColorCombo->setDisabled(true);
-        ui->StyleShadowColorCombo->setDisabled(true);
-
-        //***********************
-        // Shape TAB
-        //***********************
-        ui->BackgroundFormCB->setDisabled(true);
-        ui->PenSizeEd->setDisabled(true);
-        ui->PenColorCB->setDisabled(true);
-        ui->PenStyleCB->setDisabled(true);
-
-        //***********************
-        // Size & Position TAB
-        //***********************
-        ui->PosXEd->setDisabled(true);      ui->PosXEd->setValue(0);
-        ui->PosYEd->setDisabled(true);      ui->PosYEd->setValue(0);
-        ui->WidthEd->setDisabled(true);     ui->WidthEd->setValue(0);
-        ui->HeightEd->setDisabled(true);    ui->HeightEd->setValue(0);
-        ui->OpacityCB->setDisabled(true);
-        ui->RotateXED->setDisabled(true);   ui->RotateXED->setValue(0);
-        ui->RotateXSLD->setDisabled(true);  ui->RotateXSLD->setValue(0);
-        ui->RotateYED->setDisabled(true);   ui->RotateYED->setValue(0);
-        ui->RotateYSLD->setDisabled(true);  ui->RotateYSLD->setValue(0);
-        ui->RotateZED->setDisabled(true);   ui->RotateZED->setValue(0);
-        ui->RotateZSLD->setDisabled(true);  ui->RotateZSLD->setValue(0);
-        ui->ShadowEffectCB->setDisabled(true);
-        ui->ShadowEffectED->setDisabled(true);
-    }
-
-    // Refresh background image of the scene
+    // Get current block object in the current shot object composition list
+    int                 CurrentBlock    =ui->BlockTable->currentRow();
+    cCompositionObject  *CurrentTextItem=NULL;
+    if ((CurrentList)&&(CurrentBlock>=0)&&(CurrentBlock<CurrentList->List.count())) CurrentTextItem=&CurrentList->List[CurrentBlock];
 
     // Draw image of the scene under the background
     QPixmap NewImage=QPixmap::fromImage(*BackgroundImage);
@@ -647,11 +513,11 @@ void DlgSlideProperties::RefreshControls() {
 
     ADJUST_RATIO=double(ymax)/double(1080);    // fixe Adjustment ratio for this slide
 
-    for (int i=0;i<CompositionList->List.count();i++) if (CompositionList->List[i].IsVisible) {
+    for (int i=0;i<CurrentList->List.count();i++) if (CurrentList->List[i].IsVisible) {
         // Draw composition
-        CompositionList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,NULL,1,NULL);
+        CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,NULL,1,NULL);
         // Draw border
-        if (GetSelectedCompositionObject()==&CompositionList->List[i]) {
+        if (CurrentTextItem==&CurrentList->List[i]) {
             // draw rect out of the rectangle
             P.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
             QPen pen=QPen(Qt::red);
@@ -659,8 +525,36 @@ void DlgSlideProperties::RefreshControls() {
             pen.setStyle(Qt::DotLine);
             P.setPen(pen);
             P.setBrush(Qt::NoBrush);
-            P.drawRect(QRectF(CompositionList->List[i].x*xmax,CompositionList->List[i].y*ymax,CompositionList->List[i].w*xmax,CompositionList->List[i].h*ymax));
+            P.drawRect(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,CurrentTextItem->w*xmax,CurrentTextItem->h*ymax));
             P.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+            // Update controls with position & size value
+            ui->PosXEd->setRange(0,100-CurrentTextItem->w*100);         ui->PosXEd->setValue(CurrentTextItem->x*100);
+            ui->PosYEd->setRange(0,100-CurrentTextItem->h*100);         ui->PosYEd->setValue(CurrentTextItem->y*100);
+            ui->WidthEd->setRange(3,100-CurrentTextItem->x*100);        ui->WidthEd->setValue(CurrentTextItem->w*100);
+            ui->HeightEd->setRange(3,100-CurrentTextItem->y*100);       ui->HeightEd->setValue(CurrentTextItem->h*100);
+            ui->RotateXED->setValue(CurrentTextItem->RotateXAxis);      ui->RotateXSLD->setValue(CurrentTextItem->RotateXAxis);
+            ui->RotateYED->setValue(CurrentTextItem->RotateYAxis);      ui->RotateYSLD->setValue(CurrentTextItem->RotateYAxis);
+            ui->RotateZED->setValue(CurrentTextItem->RotateZAxis);      ui->RotateZSLD->setValue(CurrentTextItem->RotateZAxis);
+
+            if ((CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentTextItem->BackgroundBrush.BrushFileCorrect.ImageGeometry==GEOMETRY_CUSTOM))
+                CurrentTextItem->BackgroundBrush.BrushFileCorrect.AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
+
+            //***********************
+            // Shape TAB
+            //***********************
+            if (CurrentTextItem->BackgroundForm-1!=ui->BackgroundFormCB->currentIndex())    ui->BackgroundFormCB->setCurrentIndex(CurrentTextItem->BackgroundForm-1);
+            if (CurrentTextItem->PenSize!=ui->PenSizeEd->value())                           ui->PenSizeEd->setValue(int(CurrentTextItem->PenSize));
+            if (CurrentTextItem->Opacity!=ui->OpacityCB->currentIndex())                    ui->OpacityCB->setCurrentIndex(CurrentTextItem->Opacity);
+            if (CurrentTextItem->FormShadow!=ui->ShadowEffectCB->currentIndex())            ui->ShadowEffectCB->setCurrentIndex(CurrentTextItem->FormShadow);
+            if (CurrentTextItem->FormShadowDistance!=ui->ShadowEffectED->value())           ui->ShadowEffectED->setValue(int(CurrentTextItem->FormShadowDistance));
+            ui->PenColorCB->SetCurrentColor(&CurrentTextItem->PenColor);
+
+            for (int i=0;i<ui->PenStyleCB->count();i++) if (ui->PenStyleCB->itemData(i).toInt()==CurrentTextItem->PenStyle) {
+                if (i!=ui->PenStyleCB->currentIndex()) ui->PenStyleCB->setCurrentIndex(i);
+                break;
+            }
+
         } else {
             // draw rect out of the rectangle
             P.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
@@ -669,7 +563,7 @@ void DlgSlideProperties::RefreshControls() {
             pen.setStyle(Qt::DotLine);
             P.setPen(pen);
             P.setBrush(Qt::NoBrush);
-            P.drawRect(QRectF(CompositionList->List[i].x*xmax,CompositionList->List[i].y*ymax,CompositionList->List[i].w*xmax,CompositionList->List[i].h*ymax));
+            P.drawRect(QRectF(CurrentList->List[i].x*xmax,CurrentList->List[i].y*ymax,CurrentList->List[i].w*xmax,CurrentList->List[i].h*ymax));
             P.setCompositionMode(QPainter::CompositionMode_SourceOver);
         }
     }
@@ -691,25 +585,81 @@ void DlgSlideProperties::RefreshControls() {
     im->setPos(0,0);
     //delete NewImage;
 
-    // BlockTable
-    ui->BlockTable->setVisible(ArrowBT_BlockList);
-    ui->GobalBlockWidget->setVisible(ArrowBT_GlobalBlock);
-    ui->ShapeWidgetLayout->setVisible(ArrowBT_ShapeProperties);         ui->ShapeWidgetLayout->setEnabled(IsVisible);
-    ui->TextPropertiesWidget->setVisible(ArrowBT_TexProperties);        ui->TextPropertiesWidget->setEnabled(IsVisible);
-    ui->ShotWidgetLayout->setVisible(ArrowBT_DuringShotProperties);
-
-    ui->ArrowBT_VideoProperties->setVisible((CurrentBrush)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentBrush->Video));
-    ui->VideoPropertiesWidget->setVisible((ArrowBT_VideoProperties)&&(CurrentBrush)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentBrush->Video));
-
-    ui->ArrowBT_ImageProperties->setVisible((CurrentBrush)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentBrush->Image));
-    ui->ImagePropertiesWidget->setVisible((ArrowBT_ImageProperties)&&(CurrentBrush)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentBrush->Image));
-
     // Refresh thumbnail
     ui->ShotTable->setUpdatesEnabled(false);
     ui->ShotTable->setUpdatesEnabled(true);
 
-    QApplication::restoreOverrideCursor();
-    StopMAJSpinbox=false;
+    InRefreshSceneImage=false;
+}
+
+//====================================================================================================================
+// Update dock informations
+//====================================================================================================================
+
+void DlgSlideProperties::UpdateDockInfo() {
+    while (ui->TableInfo->rowCount()>0) ui->TableInfo->removeRow(0);
+    int CurrentBlock=ui->BlockTable->currentRow();
+    cCompositionObject  *CurrentTextItem=NULL;
+    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
+    if (CurrentTextItem) {
+        ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Object type")));
+        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK?QCoreApplication::translate("DlgSlideProperties","Title"):
+                                                                                  CurrentTextItem->BackgroundBrush.Image!=NULL?QCoreApplication::translate("DlgSlideProperties","Image"):
+                                                                                  QCoreApplication::translate("DlgSlideProperties","Video")));
+
+        if (CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK) {
+            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Filename")));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Image!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush.Image->FileName).fileName():
+                                                                                      CurrentTextItem->BackgroundBrush.Video!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush.Video->FileName).fileName():""));
+
+            if (CurrentTextItem->BackgroundBrush.Image!=NULL) for (int i=0;i<CurrentTextItem->BackgroundBrush.Image->ExivValue.count();i++) {
+                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                QString Value=CurrentTextItem->BackgroundBrush.Image->ExivValue[i];
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(Value.left(Value.indexOf("##"))));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value.right(Value.length()-Value.indexOf("##")-QString("##").length())));
+            } else if (CurrentTextItem->BackgroundBrush.Video!=NULL) {
+                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Image size")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1x%2").arg(CurrentTextItem->BackgroundBrush.Video->ImageWidth).arg(CurrentTextItem->BackgroundBrush.Video->ImageHeight)));
+
+                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Video format")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Video->VideoDecoderCodec->name));
+
+                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Bitrate")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(int(double(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->bit_rate)/1024))+" k/s"));
+
+                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Frame rate")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(
+                        int(double(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->VideoStreamNumber]->r_frame_rate.num)/
+                            double(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->VideoStreamNumber]->r_frame_rate.den)))
+                        +" "+QCoreApplication::translate("DlgSlideProperties","fps","frame per second")));
+
+                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Aspect ratio")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg((double(CurrentTextItem->BackgroundBrush.Video->ImageWidth)*CurrentTextItem->BackgroundBrush.Video->AspectRatio)/double(CurrentTextItem->BackgroundBrush.Video->ImageHeight),0,'f',3)));
+
+                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Audio format")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Video->AudioDecoderCodec->name));
+
+                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Frequency")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->AudioStreamNumber]->codec->sample_rate)
+                        +" "+QCoreApplication::translate("DlgSlideProperties","hz","audio frequency")));
+
+                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Channels")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->AudioStreamNumber]->codec->channels)));
+            }
+            ui->TableInfo->resizeColumnsToContents();
+            ui->TableInfo->resizeRowsToContents();
+        }
+    }
 }
 
 //====================================================================================================================
@@ -754,301 +704,175 @@ cBrushDefinition *DlgSlideProperties::GetCurrentBrush() {
 }
 
 //====================================================================================================================
-
-void DlgSlideProperties::s_SetBold() {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    if (CurrentTextItem->IsBold==true) CurrentTextItem->IsBold=false; else CurrentTextItem->IsBold=true;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
+// Handler for position, size & rotation controls
 //====================================================================================================================
 
-void DlgSlideProperties::s_SetItalic() {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    if (CurrentTextItem->IsItalic==true) CurrentTextItem->IsItalic=false; else CurrentTextItem->IsItalic=true;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_SetUnderline() {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    if (CurrentTextItem->IsUnderline==true) CurrentTextItem->IsUnderline=false; else CurrentTextItem->IsUnderline=true;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_SetTextLeft() {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->HAlign=0;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_SetTextCenter() {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->HAlign=1;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_SetTextRight() {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->HAlign=2;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_SetTextJustif() {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->HAlign=3;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_SetTextUp() {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->VAlign=0;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_SetTextVCenter() {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->VAlign=1;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_SetTextBottom() {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->VAlign=2;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_ChangeFont(QFont font) {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    if (font.family()!="") CurrentTextItem->FontName=font.family();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_ChangeSizeFont(QString size) {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    if ((size!="")&&(BLOCKCHSIZE==false)) CurrentTextItem->FontSize=size.toInt();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_ChangeStyleFont(int Style) {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->StyleText=Style;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_plainTextEditChange() {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->Text=ui->plainTextEdit->toPlainText();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-    ui->BlockTable->item(ui->BlockTable->currentRow(),2)->setText(CurrentTextItem->Text);
-}
-
-//========= Font color
-void DlgSlideProperties::s_ChIndexFontColorCombo(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->FontColor=ui->FontColorCombo->GetCurrentColor();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//========= Text shadow color
-void DlgSlideProperties::s_ChIndexFontShadowColorCombo(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->FontShadowColor=ui->StyleShadowColorCombo->GetCurrentColor();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
+//========= X position
 void DlgSlideProperties::s_ChgPosXValue(double Value) {
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    if (StopMAJSpinbox) return;
+
     CurrentTextItem->x=Value/100;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
     RectItem->setRect(Rect);
     RectItem->RecalcEmbededResizeRectItem();
-    RefreshControls();
+    RefreshSceneImage();
 }
 
-//====================================================================================================================
-
+//========= Y position
 void DlgSlideProperties::s_ChgPosYValue(double Value) {
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    if (StopMAJSpinbox) return;
+
     CurrentTextItem->y=Value/100;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
     RectItem->setRect(Rect);
     RectItem->RecalcEmbededResizeRectItem();
-    RefreshControls();
+    RefreshSceneImage();
 }
 
-//====================================================================================================================
-
+//========= Width
 void DlgSlideProperties::s_ChgWidthValue(double Value) {
-    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cBrushDefinition        *CurrentBrush   =GetCurrentBrush();                 if (!CurrentBrush)      return;
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
+
     cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (RectItem==NULL)     return;
-    if (StopMAJSpinbox) return;
     CurrentTextItem->w=Value/100;
     if (RectItem->KeepAspectRatio) CurrentTextItem->h=((CurrentTextItem->w*xmax)*RectItem->AspectRatio)/ymax;
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
     RectItem->setRect(Rect);
     RectItem->RecalcEmbededResizeRectItem();
-    RefreshControls();
+    RefreshSceneImage();
 }
 
-//====================================================================================================================
-
+//========= Height
 void DlgSlideProperties::s_ChgHeightValue(double Value) {
-    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cBrushDefinition        *CurrentBrush   =GetCurrentBrush();                 if (!CurrentBrush)      return;
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
+
     cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (RectItem==NULL)     return;
-    if (StopMAJSpinbox) return;
     CurrentTextItem->h=Value/100;
     if (RectItem->KeepAspectRatio) CurrentTextItem->w=((CurrentTextItem->h*ymax)/RectItem->AspectRatio)/xmax;
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
     RectItem->setRect(Rect);
     RectItem->RecalcEmbededResizeRectItem();
-    RefreshControls();
+    RefreshSceneImage();
 }
 
-//====================================================================================================================
+//========= X Rotation value
+void DlgSlideProperties::s_ChgRotateXValue(int Value) {
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
 
+    CurrentTextItem->RotateXAxis=Value;
+    RefreshSceneImage();
+}
+
+//========= Y Rotation value
+void DlgSlideProperties::s_ChgRotateYValue(int Value) {
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
+
+    CurrentTextItem->RotateYAxis=Value;
+    RefreshSceneImage();
+}
+
+//========= Z Rotation value
+void DlgSlideProperties::s_ChgRotateZValue(int Value) {
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
+
+    CurrentTextItem->RotateZAxis=Value;
+    RefreshSceneImage();
+}
+
+//***********************
+// Shape part
+//***********************
+
+//========= Background forme
 void DlgSlideProperties::s_ChangeBackgroundForm(int Style) {
-    if (StopMAJSpinbox) return;
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->BackgroundForm=Style+1;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
+    RefreshSceneImage();
 }
 
-//====================================================================================================================
-
+//========= Opacity
 void DlgSlideProperties::s_ChangeOpacity(int Style) {
-    if (StopMAJSpinbox) return;
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->Opacity=Style;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
+    RefreshSceneImage();
 }
 
-//====================================================================================================================
-
-void DlgSlideProperties::s_ChgPenSize(int Value) {
+//========= Border pen size
+void DlgSlideProperties::s_ChgPenSize(int) {
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    if (StopMAJSpinbox) return;
-    CurrentTextItem->PenSize=Value;
+    CurrentTextItem->PenSize=ui->PenSizeEd->value();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
+    ui->PenColorCB->setEnabled((CurrentTextItem)&&(CurrentTextItem->PenSize!=0));
+    ui->PenStyleCB->setEnabled((CurrentTextItem)&&(CurrentTextItem->PenSize!=0));
+    RefreshSceneImage();
 }
 
-//====================================================================================================================
-
+//========= Border pen style
 void DlgSlideProperties::s_ChangePenStyle(int index) {
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->PenStyle=ui->PenStyleCB->itemData(index).toInt();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
+    RefreshSceneImage();
 }
 
-//====================================================================================================================
-
+//========= Border pen color
 void DlgSlideProperties::s_ChPenColorCB(int) {
-    if (StopMAJSpinbox) return;
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->PenColor=ui->PenColorCB->GetCurrentColor();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
+    RefreshSceneImage();
 }
 
-//====================================================================================================================
-
+//========= Shape shadow style
 void DlgSlideProperties::s_ChgShadowFormValue(int value) {
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->FormShadow=value;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
+    RefreshSceneImage();
 }
 
-//====================================================================================================================
-
+//========= Shape shadow distance
 void DlgSlideProperties::s_ChgShadowDistanceValue(int value) {
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->FormShadowDistance =value;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
+    RefreshSceneImage();
 }
 
 //====================================================================================================================
@@ -1078,34 +902,6 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
     }
 }
 
-void DlgSlideProperties::MakeTextStyleIcon(QComboBox *UICB) {
-    for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0);
-        Object.Text="T";
-        Object.x=0.15;
-        Object.y=0.15;
-        Object.w=0.7;
-        Object.h=0.7;
-        Object.HAlign           =1;                 // Center
-        Object.VAlign           =1;                 // Center
-        Object.FontColor        ="#00ff00";
-        Object.FontShadowColor  ="#ff0000";
-        Object.StyleText        =i;
-        Object.FontSize         =200;
-        Object.IsBold           =true;
-        Object.PenSize          =0;
-        Object.BackgroundForm   =1;
-        Object.Opacity=0;
-        QPixmap  Image(32,32);
-        QPainter Painter;
-        Painter.begin(&Image);
-        Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,NULL,1,NULL);
-        Painter.end();
-        UICB->setItemIcon(i,QIcon(Image));
-    }
-}
-
 void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
     for (int i=0;i<UICB->count();i++) {
         QPixmap  Image(32,32);
@@ -1122,37 +918,6 @@ void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
-}
-
-//====================================================================================================================
-// Handler for rotation controls
-//====================================================================================================================
-
-//========= Z Value
-void DlgSlideProperties::s_ChgRotateZValue(int Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->RotateZAxis=Value;
-    RefreshControls();
-}
-
-//========= X Value
-void DlgSlideProperties::s_ChgRotateXValue(int Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->RotateXAxis=Value;
-    RefreshControls();
-}
-
-//========= Y Value
-void DlgSlideProperties::s_ChgRotateYValue(int Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->RotateYAxis=Value;
-    RefreshControls();
 }
 
 //====================================================================================================================
@@ -1304,7 +1069,22 @@ void DlgSlideProperties::s_ChangeImageGeometry(int value) {
     RefreshControls();
 }
 
-//========= Button opending Dialog box
+//====================================================================================================================
+// Buttons associated to a Dialog box
+//====================================================================================================================
+
+//========= Open text editor
+void DlgSlideProperties::TextEditor() {
+    if (StopMAJSpinbox) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
+    if (DlgTextEdit(CurrentTextItem,this).exec()==0) {
+        ApplyGlobalPropertiesToAllShots(CurrentTextItem);
+        ui->BlockTable->item(ui->BlockTable->currentRow(),2)->setText(CurrentTextItem->Text);
+        RefreshControls();
+    }
+}
+
+//========= Open image correction editor
 void DlgSlideProperties::ImageEditCorrect() {
     if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
@@ -1313,6 +1093,7 @@ void DlgSlideProperties::ImageEditCorrect() {
     RefreshControls();
 }
 
+//========= Open image transformation editor
 void DlgSlideProperties::ImageEditTransform() {
     if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
@@ -1331,6 +1112,7 @@ void DlgSlideProperties::ImageEditTransform() {
     RefreshControls();
 }
 
+//========= Open video editor
 void DlgSlideProperties::VideoEdit() {
     if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
@@ -1493,7 +1275,7 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
         // Video block
         } else if ((CompoObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush.Video)) {
             ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_MOVIE:ICON_OBJECT_MOVIEHIDE),"");
-            ItemC1=new QTableWidgetItem(QIcon(ICON_OBJECT_SOUND),"");
+            ItemC1=new QTableWidgetItem(QIcon(CompoObject->BackgroundBrush.Video->SoundVolume!=0?ICON_SOUND_OK:ICON_SOUND_KO),"");
             ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.BrushFileName).fileName());
         // Text block
         } else {
@@ -1524,6 +1306,7 @@ void DlgSlideProperties::s_BlockTable_SelectionChanged() {
     if (StopMAJSpinbox) return;
     int CurrentBlock=ui->BlockTable->currentRow();
     if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return;
+    StopMAJSpinbox=true;
     // Select item
     for (int i=0;i<scene->items().count();i++) {
         QGraphicsItem   *Item=scene->items().at(i);
@@ -1531,6 +1314,8 @@ void DlgSlideProperties::s_BlockTable_SelectionChanged() {
         if ((data=="CustomGraphicsRectItem")&&(((cCustomGraphicsRectItem *)Item)->IndexKey==CompositionList->List[CurrentBlock].IndexKey)) scene->items().at(i)->setSelected(true);
             else scene->items().at(i)->setSelected(false);
     }
+    StopMAJSpinbox=false;
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -1625,6 +1410,12 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
         } else {
             CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
             DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
+            // This video will gain sound in all shots !
+            for (int k=0;k<DiaporamaObject->List.count();k++) for (int l=0;l<DiaporamaObject->List[k].ShotComposition.List.count();l++)
+                if ((DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
+                    (DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video))
+                    DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video->SoundVolume=0;
+            CurrentBrush->Video->SoundVolume=1;
         }
         break;
     }
@@ -1750,7 +1541,7 @@ void DlgSlideProperties::ApplyGlobalPropertiesToAllShots(cCompositionObject *Glo
 void DlgSlideProperties::ChangeVisibleState() {
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
     if (!CurrentTextItem)   return;
-    CurrentTextItem->IsVisible=ui->IsVisibleCB->isChecked();
+    CurrentTextItem->IsVisible=!CurrentTextItem->IsVisible;
     RefreshBlockTable(ui->BlockTable->currentRow());
 }
 

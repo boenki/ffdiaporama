@@ -27,7 +27,6 @@
 #include "DlgMusicProperties.h"
 #include "DlgSlideProperties.h"
 #include "DlgTransitionProperties.h"
-#include "DlgProject.h"
 #include "DlgApplicationSettings.h"
 #include "DlgRenderVideo.h"
 
@@ -210,8 +209,6 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(s_CutToClipboard()));
     connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(s_CopyToClipboard()));
     connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(s_PasteFromClipboard()));
-    connect(ui->actionChangeProjectSettings,SIGNAL(triggered()),this,SLOT(s_ChangeProjectSettings()));
-    connect(ui->ChangeProjectSettingsBt,SIGNAL(pressed()),this,SLOT(s_ChangeProjectSettings()));
     connect(ui->actionEdit_background,SIGNAL(triggered()),this,SLOT(s_BackgroundDoubleClicked()));
     connect(ui->actionEdit_background_transition,SIGNAL(triggered()),this,SLOT(s_TransitionBackgroundDoubleClicked()));
     connect(ui->actionEdit_object,SIGNAL(triggered()),this,SLOT(s_ItemDoubleClicked()));
@@ -220,7 +217,7 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
 
     // Tools menu
     connect(ui->actionRender,SIGNAL(triggered()),this,SLOT(s_RenderVideo()));
-    connect(ui->actionConfiguration,SIGNAL(triggered()),this,SLOT(s_ChangeApplicationSettings()));      connect(ui->ConfigurationBt,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));
+    connect(ui->actionConfiguration,SIGNAL(triggered()),this,SLOT(s_ChangeApplicationSettings()));
 
     // Timeline
     connect(ui->ZoomPlusBT,SIGNAL(pressed()),this,SLOT(s_action_ZoomPlus()));
@@ -560,18 +557,6 @@ void MainWindow::s_RenderVideo() {
 }
 
 //====================================================================================================================
-// Change actual project settings
-//====================================================================================================================
-
-void MainWindow::s_ChangeProjectSettings() {
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    if (DlgProject(*Diaporama,false,this).exec()==0) {
-        SetModifyFlag(true);
-        AdjustRuller();
-    }
-}
-
-//====================================================================================================================
 // Change application settings
 //====================================================================================================================
 
@@ -591,30 +576,28 @@ void MainWindow::s_action_New() {
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
 
     cDiaporama *NewDiaporama=new cDiaporama(ApplicationConfig);
-    if (DlgProject(*NewDiaporama,true,this).exec()==0) {
 
-        // Clean actual timeline and diaporama
-        FLAGSTOPITEMSELECTION=true;
-        ui->timeline->setUpdatesEnabled(false);
-        while (ui->timeline->columnCount()>0) ui->timeline->removeColumn(ui->timeline->columnCount()-1);
-        delete Diaporama;
-        Diaporama=NULL;
-        ui->timeline->setUpdatesEnabled(true);
-        FLAGSTOPITEMSELECTION=false;
+    // Clean actual timeline and diaporama
+    FLAGSTOPITEMSELECTION=true;
+    ui->timeline->setUpdatesEnabled(false);
+    while (ui->timeline->columnCount()>0) ui->timeline->removeColumn(ui->timeline->columnCount()-1);
+    delete Diaporama;
+    Diaporama=NULL;
+    ui->timeline->setUpdatesEnabled(true);
+    FLAGSTOPITEMSELECTION=false;
 
-        // Create new diaporama
-        Diaporama=NewDiaporama;
-        BackgroundList.ScanDisk("background",Diaporama->ImageGeometry);
-        Diaporama->Timeline=ui->timeline;
-        ui->preview->InitDiaporamaPlay(Diaporama);
-        ui->preview->SetActualDuration(Diaporama->GetDuration());
-        ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
-        SetTimelineHeight();
-        RefreshControls();
-        ui->preview->Resize();
-        SetModifyFlag(false);
-        UpdateDockInfo();
-    } else delete NewDiaporama;
+    // Create new diaporama
+    Diaporama=NewDiaporama;
+    BackgroundList.ScanDisk("background",Diaporama->ImageGeometry);
+    Diaporama->Timeline=ui->timeline;
+    ui->preview->InitDiaporamaPlay(Diaporama);
+    ui->preview->SetActualDuration(Diaporama->GetDuration());
+    ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
+    SetTimelineHeight();
+    RefreshControls();
+    ui->preview->Resize();
+    SetModifyFlag(false);
+    UpdateDockInfo();
 }
 
 //====================================================================================================================
@@ -699,7 +682,7 @@ void MainWindow::s_action_AddTitle() {
     Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
     cDiaporamaObject *DiaporamaObject=&Diaporama->List[CurIndex];
     DiaporamaObject->List[0].Parent        =DiaporamaObject;
-    DiaporamaObject->List[0].StaticDuration=Diaporama->NoShotDuration;
+    DiaporamaObject->List[0].StaticDuration=GlobalMainWindow->ApplicationConfig->NoShotDuration;
     DiaporamaObject->Parent                =Diaporama;
     DiaporamaObject->TypeObject            =DIAPORAMAOBJECTTYPE_EMPTY;
 
@@ -755,7 +738,7 @@ void MainWindow::s_action_AddFile() {
         Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
         cDiaporamaObject *DiaporamaObject=&Diaporama->List[CurIndex];
         DiaporamaObject->List[0].Parent        =DiaporamaObject;
-        DiaporamaObject->List[0].StaticDuration=Diaporama->NoShotDuration;
+        DiaporamaObject->List[0].StaticDuration=GlobalMainWindow->ApplicationConfig->NoShotDuration;
         DiaporamaObject->Parent                =Diaporama;
         DiaporamaObject->TypeObject            =DIAPORAMAOBJECTTYPE_EMPTY;
 

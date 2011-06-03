@@ -46,7 +46,6 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             wgt_QCustomThumbnails.cpp \
             fmt_filters.cpp \
             wgt_QBackgroundDefWidget.cpp \
-            DlgProject.cpp \
             DlgApplicationSettings.cpp \
             DlgBackgroundProperties.cpp \
             wgt_QCompositionWidget.cpp \
@@ -62,7 +61,8 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     DlgSlideProperties.cpp \
     DlgImageCorrection.cpp \
     DlgImageTransformation.cpp \
-    DlgVideoEdit.cpp
+    DlgVideoEdit.cpp \
+    DlgTextEdit.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
@@ -76,7 +76,6 @@ HEADERS  += _GlobalDefines.h \
             wgt_QCustomThumbnails.h \
             fmt_filters.h \
             wgt_QBackgroundDefWidget.h \
-            DlgProject.h \
             DlgApplicationSettings.h \
             DlgBackgroundProperties.h \
             wgt_QCompositionWidget.h \
@@ -91,12 +90,12 @@ HEADERS  += _GlobalDefines.h \
     DlgSlideProperties.h \
     DlgImageCorrection.h \
     DlgImageTransformation.h \
-    DlgVideoEdit.h
+    DlgVideoEdit.h \
+    DlgTextEdit.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \
     wgt_QBackgroundDefWidget.ui \
-    DlgProject.ui \
     DlgApplicationSettings.ui \
     DlgBackgroundProperties.ui \
     wgt_QCompositionWidget.ui \
@@ -108,7 +107,8 @@ FORMS    += mainwindow.ui \
     DlgSlideProperties.ui \
     DlgImageCorrection.ui \
     DlgImageTransformation.ui \
-    DlgVideoEdit.ui
+    DlgVideoEdit.ui \
+    DlgTextEdit.ui
 
 OTHER_FILES += \
     ffDiaporama.xml \

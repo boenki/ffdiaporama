@@ -151,6 +151,10 @@ extern "C" {
 #define ICON_PLAYERPLAY                     "icons/player_play.png"                 // FileName of play icon
 #define ICON_PLAYERPAUSE                    "icons/player_pause.png"                // FileName of pause icon
 #define ICON_SHOTPRESENCE                   "icons/zoom.png"                        // FileName of icon representing shots in the timeline
+#define ICON_VISIBLE_OK                     "icons/Visible_OK.png"
+#define ICON_VISIBLE_KO                     "icons/Visible_KO.png"
+#define ICON_SOUND_OK                       "icons/object_sound.png"
+#define ICON_SOUND_KO                       "icons/sound_KO.png"
 
 #define ICON_OBJECT_TEXT                    "icons/object_text.png"
 #define ICON_OBJECT_SOUND                   "icons/object_sound.png"

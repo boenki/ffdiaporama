@@ -485,7 +485,9 @@ void DlgRenderVideo::accept() {
             //Process.setWorkingDirectory(Diaporama->ApplicationConfig->UserConfigPath);      // Set working directory to user folder (for log generation)
             Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);            // Start command
             if (!Process.waitForStarted()) {
-                QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),QCoreApplication::translate("DlgRenderVideo","Error starting ffmpeg","Error message"),QMessageBox::Close);
+                QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),
+                                      QCoreApplication::translate("DlgRenderVideo","Error starting ffmpeg","Error message")+"\n"+ffmpegCommand,
+                                      QMessageBox::Close);
                 Continue=false;
             }
         }
