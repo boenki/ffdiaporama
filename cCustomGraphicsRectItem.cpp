@@ -635,7 +635,7 @@ void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
     RecalcEmbededResizeRectItem();
     switch (ParentWidgetType) {
         case TYPE_wgt_QCompositionWidget:   ((wgt_QCompositionWidget *)ParentWidget)->StartRefreshControls();   break;
-        case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->RefreshControls();            break;
+        case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->RefreshSceneImage();          break;
         case TYPE_DlgImageCorrection:       ((DlgImageCorrection *)ParentWidget)->RefreshControls();            break;
     }
 }

@@ -1,15 +1,18 @@
 Buggs :
-    Finir le nettoyage du code :
-        Arriver à supprimer CanvasImageAt et sous fonctions associées
-            => Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
-
+    La propriété soundvolume à zéro n'est pas encore utilisée pour empécher la lecture des son d'une vidéo
+    Bugg d'affichage dans la timeline sur le fade out des bandes son des vidéos
+    SSE2 dans VirtualBox ! Plus moyen d'arreter SSE2 avec Qt 4.7.3 !
     Tester les générations avec plusieurs lecteurs : géométrie douteuse !
     Perte des compositions statiques en récupération des données alpha1
     Erreur de géométrie en récupération des données alpha1
+    Probleme de commande avec la dernière de ffmpeg pour Windows !
 
 A faire  :
-    Transferer le control de volume de la boite video à la boite slide
-    Empecher 2 videos d'avoir le son en meme temps
+    Rendre non global la propriété SoundVolume
+    Faire en sorte à ce qu'une video ajoutée dans la boite slide ne prenne le son qu'à partir du shot en cours
+    Faire en sorte à ce que les blocs ajoutés ne soient visibles qu'à partir du shot en cours
+    Finir le nettoyage du code : Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
+    Transferer le control de volume de la boite video à la boite slide (A voir ???)
     Calculer et afficher la durée mini des blocs
     Autoriser les blocs à sortir de l'écran
     Ajouter les boutons/fonctions pour ordonner les blocs dans un plan (devant/derriere)
@@ -20,9 +23,9 @@ A faire  :
     Faire les transitions de fonds (à réfléchir !) +Faire la boite de modif des transitions de fond
     Revoir les messages d'erreurs lié à exiv2 dans _ImageFileWrapper
 
--------------------------------------
-Changelog depuis la version 20110513
--------------------------------------
+----------------------------------------------
+Changelog depuis la version Alpha1 : 20110513
+----------------------------------------------
 
 Passage en Alpha2 :
 
@@ -52,8 +55,7 @@ Passage en Alpha2 :
 
 Détails des modifications :
 
-- Creation d'une boite de dialogue spécifique pour les objets titre (Cette boite deviendra commune à tous quand elle sera prete !)
-    et de 3 sous boites pour la correction d'image, la transformation d'image et l'edition video
+- Creation d'une boite de dialogue comune pour tous les objets et de 4 sous boites pour la correction d'image, la transformation d'image, l'edition video et l'édition de texte
 - Déplacement des données de recadrage/rotation dans le sous object de correction d'image et modification du format de fichier (compatibilité ascendante des anciennes sauvegardes !)
 - Suppression des compositions globales (pour tous les types d'objet). Pour compatibilité ascendante des anciennes sauvegardes : transfert des blocs dans la composition du 1er plan
 - Supprime la notion de Canvas :
@@ -70,3 +72,8 @@ Détails des modifications :
 - [Windows] Passage aux versions QT 4.7.3 et ffmpeg 27/05/2011
 - Corrige le problème de fermture sous Windows (pas de SDL_CloseAudio si aucun son n'a été joué)
 - Corrige des liens absolus vers des images dans plusieurs boites de dialogue
+
+- Suppression de la boite de configuration de projet -> il n'y a plus que la boite de configuration de l'application
+- Réorganisation du menu
+- Transfert de la zone d'information EXIF dans la boite Slide
+

@@ -437,7 +437,8 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
             NewFrame->RenderedImage=Temp2;
             delete Temp;
-            if (NewFrame->RenderedImage) ImageList.AppendImage(NewFrame); else delete NewFrame;
+            if (NewFrame->RenderedImage) ImageList.AppendImage(NewFrame);
+                else delete NewFrame;
 
         } else if (Diaporama) {
             // Calc LastPosition

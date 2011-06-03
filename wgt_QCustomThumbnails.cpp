@@ -92,7 +92,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Timeline->setColumnWidth(Col,Width);
                 }
 
-                Painter.fillRect(0,0,Width,Height,GlobalMainWindow->Diaporama->Transparent);
+                Painter.fillRect(0,0,Width,Height,Transparent);
                 DiaporamaObject->CanvasImageAt(Width,Height,Position,&Painter);
 
                 // -------------------------- Draw selected box (if needed)
@@ -226,7 +226,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 if (!HaveSound) {
                     // Display a thumb with no sound
 
-                    Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,GlobalMainWindow->Diaporama->Transparent);
+                    Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,Transparent);
                     Object->DrawThumbnail(ThumbWidth,ThumbHeight,&Painter,TransitionSize+3,2-1);   // Draw Thumb
                     if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32,QImage(ICON_SHOTPRESENCE));
                     DrawThumbnailsBox(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,Painter,NULL);
@@ -240,7 +240,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     int RHeight       =int(double(TIMELINESOUNDHEIGHT)*(SoundVolume/1.5));
 
                     // Draw thumb part
-                    Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,GlobalMainWindow->Diaporama->Transparent);
+                    Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,NewThumbHeight,Transparent);
                     Object->DrawThumbnail(NewThumbWidth,NewThumbHeight,&Painter,TransitionSize+3+BarWidth,2-1);   // Draw Thumb
                     if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+BarWidth+NewThumbWidth-32,2-1+NewThumbHeight-32,QImage(ICON_SHOTPRESENCE));
                     DrawThumbnailsBox(TransitionSize+3+BarWidth,2-1,NewThumbWidth,NewThumbHeight,Painter,NULL);

@@ -31,10 +31,15 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
 
     //********************************
-    // EditorOptions part
+    // Preview Options part
     //********************************
     QString FPS=(QString("%1").arg(ApplicationConfig->PreviewFPS,0,'f')).trimmed();
     while (FPS.endsWith('0')) FPS=FPS.left(FPS.length()-1);
+    ui->ApplyTransfoDuringPreviewCB->setChecked(ApplicationConfig->ApplyTransfoPreview);
+
+    //********************************
+    // EditorOptions part
+    //********************************
     ui->PreviewFrameRateCB->setCurrentIndex(ui->PreviewFrameRateCB->findText(FPS));
     ui->AppendObjectCB->setCurrentIndex(ApplicationConfig->AppendObject?1:0);
     ui->FramingWidth->setChecked( ApplicationConfig->DefaultFraming==0);
@@ -54,7 +59,6 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     ui->GeometryCombo->setCurrentIndex(ApplicationConfig->ImageGeometry);
     ui->NoShotED->setValue(ApplicationConfig->NoShotDuration/1000);
     ui->StaticShotED->setValue(ApplicationConfig->FixedDuration/1000);
-    ui->MobilShotED->setValue(ApplicationConfig->MobilDuration/1000);
     ui->SpeedWaveCombo->setCurrentIndex(ApplicationConfig->SpeedWave);
 
     //********************************
@@ -127,31 +131,35 @@ void DlgApplicationSettings::reject() {
 //====================================================================================================================
 
 void DlgApplicationSettings::accept() {
-    // LastDirectories part
+    // Application options part
     ApplicationConfig->RememberLastDirectories  =ui->RememberLastDirectoriesCH->isChecked();
+    ApplicationConfig->RestoreWindow            =ui->RestoreWindowCH->isChecked();
+    ApplicationConfig->DisableSSE2              =ui->DisableSSE2CB->isChecked();
 
-    // EditorOptions part
+    // Preview Options part
+    ApplicationConfig->ApplyTransfoPreview      =ui->ApplyTransfoDuringPreviewCB->isChecked();
+    ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
+
+    // Editor Options part
     ApplicationConfig->AppendObject    =ui->AppendObjectCB->currentIndex()==1;
-    ApplicationConfig->PreviewFPS      =ui->PreviewFrameRateCB->currentText().toDouble();
     if (ui->FramingWidth->isChecked())  ApplicationConfig->DefaultFraming=0;
     if (ui->FramingHeight->isChecked()) ApplicationConfig->DefaultFraming=1;
     if (ui->FramingFull->isChecked())   ApplicationConfig->DefaultFraming=2;
     ApplicationConfig->DefaultTransitionDuration=int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
-    ApplicationConfig->RandomTransition=ui->RandomTransitionRD->isChecked();
-    ApplicationConfig->DefaultTransitionSubType=(ui->NoTransitionRD->isChecked()?0:1);
-    ApplicationConfig->DefaultTransitionFamilly=0;
+    ApplicationConfig->RandomTransition         =ui->RandomTransitionRD->isChecked();
+    ApplicationConfig->DefaultTransitionSubType =(ui->NoTransitionRD->isChecked()?0:1);
+    ApplicationConfig->DefaultTransitionFamilly =0;
 
     // ProjectDefault part
-    ApplicationConfig->NoShotDuration   =ui->NoShotED->value()*1000;
-    ApplicationConfig->FixedDuration    =ui->StaticShotED->value()*1000;
-    ApplicationConfig->MobilDuration    =ui->MobilShotED->value()*1000;
-    ApplicationConfig->SpeedWave        =ui->SpeedWaveCombo->currentIndex();
-    ApplicationConfig->ImageGeometry    =ui->GeometryCombo->currentIndex();
+    ApplicationConfig->NoShotDuration           =ui->NoShotED->value()*1000;
+    ApplicationConfig->FixedDuration            =ui->StaticShotED->value()*1000;
+    ApplicationConfig->SpeedWave                =ui->SpeedWaveCombo->currentIndex();
+    ApplicationConfig->ImageGeometry            =ui->GeometryCombo->currentIndex();
 
     // RenderDefault part
-    ApplicationConfig->DefaultStandard  =ui->StandardCombo->currentIndex();
-    ApplicationConfig->DefaultImageSize =ui->SizeCombo->currentIndex();
-    ApplicationConfig->DefaultFormat    =ui->FileFormatCB->currentIndex();
+    ApplicationConfig->DefaultStandard          =ui->StandardCombo->currentIndex();
+    ApplicationConfig->DefaultImageSize         =ui->SizeCombo->currentIndex();
+    ApplicationConfig->DefaultFormat            =ui->FileFormatCB->currentIndex();
     if (ApplicationConfig->DefaultFormat>=0) ApplicationConfig->DefaultFormat=ui->FileFormatCB->itemData(ApplicationConfig->DefaultFormat).toInt(); else ApplicationConfig->DefaultFormat=0;
     int Codec=ui->VideoFormatCB->currentIndex();
     if (Codec>=0) ApplicationConfig->DefaultVideoCodec=VIDEOCODECDEF[ui->VideoFormatCB->itemData(Codec).toInt()].ShortName; else ApplicationConfig->DefaultVideoCodec="";
@@ -159,10 +167,6 @@ void DlgApplicationSettings::accept() {
     if (Codec>=0) ApplicationConfig->DefaultAudioCodec=AUDIOCODECDEF[ui->AudioFormatCB->itemData(Codec).toInt()].ShortName; else ApplicationConfig->DefaultAudioCodec="";
     QString BitRate=ui->VideoBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultVideoBitRate=BitRate.toInt();
     BitRate        =ui->AudioBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultAudioBitRate=BitRate.toInt();
-
-    // RestoreWindow part
-    ApplicationConfig->RestoreWindow    =ui->RestoreWindowCH->isChecked();
-    ApplicationConfig->DisableSSE2      =ui->DisableSSE2CB->isChecked();
 
     // Save Window size and position
     ApplicationConfig->DlgApplicationSettingsWSP->SaveWindowState(this);

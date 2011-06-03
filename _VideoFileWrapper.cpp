@@ -631,7 +631,7 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,bool ForceLoadD
             delete LoadedImage;
             LoadedImage =NewImage;
         }
-        if (Filter) Filter->ApplyFilter(LoadedImage);
+        if (Filter && ((!PreviewMode)||(PreviewMode && GlobalMainWindow->ApplicationConfig->ApplyTransfoPreview))) Filter->ApplyFilter(LoadedImage);
         if ((PreviewMode)&&(Position==0)) {
             if (CacheFirstImage!=NULL) delete CacheFirstImage;
             CacheFirstImage=LoadedImage;

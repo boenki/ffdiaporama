@@ -97,6 +97,7 @@ public:
     int                 TimelineHeight;                             // Height of the timeline
     double              PreviewFPS;                                 // Preview FrameRate
     int                 PreviewMaxHeight;                           // Specific for preview : Maximum height of image
+    bool                ApplyTransfoPreview;                        // True if image transformation are apply during preview
 
     // Default project settings
     int                 ImageGeometry;                              // Project image geometry for image rendering
@@ -125,7 +126,6 @@ public:
     cSaveWindowPosition *MainWinWSP;                                // MainWindow - Window size and position
     cSaveWindowPosition *DlgBackgroundPropertiesWSP;                // Dialog box "Background properties" - Window size and position
     cSaveWindowPosition *DlgMusicPropertiesWSP;                     // Dialog box "Music properties" - Window size and position
-    cSaveWindowPosition *DlgProjectSettingsWSP;                     // Dialog box "Project settings" - Window size and position
     cSaveWindowPosition *DlgApplicationSettingsWSP;                 // Dialog box "Application settings" - Window size and position
     cSaveWindowPosition *DlgRenderVideoWSP;                         // Dialog box "Render Video" - Window size and position
     cSaveWindowPosition *DlgTransitionPropertiesWSP;                // Dialog box "Transition properties" - Window size and position
@@ -133,6 +133,7 @@ public:
     cSaveWindowPosition *DlgImageTransformationWSP;                 // Dialog box "Image Transformation" - Window size and position
     cSaveWindowPosition *DlgImageCorrectionWSP;                     // Dialog box "Image Correction" - Window size and position
     cSaveWindowPosition *DlgVideoEditWSP;                           // Dialog box "Edit video" - Window size and position
+    cSaveWindowPosition *DlgTextEditWSP;                            // Dialog box "Text editor" - Window size and position
 
     cApplicationConfig();
     ~cApplicationConfig();

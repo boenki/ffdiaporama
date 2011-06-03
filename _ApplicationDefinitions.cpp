@@ -350,7 +350,6 @@ cApplicationConfig::cApplicationConfig() {
     MainWinWSP                  =new cSaveWindowPosition("MainWindow",RestoreWindow,true);                  // MainWindow - Window size and position
     DlgBackgroundPropertiesWSP  =new cSaveWindowPosition("DlgBackgroundProperties",RestoreWindow,false);    // Dialog box "Background properties" - Window size and position
     DlgMusicPropertiesWSP       =new cSaveWindowPosition("DlgMusicProperties",RestoreWindow,false);         // Dialog box "Music properties" - Window size and position
-    DlgProjectSettingsWSP       =new cSaveWindowPosition("DlgProjectSettings",RestoreWindow,false);         // Dialog box "Project settings" - Window size and position
     DlgApplicationSettingsWSP   =new cSaveWindowPosition("DlgApplicationSettings",RestoreWindow,false);     // Dialog box "Application settings" - Window size and position
     DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);          // Dialog box "Render Video" - Window size and position
     DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false); // Dialog box "Transition properties" - Window size and position
@@ -358,6 +357,7 @@ cApplicationConfig::cApplicationConfig() {
     DlgImageTransformationWSP   =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);  // Dialog box "Image transformation" - Window size and position
     DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
     DlgVideoEditWSP             =new cSaveWindowPosition("DlgVideoEditWSP",RestoreWindow,false);            // Dialog box "Edit video" - Window size and position
+    DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
 
     DisableSSE2                 =0;
  }
@@ -367,7 +367,6 @@ cApplicationConfig::~cApplicationConfig() {
     delete MainWinWSP;
     delete DlgMusicPropertiesWSP;
     delete DlgBackgroundPropertiesWSP;
-    delete DlgProjectSettingsWSP;
     delete DlgApplicationSettingsWSP;
     delete DlgRenderVideoWSP;
     delete DlgTransitionPropertiesWSP;
@@ -375,6 +374,7 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgImageTransformationWSP;
     delete DlgImageCorrectionWSP;
     delete DlgVideoEditWSP;
+    delete DlgTextEditWSP;
 
 }
 
@@ -426,6 +426,7 @@ bool cApplicationConfig::InitConfigurationValues() {
     MainWinState                = false;                    // Windows State
     TimelineHeight              = 120;                      // Initial height of the timeline
     PreviewFPS                  = 12.5;                     // Preview FrameRate
+    ApplyTransfoPreview         = true;                     // True if image transformation are apply during preview
     NoShotDuration              = 6000;                     // Default duration for fixed image when is alone (no shot)
     FixedDuration               = 3000;                     // Default duration for fixed image (msec)
     MobilDuration               = 3000;                     // Default duration for mobil image (msec)
@@ -505,6 +506,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         AppendObject             =Element.attribute("AppendObject")=="1";
         TimelineHeight           =Element.attribute("TimelineHeight").toInt();
         DefaultFraming           =Element.attribute("DefaultFraming").toInt();
+        ApplyTransfoPreview      =Element.attribute("ApplyTransfoPreview")=="1";
         PreviewFPS               =Element.attribute("PreviewFPS").toDouble();
         DisableSSE2              =Element.attribute("DisableSSE2")=="1";
         RandomTransition         =Element.attribute("RandomTransition")=="1";
@@ -538,7 +540,6 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     MainWinWSP->LoadFromXML(root);                                  // MainWindow - Window size and position
     DlgBackgroundPropertiesWSP->LoadFromXML(root);
     DlgMusicPropertiesWSP->LoadFromXML(root);
-    DlgProjectSettingsWSP->LoadFromXML(root);
     DlgApplicationSettingsWSP->LoadFromXML(root);
     DlgRenderVideoWSP->LoadFromXML(root);
     DlgTransitionPropertiesWSP->LoadFromXML(root);
@@ -546,8 +547,10 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     DlgImageTransformationWSP->LoadFromXML(root);
     DlgImageCorrectionWSP->LoadFromXML(root);
     DlgVideoEditWSP->LoadFromXML(root);
+    DlgTextEditWSP->LoadFromXML(root);
 
     if (DisableSSE2) qputenv("QT_NO_SSE2","1");
+    if (DisableSSE2) qputenv("QT_NO_SSE","1");
     return true;
 }
 
@@ -586,6 +589,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("DefaultFraming",           (QString("%1").arg(DefaultFraming)));
     Element.setAttribute("DisableSSE2",              DisableSSE2?"1":"0");
     Element.setAttribute("PreviewFPS",               (QString("%1").arg(PreviewFPS,0,'f')));
+    Element.setAttribute("ApplyTransfoPreview",      ApplyTransfoPreview?"1":0);
     Element.setAttribute("RandomTransition",         RandomTransition?"1":"0");
     Element.setAttribute("DefaultTransitionFamilly", (QString("%1").arg(DefaultTransitionFamilly)));
     Element.setAttribute("DefaultTransitionSubType", (QString("%1").arg(DefaultTransitionSubType)));
@@ -616,7 +620,6 @@ bool cApplicationConfig::SaveConfigurationFile() {
     MainWinWSP->SaveToXML(root);                                // MainWindow - Window size and position
     DlgBackgroundPropertiesWSP->SaveToXML(root);
     DlgMusicPropertiesWSP->SaveToXML(root);
-    DlgProjectSettingsWSP->SaveToXML(root);
     DlgApplicationSettingsWSP->SaveToXML(root);
     DlgRenderVideoWSP->SaveToXML(root);
     DlgTransitionPropertiesWSP->SaveToXML(root);
@@ -624,6 +627,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     DlgImageTransformationWSP->SaveToXML(root);
     DlgImageCorrectionWSP->SaveToXML(root);
     DlgVideoEditWSP->SaveToXML(root);
+    DlgTextEditWSP->SaveToXML(root);
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {

@@ -41,6 +41,7 @@ class cDiaporamaObject;
 //============================================
 
 extern  double  ADJUST_RATIO;   // Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
+extern  QBrush  Transparent;    // Transparent brush
 
 //============================================
 // Utility function
@@ -255,14 +256,6 @@ public:
     QTableWidget            *Timeline;              // Link to timeline
     int                     CurrentCol;             // Current position in the timeline (column)
     int                     CurrentPosition;        // Current position in the timeline (msec)
-
-    QBrush                  Transparent;            // Transparent brush
-
-    // Default value
-    int                     NoShotDuration;         // Default duration for fixed image when is alone (no shot)
-    int                     FixedDuration;          // Default duration for fixed image
-    int                     MobilDuration;          // Default duration for mobil image
-    int                     SpeedWave;              // Default Speed wave methode
 
     bool                    IsModify;               // true if project was modify
     QString                 ProjectFileName;        // Path and name of current file project

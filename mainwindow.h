@@ -85,7 +85,6 @@ private slots:
     void    s_CutToClipboard();
     void    s_CopyToClipboard();
     void    s_PasteFromClipboard();
-    void    s_ChangeProjectSettings();
 
     // Tools menu
     void    s_RenderVideo();

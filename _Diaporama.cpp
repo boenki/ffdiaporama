@@ -30,7 +30,8 @@
 // Global static
 //============================================
 
-double  ADJUST_RATIO=1;   // Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
+double  ADJUST_RATIO=1;     // Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
+QBrush  Transparent;        // Transparent brush
 
 //====================================================================================================================
 // Utility function to draw a shape
@@ -465,6 +466,10 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
         //DestPainter.drawImage(AddX+TheX*double(width),AddY+TheY*double(height),*Img);
         DestPainter->setOpacity(1);
         //DestPainter.restore();
+        if (Img) {
+            delete Img;
+            Img=NULL;
+        }
     }
 }
 
@@ -519,7 +524,7 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 
 cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject) {
     Parent                          = DiaporamaObject;
-    StaticDuration                  = Parent->Parent->FixedDuration;    // Duration (in msec) of the static part animation
+    StaticDuration                  = GlobalMainWindow->ApplicationConfig->FixedDuration;    // Duration (in msec) of the static part animation
     ShotComposition.TypeComposition = COMPOSITIONTYPE_SHOT;
 }
 
@@ -624,7 +629,7 @@ QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPaint
         ReturnImage = new QImage(Width,Height,QImage::Format_ARGB32_Premultiplied);
         P=new QPainter();
         P->begin(ReturnImage);
-        P->fillRect(0,0,Width,Height,Parent->Transparent);
+        P->fillRect(0,0,Width,Height,Transparent);
     }
 
     // Calc current sequence depending on Position
@@ -636,7 +641,7 @@ QImage *cDiaporamaObject::CanvasImageAt(int Width,int Height,int Position,QPaint
     }
 
     // Add static shot composition
-    for (int j=0;j<List[Sequence].ShotComposition.List.count();j++) List[Sequence].ShotComposition.List[j].DrawCompositionObject(P,0,0,Width,Height,true,0,NULL,0,NULL);
+    if (Sequence<List.count()) for (int j=0;j<List[Sequence].ShotComposition.List.count();j++) List[Sequence].ShotComposition.List[j].DrawCompositionObject(P,0,0,Width,Height,true,0,NULL,0,NULL);
 
     if (P!=Painter) {
         P->end();
@@ -779,7 +784,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 
                                 if (i>0) {
                                     // Duration (in msec) of the mobil part animation
-                                    if (SubElement.attribute("DefaultMobilDuration")=="1") List[i].StaticDuration=Parent->FixedDuration;
+                                    if (SubElement.attribute("DefaultMobilDuration")=="1") List[i].StaticDuration=GlobalMainWindow->ApplicationConfig->FixedDuration;
                                         else List[i].StaticDuration=SubElement.attribute("MobilDuration").toInt();
                                     CurShot->CopyFromCompositionObject(&List[i-1].ShotComposition.List[List[i-1].ShotComposition.List.count()-1]);
                                     List.append(cDiaporamaShot(this));
@@ -789,12 +794,12 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                                     CurShot=&List[i].ShotComposition.List[List[i].ShotComposition.List.count()-1];
                                     CurShot->CopyFromCompositionObject(CompositionObject);
                                     // Duration (in msec) of the static part animation
-                                    if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=Parent->FixedDuration;
+                                    if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=GlobalMainWindow->ApplicationConfig->FixedDuration;
                                         else List[i].StaticDuration=SubElement.attribute("StaticDuration").toInt();
 
                                 } else {
                                     // Duration (in msec) of the static part animation
-                                    if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=Parent->NoShotDuration;
+                                    if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=GlobalMainWindow->ApplicationConfig->NoShotDuration;
                                         else List[i].StaticDuration=SubElement.attribute("StaticDuration").toInt();
                                 }
 
@@ -843,7 +848,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                             if ((Element.elementsByTagName("Shot-"+QString("%1").arg(i)).length()>0)&&(Element.elementsByTagName("Shot-"+QString("%1").arg(i)).item(0).isElement()==true)) {
                                 SubElement=Element.elementsByTagName("Shot-"+QString("%1").arg(i)).item(0).toElement();
                                 // Duration (in msec) of the static part animation
-                                if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=Parent->NoShotDuration;
+                                if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=GlobalMainWindow->ApplicationConfig->NoShotDuration;
                                     else List[i].StaticDuration=SubElement.attribute("StaticDuration").toInt();
                                 CurShot->BackgroundBrush.BrushFileCorrect.LoadFromXML(SubElement,"FilterCorrection",PathForRelativPath);    // Image correction
                                 CurShot->BackgroundBrush.BrushFileCorrect.X             =SubElement.attribute("X").toDouble();              // X position (in %) relative to up/left corner
@@ -859,7 +864,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             if (IsOk) {
 
                 //==========> Récupération des données : Adjust duration
-                for (int i=0;i<ShotNumber;i++) if (List[i].StaticDuration==-1) List[i].StaticDuration=ShotNumber>1?Parent->FixedDuration:Parent->NoShotDuration;
+                for (int i=0;i<ShotNumber;i++) if (List[i].StaticDuration==-1) List[i].StaticDuration=ShotNumber>1?GlobalMainWindow->ApplicationConfig->FixedDuration:GlobalMainWindow->ApplicationConfig->NoShotDuration;
                 //==========>
 
                 FilterTransform.LoadFromXML(Element,"GlobalImageFilters",PathForRelativPath);                                           // Global Image filters
@@ -1071,14 +1076,9 @@ cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
 
     LastLoadedBackgroundImageName="";
     LastLoadedBackgroundImage    =NULL;
-    Transparent.setTextureImage(QImage("icons/transparent.png"));                           // Load transparent brush
 
     // Set default value
     DefineSizeAndGeometry(ApplicationConfig->ImageGeometry);                                // Default to 16:9
-    NoShotDuration      = ApplicationConfig->NoShotDuration;                                // Default duration for fixed image when is alone (no shot)
-    FixedDuration       = ApplicationConfig->FixedDuration;                                 // Default duration for fixed image (msec)
-    MobilDuration       = ApplicationConfig->MobilDuration;                                 // Default duration for mobil image (msec)
-    SpeedWave           = ApplicationConfig->SpeedWave;                                     // Default speed wave methode
 }
 
 //====================================================================================================================
@@ -1253,10 +1253,6 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
     // Save basic information on project
     Element=domDocument.createElement("Project");
     Element.setAttribute("ImageGeometry",   ImageGeometry);
-    Element.setAttribute("NoShotDuration",  NoShotDuration);
-    Element.setAttribute("FixedDuration",   FixedDuration);
-    Element.setAttribute("MobilDuration",   MobilDuration);
-    Element.setAttribute("SpeedWave",       SpeedWave);
 
     // Save object list
     Element.setAttribute("ObjectNumber",List.count());
@@ -1326,10 +1322,6 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString ProjectFileName) {
     if ((root.elementsByTagName("Project").length()>0)&&(root.elementsByTagName("Project").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("Project").item(0).toElement();
         ImageGeometry   =Element.attribute("ImageGeometry").toInt();
-        NoShotDuration  =Element.attribute("NoShotDuration").toInt();
-        FixedDuration   =Element.attribute("FixedDuration").toInt();
-        MobilDuration   =Element.attribute("MobilDuration").toInt();
-        SpeedWave       =Element.attribute("SpeedWave").toInt();
 
         DefineSizeAndGeometry(ImageGeometry);
 
@@ -1945,14 +1937,20 @@ void cDiaporama::ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool Prev
 }
 
 void cDiaporama::ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H) {
-    // create an empty transparent image
-    Info->TransitObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-    QPainter PT;
-    PT.begin(Info->TransitObject_SourceImage);
-    PT.setCompositionMode(QPainter::CompositionMode_Source);
-    PT.fillRect(QRect(0,0,W,H),Qt::transparent);
-    PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    PT.end();
+    // W and H = 0 when producing sound track in render process
+    if ((W!=0)&&(H!=0)) {
+        // create an empty transparent image
+        Info->TransitObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+        QPainter PT;
+        PT.begin(Info->TransitObject_SourceImage);
+        PT.setCompositionMode(QPainter::CompositionMode_Source);
+        PT.fillRect(QRect(0,0,W,H),Qt::transparent);
+        PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        PT.end();
+    } else {
+        // Create a very small image to have a ptr
+        Info->TransitObject_SourceImage=new QImage(5,5,QImage::Format_ARGB32_Premultiplied);
+    }
     // Prepare images for Transit Object
     PrepareImage(Info,W,H,false,PreviewMode);
 }
@@ -2117,7 +2115,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
             CurrentObject_CurrentShot=&CurrentObject->List[CurrentObject_ShotSequenceNumber];
 
             // calculate CurrentObject_PCTDone
-            switch (Diaporama->SpeedWave) {
+            switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
             case SPEEDWAVE_LINEAR :
                 CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetStaticDuration()));
                 break;
@@ -2146,7 +2144,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
             TransitionSubType =CurrentObject->TransitionSubType;                      // Transition type in the familly
             TransitionDuration=CurrentObject->TransitionDuration;                     // Transition duration (in msec)
             IsTransition      =true;
-            switch (Diaporama->SpeedWave) {
+            switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
             case SPEEDWAVE_LINEAR :
                 TransitionPCTDone=double(CurrentObject_InObjectTime)/double(TransitionDuration);
                 break;
@@ -2173,7 +2171,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 TransitObject_CurrentShotType=SHOTTYPE_VIDEO;
 
                 // calculate TransitObject_PCTDone
-                switch (Diaporama->SpeedWave) {
+                switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
                 case SPEEDWAVE_LINEAR :
                     TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->GetStaticDuration()));
                     break;

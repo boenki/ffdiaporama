@@ -51,6 +51,7 @@ int main(int argc, char *argv[]) {
         AddToSystemProperties(QString(LOADEDLOCAL_STR)+AdjustDirForOS(QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm")));
     }
     AddSeparatorToSystemProperties();
+    Transparent.setTextureImage(QImage("icons/transparent.png"));  // Load transparent brush
 
     MainWindow w(ApplicationConfig);
 

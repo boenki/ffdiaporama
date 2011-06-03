@@ -39,6 +39,8 @@ public:
     QDomDocument            *Undo;                      // Save object before modification for cancel button
 
     bool                    IsFirstInitDone;            // true when first show window was done
+    bool                    InRefreshSceneImage;        // True if process is currently in RefreshSceneImage function
+
     bool                    StopMAJSpinbox;
     bool                    BLOCKCHSIZE;
     cCompositionList        *CompositionList;           // Link to Composition List
@@ -50,8 +52,9 @@ public:
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent = 0);
     ~DlgSlideProperties();
 
-    void            RefreshBackgroundImage();
     void            RefreshControls();
+    void            RefreshSceneImage();
+    void            UpdateDockInfo();
     void            AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
 
     // Utility functions
@@ -80,19 +83,12 @@ private slots:
     void            BlockUp();
     void            BlockDown();
 
-
-    // Arrow buttons
-    void            SwitchArrowBT_BlockList();
-    void            SwitchArrowBT_TexProperties();
-    void            SwitchArrowBT_GlobalBlock();
-    void            SwitchArrowBT_ShapeProperties();
-    void            SwitchArrowBT_DuringShotProperties();
-    void            SwitchArrowBT_VideoProperties();
-    void            SwitchArrowBT_ImageProperties();
-
+    // Buttons associated to a Dialog box
+    void            TextEditor();
     void            ImageEditCorrect();
     void            ImageEditTransform();
     void            VideoEdit();
+    void            GetSound();
 
     // Shot table part
     void            s_ShotTable_SelectionChanged();             // User select a shot in the ShotTable widget
@@ -106,28 +102,12 @@ private slots:
     void            s_BlockTable_AddNewFileBlock();
     void            s_BlockTable_RemoveBlock();
 
-    void            s_ChangeFont(QFont);
-    void            s_ChangeSizeFont(QString);
-    void            s_SetBold();
-    void            s_SetItalic();
-    void            s_SetUnderline();
-    void            s_SetTextLeft();
-    void            s_SetTextCenter();
-    void            s_SetTextRight();
-    void            s_SetTextJustif();
-    void            s_SetTextUp();
-    void            s_SetTextVCenter();
-    void            s_SetTextBottom();
-    void            s_ChangeStyleFont(int);
     void            s_ChgPosXValue(double);
     void            s_ChgPosYValue(double);
     void            s_ChgWidthValue(double);
     void            s_ChgHeightValue(double);
     void            s_ChangeBackgroundForm(int);
     void            s_ChangeOpacity(int);
-    void            s_plainTextEditChange();
-    void            s_ChIndexFontColorCombo(int);
-    void            s_ChIndexFontShadowColorCombo(int);
 
     void            s_ChgShadowFormValue(int);
     void            s_ChgShadowDistanceValue(int);
@@ -160,7 +140,6 @@ private slots:
 private:
     void            Clean();
     void            MakeFormIcon(QComboBox *UICB);
-    void            MakeTextStyleIcon(QComboBox *UICB);
     void            MakeBorderStyleIcon(QComboBox *UICB);
 
     void            RefreshShotTable(int SetCurrentIndex);
