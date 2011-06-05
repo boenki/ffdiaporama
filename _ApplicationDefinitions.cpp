@@ -421,6 +421,7 @@ bool cApplicationConfig::InitConfigurationValues() {
     DisableSSE2                 = 0;
     RememberLastDirectories     = true;                     // If true, Remember all directories for future use
     RestoreWindow               = true;                     // If true, restore window state and position at startup
+    SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
     DefaultFraming              = 2;                        // 0=Width, 1=Height, 2=Full
     MainWinState                = false;                    // Windows State
@@ -504,6 +505,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     if ((root.elementsByTagName("EditorOptions").length()>0)&&(root.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("EditorOptions").item(0).toElement();
         AppendObject             =Element.attribute("AppendObject")=="1";
+        SortFile                 =Element.attribute("SortFile")=="1";
         TimelineHeight           =Element.attribute("TimelineHeight").toInt();
         DefaultFraming           =Element.attribute("DefaultFraming").toInt();
         ApplyTransfoPreview      =Element.attribute("ApplyTransfoPreview")=="1";
@@ -585,6 +587,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
 
     Element=domDocument.createElement("EditorOptions");
     Element.setAttribute("AppendObject",             AppendObject?"1":"0");
+    Element.setAttribute("SortFile",                 SortFile?"1":"0");
     Element.setAttribute("TimelineHeight",           (QString("%1").arg(TimelineHeight)));
     Element.setAttribute("DefaultFraming",           (QString("%1").arg(DefaultFraming)));
     Element.setAttribute("DisableSSE2",              DisableSSE2?"1":"0");

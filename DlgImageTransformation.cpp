@@ -32,7 +32,7 @@ DlgImageTransformation::DlgImageTransformation(cBrushDefinition *TheCurrentBrush
     CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","");  // Save object
     Undo->appendChild(root);                             // Add object to xml document
 
-    Filter      = &CurrentBrush->BrushFileTransform;
+    Filter      = (CurrentBrush->Image!=NULL)?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
     scene       = NULL;
     SourceImage = NULL;
     ZoomLevel   = 1;

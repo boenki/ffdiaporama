@@ -97,8 +97,8 @@ public:
     QString                 BrushImage;             // Image name if image from library
     QString                 BrushFileName;          // Image name if image from disk
     cFilterCorrectObject    BrushFileCorrect;       // Image correction if image from disk
-    cFilterTransformObject  BrushFileTransform;     // Image transformation if image from disk
     cimagefilewrapper       *Image;                 // Embeded Object for title and image type
+    double                  SoundVolume;            // Volume of soundtrack
     cvideofilewrapper       *Video;                 // Embeded Object for video type
 
     cBrushDefinition();

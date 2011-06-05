@@ -38,7 +38,8 @@ public:
     bool                FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
     cApplicationConfig  *ApplicationConfig;
     cDiaporama          *Diaporama;
-    QDomDocument        *Clipboard;
+    QDomDocument        *Clipboard_Object;
+    QDomDocument        *Clipboard_Block;
 
     explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
     ~MainWindow();

@@ -896,22 +896,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../DlgSlideProperties.ui" line="157"/>
         <source>Move left</source>
-        <translation>Déplacer à gauche</translation>
+        <translation>A gauche</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="183"/>
         <source>Move right</source>
-        <translation>Déplacer à droite</translation>
+        <translation>A droite</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="216"/>
         <source>Add title</source>
-        <translation>Ajouter un titre</translation>
+        <translation>Ajouter titre</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="242"/>
         <source>Add file</source>
-        <translation>Ajouter un fichier</translation>
+        <translation>Ajouter fichier</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="267"/>

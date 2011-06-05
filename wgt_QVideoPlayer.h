@@ -76,10 +76,6 @@ public:
     bool                Flag_InTimer;           // true if timer event is in progress
     bool                TimerTick;              // To use timer 1 time for 2 call
 
-    // Thread control for preparing next frame
-    QFuture<void>       ThreadPrepareMontage;       // Thread preparation of image
-    QFuture<void>       ThreadDoAssembly;           // Thread for make assembly of background and images
-
     explicit wgt_QVideoPlayer(QWidget *parent = 0);
     ~wgt_QVideoPlayer();
 

@@ -40,8 +40,7 @@ public:
     QDomDocument            *Undo;                          // Save object before modification for cancel button
     bool                    IsFirstInitDone;                // true when first show window was done
     bool                    FLAGSTOPED;                     // Flag to stop spin box during settings
-    QIcon                   *RulerOn,*RulerOff;
-    sMagneticRuller         MagneticRuller;
+    sMagneticRuler          MagneticRuler;
     QGraphicsScene          *scene;
     cCustomGraphicsRectItem *cadre;
     int                     BackgroundForm;

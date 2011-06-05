@@ -41,7 +41,8 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     IsFirstInitDone=false;                 // true when first show window was done
     ui->setupUi(this);
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
-    Clipboard               =NULL;
+    Clipboard_Object        =NULL;
+    Clipboard_Block         =NULL;
     ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
 
     ApplicationConfig=TheCurrentApplicationConfig;
@@ -232,6 +233,14 @@ MainWindow::~MainWindow() {
     delete Diaporama;
     delete ApplicationConfig;
     SDLLastClose();
+    if (Clipboard_Block) {
+        delete Clipboard_Block;
+        Clipboard_Block=NULL;
+    }
+    if (Clipboard_Object) {
+        delete Clipboard_Object;
+        Clipboard_Object=NULL;
+    }
 }
 
 //====================================================================================================================
@@ -300,8 +309,8 @@ void MainWindow::RefreshControls() {
     ui->actionEdit_object_in_transition->setEnabled(ui->timeline->columnCount()>0);
     ui->actionEdit_music->setEnabled(ui->timeline->columnCount()>0);
 
-    // Clipboard
-    ui->actionPaste->setEnabled(Clipboard!=NULL);
+    // Clipboard_Object
+    ui->actionPaste->setEnabled(Clipboard_Object!=NULL);
     ui->actionCopy->setEnabled(ui->timeline->currentColumn()>=0);
     ui->actionCut->setEnabled(ui->timeline->currentColumn()>=0);
 
@@ -467,6 +476,7 @@ void MainWindow::s_ItemSelectionChanged() {
                 ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
             }
         }
+        Diaporama->FreeUnusedMemory(Diaporama->CurrentCol);
     }
     QApplication::restoreOverrideCursor();
 }
@@ -730,6 +740,24 @@ void MainWindow::s_action_AddFile() {
         CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
         if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
     }
+
+    // Sort files in the fileList
+    if (Diaporama->ApplicationConfig->SortFile) {
+        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
+            QString NameA=QFileInfo(FileList[j]).completeBaseName();
+            int NumA=NameA.length()-1;
+            while ((NumA>0)&&(NameA[NumA]>='0')&&(NameA[NumA]<='9')) NumA--;
+            if (NumA>=0) NumA=NameA.mid(NumA+1).toInt();
+
+            QString NameB=QFileInfo(FileList[j+1]).completeBaseName();
+            int NumB=NameB.length()-1;
+            while ((NumB>0)&&(NameB[NumB]>='0')&&(NameB[NumB]<='9')) NumB--;
+            if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
+
+            if (NumA>NumB) FileList.swap(j,j+1);
+        }
+    }
+
     // Add files
     for (int i=0;i<FileList.count();i++) {
         QString NewFile=FileList[i];
@@ -789,8 +817,8 @@ void MainWindow::s_action_AddFile() {
             break;
         }
         if (IsValide) {
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->BrushFileTransform):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->BrushFileTransform):
+            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
                            NULL);
             if (Image) {
                 CurrentBrush->BrushFileCorrect.ImageGeometry=GEOMETRY_PROJECT;
@@ -985,12 +1013,12 @@ void MainWindow::s_CutToClipboard() {
 
     QDomElement root;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    if (Clipboard!=NULL) delete Clipboard;
-    Clipboard=new QDomDocument(APPLICATION_NAME);
+    if (Clipboard_Object!=NULL) delete Clipboard_Object;
+    Clipboard_Object=new QDomDocument(APPLICATION_NAME);
 
     // Create xml document and root
-    root=Clipboard->createElement("CLIPBOARD");
-    Clipboard->appendChild(root);
+    root=Clipboard_Object->createElement("CLIPBOARD");
+    Clipboard_Object->appendChild(root);
     Diaporama->List[Current].SaveToXML(root,"CLIPBOARD-OBJECT","");
 
     s_RemoveObject();
@@ -1006,12 +1034,12 @@ void MainWindow::s_CopyToClipboard() {
 
     QDomElement root;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    if (Clipboard!=NULL) delete Clipboard;
-    Clipboard=new QDomDocument(APPLICATION_NAME);
+    if (Clipboard_Object!=NULL) delete Clipboard_Object;
+    Clipboard_Object=new QDomDocument(APPLICATION_NAME);
 
     // Create xml document and root
-    root=Clipboard->createElement("CLIPBOARD");
-    Clipboard->appendChild(root);
+    root=Clipboard_Object->createElement("CLIPBOARD");
+    Clipboard_Object->appendChild(root);
     Diaporama->List[Current].SaveToXML(root,"CLIPBOARD-OBJECT","");
 
     RefreshControls();
@@ -1030,7 +1058,7 @@ void MainWindow::s_PasteFromClipboard() {
     Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
     //Diaporama->List[CurIndex].List[0].Parent=&Diaporama->List[CurIndex];
 
-    QDomElement root=Clipboard->documentElement();
+    QDomElement root=Clipboard_Object->documentElement();
     if (root.tagName()=="CLIPBOARD") {
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         ui->timeline->setUpdatesEnabled(false);

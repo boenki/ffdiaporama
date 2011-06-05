@@ -137,7 +137,7 @@ void DlgVideoEdit::SetActualDuration() {
     ui->ActualDuration->setText(Duration.toString("hh:mm:ss.zzz"));
     ui->EndPosEd->setMinimumTime(CurrentBrush->Video->StartPos);
     ui->StartPosEd->setMaximumTime(CurrentBrush->Video->EndPos);
-    ui->VolumeReductionFactorCB->setCurrentIndex(ui->VolumeReductionFactorCB->findText(QString("%1%").arg(int(CurrentBrush->Video->SoundVolume*100))));
+    ui->VolumeReductionFactorCB->setCurrentIndex(ui->VolumeReductionFactorCB->findText(QString("%1%").arg(int(CurrentBrush->SoundVolume*100))));
 }
 
 //====================================================================================================================
@@ -145,7 +145,7 @@ void DlgVideoEdit::SetActualDuration() {
 void DlgVideoEdit::MusicReduceFactorChange(int) {
     QString Volume=ui->VolumeReductionFactorCB->currentText();
     if (Volume!="") Volume=Volume.left(Volume.length()-1);  // Remove %
-    CurrentBrush->Video->SoundVolume=double(Volume.toInt())/100;
+    CurrentBrush->SoundVolume=double(Volume.toInt())/100;
 }
 
 //====================================================================================================================

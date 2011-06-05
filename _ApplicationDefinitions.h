@@ -92,9 +92,14 @@ public:
     // Preferences
     bool                DisableSSE2;                                // Disable SSE2 processor extension if error with hardware acceleration
     bool                RestoreWindow;                              // If true, restore window state and position at startup
+
+    // Editor options
     bool                AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
+    bool                SortFile;                                   // if true sort file by (last) number when multiple file insertion
     int                 DefaultFraming;                             // 0=Width, 1=Height
     int                 TimelineHeight;                             // Height of the timeline
+
+    // Preview setting
     double              PreviewFPS;                                 // Preview FrameRate
     int                 PreviewMaxHeight;                           // Specific for preview : Maximum height of image
     bool                ApplyTransfoPreview;                        // True if image transformation are apply during preview

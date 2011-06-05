@@ -293,6 +293,7 @@ public:
     bool                SaveFile(QWidget *ParentWindow);
     bool                LoadFile(QWidget *ParentWindow,QString ProjectFileName);
     bool                AppendFile(QWidget *ParentWindow,QString ProjectFileName);
+    void                FreeUnusedMemory(int ObjectNum);
 
     // Thread functions
     void                PrepareMusicBloc(int Column,int Position,cSoundBlockList *MusicTrack);

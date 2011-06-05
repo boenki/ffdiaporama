@@ -178,12 +178,12 @@ void cResizeGraphicsRectItem::ResizeUpperLeft(QPointF &newpos) {
     double w = 3*(xmax/100);
     double h = 3*(ymax/100);
     // Magnetic guide
-    if ((RectItem->MagneticRuller!=NULL)&&(RectItem->zoom!=NULL)&&(RectItem->MagneticRuller->MagneticRuler==true)) {
+    if ((RectItem->MagneticRuler!=NULL)&&(RectItem->MagneticRuler->MagneticRuler==true)) {
         double mw = 2*(xmax/100);
         double mh = 2*(ymax/100);
-        if ((RectItem->MagneticRuller->MagnetX1!=-1)&&(x+(w/2)>(RectItem->MagneticRuller->MagnetX1-mw))&&(x+(w/2)<(RectItem->MagneticRuller->MagnetX1+mw)))    x=RectItem->MagneticRuller->MagnetX1-(w/2);
-        if ((RectItem->MagneticRuller->MagnetY1!=-1)&&(y+(h/2)>(RectItem->MagneticRuller->MagnetY1-mh))&&(y+(h/2)<(RectItem->MagneticRuller->MagnetY1+mh))) {
-            y=RectItem->MagneticRuller->MagnetY1-(h/2);
+        if ((RectItem->MagneticRuler->MagnetX1!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX1-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX1+mw)))    x=RectItem->MagneticRuler->MagnetX1-(w/2);
+        if ((RectItem->MagneticRuler->MagnetY1!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY1-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY1+mh))) {
+            y=RectItem->MagneticRuler->MagnetY1-(h/2);
             double imgh=(RectItem->BottomRight->pos().y()-h/2-y+h/2)/RectItem->AspectRatio;
             double zoom=(imgh/ymax);
             double imgw=xmax*zoom;
@@ -260,12 +260,12 @@ void cResizeGraphicsRectItem::ResizeUpperRight(QPointF &newpos) {
     double w = 3*(xmax/100);
     double h = 3*(ymax/100);
     //Magnetic guide
-    if ((RectItem->MagneticRuller!=NULL)&&(RectItem->zoom!=NULL)&&(RectItem->MagneticRuller->MagneticRuler==true)) {
+    if ((RectItem->MagneticRuler!=NULL)&&(RectItem->MagneticRuler->MagneticRuler==true)) {
         double mw = 2*(xmax/100);
         double mh = 2*(ymax/100);
-        if ((RectItem->MagneticRuller->MagnetX2!=-1)&&(x+(w/2)>(RectItem->MagneticRuller->MagnetX2-mw))&&(x+(w/2)<(RectItem->MagneticRuller->MagnetX2+mw)))    x=RectItem->MagneticRuller->MagnetX2-(w/2);
-        if ((RectItem->MagneticRuller->MagnetY1!=-1)&&(y+(h/2)>(RectItem->MagneticRuller->MagnetY1-mh))&&(y+(h/2)<(RectItem->MagneticRuller->MagnetY1+mh))) {
-            y=RectItem->MagneticRuller->MagnetY1-(h/2);
+        if ((RectItem->MagneticRuler->MagnetX2!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX2-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX2+mw)))    x=RectItem->MagneticRuler->MagnetX2-(w/2);
+        if ((RectItem->MagneticRuler->MagnetY1!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY1-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY1+mh))) {
+            y=RectItem->MagneticRuler->MagnetY1-(h/2);
             double imgh=(RectItem->BottomLeft->pos().y()-h/2-y+h/2)/RectItem->AspectRatio;
             double zoom=(imgh/ymax);
             double imgw=xmax*zoom;
@@ -341,12 +341,12 @@ void cResizeGraphicsRectItem::ResizeBottomLeft(QPointF &newpos) {
     double w = 3*(xmax/100);
     double h = 3*(ymax/100);
     // Magnetic guide
-    if ((RectItem->MagneticRuller!=NULL)&&(RectItem->zoom!=NULL)&&(RectItem->MagneticRuller->MagneticRuler==true)) {
+    if ((RectItem->MagneticRuler!=NULL)&&(RectItem->MagneticRuler->MagneticRuler==true)) {
         double mw = 2*(xmax/100);
         double mh = 2*(ymax/100);
-        if ((RectItem->MagneticRuller->MagnetX1!=-1)&&(x+(w/2)>(RectItem->MagneticRuller->MagnetX1-mw))&&(x+(w/2)<(RectItem->MagneticRuller->MagnetX1+mw)))    x=RectItem->MagneticRuller->MagnetX1-(w/2);
-        if ((RectItem->MagneticRuller->MagnetY2!=-1)&&(y+(h/2)>(RectItem->MagneticRuller->MagnetY2-mh))&&(y+(h/2)<(RectItem->MagneticRuller->MagnetY2+mh))) {
-            y=RectItem->MagneticRuller->MagnetY2-(h/2);
+        if ((RectItem->MagneticRuler->MagnetX1!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX1-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX1+mw)))    x=RectItem->MagneticRuler->MagnetX1-(w/2);
+        if ((RectItem->MagneticRuler->MagnetY2!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY2-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY2+mh))) {
+            y=RectItem->MagneticRuler->MagnetY2-(h/2);
             double imgh=(y+h/2-RectItem->UpperRight->pos().y()-h/2)/RectItem->AspectRatio;
             double zoom=(imgh/ymax);
             double imgw=xmax*zoom;
@@ -421,12 +421,12 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
     double w = 3*(xmax/100);
     double h = 3*(ymax/100);
     // Magnetic guide
-    if ((RectItem->MagneticRuller!=NULL)&&(RectItem->zoom!=NULL)&&(RectItem->MagneticRuller->MagneticRuler==true)) {
+    if ((RectItem->MagneticRuler!=NULL)&&(RectItem->MagneticRuler->MagneticRuler==true)) {
         double mw = 2*(xmax/100);
         double mh = 2*(ymax/100);
-        if ((RectItem->MagneticRuller->MagnetX2!=-1)&&(x+(w/2)>(RectItem->MagneticRuller->MagnetX2-mw))&&(x+(w/2)<(RectItem->MagneticRuller->MagnetX2+mw)))    x=RectItem->MagneticRuller->MagnetX2-(w/2);
-        if ((RectItem->MagneticRuller->MagnetY2!=-1)&&(y+(h/2)>(RectItem->MagneticRuller->MagnetY2-mh))&&(y+(h/2)<(RectItem->MagneticRuller->MagnetY2+mh))) {
-            y=RectItem->MagneticRuller->MagnetY2-(h/2);
+        if ((RectItem->MagneticRuler->MagnetX2!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX2-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX2+mw)))    x=RectItem->MagneticRuler->MagnetX2-(w/2);
+        if ((RectItem->MagneticRuler->MagnetY2!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY2-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY2+mh))) {
+            y=RectItem->MagneticRuler->MagnetY2-(h/2);
             double imgh=(y+h/2-RectItem->UpperLeft->pos().y()-h/2)/RectItem->AspectRatio;
             double zoom=(imgh/ymax);
             double imgw=xmax*zoom;
@@ -489,14 +489,14 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // x,y and zoom or w/h are always give in %
 cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZValue,double *Thex,double *They,double *Thezoom,double *Thew,double *Theh,double xmax,double ymax,
-                                                 bool TheKeepAspectRatio,double TheAspectRatio,sMagneticRuller *TheMagneticRuller,QWidget *TheParentWidget,int TheParentWidgetType,int TheIndexKey)
+                                                 bool TheKeepAspectRatio,double TheAspectRatio,sMagneticRuler *TheMagneticRuler,QWidget *TheParentWidget,int TheParentWidgetType,int TheIndexKey)
                                                 :QGraphicsRectItem((*Thex)*xmax,(*They)*ymax,xmax*(*((Thezoom!=NULL)?Thezoom:Thew)),ymax*(*((Thezoom!=NULL)?Thezoom:Theh)),NULL)
 
 {
     IndexKey        = TheIndexKey;
     ParentWidget    = TheParentWidget;
     ParentWidgetType= TheParentWidgetType;
-    MagneticRuller  = TheMagneticRuller;
+    MagneticRuler   = TheMagneticRuler;
     x               = Thex;
     y               = They;
     zoom            = Thezoom;
@@ -613,13 +613,13 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
             if ((*y)*ymax<0)        *y=0;
             if ((*y)*ymax>ymax-H)   *y=(ymax-H)/ymax;
 
-            if ((MagneticRuller!=NULL)&&(MagneticRuller->MagneticRuler==true)) {
+            if ((MagneticRuler!=NULL)&&(MagneticRuler->MagneticRuler==true)) {
                 double mw = 2*(xmax/100);
                 double mh = 2*(ymax/100);
-                if ((MagneticRuller->MagnetX1!=-1)&&((*x)*xmax>(MagneticRuller->MagnetX1-mw))&&((*x)*xmax<(MagneticRuller->MagnetX1+mw)))          *x=MagneticRuller->MagnetX1/xmax;
-                if ((MagneticRuller->MagnetX2!=-1)&&(((*x)*xmax+W)>(MagneticRuller->MagnetX2-mw))&&(((*x)*xmax+W)<(MagneticRuller->MagnetX2+mw)))  *x=(MagneticRuller->MagnetX2-W)/xmax;
-                if ((MagneticRuller->MagnetY1!=-1)&&((*y)*ymax>(MagneticRuller->MagnetY1-mh))&&((*y)*ymax<(MagneticRuller->MagnetY1+mh)))          *y=MagneticRuller->MagnetY1/ymax;
-                if ((MagneticRuller->MagnetY2!=-1)&&(((*y)*ymax+H)>(MagneticRuller->MagnetY2-mh))&&(((*y)*ymax+H)<(MagneticRuller->MagnetY2+mh)))  *y=(MagneticRuller->MagnetY2-H)/ymax;
+                if ((MagneticRuler->MagnetX1!=-1)&&((*x)*xmax>(MagneticRuler->MagnetX1-mw))&&((*x)*xmax<(MagneticRuler->MagnetX1+mw)))          *x=MagneticRuler->MagnetX1/xmax;
+                if ((MagneticRuler->MagnetX2!=-1)&&(((*x)*xmax+W)>(MagneticRuler->MagnetX2-mw))&&(((*x)*xmax+W)<(MagneticRuler->MagnetX2+mw)))  *x=(MagneticRuler->MagnetX2-W)/xmax;
+                if ((MagneticRuler->MagnetY1!=-1)&&((*y)*ymax>(MagneticRuler->MagnetY1-mh))&&((*y)*ymax<(MagneticRuler->MagnetY1+mh)))          *y=MagneticRuler->MagnetY1/ymax;
+                if ((MagneticRuler->MagnetY2!=-1)&&(((*y)*ymax+H)>(MagneticRuler->MagnetY2-mh))&&(((*y)*ymax+H)<(MagneticRuler->MagnetY2+mh)))  *y=(MagneticRuler->MagnetY2-H)/ymax;
                 newpos.setX((*x)*xmax);
                 newpos.setY((*y)*ymax);
             }

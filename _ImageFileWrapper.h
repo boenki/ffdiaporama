@@ -30,17 +30,18 @@
 
 class cimagefilewrapper {
 public:
-    bool                IsValide;               // if true then object if fuly initialise
-    QString             FileName;               // filename
-    QDateTime           CreatDateTime;          // Original date/time
-    QDateTime           ModifDateTime;          // Last modified date/time
-    int                 ImageWidth;             // Widht of normal image
-    int                 ImageHeight;            // Height of normal image
-    int                 ImageOrientation;       // Image orientation (EXIF)
-    QImage              *CacheImage;            // Cache image (Preview mode)
-    QImage              *CacheFullImage;        // Cache image (Full image mode)
+    bool                    IsValide;               // if true then object if fuly initialise
+    QString                 FileName;               // filename
+    QDateTime               CreatDateTime;          // Original date/time
+    QDateTime               ModifDateTime;          // Last modified date/time
+    int                     ImageWidth;             // Widht of normal image
+    int                     ImageHeight;            // Height of normal image
+    int                     ImageOrientation;       // Image orientation (EXIF)
+    QImage                  *CacheImage;            // Cache image (Preview mode)
+    QImage                  *CacheFullImage;        // Cache image (Full image mode)
+    cFilterTransformObject  BrushFileTransform;     // Image transformation if image from disk
 
-    QStringList         ExivValue;
+    QStringList             ExivValue;
 
     cimagefilewrapper();
     ~cimagefilewrapper();

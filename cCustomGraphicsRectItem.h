@@ -34,7 +34,7 @@
 #define TYPE_DlgSlideProperties         1
 #define TYPE_DlgImageCorrection         2
 
-struct  sMagneticRuller {
+struct  sMagneticRuler {
     bool     MagneticRuler;
     double   MagnetX1;
     double   MagnetY1;
@@ -81,7 +81,7 @@ public:
     QWidget             *ParentWidget;
     int                 ParentWidgetType;
     double               *x,*y,*w,*h,*zoom;
-    sMagneticRuller     *MagneticRuller;    // Link to MagneticRuller parent structure
+    sMagneticRuler      *MagneticRuler;     // Link to MagneticRuler parent structure
     bool                BlockZoomChange;    // flag to block zoom changing during change % to pixel
     bool                IsCapture;
     bool                KeepAspectRatio;    // true if aspect ratio is keep during resize
@@ -94,7 +94,7 @@ public:
     cResizeGraphicsRectItem *BottomRight;
 
     explicit cCustomGraphicsRectItem(QGraphicsScene *scene,int ZValue,double *x,double *y,double *zoom,double *w,double *h,double xmax,double ymax,
-                                     bool KeepAspectRatio,double AspectRatio,sMagneticRuller *MagneticRuller,QWidget *ParentWidget,int ParentWidgetType,int IndexKey);
+                                     bool KeepAspectRatio,double AspectRatio,sMagneticRuler *MagneticRuler,QWidget *ParentWidget,int ParentWidgetType,int IndexKey);
     virtual ~cCustomGraphicsRectItem();
 
     void                SendRefreshBackgroundImage();

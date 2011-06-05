@@ -39,14 +39,12 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     FLAGSTOPED      = false;
     scene           = NULL;
     cadre           = NULL;
-    RulerOn         = new QIcon("icons/ruler_ok.png");
-    RulerOff        = new QIcon("icons/ruler_ko.png");
 
-    MagneticRuller.MagnetX1     = -1;
-    MagneticRuller.MagnetX2     = -1;
-    MagneticRuller.MagnetY1     = -1;
-    MagneticRuller.MagnetY2     = -1;
-    MagneticRuller.MagneticRuler= true;
+    MagneticRuler.MagnetX1     = -1;
+    MagneticRuler.MagnetX2     = -1;
+    MagneticRuler.MagnetY1     = -1;
+    MagneticRuler.MagnetY2     = -1;
+    MagneticRuler.MagneticRuler= true;
 
     //ui->GraphicsView->setAttribute(Qt::WA_OpaquePaintEvent);
 
@@ -88,14 +86,6 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
 DlgImageCorrection::~DlgImageCorrection() {
     delete ui;  // Deleting this make deletion of scene and all included object
     scene=NULL;
-    if (RulerOn) {
-        delete RulerOn;
-        RulerOn=NULL;
-    }
-    if (RulerOff) {
-        delete RulerOff;
-        RulerOff=NULL;
-    }
 }
 
 //====================================================================================================================
@@ -245,7 +235,7 @@ void DlgImageCorrection::s_RotateRight() {
 
 void DlgImageCorrection::s_AdjustW() {
     if (BrushFileCorrect==NULL) return;
-    double W=MagneticRuller.MagnetX2-MagneticRuller.MagnetX1;
+    double W=MagneticRuler.MagnetX2-MagneticRuler.MagnetX1;
     double H=W*BrushFileCorrect->AspectRatio;
     BrushFileCorrect->X=((xmax-W)/2)/xmax;
     BrushFileCorrect->Y=((ymax-H)/2)/ymax;
@@ -257,7 +247,7 @@ void DlgImageCorrection::s_AdjustW() {
 
 void DlgImageCorrection::s_AdjustH() {
     if (BrushFileCorrect==NULL) return;
-    double H=MagneticRuller.MagnetY2-MagneticRuller.MagnetY1;
+    double H=MagneticRuler.MagnetY2-MagneticRuler.MagnetY1;
     double W=H/BrushFileCorrect->AspectRatio;
     BrushFileCorrect->X=((xmax-W)/2)/xmax;
     BrushFileCorrect->Y=((ymax-H)/2)/ymax;
@@ -269,9 +259,9 @@ void DlgImageCorrection::s_AdjustH() {
 
 void DlgImageCorrection::s_AdjustWH() {
     if (BrushFileCorrect==NULL) return;
-    double W=MagneticRuller.MagnetX2-MagneticRuller.MagnetX1;
+    double W=MagneticRuler.MagnetX2-MagneticRuler.MagnetX1;
     double H=W*BrushFileCorrect->AspectRatio;
-    if (H<MagneticRuller.MagnetY2-MagneticRuller.MagnetY1) s_AdjustH(); else s_AdjustW();
+    if (H<MagneticRuler.MagnetY2-MagneticRuler.MagnetY1) s_AdjustH(); else s_AdjustW();
 }
 
 //====================================================================================================================
@@ -303,7 +293,10 @@ void DlgImageCorrection::RefreshControls() {
     for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {
         cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
         RectItem->setPos(BrushFileCorrect->X*xmax,BrushFileCorrect->Y*ymax);
-        QRectF Rect=RectItem->mapRectFromScene(QRectF(BrushFileCorrect->X*xmax,BrushFileCorrect->Y*ymax,xmax*BrushFileCorrect->ZoomFactor,ymax*BrushFileCorrect->ZoomFactor));
+        QRectF Rect=RectItem->mapRectFromScene(QRectF(BrushFileCorrect->X*xmax,
+                                                      BrushFileCorrect->Y*ymax,
+                                                      xmax*BrushFileCorrect->ZoomFactor,
+                                                      xmax*BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio));
         RectItem->setRect(Rect);
         RectItem->RecalcEmbededResizeRectItem();
     }
@@ -315,8 +308,8 @@ void DlgImageCorrection::RefreshControls() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_MagneticEdgeBt() {
-    if (MagneticRuller.MagneticRuler==true) MagneticRuller.MagneticRuler=false; else MagneticRuller.MagneticRuler=true;
-    ui->MagneticEdgeBt->setIcon(*(MagneticRuller.MagneticRuler?RulerOn:RulerOff));
+    if (MagneticRuler.MagneticRuler==true) MagneticRuler.MagneticRuler=false; else MagneticRuler.MagneticRuler=true;
+    ui->MagneticEdgeBt->setIcon(QIcon(MagneticRuler.MagneticRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
     RefreshBackgroundImage();
 }
 
@@ -339,7 +332,7 @@ void DlgImageCorrection::RefreshBackgroundImage() {
 
     // Create selection box
     if (cadre==NULL) cadre=new cCustomGraphicsRectItem(scene,300,&BrushFileCorrect->X,&BrushFileCorrect->Y,&BrushFileCorrect->ZoomFactor,
-                                                       NULL,NULL,xmax,ymax,true,BrushFileCorrect->AspectRatio,&MagneticRuller,this,TYPE_DlgImageCorrection,0);
+                                                       NULL,NULL,xmax,ymax,true,BrushFileCorrect->AspectRatio,&MagneticRuler,this,TYPE_DlgImageCorrection,0);
 
     // Prepare CacheImage
     QImage   *NewImage=new QImage(xmax,ymax,QImage::Format_ARGB32_Premultiplied);
@@ -373,10 +366,10 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     //********************************************************
 
     // Calc magnetic ruller guides positions
-    MagneticRuller.MagnetX1=DstX;
-    MagneticRuller.MagnetX2=DstX+DstW;
-    MagneticRuller.MagnetY1=DstY;
-    MagneticRuller.MagnetY2=DstY+DstH;
+    MagneticRuler.MagnetX1=DstX;
+    MagneticRuler.MagnetX2=DstX+DstW;
+    MagneticRuler.MagnetY1=DstY;
+    MagneticRuler.MagnetY2=DstY+DstH;
 
     // Draw selection rectangle for cadre
     double X=BrushFileCorrect->X*xmax;
@@ -402,27 +395,25 @@ void DlgImageCorrection::RefreshBackgroundImage() {
 
     // draw guides
     P.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
-    if (MagneticRuller.MagneticRuler==true) {
-        QColor col=QColor(255,0,0);
-        QPen   pen=QPen(col);
-        pen.setWidth(2);
-        pen.setJoinStyle(Qt::RoundJoin);
-        pen.setStyle(Qt::DotLine);
-        P.setPen(pen);
-        P.setBrush(Qt::NoBrush);
-        P.drawRect(X,Y,W,H);
-    }
-    if (MagneticRuller.MagneticRuler==true) {
+    QColor col=QColor(255,0,0);
+    QPen   pen=QPen(col);
+    pen.setWidth(2);
+    pen.setJoinStyle(Qt::RoundJoin);
+    pen.setStyle(Qt::DotLine);
+    P.setPen(pen);
+    P.setBrush(Qt::NoBrush);
+    P.drawRect(X,Y,W,H);
+    if (MagneticRuler.MagneticRuler==true) {
         QColor col=QColor(0,255,0);
         QPen   pen=QPen(col);
         pen.setWidth(2);
         pen.setJoinStyle(Qt::RoundJoin);
         pen.setStyle(Qt::DotLine);
         P.setPen(pen);
-        if (MagneticRuller.MagnetX1!=-1) P.drawLine(MagneticRuller.MagnetX1,0,MagneticRuller.MagnetX1,ymax);
-        if (MagneticRuller.MagnetX2!=-1) P.drawLine(MagneticRuller.MagnetX2,0,MagneticRuller.MagnetX2,ymax);
-        if (MagneticRuller.MagnetY1!=-1) P.drawLine(0,MagneticRuller.MagnetY1,xmax,MagneticRuller.MagnetY1);
-        if (MagneticRuller.MagnetY2!=-1) P.drawLine(0,MagneticRuller.MagnetY2,xmax,MagneticRuller.MagnetY2);
+        if (MagneticRuler.MagnetX1!=-1) P.drawLine(MagneticRuler.MagnetX1,0,MagneticRuler.MagnetX1,ymax);
+        if (MagneticRuler.MagnetX2!=-1) P.drawLine(MagneticRuler.MagnetX2,0,MagneticRuler.MagnetX2,ymax);
+        if (MagneticRuler.MagnetY1!=-1) P.drawLine(0,MagneticRuler.MagnetY1,xmax,MagneticRuler.MagnetY1);
+        if (MagneticRuler.MagnetY2!=-1) P.drawLine(0,MagneticRuler.MagnetY2,xmax,MagneticRuler.MagnetY2);
     }
     P.setCompositionMode(QPainter::CompositionMode_SourceOver);
     P.end();

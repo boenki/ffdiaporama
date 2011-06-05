@@ -48,6 +48,8 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     StopMAJSpinbox  = false;
     BLOCKCHSIZE     = false;
 
+    MagneticRuler.MagneticRuler=true;
+
     // Init combo box Background form
     for (int i=0;i<12;i++) ui->BackgroundFormCB->addItem("");
     MakeFormIcon(ui->BackgroundFormCB);
@@ -103,6 +105,12 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
+    connect(ui->TVMarginsBT,SIGNAL(clicked()),this,SLOT(s_TVMarginsBt()));
+
+    connect(ui->CopyBlockBT,SIGNAL(clicked()),this,SLOT(s_CopyBlockBT()));
+    connect(ui->CutBlockBT,SIGNAL(clicked()),this,SLOT(s_CutBlockBT()));
+    connect(ui->PasteBlockBT,SIGNAL(clicked()),this,SLOT(s_PasteBlockBT()));
+
     connect(ui->VisibleBT,SIGNAL(clicked()),this,SLOT(ChangeVisibleState()));
     connect(ui->SoundBT,SIGNAL(clicked()),this,SLOT(GetSound()));
 
@@ -275,15 +283,15 @@ void DlgSlideProperties::GetSound() {
     if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
 
     bool IsVideo  =(CurrentTextItem)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentTextItem->BackgroundBrush.Video!=NULL);
-    bool HaveSound=IsVideo && (CurrentTextItem->BackgroundBrush.Video->SoundVolume!=0);
+    bool HaveSound=IsVideo && (CurrentTextItem->BackgroundBrush.SoundVolume!=0);
 
     // Only if this block is a video and don't have sound yet
     if (IsVideo && !HaveSound) {
         for (int i=0;i<CompositionList->List.count();i++) {
             if ((CurrentTextItem!=&CompositionList->List[i])&&(CompositionList->List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompositionList->List[i].BackgroundBrush.Video))
-                CompositionList->List[i].BackgroundBrush.Video->SoundVolume=0;
+                CompositionList->List[i].BackgroundBrush.SoundVolume=0;
         }
-        CurrentTextItem->BackgroundBrush.Video->SoundVolume=1;
+        CurrentTextItem->BackgroundBrush.SoundVolume=1;
         RefreshBlockTable(ui->BlockTable->currentRow());
     }
 }
@@ -316,6 +324,11 @@ void DlgSlideProperties::RefreshControls() {
     if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
     ui->BlockUpBT->setEnabled(CurrentBlock>0);
     ui->BlockDownBT->setEnabled(CurrentBlock<ui->BlockTable->rowCount()-1);
+    ui->RemoveShot->setEnabled(DiaporamaObject->List.count()>1);
+
+    ui->CopyBlockBT->setEnabled(CurrentTextItem!=NULL);
+    ui->CutBlockBT->setEnabled(CurrentTextItem!=NULL);
+    ui->PasteBlockBT->setEnabled(GlobalMainWindow->Clipboard_Block!=NULL);
 
 /*
     int  AddingDuration=0;
@@ -362,11 +375,12 @@ void DlgSlideProperties::RefreshControls() {
     cBrushDefinition    *CurrentBrush   =(CurrentTextItem!=NULL)?&CurrentTextItem->BackgroundBrush:NULL;
     bool                IsVisible       =(CurrentTextItem)&&(CurrentTextItem->IsVisible);
     bool                IsVideo         =(CurrentTextItem)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentTextItem->BackgroundBrush.Video!=NULL);
-    bool                HaveSound       =IsVideo && (CurrentTextItem->BackgroundBrush.Video->SoundVolume!=0);
+    bool                HaveSound       =IsVideo && (CurrentTextItem->BackgroundBrush.SoundVolume!=0);
 
-    ui->VisibleBT->setIcon(QIcon(QString(IsVisible?ICON_VISIBLE_OK:ICON_VISIBLE_KO)));
-    ui->SoundBT->setIcon(QIcon(QString(HaveSound?ICON_SOUND_OK:ICON_SOUND_KO)));
-    ui->SoundBT->setEnabled(IsVideo);
+    ui->VisibleBT->setIcon(QIcon(QString(!IsVisible?ICON_VISIBLE_OK:ICON_VISIBLE_KO)));
+    ui->SoundBT->setIcon(QIcon(QString(!HaveSound?ICON_SOUND_OK:ICON_SOUND_KO)));
+    ui->TVMarginsBT->setIcon(QIcon(QString(MagneticRuler.MagneticRuler?ICON_RULER_ON:ICON_RULER_OFF)));
+    ui->SoundBT->setEnabled(IsVideo && !HaveSound);
 
     // Brush TAB part
     bool Allow_Brush  =(CurrentBrush!=NULL)&&(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK);
@@ -421,13 +435,13 @@ void DlgSlideProperties::RefreshControls() {
                 break;
             case BRUSHTYPE_PATTERN :
             case BRUSHTYPE_SOLID :          break;
-                ui->ColorLabel1->setText(QCoreApplication::translate("DlgSlideProperties","Color"));
+                ui->ColorLabel1->setText(QCoreApplication::translate("DlgSlideProperties","Color :"));
                 break;
             case BRUSHTYPE_GRADIENT3 :
             case BRUSHTYPE_GRADIENT2 :
                 ui->IntermPosSlider->setValue(CurrentBrush->Intermediate*100);
                 ui->IntermPosED->setValue(CurrentBrush->Intermediate*100);
-                ui->ColorLabel1->setText(QCoreApplication::translate("DlgSlideProperties","Colors"));
+                ui->ColorLabel1->setText(QCoreApplication::translate("DlgSlideProperties","Colors :"));
                 break;
             case BRUSHTYPE_IMAGELIBRARY :
                 // Ensure BrushImage is valide
@@ -526,6 +540,18 @@ void DlgSlideProperties::RefreshSceneImage() {
             P.setPen(pen);
             P.setBrush(Qt::NoBrush);
             P.drawRect(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,CurrentTextItem->w*xmax,CurrentTextItem->h*ymax));
+            if (MagneticRuler.MagneticRuler==true) {
+                QColor col=QColor(0,255,0);
+                QPen   pen=QPen(col);
+                pen.setWidth(2);
+                pen.setJoinStyle(Qt::RoundJoin);
+                pen.setStyle(Qt::DotLine);
+                P.setPen(pen);
+                if (MagneticRuler.MagnetX1!=-1) P.drawLine(MagneticRuler.MagnetX1,0,MagneticRuler.MagnetX1,ymax);
+                if (MagneticRuler.MagnetX2!=-1) P.drawLine(MagneticRuler.MagnetX2,0,MagneticRuler.MagnetX2,ymax);
+                if (MagneticRuler.MagnetY1!=-1) P.drawLine(0,MagneticRuler.MagnetY1,xmax,MagneticRuler.MagnetY1);
+                if (MagneticRuler.MagnetY2!=-1) P.drawLine(0,MagneticRuler.MagnetY2,xmax,MagneticRuler.MagnetY2);
+            }
             P.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
             // Update controls with position & size value
@@ -590,6 +616,15 @@ void DlgSlideProperties::RefreshSceneImage() {
     ui->ShotTable->setUpdatesEnabled(true);
 
     InRefreshSceneImage=false;
+}
+
+//====================================================================================================================
+// Display or hide TV Margins
+//====================================================================================================================
+
+void DlgSlideProperties::s_TVMarginsBt() {
+    if (MagneticRuler.MagneticRuler==true) MagneticRuler.MagneticRuler=false; else MagneticRuler.MagneticRuler=true;
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -1247,6 +1282,12 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
         ui->GraphicsView->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
     }
 
+    // define 5% TV Margins
+    MagneticRuler.MagnetX1=xmax*0.05;
+    MagneticRuler.MagnetY1=ymax*0.05;
+    MagneticRuler.MagnetX2=xmax-xmax*0.05;
+    MagneticRuler.MagnetY2=ymax-ymax*0.05;
+
     // Fill the scene with block item by creating cCustomGraphicsRectItem associate to existing cCompositionObject
     NextZValue=500;
     for (int i=0;i<CompositionList->List.count();i++) if (CompositionList->List[i].IsVisible) {
@@ -1255,7 +1296,7 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
                     NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,
                     CompositionList->List[i].BackgroundBrush.BrushFileCorrect.ImageGeometry==GEOMETRY_CUSTOM?false:true,
                     CompositionList->List[i].BackgroundBrush.BrushFileCorrect.ImageGeometry==GEOMETRY_CUSTOM?1:CompositionList->List[i].BackgroundBrush.BrushFileCorrect.AspectRatio,
-                    NULL,this,TYPE_DlgSlideProperties,CompositionList->List[i].IndexKey);
+                    &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i].IndexKey);
 
     }
     NextZValue+=10;  // 10 by 10 step for ZValue
@@ -1275,7 +1316,7 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
         // Video block
         } else if ((CompoObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush.Video)) {
             ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_MOVIE:ICON_OBJECT_MOVIEHIDE),"");
-            ItemC1=new QTableWidgetItem(QIcon(CompoObject->BackgroundBrush.Video->SoundVolume!=0?ICON_SOUND_OK:ICON_SOUND_KO),"");
+            ItemC1=CompoObject->BackgroundBrush.SoundVolume!=0?new QTableWidgetItem(QIcon(ICON_SOUND_OK),""):new QTableWidgetItem("");
             ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.BrushFileName).fileName());
         // Text block
         } else {
@@ -1342,6 +1383,8 @@ void DlgSlideProperties::s_Scene_SelectionChanged() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
+    int CurrentShot=ui->ShotTable->currentColumn();
+
     // Create and append a composition block to the object list
     DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
     cCompositionObject *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
@@ -1353,6 +1396,8 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
     for (int i=0;i<DiaporamaObject->List.count();i++) {
         DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
         DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(CompositionObject);
+        // Ensure new object is not visible in previous shot
+        if (i<CurrentShot) DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].IsVisible=false;
     }
 
     // Inc NextIndexKey
@@ -1377,8 +1422,9 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
 
     // Create and append a composition block to the object list
     DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
-    cCompositionObject *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-    cBrushDefinition   *CurrentBrush=&CompositionObject->BackgroundBrush;
+    cCompositionObject  *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+    cBrushDefinition    *CurrentBrush=&CompositionObject->BackgroundBrush;
+    int                 CurrentShot=ui->ShotTable->currentColumn();
 
     CompositionObject->Text     ="";
     CompositionObject->PenSize  =0;
@@ -1409,20 +1455,14 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
             CurrentBrush->Video=NULL;
         } else {
             CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
-            DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
-            // This video will gain sound in all shots !
-            for (int k=0;k<DiaporamaObject->List.count();k++) for (int l=0;l<DiaporamaObject->List[k].ShotComposition.List.count();l++)
-                if ((DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
-                    (DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video))
-                    DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video->SoundVolume=0;
-            CurrentBrush->Video->SoundVolume=1;
+            //DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
         }
         break;
     }
     if (IsValide) {
 
-        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->BrushFileTransform):
-                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->BrushFileTransform):
+        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
+                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
                        NULL);
         if (Image) {
             // Calc hypothenuse of the image rectangle
@@ -1454,6 +1494,24 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     for (int i=0;i<DiaporamaObject->List.count();i++) {
         DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
         DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(CompositionObject);
+        // Ensure new object is not visible in previous shot
+        if (i<CurrentShot) DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].IsVisible=false;
+    }
+
+    // If this object is a video will gain sound from this shots !
+    if (CurrentBrush->Video!=NULL) for (int k=0;k<DiaporamaObject->List.count();k++) for (int l=0;l<DiaporamaObject->List[k].ShotComposition.List.count();l++)
+        if ((DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
+            (DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)) {
+            if (k<CurrentShot) {
+                // Set this new block to SoundVolume=0
+                if (CurrentBrush->Video==DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)
+                    DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=0;
+            } else {
+                // Set all other block to SoundVolume=0 and this block to SoundVolume=1
+                if (CurrentBrush->Video!=DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)
+                    DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=0;
+                else DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=1;
+            }
     }
 
     // Inc NextIndexKey
@@ -1575,4 +1633,76 @@ void DlgSlideProperties::BlockDown() {
     int CurrentBlock=ui->BlockTable->currentRow();
     CompositionList->List.swap(CurrentBlock+1,CurrentBlock);
     RefreshBlockTable(CurrentBlock+1);
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_CopyBlockBT() {
+    cCompositionObject      *GlobalBlock=GetSelectedGlobalCompositionObject();
+    cCompositionObject      *ShotBlock  =GetSelectedCompositionObject();
+    if ((!GlobalBlock)||(!ShotBlock))   return;
+
+    if (GlobalMainWindow->Clipboard_Block) delete GlobalMainWindow->Clipboard_Block;
+    GlobalMainWindow->Clipboard_Block=new QDomDocument(APPLICATION_NAME);
+    QDomElement root=GlobalMainWindow->Clipboard_Block->createElement("CLIPBOARD");
+    GlobalMainWindow->Clipboard_Block->appendChild(root);
+    GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL","");
+    ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT","");
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_CutBlockBT() {
+    cCompositionObject      *GlobalBlock=GetSelectedGlobalCompositionObject();
+    cCompositionObject      *ShotBlock  =GetSelectedCompositionObject();
+    if ((!GlobalBlock)||(!ShotBlock))   return;
+
+    if (GlobalMainWindow->Clipboard_Block) delete GlobalMainWindow->Clipboard_Block;
+    GlobalMainWindow->Clipboard_Block=new QDomDocument(APPLICATION_NAME);
+    QDomElement root=GlobalMainWindow->Clipboard_Block->createElement("CLIPBOARD");
+    GlobalMainWindow->Clipboard_Block->appendChild(root);
+    GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL","");
+    ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT","");
+    s_BlockTable_RemoveBlock();
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_PasteBlockBT() {
+    if (!GlobalMainWindow->Clipboard_Block) return;
+
+    QDomElement root=GlobalMainWindow->Clipboard_Block->documentElement();
+    if (root.tagName()=="CLIPBOARD") {
+        qDebug()<<GlobalMainWindow->Clipboard_Block->toString(2);
+        int CurrentShot=ui->ShotTable->currentColumn();
+
+        // Create and append a composition block to the object list
+        DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
+        cCompositionObject *GlobalBlock=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+        GlobalBlock->LoadFromXML(root,"CLIPBOARD-BLOCK-GLOBAL","");
+        GlobalBlock->IndexKey=DiaporamaObject->NextIndexKey;
+
+        cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey);
+        ShotBlock.LoadFromXML(root,"CLIPBOARD-BLOCK-SHOT","");
+        ShotBlock.IndexKey=DiaporamaObject->NextIndexKey;
+        ShotBlock.BackgroundBrush.Image=GlobalBlock->BackgroundBrush.Image;
+        ShotBlock.BackgroundBrush.Video=GlobalBlock->BackgroundBrush.Video;
+
+        // Now create and append a shot composition block to all shot
+        for (int i=0;i<DiaporamaObject->List.count();i++) {
+            DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey));
+            DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(&ShotBlock);
+            // Ensure new object is not visible in previous shot
+            if (i<CurrentShot) DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].IsVisible=false;
+        }
+
+        // Inc NextIndexKey
+        DiaporamaObject->NextIndexKey++;
+
+        // 10 by 10 step for ZValue
+        NextZValue+=10;
+
+        RefreshBlockTable(CompositionList->List.count()-1);
+    }
 }
