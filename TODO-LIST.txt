@@ -2,7 +2,6 @@ Buggs :
     Erreur de décalage des mise en pause des musiques
     SSE2 dans VirtualBox ! Plus moyen d'arreter SSE2 avec Qt 4.7.3 !
     Tester les générations avec plusieurs lecteurs : géométrie douteuse !
-    Probleme de commande avec la version de Mai de ffmpeg pour Windows !
 
 A faire  :
     Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
@@ -79,6 +78,7 @@ Détails des modifications :
 - Ajoute l'affichage des millisecondes au player video
 - Gestion des guides correspondant aux marges TV dans la boite slide
 - Gestion des couper/copier/coller de block dans la boite slide
+- Correction du bugg de lancement de ffmpeg pour Windows !
 
 ---------------------------------
 Prévision pour la version Alpha3

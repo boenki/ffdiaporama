@@ -457,7 +457,12 @@ void DlgRenderVideo::accept() {
             }
 
             if (Continue) {
-                ffmpegCommand=Diaporama->ApplicationConfig->PathFFMPEG+QString(" -y -f image2pipe -vcodec ppm -i - -i \"")+TempWAVFileName+"\" "+vCodec+" -r "+
+                #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
+                ffmpegCommand="\""+Diaporama->ApplicationConfig->PathFFMPEG+"\"";
+                #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+                ffmpegCommand=Diaporama->ApplicationConfig->PathFFMPEG;
+                #endif
+                ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -i - -i \"")+TempWAVFileName+"\" "+vCodec+" -r "+
                       QString(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].FPS)+                        
                       " "+aCodec+QString(" -ar %1 -ac 2 -aspect %2:%3")
                       .arg(Diaporama->AudioFrequency)
