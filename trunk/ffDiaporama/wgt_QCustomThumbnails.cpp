@@ -174,24 +174,33 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 
             if (Type==THUMBNAILTYPE_OBJECTSEQUENCE) {                       // Draw a decorated thumbnail object
 
-                // Parse previous object.ObjectComposition table to determine if prvious slide have sound
+                bool    HaveSound   =false;
+                double  SoundVolume =0;
                 bool    PreviousHaveSound=false;
                 double  PreviousSoundVolume=0;
+
+                // Parse current ObjectComposition table to determine if slide have sound
+                for (int i=0;i<Object->ObjectComposition.List.count();i++) if ((Object->ObjectComposition.List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
+                    (Object->ObjectComposition.List[i].BackgroundBrush.Video)&&(Object->ObjectComposition.List[i].BackgroundBrush.SoundVolume!=0)) {
+                    HaveSound=true;
+                    if (Object->ObjectComposition.List[i].BackgroundBrush.SoundVolume>SoundVolume) SoundVolume=Object->ObjectComposition.List[i].BackgroundBrush.SoundVolume;
+                }
+
+                // Parse previous object.ObjectComposition table to determine if prvious slide have sound
                 if (Col>0) {
                     for (int i=0;i<GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List.count();i++)
                             if ((GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
                                 (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.Video)&&
-                                (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume!=0)) {
+                                (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.SoundVolume!=0)) {
 
                         PreviousHaveSound=true;
-                        if (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume>PreviousSoundVolume)
-                            PreviousSoundVolume=GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume;
+                        if (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.SoundVolume>PreviousSoundVolume)
+                            PreviousSoundVolume=GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.SoundVolume;
                     }
                 }
 
-                // Draw transition out of previous track if it was a DIAPORAMAOBJECTTYPE_VIDEO
-                if (IsTransition && PreviousHaveSound) {
-                    // If Current object is not DIAPORAMAOBJECTTYPE_VIDEO draw a soundtrack background for previous object
+                // Draw transition out of previous track
+                if (IsTransition && PreviousHaveSound && !HaveSound) {
                     Pen.setColor(ObjectBackground_Ruller);
                     Pen.setWidth(1);
                     Pen.setStyle(Qt::SolidLine);
@@ -214,18 +223,8 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Painter.drawPolygon(Table,3);
                 }
 
-                // Parse ObjectComposition table to determine if slide have sound
-                bool                HaveSound   =false;
-                double              SoundVolume =0;
-                for (int i=0;i<Object->ObjectComposition.List.count();i++) if ((Object->ObjectComposition.List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
-                    (Object->ObjectComposition.List[i].BackgroundBrush.Video)&&(Object->ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume!=0)) {
-
-                    HaveSound=true;
-                    if (Object->ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume>SoundVolume) SoundVolume=Object->ObjectComposition.List[i].BackgroundBrush.Video->SoundVolume;
-                }
                 if (!HaveSound) {
                     // Display a thumb with no sound
-
                     Painter.fillRect(TransitionSize+3,2-1,ThumbWidth,ThumbHeight,Transparent);
                     Object->DrawThumbnail(ThumbWidth,ThumbHeight,&Painter,TransitionSize+3,2-1);   // Draw Thumb
                     if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32,QImage(ICON_SHOTPRESENCE));
@@ -271,13 +270,13 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     // Draw transitions
                     if (IsTransition) {
                         // Draw transition out for previous soundtrack
-                        if ((Col>0)&&(Object->Parent->List[Col-1].TypeObject==DIAPORAMAOBJECTTYPE_VIDEO)) {
+                        if ((Col>0)&&(PreviousHaveSound)) {
                             Pen.setColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color);
                             Pen.setWidth(1);
                             Pen.setStyle(Qt::SolidLine);
                             Painter.setPen(Pen);
                             Painter.setBrush(QBrush(QColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
-                            int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(SoundVolume/1.5));
+                            int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(PreviousSoundVolume/1.5));
                             Table[0]=QPointF(0,Height-RHeightPrevious);
                             Table[1]=QPointF(TransitionSize,Height);
                             Table[2]=QPointF(0,Height);

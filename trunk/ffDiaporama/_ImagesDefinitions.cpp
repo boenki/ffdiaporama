@@ -151,6 +151,7 @@ QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Hei
     double  TheRed          =Red;
     double  TheGreen        =Green;
     double  TheBlue         =Blue;
+    double  TheAspectRatio  =AspectRatio;
 
     // Adjust values depending on PctDone and previous Filter (if exist)
     if (PreviousFilter) {
@@ -164,6 +165,7 @@ QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Hei
         if (PreviousFilter->Red!=TheRed)                    TheRed          =PreviousFilter->Red+(TheRed-PreviousFilter->Red)*PctDone;
         if (PreviousFilter->Green!=TheGreen)                TheGreen        =PreviousFilter->Green+(TheGreen-PreviousFilter->Green)*PctDone;
         if (PreviousFilter->Blue!=TheBlue)                  TheBlue         =PreviousFilter->Blue+(TheBlue-PreviousFilter->Blue)*PctDone;
+        if (PreviousFilter->AspectRatio!=TheAspectRatio)    TheAspectRatio  =PreviousFilter->AspectRatio+(TheAspectRatio-PreviousFilter->Blue)*AspectRatio;
     }
 
     // Prepare values from sourceimage size
@@ -187,18 +189,18 @@ QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Hei
     double  SrcX            =Hyp*TheXFactor;
     double  SrcY            =Hyp*TheYFactor;
     double  SrcW            =Hyp*TheZoomFactor;
-    double  SrcH            =SrcW*AspectRatio;
+    double  SrcH            =SrcW*TheAspectRatio;
     double  DstX            =0;
     double  DstY            =0;
     double  DstW            =Width;
-    double  DstH            =DstW*AspectRatio;
+    double  DstH            =DstW*TheAspectRatio;
 
     // Prepare RetImage Composition with transparent background
     QImage      *RetImage=new QImage(Width,Height,QImage::Format_ARGB32_Premultiplied);
     QPainter    PB;
     PB.begin(RetImage);
     PB.setCompositionMode(QPainter::CompositionMode_Source);
-    PB.fillRect(QRect(0,0,Width,Height),Qt::transparent);
+    PB.fillRect(QRect(0,0,Width+1,Height+1),Qt::transparent);
     PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
     PB.drawImage(QRectF(DstX,DstY,DstW,DstH),*SourceImage,QRectF((RealImageW/2)-(Hyp/2)+SrcX,(RealImageH/2)-(Hyp/2)+SrcY,SrcW,SrcH));
@@ -293,6 +295,7 @@ cBrushDefinition::cBrushDefinition() {
     BrushFileName       ="";                            // Image name if image from disk
     Image               =NULL;
     Video               =NULL;
+    SoundVolume         =1;                             // Volume of soundtrack
 }
 
 //====================================================================================================================
@@ -328,8 +331,8 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
     // W and H = 0 when producing sound track in render process
     bool    SoundOnly=((Rect.width()==0)&&(Rect.height()==0));
 
-    QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&BrushFileTransform):
-                        Video?Video->ImageAt(PreviewMode,Position,false,SoundTrackMontage,Video->SoundVolume,SoundOnly,&BrushFileTransform):
+    QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&Image->BrushFileTransform):
+                        Video?Video->ImageAt(PreviewMode,Position,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform):
                         NULL);
     if ((!SoundOnly)&&(RenderImage)) {
         // Create brush image with ken burns effect !
@@ -408,8 +411,8 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
     BrushFileName       =BrushToCopy->BrushFileName;
     Image               =BrushToCopy->Image;
     Video               =BrushToCopy->Video;
+    SoundVolume         =BrushToCopy->SoundVolume;
     BrushFileCorrect    =BrushToCopy->BrushFileCorrect;
-    BrushFileTransform  =BrushToCopy->BrushFileTransform;
 }
 
 //====================================================================================================================
@@ -423,22 +426,28 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
     // Attribut of the object
     Element.setAttribute("TypeComposition",TypeComposition);
-    Element.setAttribute("BrushType",BrushType);                                    // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-    Element.setAttribute("PatternType",PatternType);                                // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    Element.setAttribute("ColorD",ColorD);                                          // First Color
-    Element.setAttribute("ColorF",ColorF);                                          // Last Color
-    Element.setAttribute("ColorIntermed",ColorIntermed);                            // Intermediate Color
-    Element.setAttribute("Intermediate",Intermediate);                              // Intermediate position of 2nd color (in %)
-    Element.setAttribute("GradientOrientation",GradientOrientation);                // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
-    Element.setAttribute("BrushImage",BrushImage);                                  // Image name if image from library
-    Element.setAttribute("BrushFileName",BrushFileName);                            // Image name if image from disk
-    if ((TypeComposition!=COMPOSITIONTYPE_SHOT)&&(Video!=NULL)) {
-        Element.setAttribute("SoundVolume",QString("%1").arg(Video->SoundVolume,0,'f')); // Volume of soundtrack (for video only)
-        Element.setAttribute("StartPos",Video->StartPos.toString());                     // Start position (video only)
-        Element.setAttribute("EndPos",Video->EndPos.toString());                         // End position (video only)
+    Element.setAttribute("BrushType",BrushType);                                                    // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
+    Element.setAttribute("PatternType",PatternType);                                                // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
+    Element.setAttribute("ColorD",ColorD);                                                          // First Color
+    Element.setAttribute("ColorF",ColorF);                                                          // Last Color
+    Element.setAttribute("ColorIntermed",ColorIntermed);                                            // Intermediate Color
+    Element.setAttribute("Intermediate",Intermediate);                                              // Intermediate position of 2nd color (in %)
+    Element.setAttribute("GradientOrientation",GradientOrientation);                                // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
+    Element.setAttribute("BrushImage",BrushImage);                                                  // Image name if image from library
+    Element.setAttribute("BrushFileName",BrushFileName);                                            // Image name if image from disk
+    if (Video!=NULL) {
+        Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));                   // Volume of soundtrack (for video only)
+        if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
+            Element.setAttribute("StartPos",Video->StartPos.toString());                            // Start position (video only)
+            Element.setAttribute("EndPos",Video->EndPos.toString());                                // End position (video only)
+            Video->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
+        }
+    } else if (Image!=NULL) {
+        if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
+            Image->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
+        }
     }
     BrushFileCorrect.SaveToXML(Element,"ImageCorrection",PathForRelativPath);       // Image correction if image from disk
-    BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath); // Image transformation if image from disk
     domDocument.appendChild(Element);
 }
 
@@ -464,7 +473,6 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
 
         BrushFileCorrect.LoadFromXML(Element,"ImageCorrection",PathForRelativPath);         // Image correction if image from disk
-        BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);   // Image transformation if image from disk
 
         if ((TypeComposition!=COMPOSITIONTYPE_SHOT)&&(BrushType==BRUSHTYPE_IMAGEDISK)) {
             bool IsValide=false;
@@ -486,13 +494,24 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     Video=NULL;
                 }
                 if (Video!=NULL) {
-                    Video->SoundVolume=Element.attribute("SoundVolume").toDouble();    // Volume of soundtrack (for video only)
-                    Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
-                    Video->EndPos     =QTime().fromString(Element.attribute("EndPos"));     // End position (video only)
                 }
                 break;
             }
         }
+
+        if (Video!=NULL) {
+            SoundVolume=Element.attribute("SoundVolume").toDouble();                                        // Volume of soundtrack (for video only)
+            if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
+                Video->StartPos =QTime().fromString(Element.attribute("StartPos"));                         // Start position (video only)
+                Video->EndPos   =QTime().fromString(Element.attribute("EndPos"));                           // End position (video only)
+                Video->BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);    // Image transformation
+            }
+        } else if (Image!=NULL) {
+            if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
+                Image->BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);    // Image transformation
+            }
+        }
+
         return true;
     }
     return false;
@@ -523,8 +542,8 @@ void cBrushDefinition::ApplyDefaultFraming(int DefaultFraming) {
             break;
     }
 
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,0,false,NULL,1,false,&BrushFileTransform); // Video
-    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,false,&BrushFileTransform);                // Image
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,0,false,NULL,1,false,&Video->BrushFileTransform); // Video
+    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,false,&Image->BrushFileTransform);                // Image
 
     if (ReturnImage!=NULL) {
         RealImageW=ReturnImage->width();

@@ -62,7 +62,6 @@ public:
     bool                    IsValide;               // if true then object if fuly initialise
     bool                    MusicOnly;              // True if object is a music only file
     QString                 FileName;               // filename
-    double                  SoundVolume;            // Volume of soundtrack
     QTime                   StartPos;               // Start position
     QTime                   EndPos;                 // End position
     QString                 Container;              // Container type (get from file extension)
@@ -75,6 +74,7 @@ public:
     DecodeVideoObjectList   VideoObjectList;        // Spool list of DecodeVideoObject
     int                     AdjustTimeStamp;
     bool                    CodecUsePTS;            // true if codec use PTS (h264) if if we use only DTS
+    cFilterTransformObject  BrushFileTransform;     // Image transformation if image from disk
 
     // LibAVFormat/Codec/SWScale part
     AVFormatContext         *ffmpegVideoFile;       // LibAVFormat context

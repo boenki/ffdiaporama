@@ -149,6 +149,8 @@ bool cimagefilewrapper::GetInformationFromFile(QString &GivenFileName) {
 QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter) {
     if (!IsValide) return NULL;
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
     // If ForceLoadDisk then ensure CacheImage is null
     if (ForceLoadDisk) {
         if (CacheFullImage!=NULL) {
@@ -211,6 +213,14 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
             ImageWidth =CacheImage->width();
         }
     }
+    // For memory usage reduction : free CacheFullImage if preview mode
+    if ((PreviewMode)&&(CacheFullImage!=NULL)&&(CacheFullImage!=CacheImage)) {
+        delete CacheFullImage;
+        CacheFullImage=NULL;
+    }
+
+    QApplication::restoreOverrideCursor();
+
     // return wanted image
     if ((PreviewMode)&&(CacheImage))      return new QImage(CacheImage->copy());
     if ((!PreviewMode)&&(CacheFullImage)) return new QImage(CacheFullImage->copy());

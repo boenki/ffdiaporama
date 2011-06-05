@@ -505,6 +505,7 @@ void DlgRenderVideo::accept() {
                     ColumnStart=Position;
                     if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))/(FPS/double(1000)))-1);
                     RefreshDisplay =true;
+                    if (Column>0) Diaporama->FreeUnusedMemory(Column-1);
                 } else RefreshDisplay =(LastCheckTime.msecsTo(QTime::currentTime())>=1000);    // Refresh display only one time per second
 
                 // Refresh Display (if needed)
@@ -583,6 +584,9 @@ void DlgRenderVideo::accept() {
         }
 
         QFile::remove(TempWAVFileName);
+
+        // Free unused CacheFullImage
+        Diaporama->FreeUnusedMemory(-1);
 
         // Inform user of success
         if (Continue) QMessageBox::information(this,QCoreApplication::translate("DlgRenderVideo","Render video"),QCoreApplication::translate("DlgRenderVideo","Job completed succesfully !"));
@@ -770,11 +774,11 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
             }
 
             // Ensure SoundTracks are ready
-            if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)&&(Frame->CurrentObject->TypeObject!=DIAPORAMAOBJECTTYPE_IMAGE)) {
+            if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
                 Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
                 Frame->CurrentObject_SoundTrackMontage->SetFPS(Diaporama->VideoFrameRate);
             }
-            if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)&&(Frame->TransitObject->TypeObject!=DIAPORAMAOBJECTTYPE_IMAGE)) {
+            if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
                 Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
                 Frame->TransitObject_SoundTrackMontage->SetFPS(Diaporama->VideoFrameRate);
             }

@@ -49,6 +49,8 @@ public:
     QGraphicsScene          *scene;                     // Link to the scene
     QImage                  *BackgroundImage;           // Background Image
 
+    sMagneticRuler          MagneticRuler;              // TV Margins ruler
+
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent = 0);
     ~DlgSlideProperties();
 
@@ -77,6 +79,11 @@ private slots:
     void            s_SlideNameChange(QString NewText);
     void            s_ShotDurationChange(double NewValue);
     void            ChangeVisibleState();
+    void            s_TVMarginsBt();
+
+    void            s_CopyBlockBT();
+    void            s_CutBlockBT();
+    void            s_PasteBlockBT();
 
     void            ShotLeft();
     void            ShotRight();

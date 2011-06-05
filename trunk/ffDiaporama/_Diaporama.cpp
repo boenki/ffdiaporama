@@ -265,7 +265,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
     // W and H = 0 when producing sound track in render process
     if (!IsVisible) return;
 
-    bool    SoundOnly=((width==0)&&(height==0));
+    bool    SoundOnly=((width==0)&&(height==0))||(DestPainter==NULL);
 
     if (SoundOnly) {
         // if SoundOnly then load Brush of type BRUSHTYPE_IMAGEDISK to SoundTrackMontage
@@ -312,7 +312,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
         QPainter Painter;
         Painter.begin(Img);
         Painter.setCompositionMode(QPainter::CompositionMode_Source);
-        Painter.fillRect(QRect(0,0,Wb+2,Hb+2),Qt::transparent);
+        Painter.fillRect(QRect(0,0,Wb+1,Hb+1),Qt::transparent);
         Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
         Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
         Pen.setCapStyle(Qt::RoundCap);
@@ -419,7 +419,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
             double Distance=double(FormShadowDistance)*ADJUST_RATIO;
             QImage ImgShadow=Img->copy();
             Uint8  *Data=ImgShadow.bits();
-            for (int i=0;i<ImgShadow.height()*ImgShadow.width();i++) {
+            for (int i=0;i<Wb*Hb;i++) {
                 *Data++=0;  // R
                 *Data++=0;  // G
                 *Data++=0;  // B
@@ -436,33 +436,26 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
         if ((Opacity>0)&&(Opacity<4)) DestPainter->setOpacity(Opacity==1?0.75:Opacity==2?0.50:0.25); else DestPainter->setOpacity(1);
         double  DstX=AddX+TheX*double(width);
         double  DstY=AddY+TheY*double(height);
-        double  DstW=Img->width();
-        double  DstH=Img->height();
+        double  DstW=Wb;
+        double  DstH=Hb;
         double  SrcX=0;
         double  SrcY=0;
-        double  SrcW=DstW;
-        double  SrcH=DstH;
         if (DstX<0) {
             SrcX=-DstX;
             DstW+=DstX;
-            SrcW+=DstX;
             DstX=0;
         }
         if (DstY<0) {
             SrcY=-DstY;
             DstH+=DstY;
-            SrcH+=DstY;
             DstY=0;
         }
-        if (DstW>width) {
-            SrcW=SrcW-(DstW-width);
-            DstW=width;
-        }
-        if (DstH>height) {
-            SrcH=SrcH-(DstH-height);
-            DstH=height;
-        }
-        if ((Img)&&(!Img->isNull())) DestPainter->drawImage(QRectF(DstX,DstY,DstW,DstH),*Img,QRectF(SrcX,SrcY,SrcW,SrcH));
+        if (DstW>width)     DstW=width;
+        if (DstH>height)    DstH=height;
+        if (SrcX+DstW>Wb)   DstW=Wb-SrcX;
+        if (SrcY+DstH>Hb)   DstH=Hb-SrcY;
+
+        if ((Img)&&(!Img->isNull())) DestPainter->drawImage(QRectF(DstX,DstY,DstW,DstH),*Img,QRectF(SrcX,SrcY,DstW,DstH));
         //DestPainter.drawImage(AddX+TheX*double(width),AddY+TheY*double(height),*Img);
         DestPainter->setOpacity(1);
         //DestPainter.restore();
@@ -834,7 +827,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     if (IsOk) {
                         CurrentBrush->Video->StartPos   =QTime(0,0,0,0);
                         CurrentBrush->Video->EndPos     =CurrentBrush->Video->Duration;
-                        CurrentBrush->Video->SoundVolume=Element.attribute("SoundVolume").toDouble();         // Volume of soundtrack (for video only)
+                        CurrentBrush->SoundVolume       =Element.attribute("SoundVolume").toDouble();         // Volume of soundtrack (for video only)
                         CurrentBrush->Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
                         CurrentBrush->Video->EndPos     =QTime().fromString(Element.attribute("EndPos"));     // End position (video only)
                         ShotNumber=Element.attribute("ShotNumber").toInt();
@@ -1402,6 +1395,22 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName) {
 }
 
 //============================================================================================
+// Function use to free CacheFullImage in the cimagefilewrapper
+//   if ObjectNum=-1 then free all object
+//   else only object prior to ObjectNum-1 and after ObjectNum+1 are free
+//============================================================================================
+void cDiaporama::FreeUnusedMemory(int ObjectNum) {
+    for (int i=0;i<List.count();i++) for (int j=0;j<List[i].ObjectComposition.List.count();j++) if ((ObjectNum==-1)||(i<ObjectNum-1)||(i>ObjectNum+1)) {
+        if ((List[i].ObjectComposition.List[j].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
+            (List[i].ObjectComposition.List[j].BackgroundBrush.Image)&&
+            (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage)) {
+            delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage;
+            List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage=NULL;
+        }
+    }
+}
+
+//============================================================================================
 // Function use directly or with thread to prepare an image number Column at given position
 // Note : Position is relative to the start of the Column object !
 //============================================================================================
@@ -1411,7 +1420,7 @@ void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *Music
     if ((Column<List.count())&&(!List[Column].MusicPause)) {
         cMusicObject *CurMusic=GetMusicObject(Column,StartPosition);                                         // Get current music file from column and position
         if (CurMusic!=NULL) {
-            CurMusic->Music->ImageAt(false,Position+StartPosition,false,MusicTrack,1,false,NULL);               // Get music bloc at correct position
+            CurMusic->Music->ImageAt(false,Position+StartPosition,false,MusicTrack,1,true,NULL);             // Get music bloc at correct position
             double Factor=CurMusic->Volume;
             if (List[Column].MusicReduceVolume) Factor=Factor*List[Column].MusicReduceFactor;
             if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
@@ -1425,15 +1434,32 @@ void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *Music
 //  IsCurrentObject : If true : prepare CurrentObject - If false : prepare Transition Object
 //============================================================================================
 void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode) {
-    ADJUST_RATIO=double(H)/double(1080);    // fixe Adjustment ratio for this slide
+    bool            SoundOnly           =((W==0)&&(H==0));                     // W and H = 0 when producing sound track in render process
+    cDiaporamaShot  *CurShot            =IsCurrentObject?Info->CurrentObject_CurrentShot:Info->TransitObject_CurrentShot;
+    QImage          *SourceImage        =IsCurrentObject?Info->CurrentObject_SourceImage:Info->TransitObject_SourceImage;
+    double          PCTDone             =IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone;
+    cSoundBlockList *SoundTrackMontage  =(IsCurrentObject?Info->CurrentObject_SoundTrackMontage:Info->TransitObject_SoundTrackMontage);
+    int             ObjectNumber        =IsCurrentObject?Info->CurrentObject_Number:Info->TransitObject_Number;
+    int             ShotNumber          =IsCurrentObject?Info->CurrentObject_ShotSequenceNumber:Info->TransitObject_ShotSequenceNumber;
+    cDiaporamaShot  *PreviousShot       =(ShotNumber>0?&List[ObjectNumber].List[ShotNumber-1]:NULL);
+    QImage          *Image              =NULL;
+    QPainter        *P                  =NULL;
 
-    // W and H = 0 when producing sound track in render process
-    bool SoundOnly=((W==0)&&(H==0));
+    if (SoundOnly) {
+        for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
+            if ((CurShot->ShotComposition.List[j].BackgroundBrush.Video)&&(CurShot->ShotComposition.List[j].BackgroundBrush.SoundVolume!=0))
+                CurShot->ShotComposition.List[j].DrawCompositionObject(NULL,0,0,0,0,true,IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime,SoundTrackMontage,1,NULL);
+            // Special case when video object with no sound
+            if ((CurShot->ShotComposition.List[j].BackgroundBrush.Video)&&(CurShot->ShotComposition.List[j].BackgroundBrush.SoundVolume==0))
+                CurShot->ShotComposition.List[j].BackgroundBrush.Video->NextPacketPosition+=Info->FrameDuration;
+        }
+        return;
+    }
 
     if ((IsCurrentObject)&&(Info->CurrentObject_PreparedImage!=NULL)) return;     // return immediatly if we have image
     if (!IsCurrentObject) {
         if (Info->TransitObject_PreparedImage!=NULL) return;    // return immediatly if we have image
-        if ((!SoundOnly)&&(Info->TransitObject_SourceImage==NULL)) {
+        if (Info->TransitObject_SourceImage==NULL) {
             // Special case for transition image of first slide
             Info->TransitObject_PreparedImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
             QPainter P;
@@ -1446,31 +1472,18 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
         }
     }
 
-    cDiaporamaShot          *CurShot    =IsCurrentObject?Info->CurrentObject_CurrentShot:Info->TransitObject_CurrentShot;
-    QImage                  *SourceImage=IsCurrentObject?Info->CurrentObject_SourceImage:Info->TransitObject_SourceImage;
-    double                  PCTDone     =IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone;
+    ADJUST_RATIO=double(H)/double(1080);    // fixe Adjustment ratio for this slide
 
-    QImage                  *Image=NULL;
-    QPainter                *P=NULL;
-
-    if (!SoundOnly) {
-        Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-        if ((Image)&&(!Image->isNull())) {
-            P=new QPainter();
-            P->begin(Image);
-            P->setCompositionMode(QPainter::CompositionMode_Source);
-            P->fillRect(0,0,W,H,Qt::transparent);
-            P->setCompositionMode(QPainter::CompositionMode_SourceOver);
-        }
+    Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+    if ((Image)&&(!Image->isNull())) {
+        P=new QPainter();
+        P->begin(Image);
+        P->setCompositionMode(QPainter::CompositionMode_Source);
+        P->fillRect(0,0,W,H,Qt::transparent);
+        P->setCompositionMode(QPainter::CompositionMode_SourceOver);
     }
 
     if ((List.count()>0)&&(SourceImage!=NULL)) {
-
-        cSoundBlockList *SoundTrackMontage=(IsCurrentObject?Info->CurrentObject_SoundTrackMontage:Info->TransitObject_SoundTrackMontage);
-        int             ObjectNumber =IsCurrentObject?Info->CurrentObject_Number:Info->TransitObject_Number;
-        int             ShotNumber   =IsCurrentObject?Info->CurrentObject_ShotSequenceNumber:Info->TransitObject_ShotSequenceNumber;
-        cDiaporamaShot  *PreviousShot=(ShotNumber>0?&List[ObjectNumber].List[ShotNumber-1]:NULL);
-
         for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
             cCompositionObject *PrevCompoObject=NULL;
             if (PreviousShot) {
@@ -1487,8 +1500,8 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
             if ((!SoundTrackMontage)&&(CurShot->ShotComposition.List[j].BackgroundBrush.Video)) CurShot->ShotComposition.List[j].BackgroundBrush.Video->NextPacketPosition+=Info->FrameDuration;
         }
 
-        if ((!SoundOnly)&&(P)) P->end();
         if (P) {
+            P->end();
             delete P;
             P=NULL;
         }
@@ -1771,11 +1784,6 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     // W and H = 0 when producing sound track in render process
     bool SoundOnly=((W==0)&&(H==0));
 
-    QFuture<void> ThreadLoadSourceImage;
-    QFuture<void> ThreadLoadTransitImage;
-    QFuture<void> ThreadPrepareMusic;         // Thread preparation of music
-    QFuture<void> ThreadPrepareMusicTransit;  // Thread preparation of music of transit object
-
     if (Info->CurrentObject==NULL) {
         // Special for preview if no object
         // create an empty transparent image
@@ -1790,9 +1798,9 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         } else Info->CurrentObject_SourceImage=new QImage(5,5,QImage::Format_ARGB32_Premultiplied); // Create a very small image to have a ptr !
     } else {
         //==============> Image part
-        ThreadLoadSourceImage=QtConcurrent::run(this,&cDiaporama::ThreadLoadSourceVideoImage,Info,PreviewMode,W,H);
+        ThreadLoadSourceVideoImage(Info,PreviewMode,W,H);
         // same job for Transition Object if a previous was not keep !
-        if (Info->TransitObject) ThreadLoadTransitImage=QtConcurrent::run(this,&cDiaporama::ThreadLoadTransitVideoImage,Info,PreviewMode,W,H);
+        if (Info->TransitObject) ThreadLoadTransitVideoImage(Info,PreviewMode,W,H);
         //==============> Background part
         if (!SoundOnly) {
             // Search background context for CurrentObject if a previous was not keep !
@@ -1828,14 +1836,10 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         }
         // Start threads for next music bloc
         if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
-            ThreadPrepareMusic=QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
+            PrepareMusicBloc(Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
         if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack))
-            ThreadPrepareMusicTransit=QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
+            PrepareMusicBloc(Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
     }
-
-    // Wait for threads to be finished
-    ThreadLoadSourceImage.waitForFinished();
-    ThreadLoadTransitImage.waitForFinished();
 
     // Soundtrack mix with fade in/fade out
     if ((Info->IsTransition)&&((Info->CurrentObject_SoundTrackMontage)||(Info->TransitObject_SoundTrackMontage))) {
@@ -1879,10 +1883,6 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
             if (Paquet) av_free(Paquet);
         }
     }
-
-    // Ensure thread for music is finished
-    ThreadPrepareMusic.waitForFinished();
-    ThreadPrepareMusicTransit.waitForFinished();
 
     // Mix music with fade out of previous music track (if needed)
     if ((Info->IsTransition)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->List.count()>0)) {

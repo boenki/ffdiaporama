@@ -70,7 +70,6 @@ cvideofilewrapper::cvideofilewrapper() {
     VideoStreamNumber   = 0;
     NextPacketPosition  = -1;
     AdjustTimeStamp     = 0;
-    SoundVolume         = 1;                // Volume of soundtrack
     StartPos            = QTime(0,0,0,0);   // Start position
     EndPos              = QTime(0,0,0,0);   // End position
 }

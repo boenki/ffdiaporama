@@ -73,7 +73,6 @@ extern "C" {
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QFont>
-#include <QFuture>
 #include <QGraphicsItem>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
@@ -163,6 +162,8 @@ extern "C" {
 #define ICON_OBJECT_TEXTHIDE                "icons/object_textHide.png"
 #define ICON_OBJECT_MOVIEHIDE               "icons/object_movieHide.png"
 #define ICON_OBJECT_IMAGEHIDE               "icons/object_imageHide.png"
+#define ICON_RULER_ON                       "icons/ruler_ok.png"
+#define ICON_RULER_OFF                      "icons/ruler_ko.png"
 
 // Project geometry definition
 #define GEOMETRY_4_3                        0

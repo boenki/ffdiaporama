@@ -83,7 +83,7 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     Flag_InTimer            = false;
     IsInit                  = false;
 
-    DisplayMSec             = false;
+    DisplayMSec             = true;                                 // add msec to display
     IconPlay                = QIcon(ICON_PLAYERPLAY);
     IconPause               = QIcon(ICON_PLAYERPAUSE);
     PlayerPlayMode          = false;                                // Is player currently play mode
@@ -92,8 +92,8 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     ActualPosition          = -1;
     tDuration               =QTime(0,0,0,0);
 
-    ui->Position->setFixedWidth(DisplayMSec?170:130);
-    ui->BufferState->setFixedWidth(DisplayMSec?170:130);
+    ui->Position->setFixedWidth(DisplayMSec?190:130);
+    ui->BufferState->setFixedWidth(DisplayMSec?190:130);
     ui->Position->setText(QTime(0,0,0,0).toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
     this->FileInfo      = FileInfo;
     ui->CustomRuller->ActiveSlider(0);
@@ -262,8 +262,6 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
 void wgt_QVideoPlayer::SetPlayerToPause() {
     if (!(PlayerPlayMode && !PlayerPauseMode)) return;
     Timer.stop();                                   // Stop Timer
-    ThreadPrepareMontage.waitForFinished();         // Thread preparation of image
-    ThreadDoAssembly.waitForFinished();             // Thread for make assembly of background and images
     SDL_LockAudio();                                // Ensure callback will not be call now
     MixedMusic.ClearList();                         // Free sound buffers
     SDL_UnlockAudio();  // Ensure callback can now be call
@@ -424,7 +422,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     int LastPosition=0;
 
     // Add image to the list if it's not full
-    if ((ImageList.List.count()<BUFFERING_NBR_FRAME)&&(ThreadPrepareMontage.isRunning()==false)) {
+    if (ImageList.List.count()<BUFFERING_NBR_FRAME) {
 
         if (FileInfo) {
             // Calc LastPosition
@@ -445,8 +443,8 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
             // Create a new frame object
             cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
-            // Start thread to prepare
-            ThreadPrepareMontage=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true);
+            // Prepare image
+            PrepareImage(NewFrame,true);
         }
     }
     ui->BufferState->setValue(ImageList.List.count());
@@ -459,7 +457,6 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
     // if TimerTick update the preview
     if (TimerTick) {
-        if (ImageList.List.count()==0) ThreadPrepareMontage.waitForFinished();
         // Move slider to the position of the next frame
         if ((ImageList.List.count()>1)&&(ui->CustomRuller->Slider!=NULL))
             s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
@@ -485,11 +482,11 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
         }
 
         // Ensure SoundTracks are ready
-        if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)&&(Frame->CurrentObject->TypeObject!=DIAPORAMAOBJECTTYPE_IMAGE)) {
+        if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
             Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
             Frame->CurrentObject_SoundTrackMontage->SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
         }
-        if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)&&(Frame->TransitObject->TypeObject!=DIAPORAMAOBJECTTYPE_IMAGE)) {
+        if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
             Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
             Frame->TransitObject_SoundTrackMontage->SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
         }
@@ -499,7 +496,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     Diaporama->LoadSources(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),true);
 
     // Do Assembly
-    ThreadDoAssembly=QtConcurrent::run(Diaporama,&cDiaporama::DoAssembly,Frame,ui->MovieFrame->width(),ui->MovieFrame->height());
+    Diaporama->DoAssembly(Frame,ui->MovieFrame->width(),ui->MovieFrame->height());
 
     if ((SoundWanted)&&(Frame->CurrentObject)) {
         // Calc number of packet to mix
@@ -514,7 +511,6 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
             MixedMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
     }
     // Append this image to the queue
-    ThreadDoAssembly.waitForFinished();
     ImageList.AppendImage(Frame);
 }
 
@@ -581,7 +577,7 @@ void wgt_QVideoPlayer::SetActualDuration(int Duration) {
     int     TimeHour    =TimeSec/(60*60);
     int     TimeMinute  =(TimeSec%(60*60))/60;
     tDuration.setHMS(TimeHour,TimeMinute,TimeSec%60,TimeMSec);
-    ui->Position->setFixedWidth(DisplayMSec?170:130);
-    ui->BufferState->setFixedWidth(DisplayMSec?170:130);
+    //ui->Position->setFixedWidth(DisplayMSec?190:130);
+    //ui->BufferState->setFixedWidth(DisplayMSec?190:130);
     ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss")+" / "+tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
 }
