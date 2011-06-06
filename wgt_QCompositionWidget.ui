@@ -52,7 +52,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons/add_text.png</normaloff>icons/add_text.png</iconset>
+           <normaloff>img/add_text.png</normaloff>img/add_text.png</iconset>
          </property>
         </widget>
        </item>
@@ -66,7 +66,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons/trash.png</normaloff>icons/trash.png</iconset>
+           <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
          </property>
         </widget>
        </item>
@@ -391,7 +391,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>icons/RotateZ.png</pixmap>
+            <pixmap>img/RotateZ.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -404,7 +404,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>icons/RotateY.png</pixmap>
+            <pixmap>img/RotateY.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -417,7 +417,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>icons/RotateX.png</pixmap>
+            <pixmap>img/RotateX.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -654,7 +654,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/text_bold.png</normaloff>icons/text_bold.png</iconset>
+               <normaloff>img/text_bold.png</normaloff>img/text_bold.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -686,7 +686,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/text_italic.png</normaloff>icons/text_italic.png</iconset>
+               <normaloff>img/text_italic.png</normaloff>img/text_italic.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -715,7 +715,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/text_underline.png</normaloff>icons/text_underline.png</iconset>
+               <normaloff>img/text_underline.png</normaloff>img/text_underline.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -933,7 +933,7 @@ color: #000000;
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/text_align_left.png</normaloff>icons/text_align_left.png</iconset>
+               <normaloff>img/text_align_left.png</normaloff>img/text_align_left.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -968,7 +968,7 @@ color: #000000;
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/text_align_center.png</normaloff>icons/text_align_center.png</iconset>
+               <normaloff>img/text_align_center.png</normaloff>img/text_align_center.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -1000,7 +1000,7 @@ color: #000000;
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/text_align_justif.png</normaloff>icons/text_align_justif.png</iconset>
+               <normaloff>img/text_align_justif.png</normaloff>img/text_align_justif.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -1032,7 +1032,7 @@ color: #000000;
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/text_align_right.png</normaloff>icons/text_align_right.png</iconset>
+               <normaloff>img/text_align_right.png</normaloff>img/text_align_right.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -1083,7 +1083,7 @@ color: #000000;
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/text_align_vup.png</normaloff>icons/text_align_vup.png</iconset>
+               <normaloff>img/text_align_vup.png</normaloff>img/text_align_vup.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -1115,7 +1115,7 @@ color: #000000;
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/text_align_vcenter.png</normaloff>icons/text_align_vcenter.png</iconset>
+               <normaloff>img/text_align_vcenter.png</normaloff>img/text_align_vcenter.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -1147,7 +1147,7 @@ color: #000000;
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/text_align_vbottom.png</normaloff>icons/text_align_vbottom.png</iconset>
+               <normaloff>img/text_align_vbottom.png</normaloff>img/text_align_vbottom.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>

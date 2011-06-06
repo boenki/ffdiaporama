@@ -40,8 +40,14 @@ int main(int argc, char *argv[]) {
     CurrentLanguage=QLocale::system().name().left(2);
     AddToSystemProperties(QString(SYSTEMLOCAL_STR)+CurrentLanguage);
 
+    // Parse parameters
+    for (int i=1;i<argc;i++) {
+        QString Param=QString(argv[i]).toLower();
+        if (Param.startsWith("-lang=")) CurrentLanguage=Param.mid(QString("-lang=").length());
+    }
+
     // Validate if system locale is supported and if not force use of "en"
-    if (CurrentLanguage!="fr") CurrentLanguage="en";
+    if ((CurrentLanguage!="fr")&&(CurrentLanguage!="en")) CurrentLanguage="en";
 
     // Install translation (if needed)
     if (CurrentLanguage!="en") {
@@ -51,7 +57,7 @@ int main(int argc, char *argv[]) {
         AddToSystemProperties(QString(LOADEDLOCAL_STR)+AdjustDirForOS(QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm")));
     }
     AddSeparatorToSystemProperties();
-    Transparent.setTextureImage(QImage("icons/transparent.png"));  // Load transparent brush
+    Transparent.setTextureImage(QImage("img/transparent.png"));  // Load transparent brush
 
     MainWindow w(ApplicationConfig);
 

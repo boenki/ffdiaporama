@@ -199,7 +199,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/object_sound.png</normaloff>icons/object_sound.png</iconset>
+         <normaloff>img/object_sound.png</normaloff>img/object_sound.png</iconset>
        </property>
       </widget>
      </item>
@@ -210,7 +210,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/trash.png</normaloff>icons/trash.png</iconset>
+         <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
        </property>
       </widget>
      </item>
@@ -221,7 +221,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/arrow_up.png</normaloff>icons/arrow_up.png</iconset>
+         <normaloff>img/arrow_up.png</normaloff>img/arrow_up.png</iconset>
        </property>
       </widget>
      </item>
@@ -232,7 +232,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/arrow_down.png</normaloff>icons/arrow_down.png</iconset>
+         <normaloff>img/arrow_down.png</normaloff>img/arrow_down.png</iconset>
        </property>
       </widget>
      </item>
@@ -361,7 +361,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_ok.png</normaloff>icons/action_ok.png</iconset>
+         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -372,7 +372,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_cancel.png</normaloff>icons/action_cancel.png</iconset>
+         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -383,7 +383,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
+         <normaloff>img/help.png</normaloff>img/help.png</iconset>
        </property>
       </widget>
      </item>

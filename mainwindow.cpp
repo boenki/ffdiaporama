@@ -49,7 +49,7 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     ApplicationConfig->ParentWindow=this;
 
     QSplashScreen screen;
-    screen.setPixmap(QPixmap("icons/splash.png"));
+    screen.setPixmap(QPixmap("img/splash.png"));
     screen.show();
     QCoreApplication::processEvents();  // Give time to interface !
 
@@ -743,6 +743,7 @@ void MainWindow::s_action_AddFile() {
 
     // Sort files in the fileList
     if (Diaporama->ApplicationConfig->SortFile) {
+        // Sort by last number
         for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
             QString NameA=QFileInfo(FileList[j]).completeBaseName();
             int NumA=NameA.length()-1;
@@ -755,6 +756,11 @@ void MainWindow::s_action_AddFile() {
             if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
 
             if (NumA>NumB) FileList.swap(j,j+1);
+        }
+    } else {
+        // Sort by alphabetical order
+        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
+            if (QFileInfo(FileList[j]).completeBaseName()>QFileInfo(FileList[j+1]).completeBaseName()) FileList.swap(j,j+1);
         }
     }
 

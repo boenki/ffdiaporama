@@ -41,7 +41,7 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     //********************************
     // EditorOptions part
     //********************************
-    ui->SortFileCB->setChecked(ApplicationConfig->SortFile==0);
+    ui->SortFileCB->setChecked(ApplicationConfig->SortFile);
     ui->AppendObjectCB->setCurrentIndex(ApplicationConfig->AppendObject?1:0);
     ui->FramingWidth->setChecked( ApplicationConfig->DefaultFraming==0);
     ui->FramingHeight->setChecked(ApplicationConfig->DefaultFraming==1);
@@ -105,7 +105,7 @@ DlgApplicationSettings::~DlgApplicationSettings() {
 //====================================================================================================================
 
 void DlgApplicationSettings::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpApplicationSettings.php")));
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+HELPFILE_DlgApplicationSettings));
 }
 
 //====================================================================================================================
@@ -143,6 +143,7 @@ void DlgApplicationSettings::accept() {
 
     // Editor Options part
     ApplicationConfig->AppendObject    =ui->AppendObjectCB->currentIndex()==1;
+    ApplicationConfig->SortFile        =ui->SortFileCB->isChecked();
     if (ui->FramingWidth->isChecked())  ApplicationConfig->DefaultFraming=0;
     if (ui->FramingHeight->isChecked()) ApplicationConfig->DefaultFraming=1;
     if (ui->FramingFull->isChecked())   ApplicationConfig->DefaultFraming=2;

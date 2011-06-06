@@ -1,98 +1,207 @@
 Buggs :
-    Erreur de d�calage des mise en pause des musiques
+    Erreur de décalage des mises en pause des musiques
+    Vérifier les options de trie sous Windows
     SSE2 dans VirtualBox ! Plus moyen d'arreter SSE2 avec Qt 4.7.3 !
-    Tester les g�n�rations avec plusieurs lecteurs : g�om�trie douteuse !
+    Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 
 A faire  :
-    Revoir DlgBackgroundProperties pour int�grer la customscene en la r��crivant comme dans DlgSlide
-    Transferer le control de volume de la boite video � la boite slide (A voir ???)
-    Calculer et afficher la dur�e mini des blocs
-    Autoriser les blocs � sortir de l'�cran
+    Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
+    Transferer le control de volume de la boite video à la boite slide (A voir ???)
+    Calculer et afficher la durée mini des blocs
+    Autoriser les blocs à sortir de l'écran
 
-----------------------------------------------
-Changelog depuis la version Alpha1 : 20110513
-----------------------------------------------
+---------------------------------
+Prévision pour la version Alpha3
+---------------------------------
+- Rendre la forme des objets non global
+- Rendre la bordure des objets non global
+- Pouvoir définir la couleur de l'ombre des objets
+- Rendre l'ombre des objets non global
+- Ajouter des animations de texte (scrolling, zoom in/out)
+- Ajouter une option pour afficher les coordonnées en pixel plutôt qu'en %
+- Permettre d'avoir d'autres animations pour les bloc entrant (1er shot ou bloc invisible dans le shot précedent)
+- Permettre d'avoir des animations pour les bloc sortant (Dernier shot ou bloc invisible dans le shot suivant)
+- Faire les transitions de fonds (à réfléchir !) +Faire la boite de modif des transitions de fond
+- Ajouter un mode de selection de rendu selon une liste de device
+- Faire les fade in/out des musiques lors des changements de volume
+- Remettre une gestion des threads (pour la preview uniquement)
+- Ajouter un skip de frame inutile dans cvideofilewrapper::ReadVideoFrame
+- Revoir les messages d'erreurs lié à exiv2 dans _ImageFileWrapper
+
+-----------------------------------------------------------------
+Alpha2-20110606 : Changelog depuis la version Alpha2 : 20110605
+-----------------------------------------------------------------
+- Ajoute un paramètre de ligne de commande (-lang=local) pour forcer l'utilisation d'une langue
+- Renomage du répertoire icons en img et du répertoire transition-icons en transition-img pour compatibilité
+    avec le site WEB (qui interdit un répertoire icons à la racine du site)
+- Corrige la largeur des custom combobox sous Windows
+- Corrige un problème avec le trie lors de l'insertion des fichiers sous Windows
+- Ajout des pages d'aide Français/Anglais pour les boites "Editer le texte" et "Options du programme"
+
+-----------------------------------------------------------------
+Alpha2-20110605 : Changelog depuis la version Alpha1 : 20110513
+-----------------------------------------------------------------
 
 Passage en Alpha2 :
 
     Le passage en alpha2 se justifie par la modification en cours de l'univers des slides :
-        Alpha1 comme videoporama definissent les slides comme �tant une image ou une vid�o sur laquelle s'applique une composition global
-        Chaque slide est compos� d'une s�rie de couple de plan mobile/plan fixe.
+        Alpha1 comme videoporama definissent les slides comme étant une image ou une vidéo sur laquelle s'applique une composition global
+        Chaque slide est composé d'une série de couple de plan mobile/plan fixe.
         Chaque couple de plan possede une composition
 
     Dans le nouvel univers :
-        Chaque slide est d�fini comme �tant une composition et une s�rie de plan
-        Pour chaque plan de la s�rie on d�finit les propri�t�s des blocs de la composition (les blocs existent dans tous les plans mais peuvent etre masqu�s plan par plan)
-        Les blocs de composition peuvent etre du texte, une photo ou une vid�o
+        Chaque slide est défini comme étant une composition et une série de plan
+        Pour chaque plan de la série on définit les propriétés des blocs de la composition (les blocs existent dans tous les plans mais peuvent etre masqués plan par plan)
+        Les blocs de composition peuvent etre du texte, une photo ou une vidéo
 
-    Ces modifications majeures entrainent une modification profonde de l'interface et du fichier de donn�es.
-    (Note : D�sol� mais la compatibilit� ascendante des anciennes sauvegardes n'est pas assur�e)
+    Ces modifications majeures entrainent une modification profonde de l'interface et du fichier de données.
+    (Note : Désolé mais la compatibilité ascendante des anciennes sauvegardes n'est pas assurée)
 
-    Gains cot� interface :
-        L'interface n'est plus compos�e que d'une boite unique de composition.
-        Cette boite appele par des boutons les fonctions de recadrage/correction, de filtre et d'edition vid�o
-        Cela deviend beaucoup plus simple � utiliser
+    Gains coté interface :
+        L'interface n'est plus composée que d'une boite unique de composition.
+        Cette boite appele par des boutons les fonctions de recadrage/correction, de filtre et d'edition vidéo
+        Cela deviend beaucoup plus simple à utiliser
 
-    Gains cot� fonctionnalit� :
+    Gains coté fonctionnalité :
         Il deviend possible d'avoir plusieurs images/video sur un meme slide
-        Il deviend possible de r�duire l'affichage des images/videos : Elles n'occupent plus forc�ment tout l'�cran
-        Il deviend possible d'ajouter des animations de positionnement des images/videos sur l'�cran (en plus des effets ken burns)
-        Il deviend possible de jouer avec le positionnement arri�re plan/premier plan entre les blocs
-        Il deviend possible d'appliquer une forme aux images/videos (cercle, triangle, etc...) alors qu'avant, seul le rectangle �tait possible
+        Il deviend possible de réduire l'affichage des images/videos : Elles n'occupent plus forcément tout l'écran
+        Il deviend possible d'ajouter des animations de positionnement des images/videos sur l'écran (en plus des effets ken burns)
+        Il deviend possible de jouer avec le positionnement arrière plan/premier plan entre les blocs
+        Il deviend possible d'appliquer une forme aux images/videos (cercle, triangle, etc...) alors qu'avant, seul le rectangle était possible
 
-D�tails des modifications :
+Détails des modifications :
 
-- Creation d'une boite de dialogue comune pour tous les objets et de 4 sous boites pour la correction d'image, la transformation d'image, l'edition video et l'�dition de texte
-- D�placement des donn�es de recadrage/rotation dans le sous object de correction d'image et modification du format de fichier (compatibilit� ascendante des anciennes sauvegardes !)
-- Suppression des compositions globales (pour tous les types d'objet). Pour compatibilit� ascendante des anciennes sauvegardes : transfert des blocs dans la composition du 1er plan
+- Creation d'une boite de dialogue comune pour tous les objets et de 4 sous boites pour la correction d'image, la transformation d'image, l'edition video et l'édition de texte
+- Déplacement des données de recadrage/rotation dans le sous object de correction d'image et modification du format de fichier (compatibilité ascendante des anciennes sauvegardes !)
+- Suppression des compositions globales (pour tous les types d'objet). Pour compatibilité ascendante des anciennes sauvegardes : transfert des blocs dans la composition du 1er plan
 - Supprime la notion de Canvas :
     L'application fonctionne en FullCanvas uniquement
-    Pour compatibilit� ascendante des anciennes sauvegardes : les anciennes coordonn�es sont converties si elle �taient dans l'ancien mode "Normal Canvas"
-- Supprime la notion de "pas de forme" pour tous les blocs : Pour compatibilit� ascendante des anciennes sauvegardes, les blocs sans forme passent en rectangle+bordure=0+brush=sans
-- Supprime le fichier flag _BUILDVERSION.txt (plus d'utilit� maintenant que les paquets sont toujours entiers)
-- Fait le m�nage dans les icones => Supprime les icones non utilis�es et renome certaines icones
-- Supprime la notion de dur�e du projet (les dur�es sont toutes d�finies dans les slides et ne font plus r�f�rences aux dur�es par d�faut du projet)
-- Corrige le probl�me de compilation sous Fedora 15 avec la nouvelle version de fmmpeg
-- Corrige la sauvegarde des positions des fenetres qui �taient fausses avec GNOME Classic
-- Conserve le dernier �tat des boutons � fleches (voir/cacher) des options dans la boite slide (durant la session uniquement)
-- Suppression du ZValue des blocks : L'ordre des blocs dans la table d�finie l'ordre d'affichage
+    Pour compatibilité ascendante des anciennes sauvegardes : les anciennes coordonnées sont converties si elle étaient dans l'ancien mode "Normal Canvas"
+- Supprime la notion de "pas de forme" pour tous les blocs : Pour compatibilité ascendante des anciennes sauvegardes, les blocs sans forme passent en rectangle+bordure=0+brush=sans
+- Supprime le fichier flag _BUILDVERSION.txt (plus d'utilité maintenant que les paquets sont toujours entiers)
+- Fait le ménage dans les icones => Supprime les icones non utilisées et renome certaines icones
+- Supprime la notion de durée du projet (les durées sont toutes définies dans les slides et ne font plus références aux durées par défaut du projet)
+- Corrige le problème de compilation sous Fedora 15 avec la nouvelle version de fmmpeg
+- Corrige la sauvegarde des positions des fenetres qui étaient fausses avec GNOME Classic
+- Conserve le dernier état des boutons à fleches (voir/cacher) des options dans la boite slide (durant la session uniquement)
+- Suppression du ZValue des blocks : L'ordre des blocs dans la table définie l'ordre d'affichage
 - [Windows] Passage aux versions QT 4.7.3 et ffmpeg 27/05/2011
-- Corrige le probl�me de fermture sous Windows (pas de SDL_CloseAudio si aucun son n'a �t� jou�)
+- Corrige le problème de fermture sous Windows (pas de SDL_CloseAudio si aucun son n'a été joué)
 - Corrige des liens absolus vers des images dans plusieurs boites de dialogue
 - Suppression de la boite de configuration de projet -> il n'y a plus que la boite de configuration de l'application
-- R�organisation du menu
+- Réorganisation du menu
 - Transfert de la zone d'information EXIF dans la boite Slide
-
-=========> Depuis le dernier SVN
-- R�gle le probl�me du son des vid�os dans les rendus
-- Corrige le bugg d'affichage dans la timeline sur le fade out des bandes son des vid�os
-- Transforme la propri�t� SoundVolume des vid�os en non global => on peut maintenant changer qui a le son d'un plan � l'autre
-- Fait en sorte � ce qu'une video ajout�e dans la boite slide ne prenne le son qu'� partir du shot en cours
-- Fait en sorte � ce que les blocs ajout�s ne soient visibles qu'� partir du shot en cours
-- Corrige l'erreur de calcul dans la boite de correction : l'object RectItem n'�tait pas en conformit� avec ce qui est affich�
+- Règle le problème du son des vidéos dans les rendus
+- Corrige le bugg d'affichage dans la timeline sur le fade out des bandes son des vidéos
+- Transforme la propriété SoundVolume des vidéos en non global => on peut maintenant changer qui a le son d'un plan à l'autre
+- Fait en sorte à ce qu'une video ajoutée dans la boite slide ne prenne le son qu'à partir du shot en cours
+- Fait en sorte à ce que les blocs ajoutés ne soient visibles qu'à partir du shot en cours
+- Corrige l'erreur de calcul dans la boite de correction : l'object RectItem n'était pas en conformité avec ce qui est affiché
 - Transfert de l'objet FilterTransformObject de cBrushDefinition vers les wrappers
-- Corrige l'erreur de calcul quand changement de g�om�trie dans les animations
-- Ajoute une option dans la boite de configuration pour trier les fichiers � ins�rer dans l'ordre du dernier num�ro plutot que dans l'ordre alphab�tique
-- Nettoyage m�moire : Ne conserve plus les images en full size tout le temps (r�duction de la m�moire necessaire pour fonctionner)
-- Suppression de la gestion des threads (laisse tout � ffmpeg)
+- Corrige l'erreur de calcul quand changement de géométrie dans les animations
+- Ajoute une option dans la boite de configuration pour trier les fichiers à insérer dans l'ordre du dernier numéro plutot que dans l'ordre alphabétique
+- Nettoyage mémoire : Ne conserve plus les images en full size tout le temps (réduction de la mémoire necessaire pour fonctionner)
+- Suppression de la gestion des threads (laisse tout à ffmpeg)
 - Ajoute l'affichage des millisecondes au player video
 - Gestion des guides correspondant aux marges TV dans la boite slide
 - Gestion des couper/copier/coller de block dans la boite slide
 - Correction du bugg de lancement de ffmpeg pour Windows !
 
----------------------------------
-Pr�vision pour la version Alpha3
----------------------------------
-- Rendre la forme des objets non global
-- Rendre la bordure des objets non global
-- Pouvoir d�finir la couleur de l'ombre des objets
-- Rendre l'ombre des objets non global
-- Ajouter des animations de texte (scrolling, zoom in/out)
-- Permettre d'avoir d'autres animations pour les block entrant (1er shot ou block invisible dans le shot pr�cedent)
-- Permettre d'avoir des animations pour les block sortant (Dernier shot ou block invisible dans le shot suivant)
-- Faire les transitions de fonds (� r�fl�chir !) +Faire la boite de modif des transitions de fond
-- Ajouter un mode de selection de rendu selon une liste de device
-- Faire les fade in/out des musiques lors des changements de volume
-- Remettre une gestion des threads (pour la preview uniquement)
-- Ajouter un skip de frame inutile dans cvideofilewrapper::ReadVideoFrame
-- Revoir les messages d'erreurs li� � exiv2 dans _ImageFileWrapper
+--------------------------------------------------------
+Alpha1-20110513 : Changelog depuis la version 20110509
+--------------------------------------------------------
+- Corrige un bug sur la fermeture de SDL qui n'était pas toujours effectuée
+- Corrige un bug sur le calcul de la taille des bordures extérieurs des formes
+- Corrige un bug lors des chargements de projet : Si un fichier n'est pas trouvé (déplacement/renommage), propose d'en sélectionner un autre
+- Corrige un bug dans le recadrage des images : les blocs ne doivent pas apparaitre sur l'image
+
+- Suppresion des bordures intérieurs des formes : Pour le moment ça pose trop de problèmes !
+- Ajout des rotations de formes (sur les 3 axes)
+- La transparence devient global à la forme (texte+fond) et s'applique maintenant meme s'il n'y a que du texte
+- Activation des options d'anti-aliasing pour la génération des formes
+- Ajout du type de ligne pour la bordure des formes
+- Ajout des ombres sur les formes
+- Déplacement des variables SoundVolume, StartPos et EndPos de cDiaporamaObject ou cDiaporamaShot vers cVideoFileWrapper
+- Charge les images dans les blocs dont le fond est positionné sur "Image from disk"
+
+---------------------------------------------------------
+Alpha1-20110509 : Changelog depuis la version 20110506
+---------------------------------------------------------
+- Correction d'un bugg induit par la précédente fusion des onglets image correction et recadrage dans les boites de modif
+    L'image affichée dans la boite n'est pas la bonne !
+- Remplacement de la fonte Ubuntu par sans-serif dans toutes les boites de dialogue
+- Ajout de directives de compilation pour portabilité vers FEDORA
+
+---------------------------------------------------------
+Alpha1-20110506 : Changelog depuis la version 20110429
+---------------------------------------------------------
+Correction de bugg :
+    L'image ne respectait pas la géométrie dans l'onglet composition de la boite image [Interface]
+        Les textes de background ne subissaient pas l'opacité dans les transitions !
+    Correction de plusieurs fuites mémoire dans la boite image [Interface]
+    Correction d'une fuite mémoire dans la preview [Render]
+    Les réductions de volume sonore était désynchronisée [Preview+Render]
+    Correction des 4 CustomCombo pour lesquels la sélection sur la même ligne ne générait pas de rafraichissement
+        Le filtre de transformation ne s'enlevait pas quand on repasse à normal dans la boite vidéo !
+    Correction d'une erreur de calcul dans le dessin des fonds de bloc avec des brosses basées sur des images
+        Le remplissage des formes n'était pas toujours complet
+
+Fusion des onglets plan et correction d'image [Interface]
+    Simplification de l'interface
+    La correction d'image devient disponible pour les videos
+
+Ajout du nom de fichier et de la durée des slides dans l'affichage des thumbnails [Interface]
+Ajout d'une combo dans la boite vidéo - Onglet edition - pour régler le volume du son des vidéos
+Implementation de la fonction d'ajout d'un sous projet
+Transformation de l'option "Image de la librairie" des sélections de brosse [Arriere-plan + brosse des blocs de composition]
+    Les images de la librairie apparaissent désormais sous forme de combobox et non plus de table
+    Simplification de l'interface
+
+Transformation du fonctionnement de la librairie pour les images d'arrière plan :
+    Un fichier de licence n'est plus obligatoire pour chaque image
+    Les images peuvent maintenant etre aussi des png (en plus des jpg)
+
+Modification du fonctionnement de la custom combobox pour les couleurs :
+    Maintenant si on click sur la couleur custom, la boite couleur est affichée
+    Suppression des boutons d'appel de la boite couleur dans les onglets de composition et de fond d'écran
+
+Modification des formes triangulaires (elles deviennent des polygones réguliers)
+Modification des bordures des blocs (ajout d'une bordure intérieur)
+    Le travail est encore en cours ...
+
+-------------------------------------------------------------------------------------------
+Alpha1-20110429 : Changelog depuis la build 20110424
+-------------------------------------------------------------------------------------------
+- Correction d'un bugg qui empêchait la production des thumbnails pour certaines photo
+- Correction d'une erreur de calcul qui réduisait considérablement la qualité des images [Preview+render]
+- Correction d'un bugg lié à la lecture des musiques [Preview+render]
+    Les musiques s'arrêtaient après le passage d'une vidéo et n'étaient plus jouées que lors des transitions
+- Correction d'un bugg : La preview n'était pas mise à jour en sortie des boites de modification
+- Correction d'un bugg lié à la sélection à la souris des blocs dans les compositions de texte
+    Les blocs de texte étaient mal sélectionnés quand on changeaient de plan en étant déjà dans l'onglet
+
+- Transformation du moteur de génération des videos [render]
+    Les libav sont maintenant utilisées pour la génération d'un fichier son temporaire puis la vidéo est compilée via ffmpeg en externe avec utilisation du fichier son temporaire
+- Ajout de formats de rendu [render]
+    Ajout des containers Flash (FLV), WebM et MPEG
+    Ajout des codecs FLV, Sorenson H.263, VP8 et Mpeg2video
+- Correction des liens WEB cassés dans les menus
+    Suite au passage en PHP des pages du sites WEB, certains liens ne s'ouvraient plus
+- Privilégie libfaac à l'encodeur aac interne de ffmpeg [render]
+    Si libfaac est détecté par ffmpeg, il est utilisé en lieu et place de l'encodeur interne : La qualité de l'aac etait mauvaise dans les rendues avec la version ffmpeg de Ubuntu/Maverick
+- Privilégie libxvid à l'encodeur mpeg4 interne de ffmpeg [render]
+    Si libxvid est détecté par ffmpeg, il est utilisé en lieu et place de l'encodeur interne
+- Correction du bugg de chargement des images de fond dans la librairie [Version Windows]
+    Remet les séparateurs dans le bon sens pour les noms de répertoire
+- Correction du bugg d'affichage des répertoires dans system properties (boite A propos de) [Version Windows]
+    Remet les séparateurs dans le bon sens pour les noms de répertoire
+- Correction du bugg d'affichage des noms de fichier dans la zone d'informations [Version Windows]
+    Remet les séparateurs dans le bon sens pour les noms de répertoire
+- Adaptation de toutes les boites de dialogue pour Qt 4.7.2 et Windows
+    Windows et Qt 4.7.2 ajoutent des nouvelles options pour certains contrôles comme des shapes supplémentaires, un déplacement du % dans les progress bar etc...
+- Ajout d'un bouton d'aide dans toutes les boites de dialogue
+- Ajout d'un SplashScreen de démarrage
+
+-------------------------------------------------------------------------------------------
+Alpha1-20110424 : 1ere version publiée
+-------------------------------------------------------------------------------------------

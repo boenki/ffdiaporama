@@ -219,7 +219,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/text_bold.png</normaloff>icons/text_bold.png</iconset>
+         <normaloff>img/text_bold.png</normaloff>img/text_bold.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -251,7 +251,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/text_italic.png</normaloff>icons/text_italic.png</iconset>
+         <normaloff>img/text_italic.png</normaloff>img/text_italic.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -280,7 +280,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/text_underline.png</normaloff>icons/text_underline.png</iconset>
+         <normaloff>img/text_underline.png</normaloff>img/text_underline.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -334,7 +334,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/text_align_left.png</normaloff>icons/text_align_left.png</iconset>
+         <normaloff>img/text_align_left.png</normaloff>img/text_align_left.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -369,7 +369,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/text_align_center.png</normaloff>icons/text_align_center.png</iconset>
+         <normaloff>img/text_align_center.png</normaloff>img/text_align_center.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -401,7 +401,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/text_align_justif.png</normaloff>icons/text_align_justif.png</iconset>
+         <normaloff>img/text_align_justif.png</normaloff>img/text_align_justif.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -433,7 +433,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/text_align_right.png</normaloff>icons/text_align_right.png</iconset>
+         <normaloff>img/text_align_right.png</normaloff>img/text_align_right.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -490,7 +490,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/text_align_vup.png</normaloff>icons/text_align_vup.png</iconset>
+         <normaloff>img/text_align_vup.png</normaloff>img/text_align_vup.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -522,7 +522,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/text_align_vcenter.png</normaloff>icons/text_align_vcenter.png</iconset>
+         <normaloff>img/text_align_vcenter.png</normaloff>img/text_align_vcenter.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -554,7 +554,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/text_align_vbottom.png</normaloff>icons/text_align_vbottom.png</iconset>
+         <normaloff>img/text_align_vbottom.png</normaloff>img/text_align_vbottom.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -657,7 +657,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_ok.png</normaloff>icons/action_ok.png</iconset>
+         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -668,7 +668,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_cancel.png</normaloff>icons/action_cancel.png</iconset>
+         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -679,7 +679,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
+         <normaloff>img/help.png</normaloff>img/help.png</iconset>
        </property>
       </widget>
      </item>
