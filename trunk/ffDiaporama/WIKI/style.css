@@ -1,0 +1,90 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  text-decoration: none;
+  font-size: 1.1em;
+  text-transform: none;
+  font-family: Arial,Helvetica,sans-serif;
+  font-style: normal;
+}
+body, td {
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 10pt;
+  color: black;
+}
+img {
+  border:  none;
+  font-family: Arial,Helvetica,sans-serif;
+}
+#menu {
+  display: block; 
+  list-style: none;
+  position: absolute;  top: 0px;  	left: 0px;	
+  float: left;         width: 150px;	height: 100%;
+  background-color: #e0e0e0;
+}
+html>body #menu {
+  position: fixed;
+}
+#fixe-haut {
+  position: absolute;	top: 0px; 	left: 150px;
+  float: top;		width: 1000px; height: 42px;
+  background: #e0e0e0;
+  border-bottom: 2px solid #000000;
+}
+html>body #fixe-haut {
+  position: fixed;
+}
+#content {
+  width: 1000px;	height: 100%;
+  padding-top: 44px;	padding-left: 150px;
+  background-image: url("../img/background.png");
+  background-repeat: repeat;
+  background-attachment: scroll;
+}
+html>body #content {
+}
+h1 {
+  color: #f95304;
+  line-height: 20pt;
+  text-transform: none;
+  text-decoration: none;
+  font-size: 20pt;
+  font-weight: bold;
+  font-style: normal;
+  text-align: left;
+}
+h2 {
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 14pt;
+  color: maroon;
+  font-weight: bold;
+}
+h3 {
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 12pt;
+  font-weight: bold;
+  color: maroon;
+}
+h4 {
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 10pt;
+  font-weight: bold;
+  text-decoration: underline;
+  color: maroon;
+}
+h5 {
+  font-size: 10pt;
+  font-family: Arial,Helvetica,sans-serif;
+  color: black;
+  text-decoration: underline;
+}
+a:link, a:visited {
+  color: blue;
+  text-decoration: none;
+}
+a:hover {
+  color: maroon;
+  text-decoration: underline;
+}
