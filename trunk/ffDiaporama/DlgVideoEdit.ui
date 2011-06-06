@@ -61,7 +61,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/player_rew.png</normaloff>icons/player_rew.png</iconset>
+         <normaloff>img/player_rew.png</normaloff>img/player_rew.png</iconset>
        </property>
       </widget>
      </item>
@@ -75,7 +75,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/PosStart.png</normaloff>icons/PosStart.png</iconset>
+         <normaloff>img/PosStart.png</normaloff>img/PosStart.png</iconset>
        </property>
       </widget>
      </item>
@@ -164,7 +164,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/PosEnd.png</normaloff>icons/PosEnd.png</iconset>
+         <normaloff>img/PosEnd.png</normaloff>img/PosEnd.png</iconset>
        </property>
       </widget>
      </item>
@@ -178,7 +178,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/player_fwd.png</normaloff>icons/player_fwd.png</iconset>
+         <normaloff>img/player_fwd.png</normaloff>img/player_fwd.png</iconset>
        </property>
       </widget>
      </item>
@@ -289,7 +289,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_ok.png</normaloff>icons/action_ok.png</iconset>
+         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -300,7 +300,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_cancel.png</normaloff>icons/action_cancel.png</iconset>
+         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -311,7 +311,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
+         <normaloff>img/help.png</normaloff>img/help.png</iconset>
        </property>
       </widget>
      </item>

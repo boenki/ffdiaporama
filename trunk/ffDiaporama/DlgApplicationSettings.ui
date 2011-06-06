@@ -317,7 +317,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>icons/AdjustW.png</normaloff>icons/AdjustW.png</iconset>
+             <normaloff>img/AdjustW.png</normaloff>img/AdjustW.png</iconset>
            </property>
            <attribute name="buttonGroup">
             <string>FramingButtons</string>
@@ -337,7 +337,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>icons/AdjustH.png</normaloff>icons/AdjustH.png</iconset>
+             <normaloff>img/AdjustH.png</normaloff>img/AdjustH.png</iconset>
            </property>
            <attribute name="buttonGroup">
             <string>FramingButtons</string>
@@ -357,7 +357,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>icons/AdjustWH.png</normaloff>icons/AdjustWH.png</iconset>
+             <normaloff>img/AdjustWH.png</normaloff>img/AdjustWH.png</iconset>
            </property>
            <attribute name="buttonGroup">
             <string>FramingButtons</string>
@@ -400,7 +400,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>icons/random.png</normaloff>icons/random.png</iconset>
+             <normaloff>img/random.png</normaloff>img/random.png</iconset>
            </property>
            <attribute name="buttonGroup">
             <string>TransitionButtons</string>
@@ -420,7 +420,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>transitions-icons/tr-00-00.png</normaloff>transitions-icons/tr-00-00.png</iconset>
+             <normaloff>transitions-img/tr-00-00.png</normaloff>transitions-img/tr-00-00.png</iconset>
            </property>
            <attribute name="buttonGroup">
             <string>TransitionButtons</string>
@@ -440,7 +440,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>transitions-icons/tr-00-01.png</normaloff>transitions-icons/tr-00-01.png</iconset>
+             <normaloff>transitions-img/tr-00-01.png</normaloff>transitions-img/tr-00-01.png</iconset>
            </property>
            <attribute name="buttonGroup">
             <string>TransitionButtons</string>
@@ -1038,7 +1038,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_ok.png</normaloff>icons/action_ok.png</iconset>
+         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -1049,7 +1049,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_cancel.png</normaloff>icons/action_cancel.png</iconset>
+         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -1060,7 +1060,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
+         <normaloff>img/help.png</normaloff>img/help.png</iconset>
        </property>
       </widget>
      </item>

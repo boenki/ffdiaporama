@@ -63,6 +63,8 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QWidget *parent)
     ui->fontEffectCB->addItem(QCoreApplication::translate("DlgTextEdit","Shadow upper right"));
     ui->fontEffectCB->addItem(QCoreApplication::translate("DlgTextEdit","Shadow bottom left"));
     ui->fontEffectCB->addItem(QCoreApplication::translate("DlgTextEdit","Shadow bottom right"));
+    ui->fontEffectCB->view()->setFixedWidth(160+18);
+    ui->fontEffectCB->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     MakeTextStyleIcon(ui->fontEffectCB);
 
     RefreshControls();
@@ -118,7 +120,7 @@ void DlgTextEdit::accept() {
 //====================================================================================================================
 
 void DlgTextEdit::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpSlideProperties.php")));
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+HELPFILE_DlgTextEdit));
 }
 
 //====================================================================================================================

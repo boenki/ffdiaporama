@@ -56,7 +56,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons/zoomup.png</normaloff>icons/zoomup.png</iconset>
+           <normaloff>img/zoomup.png</normaloff>img/zoomup.png</iconset>
          </property>
         </widget>
        </item>
@@ -67,7 +67,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons/zoomdown.png</normaloff>icons/zoomdown.png</iconset>
+           <normaloff>img/zoomdown.png</normaloff>img/zoomdown.png</iconset>
          </property>
         </widget>
        </item>
@@ -245,7 +245,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_ok.png</normaloff>icons/action_ok.png</iconset>
+         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -256,7 +256,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_cancel.png</normaloff>icons/action_cancel.png</iconset>
+         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -267,7 +267,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
+         <normaloff>img/help.png</normaloff>img/help.png</iconset>
        </property>
       </widget>
      </item>

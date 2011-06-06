@@ -73,7 +73,7 @@ void cCustomColorComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
     } else {
         if (ColorNum==MAXCOLORREF) {
             painter->fillRect(option.rect,QColor(ComboBox->SavedCustomColor));
-            QImage  Img("icons/colorize.png");
+            QImage  Img("img/colorize.png");
             painter->drawImage(QRectF(option.rect.x()+(option.rect.width()-16)/2,option.rect.y()+(option.rect.height()-16)/2,16,16),Img);
         } else {
             painter->fillRect(option.rect,Qt::white);
@@ -125,6 +125,8 @@ cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
     MakeIcons();
+    this->view()->setFixedWidth(5*24+18);
+    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
     connect(Table,SIGNAL(cellPressed(int,int)),this,SLOT(s_ItemPressed(int,int)));
 }
@@ -166,7 +168,7 @@ void cCustomColorComboBox::MakeIcons() {
     Painter.begin(&Image);
     if (ColorNum<MAXCOLORREF) Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),QColor(ColorRef[ColorNum])); else {
         Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),QColor(SavedCustomColor));
-        QImage  Img("icons/colorize.png");
+        QImage  Img("img/colorize.png");
         Painter.drawImage(QRectF((iconSize().width()-16)/2,(iconSize().height()-16)/2,16,16),Img,QRectF(0,0,Img.width(),Img.height()));
     }
     Painter.end();
@@ -268,6 +270,8 @@ cCustomBrushComboBox::cCustomBrushComboBox(QWidget *parent):QComboBox(parent) {
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
     MakeIcons();
+    this->view()->setFixedWidth(4*24+18);
+    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 
@@ -397,6 +401,8 @@ cGradientOrientationComboBox::cGradientOrientationComboBox(QWidget *parent):QCom
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
     MakeIcons();
+    this->view()->setFixedWidth(3*32+18);
+    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 
@@ -485,7 +491,10 @@ void cOnOffFilterComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
     if ((ColorNum & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Equalize");
     if ((ColorNum & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Despeckle");
     if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
-    painter->drawText(option.rect,Text);
+    painter->setPen(QPen(Qt::black));
+    painter->drawText(QRectF(option.rect.left()+1+5,option.rect.top()+1+5,option.rect.width(),option.rect.height()),Text);
+    painter->setPen(QPen(Qt::white));
+    painter->drawText(QRectF(option.rect.left()+5,option.rect.top()+5,option.rect.width(),option.rect.height()),Text);
     if (option.state & QStyle::State_Selected) {
         painter->setPen(QPen(Qt::blue));
         painter->setBrush(QBrush(Qt::NoBrush));
@@ -565,6 +574,8 @@ void cOnOffFilterComboBox::SetCurrentFilter(QImage *TheSourceImage,int *OnOffFil
     if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
     setItemText(*OnOffFilter/4,Text);
     setCurrentIndex(*OnOffFilter/4);
+    this->view()->setFixedWidth(SourceImage.width()*4+18);
+    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 }
 
 //========================================================================================================================
@@ -633,6 +644,8 @@ cBackgroundComboBox::cBackgroundComboBox(QWidget *parent):QComboBox(parent) {
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
     MakeIcons();
+    this->view()->setFixedWidth(114+18);
+    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 

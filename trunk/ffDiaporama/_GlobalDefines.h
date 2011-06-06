@@ -147,23 +147,23 @@ extern "C" {
 #define USERCONFIGFILE                      3                                       // Type of config file : USER
 #define BUFFERING_NBR_FRAME                 5                                       // Number of frame wanted in the playing buffer
 
-#define ICON_PLAYERPLAY                     "icons/player_play.png"                 // FileName of play icon
-#define ICON_PLAYERPAUSE                    "icons/player_pause.png"                // FileName of pause icon
-#define ICON_SHOTPRESENCE                   "icons/zoom.png"                        // FileName of icon representing shots in the timeline
-#define ICON_VISIBLE_OK                     "icons/Visible_OK.png"
-#define ICON_VISIBLE_KO                     "icons/Visible_KO.png"
-#define ICON_SOUND_OK                       "icons/object_sound.png"
-#define ICON_SOUND_KO                       "icons/sound_KO.png"
+#define ICON_PLAYERPLAY                     "img/player_play.png"                 // FileName of play icon
+#define ICON_PLAYERPAUSE                    "img/player_pause.png"                // FileName of pause icon
+#define ICON_SHOTPRESENCE                   "img/zoom.png"                        // FileName of icon representing shots in the timeline
+#define ICON_VISIBLE_OK                     "img/Visible_OK.png"
+#define ICON_VISIBLE_KO                     "img/Visible_KO.png"
+#define ICON_SOUND_OK                       "img/object_sound.png"
+#define ICON_SOUND_KO                       "img/sound_KO.png"
 
-#define ICON_OBJECT_TEXT                    "icons/object_text.png"
-#define ICON_OBJECT_SOUND                   "icons/object_sound.png"
-#define ICON_OBJECT_MOVIE                   "icons/object_movie.png"
-#define ICON_OBJECT_IMAGE                   "icons/object_image.png"
-#define ICON_OBJECT_TEXTHIDE                "icons/object_textHide.png"
-#define ICON_OBJECT_MOVIEHIDE               "icons/object_movieHide.png"
-#define ICON_OBJECT_IMAGEHIDE               "icons/object_imageHide.png"
-#define ICON_RULER_ON                       "icons/ruler_ok.png"
-#define ICON_RULER_OFF                      "icons/ruler_ko.png"
+#define ICON_OBJECT_TEXT                    "img/object_text.png"
+#define ICON_OBJECT_SOUND                   "img/object_sound.png"
+#define ICON_OBJECT_MOVIE                   "img/object_movie.png"
+#define ICON_OBJECT_IMAGE                   "img/object_image.png"
+#define ICON_OBJECT_TEXTHIDE                "img/object_textHide.png"
+#define ICON_OBJECT_MOVIEHIDE               "img/object_movieHide.png"
+#define ICON_OBJECT_IMAGEHIDE               "img/object_imageHide.png"
+#define ICON_RULER_ON                       "img/ruler_ok.png"
+#define ICON_RULER_OFF                      "img/ruler_ko.png"
 
 // Project geometry definition
 #define GEOMETRY_4_3                        0
@@ -267,6 +267,12 @@ extern "C" {
 #define TRANSITIONMAXSUBTYPE_ZOOMINOUT      18
 #define TRANSITIONMAXSUBTYPE_SLIDE          16
 #define TRANSITIONMAXSUBTYPE_PUSH           8
+
+//============================================
+// Dialogbox help file
+//============================================
+#define HELPFILE_DlgTextEdit                "/dlg_001.php"
+#define HELPFILE_DlgApplicationSettings     "/dlg_002.php"
 
 //============================================
 // Default values

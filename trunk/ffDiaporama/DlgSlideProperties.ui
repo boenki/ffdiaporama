@@ -110,7 +110,7 @@ QToolButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/add_project.png</normaloff>icons/add_project.png</iconset>
+              <normaloff>img/add_project.png</normaloff>img/add_project.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -142,7 +142,7 @@ QToolButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/trash.png</normaloff>icons/trash.png</iconset>
+              <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -174,7 +174,7 @@ QToolButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/arrow_left.png</normaloff>icons/arrow_left.png</iconset>
+              <normaloff>img/arrow_left.png</normaloff>img/arrow_left.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -200,7 +200,7 @@ QToolButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/arrow_right.png</normaloff>icons/arrow_right.png</iconset>
+              <normaloff>img/arrow_right.png</normaloff>img/arrow_right.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -233,7 +233,7 @@ QToolButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/ruler_ok.png</normaloff>icons/ruler_ok.png</iconset>
+              <normaloff>img/ruler_ok.png</normaloff>img/ruler_ok.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -489,7 +489,7 @@ QToolButton:pressed {
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/add_text.png</normaloff>icons/add_text.png</iconset>
+               <normaloff>img/add_text.png</normaloff>img/add_text.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -515,7 +515,7 @@ QToolButton:pressed {
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/add_image.png</normaloff>icons/add_image.png</iconset>
+               <normaloff>img/add_image.png</normaloff>img/add_image.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -540,7 +540,7 @@ QToolButton:pressed {
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/trash.png</normaloff>icons/trash.png</iconset>
+               <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -573,7 +573,7 @@ QToolButton:pressed {
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/editcopy.png</normaloff>icons/editcopy.png</iconset>
+               <normaloff>img/editcopy.png</normaloff>img/editcopy.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -599,7 +599,7 @@ QToolButton:pressed {
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/editcut.png</normaloff>icons/editcut.png</iconset>
+               <normaloff>img/editcut.png</normaloff>img/editcut.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -625,7 +625,7 @@ QToolButton:pressed {
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>icons/editpaste.png</normaloff>icons/editpaste.png</iconset>
+               <normaloff>img/editpaste.png</normaloff>img/editpaste.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -755,7 +755,7 @@ QToolButton:pressed {
               </property>
               <property name="icon">
                <iconset>
-                <normaloff>icons/arrow_up.png</normaloff>icons/arrow_up.png</iconset>
+                <normaloff>img/arrow_up.png</normaloff>img/arrow_up.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -793,7 +793,7 @@ QToolButton:pressed {
               </property>
               <property name="icon">
                <iconset>
-                <normaloff>icons/arrow_down.png</normaloff>icons/arrow_down.png</iconset>
+                <normaloff>img/arrow_down.png</normaloff>img/arrow_down.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -838,7 +838,7 @@ QToolButton:pressed {
         <item>
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="Block">
            <property name="sizePolicy">
@@ -881,7 +881,7 @@ QToolButton:pressed {
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap>icons/PosSize_X.png</pixmap>
+               <pixmap>img/PosSize_X.png</pixmap>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -954,7 +954,7 @@ QToolButton:pressed {
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap>icons/PosSize_Width.png</pixmap>
+               <pixmap>img/PosSize_Width.png</pixmap>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1027,7 +1027,7 @@ QToolButton:pressed {
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap>icons/RotateZ.png</pixmap>
+               <pixmap>img/RotateZ.png</pixmap>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1119,7 +1119,7 @@ QToolButton:pressed {
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap>icons/RotateY.png</pixmap>
+               <pixmap>img/RotateY.png</pixmap>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1208,7 +1208,7 @@ QToolButton:pressed {
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap>icons/RotateX.png</pixmap>
+               <pixmap>img/RotateX.png</pixmap>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1297,7 +1297,7 @@ QToolButton:pressed {
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap>icons/PosSize_Y.png</pixmap>
+               <pixmap>img/PosSize_Y.png</pixmap>
               </property>
              </widget>
             </item>
@@ -1367,7 +1367,7 @@ QToolButton:pressed {
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap>icons/PosSize_Height.png</pixmap>
+               <pixmap>img/PosSize_Height.png</pixmap>
               </property>
              </widget>
             </item>
@@ -1453,7 +1453,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>icons/Visible_OK.png</normaloff>icons/Visible_OK.png</iconset>
+                   <normaloff>img/Visible_OK.png</normaloff>img/Visible_OK.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1479,7 +1479,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>icons/object_sound.png</normaloff>icons/object_sound.png</iconset>
+                   <normaloff>img/object_sound.png</normaloff>img/object_sound.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1505,7 +1505,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>icons/EditImage.png</normaloff>icons/EditImage.png</iconset>
+                   <normaloff>img/EditImage.png</normaloff>img/EditImage.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1780,13 +1780,13 @@ color: #000000;
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>80</width>
+                  <width>120</width>
                   <height>24</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>80</width>
+                  <width>16777215</width>
                   <height>24</height>
                  </size>
                 </property>
@@ -2238,7 +2238,7 @@ color: #000000;
                 </property>
                 <property name="icon">
                  <iconset>
-                  <normaloff>icons/FolderOpen.png</normaloff>icons/FolderOpen.png</iconset>
+                  <normaloff>img/FolderOpen.png</normaloff>img/FolderOpen.png</iconset>
                 </property>
                </widget>
               </item>
@@ -2285,7 +2285,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>icons/EditText.png</normaloff>icons/EditText.png</iconset>
+                   <normaloff>img/EditText.png</normaloff>img/EditText.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -2310,7 +2310,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>icons/EditTransform.png</normaloff>icons/EditTransform.png</iconset>
+                   <normaloff>img/EditTransform.png</normaloff>img/EditTransform.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -2336,7 +2336,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>icons/EditMovie.png</normaloff>icons/EditMovie.png</iconset>
+                   <normaloff>img/EditMovie.png</normaloff>img/EditMovie.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -2505,7 +2505,7 @@ QToolButton:pressed {
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_ok.png</normaloff>icons/action_ok.png</iconset>
+         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -2516,7 +2516,7 @@ QToolButton:pressed {
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_cancel.png</normaloff>icons/action_cancel.png</iconset>
+         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -2527,7 +2527,7 @@ QToolButton:pressed {
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
+         <normaloff>img/help.png</normaloff>img/help.png</iconset>
        </property>
       </widget>
      </item>

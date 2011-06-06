@@ -17,7 +17,7 @@ unix {
     OBJECTS_DIR += ../build/
     MOC_DIR     += ../build/
     UI_DIR      += ../build/
-    ICON        = icons/logo.png
+    ICON        = img/logo.png
     INCLUDEPATH += /usr/include/ffmpeg/  # Specific for Fedora
 }
 win32 {
@@ -129,9 +129,9 @@ unix {
     background.path     = $$PREFIX/share/$$TARGETAPP/background
     background.files    = background/*.*
     icons.path          = $$PREFIX/share/$$TARGETAPP/icons
-    icons.files         = icons/*.*
+    icons.files         = img/*.*
     tr_icons.path       = $$PREFIX/share/$$TARGETAPP/transitions-icons
-    tr_icons.files      = transitions-icons/*.*
+    tr_icons.files      = transitions-img/*.*
     luma.path           = $$PREFIX/share/$$TARGETAPP/luma
     luma.files          = luma/*.*
     luma_Bar.path       = $$PREFIX/share/$$TARGETAPP/luma/Bar

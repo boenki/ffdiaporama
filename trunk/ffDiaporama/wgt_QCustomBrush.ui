@@ -519,7 +519,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>icons/FolderOpen.png</normaloff>icons/FolderOpen.png</iconset>
+             <normaloff>img/FolderOpen.png</normaloff>img/FolderOpen.png</iconset>
            </property>
           </widget>
          </item>

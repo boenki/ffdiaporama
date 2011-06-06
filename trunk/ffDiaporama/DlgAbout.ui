@@ -40,7 +40,7 @@
         <string notr="true"/>
        </property>
        <property name="pixmap">
-        <pixmap>icons/logo_big.png</pixmap>
+        <pixmap>img/logo_big.png</pixmap>
        </property>
       </widget>
      </item>
@@ -670,7 +670,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_ok.png</normaloff>icons/action_ok.png</iconset>
+         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
        </property>
       </widget>
      </item>

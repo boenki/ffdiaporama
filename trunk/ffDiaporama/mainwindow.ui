@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons/logo.png</normaloff>icons/logo.png</iconset>
+    <normaloff>img/logo.png</normaloff>img/logo.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="font">
@@ -147,7 +147,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons/fifteenpieces.png</normaloff>icons/fifteenpieces.png</iconset>
+           <normaloff>img/fifteenpieces.png</normaloff>img/fifteenpieces.png</iconset>
          </property>
         </row>
         <row>
@@ -156,7 +156,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons/object_movie.png</normaloff>icons/object_movie.png</iconset>
+           <normaloff>img/object_movie.png</normaloff>img/object_movie.png</iconset>
          </property>
         </row>
         <row>
@@ -165,7 +165,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons/object_sound.png</normaloff>icons/object_sound.png</iconset>
+           <normaloff>img/object_sound.png</normaloff>img/object_sound.png</iconset>
          </property>
         </row>
        </widget>
@@ -199,7 +199,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>icons/zoomup.png</normaloff>icons/zoomup.png</iconset>
+            <normaloff>img/zoomup.png</normaloff>img/zoomup.png</iconset>
           </property>
          </widget>
         </item>
@@ -224,7 +224,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>icons/zoomdown.png</normaloff>icons/zoomdown.png</iconset>
+            <normaloff>img/zoomdown.png</normaloff>img/zoomdown.png</iconset>
           </property>
          </widget>
         </item>
@@ -443,7 +443,7 @@
   <action name="action_About">
    <property name="icon">
     <iconset>
-     <normaloff>icons/logo.png</normaloff>icons/logo.png</iconset>
+     <normaloff>img/logo.png</normaloff>img/logo.png</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -452,7 +452,7 @@
   <action name="actionConfiguration">
    <property name="icon">
     <iconset>
-     <normaloff>icons/config.png</normaloff>icons/config.png</iconset>
+     <normaloff>img/config.png</normaloff>img/config.png</iconset>
    </property>
    <property name="text">
     <string>Settings</string>
@@ -461,7 +461,7 @@
   <action name="action_New">
    <property name="icon">
     <iconset>
-     <normaloff>icons/filenew.png</normaloff>icons/filenew.png</iconset>
+     <normaloff>img/filenew.png</normaloff>img/filenew.png</iconset>
    </property>
    <property name="text">
     <string>&amp;New</string>
@@ -473,7 +473,7 @@
   <action name="action_Open">
    <property name="icon">
     <iconset>
-     <normaloff>icons/fileopen.png</normaloff>icons/fileopen.png</iconset>
+     <normaloff>img/fileopen.png</normaloff>img/fileopen.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Open</string>
@@ -485,7 +485,7 @@
   <action name="action_Save">
    <property name="icon">
     <iconset>
-     <normaloff>icons/filesave.png</normaloff>icons/filesave.png</iconset>
+     <normaloff>img/filesave.png</normaloff>img/filesave.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Save</string>
@@ -497,7 +497,7 @@
   <action name="action_Exit">
    <property name="icon">
     <iconset>
-     <normaloff>icons/exit.png</normaloff>icons/exit.png</iconset>
+     <normaloff>img/exit.png</normaloff>img/exit.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Exit</string>
@@ -509,7 +509,7 @@
   <action name="actionAdd">
    <property name="icon">
     <iconset>
-     <normaloff>icons/add_image.png</normaloff>icons/add_image.png</iconset>
+     <normaloff>img/add_image.png</normaloff>img/add_image.png</iconset>
    </property>
    <property name="text">
     <string>Add files</string>
@@ -524,7 +524,7 @@
   <action name="actionRemove">
    <property name="icon">
     <iconset>
-     <normaloff>icons/trash.png</normaloff>icons/trash.png</iconset>
+     <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
    </property>
    <property name="text">
     <string>Remove</string>
@@ -542,7 +542,7 @@
   <action name="actionMove_left">
    <property name="icon">
     <iconset>
-     <normaloff>icons/arrow_left.png</normaloff>icons/arrow_left.png</iconset>
+     <normaloff>img/arrow_left.png</normaloff>img/arrow_left.png</iconset>
    </property>
    <property name="text">
     <string>Move &amp;left</string>
@@ -551,7 +551,7 @@
   <action name="actionMove_right">
    <property name="icon">
     <iconset>
-     <normaloff>icons/arrow_right.png</normaloff>icons/arrow_right.png</iconset>
+     <normaloff>img/arrow_right.png</normaloff>img/arrow_right.png</iconset>
    </property>
    <property name="text">
     <string>Move &amp;right</string>
@@ -560,7 +560,7 @@
   <action name="actionSave_as">
    <property name="icon">
     <iconset>
-     <normaloff>icons/filesaveas.png</normaloff>icons/filesaveas.png</iconset>
+     <normaloff>img/filesaveas.png</normaloff>img/filesaveas.png</iconset>
    </property>
    <property name="text">
     <string>Save &amp;as</string>
@@ -569,7 +569,7 @@
   <action name="actionAddtitle">
    <property name="icon">
     <iconset>
-     <normaloff>icons/add_text.png</normaloff>icons/add_text.png</iconset>
+     <normaloff>img/add_text.png</normaloff>img/add_text.png</iconset>
    </property>
    <property name="text">
     <string>Add title</string>
@@ -581,7 +581,7 @@
   <action name="actionDocumentation">
    <property name="icon">
     <iconset>
-     <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
+     <normaloff>img/help.png</normaloff>img/help.png</iconset>
    </property>
    <property name="text">
     <string>Support and help</string>
@@ -590,7 +590,7 @@
   <action name="actionCut">
    <property name="icon">
     <iconset>
-     <normaloff>icons/editcut.png</normaloff>icons/editcut.png</iconset>
+     <normaloff>img/editcut.png</normaloff>img/editcut.png</iconset>
    </property>
    <property name="text">
     <string>Cut</string>
@@ -602,7 +602,7 @@
   <action name="actionCopy">
    <property name="icon">
     <iconset>
-     <normaloff>icons/editcopy.png</normaloff>icons/editcopy.png</iconset>
+     <normaloff>img/editcopy.png</normaloff>img/editcopy.png</iconset>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -614,7 +614,7 @@
   <action name="actionPaste">
    <property name="icon">
     <iconset>
-     <normaloff>icons/editpaste.png</normaloff>icons/editpaste.png</iconset>
+     <normaloff>img/editpaste.png</normaloff>img/editpaste.png</iconset>
    </property>
    <property name="text">
     <string>Paste</string>
@@ -626,7 +626,7 @@
   <action name="actionNewFunctions">
    <property name="icon">
     <iconset>
-     <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
+     <normaloff>img/help.png</normaloff>img/help.png</iconset>
    </property>
    <property name="text">
     <string>What's new</string>
@@ -635,7 +635,7 @@
   <action name="actionAddProject">
    <property name="icon">
     <iconset>
-     <normaloff>icons/add_project.png</normaloff>icons/add_project.png</iconset>
+     <normaloff>img/add_project.png</normaloff>img/add_project.png</iconset>
    </property>
    <property name="text">
     <string>Add project</string>
@@ -647,7 +647,7 @@
   <action name="actionRender">
    <property name="icon">
     <iconset>
-     <normaloff>icons/render.png</normaloff>icons/render.png</iconset>
+     <normaloff>img/render.png</normaloff>img/render.png</iconset>
    </property>
    <property name="text">
     <string>Render video</string>

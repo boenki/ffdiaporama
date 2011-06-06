@@ -51,7 +51,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/ruler_ok.png</normaloff>icons/ruler_ok.png</iconset>
+         <normaloff>img/ruler_ok.png</normaloff>img/ruler_ok.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -148,7 +148,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/AdjustW.png</normaloff>icons/AdjustW.png</iconset>
+         <normaloff>img/AdjustW.png</normaloff>img/AdjustW.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -168,7 +168,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/AdjustH.png</normaloff>icons/AdjustH.png</iconset>
+         <normaloff>img/AdjustH.png</normaloff>img/AdjustH.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -185,7 +185,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/AdjustWH.png</normaloff>icons/AdjustWH.png</iconset>
+         <normaloff>img/AdjustWH.png</normaloff>img/AdjustWH.png</iconset>
        </property>
       </widget>
      </item>
@@ -231,7 +231,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/rotationg.png</normaloff>icons/rotationg.png</iconset>
+         <normaloff>img/rotationg.png</normaloff>img/rotationg.png</iconset>
        </property>
       </widget>
      </item>
@@ -261,7 +261,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/rotationd.png</normaloff>icons/rotationd.png</iconset>
+         <normaloff>img/rotationd.png</normaloff>img/rotationd.png</iconset>
        </property>
       </widget>
      </item>
@@ -670,7 +670,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_ok.png</normaloff>icons/action_ok.png</iconset>
+         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -681,7 +681,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/action_cancel.png</normaloff>icons/action_cancel.png</iconset>
+         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -692,7 +692,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/help.png</normaloff>icons/help.png</iconset>
+         <normaloff>img/help.png</normaloff>img/help.png</iconset>
        </property>
       </widget>
      </item>
