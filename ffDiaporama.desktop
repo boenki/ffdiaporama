@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=ffDiaporama
+GenericName=ffDiaporama
+Comment=Movie creator from photos and video clips
+Exec=ffDiaporama
+Icon=img/logo.png
+Terminal=false
+Type=Application
+Categories=Application;Graphics
+Version=0.99.2
+

@@ -117,6 +117,8 @@ OTHER_FILES += \
     licences.rtf \
     ffDiaporama.rc \
     BUILDVERSION.txt \
+    ffDiaporama.SPEC \
+    ffDiaporama.desktop
 
 TRANSLATIONS += locale/locale_fr.ts
 
@@ -149,7 +151,7 @@ unix {
     documentation.path  = $$PREFIX/share/$$TARGETAPP/help
     documentation.files = help/*.*
     General.path        = $$PREFIX/share/$$TARGETAPP
-    General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset
+    General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset ffDiaporama.desktop
 
     INSTALLS += TARGET translation background img tr_img luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake documentation General
 }
