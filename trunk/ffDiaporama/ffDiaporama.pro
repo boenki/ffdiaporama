@@ -128,10 +128,10 @@ unix {
     translation.files   = locale/*.qm
     background.path     = $$PREFIX/share/$$TARGETAPP/background
     background.files    = background/*.*
-    icons.path          = $$PREFIX/share/$$TARGETAPP/icons
-    icons.files         = img/*.*
-    tr_icons.path       = $$PREFIX/share/$$TARGETAPP/transitions-icons
-    tr_icons.files      = transitions-img/*.*
+    img.path          = $$PREFIX/share/$$TARGETAPP/img
+    img.files         = img/*.*
+    tr_img.path       = $$PREFIX/share/$$TARGETAPP/transitions-img
+    tr_img.files      = transitions-img/*.*
     luma.path           = $$PREFIX/share/$$TARGETAPP/luma
     luma.files          = luma/*.*
     luma_Bar.path       = $$PREFIX/share/$$TARGETAPP/luma/Bar
@@ -151,5 +151,5 @@ unix {
     General.path        = $$PREFIX/share/$$TARGETAPP
     General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset
 
-    INSTALLS += TARGET translation background icons tr_icons luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake documentation General
+    INSTALLS += TARGET translation background img tr_img luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake documentation General
 }

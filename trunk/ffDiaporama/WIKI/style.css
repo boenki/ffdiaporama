@@ -1,52 +1,89 @@
 body {
-  margin: 0;
-  padding: 0;
+  margin-top: 0pt;
+  margin-right: 0pt;
+  margin-bottom: 0pt;
+  margin-left: 0pt;
+  padding-top: 0pt;
+  padding-right: 0pt;
+  padding-bottom: 0pt;
+  padding-left: 0pt;
   font-weight: normal;
   text-decoration: none;
   font-size: 1.1em;
   text-transform: none;
-  font-family: Arial,Helvetica,sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-style: normal;
 }
 body, td {
-  font-family: Arial,Helvetica,sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 10pt;
   color: black;
 }
 img {
-  border:  none;
-  font-family: Arial,Helvetica,sans-serif;
+  border-top-width: medium;
+  border-right-width: medium;
+  border-bottom-width: medium;
+  border-left-width: medium;
+  border-top-style: none;
+  border-right-style: none;
+  border-bottom-style: none;
+  border-left-style: none;
+  font-family: Arial, Helvetica, sans-serif;
 }
 #menu {
-  display: block; 
-  list-style: none;
-  position: absolute;  top: 0px;  	left: 0px;	
-  float: left;         width: 150px;	height: 100%;
-  background-color: #e0e0e0;
+  display: block;
+  list-style-type: none;
+  list-style-position: outside;
+  list-style-image: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  float: left;
+  width: 150px;
+  height: 100%;
+  background-color: rgb(224, 224, 224);
 }
-html>body #menu {
-  position: fixed;
+html > body #menu {
+ position: fixed;
 }
 #fixe-haut {
-  position: absolute;	top: 0px; 	left: 150px;
-  float: top;		width: 1000px; height: 42px;
-  background: #e0e0e0;
-  border-bottom: 2px solid #000000;
+  position: absolute;
+  top: 0px;
+  left: 150px;
+  width: 1000px;
+  height: 42px;
+  background-color: rgb(224, 224, 224);
+  background-image: none;
+  background-repeat: repeat;
+  background-attachment: scroll;
+  background-position: 0% 0%;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(0, 0, 0);
+  text-align: left; 
+  color: rgb(153, 0, 0); 
+  text-transform: none;
+  text-decoration: none;
+  font-size: 24pt;
+  font-weight: bold;
+  font-style: normal;
 }
-html>body #fixe-haut {
-  position: fixed;
+html > body #fixe-haut {
+ position: fixed;
 }
 #content {
-  width: 1000px;	height: 100%;
-  padding-top: 44px;	padding-left: 150px;
+  width: 1000px;
+  height: 100%;
+  padding-top: 44px;
+  padding-left: 150px;
   background-image: url("../img/background.png");
   background-repeat: repeat;
   background-attachment: scroll;
 }
-html>body #content {
-}
+html > body #content {
+ }
 h1 {
-  color: #f95304;
+  color: rgb(249, 83, 4);
   line-height: 20pt;
   text-transform: none;
   text-decoration: none;
@@ -56,19 +93,20 @@ h1 {
   text-align: left;
 }
 h2 {
-  font-family: Arial,Helvetica,sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14pt;
   color: maroon;
   font-weight: bold;
 }
 h3 {
-  font-family: Arial,Helvetica,sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12pt;
   font-weight: bold;
-  color: maroon;
+  color: black;
+  text-decoration: underline;
 }
 h4 {
-  font-family: Arial,Helvetica,sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 10pt;
   font-weight: bold;
   text-decoration: underline;
@@ -76,9 +114,15 @@ h4 {
 }
 h5 {
   font-size: 10pt;
-  font-family: Arial,Helvetica,sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   color: black;
   text-decoration: underline;
+}
+.WIKI_TITLE {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: yellow;
+  font-size: larger;
 }
 a:link, a:visited {
   color: blue;
