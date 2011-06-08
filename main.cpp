@@ -36,7 +36,8 @@ int main(int argc, char *argv[]) {
     app.setApplicationName(QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION));
 
     // Search system language
-    QTranslator translator;
+    QTranslator translator;     // translator for the application
+    QTranslator QTtranslator;   // translator for QT default text
     CurrentLanguage=QLocale::system().name().left(2);
     AddToSystemProperties(QString(SYSTEMLOCAL_STR)+CurrentLanguage);
 
@@ -53,7 +54,11 @@ int main(int argc, char *argv[]) {
     if (CurrentLanguage!="en") {
         if (!translator.load(AdjustDirForOS(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm")))
             ExitApplicationWithFatalError("Error loading translation file ...");
+        if (!QTtranslator.load(AdjustDirForOS(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm")))
+            ExitApplicationWithFatalError("Error loading QT translation file ...");
+
         app.installTranslator(&translator);
+        app.installTranslator(&QTtranslator);
         AddToSystemProperties(QString(LOADEDLOCAL_STR)+AdjustDirForOS(QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm")));
     }
     AddSeparatorToSystemProperties();
