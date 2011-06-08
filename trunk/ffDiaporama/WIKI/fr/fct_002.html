@@ -6,38 +6,203 @@
     <link href="../style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <!--?php include "../menu.php"?-->
     <div id="fixe-haut">Utilisation des blocs dans ffDiaporama</div>
-    <div style="text-align: left;" id="content">
-      <p style=""><br>
-      </p>
-      <table style="width: 100%;" border="1">
-        <tbody>
-          <tr>
-            <td style="vertical-align: top;">Param&#232;tre<br>
-            </td>
-            <td style="vertical-align: top;">Explication<br>
-            </td>
-          </tr>
-          <tr>
-            <td>-lang=&lt;local&gt;</td>
-            <td>Force la langue &#224; utiliser. &lt;local&gt; peut
-              prendre les valeurs suivantes :<br>
-              <ul>
-                <li>en pour utiliser l'anglais</li>
-                <li>fr pour utiliser le fran&#231;ais<br>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p style=""><br>
-      </p>
-      <p style=""><br>
-      </p>
+    <div style="text-align: left;" id="content"><br>
+      <h2 style=" margin-bottom: 0cm; line-height: 100%">Principe de
+        fonctionnement</h2>
       <br>
-      <br>
+      <div style="margin-left: 40px;">
+        <div style="text-align: justify;">Les diapositives sont
+          affich&#233;es les unes apr&#232;s les autres, dans l'ordre
+          dans lequel elles apparaissent dans la barre de temps.<br>
+          Le sch&#233;ma suivant symbolise les principes de
+          fonctionnement des diapositives :<br>
+        </div>
+        <br>
+        <div style="text-align: center;"><img checked="true" src="../../WIKI_img/Schema.png"><br>
+        </div>
+      </div>
+      <h3 style="margin-bottom: 0cm; line-height: 100%; margin-left: 40px;">Les
+
+        diapositives</h3>
+      <div style="margin-left: 40px;"><br>
+        Sur la partie haute du sch&#233;ma sont repr&#233;sent&#233;es
+        les diapositives A, B, C et D.<br>
+      </div>
+      <ul style="margin-left: 40px; text-align: justify;">
+        <li>Chaque diapositive poss&#232;de une transition entrante
+          (symbolis&#233;e sur le sch&#233;ma par un petit carr&#233;
+          T). Les transitions n&#8217;ont pas toute la m&#234;me
+          dur&#233;e (symbolis&#233;e sur le sch&#233;ma par les
+          longueurs TB&#8217;, TC&#8217;, etc&#8230;)&#160;: il est en
+          effet possible de d&#233;finir diapositive par diapositive la
+          dur&#233;e de la transition entrante (ou bien d&#8217;indiquer
+          pas de transition&#160;: dur&#233;e=0). </li>
+        <li>Chaque diapositive poss&#232;de une dur&#233;e qui lui est
+          propre (symbolis&#233;e sur le sch&#233;ma par les longueurs
+          B&#8217;, C&#8217;, etc&#8230;): Certaines peuvent ne durer
+          que quelques secondes alors que d'autres peuvent durer
+          plusieurs minutes. Les dur&#233;es sont exprim&#233;es en
+          seconde mais ne sont pas forc&#233;ment des valeurs
+          enti&#232;res&#160;: Une diapositive peut tr&#232;s bien durer
+          12,234 secondes&#160;! </li>
+        <li>Chaque diapositive est une composition.
+          C&#8217;est-&#224;-dire un assemblage de un ou plusieurs
+          &#233;l&#233;ments multim&#233;dia qui sont anim&#233;s dans
+          le temps. L&#8217;animation dans le temps est
+          r&#233;alis&#233;e au travers de plan. </li>
+        <li>Chaque diapositive peut d&#233;finir un nouvel
+          arri&#232;re-plan (fond d&#8217;&#233;cran). </li>
+        <li>Chaque diapositive peut d&#233;finir une nouvelle liste de
+          lecture de fichiers musicaux </li>
+      </ul>
+      <div style="margin-left: 40px;"> <br>
+      </div>
+      <div style="margin-left: 120px; text-align: justify;"> Les
+        diapositives qui ne d&#233;finissent pas d'arri&#232;re-plan,
+        utilisent l'arri&#232;re-plan d&#233;fini dans une diapositive
+        pr&#233;c&#233;dente. Ainsi dans l'exemple suivant : </div>
+      <ul style="margin-left: 120px; text-align: justify;">
+        <li> Diapositive 1 - D&#233;finit un arri&#232;re-plan </li>
+        <li> Diapositive 2 - Ne d&#233;finit pas d'arri&#232;re-plan et
+          utilise donc l'arri&#232;re-plan d&#233;finit par la
+          diapositive 1 </li>
+        <li> Diapositive 3 - Ne d&#233;finit pas d'arri&#232;re-plan et
+          utilise donc l'arri&#232;re-plan d&#233;finit par la
+          diapositive 1 </li>
+        <li> Diapositive 4 - D&#233;finit un arri&#232;re-plan </li>
+        <li> Diapositive 5 - Ne d&#233;finit pas d'arri&#232;re-plan et
+          utilise donc l'arri&#232;re-plan d&#233;finit par la
+          diapositive 4 </li>
+      </ul>
+      <div style="margin-left: 120px; text-align: justify;"> <br>
+        Le m&#234;me principe est appliqu&#233; aux listes de lecture
+        des fichiers musicaux. Tant que les diapositives ne
+        d&#233;finissent pas de nouvelle liste de lecture, elles
+        utilisent la derni&#232;re liste de lecture d&#233;finie. </div>
+      <h3 style="margin-bottom: 0cm; line-height: 100%; margin-left: 40px;">Les
+
+        plans</h3>
+      <div style="margin-left: 40px;"><br>
+        <div style="text-align: justify;">La partie basse du sch&#233;ma
+          repr&#233;sente la diapositive C.<br>
+        </div>
+      </div>
+      <ul style="margin-left: 40px; text-align: justify;">
+        <li>Chaque diapositive est d&#233;finie avec de 1 &#224;
+          plusieurs plans. Les plans sont symbolis&#233;s sur le
+          sch&#233;ma par les rectangles C1, C2, C3, etc&#8230; </li>
+        <li>Chaque plan poss&#232;de sa propre dur&#233;e
+          (symbolis&#233;e sur le sch&#233;ma par les longueurs
+          C1&#8217;, C2&#8217;, C3&#8217;, etc&#8230;). Certains plans
+          peuvent ne durer que quelques secondes alors que d'autres
+          peuvent durer plusieurs minutes. Certains plans peuvent avoir
+          une dur&#233;e &#233;gale &#224; 0. (Les dur&#233;es sont
+          exprim&#233;es en seconde mais ne sont pas forc&#233;ment des
+          valeurs enti&#232;res&#160;: Un plan peut tr&#232;s bien durer
+          12,234 secondes&#160;!) </li>
+        <li>Les plans peuvent contenir plusieurs objets multim&#233;dia.
+          Les objets multim&#233;dia sont int&#233;gr&#233;s dans des
+          blocs qui peuvent &#234;tre de type titre (ne contenir que du
+          texte), de type image (ou photo) ou de type vid&#233;o. </li>
+        <li>Les plans sont transparents. C'est &#224; dire que si
+          l&#8217;image obtenue ne remplit pas tout l'&#233;cran,
+          l'arri&#232;re-plan (fond d&#8217;&#233;cran) apparaitra. </li>
+      </ul>
+      <div style="margin-left: 40px; text-align: justify;"> <br>
+        Note&#160;: <br>
+        <br>
+        Les plans d&#233;finissent l&#8217;organisation des blocs
+        (objets multim&#233;dia) &#224; un instant donn&#233;.<br>
+        <br>
+      </div>
+      <div style="margin-left: 120px; text-align: justify;"> Les
+        animations de plans sont g&#233;n&#233;r&#233;es par la
+        transformation des organisations d&#8217;un plan &#224; un
+        autre.</div>
+      <div style="margin-left: 40px; text-align: justify;"> <br>
+        Concr&#232;tement, si dans le premier plan, une photo occupe
+        tout l&#8217;&#233;cran, puis n&#8217;occupe qu&#8217;une petite
+        partie de l&#8217;&#233;cran dans le plan suivant, alors
+        l&#8217;animation consistera en la transformation de la photo de
+        tout l&#8217;&#233;cran (plan pr&#233;c&#233;dent) vers la
+        petite partie de l&#8217;&#233;cran (plan suivant).<br>
+        <br>
+        Cette transformation s&#8217;effectuera progressivement&#160;:
+        vous verrez l&#8217;image se r&#233;duire.<br>
+        <br>
+        Cette transformation s&#8217;effectue durant toute la dur&#233;e
+        du plan suivant&#160;:<br>
+        <br>
+      </div>
+      <div style="margin-left: 120px; text-align: justify;">
+        Exemple&#160;: </div>
+      <ul style="margin-left: 120px; text-align: justify;">
+        <li>Plan 1&#160;: Photo occupant tout l&#8217;&#233;cran&#160;:
+          Dur&#233;e 2 secondes. </li>
+        <li>Plan 2&#160;: Photo n&#8217;occupant que le quart
+          inf&#233;rieur droit de l&#8217;&#233;cran&#160;: Dur&#233;e 3
+          secondes. </li>
+        <li>Plan 3&#160;: Photo occupant &#224; nouveau tout
+          l&#8217;&#233;cran&#160;: Dur&#233;e 2 secondes. </li>
+      </ul>
+      <ul style="margin-left: 120px; text-align: justify;">
+        <li>R&#233;sultat&#160;: La photo sera affich&#233;e sur tout
+          l&#8217;&#233;cran pendant 2 secondes puis se r&#233;duira
+          progressivement vers le quart inf&#233;rieur droit de
+          l&#8217;&#233;cran pendant 3 secondes puis s&#8217;agrandira
+          jusqu&#8217;&#224; occuper &#224; nouveau tout
+          l&#8217;&#233;cran pendant 2 secondes. </li>
+        <li>La diapositive prendra fin d&#232;s que la photo aura
+          atteint la position d&#233;finie dans le plan 3. </li>
+      </ul>
+      <div style="margin-left: 40px; text-align: justify;"> <br>
+        La d&#233;finition des objets de chaque bloc peut varier
+        d&#8217;un plan &#224; l&#8217;autre&#160;: Dans l&#8217;exemple
+        suivant, sont repr&#233;sent&#233;s trois d&#233;finitions
+        diff&#233;rentes d&#8217;un m&#234;me bloc&#160;:<br>
+      </div>
+      <ul style="margin-left: 40px; text-align: justify;">
+        <li> 1er plan&#160;: L&#8217;image est enti&#232;re.</li>
+        <li> 2eme plan&#160;: L&#8217;image est recadr&#233;e sur la
+          statue.</li>
+        <li> 3eme plan&#160;: L&#8217;image est recadr&#233;e sur les
+          promeneurs.</li>
+      </ul>
+      <div style="margin-left: 40px; text-align: justify;"> Si on
+        applique ces d&#233;finitions &#224; l&#8217;exemple des 3 plans
+        pr&#233;c&#233;dents&#160;:<br>
+      </div>
+      <ul style="margin-left: 40px; text-align: justify;">
+        <li>La photo compl&#232;te sera affich&#233;e sur tout
+          l&#8217;&#233;cran pendant 2 secondes puis se r&#233;duira
+          progressivement en zoomant sur la statue vers le quart
+          inf&#233;rieur droit de l&#8217;&#233;cran pendant 3 secondes
+          puis s&#8217;agrandira jusqu&#8217;&#224; occuper &#224;
+          nouveau tout l&#8217;&#233;cran en se d&#233;pla&#231;ant vers
+          les promeneurs pendant 2 secondes. </li>
+      </ul>
+      <div style="margin-left: 40px; text-align: justify;"> <br>
+        Remarque : <br>
+      </div>
+      <ul style="margin-left: 40px; text-align: justify;">
+        <li>ffDiaporama peut g&#233;rer jusqu'&#224; plusieurs centaines
+          de diapositives dans un seul montage. </li>
+        <li>Chaque diapositive peut &#234;tre compos&#233;e de plusieurs
+          (dizaines) de plans. </li>
+        <li>Chaque diapositive peut contenir plusieurs (dizaines) de
+          blocs. </li>
+        <li>Les blocs peuvent &#234;tre visibles sur certains plans et
+          invisibles sur d&#8217;autres plans. </li>
+      </ul>
+      <div style="margin-left: 40px; text-align: justify;"> <br>
+        Note&#160;: La dur&#233;e totale du montage n'est pas &#233;gale
+        &#224; la somme des dur&#233;es des diapositives car les
+        transitions font que les diapositives se chevauchent : Deux
+        diapositives de 10 secondes poss&#233;dant chacune une
+        transition de 1 seconde donnera une dur&#233;e totale pour le
+        montage de 19 secondes (et non pas de 20 secondes) ! <br>
+      </div>
       <br>
       <hr style="width: 100%; height: 2px;">Derni&#232;re modification :
       domledom le 06/06/2011</div>

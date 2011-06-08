@@ -29,6 +29,14 @@ Prévision pour la version Alpha3
 - Revoir les messages d'erreurs lié à exiv2 dans _ImageFileWrapper
 
 -----------------------------------------------------------------
+Alpha2-20110608 : Changelog depuis la version Alpha2 : 20110606
+-----------------------------------------------------------------
+- Ajoute les traductions pour les messages textes de QT (Standard buttons, etc...)
+- Elements de packaging pour Fedora
+- Elements de packaging pour Windows
+- Poursuite des travaux sur le WIKI
+
+-----------------------------------------------------------------
 Alpha2-20110606 : Changelog depuis la version Alpha2 : 20110605
 -----------------------------------------------------------------
 - Ajoute un paramètre de ligne de commande (-lang=local) pour forcer l'utilisation d'une langue
