@@ -54,7 +54,7 @@ desktop-file-install --vendor=""                                 \
        %{buildroot}%{_datadir}/ffDiaporama/ffDiaporama.desktop
 
 %files
-%doc licences.txt
+%doc %{_datadir}/ffDiaporama/licences.txt
 %{_datadir}/
 /usr/bin/ffDiaporama
 
@@ -76,5 +76,5 @@ update-desktop-database &> /dev/null || :
 
 %changelog
 
-* Wed Jun  8 2011 Dominique LEVRAY <levray.dominique@bbox.fr> %{name}-%{version}-%{release}
+* Wed Jun  8 2011 Dominique LEVRAY <levray.dominique@bbox.fr> %{version}-%{release}
 - Initial release
