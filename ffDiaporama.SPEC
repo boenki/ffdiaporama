@@ -5,7 +5,7 @@ Summary:        Movie creator from photos and video clips
 License:        GPLv2
 URL:            http://ffdiaporama.tuxfamily.org
 Group:		Applications/Multimedia
-Icon:		logo.png
+Icon:		logo.xpm
 Source0:        ffDiaporama-0.99.2.tar.gz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  qt-devel, ffmpeg-devel, SDL-devel, SDL_mixer-devel, desktop-file-utils
