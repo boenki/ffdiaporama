@@ -1,12 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=ffDiaporama
-GenericName=ffDiaporama
+GenericName=Movie creator
 Comment=Movie creator from photos and video clips
+Comment[fr]=Créateur de film depuis des photos et des clips vidéo
 Exec=ffDiaporama
-Icon=img/logo.png
+Icon=/usr/share/ffDiaporama/img/logo.png
 Terminal=false
 Type=Application
-Categories=Application;Graphics
-Version=0.99.2
-
+Categories=GNOME;AudioVideo;
+Path=/usr/share/ffDiaporama
