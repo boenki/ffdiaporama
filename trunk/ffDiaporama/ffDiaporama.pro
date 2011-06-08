@@ -118,7 +118,12 @@ OTHER_FILES += \
     ffDiaporama.rc \
     BUILDVERSION.txt \
     ffDiaporama.SPEC \
-    ffDiaporama.desktop
+    ffDiaporama.desktop \
+    Packaging/Readme.txt \
+    Packaging/MakeFedoraRPM.bash \
+    Packaging/ffDiaporama-InoSetup.iss \
+    Packaging/ffDiaporama.SPEC \
+    Packaging/MakeWindowsSetup.cmd
 
 TRANSLATIONS += locale/locale_fr.ts
 
