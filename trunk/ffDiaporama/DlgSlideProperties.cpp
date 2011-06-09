@@ -841,7 +841,7 @@ void DlgSlideProperties::s_ChgRotateZValue(int Value) {
 //========= Background forme
 void DlgSlideProperties::s_ChangeBackgroundForm(int Style) {
     if (StopMAJSpinbox || InRefreshSceneImage) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->BackgroundForm=Style+1;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -851,7 +851,7 @@ void DlgSlideProperties::s_ChangeBackgroundForm(int Style) {
 //========= Opacity
 void DlgSlideProperties::s_ChangeOpacity(int Style) {
     if (StopMAJSpinbox || InRefreshSceneImage) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->Opacity=Style;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -861,7 +861,7 @@ void DlgSlideProperties::s_ChangeOpacity(int Style) {
 //========= Border pen size
 void DlgSlideProperties::s_ChgPenSize(int) {
     if (StopMAJSpinbox || InRefreshSceneImage) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->PenSize=ui->PenSizeEd->value();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -873,7 +873,7 @@ void DlgSlideProperties::s_ChgPenSize(int) {
 //========= Border pen style
 void DlgSlideProperties::s_ChangePenStyle(int index) {
     if (StopMAJSpinbox || InRefreshSceneImage) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->PenStyle=ui->PenStyleCB->itemData(index).toInt();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -883,7 +883,7 @@ void DlgSlideProperties::s_ChangePenStyle(int index) {
 //========= Border pen color
 void DlgSlideProperties::s_ChPenColorCB(int) {
     if (StopMAJSpinbox || InRefreshSceneImage) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->PenColor=ui->PenColorCB->GetCurrentColor();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -893,7 +893,7 @@ void DlgSlideProperties::s_ChPenColorCB(int) {
 //========= Shape shadow style
 void DlgSlideProperties::s_ChgShadowFormValue(int value) {
     if (StopMAJSpinbox || InRefreshSceneImage) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->FormShadow=value;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -903,7 +903,7 @@ void DlgSlideProperties::s_ChgShadowFormValue(int value) {
 //========= Shape shadow distance
 void DlgSlideProperties::s_ChgShadowDistanceValue(int value) {
     if (StopMAJSpinbox || InRefreshSceneImage) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->FormShadowDistance =value;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -959,8 +959,8 @@ void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
 
 void DlgSlideProperties::s_ChangeBrushTypeCombo(int Value) {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
     CurrentBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -971,8 +971,8 @@ void DlgSlideProperties::s_ChangeBrushTypeCombo(int Value) {
 
 void DlgSlideProperties::s_IntermPosSliderMoved(int Value) {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
     CurrentBrush->Intermediate=double(Value)/100;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -983,8 +983,8 @@ void DlgSlideProperties::s_IntermPosSliderMoved(int Value) {
 
 void DlgSlideProperties::s_IntermPosED(int Value) {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
     CurrentBrush->Intermediate=double(Value)/100;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -998,8 +998,8 @@ void DlgSlideProperties::s_IntermPosED(int Value) {
 //========= Pattern shape combo
 void DlgSlideProperties::s_ChIndexPatternBrushCombo(int) {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
     CurrentBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -1009,8 +1009,8 @@ void DlgSlideProperties::s_ChIndexPatternBrushCombo(int) {
 //========= Gradient shape orientation
 void DlgSlideProperties::s_ChIndexGradientOrientationCombo(int) {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
     CurrentBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -1020,8 +1020,8 @@ void DlgSlideProperties::s_ChIndexGradientOrientationCombo(int) {
 //========= Shape/Gradient shape first color
 void DlgSlideProperties::s_ChIndexGradientFirstColorCombo(int) {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
     CurrentBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -1031,8 +1031,8 @@ void DlgSlideProperties::s_ChIndexGradientFirstColorCombo(int) {
 //========= Gradient shape last color
 void DlgSlideProperties::s_ChIndexGradientFinalColorCombo(int) {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
     CurrentBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -1042,8 +1042,8 @@ void DlgSlideProperties::s_ChIndexGradientFinalColorCombo(int) {
 //========= Gradient shape intermediate color
 void DlgSlideProperties::s_ChIndexGradientIntermColorCombo(int) {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
     CurrentBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -1053,8 +1053,8 @@ void DlgSlideProperties::s_ChIndexGradientIntermColorCombo(int) {
 //========= Background image
 void DlgSlideProperties::s_ChIndexBackgroundCombo(int) {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentGlobalBrush();
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
     CurrentBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);

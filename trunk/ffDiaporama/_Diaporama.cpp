@@ -1404,7 +1404,8 @@ void cDiaporama::FreeUnusedMemory(int ObjectNum) {
         if ((List[i].ObjectComposition.List[j].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
             (List[i].ObjectComposition.List[j].BackgroundBrush.Image)&&
             (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage)) {
-            delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage;
+            if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage!=List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheImage)
+                delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage;
             List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage=NULL;
         }
     }

@@ -29,6 +29,13 @@ Prévision pour la version Alpha3
 - Revoir les messages d'erreurs lié à exiv2 dans _ImageFileWrapper
 
 -----------------------------------------------------------------
+Alpha2-20110609 : Changelog depuis la version Alpha2 : 20110608
+-----------------------------------------------------------------
+- Ajoute les formats de génération vidéo 320x240/320x180/320x136
+- Corrige le bug de reset des blocs texte quand on changeait les paramètres de brosses
+- Corrige le plantage de la 3eme image : libération du cachefullimage alors qu'il était égal à cacheimage
+
+-----------------------------------------------------------------
 Alpha2-20110608 : Changelog depuis la version Alpha2 : 20110606
 -----------------------------------------------------------------
 - Ajoute les traductions pour les messages textes de QT (Standard buttons, etc...)

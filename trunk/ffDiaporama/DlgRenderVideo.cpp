@@ -99,7 +99,7 @@ void DlgRenderVideo::InitImageSizeCombo(int) {
     int Standard=ui->StandardCombo->currentIndex();
     int ImageSize=ui->ImageSizeCombo->currentIndex();
     ui->ImageSizeCombo->clear();
-    for (int i=0;i<4;i++) ui->ImageSizeCombo->addItem(DefImageFormat[Standard][Geometry][i].Name);
+    for (int i=0;i<NBR_SIZEDEF;i++) ui->ImageSizeCombo->addItem(DefImageFormat[Standard][Geometry][i].Name);
     ui->ImageSizeCombo->setCurrentIndex(ImageSize);
 }
 
