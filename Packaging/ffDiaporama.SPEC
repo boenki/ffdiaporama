@@ -81,7 +81,7 @@ desktop-file-install --vendor=""                                 \
 %files
 %doc %{_datadir}/ffDiaporama/licences.txt
 %{_datadir}/
-/usr/bin/ffDiaporama
+%{_bindir}/%{name}
 
 %post
 touch --no-create %{_datadir}/icons/hicolor
