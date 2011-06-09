@@ -1,7 +1,9 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=ffDiaporama
+Name=Movie creator ffDiaporama
+Name[fr]=Créateur de film ffDiaporama
 GenericName=Movie creator
+GenericName[fr]=Créateur de film
 Comment=Movie creator from photos and video clips
 Comment[fr]=Créateur de film depuis des photos et des clips vidéo
 Exec=ffDiaporama
