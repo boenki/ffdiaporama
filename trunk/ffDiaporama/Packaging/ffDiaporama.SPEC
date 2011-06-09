@@ -2,6 +2,7 @@ Name:           ffDiaporama
 Version:        0.99.2
 Release:        1%{?dist}
 Summary:        FFDIAPORAMA - Movie creator
+Summary(fr):    FFDIAPORAMA - Créateur de film
 License:        GPLv2
 URL:            http://ffdiaporama.tuxfamily.org
 Group:		Applications/Multimedia
@@ -57,14 +58,13 @@ Principales fonctionnalités :
 * Transitions entre séquences avec définition séquence par séquence.
 * Ajout de musique pendant le diaporama avec effets de volume, de fondu et
   passage en pause paramétrables séquence par séquence.
-* Génération de vidéos exploitables par la plupart des équipements vidéos actuels
+* Génération de vidéos exploitables par la plupart des équipements vidéos
   (lecteurs de DVD de salon, disques durs multimédia, mobile/smartphone, etc.)
   mais également diffusables sur les principaux sites WEB de partage vidéo
   (Youtube, Dailymotion, etc.)
 
 %prep
 %setup -q
-
 
 %build
 qmake-qt4
