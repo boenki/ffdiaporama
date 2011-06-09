@@ -46,20 +46,21 @@ pour constituer des vidéos complètes.
 
 Principales fonctionnalités :
 * Recadrage des images, photos, titres et vidéos et découpage des clips vidéos
-* Annotation (ajout de texte) des images, des photos, des vidéos et des animations
+* Annotation (ajout de texte) des images, des photos, des vidéos et des
+  animations
 * Filtres graphiques sur les images et vidéos (passage en noir et blanc,
   dépoussiérage, égalisation des couleurs, etc...)
 * Création d'animation par effet de zoom, de rotation, de déplacement sur des
   portions d'images (effet Ken Burns)
-* Correction des images et des vidéos pendant les animations (correction luminosité,
-  contraste, gamma, couleurs, etc...)
+* Correction des images et des vidéos pendant les animations
+  (correction luminosité, contraste, gamma, couleurs, etc...)
 * Transitions entre séquences avec définition séquence par séquence.
-* Ajout de musique pendant le diaporama avec effets de volume, de fondu et passage
-  en pause paramétrables séquence par séquence.
+* Ajout de musique pendant le diaporama avec effets de volume, de fondu et
+  passage en pause paramétrables séquence par séquence.
 * Génération de vidéos exploitables par la plupart des équipements vidéos actuels
-  (lecteurs de DVD de salon, disques durs multimédia, mobile/smartphone, etc ...)
-  mais également diffusables sur les principaux sites WEB de partage vidéo (Youtube,
-  Dailymotion, etc...)
+  (lecteurs de DVD de salon, disques durs multimédia, mobile/smartphone, etc.)
+  mais également diffusables sur les principaux sites WEB de partage vidéo
+  (Youtube, Dailymotion, etc.)
 
 %prep
 %setup -q
@@ -79,7 +80,7 @@ desktop-file-install --vendor=""                                 \
 
 %files
 %doc %{_datadir}/ffDiaporama/licences.txt
-/%{_datadir}/
+%{_datadir}/
 /usr/bin/ffDiaporama
 
 %post
