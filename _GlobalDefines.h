@@ -180,7 +180,7 @@ extern "C" {
 #define STANDARD_NTSC                       1
 
 // Image size definition
-#define NBR_SIZEDEF                         4
+#define NBR_SIZEDEF                         5
 #define SIZE_VGA                            0
 #define SIZE_DVD                            1
 #define SIZE_720P                           2
@@ -329,7 +329,7 @@ struct sIMAGEDEF {
     char    Name[100];                                          // Display name
     int     Extend;                                             // Padding for cinema mode with DVD
 };
-extern sIMAGEDEF DefImageFormat [2][3][4];                      // Real definition in capplicationconfig.cpp
+extern sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF];            // Real definition in capplicationconfig.cpp
 
 //============================================
 // Video codec definitions
