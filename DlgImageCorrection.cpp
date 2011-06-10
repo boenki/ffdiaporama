@@ -91,7 +91,7 @@ DlgImageCorrection::~DlgImageCorrection() {
 //====================================================================================================================
 
 void DlgImageCorrection::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpTransitionProperties.php")));
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString(HELPFILE_DlgImageCorrection)));
 }
 
 //====================================================================================================================

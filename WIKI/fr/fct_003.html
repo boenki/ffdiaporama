@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="fr">
+  <head>
+    <title>La barre de temps</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <link href="../style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="fixe-haut">La barre de temps </div>
+    <div style="text-align: left;" id="content">
+      <ul style="margin-left: 40px; text-align: justify;">
+      </ul>
+      <h2> Description de la barre de temps </h2>
+      <div style="margin-left: 20px;"> La barre de temps liste les
+        diapositives qui composent le projet : Elle est constitu&#233;e
+        de 3 pistes :<br>
+        <br>
+        <table style="text-align: left;" border="0" cellpadding="2" cellspacing="0">
+          <tbody>
+            <tr>
+              <td style="vertical-align: top;"><img checked="true" style="width: 24px; height: 24px;"
+                  src="../../img/fifteenpieces.png"><br>
+              </td>
+              <td style="vertical-align: top;">La piste d'arri&#232;re
+                plan : Les diapositives sont list&#233;es de la gauche
+                vers la droite. Pour chaque diapositive sont
+                affich&#233;es :<br>
+                <ul>
+                  <li>Une ic&#244;ne correspondant &#224; la transition
+                    s&#233;lectionn&#233;e pour passer de
+                    l'arri&#232;re-plan pr&#233;c&#233;dent &#224; celui
+                    de cette diapositive (si un nouvel arri&#232;re-plan
+                    est d&#233;fini).</li>
+                  <li>Une vignette repr&#233;sentant l'arri&#232;re plan
+                    associ&#233; &#224; cette diapositive.</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;"><img checked="true" style="width: 24px; height: 24px;"
+                  src="../../img/object_movie.png"><br>
+              </td>
+              <td style="vertical-align: top;">La piste du montage : Les
+                diapositives sont list&#233;es de la gauche vers la
+                droite. Chaque diapositive est repr&#233;sent&#233;e par
+                :
+                <ul>
+                  <li>Une ic&#244;ne correspondant &#224; la transition
+                    s&#233;lectionn&#233;e pour passer de la diapositive
+                    pr&#233;c&#233;dente &#224; cette diapositive sous
+                    laquelle est indiqu&#233;e la dur&#233;e en seconde
+                    de la transition. </li>
+                  <li>Une vignette soit en forme de photo pour les
+                    diapositives compos&#233;es d'annotation seul
+                    (titre) ou d'une photo soit en forme de film (sous
+                    laquelle est plac&#233;e une piste sonore).</li>
+                </ul>
+                <div style="margin-left: 20px;">
+                  <ul>
+                    <li>&#201;ventuellement une ic&#244;ne <img checked="true"
+                        style="width: 16px; height: 16px; font-style: italic;"
+                        src="../../img/zoom.png"> appara&#238;t en bas
+                      &#224; gauche si la diapositive est anim&#233;e
+                      (c'est &#224; dire compos&#233;e de plus d'un
+                      plan).</li>
+                    <li>Les vignettes repr&#233;sentent la premi&#232;re
+                      image de la diapositive. </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;"><img checked="true" style="width: 16px; height: 16px;"
+                  src="../../img/object_sound.png"><br>
+              </td>
+              <td style="vertical-align: top;">La piste musical : <br>
+                <ul>
+                  <li>Chaque liste de lecture est affich&#233;e par
+                    alternance de couleur.</li>
+                  <li>La piste est plus ou moins remplies en fonction du
+                    volume sonore s&#233;lectionn&#233; avec affichage
+                    des variations de volume. </li>
+                  <li>Les transitions musical (fade in/out) sont
+                    affich&#233;es sous forme de croisement. </li>
+                  <li>Les &#233;ventuels passages en pause sont
+                    symbolis&#233;s par un passage au volume 0 et de
+                    l'ic&#244;ne <img checked="true" style="width: 24px; height: 24px;"
+                      src="../../img/player_pause.png">. </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h3> Pour modifier un &#233;l&#233;ment :</h3>
+        <ul>
+          <li>Pour modifier la transition entrante de
+            l'arri&#232;re-plan, double cliquer sur la transition de
+            l'arri&#232;re-plan.</li>
+          <li>Pour modifier l'arri&#232;re-plan, double cliquer sur la
+            vignette de l'arri&#232;re-plan. Cette action ouvre la <a href="dlg_004.html">boite
+
+
+
+              de dialogue de modification du fond d'&#233;cran</a>.<br>
+          </li>
+          <li>Pour modifier la transition entrante de la diapositive,
+            double cliquer sur la transition de la diapositive. Cette
+            action ouvre la <a href="dlg_009.html">boite de dialogue de
+              r&#233;glage des transitions entrantes des diapositives</a>.<br>
+          </li>
+          <li>Pour modifier la diapositive (recadrage, filtre,
+            animation, etc...) double cliquer sur la vignette de la
+            diapositive. Cette action ouvre la <a href="dlg_003.html">boite
+
+
+
+              de dialogue modification des diapositives</a>.<br>
+          </li>
+          <li>Pour modifier la musique associ&#233;e &#224; la
+            diapositive, double cliquer sur la zone correspondant &#224;
+            la diapositive de la piste musical. Cette action ouvre la <a
+              href="dlg_007.html">boite de dialogue de r&#233;glage de
+              la piste musical</a>.<br>
+          </li>
+        </ul>
+        <h3> Pour modifier l'affichage de la barre de temps :</h3>
+        <div style="margin-left: 20px;"><img checked="true" style="width: 16px; height: 16px;"
+            src="../../img/zoomup.png"> Permet d'augmenter la taille des
+          vignettes mais r&#233;duit le nombre de vignettes
+          affich&#233;es dans la barre de temps.<br>
+          <img checked="true" style="width: 16px; height: 16px;" src="../../img/zoomdown.png">
+          Permet de r&#233;duire la taille des vignettes mais augmente
+          le nombre de vignettes affich&#233;es dans la barre de temps.</div>
+      </div>
+      <h2>Voir aussi</h2>
+      <ul>
+        <li><a href="fct_002.html">Principes de fonctionnement de
+            ffDiaporama</a></li>
+        <li><a checked="true" href="fct_004.html">Les commandes du menu
+            et de la barre d'outils</a></li>
+      </ul>
+      <br>
+      <hr style="width: 100%; height: 2px;">Derni&#232;re modification :
+      domledom le 10/06/2011</div>
+  </body>
+</html>

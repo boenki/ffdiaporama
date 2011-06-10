@@ -113,14 +113,15 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 Painter.setFont(font);
                 Pen.setWidth(1);
                 Pen.setStyle(Qt::SolidLine);
-                QString ShotDuration=QTime(0,0,0,0).addMSecs(DiaporamaObject->List[Col].StaticDuration).toString("hh:mm:ss.zzz");
-                Pen.setColor(Qt::black);
-                Painter.setPen(Pen);
-                Painter.drawText(QRectF(1,4+1,this->width(),this->height()),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
-                Pen.setColor(Qt::white);
-                Painter.setPen(Pen);
-                Painter.drawText(QRectF(0,4,this->width()-1,this->height()-1),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
-
+                if (Col<DiaporamaObject->List.count()) {
+                    QString ShotDuration=QTime(0,0,0,0).addMSecs(DiaporamaObject->List[Col].StaticDuration).toString("hh:mm:ss.zzz");
+                    Pen.setColor(Qt::black);
+                    Painter.setPen(Pen);
+                    Painter.drawText(QRectF(1,4+1,this->width(),this->height()),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+                    Pen.setColor(Qt::white);
+                    Painter.setPen(Pen);
+                    Painter.drawText(QRectF(0,4,this->width()-1,this->height()-1),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+                }
                 Col++;
                 MediaObjectRect=QRect(0,0,Width,Height);
             }

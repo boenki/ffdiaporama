@@ -362,7 +362,6 @@
     <addaction name="actionEdit_music"/>
     <addaction name="separator"/>
     <addaction name="actionRender"/>
-    <addaction name="actionConfiguration"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -380,6 +379,8 @@
     <addaction name="action_Open"/>
     <addaction name="action_Save"/>
     <addaction name="actionSave_as"/>
+    <addaction name="separator"/>
+    <addaction name="actionConfiguration"/>
     <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>

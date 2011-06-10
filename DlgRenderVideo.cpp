@@ -89,7 +89,7 @@ DlgRenderVideo::~DlgRenderVideo() {
 //====================================================================================================================
 
 void DlgRenderVideo::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpRenderVideo.php")));
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString(HELPFILE_DlgRenderVideo)));
 }
 
 //====================================================================================================================

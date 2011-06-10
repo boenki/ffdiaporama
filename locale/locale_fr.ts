@@ -806,12 +806,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../DlgSlideProperties.ui" line="29"/>
         <source>Slide properties</source>
-        <translation>Propriétés du slide</translation>
+        <translation>Propriétés de la diapositive</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="411"/>
         <source>Shot duration :</source>
-        <translation>Durée de la séquence :</translation>
+        <translation>Durée du plan :</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="917"/>
@@ -846,7 +846,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../DlgSlideProperties.ui" line="2478"/>
         <source>Slide name :</source>
-        <translation>Nom du slide :</translation>
+        <translation>Nom de la diapositive :</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="367"/>
@@ -866,7 +866,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../DlgSlideProperties.ui" line="421"/>
         <source>Total slide duration :</source>
-        <translation>Durée total du slide :</translation>
+        <translation>Durée total (diapositive) :</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="572"/>
@@ -1512,12 +1512,12 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="369"/>
+        <location filename="../mainwindow.ui" line="368"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="377"/>
+        <location filename="../mainwindow.ui" line="376"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
@@ -1532,206 +1532,206 @@ p, li { white-space: pre-wrap; }
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="449"/>
+        <location filename="../mainwindow.ui" line="450"/>
         <source>&amp;About</source>
         <translation>&amp;A propos de</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="467"/>
+        <location filename="../mainwindow.ui" line="468"/>
         <source>&amp;New</source>
         <translation>&amp;Nouveau</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="470"/>
+        <location filename="../mainwindow.ui" line="471"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="479"/>
+        <location filename="../mainwindow.ui" line="480"/>
         <source>&amp;Open</source>
         <translation>&amp;Ouvrir</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="482"/>
+        <location filename="../mainwindow.ui" line="483"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="491"/>
+        <location filename="../mainwindow.ui" line="492"/>
         <source>&amp;Save</source>
         <translation>&amp;Enregistrer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="494"/>
+        <location filename="../mainwindow.ui" line="495"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="503"/>
+        <location filename="../mainwindow.ui" line="504"/>
         <source>&amp;Exit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="506"/>
+        <location filename="../mainwindow.ui" line="507"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="518"/>
+        <location filename="../mainwindow.ui" line="519"/>
         <source>Add image</source>
         <translation>Ajouter une image</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="521"/>
+        <location filename="../mainwindow.ui" line="522"/>
         <source>Ins</source>
         <translation>Ins</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="530"/>
-        <location filename="../mainwindow.ui" line="533"/>
+        <location filename="../mainwindow.ui" line="531"/>
+        <location filename="../mainwindow.ui" line="534"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="536"/>
+        <location filename="../mainwindow.ui" line="537"/>
         <source>Remove current object</source>
         <translation>Supprimer l&apos;objet actuel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="539"/>
+        <location filename="../mainwindow.ui" line="540"/>
         <source>Del</source>
         <translation>Suppr</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="548"/>
+        <location filename="../mainwindow.ui" line="549"/>
         <source>Move &amp;left</source>
         <translation>Déplacer à &amp;gauche</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="557"/>
+        <location filename="../mainwindow.ui" line="558"/>
         <source>Move &amp;right</source>
         <translation>Déplacer à &amp;droite</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="566"/>
+        <location filename="../mainwindow.ui" line="567"/>
         <source>Save &amp;as</source>
         <translation>En&amp;registrer sous</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="575"/>
-        <location filename="../mainwindow.ui" line="578"/>
+        <location filename="../mainwindow.ui" line="576"/>
+        <location filename="../mainwindow.ui" line="579"/>
         <source>Add title</source>
         <translation>Ajouter un titre</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="658"/>
+        <location filename="../mainwindow.ui" line="659"/>
         <source>Edit background</source>
         <translation>Propriétés de l&apos;arrière plan</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="663"/>
+        <location filename="../mainwindow.ui" line="664"/>
         <source>Edit object</source>
         <translation>Propriétés de l&apos;objet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="668"/>
+        <location filename="../mainwindow.ui" line="669"/>
         <source>Edit music</source>
         <translation>Propriétés de la musique</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="673"/>
+        <location filename="../mainwindow.ui" line="674"/>
         <source>Edit object transition</source>
         <translation>Propriétés de la transition</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="678"/>
+        <location filename="../mainwindow.ui" line="679"/>
         <source>Edit background transition</source>
         <translation>Propriétés de la transition d&apos;arrière plan</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="596"/>
+        <location filename="../mainwindow.ui" line="597"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="458"/>
+        <location filename="../mainwindow.ui" line="459"/>
         <source>Settings</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="599"/>
+        <location filename="../mainwindow.ui" line="600"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="608"/>
+        <location filename="../mainwindow.ui" line="609"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="611"/>
+        <location filename="../mainwindow.ui" line="612"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="620"/>
+        <location filename="../mainwindow.ui" line="621"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="623"/>
+        <location filename="../mainwindow.ui" line="624"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="632"/>
+        <location filename="../mainwindow.ui" line="633"/>
         <source>What&apos;s new</source>
         <translation>Nouveautés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="641"/>
+        <location filename="../mainwindow.ui" line="642"/>
         <source>Add project</source>
         <translation>Ajouter un projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="644"/>
+        <location filename="../mainwindow.ui" line="645"/>
         <source>Add a previously saved project at the end of this project</source>
         <translation>Ajouter un projet précédemment créé à la fin du projet en cours</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="587"/>
+        <location filename="../mainwindow.ui" line="588"/>
         <source>Support and help</source>
         <translation>Aide et support</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="653"/>
+        <location filename="../mainwindow.ui" line="654"/>
         <source>Render video</source>
         <translation>Générer le film</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="387"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="393"/>
         <source>All suported file (</source>
         <translation>Fichiers supportés (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="394"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="400"/>
         <source>Image file (</source>
         <translation>Fichiers images (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="400"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="406"/>
         <source>Video file (</source>
         <translation>Fichiers vidéos (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="406"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="412"/>
         <source>Music file (</source>
         <translation>Fichiers musicaux (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="476"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="481"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="482"/>
         <location filename="../_ApplicationDefinitions.cpp" line="487"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="493"/>
         <location filename="../_Diaporama.cpp" line="1256"/>
         <location filename="../_Diaporama.cpp" line="1279"/>
         <location filename="../_Diaporama.cpp" line="1285"/>
@@ -1740,31 +1740,31 @@ p, li { white-space: pre-wrap; }
         <location filename="../_Diaporama.cpp" line="1354"/>
         <location filename="../_Diaporama.cpp" line="1361"/>
         <location filename="../_Diaporama.cpp" line="1370"/>
-        <location filename="../mainwindow.cpp" line="889"/>
+        <location filename="../mainwindow.cpp" line="895"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="476"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="482"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la lecture du fichier de configuration</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="481"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="487"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la lecture du contenu du fichier de configuration</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="487"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="493"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Le fichier de configuration n&apos;est pas valide</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="637"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="643"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la création du fichier de configuration</translation>
@@ -1965,19 +1965,19 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>Enregistrer le projet sous</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="515"/>
+        <location filename="../mainwindow.ui" line="516"/>
         <location filename="../mainwindow.cpp" line="726"/>
         <source>Add files</source>
         <translation>Ajouter des fichiers</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="889"/>
+        <location filename="../mainwindow.cpp" line="895"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Format non supporté</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="909"/>
+        <location filename="../mainwindow.cpp" line="915"/>
         <source>Add a sub project</source>
         <translation>Ajouter un projet</translation>
     </message>
@@ -2401,34 +2401,34 @@ Voulez-vous l&apos;enregistrer ?</translation>
 <context>
     <name>wgt_QImageFilterTransform</name>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="484"/>
-        <location filename="../cCustomComboBox.cpp" line="528"/>
-        <location filename="../cCustomComboBox.cpp" line="545"/>
-        <location filename="../cCustomComboBox.cpp" line="562"/>
+        <location filename="../cCustomComboBox.cpp" line="490"/>
+        <location filename="../cCustomComboBox.cpp" line="537"/>
+        <location filename="../cCustomComboBox.cpp" line="554"/>
+        <location filename="../cCustomComboBox.cpp" line="571"/>
         <source>Gray</source>
         <translation>Niveaux de gris</translation>
     </message>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="485"/>
-        <location filename="../cCustomComboBox.cpp" line="529"/>
-        <location filename="../cCustomComboBox.cpp" line="546"/>
-        <location filename="../cCustomComboBox.cpp" line="563"/>
+        <location filename="../cCustomComboBox.cpp" line="491"/>
+        <location filename="../cCustomComboBox.cpp" line="538"/>
+        <location filename="../cCustomComboBox.cpp" line="555"/>
+        <location filename="../cCustomComboBox.cpp" line="572"/>
         <source>Equalize</source>
         <translation>Egaliser</translation>
     </message>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="486"/>
-        <location filename="../cCustomComboBox.cpp" line="530"/>
-        <location filename="../cCustomComboBox.cpp" line="547"/>
-        <location filename="../cCustomComboBox.cpp" line="564"/>
+        <location filename="../cCustomComboBox.cpp" line="492"/>
+        <location filename="../cCustomComboBox.cpp" line="539"/>
+        <location filename="../cCustomComboBox.cpp" line="556"/>
+        <location filename="../cCustomComboBox.cpp" line="573"/>
         <source>Despeckle</source>
         <translation>Dépoussierer</translation>
     </message>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="487"/>
-        <location filename="../cCustomComboBox.cpp" line="531"/>
-        <location filename="../cCustomComboBox.cpp" line="548"/>
-        <location filename="../cCustomComboBox.cpp" line="565"/>
+        <location filename="../cCustomComboBox.cpp" line="493"/>
+        <location filename="../cCustomComboBox.cpp" line="540"/>
+        <location filename="../cCustomComboBox.cpp" line="557"/>
+        <location filename="../cCustomComboBox.cpp" line="574"/>
         <source>No transformation</source>
         <translation>Aucune transformation</translation>
     </message>
