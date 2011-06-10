@@ -118,12 +118,6 @@ h5 {
   color: black;
   text-decoration: underline;
 }
-.WIKI_TITLE {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  color: yellow;
-  font-size: larger;
-}
 a:link, a:visited {
   color: blue;
   text-decoration: none;

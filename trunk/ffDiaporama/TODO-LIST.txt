@@ -29,6 +29,10 @@ Prévision pour la version Alpha3
 - Revoir les messages d'erreurs lié à exiv2 dans _ImageFileWrapper
 
 -----------------------------------------------------------------
+Alpha2- : Changelog depuis la version Alpha2 : 20110609
+-----------------------------------------------------------------
+
+-----------------------------------------------------------------
 Alpha2-20110609 : Changelog depuis la version Alpha2 : 20110608
 -----------------------------------------------------------------
 - Ajoute les formats de génération vidéo 320x240/320x180/320x136

@@ -59,7 +59,7 @@ DlgBackgroundProperties::~DlgBackgroundProperties() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/HelpBackgroundProperties.php")));
+    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString(HELPFILE_DlgBackgroundProperties)));
 }
 
 //====================================================================================================================

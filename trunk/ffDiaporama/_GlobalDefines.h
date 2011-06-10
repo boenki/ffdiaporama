@@ -273,6 +273,14 @@ extern "C" {
 //============================================
 #define HELPFILE_DlgTextEdit                "/dlg_001.php"
 #define HELPFILE_DlgApplicationSettings     "/dlg_002.php"
+#define HELPFILE_DlgSlideProperties         "/dlg_003.php"
+#define HELPFILE_DlgBackgroundProperties    "/dlg_004.php"
+#define HELPFILE_DlgImageCorrection         "/dlg_005.php"
+#define HELPFILE_DlgImageTransformation     "/dlg_006.php"
+#define HELPFILE_DlgMusicProperties         "/dlg_007.php"
+#define HELPFILE_DlgRenderVideo             "/dlg_008.php"
+#define HELPFILE_DlgTransitionProperties    "/dlg_009.php"
+#define HELPFILE_DlgVideoEdit               "/dlg_010.php"
 
 //============================================
 // Default values
