@@ -104,7 +104,7 @@ void DlgTextEdit::reject() {
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgTextEditWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","");
+    if (root.tagName()=="UNDO-DLG") CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
     done(1);
 }
 
@@ -191,7 +191,7 @@ void DlgTextEdit::MakeTextStyleIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,NULL,1,NULL);
+        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,NULL,1,NULL,true);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }

@@ -824,7 +824,7 @@ void MainWindow::s_action_AddFile() {
         }
         if (IsValide) {
             QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,true):
                            NULL);
             if (Image) {
                 CurrentBrush->BrushFileCorrect.ImageGeometry=GEOMETRY_PROJECT;

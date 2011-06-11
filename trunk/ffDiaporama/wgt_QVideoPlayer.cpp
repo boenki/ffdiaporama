@@ -375,14 +375,16 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
         if (FileInfo) {
 
-            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,false,NULL,1,false,NULL);
-            ui->MovieFrame->setPixmap(QPixmap().fromImage(VideoImage->scaledToHeight(ui->MovieFrame->height())));  // Display frame
-            delete VideoImage;
+            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,false,NULL,1,false,NULL,false);
+            if (VideoImage) {
+                ui->MovieFrame->setPixmap(QPixmap().fromImage(VideoImage->scaledToHeight(ui->MovieFrame->height())));  // Display frame
+                delete VideoImage;
+            }
 
         } else if (Diaporama) {
             // Create a frame from actual position
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Value,Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
-            PrepareImage(Frame,false);          // This will add frame to the ImageList
+            PrepareImage(Frame,false,true);          // This will add frame to the ImageList
             Frame=ImageList.DetachFirstImage(); // Then detach frame from the ImageList
             ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));  // Display frame
 
@@ -431,10 +433,12 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
             NewFrame->CurrentObject_StartTime   =0;
             NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
-            QImage *Temp=FileInfo->ImageAt(true,ActualPosition,false,&MixedMusic,1,false,NULL);
-            QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
-            NewFrame->RenderedImage=Temp2;
-            delete Temp;
+            QImage *Temp=FileInfo->ImageAt(true,ActualPosition,false,&MixedMusic,1,false,NULL,false);
+            if (Temp) {
+                QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
+                NewFrame->RenderedImage=Temp2;
+                delete Temp;
+            }
             if (NewFrame->RenderedImage) ImageList.AppendImage(NewFrame);
                 else delete NewFrame;
 
@@ -444,7 +448,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             // Create a new frame object
             cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
             // Prepare image
-            PrepareImage(NewFrame,true);
+            PrepareImage(NewFrame,true,true);
         }
     }
     ui->BufferState->setValue(ImageList.List.count());
@@ -469,7 +473,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 // Function use directly or with thread to prepare an image number Column at given position
 //============================================================================================
 
-void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted) {
+void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted,bool AddStartPos) {
     if (SoundWanted) {
         // Ensure MusicTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
@@ -493,7 +497,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     }
 
     // Ensure background, image and soundtrack is ready (in thread mode)
-    Diaporama->LoadSources(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),true);
+    Diaporama->LoadSources(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),true,AddStartPos);
 
     // Do Assembly
     Diaporama->DoAssembly(Frame,ui->MovieFrame->width(),ui->MovieFrame->height());

@@ -53,6 +53,7 @@ void    DrawPolygonR(QPainter &Painter,double width,double height,double CenterX
 // Base object for composition definition
 //*********************************************************************************************************************************************
 
+class cCompositionList;
 class cCompositionObject {
 public:
     int                 TypeComposition;        // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
@@ -91,9 +92,10 @@ public:
     cCompositionObject(int TypeComposition,int IndexKey);
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
-    void        DrawCompositionObject(QPainter *Painter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject);
+    void        DrawCompositionObject(QPainter *Painter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,
+                                      cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool AddStartPos);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
 };
 
 //*********************************************************************************************************************************************
@@ -109,7 +111,7 @@ public:
     ~cCompositionList();
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
 };
 
 //*********************************************************************************************************************************************
@@ -126,7 +128,7 @@ public:
 
     int         GetStaticDuration();
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
 };
 
 //*********************************************************************************************************************************************
@@ -170,7 +172,7 @@ public:
     QString                 GetDisplayName();
     int                     GetCumulTransitDuration();
     int                     GetDuration();
-    QImage                  *CanvasImageAt(int Width,int Height,int Position,QPainter *Painter);
+    QImage                  *CanvasImageAt(int Width,int Height,int Position,QPainter *Painter,bool AddStartPos);
     void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY);   // Draw Thumb
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
@@ -297,7 +299,7 @@ public:
 
     // Thread functions
     void                PrepareMusicBloc(int Column,int Position,cSoundBlockList *MusicTrack);
-    void                LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode);
+    void                LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos);
     void                DoAssembly(cDiaporamaObjectInfo *Info,int W,int H);
 
     // Transition
@@ -308,11 +310,11 @@ public:
     void                DoLuma(cLumaList *List,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
 
     // Threaded functions
-    void ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H);
-    void ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H);
+    void ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos);
+    void ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos);
 
 private:
-    void                PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode);
+    void                PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode,bool AddStartPos);
 };
 
 //****************************************************************************

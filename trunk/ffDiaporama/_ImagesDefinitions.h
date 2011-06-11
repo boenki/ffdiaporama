@@ -106,12 +106,12 @@ public:
     void        CopyFromBrushDefinition(cBrushDefinition *BrushToCopy);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
-    QBrush      *GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
+    QBrush      *GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool AddStartPos);
     void        ApplyDefaultFraming(int DefaultFraming);
 
 private:
     QBrush      *GetLibraryBrush(QRectF Rect);
-    QBrush      *GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
+    QBrush      *GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool AddStartPos);
     int         GetHeightForWidth(int WantedWith,QRectF Rect);
     int         GetWidthForHeight(int WantedHeight,QRectF Rect);
 };

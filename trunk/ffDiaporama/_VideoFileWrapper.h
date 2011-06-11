@@ -28,69 +28,45 @@
 #include "_SoundDefinitions.h"
 
 //*********************************************************************************************************************************************
-// Internal object / object list to spool image to decode
-//*********************************************************************************************************************************************
-
-class DecodeVideoObject {
-public:
-    AVPacket    *StreamPacket;
-    double      FramePosition;
-    AVStream    *VideoStream;
-    double      dPosition;
-    bool        IsKeyFrame;
-
-    DecodeVideoObject(AVPacket *StreamPacket,double FramePosition,AVStream *VideoStream,double dPosition,bool IsKeyFrame);
-    ~DecodeVideoObject();
-};
-
-class DecodeVideoObjectList {
-public:
-    QList<DecodeVideoObject *>  List;
-
-    DecodeVideoObjectList();
-    ~DecodeVideoObjectList();
-
-    DecodeVideoObject *DetachFirstPacket();
-};
-
-//*********************************************************************************************************************************************
 // video file wrapper : encapsulate all stream type objects
 //*********************************************************************************************************************************************
 
 class cvideofilewrapper {
 public:
-    bool                    IsValide;               // if true then object if fuly initialise
-    bool                    MusicOnly;              // True if object is a music only file
-    QString                 FileName;               // filename
-    QTime                   StartPos;               // Start position
-    QTime                   EndPos;                 // End position
-    QString                 Container;              // Container type (get from file extension)
-    QTime                   Duration;               // Duration of the video
-    QDateTime               CreatDateTime;          // Original date/time
-    QDateTime               ModifDateTime;          // Last modified date/time
-    int                     ImageWidth;             // Widht of normal image
-    int                     ImageHeight;            // Height of normal image
-    QImage                  *CacheFirstImage;       // Cache image of first image of the video (Preview mode only)
-    DecodeVideoObjectList   VideoObjectList;        // Spool list of DecodeVideoObject
+    bool                    IsValide;                   // if true then object if fuly initialise
+    bool                    MusicOnly;                  // True if object is a music only file
+    QString                 FileName;                   // filename
+    QTime                   StartPos;                   // Start position
+    QTime                   EndPos;                     // End position
+    QString                 Container;                  // Container type (get from file extension)
+    QTime                   Duration;                   // Duration of the video
+    QDateTime               CreatDateTime;              // Original date/time
+    QDateTime               ModifDateTime;              // Last modified date/time
+    int                     ImageWidth;                 // Widht of normal image
+    int                     ImageHeight;                // Height of normal image
+    QImage                  *CacheFirstImage;           // Cache image of first image of the video (Preview mode only)
     int                     AdjustTimeStamp;
-    bool                    CodecUsePTS;            // true if codec use PTS (h264) if if we use only DTS
-    cFilterTransformObject  BrushFileTransform;     // Image transformation if image from disk
+    bool                    CodecUsePTS;                // true if codec use PTS (h264) if if we use only DTS
+    cFilterTransformObject  BrushFileTransform;         // Image transformation if image from disk
+    double                  AspectRatio;                // Aspect ratio
 
     // LibAVFormat/Codec/SWScale part
-    AVFormatContext         *ffmpegVideoFile;       // LibAVFormat context
-    AVCodec                 *VideoDecoderCodec;     // Associated LibAVCodec for video stream
-    AVCodec                 *AudioDecoderCodec;     // Associated LibAVCodec for audio stream
-    int                     VideoStreamNumber;      // Number of the video stream
-    int                     AudioStreamNumber;      // Number of the audio stream
-    double                  AspectRatio;            // Aspect ratio
+    AVFormatContext         *ffmpegVideoFile;           // LibAVFormat context
+    AVFrame                 *FrameBufferYUV;
+    AVCodec                 *VideoDecoderCodec;         // Associated LibAVCodec for video stream
+    int                     VideoStreamNumber;          // Number of the video stream
+    double                  NextVideoPacketPosition;    // Use to keep the last NextPacketPosition to determine if a seek is needed
 
-    int                     NextPacketPosition;     // Use to keep the last NextPacketPosition to determine if a seek is needed
+    AVFormatContext         *ffmpegAudioFile;           // LibAVFormat context
+    AVCodec                 *AudioDecoderCodec;         // Associated LibAVCodec for audio stream
+    int                     AudioStreamNumber;          // Number of the audio stream
+    int                     NextAudioPacketPosition;    // Use to keep the last NextPacketPosition to determine if a seek is needed
 
     cvideofilewrapper();
     ~cvideofilewrapper();
 
     bool        GetInformationFromFile(QString &GivenFileName,bool MusicOnly);
-    QImage      *ImageAt(bool PreviewMode,int Position,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter);
+    QImage      *ImageAt(bool PreviewMode,int Position,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool AddStartPos);
 
     int         PreviousPosition;
     bool        IsReadVideoStarted;
@@ -106,7 +82,8 @@ public:
 
 private:
     void        CloseVideoFileReader();
-    QImage      *ReadVideoFrame(int Position,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly);
+    QImage      *ReadVideoFrame(int Position);
+    void        ReadAudioFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume);
     QImage      *YUVStreamToQImage(double dPosition,bool GetFirstValide);
 };
 

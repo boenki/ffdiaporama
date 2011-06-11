@@ -93,7 +93,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 }
 
                 Painter.fillRect(0,0,Width,Height,Transparent);
-                DiaporamaObject->CanvasImageAt(Width,Height,Position,&Painter);
+                DiaporamaObject->CanvasImageAt(Width,Height,Position,&Painter,false);
 
                 // -------------------------- Draw selected box (if needed)
 
@@ -182,12 +182,16 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 
                 // Parse current ObjectComposition table to determine if slide have sound
                 for (int i=0;i<Object->ObjectComposition.List.count();i++) if ((Object->ObjectComposition.List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
-                    (Object->ObjectComposition.List[i].BackgroundBrush.Video)&&(Object->ObjectComposition.List[i].BackgroundBrush.SoundVolume!=0)) {
+                    (Object->ObjectComposition.List[i].BackgroundBrush.Video)) {
                     HaveSound=true;
-                    if (Object->ObjectComposition.List[i].BackgroundBrush.SoundVolume>SoundVolume) SoundVolume=Object->ObjectComposition.List[i].BackgroundBrush.SoundVolume;
+                    // Parse all object from all shot to determine max volume
+                    for (int v=0;v<Object->List.count();v++) for (int w=0;w<Object->List[v].ShotComposition.List.count();w++)
+                        if ((Object->List[v].ShotComposition.List[w].IndexKey==Object->ObjectComposition.List[i].IndexKey)&&
+                            (Object->List[v].ShotComposition.List[w].BackgroundBrush.SoundVolume>SoundVolume))
+                                SoundVolume=Object->List[v].ShotComposition.List[w].BackgroundBrush.SoundVolume;
                 }
 
-                // Parse previous object.ObjectComposition table to determine if prvious slide have sound
+                // Parse previous object.ObjectComposition table to determine if previous slide have sound
                 if (Col>0) {
                     for (int i=0;i<GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List.count();i++)
                             if ((GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
@@ -195,8 +199,11 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                                 (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.SoundVolume!=0)) {
 
                         PreviousHaveSound=true;
-                        if (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.SoundVolume>PreviousSoundVolume)
-                            PreviousSoundVolume=GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.SoundVolume;
+                        // Parse all object from all shot to determine max volume
+                        for (int v=0;v<GlobalMainWindow->Diaporama->List[Col-1].List.count();v++) for (int w=0;w<GlobalMainWindow->Diaporama->List[Col-1].List[v].ShotComposition.List.count();w++)
+                            if ((GlobalMainWindow->Diaporama->List[Col-1].List[v].ShotComposition.List[w].IndexKey==GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].IndexKey)&&
+                                (GlobalMainWindow->Diaporama->List[Col-1].List[v].ShotComposition.List[w].BackgroundBrush.SoundVolume>PreviousSoundVolume))
+                                    PreviousSoundVolume=GlobalMainWindow->Diaporama->List[Col-1].List[v].ShotComposition.List[w].BackgroundBrush.SoundVolume;
                     }
                 }
 

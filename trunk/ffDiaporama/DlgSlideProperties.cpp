@@ -458,7 +458,7 @@ void DlgSlideProperties::RefreshControls() {
         }
     }
 
-    ui->RemoveBlock->setEnabled(IsVisible);
+    ui->RemoveBlock->setEnabled(CurrentTextItem!=NULL);
 
     //***********************
     // Size & Position
@@ -529,7 +529,7 @@ void DlgSlideProperties::RefreshSceneImage() {
 
     for (int i=0;i<CurrentList->List.count();i++) if (CurrentList->List[i].IsVisible) {
         // Draw composition
-        CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,NULL,1,NULL);
+        CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,NULL,1,NULL,true);
         // Draw border
         if (CurrentTextItem==&CurrentList->List[i]) {
             // draw rect out of the rectangle
@@ -931,7 +931,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
         ADJUST_RATIO=1;
-        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,NULL,1,NULL);
+        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,NULL,1,NULL,true);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -1150,10 +1150,12 @@ void DlgSlideProperties::ImageEditTransform() {
 //========= Open video editor
 void DlgSlideProperties::VideoEdit() {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();        if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
+    cBrushDefinition    *CurrentBrush=&CurrentTextItem->BackgroundBrush;        if (!CurrentBrush) return;
+    if (!CurrentBrush->Video) return;
     DlgVideoEdit(CurrentBrush,this).exec();
     DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
 }
 
@@ -1462,7 +1464,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     if (IsValide) {
 
         QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
-                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
+                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,true):
                        NULL);
         if (Image) {
             // Calc hypothenuse of the image rectangle
@@ -1680,11 +1682,11 @@ void DlgSlideProperties::s_PasteBlockBT() {
         // Create and append a composition block to the object list
         DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
         cCompositionObject *GlobalBlock=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-        GlobalBlock->LoadFromXML(root,"CLIPBOARD-BLOCK-GLOBAL","");
+        GlobalBlock->LoadFromXML(root,"CLIPBOARD-BLOCK-GLOBAL","",NULL);
         GlobalBlock->IndexKey=DiaporamaObject->NextIndexKey;
 
         cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey);
-        ShotBlock.LoadFromXML(root,"CLIPBOARD-BLOCK-SHOT","");
+        ShotBlock.LoadFromXML(root,"CLIPBOARD-BLOCK-SHOT","",NULL);
         ShotBlock.IndexKey=DiaporamaObject->NextIndexKey;
         ShotBlock.BackgroundBrush.Image=GlobalBlock->BackgroundBrush.Image;
         ShotBlock.BackgroundBrush.Video=GlobalBlock->BackgroundBrush.Video;

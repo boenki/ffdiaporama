@@ -311,7 +311,7 @@ cBrushDefinition::~cBrushDefinition() {
 }
 
 //====================================================================================================================
-QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
+QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool AddStartPos) {
     switch (BrushType) {
         case BRUSHTYPE_NOBRUSH :        return new QBrush(Qt::NoBrush);
         case BRUSHTYPE_SOLID :          return new QBrush(QColor(ColorD),Qt::SolidPattern);
@@ -319,20 +319,20 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSo
         case BRUSHTYPE_GRADIENT2 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_GRADIENT3 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_IMAGELIBRARY :   return GetLibraryBrush(Rect);
-        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage,PctDone,PreviousBrush);
+        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage,PctDone,PreviousBrush,AddStartPos);
     }
     return new QBrush(Qt::NoBrush);
 }
 
 //====================================================================================================================
-QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
+QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool AddStartPos) {
     if (BrushFileName=="") return new QBrush(Qt::NoBrush);
 
     // W and H = 0 when producing sound track in render process
     bool    SoundOnly=((Rect.width()==0)&&(Rect.height()==0));
 
     QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&Image->BrushFileTransform):
-                        Video?Video->ImageAt(PreviewMode,Position,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform):
+                        Video?Video->ImageAt(PreviewMode,Position,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform,AddStartPos):
                         NULL);
     if ((!SoundOnly)&&(RenderImage)) {
         // Create brush image with ken burns effect !
@@ -436,12 +436,11 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     Element.setAttribute("BrushImage",BrushImage);                                                  // Image name if image from library
     Element.setAttribute("BrushFileName",BrushFileName);                                            // Image name if image from disk
     if (Video!=NULL) {
-        Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));                   // Volume of soundtrack (for video only)
         if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
             Element.setAttribute("StartPos",Video->StartPos.toString());                            // Start position (video only)
             Element.setAttribute("EndPos",Video->EndPos.toString());                                // End position (video only)
             Video->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
-        }
+        } else Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));            // Volume of soundtrack (for video only)
     } else if (Image!=NULL) {
         if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
             Image->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
@@ -500,12 +499,12 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         }
 
         if (Video!=NULL) {
-            SoundVolume=Element.attribute("SoundVolume").toDouble();                                        // Volume of soundtrack (for video only)
             if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
                 Video->StartPos =QTime().fromString(Element.attribute("StartPos"));                         // Start position (video only)
                 Video->EndPos   =QTime().fromString(Element.attribute("EndPos"));                           // End position (video only)
                 Video->BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);    // Image transformation
-            }
+            } else
+                SoundVolume=Element.attribute("SoundVolume").toDouble();                                 // Volume of soundtrack (for video only)
         } else if (Image!=NULL) {
             if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
                 Image->BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);    // Image transformation
@@ -542,7 +541,7 @@ void cBrushDefinition::ApplyDefaultFraming(int DefaultFraming) {
             break;
     }
 
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,0,false,NULL,1,false,&Video->BrushFileTransform); // Video
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,0,false,NULL,1,false,&Video->BrushFileTransform,true); // Video
     else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,false,&Image->BrushFileTransform);                // Image
 
     if (ReturnImage!=NULL) {
