@@ -1,30 +1,206 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="fr">
   <head>
-    <title>R&#233;gler la piste musical</title>
+    <title>R&#233;gler la piste musicale</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <div id="fixe-haut">R&#233;gler la piste musical<br>
+    <div id="fixe-haut">R&#233;gler la piste musicale<br>
     </div>
     <div style="text-align: left;" id="content">
       <h2 style="">Introduction</h2>
-      <br>
+      <div style="margin-left: 40px;"> La boite "Propri&#233;t&#233;s de
+        la musique" permet de r&#233;gler la piste musicale :<br>
+        <br>
+        <img alt="" src="img/dlg_007.png"><br>
+        <br>
+        Cette boite est appel&#233;e en double cliquant sur la zone
+        musique des diapositives depuis la barre de temps de la
+        fen&#234;tre principale<ahref="file: home="" dominique="" public=""
+          dev="" ffdiaporama="" wiki="" fr="" dlg_007.html="">.</ahref="file:><br>
+      </div>
       <h2> Description de la boite de dialogue</h2>
       <h3> </h3>
       <div style="margin-left: 40px;">
-        <h3>&#160; zone</h3>
-        <div style="margin-left: 40px;"> Zone de saisie du texte<br>
+        <h3>La partie haute de la boite</h3>
+        <div style="margin-left: 40px;">
+          <h4>Principe de fonctionnement</h4>
+          Le principe g&#233;n&#233;ral de fonctionnement de la piste
+          musical est que tant que vous ne changez pas les
+          r&#233;glages, les r&#233;glages pr&#233;c&#233;dents
+          s'appliquent.<br>
+          <br>
+          Ainsi, si :<br>
         </div>
+      </div>
+      <ul style="margin-left: 80px; text-align: justify;">
+        <li> La diapositive 1 - D&#233;finie une liste de lecture</li>
+        <li>La diapositive 2 - Ne contient aucun r&#233;glage de musique</li>
+        <li>La diapositive 3 - Ne contient aucun r&#233;glage de musique</li>
+        <li>La diapositive 4 - D&#233;finie une liste de lecture</li>
+        <li>La diapositive 5 - Ne contient aucun r&#233;glage de musique
+        </li>
+      </ul>
+      <div style="margin-left: 80px; text-align: justify;">Alors :<br>
+        <ul>
+          <li>Les diapositive 2 et 3 continuent de jouer la liste de
+            lecture d&#233;finie dans la diapositive 1</li>
+          <li>La diapositive 5 continue de jouer la liste de lecture
+            d&#233;finie dans la diapositive 4</li>
+        </ul>
+        <h4>Les r&#233;glages de la piste musical</h4>
+        <br>
+        <table border="0" cellspacing="10">
+          <tbody>
+            <tr>
+              <td style="vertical-align: top;">Continuer la liste de
+                lecture actuelle</td>
+              <td style="vertical-align: top;">Permet de continuer
+                &#224; jouer la liste de lecture d&#233;finie dans une
+                diapositive pr&#233;c&#233;dente :<br>
+                <br>
+                <div style="margin-left: 40px;">
+                  <table border="1" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td style="vertical-align: top;">Normal</td>
+                        <td style="vertical-align: top;">Aucun
+                          r&#233;glage particulier<br>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="vertical-align: top;">Changer le
+                          niveau de volume<br>
+                        </td>
+                        <td style="vertical-align: top;">Permet
+                          d'indiquer qu'&#224; partir de maintenant, le
+                          volume sonore est r&#233;duit.<br>
+                          Cette option est particuli&#232;rement utile,
+                          par exemple, pour r&#233;duire le son de la
+                          musique pendant le passage d'une vid&#233;o.<br>
+                          Cette r&#233;duction de volume se poursuit
+                          tant que vous ne modifiez pas &#224; nouveau
+                          ce r&#233;glage.<br>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="vertical-align: top;">Mettre en pause<br>
+                        </td>
+                        <td style="vertical-align: top;">Permet de
+                          mettre en pause la liste de lecture.<br>
+                          Cette pause dure tant que vous ne modifiez pas
+                          &#224; nouveau ce r&#233;glage.<br>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">Commencer une nouvelle
+                liste de lecture<br>
+              </td>
+              <td style="vertical-align: top;">Permet de commencer une
+                nouvelle liste de lecture.<br>
+                Si une liste d&#233;finie dans une diapositive
+                pr&#233;c&#233;dente, est en cours de lecture, la liste
+                pr&#233;c&#233;dente est arr&#234;t&#233; avec un effet
+                de fade-out (baisse progressive du volume sonore
+                jusqu'&#224; arr&#234;t complet).<br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+      </div>
+      <div style="margin-left: 40px;">
+        <h3>La liste de lecture (partie basse de la boite)<br>
+        </h3>
+        <div style="margin-left: 40px;">La liste de lecture est
+          compos&#233;e de deux parties :<br>
+          <ul>
+            <li>La barre d'outils contenant les contr&#244;les de la
+              liste de lecture</li>
+            <li>La liste des fichiers musicaux composant la liste de
+              lecture</li>
+          </ul>
+          <h4>La barre d'outils </h4>
+          <table border="0" cellspacing="10">
+            <tbody>
+              <tr>
+                <td style="vertical-align: top;"><img alt="" src="../../img/object_sound.png"><br>
+                </td>
+                <td style="vertical-align: top;">Permet d'ajouter un
+                  fichier musical &#224; la liste de lecture.<br>
+                  Une boite de s&#233;lection de fichier appara&#238;t
+                  vous permettant de s&#233;lectionner un fichier.<br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><img alt="" src="../../img/trash.png"><br>
+                </td>
+                <td style="vertical-align: top;">Permet de supprimer le
+                  fichier musical actuellement s&#233;lectionn&#233;
+                  dans la liste.<br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><img alt="" src="../../img/arrow_up.png"><br>
+                </td>
+                <td style="vertical-align: top;">Permet de changer
+                  l'ordre dans lequel seront jou&#233;s les fichiers
+                  musicaux.<br>
+                  D&#233;place le fichier actuellement
+                  s&#233;lectionn&#233; dans la liste d'un cran vers le
+                  haut.<br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><img alt="" src="../../img/arrow_down.png"><br>
+                </td>
+                <td style="vertical-align: top;">Permet de changer
+                  l'ordre dans lequel seront jou&#233;s les fichiers
+                  musicaux.<br>
+                  D&#233;place le fichier actuellement
+                  s&#233;lectionn&#233; dans la liste d'un cran vers le
+                  base.</td>
+              </tr>
+            </tbody>
+          </table>
+          <h4>La liste des fichiers musicaux</h4>
+          Les fichiers musicaux sont list&#233;s dans l'ordre dans
+          lequel ils seront jou&#233;s, du haut vers le bas.<br>
+          La colonne Volume permet de d&#233;finir le "Master Volume"
+          pour le fichier. Ce volume est ind&#233;pendant des
+          &#233;ventuels r&#233;ductions de volume que vous
+          d&#233;finissez dans la partie haute de la boite.<br>
+        </div>
+      </div>
+      <h2>Remarque</h2>
+      <div style="margin-left: 40px;">Les effets de fade/in fade/out et
+        les augmentations/r&#233;ductions de volume ont lieux pendant
+        les transitions entrantes des diapositives.<br>
+        Par cons&#233;quent :<br>
+        <ul>
+          <li>Ils durent le temps des transitions entrantes.</li>
+          <li>Si une diapositive a une transition entrante
+            r&#233;gl&#233;e sur Aucun, l'effet sonore n'est pas
+            progressif mais instantan&#233;.</li>
+        </ul>
       </div>
       <h2>Voir aussi</h2>
       <ul>
-        <li><br>
+        <li><a href="fct_002.html">Principes de fonctionnement de
+            ffDiaporama</a></li>
+        <li><a href="fct_003.html">La barre de temps</a></li>
+        <li><a href="dlg_009.html">R&#233;gler les transitions entrantes
+            des diapositives</a><br>
         </li>
       </ul>
       <br>
       <hr style="width: 100%; height: 2px;">Derni&#232;re modification :
-      domledom le 06/06/2011</div>
+      domledom le 11/06/2011</div>
   </body>
 </html>
