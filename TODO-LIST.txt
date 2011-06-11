@@ -1,4 +1,5 @@
 Buggs :
+    Le flag de modification est activé même si le nom du fichier de destination n'a pas changé dans la boite de rendu
     Erreur de décalage des mises en pause des musiques
     Vérifier les options de trie sous Windows
     SSE2 dans VirtualBox ! Plus moyen d'arreter SSE2 avec Qt 4.7.3 !
@@ -29,8 +30,19 @@ Prévision pour la version Alpha3
 - Revoir les messages d'erreurs lié à exiv2 dans _ImageFileWrapper
 
 -----------------------------------------------------------------
-Alpha2- : Changelog depuis la version Alpha2 : 20110609
+Alpha2- : Changelog depuis la version Alpha2 : 20110611
 -----------------------------------------------------------------
+- Corrige le bug de la boite slide qui faisait que le volume des vidéos ne pouvaient pas être changé
+- Corrige le bug de la boite slide qui perdait la vidéo quand on annulait des modifications dans la boite vidéos
+- Corrige le bug de la boite vidéo qui s'appliquait le début de lecture dans le lecteur !!!
+
+-----------------------------------------------------------------
+Alpha2-20110611 : Changelog depuis la version Alpha2 : 20110609
+-----------------------------------------------------------------
+- Corrige des problèmes de décodage des videos quand audio et video sont décalés dans le fichier source
+    => Accepte beaucoup plus de fichiers maintenant
+- Supprime le trait qui trainait sous les ombres des blocs
+- Autorise le bouton supprimer bloc même si le bloc est invisible dans la boite slide
 
 -----------------------------------------------------------------
 Alpha2-20110609 : Changelog depuis la version Alpha2 : 20110608

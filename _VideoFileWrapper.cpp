@@ -27,51 +27,27 @@
 #include "_VideoFileWrapper.h"
 #include "mainwindow.h"
 
-//*************************************************************************************************************************************
-
-DecodeVideoObject::DecodeVideoObject(AVPacket *aStreamPacket,double aFramePosition,AVStream *aVideoStream,double adPosition,bool aIsKeyFrame) {
-    StreamPacket    =aStreamPacket;
-    FramePosition   =aFramePosition;
-    VideoStream     =aVideoStream;
-    dPosition       =adPosition;
-    IsKeyFrame      =aIsKeyFrame;
-}
-
-DecodeVideoObject::~DecodeVideoObject() {
-    // Free packet
-    av_free_packet(StreamPacket);          // Free the StreamPacket that was allocated by previous call to av_read_frame
-    delete StreamPacket;
-}
-
-//*************************************************************************************************************************************
-
-DecodeVideoObjectList::DecodeVideoObjectList() {
-}
-
-DecodeVideoObjectList::~DecodeVideoObjectList() {
-    List.clear();
-}
-
-DecodeVideoObject *DecodeVideoObjectList::DetachFirstPacket() {
-    if (List.count()>0) return (DecodeVideoObject *)List.takeFirst(); else return NULL;
-}
-
 /*************************************************************************************************************************************
     CLASS cvideofilewrapper
 *************************************************************************************************************************************/
 
 cvideofilewrapper::cvideofilewrapper() {
-    CacheFirstImage     = NULL;             // Cache image of first image of the video
+    CacheFirstImage         = NULL;             // Cache image of first image of the video
 
     // LibAVFormat/Codec/SWScale part
-    ffmpegVideoFile     = NULL;
-    VideoDecoderCodec   = NULL;
-    AudioDecoderCodec   = NULL;
-    VideoStreamNumber   = 0;
-    NextPacketPosition  = -1;
-    AdjustTimeStamp     = 0;
-    StartPos            = QTime(0,0,0,0);   // Start position
-    EndPos              = QTime(0,0,0,0);   // End position
+    ffmpegVideoFile         = NULL;
+    VideoDecoderCodec       = NULL;
+    VideoStreamNumber       = 0;
+    NextVideoPacketPosition = -1;
+    FrameBufferYUV          = NULL;
+
+    ffmpegAudioFile         = NULL;
+    AudioDecoderCodec       = NULL;
+    NextAudioPacketPosition = -1;
+
+    AdjustTimeStamp         = 0;
+    StartPos                = QTime(0,0,0,0);   // Start position
+    EndPos                  = QTime(0,0,0,0);   // End position
 }
 
 //====================================================================================================================
@@ -91,14 +67,10 @@ cvideofilewrapper::~cvideofilewrapper() {
 //====================================================================================================================
 
 void cvideofilewrapper::CloseVideoFileReader() {
-    // Close the codecs
+    // Close the video codec
     if (VideoDecoderCodec!=NULL) {
         avcodec_close(ffmpegVideoFile->streams[VideoStreamNumber]->codec);
         VideoDecoderCodec=NULL;
-    }
-    if (AudioDecoderCodec!=NULL) {
-        avcodec_close(ffmpegVideoFile->streams[AudioStreamNumber]->codec);
-        AudioDecoderCodec=NULL;
     }
 
     // Close the video file
@@ -106,19 +78,33 @@ void cvideofilewrapper::CloseVideoFileReader() {
         av_close_input_file(ffmpegVideoFile);
         ffmpegVideoFile=NULL;
     }
+
+    // Close the audio codec
+    if (AudioDecoderCodec!=NULL) {
+        avcodec_close(ffmpegAudioFile->streams[AudioStreamNumber]->codec);
+        AudioDecoderCodec=NULL;
+    }
+    // Close the audio file
+    if (ffmpegAudioFile!=NULL) {
+        av_close_input_file(ffmpegAudioFile);
+        ffmpegAudioFile=NULL;
+    }
+
+    if (FrameBufferYUV!=NULL) {
+        av_free(FrameBufferYUV);
+        FrameBufferYUV=NULL;
+    }
 }
 
 //====================================================================================================================
-// Read a video frame from current stream
+// Read an audio frame from current stream
 //====================================================================================================================
-
-QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly) {
+void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume) {
     // Ensure file was previously open
-    if ((ffmpegVideoFile==NULL)||((MusicOnly==false)&&(ForceSoundOnly==false)&&(VideoDecoderCodec==NULL))||(((MusicOnly==true)||(ForceSoundOnly==true))&&(AudioDecoderCodec==NULL))) return NULL;
+    if ((ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
+
     int64_t         AVNOPTSVALUE        =INT64_C(0x8000000000000000); // to solve type error with Qt
-    QImage          *RetImage           =NULL;
-    AVStream        *AudioStream        =ffmpegVideoFile->streams[AudioStreamNumber];
-    AVStream        *VideoStream        =ffmpegVideoFile->streams[VideoStreamNumber];
+    AVStream        *AudioStream        =ffmpegAudioFile->streams[AudioStreamNumber];
 
     #if FF_API_OLD_SAMPLE_FMT
     int64_t         SrcSampleSize       =(av_get_bits_per_sample_fmt(AudioStream->codec->sample_fmt)>>3)*int64_t(AudioStream->codec->channels);
@@ -137,11 +123,11 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTra
     double          AudioDataWanted     =((AudioStream)&&(SoundTrackBloc))?SoundTrackBloc->WantedDuration*double(AudioStream->codec->sample_rate)*SrcSampleSize:0;
 
     // Cac difftime between asked position and previous end decoded position
-    int DiffTimePosition=NextPacketPosition-Position;
+    int DiffTimePosition=NextAudioPacketPosition-Position;
     if (DiffTimePosition<0) DiffTimePosition=-DiffTimePosition;
 
     // Adjust position if input file have a start_time value
-    if (ffmpegVideoFile->start_time!=AVNOPTSVALUE)  dPosition+=double(ffmpegVideoFile->start_time)/double(AV_TIME_BASE);
+    if (ffmpegAudioFile->start_time!=AVNOPTSVALUE)  dPosition+=double(ffmpegAudioFile->start_time)/double(AV_TIME_BASE);
 
     // Prepare a buffer for sound decoding
     if (SoundTrackBloc!=NULL) {
@@ -149,85 +135,46 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTra
         BufferForDecoded    =(uint8_t *)av_malloc(MaxAudioLenDecoded);
     }
     // Calc if we need to seek to a position
-    if ((Position==0)
-//        ||(SoundTrackBloc==NULL)                    // If no SoundTrackBloc then it's a dialog box or seek preview without playing
-        ||(DiffTimePosition>2)                      // Allow 2 msec diff (rounded double !)
-        ) {
-         //qDebug()<<"SEEK Ancien="<<NextPacketPosition<<"Nouveau="<<Position<<"Diff="<<DiffTimePosition<<"AdjustTimeStamp="<<AdjustTimeStamp;
+    if ((Position==0)||(DiffTimePosition>2)) {// Allow 2 msec diff (rounded double !)
         // Flush all buffers
-        for (unsigned int i=0;i<ffmpegVideoFile->nb_streams;i++)  {
-            AVCodecContext *codec_context = ffmpegVideoFile->streams[i]->codec;
+        for (unsigned int i=0;i<ffmpegAudioFile->nb_streams;i++)  {
+            AVCodecContext *codec_context = ffmpegAudioFile->streams[i]->codec;
             if (codec_context && codec_context->codec) avcodec_flush_buffers(codec_context);
         }
-        VideoObjectList.List.clear();                               // Clear spool buffer
         if (SoundTrackBloc!=NULL) SoundTrackBloc->ClearList();      // Clear soundtrack list
 
         // Seek to nearest previous key frame
-        int64_t seek_target=av_rescale_q(int64_t((dPosition-double(AdjustTimeStamp)/1000)*AV_TIME_BASE),AV_TIME_BASE_Q,ffmpegVideoFile->streams[AudioStream!=NULL?AudioStreamNumber:VideoStreamNumber]->time_base);
-        av_seek_frame(ffmpegVideoFile,AudioStream!=NULL?AudioStreamNumber:VideoStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD);      // If possible prefere audio stream
+        int64_t seek_target=av_rescale_q(int64_t((dPosition-double(AdjustTimeStamp)/1000)*AV_TIME_BASE),AV_TIME_BASE_Q,ffmpegAudioFile->streams[AudioStreamNumber]->time_base);
+        if (av_seek_frame(ffmpegAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
+            qDebug()<<"Seek error";
+        }
+
     }
 
     //*************************************************************************************************************************************
     // Decoding process : Get StreamPacket until endposition is reach (if sound is wanted) or until image is ok (if image only is wanted)
     //*************************************************************************************************************************************
     bool    Continue        =true;
-    bool    IsVideoFind     =false;
     double  FrameTimeBase   =0;
     double  FramePosition   =0;
     double  FrameDuration   =0;
     double  FrameEndPosition=0;
-
-    if (MusicOnly || ForceSoundOnly) IsVideoFind=true;
-
-    // Parse VideoObjectList to find if we already have the packet for image
-    for (int j=0;j<VideoObjectList.List.count();j++) {
-        if ((!IsVideoFind)&&(VideoObjectList.List[j]->FramePosition>=dPosition)) {
-            // Now construct RetImage
-            RetImage=YUVStreamToQImage(dPosition,false);
-            IsVideoFind=(RetImage!=NULL);
-        }
-    }
-
-//****************************************
-// Ajouter un skip de frame inutile !
-//  => Ref-Frame<Position dans la liste !
-//****************************************
 
     while (Continue) {
         StreamPacket=new AVPacket();
         av_init_packet(StreamPacket);
         StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
 
-        if (av_read_frame(ffmpegVideoFile,StreamPacket)==0) {
+        if (av_read_frame(ffmpegAudioFile,StreamPacket)==0) {
 
-            //qDebug()<<"=>"<<((StreamPacket->stream_index==VideoStreamNumber)?"Video":(StreamPacket->stream_index==AudioStreamNumber)?"Audio":"Unknown")
-            //        <<"packet at"<<FramePosition<<"Is Keyframe"<<(((StreamPacket->flags & AV_PKT_FLAG_KEY)>0)?"Yes":"No")<<"Flag"<<StreamPacket->flags
-            //        <<"[PTS="<<StreamPacket->dts<<"-DTS="<<StreamPacket->pts<<"]";
-
-            if ((StreamPacket->stream_index==VideoStreamNumber)||(StreamPacket->stream_index==AudioStreamNumber)) {
-                FrameTimeBase   =av_q2d(StreamPacket->stream_index==VideoStreamNumber?VideoStream->time_base:AudioStream->time_base);
+            if (StreamPacket->stream_index==AudioStreamNumber) {
+                FrameTimeBase   =av_q2d(AudioStream->time_base);
                 if (CodecUsePTS) FramePosition=double((StreamPacket->pts!=AVNOPTSVALUE)?StreamPacket->pts:0)*FrameTimeBase;   // pts instead of dts
                     else         FramePosition=double((StreamPacket->dts!=AVNOPTSVALUE)?StreamPacket->dts:0)*FrameTimeBase;   // dts instead of pts
                 FrameDuration   =double(StreamPacket->duration)*FrameTimeBase;;
                 FrameEndPosition=FramePosition+FrameDuration;
 
-                //===================================================================================
-                // Decode video
-                //===================================================================================
-                if ((!MusicOnly)&&(!ForceSoundOnly)&&(StreamPacket->stream_index==VideoStreamNumber)) {
-                    VideoObjectList.List.append(new DecodeVideoObject(StreamPacket,FramePosition,VideoStream,dPosition,(StreamPacket->flags & AV_PKT_FLAG_KEY)>0));
-
-                    if ((!IsVideoFind)&&(FramePosition>=dPosition)) {
-                        // Now construct RetImage
-                        RetImage=YUVStreamToQImage(dPosition,(SoundTrackBloc==NULL));
-                        IsVideoFind=(RetImage!=NULL);
-                    }
-                    StreamPacket=NULL;                 // StreamPacket is deleted by the VideoObjectList
-
-                //===================================================================================
-                // Decode audio
-                //===================================================================================
-                } else if ((StreamPacket->stream_index==AudioStreamNumber)&&(SoundTrackBloc!=NULL)&&(StreamPacket->size>0)) {
+                if ((SoundTrackBloc!=NULL)&&(StreamPacket->size>0)) {
                     AVPacket PacketTemp;
                     av_init_packet(&PacketTemp);
                     PacketTemp.data=StreamPacket->data;
@@ -280,17 +227,15 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTra
             }
 
             // Check if we need to continue loop
-            Continue=(((AudioLenDecoded<AudioDataWanted)||(IsVideoFind==false))&&(VideoObjectList.List.count()<50));
+            Continue=(AudioLenDecoded<AudioDataWanted);
             //qDebug()<<"??? AudioLenDecoded"<<AudioLenDecoded<<"/AudioDataWanted"<<AudioDataWanted<<"IsVideoFind"<<(IsVideoFind?"Yes":"No");
         } else {
             // if error in av_read_frame(...) then may be we have reach the end of file !
             Continue=false;
-            // if no image then use the spool to construct one
-            if (RetImage==NULL) RetImage=YUVStreamToQImage(dPosition,true);
         }
     }
     // Keep NextPacketPosition for determine next time if we need to seek
-    NextPacketPosition=int(EndPosition*1000);
+    NextAudioPacketPosition=int(EndPosition*1000);
 
     //**********************************************************************
     // Transfert data from BufferForDecoded to Buffer using audio_resample
@@ -358,17 +303,20 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,cSoundBlockList *SoundTra
 
     if (BufferToDecode)   av_free(BufferToDecode);
     if (BufferForDecoded) av_free(BufferForDecoded);
-
-    return RetImage;
 }
 
 //====================================================================================================================
-// Convert actual data in a QImage
+// Read a video frame from current stream
 //====================================================================================================================
 
-QImage *cvideofilewrapper::YUVStreamToQImage(double dPosition,bool GetFirstValide) {
+#define MAXELEMENTSINOBJECTLIST 500
+
+QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
+    // Ensure file was previously open
+    if ((ffmpegVideoFile==NULL)||(VideoDecoderCodec==NULL)) return NULL;
+
     // Allocate structure for YUV image
-    AVFrame *FrameBufferYUV=avcodec_alloc_frame();
+    if (FrameBufferYUV==NULL) FrameBufferYUV=avcodec_alloc_frame();
     if (FrameBufferYUV==NULL) return NULL;
 
     // Allocate structure for RGB image
@@ -378,71 +326,143 @@ QImage *cvideofilewrapper::YUVStreamToQImage(double dPosition,bool GetFirstValid
         return NULL;
     }
 
-    // Decode each frame in the spool until we reach dPosition
-    QImage  *RetImage    =NULL;
-    bool    IsFrameValide=false;
-    if (GetFirstValide) {
-        while ((VideoObjectList.List.count()>0)&&(!IsFrameValide)) {
-            DecodeVideoObject *Packet=VideoObjectList.DetachFirstPacket();
-            int FrameDecoded=-1;
-            avcodec_decode_video2(Packet->VideoStream->codec,FrameBufferYUV,&FrameDecoded,Packet->StreamPacket);
-            IsFrameValide=(FrameDecoded>0);
-            delete Packet;
+    bool            KeyFrame            =false;
+    bool            DataInBuffer        =false;
+    int64_t         AVNOPTSVALUE        =INT64_C(0x8000000000000000); // to solve type error with Qt
+    QImage          *RetImage           =NULL;
+    AVStream        *VideoStream        =ffmpegVideoFile->streams[VideoStreamNumber];
+    AVPacket        *StreamPacket       =NULL;
+    double          dPosition           =double(Position)/1000;     // Position in double format
+    double          EndPosition         =dPosition;
+
+    // Cac difftime between asked position and previous end decoded position
+    double DiffTimePosition=dPosition-NextVideoPacketPosition;
+
+    // Adjust position if input file have a start_time value
+    if (ffmpegVideoFile->start_time!=AVNOPTSVALUE)  dPosition+=double(ffmpegVideoFile->start_time)/double(AV_TIME_BASE);
+
+    // Calc if we need to seek to a position
+    if ((Position==0)||(DiffTimePosition<-0.01)||(DiffTimePosition>1)) { // Allow 1 sec diff (rounded double !)
+        // Flush all buffers
+        for (unsigned int i=0;i<ffmpegVideoFile->nb_streams;i++)  {
+            AVCodecContext *codec_context = ffmpegVideoFile->streams[i]->codec;
+            if (codec_context && codec_context->codec) avcodec_flush_buffers(codec_context);
+        }
+
+        // Seek to nearest previous key frame
+        int64_t seek_target=av_rescale_q(int64_t((Position-AdjustTimeStamp)*1000),AV_TIME_BASE_Q,ffmpegVideoFile->streams[VideoStreamNumber]->time_base);
+        if (av_seek_frame(ffmpegVideoFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
+            qDebug()<<"Seek error";
         }
     } else {
-        while ((VideoObjectList.List.count()>0)&&(VideoObjectList.List[0]->FramePosition<=dPosition)) {
-            DecodeVideoObject *Packet=VideoObjectList.DetachFirstPacket();
-            int FrameDecoded=-1;
-            avcodec_decode_video2(Packet->VideoStream->codec,FrameBufferYUV,&FrameDecoded,Packet->StreamPacket);
-            if (!IsFrameValide) IsFrameValide=(FrameDecoded>0);
-            delete Packet;
+        qDebug()<<"No seek";
+        KeyFrame=true;
+        DataInBuffer=true;
+    }
+
+    //*************************************************************************************************************************************
+    // Decoding process : Get StreamPacket until endposition is reach (if sound is wanted) or until image is ok (if image only is wanted)
+    //*************************************************************************************************************************************
+    bool    Continue        =true;
+    bool    IsVideoFind     =false;
+    double  FrameTimeBase   =0;
+    double  FramePosition   =0;
+    double  FrameDuration   =0;
+
+    while (Continue) {
+        StreamPacket=new AVPacket();
+        av_init_packet(StreamPacket);
+        StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
+
+        if (av_read_frame(ffmpegVideoFile,StreamPacket)==0) {
+
+            if (StreamPacket->stream_index==VideoStreamNumber) {
+                FrameTimeBase   =av_q2d(VideoStream->time_base);
+                if (!CodecUsePTS) FramePosition=double((StreamPacket->pts!=AVNOPTSVALUE)?StreamPacket->pts:0)*FrameTimeBase;   // pts instead of dts
+                    else          FramePosition=double((StreamPacket->dts!=AVNOPTSVALUE)?StreamPacket->dts:0)*FrameTimeBase;   // dts instead of pts
+                FrameDuration   =double(StreamPacket->duration)*FrameTimeBase;;
+                EndPosition     =FramePosition+FrameDuration;
+
+                // Keep NextPacketPosition for determine next time if we need to seek
+                NextVideoPacketPosition=FramePosition;
+
+                if (((StreamPacket->flags & AV_PKT_FLAG_KEY)>0)) KeyFrame=true;
+                if (KeyFrame) { // Decode video begining with a key frame
+
+                    int FrameDecoded=0;
+                    avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket);
+                    if (FrameDecoded>0) DataInBuffer=true;
+
+                    if ((DataInBuffer)&&(FramePosition>=dPosition)) {
+
+                        // Calc destination size
+                        int W=ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
+                        int H=ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
+
+                        // Create QImage
+                        RetImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+
+                        // Assign appropriate parts of ImageBuffer to image planes in FrameBufferRGB
+                        avpicture_fill(
+                                (AVPicture *)FrameBufferRGB,        // Buffer to prepare
+                                RetImage->bits(),                   // Buffer which will contain the image data
+                                PIX_FMT_BGRA,                       // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
+                                W,                                  // The width of the image in pixels
+                                H                                   // The height of the image in pixels
+                        );
+
+                        // Get a converter from libswscale
+                        struct SwsContext *img_convert_ctx=sws_getContext(
+                            W,H,ffmpegVideoFile->streams[VideoStreamNumber]->codec->pix_fmt,        // Src Widht,Height,Format
+                            W,H,PIX_FMT_BGRA,                                                       // Destination Width,Height,Format
+                            SWS_FAST_BILINEAR/*SWS_BICUBIC*/,                                       // flags
+                            NULL,NULL,NULL);                                                        // src Filter,dst Filter,param
+
+                        if (img_convert_ctx!=NULL) {
+                            int ret = sws_scale(
+                                img_convert_ctx,                                                    // libswscale converter
+                                FrameBufferYUV->data,                                               // Source buffer
+                                FrameBufferYUV->linesize,                                           // Source Stride ?
+                                0,                                                                  // Source SliceY:the position in the source image of the slice to process, that is the number (counted starting from zero) in the image of the first row of the slice
+                                H,                                                                  // Source SliceH:the height of the source slice, that is the number of rows in the slice
+                                FrameBufferRGB->data,                                               // Destination buffer
+                                FrameBufferRGB->linesize                                            // Destination Stride
+                            );
+                            if (ret<=0) {
+                                delete RetImage;
+                                RetImage=NULL;
+                            }
+                            sws_freeContext(img_convert_ctx);
+                        }
+
+                        IsVideoFind=(RetImage!=NULL);
+                    }
+
+                }
+
+            }
+
+            // Check if we need to continue loop
+            Continue=(IsVideoFind==false);
+
+        } else {
+            // if error in av_read_frame(...) then may be we have reach the end of file !
+            Continue=false;
+        }
+
+        // Continue with a new one
+        if (StreamPacket!=NULL) {
+            av_free_packet(StreamPacket); // Free the StreamPacket that was allocated by previous call to av_read_frame
+            delete StreamPacket;
+            StreamPacket=NULL;
         }
     }
 
-    if (IsFrameValide) {
-        // Calc destination size
-        int W=ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
-        int H=ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
-
-        // Create QImage
-        RetImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-
-        // Assign appropriate parts of ImageBuffer to image planes in FrameBufferRGB
-        avpicture_fill(
-                (AVPicture *)FrameBufferRGB,        // Buffer to prepare
-                RetImage->bits(),                   // Buffer which will contain the image data
-                PIX_FMT_BGRA,                       // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
-                W,                                  // The width of the image in pixels
-                H                                   // The height of the image in pixels
-        );
-
-        // Get a converter from libswscale
-        struct SwsContext *img_convert_ctx=sws_getContext(
-            W,H,ffmpegVideoFile->streams[VideoStreamNumber]->codec->pix_fmt,        // Src Widht,Height,Format
-            W,H,PIX_FMT_BGRA,                                                       // Destination Width,Height,Format
-            SWS_FAST_BILINEAR/*SWS_BICUBIC*/,                                       // flags
-            NULL,NULL,NULL);                                                        // src Filter,dst Filter,param
-
-        if (img_convert_ctx!=NULL) {
-            int ret = sws_scale(
-                img_convert_ctx,                                                    // libswscale converter
-                FrameBufferYUV->data,                                               // Source buffer
-                FrameBufferYUV->linesize,                                           // Source Stride ?
-                0,                                                                  // Source SliceY:the position in the source image of the slice to process, that is the number (counted starting from zero) in the image of the first row of the slice
-                H,                                                                  // Source SliceH:the height of the source slice, that is the number of rows in the slice
-                FrameBufferRGB->data,                                               // Destination buffer
-                FrameBufferRGB->linesize                                            // Destination Stride
-            );
-            if (ret<=0) {
-                delete RetImage;
-                RetImage=NULL;
-            }
-            sws_freeContext(img_convert_ctx);
-        }
+    if (!IsVideoFind) {
+        qDebug()<<"No video image return !";
     }
 
     // Free the 2 AVFrame buffers
-    av_free(FrameBufferYUV);
     av_free(FrameBufferRGB);
 
     return RetImage;
@@ -468,7 +488,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
 
     // Open video file and retrieve stream information
     bool Continue=true;
-    while ((Continue)&&(av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0)) {
+    while ((Continue)&&(av_open_input_file(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0)) {
         if (QMessageBox::question(GlobalMainWindow,QCoreApplication::translate("MainWindow","Open video file"),
             QCoreApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QCoreApplication::translate("MainWindow","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
@@ -489,13 +509,13 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
     }
 
     // Setup AVFormatContext options
-    ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
+    ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
 
-    if (av_find_stream_info(ffmpegVideoFile)<0) return false;
+    if (av_find_stream_info(ffmpegAudioFile)<0) return false;
 
     // Get informations about duration
     int hh,mm,ss,ms;
-    ms=ffmpegVideoFile->duration/1000;
+    ms=ffmpegAudioFile->duration/1000;
     ss=ms/1000;
     mm=ss/60;
     hh=mm/60;
@@ -507,33 +527,37 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
 
     // Find the first audio stream
     AudioStreamNumber=0;
-    while ((AudioStreamNumber<(int)ffmpegVideoFile->nb_streams)&&(ffmpegVideoFile->streams[AudioStreamNumber]->codec->codec_type!=AVMEDIA_TYPE_AUDIO)) AudioStreamNumber++;
-    if (AudioStreamNumber>=(int)ffmpegVideoFile->nb_streams) return false;
+    while ((AudioStreamNumber<(int)ffmpegAudioFile->nb_streams)&&(ffmpegAudioFile->streams[AudioStreamNumber]->codec->codec_type!=AVMEDIA_TYPE_AUDIO)) AudioStreamNumber++;
+    if (AudioStreamNumber>=(int)ffmpegAudioFile->nb_streams) return false;
 
     // Setup STREAM options
-    ffmpegVideoFile->streams[AudioStreamNumber]->discard=AVDISCARD_DEFAULT;
+    ffmpegAudioFile->streams[AudioStreamNumber]->discard=AVDISCARD_DEFAULT;
 
     // Find the decoder for the audio stream and open it
-    AudioDecoderCodec=avcodec_find_decoder(ffmpegVideoFile->streams[AudioStreamNumber]->codec->codec_id);
+    AudioDecoderCodec=avcodec_find_decoder(ffmpegAudioFile->streams[AudioStreamNumber]->codec->codec_id);
 
     // Setup decoder options
-    ffmpegVideoFile->streams[AudioStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
-    ffmpegVideoFile->streams[AudioStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
-    ffmpegVideoFile->streams[AudioStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
-    ffmpegVideoFile->streams[AudioStreamNumber]->codec->lowres           =0;                    // low resolution decoding, 1-> 1/2 size, 2->1/4 size
-    ffmpegVideoFile->streams[AudioStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
-    ffmpegVideoFile->streams[AudioStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
-    ffmpegVideoFile->streams[AudioStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
-    ffmpegVideoFile->streams[AudioStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-    ffmpegVideoFile->streams[AudioStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
-    ffmpegVideoFile->streams[AudioStreamNumber]->codec->error_concealment=3;
+    ffmpegAudioFile->streams[AudioStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
+    ffmpegAudioFile->streams[AudioStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
+    ffmpegAudioFile->streams[AudioStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
+    ffmpegAudioFile->streams[AudioStreamNumber]->codec->lowres           =0;                    // low resolution decoding, 1-> 1/2 size, 2->1/4 size
+    ffmpegAudioFile->streams[AudioStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
+    ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
+    ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
+    ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
+    ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
+    ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_concealment=3;
 
-    if ((AudioDecoderCodec==NULL)||(avcodec_open(ffmpegVideoFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec)<0)) return false;
+    if ((AudioDecoderCodec==NULL)||(avcodec_open(ffmpegAudioFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec)<0)) return false;
 
     // Find the first video stream
     VideoStreamNumber=0;
     VideoDecoderCodec=NULL;
     if (!MusicOnly) {
+        // Reopen file for video
+        av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL);
+        ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
+
         while ((VideoStreamNumber<(int)ffmpegVideoFile->nb_streams)&&(ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_type!=AVMEDIA_TYPE_VIDEO)) VideoStreamNumber++;
         if (VideoStreamNumber>=(int)ffmpegVideoFile->nb_streams) return false;
 
@@ -566,9 +590,6 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
 
         CodecUsePTS=ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_id==CODEC_ID_H264;
 
-        // Get informations about size image
-        ImageWidth =ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
-        ImageHeight=ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
         // Get Aspect Ratio
         AspectRatio=double(ffmpegVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.num)/double(ffmpegVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.den);
         if (ffmpegVideoFile->streams[VideoStreamNumber]->sample_aspect_ratio.num!=0)
@@ -576,25 +597,13 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
         if (AspectRatio==0) AspectRatio=1;
 
         // Try to load one image to be sure we can make something with this file
-        IsValide    =true; // Disable IsValide test for ImageAt
-        QImage *Img =ImageAt(true,0,true,NULL,1,false,NULL);
-        if ((Img==NULL)&&(VideoObjectList.List.count()>0)) {
-
-            // Allocate structure for YUV image
-            AVFrame *FrameBufferYUV=avcodec_alloc_frame();
-            if (FrameBufferYUV==NULL) return false;
-
-            int FrameDecoded=-1;
-            while ((VideoObjectList.List.count()>0)&&(FrameDecoded<=0)) {
-                DecodeVideoObject *Packet=VideoObjectList.DetachFirstPacket();
-                avcodec_decode_video2(Packet->VideoStream->codec,FrameBufferYUV,&FrameDecoded,Packet->StreamPacket);
-                if (FrameDecoded>0) AdjustTimeStamp=int(Packet->FramePosition*1000)+1;
-                delete Packet;
-            }
-            if (FrameDecoded>0) Img =ImageAt(true,0,true,NULL,1,false,NULL);
-            av_free(FrameBufferYUV);
-        }
-        IsValide    =(Img!=NULL);
+        IsValide=true; // force IsValide to true for ImageAt accept to work !
+        QImage *Img =ImageAt(true,0,true,NULL,1,false,NULL,true);
+        if (Img) {
+            // Get informations about size image
+            ImageWidth=Img->width();
+            ImageHeight=Img->height();
+        } else IsValide=false;
         delete Img;
     } else IsValide=true;
 
@@ -603,8 +612,9 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
 
 //====================================================================================================================
 
-QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter) {
-    if (!IsValide) return NULL;
+QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool AddStartPos) {
+    if (!IsValide)
+        return NULL;
 
     // If ForceLoadDisk then ensure CacheImage is null
     if ((ForceLoadDisk)&&(CacheFirstImage!=NULL)) {
@@ -615,7 +625,10 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,bool ForceLoadD
     if ((PreviewMode)&&(CacheFirstImage)&&(Position==0)) return new QImage(CacheFirstImage->copy());
 
     // Load a video frame
-    QImage *LoadedImage=ReadVideoFrame(Position+AdjustTimeStamp+QTime(0,0,0,0).msecsTo(StartPos),SoundTrackBloc,Volume,ForceSoundOnly);
+    QImage *LoadedImage=NULL;
+
+    ReadAudioFrame(Position+AdjustTimeStamp+(AddStartPos?QTime(0,0,0,0).msecsTo(StartPos):0),SoundTrackBloc,Volume);
+    if ((!MusicOnly)&&(!ForceSoundOnly)) LoadedImage=ReadVideoFrame(Position+AdjustTimeStamp+(AddStartPos?QTime(0,0,0,0).msecsTo(StartPos):0));
 
     if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
         // Scale image if anamorphous codec

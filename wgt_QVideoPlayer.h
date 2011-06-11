@@ -108,7 +108,7 @@ private slots:
 
 private:
     void    EnableWidget(bool State);
-    void    PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted);
+    void    PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted,bool AddStartPos);
     void    PrepareMusicBloc(int Column,int Position);
 
     Ui::wgt_QVideoPlayer *ui;
