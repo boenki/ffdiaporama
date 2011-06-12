@@ -120,7 +120,7 @@ void DlgTextEdit::accept() {
 //====================================================================================================================
 
 void DlgTextEdit::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString(HELPFILE_DlgTextEdit)));
+    GlobalMainWindow->OpenHelp(HELPFILE_DlgTextEdit);
 }
 
 //====================================================================================================================

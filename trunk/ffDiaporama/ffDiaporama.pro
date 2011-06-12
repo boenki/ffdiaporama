@@ -153,10 +153,21 @@ unix {
     luma_Clock.files    = luma/Clock/*.*
     luma_Snake.path     = $$PREFIX/share/$$TARGETAPP/luma/Snake
     luma_Snake.files    = luma/Snake/*.*
-    documentation.path  = $$PREFIX/share/$$TARGETAPP/help
-    documentation.files = help/*.*
+    wiki.path           = $$PREFIX/share/$$TARGETAPP/WIKI
+    wiki.files          = WIKI/*.*
+    wiki_img.path       = $$PREFIX/share/$$TARGETAPP/WIKI_img
+    wiki_img.files      = WIKI_img/*.*
+    wiki_en.path        = $$PREFIX/share/$$TARGETAPP/WIKI/en
+    wiki_en.files       = WIKI/en/*.*
+    wiki_en_img.path    = $$PREFIX/share/$$TARGETAPP/WIKI/en/img
+    wiki_en_img.files   = WIKI/en/img/*.*
+    wiki_fr.path        = $$PREFIX/share/$$TARGETAPP/WIKI/fr
+    wiki_fr.files       = WIKI/fr/*.*
+    wiki_fr_img.path    = $$PREFIX/share/$$TARGETAPP/WIKI/fr/img
+    wiki_fr_img.files   = WIKI/fr/img/*.*
     General.path        = $$PREFIX/share/$$TARGETAPP
     General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset ffDiaporama.desktop
 
-    INSTALLS += TARGET translation background img tr_img luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake documentation General
+    INSTALLS += TARGET General translation background img tr_img luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake \
+            wiki wiki_img wiki_en wiki_en_img wiki_fr wiki_fr_img
 }

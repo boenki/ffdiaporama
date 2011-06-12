@@ -1,31 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="fr">
   <head>
-    <title>Les param&#232;tres de la ligne de commande</title>
+    <title>Documentation de ffDiaporama</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <!--?php include "../menu.php"?-->
-    <div id="fixe-haut">Sommaire<br>
+    <div id="banner_wikimode"><img checked="true" style="width: 45px; height: 48px;"
+        alt="" src="../../img/logo_big.png" align="MIDDLE">
+      Documentation de ffDiaporama<br>
     </div>
-    <div style="text-align: left;" id="content">
-      <h2><br>
-      </h2>
+    <div style="text-align: left;" id="content_wikimode">
       <h2>Description g&#233;n&#233;rale</h2>
       <ul>
-        <li><a href="#MAINWIN"><ahref="file: home="" dominique="" public=""
-              dev="" ffdiaporama="" siteweb="" fr="" wiki.html#description_g%e9n%e9rale_de="">Description
-
-
-
-
-
-
-
-
-
-              g&#233;n&#233;rale de l'interface de ffDiaporama</ahref="file:></a></li>
+        <li><a checked="true" href="fct_006.html">Description
+            g&#233;n&#233;rale de l'interface de ffDiaporama</a></li>
         <li><a href="fct_002.html">Principes de fonctionnement de
             ffDiaporama</a></li>
         <li><a checked="true" href="fct_003.html">La barre de temps</a></li>
@@ -33,132 +22,45 @@
             d'outils</a></li>
         <li><a href="fct_005.html">Les fichiers projet de ffDiaporama</a></li>
       </ul>
-      <h2><span style="text-decoration: underline;"><span style="font-weight: bold;"></span></span>Les
-
-
-
-        boites de dialogue </h2>
+      <h2>Actions </h2>
       <ul>
-        <li><a checked="true" href="dlg_002.htm"> Modifier les options
+        <li><a checked="true" href="dlg_002.html"> Modifier les options
             du programme</a></li>
-        <li><a checked="true" href="dlg_003.html">Modification des
-            diapositives</a></li>
+        <li><a href="dlg_003.html">Modifier les diapositives</a></li>
         <li><a checked="true" href="dlg_004.html">D&#233;finir le fond
             d'&#233;cran</a></li>
-        <li><a href="dlg_005.htm">Recadrer et/ou corriger une image ou
-            une vid&#233;o</a></li>
-        <li><a href="dlg_006.htm">Appliquer des filtres sur une image ou
-            une vid&#233;o</a></li>
-        <li><a checked="true" href="dlg_007.htm">R&#233;gler la piste
+        <li><a checked="true" href="dlg_005.html">Recadrer et/ou
+            corriger une image ou une vid&#233;o</a></li>
+        <li><a checked="true" href="dlg_006.html">Appliquer des filtres
+            sur une image ou une vid&#233;o</a></li>
+        <li><a checked="true" href="dlg_007.html">R&#233;gler la piste
             musicale</a></li>
-        <li><a href="dlg_008.htm">G&#233;n&#233;rer le film du projet</a></li>
-        <li><a href="dlg_009.htm">R&#233;gler les transitions entrantes
-            des diapositives</a></li>
-        <li><a checked="true" href="dlg_010.htm">D&#233;couper une
+        <li><a href="dlg_008.html">G&#233;n&#233;rer le film du projet<br>
+          </a></li>
+        <li><a href="dlg_009.html">R&#233;gler les transitions entrantes
+            des diapositives<br>
+          </a></li>
+        <li><a checked="true" href="dlg_010.html">D&#233;couper une
             vid&#233;o</a></li>
-        <li><a href="dlg_001.htm">&#201;diter le texte d'un bloc</a></li>
+        <li><a href="dlg_001.html">&#201;diter le texte d'un bloc<br>
+          </a></li>
       </ul>
       <h2> Divers</h2>
       <ul>
-        <li> <a href="#CONF">Les fichiers de configuration de
+        <li> <a href="fct_007.html">Les fichiers de configuration de
             ffDiaporama</a></li>
-        <li><a href="#COMMANDE">Les param&#232;tres de la ligne de
-            commande</a></li>
+        <li><a href="fct_008.html">Lancement de ffDiaporama : Les
+            param&#232;tres de la ligne de commande</a></li>
       </ul>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <hr checked="true" style="width: 100%; color: black; border-style: solid;">
-      <h2><a name="MAINWIN"></a>Description g&#233;n&#233;rale de
-        l'interface de ffDiaporama</h2>
-      <br>
-      La fen&#234;tre principale de ffDiaporama est d&#233;compos&#233;
-      en 3 zones principales. 1 en haut et 2 en bas.<br>
+      <h2> ffDiaporama sur le WEB</h2>
       <ul>
-        <li>En haut : La zone de temps et d'action qui contient</li>
-        <ul>
-          <li>La barre de titre avec le nom du projet en cours
-            &#233;ventuellement pr&#233;c&#233;d&#233; d'une * si le
-            projet a &#233;t&#233; modifi&#233;. <br>
-          </li>
-          <li>La barre de menu avec le menu du programme <br>
-          </li>
-          <li>La barre d'outils qui contient des boutons d'acc&#232;s
-            rapide aux fonctions du menu. <br>
-          </li>
-          <li>La barre de temps. C'est dans cette zone que sont
-            affich&#233;es les diapositives du projet. <br>
-          </li>
-        </ul>
-        <li>En bas &#224; gauche : La zone de pr&#233;visualisation qui
-          donne un aper&#231;u du diaporama. <br>
+        <li><a href="http://ffdiaporama.tuxfamily.org">Site WEB de
+            ffDiaporama</a></li>
+        <li><a href="http://groups.google.com/group/ffdiaporama/topics">Forum
+            de ffDiaporama</a><br>
         </li>
-        <li>En bas &#224; droite : La zone d'information sur la
-          s&#233;quence en cours. </li>
       </ul>
-      <br>
-      <hr style="width: 100%; color: black; border-style: solid;"><ulstyle="margin-left:
-        40px;="">
-        <h2><a name="CONF"></a>Fichiers de configuration<br>
-        </h2>
-        <p style="margin-left: 40px;">Pour pouvoir fonctionner,
-          l'application &#224; besoin de fichiers de configuration. Au
-          premier lancement de l'application, ces fichiers sont
-          cr&#233;&#233;s dans le r&#233;pertoire de l'utilisateur, dans
-          un sous-r&#233;pertoire cach&#233; (.ffDiaporma). Si
-          l'application est utilis&#233;e par plusieurs utilisateurs sur
-          le m&#234;me PC, il y aura un fichier de configuration pour
-          chaque utilisateurs.</p>
-        <p style="margin-left: 40px;"><br>
-        </p>
-      </ulstyle="margin-left:><ulstyle="margin-left: 40px;="">
-        <hr style="width: 100%; color: black; border-style: solid;">
-        <p style="margin-left: 40px;"> </p>
-      </ulstyle="margin-left:><ulstyle="margin-left: 40px;=""></ulstyle="margin-left:><ulstyle="margin-left:
-        40px;="">
-        <h2 style=""><a name="COMMANDE"></a>Param&#232;tres de la ligne
-          de commande</h2>
-        <p style="margin-left: 40px;">
-          <table border="1">
-            <tbody>
-              <tr>
-                <td style="vertical-align: top;">Param&#232;tre<br>
-                </td>
-                <td style="vertical-align: top;">Explication<br>
-                </td>
-              </tr>
-              <tr>
-                <td>-lang=&lt;local&gt;</td>
-                <td>Force la langue &#224; utiliser. &lt;local&gt; peut
-                  prendre les valeurs suivantes :<br>
-                  <ul>
-                    <li>en pour utiliser l'anglais</li>
-                    <li>fr pour utiliser le fran&#231;ais<br>
-                    </li>
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </p>
-        <br>
-        <br>
-        <br>
-        <hr style="width: 100%; height: 2px;">Derni&#232;re modification
-        : domledom le 10/06/2011 </ulstyle="margin-left:></div>
+      <hr style="width: 100%; height: 2px;">ffDiaporama 0.99.alpha2 -
+      Juin 2011</div>
   </body>
 </html>

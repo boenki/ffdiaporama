@@ -271,16 +271,19 @@ extern "C" {
 //============================================
 // Dialogbox help file
 //============================================
-#define HELPFILE_DlgTextEdit                "/dlg_001.php"
-#define HELPFILE_DlgApplicationSettings     "/dlg_002.php"
-#define HELPFILE_DlgSlideProperties         "/dlg_003.php"
-#define HELPFILE_DlgBackgroundProperties    "/dlg_004.php"
-#define HELPFILE_DlgImageCorrection         "/dlg_005.php"
-#define HELPFILE_DlgImageTransformation     "/dlg_006.php"
-#define HELPFILE_DlgMusicProperties         "/dlg_007.php"
-#define HELPFILE_DlgRenderVideo             "/dlg_008.php"
-#define HELPFILE_DlgTransitionProperties    "/dlg_009.php"
-#define HELPFILE_DlgVideoEdit               "/dlg_010.php"
+#define HELPFILE_INDEX                      "fct_001"
+#define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/<local>/News.php"
+#define HELPFILE_WEBSITEINDEX               "http://ffdiaporama.tuxfamily.org/<local>/index.php"
+#define HELPFILE_DlgTextEdit                "dlg_001"
+#define HELPFILE_DlgApplicationSettings     "dlg_002"
+#define HELPFILE_DlgSlideProperties         "dlg_003"
+#define HELPFILE_DlgBackgroundProperties    "dlg_004"
+#define HELPFILE_DlgImageCorrection         "dlg_005"
+#define HELPFILE_DlgImageTransformation     "dlg_006"
+#define HELPFILE_DlgMusicProperties         "dlg_007"
+#define HELPFILE_DlgRenderVideo             "dlg_008"
+#define HELPFILE_DlgTransitionProperties    "dlg_009"
+#define HELPFILE_DlgVideoEdit               "dlg_010"
 
 //============================================
 // Default values

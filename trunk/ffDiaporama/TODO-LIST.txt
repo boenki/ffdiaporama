@@ -35,14 +35,12 @@ Alpha2- : Changelog depuis la version Alpha2 : 20110611
 - Corrige le bug de la boite slide qui faisait que le volume des vidéos ne pouvaient pas être changé
 - Corrige le bug de la boite slide qui perdait la vidéo quand on annulait des modifications dans la boite vidéos
 - Corrige le bug de la boite vidéo qui s'appliquait le début de lecture dans le lecteur !!!
-
------------------------------------------------------------------
-Alpha2-20110611 : Changelog depuis la version Alpha2 : 20110609
------------------------------------------------------------------
 - Corrige des problèmes de décodage des videos quand audio et video sont décalés dans le fichier source
     => Accepte beaucoup plus de fichiers maintenant
 - Supprime le trait qui trainait sous les ombres des blocs
 - Autorise le bouton supprimer bloc même si le bloc est invisible dans la boite slide
+
+- Active le WIKI dans toutes les boites de dialogue (met du contenu derrière les boutons d'aide)
 
 -----------------------------------------------------------------
 Alpha2-20110609 : Changelog depuis la version Alpha2 : 20110608

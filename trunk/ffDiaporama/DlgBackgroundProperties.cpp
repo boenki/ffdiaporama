@@ -21,6 +21,7 @@
 #include "wgt_QBackgroundDefWidget.h"
 #include "DlgBackgroundProperties.h"
 #include "ui_DlgBackgroundProperties.h"
+#include "mainwindow.h"
 
 DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgBackgroundProperties) {
     ui->setupUi(this);
@@ -59,7 +60,7 @@ DlgBackgroundProperties::~DlgBackgroundProperties() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString(HELPFILE_DlgBackgroundProperties)));
+    GlobalMainWindow->OpenHelp(HELPFILE_DlgBackgroundProperties);
 }
 
 //====================================================================================================================

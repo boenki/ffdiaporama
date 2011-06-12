@@ -20,6 +20,7 @@
 
 #include "DlgRenderVideo.h"
 #include "ui_DlgRenderVideo.h"
+#include "mainwindow.h"
 
 //====================================================================================================================
 
@@ -89,7 +90,7 @@ DlgRenderVideo::~DlgRenderVideo() {
 //====================================================================================================================
 
 void DlgRenderVideo::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString(HELPFILE_DlgRenderVideo)));
+    GlobalMainWindow->OpenHelp(HELPFILE_DlgRenderVideo);
 }
 
 //====================================================================================================================

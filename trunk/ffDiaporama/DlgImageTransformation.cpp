@@ -81,7 +81,7 @@ DlgImageTransformation::~DlgImageTransformation() {
 //====================================================================================================================
 
 void DlgImageTransformation::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString(HELPFILE_DlgImageTransformation)));
+    GlobalMainWindow->OpenHelp(HELPFILE_DlgImageTransformation);
 }
 
 //====================================================================================================================

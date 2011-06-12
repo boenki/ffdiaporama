@@ -44,6 +44,8 @@ public:
     explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
     ~MainWindow();
 
+    void    OpenHelp(QString HelpFile);
+
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);
     void    AddObjectToTimeLine(int CurIndex);

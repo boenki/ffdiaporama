@@ -20,6 +20,7 @@
 
 #include "DlgTransitionProperties.h"
 #include "ui_DlgTransitionProperties.h"
+#include "mainwindow.h"
 
 //======================================
 // Specific defines for this dialog box
@@ -123,7 +124,7 @@ DlgTransitionProperties::~DlgTransitionProperties() {
 //====================================================================================================================
 
 void DlgTransitionProperties::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString(HELPFILE_DlgTransitionProperties)));
+    GlobalMainWindow->OpenHelp(HELPFILE_DlgTransitionProperties);
 }
 
 //====================================================================================================================
