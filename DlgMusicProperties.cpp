@@ -83,7 +83,7 @@ DlgMusicProperties::~DlgMusicProperties() {
 //====================================================================================================================
 
 void DlgMusicProperties::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString(HELPFILE_DlgMusicProperties)));
+    GlobalMainWindow->OpenHelp(HELPFILE_DlgMusicProperties);
 }
 
 //====================================================================================================================

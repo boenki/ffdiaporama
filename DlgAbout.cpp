@@ -20,6 +20,7 @@
 
 #include "DlgAbout.h"
 #include "ui_DlgAbout.h"
+#include "mainwindow.h"
 
 DlgAbout::DlgAbout(QWidget *parent):QDialog(parent),ui(new Ui::DlgAbout) {
     ui->setupUi(this);
@@ -48,7 +49,7 @@ DlgAbout::~DlgAbout() {
 }
 
 void DlgAbout::OpenffDiaporamaWeb() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/index.php")));
+    GlobalMainWindow->OpenHelp(HELPFILE_WEBSITEINDEX);
 }
 
 void DlgAbout::WQtWebSite() {

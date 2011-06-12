@@ -19,6 +19,7 @@
    ====================================================================== */
 
 #include "DlgApplicationSettings.h"
+#include "mainwindow.h"
 #include "ui_DlgApplicationSettings.h"
 
 DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicationConfig,QWidget *parent) : QDialog(parent),ui(new Ui::DlgApplicationSettings) {
@@ -105,7 +106,7 @@ DlgApplicationSettings::~DlgApplicationSettings() {
 //====================================================================================================================
 
 void DlgApplicationSettings::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+HELPFILE_DlgApplicationSettings));
+    GlobalMainWindow->OpenHelp(HELPFILE_DlgApplicationSettings);
 }
 
 //====================================================================================================================

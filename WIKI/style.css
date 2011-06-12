@@ -9,7 +9,6 @@ body {
   padding-left: 0pt;
   font-weight: normal;
   text-decoration: none;
-  font-size: 1.1em;
   text-transform: none;
   font-family: Arial, Helvetica, sans-serif;
   font-style: normal;
@@ -46,29 +45,60 @@ img {
 html > body #menu {
  position: fixed;
 }
-#fixe-haut {
+#banner {
   position: absolute;
   top: 0px;
   left: 150px;
   width: 1000px;
   height: 42px;
-  background-color: rgb(224, 224, 224);
   background-image: none;
   background-repeat: repeat;
   background-attachment: scroll;
   background-position: 0% 0%;
   border-bottom-width: 2px;
   border-bottom-style: solid;
-  border-bottom-color: rgb(0, 0, 0);
   text-align: left; 
-  color: rgb(153, 0, 0); 
   text-transform: none;
   text-decoration: none;
   font-size: 24pt;
   font-weight: bold;
   font-style: normal;
+  white-space: nowrap;
+  font-family: Times New Roman, serif;
+
+  background-color: rgb(29, 29, 123);
+  border-bottom-color: rgb(208, 164, 113);
+  color: rgb(248, 248, 200); 
+  text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
 }
-html > body #fixe-haut {
+html > body #banner {
+ position: fixed;
+}
+#banner_wikimode {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 42px;
+  background-position: 0% 0%;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  text-align: left; 
+  text-transform: none;
+  text-decoration: none;
+  font-size: 24pt;
+  font-weight: bold;
+  font-style: normal;
+  white-space: nowrap;
+  font-family: Times New Roman, serif;
+  background:url(../../img/logo.png) no-repeat;
+
+  background-color: rgb(29, 29, 123);
+  border-bottom-color: rgb(208, 164, 113);
+  color: rgb(248, 248, 200); 
+  text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+}
+html > body #banner_wikimode {
  position: fixed;
 }
 #content {
@@ -76,17 +106,21 @@ html > body #fixe-haut {
   height: 100%;
   padding-top: 44px;
   padding-left: 150px;
-  background-image: url("../img/background.png");
-  background-repeat: repeat;
-  background-attachment: scroll;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+#content_wikimode {
+  width: 100%;
+  height: 100%;
+  padding-top: 44px;
+  padding-left: 0px;
+  margin-left: 4px;
+  margin-right: 4px;
 }
 html > body #content {
  }
 h1 {
-  color: rgb(249, 83, 4);
-  line-height: 20pt;
-  text-transform: none;
-  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 20pt;
   font-weight: bold;
   font-style: normal;
@@ -94,28 +128,41 @@ h1 {
 }
 h2 {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 14pt;
-  color: maroon;
+  font-size: 16pt;
   font-weight: bold;
+  font-style: normal;
+  text-align: left;
 }
 h3 {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12pt;
   font-weight: bold;
-  color: black;
+  font-style: normal;
+  text-align: left;
   text-decoration: underline;
 }
 h4 {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
-  font-weight: bold;
+  font-size: 12pt;
+  font-weight: normal;
+  font-style: normal;
+  text-align: left;
   text-decoration: underline;
-  color: maroon;
 }
 h5 {
-  font-size: 10pt;
   font-family: Arial, Helvetica, sans-serif;
-  color: black;
+  font-size: 10pt;
+  font-weight: bold;
+  font-style: normal;
+  text-align: left;
+  text-decoration: underline;
+}
+h6 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+  font-weight: normal;
+  font-style: normal;
+  text-align: left;
   text-decoration: underline;
 }
 a:link, a:visited {

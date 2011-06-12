@@ -210,7 +210,7 @@ void DlgSlideProperties::Clean() {
 //====================================================================================================================
 
 void DlgSlideProperties::Help() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString(HELPFILE_DlgSlideProperties)));
+    GlobalMainWindow->OpenHelp(HELPFILE_DlgSlideProperties);
 }
 
 //====================================================================================================================

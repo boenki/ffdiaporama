@@ -292,6 +292,18 @@ void MainWindow::showEvent(QShowEvent *) {
 
 //====================================================================================================================
 
+void MainWindow::OpenHelp(QString HelpFile) {
+    if (HelpFile.startsWith(("http://"))) {
+        QString HelpPath=HelpFile.replace("<local>",CurrentLanguage);
+        QDesktopServices::openUrl(QUrl(HelpPath));
+    } else {
+        QString HelpPath="WIKI/"+CurrentLanguage+"/"+HelpFile+".html";
+        QDesktopServices::openUrl(QUrl(HelpPath));
+    }
+}
+
+//====================================================================================================================
+
 void MainWindow::RefreshControls() {
     // Timeline actions
     ui->actionRemove->setEnabled(ui->timeline->columnCount()>0);
@@ -336,13 +348,13 @@ void MainWindow::s_About() {
 //====================================================================================================================
 
 void MainWindow::s_Documentation() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/Support.php")));
+    OpenHelp(HELPFILE_INDEX);
 }
 
 //====================================================================================================================
 
 void MainWindow::s_NewFunctions() {
-    QDesktopServices::openUrl(QUrl(QString("http://ffdiaporama.tuxfamily.org/")+CurrentLanguage+QString("/News.php")));
+    OpenHelp(HELPFILE_NEWS);
 }
 
 //====================================================================================================================
