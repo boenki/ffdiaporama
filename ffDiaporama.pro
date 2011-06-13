@@ -123,7 +123,8 @@ OTHER_FILES += \
     Packaging/MakeFedoraRPM.bash \
     Packaging/ffDiaporama-InoSetup.iss \
     Packaging/ffDiaporama.SPEC \
-    Packaging/MakeWindowsSetup.cmd
+    Packaging/MakeWindowsSetup.cmd \
+    Packaging/WikiToWEBPHP.py
 
 TRANSLATIONS += locale/locale_fr.ts
 
