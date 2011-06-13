@@ -102,5 +102,5 @@ update-desktop-database &> /dev/null || :
 
 %changelog
 
-* Wed Jun  8 2011 Dominique LEVRAY <levray.dominique@bbox.fr> %{version}-%{release}
+* Wed Jun  8 2011 Dominique LEVRAY <levray.dominique@bbox.fr> 0.99.2-1%{?dist}
 - Initial release

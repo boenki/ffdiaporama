@@ -59,6 +59,8 @@ md transitions-img
 xcopy /s /e Y:\ffDiaporama\ffDiaporama\transitions-img transitions-img
 md WIKI
 xcopy /s /e Y:\ffDiaporama\ffDiaporama\WIKI WIKI
+md WIKI_img
+xcopy /s /e Y:\ffDiaporama\ffDiaporama\WIKI_img WIKI_img
 
 REM Add third party binary Exiv2 and ffmpeg
 md exiv2
