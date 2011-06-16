@@ -23,6 +23,9 @@
 #include "DlgSlideProperties.h"
 #include "DlgImageCorrection.h"
 
+#define HANDLESIZEX  8
+#define HANDLESIZEY  8
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // class use to add interractive resize to QGraphicsRectItem object
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -93,8 +96,8 @@ void cResizeGraphicsRectItem::CalcPosition() {
     double ymax = scene()->sceneRect().height();
     double x=0;
     double y=0;
-    double w = 3*(xmax/100);
-    double h = 3*(ymax/100);
+    double w = HANDLESIZEX;
+    double h = HANDLESIZEY;
     switch (TypeItem) {
         case 0 :    // Upper-Left corner
             x = (*RectItem->x)*xmax;
@@ -175,19 +178,20 @@ void cResizeGraphicsRectItem::ResizeUpperLeft(QPointF &newpos) {
     double xmax = double(scene()->sceneRect().width());
     double ymax = double(scene()->sceneRect().height());
     // calcul width and height
-    double w = 3*(xmax/100);
-    double h = 3*(ymax/100);
+    double w = HANDLESIZEX;
+    double h = HANDLESIZEY;
+
     // Magnetic guide
     if ((RectItem->MagneticRuler!=NULL)&&(RectItem->MagneticRuler->MagneticRuler==true)) {
-        double mw = 2*(xmax/100);
-        double mh = 2*(ymax/100);
-        if ((RectItem->MagneticRuler->MagnetX1!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX1-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX1+mw)))    x=RectItem->MagneticRuler->MagnetX1-(w/2);
-        if ((RectItem->MagneticRuler->MagnetY1!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY1-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY1+mh))) {
+        double mw = HANDLESIZEX;
+        double mh = HANDLESIZEY;
+        if ((RectItem->MagneticRuler->MagnetX1!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX1-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX1+mw))) {
+            x=RectItem->MagneticRuler->MagnetX1-(w/2);
+        } else if ((RectItem->MagneticRuler->MagnetY1!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY1-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY1+mh))) {
             y=RectItem->MagneticRuler->MagnetY1-(h/2);
-            double imgh=(RectItem->BottomRight->pos().y()-h/2-y+h/2)/RectItem->AspectRatio;
-            double zoom=(imgh/ymax);
-            double imgw=xmax*zoom;
-            x=RectItem->BottomRight->pos().x()+w/2-imgw-w/2;
+            double imgh=(RectItem->BottomRight->pos().y()+h/2)-(y+h/2);
+            double imgw=imgh/RectItem->AspectRatio;
+            x=RectItem->BottomRight->pos().x()-imgw;
         }
     }
     // get value of opposite resize corner
@@ -257,19 +261,19 @@ void cResizeGraphicsRectItem::ResizeUpperRight(QPointF &newpos) {
     double xmax = scene()->sceneRect().width();
     double ymax = scene()->sceneRect().height();
     //calcul width and height
-    double w = 3*(xmax/100);
-    double h = 3*(ymax/100);
+    double w = HANDLESIZEX;
+    double h = HANDLESIZEY;
     //Magnetic guide
     if ((RectItem->MagneticRuler!=NULL)&&(RectItem->MagneticRuler->MagneticRuler==true)) {
-        double mw = 2*(xmax/100);
-        double mh = 2*(ymax/100);
-        if ((RectItem->MagneticRuler->MagnetX2!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX2-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX2+mw)))    x=RectItem->MagneticRuler->MagnetX2-(w/2);
-        if ((RectItem->MagneticRuler->MagnetY1!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY1-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY1+mh))) {
+        double mw = HANDLESIZEX;
+        double mh = HANDLESIZEY;
+        if ((RectItem->MagneticRuler->MagnetX2!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX2-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX2+mw))) {
+            x=RectItem->MagneticRuler->MagnetX2-(w/2);
+        } else if ((RectItem->MagneticRuler->MagnetY1!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY1-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY1+mh))) {
             y=RectItem->MagneticRuler->MagnetY1-(h/2);
-            double imgh=(RectItem->BottomLeft->pos().y()-h/2-y+h/2)/RectItem->AspectRatio;
-            double zoom=(imgh/ymax);
-            double imgw=xmax*zoom;
-            x=RectItem->BottomLeft->pos().x()+w/2+imgw-w/2;
+            double imgh=(RectItem->BottomLeft->pos().y()+h/2)-(y+h/2);
+            double imgw=imgh/RectItem->AspectRatio;
+            x=RectItem->BottomLeft->pos().x()+imgw;
         }
     }
     // get value of opposite resize corner
@@ -338,24 +342,25 @@ void cResizeGraphicsRectItem::ResizeBottomLeft(QPointF &newpos) {
     double xmax = scene()->sceneRect().width();
     double ymax = scene()->sceneRect().height();
     // calcul width and height
-    double w = 3*(xmax/100);
-    double h = 3*(ymax/100);
+    double w = HANDLESIZEX;
+    double h = HANDLESIZEY;
     // Magnetic guide
     if ((RectItem->MagneticRuler!=NULL)&&(RectItem->MagneticRuler->MagneticRuler==true)) {
-        double mw = 2*(xmax/100);
-        double mh = 2*(ymax/100);
-        if ((RectItem->MagneticRuler->MagnetX1!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX1-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX1+mw)))    x=RectItem->MagneticRuler->MagnetX1-(w/2);
-        if ((RectItem->MagneticRuler->MagnetY2!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY2-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY2+mh))) {
+        double mw = HANDLESIZEX;
+        double mh = HANDLESIZEY;
+        if ((RectItem->MagneticRuler->MagnetX1!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX1-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX1+mw)))  {
+            x=RectItem->MagneticRuler->MagnetX1-(w/2);
+        } else if ((RectItem->MagneticRuler->MagnetY2!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY2-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY2+mh))) {
             y=RectItem->MagneticRuler->MagnetY2-(h/2);
-            double imgh=(y+h/2-RectItem->UpperRight->pos().y()-h/2)/RectItem->AspectRatio;
-            double zoom=(imgh/ymax);
-            double imgw=xmax*zoom;
-            x=RectItem->UpperRight->pos().x()+w/2-imgw-w/2;
+            double imgh=(y+h/2)-(RectItem->UpperRight->pos().y()+h/2);
+            double imgw=imgh/RectItem->AspectRatio;
+            x=RectItem->UpperRight->pos().x()-imgw;
           }
     }
     // get value of opposite resize corner
     double blockx = RectItem->UpperRight->pos().x();//-w;
     double blocky = RectItem->UpperRight->pos().y();//+h;
+
     // crop rectangle in the image
     if (x<-(w/2)) x=-w/2;
     if (x>blockx) x=blockx;
@@ -418,19 +423,19 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
     double xmax = scene()->sceneRect().width();
     double ymax = scene()->sceneRect().height();
     // calcul width and height
-    double w = 3*(xmax/100);
-    double h = 3*(ymax/100);
+    double w = HANDLESIZEX;
+    double h = HANDLESIZEY;
     // Magnetic guide
     if ((RectItem->MagneticRuler!=NULL)&&(RectItem->MagneticRuler->MagneticRuler==true)) {
-        double mw = 2*(xmax/100);
-        double mh = 2*(ymax/100);
-        if ((RectItem->MagneticRuler->MagnetX2!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX2-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX2+mw)))    x=RectItem->MagneticRuler->MagnetX2-(w/2);
-        if ((RectItem->MagneticRuler->MagnetY2!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY2-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY2+mh))) {
+        double mw = HANDLESIZEX;
+        double mh = HANDLESIZEY;
+        if ((RectItem->MagneticRuler->MagnetX2!=-1)&&(x+(w/2)>(RectItem->MagneticRuler->MagnetX2-mw))&&(x+(w/2)<(RectItem->MagneticRuler->MagnetX2+mw))) {
+            x=RectItem->MagneticRuler->MagnetX2-(w/2);
+        } else if ((RectItem->MagneticRuler->MagnetY2!=-1)&&(y+(h/2)>(RectItem->MagneticRuler->MagnetY2-mh))&&(y+(h/2)<(RectItem->MagneticRuler->MagnetY2+mh))) {
             y=RectItem->MagneticRuler->MagnetY2-(h/2);
-            double imgh=(y+h/2-RectItem->UpperLeft->pos().y()-h/2)/RectItem->AspectRatio;
-            double zoom=(imgh/ymax);
-            double imgw=xmax*zoom;
-            x=RectItem->UpperLeft->pos().x()+w/2+imgw-w/2;
+            double imgh=(y+h/2)-(RectItem->UpperLeft->pos().y()+h/2);
+            double imgw=imgh/RectItem->AspectRatio;
+            x=RectItem->UpperLeft->pos().x()+imgw;
         }
     }
     // get value of opposite resize corner
@@ -614,8 +619,8 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
             if ((*y)*ymax>ymax-H)   *y=(ymax-H)/ymax;
 
             if ((MagneticRuler!=NULL)&&(MagneticRuler->MagneticRuler==true)) {
-                double mw = 2*(xmax/100);
-                double mh = 2*(ymax/100);
+                double mw = HANDLESIZEX;
+                double mh = HANDLESIZEY;
                 if ((MagneticRuler->MagnetX1!=-1)&&((*x)*xmax>(MagneticRuler->MagnetX1-mw))&&((*x)*xmax<(MagneticRuler->MagnetX1+mw)))          *x=MagneticRuler->MagnetX1/xmax;
                 if ((MagneticRuler->MagnetX2!=-1)&&(((*x)*xmax+W)>(MagneticRuler->MagnetX2-mw))&&(((*x)*xmax+W)<(MagneticRuler->MagnetX2+mw)))  *x=(MagneticRuler->MagnetX2-W)/xmax;
                 if ((MagneticRuler->MagnetY1!=-1)&&((*y)*ymax>(MagneticRuler->MagnetY1-mh))&&((*y)*ymax<(MagneticRuler->MagnetY1+mh)))          *y=MagneticRuler->MagnetY1/ymax;

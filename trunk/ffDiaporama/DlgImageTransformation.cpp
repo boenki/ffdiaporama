@@ -40,7 +40,7 @@ DlgImageTransformation::DlgImageTransformation(cBrushDefinition *TheCurrentBrush
     // Load image from source at position 0 with no filter
     // Try to load image from source
     SourceImage=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,NULL):
-                 CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,NULL,true):
+                 CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL):
                  NULL);
 
     ui->TransformationCB->SetCurrentFilter(SourceImage,&Filter->OnOffFilter);

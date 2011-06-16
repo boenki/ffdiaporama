@@ -528,8 +528,20 @@ void DlgSlideProperties::RefreshSceneImage() {
     ADJUST_RATIO=double(ymax)/double(1080);    // fixe Adjustment ratio for this slide
 
     for (int i=0;i<CurrentList->List.count();i++) if (CurrentList->List[i].IsVisible) {
-        // Draw composition
-        CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,NULL,1,NULL,true);
+        // Draw composition block
+        if (CurrentList->List[i].BackgroundBrush.Video) {
+            // If it's a video block, calc video position
+            int StartVideoPos=0;
+            for (int k=0;k<CurrentShot;k++) {
+                for (int l=0;l<DiaporamaObject->List[k].ShotComposition.List.count();l++) {
+                    if (DiaporamaObject->List[k].ShotComposition.List[l].IndexKey==CurrentList->List[i].IndexKey) {
+                        if (DiaporamaObject->List[k].ShotComposition.List[l].IsVisible) StartVideoPos+=DiaporamaObject->List[k].StaticDuration;
+                        l=DiaporamaObject->List[k].ShotComposition.List.count();    // stop loop
+                    }
+                }
+            }
+            CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,StartVideoPos,NULL,1,NULL);
+        } else CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,0,NULL,1,NULL);
         // Draw border
         if (CurrentTextItem==&CurrentList->List[i]) {
             // draw rect out of the rectangle
@@ -931,7 +943,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
         ADJUST_RATIO=1;
-        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,NULL,1,NULL,true);
+        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,0,NULL,1,NULL);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -1464,7 +1476,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     if (IsValide) {
 
         QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
-                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,true):
+                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
                        NULL);
         if (Image) {
             // Calc hypothenuse of the image rectangle
@@ -1676,7 +1688,6 @@ void DlgSlideProperties::s_PasteBlockBT() {
 
     QDomElement root=GlobalMainWindow->Clipboard_Block->documentElement();
     if (root.tagName()=="CLIPBOARD") {
-        qDebug()<<GlobalMainWindow->Clipboard_Block->toString(2);
         int CurrentShot=ui->ShotTable->currentColumn();
 
         // Create and append a composition block to the object list
