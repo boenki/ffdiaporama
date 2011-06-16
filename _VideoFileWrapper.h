@@ -45,7 +45,8 @@ public:
     int                     ImageWidth;                 // Widht of normal image
     int                     ImageHeight;                // Height of normal image
     QImage                  *CacheFirstImage;           // Cache image of first image of the video (Preview mode only)
-    int                     AdjustTimeStamp;
+    QImage                  *CacheLastImage;            // Cache image of last image of the video (Preview mode only)
+    double                  dEndFileCachePos;           // Position of the cache image of last image of the video
     bool                    CodecUsePTS;                // true if codec use PTS (h264) if if we use only DTS
     cFilterTransformObject  BrushFileTransform;         // Image transformation if image from disk
     double                  AspectRatio;                // Aspect ratio
@@ -66,7 +67,7 @@ public:
     ~cvideofilewrapper();
 
     bool        GetInformationFromFile(QString &GivenFileName,bool MusicOnly);
-    QImage      *ImageAt(bool PreviewMode,int Position,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool AddStartPos);
+    QImage      *ImageAt(bool PreviewMode,int Position,int StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter);
 
     int         PreviousPosition;
     bool        IsReadVideoStarted;

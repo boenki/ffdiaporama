@@ -375,7 +375,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
         if (FileInfo) {
 
-            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,false,NULL,1,false,NULL,false);
+            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,0,false,NULL,1,false,NULL);
             if (VideoImage) {
                 ui->MovieFrame->setPixmap(QPixmap().fromImage(VideoImage->scaledToHeight(ui->MovieFrame->height())));  // Display frame
                 delete VideoImage;
@@ -433,7 +433,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
             NewFrame->CurrentObject_StartTime   =0;
             NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
-            QImage *Temp=FileInfo->ImageAt(true,ActualPosition,false,&MixedMusic,1,false,NULL,false);
+            QImage *Temp=FileInfo->ImageAt(true,ActualPosition,0,false,&MixedMusic,1,false,NULL);
             if (Temp) {
                 QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
                 NewFrame->RenderedImage=Temp2;

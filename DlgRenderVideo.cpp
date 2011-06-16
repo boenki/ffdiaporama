@@ -297,6 +297,7 @@ void DlgRenderVideo::reject() {
 //====================================================================================================================
 
 void DlgRenderVideo::accept() {
+    bool                    IsModify        =false;
     cDiaporamaObjectInfo    *PreviousFrame  =NULL;
     cDiaporamaObjectInfo    *Frame          =NULL;
     QString                 TempWAVFileName;
@@ -326,41 +327,62 @@ void DlgRenderVideo::accept() {
         // Get values from controls
         QString BitRate;
 
-        Diaporama->OutputFileFormat =ui->FileFormatCB->currentIndex(); if (Diaporama->OutputFileFormat>=0) Diaporama->OutputFileFormat=ui->FileFormatCB->itemData(Diaporama->OutputFileFormat).toInt();
-        FileFormat                  =FORMATDEF[Diaporama->OutputFileFormat].FileExtension;
-        Diaporama->OutputFileName   =ui->DestinationFilePath->text();
-        Diaporama->ImageGeometry    =ui->GeometryCombo->currentIndex();
-        Diaporama->LastStandard     =ui->StandardCombo->currentIndex();
-        Diaporama->LastImageSize    =ui->ImageSizeCombo->currentIndex();
-        Diaporama->VideoFrameRate   =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].dFPS;
-        Diaporama->AudioFrequency   =48000;
+        int OutputFileFormat=ui->FileFormatCB->currentIndex();
+        if (OutputFileFormat>=0) {
+            IsModify=IsModify || (Diaporama->OutputFileFormat!=ui->FileFormatCB->itemData(Diaporama->OutputFileFormat).toInt());
+            Diaporama->OutputFileFormat=ui->FileFormatCB->itemData(Diaporama->OutputFileFormat).toInt();
+        }
 
-        VideoCodecIndex             =ui->VideoFormatCB->currentIndex();
+        FileFormat  =FORMATDEF[Diaporama->OutputFileFormat].FileExtension;
+
+        double      VideoFrameRate=DefImageFormat[ui->StandardCombo->currentIndex()][ui->GeometryCombo->currentIndex()][ui->ImageSizeCombo->currentIndex()].dFPS;
+        int         AudioFrequency=48000;
+        QString     VideoCodec;
+        QString     AudioCodec;
+        int         VideoBitRate=Diaporama->VideoBitRate;
+        int         AudioBitRate=Diaporama->AudioBitRate;
+
+
+        VideoCodecIndex=ui->VideoFormatCB->currentIndex();
         if (VideoCodecIndex<0) {
             QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Video codec error !");
             done(0);
             return;
         }
-        VideoCodecIndex             =ui->VideoFormatCB->itemData(VideoCodecIndex).toInt();
-        Diaporama->VideoCodec       =VIDEOCODECDEF[VideoCodecIndex].ShortName;
+        VideoCodecIndex=ui->VideoFormatCB->itemData(VideoCodecIndex).toInt();
+        VideoCodec     =VIDEOCODECDEF[VideoCodecIndex].ShortName;
 
-        AudioCodecIndex             =ui->AudioFormatCB->currentIndex();
+        AudioCodecIndex=ui->AudioFormatCB->currentIndex();
         if (AudioCodecIndex<0) {
             QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Audio codec error !");
             done(0);
             return;
         }
-        AudioCodecIndex             =ui->AudioFormatCB->itemData(AudioCodecIndex).toInt();
-        Diaporama->AudioCodec       =AUDIOCODECDEF[AudioCodecIndex].ShortName;
+        AudioCodecIndex=ui->AudioFormatCB->itemData(AudioCodecIndex).toInt();
+        AudioCodec     =AUDIOCODECDEF[AudioCodecIndex].ShortName;
 
-        BitRate=ui->VideoBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    Diaporama->VideoBitRate=BitRate.toInt();
-        BitRate=ui->AudioBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    Diaporama->AudioBitRate=BitRate.toInt();
+        BitRate=ui->VideoBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    VideoBitRate=BitRate.toInt();
+        BitRate=ui->AudioBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    AudioBitRate=BitRate.toInt();
 
-        // Special case for WAV
-        if (AUDIOCODECDEF[AudioCodecIndex].Codec_id==CODEC_ID_PCM_S16LE) Diaporama->AudioBitRate=1536;
+        // Special case adjustment
+        if (AUDIOCODECDEF[AudioCodecIndex].Codec_id==CODEC_ID_PCM_S16LE)    AudioBitRate=1536;      // Special case for WAV
+        if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("flv")) AudioFrequency=44100;   // Special case for FLV
 
-        // Special case for FLV
-        if (QString(FORMATDEF[Diaporama->OutputFileFormat].ShortName)==QString("flv")) Diaporama->AudioFrequency=44100;
+
+        IsModify=IsModify || (Diaporama->OutputFileName !=ui->DestinationFilePath->text());     Diaporama->OutputFileName   =ui->DestinationFilePath->text();
+        IsModify=IsModify || (Diaporama->ImageGeometry  !=ui->GeometryCombo->currentIndex());   Diaporama->ImageGeometry    =ui->GeometryCombo->currentIndex();
+        IsModify=IsModify || (Diaporama->LastStandard   !=ui->StandardCombo->currentIndex());   Diaporama->LastStandard     =ui->StandardCombo->currentIndex();
+        IsModify=IsModify || (Diaporama->LastImageSize  !=ui->ImageSizeCombo->currentIndex());  Diaporama->LastImageSize    =ui->ImageSizeCombo->currentIndex();
+        IsModify=IsModify || (Diaporama->VideoFrameRate !=VideoFrameRate);                      Diaporama->VideoFrameRate   =VideoFrameRate;
+        IsModify=IsModify || (Diaporama->AudioFrequency !=AudioFrequency);                      Diaporama->AudioFrequency   =AudioFrequency;
+        IsModify=IsModify || (Diaporama->VideoCodec     !=VideoCodec);                          Diaporama->VideoCodec       =VideoCodec;
+        IsModify=IsModify || (Diaporama->AudioCodec     !=AudioCodec);                          Diaporama->AudioCodec       =AudioCodec;
+        IsModify=IsModify || (Diaporama->VideoBitRate   !=VideoBitRate);                        Diaporama->VideoBitRate     =VideoBitRate;
+        IsModify=IsModify || (Diaporama->AudioBitRate   !=AudioBitRate);                        Diaporama->AudioBitRate     =AudioBitRate;
+
+        if (IsModify) GlobalMainWindow->SetModifyFlag(true);
+
+        //*****************
 
         ui->InformationLabel1->setText(Diaporama->OutputFileName);
         ui->InformationLabel2->setText(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Name);

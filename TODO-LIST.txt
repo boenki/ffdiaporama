@@ -1,13 +1,29 @@
-Buggs/TODO :
+Buggs/TODO (Dernier SVN le 16/06/2011) :
+----------------------------------------
 
-BUGG: La boite Edit Vidéo ne peut pas être réduite après agrandissement
-BUGG: Les guides n'attirent pas sur les bons cotés dans la boite slide
-BUGG: La rotation EXIF/boite de correction n'est pas prise en compte dans le calcul de la geometrie image
-BUGG: Les videos invisibles ne sont pas en pause : le temps continue de filer ...
-BUGG: Le flag de modification est activé même si le nom du fichier de destination n'a pas changé dans la boite de rendu
 BUGG: Erreur de décalage des mises en pause des musiques
-TODO: Vérifier les options de trie sous Windows
+TODO: L'affichage de la bonne image vidéo (à la bonne position temporelle) induit un ralentissement trop important dans la boite slide
+    => Il faut trouver un moyen de faire de la mise en cache !
+
+TODO: Le bouton changer de fichier n'est pas programmé dans la boite slide (image/vidéo)
+BUGG: La boite Edit Vidéo ne peut pas être réduite après agrandissement
+BUGG: La rotation EXIF/boite de correction n'est pas prise en compte dans le calcul de la geometrie image
 TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 TODO: Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
 TODO: Calculer et afficher la durée mini des blocs
+
+------------------------------------
+Changelog depuis la version 20110613
+------------------------------------
+Correction de bugg : Sur les guides dans les boites Slide et Correction d'image (Une erreur de calcul attirait mal les poignées vers les guides)
+Correction de bugg : Erreur de trie des fichiers sous Windows (lors des insertions de plusieurs fichiers)
+Correction de bugg : Correction du CSS (feuille de style WEB) pour Internet Explorer pour le WIKI et le site WEB
+
+Correction de bugg : Ce n'est pas la bonne image qui est affichée en thumbnail et en objet interactif dans la boite slide
+    => Maintenant au lieu d'afficher toujours la 1ere image de la vidéo, ffDiaporama affiche la bonne image correspondant à la position du plan pour l'objet interactif et pour le thumbnail
+
+
+Changement de comportement: Maintenant les vidéos sont mises en pause quand elles sont invisibles
+Changement de comportement: Quand une vidéo atteint la position de fin de fichier ou de fin demandée (boite edit), reste sur la dernière image au lieu d'une image transparente
+Changement de comportement: Dans la boite de rendu, le flag de modification du projet n'est maintenant activé que si un paramètre est changé

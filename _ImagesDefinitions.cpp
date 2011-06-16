@@ -311,7 +311,7 @@ cBrushDefinition::~cBrushDefinition() {
 }
 
 //====================================================================================================================
-QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool AddStartPos) {
+QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
     switch (BrushType) {
         case BRUSHTYPE_NOBRUSH :        return new QBrush(Qt::NoBrush);
         case BRUSHTYPE_SOLID :          return new QBrush(QColor(ColorD),Qt::SolidPattern);
@@ -319,20 +319,20 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSo
         case BRUSHTYPE_GRADIENT2 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_GRADIENT3 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_IMAGELIBRARY :   return GetLibraryBrush(Rect);
-        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage,PctDone,PreviousBrush,AddStartPos);
+        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect,PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PreviousBrush);
     }
     return new QBrush(Qt::NoBrush);
 }
 
 //====================================================================================================================
-QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool AddStartPos) {
+QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
     if (BrushFileName=="") return new QBrush(Qt::NoBrush);
 
     // W and H = 0 when producing sound track in render process
     bool    SoundOnly=((Rect.width()==0)&&(Rect.height()==0));
 
     QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&Image->BrushFileTransform):
-                        Video?Video->ImageAt(PreviewMode,Position,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform,AddStartPos):
+                        Video?Video->ImageAt(PreviewMode,Position,StartPosToAdd,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform):
                         NULL);
     if ((!SoundOnly)&&(RenderImage)) {
         // Create brush image with ken burns effect !
@@ -541,8 +541,8 @@ void cBrushDefinition::ApplyDefaultFraming(int DefaultFraming) {
             break;
     }
 
-    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,0,false,NULL,1,false,&Video->BrushFileTransform,true); // Video
-    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,false,&Image->BrushFileTransform);                // Image
+    if (Video!=NULL)        ReturnImage=Video->ImageAt(true,0,0,false,NULL,1,false,&Video->BrushFileTransform); // Video
+    else if (Image!=NULL)   ReturnImage=Image->ImageAt(true,false,&Image->BrushFileTransform);                  // Image
 
     if (ReturnImage!=NULL) {
         RealImageW=ReturnImage->width();

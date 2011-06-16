@@ -33,6 +33,8 @@
 
 cvideofilewrapper::cvideofilewrapper() {
     CacheFirstImage         = NULL;             // Cache image of first image of the video
+    CacheLastImage          = NULL;             // Cache image of last image of the video (Preview mode only)
+    dEndFileCachePos        = 0;                // Position of the cache image of last image of the video
 
     // LibAVFormat/Codec/SWScale part
     ffmpegVideoFile         = NULL;
@@ -45,7 +47,6 @@ cvideofilewrapper::cvideofilewrapper() {
     AudioDecoderCodec       = NULL;
     NextAudioPacketPosition = -1;
 
-    AdjustTimeStamp         = 0;
     StartPos                = QTime(0,0,0,0);   // Start position
     EndPos                  = QTime(0,0,0,0);   // End position
 }
@@ -56,6 +57,10 @@ cvideofilewrapper::~cvideofilewrapper() {
     if (CacheFirstImage!=NULL) {
         delete CacheFirstImage;
         CacheFirstImage=NULL;
+    }
+    if (CacheLastImage!=NULL) {
+        delete CacheLastImage;
+        CacheLastImage=NULL;
     }
 
     // Close LibAVFormat and LibAVCodec contexte for the file
@@ -102,6 +107,8 @@ void cvideofilewrapper::CloseVideoFileReader() {
 void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume) {
     // Ensure file was previously open
     if ((ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
+    // Ensure Position is not > EndPosition
+    if (Position>QTime(0,0,0,0).msecsTo(EndPos)) return;
 
     int64_t         AVNOPTSVALUE        =INT64_C(0x8000000000000000); // to solve type error with Qt
     AVStream        *AudioStream        =ffmpegAudioFile->streams[AudioStreamNumber];
@@ -144,7 +151,7 @@ void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackB
         if (SoundTrackBloc!=NULL) SoundTrackBloc->ClearList();      // Clear soundtrack list
 
         // Seek to nearest previous key frame
-        int64_t seek_target=av_rescale_q(int64_t((dPosition-double(AdjustTimeStamp)/1000)*AV_TIME_BASE),AV_TIME_BASE_Q,ffmpegAudioFile->streams[AudioStreamNumber]->time_base);
+        int64_t seek_target=av_rescale_q(int64_t((dPosition/1000)*AV_TIME_BASE),AV_TIME_BASE_Q,ffmpegAudioFile->streams[AudioStreamNumber]->time_base);
         if (av_seek_frame(ffmpegAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
             qDebug()<<"Seek error";
         }
@@ -315,6 +322,23 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
     // Ensure file was previously open
     if ((ffmpegVideoFile==NULL)||(VideoDecoderCodec==NULL)) return NULL;
 
+    double dEndFile =double(QTime(0,0,0,0).msecsTo(EndPos))/1000;     // End File Position in double format
+    double dPosition=double(Position)/1000;                           // Position in double format
+
+    // Ensure Position is not > EndPosition, in that case, change Position to lastposition
+    if ((dPosition>0)&&(dPosition>=dEndFile)) {
+        Position=QTime(0,0,0,0).msecsTo(EndPos);
+        dPosition=double(Position)/1000;
+        // if we have the correct last image then return it
+        if ((dEndFileCachePos==dEndFile)&&(CacheLastImage)) return new QImage(CacheLastImage->copy());
+        // if we have an old last image delete
+        if (CacheLastImage) {
+            delete CacheLastImage;
+            CacheLastImage=NULL;
+            dEndFileCachePos=0;
+        }
+    }
+
     // Allocate structure for YUV image
     if (FrameBufferYUV==NULL) FrameBufferYUV=avcodec_alloc_frame();
     if (FrameBufferYUV==NULL) return NULL;
@@ -332,7 +356,6 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
     QImage          *RetImage           =NULL;
     AVStream        *VideoStream        =ffmpegVideoFile->streams[VideoStreamNumber];
     AVPacket        *StreamPacket       =NULL;
-    double          dPosition           =double(Position)/1000;     // Position in double format
     double          EndPosition         =dPosition;
 
     // Cac difftime between asked position and previous end decoded position
@@ -350,12 +373,12 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
         }
 
         // Seek to nearest previous key frame
-        int64_t seek_target=av_rescale_q(int64_t((Position-AdjustTimeStamp)*1000),AV_TIME_BASE_Q,ffmpegVideoFile->streams[VideoStreamNumber]->time_base);
+        int64_t seek_target=av_rescale_q(int64_t(Position*1000),AV_TIME_BASE_Q,ffmpegVideoFile->streams[VideoStreamNumber]->time_base);
         if (av_seek_frame(ffmpegVideoFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
             qDebug()<<"Seek error";
         }
     } else {
-        qDebug()<<"No seek";
+        //qDebug()<<"No seek";
         KeyFrame=true;
         DataInBuffer=true;
     }
@@ -380,11 +403,10 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
                 FrameTimeBase   =av_q2d(VideoStream->time_base);
                 if (!CodecUsePTS) FramePosition=double((StreamPacket->pts!=AVNOPTSVALUE)?StreamPacket->pts:0)*FrameTimeBase;   // pts instead of dts
                     else          FramePosition=double((StreamPacket->dts!=AVNOPTSVALUE)?StreamPacket->dts:0)*FrameTimeBase;   // dts instead of pts
-                FrameDuration   =double(StreamPacket->duration)*FrameTimeBase;;
-                EndPosition     =FramePosition+FrameDuration;
 
-                // Keep NextPacketPosition for determine next time if we need to seek
-                NextVideoPacketPosition=FramePosition;
+                FrameDuration           =double(StreamPacket->duration)*FrameTimeBase;;
+                EndPosition             =FramePosition+FrameDuration;
+                NextVideoPacketPosition =FramePosition;  // Keep NextPacketPosition for determine next time if we need to seek
 
                 if (((StreamPacket->flags & AV_PKT_FLAG_KEY)>0)) KeyFrame=true;
                 if (KeyFrame) { // Decode video begining with a key frame
@@ -393,7 +415,8 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
                     avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket);
                     if (FrameDecoded>0) DataInBuffer=true;
 
-                    if ((DataInBuffer)&&(FramePosition>=dPosition)) {
+                    // Create image
+                    if ((DataInBuffer)&&((FramePosition>=dPosition)||(FramePosition>=dEndFile))) {
 
                         // Calc destination size
                         int W=ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
@@ -443,7 +466,7 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
             }
 
             // Check if we need to continue loop
-            Continue=(IsVideoFind==false);
+            Continue=(IsVideoFind==false)&&((dEndFile==0)||(FramePosition<dEndFile));
 
         } else {
             // if error in av_read_frame(...) then may be we have reach the end of file !
@@ -464,6 +487,12 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
 
     // Free the 2 AVFrame buffers
     av_free(FrameBufferRGB);
+
+    // Check if it's the last image and if we need to  cache it
+    if ((FramePosition>=dEndFile)&&(RetImage)) {
+        CacheLastImage  =new QImage(RetImage->copy());
+        dEndFileCachePos=dEndFile;  // keep position for future use
+    }
 
     return RetImage;
 }
@@ -524,6 +553,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
     ss=ss-(ss/60)*60;
     ms=ms-(ms/1000)*1000;
     Duration=QTime(hh,mm,ss,ms);
+    EndPos  =Duration;    // By default : EndPos is set to the end of file
 
     // Find the first audio stream
     AudioStreamNumber=0;
@@ -598,7 +628,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
 
         // Try to load one image to be sure we can make something with this file
         IsValide=true; // force IsValide to true for ImageAt accept to work !
-        QImage *Img =ImageAt(true,0,true,NULL,1,false,NULL,true);
+        QImage *Img =ImageAt(true,0,0,true,NULL,1,false,NULL);
         if (Img) {
             // Get informations about size image
             ImageWidth=Img->width();
@@ -612,7 +642,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
 
 //====================================================================================================================
 
-QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool AddStartPos) {
+QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,int StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter) {
     if (!IsValide)
         return NULL;
 
@@ -622,13 +652,13 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,bool ForceLoadD
         CacheFirstImage=NULL;
     }
 
-    if ((PreviewMode)&&(CacheFirstImage)&&(Position==0)) return new QImage(CacheFirstImage->copy());
+    if ((PreviewMode)&&(CacheFirstImage)&&(Position+StartPosToAdd==0)) return new QImage(CacheFirstImage->copy());
 
     // Load a video frame
     QImage *LoadedImage=NULL;
 
-    ReadAudioFrame(Position+AdjustTimeStamp+(AddStartPos?QTime(0,0,0,0).msecsTo(StartPos):0),SoundTrackBloc,Volume);
-    if ((!MusicOnly)&&(!ForceSoundOnly)) LoadedImage=ReadVideoFrame(Position+AdjustTimeStamp+(AddStartPos?QTime(0,0,0,0).msecsTo(StartPos):0));
+    ReadAudioFrame(Position+StartPosToAdd,SoundTrackBloc,Volume);
+    if ((!MusicOnly)&&(!ForceSoundOnly)) LoadedImage=ReadVideoFrame(Position+StartPosToAdd);
 
     if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
         // Scale image if anamorphous codec
@@ -644,7 +674,7 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,bool ForceLoadD
             LoadedImage =NewImage;
         }
         if (Filter && ((!PreviewMode)||(PreviewMode && GlobalMainWindow->ApplicationConfig->ApplyTransfoPreview))) Filter->ApplyFilter(LoadedImage);
-        if ((PreviewMode)&&(Position==0)) {
+        if ((PreviewMode)&&(Position+StartPosToAdd==0)) {
             if (CacheFirstImage!=NULL) delete CacheFirstImage;
             CacheFirstImage=LoadedImage;
             LoadedImage=new QImage(CacheFirstImage->copy());

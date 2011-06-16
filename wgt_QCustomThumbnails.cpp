@@ -71,6 +71,7 @@ void wgt_QCustomThumbnails::mouseDoubleClickEvent(QMouseEvent *Event) {
 //===========================================================================================================================
 
 void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QPainter Painter(this);
 
     if (Type==THUMBNAILTYPE_SHOT) {
@@ -81,49 +82,68 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 
             int Col=0;
             int Position = 0;
-            while (Col<Timeline->columnCount()) if (Timeline->cellWidget(0,Col)!=this) {
-                if (Col<DiaporamaObject->List.count()) Position=Position+DiaporamaObject->List[Col].GetStaticDuration();
-                Col++;
-            } else if (Timeline->cellWidget(0,Col)==this) {
-                int Height=Timeline->rowHeight(0);
-                int Width =Timeline->columnWidth(Col);
-                if (Width!=GlobalMainWindow->Diaporama->GetWidthForHeight(Height)) {
-                    Width=GlobalMainWindow->Diaporama->GetWidthForHeight(Height);
-                    Timeline->setColumnWidth(Col,Width);
+            while ((Col<Timeline->columnCount())&&(Col<DiaporamaObject->List.count())) {
+                if (Timeline->cellWidget(0,Col)!=this) {
+                    Position=Position+DiaporamaObject->List[Col].GetStaticDuration();
+                    Col++;
+                } else if (Timeline->cellWidget(0,Col)==this) {
+                    int Height=Timeline->rowHeight(0);
+                    int Width =Timeline->columnWidth(Col);
+                    if (Width!=GlobalMainWindow->Diaporama->GetWidthForHeight(Height)) {
+                        Width=GlobalMainWindow->Diaporama->GetWidthForHeight(Height);
+                        Timeline->setColumnWidth(Col,Width);
+                    }
+
+                    Painter.fillRect(0,0,Width,Height,Transparent);
+
+                    //-------------------------
+                    // Draw thumbnail of image
+                    //-------------------------
+
+                    // Add static shot composition
+                    if (Col<DiaporamaObject->List.count()) for (int j=0;j<DiaporamaObject->List[Col].ShotComposition.List.count();j++) {
+                        int StartPosToAdd=0;
+                        if (DiaporamaObject->List[Col].ShotComposition.List[j].BackgroundBrush.Video) {
+                            for (int k=0;k<Col;k++) {
+                                for (int l=0;l<DiaporamaObject->List[k].ShotComposition.List.count();l++) if (DiaporamaObject->List[k].ShotComposition.List[l].IndexKey==DiaporamaObject->List[Col].ShotComposition.List[j].IndexKey) {
+                                    if (DiaporamaObject->List[k].ShotComposition.List[l].IsVisible) StartPosToAdd+=DiaporamaObject->List[k].StaticDuration;
+                                    l=DiaporamaObject->List[k].ShotComposition.List.count();    // Stop loop
+                                }
+                            }
+                            DiaporamaObject->List[Col].ShotComposition.List[j].DrawCompositionObject(&Painter,0,0,Width,Height,true,0,StartPosToAdd,NULL,0,NULL);
+                        } else DiaporamaObject->List[Col].ShotComposition.List[j].DrawCompositionObject(&Painter,0,0,Width,Height,true,Position,0,NULL,0,NULL);
+                    }
+
+                    // -------------------------- Draw selected box (if needed)
+
+                    if (Col==Timeline->currentColumn()) {
+                        QPen Pen;
+                        Pen.setColor(Qt::blue);
+                        Pen.setWidth(6);
+                        Painter.setPen(Pen);
+                        Painter.setBrush(Qt::NoBrush);
+                        Painter.drawRect(0,0,this->width()-1,this->height()-1);
+                    }
+
+                    // -------------------------- Draw shot duration
+                    QPen  Pen;
+                    QFont font= QApplication::font();
+                    font.setPointSizeF(double(3500)/double(SCALINGTEXTFACTOR));                  // Scale font
+                    Painter.setFont(font);
+                    Pen.setWidth(1);
+                    Pen.setStyle(Qt::SolidLine);
+                    if (Col<DiaporamaObject->List.count()) {
+                        QString ShotDuration=QTime(0,0,0,0).addMSecs(DiaporamaObject->List[Col].StaticDuration).toString("hh:mm:ss.zzz");
+                        Pen.setColor(Qt::black);
+                        Painter.setPen(Pen);
+                        Painter.drawText(QRectF(1,4+1,this->width(),this->height()),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+                        Pen.setColor(Qt::white);
+                        Painter.setPen(Pen);
+                        Painter.drawText(QRectF(0,4,this->width()-1,this->height()-1),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+                    }
+                    Col++;
+                    MediaObjectRect=QRect(0,0,Width,Height);
                 }
-
-                Painter.fillRect(0,0,Width,Height,Transparent);
-                DiaporamaObject->CanvasImageAt(Width,Height,Position,&Painter,false);
-
-                // -------------------------- Draw selected box (if needed)
-
-                if (Col==Timeline->currentColumn()) {
-                    QPen Pen;
-                    Pen.setColor(Qt::blue);
-                    Pen.setWidth(6);
-                    Painter.setPen(Pen);
-                    Painter.setBrush(Qt::NoBrush);
-                    Painter.drawRect(0,0,this->width()-1,this->height()-1);
-                }
-
-                // -------------------------- Draw shot duration
-                QPen  Pen;
-                QFont font= QApplication::font();
-                font.setPointSizeF(double(3500)/double(SCALINGTEXTFACTOR));                  // Scale font
-                Painter.setFont(font);
-                Pen.setWidth(1);
-                Pen.setStyle(Qt::SolidLine);
-                if (Col<DiaporamaObject->List.count()) {
-                    QString ShotDuration=QTime(0,0,0,0).addMSecs(DiaporamaObject->List[Col].StaticDuration).toString("hh:mm:ss.zzz");
-                    Pen.setColor(Qt::black);
-                    Painter.setPen(Pen);
-                    Painter.drawText(QRectF(1,4+1,this->width(),this->height()),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
-                    Pen.setColor(Qt::white);
-                    Painter.setPen(Pen);
-                    Painter.drawText(QRectF(0,4,this->width()-1,this->height()-1),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
-                }
-                Col++;
-                MediaObjectRect=QRect(0,0,Width,Height);
             }
             Painter.restore();
         }
@@ -511,6 +531,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             Painter.restore();
         }
     }
+    QApplication::restoreOverrideCursor();
 }
 
 //===========================================================================================================================

@@ -574,7 +574,7 @@ void MainWindow::UpdateDockInfo() {
 void MainWindow::s_RenderVideo() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     DlgRenderVideo(*Diaporama,this).exec();
-    SetModifyFlag(true);
+    // SetModifyFlag(true); => Modify flag is set by dialog box (if needed)
     AdjustRuller();
 }
 
@@ -836,7 +836,7 @@ void MainWindow::s_action_AddFile() {
         }
         if (IsValide) {
             QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,true):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
                            NULL);
             if (Image) {
                 CurrentBrush->BrushFileCorrect.ImageGeometry=GEOMETRY_PROJECT;
