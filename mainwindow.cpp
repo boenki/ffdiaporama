@@ -633,36 +633,38 @@ void MainWindow::s_action_Open() {
 
     QCoreApplication::processEvents();
     QString ProjectFileName=QFileDialog::getOpenFileName(this,QCoreApplication::translate("MainWindow","Open project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
-    if (ProjectFileName!="") {
-        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-        ApplicationConfig->LastProjectPath=QFileInfo(ProjectFileName).dir().absolutePath();
-        // Clean actual timeline and diaporama
-        FLAGSTOPITEMSELECTION=true;
-        ui->timeline->setUpdatesEnabled(false);
-        while (ui->timeline->columnCount()>0) ui->timeline->removeColumn(ui->timeline->columnCount()-1);
-        delete Diaporama;
-        Diaporama=NULL;
-        ui->timeline->setUpdatesEnabled(true);
-        FLAGSTOPITEMSELECTION=false;
+    if (ProjectFileName!="") OpenFile(ProjectFileName);
+}
 
-        // Create new diaporama
-        Diaporama=new cDiaporama(ApplicationConfig);
-        //BackgroundList.ScanDisk("background",Diaporama->ImageGeometry); // Reload list with the correct geometry
-        //LumaList.ScanDisk("luma",Diaporama->ImageGeometry);             // Reload list with the correct geometry
-        Diaporama->Timeline=ui->timeline;
+void MainWindow::OpenFile(QString ProjectFileName) {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    ApplicationConfig->LastProjectPath=QFileInfo(ProjectFileName).dir().absolutePath();
+    // Clean actual timeline and diaporama
+    FLAGSTOPITEMSELECTION=true;
+    ui->timeline->setUpdatesEnabled(false);
+    while (ui->timeline->columnCount()>0) ui->timeline->removeColumn(ui->timeline->columnCount()-1);
+    delete Diaporama;
+    Diaporama=NULL;
+    ui->timeline->setUpdatesEnabled(true);
+    FLAGSTOPITEMSELECTION=false;
 
-        // Init GUI for this project
-        ui->preview->InitDiaporamaPlay(Diaporama);
-        SetTimelineHeight();
+    // Create new diaporama
+    Diaporama=new cDiaporama(ApplicationConfig);
+    //BackgroundList.ScanDisk("background",Diaporama->ImageGeometry); // Reload list with the correct geometry
+    //LumaList.ScanDisk("luma",Diaporama->ImageGeometry);             // Reload list with the correct geometry
+    Diaporama->Timeline=ui->timeline;
 
-        // Load file
-        Diaporama->LoadFile(this,ProjectFileName);
-        ui->timeline->setCurrentCell(0,0);
-        SetModifyFlag(false);
-        AdjustRuller();
-        QApplication::restoreOverrideCursor();
-        if (Diaporama->List.count()>0) ui->preview->SeekPlayer(Diaporama->List[0].TransitionDuration); else ui->preview->SeekPlayer(0);
-    }
+    // Init GUI for this project
+    ui->preview->InitDiaporamaPlay(Diaporama);
+    SetTimelineHeight();
+
+    // Load file
+    Diaporama->LoadFile(this,ProjectFileName);
+    ui->timeline->setCurrentCell(0,0);
+    SetModifyFlag(false);
+    AdjustRuller();
+    QApplication::restoreOverrideCursor();
+    if (Diaporama->List.count()>0) ui->preview->SeekPlayer(Diaporama->List[0].TransitionDuration); else ui->preview->SeekPlayer(0);
 }
 
 //====================================================================================================================

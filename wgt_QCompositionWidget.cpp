@@ -389,7 +389,7 @@ void wgt_QCompositionWidget::RefreshBackgroundImage() {
 
     for (int i=0;i<CompositionList->List.count();i++) {
         // Draw composition
-        CompositionList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,0,NULL,1,NULL);
+        CompositionList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,0,NULL,1,NULL,true);
         // Draw border
         if (GetSelectedCompositionObject()==&CompositionList->List[i]) {
             // draw rect out of the rectangle
@@ -758,7 +758,7 @@ void wgt_QCompositionWidget::MakeFormIcon(QComboBox *UICB) {
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
         ADJUST_RATIO=1;
-        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,0,NULL,1,NULL);
+        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,0,NULL,1,NULL,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -786,7 +786,7 @@ void wgt_QCompositionWidget::MakeTextStyleIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,0,NULL,1,NULL);
+        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,0,NULL,1,NULL,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }

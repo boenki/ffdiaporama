@@ -55,6 +55,15 @@ cimagefilewrapper::~cimagefilewrapper() {
 //====================================================================================================================
 
 bool cimagefilewrapper::GetInformationFromFile(QString &GivenFileName) {
+    if (CacheFullImage!=NULL) {
+        if (CacheFullImage!=CacheImage) delete CacheFullImage;
+        CacheFullImage=NULL;
+    }
+    if (CacheImage!=NULL) {
+        delete CacheImage;
+        CacheImage=NULL;
+    }
+
     FileName    =QFileInfo(GivenFileName).absoluteFilePath();
 
     bool Continue=true;

@@ -89,11 +89,18 @@ public:
     int                 FormShadowDistance;     // Distance from form to shadow
     int                 Opacity;                // Opacity of the form
 
+    // Brush cache part (use to speed up interface)
+    QBrush              *CachedBrushBrush;              // Cached brush brush
+    double              CachedBrushW,CachedBrushH;      // With and height used to make CachedBrush
+    int                 CachedBrushPosition;            // Position used to make CachedBrush
+    int                 CachedBrushStartPosToAdd;       // StartPosToAdd used to make CachedBrush
+
     cCompositionObject(int TypeComposition,int IndexKey);
+    ~cCompositionObject();
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
     void        DrawCompositionObject(QPainter *Painter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,int StartPosToAdd,
-                                      cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject);
+                                      cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
 };

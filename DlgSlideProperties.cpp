@@ -126,6 +126,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->ImageEditCorrectBT,SIGNAL(clicked()),this,SLOT(ImageEditCorrect()));
     connect(ui->EditTransformBt,SIGNAL(clicked()),this,SLOT(ImageEditTransform()));
     connect(ui->VideoEditBT,SIGNAL(clicked()),this,SLOT(VideoEdit()));
+    connect(ui->FileNameBT,SIGNAL(clicked()),this,SLOT(ChangeBrushDiskFile()));
 
     connect(ui->PosXEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgPosXValue(double)));
     connect(ui->PosYEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgPosYValue(double)));
@@ -540,9 +541,10 @@ void DlgSlideProperties::RefreshSceneImage() {
                     }
                 }
             }
-            CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,StartVideoPos,NULL,1,NULL);
-        } else CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,0,NULL,1,NULL);
-        // Draw border
+            CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,StartVideoPos,NULL,1,NULL,true);
+        } else CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,0,NULL,1,NULL,true);
+
+        // Draw frame border
         if (CurrentTextItem==&CurrentList->List[i]) {
             // draw rect out of the rectangle
             P.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
@@ -943,7 +945,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
         ADJUST_RATIO=1;
-        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,0,NULL,1,NULL);
+        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,0,NULL,1,NULL,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -1001,6 +1003,38 @@ void DlgSlideProperties::s_IntermPosED(int Value) {
     CurrentBrush->Intermediate=double(Value)/100;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshControls();
+}
+
+
+//====================================================================================================================
+
+void DlgSlideProperties::ChangeBrushDiskFile() {
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)||(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK)) return;
+
+    QString NewFile=QFileDialog::getOpenFileName(this,
+                                                 QApplication::translate("DlgSlideProperties","Select a file"),
+                                                 GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
+                                                 GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(CurrentBrush->Image?cApplicationConfig::IMAGEFILE:cApplicationConfig::VIDEOFILE));
+    QCoreApplication::processEvents();
+    if (NewFile=="") return;
+    if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
+    CurrentBrush->BrushFileName=QFileInfo(NewFile).absoluteFilePath();
+
+    if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(CurrentBrush->BrushFileName);
+        else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(CurrentBrush->BrushFileName,false);
+
+    // free CachedBrushBrush
+    for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
+        if (DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush) {
+            delete DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush;
+            DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
+        }
+    }
+
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
+    RefreshBlockTable(ui->BlockTable->currentRow());
 }
 
 //====================================================================================================================
@@ -1569,43 +1603,51 @@ void DlgSlideProperties::s_BlockTable_RemoveBlock() {
 
 //====================================================================================================================
 
+void DlgSlideProperties::CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock) {
+    if (SourceBlock==DestBlock) return;
+
+    // Attribut of the text part
+    DestBlock->Text                 =SourceBlock->Text;                     // Text of the object
+    DestBlock->FontName             =SourceBlock->FontName;                 // font name
+    DestBlock->FontSize             =SourceBlock->FontSize;                 // font size
+    DestBlock->FontColor            =SourceBlock->FontColor;                // font color
+    DestBlock->FontShadowColor      =SourceBlock->FontShadowColor;          // font shadow color
+    DestBlock->IsBold               =SourceBlock->IsBold;                   // true if bold mode
+    DestBlock->IsItalic             =SourceBlock->IsItalic;                 // true if Italic mode
+    DestBlock->IsUnderline          =SourceBlock->IsUnderline;              // true if Underline mode
+    DestBlock->HAlign               =SourceBlock->HAlign;                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+    DestBlock->VAlign               =SourceBlock->VAlign;                   // Vertical alignement : 0=up, 1=center, 2=bottom
+    DestBlock->StyleText            =SourceBlock->StyleText;                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+
+    // Attribut of the shap part
+    DestBlock->BackgroundForm       =SourceBlock->BackgroundForm;           // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
+    DestBlock->PenSize              =SourceBlock->PenSize;                  // Width of the border of the form
+    DestBlock->PenStyle             =SourceBlock->PenStyle;                 // Style of the pen border of the form
+    DestBlock->PenColor             =SourceBlock->PenColor;                 // Color of the border of the form
+    DestBlock->FormShadow           =SourceBlock->FormShadow;               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+    DestBlock->FormShadowDistance   =SourceBlock->FormShadowDistance;       // Distance from form to shadow
+    DestBlock->Opacity              =SourceBlock->Opacity;                  // Opacity of the form
+
+    // Attribut of the BackgroundBrush of the shap part
+    DestBlock->BackgroundBrush.BrushType           =SourceBlock->BackgroundBrush.BrushType;
+    DestBlock->BackgroundBrush.PatternType         =SourceBlock->BackgroundBrush.PatternType;
+    DestBlock->BackgroundBrush.GradientOrientation =SourceBlock->BackgroundBrush.GradientOrientation;
+    DestBlock->BackgroundBrush.ColorD              =SourceBlock->BackgroundBrush.ColorD;
+    DestBlock->BackgroundBrush.ColorF              =SourceBlock->BackgroundBrush.ColorF;
+    DestBlock->BackgroundBrush.ColorIntermed       =SourceBlock->BackgroundBrush.ColorIntermed;
+    DestBlock->BackgroundBrush.Intermediate        =SourceBlock->BackgroundBrush.Intermediate;
+    DestBlock->BackgroundBrush.BrushImage          =SourceBlock->BackgroundBrush.BrushImage;
+    DestBlock->BackgroundBrush.BrushFileName       =SourceBlock->BackgroundBrush.BrushFileName;
+}
+
 void DlgSlideProperties::ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock) {
-    for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i].ShotComposition.List.count();j++) if (GlobalBlock->IndexKey==DiaporamaObject->List[i].ShotComposition.List[j].IndexKey) {
-        // Attribut of the text part
-        DiaporamaObject->List[i].ShotComposition.List[j].Text           =GlobalBlock->Text;                   // Text of the object
-        DiaporamaObject->List[i].ShotComposition.List[j].FontName       =GlobalBlock->FontName;               // font name
-        DiaporamaObject->List[i].ShotComposition.List[j].FontSize       =GlobalBlock->FontSize;               // font size
-        DiaporamaObject->List[i].ShotComposition.List[j].FontColor      =GlobalBlock->FontColor;              // font color
-        DiaporamaObject->List[i].ShotComposition.List[j].FontShadowColor=GlobalBlock->FontShadowColor;        // font shadow color
-        DiaporamaObject->List[i].ShotComposition.List[j].IsBold         =GlobalBlock->IsBold;                 // true if bold mode
-        DiaporamaObject->List[i].ShotComposition.List[j].IsItalic       =GlobalBlock->IsItalic;               // true if Italic mode
-        DiaporamaObject->List[i].ShotComposition.List[j].IsUnderline    =GlobalBlock->IsUnderline;            // true if Underline mode
-        DiaporamaObject->List[i].ShotComposition.List[j].HAlign         =GlobalBlock->HAlign;                 // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-        DiaporamaObject->List[i].ShotComposition.List[j].VAlign         =GlobalBlock->VAlign;                 // Vertical alignement : 0=up, 1=center, 2=bottom
-        DiaporamaObject->List[i].ShotComposition.List[j].StyleText      =GlobalBlock->StyleText;              // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+    // Apply to GlobalComposition objects
+    for (int j=0;j<DiaporamaObject->ObjectComposition.List.count();j++) if (GlobalBlock->IndexKey==DiaporamaObject->ObjectComposition.List[j].IndexKey)
+        CopyBlockProperties(GlobalBlock,&DiaporamaObject->ObjectComposition.List[j]);
 
-        // Attribut of the shap part
-        DiaporamaObject->List[i].ShotComposition.List[j].BackgroundForm     =GlobalBlock->BackgroundForm;       // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
-        DiaporamaObject->List[i].ShotComposition.List[j].PenSize            =GlobalBlock->PenSize;              // Width of the border of the form
-        DiaporamaObject->List[i].ShotComposition.List[j].PenStyle           =GlobalBlock->PenStyle;             // Style of the pen border of the form
-        DiaporamaObject->List[i].ShotComposition.List[j].PenColor           =GlobalBlock->PenColor;             // Color of the border of the form
-        DiaporamaObject->List[i].ShotComposition.List[j].FormShadow         =GlobalBlock->FormShadow;           // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-        DiaporamaObject->List[i].ShotComposition.List[j].FormShadowDistance =GlobalBlock->FormShadowDistance;   // Distance from form to shadow
-        DiaporamaObject->List[i].ShotComposition.List[j].Opacity            =GlobalBlock->Opacity;              // Opacity of the form
-
-        // Attribut of the BackgroundBrush of the shap part
-        cBrushDefinition *BrushToCopy=&DiaporamaObject->List[i].ShotComposition.List[j].BackgroundBrush;
-        BrushToCopy->BrushType           =GlobalBlock->BackgroundBrush.BrushType;
-        BrushToCopy->PatternType         =GlobalBlock->BackgroundBrush.PatternType;
-        BrushToCopy->GradientOrientation =GlobalBlock->BackgroundBrush.GradientOrientation;
-        BrushToCopy->ColorD              =GlobalBlock->BackgroundBrush.ColorD;
-        BrushToCopy->ColorF              =GlobalBlock->BackgroundBrush.ColorF;
-        BrushToCopy->ColorIntermed       =GlobalBlock->BackgroundBrush.ColorIntermed;
-        BrushToCopy->Intermediate        =GlobalBlock->BackgroundBrush.Intermediate;
-        BrushToCopy->BrushImage          =GlobalBlock->BackgroundBrush.BrushImage;
-        //BrushToCopy->BrushFileName       =GlobalBlock->BackgroundBrush.BrushFileName;
-
-    }
+    // Apply to Shots Composition objects
+    for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i].ShotComposition.List.count();j++) if (GlobalBlock->IndexKey==DiaporamaObject->List[i].ShotComposition.List[j].IndexKey)
+        CopyBlockProperties(GlobalBlock,&DiaporamaObject->List[i].ShotComposition.List[j]);
 }
 
 //====================================================================================================================

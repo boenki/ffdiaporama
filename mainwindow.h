@@ -52,6 +52,7 @@ public:
     void    UpdateDockInfo();
     void    AdjustRuller();
     void    SetTimelineHeight();
+    void    OpenFile(QString ProjectFileName);
 
 protected:
     virtual void resizeEvent(QResizeEvent *);

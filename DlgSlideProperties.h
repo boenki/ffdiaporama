@@ -66,6 +66,7 @@ public:
     cBrushDefinition        *GetCurrentBrush();                     // Return selected brush
     cBrushDefinition        *GetCurrentGlobalBrush();               // Return brush of selected CompositionObject in the global composition list
     void                    ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock);
+    void                    CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock);
 
 protected:
     virtual void    resizeEvent(QResizeEvent *);
@@ -96,6 +97,7 @@ private slots:
     void            ImageEditTransform();
     void            VideoEdit();
     void            GetSound();
+    void            ChangeBrushDiskFile();
 
     // Shot table part
     void            s_ShotTable_SelectionChanged();             // User select a shot in the ShotTable widget
