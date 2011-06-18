@@ -140,6 +140,11 @@
 
 
 
+
+
+
+
+
             :</span><br>
           Si les marges TV sont activ&#233;es, des guides correspondant
           &#224; ces marges sont affich&#233;es et la souris sera
@@ -179,7 +184,8 @@
                       entrante de la diapositive suivante</li>
                     <li>La dur&#233;e total de la diapositive doit
                       permettre de jouer dans son int&#233;gralit&#233;
-                      la vid&#233;o la plus longue<br>
+                      la vid&#233;o la plus longue (Le temps des pauses
+                      est pris en compte)<br>
                     </li>
                   </ul>
                   Si vous indiquez une dur&#233;e inf&#233;rieure &#224;
@@ -258,8 +264,8 @@
               <td style="vertical-align: top;">Couper<br>
               </td>
               <td style="vertical-align: top;">Copie le bloc actif dans
-                le presse papier de ffDiaporama et le supprime du plan
-                actuellement s&#233;lectionn&#233;. <br>
+                le presse papier de ffDiaporama et le supprime de la
+                diapositive. <br>
                 La copie s'effectue avec les param&#232;tres de bloc tel
                 qu'ils sont d&#233;finis pour le plan actuellement
                 s&#233;lectionn&#233;. </td>
@@ -294,6 +300,11 @@
         </table>
         <br>
         <span style="font-weight: bold; text-decoration: underline;">Notes
+
+
+
+
+
 
 
 
@@ -427,6 +438,11 @@
 
 
 
+
+
+
+
+
             <img alt="" src="../../img/object_image.png">=Image, <img checked="true"
               style="width: 16px; height: 16px;" alt="" src="../../img/object_movie.png">=Vid&#233;o)</li>
           <li>La seconde colonne indique le bloc qui joue le son pendant
@@ -446,6 +462,11 @@
         la zone de composition.<br>
         <br>
         <span checked="true" style="text-decoration: underline; font-weight: bold;">Notes
+
+
+
+
+
 
 
 
@@ -559,13 +580,25 @@
 
 
 
+
+
+
+
+
                 sur ce bouton pour rendre visible ou invisible le bloc
                 actif.<br>
+                Note : Les blocs vid&#233;os invisibles sont
+                automatiquement mis en pause<br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top;"><img checked="true" src="../../img/object_sound.png"></td>
               <td colspan="3" rowspan="1" style="vertical-align: top;">Ce
+
+
+
+
+
 
 
 
@@ -620,6 +653,11 @@
             <tr>
               <td style="vertical-align: top;"><img checked="true" src="../../img/EditImage.png"></td>
               <td colspan="3" rowspan="1" style="vertical-align: top;">Cliquer
+
+
+
+
+
 
 
 
@@ -723,6 +761,11 @@
 
 
 
+
+
+
+
+
                 : Permet de s&#233;lectionner la contrainte
                 g&#233;om&#233;trique &#224; appliquer au bloc.<br>
                 Trois type de contrainte sont disponibles :<br>
@@ -741,6 +784,11 @@
             <tr>
               <td style="vertical-align: top;"><img checked="true" src="../../img/PosSize_X.png"></td>
               <td colspan="1" rowspan="1" style="vertical-align: top;">Repr&#233;sente
+
+
+
+
+
 
 
 
@@ -814,6 +862,11 @@
 
 
 
+
+
+
+
+
                 la largeur du bloc de texte.<br>
                 Cette position est exprim&#233;e en pourcentage (%) de
                 la largeur total de l'image. </td>
@@ -828,6 +881,11 @@
             <tr>
               <td style="vertical-align: top;"><img checked="true" src="../../img/RotateZ.png"></td>
               <td colspan="1" rowspan="1" style="vertical-align: top;">Rotation
+
+
+
+
+
 
 
 
@@ -928,11 +986,21 @@
 
 
 
+
+
+
+
+
                 selon l'axe des Y exprim&#233;e en degr&#233;. </td>
             </tr>
             <tr>
               <td style="vertical-align: top;"><img checked="true" src="../../img/RotateX.png"></td>
               <td colspan="1" rowspan="1" style="vertical-align: top;">Rotation
+
+
+
+
+
 
 
 
@@ -997,6 +1065,11 @@
             <td style="vertical-align: top;">Forme<br>
             </td>
             <td colspan="2" rowspan="1" style="vertical-align: top;">Permet
+
+
+
+
+
 
 
 
@@ -1141,8 +1214,17 @@
               d'objet, diff&#233;rents contenus sont possibles :<br>
               <ul>
                 <li>Pour une image ou une vid&#233;o : Le nom du fichier
-                  avec un bouton de s&#233;lection de fichier permettant
-                  de changer de fichier</li>
+                  avec un bouton de s&#233;lection de fichier <img alt=""
+                    src="../../img/FolderOpen.png"> permettant de
+                  changer de fichier</li>
+                <ul>
+                  <li>Attention, si vous remplacer le fichier (image ou
+                    vid&#233;o) par un autre dont la g&#233;om&#233;trie
+                    d'image n'est pas la m&#234;me, vous devrez revoir
+                    le cadrage de l'image dans tous les plans.</li>
+                </ul>
+              </ul>
+              <ul>
                 <li>Pour un titre : D&#233;finition d'une brosse pour la
                   forme :<br>
                   <br>
@@ -1177,18 +1259,6 @@
                         <td style="vertical-align: top;">D&#233;grad&#233;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
                           &#224; 2 couleurs :</td>
                         <td style="vertical-align: top;">Permet de
                           s&#233;lectionner un d&#233;grad&#233; de 2
@@ -1198,37 +1268,8 @@
                         <td style="vertical-align: top;">D&#233;grad&#233;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                           &#224; 3 couleurs :</td>
                         <td style="vertical-align: top;"><tdstyle="vertical-align:>Permet
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                             de s&#233;lectionner un d&#233;grad&#233; de
@@ -1287,6 +1328,11 @@
                   src="../../WIKI_img/Wikipedia.png"></a><br>
               <small>WIKIPEDIA</small> </td>
             <td style="vertical-align: middle;"><a href="http://en.wikipedia.org/wiki/Overscan">Explications
+
+
+
+
+
 
                 sur les marges TV et "l'overscan"</a><br>
               <a href="http://fr.wikipedia.org/wiki/EXIF"> Explications

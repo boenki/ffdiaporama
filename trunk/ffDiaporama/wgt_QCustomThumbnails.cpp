@@ -110,8 +110,8 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                                     l=DiaporamaObject->List[k].ShotComposition.List.count();    // Stop loop
                                 }
                             }
-                            DiaporamaObject->List[Col].ShotComposition.List[j].DrawCompositionObject(&Painter,0,0,Width,Height,true,0,StartPosToAdd,NULL,0,NULL);
-                        } else DiaporamaObject->List[Col].ShotComposition.List[j].DrawCompositionObject(&Painter,0,0,Width,Height,true,Position,0,NULL,0,NULL);
+                            DiaporamaObject->List[Col].ShotComposition.List[j].DrawCompositionObject(&Painter,0,0,Width,Height,true,0,StartPosToAdd,NULL,0,NULL,true);
+                        } else DiaporamaObject->List[Col].ShotComposition.List[j].DrawCompositionObject(&Painter,0,0,Width,Height,true,Position,0,NULL,0,NULL,true);
                     }
 
                     // -------------------------- Draw selected box (if needed)

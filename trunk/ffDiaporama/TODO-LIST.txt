@@ -1,11 +1,5 @@
 Buggs/TODO (Dernier SVN le 16/06/2011) :
 ----------------------------------------
-
-BUGG: Erreur de décalage des mises en pause des musiques
-TODO: L'affichage de la bonne image vidéo (à la bonne position temporelle) induit un ralentissement trop important dans la boite slide
-    => Il faut trouver un moyen de faire de la mise en cache !
-
-TODO: Le bouton changer de fichier n'est pas programmé dans la boite slide (image/vidéo)
 BUGG: La boite Edit Vidéo ne peut pas être réduite après agrandissement
 BUGG: La rotation EXIF/boite de correction n'est pas prise en compte dans le calcul de la geometrie image
 TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
@@ -16,14 +10,17 @@ TODO: Calculer et afficher la durée mini des blocs
 ------------------------------------
 Changelog depuis la version 20110613
 ------------------------------------
+Correction de bugg : Supprime le décalage des mises en pause des musiques (erreur de calcul corrigée) + ajout des fades in/out sur les changements de volume ou de mode pause
 Correction de bugg : Sur les guides dans les boites Slide et Correction d'image (Une erreur de calcul attirait mal les poignées vers les guides)
 Correction de bugg : Erreur de trie des fichiers sous Windows (lors des insertions de plusieurs fichiers)
-Correction de bugg : Correction du CSS (feuille de style WEB) pour Internet Explorer pour le WIKI et le site WEB
-
+Correction de bugg : Correction du CSS (feuille de style WEB) pour Internet Explorer 6/7 pour le WIKI et le site WEB
 Correction de bugg : Ce n'est pas la bonne image qui est affichée en thumbnail et en objet interactif dans la boite slide
     => Maintenant au lieu d'afficher toujours la 1ere image de la vidéo, ffDiaporama affiche la bonne image correspondant à la position du plan pour l'objet interactif et pour le thumbnail
-
 
 Changement de comportement: Maintenant les vidéos sont mises en pause quand elles sont invisibles
 Changement de comportement: Quand une vidéo atteint la position de fin de fichier ou de fin demandée (boite edit), reste sur la dernière image au lieu d'une image transparente
 Changement de comportement: Dans la boite de rendu, le flag de modification du projet n'est maintenant activé que si un paramètre est changé
+
+Ajout de fonctionnalité : Prise en charge d'un fichier en entrée du programme : ffDiaporama peut maintenant être associé aux fichiers .ffd
+Ajout de fonctionnalité : Mise en cache des brosses de tout types pour accélérer les boites de dialogue
+Ajout de fonctionnalité : Programmation du bouton changer de fichier dans la boite slide (image/vidéo)

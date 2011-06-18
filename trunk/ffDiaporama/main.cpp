@@ -41,10 +41,13 @@ int main(int argc, char *argv[]) {
     CurrentLanguage=QLocale::system().name().left(2);
     AddToSystemProperties(QString(SYSTEMLOCAL_STR)+CurrentLanguage);
 
+    QString AutoLoad="";
+
     // Parse parameters
     for (int i=1;i<argc;i++) {
         QString Param=QString(argv[i]).toLower();
         if (Param.startsWith("-lang=")) CurrentLanguage=Param.mid(QString("-lang=").length());
+        else AutoLoad=QString().fromLocal8Bit(argv[i]);
     }
 
     // Validate if system locale is supported and if not force use of "en"
@@ -67,6 +70,6 @@ int main(int argc, char *argv[]) {
     MainWindow w(ApplicationConfig);
 
     if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
-
+    if (AutoLoad!="") w.OpenFile(AutoLoad);
     return app.exec();
 }

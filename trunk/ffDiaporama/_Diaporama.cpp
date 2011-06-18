@@ -126,6 +126,22 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey) {
 
     // BackgroundBrush is initilise by object constructor except TypeComposition and key
     BackgroundBrush.TypeComposition = TypeComposition;
+
+    // Brush cache part (use to speed up interface)
+    CachedBrushBrush        = NULL;             // Cached brush brush
+    CachedBrushW            = -1;               // With used to make CachedBrush
+    CachedBrushH            = -1;               // Height used to make CachedBrush
+    CachedBrushPosition     = -1;               // Position used to make CachedBrush
+    CachedBrushStartPosToAdd= -1;               // StartPosToAdd used to make CachedBrush
+}
+
+//====================================================================================================================
+
+cCompositionObject::~cCompositionObject() {
+    if (CachedBrushBrush) {
+        delete CachedBrushBrush;
+        CachedBrushBrush=NULL;
+    }
 }
 
 //====================================================================================================================
@@ -271,7 +287,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 //====================================================================================================================
 
 void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,int StartPosToAdd,
-                                               cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject) {
+                                               cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache) {
     // W and H = 0 when producing sound track in render process
     if (!IsVisible) return;
 
@@ -350,13 +366,39 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
         // Draw internal shape
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
             // Create brush with Ken Burns effect !
-            QBrush      *BR=BackgroundBrush.GetBrush(QRectF(-1,-1,W-FullMargin*2,H-FullMargin*2),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,
-                                                     PrevCompoObject?&PrevCompoObject->BackgroundBrush:NULL);
-            QTransform  MatrixBR;
-            MatrixBR.translate(FullMargin-W/2,FullMargin-H/2);
-            BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
+            QBrush *BR              =NULL;
+            bool UpdateCachedBrush  =true;
+            if (PreviewMode && UseBrushCache && (CachedBrushBrush!=NULL)&&(W<=CachedBrushW)&&(H<=CachedBrushH)&&(Position==CachedBrushPosition)&&(StartPosToAdd==CachedBrushStartPosToAdd)) {
+                if ((W!=CachedBrushW)||(H!=CachedBrushH)) {
+                    // if Cached brush is more higher than what we want (thumbnail) then adjust brush
+                    QPainter NewP;
+                    QImage   NewImage(CachedBrushW,CachedBrushH,QImage::Format_ARGB32);
+                    NewP.begin(&NewImage);
+                    NewP.setBrush(*CachedBrushBrush);
+                    NewP.drawRect(0,0,CachedBrushW,CachedBrushH);
+                    NewP.end();
+                    BR=new QBrush(NewImage.scaled(W,H));
+                    UpdateCachedBrush=false;
+                } else BR=CachedBrushBrush;
+            } else {
+                BR=BackgroundBrush.GetBrush(QRectF(-1,-1,W-FullMargin*2,H-FullMargin*2),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?&PrevCompoObject->BackgroundBrush:NULL);
+                QTransform  MatrixBR;
+                MatrixBR.translate(FullMargin-W/2,FullMargin-H/2);
+                BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
+            }
+
+            // if PreviewMode && UseBrushCache then Keep value for next use
+            if (UpdateCachedBrush && PreviewMode && UseBrushCache && (BR!=CachedBrushBrush)) {
+                if (CachedBrushBrush!=NULL) delete CachedBrushBrush;
+                CachedBrushBrush        =BR;
+                CachedBrushW            =W;
+                CachedBrushH            =H;
+                CachedBrushPosition     =Position;
+                CachedBrushStartPosToAdd=StartPosToAdd;
+            }
+
             Painter.setBrush(*BR);
-            delete BR;
+            if (BR!=CachedBrushBrush) delete BR;
         }
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
         DrawShape(Painter,BackgroundForm,FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2,0,0);
@@ -625,7 +667,7 @@ void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Pa
 
         // Add static shot composition
         if (List.count()>0) for (int j=0;j<List[0].ShotComposition.List.count();j++) {
-            List[0].ShotComposition.List[j].DrawCompositionObject(&P,0,0,ThumbWidth,ThumbHeight,true,0,0,NULL,0,NULL);
+            List[0].ShotComposition.List[j].DrawCompositionObject(&P,0,0,ThumbWidth,ThumbHeight,true,0,0,NULL,0,NULL,true);
         }
 
         P.end();
@@ -705,309 +747,55 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
-        if (Element.hasAttribute("ObjectFileName")) {   // ALPHA1 Data loading
-            //************************************************************
-            // ALPHA1 Data loading
-            //************************************************************
+        bool IsOk=true;
 
-            // Then, now we can load media file in the global composition object
-            QString FileName=Element.attribute("ObjectFileName","");
+        // Load shot list
+        List.clear();   // Remove default 1st shot create by constructor
 
-            if (PathForRelativPath!="") FileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FileName));
-            int TheTypeObject=Element.attribute("TypeObject").toInt();
+        // Slide properties
+        SlideName=Element.attribute("SlideName");
+        NextIndexKey=Element.attribute("NextIndexKey").toInt();
 
-            cCompositionObject  *CompositionObject=NULL;
-            cBrushDefinition    *CurrentBrush=NULL;
-            bool                IsOk=true;
-            int                 ShotNumber=0;
-            int                 i;
-            QDomElement         SubElement;
-            cCompositionObject  *CurShot=NULL;
-
-            switch (TheTypeObject) {
-                case DIAPORAMAOBJECTTYPE_IMAGE :
-                    List.clear();
-                    // Create and append a composition block to the object list
-                    ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,NextIndexKey));
-                    CompositionObject=&ObjectComposition.List[ObjectComposition.List.count()-1];
-                    CurrentBrush=&CompositionObject->BackgroundBrush;
-                    // Set CompositionObject to full screen
-                    CompositionObject->x=0;
-                    CompositionObject->y=0;
-                    CompositionObject->w=1;
-                    CompositionObject->h=1;
-                    // Set other values
-                    CompositionObject->Text     ="";
-                    CompositionObject->PenSize  =0;
-                    CurrentBrush->BrushFileName =QFileInfo(FileName).absoluteFilePath();
-                    CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
-                    SlideName                   =QFileInfo(FileName).fileName();
-                    CurrentBrush->Image=new cimagefilewrapper();
-                    IsOk=CurrentBrush->Image->GetInformationFromFile(FileName);
-                    if (IsOk) {
-                        ShotNumber=Element.attribute("ShotNumber").toInt();
-                        for (i=0;i<ShotNumber;i++) {
-                            List.append(cDiaporamaShot(this));
-                            List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
-                            CurShot=&List[i].ShotComposition.List[List[i].ShotComposition.List.count()-1];
-                            CurShot->CopyFromCompositionObject(CompositionObject);
-
-                            //List[i].LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath);
-                            if ((Element.elementsByTagName("Shot-"+QString("%1").arg(i)).length()>0)&&(Element.elementsByTagName("Shot-"+QString("%1").arg(i)).item(0).isElement()==true)) {
-                                SubElement=Element.elementsByTagName("Shot-"+QString("%1").arg(i)).item(0).toElement();
-
-                                if (i>0) {
-                                    // Duration (in msec) of the mobil part animation
-                                    if (SubElement.attribute("DefaultMobilDuration")=="1") List[i].StaticDuration=GlobalMainWindow->ApplicationConfig->FixedDuration;
-                                        else List[i].StaticDuration=SubElement.attribute("MobilDuration").toInt();
-                                    CurShot->CopyFromCompositionObject(&List[i-1].ShotComposition.List[List[i-1].ShotComposition.List.count()-1]);
-                                    List.append(cDiaporamaShot(this));
-                                    i++;
-                                    ShotNumber++;
-                                    List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
-                                    CurShot=&List[i].ShotComposition.List[List[i].ShotComposition.List.count()-1];
-                                    CurShot->CopyFromCompositionObject(CompositionObject);
-                                    // Duration (in msec) of the static part animation
-                                    if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=GlobalMainWindow->ApplicationConfig->FixedDuration;
-                                        else List[i].StaticDuration=SubElement.attribute("StaticDuration").toInt();
-
-                                } else {
-                                    // Duration (in msec) of the static part animation
-                                    if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=GlobalMainWindow->ApplicationConfig->NoShotDuration;
-                                        else List[i].StaticDuration=SubElement.attribute("StaticDuration").toInt();
-                                }
-
-                                CurShot->BackgroundBrush.BrushFileCorrect.LoadFromXML(SubElement,"FilterCorrection",PathForRelativPath);    // Image correction
-                                CurShot->BackgroundBrush.BrushFileCorrect.X             =SubElement.attribute("X").toDouble();              // X position (in %) relative to up/left corner
-                                CurShot->BackgroundBrush.BrushFileCorrect.Y             =SubElement.attribute("Y").toDouble();              // Y position (in %) relative to up/left corner
-                                CurShot->BackgroundBrush.BrushFileCorrect.ZoomFactor    =SubElement.attribute("ZoomFactor").toDouble();     // Zoom factor (in %)
-                                CurShot->BackgroundBrush.BrushFileCorrect.ImageRotation =SubElement.attribute("ImageRotation").toInt();     // Image rotation (in °)
-                            }
-                        }
-                    }
-                    break;
-                case DIAPORAMAOBJECTTYPE_VIDEO :
-                    List.clear();
-                    // Create and append a composition block to the object list
-                    ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,NextIndexKey));
-                    CompositionObject=&ObjectComposition.List[ObjectComposition.List.count()-1];
-                    CurrentBrush=&CompositionObject->BackgroundBrush;
-                    // Set CompositionObject to full screen
-                    CompositionObject->x=0;
-                    CompositionObject->y=0;
-                    CompositionObject->w=1;
-                    CompositionObject->h=1;
-                    // Set other values
-                    CompositionObject->Text     ="";
-                    CompositionObject->PenSize  =0;
-                    CurrentBrush->BrushFileName =QFileInfo(FileName).absoluteFilePath();
-                    CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
-                    SlideName                   =QFileInfo(FileName).fileName();
-                    CurrentBrush->Video         =new cvideofilewrapper();
-                    IsOk=CurrentBrush->Video->GetInformationFromFile(FileName,false);
-                    if (IsOk) {
-                        CurrentBrush->Video->StartPos   =QTime(0,0,0,0);
-                        CurrentBrush->Video->EndPos     =CurrentBrush->Video->Duration;
-                        CurrentBrush->SoundVolume       =Element.attribute("SoundVolume").toDouble();         // Volume of soundtrack (for video only)
-                        CurrentBrush->Video->StartPos   =QTime().fromString(Element.attribute("StartPos"));   // Start position (video only)
-                        CurrentBrush->Video->EndPos     =QTime().fromString(Element.attribute("EndPos"));     // End position (video only)
-                        ShotNumber=Element.attribute("ShotNumber").toInt();
-                        for (i=0;i<ShotNumber;i++) {
-                            List.append(cDiaporamaShot(this));
-                            List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
-                            CurShot=&List[i].ShotComposition.List[List[i].ShotComposition.List.count()-1];
-                            CurShot->CopyFromCompositionObject(CompositionObject);
-
-                            //List[i].LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath);
-                            if ((Element.elementsByTagName("Shot-"+QString("%1").arg(i)).length()>0)&&(Element.elementsByTagName("Shot-"+QString("%1").arg(i)).item(0).isElement()==true)) {
-                                SubElement=Element.elementsByTagName("Shot-"+QString("%1").arg(i)).item(0).toElement();
-                                // Duration (in msec) of the static part animation
-                                if (SubElement.attribute("DefaultStaticDuration")=="1") List[i].StaticDuration=GlobalMainWindow->ApplicationConfig->NoShotDuration;
-                                    else List[i].StaticDuration=SubElement.attribute("StaticDuration").toInt();
-                                CurShot->BackgroundBrush.BrushFileCorrect.LoadFromXML(SubElement,"FilterCorrection",PathForRelativPath);    // Image correction
-                                CurShot->BackgroundBrush.BrushFileCorrect.X             =SubElement.attribute("X").toDouble();              // X position (in %) relative to up/left corner
-                                CurShot->BackgroundBrush.BrushFileCorrect.Y             =SubElement.attribute("Y").toDouble();              // Y position (in %) relative to up/left corner
-                                CurShot->BackgroundBrush.BrushFileCorrect.ZoomFactor    =SubElement.attribute("ZoomFactor").toDouble();     // Zoom factor (in %)
-                                CurShot->BackgroundBrush.BrushFileCorrect.ImageRotation =SubElement.attribute("ImageRotation").toInt();     // Image rotation (in °)
-                            }
-                        }
-                    }
-                    break;
-            }
-
-            if (IsOk) {
-
-                //==========> Récupération des données : Adjust duration
-                for (int i=0;i<ShotNumber;i++) if (List[i].StaticDuration==-1) List[i].StaticDuration=ShotNumber>1?GlobalMainWindow->ApplicationConfig->FixedDuration:GlobalMainWindow->ApplicationConfig->NoShotDuration;
-                //==========>
-
-                FilterTransform.LoadFromXML(Element,"GlobalImageFilters",PathForRelativPath);                                           // Global Image filters
-
-                if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
-                    QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
-                    BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
-
-                    //==========> Récupération des données ! if Object don't use full canvas (height is hypothenuse of the image rectangle and width is calc from aspect ratio)
-                    // Note : C'était idiot mais l'attribut full canvas était placé sur le background !
-                    if ((SubElement.hasAttribute("FullCanvas"))&&(SubElement.attribute("FullCanvas")!="1")) {
-                        // Do transformation
-                        for (int i=0;i<List.count();i++) for (int j=0;j<List[i].ShotComposition.List.count();j++) {
-                            // Recalculate all shot size and position for normal to full canvas
-                            QImage   *ReturnImage=NULL;
-
-                            if (List[i].ShotComposition.List[j].BackgroundBrush.Video!=NULL)        ReturnImage=List[i].ShotComposition.List[j].BackgroundBrush.Video->ImageAt(true,0,0,true,NULL,1,false,NULL);  // Video
-                            else if (List[i].ShotComposition.List[j].BackgroundBrush.Image!=NULL)   ReturnImage=List[i].ShotComposition.List[j].BackgroundBrush.Image->ImageAt(true,true,NULL);                   // Image
-
-                            if (ReturnImage!=NULL) {
-                                // Calc size
-                                double   RealImageW     =ReturnImage->width();
-                                double   RealImageH     =ReturnImage->height();
-                                double   Hyp            =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);         // Calc hypothenuse
-                                double   FullCanvasW    =Hyp;                                                       // Calc full canvas size
-                                double   FullCanvasH    =Parent->GetHeightForWidth(FullCanvasW);
-                                double   NormalCanvasW  =RealImageW;                                                // Calc normal canvas size
-                                double   NormalCanvasH  =Parent->GetHeightForWidth(NormalCanvasW);
-                                if (FullCanvasH<Hyp) {          // Ensure complete image
-                                    FullCanvasH=Hyp;
-                                    FullCanvasW=Parent->GetWidthForHeight(FullCanvasH);
-                                }
-                                if (NormalCanvasH<RealImageH) { // Ensure complete image
-                                    NormalCanvasH=RealImageH;
-                                    NormalCanvasW=Parent->GetWidthForHeight(NormalCanvasH);
-                                }
-
-                                delete ReturnImage;
-                                cFilterCorrectObject *FilterCorrection=&List[i].ShotComposition.List[j].BackgroundBrush.BrushFileCorrect;
-                                FilterCorrection->ZoomFactor    =FilterCorrection->ZoomFactor*NormalCanvasW/FullCanvasW;
-                                FilterCorrection->X             =FilterCorrection->X*NormalCanvasW/FullCanvasW+((FullCanvasW-NormalCanvasW)/2)/FullCanvasW;
-                                FilterCorrection->Y             =FilterCorrection->Y*NormalCanvasH/FullCanvasH+((FullCanvasH-NormalCanvasH)/2)/FullCanvasH;
-                                FilterCorrection->AspectRatio   =double(Parent->InternalHeight)/double(Parent->InternalWidth);
-                                FilterCorrection->ImageGeometry =GEOMETRY_PROJECT;
-                                if (FilterCorrection->X+FilterCorrection->ZoomFactor>1) FilterCorrection->X=1-FilterCorrection->ZoomFactor;
-                                if (FilterCorrection->Y+FilterCorrection->ZoomFactor>1) FilterCorrection->Y=1-FilterCorrection->ZoomFactor;
-
-                            }
-                        }
-                    }
-                    //==========> Récupération des données !
-                    if (!BackgroundBrush.LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath)) IsOk=false;                          // Background brush
-                    if ((!IsOk)||(!BackgroundComposition.LoadFromXML(SubElement,"BackgroundComposition",PathForRelativPath,NULL))) IsOk=false;   // Background composition
-                }
-
-                if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
-                    QDomElement SubElement=Element.elementsByTagName("Transition").item(0).toElement();
-                    TransitionFamilly =SubElement.attribute("TransitionFamilly").toInt();                                                   // Transition familly
-                    TransitionSubType =SubElement.attribute("TransitionSubType").toInt();                                                   // Transition type in the familly
-                    TransitionDuration=SubElement.attribute("TransitionDuration").toInt();                                                  // Transition duration (in msec)
-                    Element.appendChild(SubElement);
-                }
-
-                //==========> Récupération des données !
-                if (Element.elementsByTagName("GlobalImageComposition").length()>0) {
-                    if ((Element.elementsByTagName("GlobalImageComposition").length()>0)&&(Element.elementsByTagName("GlobalImageComposition").item(0).isElement()==true)) {
-                        QDomElement SubElement=Element.elementsByTagName("GlobalImageComposition").item(0).toElement();
-                        int CompositionNumber=SubElement.attribute("CompositionNumber").toInt();
-                        for (int i=0;i<CompositionNumber;i++) {
-
-                            cCompositionObject *CompositionObject    =new cCompositionObject(COMPOSITIONTYPE_OBJECT,NextIndexKey);
-                            CompositionObject->LoadFromXML(SubElement,"Composition-"+QString("%1").arg(i),PathForRelativPath,NULL);
-                            ObjectComposition.List.append(*CompositionObject);
-
-                            cCompositionObject *CompositionShotObject=new cCompositionObject(COMPOSITIONTYPE_SHOT,NextIndexKey);
-                            CompositionShotObject->CopyFromCompositionObject(CompositionObject);
-                            List[0].ShotComposition.List.append(*CompositionShotObject);
-                            NextIndexKey++;
-                        }
-                    }
-                }
-                //==========>
-
-                NextIndexKey=Element.attribute("NextIndexKey").toInt();
-                ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath,NULL);         // ObjectComposition
-
-                // Construct link to video and image object from DiaporamaObject->ObjectComposition to all DiaporamaShotObject.ShotComposition objects !
-                for (int i=0;i<List.count();i++) for (int j=0;j<List[i].ShotComposition.List.count();j++) {
-                    int k=0;
-                    while (k<ObjectComposition.List.count()) {
-                        if (ObjectComposition.List[k].IndexKey==List[i].ShotComposition.List[j].IndexKey) {
-                            List[i].ShotComposition.List[j].BackgroundBrush.Video=ObjectComposition.List[k].BackgroundBrush.Video;
-                            List[i].ShotComposition.List[j].BackgroundBrush.Image=ObjectComposition.List[k].BackgroundBrush.Image;
-                            k=ObjectComposition.List.count();
-                        } else k++;
-                    }
-                }
-
-
-                // Load Music list
-                MusicList.clear();
-                MusicType         =Element.attribute("MusicType")=="1";                     // Music type : false=same as precedent - true=new playlist definition
-                MusicPause        =Element.attribute("MusicPause")=="1";                    // true if music is pause during this object
-                MusicReduceVolume =Element.attribute("MusicReduceVolume")=="1";             // true if volume if reduce by MusicReduceFactor
-                MusicReduceFactor =Element.attribute("MusicReduceFactor").toDouble();       // factor for volume reduction if MusicReduceVolume is true
-                int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
-                for (int i=0;i<MusicNumber;i++) {
-                    cMusicObject *MusicObject=new cMusicObject();
-                    if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
-                    MusicList.append(*MusicObject);
-                }
-
-                return IsOk;
-            } else return false;
-
-        } else { // Since ALPHA2 Data loading
-            //************************************************************
-            // Since ALPHA2 Data loading
-            //************************************************************
-            bool IsOk=true;
-
-            // Load shot list
-            List.clear();   // Remove default 1st shot create by constructor
-
-            // Slide properties
-            SlideName=Element.attribute("SlideName");
-            NextIndexKey=Element.attribute("NextIndexKey").toInt();
-
-            // Background properties
-            if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
-                QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
-                BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
-                if (!BackgroundBrush.LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath)) IsOk=false;                          // Background brush
-                if ((!IsOk)||(!BackgroundComposition.LoadFromXML(SubElement,"BackgroundComposition",PathForRelativPath,NULL))) IsOk=false;   // Background composition
-            }
-            // Transition properties
-            if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
-                QDomElement SubElement=Element.elementsByTagName("Transition").item(0).toElement();
-                TransitionFamilly =SubElement.attribute("TransitionFamilly").toInt();                                                   // Transition familly
-                TransitionSubType =SubElement.attribute("TransitionSubType").toInt();                                                   // Transition type in the familly
-                TransitionDuration=SubElement.attribute("TransitionDuration").toInt();                                                  // Transition duration (in msec)
-                Element.appendChild(SubElement);
-            }
-            // Music properties
-            MusicList.clear();
-            MusicType         =Element.attribute("MusicType")=="1";                     // Music type : false=same as precedent - true=new playlist definition
-            MusicPause        =Element.attribute("MusicPause")=="1";                    // true if music is pause during this object
-            MusicReduceVolume =Element.attribute("MusicReduceVolume")=="1";             // true if volume if reduce by MusicReduceFactor
-            MusicReduceFactor =Element.attribute("MusicReduceFactor").toDouble();       // factor for volume reduction if MusicReduceVolume is true
-            int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
-            for (int i=0;i<MusicNumber;i++) {
-                cMusicObject *MusicObject=new cMusicObject();
-                if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
-                MusicList.append(*MusicObject);
-            }
-
-            // Global blocks composition table
-            ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath,NULL);         // ObjectComposition
-
-            // Shots definitions
-            int ShotNumber=Element.attribute("ShotNumber").toInt();
-            for (int i=0;i<ShotNumber;i++) {
-                cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
-                if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,&ObjectComposition)) IsOk=false;
-                List.append(*imagesequence);
-            }
-
-            return IsOk;
+        // Background properties
+        if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
+            QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
+            BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
+            if (!BackgroundBrush.LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath)) IsOk=false;                          // Background brush
+            if ((!IsOk)||(!BackgroundComposition.LoadFromXML(SubElement,"BackgroundComposition",PathForRelativPath,NULL))) IsOk=false;   // Background composition
         }
+        // Transition properties
+        if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
+            QDomElement SubElement=Element.elementsByTagName("Transition").item(0).toElement();
+            TransitionFamilly =SubElement.attribute("TransitionFamilly").toInt();                                                   // Transition familly
+            TransitionSubType =SubElement.attribute("TransitionSubType").toInt();                                                   // Transition type in the familly
+            TransitionDuration=SubElement.attribute("TransitionDuration").toInt();                                                  // Transition duration (in msec)
+            Element.appendChild(SubElement);
+        }
+        // Music properties
+        MusicList.clear();
+        MusicType         =Element.attribute("MusicType")=="1";                     // Music type : false=same as precedent - true=new playlist definition
+        MusicPause        =Element.attribute("MusicPause")=="1";                    // true if music is pause during this object
+        MusicReduceVolume =Element.attribute("MusicReduceVolume")=="1";             // true if volume if reduce by MusicReduceFactor
+        MusicReduceFactor =Element.attribute("MusicReduceFactor").toDouble();       // factor for volume reduction if MusicReduceVolume is true
+        int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
+        for (int i=0;i<MusicNumber;i++) {
+            cMusicObject *MusicObject=new cMusicObject();
+            if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
+            MusicList.append(*MusicObject);
+        }
+
+        // Global blocks composition table
+        ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath,NULL);         // ObjectComposition
+
+        // Shots definitions
+        int ShotNumber=Element.attribute("ShotNumber").toInt();
+        for (int i=0;i<ShotNumber;i++) {
+            cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
+            if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,&ObjectComposition)) IsOk=false;
+            List.append(*imagesequence);
+        }
+
+        return IsOk;
     } else return false;
 }
 
@@ -1148,7 +936,7 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
     }
     //
     if (ApplyComposition) for (int j=0;j<List[Index].BackgroundComposition.List.count();j++)
-        List[Index].BackgroundComposition.List[j].DrawCompositionObject(Painter,0,0,Width,Height,true,0,0,NULL,1,NULL);
+        List[Index].BackgroundComposition.List[j].DrawCompositionObject(Painter,0,0,Width,Height,true,0,0,NULL,1,NULL,true);
     Painter->restore();
 }
 
@@ -1246,8 +1034,9 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString ProjectFileName) {
     int             errorLine,errorColumn;
 
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading project file","Error message"),QMessageBox::Close);
-            else                printf("%s\n",QCoreApplication::translate("MainWindow","Error reading project file","Error message").toLocal8Bit().constData());
+        QString ErrorMsg=QCoreApplication::translate("MainWindow","Error reading project file","Error message")+"\n"+ProjectFileName;
+        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),ErrorMsg,QMessageBox::Close);
+            else                printf("%s\n",ErrorMsg.toLocal8Bit().constData());
         return false;
     }
 
@@ -1370,6 +1159,7 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName) {
 //   else only object prior to ObjectNum-1 and after ObjectNum+1 are free
 //============================================================================================
 void cDiaporama::FreeUnusedMemory(int ObjectNum) {
+    // free CacheFullImage
     for (int i=0;i<List.count();i++) for (int j=0;j<List[i].ObjectComposition.List.count();j++) if ((ObjectNum==-1)||(i<ObjectNum-1)||(i>ObjectNum+1)) {
         if ((List[i].ObjectComposition.List[j].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
             (List[i].ObjectComposition.List[j].BackgroundBrush.Image)&&
@@ -1379,6 +1169,13 @@ void cDiaporama::FreeUnusedMemory(int ObjectNum) {
             List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage=NULL;
         }
     }
+    // free CachedBrushBrush
+    for (int i=0;i<List.count();i++) for (int j=0;j<List[i].List.count();j++) for (int k=0;k<List[i].List[j].ShotComposition.List.count();k++) {
+        if (List[i].List[j].ShotComposition.List[k].CachedBrushBrush) {
+            delete List[i].List[j].ShotComposition.List[k].CachedBrushBrush;
+            List[i].List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
+        }
+    }
 }
 
 //============================================================================================
@@ -1386,17 +1183,61 @@ void cDiaporama::FreeUnusedMemory(int ObjectNum) {
 // Note : Position is relative to the start of the Column object !
 //============================================================================================
 void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *MusicTrack) {
-    int     StartPosition;
+    if (Column>=List.count()) {
+        for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
+        return;
+    }
 
-    if ((Column<List.count())&&(!List[Column].MusicPause)) {
-        cMusicObject *CurMusic=GetMusicObject(Column,StartPosition);                                         // Get current music file from column and position
-        if (CurMusic!=NULL) {
-            CurMusic->Music->ImageAt(false,Position+StartPosition,0,false,MusicTrack,1,true,NULL);           // Get music bloc at correct position
-            double Factor=CurMusic->Volume;
-            if (List[Column].MusicReduceVolume) Factor=Factor*List[Column].MusicReduceFactor;
-            if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
-        } else for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
-    } else for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
+    int             StartPosition=0;
+    cMusicObject    *CurMusic=GetMusicObject(Column,StartPosition); // Get current music file from column and position
+    if (CurMusic==NULL) {
+        for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
+        return;
+    }
+
+
+    bool IsCurrentTransitionIN =(Position<List[Column].TransitionDuration);
+    bool FadeEffect            =(IsCurrentTransitionIN && ((Column>0)&&(
+                                    (List[Column-1].MusicReduceVolume!=List[Column].MusicReduceVolume)||
+                                    (List[Column-1].MusicPause!=List[Column].MusicPause)||
+                                    ((List[Column-1].MusicReduceVolume==List[Column].MusicReduceVolume)&&(List[Column-1].MusicReduceFactor!=List[Column].MusicReduceFactor))
+                                )));
+
+    if (!List[Column].MusicPause || IsCurrentTransitionIN) {
+        double Factor=CurMusic->Volume; // Master volume
+        if (List[Column].MusicReduceVolume || FadeEffect) {
+            if (FadeEffect) {
+                double PctDone=1;
+                // calculate PctDone
+                switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
+                case SPEEDWAVE_LINEAR :
+                    PctDone=double(Position)/double(List[Column].TransitionDuration);
+                    break;
+                case SPEEDWAVE_SINQUARTER :
+                    PctDone=double(Position)/double(List[Column].TransitionDuration);
+                    PctDone=sin(1.5708*PctDone);
+                    break;
+                }
+
+                double  AncReduce=List[Column-1].MusicPause?0:List[Column-1].MusicReduceVolume?List[Column-1].MusicReduceFactor:1;
+                double  NewReduce=List[Column].MusicPause?0:List[Column].MusicReduceVolume?List[Column].MusicReduceFactor:1;
+                double  ReduceFactor=AncReduce+(NewReduce-AncReduce)*PctDone;
+                Factor*=ReduceFactor;
+            } else Factor=Factor*List[Column].MusicReduceFactor;
+        }
+
+        int AncNbr=MusicTrack->List.count();
+        // Check if we need to load more data
+        if (AncNbr<MusicTrack->NbrPacketForFPS) {
+            // Get more music bloc at correct position (volume is always 100% @ this point !)
+            CurMusic->Music->ImageAt(false,Position+StartPosition,0,false,MusicTrack,1,true,NULL);
+        }
+
+        // Apply correct volume to block in queue
+        if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
+    }
+    // Ensure we have enought data
+    while (MusicTrack->List.count()<MusicTrack->NbrPacketForFPS) MusicTrack->AppendNullSoundPacket();
 }
 
 //============================================================================================
@@ -1409,15 +1250,17 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     cDiaporamaShot      *CurShot            =IsCurrentObject?Info->CurrentObject_CurrentShot:Info->TransitObject_CurrentShot;
     cDiaporamaObject    *CurObject          =IsCurrentObject?Info->CurrentObject:Info->TransitObject;
     int                 CurTimePosition     =(IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime);
-    QImage              *SourceImage        =IsCurrentObject?Info->CurrentObject_SourceImage:Info->TransitObject_SourceImage;
     double              PCTDone             =IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone;
     cSoundBlockList     *SoundTrackMontage  =(IsCurrentObject?Info->CurrentObject_SoundTrackMontage:Info->TransitObject_SoundTrackMontage);
     int                 ObjectNumber        =IsCurrentObject?Info->CurrentObject_Number:Info->TransitObject_Number;
     int                 ShotNumber          =IsCurrentObject?Info->CurrentObject_ShotSequenceNumber:Info->TransitObject_ShotSequenceNumber;
     cDiaporamaShot      *PreviousShot       =(ShotNumber>0?&List[ObjectNumber].List[ShotNumber-1]:NULL);
     QImage              *Image              =NULL;
-    QPainter            *P                  =NULL;
 
+    // fixe Adjustment ratio for this slide
+    ADJUST_RATIO=double(H)/double(1080);
+
+    // Parse all shot objects to create SoundTrackMontage
     if (SoundOnly) {
         for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
             if ((CurShot->ShotComposition.List[j].BackgroundBrush.Video)&&(CurShot->ShotComposition.List[j].BackgroundBrush.SoundVolume!=0)) {
@@ -1439,21 +1282,22 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
                 }
                 VideoPosition+=(CurTimePosition-ThePosition);
 
-                CurShot->ShotComposition.List[j].DrawCompositionObject(NULL,0,0,0,0,true,VideoPosition,StartPosToAdd,SoundTrackMontage,1,NULL);
+                CurShot->ShotComposition.List[j].DrawCompositionObject(NULL,0,0,0,0,true,VideoPosition,StartPosToAdd,SoundTrackMontage,1,NULL,false);
             }
-            // Special case when video object with no sound
+            // Special case when video object with no sound //***** PAS SUR QUE CE SOIT ENCORE UTILE !!!!!
             if ((CurShot->ShotComposition.List[j].BackgroundBrush.Video)&&(CurShot->ShotComposition.List[j].BackgroundBrush.SoundVolume==0))
                 CurShot->ShotComposition.List[j].BackgroundBrush.Video->NextVideoPacketPosition+=Info->FrameDuration;
         }
         return;
     }
 
-    // !SoundOnly
-    if ((IsCurrentObject)&&(Info->CurrentObject_PreparedImage!=NULL)) return;     // return immediatly if we have image
+    // !SoundOnly : return immediatly if we have image
+    if ((IsCurrentObject)&&(Info->CurrentObject_PreparedImage!=NULL)) return;
+
+    // Special case for transition image of first slide
     if (!IsCurrentObject) {
         if (Info->TransitObject_PreparedImage!=NULL) return;    // return immediatly if we have image
         if (Info->TransitObject_SourceImage==NULL) {
-            // Special case for transition image of first slide
             Info->TransitObject_PreparedImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
             QPainter P;
             P.begin(Info->TransitObject_PreparedImage);
@@ -1465,65 +1309,61 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
         }
     }
 
-    ADJUST_RATIO=double(H)/double(1080);    // fixe Adjustment ratio for this slide
-
     Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-    if ((Image)&&(!Image->isNull())) {
-        P=new QPainter();
-        P->begin(Image);
-        P->setCompositionMode(QPainter::CompositionMode_Source);
-        P->fillRect(0,0,W,H,Qt::transparent);
-        P->setCompositionMode(QPainter::CompositionMode_SourceOver);
+    if ((!Image)||(Image->isNull())) {
+        if (IsCurrentObject) Info->CurrentObject_PreparedImage=NULL; else Info->TransitObject_PreparedImage=NULL;
+        return;
     }
 
-    if ((List.count()>0)&&(SourceImage!=NULL)) {
-        for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
-            cCompositionObject *PrevCompoObject=NULL;
-            if (PreviousShot) {
-                int k=0;
-                while (k<PreviousShot->ShotComposition.List.count()) {
-                    if (PreviousShot->ShotComposition.List[k].IndexKey==CurShot->ShotComposition.List[j].IndexKey) {
-                        PrevCompoObject=&PreviousShot->ShotComposition.List[k];
-                        k=PreviousShot->ShotComposition.List.count();
-                    } else k++;
+    // Prepare a transparent image
+    QPainter P;
+    P.begin(Image);
+    P.setCompositionMode(QPainter::CompositionMode_Source);
+    P.fillRect(0,0,W,H,Qt::transparent);
+    P.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+    // Draw shot
+    if (List.count()>0) for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
+        // Get PrevCompoObject to enable animation from previous shot
+        cCompositionObject *PrevCompoObject=NULL;
+        if (PreviousShot) {
+            int k=0;
+            while (k<PreviousShot->ShotComposition.List.count()) {
+                if (PreviousShot->ShotComposition.List[k].IndexKey==CurShot->ShotComposition.List[j].IndexKey) {
+                    PrevCompoObject=&PreviousShot->ShotComposition.List[k];
+                    k=PreviousShot->ShotComposition.List.count();
+                } else k++;
+            }
+        }
+        // Calc StartPosToAdd for video depending on AddStartPos
+        int StartPosToAdd=((AddStartPos&&CurShot->ShotComposition.List[j].BackgroundBrush.Video)?QTime(0,0,0,0).msecsTo(CurShot->ShotComposition.List[j].BackgroundBrush.Video->StartPos):0);
+        int VideoPosition=0;
+
+        if (CurShot->ShotComposition.List[j].BackgroundBrush.Video) {
+            // Calc VideoPosition depending on video set to pause (visible=off) in previous shot
+            int ThePosition=0;
+            int TheShot=0;
+            while ((TheShot<CurObject->List.count())&&(ThePosition+CurObject->List[TheShot].StaticDuration<CurTimePosition)) {
+                for (int w=0;w<CurObject->List[TheShot].ShotComposition.List.count();w++) if (CurObject->List[TheShot].ShotComposition.List[w].IndexKey==CurShot->ShotComposition.List[j].IndexKey) {
+                    if (CurObject->List[TheShot].ShotComposition.List[w].IsVisible) VideoPosition+=CurObject->List[TheShot].StaticDuration;
+                    break;
                 }
+                ThePosition+=CurObject->List[TheShot].StaticDuration;
+                TheShot++;
             }
-            if (P) {
+            VideoPosition+=(CurTimePosition-ThePosition);
 
-                // Calc StartPosToAdd depending on AddStartPos
-                int StartPosToAdd=((AddStartPos&&CurShot->ShotComposition.List[j].BackgroundBrush.Video)?QTime(0,0,0,0).msecsTo(CurShot->ShotComposition.List[j].BackgroundBrush.Video->StartPos):0);
-                int VideoPosition=0;
+        } else VideoPosition=CurTimePosition;
 
-                if (CurShot->ShotComposition.List[j].BackgroundBrush.Video) {
-                    // Calc VideoPosition depending on video set to pause (visible=off) in previous shot
-                    int ThePosition=0;
-                    int TheShot=0;
-                    while ((TheShot<CurObject->List.count())&&(ThePosition+CurObject->List[TheShot].StaticDuration<CurTimePosition)) {
-                        for (int w=0;w<CurObject->List[TheShot].ShotComposition.List.count();w++) if (CurObject->List[TheShot].ShotComposition.List[w].IndexKey==CurShot->ShotComposition.List[j].IndexKey) {
-                            if (CurObject->List[TheShot].ShotComposition.List[w].IsVisible) VideoPosition+=CurObject->List[TheShot].StaticDuration;
-                            break;
-                        }
-                        ThePosition+=CurObject->List[TheShot].StaticDuration;
-                        TheShot++;
-                    }
-                    VideoPosition+=(CurTimePosition-ThePosition);
+        // Draw object
+        CurShot->ShotComposition.List[j].DrawCompositionObject(&P,0,0,W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,PCTDone,PrevCompoObject,false);
 
-                } else VideoPosition=CurTimePosition;
-
-                CurShot->ShotComposition.List[j].DrawCompositionObject(P,0,0,W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,PCTDone,PrevCompoObject);
-            }
-
-            // Special case when no sound and video object
-            if ((!SoundTrackMontage)&&(CurShot->ShotComposition.List[j].BackgroundBrush.Video)&&(CurShot->ShotComposition.List[j].IsVisible))
-                CurShot->ShotComposition.List[j].BackgroundBrush.Video->NextVideoPacketPosition+=Info->FrameDuration;
-        }
-
-        if (P) {
-            P->end();
-            delete P;
-            P=NULL;
-        }
+        // Special case when video object with no sound //***** PAS SUR QUE CE SOIT ENCORE UTILE !!!!!
+        if ((!SoundTrackMontage)&&(CurShot->ShotComposition.List[j].BackgroundBrush.Video)&&(CurShot->ShotComposition.List[j].IsVisible))
+            CurShot->ShotComposition.List[j].BackgroundBrush.Video->NextVideoPacketPosition+=Info->FrameDuration;
     }
+    P.end();
+
     if (IsCurrentObject) Info->CurrentObject_PreparedImage=Image; else Info->TransitObject_PreparedImage=Image;
 }
 
@@ -1558,7 +1398,7 @@ void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
             if (Info->CurrentObject_PreparedBackground) P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
                 else P.fillRect(QRect(0,0,W,H),Qt::black);
         }
-        // Add prepared images
+        // Add prepared images and transition
         if ((Info->IsTransition)&&(Info->CurrentObject_PreparedImage!=NULL)) {
             if (Info->TransitObject_PreparedImage==NULL) {
                 Info->TransitObject_PreparedImage=new QImage(Info->CurrentObject_PreparedImage->width(),Info->CurrentObject_PreparedImage->height(),QImage::Format_ARGB32_Premultiplied);
@@ -1833,7 +1673,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
                 // Apply composition to background
                 for (int j=0;j<List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List.count();j++)
-                    List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,0,0,W,H,PreviewMode,0,0,NULL,1,NULL);
+                    List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,true);
                 P.end();
             }
             // same job for Transition Object if a previous was not keep !
@@ -1848,7 +1688,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
                 // Apply composition to background
                 for (int j=0;j<List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List.count();j++)
-                    List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,0,0,W,H,PreviewMode,0,0,NULL,1,NULL);
+                    List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,true);
                 P.end();
             }
         }
@@ -1863,7 +1703,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     if ((Info->IsTransition)&&((Info->CurrentObject_SoundTrackMontage)||(Info->TransitObject_SoundTrackMontage))) {
 
         if (Info->CurrentObject_SoundTrackMontage==NULL) {
-            // if we don't have a CurrentObject_SoundTrackMontage, we need to creat it because it's the destination !
+            // if we don't have a CurrentObject_SoundTrackMontage, we need to create it because it's the destination !
             Info->CurrentObject_SoundTrackMontage=new cSoundBlockList();
             Info->CurrentObject_SoundTrackMontage->SetFPS(Info->TransitObject_SoundTrackMontage->FPS);
         }
@@ -1877,6 +1717,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         if ((Info->TransitObject_SoundTrackMontage)&&(MaxPacket>Info->TransitObject_SoundTrackMontage->List.count())) MaxPacket=Info->TransitObject_SoundTrackMontage->List.count();
         if (MaxPacket>Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS) MaxPacket=Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS;
 
+        // Mix current and transit SoundTrackMontage (if needed)
+        // @ the end: only current SoundTrackMontage exist !
         for (int i=0;i<MaxPacket;i++) {
             // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the TransitObject_SoundTrackMontage
             int16_t *Paquet=Info->TransitObject_SoundTrackMontage?Info->TransitObject_SoundTrackMontage->DetachFirstPacket():NULL;
@@ -1902,15 +1744,17 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         }
     }
 
-    // Mix music with fade out of previous music track (if needed)
+    // Mix current and transit music
+    // @ the end: only current music exist !
+    // add fade out of previous music track (if needed)
     if ((Info->IsTransition)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->List.count()>0)) {
         int MaxPacket=0;
         MaxPacket=Info->CurrentObject_MusicTrack->List.count();
         if ((MaxPacket>Info->TransitObject_MusicTrack->List.count())) MaxPacket=Info->TransitObject_MusicTrack->List.count();
         if (MaxPacket>Info->CurrentObject_MusicTrack->NbrPacketForFPS) MaxPacket=Info->CurrentObject_MusicTrack->NbrPacketForFPS;
 
+        // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
         for (int i=0;i<MaxPacket;i++) {
-            // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
             int16_t *Paquet=Info->TransitObject_MusicTrack->DetachFirstPacket();
             int32_t mix;
             int16_t *Buf1=Info->CurrentObject_MusicTrack->List[i];

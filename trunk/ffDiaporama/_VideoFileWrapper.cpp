@@ -217,7 +217,7 @@ void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackB
 
                                 //double RealDuration=(double(SizeDecoded-Delta)/double(SrcSampleSize))/double(AudioStream->codec->sample_rate);
                             } else {
-                                qDebug()<<"Skip packet :"<<FramePosition<<"-"<<FrameEndPosition<<"["<<dPosition<<"-"<<EndPosition<<"]";
+                                //qDebug()<<"Skip packet :"<<FramePosition<<"-"<<FrameEndPosition<<"["<<dPosition<<"-"<<EndPosition<<"]";
                             }
                             PacketTemp.data+=Len;
                             PacketTemp.size-=Len;
@@ -502,6 +502,14 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
 bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusicOnly) {
     // Clean memory if a previous file was loaded
     CloseVideoFileReader();
+    if (CacheFirstImage!=NULL) {
+        delete CacheFirstImage;
+        CacheFirstImage=NULL;
+    }
+    if (CacheLastImage!=NULL) {
+        delete CacheLastImage;
+        CacheLastImage=NULL;
+    }
 
     //Reset SourceFile values
     MusicOnly    =aMusicOnly;
