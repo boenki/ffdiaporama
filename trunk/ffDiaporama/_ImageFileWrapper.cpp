@@ -185,6 +185,7 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
         }
         // Make cache image
         CacheFullImage=new QImage(FileName);
+
         if (CacheFullImage->isNull()) {
             // If error then free CacheFullImage
             IsValide=false;

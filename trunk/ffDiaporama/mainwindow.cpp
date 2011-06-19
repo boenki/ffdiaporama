@@ -30,8 +30,6 @@
 #include "DlgApplicationSettings.h"
 #include "DlgRenderVideo.h"
 
-#include "QSplashScreen"
-
 MainWindow  *GlobalMainWindow=NULL;
 
 //====================================================================================================================
@@ -662,6 +660,7 @@ void MainWindow::OpenFile(QString ProjectFileName) {
     Diaporama->LoadFile(this,ProjectFileName);
     ui->timeline->setCurrentCell(0,0);
     SetModifyFlag(false);
+    for (int i=0;i<Diaporama->List.count();i++) AddObjectToTimeLine(i);
     AdjustRuller();
     QApplication::restoreOverrideCursor();
     if (Diaporama->List.count()>0) ui->preview->SeekPlayer(Diaporama->List[0].TransitionDuration); else ui->preview->SeekPlayer(0);
@@ -940,6 +939,8 @@ void MainWindow::s_action_AddProject() {
 //====================================================================================================================
 
 void MainWindow::AddObjectToTimeLine(int CurIndex) {
+    QCoreApplication::processEvents();  // Ensure message queue is empty !
+
     wgt_QCustomThumbnails *ObjectBackground=new wgt_QCustomThumbnails(ui->timeline,THUMBNAILTYPE_OBJECTBACKGROUND);
     connect(ObjectBackground,SIGNAL(EditMediaObject()),this,SLOT(s_BackgroundDoubleClicked()));
     connect(ObjectBackground,SIGNAL(EditTransition()),this,SLOT(s_TransitionBackgroundDoubleClicked()));

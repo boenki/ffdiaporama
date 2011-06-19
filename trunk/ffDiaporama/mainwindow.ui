@@ -388,7 +388,6 @@
    <addaction name="menu_Edit"/>
    <addaction name="menu_Help"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="font">
     <font>
@@ -441,6 +440,7 @@
    <addaction name="actionConfiguration"/>
    <addaction name="action_Exit"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="action_About">
    <property name="icon">
     <iconset>

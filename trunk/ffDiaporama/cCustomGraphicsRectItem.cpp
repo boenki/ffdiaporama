@@ -234,7 +234,10 @@ void cResizeGraphicsRectItem::ResizeUpperLeft(QPointF &newpos) {
     }
 
     // Now, update RectItem
-    if (RectItem->zoom!=NULL) (*RectItem->zoom)=(imgw/xmax); else {
+    if (RectItem->zoom!=NULL) {
+        *(RectItem->zoom)=(imgw/xmax);
+        RectItem->AspectRatio=imgh/(ymax*(*(RectItem->zoom)));
+    } else {
         (*RectItem->w)=(imgw/xmax);
         (*RectItem->h)=(imgh/ymax);
     }
@@ -315,8 +318,11 @@ void cResizeGraphicsRectItem::ResizeUpperRight(QPointF &newpos) {
         }
     }
 
-    //Now, update RectItem
-    if (RectItem->zoom!=NULL) (*RectItem->zoom)=(imgw/xmax); else {
+    // Now, update RectItem
+    if (RectItem->zoom!=NULL) {
+        *(RectItem->zoom)=(imgw/xmax);
+        RectItem->AspectRatio=imgh/(ymax*(*(RectItem->zoom)));
+    } else {
         (*RectItem->w)=(imgw/xmax);
         (*RectItem->h)=(imgh/ymax);
     }
@@ -397,7 +403,10 @@ void cResizeGraphicsRectItem::ResizeBottomLeft(QPointF &newpos) {
     }
 
     // Now, update RectItem
-    if (RectItem->zoom!=NULL) (*RectItem->zoom)=(imgw/xmax); else {
+    if (RectItem->zoom!=NULL) {
+        *(RectItem->zoom)=(imgw/xmax);
+        RectItem->AspectRatio=imgh/(ymax*(*(RectItem->zoom)));
+    } else {
         (*RectItem->w)=(imgw/xmax);
         (*RectItem->h)=(imgh/ymax);
     }
@@ -476,7 +485,10 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
     }
 
     // Now, update RectItem
-    if (RectItem->zoom!=NULL) (*RectItem->zoom)=(imgw/xmax); else {
+    if (RectItem->zoom!=NULL) {
+        *(RectItem->zoom)=(imgw/xmax);
+        RectItem->AspectRatio=imgh/(ymax*(*(RectItem->zoom)));
+    } else {
         (*RectItem->w)=(imgw/xmax);
         (*RectItem->h)=(imgh/ymax);
     }

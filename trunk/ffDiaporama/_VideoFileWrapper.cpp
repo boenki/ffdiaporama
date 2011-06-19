@@ -337,6 +337,7 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
             CacheLastImage=NULL;
             dEndFileCachePos=0;
         }
+        NextVideoPacketPosition=dPosition+1;
     }
 
     // Allocate structure for YUV image
@@ -471,6 +472,56 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
         } else {
             // if error in av_read_frame(...) then may be we have reach the end of file !
             Continue=false;
+            // Create image
+            if (DataInBuffer) {
+
+                // Calc destination size
+                int W=ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
+                int H=ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
+
+                // Create QImage
+                RetImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+
+                // Assign appropriate parts of ImageBuffer to image planes in FrameBufferRGB
+                avpicture_fill(
+                        (AVPicture *)FrameBufferRGB,        // Buffer to prepare
+                        RetImage->bits(),                   // Buffer which will contain the image data
+                        PIX_FMT_BGRA,                       // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
+                        W,                                  // The width of the image in pixels
+                        H                                   // The height of the image in pixels
+                );
+
+                // Get a converter from libswscale
+                struct SwsContext *img_convert_ctx=sws_getContext(
+                    W,H,ffmpegVideoFile->streams[VideoStreamNumber]->codec->pix_fmt,        // Src Widht,Height,Format
+                    W,H,PIX_FMT_BGRA,                                                       // Destination Width,Height,Format
+                    SWS_FAST_BILINEAR/*SWS_BICUBIC*/,                                       // flags
+                    NULL,NULL,NULL);                                                        // src Filter,dst Filter,param
+
+                if (img_convert_ctx!=NULL) {
+                    int ret = sws_scale(
+                        img_convert_ctx,                                                    // libswscale converter
+                        FrameBufferYUV->data,                                               // Source buffer
+                        FrameBufferYUV->linesize,                                           // Source Stride ?
+                        0,                                                                  // Source SliceY:the position in the source image of the slice to process, that is the number (counted starting from zero) in the image of the first row of the slice
+                        H,                                                                  // Source SliceH:the height of the source slice, that is the number of rows in the slice
+                        FrameBufferRGB->data,                                               // Destination buffer
+                        FrameBufferRGB->linesize                                            // Destination Stride
+                    );
+                    if (ret<=0) {
+                        delete RetImage;
+                        RetImage=NULL;
+                    }
+                    sws_freeContext(img_convert_ctx);
+                }
+
+                IsVideoFind=(RetImage!=NULL);
+                if (IsVideoFind) {
+                    if (CacheLastImage) delete CacheLastImage;
+                    CacheLastImage  =new QImage(RetImage->copy());
+                    dEndFileCachePos=dEndFile;  // keep position for future use
+                }
+            }
         }
 
         // Continue with a new one

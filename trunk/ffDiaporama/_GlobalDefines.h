@@ -98,6 +98,7 @@ extern "C" {
 #include <QSize>
 #include <QSizeF>
 #include <QSlider>
+#include <QSplashScreen>
 #include <QString>
 #include <QStringList>
 #include <QStyledItemDelegate>
@@ -300,7 +301,7 @@ extern "C" {
 #define DEFAULT_FONT_TEXTEFFECT             5
 
 #define DEFAULT_SHAPE_OPACITY               0
-#define DEFAULT_SHAPE_BORDERSIZE            1
+#define DEFAULT_SHAPE_BORDERSIZE            0
 #define DEFAULT_SHAPE_BORDERCOLOR           "#333333"
 #define DEFAULT_SHAPE_INTERNALBORDERSIZE    6
 #define DEFAULT_SHAPE_INTERNALBORDERCOLOR1  "#808080"

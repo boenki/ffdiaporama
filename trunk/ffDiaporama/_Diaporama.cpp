@@ -133,6 +133,7 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey) {
     CachedBrushH            = -1;               // Height used to make CachedBrush
     CachedBrushPosition     = -1;               // Position used to make CachedBrush
     CachedBrushStartPosToAdd= -1;               // StartPosToAdd used to make CachedBrush
+    CachedBrushAspect       = 1;                // Aspect ratio used to make CachedBrush
 }
 
 //====================================================================================================================
@@ -365,19 +366,24 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
         }
         // Draw internal shape
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
+            if (BackgroundBrush.Video==NULL) UseBrushCache=false;   // Accept UseBrushCache only for video !
             // Create brush with Ken Burns effect !
             QBrush *BR              =NULL;
             bool UpdateCachedBrush  =true;
-            if (PreviewMode && UseBrushCache && (CachedBrushBrush!=NULL)&&(W<=CachedBrushW)&&(H<=CachedBrushH)&&(Position==CachedBrushPosition)&&(StartPosToAdd==CachedBrushStartPosToAdd)) {
-                if ((W!=CachedBrushW)||(H!=CachedBrushH)) {
+            if (PreviewMode && UseBrushCache && (CachedBrushBrush!=NULL)&&(BackgroundBrush.BrushFileCorrect.AspectRatio==CachedBrushAspect)&&
+                    (W<=CachedBrushW)&&(H<=CachedBrushH)&&(Position==CachedBrushPosition)&&(StartPosToAdd==CachedBrushStartPosToAdd)) {
+                if ((W!=CachedBrushW)||(H!=CachedBrushH)||(BackgroundBrush.BrushFileCorrect.AspectRatio!=CachedBrushAspect)) {
                     // if Cached brush is more higher than what we want (thumbnail) then adjust brush
                     QPainter NewP;
                     QImage   NewImage(CachedBrushW,CachedBrushH,QImage::Format_ARGB32);
                     NewP.begin(&NewImage);
                     NewP.setBrush(*CachedBrushBrush);
+                    NewP.setCompositionMode(QPainter::CompositionMode_Source);
+                    NewP.fillRect(QRect(0,0,CachedBrushW+1,CachedBrushH+1),Qt::transparent);
+                    NewP.setCompositionMode(QPainter::CompositionMode_SourceOver);
                     NewP.drawRect(0,0,CachedBrushW,CachedBrushH);
                     NewP.end();
-                    BR=new QBrush(NewImage.scaled(W,H));
+                    BR=new QBrush(NewImage.scaled(W,H,Qt::KeepAspectRatio,Qt::SmoothTransformation));
                     UpdateCachedBrush=false;
                 } else BR=CachedBrushBrush;
             } else {
@@ -395,6 +401,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
                 CachedBrushH            =H;
                 CachedBrushPosition     =Position;
                 CachedBrushStartPosToAdd=StartPosToAdd;
+                CachedBrushAspect       =BackgroundBrush.BrushFileCorrect.AspectRatio;
             }
 
             Painter.setBrush(*BR);
@@ -579,13 +586,6 @@ cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject) {
 cDiaporamaShot::~cDiaporamaShot() {
 }
 
-
-//====================================================================================================================
-
-int cDiaporamaShot::GetStaticDuration() {
-    return StaticDuration;
-}
-
 //===============================================================
 
 void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
@@ -689,11 +689,31 @@ int cDiaporamaObject::GetCumulTransitDuration() {
 
 int cDiaporamaObject::GetDuration() {
     int Duration=0;
-    for (int i=0;i<List.count();i++) Duration=Duration+List[i].GetStaticDuration();
+    for (int i=0;i<List.count();i++) Duration=Duration+List[i].StaticDuration;
 
     // Adjust duration to ensure transition will be full !
     int TransitDuration=GetCumulTransitDuration();
     if (Duration<TransitDuration) Duration=TransitDuration;
+
+    // Calc minimum duration to ensure all video will be full !
+    int MaxMovieDuration=0;
+    for (int Block=0;Block<ObjectComposition.List.count();Block++) if ((ObjectComposition.List[Block].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(ObjectComposition.List[Block].BackgroundBrush.Video)) {
+        int IndexKey        =ObjectComposition.List[Block].IndexKey;
+        int WantedDuration  =ObjectComposition.List[Block].BackgroundBrush.Video->StartPos.msecsTo(ObjectComposition.List[Block].BackgroundBrush.Video->EndPos);
+        int CurrentDuration =0;
+        for (int i=0;i<List.count();i++) {
+            for (int j=0;j<List[i].ShotComposition.List.count();j++) if (List[i].ShotComposition.List[j].IndexKey==IndexKey) {
+                if (List[i].ShotComposition.List[j].IsVisible) {
+                    WantedDuration-=List[i].StaticDuration;
+                    if (WantedDuration<0) WantedDuration=0;
+                }
+            }
+            CurrentDuration+=List[i].StaticDuration;
+        }
+        CurrentDuration+=WantedDuration;
+        if (MaxMovieDuration<CurrentDuration) MaxMovieDuration=CurrentDuration;
+    }
+    if (Duration<MaxMovieDuration) Duration=MaxMovieDuration;
 
     return Duration;
 }
@@ -1039,7 +1059,6 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString ProjectFileName) {
             else                printf("%s\n",ErrorMsg.toLocal8Bit().constData());
         return false;
     }
-
     if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
         if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
             else                printf("%s\n",QCoreApplication::translate("MainWindow","Error reading content of project file","Error message").toLocal8Bit().constData());
@@ -1084,7 +1103,7 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString ProjectFileName) {
                                              (root.elementsByTagName("Object-"+QString("%1").arg(i)).item(0).isElement()==true)) {
             List.append(cDiaporamaObject(this));
             if (List[List.count()-1].LoadFromXML(root,"Object-"+QString("%1").arg(i).trimmed(),QFileInfo(ProjectFileName).absolutePath())) {
-                if (ParentWindow!=NULL) ((MainWindow *)ParentWindow)->AddObjectToTimeLine(i);
+                //GlobalMainWindow->AddObjectToTimeLine(i);
             } else {
                 List.removeLast();
                 IsOk=false;
@@ -1970,8 +1989,8 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
         // Now calculate wich sequence in the current object is
         if (CurrentObject) {
             int CurPos  =0;
-            while ((CurrentObject_ShotSequenceNumber<CurrentObject->List.count()-1)&&((CurPos+CurrentObject->List[CurrentObject_ShotSequenceNumber].GetStaticDuration())<=CurrentObject_InObjectTime)) {
-                CurPos=CurPos+CurrentObject->List[CurrentObject_ShotSequenceNumber].GetStaticDuration();
+            while ((CurrentObject_ShotSequenceNumber<CurrentObject->List.count()-1)&&((CurPos+CurrentObject->List[CurrentObject_ShotSequenceNumber].StaticDuration)<=CurrentObject_InObjectTime)) {
+                CurPos=CurPos+CurrentObject->List[CurrentObject_ShotSequenceNumber].StaticDuration;
                 CurrentObject_ShotSequenceNumber++;
             }
             CurrentObject_CurrentShot=&CurrentObject->List[CurrentObject_ShotSequenceNumber];
@@ -1979,10 +1998,10 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
             // calculate CurrentObject_PCTDone
             switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
             case SPEEDWAVE_LINEAR :
-                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetStaticDuration()));
+                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->StaticDuration));
                 break;
             case SPEEDWAVE_SINQUARTER :
-                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->GetStaticDuration()));
+                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->StaticDuration));
                 CurrentObject_PCTDone=sin(1.5708*CurrentObject_PCTDone);
                 break;
             }
@@ -2025,8 +2044,8 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 TransitObject_InObjectTime  =TimePosition-TransitObject_StartTime;
                 // Now calculate wich sequence in the Transition object is
                 int CurPos  =0;
-                while ((TransitObject_ShotSequenceNumber<TransitObject->List.count()-1)&&((CurPos+TransitObject->List[TransitObject_ShotSequenceNumber].GetStaticDuration())<=TransitObject_InObjectTime)) {
-                    CurPos=CurPos+TransitObject->List[TransitObject_ShotSequenceNumber].GetStaticDuration();
+                while ((TransitObject_ShotSequenceNumber<TransitObject->List.count()-1)&&((CurPos+TransitObject->List[TransitObject_ShotSequenceNumber].StaticDuration)<=TransitObject_InObjectTime)) {
+                    CurPos=CurPos+TransitObject->List[TransitObject_ShotSequenceNumber].StaticDuration;
                     TransitObject_ShotSequenceNumber++;
                 }
                 TransitObject_CurrentShot=&TransitObject->List[TransitObject_ShotSequenceNumber];
@@ -2035,10 +2054,10 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 // calculate TransitObject_PCTDone
                 switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
                 case SPEEDWAVE_LINEAR :
-                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->GetStaticDuration()));
+                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->StaticDuration));
                     break;
                 case SPEEDWAVE_SINQUARTER :
-                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->GetStaticDuration()));
+                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->StaticDuration));
                     TransitObject_PCTDone=sin(1.5708*TransitObject_PCTDone);
                     break;
                 }
