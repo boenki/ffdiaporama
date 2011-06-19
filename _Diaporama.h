@@ -92,6 +92,7 @@ public:
     // Brush cache part (use to speed up interface)
     QBrush              *CachedBrushBrush;              // Cached brush brush
     double              CachedBrushW,CachedBrushH;      // With and height used to make CachedBrush
+    double              CachedBrushAspect;              // Aspect ratio used to make CachedBrush
     int                 CachedBrushPosition;            // Position used to make CachedBrush
     int                 CachedBrushStartPosToAdd;       // StartPosToAdd used to make CachedBrush
 
@@ -133,7 +134,6 @@ public:
     cDiaporamaShot(cDiaporamaObject *Parent);
     ~cDiaporamaShot();
 
-    int         GetStaticDuration();
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
 };
@@ -170,7 +170,6 @@ public:
     int                     TransitionDuration;         // Transition duration (in msec)
 
     QImage                  *Thumbnail;                 // Thumbnail cached image
-
     QList<cMusicObject>     MusicList;                  // List of music definition
 
     cDiaporamaObject(cDiaporama *Parent);

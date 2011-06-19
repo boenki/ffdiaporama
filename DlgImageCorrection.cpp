@@ -184,7 +184,7 @@ void DlgImageCorrection::accept() {
 void DlgImageCorrection::s_XValueEDChanged(double Value) {
     if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
     BrushFileCorrect->X=Value/100;
-    RefreshBackgroundImage();
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -192,7 +192,7 @@ void DlgImageCorrection::s_XValueEDChanged(double Value) {
 void DlgImageCorrection::s_YValueEDChanged(double Value) {
     if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
     BrushFileCorrect->Y=Value/100;
-    RefreshBackgroundImage();
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -200,7 +200,7 @@ void DlgImageCorrection::s_YValueEDChanged(double Value) {
 void DlgImageCorrection::s_ZoomValueEDChanged(double Value) {
     if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
     BrushFileCorrect->ZoomFactor=Value/100;
-    RefreshBackgroundImage();
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -210,7 +210,7 @@ void DlgImageCorrection::s_RotationEDChanged(int Value) {
     if (Value<-180) Value=360-Value;
     if (Value>180)  Value=-360-Value;
     BrushFileCorrect->ImageRotation=Value;
-    RefreshBackgroundImage();
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -259,9 +259,24 @@ void DlgImageCorrection::s_AdjustH() {
 
 void DlgImageCorrection::s_AdjustWH() {
     if (BrushFileCorrect==NULL) return;
-    double W=MagneticRuler.MagnetX2-MagneticRuler.MagnetX1;
-    double H=W*BrushFileCorrect->AspectRatio;
-    if (H<MagneticRuler.MagnetY2-MagneticRuler.MagnetY1) s_AdjustH(); else s_AdjustW();
+    // Special case for custom geometry -> use all the image then change aspect ratio to image aspect ratio
+    if (BrushFileCorrect->ImageGeometry==GEOMETRY_CUSTOM) {
+        double W=MagneticRuler.MagnetX2-MagneticRuler.MagnetX1;
+        double H=MagneticRuler.MagnetY2-MagneticRuler.MagnetY1;
+        BrushFileCorrect->AspectRatio=H/W;
+        BrushFileCorrect->X=((xmax-W)/2)/xmax;
+        BrushFileCorrect->Y=((ymax-H)/2)/ymax;
+        BrushFileCorrect->ZoomFactor=W/xmax;
+        for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {
+            cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
+            RectItem->AspectRatio=BrushFileCorrect->AspectRatio;
+        }
+        RefreshControls();
+    } else {
+        double W=MagneticRuler.MagnetX2-MagneticRuler.MagnetX1;
+        double H=W*BrushFileCorrect->AspectRatio;
+        if (H<MagneticRuler.MagnetY2-MagneticRuler.MagnetY1) s_AdjustH(); else s_AdjustW();
+    }
 }
 
 //====================================================================================================================
@@ -289,9 +304,26 @@ void DlgImageCorrection::RefreshControls() {
     ui->GreenSlider->setValue(BrushFileCorrect->Green);               ui->GreenValue->setValue(BrushFileCorrect->Green);
     ui->BlueSlider->setValue(BrushFileCorrect->Blue);                 ui->BlueValue->setValue(BrushFileCorrect->Blue);
 
-    // Resize et repos all item in the scene
+    // Update aspect ratio (only if geometrie is image)
+    if (BrushFileCorrect->ImageGeometry==GEOMETRY_IMAGE) {
+        if (BrushFileCorrect->ImageRotation!=0) {
+            QTransform matrix;
+            matrix.rotate(BrushFileCorrect->ImageRotation,Qt::ZAxis);
+            QImage *SourceImage=new QImage(CachedImage->transformed(matrix));
+            BrushFileCorrect->AspectRatio=double(SourceImage->height())/double(SourceImage->width());
+            delete SourceImage;
+        // if image have no rotation => determine image aspect ratio
+        } else BrushFileCorrect->AspectRatio=double(CachedImage->height())/double(CachedImage->width());
+    }
+
+    // Resize and repos all item in the scene
     for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {
         cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
+
+        // Set aspect ratio from Brush to Rect if geometrie is not custom or from rect to brush if geometrie is custom
+        if (BrushFileCorrect->ImageGeometry!=GEOMETRY_CUSTOM) RectItem->AspectRatio=BrushFileCorrect->AspectRatio;
+            else BrushFileCorrect->AspectRatio=RectItem->AspectRatio;
+
         RectItem->setPos(BrushFileCorrect->X*xmax,BrushFileCorrect->Y*ymax);
         QRectF Rect=RectItem->mapRectFromScene(QRectF(BrushFileCorrect->X*xmax,
                                                       BrushFileCorrect->Y*ymax,
@@ -332,7 +364,8 @@ void DlgImageCorrection::RefreshBackgroundImage() {
 
     // Create selection box
     if (cadre==NULL) cadre=new cCustomGraphicsRectItem(scene,300,&BrushFileCorrect->X,&BrushFileCorrect->Y,&BrushFileCorrect->ZoomFactor,
-                                                       NULL,NULL,xmax,ymax,true,BrushFileCorrect->AspectRatio,&MagneticRuler,this,TYPE_DlgImageCorrection,0);
+                                                       NULL,NULL,xmax,ymax,BrushFileCorrect->ImageGeometry==GEOMETRY_CUSTOM?false:true,
+                                                       BrushFileCorrect->AspectRatio,&MagneticRuler,this,TYPE_DlgImageCorrection,0);
 
     // Prepare CacheImage
     QImage   *NewImage=new QImage(xmax,ymax,QImage::Format_ARGB32_Premultiplied);

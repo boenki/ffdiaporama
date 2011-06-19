@@ -24,7 +24,8 @@
 
 DlgVideoEdit::DlgVideoEdit(cBrushDefinition *TheCurrentBrush,QWidget *parent):QDialog(parent),ui(new Ui::DlgVideoEdit) {
     ui->setupUi(this);
-    CurrentBrush=TheCurrentBrush;
+    CurrentBrush    =TheCurrentBrush;
+    IsFirstInitDone =false;            // true when first show window was done
 
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
@@ -81,7 +82,9 @@ void DlgVideoEdit::SetSavedWindowGeometry() {
 
 void DlgVideoEdit::showEvent(QShowEvent *ev) {
     QDialog::showEvent(ev);
+    if (IsFirstInitDone) return;    // Ensure we do this only one time
     QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
+    IsFirstInitDone=true;                                   // Set this flag to true to indicate that now we can prepeare display
 }
 
 //====================================================================================================================

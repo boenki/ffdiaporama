@@ -40,6 +40,7 @@ public:
     cDiaporama          *Diaporama;
     QDomDocument        *Clipboard_Object;
     QDomDocument        *Clipboard_Block;
+    QStringList         StatusBarList;
 
     explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
     ~MainWindow();

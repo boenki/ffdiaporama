@@ -101,6 +101,8 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     ui->ImageGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Image geometry"));
     ui->ImageGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Custom geometry"));
 
+    ui->BlockTabWidget->setCurrentIndex(0); // Ensure page 0
+
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
@@ -248,11 +250,7 @@ void DlgSlideProperties::s_ShotDurationChange(double NewValue) {
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
     DiaporamaObject->List[Current].StaticDuration=int(NewValue*1000);
-    // Refresh total slide duration
-    ui->SlideDurationLabel->setText(QTime(0,0,0,0).addMSecs(DiaporamaObject->GetDuration()).toString("hh:mm:ss.zzz"));
-    // Refresh thumbnail
-    ui->ShotTable->setUpdatesEnabled(false);
-    ui->ShotTable->setUpdatesEnabled(true);
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -302,21 +300,17 @@ void DlgSlideProperties::GetSound() {
 void DlgSlideProperties::RefreshControls() {
     // Ensure box is init and Current contain index of currented selected sequence
     if ((!IsFirstInitDone)||(!CompositionList)||(StopMAJSpinbox)) return;
-    int Current=ui->ShotTable->currentColumn();
-    if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
+
+    int CurrentShot=ui->ShotTable->currentColumn();
+    if ((CurrentShot<0)||(CurrentShot>=DiaporamaObject->List.count())) return;
+
     StopMAJSpinbox=true;    // Disable reintrence in this RefreshControls function
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-    // Slide name & duration and shot duration
-    ui->SlideNameED->setText(DiaporamaObject->SlideName);
-    ui->SlideDurationLabel->setText(QTime(0,0,0,0).addMSecs(DiaporamaObject->GetDuration()).toString("hh:mm:ss.zzz"));
-    ui->ShotDurationED->setValue(double(DiaporamaObject->List[Current].GetStaticDuration())/1000);
 
     //--------------------------------------------------------------------
     // Update controls
     //--------------------------------------------------------------------
-    int CurrentShot=ui->ShotTable->currentColumn();
-    if ((CurrentShot>=0)&&(CurrentShot<DiaporamaObject->List.count())) CompositionList=&DiaporamaObject->List[CurrentShot].ShotComposition;
+    CompositionList=&DiaporamaObject->List[CurrentShot].ShotComposition;
     ui->ShotLeftBt->setEnabled(CurrentShot>0);
     ui->ShotRightBt->setEnabled(CurrentShot<ui->ShotTable->columnCount()-1);
 
@@ -331,45 +325,21 @@ void DlgSlideProperties::RefreshControls() {
     ui->CutBlockBT->setEnabled(CurrentTextItem!=NULL);
     ui->PasteBlockBT->setEnabled(GlobalMainWindow->Clipboard_Block!=NULL);
 
-/*
+    // Slide name & duration and shot duration
+    ui->SlideNameED->setText(DiaporamaObject->SlideName);
+    ui->SlideDurationLabel->setText(QTime(0,0,0,0).addMSecs(DiaporamaObject->GetDuration()).toString("hh:mm:ss.zzz"));
+    ui->ShotDurationED->setValue(double(DiaporamaObject->List[CurrentShot].StaticDuration)/1000);
+
+    // Minimum shot duration display
     int  AddingDuration=0;
-    if (Current==(DiaporamaObject->List.count()-1)) {   // If it's the last shot
-        int TotalDuration  =DiaporamaObject->GetDuration();
+    if (CurrentShot==(DiaporamaObject->List.count()-1)) {   // If it's the last shot
+        int TotalDuration=DiaporamaObject->GetDuration();
         int Duration=0;
-        for (int i=0;i<DiaporamaObject->List.count();i++) Duration=Duration+(i>0?DiaporamaObject->List[i].GetMobilDuration():0)+DiaporamaObject->List[i].GetStaticDuration();
+        for (int i=0;i<DiaporamaObject->List.count();i++) Duration=Duration+DiaporamaObject->List[i].StaticDuration;
         if (Duration<TotalDuration) AddingDuration=TotalDuration-Duration;
     }
-    if (AddingDuration==0) {
-        if (DiaporamaObject->List[Current].DefaultStaticDuration) {
-            int Default=((DiaporamaObject->List.count()>1?DiaporamaObject->Parent->FixedDuration:DiaporamaObject->Parent->NoShotDuration)/1000);
-            ui->StaticDefault->setText(QString(QCoreApplication::translate("DlgImageProperties","Default project value=%1 sec")).arg(Default));
-        } else ui->StaticDefault->setText(QCoreApplication::translate("DlgImageProperties","sec"));
-    } else {
-        ui->StaticDefault->setText(QString(QCoreApplication::translate("DlgImageProperties","Lengthened to %1 sec to allow transitions")).arg((DiaporamaObject->List[Current].GetStaticDuration()+AddingDuration)/1000));
-    }
-
-    ui->MobilSetCustomBt->setChecked(DiaporamaObject->List[Current].DefaultMobilDuration);
-    ui->MobilCustomEd->setValue(DiaporamaObject->List[Current].MobilDuration/1000);
-
-    if (Current>0) {
-        ui->MobilSetCustomBt->setVisible(true);
-        if (DiaporamaObject->List[Current].DefaultMobilDuration) {
-            ui->MobilCustomEd->setEnabled(false);
-            ui->MobilCustomEd->setVisible(false);
-            ui->MobilSpacer->setVisible(true);
-            ui->MobilDefault->setText(QString(QCoreApplication::translate("DlgImageProperties","Default project value=%1 sec")).arg(DiaporamaObject->Parent->MobilDuration/1000));
-        } else {
-            ui->MobilCustomEd->setEnabled(true);
-            ui->MobilCustomEd->setVisible(true);
-            ui->MobilSpacer->setVisible(false);
-            ui->MobilDefault->setText(QCoreApplication::translate("DlgImageProperties","sec"));
-        }
-    } else {
-        ui->MobilDefault->setText("");
-        ui->MobilSetCustomBt->setVisible(false);
-        ui->MobilCustomEd->setVisible(false);
-    }
-*/
+    if (AddingDuration==0) ui->MinShotDurationLabel->setText("");
+        else ui->MinShotDurationLabel->setText(QString(QCoreApplication::translate("DlgImageProperties","Lengthened to %1 sec")).arg(double(DiaporamaObject->List[CurrentShot].StaticDuration+AddingDuration)/1000));
 
     //====================================================================================================================
 
@@ -1116,37 +1086,63 @@ void DlgSlideProperties::s_ChangeImageGeometry(int value) {
     QImage                  *Image          =CurrentBrush->Image?CurrentBrush->Image->CacheImage:CurrentBrush->Video?CurrentBrush->Video->CacheFirstImage:NULL;
     if (!Image) return;
 
+    double NewW=1;
+    double NewH=1;
     CurrentBrush->BrushFileCorrect.ImageGeometry=value;
 
-    if ((CurrentBrush->BrushFileCorrect.ImageGeometry==GEOMETRY_PROJECT)||(CurrentBrush->BrushFileCorrect.ImageGeometry==GEOMETRY_IMAGE)) {
+    switch (value) {
+    case GEOMETRY_PROJECT:
+        CurrentBrush->BrushFileCorrect.AspectRatio=double(GlobalMainWindow->Diaporama->InternalHeight)/double(GlobalMainWindow->Diaporama->InternalWidth);
+        RectItem->KeepAspectRatio=true;
+        break;
+    case GEOMETRY_IMAGE:
+        // if image have rotation => compute new image to determine rotated image aspect ratio
+        if (CurrentBrush->BrushFileCorrect.ImageRotation!=0) {
+            QTransform matrix;
+            matrix.rotate(CurrentBrush->BrushFileCorrect.ImageRotation,Qt::ZAxis);
+            QImage *SourceImage=new QImage(Image->transformed(matrix));
+            CurrentBrush->BrushFileCorrect.AspectRatio=double(SourceImage->height())/double(SourceImage->width());
+            delete SourceImage;
+        // if image have no rotation => determine image aspect ratio
+        } else CurrentBrush->BrushFileCorrect.AspectRatio=double(Image->height())/double(Image->width());
+        RectItem->KeepAspectRatio=true;
+        break;
+    default:
+        CurrentBrush->BrushFileCorrect.AspectRatio=(CurrentTextItem->h*GlobalMainWindow->Diaporama->InternalHeight)/(CurrentTextItem->w*GlobalMainWindow->Diaporama->InternalWidth);
+        RectItem->KeepAspectRatio=true;
+        break;
+    }
 
-        if (CurrentBrush->BrushFileCorrect.ImageGeometry==GEOMETRY_IMAGE) CurrentBrush->BrushFileCorrect.AspectRatio=double(Image->height())/double(Image->width());
-        else if (CurrentBrush->BrushFileCorrect.ImageGeometry==GEOMETRY_PROJECT) CurrentBrush->BrushFileCorrect.AspectRatio=double(GlobalMainWindow->Diaporama->InternalHeight)/double(GlobalMainWindow->Diaporama->InternalWidth);
+    RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+    NewW=CurrentTextItem->w*GlobalMainWindow->Diaporama->InternalWidth;
+    NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
+    NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
+    NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
 
-        double NewW=CurrentTextItem->w*GlobalMainWindow->Diaporama->InternalWidth;
-        double NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
+    if (NewH>1) {
+        NewH=CurrentTextItem->h*GlobalMainWindow->Diaporama->InternalHeight;
+        NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
         NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
         NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
-        if (NewH>1) {
-            NewH=CurrentTextItem->h*GlobalMainWindow->Diaporama->InternalHeight;
-            NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
-            NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
-            NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
-        }
-        CurrentTextItem->w=NewW;
-        CurrentTextItem->h=NewH;
-
-        // Update RectItem
-        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
-        RectItem->KeepAspectRatio=true;
-        RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
-        QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
-        RectItem->setRect(Rect);
-        RectItem->RecalcEmbededResizeRectItem();
-    } else {
-        RectItem->AspectRatio=1;
-        RectItem->KeepAspectRatio=false;
     }
+
+    CurrentTextItem->w=NewW;
+    CurrentTextItem->h=NewH;
+
+    // Update RectItem
+    RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
+    QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
+    RectItem->setRect(Rect);
+    RectItem->RecalcEmbededResizeRectItem();
+
+    // free CachedBrushBrush
+    for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
+        if (DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush) {
+            delete DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush;
+            DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
+        }
+    }
+
     RefreshControls();
 }
 
@@ -1168,9 +1164,29 @@ void DlgSlideProperties::TextEditor() {
 //========= Open image correction editor
 void DlgSlideProperties::ImageEditCorrect() {
     if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
+    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
+    cBrushDefinition        *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
+    cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (!RectItem) return;
+
     DlgImageCorrection(CurrentTextItem->BackgroundForm,CurrentBrush,&CurrentBrush->BrushFileCorrect,this).exec();
+
+    // free CachedBrushBrush
+    for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
+        if (DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush) {
+            delete DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush;
+            DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
+        }
+    }
+
+    if (CurrentBrush->BrushFileCorrect.ImageGeometry==GEOMETRY_CUSTOM) {
+        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+        CurrentTextItem->h=(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax;
+        // Update RectItem
+        RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
+        QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
+        RectItem->setRect(Rect);
+        RectItem->RecalcEmbededResizeRectItem();
+    }
     RefreshControls();
 }
 
@@ -1190,6 +1206,15 @@ void DlgSlideProperties::ImageEditTransform() {
             CurrentBrush->Video->CacheFirstImage=NULL;
         }
     }
+
+    // free CachedBrushBrush
+    for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
+        if (DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush) {
+            delete DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush;
+            DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
+        }
+    }
+
     RefreshControls();
 }
 
@@ -1202,6 +1227,15 @@ void DlgSlideProperties::VideoEdit() {
     DlgVideoEdit(CurrentBrush,this).exec();
     DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
+
+    // free CachedBrushBrush
+    for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
+        if (DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush) {
+            delete DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush;
+            DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
+        }
+    }
+
     RefreshControls();
 }
 

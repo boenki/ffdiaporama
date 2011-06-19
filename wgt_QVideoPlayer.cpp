@@ -572,10 +572,10 @@ QTime wgt_QVideoPlayer::GetActualDuration() {
 void wgt_QVideoPlayer::SetActualDuration(int Duration) {
     if (ui->CustomRuller->Slider!=NULL) {
         ui->CustomRuller->Slider->setMaximum(Duration-1);
-        ui->CustomRuller->Slider->repaint();
+        //ui->CustomRuller->Slider->repaint();
     }
     ui->CustomRuller->TotalDuration=Duration;
-    ui->CustomRuller->repaint();
+    //ui->CustomRuller->repaint();
     int     TimeMSec    =(Duration %1000);
     int     TimeSec     =int(Duration/1000);
     int     TimeHour    =TimeSec/(60*60);

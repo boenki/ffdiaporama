@@ -1,8 +1,8 @@
 <!DOCTYPE ffDiaporama>
 <Configuration>
     <LastDirectories RememberLastDirectories="1">
-    <EditorOptions DisableSSE2="0" DefaultTransitionFamilly="0" TimelineHeight="80" RandomTransition="1" ApplyTransfoPreview="1" DefaultTransitionDuration="1000" AppendObject="0" DefaultFraming="0" DefaultTransitionSubType="1" SortFile="1" PreviewFPS="12.500000"/>
+    <EditorOptions DisableSSE2="0" DefaultTransitionFamilly="0" TimelineHeight="80" RandomTransition="1" ApplyTransfoPreview="1" DefaultTransitionDuration="1000" AppendObject="0" DefaultFraming="2" DefaultTransitionSubType="1" SortFile="1" PreviewFPS="12.500000"/>
     <ProjectDefault FixedDuration="3000" SpeedWave="0" ImageGeometry="1" MobilDuration="3000" NoShotDuration="6000"/>
-    <RenderDefault AudioBitRate="160" ImageSize="3" Format="4" Standard="0" VideoCodec="libx264" VideoBitRate="5000" AudioCodec="libfaac"/>
+    <RenderDefault AudioBitRate="160" ImageSize="2" Format="4" Standard="0" VideoCodec="libx264" VideoBitRate="2500" AudioCodec="libfaac"/>
     <RestoreWindow>1</RestoreWindow>
 </Configuration>

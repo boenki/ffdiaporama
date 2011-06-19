@@ -84,7 +84,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             int Position = 0;
             while ((Col<Timeline->columnCount())&&(Col<DiaporamaObject->List.count())) {
                 if (Timeline->cellWidget(0,Col)!=this) {
-                    Position=Position+DiaporamaObject->List[Col].GetStaticDuration();
+                    Position=Position+DiaporamaObject->List[Col].StaticDuration;
                     Col++;
                 } else if (Timeline->cellWidget(0,Col)==this) {
                     int Height=Timeline->rowHeight(0);

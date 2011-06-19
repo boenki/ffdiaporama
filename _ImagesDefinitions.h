@@ -107,7 +107,6 @@ public:
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
     QBrush      *GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
-    void        ApplyDefaultFraming(int DefaultFraming);
 
 private:
     QBrush      *GetLibraryBrush(QRectF Rect);

@@ -34,8 +34,9 @@ namespace Ui {
 class DlgVideoEdit : public QDialog {
 Q_OBJECT
 public:
+    bool                    IsFirstInitDone;            // true when first show window was done
     cBrushDefinition        *CurrentBrush;
-    QDomDocument            *Undo;                          // Save object before modification for cancel button
+    QDomDocument            *Undo;                      // Save object before modification for cancel button
 
     explicit DlgVideoEdit(cBrushDefinition *CurrentBrush,QWidget *parent = 0);
     ~DlgVideoEdit();
