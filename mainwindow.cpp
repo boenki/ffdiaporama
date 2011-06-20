@@ -831,7 +831,7 @@ void MainWindow::s_action_AddFile() {
                 CurrentBrush->Video=NULL;
             } else {
                 CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
-                DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
+                DiaporamaObject->List[0].StaticDuration=1000;
             }
             break;
         }

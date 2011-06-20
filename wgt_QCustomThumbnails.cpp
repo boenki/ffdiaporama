@@ -80,12 +80,23 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             // Draw a standard thumbnail (just the image) at position of the current row
             Painter.save();
 
-            int Col=0;
-            int Position = 0;
+            int     Col     =0;
+            int     Position=0;
+            int     Duration=0;
+            bool    RedColor=false;
+
+            if ((Col<Timeline->columnCount()-1)&&(Col<DiaporamaObject->List.count()-1)) Duration=DiaporamaObject->List[Col].StaticDuration; else {
+                Duration=DiaporamaObject->GetDuration()-Position;  // Last shot
+                RedColor=(Col<Timeline->columnCount())&&(Duration!=DiaporamaObject->List[Col].StaticDuration);
+            }
             while ((Col<Timeline->columnCount())&&(Col<DiaporamaObject->List.count())) {
                 if (Timeline->cellWidget(0,Col)!=this) {
-                    Position=Position+DiaporamaObject->List[Col].StaticDuration;
+                    Position=Position+Duration;
                     Col++;
+                    if ((Col<Timeline->columnCount()-1)&&(Col<DiaporamaObject->List.count()-1)) Duration=DiaporamaObject->List[Col].StaticDuration; else {
+                        Duration=DiaporamaObject->GetDuration()-Position;  // Last shot
+                        RedColor=(Col<Timeline->columnCount())&&(Duration!=DiaporamaObject->List[Col].StaticDuration);
+                    }
                 } else if (Timeline->cellWidget(0,Col)==this) {
                     int Height=Timeline->rowHeight(0);
                     int Width =Timeline->columnWidth(Col);
@@ -133,11 +144,11 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Pen.setWidth(1);
                     Pen.setStyle(Qt::SolidLine);
                     if (Col<DiaporamaObject->List.count()) {
-                        QString ShotDuration=QTime(0,0,0,0).addMSecs(DiaporamaObject->List[Col].StaticDuration).toString("hh:mm:ss.zzz");
+                        QString ShotDuration=QTime(0,0,0,0).addMSecs(Duration).toString("hh:mm:ss.zzz");
                         Pen.setColor(Qt::black);
                         Painter.setPen(Pen);
                         Painter.drawText(QRectF(1,4+1,this->width(),this->height()),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
-                        Pen.setColor(Qt::white);
+                        Pen.setColor(RedColor?Qt::red:Qt::white);
                         Painter.setPen(Pen);
                         Painter.drawText(QRectF(0,4,this->width()-1,this->height()-1),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
                     }
@@ -418,19 +429,27 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 int     RHeight             =int(Height*(CurrentFactor/1.5));
                 int     PHeight             =int(Height*(PreviousFactor/1.5));
 
+                if (Col>0) {
+                    cMusicObject *PrevMusique=Object->Parent->GetMusicObject(Col-1,StartPosition);
+                    if ((PrevMusique)&&((QTime(0,0,0,0).msecsTo(PrevMusique->Duration)-StartPosition)>Object->Parent->List[Col-1].GetDuration())) DrawOutTransition=true;
+                }
+
                 // Calculate wich music will be use for this object and for the next object
-                cMusicObject    *CurMusic          =Object->Parent->GetMusicObject(Col,StartPosition,&CurrentCountObjet);
-                cMusicObject    *NextMusic         =NULL;
+                int             OwnerObjectMusic    =0;
+                int             OwnerObjectNextMusic=0;
+                cMusicObject    *CurMusic           =Object->Parent->GetMusicObject(Col,StartPosition,&CurrentCountObjet,&OwnerObjectMusic);
+                cMusicObject    *NextMusic          =NULL;
 
                 if ((Col+1)<Timeline->columnCount()) {
-                    NextMusic=Object->Parent->GetMusicObject(Col+1,NextStartPosition);
-                    if (NextMusic==CurMusic) EndMusic=false;
-                    if ((CurMusic)&&((QTime(0,0,0,0).msecsTo(CurMusic->Duration))-StartPosition>=Object->GetDuration())) EndMusic=false;
+                    NextMusic=Object->Parent->GetMusicObject(Col+1,NextStartPosition,NULL,&OwnerObjectNextMusic);
+                    //if (NextMusic==CurMusic) EndMusic=false;
+                    if ((OwnerObjectMusic==OwnerObjectNextMusic)&&(CurMusic!=NULL)&&(NextMusic!=NULL)) EndMusic=false;
+                        else if ((CurMusic)&&((QTime(0,0,0,0).msecsTo(CurMusic->Duration))-StartPosition>=Object->GetDuration())) EndMusic=false;
                 } else if (CurMusic) EndMusic=(QTime(0,0,0,0).msecsTo(CurMusic->Duration)-StartPosition)<Object->GetDuration();
 
                 if (CurMusic!=NULL) {
                     // Search if sound end during the slide
-                    if ((EndMusic)&&(NextMusic==NULL)) DrawOutCut=true;
+                    if (EndMusic) DrawOutCut=true;
 
                     // Start a new Playlist
                     if (Object->MusicType) {
@@ -442,7 +461,8 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     // continue Playlist from a previous object
                     } else if (Object->MusicPause) DrawPause=true;
                     if (DrawInTransition && IsTransition) {
-                        if ((Col>0)&&(Object->Parent->GetMusicObject(Col-1,StartPosition)!=NULL)) {
+                        // Draw out transition from a previous object
+                        if (DrawOutTransition) {
                             if ((CurrentCountObjet & 1)!=1) {
                                 Painter.setBrush(QBrush(QColor(FirstMusic_Color)));
                                 Pen.setColor(FirstMusic_Color);
@@ -466,8 +486,13 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                         Table[0]=QPointF(-1,Height+2);
                         Table[1]=QPointF(-1,Height-RHeight+2);
                     }
-                    if (DrawOutTransition||DrawOutCut) Table[2]=QPointF(Width-34,Height-RHeight+2);   else Table[2]=QPointF(Width+2,Height-RHeight+2);
-                    if (DrawOutCut)                    Table[3]=QPointF(Width-34,Height+2);           else Table[3]=QPointF(Width+2,Height+2);
+                    if (DrawOutCut) {
+                        Table[2]=QPointF(Width-34,Height-RHeight+2);
+                        Table[3]=QPointF(Width-34,Height+2);
+                    } else {
+                        Table[2]=QPointF(Width+2,Height-RHeight+2);
+                        Table[3]=QPointF(Width+2,Height+2);
+                    }
                     Table[4]=QPointF(-1,Height+2);
 
                     if ((CurrentCountObjet & 1)==1) {
@@ -482,23 +507,21 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Painter.drawPolygon(Table,5);
 
                     if (DrawPause) Painter.drawImage((Width-24-TransitionSize)/2+TransitionSize,Height-24,QImage(ICON_PLAYERPAUSE));
-                } else {
+                } else if (DrawOutTransition) {
                     // Draw out transition from a previous object
-                    if ((Col>0)&&(Object->Parent->GetMusicObject(Col-1,StartPosition)!=NULL)) {
-                        if ((CurrentCountObjet & 1)!=1) {
-                            Painter.setBrush(QBrush(QColor(FirstMusic_Color)));
-                            Pen.setColor(FirstMusic_Color);
-                        } else {
-                            Painter.setBrush(QBrush(QColor(SecondMusic_Color)));
-                            Pen.setColor(SecondMusic_Color);
-                        }
-                        Pen.setWidth(0);
-                        Painter.setPen(Pen);
-                        Table[0]=QPointF(-1,Height-PHeight+2);
-                        Table[1]=QPointF(34,Height+2);
-                        Table[2]=QPointF(-1,Height+2);
-                        Painter.drawPolygon(Table,3);
+                    if ((CurrentCountObjet & 1)!=1) {
+                        Painter.setBrush(QBrush(QColor(FirstMusic_Color)));
+                        Pen.setColor(FirstMusic_Color);
+                    } else {
+                        Painter.setBrush(QBrush(QColor(SecondMusic_Color)));
+                        Pen.setColor(SecondMusic_Color);
                     }
+                    Pen.setWidth(0);
+                    Painter.setPen(Pen);
+                    Table[0]=QPointF(-1,Height-PHeight+2);
+                    Table[1]=QPointF(34,Height+2);
+                    Table[2]=QPointF(-1,Height+2);
+                    Painter.drawPolygon(Table,3);
                 }
 
                 // Draw separated line

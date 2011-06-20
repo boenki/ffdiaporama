@@ -1,35 +1,30 @@
 Buggs/TODO (Dernier SVN le 19/06/2011) :
 ----------------------------------------
-BUGG: L'image vidéo affichée n'est pas celle correspondant au shot mais la 1ere dans les boites transformation et correction
+BUGG: L'image vidéo affichée n'est pas celle correspondant au plan mais la 1ere dans les boites transformation et correction
+BUGG: Erreur aléatoire en collé d'image/undo
+BUGG: Problème de recadrage sur les guides des blocs textes (sans géometrie) dans la boite slide
+BUGG: Impossible de bouger top-left en x quand top colle le guide haut
+
+BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
 
 TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
-TODO: Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
 
 ------------------------------------
 Changelog depuis le dernier SVN
 ------------------------------------
+Correction de bug: Corrige l'affichage de la durée du dernier plan dans la boite slide (quand la durée est allongée, la valeur ne prenait pas en compte l'allongement)
+Correction de bug: Corrige l'affichage de la piste musical :
+    - Un fade out apparraissait alors que la musique s'etait finie pendant le slide précédent
+    - Un fade out apparraissait pendant le slide quand un morceau de la playlist se terminait mais que la playlist continuait
+Correction de bug: Corrige l'erreur de calcul des animations sur les plans allongés (le calcul du % de transition ne tenait pas compte de l'allongement)
+Correction de bug: Corrige l'erreur dans la boite edit vidéo : le film s'arretait sur la dernière image après le endpos
+
+Changement de comportement : Quand une diapositive vidéo est ajoutée depuis la fenêtre principal, son temp de 1er plan est fixé à 1 seconde
+    - C'est le mécanisme d'allongement qui calcul le temps nécessaire
+Changement de comportement : La boite edit vidéo ne change plus la durée du 1er plan
 
 ------------------------------------
-Changelog depuis la version 20110613
+Changelog depuis la version 20110619
 ------------------------------------
-Correction de bugg : Supprime le décalage des mises en pause des musiques (erreur de calcul corrigée) + ajout des fades in/out sur les changements de volume ou de mode pause
-Correction de bugg : Sur les guides dans les boites Slide et Correction d'image (Une erreur de calcul attirait mal les poignées vers les guides)
-Correction de bugg : Erreur de trie des fichiers sous Windows (lors des insertions de plusieurs fichiers)
-Correction de bugg : Correction du CSS (feuille de style WEB) pour Internet Explorer 6/7 pour le WIKI et le site WEB
-Correction de bugg : Ce n'est pas la bonne image qui est affichée en thumbnail et en objet interactif dans la boite slide
-    => Maintenant au lieu d'afficher toujours la 1ere image de la vidéo, ffDiaporama affiche la bonne image correspondant à la position du plan pour l'objet interactif et pour le thumbnail
-Correction de bugg : Problème d'affichage lors des changement de géometrie dans la boite slide
-Correction de bugg : La boite Edit Vidéo ne pouvait pas être réduite après agrandissement
-Correction de bugg : La rotation EXIF ou forcé dans la boite de correction n'était pas prise en compte dans le calcul de la geometrie image
 
-Changement de comportement: Maintenant les vidéos sont mises en pause quand elles sont invisibles
-Changement de comportement: Quand une vidéo atteint la position de fin de fichier ou de fin demandée (boite edit), reste sur la dernière image au lieu d'une image transparente
-Changement de comportement: Dans la boite de rendu, le flag de modification du projet n'est maintenant activé que si un paramètre est changé
-Changement de comportement: Pour les blocs en géométrie libre, La géométrie devient contrainte dans la boite slide et libre dans la boite de recadrage
-    => à l'inverse d'avant où la géométrie etait libre dans la boite slide et contrainte dans la boite de recadrage
-
-Ajout de fonctionnalité : Prise en charge d'un fichier en entrée du programme : ffDiaporama peut maintenant être associé aux fichiers .ffd
-Ajout de fonctionnalité : Mise en cache des brosses de tout types pour accélérer les boites de dialogue
-Ajout de fonctionnalité : Programmation du bouton changer de fichier dans la boite slide (image/vidéo)
-Ajout de fonctionnalité : Calcul et affiche la durée minimal des plans
