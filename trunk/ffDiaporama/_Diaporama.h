@@ -201,7 +201,7 @@ public:
     int                 CurrentObject_ShotSequenceNumber;       // Number of the shot sequence in the current object
     cDiaporamaShot      *CurrentObject_CurrentShot;             // Link to the current shot in the current object
     int                 CurrentObject_CurrentShotType;          // Type of the current shot : Static/Mobil/Video
-    int                 CurrentObject_EndStaticShot;            // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
+    int                 CurrentObject_ShotDuration;             // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     double              CurrentObject_PCTDone;                  // PCT achevement for static shot
     QImage              *CurrentObject_SourceImage;             // Current image loaded for image or video or created for title
     bool                CurrentObject_FreeSourceImage;          // True if allow to delete CurrentObject_SourceImage during destructor
@@ -232,7 +232,7 @@ public:
     int                 TransitObject_ShotSequenceNumber;       // Number of the shot sequence in the current object
     cDiaporamaShot      *TransitObject_CurrentShot;             // Link to the current shot in the current object
     int                 TransitObject_CurrentShotType;          // Type of the current shot : Static/Mobil/Video
-    int                 TransitObject_EndStaticShot;            // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
+    int                 TransitObject_ShotDuration;             // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
     double              TransitObject_PCTDone;                  // PCT achevement for static shot
     QImage              *TransitObject_SourceImage;             // Current image loaded for image or video or created for title
     bool                TransitObject_FreeSourceImage;          // True if allow to delete TransitObject_SourceImage during destructor
@@ -295,7 +295,7 @@ public:
     int                 GetObjectStartPosition(int index);
     int                 GetTransitionDuration(int index);
     void                PrepareBackground(int ObjectIndex,int Width,int Height,QPainter *Painter,int AddX,int AddY,bool ApplyComposition);
-    cMusicObject        *GetMusicObject(int ObjectIndex,int &StartPosition,int *CountObject=NULL);
+    cMusicObject        *GetMusicObject(int ObjectIndex,int &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
     void                DefineSizeAndGeometry(int Geometry);                        // Init size and geometry
     bool                SaveFile(QWidget *ParentWindow);
     bool                LoadFile(QWidget *ParentWindow,QString ProjectFileName);

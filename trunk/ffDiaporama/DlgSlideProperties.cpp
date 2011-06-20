@@ -1225,7 +1225,6 @@ void DlgSlideProperties::VideoEdit() {
     cBrushDefinition    *CurrentBrush=&CurrentTextItem->BackgroundBrush;        if (!CurrentBrush) return;
     if (!CurrentBrush->Video) return;
     DlgVideoEdit(CurrentBrush,this).exec();
-    DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
 
     // free CachedBrushBrush

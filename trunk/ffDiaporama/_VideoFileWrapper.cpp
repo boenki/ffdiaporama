@@ -104,11 +104,11 @@ void cvideofilewrapper::CloseVideoFileReader() {
 //====================================================================================================================
 // Read an audio frame from current stream
 //====================================================================================================================
-void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume) {
+void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
     // Ensure file was previously open
     if ((ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
     // Ensure Position is not > EndPosition
-    if (Position>QTime(0,0,0,0).msecsTo(EndPos)) return;
+    if (Position>QTime(0,0,0,0).msecsTo(DontUseEndPos?Duration:EndPos)) return;
 
     int64_t         AVNOPTSVALUE        =INT64_C(0x8000000000000000); // to solve type error with Qt
     AVStream        *AudioStream        =ffmpegAudioFile->streams[AudioStreamNumber];
@@ -318,12 +318,12 @@ void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackB
 
 #define MAXELEMENTSINOBJECTLIST 500
 
-QImage *cvideofilewrapper::ReadVideoFrame(int Position) {
+QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
     // Ensure file was previously open
     if ((ffmpegVideoFile==NULL)||(VideoDecoderCodec==NULL)) return NULL;
 
-    double dEndFile =double(QTime(0,0,0,0).msecsTo(EndPos))/1000;     // End File Position in double format
-    double dPosition=double(Position)/1000;                           // Position in double format
+    double dEndFile =double(QTime(0,0,0,0).msecsTo(DontUseEndPos?Duration:EndPos))/1000;    // End File Position in double format
+    double dPosition=double(Position)/1000;                                                 // Position in double format
 
     // Ensure Position is not > EndPosition, in that case, change Position to lastposition
     if ((dPosition>0)&&(dPosition>=dEndFile)) {
@@ -701,7 +701,8 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
 
 //====================================================================================================================
 
-QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,int StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter) {
+QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,int StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,
+                                   bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos) {
     if (!IsValide)
         return NULL;
 
@@ -716,8 +717,8 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,int StartPosToA
     // Load a video frame
     QImage *LoadedImage=NULL;
 
-    ReadAudioFrame(Position+StartPosToAdd,SoundTrackBloc,Volume);
-    if ((!MusicOnly)&&(!ForceSoundOnly)) LoadedImage=ReadVideoFrame(Position+StartPosToAdd);
+    ReadAudioFrame(Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
+    if ((!MusicOnly)&&(!ForceSoundOnly)) LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
 
     if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
         // Scale image if anamorphous codec

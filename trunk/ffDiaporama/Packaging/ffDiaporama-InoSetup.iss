@@ -33,6 +33,7 @@ VersionInfoCopyright={#MyAppPublisher}
 VersionInfoProductName={#MyAppName}
 VersionInfoTextVersion={#MyAppName} {#MyAppVersion}
 VersionInfoCompany={#MyAppPublisher}
+ChangesAssociations=true
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -55,4 +56,3 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Fil
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; Flags: nowait postinstall skipifsilent
-

@@ -962,7 +962,7 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
 
 //====================================================================================================================
 
-cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int &StartPosition,int *CountObject) {
+cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int &StartPosition,int *CountObject,int *IndexObject) {
     if (ObjectIndex>=List.count()) return NULL;
 
     cMusicObject *Ret =NULL;
@@ -985,6 +985,11 @@ cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int &StartPosition,int 
     }
 
     if ((i<List[Index].MusicList.count())&&(StartPosition<=QTime(0,0,0,0).msecsTo(List[Index].MusicList[i].Duration))) Ret=&List[Index].MusicList[i];
+
+    // Keep owner of the playlist (if wanted)
+    if (IndexObject) *IndexObject=Index;
+
+    // Calc object number in the playlist (if wanted)
     if (CountObject) {
         *CountObject=0;
         while (Index>0) {
@@ -1857,7 +1862,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     CurrentObject_ShotSequenceNumber    =PreviousFrame->CurrentObject_ShotSequenceNumber;   // Number of the shot sequence in the current object
     CurrentObject_CurrentShot           =PreviousFrame->CurrentObject_CurrentShot;          // Link to the current shot in the current object
     CurrentObject_CurrentShotType       =PreviousFrame->CurrentObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
-    CurrentObject_EndStaticShot         =PreviousFrame->CurrentObject_EndStaticShot;        // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
+    CurrentObject_ShotDuration         =PreviousFrame->CurrentObject_ShotDuration;        // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     CurrentObject_PCTDone               =PreviousFrame->CurrentObject_PCTDone;
     CurrentObject_SourceImage           =PreviousFrame->CurrentObject_SourceImage;          // Source image
     CurrentObject_FreeSourceImage       =false;                                             // True if allow to delete CurrentObject_SourceImage during destructor
@@ -1885,7 +1890,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     TransitObject_ShotSequenceNumber    =PreviousFrame->TransitObject_ShotSequenceNumber;   // Number of the shot sequence in the current object
     TransitObject_CurrentShot           =PreviousFrame->TransitObject_CurrentShot;          // Link to the current shot in the current object
     TransitObject_CurrentShotType       =PreviousFrame->TransitObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
-    TransitObject_EndStaticShot         =PreviousFrame->TransitObject_EndStaticShot;        // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
+    TransitObject_ShotDuration         =PreviousFrame->TransitObject_ShotDuration;        // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
     TransitObject_PCTDone               =PreviousFrame->TransitObject_PCTDone;
     TransitObject_SourceImage           =PreviousFrame->TransitObject_SourceImage;          // Source image
     TransitObject_FreeSourceImage       =false;                                             // True if allow to delete TransitObject_SourceImage during destructor
@@ -1918,7 +1923,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     CurrentObject_ShotSequenceNumber    =0;                 // Number of the shot sequence in the current object
     CurrentObject_CurrentShot           =NULL;              // Link to the current shot in the current object
     CurrentObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
-    CurrentObject_EndStaticShot         =0;                 // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
+    CurrentObject_ShotDuration         =0;                 // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     CurrentObject_PCTDone               =0;                 // PCT achevement for static shot
     CurrentObject_SourceImage           =NULL;              // Source image
     CurrentObject_FreeSourceImage       =true;              // True if allow to delete CurrentObject_SourceImage during destructor
@@ -1946,7 +1951,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     TransitObject_ShotSequenceNumber    =0;                 // Number of the shot sequence in the current object
     TransitObject_CurrentShot           =NULL;              // Link to the current shot in the current object
     TransitObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
-    TransitObject_EndStaticShot         =0;                 // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
+    TransitObject_ShotDuration         =0;                 // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
     TransitObject_PCTDone               =0;                 // PCT achevement for static shot
     TransitObject_SourceImage           =NULL;              // Source image
     TransitObject_FreeSourceImage       =true;              // True if allow to delete TransitObject_SourceImage during destructor
@@ -1994,14 +1999,16 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 CurrentObject_ShotSequenceNumber++;
             }
             CurrentObject_CurrentShot=&CurrentObject->List[CurrentObject_ShotSequenceNumber];
+            if (CurrentObject_ShotSequenceNumber<CurrentObject->List.count()-1) CurrentObject_ShotDuration=CurrentObject_CurrentShot->StaticDuration;
+                else CurrentObject_ShotDuration=CurrentObject_CurrentShot->Parent->GetDuration()-CurPos;
 
             // calculate CurrentObject_PCTDone
             switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
             case SPEEDWAVE_LINEAR :
-                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->StaticDuration));
+                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_ShotDuration));
                 break;
             case SPEEDWAVE_SINQUARTER :
-                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_CurrentShot->StaticDuration));
+                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_ShotDuration));
                 CurrentObject_PCTDone=sin(1.5708*CurrentObject_PCTDone);
                 break;
             }
@@ -2049,15 +2056,18 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                     TransitObject_ShotSequenceNumber++;
                 }
                 TransitObject_CurrentShot=&TransitObject->List[TransitObject_ShotSequenceNumber];
+                if (TransitObject_ShotSequenceNumber<TransitObject->List.count()-1) TransitObject_ShotDuration=TransitObject_CurrentShot->StaticDuration;
+                    else TransitObject_ShotDuration=TransitObject_CurrentShot->Parent->GetDuration()-CurPos;
+
                 TransitObject_CurrentShotType=SHOTTYPE_VIDEO;
 
                 // calculate TransitObject_PCTDone
                 switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
                 case SPEEDWAVE_LINEAR :
-                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->StaticDuration));
+                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_ShotDuration));
                     break;
                 case SPEEDWAVE_SINQUARTER :
-                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_CurrentShot->StaticDuration));
+                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_ShotDuration));
                     TransitObject_PCTDone=sin(1.5708*TransitObject_PCTDone);
                     break;
                 }

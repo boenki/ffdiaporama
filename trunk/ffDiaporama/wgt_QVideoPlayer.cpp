@@ -433,7 +433,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
             NewFrame->CurrentObject_StartTime   =0;
             NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
-            QImage *Temp=FileInfo->ImageAt(true,ActualPosition,0,false,&MixedMusic,1,false,NULL);
+            QImage *Temp=FileInfo->ImageAt(true,ActualPosition,0,false,&MixedMusic,1,false,NULL,true);
             if (Temp) {
                 QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
                 NewFrame->RenderedImage=Temp2;
