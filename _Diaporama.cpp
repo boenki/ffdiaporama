@@ -335,7 +335,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
         Hb=Hb+double(PenSize)*ADJUST_RATIO*2;
         AddX-=(Wb-W)/2;
         AddY-=(Hb-H)/2;
-        QImage   *Img=new QImage(Wb+2,Hb+2,QImage::Format_ARGB32_Premultiplied);
+        QImage   *Img=new QImage(Wb,Hb,QImage::Format_ARGB32_Premultiplied);
         QPainter Painter;
         Painter.begin(Img);
         Painter.setCompositionMode(QPainter::CompositionMode_Source);

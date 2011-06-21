@@ -41,9 +41,11 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     cadre           = NULL;
 
     MagneticRuler.MagnetX1     = -1;
-    MagneticRuler.MagnetX2     = -1;
     MagneticRuler.MagnetY1     = -1;
+    MagneticRuler.MagnetX2     = -1;
     MagneticRuler.MagnetY2     = -1;
+    MagneticRuler.MagnetX3     = -1000; // Disable centering ruller
+    MagneticRuler.MagnetY3     = -1000; // Disable centering ruller
     MagneticRuler.MagneticRuler= true;
 
     //ui->GraphicsView->setAttribute(Qt::WA_OpaquePaintEvent);
