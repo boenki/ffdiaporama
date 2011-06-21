@@ -524,18 +524,6 @@ void DlgSlideProperties::RefreshSceneImage() {
             P.setPen(pen);
             P.setBrush(Qt::NoBrush);
             P.drawRect(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,CurrentTextItem->w*xmax,CurrentTextItem->h*ymax));
-            if (MagneticRuler.MagneticRuler==true) {
-                QColor col=QColor(0,255,0);
-                QPen   pen=QPen(col);
-                pen.setWidth(2);
-                pen.setJoinStyle(Qt::RoundJoin);
-                pen.setStyle(Qt::DotLine);
-                P.setPen(pen);
-                if (MagneticRuler.MagnetX1!=-1) P.drawLine(MagneticRuler.MagnetX1,0,MagneticRuler.MagnetX1,ymax);
-                if (MagneticRuler.MagnetX2!=-1) P.drawLine(MagneticRuler.MagnetX2,0,MagneticRuler.MagnetX2,ymax);
-                if (MagneticRuler.MagnetY1!=-1) P.drawLine(0,MagneticRuler.MagnetY1,xmax,MagneticRuler.MagnetY1);
-                if (MagneticRuler.MagnetY2!=-1) P.drawLine(0,MagneticRuler.MagnetY2,xmax,MagneticRuler.MagnetY2);
-            }
             P.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
             // Update controls with position & size value
@@ -577,6 +565,26 @@ void DlgSlideProperties::RefreshSceneImage() {
             P.setCompositionMode(QPainter::CompositionMode_SourceOver);
         }
     }
+
+    // Draw rullers if they was enabled
+    if (MagneticRuler.MagneticRuler==true) {
+        QColor col=QColor(0,255,0);
+        QPen   pen=QPen(col);
+        pen.setWidth(2);
+        pen.setJoinStyle(Qt::RoundJoin);
+        pen.setStyle(Qt::DotLine);
+        P.setPen(pen);
+        P.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
+        P.setBrush(Qt::NoBrush);
+        P.drawLine(MagneticRuler.MagnetX1,0,MagneticRuler.MagnetX1,ymax);
+        P.drawLine(0,MagneticRuler.MagnetY1,xmax,MagneticRuler.MagnetY1);
+        P.drawLine(MagneticRuler.MagnetX2,0,MagneticRuler.MagnetX2,ymax);
+        P.drawLine(0,MagneticRuler.MagnetY2,xmax,MagneticRuler.MagnetY2);
+        P.drawLine(MagneticRuler.MagnetX3,0,MagneticRuler.MagnetX3,ymax);
+        P.drawLine(0,MagneticRuler.MagnetY3,xmax,MagneticRuler.MagnetY3);
+        P.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    }
+
     P.end();
 
     // Remove old image if exist
@@ -1369,13 +1377,18 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
     MagneticRuler.MagnetX2=xmax-xmax*0.05;
     MagneticRuler.MagnetY2=ymax-ymax*0.05;
 
+    // define centering ruller
+    MagneticRuler.MagnetX3=xmax*0.5;
+    MagneticRuler.MagnetY3=ymax*0.5;
+
     // Fill the scene with block item by creating cCustomGraphicsRectItem associate to existing cCompositionObject
     NextZValue=500;
     for (int i=0;i<CompositionList->List.count();i++) if (CompositionList->List[i].IsVisible) {
         // Create and add to scene a cCustomGraphicsRectItem
         new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
                     NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,
-                    CompositionList->List[i].BackgroundBrush.BrushFileCorrect.ImageGeometry==GEOMETRY_CUSTOM?false:true,
+                    ((CompositionList->List[i].BackgroundBrush.BrushFileCorrect.ImageGeometry==GEOMETRY_CUSTOM)&&
+                    (CompositionList->List[i].BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
                     CompositionList->List[i].BackgroundBrush.BrushFileCorrect.ImageGeometry==GEOMETRY_CUSTOM?1:CompositionList->List[i].BackgroundBrush.BrushFileCorrect.AspectRatio,
                     &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i].IndexKey);
 

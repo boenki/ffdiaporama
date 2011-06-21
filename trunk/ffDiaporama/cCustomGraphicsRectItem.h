@@ -40,6 +40,8 @@ struct  sMagneticRuler {
     double   MagnetY1;
     double   MagnetX2;
     double   MagnetY2;
+    double   MagnetX3;  // Centering
+    double   MagnetY3;  // Centering
 };
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -70,6 +72,10 @@ private:
     void                ResizeUpperRight(QPointF &newpos);
     void                ResizeBottomLeft(QPointF &newpos);
     void                ResizeBottomRight(QPointF &newpos);
+    void                ResizeUpper(QPointF &newpos);
+    void                ResizeBottom(QPointF &newpos);
+    void                ResizeLeft(QPointF &newpos);
+    void                ResizeRight(QPointF &newpos);
 };
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -92,6 +98,10 @@ public:
     cResizeGraphicsRectItem *UpperRight;
     cResizeGraphicsRectItem *BottomLeft;
     cResizeGraphicsRectItem *BottomRight;
+    cResizeGraphicsRectItem *Upper;
+    cResizeGraphicsRectItem *Bottom;
+    cResizeGraphicsRectItem *Left;
+    cResizeGraphicsRectItem *Right;
 
     explicit cCustomGraphicsRectItem(QGraphicsScene *scene,int ZValue,double *x,double *y,double *zoom,double *w,double *h,double xmax,double ymax,
                                      bool KeepAspectRatio,double AspectRatio,sMagneticRuler *MagneticRuler,QWidget *ParentWidget,int ParentWidgetType,int IndexKey);
