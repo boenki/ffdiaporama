@@ -1,9 +1,12 @@
 Source: ffdiaporama
 Section: video
 Priority: extra
-Maintainer: LEVRAY dominique <levray.dominique@bbox.fr>
+Maintainer: LEVRAY Dominique <levray.dominique@bbox.fr>
+XSBC-Original-Maintainer: LEVRAY Dominique <levray.dominique@bbox.fr>
 Standards-Version: 3.9.1
 Homepage: http://ffdiaporama.tuxfamily.org
+Build-Depends: qt4-qmake, libqt4-dev, debhelper (>= 8), g++ (>= 4.4), libavutil-dev, libavformat-dev, libavcodec-dev, libswscale-dev, libsdl-image1.2-dev, libsdl-mixer1.2-dev
+
 Depends: exiv2, ffmpeg, libqtcore4, libqtgui4, libqt4-xml, libsdl1.2debian-all
 Architecture: any
 Package: ffdiaporama
@@ -32,3 +35,4 @@ Description: FFDIAPORAMA - Movie creator
 	  (DVD player/smartphone, multimedia box, hard drive, etc.) but also
 	  publishable on the main video sharing Web sites (YouTube, Dailymotion,
 	  etc.)
+

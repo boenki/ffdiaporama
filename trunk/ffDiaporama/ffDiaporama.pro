@@ -124,7 +124,18 @@ OTHER_FILES += \
     Packaging/ffDiaporama-InoSetup.iss \
     Packaging/ffDiaporama.SPEC \
     Packaging/MakeWindowsSetup.cmd \
-    Packaging/WikiToWEBPHP.py
+    Packaging/WikiToWEBPHP.py \
+    Packaging/MakeUbuntuDEB.bash \
+    Packaging/debian/watch \
+    Packaging/debian/rules \
+    Packaging/debian/files \
+    Packaging/debian/ffdiaporama.1 \
+    Packaging/debian/docs \
+    Packaging/debian/copyright \
+    Packaging/debian/control \
+    Packaging/debian/compat \
+    Packaging/debian/changelog \
+    Packaging/debian/source/format
 
 TRANSLATIONS += locale/locale_fr.ts
 
@@ -136,10 +147,10 @@ unix {
     translation.files   = locale/*.qm
     background.path     = $$PREFIX/share/$$TARGETAPP/background
     background.files    = background/*.*
-    img.path          = $$PREFIX/share/$$TARGETAPP/img
-    img.files         = img/*.*
-    tr_img.path       = $$PREFIX/share/$$TARGETAPP/transitions-img
-    tr_img.files      = transitions-img/*.*
+    img.path            = $$PREFIX/share/$$TARGETAPP/img
+    img.files           = img/*.*
+    tr_img.path         = $$PREFIX/share/$$TARGETAPP/transitions-img
+    tr_img.files        = transitions-img/*.*
     luma.path           = $$PREFIX/share/$$TARGETAPP/luma
     luma.files          = luma/*.*
     luma_Bar.path       = $$PREFIX/share/$$TARGETAPP/luma/Bar
@@ -167,8 +178,10 @@ unix {
     wiki_fr_img.path    = $$PREFIX/share/$$TARGETAPP/WIKI/fr/img
     wiki_fr_img.files   = WIKI/fr/img/*.*
     General.path        = $$PREFIX/share/$$TARGETAPP
-    General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset ffDiaporama.desktop
+    General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset
+    desktop.path        = $$PREFIX/share/applications
+    desktop.files       = ffDiaporama.desktop
 
-    INSTALLS += TARGET General translation background img tr_img luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake \
-            wiki wiki_img wiki_en wiki_en_img wiki_fr wiki_fr_img
+    INSTALLS += TARGET desktop translation background img tr_img luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake luma \
+            wiki_en_img wiki_en wiki_fr_img wiki_fr wiki_img wiki General
 }
