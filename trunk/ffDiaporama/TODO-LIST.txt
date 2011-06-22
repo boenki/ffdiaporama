@@ -36,3 +36,5 @@ Changement de comportement : Augmente légèrement la force des aimants des guid
 
 Ajout de fonctionnalité : Ajout des guides centraux (X et Y) dans la boite slide couplés aux guides TV
 Ajout de fonctionnalité : Ajout des 4 poignées latérales sur les blocs intéractifs dans les boites slide et recadrage
+
+Renomage des fichiers background pour compatibilité avec le packaging UBUNTU : Les anciennes sauvegardes ne retrouveront pas les fichiers background
