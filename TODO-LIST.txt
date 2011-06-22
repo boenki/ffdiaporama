@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 20/06/2011) :
+Buggs/TODO (Dernier SVN le 21/06/2011) :
 ----------------------------------------
 BUGG: à voir : le redimenssionnement des blocs dans la boite slide permet de dépasser l'écran -> peut-être à controler : à traiter dans l'alpha 3 !
 
@@ -12,17 +12,6 @@ TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-Correction de bug: Conserve la contrainte géométrique dans la boite Slide pour les images & vidéos en mode géométrie custom et la supprime pour les textes
-Correction de bug: Corrige l'erreur de recadrage des blocs textes sur les guides : L'ancienne géometrie s'appliquait alors que le bloc est en géométrie libre
-Correction de bug: Corrige l'erreur qui appliquait une contrainte géométrique lors des attractions des guides :
-    - sur les blocs textes dans la boite slide
-    - sur tous les blocs en géométrie libre dans la boite de recadrage
-Correction de bug: Corrige un petit bug de calcul qui laissait trainer une ligne en bas des images quand le recadrage laissait apparaitre une zone transparente en bas de l'image
-
-Changement de comportement : Augmente légèrement la force des aimants des guides dans les boites slide et recadrage
-
-Ajout de fonctionnalité : Ajout des guides centraux (X et Y) dans la boite slide couplés aux guides TV
-Ajout de fonctionnalité : Ajout des 4 poignées latérales sur les blocs intéractifs dans les boites slide et recadrage
 
 -------------------------------------
 Changelog depuis la version 20110619
@@ -33,7 +22,17 @@ Correction de bug: Corrige l'affichage de la piste musical :
     - Un fade out apparraissait pendant le slide quand un morceau de la playlist se terminait mais que la playlist continuait
 Correction de bug: Corrige l'erreur de calcul des animations sur les plans allongés (le calcul du % de transition ne tenait pas compte de l'allongement)
 Correction de bug: Corrige l'erreur dans la boite edit vidéo : le film s'arretait sur la dernière image après le endpos
+Correction de bug: Conserve la contrainte géométrique dans la boite Slide pour les images & vidéos en mode géométrie custom et la supprime pour les textes
+Correction de bug: Corrige l'erreur de recadrage des blocs textes sur les guides : L'ancienne géometrie s'appliquait alors que le bloc est en géométrie libre
+Correction de bug: Corrige l'erreur qui appliquait une contrainte géométrique lors des attractions des guides :
+    - sur les blocs textes dans la boite slide
+    - sur tous les blocs en géométrie libre dans la boite de recadrage
+Correction de bug: Corrige un petit bug de calcul qui laissait trainer une ligne en bas des images quand le recadrage laissait apparaitre une zone transparente en bas de l'image
 
-Changement de comportement : Quand une diapositive vidéo est ajoutée depuis la fenêtre principal, son temp de 1er plan est fixé à 1 seconde
+Changement de comportement : Quand une diapositive vidéo est ajoutée depuis la fenêtre principal, sa durée de 1er plan est fixée à 1 seconde
     - C'est le mécanisme d'allongement qui calcul le temps nécessaire
 Changement de comportement : La boite edit vidéo ne change plus la durée du 1er plan
+Changement de comportement : Augmente légèrement la force des aimants des guides dans les boites slide et recadrage
+
+Ajout de fonctionnalité : Ajout des guides centraux (X et Y) dans la boite slide couplés aux guides TV
+Ajout de fonctionnalité : Ajout des 4 poignées latérales sur les blocs intéractifs dans les boites slide et recadrage

@@ -1,9 +1,10 @@
+This package was debianised by LEVRAY Dominique <levray.dominique@bbox.fr>
+Upstream Author: LEVRAY Dominique <levray.dominique@bbox.fr>
 Format: http://dep.debian.net/deps/dep5
 Upstream-Name: ffdiaporama
 Source: http://ffdiaporama.tuxfamily.org
-
 Files: *
-Copyright: 2011 LEVRAY dominique <levray.dominique@bbox.fr>
+Copyright: 2011 LEVRAY Dominique <levray.dominique@bbox.fr>
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
