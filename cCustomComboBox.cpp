@@ -471,6 +471,8 @@ void cGradientOrientationComboBox::s_ItemSelectionChanged() {
 //******************************************************************************************************************
 // Custom QAbstractItemDelegate for OnOffFilter ComboBox
 //******************************************************************************************************************
+#define OnOffFilterComboBoxIMAGEWIDTH  196
+#define OnOffFilterComboBoxNBRCOLUMN   2
 
 cOnOffFilterComboBoxItem::cOnOffFilterComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
 }
@@ -478,7 +480,7 @@ cOnOffFilterComboBoxItem::cOnOffFilterComboBoxItem(QObject *parent):QStyledItemD
 //========================================================================================================================
 
 void cOnOffFilterComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
-    int ColorNum=index.row()*4+index.column();
+    int ColorNum=index.row()*OnOffFilterComboBoxNBRCOLUMN+index.column();
     // Prepare OnOff filter pixmaps
     QImage              Image=ComboBox->SourceImage.copy();
     fmt_filters::image  Img(Image.bits(),Image.width(),Image.height());
@@ -516,20 +518,21 @@ QSize cOnOffFilterComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,
 //******************************************************************************************************************
 
 cOnOffFilterComboBox::cOnOffFilterComboBox(QWidget *parent):QComboBox(parent) {
+    STOPMAJ=false;
     CurrentFilter=NULL;
     QTableWidget    *Table=new QTableWidget();
     Table->horizontalHeader()->hide();
     Table->verticalHeader()->hide();
-    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
-    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
-    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
-    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
+    for (int i=0;i<OnOffFilterComboBoxNBRCOLUMN;i++) {
+        Table->insertColumn(Table->columnCount());
+        Table->setColumnWidth(Table->columnCount()-1,24);
+    }
     setModel(Table->model());
     setView(Table);
     QString Text="";
     int i=0;
     while (i<MAXONOFFFILTER) {
-        if ((i/4)>=Table->rowCount()) {
+        if ((i/OnOffFilterComboBoxNBRCOLUMN)>=Table->rowCount()) {
             addItem("");        // automaticaly do a Table->insertRow(Table->rowCount());
             Table->setRowHeight(Table->rowCount()-1,24);
         }
@@ -538,44 +541,50 @@ cOnOffFilterComboBox::cOnOffFilterComboBox(QWidget *parent):QComboBox(parent) {
         if ((i & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Equalize");
         if ((i & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Despeckle");
         if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
-        Table->setItem(i/4,i-(i/4)*4,new QTableWidgetItem(Text));
+        Table->setItem(i/OnOffFilterComboBoxNBRCOLUMN,i-(i/OnOffFilterComboBoxNBRCOLUMN)*OnOffFilterComboBoxNBRCOLUMN,new QTableWidgetItem(Text));
         i++;
     }
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
+    this->view()->setFixedWidth(OnOffFilterComboBoxNBRCOLUMN*OnOffFilterComboBoxIMAGEWIDTH+18);
+    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 
 //========================================================================================================================
 
 void cOnOffFilterComboBox::s_ItemSelectionChanged() {
-    if (CurrentFilter) *CurrentFilter=((QTableWidget *)view())->currentRow()*4+((QTableWidget *)view())->currentColumn();
+    if (STOPMAJ) return;
+    STOPMAJ=true;
+    if (CurrentFilter) *CurrentFilter=((QTableWidget *)view())->currentRow()*OnOffFilterComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     QString Text="";
     if ((*CurrentFilter & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Gray");
     if ((*CurrentFilter & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Equalize");
     if ((*CurrentFilter & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Despeckle");
     if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
-    setItemText(*CurrentFilter/4,Text);
+    setItemText(*CurrentFilter/OnOffFilterComboBoxNBRCOLUMN,Text);
+    STOPMAJ=false;
 }
 
 //========================================================================================================================
 
 void cOnOffFilterComboBox::SetCurrentFilter(QImage *TheSourceImage,int *OnOffFilter) {
+    if (STOPMAJ) return;
+    STOPMAJ=true;
     if (TheSourceImage==NULL) return;
     CurrentFilter=OnOffFilter;
-    SourceImage=TheSourceImage->scaledToWidth(this->width()/4);
-    ((QTableWidget *)view())->setCurrentCell(*CurrentFilter/4,*CurrentFilter-(*CurrentFilter/4)*4);
-    for (int i=0;i<4;i++)                  ((QTableWidget *)view())->setColumnWidth(i,SourceImage.width());
-    for (int i=0;i<(MAXONOFFFILTER/4);i++) ((QTableWidget *)view())->setRowHeight(i,SourceImage.height());
+    SourceImage=TheSourceImage->scaledToWidth(OnOffFilterComboBoxIMAGEWIDTH);
+    ((QTableWidget *)view())->setCurrentCell(*CurrentFilter/OnOffFilterComboBoxNBRCOLUMN,*CurrentFilter-(*CurrentFilter/OnOffFilterComboBoxNBRCOLUMN)*OnOffFilterComboBoxNBRCOLUMN);
+    for (int i=0;i<OnOffFilterComboBoxNBRCOLUMN;i++)                  ((QTableWidget *)view())->setColumnWidth(i,SourceImage.width());
+    for (int i=0;i<(MAXONOFFFILTER/OnOffFilterComboBoxNBRCOLUMN);i++) ((QTableWidget *)view())->setRowHeight(i,SourceImage.height());
     QString Text="";
     if ((*CurrentFilter & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Gray");
     if ((*CurrentFilter & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Equalize");
     if ((*CurrentFilter & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Despeckle");
     if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
-    setItemText(*OnOffFilter/4,Text);
-    setCurrentIndex(*OnOffFilter/4);
-    this->view()->setFixedWidth(SourceImage.width()*4+18);
-    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setItemText(*OnOffFilter/OnOffFilterComboBoxNBRCOLUMN,Text);
+    setCurrentIndex(*OnOffFilter/OnOffFilterComboBoxNBRCOLUMN);
+    STOPMAJ=false;
 }
 
 //========================================================================================================================
@@ -585,7 +594,7 @@ int cOnOffFilterComboBox::GetCurrentFilter() {
     if (CurrentRow<0) return 0;
     int CurrentCol=((QTableWidget *)view())->currentColumn();
     if (CurrentCol<0) CurrentCol=0;
-    *CurrentFilter=CurrentRow*4+CurrentCol;
+    *CurrentFilter=CurrentRow*OnOffFilterComboBoxNBRCOLUMN+CurrentCol;
     return *CurrentFilter;
 }
 

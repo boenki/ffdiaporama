@@ -47,7 +47,7 @@ public:
     double                  xmax,ymax;
     QImage                  *CachedImage;                   // Link to the image to work
 
-    explicit DlgImageCorrection(int BackgroundForm,cBrushDefinition *CurrentBrush,cFilterCorrectObject *BrushFileCorrect,QWidget *parent = 0);
+    explicit DlgImageCorrection(int BackgroundForm,cBrushDefinition *CurrentBrush,cFilterCorrectObject *BrushFileCorrect,QImage *TheCacheImage,QWidget *parent = 0);
     ~DlgImageCorrection();
 
     void            RefreshBackgroundImage();

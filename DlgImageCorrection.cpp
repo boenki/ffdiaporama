@@ -22,17 +22,17 @@
 #include "ui_DlgImageCorrection.h"
 #include "mainwindow.h"
 
-DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,cFilterCorrectObject *TheBrushFileCorrect,QWidget *parent):QDialog(parent),ui(new Ui::DlgImageCorrection) {
+DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,cFilterCorrectObject *TheBrushFileCorrect,QImage *TheCacheImage,QWidget *parent):QDialog(parent),ui(new Ui::DlgImageCorrection) {
     ui->setupUi(this);
     BackgroundForm  =TheBackgroundForm;
     CurrentBrush    =TheCurrentBrush;
     BrushFileCorrect=TheBrushFileCorrect;
-    CachedImage     =CurrentBrush->Image?CurrentBrush->Image->CacheImage:CurrentBrush->Video->CacheFirstImage;      // If no image and no video : program will crash !
+    CachedImage     =TheCacheImage;         // If no image and no video : program will crash !
 
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","");     // Save object
+    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(GlobalMainWindow->Diaporama->ProjectFileName).absolutePath(),true);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 
     IsFirstInitDone = false;                                // true when first show window was done

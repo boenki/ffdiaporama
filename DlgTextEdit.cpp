@@ -31,7 +31,7 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QWidget *parent)
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT","");  // Save object
+    CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(GlobalMainWindow->Diaporama->ProjectFileName).absolutePath(),true);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 
     StopMAJSpinbox =false;

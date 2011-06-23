@@ -564,8 +564,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString &GivenFileName,bool aMusi
 
     //Reset SourceFile values
     MusicOnly    =aMusicOnly;
-    FileName     =GivenFileName;
-
+    FileName     =QFileInfo(GivenFileName).absoluteFilePath();
     CreatDateTime=QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
     ModifDateTime=QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
     Duration     =QTime(0,0,0,0);

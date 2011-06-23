@@ -293,12 +293,15 @@ cMusicObject::~cMusicObject() {
 
 //====================================================================================================================
 
-void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
+void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     QString         FileName;
 
-    if (PathForRelativPath!="") FileName=QDir(PathForRelativPath).relativeFilePath(FilePath); else FileName=FilePath;
+    if (PathForRelativPath!="") {
+        if (ForceAbsolutPath) FileName=QDir(PathForRelativPath).absoluteFilePath(FilePath);
+            else FileName=QDir(PathForRelativPath).relativeFilePath(FilePath);
+    } else FileName=FilePath;
 
     Element.setAttribute("FilePath",FileName);
     Element.setAttribute("StartPos",StartPos.toString());

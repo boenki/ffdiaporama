@@ -1,17 +1,23 @@
-Buggs/TODO (Dernier SVN le 21/06/2011) :
+Buggs/TODO (Dernier SVN le 22/06/2011) :
 ----------------------------------------
-BUGG: à voir : le redimenssionnement des blocs dans la boite slide permet de dépasser l'écran -> peut-être à controler : à traiter dans l'alpha 3 !
-
-BUGG: L'image vidéo affichée n'est pas celle correspondant au plan mais la 1ere dans les boites transformation et correction
-BUGG: Erreur aléatoire en collé d'image/undo
-
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
 TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
+BUGG: à voir : le redimenssionnement des blocs dans la boite slide permet de dépasser l'écran -> peut-être à controler : à traiter dans l'alpha 3 !
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+Correction de bug: Corrige l'erreur aléatoire en coller d'image/undo => force tous les noms de fichier en chemin absolu dans le presse papier interne
+Correction de bug: Empêche la musique de repartir pendant la transition entre de 2 vidéos successives qui ont la musique en pause
+Correction de bug: Affiche l'image vidéo correspondant au plan en cours dans la boite de correction
+
+Changement de comportement : Remet une gestion des threads (pour la preview uniquement) pour fluidifier l'affichage
+Changement de comportement : Remplace la zone d'edition en seconde de la durée des plans par une zone en heure:minute:seconde.centieme
+Changement de comportement : Réorganisation de la boite slide
+    Fusionne les onglets Forme et Bloc
+    Déplace le bouton recadrage et la zone de géométrie dans l'onglet Objet
+    Intégre les éléments de la boite transformation dans l'onglet Objet et supprime la boite transformation
 
 -------------------------------------
 Changelog depuis la version 20110619
@@ -37,4 +43,5 @@ Changement de comportement : Augmente légèrement la force des aimants des guid
 Ajout de fonctionnalité : Ajout des guides centraux (X et Y) dans la boite slide couplés aux guides TV
 Ajout de fonctionnalité : Ajout des 4 poignées latérales sur les blocs intéractifs dans les boites slide et recadrage
 
-Renomage des fichiers background pour compatibilité avec le packaging UBUNTU : Les anciennes sauvegardes ne retrouveront pas les fichiers background
+Renomage des fichiers background pour compatibilité avec le packaging UBUNTU (suppression des espaces dans les noms de fichier)
+    - Les anciennes sauvegardes ne retrouveront pas les fichiers background mais se retrouveront avec la 1ere image de la librairie
