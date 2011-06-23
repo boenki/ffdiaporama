@@ -417,13 +417,14 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
 
 //====================================================================================================================
 
-void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
+void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
-    if ((PathForRelativPath!="")&&(BrushFileName!=""))
-        BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).relativeFilePath(BrushFileName));
-
+    if ((PathForRelativPath!="")&&(BrushFileName!="")) {
+        if (ForceAbsolutPath) BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
+            else BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).relativeFilePath(BrushFileName));
+    }
     // Attribut of the object
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("BrushType",BrushType);                                                    // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
@@ -587,7 +588,7 @@ void cBackgroundList::ScanDisk(QString Path,int TheGeometry) {
 //====================================================================================================================
 
 int cBackgroundList::SearchImage(QString NameToFind) {
-    int Ret=-1;
+    int Ret=0;
     int j=0;
     while ((j<List.count())&&(Ret==-1)) if (List[j].Name==NameToFind) Ret=j; else j++;
     return Ret;

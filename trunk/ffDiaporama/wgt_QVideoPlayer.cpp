@@ -420,37 +420,39 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 void wgt_QVideoPlayer::s_TimerEvent() {
     if ((Flag_InTimer==true)||(IsSliderProcess)) return;
     Flag_InTimer=true;
+
+    if ((ImageList.List.count()==0)&&(ThreadPrepareVideo.isRunning())) ThreadPrepareVideo.waitForFinished();
+    if ((ImageList.List.count()==0)&&(ThreadPrepareImage.isRunning())) ThreadPrepareImage.waitForFinished();
+
     cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
     int LastPosition=0;
 
     // Add image to the list if it's not full
-    if (ImageList.List.count()<BUFFERING_NBR_FRAME) {
+    if ((FileInfo)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareVideo.isRunning())) {
 
-        if (FileInfo) {
-            // Calc LastPosition
-            LastPosition=(PreviousFrame==NULL)?ActualPosition:PreviousFrame->CurrentObject_InObjectTime;
-            // Create a new frame object
-            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
-            NewFrame->CurrentObject_StartTime   =0;
-            NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
-            QImage *Temp=FileInfo->ImageAt(true,ActualPosition,0,false,&MixedMusic,1,false,NULL,true);
-            if (Temp) {
-                QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
-                NewFrame->RenderedImage=Temp2;
-                delete Temp;
-            }
-            if (NewFrame->RenderedImage) ImageList.AppendImage(NewFrame);
-                else delete NewFrame;
+        // Calc LastPosition
+        LastPosition=(PreviousFrame==NULL)?ActualPosition:PreviousFrame->CurrentObject_InObjectTime;
+        // Create a new frame object
+        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
+        NewFrame->CurrentObject_StartTime   =0;
+        NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
 
-        } else if (Diaporama) {
-            // Calc LastPosition
-            LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
-            // Create a new frame object
-            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
-            // Prepare image
-            PrepareImage(NewFrame,true,true);
-        }
+        if (ImageList.List.count()==0) PrepareVideoFrame(NewFrame,LastPosition);
+            else ThreadPrepareVideo=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,LastPosition);
+
+    } else if ((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareImage.isRunning())) {
+
+        // Calc LastPosition
+        LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
+        // Create a new frame object
+        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
+
+        // Prepare image
+        if (ImageList.List.count()==0) PrepareImage(NewFrame,true,true);
+            else ThreadPrepareImage=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true,true);
+
     }
+
     ui->BufferState->setValue(ImageList.List.count());
     if (ImageList.List.count()<2)
         ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: red;\n}");
@@ -518,6 +520,16 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     ImageList.AppendImage(Frame);
 }
 
+void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position) {
+    QImage *Temp=FileInfo->ImageAt(true,Position,0,false,&MixedMusic,1,false,NULL,true);
+    if (Temp) {
+        QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
+        NewFrame->RenderedImage=Temp2;
+        delete Temp;
+    }
+    if (NewFrame->RenderedImage) ImageList.AppendImage(NewFrame);
+        else delete NewFrame;
+}
 //============================================================================================
 // Define zone selection on the ruller
 //============================================================================================

@@ -180,6 +180,7 @@ public:
 class cOnOffFilterComboBox : public QComboBox {
 Q_OBJECT
 public:
+    bool                        STOPMAJ;
     int                         *CurrentFilter;
     cOnOffFilterComboBoxItem    ItemDelegate;
     QImage                      SourceImage;

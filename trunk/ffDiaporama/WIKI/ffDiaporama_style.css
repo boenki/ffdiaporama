@@ -69,8 +69,15 @@ a:hover {
   text-decoration: underline;
 }
 
-
-
+.codebox {
+	border:1px solid #000000;
+	background-color:#555555;
+	color:#ffffff;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px; 
+	width: 90%;
+	font-size: 8pt;
+}
 
 /* ------------------------------------
 IE6 and below 
@@ -207,6 +214,7 @@ IE6 and below
 /* -----------------------------------------
 IE8, FF, Saf, Opera (Everything but IE 6,7) 
 -------------------------------------------- */
+
 html>body {
 	margin-top: 0pt;
 	margin-right: 0pt;

@@ -64,7 +64,7 @@ bool cimagefilewrapper::GetInformationFromFile(QString &GivenFileName) {
         CacheImage=NULL;
     }
 
-    FileName    =QFileInfo(GivenFileName).absoluteFilePath();
+    FileName=QFileInfo(GivenFileName).absoluteFilePath();
 
     bool Continue=true;
     while ((Continue)&&(!QFileInfo(FileName).exists())) {
@@ -159,6 +159,36 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
     if (!IsValide) return NULL;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    if (PreviewMode && ForceLoadDisk && (!Filter)) {
+        QImage *LoadedImg=new QImage(FileName);
+        if (LoadedImg) {
+            QImage *Img=new QImage(LoadedImg->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
+            // If image is ok then apply exif orientation (if needed)
+            // A good explanation of the exif orientation tag is available at http://jpegclub.org/exif_orientation.html
+            QMatrix matrix;
+            if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+                  matrix.rotate(-90);
+                  QImage *NewImage=new QImage(Img->transformed(matrix));
+                  delete Img;
+                  Img=NewImage;
+            } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+                  matrix.rotate(180);
+                  QImage *NewImage=new QImage(Img->transformed(matrix));
+                  delete Img;
+                  Img=NewImage;
+            } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+                  matrix.rotate(90);
+                  QImage *NewImage=new QImage(Img->transformed(matrix));
+                  delete Img;
+                  Img=NewImage;
+            }
+            delete LoadedImg;
+            QApplication::restoreOverrideCursor();
+            return Img;
+        }
+        QApplication::restoreOverrideCursor();
+        return NULL;
+    }
 
     // If ForceLoadDisk then ensure CacheImage is null
     if (ForceLoadDisk) {
@@ -212,11 +242,13 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
                   CacheFullImage=NewImage;
             }
             // if filter then apply filter
-            if (Filter) Filter->ApplyFilter(CacheFullImage);
+            if (Filter && !PreviewMode) Filter->ApplyFilter(CacheFullImage);
 
             // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
             if (CacheFullImage->height()<=GlobalMainWindow->ApplicationConfig->PreviewMaxHeight*2)  CacheImage=CacheFullImage;
                 else CacheImage=new QImage(CacheFullImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
+
+            if (Filter && PreviewMode) Filter->ApplyFilter(CacheImage);
 
             // Get preview image size
             ImageHeight=CacheImage->height();

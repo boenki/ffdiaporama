@@ -104,7 +104,7 @@ public:
     cBrushDefinition();
     ~cBrushDefinition();
     void        CopyFromBrushDefinition(cBrushDefinition *BrushToCopy);
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
+    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
     QBrush      *GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
 

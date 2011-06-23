@@ -60,7 +60,6 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             main.cpp \
     DlgSlideProperties.cpp \
     DlgImageCorrection.cpp \
-    DlgImageTransformation.cpp \
     DlgVideoEdit.cpp \
     DlgTextEdit.cpp
 
@@ -89,7 +88,6 @@ HEADERS  += _GlobalDefines.h \
             mainwindow.h \
     DlgSlideProperties.h \
     DlgImageCorrection.h \
-    DlgImageTransformation.h \
     DlgVideoEdit.h \
     DlgTextEdit.h
 
@@ -106,7 +104,6 @@ FORMS    += mainwindow.ui \
     DlgAbout.ui \
     DlgSlideProperties.ui \
     DlgImageCorrection.ui \
-    DlgImageTransformation.ui \
     DlgVideoEdit.ui \
     DlgTextEdit.ui
 

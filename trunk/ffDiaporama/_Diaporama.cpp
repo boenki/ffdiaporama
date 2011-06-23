@@ -147,7 +147,7 @@ cCompositionObject::~cCompositionObject() {
 
 //====================================================================================================================
 
-void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
+void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
@@ -156,36 +156,36 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("IsVisible",IsVisible?"1":"0");
 
     // Attribut of the object
-    Element.setAttribute("x",x);                                // Position x
-    Element.setAttribute("y",y);                                // Position x
-    Element.setAttribute("w",w);                                // size width
-    Element.setAttribute("h",h);                                // size height
-    Element.setAttribute("RotateZAxis",RotateZAxis);            // Rotation from Z axis
-    Element.setAttribute("RotateXAxis",RotateXAxis);            // Rotation from X axis
-    Element.setAttribute("RotateYAxis",RotateYAxis);            // Rotation from Y axis
-    Element.setAttribute("BackgroundTransparent",Opacity);      // Opacity of the form
+    Element.setAttribute("x",x);                                    // Position x
+    Element.setAttribute("y",y);                                    // Position x
+    Element.setAttribute("w",w);                                    // size width
+    Element.setAttribute("h",h);                                    // size height
+    Element.setAttribute("RotateZAxis",RotateZAxis);                // Rotation from Z axis
+    Element.setAttribute("RotateXAxis",RotateXAxis);                // Rotation from X axis
+    Element.setAttribute("RotateYAxis",RotateYAxis);                // Rotation from Y axis
+    Element.setAttribute("BackgroundTransparent",Opacity);          // Opacity of the form
 
     // Text part
-    Element.setAttribute("Text",Text);                          // Text of the object
-    Element.setAttribute("FontName",FontName);                  // font name
-    Element.setAttribute("FontSize",FontSize);                  // font size
-    Element.setAttribute("FontColor",FontColor);                // font color
-    Element.setAttribute("FontShadowColor",FontShadowColor);    // font shadow color
-    Element.setAttribute("IsBold",IsBold?"1":"0");              // true if bold mode
-    Element.setAttribute("IsItalic",IsItalic?"1":"0");          // true if Italic mode
-    Element.setAttribute("IsUnderline",IsUnderline?"1":"0");    // true if Underline mode
-    Element.setAttribute("HAlign",HAlign);                      // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-    Element.setAttribute("VAlign",VAlign);                      // Vertical alignement : 0=up, 1=center, 2=bottom
-    Element.setAttribute("StyleText",StyleText);                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+    Element.setAttribute("Text",Text);                              // Text of the object
+    Element.setAttribute("FontName",FontName);                      // font name
+    Element.setAttribute("FontSize",FontSize);                      // font size
+    Element.setAttribute("FontColor",FontColor);                    // font color
+    Element.setAttribute("FontShadowColor",FontShadowColor);        // font shadow color
+    Element.setAttribute("IsBold",IsBold?"1":"0");                  // true if bold mode
+    Element.setAttribute("IsItalic",IsItalic?"1":"0");              // true if Italic mode
+    Element.setAttribute("IsUnderline",IsUnderline?"1":"0");        // true if Underline mode
+    Element.setAttribute("HAlign",HAlign);                          // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+    Element.setAttribute("VAlign",VAlign);                          // Vertical alignement : 0=up, 1=center, 2=bottom
+    Element.setAttribute("StyleText",StyleText);                    // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
 
     // Shap part
-    Element.setAttribute("BackgroundForm",BackgroundForm);                      // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-    Element.setAttribute("PenSize",PenSize);                                    // Width of the border of the form
-    Element.setAttribute("PenStyle",PenStyle);                                  // Style of the pen border of the form
-    Element.setAttribute("PenColor",PenColor);                                  // Color of the border of the form
-    Element.setAttribute("FormShadow",FormShadow);                              // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-    Element.setAttribute("FormShadowDistance",FormShadowDistance);              // Distance from form to shadow
-    BackgroundBrush.SaveToXML(Element,"BackgroundBrush",PathForRelativPath);    // Brush of the background of the form
+    Element.setAttribute("BackgroundForm",BackgroundForm);          // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
+    Element.setAttribute("PenSize",PenSize);                        // Width of the border of the form
+    Element.setAttribute("PenStyle",PenStyle);                      // Style of the pen border of the form
+    Element.setAttribute("PenColor",PenColor);                      // Color of the border of the form
+    Element.setAttribute("FormShadow",FormShadow);                  // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+    Element.setAttribute("FormShadowDistance",FormShadowDistance);  // Distance from form to shadow
+    BackgroundBrush.SaveToXML(Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath);    // Brush of the background of the form
 
     domDocument.appendChild(Element);
 }
@@ -339,7 +339,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
         QPainter Painter;
         Painter.begin(Img);
         Painter.setCompositionMode(QPainter::CompositionMode_Source);
-        Painter.fillRect(QRect(0,0,Wb+2,Hb+2),Qt::transparent);
+        Painter.fillRect(QRect(0,0,Wb,Hb),Qt::transparent);
         Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
         Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
         Pen.setCapStyle(Qt::RoundCap);
@@ -475,11 +475,11 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
         Painter.end();
 
         //DestPainter.save();
-        if (FormShadow) {
+        if ((FormShadow)&&(Img)&&(!Img->isNull())) {
             double Distance=double(FormShadowDistance)*ADJUST_RATIO;
             QImage ImgShadow=Img->copy();
             Uint8  *Data=ImgShadow.bits();
-            for (int i=0;i<Wb*Hb;i++) {
+            for (int i=0;i<(Wb-1)*(Hb-1);i++) {
                 *Data++=0;  // R
                 *Data++=0;  // G
                 *Data++=0;  // B
@@ -540,13 +540,13 @@ cCompositionList::~cCompositionList() {
 
 //====================================================================================================================
 
-void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
+void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     // Save composition list
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("CompositionNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i].SaveToXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath);
+    for (int i=0;i<List.count();i++) List[i].SaveToXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath);
     domDocument.appendChild(Element);
 }
 
@@ -588,12 +588,12 @@ cDiaporamaShot::~cDiaporamaShot() {
 
 //===============================================================
 
-void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
+void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
-    Element.setAttribute("StaticDuration",StaticDuration);                              // Duration (in msec) of the static part animation
-    ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath);            // Composition list for this object
+    Element.setAttribute("StaticDuration",StaticDuration);                                      // Duration (in msec) of the static part animation
+    ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath,ForceAbsolutPath);   // Composition list for this object
     domDocument.appendChild(Element);
 }
 
@@ -720,7 +720,7 @@ int cDiaporamaObject::GetDuration() {
 
 //===============================================================
 
-void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath) {
+void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
@@ -730,9 +730,9 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
     // Background properties
     QDomElement SubElement=DomDocument.createElement("Background");
-    SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                       // Background type : false=same as precedent - true=new background definition
-    BackgroundBrush.SaveToXML(SubElement,"BackgroundBrush",PathForRelativPath);             // Background brush
-    BackgroundComposition.SaveToXML(SubElement,"BackgroundComposition",PathForRelativPath); // Background composition
+    SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                                        // Background type : false=same as precedent - true=new background definition
+    BackgroundBrush.SaveToXML(SubElement,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath);             // Background brush
+    BackgroundComposition.SaveToXML(SubElement,"BackgroundComposition",PathForRelativPath,ForceAbsolutPath); // Background composition
     Element.appendChild(SubElement);
 
     // Transition properties
@@ -748,15 +748,14 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     Element.setAttribute("MusicReduceVolume", MusicReduceVolume?"1":"0");                   // true if volume if reduce by MusicReduceFactor
     Element.setAttribute("MusicReduceFactor",QString("%1").arg(MusicReduceFactor,0,'f'));   // factor for volume reduction if MusicReduceVolume is true
     Element.setAttribute("MusicNumber",       MusicList.count());                           // Number of file in the playlist
-    for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath);
+    for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath);
 
     // Global blocks composition table
-    ObjectComposition.SaveToXML(SubElement,"ObjectComposition",PathForRelativPath);         // ObjectComposition
+    ObjectComposition.SaveToXML(SubElement,"ObjectComposition",PathForRelativPath,ForceAbsolutPath);         // ObjectComposition
 
     // Shots definitions
     Element.setAttribute("ShotNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i].SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath);
-
+    for (int i=0;i<List.count();i++) List[i].SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath);
 
     domDocument.appendChild(Element);
 }
@@ -1032,7 +1031,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 
     // Save object list
     Element.setAttribute("ObjectNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i].SaveToXML(root,"Object-"+(QString("%1").arg(i,10)).trimmed(),QFileInfo(ProjectFileName).absolutePath());
+    for (int i=0;i<List.count();i++) List[i].SaveToXML(root,"Object-"+(QString("%1").arg(i,10)).trimmed(),QFileInfo(ProjectFileName).absolutePath(),false);
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
@@ -1227,7 +1226,10 @@ void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *Music
                                     ((List[Column-1].MusicReduceVolume==List[Column].MusicReduceVolume)&&(List[Column-1].MusicReduceFactor!=List[Column].MusicReduceFactor))
                                 )));
 
-    if (!List[Column].MusicPause || IsCurrentTransitionIN) {
+    if ((!IsCurrentTransitionIN && !List[Column].MusicPause)||
+        (IsCurrentTransitionIN && !List[Column].MusicPause)||
+        (IsCurrentTransitionIN && List[Column].MusicPause && !List[Column-1].MusicPause)
+       ) {
         double Factor=CurMusic->Volume; // Master volume
         if (List[Column].MusicReduceVolume || FadeEffect) {
             if (FadeEffect) {

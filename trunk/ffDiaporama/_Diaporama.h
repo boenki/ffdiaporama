@@ -102,7 +102,7 @@ public:
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
     void        DrawCompositionObject(QPainter *Painter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,int StartPosToAdd,
                                       cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
+    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
 };
 
@@ -118,7 +118,7 @@ public:
     cCompositionList();
     ~cCompositionList();
 
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
+    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
 };
 
@@ -134,7 +134,7 @@ public:
     cDiaporamaShot(cDiaporamaObject *Parent);
     ~cDiaporamaShot();
 
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
+    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
 };
 
@@ -179,7 +179,7 @@ public:
     int                     GetCumulTransitDuration();
     int                     GetDuration();
     void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY);   // Draw Thumb @ position 0
-    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
+    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
 };
 

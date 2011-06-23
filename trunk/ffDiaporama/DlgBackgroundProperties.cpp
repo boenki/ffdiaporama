@@ -30,7 +30,7 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT","");  // Save object
+    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 
     // Init embeded widgets

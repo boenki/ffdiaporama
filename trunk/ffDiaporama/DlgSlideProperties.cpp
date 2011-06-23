@@ -23,7 +23,6 @@
 #include "wgt_QCustomThumbnails.h"
 #include "DlgSlideProperties.h"
 #include "DlgImageCorrection.h"
-#include "DlgImageTransformation.h"
 #include "DlgVideoEdit.h"
 #include "DlgTextEdit.h"
 #include "mainwindow.h"
@@ -35,7 +34,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT","");  // Save object
+    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 
     IsFirstInitDone     = false;                // True when first show window was done
@@ -122,11 +121,10 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->BlockDownBT,SIGNAL(clicked()),this,SLOT(BlockDown()));
 
     connect(ui->SlideNameED,SIGNAL(textEdited(QString)),this,SLOT(s_SlideNameChange(QString)));
-    connect(ui->ShotDurationED,SIGNAL(valueChanged(double)),this,SLOT(s_ShotDurationChange(double)));
+    connect(ui->ShotDurationED,SIGNAL(timeChanged(QTime)),this,SLOT(s_ShotDurationChange(QTime)));
 
     connect(ui->TextEditBT,SIGNAL(clicked()),this,SLOT(TextEditor()));
     connect(ui->ImageEditCorrectBT,SIGNAL(clicked()),this,SLOT(ImageEditCorrect()));
-    connect(ui->EditTransformBt,SIGNAL(clicked()),this,SLOT(ImageEditTransform()));
     connect(ui->VideoEditBT,SIGNAL(clicked()),this,SLOT(VideoEdit()));
     connect(ui->FileNameBT,SIGNAL(clicked()),this,SLOT(ChangeBrushDiskFile()));
 
@@ -156,6 +154,12 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->BackgroundCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexBackgroundCombo(int)));
     connect(ui->IntermPosSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_IntermPosSliderMoved(int)));
     connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
+
+    connect(ui->TransformationCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChTransformationCB(int)));
+    connect(ui->BlurRadiusSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_BlurRadiusSliderMoved(int)));
+    connect(ui->BlurRadiusED,SIGNAL(valueChanged(int)),this,SLOT(s_BlurRadiusSliderMoved(int)));
+    connect(ui->BlurSigmaSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_BlurSigmaSliderMoved(int)));
+    connect(ui->BlurSigmaED,SIGNAL(valueChanged(double)),this,SLOT(s_BlurSigmaValueED(double)));
 
     // Image part
     connect(ui->ImageGeometryCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeImageGeometry(int)));
@@ -246,10 +250,10 @@ void DlgSlideProperties::s_SlideNameChange(QString NewText) {
 
 //====================================================================================================================
 
-void DlgSlideProperties::s_ShotDurationChange(double NewValue) {
+void DlgSlideProperties::s_ShotDurationChange(QTime NewValue) {
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
-    DiaporamaObject->List[Current].StaticDuration=int(NewValue*1000);
+    DiaporamaObject->List[Current].StaticDuration=QTime(0,0,0,0).msecsTo(NewValue);
     RefreshControls();
 }
 
@@ -328,7 +332,7 @@ void DlgSlideProperties::RefreshControls() {
     // Slide name & duration and shot duration
     ui->SlideNameED->setText(DiaporamaObject->SlideName);
     ui->SlideDurationLabel->setText(QTime(0,0,0,0).addMSecs(DiaporamaObject->GetDuration()).toString("hh:mm:ss.zzz"));
-    ui->ShotDurationED->setValue(double(DiaporamaObject->List[CurrentShot].StaticDuration)/1000);
+    ui->ShotDurationED->setTime(QTime(0,0,0,0).addMSecs(DiaporamaObject->List[CurrentShot].StaticDuration));
 
     // Minimum shot duration display
     int  AddingDuration=0;
@@ -379,16 +383,24 @@ void DlgSlideProperties::RefreshControls() {
     ui->ImageLibraryLabel->setVisible(Allow_Library);                           ui->ImageLibraryLabel->setEnabled(IsVisible && Allow_Library);
     ui->BackgroundCombo->setVisible(Allow_Library);                             ui->BackgroundCombo->setEnabled(IsVisible && Allow_Library);
     ui->FileNameLabel->setVisible(Allow_File);                                  ui->FileNameLabel->setEnabled(IsVisible && Allow_File);
-    ui->FileNameED->setVisible(Allow_File);                                     ui->FileNameED->setEnabled(IsVisible && Allow_File);
-    ui->FileNameBT->setVisible(Allow_File);                                     ui->FileNameBT->setEnabled(IsVisible && Allow_File);
     ui->ImageGeometryLabel->setVisible(Allow_File);                             ui->ImageGeometryLabel->setEnabled(IsVisible && Allow_File);
     ui->ImageGeometryCB->setVisible(Allow_File);                                ui->ImageGeometryCB->setEnabled(IsVisible && Allow_File);
 
     ui->ImageEditCorrectBT->setEnabled(IsVisible && Allow_File);
-    ui->EditTransformBt->setEnabled(IsVisible && Allow_File);
     ui->VideoEditBT->setEnabled(IsVisible && Allow_File && (CurrentBrush->Video!=NULL));
     ui->TextEditBT->setEnabled(IsVisible);
     ui->VisibleBT->setEnabled(CurrentTextItem!=NULL);
+
+    ui->FileNameED->setVisible(Allow_File);                                     ui->FileNameED->setEnabled(IsVisible && Allow_File);
+    ui->FileNameBT->setVisible(Allow_File);                                     ui->FileNameBT->setEnabled(IsVisible && Allow_File);
+    ui->TransformationLabel->setVisible(Allow_File);                            ui->TransformationLabel->setEnabled(IsVisible && Allow_File);
+    ui->TransformationCB->setVisible(Allow_File);                               ui->TransformationCB->setEnabled(IsVisible && Allow_File);
+    ui->BlurLabel->setVisible(!IsVideo && Allow_File);                          ui->BlurLabel->setEnabled(!IsVideo && IsVisible && Allow_File);
+    ui->BlurSigmaED->setVisible(!IsVideo && Allow_File);                        ui->BlurSigmaED->setEnabled(!IsVideo && IsVisible && Allow_File);
+    ui->BlurSigmaSlider->setVisible(!IsVideo && Allow_File);                    ui->BlurSigmaSlider->setEnabled(!IsVideo && IsVisible && Allow_File);
+    ui->BlurRadiusLabel->setVisible(!IsVideo && Allow_File);                    ui->BlurRadiusLabel->setEnabled(!IsVideo && IsVisible && Allow_File);
+    ui->BlurRadiusED->setVisible(!IsVideo && Allow_File);                       ui->BlurRadiusED->setEnabled(!IsVideo && IsVisible && Allow_File);
+    ui->BlurRadiusSlider->setVisible(!IsVideo && Allow_File);                   ui->BlurRadiusSlider->setEnabled(!IsVideo && IsVisible && Allow_File);
 
     if (CurrentBrush!=NULL) {
         // Set brush type combo index
@@ -425,6 +437,15 @@ void DlgSlideProperties::RefreshControls() {
                 if ((RectItem)&&(!RectItem->KeepAspectRatio)) CurrentBrush->BrushFileCorrect.AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
                 ui->FileNameED->setText(CurrentBrush->BrushFileName);
                 ui->ImageGeometryCB->setCurrentIndex(CurrentBrush->BrushFileCorrect.ImageGeometry);
+                QImage *SourceImage=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,NULL):
+                             CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL):
+                             NULL);
+                ui->TransformationCB->SetCurrentFilter(SourceImage,CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform.OnOffFilter:&CurrentBrush->Image->BrushFileTransform.OnOffFilter);
+                delete SourceImage;
+                ui->BlurSigmaSlider->setValue((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurSigma*10);
+                ui->BlurSigmaED->setValue((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurSigma);
+                ui->BlurRadiusSlider->setValue(int((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurRadius));
+                ui->BlurRadiusED->setValue(int((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurRadius));
                 break;
         }
     }
@@ -478,6 +499,7 @@ void DlgSlideProperties::RefreshControls() {
 
 void DlgSlideProperties::RefreshSceneImage() {
     if (InRefreshSceneImage) return;
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     InRefreshSceneImage=true;
 
@@ -608,6 +630,37 @@ void DlgSlideProperties::RefreshSceneImage() {
     ui->ShotTable->setUpdatesEnabled(true);
 
     InRefreshSceneImage=false;
+    QApplication::restoreOverrideCursor();
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::RefreshSceneImageAndCache(cCompositionObject *CurrentTextItem,cBrushDefinition *CurrentBrush) {
+    if (CurrentBrush->Image) {
+        if (CurrentBrush->Image->CacheImage) {
+            delete CurrentBrush->Image->CacheImage;
+            CurrentBrush->Image->CacheImage=NULL;
+        }
+        if (CurrentBrush->Image->CacheFullImage) {
+            delete CurrentBrush->Image->CacheFullImage;
+            CurrentBrush->Image->CacheFullImage=NULL;
+        }
+    } else if (CurrentBrush->Video) {
+        if (CurrentBrush->Video->CacheFirstImage) {
+            delete CurrentBrush->Video->CacheFirstImage;
+            CurrentBrush->Video->CacheFirstImage=NULL;
+        }
+        if (CurrentBrush->Video->CacheLastImage) {
+            delete CurrentBrush->Video->CacheLastImage;
+            CurrentBrush->Video->CacheLastImage=NULL;
+        }
+        for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i].ShotComposition.List.count();j++)
+            if ((DiaporamaObject->List[i].ShotComposition.List[j].IndexKey==CurrentTextItem->IndexKey)&&(DiaporamaObject->List[i].ShotComposition.List[j].CachedBrushBrush)) {
+            delete DiaporamaObject->List[i].ShotComposition.List[j].CachedBrushBrush;
+            DiaporamaObject->List[i].ShotComposition.List[j].CachedBrushBrush=NULL;
+        }
+    }
+    RefreshSceneImage();
 }
 
 //====================================================================================================================
@@ -1016,6 +1069,56 @@ void DlgSlideProperties::ChangeBrushDiskFile() {
 }
 
 //====================================================================================================================
+
+void DlgSlideProperties::s_ChTransformationCB(int) {
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)||(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK)) return;
+    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
+    Filter->OnOffFilter=ui->TransformationCB->GetCurrentFilter();
+    RefreshSceneImageAndCache(CurrentTextItem,CurrentBrush);
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlurSigmaSliderMoved(int Value) {
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)||(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK)) return;
+    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
+    Filter->BlurSigma=double(Value)/10;
+    ui->BlurSigmaSlider->setValue(Filter->BlurSigma*10);
+    ui->BlurSigmaED->setValue(Filter->BlurSigma);
+    RefreshSceneImageAndCache(CurrentTextItem,CurrentBrush);
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlurSigmaValueED(double Value) {
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)||(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK)) return;
+    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
+    Filter->BlurSigma=Value;
+    ui->BlurSigmaSlider->setValue(Filter->BlurSigma*10);
+    ui->BlurSigmaED->setValue(Filter->BlurSigma);
+    RefreshSceneImageAndCache(CurrentTextItem,CurrentBrush);
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlurRadiusSliderMoved(int Value) {
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)||(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK)) return;
+    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
+    Filter->BlurRadius=double(Value);
+    ui->BlurRadiusSlider->setValue(int(Filter->BlurRadius));
+    ui->BlurRadiusED->setValue(int(Filter->BlurRadius));
+    RefreshSceneImageAndCache(CurrentTextItem,CurrentBrush);
+}
+
+//====================================================================================================================
 // Handler for custom color/brush/pattern/gradient combo box index change
 //====================================================================================================================
 
@@ -1176,7 +1279,21 @@ void DlgSlideProperties::ImageEditCorrect() {
     cBrushDefinition        *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (!RectItem) return;
 
-    DlgImageCorrection(CurrentTextItem->BackgroundForm,CurrentBrush,&CurrentBrush->BrushFileCorrect,this).exec();
+    if (CurrentBrush->Image) {
+        DlgImageCorrection(CurrentTextItem->BackgroundForm,CurrentBrush,&CurrentBrush->BrushFileCorrect,CurrentBrush->Image->CacheImage,this).exec();
+    } else if (CurrentBrush->Video) {
+        // Compute position of video
+        int Position=0;
+        for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<DiaporamaObject->List[i].ShotComposition.List.count();j++)
+            if (DiaporamaObject->List[i].ShotComposition.List[j].IndexKey==CurrentTextItem->IndexKey) {
+                if (DiaporamaObject->List[i].ShotComposition.List[j].IsVisible) Position+=DiaporamaObject->List[i].StaticDuration;
+        }
+        QImage *CacheImage=CurrentBrush->Video->ImageAt(true,Position,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,false);
+        if (CacheImage) {
+            DlgImageCorrection(CurrentTextItem->BackgroundForm,CurrentBrush,&CurrentBrush->BrushFileCorrect,CacheImage,this).exec();
+            delete CacheImage;
+        }
+    }
 
     // free CachedBrushBrush
     for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
@@ -1195,34 +1312,6 @@ void DlgSlideProperties::ImageEditCorrect() {
         RectItem->setRect(Rect);
         RectItem->RecalcEmbededResizeRectItem();
     }
-    RefreshControls();
-}
-
-//========= Open image transformation editor
-void DlgSlideProperties::ImageEditTransform() {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
-    if (!CurrentBrush) return;
-    if (DlgImageTransformation(CurrentBrush,this).exec()==0) {
-        if ((CurrentBrush->Image)&&(CurrentBrush->Image->CacheImage)) {
-            delete CurrentBrush->Image->CacheImage;
-            CurrentBrush->Image->CacheImage=NULL;
-        }
-        if ((CurrentBrush->Video)&&(CurrentBrush->Video->CacheFirstImage)) {
-            delete CurrentBrush->Video->CacheFirstImage;
-            CurrentBrush->Video->CacheFirstImage=NULL;
-        }
-    }
-
-    // free CachedBrushBrush
-    for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
-        if (DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush) {
-            delete DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush;
-            DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
-        }
-    }
-
     RefreshControls();
 }
 
@@ -1748,8 +1837,8 @@ void DlgSlideProperties::s_CopyBlockBT() {
     GlobalMainWindow->Clipboard_Block=new QDomDocument(APPLICATION_NAME);
     QDomElement root=GlobalMainWindow->Clipboard_Block->createElement("CLIPBOARD");
     GlobalMainWindow->Clipboard_Block->appendChild(root);
-    GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL","");
-    ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT","");
+    GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);  // Save global object
+    ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);      // Save shot object
     RefreshControls();
 }
 
@@ -1764,8 +1853,8 @@ void DlgSlideProperties::s_CutBlockBT() {
     GlobalMainWindow->Clipboard_Block=new QDomDocument(APPLICATION_NAME);
     QDomElement root=GlobalMainWindow->Clipboard_Block->createElement("CLIPBOARD");
     GlobalMainWindow->Clipboard_Block->appendChild(root);
-    GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL","");
-    ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT","");
+    GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);  // Save global object
+    ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);      // Save shot object
     s_BlockTable_RemoveBlock();
 }
 

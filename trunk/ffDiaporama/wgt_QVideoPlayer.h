@@ -76,6 +76,10 @@ public:
     bool                Flag_InTimer;           // true if timer event is in progress
     bool                TimerTick;              // To use timer 1 time for 2 call
 
+    // Thread controls
+    QFuture<void>       ThreadPrepareVideo;
+    QFuture<void>       ThreadPrepareImage;
+
     explicit wgt_QVideoPlayer(QWidget *parent = 0);
     ~wgt_QVideoPlayer();
 
@@ -110,6 +114,7 @@ private:
     void    EnableWidget(bool State);
     void    PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted,bool AddStartPos);
     void    PrepareMusicBloc(int Column,int Position);
+    void    PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position);
 
     Ui::wgt_QVideoPlayer *ui;
 };

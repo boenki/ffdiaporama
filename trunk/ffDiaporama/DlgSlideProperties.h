@@ -56,6 +56,7 @@ public:
 
     void            RefreshControls();
     void            RefreshSceneImage();
+    void            RefreshSceneImageAndCache(cCompositionObject  *CurrentTextItem,cBrushDefinition *CurrentBrush);
     void            UpdateDockInfo();
     void            AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
 
@@ -78,7 +79,7 @@ private slots:
     void            Help();
     void            SetSavedWindowGeometry();
     void            s_SlideNameChange(QString NewText);
-    void            s_ShotDurationChange(double NewValue);
+    void            s_ShotDurationChange(QTime NewValue);
     void            ChangeVisibleState();
     void            s_TVMarginsBt();
 
@@ -94,7 +95,6 @@ private slots:
     // Buttons associated to a Dialog box
     void            TextEditor();
     void            ImageEditCorrect();
-    void            ImageEditTransform();
     void            VideoEdit();
     void            GetSound();
     void            ChangeBrushDiskFile();
@@ -130,6 +130,10 @@ private slots:
 
     // Brush part
     void            s_ChangeBrushTypeCombo(int);
+    void            s_ChTransformationCB(int);
+    void            s_BlurSigmaSliderMoved(int Value);
+    void            s_BlurSigmaValueED(double Value);
+    void            s_BlurRadiusSliderMoved(int Value);
 
     // Intermediate position for gradient 3 colors
     void            s_IntermPosSliderMoved(int);

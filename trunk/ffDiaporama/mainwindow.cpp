@@ -1040,8 +1040,7 @@ void MainWindow::s_CutToClipboard() {
     // Create xml document and root
     root=Clipboard_Object->createElement("CLIPBOARD");
     Clipboard_Object->appendChild(root);
-    Diaporama->List[Current].SaveToXML(root,"CLIPBOARD-OBJECT","");
-
+    Diaporama->List[Current].SaveToXML(root,"CLIPBOARD-OBJECT",QFileInfo(Diaporama->ProjectFileName).absolutePath(),true);
     s_RemoveObject();
     QApplication::restoreOverrideCursor();
 }
@@ -1061,7 +1060,7 @@ void MainWindow::s_CopyToClipboard() {
     // Create xml document and root
     root=Clipboard_Object->createElement("CLIPBOARD");
     Clipboard_Object->appendChild(root);
-    Diaporama->List[Current].SaveToXML(root,"CLIPBOARD-OBJECT","");
+    Diaporama->List[Current].SaveToXML(root,"CLIPBOARD-OBJECT",QFileInfo(Diaporama->ProjectFileName).absolutePath(),true);
 
     RefreshControls();
     QApplication::restoreOverrideCursor();

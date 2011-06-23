@@ -108,6 +108,7 @@ extern "C" {
 #include <QTextOption>
 #include <QTextStream>
 #include <QTime>
+#include <QTimeEdit>
 #include <QTimer>
 #include <QTranslator>
 #include <QWidget>
