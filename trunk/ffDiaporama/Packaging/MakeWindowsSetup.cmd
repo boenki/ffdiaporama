@@ -29,6 +29,7 @@ copy C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtCore4.dll
 copy C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtGui4.dll
 copy C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtXml4.dll
 copy C:\Qt\SDL-1.2.14\bin\SDL.dll
+copy C:\Qt\SDL-1.2.14\README-SDL.txt
 
 REM Add QT image formats pluggins
 md imageformats
