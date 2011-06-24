@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ffDiaporama"
-#define MyAppVersion "0.99.alpha2"
+#define MyAppVersion "0.99.alpha2.3"
 #define MyAppPublisher "The ffDiaporama Team"
 #define MyAppURL "http://ffdiaporama.tuxfamily.org"
 #define MyAppExeName "ffDiaporama.exe"
@@ -13,7 +13,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 LicenseFile=C:\ffDiaporama\licences.txt
 OutputDir=Y:\ffDiaporama\SiteWEB-Paquets
-OutputBaseFilename=ffDiaporama.0.99.alpha2_setup
+OutputBaseFilename={#MyAppName}.{#MyAppVersion}_setup
 AppID={{113BC587-C2A9-457F-9022-9DB31ABBDD90}
 AppName={#MyAppName}
 AppCopyright={#MyAppPublisher}
@@ -34,6 +34,8 @@ VersionInfoProductName={#MyAppName}
 VersionInfoTextVersion={#MyAppName} {#MyAppVersion}
 VersionInfoCompany={#MyAppPublisher}
 ChangesAssociations=true
+VersionInfoVersion=0.99.2.3
+VersionInfoProductVersion=0.99.2.3
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

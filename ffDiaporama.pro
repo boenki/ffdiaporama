@@ -125,7 +125,6 @@ OTHER_FILES += \
     Packaging/MakeUbuntuDEB.bash \
     Packaging/debian/watch \
     Packaging/debian/rules \
-    Packaging/debian/files \
     Packaging/debian/ffdiaporama.1 \
     Packaging/debian/docs \
     Packaging/debian/copyright \
