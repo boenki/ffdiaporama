@@ -74,9 +74,6 @@ make %{?_smp_mflags}
 %install
 rm -rf $RPM_BUILD_ROOT
 make install INSTALL_ROOT=$RPM_BUILD_ROOT
-desktop-file-install --vendor=""                                 \
-       --dir=%{buildroot}%{_datadir}/applications/   \
-       %{buildroot}%{_datadir}/ffDiaporama/ffDiaporama.desktop
 
 %files
 %doc %{_datadir}/ffDiaporama/licences.txt
