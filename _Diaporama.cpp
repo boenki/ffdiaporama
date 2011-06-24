@@ -297,7 +297,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
     if (SoundOnly) {
         // if SoundOnly then load Brush of type BRUSHTYPE_IMAGEDISK to SoundTrackMontage
         if (BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK) {
-            QBrush *BR=BackgroundBrush.GetBrush(QRectF(0,0,0,0),PreviewMode,Position,0,SoundTrackMontage,1,NULL);
+            QBrush *BR=BackgroundBrush.GetBrush(QRectF(0,0,0,0),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,NULL);
             delete BR;
         }
     } else {
@@ -1187,9 +1187,17 @@ void cDiaporama::FreeUnusedMemory(int ObjectNum) {
         if ((List[i].ObjectComposition.List[j].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
             (List[i].ObjectComposition.List[j].BackgroundBrush.Image)&&
             (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage)) {
+            // Cached Full image if different from Cached image
             if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage!=List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheImage)
                 delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage;
             List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage=NULL;
+
+            // Unfiltered image
+            if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage) {
+                delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage;
+                List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage=NULL;
+            }
+
         }
     }
     // free CachedBrushBrush

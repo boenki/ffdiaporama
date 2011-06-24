@@ -36,6 +36,7 @@ cimagefilewrapper::cimagefilewrapper() {
     ImageHeight         = 0;        // Height of normal image
     CacheImage          = NULL;     // Cache image for preview mode
     CacheFullImage      = NULL;     // Cache image for Full image mode
+    UnfilteredImage     = NULL;     // Cache image (Preview image with no filter)
     ImageOrientation    = 0;        // Image orientation (EXIF)
 }
 
@@ -49,6 +50,10 @@ cimagefilewrapper::~cimagefilewrapper() {
     if (CacheImage!=NULL) {
         delete CacheImage;
         CacheImage=NULL;
+    }
+    if (UnfilteredImage!=NULL) {
+        delete UnfilteredImage;
+        UnfilteredImage=NULL;
     }
 }
 
@@ -158,38 +163,44 @@ bool cimagefilewrapper::GetInformationFromFile(QString &GivenFileName) {
 QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter) {
     if (!IsValide) return NULL;
 
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    // Unfiltered image
     if (PreviewMode && ForceLoadDisk && (!Filter)) {
+        // Use cached UnfilteredImage (if exist)
+        if (UnfilteredImage!=NULL) return new QImage(UnfilteredImage->copy());
+        // else : create UnfilteredImage
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         QImage *LoadedImg=new QImage(FileName);
         if (LoadedImg) {
-            QImage *Img=new QImage(LoadedImg->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
+            UnfilteredImage=new QImage(LoadedImg->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
             // If image is ok then apply exif orientation (if needed)
             // A good explanation of the exif orientation tag is available at http://jpegclub.org/exif_orientation.html
             QMatrix matrix;
             if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
                   matrix.rotate(-90);
-                  QImage *NewImage=new QImage(Img->transformed(matrix));
-                  delete Img;
-                  Img=NewImage;
+                  QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
+                  delete UnfilteredImage;
+                  UnfilteredImage=NewImage;
             } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
                   matrix.rotate(180);
-                  QImage *NewImage=new QImage(Img->transformed(matrix));
-                  delete Img;
-                  Img=NewImage;
+                  QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
+                  delete UnfilteredImage;
+                  UnfilteredImage=NewImage;
             } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
                   matrix.rotate(90);
-                  QImage *NewImage=new QImage(Img->transformed(matrix));
-                  delete Img;
-                  Img=NewImage;
+                  QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
+                  delete UnfilteredImage;
+                  UnfilteredImage=NewImage;
             }
             delete LoadedImg;
             QApplication::restoreOverrideCursor();
-            return Img;
+            return new QImage(UnfilteredImage->copy());
         }
         QApplication::restoreOverrideCursor();
         return NULL;
     }
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     // If ForceLoadDisk then ensure CacheImage is null
     if (ForceLoadDisk) {
         if (CacheFullImage!=NULL) {
