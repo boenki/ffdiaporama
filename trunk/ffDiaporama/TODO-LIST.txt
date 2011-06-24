@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 22/06/2011) :
+Buggs/TODO (Dernier SVN le 23/06/2011) :
 ----------------------------------------
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
 TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
@@ -8,16 +8,9 @@ BUGG: à voir : le redimenssionnement des blocs dans la boite slide permet de d�
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-Correction de bug: Corrige l'erreur aléatoire en coller d'image/undo => force tous les noms de fichier en chemin absolu dans le presse papier interne
-Correction de bug: Empêche la musique de repartir pendant la transition entre de 2 vidéos successives qui ont la musique en pause
-Correction de bug: Affiche l'image vidéo correspondant au plan en cours dans la boite de correction
+Correction de bug: Corrige l'erreur de calcul sur la position de début des soundtrack vidéo (le son ne suivait pas l'image)
 
-Changement de comportement : Remet une gestion des threads (pour la preview uniquement) pour fluidifier l'affichage
-Changement de comportement : Remplace la zone d'edition en seconde de la durée des plans par une zone en heure:minute:seconde.centieme
-Changement de comportement : Réorganisation de la boite slide
-    Fusionne les onglets Forme et Bloc
-    Déplace le bouton recadrage et la zone de géométrie dans l'onglet Objet
-    Intégre les éléments de la boite transformation dans l'onglet Objet et supprime la boite transformation
+Changement de comportement : Optimisation de la boite slide => Reduction des chargements intempestifs d'image
 
 -------------------------------------
 Changelog depuis la version 20110619
@@ -34,11 +27,20 @@ Correction de bug: Corrige l'erreur qui appliquait une contrainte géométrique 
     - sur les blocs textes dans la boite slide
     - sur tous les blocs en géométrie libre dans la boite de recadrage
 Correction de bug: Corrige un petit bug de calcul qui laissait trainer une ligne en bas des images quand le recadrage laissait apparaitre une zone transparente en bas de l'image
+Correction de bug: Corrige l'erreur aléatoire en coller d'image/undo => force tous les noms de fichier en chemin absolu dans le presse papier interne
+Correction de bug: Empêche la musique de repartir pendant la transition entre de 2 vidéos successives qui ont la musique en pause
+Correction de bug: Affiche l'image vidéo correspondant au plan en cours dans la boite de correction
 
 Changement de comportement : Quand une diapositive vidéo est ajoutée depuis la fenêtre principal, sa durée de 1er plan est fixée à 1 seconde
     - C'est le mécanisme d'allongement qui calcul le temps nécessaire
 Changement de comportement : La boite edit vidéo ne change plus la durée du 1er plan
 Changement de comportement : Augmente légèrement la force des aimants des guides dans les boites slide et recadrage
+Changement de comportement : Remet une gestion des threads (pour la preview uniquement) pour fluidifier l'affichage
+Changement de comportement : Remplace la zone d'edition en seconde de la durée des plans par une zone en heure:minute:seconde.centieme
+Changement de comportement : Réorganisation de la boite slide
+    Fusionne les onglets Forme et Bloc
+    Déplace le bouton recadrage et la zone de géométrie dans l'onglet Objet
+    Intégre les éléments de la boite transformation dans l'onglet Objet et supprime la boite transformation
 
 Ajout de fonctionnalité : Ajout des guides centraux (X et Y) dans la boite slide couplés aux guides TV
 Ajout de fonctionnalité : Ajout des 4 poignées latérales sur les blocs intéractifs dans les boites slide et recadrage

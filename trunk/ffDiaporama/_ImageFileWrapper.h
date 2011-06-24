@@ -39,6 +39,7 @@ public:
     int                     ImageOrientation;       // Image orientation (EXIF)
     QImage                  *CacheImage;            // Cache image (Preview mode)
     QImage                  *CacheFullImage;        // Cache image (Full image mode)
+    QImage                  *UnfilteredImage;       // Cache image (Preview image with no filter)
     cFilterTransformObject  BrushFileTransform;     // Image transformation if image from disk
 
     QStringList             ExivValue;

@@ -1346,6 +1346,7 @@ void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
     int CellWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(CellHeight);
 
     ui->ShotTable->setUpdatesEnabled(false);
+    StopMAJSpinbox=true;
     while (ui->ShotTable->columnCount()>0) ui->ShotTable->removeColumn(0);    // Clear all
     for (int i=0;i<DiaporamaObject->List.count();i++) {
         ui->ShotTable->insertColumn(i);
@@ -1355,6 +1356,7 @@ void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
         ui->ShotTable->setColumnWidth(i,CellWidth);
     }
     ui->ShotTable->setUpdatesEnabled(true);
+    StopMAJSpinbox=false;
     ui->ShotTable->setCurrentCell(0,SetCurrentIndex);
 }
 
@@ -1518,9 +1520,9 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
     ui->BlockTable->setColumnWidth(0,24);
     ui->BlockTable->setColumnWidth(1,24);
     ui->BlockTable->resizeRowsToContents();
-    ui->BlockTable->setCurrentCell(SetCurrentIndex,0);
     ui->BlockTable->setUpdatesEnabled(true);
-    RefreshControls();
+    ui->BlockTable->setCurrentCell(SetCurrentIndex,0); // Changing current index make a call to RefreshControls();
+    // RefreshControls();
 }
 
 //====================================================================================================================
