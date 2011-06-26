@@ -66,7 +66,7 @@ public:
     cvideofilewrapper();
     ~cvideofilewrapper();
 
-    bool        GetInformationFromFile(QString &GivenFileName,bool MusicOnly);
+    bool        GetInformationFromFile(QString GivenFileName,bool MusicOnly);
     QImage      *ImageAt(bool PreviewMode,int Position,int StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos=false);
 
     int         PreviousPosition;

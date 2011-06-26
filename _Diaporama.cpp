@@ -1690,9 +1690,9 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         } else Info->CurrentObject_SourceImage=new QImage(5,5,QImage::Format_ARGB32_Premultiplied); // Create a very small image to have a ptr !
     } else {
         //==============> Image part
-        ThreadLoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
+        LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
         // same job for Transition Object if a previous was not keep !
-        if (Info->TransitObject) ThreadLoadTransitVideoImage(Info,PreviewMode,W,H,AddStartPos);
+        if (Info->TransitObject) LoadTransitVideoImage(Info,PreviewMode,W,H,AddStartPos);
         //==============> Background part
         if (!SoundOnly) {
             // Search background context for CurrentObject if a previous was not keep !
@@ -1726,7 +1726,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 P.end();
             }
         }
-        // Start threads for next music bloc
+        // Load music bloc
         if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
             PrepareMusicBloc(Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
         if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack))
@@ -1812,7 +1812,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     }
 }
 
-void cDiaporama::ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos) {
+void cDiaporama::LoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos) {
     // W and H = 0 when producing sound track in render process
     if ((W!=0)&&(H!=0)) {
         // Title mode : create an empty transparent image
@@ -1832,7 +1832,7 @@ void cDiaporama::ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool Prev
 
 }
 
-void cDiaporama::ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos) {
+void cDiaporama::LoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos) {
     // W and H = 0 when producing sound track in render process
     if ((W!=0)&&(H!=0)) {
         // create an empty transparent image

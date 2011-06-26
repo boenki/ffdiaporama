@@ -657,11 +657,12 @@ void MainWindow::OpenFile(QString ProjectFileName) {
     SetTimelineHeight();
 
     // Load file
+    SetModifyFlag(false);
     Diaporama->LoadFile(this,ProjectFileName);
     ui->timeline->setCurrentCell(0,0);
-    SetModifyFlag(false);
     for (int i=0;i<Diaporama->List.count();i++) AddObjectToTimeLine(i);
     AdjustRuller();
+    SetModifyFlag(Diaporama->IsModify);
     QApplication::restoreOverrideCursor();
     if (Diaporama->List.count()>0) ui->preview->SeekPlayer(Diaporama->List[0].TransitionDuration); else ui->preview->SeekPlayer(0);
 }
@@ -803,18 +804,19 @@ void MainWindow::s_action_AddFile() {
         // Set other values
         CompositionObject->Text     ="";
         CompositionObject->PenSize  =0;
-        CurrentBrush->BrushFileName =QFileInfo(NewFile).absoluteFilePath();
         CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
         DiaporamaObject->SlideName  =QFileInfo(NewFile).fileName();
 
+        QString BrushFileName =QFileInfo(NewFile).absoluteFilePath();
+
         bool    IsValide =false;
-        QString Extension=QFileInfo(CurrentBrush->BrushFileName).suffix().toLower();
+        QString Extension=QFileInfo(BrushFileName).suffix().toLower();
 
         // Search if file is an image
         for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
             // Create an image wrapper
             CurrentBrush->Image=new cimagefilewrapper();
-            IsValide=CurrentBrush->Image->GetInformationFromFile(CurrentBrush->BrushFileName);
+            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName);
             if (!IsValide) {
                 delete CurrentBrush->Image;
                 CurrentBrush->Image=NULL;
@@ -825,7 +827,7 @@ void MainWindow::s_action_AddFile() {
         if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
             // Create a video wrapper
             CurrentBrush->Video=new cvideofilewrapper();
-            IsValide=CurrentBrush->Video->GetInformationFromFile(CurrentBrush->BrushFileName,false);
+            IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false);
             if (!IsValide) {
                 delete CurrentBrush->Video;
                 CurrentBrush->Video=NULL;

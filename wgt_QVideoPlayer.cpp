@@ -422,7 +422,6 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     Flag_InTimer=true;
 
     if ((ImageList.List.count()==0)&&(ThreadPrepareVideo.isRunning())) ThreadPrepareVideo.waitForFinished();
-    if ((ImageList.List.count()==0)&&(ThreadPrepareImage.isRunning())) ThreadPrepareImage.waitForFinished();
 
     cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
     int LastPosition=0;
@@ -440,7 +439,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         if (ImageList.List.count()==0) PrepareVideoFrame(NewFrame,LastPosition);
             else ThreadPrepareVideo=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,LastPosition);
 
-    } else if ((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareImage.isRunning())) {
+    } else if ((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)) {
 
         // Calc LastPosition
         LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
@@ -448,9 +447,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
 
         // Prepare image
-        if (ImageList.List.count()==0) PrepareImage(NewFrame,true,true);
-            else ThreadPrepareImage=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true,true);
-
+        PrepareImage(NewFrame,true,true);
     }
 
     ui->BufferState->setValue(ImageList.List.count());
@@ -464,8 +461,9 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     // if TimerTick update the preview
     if (TimerTick) {
         // Move slider to the position of the next frame
-        if ((ImageList.List.count()>1)&&(ui->CustomRuller->Slider!=NULL))
+        if ((ImageList.List.count()>1)&&(ui->CustomRuller->Slider!=NULL)) {
             s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
+        }
     }
     Flag_InTimer=false;
     if (TimerTick) TimerTick=false; else TimerTick=true;
@@ -516,6 +514,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
         for (int j=0;j<MaxPacket;j++)
             MixedMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
     }
+
     // Append this image to the queue
     ImageList.AppendImage(Frame);
 }

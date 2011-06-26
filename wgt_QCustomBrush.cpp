@@ -145,7 +145,7 @@ void wgt_QCustomBrush::RefreshControls(cBrushDefinition *TheCurrentBrush,bool Al
         ui->ImageEditCorrectBT->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
         ui->ImageEditTransformBT->setVisible((Allowed)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK));
 
-        ui->ImageFileED->setText(CurrentBrush->BrushFileName);
+        ui->ImageFileED->setText((CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video?CurrentBrush->Video->FileName:""));
 
     } else {
         ui->BrushTypeLabel->setVisible(false);

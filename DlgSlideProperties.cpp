@@ -435,7 +435,7 @@ void DlgSlideProperties::RefreshControls() {
                 cCustomGraphicsRectItem *RectItem=GetSelectItem();
                 // Adjust aspect ratio (if custom mode)
                 if ((RectItem)&&(!RectItem->KeepAspectRatio)) CurrentBrush->BrushFileCorrect.AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
-                ui->FileNameED->setText(CurrentBrush->BrushFileName);
+                ui->FileNameED->setText(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video?CurrentBrush->Video->FileName:"");
                 ui->ImageGeometryCB->setCurrentIndex(CurrentBrush->BrushFileCorrect.ImageGeometry);
                 QImage *SourceImage=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,NULL):
                              CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL):
@@ -638,7 +638,7 @@ void DlgSlideProperties::RefreshSceneImage() {
 void DlgSlideProperties::RefreshSceneImageAndCache(cCompositionObject *CurrentTextItem,cBrushDefinition *CurrentBrush) {
     if (CurrentBrush->Image) {
         if (CurrentBrush->Image->CacheImage) {
-            delete CurrentBrush->Image->CacheImage;
+            if (CurrentBrush->Image->CacheImage!=CurrentBrush->Image->CacheFullImage) delete CurrentBrush->Image->CacheImage;
             CurrentBrush->Image->CacheImage=NULL;
         }
         if (CurrentBrush->Image->CacheFullImage) {
@@ -1051,10 +1051,10 @@ void DlgSlideProperties::ChangeBrushDiskFile() {
     QCoreApplication::processEvents();
     if (NewFile=="") return;
     if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
-    CurrentBrush->BrushFileName=QFileInfo(NewFile).absoluteFilePath();
+    QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
 
-    if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(CurrentBrush->BrushFileName);
-        else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(CurrentBrush->BrushFileName,false);
+    if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(BrushFileName);
+        else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(BrushFileName,false);
 
     // free CachedBrushBrush
     for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
@@ -1497,12 +1497,12 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
         if ((CompoObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush.Image)) {
             ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_IMAGE:ICON_OBJECT_IMAGEHIDE),"");
             ItemC1=new QTableWidgetItem("");
-            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.BrushFileName).fileName());
+            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.Image?CompoObject->BackgroundBrush.Image->FileName:CompoObject->BackgroundBrush.Video?CompoObject->BackgroundBrush.Video->FileName:"").fileName());
         // Video block
         } else if ((CompoObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush.Video)) {
             ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_MOVIE:ICON_OBJECT_MOVIEHIDE),"");
             ItemC1=CompoObject->BackgroundBrush.SoundVolume!=0?new QTableWidgetItem(QIcon(ICON_SOUND_OK),""):new QTableWidgetItem("");
-            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.BrushFileName).fileName());
+            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.Image?CompoObject->BackgroundBrush.Image->FileName:CompoObject->BackgroundBrush.Video?CompoObject->BackgroundBrush.Video->FileName:"").fileName());
         // Text block
         } else {
             ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_TEXT:ICON_OBJECT_TEXTHIDE),"");
@@ -1613,17 +1613,18 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
 
     CompositionObject->Text     ="";
     CompositionObject->PenSize  =0;
-    CurrentBrush->BrushFileName =QFileInfo(NewFile).absoluteFilePath();
     CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
 
+    QString BrushFileName =QFileInfo(NewFile).absoluteFilePath();
+
     bool    IsValide =false;
-    QString Extension=QFileInfo(CurrentBrush->BrushFileName).suffix().toLower();
+    QString Extension=QFileInfo(BrushFileName).suffix().toLower();
 
     // Search if file is an image
     for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
         // Create an image wrapper
         CurrentBrush->Image=new cimagefilewrapper();
-        IsValide=CurrentBrush->Image->GetInformationFromFile(CurrentBrush->BrushFileName);
+        IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName);
         if (!IsValide) {
             delete CurrentBrush->Image;
             CurrentBrush->Image=NULL;
@@ -1634,7 +1635,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
         // Create a video wrapper
         CurrentBrush->Video=new cvideofilewrapper();
-        IsValide=CurrentBrush->Video->GetInformationFromFile(CurrentBrush->BrushFileName,false);
+        IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false);
         if (!IsValide) {
             delete CurrentBrush->Video;
             CurrentBrush->Video=NULL;
@@ -1774,7 +1775,6 @@ void DlgSlideProperties::CopyBlockProperties(cCompositionObject *SourceBlock,cCo
     DestBlock->BackgroundBrush.ColorIntermed       =SourceBlock->BackgroundBrush.ColorIntermed;
     DestBlock->BackgroundBrush.Intermediate        =SourceBlock->BackgroundBrush.Intermediate;
     DestBlock->BackgroundBrush.BrushImage          =SourceBlock->BackgroundBrush.BrushImage;
-    DestBlock->BackgroundBrush.BrushFileName       =SourceBlock->BackgroundBrush.BrushFileName;
 }
 
 void DlgSlideProperties::ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock) {

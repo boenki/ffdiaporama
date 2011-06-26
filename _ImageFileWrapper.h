@@ -47,7 +47,7 @@ public:
     cimagefilewrapper();
     ~cimagefilewrapper();
 
-    bool    GetInformationFromFile(QString &GivenFileName);
+    bool    GetInformationFromFile(QString GivenFileName);
     QImage  *ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter);
 };
 
