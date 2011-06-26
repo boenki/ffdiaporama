@@ -315,8 +315,8 @@ public:
     void                DoLuma(cLumaList *List,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
 
     // Threaded functions
-    void ThreadLoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos);
-    void ThreadLoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos);
+    void LoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos);
+    void LoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos);
 
 private:
     void                PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode,bool AddStartPos);

@@ -78,7 +78,6 @@ public:
 
     // Thread controls
     QFuture<void>       ThreadPrepareVideo;
-    QFuture<void>       ThreadPrepareImage;
 
     explicit wgt_QVideoPlayer(QWidget *parent = 0);
     ~wgt_QVideoPlayer();

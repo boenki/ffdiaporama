@@ -95,7 +95,7 @@ public:
     QString                 ColorIntermed;          // Intermediate Color
     double                  Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
     QString                 BrushImage;             // Image name if image from library
-    QString                 BrushFileName;          // Image name if image from disk
+    //QString                 BrushFileName;          // Image name if image from disk
     cFilterCorrectObject    BrushFileCorrect;       // Image correction if image from disk
     cimagefilewrapper       *Image;                 // Embeded Object for title and image type
     double                  SoundVolume;            // Volume of soundtrack

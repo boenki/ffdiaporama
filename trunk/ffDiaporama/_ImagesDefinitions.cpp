@@ -292,7 +292,6 @@ cBrushDefinition::cBrushDefinition() {
     Intermediate        =0.1;                           // Intermediate position of 2nd color (in %)
     GradientOrientation =6;                             // 1=Up-Left, 2=Up, 3=Up-right, ...
     BrushImage          ="";                            // Image name if image from library
-    BrushFileName       ="";                            // Image name if image from disk
     Image               =NULL;
     Video               =NULL;
     SoundVolume         =1;                             // Volume of soundtrack
@@ -326,7 +325,7 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int
 
 //====================================================================================================================
 QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
-    if (BrushFileName=="") return new QBrush(Qt::NoBrush);
+    if ((Image?Image->FileName:Video?Video->FileName:"")=="") return new QBrush(Qt::NoBrush);
 
     // W and H = 0 when producing sound track in render process
     bool    SoundOnly=((Rect.width()==0)&&(Rect.height()==0));
@@ -356,10 +355,9 @@ QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
         LastLoadedBackgroundImageName="";
     }
     if (LastLoadedBackgroundImage==NULL) {
-        for (int j=0;j<BackgroundList.List.count();j++) if (BrushImage==BackgroundList.List[j].Name) {
-            LastLoadedBackgroundImageName=BrushImage;
-            LastLoadedBackgroundImage    =new QImage(BackgroundList.List[j].FilePath);
-        }
+        int BackgroundImageNumber=BackgroundList.SearchImage(BrushImage);
+        LastLoadedBackgroundImageName=BrushImage;
+        LastLoadedBackgroundImage    =new QImage(BackgroundList.List[BackgroundImageNumber].FilePath);
     }
     if (LastLoadedBackgroundImage!=NULL) {
         double Ratio=double(LastLoadedBackgroundImage->height())/double(LastLoadedBackgroundImage->width());
@@ -408,7 +406,6 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
     ColorIntermed       =BrushToCopy->ColorIntermed;
     Intermediate        =BrushToCopy->Intermediate;
     BrushImage          =BrushToCopy->BrushImage;
-    BrushFileName       =BrushToCopy->BrushFileName;
     Image               =BrushToCopy->Image;
     Video               =BrushToCopy->Video;
     SoundVolume         =BrushToCopy->SoundVolume;
@@ -420,8 +417,9 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
 void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
+    QString BrushFileName=(Image?Image->FileName:Video?Video->FileName:"");
 
-    if ((PathForRelativPath!="")&&(BrushFileName!="")) {
+    if ((PathForRelativPath!="")&&((Image?Image->FileName:Video?Video->FileName:"")!="")) {
         if (ForceAbsolutPath) BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
             else BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).relativeFilePath(BrushFileName));
     }
@@ -435,7 +433,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     Element.setAttribute("Intermediate",Intermediate);                                              // Intermediate position of 2nd color (in %)
     Element.setAttribute("GradientOrientation",GradientOrientation);                                // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
     Element.setAttribute("BrushImage",BrushImage);                                                  // Image name if image from library
-    Element.setAttribute("BrushFileName",BrushFileName);                                            // Image name if image from disk
+    Element.setAttribute("BrushFileName",BrushFileName);                                            // File name if image from disk
     if (Video!=NULL) {
         if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
             Element.setAttribute("StartPos",Video->StartPos.toString());                            // Start position (video only)
@@ -467,7 +465,8 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         Intermediate=       Element.attribute("Intermediate").toDouble();                   // Intermediate position of 2nd color (in %)
         GradientOrientation=Element.attribute("GradientOrientation").toInt();               // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
         BrushImage         =Element.attribute("BrushImage");                                // Image name if image from library
-        BrushFileName      =Element.attribute("BrushFileName");                             // Image name if image from disk
+
+        QString BrushFileName=Element.attribute("BrushFileName");                           // File name if image from disk
 
         if ((PathForRelativPath!="")&&(BrushFileName!=""))
             BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
@@ -588,9 +587,10 @@ void cBackgroundList::ScanDisk(QString Path,int TheGeometry) {
 //====================================================================================================================
 
 int cBackgroundList::SearchImage(QString NameToFind) {
-    int Ret=0;
+    int Ret=-1;
     int j=0;
     while ((j<List.count())&&(Ret==-1)) if (List[j].Name==NameToFind) Ret=j; else j++;
+    if (Ret==-1) Ret=0; // If not found : switch to first background
     return Ret;
 }
 

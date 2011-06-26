@@ -59,7 +59,7 @@ cimagefilewrapper::~cimagefilewrapper() {
 
 //====================================================================================================================
 
-bool cimagefilewrapper::GetInformationFromFile(QString &GivenFileName) {
+bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName) {
     if (CacheFullImage!=NULL) {
         if (CacheFullImage!=CacheImage) delete CacheFullImage;
         CacheFullImage=NULL;
@@ -77,12 +77,13 @@ bool cimagefilewrapper::GetInformationFromFile(QString &GivenFileName) {
             QCoreApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QCoreApplication::translate("MainWindow","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
 
-            QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file"),
+            QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(FileName).fileName(),
                GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
                GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::IMAGEFILE));
             if (NewFileName!="") {
                 FileName=NewFileName;
                 if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(FileName).absolutePath();     // Keep folder for next use
+                GlobalMainWindow->SetModifyFlag(true);
             } else Continue=false;
         }
     }
