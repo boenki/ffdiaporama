@@ -10,29 +10,29 @@ Build-Depends: qt4-qmake, libqt4-dev, debhelper (>= 8), g++ (>= 4.4), libavutil-
 Depends: exiv2, ffmpeg, libqtcore4, libqtgui4, libqt4-xml, libsdl1.2debian-all
 Architecture: any
 Package: ffdiaporama
-Description: FFDIAPORAMA - Movie creator
-	ffDiaporama is an application of creation of videos sequences established by
-	titles, images, photos, movie clip and music.
-	.
-	These sequences are assembled in slide show by means of transitions of
-	sequence to produce complete videos
-	.
-	Main features:
-	* Refocused of images and photos and refocused and cutting of video clips
-	* Note (addition of text) for images, photos, sequences and animations
-	* Graphic filters on the images and the videos (passage in black and
-	  white, dust removal, equalization of colors, etc.)
-	* Creation of animation by zoom, rotation or Ken Burns Effect on part of
-	  images or photos
-	* Correction of the images and the videos during the animations
-	  (luminosity, contrast, gamma, colors, etc.)
-	* Transitions between sequence with definition of the transition type,
-	  sequence by sequence.
-	* Addition of a background sound (wav, mp3 or ogg) with customizable
-	  effects of volume, fade in/out and passage in pause, sequence by
-	  sequence.
-	* Generation of usable videos by most of the current videos equipments
-	  (DVD player/smartphone, multimedia box, hard drive, etc.) but also
-	  publishable on the main video sharing Web sites (YouTube, Dailymotion,
-	  etc.)
+_Description: FFDIAPORAMA - Movie creator
+ ffDiaporama is an application of creation of videos sequences established by
+ titles, images, photos, movie clip and music.
+ .
+ These sequences are assembled in slide show by means of transitions of
+ sequence to produce complete videos
+ .
+ Main features:
+ * Refocused of images and photos and refocused and cutting of video clips
+ * Note (addition of text) for images, photos, sequences and animations
+ * Graphic filters on the images and the videos (passage in black and
+   white, dust removal, equalization of colors, etc.)
+ * Creation of animation by zoom, rotation or Ken Burns Effect on part of
+   images or photos
+ * Correction of the images and the videos during the animations
+   (luminosity, contrast, gamma, colors, etc.)
+ * Transitions between sequence with definition of the transition type,
+   sequence by sequence.
+ * Addition of a background sound (wav, mp3 or ogg) with customizable
+   effects of volume, fade in/out and passage in pause, sequence by
+   sequence.
+ * Generation of usable videos by most of the current videos equipments
+   (DVD player/smartphone, multimedia box, hard drive, etc.) but also
+   publishable on the main video sharing Web sites (YouTube, Dailymotion,
+   etc.)
 

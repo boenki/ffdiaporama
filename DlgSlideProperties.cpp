@@ -1521,8 +1521,8 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
     ui->BlockTable->setColumnWidth(1,24);
     ui->BlockTable->resizeRowsToContents();
     ui->BlockTable->setUpdatesEnabled(true);
-    ui->BlockTable->setCurrentCell(SetCurrentIndex,0); // Changing current index make a call to RefreshControls();
-    // RefreshControls();
+    ui->BlockTable->setCurrentCell(SetCurrentIndex,0);      // Changing current index make a call to RefreshControls();
+    if (ui->BlockTable->rowCount()==0) RefreshControls();   // except if no block in the list
 }
 
 //====================================================================================================================

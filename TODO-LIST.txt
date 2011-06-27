@@ -5,9 +5,15 @@ TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 BUGG: à voir : le redimenssionnement des blocs dans la boite slide permet de dépasser de l'écran -> peut-être à controler : à traiter dans l'alpha 3 !
 
+Bugg d'affichage dans la boite slide : La durée du 1er plan n'est pas affichée si le slide ne contient aucun objet
+
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+Correction de bugg: Corrige l'erreur d'affichage de la durée du plan dans la boite slide quand le plan ne contient aucun bloc
+Correction de bugg: Corrige le plantage X11 sur les threads et remet les threads dans le lecteur video de la fenetre principal
+
+Changement de comportement : Internationalisation du paquet Ubuntu
 
 -------------------------------------
 Changelog depuis la version 20110624
