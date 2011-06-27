@@ -348,8 +348,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
                                     Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,    // Next slide
                                     Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1].GetDuration():0);
                         else SetStartEndPos(0,0,-1,0,-1,0);
-
-                    }
+                   }
                     Diaporama->CurrentPosition=Value;
                 }
 
@@ -421,10 +420,47 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     if ((Flag_InTimer==true)||(IsSliderProcess)) return;
     Flag_InTimer=true;
 
-    if ((ImageList.List.count()==0)&&(ThreadPrepareVideo.isRunning())) ThreadPrepareVideo.waitForFinished();
+    if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
+    if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
 
     cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
     int LastPosition=0;
+
+    // if TimerTick update the preview
+    if ((TimerTick)&&(ui->CustomRuller->Slider!=NULL)) {
+        ui->BufferState->setValue(ImageList.List.count());
+        if (ImageList.List.count()<2)
+            ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: red;\n}");
+        else if (ImageList.List.count()<4)
+            ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: yellow;\n}");
+        else if (ImageList.List.count()<=BUFFERING_NBR_FRAME)
+            ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: green;\n}");
+
+        // If no image in the list then create one
+        if (ImageList.List.count()==0) {
+            if (FileInfo) {
+                // Calc LastPosition
+                LastPosition=(PreviousFrame==NULL)?ActualPosition:PreviousFrame->CurrentObject_InObjectTime;
+                // Create a new frame object
+                cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
+                NewFrame->CurrentObject_StartTime   =0;
+                NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
+                // Create frame
+                PrepareVideoFrame(NewFrame,LastPosition);
+            } else {
+                // Calc LastPosition
+                LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
+                // Create a new frame object
+                cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
+                // Prepare image
+                PrepareImage(NewFrame,true,true);
+            }
+        }
+        // Move slider to the position of the next frame
+        QTime Now=QTime().currentTime();
+        s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
+        qDebug()<<"s_SliderMoved"<<Now.msecsTo(QTime().currentTime())<<"ImageList.List.count()"<<ImageList.List.count();
+    }
 
     // Add image to the list if it's not full
     if ((FileInfo)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareVideo.isRunning())) {
@@ -436,37 +472,22 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         NewFrame->CurrentObject_StartTime   =0;
         NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
 
-        if (ImageList.List.count()==0) PrepareVideoFrame(NewFrame,LastPosition);
-            else ThreadPrepareVideo=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,LastPosition);
+        // Start thread
+        ThreadPrepareVideo=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,LastPosition);
 
-    } else if ((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)) {
+    } else if ((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareImage.isRunning())) {
 
         // Calc LastPosition
         LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
         // Create a new frame object
         cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
 
-        // Prepare image
-        PrepareImage(NewFrame,true,true);
+        // Start thread
+        ThreadPrepareImage=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true,true);
     }
 
-    ui->BufferState->setValue(ImageList.List.count());
-    if (ImageList.List.count()<2)
-        ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: red;\n}");
-    else if (ImageList.List.count()<4)
-        ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: yellow;\n}");
-    else if (ImageList.List.count()<=BUFFERING_NBR_FRAME)
-        ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: green;\n}");
-
-    // if TimerTick update the preview
-    if (TimerTick) {
-        // Move slider to the position of the next frame
-        if ((ImageList.List.count()>1)&&(ui->CustomRuller->Slider!=NULL)) {
-            s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
-        }
-    }
     Flag_InTimer=false;
-    if (TimerTick) TimerTick=false; else TimerTick=true;
+    TimerTick=!TimerTick;
 }
 
 //============================================================================================
@@ -474,6 +495,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 //============================================================================================
 
 void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted,bool AddStartPos) {
+    QTime Now=QTime().currentTime();
     if (SoundWanted) {
         // Ensure MusicTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
@@ -517,6 +539,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
 
     // Append this image to the queue
     ImageList.AppendImage(Frame);
+    qDebug()<<"PrepareImage"<<Now.msecsTo(QTime().currentTime());
 }
 
 void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position) {
