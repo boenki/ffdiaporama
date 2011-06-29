@@ -1,6 +1,6 @@
 Name:           ffDiaporama
 Version:        0.99.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        FFDIAPORAMA - Movie creator
 Summary(fr):    FFDIAPORAMA - Créateur de film
 License:        GPLv2
@@ -99,5 +99,5 @@ update-desktop-database &> /dev/null || :
 
 %changelog
 
-* Sun Jun 26 2011 Dominique LEVRAY <levray.dominique@bbox.fr> 0.99.2-4%{?dist}
-- Release 20110626
+* Wed Jun 29 2011 Dominique LEVRAY <levray.dominique@bbox.fr> 0.99.2-5%{?dist}
+- Release 20110629

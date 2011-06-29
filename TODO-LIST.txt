@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 26/06/2011) :
+Buggs/TODO (Dernier SVN le 29/06/2011) :
 ----------------------------------------
 BUGG: Probleme de lecture avec des fichiers .ogg
 BUGG: Il manque la propriété aspect ratio dans la boite de recadrage
@@ -14,6 +14,10 @@ TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+
+-------------------------------------
+Changelog depuis la version 20110626
+-------------------------------------
 Correction de bugg: Corrige l'erreur d'affichage de la durée du plan dans la boite slide quand le plan ne contient aucun bloc
 Correction de bugg: Corrige la contrainte géométrique des images en mode géometrie libre dans la boite slide
 Correction de bugg: Reduit l'image dans la boite slide si elle devient trop grande en sortie de la boite de recadrage
@@ -22,7 +26,3 @@ Correction de bugg: Corrige l'erreur de son resté actif pour les vidéos invisi
 Correction de bugg: Corrige l'erreur d'affichage dans la partie interactive de la boite slide pour les vidéos qui ne commence pas au début
 Correction de bugg: Repositionne correctement le curseur dans la boite slide quand on supprime un plan
 Correction de bugg: Corrige un bug dans le calcul des animations pour les images en géométrie libre
-
--------------------------------------
-Changelog depuis la version 20110626
--------------------------------------
