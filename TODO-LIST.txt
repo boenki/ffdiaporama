@@ -1,24 +1,28 @@
 Buggs/TODO (Dernier SVN le 26/06/2011) :
 ----------------------------------------
+BUGG: Probleme de lecture avec des fichiers .ogg
+BUGG: Il manque la propriété aspect ratio dans la boite de recadrage
+
+BUGG: Plantage X11 sur les threads PrepareImage du lecteur video de la fenetre principal
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
-TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
-TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 BUGG: à voir : le redimenssionnement des blocs dans la boite slide permet de dépasser de l'écran -> peut-être à controler : à traiter dans l'alpha 3 !
 
-Bugg d'affichage dans la boite slide : La durée du 1er plan n'est pas affichée si le slide ne contient aucun objet
+TODO: Finir l'internationalisation du paquet Ubuntu
+TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
+TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bugg: Corrige l'erreur d'affichage de la durée du plan dans la boite slide quand le plan ne contient aucun bloc
-Correction de bugg: Corrige le plantage X11 sur les threads et remet les threads dans le lecteur video de la fenetre principal
-
-Changement de comportement : Internationalisation du paquet Ubuntu
+Correction de bugg: Corrige la contrainte géométrique des images en mode géometrie libre dans la boite slide
+Correction de bugg: Reduit l'image dans la boite slide si elle devient trop grande en sortie de la boite de recadrage
+Correction de bugg: Corrige une erreur de syntaxe dans le fichier xml de configuration par défaut
+Correction de bugg: Corrige l'erreur de son resté actif pour les vidéos invisibles dans la boite slide
+Correction de bugg: Corrige l'erreur d'affichage dans la partie interactive de la boite slide pour les vidéos qui ne commence pas au début
+Correction de bugg: Repositionne correctement le curseur dans la boite slide quand on supprime un plan
+Correction de bugg: Corrige un bug dans le calcul des animations pour les images en géométrie libre
 
 -------------------------------------
-Changelog depuis la version 20110624
+Changelog depuis la version 20110626
 -------------------------------------
-Correction de bugg: Corrige un plantage dans la boite slide (quand les images sont de petite taille <1 Millions pixels)
-Correction de bugg: Suite au renommage des fichiers background, les slides des projets d'anciennes sauvegarde se trouvaient sans background
-Correction de bugg: Suppression des threads dans la preview qui aboutissaient à un plantage => Les threads seront remis dans l'alpha3
-Correction de bugg: Corrige la prise en compte de modification quand des fichiers sont déplacés et que le programme propose d'utiliser un autre fichier

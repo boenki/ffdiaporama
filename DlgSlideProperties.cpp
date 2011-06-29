@@ -524,7 +524,7 @@ void DlgSlideProperties::RefreshSceneImage() {
         // Draw composition block
         if (CurrentList->List[i].BackgroundBrush.Video) {
             // If it's a video block, calc video position
-            int StartVideoPos=0;
+            int StartVideoPos=QTime(0,0,0,0).msecsTo(CurrentList->List[i].BackgroundBrush.Video->StartPos);
             for (int k=0;k<CurrentShot;k++) {
                 for (int l=0;l<DiaporamaObject->List[k].ShotComposition.List.count();l++) {
                     if (DiaporamaObject->List[k].ShotComposition.List[l].IndexKey==CurrentList->List[i].IndexKey) {
@@ -1306,6 +1306,13 @@ void DlgSlideProperties::ImageEditCorrect() {
     if (CurrentBrush->BrushFileCorrect.ImageGeometry==GEOMETRY_CUSTOM) {
         RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
         CurrentTextItem->h=(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax;
+
+        // Adjust height and width to image stay in screen
+        if (((CurrentTextItem->y+CurrentTextItem->h)*ymax)>ymax) {
+            CurrentTextItem->h=1-CurrentTextItem->y;
+            CurrentTextItem->w=((CurrentTextItem->h*ymax)/RectItem->AspectRatio)/xmax;
+        }
+
         // Update RectItem
         RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
         QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
@@ -1395,7 +1402,7 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
     ui->ShotTable->setUpdatesEnabled(false);
     ui->ShotTable->removeColumn(Current);
     ui->ShotTable->setUpdatesEnabled(true);
-    RefreshShotTable(ui->ShotTable->currentColumn()>0?ui->ShotTable->currentColumn()-1:0);
+    RefreshShotTable(ui->ShotTable->currentColumn()>0?ui->ShotTable->currentColumn():0);
 }
 
 //====================================================================================================================
@@ -1480,7 +1487,7 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
                     NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,
                     ((CompositionList->List[i].BackgroundBrush.BrushFileCorrect.ImageGeometry==GEOMETRY_CUSTOM)&&
                     (CompositionList->List[i].BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
-                    CompositionList->List[i].BackgroundBrush.BrushFileCorrect.ImageGeometry==GEOMETRY_CUSTOM?1:CompositionList->List[i].BackgroundBrush.BrushFileCorrect.AspectRatio,
+                    CompositionList->List[i].BackgroundBrush.BrushFileCorrect.AspectRatio,
                     &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i].IndexKey);
 
     }
@@ -1793,6 +1800,20 @@ void DlgSlideProperties::ChangeVisibleState() {
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
     if (!CurrentTextItem)   return;
     CurrentTextItem->IsVisible=!CurrentTextItem->IsVisible;
+    if (CurrentTextItem->BackgroundBrush.Video!=NULL) {
+        if (!CurrentTextItem->IsVisible) {
+            CurrentTextItem->BackgroundBrush.SoundVolume=0;
+        } else {
+            int CurrentShot=ui->ShotTable->currentColumn();
+            bool SomeOneHaveSound=false;
+            // Parse table to know if a block have sound for this shot
+            for (int i=0;i<DiaporamaObject->List[CurrentShot].ShotComposition.List.count();i++)
+                if ((DiaporamaObject->List[CurrentShot].ShotComposition.List[i].BackgroundBrush.Video!=NULL)&&
+                    (DiaporamaObject->List[CurrentShot].ShotComposition.List[i].BackgroundBrush.SoundVolume!=0)) SomeOneHaveSound=true;
+            // If no block have sound => get sound to this video
+            if (!SomeOneHaveSound) CurrentTextItem->BackgroundBrush.SoundVolume=1;
+        }
+    }
     RefreshBlockTable(ui->BlockTable->currentRow());
 }
 
@@ -1886,7 +1907,12 @@ void DlgSlideProperties::s_PasteBlockBT() {
             DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey));
             DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(&ShotBlock);
             // Ensure new object is not visible in previous shot
-            if (i<CurrentShot) DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].IsVisible=false;
+            if (i<CurrentShot) {
+                DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].IsVisible=false;
+                // Ensure unvisible video have no sound !
+                if (DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].BackgroundBrush.Video!=NULL)
+                    DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].BackgroundBrush.SoundVolume=0;
+            }
         }
 
         // Inc NextIndexKey
