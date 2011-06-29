@@ -165,7 +165,7 @@ QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Hei
         if (PreviousFilter->Red!=TheRed)                    TheRed          =PreviousFilter->Red+(TheRed-PreviousFilter->Red)*PctDone;
         if (PreviousFilter->Green!=TheGreen)                TheGreen        =PreviousFilter->Green+(TheGreen-PreviousFilter->Green)*PctDone;
         if (PreviousFilter->Blue!=TheBlue)                  TheBlue         =PreviousFilter->Blue+(TheBlue-PreviousFilter->Blue)*PctDone;
-        if (PreviousFilter->AspectRatio!=TheAspectRatio)    TheAspectRatio  =PreviousFilter->AspectRatio+(TheAspectRatio-PreviousFilter->Blue)*AspectRatio;
+        if (PreviousFilter->AspectRatio!=TheAspectRatio)    TheAspectRatio  =PreviousFilter->AspectRatio+(TheAspectRatio-PreviousFilter->AspectRatio)*PctDone;
     }
 
     // Prepare values from sourceimage size

@@ -247,6 +247,9 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
             BackgroundBrush.BrushType=0;        // brushtype=no brush
         } else BackgroundBrush.LoadFromXML(Element,"BackgroundBrush",PathForRelativPath);  // Brush of the background of the form
 
+        // Ensure unvisible video have no sound !
+        if ((!IsVisible)&&(BackgroundBrush.Video!=NULL)) BackgroundBrush.SoundVolume=0;
+
         return true;
     }
     return false;

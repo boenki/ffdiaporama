@@ -176,13 +176,13 @@ void DlgVideoEdit::s_EditEndPos(QTime NewValue) {
 //====================================================================================================================
 
 void DlgVideoEdit::s_SeekLeft() {
-    ui->VideoPlayer->SetPlayerToPause();
     ui->VideoPlayer->SeekPlayer(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos));
+    ui->VideoPlayer->SetPlayerToPause();
 }
 
 //====================================================================================================================
 
 void DlgVideoEdit::s_SeekRight() {
-    ui->VideoPlayer->SetPlayerToPause();
     ui->VideoPlayer->SeekPlayer(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos));
+    ui->VideoPlayer->SetPlayerToPause();
 }

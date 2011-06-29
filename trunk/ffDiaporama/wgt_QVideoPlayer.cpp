@@ -122,6 +122,8 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
 
 wgt_QVideoPlayer::~wgt_QVideoPlayer() {
     SetPlayerToPause();         // Ensure player is correctly stoped
+    if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
+    if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
     delete ui;
 }
 
@@ -417,7 +419,8 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 // Timer event
 //============================================================================================
 void wgt_QVideoPlayer::s_TimerEvent() {
-    if ((Flag_InTimer==true)||(IsSliderProcess)) return;
+    if ((Flag_InTimer==true)||(IsSliderProcess))    return;     // No re-entrance
+    if (!(PlayerPlayMode && !PlayerPauseMode))      return;     // Only if play mode
     Flag_InTimer=true;
 
     if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
@@ -441,6 +444,8 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             if (FileInfo) {
                 // Calc LastPosition
                 LastPosition=(PreviousFrame==NULL)?ActualPosition:PreviousFrame->CurrentObject_InObjectTime;
+                //qDebug()<<"LastPosition"<<LastPosition<<"from"<<((PreviousFrame==NULL)?"ActualPosition":"PreviousFrame");
+
                 // Create a new frame object
                 cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
                 NewFrame->CurrentObject_StartTime   =0;
@@ -457,9 +462,9 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             }
         }
         // Move slider to the position of the next frame
-        QTime Now=QTime().currentTime();
+        //QTime Now=QTime().currentTime();
         s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
-        qDebug()<<"s_SliderMoved"<<Now.msecsTo(QTime().currentTime())<<"ImageList.List.count()"<<ImageList.List.count();
+        //qDebug()<<"s_SliderMoved"<<Now.msecsTo(QTime().currentTime())<<"ImageList.List.count()"<<ImageList.List.count();
     }
 
     // Add image to the list if it's not full
@@ -476,7 +481,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         ThreadPrepareVideo=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,LastPosition);
 
     } else if ((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareImage.isRunning())) {
-
+/*
         // Calc LastPosition
         LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
         // Create a new frame object
@@ -484,6 +489,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
         // Start thread
         ThreadPrepareImage=QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true,true);
+*/
     }
 
     Flag_InTimer=false;
@@ -495,7 +501,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 //============================================================================================
 
 void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted,bool AddStartPos) {
-    QTime Now=QTime().currentTime();
+    //QTime Now=QTime().currentTime();
     if (SoundWanted) {
         // Ensure MusicTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
@@ -533,17 +539,20 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
         if (MaxPacket>MixedMusic.NbrPacketForFPS) MaxPacket=MixedMusic.NbrPacketForFPS;
 
         // Append mixed musique to the queue
-        for (int j=0;j<MaxPacket;j++)
-            MixedMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
+        SDL_LockAudio();                                                    // Ensure SDL Audio callback will not be call now
+        for (int j=0;j<MaxPacket;j++) MixedMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
+        SDL_UnlockAudio();                                                  // Ensure SDL Audio callback can now be call
     }
 
     // Append this image to the queue
     ImageList.AppendImage(Frame);
-    qDebug()<<"PrepareImage"<<Now.msecsTo(QTime().currentTime());
+    //qDebug()<<"PrepareImage"<<Now.msecsTo(QTime().currentTime());
 }
 
 void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position) {
+    SDL_LockAudio();                                                    // Ensure SDL Audio callback will not be call now
     QImage *Temp=FileInfo->ImageAt(true,Position,0,false,&MixedMusic,1,false,NULL,true);
+    SDL_UnlockAudio();                                                  // Ensure SDL Audio callback can now be call
     if (Temp) {
         QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
         NewFrame->RenderedImage=Temp2;

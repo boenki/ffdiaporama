@@ -2,15 +2,16 @@ Source: ffdiaporama
 Section: video
 Priority: extra
 Maintainer: LEVRAY Dominique <levray.dominique@bbox.fr>
-XSBC-Original-Maintainer: LEVRAY Dominique <levray.dominique@bbox.fr>
 Standards-Version: 3.9.1
 Homepage: http://ffdiaporama.tuxfamily.org
 Build-Depends: qt4-qmake, libqt4-dev, debhelper (>= 8), g++ (>= 4.4), libavutil-dev, libavformat-dev, libavcodec-dev, libswscale-dev, libsdl-image1.2-dev, libsdl-mixer1.2-dev
 
-Depends: exiv2, ffmpeg, libqtcore4, libqtgui4, libqt4-xml, libsdl1.2debian-all
+Depends: gettext, intltool-debian, exiv2, ffmpeg, libqtcore4, libqtgui4, libqt4-xml, libsdl1.2debian-all
 Architecture: any
 Package: ffdiaporama
-_Description: FFDIAPORAMA - Movie creator
+#Template: po/templates
+#Type: text
+Description: FFDIAPORAMA - Movie creator
  ffDiaporama is an application of creation of videos sequences established by
  titles, images, photos, movie clip and music.
  .
