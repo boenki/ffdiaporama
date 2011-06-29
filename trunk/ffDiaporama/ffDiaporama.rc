@@ -2,8 +2,8 @@
 IDI_CON1 ICON        DISCARDABLE "img/logo.ico"
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION    	0,99,2,0
-PRODUCTVERSION 	0,99,2,0
+FILEVERSION    	0,99,2,5
+PRODUCTVERSION 	0,99,2,5
 FILEFLAGSMASK  	0
 FILEFLAGS      	0
 FILEOS         	VOS__WINDOWS32
@@ -15,11 +15,11 @@ FILESUBTYPE    	0
             VALUE "CompanyName",      "."
             VALUE "LegalCopyright",   "(c) 2011 Dominique LEVRAY"
             VALUE "FileDescription",  "ffDiaporama"
-            VALUE "FileVersion",      "0.99.alpha2.0"
+            VALUE "FileVersion",      "0.99.alpha2.5"
             VALUE "InternalName",     "ffDiaporama"
             VALUE "OriginalFilename", "ffDiaporama.exe"
             VALUE "ProductName",      "ffDiaporama"
-            VALUE "ProductVersion",   "0.99.alpha2.0"
+            VALUE "ProductVersion",   "0.99.alpha2.5"
         }
     }
     BLOCK "VarFileInfo" {
