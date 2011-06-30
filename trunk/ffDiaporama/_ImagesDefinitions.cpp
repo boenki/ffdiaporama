@@ -233,7 +233,7 @@ void cFilterCorrectObject::ApplyFilter(QImage *Image) {
 
 //====================================================================================================================
 
-void cFilterCorrectObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString /*PathForRelativPath*/) {
+void cFilterCorrectObject::SaveToXML(QDomElement &domDocument,QString ElementName) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
@@ -256,7 +256,7 @@ void cFilterCorrectObject::SaveToXML(QDomElement &domDocument,QString ElementNam
 
 //====================================================================================================================
 
-bool cFilterCorrectObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString /*PathForRelativPath*/) {
+bool cFilterCorrectObject::LoadFromXML(QDomElement domDocument,QString ElementName) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
@@ -426,26 +426,41 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     // Attribut of the object
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("BrushType",BrushType);                                                    // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-    Element.setAttribute("PatternType",PatternType);                                                // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    Element.setAttribute("ColorD",ColorD);                                                          // First Color
-    Element.setAttribute("ColorF",ColorF);                                                          // Last Color
-    Element.setAttribute("ColorIntermed",ColorIntermed);                                            // Intermediate Color
-    Element.setAttribute("Intermediate",Intermediate);                                              // Intermediate position of 2nd color (in %)
-    Element.setAttribute("GradientOrientation",GradientOrientation);                                // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
-    Element.setAttribute("BrushImage",BrushImage);                                                  // Image name if image from library
-    Element.setAttribute("BrushFileName",BrushFileName);                                            // File name if image from disk
-    if (Video!=NULL) {
-        if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
-            Element.setAttribute("StartPos",Video->StartPos.toString());                            // Start position (video only)
-            Element.setAttribute("EndPos",Video->EndPos.toString());                                // End position (video only)
-            Video->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
-        } else Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));            // Volume of soundtrack (for video only)
-    } else if (Image!=NULL) {
-        if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
-            Image->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
-        }
+    switch (BrushType) {
+        case BRUSHTYPE_PATTERN      :
+            Element.setAttribute("PatternType",PatternType);                                        // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
+            Element.setAttribute("ColorD",ColorD);                                                  // First Color
+            break;
+        case BRUSHTYPE_GRADIENT3    :
+            Element.setAttribute("ColorIntermed",ColorIntermed);                                    // Intermediate Color
+            Element.setAttribute("Intermediate",Intermediate);                                      // Intermediate position of 2nd color (in %)
+        case BRUSHTYPE_GRADIENT2    :
+            Element.setAttribute("ColorF",ColorF);                                                  // Last Color
+            Element.setAttribute("GradientOrientation",GradientOrientation);                        // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
+        case BRUSHTYPE_SOLID        :
+            Element.setAttribute("ColorD",ColorD);                                                  // First Color
+            break;
+        case BRUSHTYPE_IMAGELIBRARY :
+            Element.setAttribute("BrushImage",BrushImage);           // Image name if image from library
+            break;
+        case BRUSHTYPE_IMAGEDISK :
+            if (Video!=NULL) {
+                if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
+                    Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
+                    Element.setAttribute("StartPos",Video->StartPos.toString());                            // Start position (video only)
+                    Element.setAttribute("EndPos",Video->EndPos.toString());                                // End position (video only)
+                    Video->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
+                } else Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));            // Volume of soundtrack (for video only)
+            } else if (Image!=NULL) {
+                if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
+                    Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
+                    Image->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
+                }
+            }
+            break;
     }
-    BrushFileCorrect.SaveToXML(Element,"ImageCorrection",PathForRelativPath);       // Image correction if image from disk
+
+    BrushFileCorrect.SaveToXML(Element,"ImageCorrection");       // Image correction if image from disk
     domDocument.appendChild(Element);
 }
 
@@ -456,61 +471,69 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
         // Attribut of the object
-        TypeComposition=    Element.attribute("TypeComposition").toInt();
-        BrushType=          Element.attribute("BrushType").toInt();                         // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-        PatternType=        Element.attribute("PatternType").toInt();                       // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-        ColorD=             Element.attribute("ColorD");                                    // First Color
-        ColorF=             Element.attribute("ColorF");                                    // Last Color
-        ColorIntermed=      Element.attribute("ColorIntermed");                             // Intermediate Color
-        Intermediate=       Element.attribute("Intermediate").toDouble();                   // Intermediate position of 2nd color (in %)
-        GradientOrientation=Element.attribute("GradientOrientation").toInt();               // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
-        BrushImage         =Element.attribute("BrushImage");                                // Image name if image from library
-
-        QString BrushFileName=Element.attribute("BrushFileName");                           // File name if image from disk
-
-        if ((PathForRelativPath!="")&&(BrushFileName!=""))
-            BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
-
-        BrushFileCorrect.LoadFromXML(Element,"ImageCorrection",PathForRelativPath);         // Image correction if image from disk
-
-        if ((TypeComposition!=COMPOSITIONTYPE_SHOT)&&(BrushType==BRUSHTYPE_IMAGEDISK)) {
-            bool IsValide=false;
-            QString Extension=QFileInfo(BrushFileName).suffix().toLower();
-            for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
-                Image=new cimagefilewrapper();
-                IsValide=Image->GetInformationFromFile(BrushFileName);
-                if (!IsValide) {
-                    delete Image;
-                    Image=NULL;
-                }
+        TypeComposition =Element.attribute("TypeComposition").toInt();
+        BrushType       =Element.attribute("BrushType").toInt();                         // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
+        switch (BrushType) {
+            case BRUSHTYPE_PATTERN      :
+                PatternType         =Element.attribute("PatternType").toInt();          // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
+                ColorD              =Element.attribute("ColorD");                       // First Color
                 break;
-            }
-            if (Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
-                Video=new cvideofilewrapper();
-                IsValide=Video->GetInformationFromFile(BrushFileName,false);
-                if (!IsValide) {
-                    delete Video;
-                    Video=NULL;
+            case BRUSHTYPE_GRADIENT3    :
+                ColorIntermed       =Element.attribute("ColorIntermed");                // Intermediate Color
+                Intermediate        =Element.attribute("Intermediate").toDouble();      // Intermediate position of 2nd color (in %)
+            case BRUSHTYPE_GRADIENT2    :
+                ColorF              =Element.attribute("ColorF");                       // Last Color
+                GradientOrientation =Element.attribute("GradientOrientation").toInt();  // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
+            case BRUSHTYPE_SOLID        :
+                ColorD=Element.attribute("ColorD");                                    // First Color
+                break;
+            case BRUSHTYPE_IMAGELIBRARY :
+                BrushImage=Element.attribute("BrushImage");  // Image name if image from library
+                break;
+            case BRUSHTYPE_IMAGEDISK :
+                if (TypeComposition!=COMPOSITIONTYPE_SHOT) {
+                    QString BrushFileName=Element.attribute("BrushFileName");                       // File name if image from disk
+                    if ((PathForRelativPath!="")&&(BrushFileName!=""))
+                        BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
+
+                    bool IsValide=false;
+                    QString Extension=QFileInfo(BrushFileName).suffix().toLower();
+                    for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
+                        Image=new cimagefilewrapper();
+                        IsValide=Image->GetInformationFromFile(BrushFileName);
+                        if (!IsValide) {
+                            delete Image;
+                            Image=NULL;
+                        }
+                        break;
+                    }
+                    if (Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
+                        Video=new cvideofilewrapper();
+                        IsValide=Video->GetInformationFromFile(BrushFileName,false);
+                        if (!IsValide) {
+                            delete Video;
+                            Video=NULL;
+                        }
+                        if (Video!=NULL) {
+                        }
+                        break;
+                    }
                 }
                 if (Video!=NULL) {
+                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
+                        Video->StartPos =QTime().fromString(Element.attribute("StartPos"));                         // Start position (video only)
+                        Video->EndPos   =QTime().fromString(Element.attribute("EndPos"));                           // End position (video only)
+                        Video->BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);    // Image transformation
+                    } else SoundVolume=Element.attribute("SoundVolume").toDouble();                                 // Volume of soundtrack (for video only)
+                } else if (Image!=NULL) {
+                    if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
+                        Image->BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);    // Image transformation
+                    }
                 }
                 break;
-            }
         }
 
-        if (Video!=NULL) {
-            if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
-                Video->StartPos =QTime().fromString(Element.attribute("StartPos"));                         // Start position (video only)
-                Video->EndPos   =QTime().fromString(Element.attribute("EndPos"));                           // End position (video only)
-                Video->BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);    // Image transformation
-            } else
-                SoundVolume=Element.attribute("SoundVolume").toDouble();                                 // Volume of soundtrack (for video only)
-        } else if (Image!=NULL) {
-            if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
-                Image->BrushFileTransform.LoadFromXML(Element,"ImageTransformation",PathForRelativPath);    // Image transformation
-            }
-        }
-
+        BrushFileCorrect.LoadFromXML(Element,"ImageCorrection");         // Image correction if image from disk
         return true;
     }
     return false;

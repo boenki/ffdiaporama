@@ -166,17 +166,21 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("BackgroundTransparent",Opacity);          // Opacity of the form
 
     // Text part
-    Element.setAttribute("Text",Text);                              // Text of the object
-    Element.setAttribute("FontName",FontName);                      // font name
-    Element.setAttribute("FontSize",FontSize);                      // font size
-    Element.setAttribute("FontColor",FontColor);                    // font color
-    Element.setAttribute("FontShadowColor",FontShadowColor);        // font shadow color
-    Element.setAttribute("IsBold",IsBold?"1":"0");                  // true if bold mode
-    Element.setAttribute("IsItalic",IsItalic?"1":"0");              // true if Italic mode
-    Element.setAttribute("IsUnderline",IsUnderline?"1":"0");        // true if Underline mode
-    Element.setAttribute("HAlign",HAlign);                          // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-    Element.setAttribute("VAlign",VAlign);                          // Vertical alignement : 0=up, 1=center, 2=bottom
-    Element.setAttribute("StyleText",StyleText);                    // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+    if (TypeComposition!=COMPOSITIONTYPE_SHOT) {
+        Element.setAttribute("Text",Text); // Text of the object
+        if (Text!="") {
+            Element.setAttribute("FontName",FontName);                      // font name
+            Element.setAttribute("FontSize",FontSize);                      // font size
+            Element.setAttribute("FontColor",FontColor);                    // font color
+            Element.setAttribute("FontShadowColor",FontShadowColor);        // font shadow color
+            Element.setAttribute("IsBold",IsBold?"1":"0");                  // true if bold mode
+            Element.setAttribute("IsItalic",IsItalic?"1":"0");              // true if Italic mode
+            Element.setAttribute("IsUnderline",IsUnderline?"1":"0");        // true if Underline mode
+            Element.setAttribute("HAlign",HAlign);                          // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+            Element.setAttribute("VAlign",VAlign);                          // Vertical alignement : 0=up, 1=center, 2=bottom
+            Element.setAttribute("StyleText",StyleText);                    // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+        }
+    }
 
     // Shap part
     Element.setAttribute("BackgroundForm",BackgroundForm);          // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
@@ -211,17 +215,21 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         RotateYAxis         =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
 
         // Text part
-        Text                =Element.attribute("Text");                             // Text of the object
-        FontName            =Element.attribute("FontName");                         // font name
-        FontSize            =Element.attribute("FontSize").toInt();                 // font size
-        FontColor           =Element.attribute("FontColor");                        // font color
-        FontShadowColor     =Element.attribute("FontShadowColor");                  // font shadow color
-        IsBold              =Element.attribute("IsBold")=="1";                      // true if bold mode
-        IsItalic            =Element.attribute("IsItalic")=="1";                    // true if Italic mode
-        IsUnderline         =Element.attribute("IsUnderline")=="1";                 // true if Underline mode
-        HAlign              =Element.attribute("HAlign").toInt();                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-        VAlign              =Element.attribute("VAlign").toInt();                   // Vertical alignement : 0=up, 1=center, 2=bottom
-        StyleText           =Element.attribute("StyleText").toInt();                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+        if (TypeComposition!=COMPOSITIONTYPE_SHOT) {
+            Text=Element.attribute("Text");  // Text of the object
+            if (Text!="") {
+                FontName            =Element.attribute("FontName");                         // font name
+                FontSize            =Element.attribute("FontSize").toInt();                 // font size
+                FontColor           =Element.attribute("FontColor");                        // font color
+                FontShadowColor     =Element.attribute("FontShadowColor");                  // font shadow color
+                IsBold              =Element.attribute("IsBold")=="1";                      // true if bold mode
+                IsItalic            =Element.attribute("IsItalic")=="1";                    // true if Italic mode
+                IsUnderline         =Element.attribute("IsUnderline")=="1";                 // true if Underline mode
+                HAlign              =Element.attribute("HAlign").toInt();                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+                VAlign              =Element.attribute("VAlign").toInt();                   // Vertical alignement : 0=up, 1=center, 2=bottom
+                StyleText           =Element.attribute("StyleText").toInt();                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+            }
+        }
 
         // Shap part
         BackgroundForm      =Element.attribute("BackgroundForm").toInt();           // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
@@ -236,6 +244,19 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
             for (int i=0;i<ObjectComposition->List.count();i++) if (ObjectComposition->List[i].IndexKey==IndexKey) {
                 BackgroundBrush.Video=ObjectComposition->List[i].BackgroundBrush.Video;
                 BackgroundBrush.Image=ObjectComposition->List[i].BackgroundBrush.Image;
+                Text=ObjectComposition->List[i].Text;
+                if (Text!="") {
+                    FontName        =ObjectComposition->List[i].FontName;
+                    FontSize        =ObjectComposition->List[i].FontSize;
+                    FontColor       =ObjectComposition->List[i].FontColor;
+                    FontShadowColor =ObjectComposition->List[i].FontShadowColor;
+                    IsBold          =ObjectComposition->List[i].IsBold;
+                    IsItalic        =ObjectComposition->List[i].IsItalic;
+                    IsUnderline     =ObjectComposition->List[i].IsUnderline;
+                    HAlign          =ObjectComposition->List[i].HAlign;
+                    VAlign          =ObjectComposition->List[i].VAlign;
+                    StyleText       =ObjectComposition->List[i].StyleText;
+                }
                 break;
             }
         }
@@ -1017,7 +1038,8 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 
     // Save rendering informations on project
     Element=domDocument.createElement("Render");
-    Element.setAttribute("OutputFileName",  OutputFileName);
+    Element.setAttribute("OutputFileFormat",OutputFileFormat);
+    Element.setAttribute("OutputFileName",  QDir::cleanPath(QDir(QFileInfo(ProjectFileName).absolutePath()).relativeFilePath(OutputFileName)));
     Element.setAttribute("VideoCodec",      VideoCodec);
     Element.setAttribute("VideoFrameRate",  VideoFrameRate);
     Element.setAttribute("VideoBitRate",    VideoBitRate);
@@ -1084,6 +1106,7 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString ProjectFileName) {
     // Load rendering informations on project
     if ((root.elementsByTagName("Render").length()>0)&&(root.elementsByTagName("Render").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("Render").item(0).toElement();
+        OutputFileFormat=Element.attribute("OutputFileFormat").toInt();
         OutputFileName  =Element.attribute("OutputFileName");
         VideoCodec      =Element.attribute("VideoCodec");
         VideoFrameRate  =Element.attribute("VideoFrameRate").toDouble();

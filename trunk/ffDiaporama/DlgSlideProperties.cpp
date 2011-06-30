@@ -1901,6 +1901,19 @@ void DlgSlideProperties::s_PasteBlockBT() {
         ShotBlock.IndexKey=DiaporamaObject->NextIndexKey;
         ShotBlock.BackgroundBrush.Image=GlobalBlock->BackgroundBrush.Image;
         ShotBlock.BackgroundBrush.Video=GlobalBlock->BackgroundBrush.Video;
+        ShotBlock.Text=GlobalBlock->Text;
+        if (ShotBlock.Text!="") {
+            ShotBlock.FontName        =GlobalBlock->FontName;
+            ShotBlock.FontSize        =GlobalBlock->FontSize;
+            ShotBlock.FontColor       =GlobalBlock->FontColor;
+            ShotBlock.FontShadowColor =GlobalBlock->FontShadowColor;
+            ShotBlock.IsBold          =GlobalBlock->IsBold;
+            ShotBlock.IsItalic        =GlobalBlock->IsItalic;
+            ShotBlock.IsUnderline     =GlobalBlock->IsUnderline;
+            ShotBlock.HAlign          =GlobalBlock->HAlign;
+            ShotBlock.VAlign          =GlobalBlock->VAlign;
+            ShotBlock.StyleText       =GlobalBlock->StyleText;
+        }
 
         // Now create and append a shot composition block to all shot
         for (int i=0;i<DiaporamaObject->List.count();i++) {

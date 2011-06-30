@@ -1178,12 +1178,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="1048"/>
-        <location filename="../DlgSlideProperties.cpp" line="1601"/>
+        <location filename="../DlgSlideProperties.cpp" line="1608"/>
         <source>Select a file</source>
         <translation>Sélectionner un fichier</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1578"/>
+        <location filename="../DlgSlideProperties.cpp" line="1585"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Texte</translation>
@@ -1702,15 +1702,15 @@ p, li { white-space: pre-wrap; }
         <location filename="../_ApplicationDefinitions.cpp" line="482"/>
         <location filename="../_ApplicationDefinitions.cpp" line="487"/>
         <location filename="../_ApplicationDefinitions.cpp" line="493"/>
-        <location filename="../_Diaporama.cpp" line="1038"/>
-        <location filename="../_Diaporama.cpp" line="1062"/>
-        <location filename="../_Diaporama.cpp" line="1067"/>
-        <location filename="../_Diaporama.cpp" line="1074"/>
-        <location filename="../_Diaporama.cpp" line="1130"/>
-        <location filename="../_Diaporama.cpp" line="1136"/>
-        <location filename="../_Diaporama.cpp" line="1143"/>
-        <location filename="../_Diaporama.cpp" line="1152"/>
-        <location filename="../mainwindow.cpp" line="908"/>
+        <location filename="../_Diaporama.cpp" line="1063"/>
+        <location filename="../_Diaporama.cpp" line="1087"/>
+        <location filename="../_Diaporama.cpp" line="1092"/>
+        <location filename="../_Diaporama.cpp" line="1099"/>
+        <location filename="../_Diaporama.cpp" line="1156"/>
+        <location filename="../_Diaporama.cpp" line="1162"/>
+        <location filename="../_Diaporama.cpp" line="1169"/>
+        <location filename="../_Diaporama.cpp" line="1178"/>
+        <location filename="../mainwindow.cpp" line="910"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erreur</translation>
@@ -1740,47 +1740,47 @@ p, li { white-space: pre-wrap; }
         <translation>Erreur durant la création du fichier de configuration</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="621"/>
+        <location filename="../_Diaporama.cpp" line="645"/>
         <source>Title</source>
         <comment>Default slide name when no file</comment>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1038"/>
-        <location filename="../_Diaporama.cpp" line="1039"/>
+        <location filename="../_Diaporama.cpp" line="1063"/>
+        <location filename="../_Diaporama.cpp" line="1064"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la création du fichier de données</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1061"/>
-        <location filename="../_Diaporama.cpp" line="1130"/>
-        <location filename="../_Diaporama.cpp" line="1131"/>
+        <location filename="../_Diaporama.cpp" line="1086"/>
+        <location filename="../_Diaporama.cpp" line="1156"/>
+        <location filename="../_Diaporama.cpp" line="1157"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la lecture du fichier projet</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1067"/>
-        <location filename="../_Diaporama.cpp" line="1068"/>
-        <location filename="../_Diaporama.cpp" line="1136"/>
-        <location filename="../_Diaporama.cpp" line="1137"/>
+        <location filename="../_Diaporama.cpp" line="1092"/>
+        <location filename="../_Diaporama.cpp" line="1093"/>
+        <location filename="../_Diaporama.cpp" line="1162"/>
+        <location filename="../_Diaporama.cpp" line="1163"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la lecture du contenu du fichier projet</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1074"/>
-        <location filename="../_Diaporama.cpp" line="1075"/>
-        <location filename="../_Diaporama.cpp" line="1143"/>
-        <location filename="../_Diaporama.cpp" line="1144"/>
+        <location filename="../_Diaporama.cpp" line="1099"/>
+        <location filename="../_Diaporama.cpp" line="1100"/>
+        <location filename="../_Diaporama.cpp" line="1169"/>
+        <location filename="../_Diaporama.cpp" line="1170"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation>Le fichier n&apos;est pas un fichier projet valide</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1152"/>
-        <location filename="../_Diaporama.cpp" line="1153"/>
+        <location filename="../_Diaporama.cpp" line="1178"/>
+        <location filename="../_Diaporama.cpp" line="1179"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -1929,24 +1929,24 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>Ouvrir un projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="686"/>
+        <location filename="../mainwindow.cpp" line="687"/>
         <source>Save project as</source>
         <translation>Enregistrer le projet sous</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="516"/>
-        <location filename="../mainwindow.cpp" line="739"/>
+        <location filename="../mainwindow.cpp" line="740"/>
         <source>Add files</source>
         <translation>Ajouter des fichiers</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="908"/>
+        <location filename="../mainwindow.cpp" line="910"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Format non supporté</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="928"/>
+        <location filename="../mainwindow.cpp" line="930"/>
         <source>Add a sub project</source>
         <translation>Ajouter un projet</translation>
     </message>
@@ -1975,53 +1975,53 @@ Voulez-vous l&apos;enregistrer ?</translation>
     <message>
         <location filename="../_ImageFileWrapper.cpp" line="80"/>
         <location filename="../_VideoFileWrapper.cpp" line="583"/>
-        <source>Select another file</source>
-        <translation>Sélectionner un autre fichier</translation>
+        <source>Select another file for </source>
+        <translation>Sélectionner un fichier de remplacement pour </translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="145"/>
+        <location filename="../_ImageFileWrapper.cpp" line="146"/>
         <source>top, left</source>
         <comment>EXIV2 translation</comment>
         <translation>haut, gauche</translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="146"/>
+        <location filename="../_ImageFileWrapper.cpp" line="147"/>
         <source>top, right</source>
         <comment>EXIV2 translation</comment>
         <translation>haut, droit</translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="147"/>
+        <location filename="../_ImageFileWrapper.cpp" line="148"/>
         <source>bottom, right</source>
         <comment>EXIV2 translation</comment>
         <translation>bas, droit</translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="148"/>
+        <location filename="../_ImageFileWrapper.cpp" line="149"/>
         <source>bottom, left</source>
         <comment>EXIV2 translation</comment>
         <translation>gauche, bas</translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="149"/>
+        <location filename="../_ImageFileWrapper.cpp" line="150"/>
         <source>left, top</source>
         <comment>EXIV2 translation</comment>
         <translation>gauche, haut</translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="150"/>
+        <location filename="../_ImageFileWrapper.cpp" line="151"/>
         <source>right, top</source>
         <comment>EXIV2 translation</comment>
         <translation>droit, haut</translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="151"/>
+        <location filename="../_ImageFileWrapper.cpp" line="152"/>
         <source>right, bottom</source>
         <comment>EXIV2 translation</comment>
         <translation>droit, bas</translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="152"/>
+        <location filename="../_ImageFileWrapper.cpp" line="153"/>
         <source>left, bottom</source>
         <comment>EXIV2 translation</comment>
         <translation>gauche, bas</translation>

@@ -310,7 +310,7 @@ void MainWindow::RefreshControls() {
 
     // File menu
     ui->action_Save->setEnabled(Diaporama->IsModify);
-    ui->actionSave_as->setEnabled(Diaporama->IsModify);
+    ui->actionSave_as->setEnabled(Diaporama->List.count()>0);
 
     // Project menu
     ui->actionEdit_background->setEnabled(ui->timeline->columnCount()>0);
