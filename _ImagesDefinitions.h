@@ -71,8 +71,8 @@ public:
     cFilterCorrectObject();
 
     void        ApplyFilter(QImage *Image);
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
+    void        SaveToXML(QDomElement &domDocument,QString ElementName);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName);
 
     QImage      *GetImage(QImage *SourceImage,int Width,int Height,double PCTDone,cFilterCorrectObject *PreviousFilter);
 };

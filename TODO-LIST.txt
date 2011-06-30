@@ -14,15 +14,13 @@ TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+Correction de bugg: Fait en sorte à ce que la fonction "Enregistrer sous" reste accessible même si le projet n'a pas été modifié
+Correction de bugg: Conservation du nouveau nom du fichier musical en cas de déplacement du fichier et sélection d'un autre fichier par l'utilisateur
+Correction de bugg: Rajoute le format de fichier (qui manquait) dans les informations sauvegardées concernant le fichier vidéo généré dans le fichier projet (.ffd)
+
+Changement de comportement: Supprime des données inutiles et redondantes du fichier projet (.ffd)
+Changement de comportement: Rend le nom du fichier vidéo généré relatif dans le fichier projet (.ffd)
 
 -------------------------------------
-Changelog depuis la version 20110626
+Changelog depuis la version 20110629
 -------------------------------------
-Correction de bugg: Corrige l'erreur d'affichage de la durée du plan dans la boite slide quand le plan ne contient aucun bloc
-Correction de bugg: Corrige la contrainte géométrique des images en mode géometrie libre dans la boite slide
-Correction de bugg: Reduit l'image dans la boite slide si elle devient trop grande en sortie de la boite de recadrage
-Correction de bugg: Corrige une erreur de syntaxe dans le fichier xml de configuration par défaut
-Correction de bugg: Corrige l'erreur de son resté actif pour les vidéos invisibles dans la boite slide
-Correction de bugg: Corrige l'erreur d'affichage dans la partie interactive de la boite slide pour les vidéos qui ne commence pas au début
-Correction de bugg: Repositionne correctement le curseur dans la boite slide quand on supprime un plan
-Correction de bugg: Corrige un bug dans le calcul des animations pour les images en géométrie libre

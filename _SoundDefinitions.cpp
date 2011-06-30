@@ -343,7 +343,7 @@ bool cMusicObject::LoadMedia(QString &filename) {
 
     Music=new cvideofilewrapper();
     IsValide=Music->GetInformationFromFile(filename,true);
-    FilePath=QFileInfo(filename).absoluteFilePath();
+    FilePath=QFileInfo(Music->FileName).absoluteFilePath();
     StartPos=QTime(0,0,0,0);                // Start position
     EndPos  =Music->Duration;
     Duration=Music->Duration;
