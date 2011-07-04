@@ -126,6 +126,7 @@ public:
     QString     Name;
     QPixmap     Icon;
     int         Geometry;
+    QImage      BackgroundImage;
 
     cBackgroundObject(QString FileName,int Geometry);
 
@@ -212,10 +213,6 @@ extern  cLumaList       LumaList_Checker;                       // Real definiti
 extern  cLumaList       LumaList_Clock;                         // Real definition in _ImagesDefinitions.cpp
 extern  cLumaList       LumaList_Snake;                         // Real definition in _ImagesDefinitions.cpp
 extern  cIconList       IconList;                               // Real definition in _ImagesDefinitions.cpp
-
-// static local values use to speed background image loading (cache)
-extern  QImage          *LastLoadedBackgroundImage;             // Real definition in _ImagesDefinitions.cpp
-extern  QString         LastLoadedBackgroundImageName;          // Real definition in _ImagesDefinitions.cpp
 
 // static local values use to work with luma images
 #define     LUMADLG_HEIGHT  80

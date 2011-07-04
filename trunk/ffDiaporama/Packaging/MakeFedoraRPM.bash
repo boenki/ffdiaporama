@@ -13,8 +13,8 @@ cp ffDiaporama/Packaging/ffDiaporama.SPEC ~/rpmbuild/SPECS
 cp ffDiaporama/img/logo.xpm ~/rpmbuild/SOURCES
 rm -Rf ffDiaporama/Packaging
 rm ffDiaporama/locale/*.ts
-mv ffDiaporama ffDiaporama-0.99.2
-tar -czf ../ffDiaporama-0.99.2.tar.gz *
+mv ffDiaporama ffDiaporama-0.99.3
+tar -czf ../ffDiaporama-0.99.3.tar.gz *
 cd ..
 rm -Rf ffdiaporama_trunk
 cd ~

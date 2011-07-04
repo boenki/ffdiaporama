@@ -24,7 +24,7 @@
 // Specific defines for this dialog box
 //======================================
 #define TAQUET_SIZE         9       // TAQUET_SIZE is QSlider::handle:horizontal (width+margin)/2
-#define CompletTickH1       2       // Y start position of the complete tick line
+#define CompletTickH1       3       // Y start position of the complete tick line
 #define CompletTickH2       20      // Y end position of the complete tick line
 #define IntermediateTickH1  7       // Y start position of the intermediate tick line
 #define IntermediateTickH2  20      // Y end position of the intermediate tick line
@@ -51,8 +51,8 @@ void wgt_QCustomRuller::ActiveSlider(int TotalDuration) {
     if (Slider==NULL) {
         Slider=new QSlider(Qt::Horizontal,this);
         Slider->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
-        Slider->setFixedHeight(30);
-        Slider->setStyleSheet("QSlider {background: transparent;\n width: 18px;}");
+        Slider->setFixedHeight(32);
+        Slider->setStyleSheet("QSlider {background: transparent;\n width: 18px;\n border-top: 1px solid #202020;\n border-bottom: 0px;\n border-left: 0px;\n border-right: 0px;\n}");
     }
 }
 
@@ -184,6 +184,6 @@ void wgt_QCustomRuller::paintEvent(QPaintEvent *) {
     }
     Painter.setPen(QColor(0x20,0x20,0x20));
     Painter.drawLine(0,0,Width,0);
-    Painter.setPen(Qt::white);
-    Painter.drawLine(0,Height-1,Width,Height-1);
+    //Painter.setPen(Qt::white);
+    //Painter.drawLine(0,Height-1,Width,Height-1);
 }

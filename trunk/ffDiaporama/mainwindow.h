@@ -41,6 +41,8 @@ public:
     QDomDocument        *Clipboard_Object;
     QDomDocument        *Clipboard_Block;
     QStringList         StatusBarList;
+    QTimer              Timer;
+    int                 LastCount;
 
     explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
     ~MainWindow();
@@ -61,6 +63,8 @@ protected:
     virtual void showEvent(QShowEvent *);
 
 private slots:
+    void    s_TimerEvent();
+
     // Timeline
     void    s_ItemSelectionChanged();
     void    s_ItemDoubleClicked();                      // Double click on widget in the object track
@@ -76,9 +80,11 @@ private slots:
     // File menu
     void    s_action_New();
     void    s_action_Open();
+    void    s_action_OpenRecent();
     void    s_action_Save();
     void    s_action_SaveAs();
     void    s_action_Exit();
+    void    s_ChangeApplicationSettings();
 
     // Project menu
     void    s_action_AddFile();
@@ -90,10 +96,13 @@ private slots:
     void    s_CutToClipboard();
     void    s_CopyToClipboard();
     void    s_PasteFromClipboard();
+    void    s_action_Edit();
 
-    // Tools menu
+    // Render menu
     void    s_RenderVideo();
-    void    s_ChangeApplicationSettings();
+    void    s_RenderSmartphone();
+    void    s_RenderMultimedia();
+    void    s_RenderForTheWEB();
 
     // Help menu
     void    s_About();

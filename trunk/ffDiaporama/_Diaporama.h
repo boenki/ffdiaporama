@@ -287,7 +287,6 @@ public:
 
     cDiaporama(cApplicationConfig *ApplicationConfig);
     ~cDiaporama();
-    void                Clean();
     int                 GetHeightForWidth(int WantedWith);
     int                 GetWidthForHeight(int WantedHeight);
     int                 GetObjectIndex(cDiaporamaObject *ObjectToFind);
@@ -298,7 +297,7 @@ public:
     cMusicObject        *GetMusicObject(int ObjectIndex,int &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
     void                DefineSizeAndGeometry(int Geometry);                        // Init size and geometry
     bool                SaveFile(QWidget *ParentWindow);
-    bool                LoadFile(QWidget *ParentWindow,QString ProjectFileName);
+    bool                LoadFile(QWidget *ParentWindow,QString &ProjectFileName);
     bool                AppendFile(QWidget *ParentWindow,QString ProjectFileName);
     void                FreeUnusedMemory(int ObjectNum);
 

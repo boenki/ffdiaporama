@@ -96,27 +96,22 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
      "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#12000k",  {"500k", "1500k","2500k","5000k","8000k"}},
     {false, CODEC_ID_VP8,      "libvpx",        "WebM-VP8",
      "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k",                {"500k","1500k","2500k","5000k","8000k"}},
-    {false, 22,                "flv",           "Flash Video / Sorenson H.263",
+    {false, 22,                "flv",          "Flash Video / Sorenson H.263",
      "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k",                {"500k","1500k","2500k","5000k","8000k"}}
 };
 
 struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
-    {false, CODEC_ID_PCM_S16LE,"pcm_s16le",     "WAV (PCM signed 16-bit little-endian)","",
-     false,"",""},
-    {false, CODEC_ID_MP3,      "libmp3lame",    "MP3 (MPEG audio layer 3)",             "8k#16k#24k#32k#40k#48k#56k#64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k",
-     false,"","160k"},
-    {false, CODEC_ID_AAC,      "libfaac",       "AAC (Advanced Audio Codec)",           "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",
-     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
-    {false, CODEC_ID_AC3,      "ac3",           "AC3 (ATSC A/52A)",                     "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",
-     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
-    {false, CODEC_ID_VORBIS,   "libvorbis",     "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",
-     false,"","128k"},
-    {false, CODEC_ID_MP2,      "mp2",           "MP2 (MPEG audio layer 2)",             "64k#96k#128k#192k#256k#500k",
-     false,"","128k"}
+    {false, CODEC_ID_PCM_S16LE,"pcm_s16le",         "WAV (PCM signed 16-bit little-endian)","",     false,"",""},
+    {false, CODEC_ID_MP3,      "libmp3lame",        "MP3 (MPEG audio layer 3)",             "8k#16k#24k#32k#40k#48k#56k#64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k",     false,"","160k"},
+    {false, CODEC_ID_AAC,      "libfaac",           "AAC (Advanced Audio Codec)",           "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
+    {false, CODEC_ID_AC3,      "ac3",               "AC3 (ATSC A/52A)",                     "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
+    {false, CODEC_ID_VORBIS,   "libvorbis",         "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",     false,"","128k"},
+    {false, CODEC_ID_MP2,      "mp2",               "MP2 (MPEG audio layer 2)",             "64k#96k#128k#192k#256k#500k",     false,"","128k"},
+    {false, CODEC_ID_AMR_NB,   "libopencore_amrnb", "AMR (Adaptive Multi-Rate)",            "4750#5150#5900#6700#7400#7950#10200#12200",     false,"","6700"},
 };
 
 struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
-    {false, "3gp",      "3gp",  "3GP file format",              "libx264#h264",                                "libfaac#aac"},
+    {false, "3gp",      "3gp",  "3GP file format",              "libxvid#libx264#h264",                        "libfaac#aac#libopencore_amrnb"},
     {false, "avi",      "avi",  "AVI file format",              "mjpeg#mpeg2video#libxvid#mpeg4#libx264#h264", "pcm_s16le#mp2#libmp3lame#mp3#libfaac#aac#ac3"},
     {false, "matroska", "mkv",  "MKV (Matroska) file format",   "libxvid#mpeg4#libx264#h264",                  "pcm_s16le#libmp3lame#mp3#libfaac#aac#ac3#libvorbis#vorbis"},
     {false, "mjpeg",    "avi",  "MJPEG video",                  "mjpeg",                                       "pcm_s16le"},
@@ -251,13 +246,79 @@ void cSaveWindowPosition::LoadFromXML(QDomElement domDocument) {
 
 //====================================================================================================================
 
+cDeviceModelDef::cDeviceModelDef() {
+    IsFind          =false;                                 // true if device model format is supported by installed version of ffmpeg
+    DeviceName      ="";                                    // long name for the device model
+    DeviceType      =0;                                     // device type
+    DeviceSubtype   =0;
+    FileFormat      =0;                                     // sFormatDef number
+    VideoCodec      =0;                                     // sVideoCodecDef number
+    AudioCodec      =0;                                     // sAudioCodecDef number
+    AudioBitrate    =0;                                     // Bitrate number in sAudioCodecDef
+    AudioFreq       =0;                                     // Specific audio frequency
+    ImageSize[GEOMETRY_4_3]     =0;                         // DefImageFormat number [depending on image geometry]
+    ImageSize[GEOMETRY_16_9]    =0;                         // DefImageFormat number [depending on image geometry]
+    ImageSize[GEOMETRY_40_17]   =0;                         // DefImageFormat number [depending on image geometry]
+    VideoBitrate[GEOMETRY_4_3]  =0;                         // Bitrate number in sVideoCodecDef [depending on image geometry]
+    VideoBitrate[GEOMETRY_16_9] =0;                         // Bitrate number in sVideoCodecDef [depending on image geometry]
+    VideoBitrate[GEOMETRY_40_17]=0;                         // Bitrate number in sVideoCodecDef [depending on image geometry]
+}
+
+cDeviceModelDef::~cDeviceModelDef() {
+
+}
+
+void cDeviceModelDef::SaveToXML(QDomElement &domDocument,QString ElementName) {
+    QDomDocument    DomDocument;
+    QDomElement     Element=DomDocument.createElement(ElementName);
+    Element.setAttribute("DeviceName",DeviceName);
+    Element.setAttribute("DeviceType",DeviceType);
+    Element.setAttribute("DeviceSubtype",DeviceSubtype);
+    Element.setAttribute("FileFormat",FileFormat);
+    Element.setAttribute("VideoCodec",VideoCodec);
+    Element.setAttribute("AudioCodec",AudioCodec);
+    Element.setAttribute("AudioBitrate",AudioBitrate);
+    Element.setAttribute("AudioFreq",AudioFreq);
+    Element.setAttribute("ImageSize_4_3",ImageSize[GEOMETRY_4_3]);
+    Element.setAttribute("ImageSize_16_9",ImageSize[GEOMETRY_16_9]);
+    Element.setAttribute("ImageSize_40_17",ImageSize[GEOMETRY_40_17]);
+    Element.setAttribute("VideoBitrate_4_3",VideoBitrate[GEOMETRY_4_3]);
+    Element.setAttribute("VideoBitrate_16_9",VideoBitrate[GEOMETRY_16_9]);
+    Element.setAttribute("VideoBitrate_40_17",VideoBitrate[GEOMETRY_40_17]);
+    domDocument.appendChild(Element);
+}
+
+bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName) {
+    if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
+        DeviceName      =Element.attribute("DeviceName");
+        DeviceType      =Element.attribute("DeviceType").toInt();
+        DeviceSubtype   =Element.attribute("DeviceSubtype").toInt();
+        FileFormat      =Element.attribute("FileFormat").toInt();
+        VideoCodec      =Element.attribute("VideoCodec").toInt();
+        AudioCodec      =Element.attribute("AudioCodec").toInt();
+        AudioBitrate    =Element.attribute("AudioBitrate").toInt();
+        AudioFreq       =Element.attribute("AudioFreq").toInt();
+        ImageSize[GEOMETRY_4_3]     =Element.attribute("ImageSize_4_3").toInt();
+        ImageSize[GEOMETRY_16_9]    =Element.attribute("ImageSize_16_9").toInt();
+        ImageSize[GEOMETRY_40_17]   =Element.attribute("ImageSize_40_17").toInt();
+        VideoBitrate[GEOMETRY_4_3]  =Element.attribute("VideoBitrate_4_3").toInt();
+        VideoBitrate[GEOMETRY_16_9] =Element.attribute("VideoBitrate_16_9").toInt();
+        VideoBitrate[GEOMETRY_40_17]=Element.attribute("VideoBitrate_40_17").toInt();
+        return true;
+    } else return false;
+}
+
+//====================================================================================================================
+
 cApplicationConfig::cApplicationConfig() {
+
     //qDebug() << "IN:cApplicationConfig::cApplicationConfig";
     ParentWindow=NULL;
 
-#ifdef Q_OS_WIN
-    // Search plateforme and define specific value depending on plateforme
-    switch (QSysInfo().WindowsVersion) {
+    #ifdef Q_OS_WIN
+        // Search plateforme and define specific value depending on plateforme
+        switch (QSysInfo().WindowsVersion) {
         case 0x0010 : Plateforme="Windows NT (operating system version 4.0)";   break;
         case 0x0020 : Plateforme="Windows 2000 (operating system version 5.0)"; break;
         case 0x0030 : Plateforme="Windows XP (operating system version 5.1)";   break;
@@ -265,24 +326,19 @@ cApplicationConfig::cApplicationConfig() {
         case 0x0080 : Plateforme="Windows Vista, Windows Server 2008 (operating system version 6.0)";   break;
         case 0x0090 : Plateforme="Windows 7, Windows Server 2008 R2 (operating system version 6.1)";    break;
         default     : Plateforme="Unknown version"; break;
-    }
+        }
 
-    // AERO Flag for MPlayer
-    if (QSysInfo().WindowsVersion>=0x0080) AEROCOMPATIBILITY=true;     // True pour prendre en charge AERO (Vista/Windows 7)
-    else                                   AEROCOMPATIBILITY=false;    // False pour ne pas prendre en charge AERO (Vista/Windows 7)
-
-    // Load registry value for specific Windows Folder
-    QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
-    WINDOWS_APPDATA  =Settings.value("AppData").toString();
-    WINDOWS_MUSIC    =Settings.value("My Music").toString();
-    WINDOWS_PICTURES =Settings.value("My Pictures").toString();
-    WINDOWS_VIDEO    =Settings.value("My Video").toString();
-    WINDOWS_DOCUMENTS=Settings.value("Personal").toString();
-
-#endif
-#ifdef Q_WS_X11
-    Plateforme="Unix/Linux";
-#endif
+        // Load registry value for specific Windows Folder
+        QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
+        WINDOWS_APPDATA  =Settings.value("AppData").toString();
+        WINDOWS_MUSIC    =Settings.value("My Music").toString();
+        WINDOWS_PICTURES =Settings.value("My Pictures").toString();
+        WINDOWS_VIDEO    =Settings.value("My Video").toString();
+        WINDOWS_DOCUMENTS=Settings.value("Personal").toString();
+    #endif
+    #ifdef Q_WS_X11
+        Plateforme="Unix/Linux";
+    #endif
 
     AddToSystemProperties(QString(OPERATINGSYSTEM_STR)+Plateforme+" - "+QString("%1").arg(getCpuCount())+" Core/CPU");
 
@@ -366,7 +422,7 @@ cApplicationConfig::cApplicationConfig() {
     DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
 
     DisableSSE2                 =0;
- }
+}
 
 //====================================================================================================================
 cApplicationConfig::~cApplicationConfig() {
@@ -479,22 +535,22 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     int             errorLine,errorColumn;
 
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        qDebug()<<QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading configuration file","Error message");
+        qDebug()<<QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading configuration file","Error message");
         return false;
     }
 
     if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
-        qDebug()<<QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading content of configuration file","Error message");
+        qDebug()<<QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of configuration file","Error message");
         return false;
     }
 
     root = domDocument.documentElement();
     if (root.tagName()!=CONFIGFILE_ROOTNAME) {
-        qDebug()<<QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","The file is not a valid configuration file","Error message");
+        qDebug()<<QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","The file is not a valid configuration file","Error message");
         return false;
     }
 
-    if (TypeConfigFile!=USERCONFIGFILE) return true;    // It's finish for GlobalConfigFile
+    //if (TypeConfigFile!=USERCONFIGFILE) return true;    // It's finish for GlobalConfigFile
 
     QDomNodeList    NodeList;
 
@@ -543,7 +599,30 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         DefaultStandard         =Element.attribute("Standard").toInt();
     }
 
-    NodeList=root.elementsByTagName("RestoreWindow");               if ((NodeList.length()>0)&&(NodeList.at(0).childNodes().length()>0)) RestoreWindow=NodeList.at(0).childNodes().at(0).nodeValue()=="1";
+    if ((root.elementsByTagName("RecentFiles").length()>0)&&(root.elementsByTagName("RecentFiles").item(0).isElement()==true)) {
+        QDomElement Element=root.elementsByTagName("RecentFiles").item(0).toElement();
+        int i=0;
+        while ((Element.elementsByTagName("Recent-"+QString("%1").arg(i)).length()>0)&&(root.elementsByTagName("Recent-"+QString("%1").arg(i)).item(0).isElement()==true)) {
+            QDomElement SubElement=root.elementsByTagName("Recent-"+QString("%1").arg(i)).item(0).toElement();
+            QString     File=SubElement.attribute("File");
+            RecentFile.append(File);
+            i++;
+        }
+    }
+
+    if ((root.elementsByTagName("RenderingDeviceModel").length()>0)&&(root.elementsByTagName("RenderingDeviceModel").item(0).isElement()==true)) {
+        QDomElement Element=root.elementsByTagName("RenderingDeviceModel").item(0).toElement();
+        int i=0;
+        while ((Element.elementsByTagName("Device_"+QString("%1").arg(i)).length()>0)&&(root.elementsByTagName("Device_"+QString("%1").arg(i)).item(0).isElement()==true)) {
+            RenderDeviceModel.append(cDeviceModelDef());
+            RenderDeviceModel[i].LoadFromXML(Element,QString("Device_"+QString("%1").arg(i)));
+            i++;
+        }
+    }
+
+    NodeList=root.elementsByTagName("RestoreWindow");
+    if ((NodeList.length()>0)&&(NodeList.at(0).childNodes().length()>0)) RestoreWindow=NodeList.at(0).childNodes().at(0).nodeValue()=="1";
+
     // Load windows size and position
     MainWinWSP->LoadFromXML(root);                                  // MainWindow - Window size and position
     DlgBackgroundPropertiesWSP->LoadFromXML(root);
@@ -570,7 +649,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     // Save all option to the configuration file
     QFile           file(UserConfigFile);
     QDomDocument    domDocument(APPLICATION_NAME);
-    QDomElement     Element;
+    QDomElement     Element,SubElement;
     QDomElement     root;
 
     // Ensure destination exist
@@ -623,7 +702,23 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("ImageSize",               (QString("%1").arg(DefaultImageSize)));
     root.appendChild(Element);
 
-    Element=domDocument.createElement("RestoreWindow");             Element.appendChild(domDocument.createTextNode(RestoreWindow?"1":"0"));                             root.appendChild(Element);
+    Element=domDocument.createElement("RecentFiles");
+    for (int i=0;i<RecentFile.count();i++) {
+        SubElement=domDocument.createElement("Recent-"+QString("%1").arg(i));
+        SubElement.setAttribute("File",RecentFile.at(i));
+        Element.appendChild(SubElement);
+    }
+    root.appendChild(Element);
+
+    Element=domDocument.createElement("RestoreWindow");
+    Element.appendChild(domDocument.createTextNode(RestoreWindow?"1":"0"));
+    root.appendChild(Element);
+
+    /*
+    Element=domDocument.createElement("RenderingDeviceModel");
+    for (int i=0;i<RenderDeviceModel.count();i++) RenderDeviceModel[i].SaveToXML(Element,QString("Device_"+QString("%1").arg(i)));
+    root.appendChild(Element);
+    */
 
     // Save windows size and position
     MainWinWSP->SaveToXML(root);                                // MainWindow - Window size and position
@@ -640,7 +735,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        ExitApplicationWithFatalError(QCoreApplication::translate("MainWindow","Error creating configuration file","Error message"));
+        ExitApplicationWithFatalError(QApplication::translate("MainWindow","Error creating configuration file","Error message"));
         return false;
     }
     QTextStream out(&file);

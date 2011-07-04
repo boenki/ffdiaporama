@@ -81,7 +81,7 @@ void SDLSetFPS(double WantedFPS) {
     if (SDLCurrentFPS==WantedFPS) return;
     SDLCurrentFPS=WantedFPS;
 
-    if (SDLIsAudioOpen) SDL_CloseAudio();                               // Close audio
+    /*if (SDLIsAudioOpen)*/ SDL_CloseAudio();                               // Close audio
 
     // Init MixedMusic
     SDL_LockAudio();                                                    // Ensure callback will not be call now
@@ -207,19 +207,21 @@ void cSoundBlockList::AppendData(int16_t *Data,int64_t DataLen) {
     // Cut data to Packet
     while ((DataLen+CurrentTempSize>=SoundPacketSize)) {
         uint8_t *Packet=(uint8_t *)av_malloc(SoundPacketSize+4);
-        if (CurrentTempSize>0) {                                // Use previously data store in TempData
-            int DataToUse=SoundPacketSize-CurrentTempSize;
-            memcpy(Packet,TempData,CurrentTempSize);
-            memcpy(Packet+CurrentTempSize,CurData,DataToUse);
-            DataLen        -=DataToUse;
-            CurData        +=DataToUse;
-            CurrentTempSize=0;
-        } else {                                                // Construct a full packet
-            memcpy(Packet,CurData,SoundPacketSize);
-            DataLen-=SoundPacketSize;
-            CurData+=SoundPacketSize;
+        if (Packet) {
+            if (CurrentTempSize>0) {                                // Use previously data store in TempData
+                int DataToUse=SoundPacketSize-CurrentTempSize;
+                memcpy(Packet,TempData,CurrentTempSize);
+                memcpy(Packet+CurrentTempSize,CurData,DataToUse);
+                DataLen        -=DataToUse;
+                CurData        +=DataToUse;
+                CurrentTempSize=0;
+            } else {                                                // Construct a full packet
+                memcpy(Packet,CurData,SoundPacketSize);
+                DataLen-=SoundPacketSize;
+                CurData+=SoundPacketSize;
+            }
+            AppendPacket((int16_t *)Packet);
         }
-        AppendPacket((int16_t *)Packet);
     }
     if (DataLen>0) {                                            // Store a partial packet in temp buffer
         // Store data left to TempData

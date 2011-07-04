@@ -489,10 +489,10 @@ void cOnOffFilterComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
     if ((ColorNum & FilterGray)==FilterGray)            fmt_filters::gray(Img);
     painter->drawImage(option.rect,Image);
     QString Text="";
-    if ((ColorNum & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Gray");
-    if ((ColorNum & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Equalize");
-    if ((ColorNum & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Despeckle");
-    if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
+    if ((ColorNum & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Gray");
+    if ((ColorNum & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Equalize");
+    if ((ColorNum & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Despeckle");
+    if (Text=="") Text=QApplication::translate("wgt_QImageFilterTransform","No transformation");
     painter->setPen(QPen(Qt::black));
     painter->drawText(QRectF(option.rect.left()+1+5,option.rect.top()+1+5,option.rect.width(),option.rect.height()),Text);
     painter->setPen(QPen(Qt::white));
@@ -537,10 +537,10 @@ cOnOffFilterComboBox::cOnOffFilterComboBox(QWidget *parent):QComboBox(parent) {
             Table->setRowHeight(Table->rowCount()-1,24);
         }
         Text="";
-        if ((i & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Gray");
-        if ((i & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Equalize");
-        if ((i & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Despeckle");
-        if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
+        if ((i & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Gray");
+        if ((i & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Equalize");
+        if ((i & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Despeckle");
+        if (Text=="") Text=QApplication::translate("wgt_QImageFilterTransform","No transformation");
         Table->setItem(i/OnOffFilterComboBoxNBRCOLUMN,i-(i/OnOffFilterComboBoxNBRCOLUMN)*OnOffFilterComboBoxNBRCOLUMN,new QTableWidgetItem(Text));
         i++;
     }
@@ -558,10 +558,10 @@ void cOnOffFilterComboBox::s_ItemSelectionChanged() {
     STOPMAJ=true;
     if (CurrentFilter) *CurrentFilter=((QTableWidget *)view())->currentRow()*OnOffFilterComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     QString Text="";
-    if ((*CurrentFilter & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Gray");
-    if ((*CurrentFilter & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Equalize");
-    if ((*CurrentFilter & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Despeckle");
-    if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
+    if ((*CurrentFilter & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Gray");
+    if ((*CurrentFilter & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Equalize");
+    if ((*CurrentFilter & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Despeckle");
+    if (Text=="") Text=QApplication::translate("wgt_QImageFilterTransform","No transformation");
     setItemText(*CurrentFilter/OnOffFilterComboBoxNBRCOLUMN,Text);
     STOPMAJ=false;
 }
@@ -578,10 +578,10 @@ void cOnOffFilterComboBox::SetCurrentFilter(QImage *TheSourceImage,int *OnOffFil
     for (int i=0;i<OnOffFilterComboBoxNBRCOLUMN;i++)                  ((QTableWidget *)view())->setColumnWidth(i,SourceImage.width());
     for (int i=0;i<(MAXONOFFFILTER/OnOffFilterComboBoxNBRCOLUMN);i++) ((QTableWidget *)view())->setRowHeight(i,SourceImage.height());
     QString Text="";
-    if ((*CurrentFilter & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Gray");
-    if ((*CurrentFilter & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Equalize");
-    if ((*CurrentFilter & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QCoreApplication::translate("wgt_QImageFilterTransform","Despeckle");
-    if (Text=="") Text=QCoreApplication::translate("wgt_QImageFilterTransform","No transformation");
+    if ((*CurrentFilter & FilterGray)==FilterGray)            Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Gray");
+    if ((*CurrentFilter & FilterEqualize)==FilterEqualize)    Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Equalize");
+    if ((*CurrentFilter & FilterDespeckle)==FilterDespeckle)  Text=Text+(Text!=""?"+":"")+QApplication::translate("wgt_QImageFilterTransform","Despeckle");
+    if (Text=="") Text=QApplication::translate("wgt_QImageFilterTransform","No transformation");
     setItemText(*OnOffFilter/OnOffFilterComboBoxNBRCOLUMN,Text);
     setCurrentIndex(*OnOffFilter/OnOffFilterComboBoxNBRCOLUMN);
     STOPMAJ=false;

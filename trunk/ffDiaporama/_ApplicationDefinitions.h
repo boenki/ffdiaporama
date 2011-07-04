@@ -37,6 +37,10 @@ void    ExitApplicationWithFatalError(QString StringToAdd);     // Exit applicat
 
 //====================================================================================================================
 
+//============================================
+// Class to handle window size & position
+//============================================
+
 class cSaveWindowPosition {
 public:
     QString     WindowName;     // Name of the Window
@@ -52,93 +56,123 @@ public:
     void    LoadFromXML(QDomElement domDocument);
 };
 
+//============================================
+// Device model definition
+//============================================
+
+class cDeviceModelDef {
+public:
+    bool    IsFind;                                             // true if device model format is supported by installed version of ffmpeg
+    QString DeviceName;                                         // long name for the device model
+    int     DeviceType;                                         // device type
+    int     DeviceSubtype;                                      // device Subtype
+    int     Standard;                                           // standard : PAL/NTSC
+    int     FileFormat;                                         // sFormatDef number
+    int     ImageSize[NBR_GEOMETRY_DEF];                        // DefImageFormat number [depending on image geometry]
+    int     VideoCodec;                                         // sVideoCodecDef number
+    int     VideoBitrate[NBR_GEOMETRY_DEF];                     // Bitrate number in sVideoCodecDef [depending on image geometry]
+    int     AudioCodec;                                         // sAudioCodecDef number
+    int     AudioBitrate;                                       // Bitrate number in sAudioCodecDef
+    int     AudioFreq;                                          // Specific audio frequency
+
+    cDeviceModelDef();
+    ~cDeviceModelDef();
+
+    void    SaveToXML(QDomElement &domDocument,QString ElementName);
+    bool    LoadFromXML(QDomElement domDocument,QString ElementName);
+};
+
 //====================================================================================================================
 
 class cApplicationConfig {
 public:
-    QString             PathEXIV2;                                  // Filename with path to exiv2 binary
-    QString             PathFFMPEG;                                 // Filename with path to ffmpeg binary
+    QString                 PathEXIV2;                                  // Filename with path to exiv2 binary
+    QString                 PathFFMPEG;                                 // Filename with path to ffmpeg binary
 
-    QString             Plateforme;                                 // Operating system in use
-    QWidget             *ParentWindow;                              // Link to the top window
-    QString             CurrentFolder;                              // Current folder
+    QString                 Plateforme;                                 // Operating system in use
+    QWidget                 *ParentWindow;                              // Link to the top window
+    QString                 CurrentFolder;                              // Current folder
 
     #if defined(Q_OS_WIN)
-        bool    AEROCOMPATIBILITY;                                  // True pour prendre en charge AERO (Vista/Windows 7)
         // registry value for specific Windows Folder
-        QString WINDOWS_APPDATA;                                    // specific Windows Folder : AppData
-        QString WINDOWS_MUSIC;                                      // specific Windows Folder : My Music
-        QString WINDOWS_PICTURES;                                   // specific Windows Folder : My Pictures
-        QString WINDOWS_VIDEO;                                      // specific Windows Folder : My Video
-        QString WINDOWS_DOCUMENTS;                                  // specific Windows Folder : Personal
+        QString WINDOWS_APPDATA;                                        // specific Windows Folder : AppData
+        QString WINDOWS_MUSIC;                                          // specific Windows Folder : My Music
+        QString WINDOWS_PICTURES;                                       // specific Windows Folder : My Pictures
+        QString WINDOWS_VIDEO;                                          // specific Windows Folder : My Video
+        QString WINDOWS_DOCUMENTS;                                      // specific Windows Folder : Personal
     #endif
 
-    QStringList         AllowVideoExtension;                        // List of all file extension allowed for video
-    QStringList         AllowImageExtension;                        // List of all file extension allowed for image
-    QStringList         AllowMusicExtension;                        // List of all file extension allowed for music
+    QStringList             AllowVideoExtension;                        // List of all file extension allowed for video
+    QStringList             AllowImageExtension;                        // List of all file extension allowed for image
+    QStringList             AllowMusicExtension;                        // List of all file extension allowed for music
+
+    // Rendering device model
+    QList<cDeviceModelDef>  RenderDeviceModel;                          // List of known rendering device model
 
     // User contexte
-    QString             UserConfigPath;                             // Path and filename to user profil path
-    QString             UserConfigFile;                             // Path and filename to user configuration file
-    QString             GlobalConfigFile;                           // Path and filename to global configuration file (in binary directory)
+    QString                 UserConfigPath;                             // Path and filename to user profil path
+    QString                 UserConfigFile;                             // Path and filename to user configuration file
+    QString                 GlobalConfigFile;                           // Path and filename to global configuration file (in binary directory)
 
     // Last directories
-    bool                RememberLastDirectories;                    // If true, Remember all directories for future use
-    QString             LastMediaPath;                              // Last folder use for image/video
-    QString             LastProjectPath;                            // Last folder use for project
-    QString             LastMusicPath;                              // Last folder use for music
-    QString             LastRenderVideoPath;                        // Last folder use for render video
+    bool                    RememberLastDirectories;                    // If true, Remember all directories for future use
+    QString                 LastMediaPath;                              // Last folder use for image/video
+    QString                 LastProjectPath;                            // Last folder use for project
+    QString                 LastMusicPath;                              // Last folder use for music
+    QString                 LastRenderVideoPath;                        // Last folder use for render video
 
     // Preferences
-    bool                DisableSSE2;                                // Disable SSE2 processor extension if error with hardware acceleration
-    bool                RestoreWindow;                              // If true, restore window state and position at startup
+    bool                    DisableSSE2;                                // Disable SSE2 processor extension if error with hardware acceleration
+    bool                    RestoreWindow;                              // If true, restore window state and position at startup
 
     // Editor options
-    bool                AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
-    bool                SortFile;                                   // if true sort file by (last) number when multiple file insertion
-    int                 DefaultFraming;                             // 0=Width, 1=Height
-    int                 TimelineHeight;                             // Height of the timeline
+    bool                    AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
+    bool                    SortFile;                                   // if true sort file by (last) number when multiple file insertion
+    int                     DefaultFraming;                             // 0=Width, 1=Height
+    int                     TimelineHeight;                             // Height of the timeline
 
     // Preview setting
-    double              PreviewFPS;                                 // Preview FrameRate
-    int                 PreviewMaxHeight;                           // Specific for preview : Maximum height of image
-    bool                ApplyTransfoPreview;                        // True if image transformation are apply during preview
+    double                  PreviewFPS;                                 // Preview FrameRate
+    int                     PreviewMaxHeight;                           // Specific for preview : Maximum height of image
+    bool                    ApplyTransfoPreview;                        // True if image transformation are apply during preview
 
     // Default project settings
-    int                 ImageGeometry;                              // Project image geometry for image rendering
-    int                 NoShotDuration;                             // Default duration for fixed image when is alone (no shot)
-    int                 FixedDuration;                              // Default duration for fixed image
-    int                 MobilDuration;                              // Default duration for mobil image
-    int                 SpeedWave;                                  // Default Speed wave methode
+    int                     ImageGeometry;                              // Project image geometry for image rendering
+    int                     NoShotDuration;                             // Default duration for fixed image when is alone (no shot)
+    int                     FixedDuration;                              // Default duration for fixed image
+    int                     MobilDuration;                              // Default duration for mobil image
+    int                     SpeedWave;                                  // Default Speed wave methode
 
     // Default transition
-    bool                RandomTransition;                           // if true randomize a transition
-    int                 DefaultTransitionFamilly;                   // Transition familly
-    int                 DefaultTransitionSubType;                   // Transition type in the familly
-    int                 DefaultTransitionDuration;                  // Transition duration (in msec)
+    bool                    RandomTransition;                           // if true randomize a transition
+    int                     DefaultTransitionFamilly;                   // Transition familly
+    int                     DefaultTransitionSubType;                   // Transition type in the familly
+    int                     DefaultTransitionDuration;                  // Transition duration (in msec)
 
     // Default rendering options
-    int                 DefaultFormat;                              // Default output format container
-    QString             DefaultVideoCodec;                          // Default video codec
-    int                 DefaultVideoBitRate;                        // Default video bit rate
-    QString             DefaultAudioCodec;                          // Default audio codec
-    int                 DefaultAudioBitRate;                        // Default audio bit rate
-    int                 DefaultImageSize;                           // Default image size
-    int                 DefaultStandard;                            // Default standard (PAL/NTSC)
+    int                     DefaultFormat;                              // Default output format container
+    QString                 DefaultVideoCodec;                          // Default video codec
+    int                     DefaultVideoBitRate;                        // Default video bit rate
+    QString                 DefaultAudioCodec;                          // Default audio codec
+    int                     DefaultAudioBitRate;                        // Default audio bit rate
+    int                     DefaultImageSize;                           // Default image size
+    int                     DefaultStandard;                            // Default standard (PAL/NTSC)
+
+    QStringList             RecentFile;                                 // Recent project files
 
     // Main Window Size & Position
-    bool                MainWinState;                               // WindowsSettings-ismaximized
-    cSaveWindowPosition *MainWinWSP;                                // MainWindow - Window size and position
-    cSaveWindowPosition *DlgBackgroundPropertiesWSP;                // Dialog box "Background properties" - Window size and position
-    cSaveWindowPosition *DlgMusicPropertiesWSP;                     // Dialog box "Music properties" - Window size and position
-    cSaveWindowPosition *DlgApplicationSettingsWSP;                 // Dialog box "Application settings" - Window size and position
-    cSaveWindowPosition *DlgRenderVideoWSP;                         // Dialog box "Render Video" - Window size and position
-    cSaveWindowPosition *DlgTransitionPropertiesWSP;                // Dialog box "Transition properties" - Window size and position
-    cSaveWindowPosition *DlgSlidePropertiesWSP;                     // Dialog box "Slide properties" - Window size and position
-    cSaveWindowPosition *DlgImageTransformationWSP;                 // Dialog box "Image Transformation" - Window size and position
-    cSaveWindowPosition *DlgImageCorrectionWSP;                     // Dialog box "Image Correction" - Window size and position
-    cSaveWindowPosition *DlgVideoEditWSP;                           // Dialog box "Edit video" - Window size and position
-    cSaveWindowPosition *DlgTextEditWSP;                            // Dialog box "Text editor" - Window size and position
+    bool                    MainWinState;                               // WindowsSettings-ismaximized
+    cSaveWindowPosition     *MainWinWSP;                                // MainWindow - Window size and position
+    cSaveWindowPosition     *DlgBackgroundPropertiesWSP;                // Dialog box "Background properties" - Window size and position
+    cSaveWindowPosition     *DlgMusicPropertiesWSP;                     // Dialog box "Music properties" - Window size and position
+    cSaveWindowPosition     *DlgApplicationSettingsWSP;                 // Dialog box "Application settings" - Window size and position
+    cSaveWindowPosition     *DlgRenderVideoWSP;                         // Dialog box "Render Video" - Window size and position
+    cSaveWindowPosition     *DlgTransitionPropertiesWSP;                // Dialog box "Transition properties" - Window size and position
+    cSaveWindowPosition     *DlgSlidePropertiesWSP;                     // Dialog box "Slide properties" - Window size and position
+    cSaveWindowPosition     *DlgImageTransformationWSP;                 // Dialog box "Image Transformation" - Window size and position
+    cSaveWindowPosition     *DlgImageCorrectionWSP;                     // Dialog box "Image Correction" - Window size and position
+    cSaveWindowPosition     *DlgVideoEditWSP;                           // Dialog box "Edit video" - Window size and position
+    cSaveWindowPosition     *DlgTextEditWSP;                            // Dialog box "Text editor" - Window size and position
 
     cApplicationConfig();
     ~cApplicationConfig();

@@ -11,10 +11,10 @@ cd ffdiaporama_trunk
 rm ffDiaporama/locale/*.ts
 mv ffDiaporama/Packaging/debian ffDiaporama/debian
 rm -Rf ffDiaporama/Packaging
-mv ffDiaporama ffdiaporama-0.99.2
-tar -czf ../ffdiaporama_0.99.2.orig.tar.gz *
-mv ffdiaporama-0.99.2 ~/debbuild/SOURCES/ffdiaporama-0.99.2
-cd ../ffdiaporama-0.99.2
+mv ffDiaporama ffdiaporama-0.99.3
+tar -czf ../ffdiaporama_0.99.3.orig.tar.gz *
+mv ffdiaporama-0.99.3 ~/debbuild/SOURCES/ffdiaporama-0.99.3
+cd ../ffdiaporama-0.99.3
 debuild -b --lintian-opts -i
 
 

@@ -24,12 +24,17 @@
 
 DlgAbout::DlgAbout(QWidget *parent):QDialog(parent),ui(new Ui::DlgAbout) {
     ui->setupUi(this);
-    ui->ApplicationNameLabel->setText("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">"\
-                                      "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head>"\
-                                      "<body><p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"
-                                      "<span style=\" font-size:14pt; font-weight:600;\">"+
-                                      QString(APPLICATION_NAME)+" "+QString(APPLICATION_VERSION)+
-                                      "</span></p></body></html>");
+    ui->ApplicationNameLabel->setText(QString(APPLICATION_VERSION));
+    // Search if a BUILDVERSION.txt file exist
+    QFile file("BUILDVERSION.txt");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QString Line=QString(file.readLine());
+        if (Line.endsWith("\n")) Line=Line.left(Line.length()-QString("\n").length());
+        while (Line.endsWith(" ")) Line=Line.left(Line.length()-1);
+        if (Line.lastIndexOf(" ")) Line=Line.mid(Line.lastIndexOf(" ")+1);
+        ui->ApplicationReleaseLabel->setText(Line);
+    }
+    file.close();
     ui->SystemInfoED->setText(SystemProperties);
     ui->tabWidget->setCurrentIndex(0);
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));

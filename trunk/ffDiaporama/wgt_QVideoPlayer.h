@@ -77,8 +77,8 @@ public:
     bool                TimerTick;              // To use timer 1 time for 2 call
 
     // Thread controls
-    QFuture<void>       ThreadPrepareVideo;
-    QFuture<void>       ThreadPrepareImage;
+    QFutureWatcher<void> ThreadPrepareVideo;
+    QFutureWatcher<void> ThreadPrepareImage;
 
     explicit wgt_QVideoPlayer(QWidget *parent = 0);
     ~wgt_QVideoPlayer();

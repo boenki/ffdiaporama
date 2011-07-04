@@ -45,30 +45,23 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
 
     ApplicationConfig=TheCurrentApplicationConfig;
     ApplicationConfig->ParentWindow=this;
+    ui->Toolbox->setCurrentIndex(0);
 
     QSplashScreen screen;
     screen.setPixmap(QPixmap("img/splash.png"));
     screen.show();
-    QCoreApplication::processEvents();  // Give time to interface !
+    QApplication::processEvents();  // Give time to interface !
 
-    // Search if a BUILDVERSION.txt file exist
-    QFile file("BUILDVERSION.txt");
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString Line=QString(file.readLine());
-        if (Line.endsWith("\n")) Line=Line.left(Line.length()-QString("\n").length());
-        AddToSystemProperties(QString(BUILDVERSION_STR)+QString(APPLICATION_NAME)+" "+QString(APPLICATION_VERSION)+" "+QString(Line));
-     }
-    file.close();
     AddToSystemProperties(QString(VERSIONQT_STR)+QString(qVersion()));
     AddToSystemProperties(QString(FMTFILTERVERSION_STR)+"0.6.4-Licence=LGPL");
 
     // Now, we have application settings then we can init SDL
-    screen.showMessage(QCoreApplication::translate("MainWindow","Starting SDL..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Starting SDL..."),Qt::AlignHCenter|Qt::AlignBottom);
     SDLFirstInit(ApplicationConfig->PreviewFPS);
     AddToSystemProperties(QString(SDLVERSION_STR)+QString("%1").arg(SDL_MAJOR_VERSION)+"."+QString("%1").arg(SDL_MINOR_VERSION)+"."+QString("%1").arg(SDL_PATCHLEVEL)+"-Licence=GPL version 2.1 or later");
 
     // Register all formats and codecs for libavformat/libavcodec/etc ...
-    screen.showMessage(QCoreApplication::translate("MainWindow","Starting ffmpeg..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Starting ffmpeg..."),Qt::AlignHCenter|Qt::AlignBottom);
     avcodec_init();
     av_register_all();
     //QString Conf;
@@ -145,31 +138,32 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     }
 
     // Display finding codecs & formats
-    AddSeparatorToSystemProperties();   AddToSystemProperties(QCoreApplication::translate("MainWindow","Registered video codecs for encoding :"));
+    AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Registered video codecs for encoding :"));
     for (int i=0;i<NBR_VIDEOCODECDEF;i++) if (VIDEOCODECDEF[i].IsFind) AddToSystemProperties("  "+QString(VIDEOCODECDEF[i].LongName)+"-ffmpeg codec:"+QString(VIDEOCODECDEF[i].ShortName));
-    AddSeparatorToSystemProperties();   AddToSystemProperties(QCoreApplication::translate("MainWindow","Registered audio codecs for encoding :"));
+    AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Registered audio codecs for encoding :"));
     for (int i=0;i<NBR_AUDIOCODECDEF;i++) if (AUDIOCODECDEF[i].IsFind) AddToSystemProperties("  "+QString(AUDIOCODECDEF[i].LongName)+"-ffmpeg codec:"+QString(AUDIOCODECDEF[i].ShortName));
-    AddSeparatorToSystemProperties();   AddToSystemProperties(QCoreApplication::translate("MainWindow","Registered container formats for encoding :"));
+    AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Registered container formats for encoding :"));
     for (int i=0;i<NBR_FORMATDEF;i++)     if (FORMATDEF[i].IsFind) AddToSystemProperties("  "+QString(FORMATDEF[i].LongName));
+    AddSeparatorToSystemProperties();   AddToSystemProperties(QString("%1").arg(ApplicationConfig->RenderDeviceModel.count())+QApplication::translate("MainWindow"," Device registered for rendering"));
 
-    AddSeparatorToSystemProperties();   AddToSystemProperties(QCoreApplication::translate("MainWindow","Library :"));
+    AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Library :"));
     QString Path;
-    screen.showMessage(QCoreApplication::translate("MainWindow","Loading background library..."),Qt::AlignHCenter|Qt::AlignBottom);
-    Path="background";      BackgroundList.ScanDisk(Path,GEOMETRY_16_9); AddToSystemProperties(QString("  %1").arg(BackgroundList.List.count())+QCoreApplication::translate("MainWindow"," images loaded into the background-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    screen.showMessage(QCoreApplication::translate("MainWindow","Loading no-luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
+    screen.showMessage(QApplication::translate("MainWindow","Loading background library..."),Qt::AlignHCenter|Qt::AlignBottom);
+    Path="background";      BackgroundList.ScanDisk(Path,GEOMETRY_16_9); AddToSystemProperties(QString("  %1").arg(BackgroundList.List.count())+QApplication::translate("MainWindow"," images loaded into the background-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
+    screen.showMessage(QApplication::translate("MainWindow","Loading no-luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
     for (int i=0;i<TRANSITIONMAXSUBTYPE_BASE;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_BASE,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_ZOOMINOUT;i++)  IconList.List.append(cIconObject(TRANSITIONFAMILLY_ZOOMINOUT,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_SLIDE;i++)      IconList.List.append(cIconObject(TRANSITIONFAMILLY_SLIDE,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_PUSH;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_PUSH,i));
-    AddToSystemProperties(QString("  %1").arg(IconList.List.count())+QCoreApplication::translate("MainWindow"," no-luma transitions loaded into the transition-library"));
-    screen.showMessage(QCoreApplication::translate("MainWindow","Loading luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
-    Path="luma/Bar";        LumaList_Bar.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BAR);         AddToSystemProperties(QString("  %1").arg(LumaList_Bar.List.count())+QCoreApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    Path="luma/Box";        LumaList_Box.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BOX);         AddToSystemProperties(QString("  %1").arg(LumaList_Box.List.count())+QCoreApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    Path="luma/Center";     LumaList_Center.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CENTER);   AddToSystemProperties(QString("  %1").arg(LumaList_Center.List.count())+QCoreApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    Path="luma/Checker";    LumaList_Checker.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CHECKER); AddToSystemProperties(QString("  %1").arg(LumaList_Checker.List.count())+QCoreApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    Path="luma/Clock";      LumaList_Clock.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CLOCK);     AddToSystemProperties(QString("  %1").arg(LumaList_Clock.List.count())+QCoreApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("  %1").arg(LumaList_Snake.List.count())+QCoreApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    AddToSystemProperties(QCoreApplication::translate("MainWindow","  Total:")+QString("%1").arg(IconList.List.count())+QCoreApplication::translate("MainWindow"," transitions loaded into the transition-library"));
+    AddToSystemProperties(QString("  %1").arg(IconList.List.count())+QApplication::translate("MainWindow"," no-luma transitions loaded into the transition-library"));
+    screen.showMessage(QApplication::translate("MainWindow","Loading luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
+    Path="luma/Bar";        LumaList_Bar.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BAR);         AddToSystemProperties(QString("  %1").arg(LumaList_Bar.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="luma/Box";        LumaList_Box.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BOX);         AddToSystemProperties(QString("  %1").arg(LumaList_Box.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="luma/Center";     LumaList_Center.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CENTER);   AddToSystemProperties(QString("  %1").arg(LumaList_Center.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="luma/Checker";    LumaList_Checker.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CHECKER); AddToSystemProperties(QString("  %1").arg(LumaList_Checker.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="luma/Clock";      LumaList_Clock.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CLOCK);     AddToSystemProperties(QString("  %1").arg(LumaList_Clock.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("  %1").arg(LumaList_Snake.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
+    AddToSystemProperties(QApplication::translate("MainWindow","  Total:")+QString("%1").arg(IconList.List.count())+QApplication::translate("MainWindow"," transitions loaded into the transition-library"));
 
     // Force timeline scroll bar properties
     ui->timeline->horizontalScrollBar()->setStyleSheet("height: 14px; margin: 0px; padding: 0px;");
@@ -187,46 +181,57 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     screen.hide();
 
     // Help menu
-    connect(ui->action_About,SIGNAL(triggered()),this,SLOT(s_About()));
-    connect(ui->actionDocumentation,SIGNAL(triggered()),this,SLOT(s_Documentation()));
-    connect(ui->actionNewFunctions,SIGNAL(triggered()),this,SLOT(s_NewFunctions()));
+    connect(ui->Action_About_BT,SIGNAL(pressed()),this,SLOT(s_About()));
+    connect(ui->ActionDocumentation_BT,SIGNAL(pressed()),this,SLOT(s_Documentation()));
+    connect(ui->ActionNewFunctions_BT,SIGNAL(pressed()),this,SLOT(s_NewFunctions()));
 
     // File menu
-    connect(ui->action_New,SIGNAL(triggered()),this,SLOT(s_action_New()));
-    connect(ui->action_Open,SIGNAL(triggered()),this,SLOT(s_action_Open()));
-    connect(ui->action_Save,SIGNAL(triggered()),this,SLOT(s_action_Save()));
-    connect(ui->actionSave_as,SIGNAL(triggered()),this,SLOT(s_action_SaveAs()));
-    connect(ui->action_Exit,SIGNAL(triggered()),this,SLOT(s_action_Exit()));
+    connect(ui->Action_New_BT,SIGNAL(pressed()),this,SLOT(s_action_New()));
+    connect(ui->Action_Open_BT,SIGNAL(pressed()),this,SLOT(s_action_Open()));
+    connect(ui->Action_OpenRecent_BT,SIGNAL(pressed()),this,SLOT(s_action_OpenRecent()));
+    connect(ui->Action_Save_BT,SIGNAL(pressed()),this,SLOT(s_action_Save()));
+    connect(ui->ActionSave_as_BT,SIGNAL(pressed()),this,SLOT(s_action_SaveAs()));
+    connect(ui->ActionConfiguration_BT,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));
+    connect(ui->Action_Exit_BT,SIGNAL(pressed()),this,SLOT(s_action_Exit()));
 
     // Project menu
-    connect(ui->actionAdd,SIGNAL(triggered()),this,SLOT(s_action_AddFile()));
-    connect(ui->actionAddtitle,SIGNAL(triggered()),this,SLOT(s_action_AddTitle()));
-    connect(ui->actionAddProject,SIGNAL(triggered()),this,SLOT(s_action_AddProject()));
-    connect(ui->actionRemove,SIGNAL(triggered()),this,SLOT(s_RemoveObject()));
-    connect(ui->actionMove_left,SIGNAL(triggered()),this,SLOT(s_LeftObject()));
-    connect(ui->actionMove_right,SIGNAL(triggered()),this,SLOT(s_RightObject()));
-    connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(s_CutToClipboard()));
-    connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(s_CopyToClipboard()));
-    connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(s_PasteFromClipboard()));
+    connect(ui->ActionAdd_BT,SIGNAL(pressed()),this,SLOT(s_action_AddFile()));
+    connect(ui->ActionAddtitle_BT,SIGNAL(pressed()),this,SLOT(s_action_AddTitle()));
+    connect(ui->ActionAddProject_BT,SIGNAL(pressed()),this,SLOT(s_action_AddProject()));
+    connect(ui->ActionRemove_BT,SIGNAL(pressed()),this,SLOT(s_RemoveObject()));
+    connect(ui->ActionMove_left_BT,SIGNAL(pressed()),this,SLOT(s_LeftObject()));
+    connect(ui->ActionMove_right_BT,SIGNAL(pressed()),this,SLOT(s_RightObject()));
+    connect(ui->ActionCut_BT,SIGNAL(pressed()),this,SLOT(s_CutToClipboard()));
+    connect(ui->ActionCopy_BT,SIGNAL(pressed()),this,SLOT(s_CopyToClipboard()));
+    connect(ui->ActionPaste_BT,SIGNAL(pressed()),this,SLOT(s_PasteFromClipboard()));
+    connect(ui->ActionEdit_BT,SIGNAL(pressed()),this,SLOT(s_action_Edit()));
+
     connect(ui->actionEdit_background,SIGNAL(triggered()),this,SLOT(s_BackgroundDoubleClicked()));
     connect(ui->actionEdit_background_transition,SIGNAL(triggered()),this,SLOT(s_TransitionBackgroundDoubleClicked()));
     connect(ui->actionEdit_object,SIGNAL(triggered()),this,SLOT(s_ItemDoubleClicked()));
     connect(ui->actionEdit_object_in_transition,SIGNAL(triggered()),this,SLOT(s_TransitionItemDoubleClicked()));
     connect(ui->actionEdit_music,SIGNAL(triggered()),this,SLOT(s_MusicDoubleClicked()));
 
-    // Tools menu
-    connect(ui->actionRender,SIGNAL(triggered()),this,SLOT(s_RenderVideo()));
-    connect(ui->actionConfiguration,SIGNAL(triggered()),this,SLOT(s_ChangeApplicationSettings()));
+    // Render menu
+    connect(ui->ActionRender_BT,SIGNAL(pressed()),this,SLOT(s_RenderVideo()));
+    connect(ui->ActionSmartphone_BT,SIGNAL(pressed()),this,SLOT(s_RenderSmartphone()));
+    connect(ui->ActionMultimedia_BT,SIGNAL(pressed()),this,SLOT(s_RenderMultimedia()));
+    connect(ui->ActionForTheWEB_BT,SIGNAL(pressed()),this,SLOT(s_RenderForTheWEB()));
 
     // Timeline
     connect(ui->ZoomPlusBT,SIGNAL(pressed()),this,SLOT(s_action_ZoomPlus()));
     connect(ui->ZoomMinusBT,SIGNAL(pressed()),this,SLOT(s_action_ZoomMinus()));
     connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
+
+    // Timer
+    LastCount=0;
+    connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
 }
 
 //====================================================================================================================
 
 MainWindow::~MainWindow() {
+    Timer.stop();
     delete ui;
     delete Diaporama;
     delete ApplicationConfig;
@@ -238,6 +243,19 @@ MainWindow::~MainWindow() {
     if (Clipboard_Object) {
         delete Clipboard_Object;
         Clipboard_Object=NULL;
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_TimerEvent() {
+    if (StatusBarList.count()>0) {
+        while (StatusBarList.count()>1) StatusBarList.takeFirst();
+        statusBar()->showMessage(StatusBarList.takeFirst(),0);
+        LastCount=0;
+    } else {
+        LastCount++;
+        if (LastCount==10) statusBar()->showMessage("",0);
     }
 }
 
@@ -262,7 +280,7 @@ void MainWindow::SetTimelineHeight() {
 
 void MainWindow::closeEvent(QCloseEvent *) {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    if ((Diaporama->IsModify)&&(QMessageBox::question(this,QCoreApplication::translate("MainWindow","Close application"),QCoreApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
+    if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","Close application"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ApplicationConfig->MainWinWSP->SaveWindowState(this);
@@ -285,6 +303,7 @@ void MainWindow::showEvent(QShowEvent *) {
         ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
         SetTimelineHeight();                                    // setup initial size
         RefreshControls();
+        Timer.start(100);
     }
 }
 
@@ -304,13 +323,14 @@ void MainWindow::OpenHelp(QString HelpFile) {
 
 void MainWindow::RefreshControls() {
     // Timeline actions
-    ui->actionRemove->setEnabled(ui->timeline->columnCount()>0);
-    ui->actionMove_left->setEnabled((ui->timeline->currentColumn()>0)&&(ui->timeline->columnCount()>1));
-    ui->actionMove_right->setEnabled(ui->timeline->currentColumn()<ui->timeline->columnCount()-1);
+    ui->ActionRemove_BT->setEnabled(ui->timeline->columnCount()>0);
+    ui->ActionEdit_BT->setEnabled(ui->timeline->columnCount()>0);
+    ui->ActionMove_left_BT->setEnabled((ui->timeline->currentColumn()>0)&&(ui->timeline->columnCount()>1));
+    ui->ActionMove_right_BT->setEnabled(ui->timeline->currentColumn()<ui->timeline->columnCount()-1);
 
     // File menu
-    ui->action_Save->setEnabled(Diaporama->IsModify);
-    ui->actionSave_as->setEnabled(Diaporama->List.count()>0);
+    ui->Action_Save_BT->setEnabled(Diaporama->IsModify);
+    ui->ActionSave_as_BT->setEnabled(Diaporama->List.count()>0);
 
     // Project menu
     ui->actionEdit_background->setEnabled(ui->timeline->columnCount()>0);
@@ -320,11 +340,14 @@ void MainWindow::RefreshControls() {
     ui->actionEdit_music->setEnabled(ui->timeline->columnCount()>0);
 
     // Clipboard_Object
-    ui->actionPaste->setEnabled(Clipboard_Object!=NULL);
-    ui->actionCopy->setEnabled(ui->timeline->currentColumn()>=0);
-    ui->actionCut->setEnabled(ui->timeline->currentColumn()>=0);
+    ui->ActionPaste_BT->setEnabled(Clipboard_Object!=NULL);
+    ui->ActionCopy_BT->setEnabled(ui->timeline->currentColumn()>=0);
+    ui->ActionCut_BT->setEnabled(ui->timeline->currentColumn()>=0);
 
-    ui->actionRender->setEnabled(ui->timeline->columnCount()>0);
+    ui->ActionRender_BT->setEnabled(ui->timeline->columnCount()>0);
+    ui->ActionSmartphone_BT->setEnabled(ui->timeline->columnCount()>0);
+    ui->ActionMultimedia_BT->setEnabled(ui->timeline->columnCount()>0);
+    ui->ActionForTheWEB_BT->setEnabled(ui->timeline->columnCount()>0);
 }
 
 //====================================================================================================================
@@ -332,7 +355,7 @@ void MainWindow::RefreshControls() {
 void MainWindow::SetModifyFlag(bool IsModify) {
     Diaporama->IsModify=IsModify;
     this->setWindowTitle(QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION)+QString("-")+
-                         (Diaporama->ProjectFileName!=""?Diaporama->ProjectFileName:QCoreApplication::translate("MainWindow","<new project>","when project have no name define"))+
+                         (Diaporama->ProjectFileName!=""?Diaporama->ProjectFileName:QApplication::translate("MainWindow","<new project>","when project have no name define"))+
                          (Diaporama->IsModify?"*":""));
     RefreshControls();
 }
@@ -439,7 +462,7 @@ void MainWindow::s_BackgroundDoubleClicked() {
 
 void MainWindow::s_TransitionBackgroundDoubleClicked() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    QMessageBox::critical(this,QCoreApplication::translate("MainWindow","Not implemented"),QCoreApplication::translate("MainWindow","Sorry, not yet done !"));
+    QMessageBox::critical(this,QApplication::translate("MainWindow","Not implemented"),QApplication::translate("MainWindow","Sorry, not yet done !"));
 /*
     if (DlgTransitionProperties(&(Diaporama->List[Diaporama->CurrentCol]),true,this).exec()==0) {
         SetModifyFlag(true);
@@ -502,18 +525,18 @@ void MainWindow::UpdateDockInfo() {
         cDiaporamaObject *Obj=&Diaporama->List[Diaporama->CurrentCol];
 
         ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Object type")));
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Obj->TypeObject==DIAPORAMAOBJECTTYPE_EMPTY?QCoreApplication::translate("MainWindow","Title"):
-                                                                                  Obj->TypeObject==DIAPORAMAOBJECTTYPE_IMAGE?QCoreApplication::translate("MainWindow","Image"):
-                                                                                  QCoreApplication::translate("MainWindow","Video")));
+        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Object type")));
+        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Obj->TypeObject==DIAPORAMAOBJECTTYPE_EMPTY?QApplication::translate("MainWindow","Title"):
+                                                                                  Obj->TypeObject==DIAPORAMAOBJECTTYPE_IMAGE?QApplication::translate("MainWindow","Image"):
+                                                                                  QApplication::translate("MainWindow","Video")));
 
         ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Duration")));
+        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Duration")));
         ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem((QString("%1").arg(double(Obj->GetDuration())/1000,0,'f',1)).trimmed()));
 /*
         if ((Obj->Image!=NULL)||(Obj->Video!=NULL)) {
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Filename")));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Filename")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Obj->Image!=NULL?QFileInfo(Obj->Image->FileName).fileName():Obj->Video!=NULL?QFileInfo(Obj->Video->FileName).fileName():""));
         }
         if (Obj->Image!=NULL) for (int i=0;i<Obj->Image->ExivValue.count();i++) {
@@ -523,39 +546,39 @@ void MainWindow::UpdateDockInfo() {
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value.right(Value.length()-Value.indexOf("##")-QString("##").length())));
         } else if (Obj->Video!=NULL) {
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Image size")));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Image size")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1x%2").arg(Obj->Video->ImageWidth).arg(Obj->Video->ImageHeight)));
 
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Video format")));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Video format")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Obj->Video->VideoDecoderCodec->name));
 
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Bitrate")));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Bitrate")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(int(double(Obj->Video->ffmpegVideoFile->bit_rate)/1024))+" k/s"));
 
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Frame rate")));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Frame rate")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(
                     int(double(Obj->Video->ffmpegVideoFile->streams[Obj->Video->VideoStreamNumber]->r_frame_rate.num)/
                         double(Obj->Video->ffmpegVideoFile->streams[Obj->Video->VideoStreamNumber]->r_frame_rate.den)))
-                    +" "+QCoreApplication::translate("MainWindow","fps","frame per second")));
+                    +" "+QApplication::translate("MainWindow","fps","frame per second")));
 
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Aspect ratio")));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Aspect ratio")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg((double(Obj->Video->ImageWidth)*Obj->Video->AspectRatio)/double(Obj->Video->ImageHeight),0,'f',3)));
 
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Audio format")));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Audio format")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Obj->Video->AudioDecoderCodec->name));
 
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Frequency")));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Frequency")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(Obj->Video->ffmpegVideoFile->streams[Obj->Video->AudioStreamNumber]->codec->sample_rate)
-                    +" "+QCoreApplication::translate("MainWindow","hz","audio frequency")));
+                    +" "+QApplication::translate("MainWindow","hz","audio frequency")));
 
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("MainWindow","Channels")));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Channels")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(Obj->Video->ffmpegVideoFile->streams[Obj->Video->AudioStreamNumber]->codec->channels)));
         }
   */
@@ -566,13 +589,30 @@ void MainWindow::UpdateDockInfo() {
 }
 
 //====================================================================================================================
-// Change actual project settings
+// Render project
 //====================================================================================================================
 
 void MainWindow::s_RenderVideo() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    DlgRenderVideo(*Diaporama,this).exec();
-    // SetModifyFlag(true); => Modify flag is set by dialog box (if needed)
+    DlgRenderVideo(*Diaporama,EXPORTMODE_ADVANCED,this).exec();
+    AdjustRuller();
+}
+
+void MainWindow::s_RenderSmartphone() {
+    ui->preview->SetPlayerToPause(); // Ensure player is stop
+    DlgRenderVideo(*Diaporama,EXPORTMODE_SMARTPHONE,this).exec();
+    AdjustRuller();
+}
+
+void MainWindow::s_RenderMultimedia() {
+    ui->preview->SetPlayerToPause(); // Ensure player is stop
+    DlgRenderVideo(*Diaporama,EXPORTMODE_MULTIMEDIASYS,this).exec();
+    AdjustRuller();
+}
+
+void MainWindow::s_RenderForTheWEB() {
+    ui->preview->SetPlayerToPause(); // Ensure player is stop
+    DlgRenderVideo(*Diaporama,EXPORTMODE_FORTHEWEB,this).exec();
     AdjustRuller();
 }
 
@@ -592,7 +632,7 @@ void MainWindow::s_ChangeApplicationSettings() {
 
 void MainWindow::s_action_New() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    if ((Diaporama->IsModify)&&(QMessageBox::question(this,QCoreApplication::translate("MainWindow","New project"),QCoreApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
+    if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","New project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
 
     cDiaporama *NewDiaporama=new cDiaporama(ApplicationConfig);
@@ -624,18 +664,37 @@ void MainWindow::s_action_New() {
 // Open an existing project
 //====================================================================================================================
 
+void MainWindow::s_action_OpenRecent() {
+    QMenu *ContextMenu=new QMenu(this);
+    for (int i=ApplicationConfig->RecentFile.count()-1;i>=0;i--) ContextMenu->addAction(ApplicationConfig->RecentFile.at(i));
+    QAction *Action=ContextMenu->exec(QCursor::pos());
+    QString Selected="";
+    if (Action) Selected=Action->iconText();
+    delete ContextMenu;
+    ui->Action_OpenRecent_BT->setChecked(false);
+    ui->Action_OpenRecent_BT->setDown(false);
+    if (Selected!="") OpenFile(Selected);
+}
+
 void MainWindow::s_action_Open() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    if ((Diaporama->IsModify)&&(QMessageBox::question(this,QCoreApplication::translate("MainWindow","Open project"),QCoreApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
+    if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
 
-    QCoreApplication::processEvents();
-    QString ProjectFileName=QFileDialog::getOpenFileName(this,QCoreApplication::translate("MainWindow","Open project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
+    QApplication::processEvents();
+    QString ProjectFileName=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Open project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
     if (ProjectFileName!="") OpenFile(ProjectFileName);
 }
 
 void MainWindow::OpenFile(QString ProjectFileName) {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    // Manage Recent files list
+    for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (ApplicationConfig->RecentFile.at(i)==ProjectFileName) {
+        ApplicationConfig->RecentFile.removeAt(i);
+        break;
+    }
+
     ApplicationConfig->LastProjectPath=QFileInfo(ProjectFileName).dir().absolutePath();
     // Clean actual timeline and diaporama
     FLAGSTOPITEMSELECTION=true;
@@ -665,6 +724,9 @@ void MainWindow::OpenFile(QString ProjectFileName) {
     SetModifyFlag(Diaporama->IsModify);
     QApplication::restoreOverrideCursor();
     if (Diaporama->List.count()>0) ui->preview->SeekPlayer(Diaporama->List[0].TransitionDuration); else ui->preview->SeekPlayer(0);
+
+    ApplicationConfig->RecentFile.append(ProjectFileName);
+    while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
 }
 
 //====================================================================================================================
@@ -684,10 +746,17 @@ void MainWindow::s_action_Save() {
 
 void MainWindow::s_action_SaveAs() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QCoreApplication::translate("MainWindow","Save project as"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
+    Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Save project as"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
     if (Diaporama->ProjectFileName!="") {
         if (QFileInfo(Diaporama->ProjectFileName).suffix()!="ffd") Diaporama->ProjectFileName=Diaporama->ProjectFileName+".ffd";
         ApplicationConfig->LastProjectPath=QFileInfo(Diaporama->ProjectFileName).dir().absolutePath();
+        // Manage Recent files list
+        for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (ApplicationConfig->RecentFile.at(i)==Diaporama->ProjectFileName) {
+            ApplicationConfig->RecentFile.removeAt(i);
+            break;
+        }
+        ApplicationConfig->RecentFile.append(Diaporama->ProjectFileName);
+        while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
         if (Diaporama->SaveFile(this)) SetModifyFlag(false);
     }
 }
@@ -740,7 +809,7 @@ void MainWindow::s_action_AddFile() {
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add files"),
                                                        ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
                                                        ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
-    QCoreApplication::processEvents();
+    QApplication::processEvents();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     // Calc position of new object depending on ApplicationConfig->AppendObject
     int SavedCurIndex=0;
@@ -907,7 +976,7 @@ void MainWindow::s_action_AddFile() {
             SetModifyFlag(true);
 
         } else {
-            QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+QCoreApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
+            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+QApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
             Diaporama->List.removeAt(CurIndex);
         }
     }
@@ -926,8 +995,8 @@ void MainWindow::s_action_AddFile() {
 
 void MainWindow::s_action_AddProject() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    QCoreApplication::processEvents();
-    QString ProjectFileName=QFileDialog::getOpenFileName(this,QCoreApplication::translate("MainWindow","Add a sub project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
+    QApplication::processEvents();
+    QString ProjectFileName=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
     if (ProjectFileName!="") {
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         ApplicationConfig->LastProjectPath=QFileInfo(ProjectFileName).dir().absolutePath();
@@ -941,7 +1010,7 @@ void MainWindow::s_action_AddProject() {
 //====================================================================================================================
 
 void MainWindow::AddObjectToTimeLine(int CurIndex) {
-    QCoreApplication::processEvents();  // Ensure message queue is empty !
+    QApplication::processEvents();  // Ensure message queue is empty !
 
     wgt_QCustomThumbnails *ObjectBackground=new wgt_QCustomThumbnails(ui->timeline,THUMBNAILTYPE_OBJECTBACKGROUND);
     connect(ObjectBackground,SIGNAL(EditMediaObject()),this,SLOT(s_BackgroundDoubleClicked()));
@@ -967,7 +1036,22 @@ void MainWindow::AddObjectToTimeLine(int CurIndex) {
         ui->preview->SeekPlayer(Diaporama->GetObjectStartPosition(CurIndex)+Diaporama->GetTransitionDuration(CurIndex));
         AdjustRuller();
     }
-    QCoreApplication::processEvents();
+    QApplication::processEvents();
+}
+
+//====================================================================================================================
+
+void MainWindow::s_action_Edit() {
+    QMenu *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(ui->actionEdit_background);
+    ContextMenu->addAction(ui->actionEdit_object);
+    ContextMenu->addAction(ui->actionEdit_music);
+    ContextMenu->addAction(ui->actionEdit_object_in_transition);
+    ContextMenu->addAction(ui->actionEdit_background_transition);
+    ContextMenu->exec(QCursor::pos());
+    delete ContextMenu;
+    ui->ActionEdit_BT->setChecked(false);
+    ui->ActionEdit_BT->setDown(false);
 }
 
 //====================================================================================================================

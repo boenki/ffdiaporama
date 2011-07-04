@@ -36,6 +36,7 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     //********************************
     QString FPS=(QString("%1").arg(ApplicationConfig->PreviewFPS,0,'f')).trimmed();
     while (FPS.endsWith('0')) FPS=FPS.left(FPS.length()-1);
+    if (FPS.endsWith('.')) FPS=FPS.left(FPS.length()-1);
     ui->ApplyTransfoDuringPreviewCB->setChecked(ApplicationConfig->ApplyTransfoPreview);
     ui->PreviewFrameRateCB->setCurrentIndex(ui->PreviewFrameRateCB->findText(FPS));
 
