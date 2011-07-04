@@ -24,10 +24,18 @@
 
 //====================================================================================================================
 
-DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,QWidget *parent):QDialog(parent),ui(new Ui::DlgRenderVideo) {
+DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidget *parent):QDialog(parent),ui(new Ui::DlgRenderVideo) {
     ui->setupUi(this);
     Diaporama       =&TheDiaporama;
+    ExportMode      =TheExportMode;
     IsDestFileOpen  =false;
+
+    switch (ExportMode) {
+        case EXPORTMODE_ADVANCED     :  setWindowTitle(QApplication::translate("DlgRenderVideo","Advanced render video"));                          break;
+        case EXPORTMODE_SMARTPHONE   :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for mobil player and smartphone"));   break;
+        case EXPORTMODE_MULTIMEDIASYS:  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for multimedia system"));             break;
+        case EXPORTMODE_FORTHEWEB    :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for the WEB"));                       break;
+    }
 
     // For the first step, only SelectDestWidget is display and enable
     ui->SelectDestScroll->setEnabled(true);     ui->SelectDestScroll->setVisible(true);
@@ -39,41 +47,88 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,QWidget *parent):QDialog
         (Diaporama->ApplicationConfig->LastRenderVideoPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
         (Diaporama->ProjectFileName!=""?QFileInfo(Diaporama->ProjectFileName).baseName():"movie");
 
-    // Init format container combo
-    ui->DestinationFilePath->setText(Diaporama->OutputFileName);
-    bool IsFind=false;
-    for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
-        ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
-        if (i==Diaporama->OutputFileFormat) {
-            ui->FileFormatCB->setCurrentIndex(ui->FileFormatCB->count()-1);
-            IsFind=true;
-        }
-    }
-    if (!IsFind) ui->FileFormatCB->setCurrentIndex(0);
+    if (ExportMode==EXPORTMODE_ADVANCED) {
+        ui->DeviceTypeLabel->setVisible(false);
+        ui->DeviceTypeCB->setVisible(false);
+        ui->DeviceModelCB->setVisible(false);
+        ui->DeviceModelLabel->setVisible(false);
+        ui->RenderFormatLabel->setVisible(false);
+        ui->RenderFormatText->setVisible(false);
 
+        // Init format container combo
+        bool IsFind=false;
+        for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
+            ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
+            if (i==Diaporama->OutputFileFormat) {
+                ui->FileFormatCB->setCurrentIndex(ui->FileFormatCB->count()-1);
+                IsFind=true;
+            }
+        }
+        if (!IsFind) ui->FileFormatCB->setCurrentIndex(0);
+
+        connect(ui->FileFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
+
+        // Video standard & geometry
+        ui->GeometryCombo->setEnabled(false);
+        ui->GeometryCombo->setCurrentIndex(Diaporama->ImageGeometry);
+        ui->StandardCombo->setCurrentIndex(Diaporama->LastStandard);
+        connect(ui->GeometryCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
+        connect(ui->StandardCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
+
+        // Image size
+        InitImageSizeCombo(0);
+        ui->ImageSizeCombo->setCurrentIndex(Diaporama->LastImageSize);
+        connect(ui->ImageSizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
+
+        // codec(s) & bitrate(s)
+        FileFormatCombo(0);
+        InitVideoBitRateCB(-1);
+        InitAudioBitRateCB(-1);
+        connect(ui->VideoFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
+        connect(ui->AudioFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitAudioBitRateCB(int)));
+
+    } else {
+        ui->FileFormatLabel->setVisible(false);         ui->FileFormatCB->setVisible(false);
+        ui->GeometryLabel->setVisible(false);           ui->GeometryCombo->setVisible(false);
+        ui->StandardLabel->setVisible(false);           ui->StandardCombo->setVisible(false);
+        ui->ImageSizeLabel->setVisible(false);          ui->ImageSizeCombo->setVisible(false);
+        ui->VideoFormatLabel->setVisible(false);        ui->VideoFormatCB->setVisible(false);
+        ui->VideoBitRateLabel->setVisible(false);       ui->VideoBitRateCB->setVisible(false);
+        ui->AudioFormatLabel->setVisible(false);        ui->AudioFormatCB->setVisible(false);
+        ui->AudioBitRateLabel->setVisible(false);       ui->AudioBitRateCB->setVisible(false);
+
+        switch (ExportMode) {
+            case EXPORTMODE_SMARTPHONE:
+                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_SMARTPHONE_SUBTYPE0));
+                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_SMARTPHONE_SUBTYPE1));
+                ui->DeviceTypeCB->setCurrentIndex(0);
+                break;
+            case EXPORTMODE_MULTIMEDIASYS:
+                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_MULTIMEDIASYS_SUBTYPE0));
+                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_MULTIMEDIASYS_SUBTYPE1));
+                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_MULTIMEDIASYS_SUBTYPE2));
+                ui->DeviceTypeCB->setCurrentIndex(0);
+                break;
+            case EXPORTMODE_FORTHEWEB:
+                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_FORTHEWEB_SUBTYPE0));
+                ui->DeviceTypeCB->setCurrentIndex(0);
+                break;
+        }
+
+        for (int i=0;i<Diaporama->ApplicationConfig->RenderDeviceModel.count();i++)
+            if ((Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceType==ExportMode)&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceSubtype==ui->DeviceTypeCB->currentIndex()))
+                ui->DeviceModelCB->addItem(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName);
+        ui->DeviceModelCB->setCurrentIndex(0);
+
+        connect(ui->DeviceTypeCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_DeviceTypeCB(int)));
+        connect(ui->DeviceModelCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_DeviceModelCB(int)));
+        s_DeviceModelCB(0);
+    }
+
+    ui->DestinationFilePath->setText(QDir::cleanPath(QDir(QFileInfo(Diaporama->ProjectFileName).dir().absolutePath()).absoluteFilePath(Diaporama->OutputFileName)));
     AdjustDestinationFile();
     connect(ui->DestinationFilePathBT,SIGNAL(clicked()),this,SLOT(SelectDestinationFile()));
     connect(ui->DestinationFilePath,SIGNAL(editingFinished()),this,SLOT(AdjustDestinationFile()));
-    connect(ui->FileFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
-
-    // Video standard & geometry
-    ui->GeometryCombo->setEnabled(false);
-    ui->GeometryCombo->setCurrentIndex(Diaporama->ImageGeometry);
-    ui->StandardCombo->setCurrentIndex(Diaporama->LastStandard);
-    connect(ui->GeometryCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
-    connect(ui->StandardCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
-
-    // Image size
-    InitImageSizeCombo(0);
-    ui->ImageSizeCombo->setCurrentIndex(Diaporama->LastImageSize);
-    connect(ui->ImageSizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
-
-    // codec(s) & bitrate(s)
-    FileFormatCombo(0);
-    InitVideoBitRateCB(-1);
-    InitAudioBitRateCB(-1);
-    connect(ui->VideoFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
-    connect(ui->AudioFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitAudioBitRateCB(int)));
 
     // Define handler
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
@@ -95,6 +150,16 @@ void DlgRenderVideo::Help() {
 
 //====================================================================================================================
 
+void DlgRenderVideo::s_DeviceTypeCB(int) {
+    ui->DeviceModelCB->clear();
+    for (int i=0;i<Diaporama->ApplicationConfig->RenderDeviceModel.count();i++)
+        if ((Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceType==ExportMode)&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceSubtype==ui->DeviceTypeCB->currentIndex()))
+            ui->DeviceModelCB->addItem(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName);
+    ui->DeviceModelCB->setCurrentIndex(0);
+}
+
+//====================================================================================================================
+
 void DlgRenderVideo::InitImageSizeCombo(int) {
     int Geometry=ui->GeometryCombo->currentIndex();
     int Standard=ui->StandardCombo->currentIndex();
@@ -107,9 +172,20 @@ void DlgRenderVideo::InitImageSizeCombo(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::SelectDestinationFile() {
-    int     OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
-    QString FileFormat      =QString(FORMATDEF[OutputFileFormat].LongName)+" (*."+QString(FORMATDEF[OutputFileFormat].FileExtension)+")";
-    QString OutputFileName  =QFileDialog::getSaveFileName(this,QCoreApplication::translate("MainWindow","Select destination file"),Diaporama->ApplicationConfig->LastRenderVideoPath,FileFormat);
+    QString FileFormat;
+    if (ExportMode==EXPORTMODE_ADVANCED) {
+        int OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
+        FileFormat=QString(FORMATDEF[OutputFileFormat].LongName)+" (*."+QString(FORMATDEF[OutputFileFormat].FileExtension)+")";
+    } else {
+        QString Device=ui->DeviceModelCB->currentText();
+        int i=0;
+        while ((i<Diaporama->ApplicationConfig->RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName!=Device)) i++;
+        if (i<Diaporama->ApplicationConfig->RenderDeviceModel.count()) {
+            FileFormat=QString(FORMATDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat].LongName)+" (*."+
+                    QString(FORMATDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat].FileExtension)+")";
+        }
+    }
+    QString OutputFileName  =QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),Diaporama->ApplicationConfig->LastRenderVideoPath,FileFormat);
     if (OutputFileName!="") {
         Diaporama->ApplicationConfig->LastRenderVideoPath=QFileInfo(OutputFileName).dir().absolutePath();
         ui->DestinationFilePath->setText(OutputFileName);
@@ -259,12 +335,23 @@ void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
 //====================================================================================================================
 
 void DlgRenderVideo::AdjustDestinationFile() {
-    int     OutputFileFormat =ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
-    QString FileFormat       =FORMATDEF[OutputFileFormat].FileExtension;
+    QString FileFormat;
+    if (ExportMode==EXPORTMODE_ADVANCED) {
+        int OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
+        FileFormat=FORMATDEF[OutputFileFormat].FileExtension;
+    } else {
+        QString Device=ui->DeviceModelCB->currentText();
+        int i=0;
+        while ((i<Diaporama->ApplicationConfig->RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName!=Device)) i++;
+        if (i<Diaporama->ApplicationConfig->RenderDeviceModel.count()) {
+            FileFormat=QString(FORMATDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat].FileExtension);
+        }
+    }
     QString OutputFileName   =ui->DestinationFilePath->text();
 
     OutputFileName=QFileInfo(OutputFileName).absoluteFilePath();
     if (QFileInfo(OutputFileName).suffix().length()>0) OutputFileName=OutputFileName.left(OutputFileName.length()-QFileInfo(OutputFileName).suffix().length()-1);
+    if (OutputFileName.endsWith(".")) OutputFileName=OutputFileName.left(OutputFileName.length()-1);
     OutputFileName=AdjustDirForOS(OutputFileName+"."+FileFormat);
     ui->DestinationFilePath->setText(OutputFileName);
 }
@@ -292,6 +379,88 @@ void DlgRenderVideo::reject() {
         Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);
         done(1);
     }
+}
+
+//====================================================================================================================
+
+void DlgRenderVideo::s_DeviceModelCB(int) {
+    QString Device=ui->DeviceModelCB->currentText();
+    int i=0;
+    while ((i<Diaporama->ApplicationConfig->RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName!=Device)) i++;
+    if (i<Diaporama->ApplicationConfig->RenderDeviceModel.count()) {
+        QString Text="Format="+QString(FORMATDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat].FileExtension)+"\nVideo=";
+        Text=Text+VIDEOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec].ShortName;
+        int ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[Diaporama->ImageGeometry];
+        int ExtendH   =0;
+        int ExtendV   =0;
+        int W,H;
+        int VBR;
+        if (ImgSize==-1) {
+            if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0]!=-1) {
+                // Force to 4/3
+                ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0];
+                W=DefImageFormat[0][0][ImgSize].Width;
+                H=DefImageFormat[0][0][ImgSize].Height;
+                VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[0];
+                switch (Diaporama->ImageGeometry) {
+                    case GEOMETRY_4_3:  break;                                          // 4:3 to 4:3 : nothing to do
+                    case GEOMETRY_16_9: ExtendV=H-int((double(W)/16)*9);     break;      // 16:9 to 4:3 : pad top & bottom
+                    case GEOMETRY_40_17:ExtendV=H-int((double(W)/40)*17);    break;      // 40:17 to 4:3 : pad top & bottom
+                }
+            } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1]!=-1) {
+                // Force to 16/9
+                ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1];
+                W=DefImageFormat[0][1][ImgSize].Width;
+                H=DefImageFormat[0][1][ImgSize].Height;
+                VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[1];
+                switch (Diaporama->ImageGeometry) {
+                    case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 16:9 : pad left & right
+                    case GEOMETRY_16_9: break;                                          // 16:9 to 16:9 : Nothing to do
+                    case GEOMETRY_40_17:ExtendV=H-int((double(W)/40)*17);    break;      // 40:17 to 16:9 : pad top & bottom
+                }
+            } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2]!=-1) {
+                // Force to 40/17
+                ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2];
+                W=DefImageFormat[0][2][ImgSize].Width;
+                H=DefImageFormat[0][2][ImgSize].Height;
+                VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[2];
+                switch (Diaporama->ImageGeometry) {
+                    case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 40:17 : pad left & right
+                    case GEOMETRY_16_9: ExtendH=W-int((double(H)/9)*16);     break;      // 16:9 to 40:17 : pad left & right
+                    case GEOMETRY_40_17:break;                                          // 40:17 to 40:17 : Nothing to do
+                }
+
+            }
+        } else {
+            W=DefImageFormat[0][Diaporama->ImageGeometry][ImgSize].Width;
+            H=DefImageFormat[0][Diaporama->ImageGeometry][ImgSize].Height;
+            VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[Diaporama->ImageGeometry];
+        }
+        Text=Text+QString("-%1").arg(W)+"x"+QString("%1").arg(H);
+        if (ExtendH>0) Text=Text+"+PADLEFT:"+QString("%1").arg(ExtendH/2)+"+PADRIGHT:"+QString("%1").arg(ExtendH-ExtendH/2);
+        if (ExtendV>0) Text=Text+"+PADTOP:"+QString("%1").arg(ExtendV/2)+"+PADBOTTOM:"+QString("%1").arg(ExtendV-ExtendV/2);
+
+        QString VBRText=VIDEOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec].PossibleBitrate;
+        while (VBR>0) {
+            VBRText=VBRText.mid(VBRText.indexOf("#")+1);
+            VBR--;
+        }
+        if (VBRText.indexOf("#")>0) VBRText=VBRText.left(VBRText.indexOf("#"));
+        Text=Text+"-"+VBRText+"bps";
+
+        Text=Text+"\nAudio="+AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].ShortName;
+        VBRText=AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].PossibleBitrate2CH;
+        VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioBitrate;
+        while (VBR>0) {
+            VBRText=VBRText.mid(VBRText.indexOf("#")+1);
+            VBR--;
+        }
+        if (VBRText.indexOf("#")>0) VBRText=VBRText.left(VBRText.indexOf("#"));
+        Text=Text+"-"+VBRText+"bps"+QString("-%1").arg(Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioFreq)+"Hz";
+        ui->RenderFormatText->setText(Text);
+
+    } else ui->RenderFormatText->setText("");
+    AdjustDestinationFile();
 }
 
 //====================================================================================================================
@@ -325,60 +494,154 @@ void DlgRenderVideo::accept() {
         StopProcessWanted   =false;
 
         // Get values from controls
-        QString BitRate;
-
-        int OutputFileFormat=ui->FileFormatCB->currentIndex();
-        if (OutputFileFormat>=0) {
-            IsModify=IsModify || (Diaporama->OutputFileFormat!=ui->FileFormatCB->itemData(Diaporama->OutputFileFormat).toInt());
-            Diaporama->OutputFileFormat=ui->FileFormatCB->itemData(Diaporama->OutputFileFormat).toInt();
-        }
-
-        FileFormat  =FORMATDEF[Diaporama->OutputFileFormat].FileExtension;
-
-        double      VideoFrameRate=DefImageFormat[ui->StandardCombo->currentIndex()][ui->GeometryCombo->currentIndex()][ui->ImageSizeCombo->currentIndex()].dFPS;
+        double      VideoFrameRate;
+        int         OutputFileFormat;
         int         AudioFrequency=48000;
         QString     VideoCodec;
         QString     AudioCodec;
         int         VideoBitRate=Diaporama->VideoBitRate;
         int         AudioBitRate=Diaporama->AudioBitRate;
+        int         ExtendH=0;
+        int         ExtendV=0;
+        int         Channels=2;
 
+        if (ExportMode==EXPORTMODE_ADVANCED) {
+            if (Diaporama->LastStandard !=ui->StandardCombo->currentIndex())   { Diaporama->LastStandard =ui->StandardCombo->currentIndex();   IsModify=true; }
+            if (Diaporama->LastImageSize!=ui->ImageSizeCombo->currentIndex())  { Diaporama->LastImageSize=ui->ImageSizeCombo->currentIndex();  IsModify=true; }
 
-        VideoCodecIndex=ui->VideoFormatCB->currentIndex();
-        if (VideoCodecIndex<0) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Video codec error !");
-            done(0);
-            return;
+            OutputFileFormat=ui->FileFormatCB->currentIndex();
+            VideoFrameRate  =DefImageFormat[ui->StandardCombo->currentIndex()][ui->GeometryCombo->currentIndex()][ui->ImageSizeCombo->currentIndex()].dFPS;
+            // Video codec
+            VideoCodecIndex=ui->VideoFormatCB->currentIndex();
+            if (VideoCodecIndex<0) {
+                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Video codec error !");
+                done(0);
+                return;
+            }
+            VideoCodecIndex=ui->VideoFormatCB->itemData(VideoCodecIndex).toInt();
+            QString BitRate=ui->VideoBitRateCB->currentText();
+            if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);
+            VideoBitRate=BitRate.toInt();
+
+            // Audio codec
+            AudioCodecIndex=ui->AudioFormatCB->currentIndex();
+            if (AudioCodecIndex<0) {
+                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec error !");
+                done(0);
+                return;
+            }
+            AudioCodecIndex=ui->AudioFormatCB->itemData(AudioCodecIndex).toInt();
+            BitRate=ui->AudioBitRateCB->currentText();
+            if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);
+            AudioBitRate=BitRate.toInt();
+            ExtendV =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Extend*2;
+
+        } else {
+            QString Device=ui->DeviceModelCB->currentText();
+            int i=0;
+            while ((i<Diaporama->ApplicationConfig->RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName!=Device)) i++;
+            if (i<Diaporama->ApplicationConfig->RenderDeviceModel.count()) {
+                OutputFileFormat=Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat;
+
+                VideoCodecIndex =Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec;
+
+                int ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[Diaporama->ImageGeometry];
+                int W,H;
+                int VBR;
+                if (ImgSize==-1) {
+                    if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0]!=-1) {
+                        // Force to 4/3
+                        ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0];
+                        W=DefImageFormat[0][0][ImgSize].Width;
+                        H=DefImageFormat[0][0][ImgSize].Height;
+                        VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[0];
+                        VideoFrameRate=DefImageFormat[0][0][ImgSize].dFPS;
+                        switch (Diaporama->ImageGeometry) {
+                            case GEOMETRY_4_3:  break;                                          // 4:3 to 4:3 : nothing to do
+                            case GEOMETRY_16_9: ExtendV=H-int((double(W)/16)*9);     break;      // 16:9 to 4:3 : pad top & bottom
+                            case GEOMETRY_40_17:ExtendV=H-int((double(W)/40)*17);    break;      // 40:17 to 4:3 : pad top & bottom
+                        }
+                    } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1]!=-1) {
+                        // Force to 16/9
+                        ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1];
+                        W=DefImageFormat[0][1][ImgSize].Width;
+                        H=DefImageFormat[0][1][ImgSize].Height;
+                        VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[1];
+                        VideoFrameRate=DefImageFormat[0][1][ImgSize].dFPS;
+                        switch (Diaporama->ImageGeometry) {
+                            case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 16:9 : pad left & right
+                            case GEOMETRY_16_9: break;                                          // 16:9 to 16:9 : Nothing to do
+                            case GEOMETRY_40_17:ExtendV=H-int((double(W)/40)*17);    break;      // 40:17 to 16:9 : pad top & bottom
+                        }
+                    } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2]!=-1) {
+                        // Force to 40/17
+                        ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2];
+                        W=DefImageFormat[0][2][ImgSize].Width;
+                        H=DefImageFormat[0][2][ImgSize].Height;
+                        VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[2];
+                        VideoFrameRate=DefImageFormat[0][2][ImgSize].dFPS;
+                        switch (Diaporama->ImageGeometry) {
+                            case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 40:17 : pad left & right
+                            case GEOMETRY_16_9: ExtendH=W-int((double(H)/9)*16);     break;      // 16:9 to 40:17 : pad left & right
+                            case GEOMETRY_40_17:break;                                          // 40:17 to 40:17 : Nothing to do
+                        }
+                    }
+                    Diaporama->LastStandard =0;
+                    Diaporama->LastImageSize=ImgSize;
+                } else {
+                    W=DefImageFormat[0][Diaporama->ImageGeometry][ImgSize].Width;
+                    H=DefImageFormat[0][Diaporama->ImageGeometry][ImgSize].Height;
+                    VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[Diaporama->ImageGeometry];
+                    VideoFrameRate=DefImageFormat[0][Diaporama->ImageGeometry][ImgSize].dFPS;
+                    Diaporama->LastStandard =0;
+                    Diaporama->LastImageSize=ImgSize;
+                }
+                QString VBRText=VIDEOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec].PossibleBitrate;
+                while (VBR>0) {
+                    VBRText=VBRText.mid(VBRText.indexOf("#")+1);
+                    VBR--;
+                }
+                if (VBRText.indexOf("#")>0) VBRText=VBRText.left(VBRText.indexOf("#"));
+                if (VBRText.indexOf("k")>0) VBRText=VBRText.left(VBRText.indexOf("k"))+"000";
+                VideoBitRate=VBRText.toInt();
+
+                AudioCodecIndex =Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec;
+                VBRText=AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].PossibleBitrate2CH;
+                VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioBitrate;
+                while (VBR>0) {
+                    VBRText=VBRText.mid(VBRText.indexOf("#")+1);
+                    VBR--;
+                }
+                if (VBRText.indexOf("#")>0) VBRText=VBRText.left(VBRText.indexOf("#"));
+                if (VBRText.indexOf("k")>0) VBRText=VBRText.left(VBRText.indexOf("k"))+"000";
+
+                AudioBitRate  =VBRText.toInt();
+                AudioFrequency=Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioFreq;
+            }
         }
-        VideoCodecIndex=ui->VideoFormatCB->itemData(VideoCodecIndex).toInt();
-        VideoCodec     =VIDEOCODECDEF[VideoCodecIndex].ShortName;
-
-        AudioCodecIndex=ui->AudioFormatCB->currentIndex();
-        if (AudioCodecIndex<0) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Audio codec error !");
-            done(0);
-            return;
+        if (OutputFileFormat>=0) {
+            if (Diaporama->OutputFileFormat!=ui->FileFormatCB->itemData(Diaporama->OutputFileFormat).toInt()) {
+                Diaporama->OutputFileFormat=ui->FileFormatCB->itemData(Diaporama->OutputFileFormat).toInt();
+                IsModify=true;
+            }
         }
-        AudioCodecIndex=ui->AudioFormatCB->itemData(AudioCodecIndex).toInt();
-        AudioCodec     =AUDIOCODECDEF[AudioCodecIndex].ShortName;
 
-        BitRate=ui->VideoBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    VideoBitRate=BitRate.toInt();
-        BitRate=ui->AudioBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    AudioBitRate=BitRate.toInt();
+        FileFormat  =FORMATDEF[Diaporama->OutputFileFormat].FileExtension;
+        VideoCodec  =VIDEOCODECDEF[VideoCodecIndex].ShortName;
+        AudioCodec  =AUDIOCODECDEF[AudioCodecIndex].ShortName;
 
         // Special case adjustment
         if (AUDIOCODECDEF[AudioCodecIndex].Codec_id==CODEC_ID_PCM_S16LE)    AudioBitRate=1536;      // Special case for WAV
         if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("flv")) AudioFrequency=44100;   // Special case for FLV
+        if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("3gp")) AudioFrequency=8000;    // Special case for AMRNB
 
-
-        IsModify=IsModify || (Diaporama->OutputFileName !=ui->DestinationFilePath->text());     Diaporama->OutputFileName   =ui->DestinationFilePath->text();
-        IsModify=IsModify || (Diaporama->ImageGeometry  !=ui->GeometryCombo->currentIndex());   Diaporama->ImageGeometry    =ui->GeometryCombo->currentIndex();
-        IsModify=IsModify || (Diaporama->LastStandard   !=ui->StandardCombo->currentIndex());   Diaporama->LastStandard     =ui->StandardCombo->currentIndex();
-        IsModify=IsModify || (Diaporama->LastImageSize  !=ui->ImageSizeCombo->currentIndex());  Diaporama->LastImageSize    =ui->ImageSizeCombo->currentIndex();
-        IsModify=IsModify || (Diaporama->VideoFrameRate !=VideoFrameRate);                      Diaporama->VideoFrameRate   =VideoFrameRate;
-        IsModify=IsModify || (Diaporama->AudioFrequency !=AudioFrequency);                      Diaporama->AudioFrequency   =AudioFrequency;
-        IsModify=IsModify || (Diaporama->VideoCodec     !=VideoCodec);                          Diaporama->VideoCodec       =VideoCodec;
-        IsModify=IsModify || (Diaporama->AudioCodec     !=AudioCodec);                          Diaporama->AudioCodec       =AudioCodec;
-        IsModify=IsModify || (Diaporama->VideoBitRate   !=VideoBitRate);                        Diaporama->VideoBitRate     =VideoBitRate;
-        IsModify=IsModify || (Diaporama->AudioBitRate   !=AudioBitRate);                        Diaporama->AudioBitRate     =AudioBitRate;
+        if (Diaporama->OutputFileName !=ui->DestinationFilePath->text()) { Diaporama->OutputFileName   =ui->DestinationFilePath->text();    IsModify=true; }
+        if (Diaporama->VideoFrameRate !=VideoFrameRate)                  { Diaporama->VideoFrameRate   =VideoFrameRate;                     IsModify=true; }
+        if (Diaporama->AudioFrequency !=AudioFrequency)                  { Diaporama->AudioFrequency   =AudioFrequency;                     IsModify=true; }
+        if (Diaporama->VideoCodec     !=VideoCodec)                      { Diaporama->VideoCodec       =VideoCodec;                         IsModify=true; }
+        if (Diaporama->AudioCodec     !=AudioCodec)                      { Diaporama->AudioCodec       =AudioCodec;                         IsModify=true; }
+        if (Diaporama->VideoBitRate   !=VideoBitRate)                    { Diaporama->VideoBitRate     =VideoBitRate;                       IsModify=true; }
+        if (Diaporama->AudioBitRate   !=AudioBitRate)                    { Diaporama->AudioBitRate     =AudioBitRate;                       IsModify=true; }
 
         if (IsModify) GlobalMainWindow->SetModifyFlag(true);
 
@@ -386,8 +649,8 @@ void DlgRenderVideo::accept() {
 
         ui->InformationLabel1->setText(Diaporama->OutputFileName);
         ui->InformationLabel2->setText(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Name);
-        ui->InformationLabel3->setText(QString(VIDEOCODECDEF[VideoCodecIndex].LongName)+" - "+QString("%1").arg(Diaporama->VideoBitRate)+" kb/s");
-        ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+QString(" - %1 Hz - ").arg(Diaporama->AudioFrequency)+QString("%1").arg(Diaporama->AudioBitRate)+" kb/s");
+        ui->InformationLabel3->setText(QString(VIDEOCODECDEF[VideoCodecIndex].LongName)+" - "+QString("%1").arg(Diaporama->VideoBitRate)+" b/s");
+        ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+QString(" - %1 Hz - ").arg(Diaporama->AudioFrequency)+QString("%1").arg(Diaporama->AudioBitRate)+" b/s");
 
         //**********************************************************************************************************************************
 
@@ -423,58 +686,62 @@ void DlgRenderVideo::accept() {
         if (Continue) {
             W       =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Width;
             H       =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Height;
-            Extend  =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Extend;
 
             // Video codec part
             QString Preset=AdjustDirForOS(QDir::currentPath());
             if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
             Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
             switch (VIDEOCODECDEF[VideoCodecIndex].Codec_id) {
-                case CODEC_ID_MPEG2VIDEO :  vCodec=QString("-vcodec mpeg2video -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
+                case CODEC_ID_MPEG2VIDEO :  vCodec=QString("-vcodec mpeg2video -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
                                                    .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
                                                    .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
                                                    .arg(Diaporama->VideoBitRate*2)
                                                    .arg(Diaporama->VideoBitRate);
                                             break;
-                case CODEC_ID_MPEG4 :       if (QString(VIDEOCODECDEF[VideoCodecIndex].ShortName)==QString("mpeg4"))
-                                                vCodec=QString("-vcodec mpeg4 -vtag xvid -b %1k").arg(Diaporama->VideoBitRate);
-                                                else vCodec=QString("-vcodec libxvid -b %1k").arg(Diaporama->VideoBitRate);
+                case CODEC_ID_MPEG4 :       if (AudioCodec=="libopencore_amrnb") {
+                                                vCodec=QString("-f 3gp -vcodec mpeg4 -b %1").arg(Diaporama->VideoBitRate);
+                                            } else {
+                                                if (QString(VIDEOCODECDEF[VideoCodecIndex].ShortName)==QString("mpeg4"))
+                                                    vCodec=QString("-vcodec mpeg4 -vtag xvid -b %1").arg(Diaporama->VideoBitRate);
+                                                    else vCodec=QString("-vcodec libxvid -b %1").arg(Diaporama->VideoBitRate);
+                                            }
                                             break;
-                case CODEC_ID_H264 :        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -refs 3 -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
+                case CODEC_ID_H264 :        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -refs 3 -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
                                                 .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
                                                 .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
                                                 .arg(Diaporama->VideoBitRate*2)
                                                 .arg(Diaporama->VideoBitRate);
                                             break;
                 case CODEC_ID_MJPEG:        vCodec="-vcodec mjpeg -qscale 2 -qmin 2 -qmax 2";   break;
-                case CODEC_ID_VP8:          vCodec=QString("-vcodec libvpx -minrate %1k -maxrate %2k -bufsize %3k -b %4k -bf 3")
+                case CODEC_ID_VP8:          vCodec=QString("-vcodec libvpx -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
                                                 .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
                                                 .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
                                                 .arg(Diaporama->VideoBitRate*2)
                                                 .arg(Diaporama->VideoBitRate);
                                             break;
-                case 22 :                   vCodec=QString("-vcodec flv -b %1k").arg(Diaporama->VideoBitRate);
+                case 22 :                   vCodec=QString("-vcodec flv -b %1").arg(Diaporama->VideoBitRate);
                                             break;
                 default:
-                    QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Unknown video codec");
+                    QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Unknown video codec");
                     Continue=false;
                     break;
             }
 
             // Audio codec part
             switch (AUDIOCODECDEF[AudioCodecIndex].Codec_id) {
-                case CODEC_ID_PCM_S16LE:    aCodec=QString("-acodec pcm_s16le -ab %1k").arg(Diaporama->AudioBitRate); break;
-                case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1k").arg(Diaporama->AudioBitRate); break;
-                case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1k").arg(Diaporama->AudioBitRate); break;
+                case CODEC_ID_PCM_S16LE:    aCodec=QString("-acodec pcm_s16le -ab %1").arg(Diaporama->AudioBitRate); break;
+                case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1").arg(Diaporama->AudioBitRate); break;
+                case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(Diaporama->AudioBitRate); break;
                 case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))
-                                                aCodec=QString("-acodec aac -strict experimental -ab %1k").arg(Diaporama->AudioBitRate);
-                                                else aCodec=QString("-acodec libfaac -ab %1k").arg(Diaporama->AudioBitRate);
+                                                aCodec=QString("-acodec aac -strict experimental -ab %1").arg(Diaporama->AudioBitRate);
+                                                else aCodec=QString("-acodec libfaac -ab %1").arg(Diaporama->AudioBitRate);
                                             break;
-                case CODEC_ID_AC3:          aCodec=QString("-acodec ac3 -ab %1k").arg(Diaporama->AudioBitRate); break;
-                case CODEC_ID_VORBIS:       aCodec=QString("-acodec libvorbis -ab %1k").arg(Diaporama->AudioBitRate); break;
+                case CODEC_ID_AC3:          aCodec=QString("-acodec ac3 -ab %1").arg(Diaporama->AudioBitRate); break;
+                case CODEC_ID_VORBIS:       aCodec=QString("-acodec libvorbis -ab %1").arg(Diaporama->AudioBitRate); break;
+                case CODEC_ID_AMR_NB:       aCodec=QString("-acodec libopencore_amrnb -ab %1").arg(Diaporama->AudioBitRate); Channels=1; break;
 
                 default:
-                    QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Unknown audio codec");
+                    QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Unknown audio codec");
                     Continue=false;
                     break;
             }
@@ -487,11 +754,13 @@ void DlgRenderVideo::accept() {
                 #endif
                 ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -i - -i \"")+TempWAVFileName+"\" "+vCodec+" -r "+
                       QString(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].FPS)+                        
-                      " "+aCodec+QString(" -ar %1 -ac 2 -aspect %2:%3")
+                      " "+aCodec+QString(" -ar %1 -ac %2 -aspect %3:%4")
                       .arg(Diaporama->AudioFrequency)
+                      .arg(Channels)
                       .arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARNUM)
                       .arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARDEN);
-                if (Extend>0) ffmpegCommand=ffmpegCommand+QString(" -padtop %1 -padbottom %2").arg(Extend).arg(Extend);
+                if (ExtendV>0) ffmpegCommand=ffmpegCommand+QString(" -padtop %1 -padbottom %2").arg(ExtendV/2).arg(ExtendV-ExtendV/2);
+                if (ExtendH>0) ffmpegCommand=ffmpegCommand+QString(" -padleft %1 -padright %2").arg(ExtendH/2).arg(ExtendH-ExtendH/2);
 
                 // Activate multithreading support if getCpuCount()>1 and codec is h264 or VP8
                 if ((getCpuCount()>1)&&(
@@ -513,8 +782,8 @@ void DlgRenderVideo::accept() {
             //Process.setWorkingDirectory(Diaporama->ApplicationConfig->UserConfigPath);      // Set working directory to user folder (for log generation)
             Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);            // Start command
             if (!Process.waitForStarted()) {
-                QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),
-                                      QCoreApplication::translate("DlgRenderVideo","Error starting ffmpeg","Error message")+"\n"+ffmpegCommand,
+                QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),
+                                      QApplication::translate("DlgRenderVideo","Error starting ffmpeg","Error message")+"\n"+ffmpegCommand,
                                       QMessageBox::Close);
                 Continue=false;
             }
@@ -556,22 +825,22 @@ void DlgRenderVideo::accept() {
                 Diaporama->DoAssembly(Frame,W,H);                                            // Make final assembly
 
                 // Give time to interface !
-                QCoreApplication::processEvents();
+                QApplication::processEvents();
 
                 // Save image to the pipe
                 if (!Frame->RenderedImage->save(&Process,"PPM",100)) {
-                    QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),QCoreApplication::translate("DlgRenderVideo","Error sending image to ffmpeg","Error message"),QMessageBox::Close);
+                    QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error sending image to ffmpeg","Error message"),QMessageBox::Close);
                     Continue=false;
                 }
 
                 // Wait until ffmpeg processed the frame
                 while (Continue &&(Process.bytesToWrite()>0)) {
                     if (!Process.waitForBytesWritten()) {
-                        QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),QCoreApplication::translate("DlgRenderVideo","ffmpeg error","Error message"),QMessageBox::Close);
+                        QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","ffmpeg error","Error message"),QMessageBox::Close);
                         Continue=false;
                     }
                     // Give time to interface !
-                    QCoreApplication::processEvents();
+                    QApplication::processEvents();
                     // Stop the process if error occur or user ask to stop
                     Continue=Continue && !StopProcessWanted;;
                 }
@@ -602,11 +871,11 @@ void DlgRenderVideo::accept() {
             ui->TotalProgressBar->setValue(NbrFrame);
 
             if (!Process.waitForFinished(30000)) { // 30 sec max to close ffmpeg
-                QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),QCoreApplication::translate("DlgRenderVideo","Error during ffmpeg process","Error message"),QMessageBox::Close);
+                QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error during ffmpeg process","Error message"),QMessageBox::Close);
                 Process.terminate();
                 Continue=false;
             } else if (Process.exitStatus()!=QProcess::NormalExit) {
-              QMessageBox::critical(NULL,QCoreApplication::translate("DlgRenderVideo","Error","Error message"),QCoreApplication::translate("DlgRenderVideo","Error exiting ffmpeg","Error message"),QMessageBox::Close);
+              QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error exiting ffmpeg","Error message"),QMessageBox::Close);
               Continue=false;
             }
         }
@@ -617,7 +886,7 @@ void DlgRenderVideo::accept() {
         Diaporama->FreeUnusedMemory(-1);
 
         // Inform user of success
-        if (Continue) QMessageBox::information(this,QCoreApplication::translate("DlgRenderVideo","Render video"),QCoreApplication::translate("DlgRenderVideo","Job completed succesfully !"));
+        if (Continue) QMessageBox::information(this,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed succesfully !"));
 
         // Save Window size and position
         Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);
@@ -654,7 +923,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
     // Get the container format
     Fmt=av_guess_format(NULL,TempWAVFileName.toLocal8Bit(),NULL);
     if (Fmt==NULL) {
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary wav file !");
+        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary wav file !");
         Continue=false;
     } else Fmt->audio_codec=CODEC_ID_PCM_S16LE;
 
@@ -662,7 +931,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
     if (Continue) {
         OutputFormatContext = avformat_alloc_context();
         if (!OutputFormatContext) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : Unable to allocate OutputFormatContext !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : Unable to allocate OutputFormatContext !");
             Continue=false;
         } else {
             memcpy(OutputFormatContext->filename,TempWAVFileName.toLocal8Bit(),strlen(TempWAVFileName.toLocal8Bit())+1);
@@ -674,7 +943,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
             // set the output parameters
             if (av_set_parameters(OutputFormatContext,&fpOutFile)<0) {
                 av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-                QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Invalid output format parameters !");
+                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Invalid output format parameters !");
                 Continue=false;
             }
         }
@@ -684,7 +953,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
     if (Continue) {
         AudioStream=av_new_stream(OutputFormatContext,0);
         if (AudioStream==NULL) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream !");
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
             Continue=false;
         }
@@ -696,7 +965,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
         avcodec_get_context_defaults2(AudioCodecContext,AVMEDIA_TYPE_AUDIO);  // Fill stream with default values
         AudioCodec=avcodec_find_encoder(CODEC_ID_PCM_S16LE);                // Open Audio encoder
         if (!AudioCodec) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found !");
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
             Continue=false;
         } else {
@@ -718,7 +987,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
 
             // open the codec
             if (avcodec_open(AudioCodecContext,AudioCodec)<0) {
-                QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"could not open audio codec !");
+                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"could not open audio codec !");
                 av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
                 Continue=false;
             } else {
@@ -743,7 +1012,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
         if (url_fopen(&OutputFormatContext->pb,TempWAVFileName.toLocal8Bit(),URL_WRONLY)<0) {
         #endif
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary audio file !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary audio file !");
             Continue=false;
         }
     }
@@ -752,7 +1021,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
     if (Continue) {
         audio_outbuf=(uint8_t *)av_malloc(FF_MIN_BUFFER_SIZE);
         if (audio_outbuf==NULL) {
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio buffer !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio buffer !");
             Continue=false;
         }
     }
@@ -760,7 +1029,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
     // write the header
     if ((Continue)&&(av_write_header(OutputFormatContext)!=0)) {
         av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file !");
+        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file !");
         Continue=false;
     }
 
@@ -815,7 +1084,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
             Diaporama->LoadSources(Frame,0,0,false,true);
 
             // Give time to interface !
-            QCoreApplication::processEvents();
+            QApplication::processEvents();
 
             // Calc number of packet to mix
             int MaxPacket=Frame->CurrentObject_MusicTrack->List.count();
@@ -853,11 +1122,11 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
                         // write the compressed frame in the media file
                         if (av_interleaved_write_frame(OutputFormatContext,&pkt)!=0) {
                             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-                            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame !");
+                            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame !");
                             Continue=false;
                         }
                     } else if (out_size<0) {
-                        QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound !");
+                        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound !");
                         Continue=false;
                     }
                     av_free(PacketSound);
@@ -866,7 +1135,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
                 av_free(Packet);
 
             }
-            QCoreApplication::processEvents();  // Give time to interface !
+            QApplication::processEvents();  // Give time to interface !
 
             // Calculate next position
             Position     +=(FPS/1000);
@@ -881,7 +1150,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
         // Write de trailer
         if ((Continue)&&(av_write_trailer(OutputFormatContext)!=0)) {
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-            QMessageBox::critical(this,QCoreApplication::translate("DlgRenderVideo","Render video"),"Error writing the trailer of the temporary audio file !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the trailer of the temporary audio file !");
             Continue=false;
         }
     }

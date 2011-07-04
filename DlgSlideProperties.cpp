@@ -54,11 +54,11 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     MakeFormIcon(ui->BackgroundFormCB);
 
     // Init combo box Background shadow form
-    ui->ShadowEffectCB->addItem(QCoreApplication::translate("DlgSlideProperties","None"));
-    ui->ShadowEffectCB->addItem(QCoreApplication::translate("DlgSlideProperties","Shadow upper left"));
-    ui->ShadowEffectCB->addItem(QCoreApplication::translate("DlgSlideProperties","Shadow upper right"));
-    ui->ShadowEffectCB->addItem(QCoreApplication::translate("DlgSlideProperties","Shadow bottom left"));
-    ui->ShadowEffectCB->addItem(QCoreApplication::translate("DlgSlideProperties","Shadow bottom right"));
+    ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","None"));
+    ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","Shadow upper left"));
+    ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","Shadow upper right"));
+    ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","Shadow bottom left"));
+    ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","Shadow bottom right"));
     ui->ShadowEffectED->setRange(1,30);
 
     // Init combo box external border style
@@ -88,17 +88,17 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     ui->HeightEd->setDecimals(2);           ui->HeightEd->setSingleStep(1);
 
     // Init combo box Background  type
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("DlgSlideProperties","No brush"));              ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_NOBRUSH)));
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("DlgSlideProperties","Solid brush"));           ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_SOLID)));
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("DlgSlideProperties","Pattern brush"));         ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_PATTERN)));
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("DlgSlideProperties","Gradient 2 colors"));     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT2)));
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("DlgSlideProperties","Gradient 3 colors"));     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT3)));
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("DlgSlideProperties","Image from library"));    ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGELIBRARY)));
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","No brush"));              ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_NOBRUSH)));
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","Solid brush"));           ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_SOLID)));
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","Pattern brush"));         ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_PATTERN)));
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","Gradient 2 colors"));     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT2)));
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","Gradient 3 colors"));     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT3)));
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","Image from library"));    ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGELIBRARY)));
 
     // Init image geometry combo box
-    ui->ImageGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Project geometry"));
-    ui->ImageGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Image geometry"));
-    ui->ImageGeometryCB->addItem(QCoreApplication::translate("DlgSlideProperties","Custom geometry"));
+    ui->ImageGeometryCB->addItem(QApplication::translate("DlgSlideProperties","Project geometry"));
+    ui->ImageGeometryCB->addItem(QApplication::translate("DlgSlideProperties","Image geometry"));
+    ui->ImageGeometryCB->addItem(QApplication::translate("DlgSlideProperties","Custom geometry"));
 
     ui->BlockTabWidget->setCurrentIndex(0); // Ensure page 0
 
@@ -343,7 +343,7 @@ void DlgSlideProperties::RefreshControls() {
         if (Duration<TotalDuration) AddingDuration=TotalDuration-Duration;
     }
     if (AddingDuration==0) ui->MinShotDurationLabel->setText("");
-        else ui->MinShotDurationLabel->setText(QString(QCoreApplication::translate("DlgImageProperties","Lengthened to %1 sec")).arg(double(DiaporamaObject->List[CurrentShot].StaticDuration+AddingDuration)/1000));
+        else ui->MinShotDurationLabel->setText(QString(QApplication::translate("DlgImageProperties","Lengthened to %1 sec")).arg(double(DiaporamaObject->List[CurrentShot].StaticDuration+AddingDuration)/1000));
 
     //====================================================================================================================
 
@@ -418,13 +418,13 @@ void DlgSlideProperties::RefreshControls() {
                 break;
             case BRUSHTYPE_PATTERN :
             case BRUSHTYPE_SOLID :          break;
-                ui->ColorLabel1->setText(QCoreApplication::translate("DlgSlideProperties","Color :"));
+                ui->ColorLabel1->setText(QApplication::translate("DlgSlideProperties","Color :"));
                 break;
             case BRUSHTYPE_GRADIENT3 :
             case BRUSHTYPE_GRADIENT2 :
                 ui->IntermPosSlider->setValue(CurrentBrush->Intermediate*100);
                 ui->IntermPosED->setValue(CurrentBrush->Intermediate*100);
-                ui->ColorLabel1->setText(QCoreApplication::translate("DlgSlideProperties","Colors :"));
+                ui->ColorLabel1->setText(QApplication::translate("DlgSlideProperties","Colors :"));
                 break;
             case BRUSHTYPE_IMAGELIBRARY :
                 // Ensure BrushImage is valide
@@ -683,14 +683,14 @@ void DlgSlideProperties::UpdateDockInfo() {
     if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
     if (CurrentTextItem) {
         ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Object type")));
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK?QCoreApplication::translate("DlgSlideProperties","Title"):
-                                                                                  CurrentTextItem->BackgroundBrush.Image!=NULL?QCoreApplication::translate("DlgSlideProperties","Image"):
-                                                                                  QCoreApplication::translate("DlgSlideProperties","Video")));
+        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Object type")));
+        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK?QApplication::translate("DlgSlideProperties","Title"):
+                                                                                  CurrentTextItem->BackgroundBrush.Image!=NULL?QApplication::translate("DlgSlideProperties","Image"):
+                                                                                  QApplication::translate("DlgSlideProperties","Video")));
 
         if (CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK) {
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Filename")));
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Filename")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Image!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush.Image->FileName).fileName():
                                                                                       CurrentTextItem->BackgroundBrush.Video!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush.Video->FileName).fileName():""));
 
@@ -701,39 +701,39 @@ void DlgSlideProperties::UpdateDockInfo() {
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value.right(Value.length()-Value.indexOf("##")-QString("##").length())));
             } else if (CurrentTextItem->BackgroundBrush.Video!=NULL) {
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Image size")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Image size")));
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1x%2").arg(CurrentTextItem->BackgroundBrush.Video->ImageWidth).arg(CurrentTextItem->BackgroundBrush.Video->ImageHeight)));
 
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Video format")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Video format")));
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Video->VideoDecoderCodec->name));
 
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Bitrate")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Bitrate")));
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(int(double(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->bit_rate)/1024))+" k/s"));
 
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Frame rate")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Frame rate")));
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(
                         int(double(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->VideoStreamNumber]->r_frame_rate.num)/
                             double(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->VideoStreamNumber]->r_frame_rate.den)))
-                        +" "+QCoreApplication::translate("DlgSlideProperties","fps","frame per second")));
+                        +" "+QApplication::translate("DlgSlideProperties","fps","frame per second")));
 
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Aspect ratio")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Aspect ratio")));
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg((double(CurrentTextItem->BackgroundBrush.Video->ImageWidth)*CurrentTextItem->BackgroundBrush.Video->AspectRatio)/double(CurrentTextItem->BackgroundBrush.Video->ImageHeight),0,'f',3)));
 
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Audio format")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Audio format")));
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Video->AudioDecoderCodec->name));
 
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Frequency")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Frequency")));
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->AudioStreamNumber]->codec->sample_rate)
-                        +" "+QCoreApplication::translate("DlgSlideProperties","hz","audio frequency")));
+                        +" "+QApplication::translate("DlgSlideProperties","hz","audio frequency")));
 
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QCoreApplication::translate("DlgSlideProperties","Channels")));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Channels")));
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->AudioStreamNumber]->codec->channels)));
             }
             ui->TableInfo->resizeColumnsToContents();
@@ -1048,7 +1048,7 @@ void DlgSlideProperties::ChangeBrushDiskFile() {
                                                  QApplication::translate("DlgSlideProperties","Select a file"),
                                                  GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
                                                  GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(CurrentBrush->Image?cApplicationConfig::IMAGEFILE:cApplicationConfig::VIDEOFILE));
-    QCoreApplication::processEvents();
+    QApplication::processEvents();
     if (NewFile=="") return;
     if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
     QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
@@ -1582,7 +1582,7 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
     cCompositionObject *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
     CompositionObject->BackgroundBrush.BrushFileCorrect.ImageGeometry=GEOMETRY_CUSTOM;
     CompositionObject->BackgroundBrush.BrushFileCorrect.AspectRatio=1;
-    CompositionObject->Text=QCoreApplication::translate("DlgSlideProperties","Text","Default text value");
+    CompositionObject->Text=QApplication::translate("DlgSlideProperties","Text","Default text value");
 
     // Now create and append a shot composition block to all shot
     for (int i=0;i<DiaporamaObject->List.count();i++) {
@@ -1608,7 +1608,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
                                                  QApplication::translate("DlgSlideProperties","Select a file"),
                                                  GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
                                                  GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
-    QCoreApplication::processEvents();
+    QApplication::processEvents();
     if (NewFile=="") return;
     if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 

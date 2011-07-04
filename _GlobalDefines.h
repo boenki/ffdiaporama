@@ -58,6 +58,7 @@ extern "C" {
 //============================================
 #include <QtCore>
 #include <QtDebug>
+#include <QAction>
 #include <QApplication>
 #include <QBitmap>
 #include <QByteArray>
@@ -85,6 +86,7 @@ extern "C" {
 #include <QListView>
 #include <QMainWindow>
 #include <QMatrix>
+#include <QMenu>
 #include <QMessageBox>
 #include <QModelIndex>
 #include <QMouseEvent>
@@ -132,16 +134,10 @@ extern "C" {
 #include "fmt_filters.h"
 
 //============================================
-// Basic class from this project
-//============================================
-#include "_ImageFileWrapper.h"
-#include "_VideoFileWrapper.h"
-
-//============================================
 // Global defines
 //============================================
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "0.99.alpha2"
+#define APPLICATION_VERSION                 "0.99.alpha3"
 #define CONFIGFILEEXT                       ".xml"                                  // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                         // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                               // Name of root node in the project xml file
@@ -171,11 +167,27 @@ extern "C" {
 #define GEOMETRY_4_3                        0
 #define GEOMETRY_16_9                       1
 #define GEOMETRY_40_17                      2
+#define NBR_GEOMETRY_DEF                    3
 
 // Image geometry definition
 #define GEOMETRY_PROJECT                    0
 #define GEOMETRY_IMAGE                      1
 #define GEOMETRY_CUSTOM                     2
+
+// Export mode definition
+#define EXPORTMODE_ADVANCED                 0
+
+#define EXPORTMODE_SMARTPHONE               1
+#define EXPORTMODE_SMARTPHONE_SUBTYPE0      "Smartphone"
+#define EXPORTMODE_SMARTPHONE_SUBTYPE1      "Portable multimedia player"
+
+#define EXPORTMODE_MULTIMEDIASYS            2
+#define EXPORTMODE_MULTIMEDIASYS_SUBTYPE0   "Multimedia hard drive"
+#define EXPORTMODE_MULTIMEDIASYS_SUBTYPE1   "DVD/DIVX Player"
+#define EXPORTMODE_MULTIMEDIASYS_SUBTYPE2   "ADSL Box"
+
+#define EXPORTMODE_FORTHEWEB                3
+#define EXPORTMODE_FORTHEWEB_SUBTYPE0       "For the WEB"
 
 // Standard definition
 #define STANDARD_PAL                        0
@@ -318,7 +330,6 @@ extern "C" {
 #define WORKINGPATH_STR                     "Working path set to\t: "
 #define SYSTEMLOCAL_STR                     "Detected system locale\t: "
 #define LOADEDLOCAL_STR                     "Translation file loaded\t: "
-#define BUILDVERSION_STR                    "Build version\t\t: "
 #define COMMONPARTVERSION_STR               "Common part version\t: "
 #define VERSIONQT_STR                       "QT version\t\t: "
 #define FMTFILTERVERSION_STR                "fmt_filters version\t: "
@@ -371,7 +382,7 @@ struct sAudioCodecDef {
     char    PossibleBitrate6CH[200];                            // list of possible compression bit rate in 5.1/6 chanels mode (define by this application)
     char    Default[10];                                        // prefered compression bit rate
 };
-#define NBR_AUDIOCODECDEF   6
+#define NBR_AUDIOCODECDEF   7
 extern struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF];  // Real definition in capplicationconfig.cpp
 
 //============================================
@@ -387,5 +398,11 @@ struct sFormatDef {
 };
 #define NBR_FORMATDEF   9
 extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];              // Real definition in capplicationconfig.cpp
+
+//============================================
+// Basic class from this project
+//============================================
+#include "_ImageFileWrapper.h"
+#include "_VideoFileWrapper.h"
 
 #endif // GLOBALDEFINES_H

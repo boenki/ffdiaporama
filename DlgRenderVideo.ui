@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>507</width>
-    <height>423</height>
+    <height>743</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +23,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Render video</string>
+   <string notr="true">Render video</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -45,8 +45,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>483</width>
-        <height>188</height>
+        <width>499</width>
+        <height>309</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
@@ -56,8 +56,8 @@
        <property name="spacing">
         <number>4</number>
        </property>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_19">
+       <item row="10" column="0">
+        <widget class="QLabel" name="ImageSizeLabel">
          <property name="text">
           <string>Image format :</string>
          </property>
@@ -66,7 +66,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Destination file :</string>
@@ -76,7 +76,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="spacing">
           <number>2</number>
@@ -100,8 +100,8 @@
          </item>
         </layout>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_20">
+       <item row="8" column="0">
+        <widget class="QLabel" name="StandardLabel">
          <property name="text">
           <string>Video standard :</string>
          </property>
@@ -110,7 +110,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="8" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <property name="spacing">
           <number>2</number>
@@ -130,7 +130,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_18">
+          <widget class="QLabel" name="GeometryLabel">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -169,7 +169,7 @@
          </item>
         </layout>
        </item>
-       <item row="6" column="1">
+       <item row="10" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_6">
          <property name="spacing">
           <number>2</number>
@@ -183,7 +183,7 @@
          </item>
         </layout>
        </item>
-       <item row="8" column="1">
+       <item row="12" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_8">
          <property name="spacing">
           <number>2</number>
@@ -199,7 +199,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="VideoBitRateLabel">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -232,7 +232,7 @@
          </item>
         </layout>
        </item>
-       <item row="11" column="1">
+       <item row="15" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <property name="spacing">
           <number>2</number>
@@ -248,7 +248,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="AudioBitRateLabel">
            <property name="text">
             <string>Bit rate :</string>
            </property>
@@ -276,7 +276,7 @@
         </layout>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="FileFormatLabel">
          <property name="text">
           <string>File format :</string>
          </property>
@@ -295,8 +295,8 @@
          </property>
         </widget>
        </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="label_3">
+       <item row="15" column="0">
+        <widget class="QLabel" name="AudioFormatLabel">
          <property name="text">
           <string>Audio codec :</string>
          </property>
@@ -305,13 +305,69 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="12" column="0">
+        <widget class="QLabel" name="VideoFormatLabel">
          <property name="text">
           <string>Video codec :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QComboBox" name="DeviceModelCB"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="DeviceModelLabel">
+         <property name="text">
+          <string>Device model :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="DeviceTypeLabel">
+         <property name="text">
+          <string>Device type :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="DeviceTypeCB"/>
+       </item>
+       <item row="16" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="RenderFormatLabel">
+         <property name="text">
+          <string>Rendering format :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLabel" name="RenderFormatText">
+         <property name="text">
+          <string notr="true"/>
          </property>
         </widget>
        </item>
@@ -642,7 +698,7 @@
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>20</width>
+       <width>0</width>
        <height>0</height>
       </size>
      </property>

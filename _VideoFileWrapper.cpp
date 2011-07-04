@@ -576,8 +576,8 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
     // Open video file and retrieve stream information
     bool Continue=true;
     while ((Continue)&&(av_open_input_file(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0)) {
-        if (QMessageBox::question(GlobalMainWindow,QCoreApplication::translate("MainWindow","Open video file"),
-            QCoreApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QCoreApplication::translate("MainWindow","Do you want to select another file ?"),
+        if (QMessageBox::question(GlobalMainWindow,QApplication::translate("MainWindow","Open video file"),
+            QApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
 
             QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(FileName).fileName(),
@@ -716,7 +716,7 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,int StartPosToA
     // Load a video frame
     QImage *LoadedImage=NULL;
 
-    ReadAudioFrame(Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
+    if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)) ReadAudioFrame(Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
     if ((!MusicOnly)&&(!ForceSoundOnly)) LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
 
     if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {

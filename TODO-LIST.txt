@@ -2,25 +2,68 @@ Buggs/TODO (Dernier SVN le 29/06/2011) :
 ----------------------------------------
 BUGG: Probleme de lecture avec des fichiers .ogg
 BUGG: Il manque la propriété aspect ratio dans la boite de recadrage
-
-BUGG: Plantage X11 sur les threads PrepareImage du lecteur video de la fenetre principal
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
 BUGG: à voir : le redimenssionnement des blocs dans la boite slide permet de dépasser de l'écran -> peut-être à controler : à traiter dans l'alpha 3 !
 
+TODO: MM-System : Western digital TV HD à finir
+
+TODO: Double click sur un bloc dans la boite slide => ouvre texte/recadrage ou edit video selon le type de bloc
 TODO: Finir l'internationalisation du paquet Ubuntu
 TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
+TODO: Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
+TODO: Rendre la forme des objets non global
+TODO: Rendre la bordure des objets non global
+TODO: Pouvoir définir la couleur de l'ombre des objets
+TODO: Rendre l'ombre des objets non global
+TODO: Ajouter des animations de texte (scrolling, zoom in/out)
+TODO: Ajouter une option pour afficher les coordonnées en pixel plutôt qu'en %
+TODO: Permettre d'avoir d'autres animations pour les bloc entrant (1er shot ou bloc invisible dans le shot précédent)
+TODO: Permettre d'avoir des animations pour les bloc sortant (Dernier shot ou bloc invisible dans le shot suivant)
+TODO: Faire les transitions de fonds (à réfléchir !) +Faire la boite de modif des transitions de fond
+TODO: Ajouter un mode de sélection de rendu selon une liste de device
+TODO: Faire les fade in/out des musiques lors des changements de volume
+TODO: Ajouter un skip de frame inutile dans cvideofilewrapper::ReadVideoFrame
+TODO: Revoir les messages d'erreurs lié à exiv2 dans _ImageFileWrapper
+TODO: Transférer le control de volume de la boite vidéo à la boite slide
+TODO: Autoriser les blocs à sortir de l'écran
+TODO: Permettre à l'utilisateur de charger un LUMA pour une transition
+TODO: Permettre à l'utilisateur de mettre une vidéo en pause sans pour autant la mettre en invisible
+TODO: Permettre à l'utilisateur de changer les marges des textes à l'intérieur des blocs
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+Correction de bugg: Corrige le bug sur la pré-selection du FPS de preview dans la boite de configuration (pour les FPS sans virgule)
+Correction de bugg: Corrige les threads du lecteur video de la fenetre principal et résoud les problèmes de plantage X11
+
+Changement de comportement: Déplace la la zone de pic (bufering) du lecteur vidéo et la place entre la position courante et la durée pour augmenter la taille du slider
+Changement de comportement: Affiche les chargements de fichiers et les actions EXIV dans la zone de statut
+Changement de comportement: Si erreur d'ouverture d'un fichier projet, propose de choisir un autre fichier et gére la recent list
+
+Nouvelle fonctionnalite ALPHA3 :
+
+    Interface : Menu et barre de boutons
+
+        Supprime le menu déroulant et la toolbar et remplace tout cela par un ruban à la sauce Windows
+        Ajoute une fonction Ouvrir un projet récent dans le menu fichier et gère une "recent list"
+        Ajoute le bouton Edit dans le menu projet
+        Ajoute des générations par "Device" dans le nouveau menu Render : "Player and smartphone", "Multimedia system" et "For the WEB"
+            => Commence à gérer une base de device "Expérimentale" à ce stade
+
+    Génération de film :
+        Ajout du codec audio AMR (Adaptive Multi-Rate)
+        Création/validation des devices
+            Smartphone : Nokia-Symbian S60 (640x360) et Windows Mobile 6 (640x480)
+            MM-System  : Western digital TV HD et Generic DVD/DIVX Player
+            ADSL Box   : BBox, FreeBox et Livebox
+
+-------------------------------------
+Changelog depuis la version 20110629
+-------------------------------------
 Correction de bugg: Fait en sorte à ce que la fonction "Enregistrer sous" reste accessible même si le projet n'a pas été modifié
 Correction de bugg: Conservation du nouveau nom du fichier musical en cas de déplacement du fichier et sélection d'un autre fichier par l'utilisateur
 Correction de bugg: Rajoute le format de fichier (qui manquait) dans les informations sauvegardées concernant le fichier vidéo généré dans le fichier projet (.ffd)
 
 Changement de comportement: Supprime des données inutiles et redondantes du fichier projet (.ffd)
 Changement de comportement: Rend le nom du fichier vidéo généré relatif dans le fichier projet (.ffd)
-
--------------------------------------
-Changelog depuis la version 20110629
--------------------------------------

@@ -56,12 +56,12 @@ wgt_QCompositionWidget::wgt_QCompositionWidget(QWidget *parent):QWidget(parent),
     ui->plainTextEdit->setWordWrapMode(QTextOption::NoWrap);
 
     // Init combo box FontEffect
-    ui->fontEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","No effect"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Outerline"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow upper left"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow upper right"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow bottom left"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow bottom right"));
+    ui->fontEffectCB->addItem(QApplication::translate("wgt_QCompositionWidget","No effect"));
+    ui->fontEffectCB->addItem(QApplication::translate("wgt_QCompositionWidget","Outerline"));
+    ui->fontEffectCB->addItem(QApplication::translate("wgt_QCompositionWidget","Shadow upper left"));
+    ui->fontEffectCB->addItem(QApplication::translate("wgt_QCompositionWidget","Shadow upper right"));
+    ui->fontEffectCB->addItem(QApplication::translate("wgt_QCompositionWidget","Shadow bottom left"));
+    ui->fontEffectCB->addItem(QApplication::translate("wgt_QCompositionWidget","Shadow bottom right"));
     MakeTextStyleIcon(ui->fontEffectCB);
 
     // Init combo box Background form
@@ -69,11 +69,11 @@ wgt_QCompositionWidget::wgt_QCompositionWidget(QWidget *parent):QWidget(parent),
     MakeFormIcon(ui->BackgroundFormCB);
 
     // Init combo box Background shadow form
-    ui->ShadowEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","None"));
-    ui->ShadowEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow upper left"));
-    ui->ShadowEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow upper right"));
-    ui->ShadowEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow bottom left"));
-    ui->ShadowEffectCB->addItem(QCoreApplication::translate("wgt_QCompositionWidget","Shadow bottom right"));
+    ui->ShadowEffectCB->addItem(QApplication::translate("wgt_QCompositionWidget","None"));
+    ui->ShadowEffectCB->addItem(QApplication::translate("wgt_QCompositionWidget","Shadow upper left"));
+    ui->ShadowEffectCB->addItem(QApplication::translate("wgt_QCompositionWidget","Shadow upper right"));
+    ui->ShadowEffectCB->addItem(QApplication::translate("wgt_QCompositionWidget","Shadow bottom left"));
+    ui->ShadowEffectCB->addItem(QApplication::translate("wgt_QCompositionWidget","Shadow bottom right"));
     ui->ShadowEffectED->setRange(1,30);
 
     // Init combo box external border style
@@ -461,7 +461,7 @@ void wgt_QCompositionWidget::s_SelectionChangeEvent() {
 void wgt_QCompositionWidget::s_AddNewTextToImage() {
     CompositionList->List.append(cCompositionObject(COMPOSITIONTYPE_BACKGROUND,(*IndexKey)++));
     cCompositionObject *CompositionObject=&CompositionList->List[CompositionList->List.count()-1];
-    CompositionObject->Text=QCoreApplication::translate("wgt_QCompositionWidget","Text","Default text value");
+    CompositionObject->Text=QApplication::translate("wgt_QCompositionWidget","Text","Default text value");
 
     // Unselect all item
     while (scene->selectedItems().count()>0) scene->selectedItems()[0]->setSelected(false);

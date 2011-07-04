@@ -104,7 +104,7 @@
           <string notr="true">QToolButton { /* all types of tool button */
  	 background: black;
      border-top: 1px solid #202020;
-     border-bottom: 1px solid white;
+     border-bottom: 0px;
      border-left: 0px;
      border-right: 0px;
      border-radius: 0px;
@@ -176,26 +176,26 @@
          <item>
           <widget class="QLabel" name="Position">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="minimumSize">
             <size>
-             <width>120</width>
-             <height>16</height>
+             <width>60</width>
+             <height>14</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>16777215</width>
-             <height>16</height>
+             <width>60</width>
+             <height>14</height>
             </size>
            </property>
            <property name="font">
             <font>
-             <pointsize>9</pointsize>
+             <pointsize>8</pointsize>
              <weight>50</weight>
              <italic>false</italic>
              <bold>false</bold>
@@ -211,7 +211,7 @@ border-top: 1px solid #202020;
 border-bottom: 0px;
 border-left: 0px;
 border-right: 0px;
-font: 9pt;
+font: 8pt;
 color: white;
 </string>
            </property>
@@ -225,7 +225,7 @@ color: white;
             <number>0</number>
            </property>
            <property name="text">
-            <string notr="true">00:00:00 / 00:00:00</string>
+            <string notr="true">00:00:00</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -235,25 +235,26 @@ color: white;
          <item>
           <widget class="QProgressBar" name="BufferState">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="minimumSize">
             <size>
-             <width>0</width>
-             <height>15</height>
+             <width>60</width>
+             <height>6</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>16777215</width>
-             <height>15</height>
+             <width>60</width>
+             <height>6</height>
             </size>
            </property>
            <property name="font">
             <font>
+             <family>Sans Serif</family>
              <pointsize>1</pointsize>
             </font>
            </property>
@@ -282,6 +283,62 @@ background: red;
            </property>
            <property name="format">
             <string notr="true"/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="Duration">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>12</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>60</width>
+             <height>12</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background: black;
+subcontrol-origin: padding;
+subcontrol-position: top right;
+padding: 0px;
+spacing: 2px;
+border-top: 0px;
+border-bottom: 0px;
+border-left: 0px;
+border-right: 0px;
+font: 8pt;
+color: white;
+</string>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>0</number>
+           </property>
+           <property name="text">
+            <string notr="true">00:00:00</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>

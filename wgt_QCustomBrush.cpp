@@ -41,22 +41,22 @@ void wgt_QCustomBrush::InitWidget(bool AllowBrushTypeNoBrush,bool AllowBrushType
 
     // Init combo box Background  type
     if (AllowBrushTypeNoBrush) {
-        ui->BrushTypeCombo->addItem(QCoreApplication::translate("wgt_QCustomBrush","No brush"));
+        ui->BrushTypeCombo->addItem(QApplication::translate("wgt_QCustomBrush","No brush"));
         ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_NOBRUSH)));
     }
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("wgt_QCustomBrush","Solid brush"));
+    ui->BrushTypeCombo->addItem(QApplication::translate("wgt_QCustomBrush","Solid brush"));
     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_SOLID)));
     if (AllowBrushTypePattern) {
-        ui->BrushTypeCombo->addItem(QCoreApplication::translate("wgt_QCustomBrush","Pattern brush"));
+        ui->BrushTypeCombo->addItem(QApplication::translate("wgt_QCustomBrush","Pattern brush"));
         ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_PATTERN)));
     }
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("wgt_QCustomBrush","Gradient 2 colors"));
+    ui->BrushTypeCombo->addItem(QApplication::translate("wgt_QCustomBrush","Gradient 2 colors"));
     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT2)));
 
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("wgt_QCustomBrush","Gradient 3 colors"));
+    ui->BrushTypeCombo->addItem(QApplication::translate("wgt_QCustomBrush","Gradient 3 colors"));
     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT3)));
 
-    ui->BrushTypeCombo->addItem(QCoreApplication::translate("wgt_QCustomBrush","Image from library"));
+    ui->BrushTypeCombo->addItem(QApplication::translate("wgt_QCustomBrush","Image from library"));
     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGELIBRARY)));
 
     // Handler for custom color/brush/pattern/gradient combo box index change

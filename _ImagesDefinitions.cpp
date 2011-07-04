@@ -349,25 +349,16 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
 //====================================================================================================================
 
 QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
-    if ((LastLoadedBackgroundImage!=NULL)&&(LastLoadedBackgroundImageName!=BrushImage)) {
-        delete LastLoadedBackgroundImage;
-        LastLoadedBackgroundImage=NULL;
-        LastLoadedBackgroundImageName="";
-    }
-    if (LastLoadedBackgroundImage==NULL) {
-        int BackgroundImageNumber=BackgroundList.SearchImage(BrushImage);
-        LastLoadedBackgroundImageName=BrushImage;
-        LastLoadedBackgroundImage    =new QImage(BackgroundList.List[BackgroundImageNumber].FilePath);
-    }
-    if (LastLoadedBackgroundImage!=NULL) {
-        double Ratio=double(LastLoadedBackgroundImage->height())/double(LastLoadedBackgroundImage->width());
+    int BackgroundImageNumber=BackgroundList.SearchImage(BrushImage);
+    if ((BackgroundImageNumber>=0)&&(BackgroundImageNumber<BackgroundList.List.count())) {
+        double Ratio=double(BackgroundList.List[BackgroundImageNumber].BackgroundImage.height())/double(BackgroundList.List[BackgroundImageNumber].BackgroundImage.width());
         double H    =Rect.height()+1;
         double W    =H/Ratio;
         QImage NewImg1;
         if (W<(Rect.width()+1)) {
-            NewImg1=QImage(LastLoadedBackgroundImage->scaledToWidth(Rect.width()+1));
+            NewImg1=QImage(BackgroundList.List[BackgroundImageNumber].BackgroundImage.scaledToWidth(Rect.width()+1));
         } else {
-            NewImg1=QImage(LastLoadedBackgroundImage->scaledToHeight(Rect.height()+1));
+            NewImg1=QImage(BackgroundList.List[BackgroundImageNumber].BackgroundImage.scaledToHeight(Rect.height()+1));
         }
         W=NewImg1.width();
         H=GetHeightForWidth(W,Rect);
@@ -548,9 +539,11 @@ cBackgroundObject::cBackgroundObject(QString FileName,int TheGeometry) {
     FilePath    = FileName;
     Name        = QFileInfo(FileName).baseName();
 
+    // Load file
+    BackgroundImage.load(AdjustDirForOS(FilePath));
+
     // Make Icon
-    QImage *BrushImage=new QImage();
-    BrushImage->load(AdjustDirForOS(FilePath));
+    QImage *BrushImage=new QImage(BackgroundImage.copy());
     if (!BrushImage->isNull()) {
         Geometry = TheGeometry;
         int     H,W;

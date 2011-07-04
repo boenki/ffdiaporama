@@ -73,8 +73,8 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName) {
 
     bool Continue=true;
     while ((Continue)&&(!QFileInfo(FileName).exists())) {
-        if (QMessageBox::question(GlobalMainWindow,QCoreApplication::translate("MainWindow","Open image file"),
-            QCoreApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QCoreApplication::translate("MainWindow","Do you want to select another file ?"),
+        if (QMessageBox::question(GlobalMainWindow,QApplication::translate("MainWindow","Open image file"),
+            QApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
 
             QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(FileName).fileName(),
@@ -102,6 +102,7 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName) {
     ImageOrientation=1; // Set default image orientation
 
     // start exiv2
+    GlobalMainWindow->StatusBarList.append(QApplication::translate("MainWindow","Analyse file with EXIV2 :")+QFileInfo(GivenFileName).fileName());
     Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pa \""+GivenFileName+"\"";
     Commande = AdjustDirForOS(Commande);
     QProcess Process;
@@ -170,7 +171,7 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
         // Use cached UnfilteredImage (if exist)
         if (UnfilteredImage!=NULL) return new QImage(UnfilteredImage->copy());
         // else : create UnfilteredImage
-        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        GlobalMainWindow->StatusBarList.append(QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
         QImage *LoadedImg=new QImage(FileName);
         if (LoadedImg) {
             UnfilteredImage=new QImage(LoadedImg->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
@@ -194,14 +195,11 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
                   UnfilteredImage=NewImage;
             }
             delete LoadedImg;
-            QApplication::restoreOverrideCursor();
             return new QImage(UnfilteredImage->copy());
         }
-        QApplication::restoreOverrideCursor();
         return NULL;
     }
 
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     // If ForceLoadDisk then ensure CacheImage is null
     if (ForceLoadDisk) {
         if (CacheFullImage!=NULL) {
@@ -226,6 +224,7 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
             CacheImage=NULL;
         }
         // Make cache image
+        GlobalMainWindow->StatusBarList.append(QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
         CacheFullImage=new QImage(FileName);
 
         if (CacheFullImage->isNull()) {
@@ -272,8 +271,6 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
         delete CacheFullImage;
         CacheFullImage=NULL;
     }
-
-    QApplication::restoreOverrideCursor();
 
     // return wanted image
     if ((PreviewMode)&&(CacheImage))      return new QImage(CacheImage->copy());

@@ -35,6 +35,7 @@ class DlgRenderVideo : public QDialog {
 Q_OBJECT
 public:
     cDiaporama      *Diaporama;
+    int             ExportMode;                     // Export mode (smartphone, advanced, etc...)
     bool            StopProcessWanted;              // True if user click on cancel or close during encoding process
     int             Extend;                         // amout of padding (top and bottom) for cinema mode with DVD
     int             VideoCodecIndex;                // Index of video codec
@@ -46,7 +47,7 @@ public:
     bool            IsDestFileOpen;                 // true if encoding is started
     QString         FileFormat;                     // Select dest file values
 
-    explicit DlgRenderVideo(cDiaporama &Diaporama,QWidget *parent = 0);
+    explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,QWidget *parent = 0);
     ~DlgRenderVideo();
 
     bool            WriteTempAudioFile(QString TempWAVFileName);
@@ -65,6 +66,8 @@ private slots:
     void            FileFormatCombo(int);
     void            InitVideoBitRateCB(int);
     void            InitAudioBitRateCB(int);
+    void            s_DeviceTypeCB(int);
+    void            s_DeviceModelCB(int);
 
 private:
     Ui::DlgRenderVideo *ui;

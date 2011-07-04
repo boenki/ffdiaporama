@@ -56,7 +56,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-65</y>
+        <y>0</y>
         <width>512</width>
         <height>733</height>
        </rect>
@@ -921,17 +921,17 @@
           <widget class="QComboBox" name="PreviewFrameRateCB">
            <item>
             <property name="text">
-             <string notr="true">3</string>
+             <string notr="true">3.125</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string notr="true">6.25</string>
+             <string notr="true">6</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string notr="true">10</string>
+             <string notr="true">8.333</string>
             </property>
            </item>
            <item>

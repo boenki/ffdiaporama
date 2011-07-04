@@ -216,7 +216,7 @@ void DlgMusicProperties::s_AddMusic() {
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("DlgMusicProperties","Add music files"),
                                                        DiaporamaObject->Parent->ApplicationConfig->RememberLastDirectories?DiaporamaObject->Parent->ApplicationConfig->LastMusicPath:"",
                                                        GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::MUSICFILE));
-    QCoreApplication::processEvents();
+    QApplication::processEvents();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int CurIndex=DiaporamaObject->MusicList.count();
 
@@ -244,8 +244,8 @@ void DlgMusicProperties::s_AddMusic() {
             ui->PlayListTable->verticalHeader()->setResizeMode(j,QHeaderView::ResizeToContents);
             CurIndex++;
         } else {
-            QMessageBox::critical(NULL,QCoreApplication::translate("DlgMusicProperties","Error","Error message"),
-                                  NewFile+"\n\n"+QCoreApplication::translate("DlgMusicProperties","Format not supported","Error message"),QMessageBox::Close);
+            QMessageBox::critical(NULL,QApplication::translate("DlgMusicProperties","Error","Error message"),
+                                  NewFile+"\n\n"+QApplication::translate("DlgMusicProperties","Format not supported","Error message"),QMessageBox::Close);
             DiaporamaObject->MusicList.removeAt(CurIndex);
         }
     }

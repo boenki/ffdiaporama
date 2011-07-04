@@ -642,7 +642,7 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
 cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
     Parent                                  = Diaporama;
     TypeObject                              = DIAPORAMAOBJECTTYPE_EMPTY;
-    SlideName                               = QCoreApplication::translate("MainWindow","Title","Default slide name when no file");
+    SlideName                               = QApplication::translate("MainWindow","Title","Default slide name when no file");
     NextIndexKey                            = 1;
 
     // Set default/initial value
@@ -867,9 +867,6 @@ cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
     LastImageSize       = ApplicationConfig->DefaultImageSize;
     LastStandard        = ApplicationConfig->DefaultStandard;
 
-    LastLoadedBackgroundImageName="";
-    LastLoadedBackgroundImage    =NULL;
-
     // Set default value
     DefineSizeAndGeometry(ApplicationConfig->ImageGeometry);                                // Default to 16:9
 }
@@ -877,22 +874,11 @@ cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
 //====================================================================================================================
 
 cDiaporama::~cDiaporama() {
-    Clean();
-}
-
-//====================================================================================================================
-
-void cDiaporama::Clean() {
-    if (LastLoadedBackgroundImage!=NULL) {
-        delete LastLoadedBackgroundImage;
-        LastLoadedBackgroundImage=NULL;
-    }
 }
 
 //====================================================================================================================
 
 void cDiaporama::DefineSizeAndGeometry(int Geometry) {
-    Clean();
     ImageGeometry   =Geometry;
     InternalHeight  =720;
     ApplicationConfig->PreviewMaxHeight=InternalHeight;
@@ -1060,8 +1046,8 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error creating data file","Error message"),QMessageBox::Close);
-            else                printf("%s\n",QCoreApplication::translate("MainWindow","Error creating data file","Error message").toLocal8Bit().constData());
+        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error creating data file","Error message"),QMessageBox::Close);
+            else                printf("%s\n",QApplication::translate("MainWindow","Error creating data file","Error message").toLocal8Bit().constData());
         return false;
     }
     root.appendChild(Element);
@@ -1075,29 +1061,47 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 
 //====================================================================================================================
 
-bool cDiaporama::LoadFile(QWidget *ParentWindow,QString ProjectFileName) {
+bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
+    bool Continue=true;
+    while ((Continue)&&(!QFileInfo(ProjectFileName).exists())) {
+        if (QMessageBox::question(GlobalMainWindow,QApplication::translate("MainWindow","Open project file"),
+            QApplication::translate("MainWindow","Impossible to open file ")+ProjectFileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
+
+            QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(ProjectFileName).fileName(),
+               ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",QString("ffDiaporama (*.ffd)"));
+            if (NewFileName!="") {
+                ProjectFileName=NewFileName;
+                if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastProjectPath=QFileInfo(ProjectFileName).absolutePath();     // Keep folder for next use
+            } else Continue=false;
+        }
+    }
+    if (!Continue) {
+        qDebug()<<"Impossible to open file"<<ProjectFileName;
+        return false;
+    }
+
     QFile           file(ProjectFileName);
     QDomDocument    domDocument;
     QDomElement     root;
     QString         errorStr;
     int             errorLine,errorColumn;
-
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        QString ErrorMsg=QCoreApplication::translate("MainWindow","Error reading project file","Error message")+"\n"+ProjectFileName;
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),ErrorMsg,QMessageBox::Close);
+        QString ErrorMsg=QApplication::translate("MainWindow","Error reading project file","Error message")+"\n"+ProjectFileName;
+        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),ErrorMsg,QMessageBox::Close);
             else                printf("%s\n",ErrorMsg.toLocal8Bit().constData());
         return false;
     }
     if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
-            else                printf("%s\n",QCoreApplication::translate("MainWindow","Error reading content of project file","Error message").toLocal8Bit().constData());
+        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
+            else                printf("%s\n",QApplication::translate("MainWindow","Error reading content of project file","Error message").toLocal8Bit().constData());
         return false;
     }
 
     root = domDocument.documentElement();
     if (root.tagName()!=APPLICATION_ROOTNAME) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","The file is not a valid project file","Error message"),QMessageBox::Close);
-            else                printf("%s\n",QCoreApplication::translate("MainWindow","The file is not a valid project file","Error message").toLocal8Bit().constData());
+        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","The file is not a valid project file","Error message"),QMessageBox::Close);
+            else                printf("%s\n",QApplication::translate("MainWindow","The file is not a valid project file","Error message").toLocal8Bit().constData());
         return false;
     }
 
@@ -1153,21 +1157,21 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName) {
     int             errorLine,errorColumn;
 
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading project file","Error message"),QMessageBox::Close);
-            else                printf("%s\n",QCoreApplication::translate("MainWindow","Error reading project file","Error message").toLocal8Bit().constData());
+        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading project file","Error message"),QMessageBox::Close);
+            else                printf("%s\n",QApplication::translate("MainWindow","Error reading project file","Error message").toLocal8Bit().constData());
         return false;
     }
 
     if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
-            else                printf("%s\n",QCoreApplication::translate("MainWindow","Error reading content of project file","Error message").toLocal8Bit().constData());
+        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
+            else                printf("%s\n",QApplication::translate("MainWindow","Error reading content of project file","Error message").toLocal8Bit().constData());
         return false;
     }
 
     root = domDocument.documentElement();
     if (root.tagName()!=APPLICATION_ROOTNAME) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","The file is not a valid project file","Error message"),QMessageBox::Close);
-            else                printf("%s\n",QCoreApplication::translate("MainWindow","The file is not a valid project file","Error message").toLocal8Bit().constData());
+        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","The file is not a valid project file","Error message"),QMessageBox::Close);
+            else                printf("%s\n",QApplication::translate("MainWindow","The file is not a valid project file","Error message").toLocal8Bit().constData());
         return false;
     }
 
@@ -1175,8 +1179,8 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName) {
         QDomElement Element=root.elementsByTagName("Project").item(0).toElement();
         int TheImageGeometry   =Element.attribute("ImageGeometry").toInt();
         if (TheImageGeometry!=ImageGeometry) {
-            if (ParentWindow!=NULL) QMessageBox::critical(NULL,QCoreApplication::translate("MainWindow","Error","Error message"),QCoreApplication::translate("MainWindow","Impossible to import this file :\nImage geometry in this file is not the same than the current project","Error message"),QMessageBox::Close);
-                else                printf("%s\n",QCoreApplication::translate("MainWindow","Impossible to import this file :\nImage geometry in this file is not the same than the current project","Error message").toLocal8Bit().constData());
+            if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Impossible to import this file :\nImage geometry in this file is not the same than the current project","Error message"),QMessageBox::Close);
+                else                printf("%s\n",QApplication::translate("MainWindow","Impossible to import this file :\nImage geometry in this file is not the same than the current project","Error message").toLocal8Bit().constData());
             return false;
         }
     }
@@ -1714,11 +1718,26 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
             PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
             PT.end();
         } else Info->CurrentObject_SourceImage=new QImage(5,5,QImage::Format_ARGB32_Premultiplied); // Create a very small image to have a ptr !
+
     } else {
-        //==============> Image part
-        LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
-        // same job for Transition Object if a previous was not keep !
-        if (Info->TransitObject) LoadTransitVideoImage(Info,PreviewMode,W,H,AddStartPos);
+
+        QFutureWatcher<void>    PrepareCurrentMusicBloc;
+        QFutureWatcher<void>    PrepareTransitMusicBloc;
+
+        // Load music bloc
+        if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
+            PrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
+        if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack))
+            PrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
+
+        // Transition Object if a previous was not keep !
+        if (Info->TransitObject) {
+            QFutureWatcher<void> ThreadPrepareImage;
+            ThreadPrepareImage.setFuture(QtConcurrent::run(this,&cDiaporama::LoadTransitVideoImage,Info,PreviewMode,W,H,AddStartPos));
+            LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
+            ThreadPrepareImage.waitForFinished();
+        } else LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
+
         //==============> Background part
         if (!SoundOnly) {
             // Search background context for CurrentObject if a previous was not keep !
@@ -1752,11 +1771,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 P.end();
             }
         }
-        // Load music bloc
-        if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
-            PrepareMusicBloc(Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
-        if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack))
-            PrepareMusicBloc(Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
+        if (PrepareCurrentMusicBloc.isRunning()) PrepareCurrentMusicBloc.waitForFinished();
+        if (PrepareTransitMusicBloc.isRunning()) PrepareTransitMusicBloc.waitForFinished();
     }
 
     // Soundtrack mix with fade in/fade out
@@ -2148,6 +2164,11 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                     TransitObject_FreePreparedBackground=false;
                 }
             }
+            // Definitively check PreviousFrame to know if we realy need to free Background
+            if (PreviousFrame->CurrentObject_FreePreparedBackground && ((PreviousFrame->CurrentObject_PreparedBackground==CurrentObject_PreparedBackground)||(PreviousFrame->CurrentObject_PreparedBackground==TransitObject_PreparedBackground)))
+                PreviousFrame->CurrentObject_FreePreparedBackground=false;
+            if (PreviousFrame->TransitObject_FreePreparedBackground && ((PreviousFrame->TransitObject_PreparedBackground==CurrentObject_PreparedBackground)||(PreviousFrame->TransitObject_PreparedBackground==TransitObject_PreparedBackground)||(PreviousFrame->TransitObject_PreparedBackground==PreviousFrame->CurrentObject_PreparedBackground)))
+                PreviousFrame->TransitObject_FreePreparedBackground=false;
 
             //************ SourceImage
             if ((PreviousFrame->CurrentObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
@@ -2201,6 +2222,11 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                     TransitObject_MusicTrack=NULL;
                 }
             }
+            // Definitively check PreviousFrame to know if we realy need to free MusicObject
+            if (PreviousFrame->CurrentObject_FreeMusicTrack && ((PreviousFrame->CurrentObject_MusicTrack==CurrentObject_MusicTrack)||(PreviousFrame->CurrentObject_MusicTrack==TransitObject_MusicTrack)))
+                PreviousFrame->CurrentObject_FreeMusicTrack=false;
+            if (PreviousFrame->TransitObject_FreeMusicTrack && ((PreviousFrame->TransitObject_MusicTrack==CurrentObject_MusicTrack)||(PreviousFrame->TransitObject_MusicTrack==TransitObject_MusicTrack)||(PreviousFrame->TransitObject_MusicTrack==PreviousFrame->CurrentObject_MusicTrack)))
+                PreviousFrame->TransitObject_FreeMusicTrack=false;
 
             //************ PreparedImage
             if ((PreviousFrame->CurrentObject_CurrentShot==CurrentObject_CurrentShot)&&                 // Same shot

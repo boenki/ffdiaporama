@@ -57,12 +57,12 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QWidget *parent)
     ui->plainTextEdit->setWordWrapMode(QTextOption::NoWrap);
 
     // Init combo box FontEffect
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgTextEdit","No effect"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgTextEdit","Outerline"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgTextEdit","Shadow upper left"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgTextEdit","Shadow upper right"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgTextEdit","Shadow bottom left"));
-    ui->fontEffectCB->addItem(QCoreApplication::translate("DlgTextEdit","Shadow bottom right"));
+    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","No effect"));
+    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Outerline"));
+    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Shadow upper left"));
+    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Shadow upper right"));
+    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Shadow bottom left"));
+    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Shadow bottom right"));
     ui->fontEffectCB->view()->setFixedWidth(160+18);
     ui->fontEffectCB->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     MakeTextStyleIcon(ui->fontEffectCB);
