@@ -52,7 +52,6 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
         ui->DeviceTypeCB->setVisible(false);
         ui->DeviceModelCB->setVisible(false);
         ui->DeviceModelLabel->setVisible(false);
-        ui->RenderFormatLabel->setVisible(false);
         ui->RenderFormatText->setVisible(false);
 
         // Init format container combo
@@ -97,32 +96,41 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
         ui->AudioFormatLabel->setVisible(false);        ui->AudioFormatCB->setVisible(false);
         ui->AudioBitRateLabel->setVisible(false);       ui->AudioBitRateCB->setVisible(false);
 
+        QStringList List;
         switch (ExportMode) {
             case EXPORTMODE_SMARTPHONE:
-                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_SMARTPHONE_SUBTYPE0));
-                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_SMARTPHONE_SUBTYPE1));
-                ui->DeviceTypeCB->setCurrentIndex(0);
+                List.append(QApplication::translate("DlgRenderVideo","Smartphone#0"));
+                List.append(QApplication::translate("DlgRenderVideo","DVD/DivX Portable Player#1"));
+                List.append(QApplication::translate("DlgRenderVideo","Netbook/NetPC#2"));
+                List.append(QApplication::translate("DlgRenderVideo","Handheld game console#3"));
+                List.append(QApplication::translate("DlgRenderVideo","Tablet computer#4"));
                 break;
             case EXPORTMODE_MULTIMEDIASYS:
-                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_MULTIMEDIASYS_SUBTYPE0));
-                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_MULTIMEDIASYS_SUBTYPE1));
-                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_MULTIMEDIASYS_SUBTYPE2));
-                ui->DeviceTypeCB->setCurrentIndex(0);
+                List.append(QApplication::translate("DlgRenderVideo","Multimedia hard drive and gateway#0"));
+                List.append(QApplication::translate("DlgRenderVideo","Player#1"));
+                List.append(QApplication::translate("DlgRenderVideo","ADSL Box#2"));
+                List.append(QApplication::translate("DlgRenderVideo","Game console#3"));
                 break;
             case EXPORTMODE_FORTHEWEB:
-                ui->DeviceTypeCB->addItem(QApplication::translate("DlgRenderVideo",EXPORTMODE_FORTHEWEB_SUBTYPE0));
-                ui->DeviceTypeCB->setCurrentIndex(0);
+                List.append(QApplication::translate("DlgRenderVideo","SWF Flash Player#0"));
+                List.append(QApplication::translate("DlgRenderVideo","Video-sharing WebSite and social WebSite#1"));
+                List.append(QApplication::translate("DlgRenderVideo","HTML 5#2"));
                 break;
         }
+        List.sort();
+        for (int i=0;i<List.count();i++) {
+            QString Item=List[i];
+            int     ItemData=Item.mid(Item.lastIndexOf("#")+1).toInt();
+            Item=Item.left(Item.lastIndexOf("#"));
+            ui->DeviceTypeCB->addItem(Item,QVariant(ItemData));
+        }
+        ui->DeviceTypeCB->setCurrentIndex(0);
 
-        for (int i=0;i<Diaporama->ApplicationConfig->RenderDeviceModel.count();i++)
-            if ((Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceType==ExportMode)&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceSubtype==ui->DeviceTypeCB->currentIndex()))
-                ui->DeviceModelCB->addItem(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName);
-        ui->DeviceModelCB->setCurrentIndex(0);
+        s_DeviceTypeCB(0);
+        s_DeviceModelCB(0);
 
         connect(ui->DeviceTypeCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_DeviceTypeCB(int)));
         connect(ui->DeviceModelCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_DeviceModelCB(int)));
-        s_DeviceModelCB(0);
     }
 
     ui->DestinationFilePath->setText(QDir::cleanPath(QDir(QFileInfo(Diaporama->ProjectFileName).dir().absolutePath()).absoluteFilePath(Diaporama->OutputFileName)));
@@ -152,9 +160,14 @@ void DlgRenderVideo::Help() {
 
 void DlgRenderVideo::s_DeviceTypeCB(int) {
     ui->DeviceModelCB->clear();
+    int ItemData=ui->DeviceTypeCB->currentIndex();
+    if (ItemData>=0) ItemData=ui->DeviceTypeCB->itemData(ItemData).toInt();
+    QStringList List;
     for (int i=0;i<Diaporama->ApplicationConfig->RenderDeviceModel.count();i++)
-        if ((Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceType==ExportMode)&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceSubtype==ui->DeviceTypeCB->currentIndex()))
-            ui->DeviceModelCB->addItem(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName);
+        if ((Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceType==ExportMode)&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceSubtype==ItemData))
+            List.append(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName);
+    List.sort();
+    ui->DeviceModelCB->addItems(List);
     ui->DeviceModelCB->setCurrentIndex(0);
 }
 
@@ -388,8 +401,9 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
     int i=0;
     while ((i<Diaporama->ApplicationConfig->RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName!=Device)) i++;
     if (i<Diaporama->ApplicationConfig->RenderDeviceModel.count()) {
-        QString Text="Format="+QString(FORMATDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat].FileExtension)+"\nVideo=";
-        Text=Text+VIDEOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec].ShortName;
+        int Standard=Diaporama->ApplicationConfig->RenderDeviceModel[i].Standard;
+        QString Text="Format=\t"+QString(FORMATDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat].LongName)+"\nVideo=\t";
+        Text=Text+VIDEOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec].LongName;
         int ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[Diaporama->ImageGeometry];
         int ExtendH   =0;
         int ExtendV   =0;
@@ -399,8 +413,8 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
             if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0]!=-1) {
                 // Force to 4/3
                 ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0];
-                W=DefImageFormat[0][0][ImgSize].Width;
-                H=DefImageFormat[0][0][ImgSize].Height;
+                W=DefImageFormat[Standard][0][ImgSize].Width;
+                H=DefImageFormat[Standard][0][ImgSize].Height;
                 VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[0];
                 switch (Diaporama->ImageGeometry) {
                     case GEOMETRY_4_3:  break;                                          // 4:3 to 4:3 : nothing to do
@@ -410,8 +424,8 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
             } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1]!=-1) {
                 // Force to 16/9
                 ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1];
-                W=DefImageFormat[0][1][ImgSize].Width;
-                H=DefImageFormat[0][1][ImgSize].Height;
+                W=DefImageFormat[Standard][1][ImgSize].Width;
+                H=DefImageFormat[Standard][1][ImgSize].Height;
                 VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[1];
                 switch (Diaporama->ImageGeometry) {
                     case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 16:9 : pad left & right
@@ -421,8 +435,8 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
             } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2]!=-1) {
                 // Force to 40/17
                 ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2];
-                W=DefImageFormat[0][2][ImgSize].Width;
-                H=DefImageFormat[0][2][ImgSize].Height;
+                W=DefImageFormat[Standard][2][ImgSize].Width;
+                H=DefImageFormat[Standard][2][ImgSize].Height;
                 VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[2];
                 switch (Diaporama->ImageGeometry) {
                     case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 40:17 : pad left & right
@@ -432,8 +446,8 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
 
             }
         } else {
-            W=DefImageFormat[0][Diaporama->ImageGeometry][ImgSize].Width;
-            H=DefImageFormat[0][Diaporama->ImageGeometry][ImgSize].Height;
+            W=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Width;
+            H=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Height;
             VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[Diaporama->ImageGeometry];
         }
         Text=Text+QString("-%1").arg(W)+"x"+QString("%1").arg(H);
@@ -448,7 +462,7 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
         if (VBRText.indexOf("#")>0) VBRText=VBRText.left(VBRText.indexOf("#"));
         Text=Text+"-"+VBRText+"bps";
 
-        Text=Text+"\nAudio="+AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].ShortName;
+        Text=Text+"\nAudio=\t"+AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].LongName;
         VBRText=AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].PossibleBitrate2CH;
         VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioBitrate;
         while (VBR>0) {
@@ -537,10 +551,12 @@ void DlgRenderVideo::accept() {
             ExtendV =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Extend*2;
 
         } else {
+
             QString Device=ui->DeviceModelCB->currentText();
             int i=0;
             while ((i<Diaporama->ApplicationConfig->RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName!=Device)) i++;
             if (i<Diaporama->ApplicationConfig->RenderDeviceModel.count()) {
+                Diaporama->LastStandard=Diaporama->ApplicationConfig->RenderDeviceModel[i].Standard;
                 OutputFileFormat=Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat;
 
                 VideoCodecIndex =Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec;
@@ -552,10 +568,10 @@ void DlgRenderVideo::accept() {
                     if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0]!=-1) {
                         // Force to 4/3
                         ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0];
-                        W=DefImageFormat[0][0][ImgSize].Width;
-                        H=DefImageFormat[0][0][ImgSize].Height;
+                        W=DefImageFormat[Diaporama->LastStandard][0][ImgSize].Width;
+                        H=DefImageFormat[Diaporama->LastStandard][0][ImgSize].Height;
                         VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[0];
-                        VideoFrameRate=DefImageFormat[0][0][ImgSize].dFPS;
+                        VideoFrameRate=DefImageFormat[Diaporama->LastStandard][0][ImgSize].dFPS;
                         switch (Diaporama->ImageGeometry) {
                             case GEOMETRY_4_3:  break;                                          // 4:3 to 4:3 : nothing to do
                             case GEOMETRY_16_9: ExtendV=H-int((double(W)/16)*9);     break;      // 16:9 to 4:3 : pad top & bottom
@@ -564,10 +580,10 @@ void DlgRenderVideo::accept() {
                     } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1]!=-1) {
                         // Force to 16/9
                         ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1];
-                        W=DefImageFormat[0][1][ImgSize].Width;
-                        H=DefImageFormat[0][1][ImgSize].Height;
+                        W=DefImageFormat[Diaporama->LastStandard][1][ImgSize].Width;
+                        H=DefImageFormat[Diaporama->LastStandard][1][ImgSize].Height;
                         VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[1];
-                        VideoFrameRate=DefImageFormat[0][1][ImgSize].dFPS;
+                        VideoFrameRate=DefImageFormat[Diaporama->LastStandard][1][ImgSize].dFPS;
                         switch (Diaporama->ImageGeometry) {
                             case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 16:9 : pad left & right
                             case GEOMETRY_16_9: break;                                          // 16:9 to 16:9 : Nothing to do
@@ -576,24 +592,22 @@ void DlgRenderVideo::accept() {
                     } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2]!=-1) {
                         // Force to 40/17
                         ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2];
-                        W=DefImageFormat[0][2][ImgSize].Width;
-                        H=DefImageFormat[0][2][ImgSize].Height;
+                        W=DefImageFormat[Diaporama->LastStandard][2][ImgSize].Width;
+                        H=DefImageFormat[Diaporama->LastStandard][2][ImgSize].Height;
                         VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[2];
-                        VideoFrameRate=DefImageFormat[0][2][ImgSize].dFPS;
+                        VideoFrameRate=DefImageFormat[Diaporama->LastStandard][2][ImgSize].dFPS;
                         switch (Diaporama->ImageGeometry) {
                             case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 40:17 : pad left & right
                             case GEOMETRY_16_9: ExtendH=W-int((double(H)/9)*16);     break;      // 16:9 to 40:17 : pad left & right
                             case GEOMETRY_40_17:break;                                          // 40:17 to 40:17 : Nothing to do
                         }
                     }
-                    Diaporama->LastStandard =0;
                     Diaporama->LastImageSize=ImgSize;
                 } else {
-                    W=DefImageFormat[0][Diaporama->ImageGeometry][ImgSize].Width;
-                    H=DefImageFormat[0][Diaporama->ImageGeometry][ImgSize].Height;
+                    W=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].Width;
+                    H=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].Height;
                     VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[Diaporama->ImageGeometry];
-                    VideoFrameRate=DefImageFormat[0][Diaporama->ImageGeometry][ImgSize].dFPS;
-                    Diaporama->LastStandard =0;
+                    VideoFrameRate=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].dFPS;
                     Diaporama->LastImageSize=ImgSize;
                 }
                 QString VBRText=VIDEOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec].PossibleBitrate;

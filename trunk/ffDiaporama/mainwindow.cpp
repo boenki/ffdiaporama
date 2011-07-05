@@ -46,6 +46,7 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     ApplicationConfig=TheCurrentApplicationConfig;
     ApplicationConfig->ParentWindow=this;
     ui->Toolbox->setCurrentIndex(0);
+    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
     QSplashScreen screen;
     screen.setPixmap(QPixmap("img/splash.png"));
@@ -180,6 +181,9 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
 
     screen.hide();
 
+    connect(ui->Toolbox,SIGNAL(currentChanged(int)),this,SLOT(s_ToolbarChanged(int)));
+    connect(ui->webView,SIGNAL(linkClicked(QUrl)),this,SLOT(s_WebViewOpen(QUrl)));
+
     // Help menu
     connect(ui->Action_About_BT,SIGNAL(pressed()),this,SLOT(s_About()));
     connect(ui->ActionDocumentation_BT,SIGNAL(pressed()),this,SLOT(s_Documentation()));
@@ -226,6 +230,8 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     // Timer
     LastCount=0;
     connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
+
+    s_ToolbarChanged(0);
 }
 
 //====================================================================================================================
@@ -262,6 +268,7 @@ void MainWindow::s_TimerEvent() {
 //====================================================================================================================
 
 void MainWindow::SetTimelineHeight() {
+    ui->timeline->setUpdatesEnabled(false);
     ui->timeline->setFixedHeight(
             15+                                     // Horizontal slider and marges
             ApplicationConfig->TimelineHeight/2+    // Background
@@ -271,9 +278,19 @@ void MainWindow::SetTimelineHeight() {
     ui->timeline->setRowHeight(TRACKBACKGROUND,ApplicationConfig->TimelineHeight/2);    // Background
     ui->timeline->setRowHeight(TRACKMONTAGE,ApplicationConfig->TimelineHeight);         // Montage
     ui->timeline->setRowHeight(TRACKMUSIC,TIMELINESOUNDHEIGHT*2);                       // Music
-    for (int i=0;i<ui->timeline->columnCount();i++) ui->timeline->setColumnWidth(i,Diaporama->GetWidthForHeight(ui->timeline->rowHeight(TRACKMONTAGE)-5)+32+ADJUSTXCOLUMN);
-    ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->centralwidget->height()-ui->timeline->height()-31));
-    ui->preview->repaint();
+    for (int i=0;i<ui->timeline->columnCount();i++) {
+        ui->timeline->setColumnWidth(i,Diaporama->GetWidthForHeight(ui->timeline->rowHeight(TRACKMONTAGE)-5)+32+ADJUSTXCOLUMN);
+        if (Diaporama->List[i].Thumbnail) {
+            delete Diaporama->List[i].Thumbnail;
+            Diaporama->List[i].Thumbnail=NULL;
+        }
+    }
+    // Give time to Qt to redefine position of each control
+    QApplication::processEvents();
+    // Reset timeline painting
+    ui->timeline->setUpdatesEnabled(true);
+    // Adjust preview
+    ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-32));
 }
 
 //====================================================================================================================
@@ -304,13 +321,16 @@ void MainWindow::showEvent(QShowEvent *) {
         SetTimelineHeight();                                    // setup initial size
         RefreshControls();
         Timer.start(100);
+        ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-32));
     }
 }
 
 //====================================================================================================================
 
 void MainWindow::OpenHelp(QString HelpFile) {
-    if (HelpFile.startsWith(("http://"))) {
+    if (HelpFile.startsWith(("file://"))) {
+        QDesktopServices::openUrl(QUrl(HelpFile));
+    } else if (HelpFile.startsWith(("http://"))) {
         QString HelpPath=HelpFile.replace("<local>",CurrentLanguage);
         QDesktopServices::openUrl(QUrl(HelpPath));
     } else {
@@ -369,7 +389,7 @@ void MainWindow::s_About() {
 //====================================================================================================================
 
 void MainWindow::s_Documentation() {
-    OpenHelp(HELPFILE_INDEX);
+    OpenHelp(HELPFILE_SUPPORT);
 }
 
 //====================================================================================================================
@@ -518,73 +538,14 @@ void MainWindow::s_ItemSelectionChanged() {
 // Update dock informations
 //====================================================================================================================
 
-void MainWindow::UpdateDockInfo() {
+void MainWindow::s_WebViewOpen(QUrl Url) {
+    OpenHelp(Url.toString());
+}
+
+void MainWindow::s_ToolbarChanged(int MenuIndex) {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    while (ui->TableInfo->rowCount()>0) ui->TableInfo->removeRow(0);
-    if ((Diaporama->CurrentCol>=0)&&(Diaporama->CurrentCol<Diaporama->List.count())) {
-        cDiaporamaObject *Obj=&Diaporama->List[Diaporama->CurrentCol];
-
-        ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Object type")));
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Obj->TypeObject==DIAPORAMAOBJECTTYPE_EMPTY?QApplication::translate("MainWindow","Title"):
-                                                                                  Obj->TypeObject==DIAPORAMAOBJECTTYPE_IMAGE?QApplication::translate("MainWindow","Image"):
-                                                                                  QApplication::translate("MainWindow","Video")));
-
-        ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Duration")));
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem((QString("%1").arg(double(Obj->GetDuration())/1000,0,'f',1)).trimmed()));
-/*
-        if ((Obj->Image!=NULL)||(Obj->Video!=NULL)) {
-            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Filename")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Obj->Image!=NULL?QFileInfo(Obj->Image->FileName).fileName():Obj->Video!=NULL?QFileInfo(Obj->Video->FileName).fileName():""));
-        }
-        if (Obj->Image!=NULL) for (int i=0;i<Obj->Image->ExivValue.count();i++) {
-            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            QString Value=Obj->Image->ExivValue[i];
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(Value.left(Value.indexOf("##"))));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value.right(Value.length()-Value.indexOf("##")-QString("##").length())));
-        } else if (Obj->Video!=NULL) {
-            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Image size")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1x%2").arg(Obj->Video->ImageWidth).arg(Obj->Video->ImageHeight)));
-
-            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Video format")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Obj->Video->VideoDecoderCodec->name));
-
-            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Bitrate")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(int(double(Obj->Video->ffmpegVideoFile->bit_rate)/1024))+" k/s"));
-
-            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Frame rate")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(
-                    int(double(Obj->Video->ffmpegVideoFile->streams[Obj->Video->VideoStreamNumber]->r_frame_rate.num)/
-                        double(Obj->Video->ffmpegVideoFile->streams[Obj->Video->VideoStreamNumber]->r_frame_rate.den)))
-                    +" "+QApplication::translate("MainWindow","fps","frame per second")));
-
-            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Aspect ratio")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg((double(Obj->Video->ImageWidth)*Obj->Video->AspectRatio)/double(Obj->Video->ImageHeight),0,'f',3)));
-
-            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Audio format")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Obj->Video->AudioDecoderCodec->name));
-
-            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Frequency")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(Obj->Video->ffmpegVideoFile->streams[Obj->Video->AudioStreamNumber]->codec->sample_rate)
-                    +" "+QApplication::translate("MainWindow","hz","audio frequency")));
-
-            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("MainWindow","Channels")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(Obj->Video->ffmpegVideoFile->streams[Obj->Video->AudioStreamNumber]->codec->channels)));
-        }
-  */
-        ui->TableInfo->resizeColumnsToContents();
-        ui->TableInfo->resizeRowsToContents();
-    }
+    ui->webView->setUrl(QUrl("WIKI/"+CurrentLanguage+"/tab_00"+QString("%1").arg(MenuIndex+1)+".html"));
+    ui->webView->history()->clear();
     QApplication::restoreOverrideCursor();
 }
 
@@ -657,7 +618,6 @@ void MainWindow::s_action_New() {
     RefreshControls();
     ui->preview->Resize();
     SetModifyFlag(false);
-    UpdateDockInfo();
 }
 
 //====================================================================================================================
@@ -1196,6 +1156,5 @@ void MainWindow::AdjustRuller() {
     } else ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
     ui->timeline->repaint();
     ui->preview->repaint();
-    UpdateDockInfo();
     RefreshControls();
 }

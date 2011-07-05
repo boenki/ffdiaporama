@@ -1,5 +1,6 @@
-Buggs/TODO (Dernier SVN le 29/06/2011) :
+Buggs/TODO (Dernier SVN le 04/07/2011) :
 ----------------------------------------
+BUGG: Erreur d'encodage du son des vidéos en NTSC
 BUGG: Probleme de lecture avec des fichiers .ogg
 BUGG: Il manque la propriété aspect ratio dans la boite de recadrage
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
@@ -34,9 +35,24 @@ TODO: Permettre à l'utilisateur de changer les marges des textes à l'intérieu
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+Correction de bugg: Fait en sorte à ce que la fenêtre de preview soit correctement dimensionnée au démarrage et lors des redimensionnements de la timeline et de la fenêtre principale
+Correction de bugg: Corrige le bug de mise à jours des thumbnails lors des redimensionnement de la timeline
+
+Changement de comportement: Remplace la zone d'info pour un browser web et crée une page par menu connecté au changement de toolbar
+Changement de comportement: Change le bouton Support du menu aide et lui fait maintenant ouvrir la page Support du site WEB
+Changement de comportement: Supprime le bouton WebSite de la boite About
+
+-------------------------------------
+Changelog depuis la version 20110629
+-------------------------------------
+Correction de bugg: Fait en sorte à ce que la fonction "Enregistrer sous" reste accessible même si le projet n'a pas été modifié
+Correction de bugg: Conservation du nouveau nom du fichier musical en cas de déplacement du fichier et sélection d'un autre fichier par l'utilisateur
+Correction de bugg: Rajoute le format de fichier (qui manquait) dans les informations sauvegardées concernant le fichier vidéo généré dans le fichier projet (.ffd)
 Correction de bugg: Corrige le bug sur la pré-selection du FPS de preview dans la boite de configuration (pour les FPS sans virgule)
 Correction de bugg: Corrige les threads du lecteur video de la fenetre principal et résoud les problèmes de plantage X11
 
+Changement de comportement: Supprime des données inutiles et redondantes du fichier projet (.ffd)
+Changement de comportement: Rend le nom du fichier vidéo généré relatif dans le fichier projet (.ffd)
 Changement de comportement: Déplace la la zone de pic (bufering) du lecteur vidéo et la place entre la position courante et la durée pour augmenter la taille du slider
 Changement de comportement: Affiche les chargements de fichiers et les actions EXIV dans la zone de statut
 Changement de comportement: Si erreur d'ouverture d'un fichier projet, propose de choisir un autre fichier et gére la recent list
@@ -57,13 +73,3 @@ Nouvelle fonctionnalite ALPHA3 :
             Smartphone : Nokia-Symbian S60 (640x360) et Windows Mobile 6 (640x480)
             MM-System  : Western digital TV HD et Generic DVD/DIVX Player
             ADSL Box   : BBox, FreeBox et Livebox
-
--------------------------------------
-Changelog depuis la version 20110629
--------------------------------------
-Correction de bugg: Fait en sorte à ce que la fonction "Enregistrer sous" reste accessible même si le projet n'a pas été modifié
-Correction de bugg: Conservation du nouveau nom du fichier musical en cas de déplacement du fichier et sélection d'un autre fichier par l'utilisateur
-Correction de bugg: Rajoute le format de fichier (qui manquait) dans les informations sauvegardées concernant le fichier vidéo généré dans le fichier projet (.ffd)
-
-Changement de comportement: Supprime des données inutiles et redondantes du fichier projet (.ffd)
-Changement de comportement: Rend le nom du fichier vidéo généré relatif dans le fichier projet (.ffd)

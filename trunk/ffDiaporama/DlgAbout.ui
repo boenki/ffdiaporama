@@ -688,17 +688,6 @@ p, li { white-space: pre-wrap; }
       <number>0</number>
      </property>
      <item>
-      <widget class="QPushButton" name="OpenffDiaporamaWebBT">
-       <property name="text">
-        <string>Visit us on http://ffdiaporama.tuxfamily.org/</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

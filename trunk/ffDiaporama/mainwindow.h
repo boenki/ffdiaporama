@@ -52,7 +52,6 @@ public:
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);
     void    AddObjectToTimeLine(int CurIndex);
-    void    UpdateDockInfo();
     void    AdjustRuller();
     void    SetTimelineHeight();
     void    OpenFile(QString ProjectFileName);
@@ -63,6 +62,8 @@ protected:
     virtual void showEvent(QShowEvent *);
 
 private slots:
+    void    s_WebViewOpen(QUrl);
+    void    s_ToolbarChanged(int MenuIndex);
     void    s_TimerEvent();
 
     // Timeline
