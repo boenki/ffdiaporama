@@ -37,7 +37,6 @@ public:
     ~DlgAbout();
 
 private slots:
-    void    OpenffDiaporamaWeb();
     void    WQtWebSite();
     void    ffMPEGWebSite();
     void    SDLWebSite();

@@ -38,7 +38,6 @@ DlgAbout::DlgAbout(QWidget *parent):QDialog(parent),ui(new Ui::DlgAbout) {
     ui->SystemInfoED->setText(SystemProperties);
     ui->tabWidget->setCurrentIndex(0);
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
-    connect(ui->OpenffDiaporamaWebBT,SIGNAL(clicked()),this,SLOT(OpenffDiaporamaWeb()));
     connect(ui->QtWebSiteBT,SIGNAL(clicked()),this,SLOT(WQtWebSite()));
     connect(ui->ffMPEGWebSiteBT,SIGNAL(clicked()),this,SLOT(ffMPEGWebSite()));
     connect(ui->SDLWebSiteBT,SIGNAL(clicked()),this,SLOT(SDLWebSite()));
@@ -51,10 +50,6 @@ DlgAbout::DlgAbout(QWidget *parent):QDialog(parent),ui(new Ui::DlgAbout) {
 
 DlgAbout::~DlgAbout() {
     delete ui;
-}
-
-void DlgAbout::OpenffDiaporamaWeb() {
-    GlobalMainWindow->OpenHelp(HELPFILE_WEBSITEINDEX);
 }
 
 void DlgAbout::WQtWebSite() {

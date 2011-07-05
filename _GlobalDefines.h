@@ -113,6 +113,9 @@ extern "C" {
 #include <QTimeEdit>
 #include <QTimer>
 #include <QTranslator>
+#include <QtWebKit/QWebView>
+#include <QtWebKit/QWebHistory>
+#include <QtWebKit/QWebPage>
 #include <QWidget>
 #include <QWindowsStyle>
 #include <QtXml/QDomDocument>
@@ -138,12 +141,12 @@ extern "C" {
 //============================================
 #define APPLICATION_NAME                    "ffDiaporama"
 #define APPLICATION_VERSION                 "0.99.alpha3"
-#define CONFIGFILEEXT                       ".xml"                                  // File extension of configuration files
-#define CONFIGFILE_ROOTNAME                 "Configuration"                         // Name of root node in the config xml file
-#define APPLICATION_ROOTNAME                "Project"                               // Name of root node in the project xml file
-#define GLOBALCONFIGFILE                    2                                       // Type of config file : Global
-#define USERCONFIGFILE                      3                                       // Type of config file : USER
-#define BUFFERING_NBR_FRAME                 5                                       // Number of frame wanted in the playing buffer
+#define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
+#define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
+#define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
+#define GLOBALCONFIGFILE                    2                                     // Type of config file : Global
+#define USERCONFIGFILE                      3                                     // Type of config file : USER
+#define BUFFERING_NBR_FRAME                 5                                     // Number of frame wanted in the playing buffer
 
 #define ICON_PLAYERPLAY                     "img/player_play.png"                 // FileName of play icon
 #define ICON_PLAYERPAUSE                    "img/player_pause.png"                // FileName of pause icon
@@ -178,16 +181,8 @@ extern "C" {
 #define EXPORTMODE_ADVANCED                 0
 
 #define EXPORTMODE_SMARTPHONE               1
-#define EXPORTMODE_SMARTPHONE_SUBTYPE0      "Smartphone"
-#define EXPORTMODE_SMARTPHONE_SUBTYPE1      "Portable multimedia player"
-
 #define EXPORTMODE_MULTIMEDIASYS            2
-#define EXPORTMODE_MULTIMEDIASYS_SUBTYPE0   "Multimedia hard drive"
-#define EXPORTMODE_MULTIMEDIASYS_SUBTYPE1   "DVD/DIVX Player"
-#define EXPORTMODE_MULTIMEDIASYS_SUBTYPE2   "ADSL Box"
-
 #define EXPORTMODE_FORTHEWEB                3
-#define EXPORTMODE_FORTHEWEB_SUBTYPE0       "For the WEB"
 
 // Standard definition
 #define STANDARD_PAL                        0
@@ -288,6 +283,7 @@ extern "C" {
 #define HELPFILE_INDEX                      "fct_001"
 #define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/<local>/News.php"
 #define HELPFILE_WEBSITEINDEX               "http://ffdiaporama.tuxfamily.org/<local>/index.php"
+#define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/<local>/Support.php"
 #define HELPFILE_DlgTextEdit                "dlg_001"
 #define HELPFILE_DlgApplicationSettings     "dlg_002"
 #define HELPFILE_DlgSlideProperties         "dlg_003"

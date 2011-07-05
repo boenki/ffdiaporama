@@ -55,7 +55,7 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1280,720,16,9,25,"25","720p - 1280x720 - 25 FPS",0},                     // SIZE_720P
             {1920,1080,16,9,25,"25","1080p - 1920x1080 - 25 FPS",0}                   // SIZE_1080p
         },{     // GEOMETRY_40_17
-            {320,136,16,9,25,"25","SMALL - 320x180 - 25 FPS",0},                        // SIZE_SMALL
+            {320,136,16,9,25,"25","SMALL - 320x136 - 25 FPS",0},                        // SIZE_SMALL
             {640,272,40,17,25,"25","VGA - 640x272 - 25 FPS",0},                        // SIZE_VGA
             {720,436,64,45,25,"25","DVD - 720x436 WIDE+PAD - 25 FPS",70},            // SIZE_DVD
             {1280,544,40,17,25,"25","720p - 1280x544 - 25 FPS",0},                     // SIZE_720P
@@ -279,6 +279,7 @@ void cDeviceModelDef::SaveToXML(QDomElement &domDocument,QString ElementName) {
     Element.setAttribute("AudioCodec",AudioCodec);
     Element.setAttribute("AudioBitrate",AudioBitrate);
     Element.setAttribute("AudioFreq",AudioFreq);
+    Element.setAttribute("Standard",Standard);
     Element.setAttribute("ImageSize_4_3",ImageSize[GEOMETRY_4_3]);
     Element.setAttribute("ImageSize_16_9",ImageSize[GEOMETRY_16_9]);
     Element.setAttribute("ImageSize_40_17",ImageSize[GEOMETRY_40_17]);
@@ -299,6 +300,7 @@ bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName) {
         AudioCodec      =Element.attribute("AudioCodec").toInt();
         AudioBitrate    =Element.attribute("AudioBitrate").toInt();
         AudioFreq       =Element.attribute("AudioFreq").toInt();
+        Standard        =Element.attribute("Standard").toInt();
         ImageSize[GEOMETRY_4_3]     =Element.attribute("ImageSize_4_3").toInt();
         ImageSize[GEOMETRY_16_9]    =Element.attribute("ImageSize_16_9").toInt();
         ImageSize[GEOMETRY_40_17]   =Element.attribute("ImageSize_40_17").toInt();
