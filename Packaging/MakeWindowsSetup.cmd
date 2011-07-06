@@ -23,11 +23,15 @@ copy C:\Qt\ffmpeg-win32-shared\bin\avcodec-53.dll
 copy C:\Qt\ffmpeg-win32-shared\bin\avformat-53.dll
 copy C:\Qt\ffmpeg-win32-shared\bin\avutil-51.dll
 copy C:\Qt\ffmpeg-win32-shared\bin\swscale-0.dll
+copy C:\Qt\ffmpeg-win32-shared\bin\swscale-2.dll
 copy C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\libgcc_s_dw2-1.dll
 copy C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\mingwm10.dll
 copy C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtCore4.dll
 copy C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtGui4.dll
 copy C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtXml4.dll
+copy C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtNetwork4.dll
+copy C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtWebKit4.dll
+copy C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\phonon4.dll
 copy C:\Qt\SDL-1.2.14\bin\SDL.dll
 copy C:\Qt\SDL-1.2.14\README-SDL.txt
 
