@@ -9,8 +9,8 @@ Group:		Applications/Multimedia
 Icon:		logo.xpm
 Source0:        ffDiaporama-0.99.3.tar.gz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:  qt4-devel, ffmpeg-devel, SDL-devel, SDL_mixer-devel, desktop-file-utils
-Requires:       qt4, SDL, SDL_mixer, ffmpeg, exiv2
+BuildRequires:  qt4-devel, qt-webkit-devel, ffmpeg-devel, SDL-devel, SDL_mixer-devel, desktop-file-utils
+Requires:       qt4, qt-webkit, SDL, SDL_mixer, ffmpeg, exiv2
 
 %description
 ffDiaporama is an application of creation of videos sequences established by
