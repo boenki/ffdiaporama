@@ -71,7 +71,7 @@
       <property name="font">
        <font>
         <family>Sans Serif</family>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -108,10 +108,6 @@ QToolButton:pressed {
          <pointsize>8</pointsize>
         </font>
        </property>
-       <attribute name="icon">
-        <iconset>
-         <normaloff>img/fileopen.png</normaloff>img/fileopen.png</iconset>
-       </attribute>
        <attribute name="title">
         <string>File</string>
        </attribute>
@@ -479,10 +475,6 @@ project as</string>
          <pointsize>8</pointsize>
         </font>
        </property>
-       <attribute name="icon">
-        <iconset>
-         <normaloff>img/EditImage.png</normaloff>img/EditImage.png</iconset>
-       </attribute>
        <attribute name="title">
         <string>Project</string>
        </attribute>
@@ -968,10 +960,6 @@ right</string>
        </layout>
       </widget>
       <widget class="QWidget" name="TabRender">
-       <attribute name="icon">
-        <iconset>
-         <normaloff>img/render.png</normaloff>img/render.png</iconset>
-       </attribute>
        <attribute name="title">
         <string>Render video</string>
        </attribute>
@@ -1168,10 +1156,6 @@ WEB</string>
        </layout>
       </widget>
       <widget class="QWidget" name="TabHelp">
-       <attribute name="icon">
-        <iconset>
-         <normaloff>img/help.png</normaloff>img/help.png</iconset>
-       </attribute>
        <attribute name="title">
         <string>Help</string>
        </attribute>

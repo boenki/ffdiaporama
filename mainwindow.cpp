@@ -35,9 +35,10 @@ MainWindow  *GlobalMainWindow=NULL;
 //====================================================================================================================
 
 MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
-    GlobalMainWindow=this;
-    IsFirstInitDone=false;                 // true when first show window was done
     ui->setupUi(this);
+    InternetBUILDVERSION    ="";
+    GlobalMainWindow        =this;
+    IsFirstInitDone         =false;                 // true when first show window was done
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
     Clipboard_Object        =NULL;
     Clipboard_Block         =NULL;
@@ -254,6 +255,34 @@ MainWindow::~MainWindow() {
 
 //====================================================================================================================
 
+void MainWindow::onNetworkReply(QNetworkReply* reply) {
+    if (reply->error()==QNetworkReply::NoError) {
+        int httpstatuscode=reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
+        if ((httpstatuscode>=200)&&(httpstatuscode<300)&&(reply->isReadable())) {
+            QString Line;
+            InternetBUILDVERSION=QString::fromUtf8(reply->readAll().data());
+            if (InternetBUILDVERSION.endsWith("\n"))   InternetBUILDVERSION=InternetBUILDVERSION.left(InternetBUILDVERSION.length()-QString("\n").length());
+            while (InternetBUILDVERSION.endsWith(" ")) InternetBUILDVERSION=InternetBUILDVERSION.left(InternetBUILDVERSION.length()-1);
+            if (InternetBUILDVERSION.lastIndexOf(" ")) InternetBUILDVERSION=InternetBUILDVERSION.mid(InternetBUILDVERSION.lastIndexOf(" ")+1);
+
+            QFile file("BUILDVERSION.txt");
+            if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                Line=QString(file.readLine());
+                if (Line.endsWith("\n")) Line=Line.left(Line.length()-QString("\n").length());
+                while (Line.endsWith(" ")) Line=Line.left(Line.length()-1);
+                if (Line.lastIndexOf(" ")) Line=Line.mid(Line.lastIndexOf(" ")+1);
+            }
+            int CurrentVersion =Line.toInt();
+            int InternetVersion=InternetBUILDVERSION.toInt();
+            if (InternetVersion>CurrentVersion) InternetBUILDVERSION=QApplication::translate("MainWindow","A new ffDiaporama release if available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !");
+                else InternetBUILDVERSION="";
+        } else InternetBUILDVERSION="";
+    } else InternetBUILDVERSION="";
+    statusBar()->showMessage(InternetBUILDVERSION);
+}
+
+//====================================================================================================================
+
 void MainWindow::s_TimerEvent() {
     if (StatusBarList.count()>0) {
         while (StatusBarList.count()>1) StatusBarList.takeFirst();
@@ -261,7 +290,7 @@ void MainWindow::s_TimerEvent() {
         LastCount=0;
     } else {
         LastCount++;
-        if (LastCount==10) statusBar()->showMessage("",0);
+        if (LastCount==10) statusBar()->showMessage(InternetBUILDVERSION,0);
     }
 }
 
@@ -322,6 +351,12 @@ void MainWindow::showEvent(QShowEvent *) {
         RefreshControls();
         Timer.start(100);
         ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-32));
+        // Start a network process to give last ffdiaporama version from internet web site
+        QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
+        connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(onNetworkReply(QNetworkReply*)));
+        QUrl            url("http://ffdiaporama.tuxfamily.org/BUILDVERSION.txt");
+        QNetworkReply   *reply  = mNetworkManager->get(QNetworkRequest(url));
+        reply->deleteLater();
     }
 }
 

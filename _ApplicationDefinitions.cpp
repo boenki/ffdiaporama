@@ -246,8 +246,11 @@ void cSaveWindowPosition::LoadFromXML(QDomElement domDocument) {
 
 //====================================================================================================================
 
-cDeviceModelDef::cDeviceModelDef() {
+cDeviceModelDef::cDeviceModelDef(bool IsGlobalConf,int IndexKey) {
+    FromGlobalConf  =IsGlobalConf;                          // true if device model is defined in global config file
+    FromUserConf    =!IsGlobalConf;                         // true if device model is defined in user config file
     IsFind          =false;                                 // true if device model format is supported by installed version of ffmpeg
+    DeviceIndex     =IndexKey;                              // Device number index key
     DeviceName      ="";                                    // long name for the device model
     DeviceType      =0;                                     // device type
     DeviceSubtype   =0;
@@ -271,6 +274,7 @@ cDeviceModelDef::~cDeviceModelDef() {
 void cDeviceModelDef::SaveToXML(QDomElement &domDocument,QString ElementName) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
+    Element.setAttribute("DeviceIndex",DeviceIndex);
     Element.setAttribute("DeviceName",DeviceName);
     Element.setAttribute("DeviceType",DeviceType);
     Element.setAttribute("DeviceSubtype",DeviceSubtype);
@@ -289,9 +293,10 @@ void cDeviceModelDef::SaveToXML(QDomElement &domDocument,QString ElementName) {
     domDocument.appendChild(Element);
 }
 
-bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName) {
+bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
+        if (IsUserConfigFile) FromUserConf=true;
         DeviceName      =Element.attribute("DeviceName");
         DeviceType      =Element.attribute("DeviceType").toInt();
         DeviceSubtype   =Element.attribute("DeviceSubtype").toInt();
@@ -307,6 +312,9 @@ bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName) {
         VideoBitrate[GEOMETRY_4_3]  =Element.attribute("VideoBitrate_4_3").toInt();
         VideoBitrate[GEOMETRY_16_9] =Element.attribute("VideoBitrate_16_9").toInt();
         VideoBitrate[GEOMETRY_40_17]=Element.attribute("VideoBitrate_40_17").toInt();
+
+        //FromUserConf=true;
+
         return true;
     } else return false;
 }
@@ -494,7 +502,6 @@ bool cApplicationConfig::InitConfigurationValues() {
     ApplyTransfoPreview         = true;                     // True if image transformation are apply during preview
     NoShotDuration              = 6000;                     // Default duration for fixed image when is alone (no shot)
     FixedDuration               = 3000;                     // Default duration for fixed image (msec)
-    MobilDuration               = 3000;                     // Default duration for mobil image (msec)
     SpeedWave                   = SPEEDWAVE_LINEAR;         // Default speed wave methode
     ImageGeometry               = GEOMETRY_16_9;            // Project image geometry for image rendering
 
@@ -506,6 +513,13 @@ bool cApplicationConfig::InitConfigurationValues() {
     DefaultTransitionFamilly    =TRANSITIONFAMILLY_BASE;    // Transition familly
     DefaultTransitionSubType    =1;                         // Transition type in the familly
     DefaultTransitionDuration   =1000;                      // Transition duration (in msec)
+
+    DefaultSmartphoneType       =0;                         // Default Smartphone Type
+    DefaultSmartphoneModel      =0;                         // Default Smartphone Model
+    DefaultMultimediaType       =0;                         // Default Multimedia Type
+    DefaultMultimediaModel      =0;                         // Default Multimedia Model
+    DefaultForTheWEBType        =0;                         // Default ForTheWEB Type
+    DefaultForTheWEBModel       =0;                         // Default ForTheWEB Model
 
 #ifdef Q_OS_WIN
     LastMediaPath           = WINDOWS_PICTURES;             // Last folder use for image/video
@@ -519,6 +533,19 @@ bool cApplicationConfig::InitConfigurationValues() {
     LastMusicPath           = QDir::home().absolutePath();  // Last folder use for music
     LastRenderVideoPath     = QDir::home().absolutePath();  // Last folder use for render video
 #endif
+
+    TranslatedRenderType[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Smartphone","Device database type"));
+    TranslatedRenderType[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Portable Player","Device database type"));
+    //TranslatedRenderType[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Netbook/NetPC","Device database type"));
+    //TranslatedRenderType[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Handheld game console","Device database type"));
+    //TranslatedRenderType[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Tablet computer","Device database type"));
+    TranslatedRenderType[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Multimedia hard drive and gateway","Device database type"));
+    TranslatedRenderType[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Player","Device database type"));
+    TranslatedRenderType[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","ADSL Box","Device database type"));
+    //TranslatedRenderType[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Game console","Device database type"));
+    TranslatedRenderType[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","SWF Flash Player","Device database type"));
+    //TranslatedRenderType[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","Video-sharing and social WebSite","Device database type"));
+    //TranslatedRenderType[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","HTML 5","Device database type"));
 
     return true;
 }
@@ -586,7 +613,6 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         ImageGeometry           =Element.attribute("ImageGeometry").toInt();
         NoShotDuration          =Element.attribute("NoShotDuration").toInt();
         FixedDuration           =Element.attribute("FixedDuration").toInt();
-        MobilDuration           =Element.attribute("MobilDuration").toInt();
         SpeedWave               =Element.attribute("SpeedWave").toInt();
     }
 
@@ -599,6 +625,12 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         DefaultAudioBitRate     =Element.attribute("AudioBitRate").toInt();
         DefaultImageSize        =Element.attribute("ImageSize").toInt();
         DefaultStandard         =Element.attribute("Standard").toInt();
+        DefaultSmartphoneType   =Element.attribute("DefaultSmartphoneType").toInt();
+        DefaultSmartphoneModel  =Element.attribute("DefaultSmartphoneModel").toInt();
+        DefaultMultimediaType   =Element.attribute("DefaultMultimediaType").toInt();
+        DefaultMultimediaModel  =Element.attribute("DefaultMultimediaModel").toInt();
+        DefaultForTheWEBType    =Element.attribute("DefaultForTheWEBType").toInt();
+        DefaultForTheWEBModel   =Element.attribute("DefaultForTheWEBModel").toInt();
     }
 
     if ((root.elementsByTagName("RecentFiles").length()>0)&&(root.elementsByTagName("RecentFiles").item(0).isElement()==true)) {
@@ -616,8 +648,22 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         QDomElement Element=root.elementsByTagName("RenderingDeviceModel").item(0).toElement();
         int i=0;
         while ((Element.elementsByTagName("Device_"+QString("%1").arg(i)).length()>0)&&(root.elementsByTagName("Device_"+QString("%1").arg(i)).item(0).isElement()==true)) {
-            RenderDeviceModel.append(cDeviceModelDef());
-            RenderDeviceModel[i].LoadFromXML(Element,QString("Device_"+QString("%1").arg(i)));
+            if (TypeConfigFile==GLOBALCONFIGFILE) {
+                // Reading from global config file : append device
+                RenderDeviceModel.append(cDeviceModelDef(TypeConfigFile==GLOBALCONFIGFILE,i));
+                RenderDeviceModel[i].LoadFromXML(Element,QString("Device_"+QString("%1").arg(i)),false);
+            } else {
+                // Reading from user config file : search if device already exist, then load it else append a new one
+                QString ElementName=QString("Device_"+QString("%1").arg(i));
+                if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
+                    QDomElement TheElement=domDocument.elementsByTagName(ElementName).item(0).toElement();
+                    int IndexKey=TheElement.attribute("DeviceIndex").toInt();
+                    if (IndexKey<RenderDeviceModel.count()) RenderDeviceModel[IndexKey].LoadFromXML(Element,QString("Device_"+QString("%1").arg(i)),true); else {
+                        RenderDeviceModel.append(cDeviceModelDef(false,RenderDeviceModel.count()));
+                        RenderDeviceModel[IndexKey].LoadFromXML(Element,QString("Device_"+QString("%1").arg(i)),true);
+                    }
+                }
+            }
             i++;
         }
     }
@@ -675,33 +721,38 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element=domDocument.createElement("EditorOptions");
     Element.setAttribute("AppendObject",             AppendObject?"1":"0");
     Element.setAttribute("SortFile",                 SortFile?"1":"0");
-    Element.setAttribute("TimelineHeight",           (QString("%1").arg(TimelineHeight)));
-    Element.setAttribute("DefaultFraming",           (QString("%1").arg(DefaultFraming)));
+    Element.setAttribute("TimelineHeight",           TimelineHeight);
+    Element.setAttribute("DefaultFraming",           DefaultFraming);
     Element.setAttribute("DisableSSE2",              DisableSSE2?"1":"0");
     Element.setAttribute("PreviewFPS",               (QString("%1").arg(PreviewFPS,0,'f')));
     Element.setAttribute("ApplyTransfoPreview",      ApplyTransfoPreview?"1":0);
     Element.setAttribute("RandomTransition",         RandomTransition?"1":"0");
-    Element.setAttribute("DefaultTransitionFamilly", (QString("%1").arg(DefaultTransitionFamilly)));
-    Element.setAttribute("DefaultTransitionSubType", (QString("%1").arg(DefaultTransitionSubType)));
-    Element.setAttribute("DefaultTransitionDuration",(QString("%1").arg(DefaultTransitionDuration)));
+    Element.setAttribute("DefaultTransitionFamilly", DefaultTransitionFamilly);
+    Element.setAttribute("DefaultTransitionSubType", DefaultTransitionSubType);
+    Element.setAttribute("DefaultTransitionDuration",DefaultTransitionDuration);
     root.appendChild(Element);
 
     Element=domDocument.createElement("ProjectDefault");
-    Element.setAttribute("ImageGeometry",           (QString("%1").arg(ImageGeometry)));
-    Element.setAttribute("NoShotDuration",          (QString("%1").arg(NoShotDuration)));
-    Element.setAttribute("FixedDuration",           (QString("%1").arg(FixedDuration)));
-    Element.setAttribute("MobilDuration",           (QString("%1").arg(MobilDuration)));
-    Element.setAttribute("SpeedWave",               (QString("%1").arg(SpeedWave)));
+    Element.setAttribute("ImageGeometry",           ImageGeometry);
+    Element.setAttribute("NoShotDuration",          NoShotDuration);
+    Element.setAttribute("FixedDuration",           FixedDuration);
+    Element.setAttribute("SpeedWave",               SpeedWave);
     root.appendChild(Element);
 
     Element=domDocument.createElement("RenderDefault");
-    Element.setAttribute("Format",                  (QString("%1").arg(DefaultFormat)));
+    Element.setAttribute("Format",                  DefaultFormat);
     Element.setAttribute("VideoCodec",              DefaultVideoCodec);
-    Element.setAttribute("VideoBitRate",            (QString("%1").arg(DefaultVideoBitRate)));
+    Element.setAttribute("VideoBitRate",            DefaultVideoBitRate);
     Element.setAttribute("AudioCodec",              DefaultAudioCodec);
-    Element.setAttribute("AudioBitRate",            (QString("%1").arg(DefaultAudioBitRate)));
-    Element.setAttribute("Standard",                (QString("%1").arg(DefaultStandard)));
-    Element.setAttribute("ImageSize",               (QString("%1").arg(DefaultImageSize)));
+    Element.setAttribute("AudioBitRate",            DefaultAudioBitRate);
+    Element.setAttribute("Standard",                DefaultStandard);
+    Element.setAttribute("ImageSize",               DefaultImageSize);
+    Element.setAttribute("DefaultSmartphoneType",   DefaultSmartphoneType);
+    Element.setAttribute("DefaultSmartphoneModel",  DefaultSmartphoneModel);
+    Element.setAttribute("DefaultMultimediaType",   DefaultMultimediaType);
+    Element.setAttribute("DefaultMultimediaModel",  DefaultMultimediaModel);
+    Element.setAttribute("DefaultForTheWEBType",    DefaultForTheWEBType);
+    Element.setAttribute("DefaultForTheWEBModel",   DefaultForTheWEBModel);
     root.appendChild(Element);
 
     Element=domDocument.createElement("RecentFiles");
@@ -716,11 +767,13 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.appendChild(domDocument.createTextNode(RestoreWindow?"1":"0"));
     root.appendChild(Element);
 
-    /*
     Element=domDocument.createElement("RenderingDeviceModel");
-    for (int i=0;i<RenderDeviceModel.count();i++) RenderDeviceModel[i].SaveToXML(Element,QString("Device_"+QString("%1").arg(i)));
-    root.appendChild(Element);
-    */
+    int j=0;
+    for (int i=0;i<RenderDeviceModel.count();i++) if (RenderDeviceModel[i].FromUserConf) {
+        RenderDeviceModel[i].SaveToXML(Element,QString("Device_"+QString("%1").arg(j)));
+        j++;
+    }
+    if (j>0) root.appendChild(Element);
 
     // Save windows size and position
     MainWinWSP->SaveToXML(root);                                // MainWindow - Window size and position

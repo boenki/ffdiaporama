@@ -55,15 +55,14 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
         ui->RenderFormatText->setVisible(false);
 
         // Init format container combo
-        bool IsFind=false;
         for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
             ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
             if (i==Diaporama->OutputFileFormat) {
-                ui->FileFormatCB->setCurrentIndex(ui->FileFormatCB->count()-1);
-                IsFind=true;
+                ui->FileFormatCB->setCurrentIndex(i);
+                FileFormatCombo(i);
+
             }
         }
-        if (!IsFind) ui->FileFormatCB->setCurrentIndex(0);
 
         connect(ui->FileFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
 
@@ -97,34 +96,19 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
         ui->AudioBitRateLabel->setVisible(false);       ui->AudioBitRateCB->setVisible(false);
 
         QStringList List;
-        switch (ExportMode) {
-            case EXPORTMODE_SMARTPHONE:
-                List.append(QApplication::translate("DlgRenderVideo","Smartphone#0"));
-                List.append(QApplication::translate("DlgRenderVideo","DVD/DivX Portable Player#1"));
-                List.append(QApplication::translate("DlgRenderVideo","Netbook/NetPC#2"));
-                List.append(QApplication::translate("DlgRenderVideo","Handheld game console#3"));
-                List.append(QApplication::translate("DlgRenderVideo","Tablet computer#4"));
-                break;
-            case EXPORTMODE_MULTIMEDIASYS:
-                List.append(QApplication::translate("DlgRenderVideo","Multimedia hard drive and gateway#0"));
-                List.append(QApplication::translate("DlgRenderVideo","Player#1"));
-                List.append(QApplication::translate("DlgRenderVideo","ADSL Box#2"));
-                List.append(QApplication::translate("DlgRenderVideo","Game console#3"));
-                break;
-            case EXPORTMODE_FORTHEWEB:
-                List.append(QApplication::translate("DlgRenderVideo","SWF Flash Player#0"));
-                List.append(QApplication::translate("DlgRenderVideo","Video-sharing WebSite and social WebSite#1"));
-                List.append(QApplication::translate("DlgRenderVideo","HTML 5#2"));
-                break;
-        }
+        int         Default=ExportMode==EXPORTMODE_SMARTPHONE?Diaporama->ApplicationConfig->DefaultSmartphoneType:
+                            ExportMode==EXPORTMODE_MULTIMEDIASYS?Diaporama->ApplicationConfig->DefaultMultimediaType:
+                            Diaporama->ApplicationConfig->DefaultForTheWEBType;
+
+        for (int i=0;i<Diaporama->ApplicationConfig->TranslatedRenderType[ExportMode].count();i++) List.append(Diaporama->ApplicationConfig->TranslatedRenderType[ExportMode][i]+"#"+QString("%1").arg(i));
         List.sort();
         for (int i=0;i<List.count();i++) {
             QString Item=List[i];
             int     ItemData=Item.mid(Item.lastIndexOf("#")+1).toInt();
             Item=Item.left(Item.lastIndexOf("#"));
             ui->DeviceTypeCB->addItem(Item,QVariant(ItemData));
+            if (Default==ItemData)  ui->DeviceTypeCB->setCurrentIndex(i);
         }
-        ui->DeviceTypeCB->setCurrentIndex(0);
 
         s_DeviceTypeCB(0);
         s_DeviceModelCB(0);

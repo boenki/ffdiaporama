@@ -90,6 +90,7 @@ extern "C" {
 #include <QMessageBox>
 #include <QModelIndex>
 #include <QMouseEvent>
+#include <QtNetwork/QNetworkReply>
 #include <QObject>
 #include <QPaintDevice>
 #include <QPainter>

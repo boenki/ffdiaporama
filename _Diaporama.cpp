@@ -861,7 +861,7 @@ cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
     VideoCodec          = ApplicationConfig->DefaultVideoCodec;
     VideoFrameRate      = 25;
     VideoBitRate        = ApplicationConfig->DefaultVideoBitRate;
-    VideoCodec          = ApplicationConfig->DefaultAudioCodec;
+    AudioCodec          = ApplicationConfig->DefaultAudioCodec;
     AudioFrequency      = 48000;
     AudioBitRate        = ApplicationConfig->DefaultAudioBitRate;
     LastImageSize       = ApplicationConfig->DefaultImageSize;

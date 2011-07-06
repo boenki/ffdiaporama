@@ -25,6 +25,7 @@
 DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicationConfig,QWidget *parent) : QDialog(parent),ui(new Ui::DlgApplicationSettings) {
     ui->setupUi(this);
     ApplicationConfig=&TheApplicationConfig;
+    ui->tabWidget->setCurrentIndex(0);
 
     //********************************
     // LastDirectories part
@@ -91,6 +92,49 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     // SSE2 part
     //********************************
     ui->DisableSSE2CB->setChecked(ApplicationConfig->DisableSSE2);
+
+    //***********************************
+    // Default Device type for rendering
+    //***********************************
+
+    // EXPORTMODE_SMARTPHONE
+    QStringList List;
+    for (int i=0;i<ApplicationConfig->TranslatedRenderType[EXPORTMODE_SMARTPHONE].count();i++)
+        List.append(ApplicationConfig->TranslatedRenderType[EXPORTMODE_SMARTPHONE][i]+"#"+QString("%1").arg(i));
+    List.sort();
+    for (int i=0;i<List.count();i++) {
+        QString Item=List[i];
+        int     ItemData=Item.mid(Item.lastIndexOf("#")+1).toInt();
+        Item=Item.left(Item.lastIndexOf("#"));
+        ui->SmartphoneTypeCB->addItem(Item,QVariant(ItemData));
+        if (ApplicationConfig->DefaultSmartphoneType==ItemData)  ui->SmartphoneTypeCB->setCurrentIndex(i);
+    }
+
+    // EXPORTMODE_MULTIMEDIASYS
+    List.clear();
+    for (int i=0;i<ApplicationConfig->TranslatedRenderType[EXPORTMODE_MULTIMEDIASYS].count();i++)
+        List.append(ApplicationConfig->TranslatedRenderType[EXPORTMODE_MULTIMEDIASYS][i]+"#"+QString("%1").arg(i));
+    List.sort();
+    for (int i=0;i<List.count();i++) {
+        QString Item=List[i];
+        int     ItemData=Item.mid(Item.lastIndexOf("#")+1).toInt();
+        Item=Item.left(Item.lastIndexOf("#"));
+        ui->MMSystemTypeCB->addItem(Item,QVariant(ItemData));
+        if (ApplicationConfig->DefaultMultimediaType==ItemData)  ui->MMSystemTypeCB->setCurrentIndex(i);
+    }
+
+    // EXPORTMODE_FORTHEWEB
+    List.clear();
+    for (int i=0;i<ApplicationConfig->TranslatedRenderType[EXPORTMODE_FORTHEWEB].count();i++)
+        List.append(ApplicationConfig->TranslatedRenderType[EXPORTMODE_FORTHEWEB][i]+"#"+QString("%1").arg(i));
+    List.sort();
+    for (int i=0;i<List.count();i++) {
+        QString Item=List[i];
+        int     ItemData=Item.mid(Item.lastIndexOf("#")+1).toInt();
+        Item=Item.left(Item.lastIndexOf("#"));
+        ui->ForTheWTypeCB->addItem(Item,QVariant(ItemData));
+        if (ApplicationConfig->DefaultForTheWEBType==ItemData)  ui->ForTheWTypeCB->setCurrentIndex(i);
+    }
 
     // Define handler
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
@@ -171,6 +215,10 @@ void DlgApplicationSettings::accept() {
     if (Codec>=0) ApplicationConfig->DefaultAudioCodec=AUDIOCODECDEF[ui->AudioFormatCB->itemData(Codec).toInt()].ShortName; else ApplicationConfig->DefaultAudioCodec="";
     QString BitRate=ui->VideoBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultVideoBitRate=BitRate.toInt();
     BitRate        =ui->AudioBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultAudioBitRate=BitRate.toInt();
+
+    ApplicationConfig->DefaultSmartphoneType    =ui->SmartphoneTypeCB->itemData(ui->SmartphoneTypeCB->currentIndex()).toInt();
+    ApplicationConfig->DefaultMultimediaType    =ui->MMSystemTypeCB->itemData(ui->MMSystemTypeCB->currentIndex()).toInt();
+    ApplicationConfig->DefaultForTheWEBType     =ui->ForTheWTypeCB->itemData(ui->ForTheWTypeCB->currentIndex()).toInt();
 
     // Save Window size and position
     ApplicationConfig->DlgApplicationSettingsWSP->SaveWindowState(this);
