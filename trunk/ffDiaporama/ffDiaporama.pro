@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT          += core gui xml webkit
+QT          += core gui xml webkit network
 QMAKE_STRIP = echo
 PREFIX      = /usr
 

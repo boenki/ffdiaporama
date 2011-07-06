@@ -34,15 +34,16 @@ namespace Ui {
 class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
-    bool                IsFirstInitDone;                // true when first show window was done
-    bool                FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
-    cApplicationConfig  *ApplicationConfig;
-    cDiaporama          *Diaporama;
-    QDomDocument        *Clipboard_Object;
-    QDomDocument        *Clipboard_Block;
-    QStringList         StatusBarList;
-    QTimer              Timer;
-    int                 LastCount;
+    bool                    IsFirstInitDone;                // true when first show window was done
+    bool                    FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
+    cApplicationConfig      *ApplicationConfig;
+    cDiaporama              *Diaporama;
+    QDomDocument            *Clipboard_Object;
+    QDomDocument            *Clipboard_Block;
+    QStringList             StatusBarList;
+    QTimer                  Timer;
+    int                     LastCount;
+    QString                 InternetBUILDVERSION;
 
     explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
     ~MainWindow();
@@ -55,6 +56,7 @@ public:
     void    AdjustRuller();
     void    SetTimelineHeight();
     void    OpenFile(QString ProjectFileName);
+    void    CheckVersion();
 
 protected:
     virtual void resizeEvent(QResizeEvent *);
@@ -65,6 +67,7 @@ private slots:
     void    s_WebViewOpen(QUrl);
     void    s_ToolbarChanged(int MenuIndex);
     void    s_TimerEvent();
+    void    onNetworkReply(QNetworkReply*);
 
     // Timeline
     void    s_ItemSelectionChanged();

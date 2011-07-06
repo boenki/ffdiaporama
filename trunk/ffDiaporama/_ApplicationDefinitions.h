@@ -62,7 +62,10 @@ public:
 
 class cDeviceModelDef {
 public:
+    bool    FromGlobalConf;                                     // true if device model is defined in global config file
+    bool    FromUserConf;                                       // true if device model is defined in user config file
     bool    IsFind;                                             // true if device model format is supported by installed version of ffmpeg
+    int     DeviceIndex;                                        // Device number index key
     QString DeviceName;                                         // long name for the device model
     int     DeviceType;                                         // device type
     int     DeviceSubtype;                                      // device Subtype
@@ -75,11 +78,11 @@ public:
     int     AudioBitrate;                                       // Bitrate number in sAudioCodecDef
     int     AudioFreq;                                          // Specific audio frequency
 
-    cDeviceModelDef();
+    cDeviceModelDef(bool IsGlobalConf,int IndexKey);
     ~cDeviceModelDef();
 
     void    SaveToXML(QDomElement &domDocument,QString ElementName);
-    bool    LoadFromXML(QDomElement domDocument,QString ElementName);
+    bool    LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile);
 };
 
 //====================================================================================================================
@@ -140,7 +143,6 @@ public:
     int                     ImageGeometry;                              // Project image geometry for image rendering
     int                     NoShotDuration;                             // Default duration for fixed image when is alone (no shot)
     int                     FixedDuration;                              // Default duration for fixed image
-    int                     MobilDuration;                              // Default duration for mobil image
     int                     SpeedWave;                                  // Default Speed wave methode
 
     // Default transition
@@ -158,7 +160,15 @@ public:
     int                     DefaultImageSize;                           // Default image size
     int                     DefaultStandard;                            // Default standard (PAL/NTSC)
 
+    int                     DefaultSmartphoneType;                      // Default Smartphone Type
+    int                     DefaultSmartphoneModel;                     // Default Smartphone Model
+    int                     DefaultMultimediaType;                      // Default Multimedia Type
+    int                     DefaultMultimediaModel;                     // Default Multimedia Model
+    int                     DefaultForTheWEBType;                       // Default ForTheWEB Type
+    int                     DefaultForTheWEBModel;                      // Default ForTheWEB Model
+
     QStringList             RecentFile;                                 // Recent project files
+    QStringList             TranslatedRenderType[4];                    // Translated render device type
 
     // Main Window Size & Position
     bool                    MainWinState;                               // WindowsSettings-ismaximized
