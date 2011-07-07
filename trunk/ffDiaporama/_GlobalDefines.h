@@ -145,6 +145,8 @@ extern "C" {
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
+#define BUILDVERSION_WEBURL                  "http://download.tuxfamily.org/ffdiaporama/BUILDVERSION.txt"
+
 #define GLOBALCONFIGFILE                    2                                     // Type of config file : Global
 #define USERCONFIGFILE                      3                                     // Type of config file : USER
 #define BUFFERING_NBR_FRAME                 5                                     // Number of frame wanted in the playing buffer

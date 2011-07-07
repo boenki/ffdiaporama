@@ -255,34 +255,6 @@ MainWindow::~MainWindow() {
 
 //====================================================================================================================
 
-void MainWindow::onNetworkReply(QNetworkReply* reply) {
-    if (reply->error()==QNetworkReply::NoError) {
-        int httpstatuscode=reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
-        if ((httpstatuscode>=200)&&(httpstatuscode<300)&&(reply->isReadable())) {
-            QString Line;
-            InternetBUILDVERSION=QString::fromUtf8(reply->readAll().data());
-            if (InternetBUILDVERSION.endsWith("\n"))   InternetBUILDVERSION=InternetBUILDVERSION.left(InternetBUILDVERSION.length()-QString("\n").length());
-            while (InternetBUILDVERSION.endsWith(" ")) InternetBUILDVERSION=InternetBUILDVERSION.left(InternetBUILDVERSION.length()-1);
-            if (InternetBUILDVERSION.lastIndexOf(" ")) InternetBUILDVERSION=InternetBUILDVERSION.mid(InternetBUILDVERSION.lastIndexOf(" ")+1);
-
-            QFile file("BUILDVERSION.txt");
-            if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                Line=QString(file.readLine());
-                if (Line.endsWith("\n")) Line=Line.left(Line.length()-QString("\n").length());
-                while (Line.endsWith(" ")) Line=Line.left(Line.length()-1);
-                if (Line.lastIndexOf(" ")) Line=Line.mid(Line.lastIndexOf(" ")+1);
-            }
-            int CurrentVersion =Line.toInt();
-            int InternetVersion=InternetBUILDVERSION.toInt();
-            if (InternetVersion>CurrentVersion) InternetBUILDVERSION=QApplication::translate("MainWindow","A new ffDiaporama release if available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !");
-                else InternetBUILDVERSION="";
-        } else InternetBUILDVERSION="";
-    } else InternetBUILDVERSION="";
-    statusBar()->showMessage(InternetBUILDVERSION);
-}
-
-//====================================================================================================================
-
 void MainWindow::s_TimerEvent() {
     if (StatusBarList.count()>0) {
         while (StatusBarList.count()>1) StatusBarList.takeFirst();
@@ -354,10 +326,40 @@ void MainWindow::showEvent(QShowEvent *) {
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
         connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(onNetworkReply(QNetworkReply*)));
-        QUrl            url("http://ffdiaporama.tuxfamily.org/BUILDVERSION.txt");
+        QUrl            url(BUILDVERSION_WEBURL);
         QNetworkReply   *reply  = mNetworkManager->get(QNetworkRequest(url));
         reply->deleteLater();
     }
+}
+
+//====================================================================================================================
+// Function use when reading BUILDVERSION from WEB Site
+//====================================================================================================================
+
+void MainWindow::onNetworkReply(QNetworkReply* reply) {
+    if (reply->error()==QNetworkReply::NoError) {
+        int httpstatuscode=reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
+        if ((httpstatuscode>=200)&&(httpstatuscode<300)&&(reply->isReadable())) {
+            QString Line;
+            InternetBUILDVERSION=QString::fromUtf8(reply->readAll().data());
+            if (InternetBUILDVERSION.endsWith("\n"))   InternetBUILDVERSION=InternetBUILDVERSION.left(InternetBUILDVERSION.length()-QString("\n").length());
+            while (InternetBUILDVERSION.endsWith(" ")) InternetBUILDVERSION=InternetBUILDVERSION.left(InternetBUILDVERSION.length()-1);
+            if (InternetBUILDVERSION.lastIndexOf(" ")) InternetBUILDVERSION=InternetBUILDVERSION.mid(InternetBUILDVERSION.lastIndexOf(" ")+1);
+
+            QFile file("BUILDVERSION.txt");
+            if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                Line=QString(file.readLine());
+                if (Line.endsWith("\n")) Line=Line.left(Line.length()-QString("\n").length());
+                while (Line.endsWith(" ")) Line=Line.left(Line.length()-1);
+                if (Line.lastIndexOf(" ")) Line=Line.mid(Line.lastIndexOf(" ")+1);
+            }
+            int CurrentVersion =Line.toInt();
+            int InternetVersion=InternetBUILDVERSION.toInt();
+            if (InternetVersion>CurrentVersion) InternetBUILDVERSION=QApplication::translate("MainWindow","A new ffDiaporama release if available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !");
+                else InternetBUILDVERSION="";
+        } else InternetBUILDVERSION="";
+    } else InternetBUILDVERSION="";
+    statusBar()->showMessage(InternetBUILDVERSION);
 }
 
 //====================================================================================================================
@@ -386,6 +388,7 @@ void MainWindow::RefreshControls() {
     // File menu
     ui->Action_Save_BT->setEnabled(Diaporama->IsModify);
     ui->ActionSave_as_BT->setEnabled(Diaporama->List.count()>0);
+    ui->Action_OpenRecent_BT->setEnabled(ApplicationConfig->RecentFile.count()>0);
 
     // Project menu
     ui->actionEdit_background->setEnabled(ui->timeline->columnCount()>0);
