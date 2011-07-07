@@ -518,7 +518,7 @@ void DlgRenderVideo::accept() {
             }
             VideoCodecIndex=ui->VideoFormatCB->itemData(VideoCodecIndex).toInt();
             QString BitRate=ui->VideoBitRateCB->currentText();
-            if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);
+            if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1)+"000";
             VideoBitRate=BitRate.toInt();
 
             // Audio codec
@@ -530,7 +530,7 @@ void DlgRenderVideo::accept() {
             }
             AudioCodecIndex=ui->AudioFormatCB->itemData(AudioCodecIndex).toInt();
             BitRate=ui->AudioBitRateCB->currentText();
-            if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);
+            if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1)+"000";
             AudioBitRate=BitRate.toInt();
             ExtendV =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Extend*2;
 
