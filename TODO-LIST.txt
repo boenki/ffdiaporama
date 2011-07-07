@@ -1,6 +1,5 @@
-Buggs/TODO (Dernier SVN le 06/07/2011) :
+Buggs/TODO (Dernier SVN le 07/07/2011) :
 ----------------------------------------
-BUGG: Erreur d'encodage du son des vidéos en NTSC
 BUGG: Probleme de lecture avec des fichiers .ogg
 BUGG: Il manque la propriété aspect ratio dans la boite de recadrage
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
@@ -37,6 +36,6 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 -------------------------------------
-Changelog depuis la version 20110706
+Changelog depuis la version 20110707
 -------------------------------------
 
