@@ -47,7 +47,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     StopMAJSpinbox  = false;
     BLOCKCHSIZE     = false;
 
-    MagneticRuler.MagneticRuler=true;
+    MagneticRuler.MagneticRuler=DiaporamaObject->Parent->ApplicationConfig->SlideRuler;
 
     // Init combo box Background form
     for (int i=0;i<12;i++) ui->BackgroundFormCB->addItem("");
@@ -669,6 +669,7 @@ void DlgSlideProperties::RefreshSceneImageAndCache(cCompositionObject *CurrentTe
 
 void DlgSlideProperties::s_TVMarginsBt() {
     if (MagneticRuler.MagneticRuler==true) MagneticRuler.MagneticRuler=false; else MagneticRuler.MagneticRuler=true;
+    DiaporamaObject->Parent->ApplicationConfig->SlideRuler=MagneticRuler.MagneticRuler;
     RefreshControls();
 }
 
@@ -1398,6 +1399,8 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
     if (DiaporamaObject->List.count()<2) return;
+    if (QMessageBox::question(this,QApplication::translate("DlgSlideProperties","Remove shot"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this shot?"),
+                              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No) return;
     DiaporamaObject->List.removeAt(Current);
     ui->ShotTable->setUpdatesEnabled(false);
     ui->ShotTable->removeColumn(Current);
@@ -1722,6 +1725,8 @@ void DlgSlideProperties::s_BlockTable_RemoveBlock() {
     int                 CurrentRow=ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
+    if (QMessageBox::question(this,QApplication::translate("DlgSlideProperties","Remove bloc"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this bloc?"),
+                              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No) return;
     int i=0;
     while ((i<CompositionList->List.count())&&(CompositionList->List[i].IndexKey!=CurrentTextItem->IndexKey)) i++;
 

@@ -39,6 +39,7 @@ public:
     explicit DlgApplicationSettings(cApplicationConfig &ApplicationConfig,QWidget *parent = 0);
     ~DlgApplicationSettings();
 
+
 protected:
     virtual void showEvent(QShowEvent *);
     virtual void reject();
@@ -50,6 +51,12 @@ private slots:
     void        FileFormatCombo(int);
     void        InitVideoBitRateCB(int);
     void        InitAudioBitRateCB(int);
+    void        InitImageSizeCombo(int);
+
+    // Device database tab
+    void        FillTableDevice(int ChangeIndex);
+    void        InitDBImageSizeCombo(int);
+    void        DBFileFormatCombo(int);
 
 private:
     Ui::DlgApplicationSettings *ui;

@@ -60,7 +60,6 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
             if (i==Diaporama->OutputFileFormat) {
                 ui->FileFormatCB->setCurrentIndex(i);
                 FileFormatCombo(i);
-
             }
         }
 
@@ -100,7 +99,7 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
                             ExportMode==EXPORTMODE_MULTIMEDIASYS?Diaporama->ApplicationConfig->DefaultMultimediaType:
                             Diaporama->ApplicationConfig->DefaultForTheWEBType;
 
-        for (int i=0;i<Diaporama->ApplicationConfig->TranslatedRenderType[ExportMode].count();i++) List.append(Diaporama->ApplicationConfig->TranslatedRenderType[ExportMode][i]+"#"+QString("%1").arg(i));
+        for (int i=0;i<Diaporama->ApplicationConfig->TranslatedRenderSubtype[ExportMode].count();i++) List.append(Diaporama->ApplicationConfig->TranslatedRenderSubtype[ExportMode][i]+"#"+QString("%1").arg(i));
         List.sort();
         for (int i=0;i<List.count();i++) {
             QString Item=List[i];
@@ -215,7 +214,7 @@ void DlgRenderVideo::FileFormatCombo(int) {
         }
         // Now find index of this codec in the VIDEOCODECDEF
         Index=0;
-        while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].ShortName))) Index++;
+        while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
         if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) {
             ui->VideoFormatCB->addItem(VIDEOCODECDEF[Index].LongName,QVariant(Index));
             if (Codec==QString(Diaporama->VideoCodec)) {
@@ -497,6 +496,7 @@ void DlgRenderVideo::accept() {
         int         AudioFrequency=48000;
         QString     VideoCodec="";
         QString     AudioCodec="";
+        QString     Preset="";
         int         VideoBitRate=Diaporama->VideoBitRate;
         int         AudioBitRate=Diaporama->AudioBitRate;
         int         ExtendH=0;
@@ -626,7 +626,7 @@ void DlgRenderVideo::accept() {
         }
 
         FileFormat  =FORMATDEF[Diaporama->OutputFileFormat].FileExtension;
-        VideoCodec  =VIDEOCODECDEF[VideoCodecIndex].ShortName;
+        VideoCodec  =VIDEOCODECDEF[VideoCodecIndex].FFD_VCODECST;
         AudioCodec  =AUDIOCODECDEF[AudioCodecIndex].ShortName;
 
         // Special case adjustment
@@ -695,39 +695,48 @@ void DlgRenderVideo::accept() {
             H       =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Height;
 
             // Video codec part
-            QString Preset=AdjustDirForOS(QDir::currentPath());
-            if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
-            Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
-            switch (VIDEOCODECDEF[VideoCodecIndex].Codec_id) {
-                case CODEC_ID_MPEG2VIDEO :  vCodec=QString("-vcodec mpeg2video -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
-                                                   .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
-                                                   .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
-                                                   .arg(Diaporama->VideoBitRate*2)
-                                                   .arg(Diaporama->VideoBitRate);
-                                            break;
-                case CODEC_ID_MPEG4 :       if (AudioCodec=="libopencore_amrnb") {
+            switch (VIDEOCODECDEF[VideoCodecIndex].FFD_VCODEC) {
+                case VCODEC_MPEG    :   vCodec=QString("-vcodec mpeg2video -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
+                                           .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
+                                           .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
+                                           .arg(Diaporama->VideoBitRate*2)
+                                           .arg(Diaporama->VideoBitRate);
+                                        break;
+                case VCODEC_MPEG4   :   if (AudioCodec=="libopencore_amrnb") {
                                                 vCodec=QString("-f 3gp -vcodec mpeg4 -b %1").arg(Diaporama->VideoBitRate);
-                                            } else {
-                                                if (QString(VIDEOCODECDEF[VideoCodecIndex].ShortName)==QString("mpeg4"))
-                                                    vCodec=QString("-vcodec mpeg4 -vtag xvid -b %1").arg(Diaporama->VideoBitRate);
-                                                    else vCodec=QString("-vcodec libxvid -b %1").arg(Diaporama->VideoBitRate);
-                                            }
-                                            break;
-                case CODEC_ID_H264 :        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -refs 3 -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
-                                                .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
-                                                .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
-                                                .arg(Diaporama->VideoBitRate*2)
-                                                .arg(Diaporama->VideoBitRate);
-                                            break;
-                case CODEC_ID_MJPEG:        vCodec="-vcodec mjpeg -qscale 2 -qmin 2 -qmax 2";   break;
-                case CODEC_ID_VP8:          vCodec=QString("-vcodec libvpx -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
-                                                .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
-                                                .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
-                                                .arg(Diaporama->VideoBitRate*2)
-                                                .arg(Diaporama->VideoBitRate);
-                                            break;
-                case 22 :                   vCodec=QString("-vcodec flv -b %1").arg(Diaporama->VideoBitRate);
-                                            break;
+                                        } else {
+                                            if (QString(VIDEOCODECDEF[VideoCodecIndex].ShortName)==QString("mpeg4"))
+                                                vCodec=QString("-vcodec mpeg4 -vtag xvid -b %1").arg(Diaporama->VideoBitRate);
+                                                else vCodec=QString("-vcodec libxvid -b %1").arg(Diaporama->VideoBitRate);
+                                        }
+                                        break;
+                case VCODEC_H264HQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
+                                        Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
+                                        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b %4")
+                                            .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
+                                            .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
+                                            .arg(Diaporama->VideoBitRate*2)
+                                            .arg(Diaporama->VideoBitRate);
+                                        break;
+                case VCODEC_H264PQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
+                                        Preset="-fpre \""+Preset+"libx264-pq.ffpreset\"";
+                                        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b %4")
+                                            .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
+                                            .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
+                                            .arg(Diaporama->VideoBitRate*2)
+                                            .arg(Diaporama->VideoBitRate);
+                                        break;
+                case VCODEC_MJPEG   :   vCodec="-vcodec mjpeg -qscale 2 -qmin 2 -qmax 2";   break;
+                case VCODEC_VP8     :   vCodec=QString("-vcodec libvpx -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
+                                            .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
+                                            .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
+                                            .arg(Diaporama->VideoBitRate*2)
+                                            .arg(Diaporama->VideoBitRate);
+                                        break;
+                case VCODEC_H263    :   vCodec=QString("-vcodec flv -b %1").arg(Diaporama->VideoBitRate);
+                                        break;
+                case VCODEC_THEORA  :   vCodec=QString("-vcodec libtheora -b %1").arg(Diaporama->VideoBitRate);
+                                        break;
                 default:
                     QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Unknown video codec");
                     Continue=false;

@@ -145,7 +145,7 @@ extern "C" {
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
-#define BUILDVERSION_WEBURL                  "http://download.tuxfamily.org/ffdiaporama/BUILDVERSION.txt"
+#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/BUILDVERSION.txt"
 
 #define GLOBALCONFIGFILE                    2                                     // Type of config file : Global
 #define USERCONFIGFILE                      3                                     // Type of config file : USER
@@ -168,6 +168,8 @@ extern "C" {
 #define ICON_OBJECT_IMAGEHIDE               "img/object_imageHide.png"
 #define ICON_RULER_ON                       "img/ruler_ok.png"
 #define ICON_RULER_OFF                      "img/ruler_ko.png"
+#define ICON_GLOBALCONF                     "img/db.png"
+#define ICON_USERCONF                       "img/db_update.png"
 
 // Project geometry definition
 #define GEOMETRY_4_3                        0
@@ -182,21 +184,28 @@ extern "C" {
 
 // Export mode definition
 #define EXPORTMODE_ADVANCED                 0
-
+#define ICON_ADVANCED                      "img/render.png"
 #define EXPORTMODE_SMARTPHONE               1
+#define ICON_SMARTPHONE                    "img/Smartphone.png"
 #define EXPORTMODE_MULTIMEDIASYS            2
+#define ICON_MULTIMEDIASYS                 "img/tv.png"
 #define EXPORTMODE_FORTHEWEB                3
+#define ICON_FORTHEWEB                      "img/Internet.png"
 
 // Standard definition
 #define STANDARD_PAL                        0
 #define STANDARD_NTSC                       1
 
 // Image size definition
-#define NBR_SIZEDEF                         5
-#define SIZE_VGA                            0
-#define SIZE_DVD                            1
-#define SIZE_720P                           2
-#define SIZE_1080p                          3
+#define NBR_SIZEDEF                         8
+#define SIZE_QVGA                           0
+#define SIZE_HVGA                           1
+#define SIZE_VGA                            2
+#define SIZE_DVD                            3
+#define SIZE_WVGA                           4
+#define SIZE_XGA                            5
+#define SIZE_720P                           6
+#define SIZE_1080p                          7
 
 // Object type definition
 #define DIAPORAMAOBJECTTYPE_EMPTY           0
@@ -357,15 +366,34 @@ extern sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF];            // Real definiti
 //============================================
 // Video codec definitions
 //============================================
+#define     VCODEC_MJPEG        0                               // Motion JPEG
+#define     VCODECST_MJPEG      "MJPEG"                         // String Motion JPEG
+#define     VCODEC_MPEG         1                               // MPEG-2 video
+#define     VCODECST_MPEG       "MPEG"                          // String MPEG-2 video
+#define     VCODEC_MPEG4        2                               // DivX/XVid/MPEG-4
+#define     VCODECST_MPEG4      "MPEG4"                         // String DivX/XVid/MPEG-4
+#define     VCODEC_H264HQ       3                               // H.264 AVC/MPEG-4 AVC + VPRE libx264-hq.ffpreset
+#define     VCODECST_H264HQ     "H264HQ"                        // String H.264 AVC/MPEG-4 AVC + VPRE libx264-hq.ffpreset
+#define     VCODEC_H264PQ       4                               // H.264 AVC/MPEG-4 AVC + VPRE libx264-hq.ffpreset ********
+#define     VCODECST_H264PQ     "H264PQ"                        // String H.264 AVC/MPEG-4 AVC + VPRE libx264-hq.ffpreset ********
+#define     VCODEC_VP8          5                               // WebM-VP8
+#define     VCODECST_VP8        "VP8"                           // String WebM-VP8
+#define     VCODEC_H263         6                               // Flash Video / Sorenson H.263
+#define     VCODECST_H263       "H263"                          // String Flash Video / Sorenson H.263
+#define     VCODEC_THEORA       7                               // Theora
+#define     VCODECST_THEORA     "THEORA"                        // String Theora
+
 struct sVideoCodecDef {
     bool    IsFind;                                             // true if codec is supported by installed version of ffmpeg
     int     Codec_id;                                           // ffmpeg codec id
+    int     FFD_VCODEC;                                         // ffDiaporama video codec id
+    char    FFD_VCODECST[10];                                   // ffDiaporama video codec id string
     char    ShortName[50];                                      // short name of the codec (copy of the ffmpeg value)
     char    LongName[200];                                      // long name of the codec (define by this application)
     char    PossibleBitrate[200];                               // list of possible compression bit rate (define by this application)
     char    DefaultBitrate[NBR_SIZEDEF][10];                    // prefered compression bit rate for each possible size
 };
-#define NBR_VIDEOCODECDEF   6
+#define NBR_VIDEOCODECDEF   8
 extern struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF];  // Real definition in capplicationconfig.cpp
 
 //============================================
@@ -392,10 +420,10 @@ struct sFormatDef {
     char    ShortName[50];                                      // short name of the format container (copy of the ffmpeg value)
     char    FileExtension[10];                                  // prefered file extension for the format container (define by this application)
     char    LongName[200];                                      // long name of the codec (define by this application)
-    char    PossibleVideoCodec[200];                            // list of possible video codec for this format container (define by this application)
+    char    PossibleVideoCodec[200];                            // list of possible video codec for this format container (using VCODECST String define)
     char    PossibleAudioCodec[200];                            // list of possible audio codec for this format container (define by this application)
 };
-#define NBR_FORMATDEF   9
+#define NBR_FORMATDEF   10
 extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];              // Real definition in capplicationconfig.cpp
 
 //============================================

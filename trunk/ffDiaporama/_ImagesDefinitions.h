@@ -58,7 +58,7 @@ public:
     double      X;                      // X position (in %) relative to up/left corner
     double      Y;                      // Y position (in %) relative to up/left corner
     double      ZoomFactor;             // Zoom factor (in %)
-    int         ImageRotation;          // Image rotation (in °)
+    double      ImageRotation;          // Image rotation (in °)
     int         Brightness;             // Brightness adjustment
     int         Contrast;               // Contrast adjustment
     double      Gamma;                  // Gamma adjustment

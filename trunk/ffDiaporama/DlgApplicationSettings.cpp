@@ -56,6 +56,7 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     while (Duration.endsWith('0')) Duration=Duration.left(Duration.length()-1);
     while (Duration.endsWith('.')) Duration=Duration.left(Duration.length()-1);
     ui->TransitionDurationCB->setCurrentIndex(ui->TransitionDurationCB->findText(Duration));
+    ui->AskUserToRemove->setChecked(ApplicationConfig->AskUserToRemove);
 
     //********************************
     // ProjectDefault part
@@ -68,6 +69,8 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     //********************************
     // RenderDefault part
     //********************************
+    InitImageSizeCombo(0);
+
     // Init format container combo
     for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
         ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
@@ -79,6 +82,8 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     ui->SizeCombo->setCurrentIndex(ApplicationConfig->DefaultImageSize);
     // codec(s) & bitrate(s)
     FileFormatCombo(-1);     // For first initialisation : ChangeIndex=-1
+    connect(ui->GeometryCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
+    connect(ui->StandardCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
     connect(ui->SizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
     connect(ui->FileFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
     connect(ui->VideoFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
@@ -99,8 +104,8 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
 
     // EXPORTMODE_SMARTPHONE
     QStringList List;
-    for (int i=0;i<ApplicationConfig->TranslatedRenderType[EXPORTMODE_SMARTPHONE].count();i++)
-        List.append(ApplicationConfig->TranslatedRenderType[EXPORTMODE_SMARTPHONE][i]+"#"+QString("%1").arg(i));
+    for (int i=0;i<ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].count();i++)
+        List.append(ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE][i]+"#"+QString("%1").arg(i));
     List.sort();
     for (int i=0;i<List.count();i++) {
         QString Item=List[i];
@@ -112,8 +117,8 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
 
     // EXPORTMODE_MULTIMEDIASYS
     List.clear();
-    for (int i=0;i<ApplicationConfig->TranslatedRenderType[EXPORTMODE_MULTIMEDIASYS].count();i++)
-        List.append(ApplicationConfig->TranslatedRenderType[EXPORTMODE_MULTIMEDIASYS][i]+"#"+QString("%1").arg(i));
+    for (int i=0;i<ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].count();i++)
+        List.append(ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS][i]+"#"+QString("%1").arg(i));
     List.sort();
     for (int i=0;i<List.count();i++) {
         QString Item=List[i];
@@ -125,8 +130,8 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
 
     // EXPORTMODE_FORTHEWEB
     List.clear();
-    for (int i=0;i<ApplicationConfig->TranslatedRenderType[EXPORTMODE_FORTHEWEB].count();i++)
-        List.append(ApplicationConfig->TranslatedRenderType[EXPORTMODE_FORTHEWEB][i]+"#"+QString("%1").arg(i));
+    for (int i=0;i<ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].count();i++)
+        List.append(ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB][i]+"#"+QString("%1").arg(i));
     List.sort();
     for (int i=0;i<List.count();i++) {
         QString Item=List[i];
@@ -136,10 +141,25 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
         if (ApplicationConfig->DefaultForTheWEBType==ItemData)  ui->ForTheWTypeCB->setCurrentIndex(i);
     }
 
+    // Tab Manage database
+    ui->DBDeviceTypeCB->addItem(QIcon(ICON_SMARTPHONE),ApplicationConfig->TranslatedRenderType[1]);
+    ui->DBDeviceTypeCB->addItem(QIcon(ICON_MULTIMEDIASYS),ApplicationConfig->TranslatedRenderType[2]);
+    ui->DBDeviceTypeCB->addItem(QIcon(ICON_FORTHEWEB),ApplicationConfig->TranslatedRenderType[3]);
+    ui->DBDeviceTypeCB->setCurrentIndex(0);
+    for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) ui->DBFileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
+    ui->DBFileFormatCB->setCurrentIndex(-1);
+    FillTableDevice(0);
+    InitDBImageSizeCombo(0);
+    connect(ui->DBDeviceTypeCB,SIGNAL(currentIndexChanged(int)),this,SLOT(FillTableDevice(int)));
+    connect(ui->GeometryCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitDBImageSizeCombo(int)));
+    connect(ui->DBStandardCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitDBImageSizeCombo(int)));
+    connect(ui->DBFileFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(DBFileFormatCombo(int)));
+
     // Define handler
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OkBt,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
+
 }
 
 //====================================================================================================================
@@ -190,6 +210,7 @@ void DlgApplicationSettings::accept() {
     // Editor Options part
     ApplicationConfig->AppendObject    =ui->AppendObjectCB->currentIndex()==1;
     ApplicationConfig->SortFile        =ui->SortFileCB->isChecked();
+    ApplicationConfig->AskUserToRemove =ui->AskUserToRemove->isChecked();
     if (ui->FramingWidth->isChecked())  ApplicationConfig->DefaultFraming=0;
     if (ui->FramingHeight->isChecked()) ApplicationConfig->DefaultFraming=1;
     if (ui->FramingFull->isChecked())   ApplicationConfig->DefaultFraming=2;
@@ -210,7 +231,7 @@ void DlgApplicationSettings::accept() {
     ApplicationConfig->DefaultFormat            =ui->FileFormatCB->currentIndex();
     if (ApplicationConfig->DefaultFormat>=0) ApplicationConfig->DefaultFormat=ui->FileFormatCB->itemData(ApplicationConfig->DefaultFormat).toInt(); else ApplicationConfig->DefaultFormat=0;
     int Codec=ui->VideoFormatCB->currentIndex();
-    if (Codec>=0) ApplicationConfig->DefaultVideoCodec=VIDEOCODECDEF[ui->VideoFormatCB->itemData(Codec).toInt()].ShortName; else ApplicationConfig->DefaultVideoCodec="";
+    if (Codec>=0) ApplicationConfig->DefaultVideoCodec=VIDEOCODECDEF[ui->VideoFormatCB->itemData(Codec).toInt()].FFD_VCODECST; else ApplicationConfig->DefaultVideoCodec="";
     Codec=ui->AudioFormatCB->currentIndex();
     if (Codec>=0) ApplicationConfig->DefaultAudioCodec=AUDIOCODECDEF[ui->AudioFormatCB->itemData(Codec).toInt()].ShortName; else ApplicationConfig->DefaultAudioCodec="";
     QString BitRate=ui->VideoBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultVideoBitRate=BitRate.toInt();
@@ -223,6 +244,17 @@ void DlgApplicationSettings::accept() {
     // Save Window size and position
     ApplicationConfig->DlgApplicationSettingsWSP->SaveWindowState(this);
     done(0);
+}
+
+//====================================================================================================================
+
+void DlgApplicationSettings::InitImageSizeCombo(int) {
+    int Geometry=ui->GeometryCombo->currentIndex();
+    int Standard=ui->StandardCombo->currentIndex();
+    int ImageSize=ui->SizeCombo->currentIndex();
+    ui->SizeCombo->clear();
+    for (int i=0;i<NBR_SIZEDEF;i++) ui->SizeCombo->addItem(DefImageFormat[Standard][Geometry][i].Name);
+    ui->SizeCombo->setCurrentIndex(ImageSize);
 }
 
 //====================================================================================================================
@@ -248,7 +280,7 @@ void DlgApplicationSettings::FileFormatCombo(int ChangeIndex) {
         }
         // Now find index of this codec in the VIDEOCODECDEF
         Index=0;
-        while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].ShortName))) Index++;
+        while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
         if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) {
             ui->VideoFormatCB->addItem(VIDEOCODECDEF[Index].LongName,QVariant(Index));
             if (Codec==QString(ApplicationConfig->DefaultVideoCodec)) {
@@ -362,4 +394,102 @@ void DlgApplicationSettings::InitAudioBitRateCB(int ChangeIndex) {
         if (!IsFindBitRate) ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->findText(AUDIOCODECDEF[CurrentCodec].Default));
         ui->AudioBitRateCB->setEnabled(ui->AudioBitRateCB->count()>1);
     } else ui->AudioBitRateCB->setEnabled(false);
+}
+
+//====================================================================================================================
+
+void DlgApplicationSettings::FillTableDevice(int ChangeIndex) {
+    ui->TableDevice->setUpdatesEnabled(false);
+    ui->TableDevice->setSortingEnabled(false);
+    while (ui->TableDevice->rowCount()>0) ui->TableDevice->removeRow(0);
+    for (int i=0;i<ApplicationConfig->RenderDeviceModel.count();i++) if (ApplicationConfig->RenderDeviceModel[i].DeviceType==ChangeIndex+1) {
+        int j=ui->TableDevice->rowCount();
+        ui->TableDevice->insertRow(j);
+        ui->TableDevice->setItem(j,0,new QTableWidgetItem(ApplicationConfig->RenderDeviceModel[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),
+                                                          (ApplicationConfig->RenderDeviceModel[i].DeviceIndex<10?"#0":"#")+QString("%1").arg(ApplicationConfig->RenderDeviceModel[i].DeviceIndex)));
+        ui->TableDevice->setItem(j,1,new QTableWidgetItem(ApplicationConfig->TranslatedRenderSubtype[ApplicationConfig->RenderDeviceModel[i].DeviceType][ApplicationConfig->RenderDeviceModel[i].DeviceSubtype]));
+        ui->TableDevice->setItem(j,2,new QTableWidgetItem(ApplicationConfig->RenderDeviceModel[i].DeviceName));
+    }
+    ui->TableDevice->resizeColumnToContents(0);
+    ui->TableDevice->resizeColumnToContents(1);
+    ui->TableDevice->resizeRowsToContents();
+    ui->TableDevice->setSortingEnabled(true);
+    ui->TableDevice->setUpdatesEnabled(true);
+
+    QStringList List;
+    for (int i=0;i<ApplicationConfig->TranslatedRenderSubtype[ChangeIndex+1].count();i++)
+        List.append(ApplicationConfig->TranslatedRenderSubtype[ChangeIndex+1][i]+"#"+QString("%1").arg(i));
+    List.sort();
+    ui->DBDeviceSubtypeCB->clear();
+    for (int i=0;i<List.count();i++) {
+        QString Item=List[i];
+        int     ItemData=Item.mid(Item.lastIndexOf("#")+1).toInt();
+        Item=Item.left(Item.lastIndexOf("#"));
+        ui->DBDeviceSubtypeCB->addItem(Item,QVariant(ItemData));
+    }
+    ui->DBDeviceSubtypeCB->setCurrentIndex(-1);
+    ui->DBImageSizeCombo->setCurrentIndex(-1);
+    ui->DBFileFormatCB->setCurrentIndex(-1);
+}
+
+//====================================================================================================================
+
+void DlgApplicationSettings::InitDBImageSizeCombo(int) {
+    int Geometry=ui->GeometryCombo->currentIndex();
+    int Standard=ui->DBStandardCB->currentIndex();
+    ui->DBImageSizeCombo->clear();
+    for (int i=0;i<NBR_SIZEDEF;i++) ui->DBImageSizeCombo->addItem(DefImageFormat[Standard][Geometry][i].Name);
+    ui->DBImageSizeCombo->setCurrentIndex(-1);
+}
+
+//====================================================================================================================
+
+void DlgApplicationSettings::DBFileFormatCombo(int ChangeIndex) {
+    ui->DBVideoFormatCB->clear();
+    ui->DBAudioFormatCB->clear();
+    int CurrentFormat=ui->DBFileFormatCB->currentIndex();
+    if (CurrentFormat==-1) return;
+    CurrentFormat=ui->DBFileFormatCB->itemData(CurrentFormat).toInt();
+
+    //********* Video codec part
+    QString     AllowedCodec=FORMATDEF[CurrentFormat].PossibleVideoCodec;
+    QString     Codec="";
+    int         Index=0;
+    bool        IsFindCodec=false;
+    while (AllowedCodec.length()>0) {
+        Index=AllowedCodec.indexOf("#");
+        if (Index>0) {
+            Codec=AllowedCodec.left(Index);
+            AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+        } else {
+            Codec=AllowedCodec;
+            AllowedCodec="";
+        }
+        // Now find index of this codec in the VIDEOCODECDEF
+        Index=0;
+        while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
+        if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) ui->DBVideoFormatCB->addItem(VIDEOCODECDEF[Index].LongName,QVariant(Index));
+    }
+    ui->DBVideoFormatCB->setEnabled(ui->VideoFormatCB->count()>0);
+
+    //********* Audio codec part
+    AllowedCodec=FORMATDEF[CurrentFormat].PossibleAudioCodec;
+    Codec="";
+    Index=0;
+    IsFindCodec=false;
+    while (AllowedCodec.length()>0) {
+        Index=AllowedCodec.indexOf("#");
+        if (Index>0) {
+            Codec=AllowedCodec.left(Index);
+            AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+        } else {
+            Codec=AllowedCodec;
+            AllowedCodec="";
+        }
+        // Now find index of this codec in the AUDIOCODECDEF
+        Index=0;
+        while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
+        if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) ui->DBAudioFormatCB->addItem(AUDIOCODECDEF[Index].LongName,QVariant(Index));
+    }
+    ui->AudioFormatCB->setEnabled(ui->DBAudioFormatCB->count()>0);
 }

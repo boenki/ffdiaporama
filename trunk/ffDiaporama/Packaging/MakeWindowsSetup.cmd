@@ -48,6 +48,7 @@ REM Add ffDiaporama data files
 copy y:\ffDiaporama\ffDiaporama\BUILDVERSION.txt
 copy y:\ffDiaporama\ffDiaporama\ffDiaporama.xml
 copy y:\ffDiaporama\ffDiaporama\libx264-hq.ffpreset
+copy y:\ffDiaporama\ffDiaporama\libx264-pq.ffpreset
 copy y:\ffDiaporama\fmt_filters.README
 copy y:\ffDiaporama\fmt_filters.VERSION
 copy y:\ffDiaporama\licence.rtf
