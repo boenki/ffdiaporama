@@ -115,7 +115,7 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
                 }
                 // Now find index of this codec in the VIDEOCODECDEF
                 Index=0;
-                while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].ShortName))) Index++;
+                while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
                 if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) IsFindVideoCodec=true;
             }
             AllowedCodec=FORMATDEF[i].PossibleAudioCodec;
@@ -232,6 +232,7 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     LastCount=0;
     connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
 
+    ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+"0 / 0");
     s_ToolbarChanged(0);
 }
 
@@ -258,11 +259,11 @@ MainWindow::~MainWindow() {
 void MainWindow::s_TimerEvent() {
     if (StatusBarList.count()>0) {
         while (StatusBarList.count()>1) StatusBarList.takeFirst();
-        statusBar()->showMessage(StatusBarList.takeFirst(),0);
+        ui->StatusBar->setText(StatusBarList.takeFirst());
         LastCount=0;
     } else {
         LastCount++;
-        if (LastCount==10) statusBar()->showMessage(InternetBUILDVERSION,0);
+        if (LastCount==10) ui->StatusBar->setText(InternetBUILDVERSION);
     }
 }
 
@@ -359,7 +360,7 @@ void MainWindow::onNetworkReply(QNetworkReply* reply) {
                 else InternetBUILDVERSION="";
         } else InternetBUILDVERSION="";
     } else InternetBUILDVERSION="";
-    statusBar()->showMessage(InternetBUILDVERSION);
+    ui->StatusBar->setText(InternetBUILDVERSION);
 }
 
 //====================================================================================================================
@@ -406,6 +407,8 @@ void MainWindow::RefreshControls() {
     ui->ActionSmartphone_BT->setEnabled(ui->timeline->columnCount()>0);
     ui->ActionMultimedia_BT->setEnabled(ui->timeline->columnCount()>0);
     ui->ActionForTheWEB_BT->setEnabled(ui->timeline->columnCount()>0);
+
+    ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+QString("%1").arg(Diaporama->CurrentCol+(Diaporama->List.count()>0?1:0))+" / "+QString("%1").arg(Diaporama->List.count()));
 }
 
 //====================================================================================================================
@@ -1058,6 +1061,10 @@ void MainWindow::s_RemoveObject() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     int Current=ui->timeline->currentColumn();
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
+
+    if (QMessageBox::question(this,QApplication::translate("MainWindow","Remove slide"),QApplication::translate("MainWindow","Are you sure to want to delete this slide?"),
+                              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No) return;
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->timeline->setUpdatesEnabled(false);
     FLAGSTOPITEMSELECTION=true;

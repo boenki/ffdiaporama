@@ -131,7 +131,8 @@ OTHER_FILES += \
     Packaging/debian/control \
     Packaging/debian/compat \
     Packaging/debian/changelog \
-    Packaging/debian/source/format
+    Packaging/debian/source/format \
+    libx264-pq.ffpreset
 
 TRANSLATIONS += locale/locale_fr.ts
 
@@ -174,7 +175,7 @@ unix {
     wiki_fr_img.path    = $$PREFIX/share/$$TARGETAPP/WIKI/fr/img
     wiki_fr_img.files   = WIKI/fr/img/*.*
     General.path        = $$PREFIX/share/$$TARGETAPP
-    General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset
+    General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset libx264-pq.ffpreset
     desktop.path        = $$PREFIX/share/applications
     desktop.files       = ffDiaporama.desktop
 

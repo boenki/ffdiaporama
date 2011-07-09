@@ -127,12 +127,15 @@ public:
     // Preferences
     bool                    DisableSSE2;                                // Disable SSE2 processor extension if error with hardware acceleration
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
+    bool                    AskUserToRemove;                            // If true user must answer to a confirmation dialog box to remove slide
 
     // Editor options
     bool                    AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
     bool                    SortFile;                                   // if true sort file by (last) number when multiple file insertion
     int                     DefaultFraming;                             // 0=Width, 1=Height
     int                     TimelineHeight;                             // Height of the timeline
+    bool                    SlideRuler;                                 // if true, ruler is on in slide properties dialog box
+    bool                    FramingRuler;                               // if true, ruler is on in framing/correction dialog box
 
     // Preview setting
     double                  PreviewFPS;                                 // Preview FrameRate
@@ -168,7 +171,8 @@ public:
     int                     DefaultForTheWEBModel;                      // Default ForTheWEB Model
 
     QStringList             RecentFile;                                 // Recent project files
-    QStringList             TranslatedRenderType[4];                    // Translated render device type
+    QStringList             TranslatedRenderType;                       // Translated render device type
+    QStringList             TranslatedRenderSubtype[4];                 // Translated render device subtype
 
     // Main Window Size & Position
     bool                    MainWinState;                               // WindowsSettings-ismaximized

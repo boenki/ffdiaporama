@@ -1,5 +1,10 @@
 Buggs/TODO (Dernier SVN le 07/07/2011) :
 ----------------------------------------
+TODO: Double click sur un bloc dans la boite slide => ouvre texte/recadrage ou edit video selon le type de bloc
+
+TODO: Finir l'onglet dans la boite de configuration de gestion de la base des équipements
+TODO: Trier les combobox de codec & format dans les boites options et render
+
 BUGG: Probleme de lecture avec des fichiers .ogg
 BUGG: Il manque la propriété aspect ratio dans la boite de recadrage
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
@@ -8,7 +13,6 @@ BUGG: à voir : le redimenssionnement des blocs dans la boite slide permet de d�
 TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
         => normalement c'est corrigé : faire des tests
 
-TODO: Double click sur un bloc dans la boite slide => ouvre texte/recadrage ou edit video selon le type de bloc
 TODO: Finir l'internationalisation du paquet Ubuntu
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 TODO: Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
@@ -27,13 +31,25 @@ TODO: Ajouter un skip de frame inutile dans cvideofilewrapper::ReadVideoFrame
 TODO: Revoir les messages d'erreurs lié à exiv2 dans _ImageFileWrapper
 TODO: Transférer le control de volume de la boite vidéo à la boite slide
 TODO: Autoriser les blocs à sortir de l'écran
+
 TODO: Permettre à l'utilisateur de charger un LUMA pour une transition
 TODO: Permettre à l'utilisateur de mettre une vidéo en pause sans pour autant la mettre en invisible
 TODO: Permettre à l'utilisateur de changer les marges des textes à l'intérieur des blocs
+TODO: Gestion de style pour les blocs textes ?
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+Correction de BUGG: Supprime les () dans le nom des formats video pour que les fichiers apparaissent dans la boite de dialogue de sélection de fichier
+
+Changement de comportement: Ajout du codec video h264 "Phone Quality" et du codec video Theora VP3
+Changement de comportement: Ajout du format de vidéo OGV (Ogg/Theora)
+Changement de comportement: Ajout des résolutions HVGA, WVGA, XGA
+Changement de comportement: Ajout d'un onglet dans la boite de configuration pour la gestion de la base des équipements (à finir)
+Changement de comportement: Ajout d'une zone d'information dans la barre de status indiquant le n° de la diapo en cours et le nombre de diapo
+Changement de comportement: Ajout d'un message de confirmation pour les suppressions de slide, de bloque et de plan (désactivable dans la boite de configuration)
+Changement de comportement: Mémorise l'état des guides magnétique pour les 2 boites slide et recadrage
+Changement de comportement: Passe le réglage de rotation en valeur à virgule dans la boite de recadrage
 
 -------------------------------------
 Changelog depuis la version 20110707

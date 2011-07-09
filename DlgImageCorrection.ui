@@ -236,7 +236,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="RotateED">
+      <widget class="QDoubleSpinBox" name="RotateED">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -247,7 +247,13 @@
         <enum>QAbstractSpinBox::PlusMinus</enum>
        </property>
        <property name="suffix">
-        <string notr="true">°</string>
+        <string>°</string>
+       </property>
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="singleStep">
+        <double>0.500000000000000</double>
        </property>
       </widget>
      </item>

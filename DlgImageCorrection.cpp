@@ -46,7 +46,7 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     MagneticRuler.MagnetY2     = -1;
     MagneticRuler.MagnetX3     = -1000; // Disable centering ruller
     MagneticRuler.MagnetY3     = -1000; // Disable centering ruller
-    MagneticRuler.MagneticRuler= true;
+    MagneticRuler.MagneticRuler= GlobalMainWindow->Diaporama->ApplicationConfig->FramingRuler;
 
     //ui->GraphicsView->setAttribute(Qt::WA_OpaquePaintEvent);
 
@@ -60,7 +60,7 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
 
-    connect(ui->RotateED,SIGNAL(valueChanged(int)),this,SLOT(s_RotationEDChanged(int)));
+    connect(ui->RotateED,SIGNAL(valueChanged(double)),this,SLOT(s_RotationEDChanged(double)));
     connect(ui->XValue,SIGNAL(valueChanged(double)),this,SLOT(s_XValueEDChanged(double)));
     connect(ui->YValue,SIGNAL(valueChanged(double)),this,SLOT(s_YValueEDChanged(double)));
     connect(ui->ZoomValue,SIGNAL(valueChanged(double)),this,SLOT(s_ZoomValueEDChanged(double)));
@@ -207,7 +207,7 @@ void DlgImageCorrection::s_ZoomValueEDChanged(double Value) {
 
 //====================================================================================================================
 
-void DlgImageCorrection::s_RotationEDChanged(int Value) {
+void DlgImageCorrection::s_RotationEDChanged(double Value) {
     if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
     if (Value<-180) Value=360-Value;
     if (Value>180)  Value=-360-Value;
@@ -219,7 +219,7 @@ void DlgImageCorrection::s_RotationEDChanged(int Value) {
 
 void DlgImageCorrection::s_RotateLeft() {
     if (BrushFileCorrect==NULL) return;
-    int Value=(((BrushFileCorrect->ImageRotation-90)/90)*90);
+    double Value=(((BrushFileCorrect->ImageRotation-90)/90)*90);
     if (Value<=-180) Value=360-Value;
     ui->RotateED->setValue(Value);
 }
@@ -228,7 +228,7 @@ void DlgImageCorrection::s_RotateLeft() {
 
 void DlgImageCorrection::s_RotateRight() {
     if (BrushFileCorrect==NULL) return;
-    int Value=(((BrushFileCorrect->ImageRotation+90)/90)*90);
+    double Value=(((BrushFileCorrect->ImageRotation+90)/90)*90);
     if (Value>180) Value=-360+Value;
     ui->RotateED->setValue(Value);
 }
@@ -344,6 +344,7 @@ void DlgImageCorrection::RefreshControls() {
 void DlgImageCorrection::s_MagneticEdgeBt() {
     if (MagneticRuler.MagneticRuler==true) MagneticRuler.MagneticRuler=false; else MagneticRuler.MagneticRuler=true;
     ui->MagneticEdgeBt->setIcon(QIcon(MagneticRuler.MagneticRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
+    GlobalMainWindow->Diaporama->ApplicationConfig->FramingRuler=MagneticRuler.MagneticRuler;
     RefreshBackgroundImage();
 }
 

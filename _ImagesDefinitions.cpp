@@ -263,7 +263,7 @@ bool cFilterCorrectObject::LoadFromXML(QDomElement domDocument,QString ElementNa
         X               =Element.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
         Y               =Element.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
         ZoomFactor      =Element.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
-        ImageRotation   =Element.attribute("ImageRotation").toInt();            // Image rotation (in °)
+        ImageRotation   =Element.attribute("ImageRotation").toDouble();          // Image rotation (in °)
         Brightness      =Element.attribute("Brightness").toInt();
         Contrast        =Element.attribute("Contrast").toInt();
         Gamma           =Element.attribute("Gamma").toDouble();

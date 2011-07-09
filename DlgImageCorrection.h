@@ -63,7 +63,7 @@ private slots:
     void            Help();
     void            SetSavedWindowGeometry();
 
-    void            s_RotationEDChanged(int Value);
+    void            s_RotationEDChanged(double Value);
     void            s_XValueEDChanged(double Value);
     void            s_YValueEDChanged(double Value);
     void            s_ZoomValueEDChanged(double Value);
