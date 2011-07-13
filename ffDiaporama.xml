@@ -22,7 +22,7 @@
         <Device_13 ImageSize="7" DeviceIndex="13" DeviceName="France-Boitier TV générique de Box ADSL-HD1080p" FileFormat="4" Standard="0" DeviceType="2" VideoBitrate="8000000" VideoCodec="3" DeviceSubtype="2" AudioBitrate="160000" AudioCodec="2"/>
         <Device_14 ImageSize="0" DeviceIndex="14" DeviceName="Flash video-QVGA" FileFormat="8" Standard="0" DeviceType="3" VideoBitrate="500000" VideoCodec="3" DeviceSubtype="0" AudioBitrate="128000" AudioCodec="2"/>
         <Device_15 ImageSize="2" DeviceIndex="15" DeviceName="Flash video-VGA" FileFormat="8" Standard="0" DeviceType="3" VideoBitrate="1500000" VideoCodec="3" DeviceSubtype="0" AudioBitrate="128000" AudioCodec="2"/>
-        <Device_16 ImageSize="6" DeviceIndex="16" DeviceName="Flash video-HD 720p" FileFormat="8" Standard="0" DeviceType="3" VideoBitrate="5000000" VideoCodec="3" DeviceSubtype="0" AudioBitrate="128000" AudioCodec="2"/>
+        <Device_16 ImageSize="6" DeviceIndex="16" DeviceName="Flash video-HD 720p" FileFormat="8" Standard="0" DeviceType="3" VideoBitrate="4000000" VideoCodec="3" DeviceSubtype="0" AudioBitrate="128000" AudioCodec="2"/>
         <Device_17 ImageSize="7" DeviceIndex="17" DeviceName="Flash video-HD1080p" FileFormat="8" Standard="0" DeviceType="3" VideoBitrate="6000000" VideoCodec="3" DeviceSubtype="0" AudioBitrate="128000" AudioCodec="2"/>
         <Device_18 ImageSize="1" DeviceIndex="18" DeviceName="Apple-iPhone 3G/3GS" FileFormat="4" Standard="0" DeviceType="1" VideoBitrate="1200000" VideoCodec="4" DeviceSubtype="0" AudioBitrate="128000" AudioCodec="2"/>
         <Device_19 ImageSize="0" DeviceIndex="19" DeviceName="Apple-iPod Nano (G3/G4/G5)" FileFormat="4" Standard="0" DeviceType="1" VideoBitrate="500000" VideoCodec="4" DeviceSubtype="1" AudioBitrate="128000" AudioCodec="2"/>
@@ -46,5 +46,17 @@
         <Device_37 ImageSize="6" DeviceIndex="37" DeviceName="Linux-720p" FileFormat="4" Standard="0" DeviceType="1" VideoBitrate="5000000" VideoCodec="3" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="2"/>
         <Device_38 ImageSize="4" DeviceIndex="38" DeviceName="Generic Windows phone 7-WVGA" FileFormat="4" Standard="0" DeviceType="1" VideoBitrate="2000000" VideoCodec="4" DeviceSubtype="0" AudioBitrate="128000" AudioCodec="2"/>
         <Device_39 ImageSize="8" DeviceIndex="39" DeviceName="Blackberry" FileFormat="1" Standard="0" DeviceType="1" VideoBitrate="400000" VideoCodec="2" DeviceSubtype="0" AudioBitrate="128000" AudioCodec="1"/>
+        <Device_40 ImageSize="0" DeviceIndex="40" DeviceName="MP4 Version-QVGA" FileFormat="4" Standard="0" DeviceType="3" VideoBitrate="500000" VideoCodec="3" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="2"/>
+        <Device_41 ImageSize="2" DeviceIndex="41" DeviceName="MP4 Version-VGA" FileFormat="4" Standard="0" DeviceType="3" VideoBitrate="1500000" VideoCodec="3" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="2"/>
+        <Device_42 ImageSize="6" DeviceIndex="42" DeviceName="MP4 Version-HD 720p" FileFormat="4" Standard="0" DeviceType="3" VideoBitrate="4000000" VideoCodec="3" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="2"/>
+        <Device_43 ImageSize="7" DeviceIndex="43" DeviceName="MP4 Version-HD1080p" FileFormat="4" Standard="0" DeviceType="3" VideoBitrate="6000000" VideoCodec="3" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="2"/>
+        <Device_44 ImageSize="0" DeviceIndex="44" DeviceName="OGV Version-QVGA" FileFormat="9" Standard="0" DeviceType="3" VideoBitrate="500000" VideoCodec="7" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
+        <Device_45 ImageSize="2" DeviceIndex="45" DeviceName="OGV Version-VGA" FileFormat="9" Standard="0" DeviceType="3" VideoBitrate="1500000" VideoCodec="7" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
+        <Device_46 ImageSize="6" DeviceIndex="46" DeviceName="OGV Version-HD 720p" FileFormat="9" Standard="0" DeviceType="3" VideoBitrate="4000000" VideoCodec="7" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
+        <Device_47 ImageSize="7" DeviceIndex="47" DeviceName="OGV Version-HD1080p" FileFormat="9" Standard="0" DeviceType="3" VideoBitrate="6000000" VideoCodec="7" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
+        <Device_48 ImageSize="0" DeviceIndex="48" DeviceName="WebM Version-QVGA" FileFormat="6" Standard="0" DeviceType="3" VideoBitrate="500000" VideoCodec="5" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
+        <Device_49 ImageSize="2" DeviceIndex="49" DeviceName="WebM Version-VGA" FileFormat="6" Standard="0" DeviceType="3" VideoBitrate="1500000" VideoCodec="5" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
+        <Device_50 ImageSize="6" DeviceIndex="50" DeviceName="WebM Version-HD 720p" FileFormat="6" Standard="0" DeviceType="3" VideoBitrate="4000000" VideoCodec="5" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
+        <Device_51 ImageSize="7" DeviceIndex="51" DeviceName="WebM Version-HD1080p" FileFormat="6" Standard="0" DeviceType="3" VideoBitrate="6000000" VideoCodec="5" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
     </RenderingDeviceModel>
 </Configuration>

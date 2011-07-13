@@ -1,7 +1,5 @@
-Buggs/TODO (Dernier SVN le 09/07/2011) :
+Buggs/TODO (Dernier SVN le 13/07/2011) :
 ----------------------------------------
-TODO: Finir de coder les device par défaut dans la boite d'option
-TODO: Ajouter une message de confirmation si écrasement d'un fichier existant lors des générations
 TODO: Finir de trier les combobox de codec & format dans les boites options et render
 
 TODO: Double click sur un bloc dans la boite slide => ouvre texte/recadrage ou edit video selon le type de bloc
@@ -46,16 +44,12 @@ TODO: Gestion de style pour les blocs textes ?
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-Base de device: Ajout d'équipements
-
-Changement de comportement: Ajoute un bouton cancel en cas de fermeture de la fenêtre principal quand le projet n'a pas été sauvegardé
-Changement de comportement: Remplace les N° de bitrate par leur valeur dans les fichiers XML pour la base de données des devices
-Changement de comportement: Trie les combobox de bitrate dans les boites options et render
 
 -------------------------------------
 Changelog depuis la version 20110707
 -------------------------------------
 Correction de BUGG: Supprime les () dans le nom des formats video pour que les fichiers apparaissent dans la boite de dialogue de sélection de fichier
+Correction de BUGG: Change le fichier de translation des messages systèmes de QT pour supporter plus de messages en français
 
 Changement de comportement: Ajout du codec video h264 "Phone Quality" et du codec video Theora VP3
 Changement de comportement: Ajout du format de vidéo OGV (Ogg/Theora)
@@ -65,3 +59,9 @@ Changement de comportement: Ajout d'une zone d'information dans la barre de stat
 Changement de comportement: Ajout d'un message de confirmation pour les suppressions de slide, de bloque et de plan (désactivable dans la boite de configuration)
 Changement de comportement: Mémorise l'état des guides magnétique pour les 2 boites slide et recadrage
 Changement de comportement: Passe le réglage de rotation en valeur à virgule dans la boite de recadrage
+Changement de comportement: Ajoute un bouton cancel en cas de fermeture de la fenêtre principal quand le projet n'a pas été sauvegardé
+Changement de comportement: Remplace les N° de bitrate par leur valeur dans les fichiers XML pour la base de données des devices
+Changement de comportement: Trie les combobox de bitrate dans les boites options et render
+Changement de comportement: Ajout d'un message de confirmation si écrasement d'un fichier lors des générations de vidéo
+
+Base de device: Ajout d'équipements
