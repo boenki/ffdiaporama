@@ -297,10 +297,17 @@ void MainWindow::SetTimelineHeight() {
 
 //====================================================================================================================
 
-void MainWindow::closeEvent(QCloseEvent *) {
+void MainWindow::closeEvent(QCloseEvent *Event) {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","Close application"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
-        QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
+    if (Diaporama->IsModify) {
+        int Bt=QMessageBox::question(this,QApplication::translate("MainWindow","Close application"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
+        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes);
+        if (Bt==QMessageBox::Yes) s_action_Save();
+        if (Bt==QMessageBox::Cancel) {
+            Event->setAccepted(false);
+            return;
+        }
+    }
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ApplicationConfig->MainWinWSP->SaveWindowState(this);
     ApplicationConfig->SaveConfigurationFile();

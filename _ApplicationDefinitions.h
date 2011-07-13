@@ -71,12 +71,23 @@ public:
     int     DeviceSubtype;                                      // device Subtype
     int     Standard;                                           // standard : PAL/NTSC
     int     FileFormat;                                         // sFormatDef number
-    int     ImageSize[NBR_GEOMETRY_DEF];                        // DefImageFormat number [depending on image geometry]
+    int     ImageSize;                                          // DefImageFormat number
     int     VideoCodec;                                         // sVideoCodecDef number
-    int     VideoBitrate[NBR_GEOMETRY_DEF];                     // Bitrate number in sVideoCodecDef [depending on image geometry]
+    int     VideoBitrate;                                       // Bitrate number in sVideoCodecDef
     int     AudioCodec;                                         // sAudioCodecDef number
     int     AudioBitrate;                                       // Bitrate number in sAudioCodecDef
-    int     AudioFreq;                                          // Specific audio frequency
+
+    // Save value to be able to reset to default
+    QString BckDeviceName;                                      // long name for the device model
+    int     BckDeviceType;                                      // device type
+    int     BckDeviceSubtype;                                   // device Subtype
+    int     BckStandard;                                        // standard : PAL/NTSC
+    int     BckFileFormat;                                      // sFormatDef number
+    int     BckImageSize;                                       // DefImageFormat number
+    int     BckVideoCodec;                                      // sVideoCodecDef number
+    int     BckVideoBitrate;                                    // Bitrate number in sVideoCodecDef
+    int     BckAudioCodec;                                      // sAudioCodecDef number
+    int     BckAudioBitrate;                                    // Bitrate number in sAudioCodecDef
 
     cDeviceModelDef(bool IsGlobalConf,int IndexKey);
     ~cDeviceModelDef();

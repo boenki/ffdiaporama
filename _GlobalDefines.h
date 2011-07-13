@@ -197,7 +197,7 @@ extern "C" {
 #define STANDARD_NTSC                       1
 
 // Image size definition
-#define NBR_SIZEDEF                         8
+#define NBR_SIZEDEF                         9
 #define SIZE_QVGA                           0
 #define SIZE_HVGA                           1
 #define SIZE_VGA                            2
@@ -206,6 +206,7 @@ extern "C" {
 #define SIZE_XGA                            5
 #define SIZE_720P                           6
 #define SIZE_1080p                          7
+#define SIZE_RIM240                         8
 
 // Object type definition
 #define DIAPORAMAOBJECTTYPE_EMPTY           0
@@ -361,7 +362,8 @@ struct sIMAGEDEF {
     char    Name[100];                                          // Display name
     int     Extend;                                             // Padding for cinema mode with DVD
 };
-extern sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF];            // Real definition in capplicationconfig.cpp
+extern sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF];            // Image format definition (_applicationconfig.cpp)
+extern QString IMAGEDEFGENNAME[2][NBR_SIZEDEF];                 // Image format generic name (_applicationconfig.cpp)
 
 //============================================
 // Video codec definitions

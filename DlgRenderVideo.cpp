@@ -264,7 +264,7 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
     if (CurrentCodec>=0) {
         CurrentCodec=ui->VideoFormatCB->itemData(CurrentCodec).toInt();
 
-        QString     AllowedBitRate=FORMATDEF[ui->FileFormatCB->currentIndex()].PossibleVideoCodec;
+        QString     AllowedBitRate;
         QString     BitRate="";
         int         Index=0;
         bool        IsFindBitRate=false;
@@ -272,6 +272,7 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
         BitRate="";
         Index=0;
         IsFindBitRate=false;
+        QStringList List;
         while (AllowedBitRate.length()>0) {
             Index=AllowedBitRate.indexOf("#");
             if (Index>0) {
@@ -281,8 +282,18 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
                 BitRate=AllowedBitRate;
                 AllowedBitRate="";
             }
-            ui->VideoBitRateCB->addItem(BitRate);
-            if ((ChangeIndex==-1)&&(BitRate==QString("%1k").arg(Diaporama->VideoBitRate))) {
+            List.append(BitRate);
+        }
+        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
+            QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
+            int     NumA=NameA.toInt();
+            QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
+            int     NumB=NameB.toInt();
+            if (NumA>NumB) List.swap(j,j+1);
+        }
+        for (int i=0;i<List.count();i++) {
+            ui->VideoBitRateCB->addItem(List[i]);
+            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(Diaporama->VideoBitRate))) {
                 ui->VideoBitRateCB->setCurrentIndex(ui->VideoBitRateCB->count()-1);
                 IsFindBitRate=true;
             }
@@ -300,7 +311,7 @@ void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
     if (CurrentCodec>=0) {
         CurrentCodec=ui->AudioFormatCB->itemData(CurrentCodec).toInt();
 
-        QString     AllowedBitRate=FORMATDEF[ui->FileFormatCB->currentIndex()].PossibleVideoCodec;
+        QString     AllowedBitRate;
         QString     BitRate="";
         int         Index=0;
         bool        IsFindBitRate=false;
@@ -308,6 +319,7 @@ void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
         BitRate="";
         Index=0;
         IsFindBitRate=false;
+        QStringList List;
         while (AllowedBitRate.length()>0) {
             Index=AllowedBitRate.indexOf("#");
             if (Index>0) {
@@ -317,8 +329,18 @@ void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
                 BitRate=AllowedBitRate;
                 AllowedBitRate="";
             }
-            ui->AudioBitRateCB->addItem(BitRate);
-            if ((ChangeIndex==-1)&&(BitRate==QString("%1k").arg(Diaporama->AudioBitRate))) {
+            List.append(BitRate);
+        }
+        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
+            QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
+            int     NumA=NameA.toInt();
+            QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
+            int     NumB=NameB.toInt();
+            if (NumA>NumB) List.swap(j,j+1);
+        }
+        for (int i=0;i<List.count();i++) {
+            ui->AudioBitRateCB->addItem(List[i]);
+            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(Diaporama->AudioBitRate))) {
                 ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->count()-1);
                 IsFindBitRate=true;
             }
@@ -387,73 +409,19 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
         int Standard=Diaporama->ApplicationConfig->RenderDeviceModel[i].Standard;
         QString Text="Format=\t"+QString(FORMATDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat].LongName)+"\nVideo=\t";
         Text=Text+VIDEOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec].LongName;
-        int ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[Diaporama->ImageGeometry];
+        int ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize;
         int ExtendH   =0;
         int ExtendV   =0;
-        int W,H;
-        int VBR;
-        if (ImgSize==-1) {
-            if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0]!=-1) {
-                // Force to 4/3
-                ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0];
-                W=DefImageFormat[Standard][0][ImgSize].Width;
-                H=DefImageFormat[Standard][0][ImgSize].Height;
-                VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[0];
-                switch (Diaporama->ImageGeometry) {
-                    case GEOMETRY_4_3:  break;                                          // 4:3 to 4:3 : nothing to do
-                    case GEOMETRY_16_9: ExtendV=H-int((double(W)/16)*9);     break;      // 16:9 to 4:3 : pad top & bottom
-                    case GEOMETRY_40_17:ExtendV=H-int((double(W)/40)*17);    break;      // 40:17 to 4:3 : pad top & bottom
-                }
-            } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1]!=-1) {
-                // Force to 16/9
-                ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1];
-                W=DefImageFormat[Standard][1][ImgSize].Width;
-                H=DefImageFormat[Standard][1][ImgSize].Height;
-                VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[1];
-                switch (Diaporama->ImageGeometry) {
-                    case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 16:9 : pad left & right
-                    case GEOMETRY_16_9: break;                                          // 16:9 to 16:9 : Nothing to do
-                    case GEOMETRY_40_17:ExtendV=H-int((double(W)/40)*17);    break;      // 40:17 to 16:9 : pad top & bottom
-                }
-            } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2]!=-1) {
-                // Force to 40/17
-                ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2];
-                W=DefImageFormat[Standard][2][ImgSize].Width;
-                H=DefImageFormat[Standard][2][ImgSize].Height;
-                VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[2];
-                switch (Diaporama->ImageGeometry) {
-                    case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 40:17 : pad left & right
-                    case GEOMETRY_16_9: ExtendH=W-int((double(H)/9)*16);     break;      // 16:9 to 40:17 : pad left & right
-                    case GEOMETRY_40_17:break;                                          // 40:17 to 40:17 : Nothing to do
-                }
-
-            }
-        } else {
-            W=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Width;
-            H=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Height;
-            VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[Diaporama->ImageGeometry];
-        }
+        int W=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Width;
+        int H=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Height;
         Text=Text+QString("-%1").arg(W)+"x"+QString("%1").arg(H);
         if (ExtendH>0) Text=Text+"+PADLEFT:"+QString("%1").arg(ExtendH/2)+"+PADRIGHT:"+QString("%1").arg(ExtendH-ExtendH/2);
         if (ExtendV>0) Text=Text+"+PADTOP:"+QString("%1").arg(ExtendV/2)+"+PADBOTTOM:"+QString("%1").arg(ExtendV-ExtendV/2);
 
-        QString VBRText=VIDEOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec].PossibleBitrate;
-        while (VBR>0) {
-            VBRText=VBRText.mid(VBRText.indexOf("#")+1);
-            VBR--;
-        }
-        if (VBRText.indexOf("#")>0) VBRText=VBRText.left(VBRText.indexOf("#"));
-        Text=Text+"-"+VBRText+"bps";
+        QString VideoBitRateStr=QString("%1").arg(Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate); if (VideoBitRateStr.endsWith("000")) VideoBitRateStr=VideoBitRateStr.left(VideoBitRateStr.length()-3)+"k";
+        QString AudioBitRateStr=QString("%1").arg(Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioBitrate); if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
 
-        Text=Text+"\nAudio=\t"+AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].LongName;
-        VBRText=AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].PossibleBitrate2CH;
-        VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioBitrate;
-        while (VBR>0) {
-            VBRText=VBRText.mid(VBRText.indexOf("#")+1);
-            VBR--;
-        }
-        if (VBRText.indexOf("#")>0) VBRText=VBRText.left(VBRText.indexOf("#"));
-        Text=Text+"-"+VBRText+"bps"+QString("-%1").arg(Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioFreq)+"Hz";
+        Text=Text+"-"+VideoBitRateStr+"b/s\nAudio=\t"+AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].LongName+"-"+AudioBitRateStr+"b/s";
         ui->RenderFormatText->setText(Text);
 
     } else ui->RenderFormatText->setText("");
@@ -544,77 +512,15 @@ void DlgRenderVideo::accept() {
                 OutputFileFormat=Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat;
 
                 VideoCodecIndex =Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec;
-
-                int ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[Diaporama->ImageGeometry];
-                int W,H;
-                int VBR;
-                if (ImgSize==-1) {
-                    if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0]!=-1) {
-                        // Force to 4/3
-                        ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[0];
-                        W=DefImageFormat[Diaporama->LastStandard][0][ImgSize].Width;
-                        H=DefImageFormat[Diaporama->LastStandard][0][ImgSize].Height;
-                        VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[0];
-                        VideoFrameRate=DefImageFormat[Diaporama->LastStandard][0][ImgSize].dFPS;
-                        switch (Diaporama->ImageGeometry) {
-                            case GEOMETRY_4_3:  break;                                          // 4:3 to 4:3 : nothing to do
-                            case GEOMETRY_16_9: ExtendV=H-int((double(W)/16)*9);     break;      // 16:9 to 4:3 : pad top & bottom
-                            case GEOMETRY_40_17:ExtendV=H-int((double(W)/40)*17);    break;      // 40:17 to 4:3 : pad top & bottom
-                        }
-                    } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1]!=-1) {
-                        // Force to 16/9
-                        ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[1];
-                        W=DefImageFormat[Diaporama->LastStandard][1][ImgSize].Width;
-                        H=DefImageFormat[Diaporama->LastStandard][1][ImgSize].Height;
-                        VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[1];
-                        VideoFrameRate=DefImageFormat[Diaporama->LastStandard][1][ImgSize].dFPS;
-                        switch (Diaporama->ImageGeometry) {
-                            case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 16:9 : pad left & right
-                            case GEOMETRY_16_9: break;                                          // 16:9 to 16:9 : Nothing to do
-                            case GEOMETRY_40_17:ExtendV=H-int((double(W)/40)*17);    break;      // 40:17 to 16:9 : pad top & bottom
-                        }
-                    } else if (Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2]!=-1) {
-                        // Force to 40/17
-                        ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize[2];
-                        W=DefImageFormat[Diaporama->LastStandard][2][ImgSize].Width;
-                        H=DefImageFormat[Diaporama->LastStandard][2][ImgSize].Height;
-                        VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[2];
-                        VideoFrameRate=DefImageFormat[Diaporama->LastStandard][2][ImgSize].dFPS;
-                        switch (Diaporama->ImageGeometry) {
-                            case GEOMETRY_4_3:  ExtendH=W-int((double(H)/3)*4);      break;      // 4:3 to 40:17 : pad left & right
-                            case GEOMETRY_16_9: ExtendH=W-int((double(H)/9)*16);     break;      // 16:9 to 40:17 : pad left & right
-                            case GEOMETRY_40_17:break;                                          // 40:17 to 40:17 : Nothing to do
-                        }
-                    }
-                    Diaporama->LastImageSize=ImgSize;
-                } else {
-                    W=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].Width;
-                    H=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].Height;
-                    VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate[Diaporama->ImageGeometry];
-                    VideoFrameRate=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].dFPS;
-                    Diaporama->LastImageSize=ImgSize;
-                }
-                QString VBRText=VIDEOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec].PossibleBitrate;
-                while (VBR>0) {
-                    VBRText=VBRText.mid(VBRText.indexOf("#")+1);
-                    VBR--;
-                }
-                if (VBRText.indexOf("#")>0) VBRText=VBRText.left(VBRText.indexOf("#"));
-                if (VBRText.indexOf("k")>0) VBRText=VBRText.left(VBRText.indexOf("k"))+"000";
-                VideoBitRate=VBRText.toInt();
-
                 AudioCodecIndex =Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec;
-                VBRText=AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].PossibleBitrate2CH;
-                VBR=Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioBitrate;
-                while (VBR>0) {
-                    VBRText=VBRText.mid(VBRText.indexOf("#")+1);
-                    VBR--;
-                }
-                if (VBRText.indexOf("#")>0) VBRText=VBRText.left(VBRText.indexOf("#"));
-                if (VBRText.indexOf("k")>0) VBRText=VBRText.left(VBRText.indexOf("k"))+"000";
 
-                AudioBitRate  =VBRText.toInt();
-                AudioFrequency=Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioFreq;
+                int ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize;
+                //int W=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].Width;
+                //int H=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].Height;
+                VideoFrameRate=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].dFPS;
+                Diaporama->LastImageSize=ImgSize;
+                VideoBitRate=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate;
+                AudioBitRate=Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioBitrate;
             }
         }
 
@@ -645,11 +551,13 @@ void DlgRenderVideo::accept() {
         if (IsModify) GlobalMainWindow->SetModifyFlag(true);
 
         //*****************
+        QString VideoBitRateStr=QString("%1").arg(VideoBitRate); if (VideoBitRateStr.endsWith("000")) VideoBitRateStr=VideoBitRateStr.left(VideoBitRateStr.length()-3)+"k";
+        QString AudioBitRateStr=QString("%1").arg(AudioBitRate); if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
 
         ui->InformationLabel1->setText(Diaporama->OutputFileName);
         ui->InformationLabel2->setText(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Name);
-        ui->InformationLabel3->setText(QString(VIDEOCODECDEF[VideoCodecIndex].LongName)+" - "+QString("%1").arg(Diaporama->VideoBitRate)+" b/s");
-        ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+QString(" - %1 Hz - ").arg(Diaporama->AudioFrequency)+QString("%1").arg(Diaporama->AudioBitRate)+" b/s");
+        ui->InformationLabel3->setText(QString(VIDEOCODECDEF[VideoCodecIndex].LongName)+" - "+VideoBitRateStr+"b/s");
+        ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+QString(" - %1 Hz - ").arg(Diaporama->AudioFrequency)+AudioBitRateStr+"b/s");
 
         //**********************************************************************************************************************************
 
