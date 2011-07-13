@@ -35,6 +35,9 @@ class DlgApplicationSettings : public QDialog {
 Q_OBJECT
 public:
     cApplicationConfig *ApplicationConfig;
+    bool                IsDeviceChanged;
+    int                 CurrentDevice;
+    int                 CurrentDeviceIndex;
 
     explicit DlgApplicationSettings(cApplicationConfig &ApplicationConfig,QWidget *parent = 0);
     ~DlgApplicationSettings();
@@ -45,18 +48,38 @@ protected:
     virtual void reject();
     virtual void accept();
 
+    void        AskApplyDBChange();
+
 private slots:
     void        Help();
+    void        TabChanged(int);
+
     void        SetSavedWindowGeometry();
     void        FileFormatCombo(int);
     void        InitVideoBitRateCB(int);
     void        InitAudioBitRateCB(int);
     void        InitImageSizeCombo(int);
 
+    void        ChangeSmartphoneTypeCB(int);
+    void        ChangeMMSystemTypeCB(int);
+    void        ChangeForTheWTypeCB(int);
+
     // Device database tab
-    void        FillTableDevice(int ChangeIndex);
-    void        InitDBImageSizeCombo(int);
+    void        DBApplyChange();
+    void        DBAddDevice();
+    void        DBRemoveBT();
+    void        DBResetToDefaultBT();
+    void        DBFillTableDevice(int);
+    void        DBImageSizeCombo(int);
     void        DBFileFormatCombo(int);
+    void        DBSelectionChanged();
+    void        DBChImageSizeCB(int);
+    void        DBVideoBitRateCB(int);
+    void        DBAudioBitRateCB(int);
+    void        DBChModel(QString);
+    void        DBDeviceSubtypeCB(int);
+    void        DBChVideoBitRateCB(int);
+    void        DBChAudioBitRateCB(int);
 
 private:
     Ui::DlgApplicationSettings *ui;

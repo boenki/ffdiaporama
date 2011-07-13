@@ -50,7 +50,8 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {640,480,4,3,25,"25","WVGA - 640x480 - 25 FPS",0},                                                  // SIZE_WVGA
             {1024,768,4,3,25,"25","XGA - 1024x768 - 25 FPS",0},                                                 // SIZE_XGA
             {960,720,4,3,25,"25","720p - 960x720 - 25 FPS",0},                                                  // SIZE_720P
-            {1440,1080,4,3,25,"25","1080p - 1440x1080 - 25 FPS",0}                                              // SIZE_1080p
+            {1440,1080,4,3,25,"25","1080p - 1440x1080 - 25 FPS",0},                                             // SIZE_1080p
+            {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0}                                                // SIZE_RIM240
         },{ // GEOMETRY_16_9
             {320,180,16,9,25,"25","QVGA - 320x180 - 25 FPS",0},                                                 // SIZE_QVGA
             {480,270,16,9,25,"25","HVGA - 480x270 - 25 FPS",0},                                                 // SIZE_HVGA
@@ -59,7 +60,8 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {800,450,16,9,25,"25","WVGA - 800x450 - 25 FPS",0},                                                 // SIZE_WVGA
             {1024,576,16,9,25,"25","XGA - 1024x576 - 25 FPS",0},                                                // SIZE_XGA
             {1280,720,16,9,25,"25","720p - 1280x720 - 25 FPS",0},                                               // SIZE_720P
-            {1920,1080,16,9,25,"25","1080p - 1920x1080 - 25 FPS",0}                                             // SIZE_1080p
+            {1920,1080,16,9,25,"25","1080p - 1920x1080 - 25 FPS",0},                                            // SIZE_1080p
+            {240,135,16,9,24,"24","RIM 240 - 240x135 - 24 FPS",0}                                               // SIZE_RIM240
         },{ // GEOMETRY_40_17
             {320,136,16,9,25,"25","QVGA - 320x136 - 25 FPS",0},                                                 // SIZE_QVGA
             {480,204,40,17,25,"25","HVGA - 480x204 - 25 FPS",0},                                                // SIZE_HVGA
@@ -68,7 +70,8 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {800,340,40,17,25,"25","WVGA - 800x340 - 25 FPS",0},                                                // SIZE_WVGA
             {1024,436,40,17,25,"25","XGA - 1024x436 - 25 FPS",0},                                               // SIZE_XGA
             {1280,544,40,17,25,"25","720p - 1280x544 - 25 FPS",0},                                              // SIZE_720P
-            {1920,816,40,17,25,"25","1080p - 1920x816 - 25 FPS",0}                                              // SIZE_1080p
+            {1920,816,40,17,25,"25","1080p - 1920x816 - 25 FPS",0},                                             // SIZE_1080p
+            {240,135,16,9,24,"24","RIM 240 - 240x135+PAD - 24 FPS",16}                                          // SIZE_RIM240
     }},{// STANDARD_NTSC
         {   // GEOMETRY_4_3
             {320,240,1,1,double(30000)/double(1001),"30000/1001",   "SMALL - 320x240 - 29.97 FPS",0},           // SIZE_QVGA
@@ -78,7 +81,8 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {640,480,1,1,double(30000)/double(1001),"30000/1001",   "WVGA - 640x480 - 29.97 FPS",0},            // SIZE_WVGA
             {1024,768,1,1,double(30000)/double(1001),"30000/1001",  "XGA - 1024x768 - 29.97 FPS",0},            // SIZE_XGA
             {960,720,1,1,double(24000)/double(1001),"24000/1001",   "720p - 960x720 - 23.976 FPS",0},           // SIZE_720P
-            {1440,1080,1,1,double(24000)/double(1001),"24000/1001", "1080p - 1440x1080 - 23.976 FPS",0}         // SIZE_1080p
+            {1440,1080,1,1,double(24000)/double(1001),"24000/1001", "1080p - 1440x1080 - 23.976 FPS",0},        // SIZE_1080p
+            {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0}                                                // SIZE_RIM240
         },{ // GEOMETRY_16_9
             {320,180,1,1,double(30000)/double(1001),"30000/1001",   "SMALL - 320x180 - 29.97 FPS",0},           // SIZE_QVGA
             {480,270,1,1,double(30000)/double(1001),"30000/1001",   "HVGA - 480x270 - 29.97 FPS",0},            // SIZE_HVGA
@@ -87,7 +91,8 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {800,450,1,1,double(30000)/double(1001),"30000/1001",   "WVGA - 800x450 - 29.97 FPS",0},            // SIZE_WVGA
             {1024,576,1,1,double(30000)/double(1001),"30000/1001",  "XGA - 1024x576 - 29.97 FPS",0},            // SIZE_XGA
             {1280,720,1,1,double(24000)/double(1001),"24000/1001",  "720p - 1280x720 - 23.976 FPS",0},          // SIZE_720P
-            {1920,1080,1,1,double(24000)/double(1001),"24000/1001", "1080p - 1920x1080 - 23.976 FPS",0}         // SIZE_1080p
+            {1920,1080,1,1,double(24000)/double(1001),"24000/1001", "1080p - 1920x1080 - 23.976 FPS",0},        // SIZE_1080p
+            {240,135,16,9,24,"24","RIM 240 - 240x135 - 24 FPS",0}                                               // SIZE_RIM240
         },{ // GEOMETRY_40_17
             {320,136,1,1,double(30000)/double(1001),"30000/1001",   "SMALL - 320x136 - 29.97 FPS",0},           // SIZE_QVGA
             {480,204,1,1,double(30000)/double(1001),"30000/1001",   "HVGA - 480x204 - 29.97 FPS",0},            // SIZE_HVGA
@@ -96,8 +101,33 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {800,340,1,1,double(30000)/double(1001),"30000/1001",   "WVGA - 800x340 - 29.97 FPS",0},            // SIZE_WVGA
             {1024,436,1,1,double(30000)/double(1001),"30000/1001",  "XGA - 1024x436 - 29.97 FPS",0},            // SIZE_XGA
             {1280,544,1,1,double(24000)/double(1001),"24000/1001",  "720p - 1280x544 - 23.976 FPS",0},          // SIZE_720P
-            {1920,816,1,1,double(24000)/double(1001),"24000/1001",  "1080p - 1920x816 - 23.976 FPS",0}          // SIZE_1080p
+            {1920,816,1,1,double(24000)/double(1001),"24000/1001",  "1080p - 1920x816 - 23.976 FPS",0},         // SIZE_1080p
+            {240,135,16,9,24,"24","RIM 240 - 240x135+PAD - 24 FPS",16}                                          // SIZE_RIM240
     }}
+};
+
+QString IMAGEDEFGENNAME[2][NBR_SIZEDEF]={
+    { // PAL
+        "QVGA (25 FPS-4:3=320x240-16:9=320x180-40:17=320x136)",                                                 // SIZE_QVGA
+        "HVGA (25 FPS-4:3=426x320-16:9=480x270-40:17=480x204)",                                                 // SIZE_HVGA
+        "VGA (25 FPS-4:3=640x480-16:9=460x360-40:17=640x272)",                                                  // SIZE_VGA
+        "SD/DVD (25 FPS-4:3=720x576-16:9=720x576W-40:17=720x576WP)",                                            // SIZE_DVD
+        "WVGA (25 FPS-4:3=640x480-16:9=800x450-40:17=800x340)",                                                 // SIZE_WVGA
+        "XGA (25 FPS-4:3=1024x768-16:9=1024x576-40:17=1024x436)",                                               // SIZE_XGA
+        "720p (25 FPS-4:3=960x720-16:9=1280x720-40:17=1280x544)",                                               // SIZE_720P
+        "1080p (25 FPS-4:3=1440x1080-16:9=1920x1080-40:17=1920x816)",                                           // SIZE_1080p
+        "RIM 240 (24 FPS-4:3=240x180-16:9=240x135-40:17=240x135P)"                                              // SIZE_RIM240
+    },{ // NTSC
+        "QVGA (29.97 FPS-4:3=320x240-16:9=320x180-40:17=320x136)",                                              // SIZE_QVGA
+        "HVGA (29.97 FPS-4:3=426x320-16:9=480x270-40:17=480x204)",                                              // SIZE_HVGA
+        "VGA (29.97 FPS-4:3=640x480-16:9=460x360-40:17=640x272)",                                               // SIZE_VGA
+        "SD/DVD (29.97 FPS-4:3=720x480-16:9=720x480W-40:17=720x480WP)",                                         // SIZE_DVD
+        "WVGA (29.97 FPS-4:3=640x480-16:9=800x450-40:17=800x340)",                                              // SIZE_WVGA
+        "XGA (29.97 FPS-4:3=1024x768-16:9=1024x576-40:17=1024x436)",                                            // SIZE_XGA
+        "720p (23.976 FPS-4:3=960x720-16:9=1280x720-40:17=1280x544)",                                           // SIZE_720P
+        "1080p (23.976 FPS-4:3=1440x1080-16:9=1920x1080-40:17=1920x816)",                                       // SIZE_1080p
+        "RIM 240 (24 FPS-4:3=240x180-16:9=240x135-40:17=240x135P)"                                              // SIZE_RIM240
+    }
 };
 
 /****************************************************************************
@@ -113,7 +143,7 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
     },{
         false,CODEC_ID_MPEG2VIDEO,VCODEC_MPEG,VCODECST_MPEG,                                // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "mpeg2video","MPEG-2 video",                                                        // ShortName[50], LongName[200]
-        "2000k#3000k#4000k#6000k#8000k#10000k#12000k#15000k#20000k",                        // PossibleBitrate
+        "2000k#3000k#4000k#6000k#8000k#10000k#12000k#15000k#20000k#400k",                   // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "1000k",    // QVGA-320x240
         "2000k",    // HVGA-480x320
@@ -122,12 +152,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "6000k",    // WVGA-800x480
         "10000k",   // XGA-1024x768
         "12000k",   // 720p
-        "20000k"    // 1080p
+        "20000k",   // 1080p
+        "400k"      // RIM 240
         }
     },{
         false,CODEC_ID_MPEG4,VCODEC_MPEG4,VCODECST_MPEG4,                                   // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libxvid","DivX/XVid/MPEG-4",                                                       // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k",                 // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k",            // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
@@ -136,12 +167,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "4000k",    // WVGA-800x480
         "5000k",    // XGA-1024x768
         "6000k",    // 720p
-        "8000k"     // 1080p
+        "8000k",    // 1080p
+        "400k"      // RIM 240
         }
     },{
         false,CODEC_ID_H264,VCODEC_H264HQ,VCODECST_H264HQ,                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libx264","High Quality H.264 AVC/MPEG-4 AVC",                                      // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#12000k",   // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#12000k#400k",   // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
@@ -150,12 +182,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "3000k",    // WVGA-800x480
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
-        "8000k"     // 1080p
+        "8000k",    // 1080p
+        "400k"      // RIM 240
         }
     },{
         false,CODEC_ID_H264,VCODEC_H264PQ,VCODECST_H264PQ,                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libx264","Phone Quality H.264 AVC/MPEG-4 AVC",                                     // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k",          // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#400k",          // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
         "1200k",    // HVGA-480x320
@@ -164,12 +197,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "3000k",    // WVGA-800x480
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
-        "8000k"     // 1080p
+        "8000k",    // 1080p
+        "400k"      // RIM 240
         }
     },{
         false,CODEC_ID_VP8,VCODEC_VP8,VCODECST_VP8,                                         // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libvpx","WebM-VP8",                                                                // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k",                 // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k",                 // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
@@ -178,12 +212,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "3000k",    // WVGA-800x480
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
-        "8000k"     // 1080p
+        "8000k",    // 1080p
+        "400k"      // RIM 240
         }
     },{
         false, 22,VCODEC_H263,VCODECST_H263,                                                // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "flv","Flash Video / Sorenson H.263",                                               // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k",                 // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k",                 // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
@@ -192,12 +227,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "3000k",    // WVGA-800x480
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
-        "8000k"     // 1080p
+        "8000k",    // 1080p
+        "400k"      // RIM 240
         }
     },{
         false, CODEC_ID_THEORA,VCODEC_THEORA,VCODECST_THEORA,                               // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libtheora","Theora VP3",                                                           // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k",                 // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k",                 // PossibleBitrate
         // QVGA-320x240/HVGA-480x320/VGA-640x480/DVD-720x576/WVGA-800x480/XGA-1024x768/720p/1080p
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
@@ -207,23 +243,24 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "3000k",    // WVGA-800x480
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
-        "8000k"     // 1080p
+        "8000k",    // 1080p
+        "400k"      // RIM 240
         }
     }
 };
 
 struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
     {false, CODEC_ID_PCM_S16LE,"pcm_s16le",         "WAV (PCM signed 16-bit little-endian)","",     false,"",""},
-    {false, CODEC_ID_MP3,      "libmp3lame",        "MP3 (MPEG audio layer 3)",             "8k#16k#24k#32k#40k#48k#56k#64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k",     false,"","160k"},
-    {false, CODEC_ID_AAC,      "libfaac",           "AAC (Advanced Audio Codec)",           "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
-    {false, CODEC_ID_AC3,      "ac3",               "AC3 (ATSC A/52A)",                     "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
+    {false, CODEC_ID_MP3,      "libmp3lame",        "MP3 (MPEG-1/2 Audio Layer III)",       "8k#16k#24k#32k#40k#48k#56k#64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k",     false,"","160k"},
+    {false, CODEC_ID_AAC,      "libfaac",           "AAC-LC (Advanced Audio Codec)",        "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
+    {false, CODEC_ID_AC3,      "ac3",               "AC3 (Doly Digital)",                   "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
     {false, CODEC_ID_VORBIS,   "libvorbis",         "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",     false,"","128k"},
-    {false, CODEC_ID_MP2,      "mp2",               "MP2 (MPEG audio layer 2)",             "64k#96k#128k#192k#256k#500k",     false,"","128k"},
+    {false, CODEC_ID_MP2,      "mp2",               "MP2 (MPEG-1 Audio Layer II)",          "64k#96k#128k#192k#256k#500k",     false,"","128k"},
     {false, CODEC_ID_AMR_NB,   "libopencore_amrnb", "AMR (Adaptive Multi-Rate)",            "4750#5150#5900#6700#7400#7950#10200#12200",     false,"","6700"}
 };
 
 struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
-    {false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libfaac#aac#libopencore_amrnb"},
+    {false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libopencore_amrnb"},
     {false, "avi",      "avi",  "AVI file format",              "MJPEG#MPEG#MPEG4#H264HQ#H264PQ",   "pcm_s16le#mp2#libmp3lame#mp3#libfaac#aac#ac3"},
     {false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA",       "pcm_s16le#libmp3lame#mp3#libfaac#aac#ac3#libvorbis#vorbis"},
     {false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                            "pcm_s16le"},
@@ -371,13 +408,8 @@ cDeviceModelDef::cDeviceModelDef(bool IsGlobalConf,int IndexKey) {
     VideoCodec      =0;                                     // sVideoCodecDef number
     AudioCodec      =0;                                     // sAudioCodecDef number
     AudioBitrate    =0;                                     // Bitrate number in sAudioCodecDef
-    AudioFreq       =0;                                     // Specific audio frequency
-    ImageSize[GEOMETRY_4_3]     =0;                         // DefImageFormat number [depending on image geometry]
-    ImageSize[GEOMETRY_16_9]    =0;                         // DefImageFormat number [depending on image geometry]
-    ImageSize[GEOMETRY_40_17]   =0;                         // DefImageFormat number [depending on image geometry]
-    VideoBitrate[GEOMETRY_4_3]  =0;                         // Bitrate number in sVideoCodecDef [depending on image geometry]
-    VideoBitrate[GEOMETRY_16_9] =0;                         // Bitrate number in sVideoCodecDef [depending on image geometry]
-    VideoBitrate[GEOMETRY_40_17]=0;                         // Bitrate number in sVideoCodecDef [depending on image geometry]
+    ImageSize       =0;                                     // DefImageFormat number
+    VideoBitrate    =0;                                     // Bitrate number in sVideoCodecDef
 }
 
 cDeviceModelDef::~cDeviceModelDef() {
@@ -395,14 +427,9 @@ void cDeviceModelDef::SaveToXML(QDomElement &domDocument,QString ElementName) {
     Element.setAttribute("VideoCodec",VideoCodec);
     Element.setAttribute("AudioCodec",AudioCodec);
     Element.setAttribute("AudioBitrate",AudioBitrate);
-    Element.setAttribute("AudioFreq",AudioFreq);
     Element.setAttribute("Standard",Standard);
-    Element.setAttribute("ImageSize_4_3",ImageSize[GEOMETRY_4_3]);
-    Element.setAttribute("ImageSize_16_9",ImageSize[GEOMETRY_16_9]);
-    Element.setAttribute("ImageSize_40_17",ImageSize[GEOMETRY_40_17]);
-    Element.setAttribute("VideoBitrate_4_3",VideoBitrate[GEOMETRY_4_3]);
-    Element.setAttribute("VideoBitrate_16_9",VideoBitrate[GEOMETRY_16_9]);
-    Element.setAttribute("VideoBitrate_40_17",VideoBitrate[GEOMETRY_40_17]);
+    Element.setAttribute("ImageSize",ImageSize);
+    Element.setAttribute("VideoBitrate",VideoBitrate);
     domDocument.appendChild(Element);
 }
 
@@ -417,17 +444,22 @@ bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName,bo
         VideoCodec      =Element.attribute("VideoCodec").toInt();
         AudioCodec      =Element.attribute("AudioCodec").toInt();
         AudioBitrate    =Element.attribute("AudioBitrate").toInt();
-        AudioFreq       =Element.attribute("AudioFreq").toInt();
         Standard        =Element.attribute("Standard").toInt();
-        ImageSize[GEOMETRY_4_3]     =Element.attribute("ImageSize_4_3").toInt();
-        ImageSize[GEOMETRY_16_9]    =Element.attribute("ImageSize_16_9").toInt();
-        ImageSize[GEOMETRY_40_17]   =Element.attribute("ImageSize_40_17").toInt();
-        VideoBitrate[GEOMETRY_4_3]  =Element.attribute("VideoBitrate_4_3").toInt();
-        VideoBitrate[GEOMETRY_16_9] =Element.attribute("VideoBitrate_16_9").toInt();
-        VideoBitrate[GEOMETRY_40_17]=Element.attribute("VideoBitrate_40_17").toInt();
+        ImageSize       =Element.attribute("ImageSize").toInt();
+        VideoBitrate    =Element.attribute("VideoBitrate").toInt();
 
-        //FromUserConf=true;
-
+        if (FromUserConf==false) {
+            BckDeviceName   =DeviceName;                                      // long name for the device model
+            BckDeviceType   =DeviceType;                                      // device type
+            BckDeviceSubtype=DeviceSubtype;                                   // device Subtype
+            BckStandard     =Standard;                                        // standard : PAL/NTSC
+            BckFileFormat   =FileFormat;                                      // sFormatDef number
+            BckImageSize    =ImageSize;                                       // DefImageFormat number
+            BckVideoCodec   =VideoCodec;                                      // sVideoCodecDef number
+            BckVideoBitrate =VideoBitrate;                                    // Bitrate number in sVideoCodecDef
+            BckAudioCodec   =AudioCodec;                                      // sAudioCodecDef number
+            BckAudioBitrate =AudioBitrate;                                    // Bitrate number in sAudioCodecDef
+        }
         return true;
     } else return false;
 }
@@ -782,9 +814,12 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
                 if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
                     QDomElement TheElement=domDocument.elementsByTagName(ElementName).item(0).toElement();
                     int IndexKey=TheElement.attribute("DeviceIndex").toInt();
-                    if (IndexKey<RenderDeviceModel.count()) RenderDeviceModel[IndexKey].LoadFromXML(Element,QString("Device_"+QString("%1").arg(i)),true); else {
-                        RenderDeviceModel.append(cDeviceModelDef(false,RenderDeviceModel.count()));
-                        RenderDeviceModel[IndexKey].LoadFromXML(Element,QString("Device_"+QString("%1").arg(i)),true);
+                    int j=0;
+                    while ((j<RenderDeviceModel.count())&&(RenderDeviceModel[j].DeviceIndex!=IndexKey)) j++;
+                    if (j<RenderDeviceModel.count()) RenderDeviceModel[IndexKey].LoadFromXML(Element,QString("Device_"+QString("%1").arg(i)),true); else {
+                        j=RenderDeviceModel.count();
+                        RenderDeviceModel.append(cDeviceModelDef(false,IndexKey));
+                        RenderDeviceModel[j].LoadFromXML(Element,QString("Device_"+QString("%1").arg(i)),true);
                     }
                 }
             }

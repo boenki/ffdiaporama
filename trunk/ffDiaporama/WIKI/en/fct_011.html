@@ -1,37 +1,410 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="en">
   <head>
-    <title>Movies containers and codecs</title>
+    <title>Container and codec</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
-        src="../../WIKI_img/Wiki.png" align="MIDDLE"> Movies containers
-      and codecs<br>
-    </div>
+        src="../../WIKI_img/Wiki.png" align="MIDDLE"> Container and
+      codec</div>
     <div style="text-align: left;" id="content_wikimode">
-      <div style="text-align: center;"> <img checked="true" style="width: 32px; height: 32px;"
-          alt="" src="../../WIKI_img/Attention.png" align="top"><big><big><big><big>
-              </big></big></big></big><big><big><big><big>Work in
-                progress</big></big></big></big> (<a checked="true" href="http://ffdiaporama.tuxfamily.org/en/Contribute.php">Do
-
-
-
-          you want to help us</a> ?)<br>
-      </div>
       <h2> Introduction</h2>
-      <div style="margin-left: 40px;"><br>
+      <div style="margin-left: 40px;">A digital video is a computer file
+        called container.<br>
+        In this file we find:<br>
+        <ul>
+          <li>One or several video tracks. Every track is built using a
+            Video Codec.</li>
+          <li>One or several audio tracks. Every track is built using an
+            Audio Codec.</li>
+          <li>Possibly, one or several subtitles. Every subtitles is
+            built in a subtitle format.</li>
+          <li>Possibly, a definition of chapters.</li>
+        </ul>
+        <span style="text-decoration: underline;">Limitations :</span><br>
+        <ul>
+          <li>ffDiaporama does not manage either subtitles or
+            definitions of chapters.</li>
+          <li>ffDiaporama generates files including a single video track
+            and a single audio track.</li>
+        </ul>
+      </div>
+      <h2>Video codec </h2>
+      <div style="margin-left: 40px;">The following table lists the
+        video codecs which ffDiaporama can use to generate videos:<br>
+        <br>
+        <table border="1" cellpadding="2" cellspacing="0">
+          <tbody>
+            <tr>
+              <td colspan="1" rowspan="1" style="text-align: left; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Codec<br>
+              </td>
+              <td colspan="1" rowspan="1" style="text-align: left; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Name<br>
+              </td>
+              <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">WIKIPEDIA/Remark<br>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="1" style="vertical-align: middle;">MPJEP<br>
+              </td>
+              <td style="vertical-align: top;">Motion JPEG<br>
+              </td>
+              <td colspan="1" rowspan="1" style="vertical-align: top;"><a
+                  href="http://en.wikipedia.org/wiki/Motion_JPEG">http://en.wikipedia.org/wiki/Motion_JPEG</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">MPEG2<br>
+              </td>
+              <td style="vertical-align: top;">MPEG-2 video<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/MPEG-2">http://en.wikipedia.org/wiki/MPEG-2</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">MPEG4<br>
+              </td>
+              <td style="vertical-align: top;">DivX/XVid/MPEG-4<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Xvid">http://en.wikipedia.org/wiki/Xvid</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">H264HQ<br>
+              </td>
+              <td style="vertical-align: top;">High Quality H.264
+                AVC/MPEG-4 AVC<br>
+              </td>
+              <td colspan="1" rowspan="2" style="vertical-align: top;"><a
+                  href="http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC">http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC</a><br>
+                Remark : FfDiaporama uses two h264 preset specifically
+                designed for ffDiaporama. They contain different
+                combinations of h264 parameters: High Quality for "Home
+                Cinema" devices and "Phone Quality" for mobile devices.
+                (Both preset files are placed in the directory of the
+                binary of ffDiaporama.)<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">H264PQ</td>
+              <td style="vertical-align: top;">Phone Quality H.264
+                AVC/MPEG-4 AVC<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">VP8<br>
+              </td>
+              <td style="vertical-align: top;">WebP (WebM-VP8)<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/WebP">http://en.wikipedia.org/wiki/WebP</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">H263<br>
+              </td>
+              <td style="vertical-align: top;">Sorenson H.263<br>
+              </td>
+              <td style="vertical-align: top;"><a checked="true" href="http://en.wikipedia.org/wiki/H.263">http://en.wikipedia.org/wiki/H.263</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">THEORA<br>
+              </td>
+              <td style="vertical-align: top;">Theora VP3<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Theora">http://en.wikipedia.org/wiki/Theora</a><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h2>Audio codec </h2>
+      <div style="margin-left: 40px;"> The following table lists the
+        audio codecs which ffDiaporama can use to generate videos:<br>
+        <br>
+        <table border="1" cellpadding="2" cellspacing="0">
+          <tbody>
+            <tr>
+              <td colspan="1" rowspan="1" style="text-align: left; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Codec<br>
+              </td>
+              <td colspan="1" rowspan="1" style="text-align: left; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Name<br>
+              </td>
+              <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">WIKIPEDIA<br>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="1" style="vertical-align: middle;">PCM<br>
+              </td>
+              <td style="vertical-align: top;">WAV / PCM signed 16-bit
+                little-endian<br>
+              </td>
+              <td colspan="1" rowspan="1" style="vertical-align: top;"><a
+                  href="http://en.wikipedia.org/wiki/Pulse-code_modulation">http://en.wikipedia.org/wiki/Pulse-code_modulation</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">MP3<br>
+              </td>
+              <td style="vertical-align: top;">MPEG-1/2 Audio Layer III<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/MP3">http://en.wikipedia.org/wiki/MP3</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">AAC-LC<br>
+              </td>
+              <td style="vertical-align: top;">Advanced Audio Codec<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Advanced_Audio_Coding">http://en.wikipedia.org/wiki/Advanced_Audio_Coding</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">AC3<br>
+              </td>
+              <td style="vertical-align: top;">Dolby Digital<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Dolby_Digital">http://en.wikipedia.org/wiki/Dolby_Digital</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">VORBIS<br>
+              </td>
+              <td style="vertical-align: top;">Vorbis<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Vorbis">http://en.wikipedia.org/wiki/Vorbis</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">MP2<br>
+              </td>
+              <td style="vertical-align: top;">MPEG-1 Layer II<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/MPEG-2">http://en.wikipedia.org/wiki/MPEG-2</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">AMR<br>
+              </td>
+              <td style="vertical-align: top;">Adaptive Multi-Rate<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Adaptive_Multi-Rate_audio_codec">http://en.wikipedia.org/wiki/Adaptive_Multi-Rate_audio_codec</a><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h2> Container</h2>
+      <div style="margin-left: 40px;">The following table lists the
+        containers which ffDiaporama can use to generate videos, as well
+        as the available audio and video codecs for every container:<br>
+        <br>
+        <table border="1" cellpadding="2" cellspacing="0">
+          <tbody>
+            <tr>
+              <td colspan="1" rowspan="1" style="text-align: left; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Extension<br>
+              </td>
+              <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Nom<br>
+              </td>
+              <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Codecs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                vid&#233;o<br>
+              </td>
+              <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Codecs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                Audio<br>
+              </td>
+              <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">WIKIPEDIA<br>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="1" style="vertical-align: middle;">3GP<br>
+              </td>
+              <td colspan="1" rowspan="1" style="vertical-align: top;">3GP<br>
+              </td>
+              <td style="vertical-align: top;">MPEG4, H264HQ/H264PQ<br>
+              </td>
+              <td style="vertical-align: top;">AMR<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/3GP_and_3G2">http://en.wikipedia.org/wiki/3GP_and_3G2</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">AVI<br>
+              </td>
+              <td style="vertical-align: top;">Audio Video Interleave<br>
+              </td>
+              <td style="vertical-align: top;">MJPEG, MPEG2, MPEG4,
+                H264HQ/H264PQ<br>
+              </td>
+              <td style="vertical-align: top;">PCM, MP2, MP3, AAC, AC3<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Audio_Video_Interleave">http://en.wikipedia.org/wiki/Audio_Video_Interleave</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">MKV<br>
+              </td>
+              <td style="vertical-align: top;">Matroska file format<br>
+              </td>
+              <td style="vertical-align: top;">MPEG4, H264HQ/H264PQ,
+                THEORA<br>
+              </td>
+              <td style="vertical-align: top;">PCM, MP3, AAC, AC3,
+                VORBIS<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Matroska">http://en.wikipedia.org/wiki/Matroska</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">MJPEG<br>
+              </td>
+              <td style="vertical-align: top;">Motion JPEG<br>
+              </td>
+              <td style="vertical-align: top;">MJPEG<br>
+              </td>
+              <td style="vertical-align: top;">PCM<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Motion_JPEG">http://en.wikipedia.org/wiki/Motion_JPEG</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">MP4<br>
+              </td>
+              <td style="vertical-align: top;">MPEG-4 Part 14<br>
+              </td>
+              <td style="vertical-align: top;">MPEG4, H264HQ/H264PQ<br>
+              </td>
+              <td style="vertical-align: top;">MP3, AAC<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/MPEG-4_Part_14">http://en.wikipedia.org/wiki/MPEG-4_Part_14</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">MPEG<br>
+              </td>
+              <td style="vertical-align: top;">MPEG program stream<br>
+              </td>
+              <td style="vertical-align: top;">MPEG2</td>
+              <td style="vertical-align: top;">MP2<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/MPEG_program_stream">http://en.wikipedia.org/wiki/MPEG_program_stream</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">WEBM<br>
+              </td>
+              <td style="vertical-align: top;">WebM<br>
+              </td>
+              <td style="vertical-align: top;">VP8<br>
+              </td>
+              <td style="vertical-align: top;">VORBIS<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/WebM">http://en.wikipedia.org/wiki/WebM</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="2" style="vertical-align: middle;">FLV<br>
+              </td>
+              <td style="vertical-align: top;">Flash file format 2005<br>
+              </td>
+              <td style="vertical-align: top;">H263<br>
+              </td>
+              <td style="vertical-align: top;">MP3<br>
+              </td>
+              <td colspan="1" rowspan="2" style="vertical-align: top;"><a
+                  href="http://en.wikipedia.org/wiki/Adobe_Flash">http://en.wikipedia.org/wiki/Adobe_Flash</a><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">Flash file format 2008<br>
+              </td>
+              <td style="vertical-align: top;">H264HQ/H264PQ</td>
+              <td style="vertical-align: top;">AAC<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">OGV<br>
+              </td>
+              <td style="vertical-align: top;">Ogg<br>
+              </td>
+              <td style="vertical-align: top;">THEORA<br>
+              </td>
+              <td style="vertical-align: top;">VORBIS<br>
+              </td>
+              <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Ogg">http://en.wikipedia.org/wiki/Ogg</a><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <h2>See also</h2>
       <ul>
-        <li><a checked="true" href="fct_001.html">Index of the
-            ffDiaporama WIKI</a></li>
+        <li><a href="fct_001.html">Index of the ffDiaporama WIKI</a></li>
         <li><a href="fct_009.html">Render movies</a></li>
         <li><a href="fct_010.html">Movies standards and resolutions</a></li>
       </ul>
       <br>
       <hr style="width: 100%; height: 2px;">ffDiaporama 0.99.alpha3 -
       July 2011 </div>
+    &#160;&#160;&#160; <br>
   </body>
 </html>
