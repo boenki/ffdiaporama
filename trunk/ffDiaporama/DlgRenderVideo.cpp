@@ -151,7 +151,13 @@ void DlgRenderVideo::s_DeviceTypeCB(int) {
             List.append(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName);
     List.sort();
     ui->DeviceModelCB->addItems(List);
-    ui->DeviceModelCB->setCurrentIndex(0);
+    int i=0;
+    int ToFind=(ExportMode==EXPORTMODE_SMARTPHONE)?Diaporama->ApplicationConfig->DefaultSmartphoneModel:
+               (ExportMode==EXPORTMODE_MULTIMEDIASYS)?Diaporama->ApplicationConfig->DefaultMultimediaModel:
+               Diaporama->ApplicationConfig->DefaultForTheWEBModel;
+    while ((i<Diaporama->ApplicationConfig->RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceIndex!=ToFind)) i++;
+    if (Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceIndex==ToFind)
+        ui->DeviceModelCB->setCurrentIndex(ui->DeviceModelCB->findText(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName));
 }
 
 //====================================================================================================================
@@ -446,6 +452,12 @@ void DlgRenderVideo::accept() {
     if (IsDestFileOpen) {
         StopProcessWanted=true;
     } else {
+        if (Diaporama->OutputFileName !=ui->DestinationFilePath->text()) { Diaporama->OutputFileName   =ui->DestinationFilePath->text();    IsModify=true; }
+
+        if ((QFileInfo(Diaporama->OutputFileName).exists())&&(QMessageBox::question(this,QApplication::translate("DlgRenderVideo","Overwrite file ?"),
+            QApplication::translate("DlgRenderVideo","The file you selected already exist.\nDo you want to overwrite it ?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)) return;
+
         bool Continue=true;                                  // Loop control
 
         // if process encoding was not started then start it
@@ -540,7 +552,6 @@ void DlgRenderVideo::accept() {
         if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("flv")) AudioFrequency=44100;   // Special case for FLV
         if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("3gp")) AudioFrequency=8000;    // Special case for AMRNB
 
-        if (Diaporama->OutputFileName !=ui->DestinationFilePath->text()) { Diaporama->OutputFileName   =ui->DestinationFilePath->text();    IsModify=true; }
         if (Diaporama->VideoFrameRate !=VideoFrameRate)                  { Diaporama->VideoFrameRate   =VideoFrameRate;                     IsModify=true; }
         if (Diaporama->AudioFrequency !=AudioFrequency)                  { Diaporama->AudioFrequency   =AudioFrequency;                     IsModify=true; }
         if (Diaporama->VideoCodec     !=VideoCodec)                      { Diaporama->VideoCodec       =VideoCodec;                         IsModify=true; }

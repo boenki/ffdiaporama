@@ -262,9 +262,24 @@ void DlgApplicationSettings::accept() {
     QString BitRate=ui->VideoBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultVideoBitRate=BitRate.toInt();
     BitRate        =ui->AudioBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultAudioBitRate=BitRate.toInt();
 
-    ApplicationConfig->DefaultSmartphoneType    =ui->SmartphoneTypeCB->itemData(ui->SmartphoneTypeCB->currentIndex()).toInt();
-    ApplicationConfig->DefaultMultimediaType    =ui->MMSystemTypeCB->itemData(ui->MMSystemTypeCB->currentIndex()).toInt();
-    ApplicationConfig->DefaultForTheWEBType     =ui->ForTheWTypeCB->itemData(ui->ForTheWTypeCB->currentIndex()).toInt();
+    ApplicationConfig->DefaultSmartphoneType =ui->SmartphoneTypeCB->itemData(ui->SmartphoneTypeCB->currentIndex()).toInt();
+    ApplicationConfig->DefaultMultimediaType =ui->MMSystemTypeCB->itemData(ui->MMSystemTypeCB->currentIndex()).toInt();
+    ApplicationConfig->DefaultForTheWEBType  =ui->ForTheWTypeCB->itemData(ui->ForTheWTypeCB->currentIndex()).toInt();
+
+    QString Text=ui->SmartphoneModelCB->currentText();
+    int i=0;
+    while ((i<ApplicationConfig->RenderDeviceModel.count())&&(Text!=ApplicationConfig->RenderDeviceModel[i].DeviceName)) i++;
+    if (Text==ApplicationConfig->RenderDeviceModel[i].DeviceName) ApplicationConfig->DefaultSmartphoneModel=ApplicationConfig->RenderDeviceModel[i].DeviceIndex;
+
+    Text=ui->MMSystemModelCB->currentText();
+    i=0;
+    while ((i<ApplicationConfig->RenderDeviceModel.count())&&(Text!=ApplicationConfig->RenderDeviceModel[i].DeviceName)) i++;
+    if (Text==ApplicationConfig->RenderDeviceModel[i].DeviceName) ApplicationConfig->DefaultMultimediaModel=ApplicationConfig->RenderDeviceModel[i].DeviceIndex;
+
+    Text=ui->ForTheWModelCB->currentText();
+    i=0;
+    while ((i<ApplicationConfig->RenderDeviceModel.count())&&(Text!=ApplicationConfig->RenderDeviceModel[i].DeviceName)) i++;
+    if (Text==ApplicationConfig->RenderDeviceModel[i].DeviceName) ApplicationConfig->DefaultForTheWEBModel=ApplicationConfig->RenderDeviceModel[i].DeviceIndex;
 
     // Save Window size and position
     ApplicationConfig->DlgApplicationSettingsWSP->SaveWindowState(this);
@@ -477,6 +492,10 @@ void DlgApplicationSettings::ChangeSmartphoneTypeCB(int) {
             List.append(ApplicationConfig->RenderDeviceModel[i].DeviceName);
     List.sort();
     ui->SmartphoneModelCB->addItems(List);
+    int i=0;
+    while ((i<ApplicationConfig->RenderDeviceModel.count())&&(ApplicationConfig->RenderDeviceModel[i].DeviceIndex!=ApplicationConfig->DefaultSmartphoneModel)) i++;
+    if (ApplicationConfig->RenderDeviceModel[i].DeviceIndex==ApplicationConfig->DefaultSmartphoneModel)
+        ui->SmartphoneModelCB->setCurrentIndex(ui->SmartphoneModelCB->findText(ApplicationConfig->RenderDeviceModel[i].DeviceName));
 }
 
 //====================================================================================================================
@@ -492,6 +511,10 @@ void DlgApplicationSettings::ChangeMMSystemTypeCB(int) {
             List.append(ApplicationConfig->RenderDeviceModel[i].DeviceName);
     List.sort();
     ui->MMSystemModelCB->addItems(List);
+    int i=0;
+    while ((i<ApplicationConfig->RenderDeviceModel.count())&&(ApplicationConfig->RenderDeviceModel[i].DeviceIndex!=ApplicationConfig->DefaultMultimediaModel)) i++;
+    if (ApplicationConfig->RenderDeviceModel[i].DeviceIndex==ApplicationConfig->DefaultMultimediaModel)
+        ui->MMSystemModelCB->setCurrentIndex(ui->MMSystemModelCB->findText(ApplicationConfig->RenderDeviceModel[i].DeviceName));
 }
 
 //====================================================================================================================
@@ -507,6 +530,10 @@ void DlgApplicationSettings::ChangeForTheWTypeCB(int) {
             List.append(ApplicationConfig->RenderDeviceModel[i].DeviceName);
     List.sort();
     ui->ForTheWModelCB->addItems(List);
+    int i=0;
+    while ((i<ApplicationConfig->RenderDeviceModel.count())&&(ApplicationConfig->RenderDeviceModel[i].DeviceIndex!=ApplicationConfig->DefaultForTheWEBModel)) i++;
+    if (ApplicationConfig->RenderDeviceModel[i].DeviceIndex==ApplicationConfig->DefaultForTheWEBModel)
+        ui->ForTheWModelCB->setCurrentIndex(ui->ForTheWModelCB->findText(ApplicationConfig->RenderDeviceModel[i].DeviceName));
 }
 
 //====================================================================================================================
