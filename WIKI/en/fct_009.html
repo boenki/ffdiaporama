@@ -10,1671 +10,660 @@
         src="../../WIKI_img/Wiki.png" align="MIDDLE"> Render movies<br>
     </div>
     <div style="text-align: left;" id="content_wikimode">
-      <div style="text-align: center;"> <img checked="true" style="width: 32px; height: 32px;"
-          alt="" src="../../WIKI_img/Attention.png" align="top"><big><big><big><big>
-                Work in progress</big></big></big></big> (<a href="http://ffdiaporama.tuxfamily.org/en/Contribute.php">Do
-
-
-
-
-
-
-
-
-
-
-
-          you want to help us</a> ?)<br>
-      </div>
       <h2> Introduction</h2>
-      <div style="margin-left: 40px;">Contrairement &#224; ce qui se
-        passe avec les musicaux qui sont largement portables d'un
-        appareil &#224; un autre, pour les vid&#233;os, il est
-        n&#233;cessaire de jongler entre les diff&#233;rents formats
-        pour s'adapter &#224; l'&#233;quipement qui sera utilis&#233;
-        pour les lire.<br>
+      <div style="margin-left: 40px;">Contrary to music files which are
+        widely portable from a device to the other one, for videos, it
+        is necessary to juggle between the various formats to adapt
+        itself to the equipment which will be used to read them.<br>
         <br>
-        En effet, une vid&#233;o pr&#233;vue pour un &#233;quipement de
-        type "Home Cin&#233;ma" peut peser plusieurs Go et sera
-        illisible sur un Smartphone.<br>
-        La m&#234;me vid&#233;o pr&#233;vue pour un Smartphone ne
-        n&#233;cessitera que quelques Mo, pourra &#234;tre lue sur un
-        &#233;quipement de type "Home Cin&#233;ma" mais ne sera
-        franchement pas belle.<br>
+        Indeed, a video planned for a "Home Cinema" device can weigh
+        some Go and will be unreadable on Smartphone.<br>
+        The same video planned for Smartphone will require only some Mb,
+        can be read on a "Home Cinema" device but will be ugly.<br>
         <br>
-        C'est pour cela que nous vous conseillons de conserver autant
-        que possible vos fichiers projets de montage et de
-        g&#233;n&#233;rer les films en fonction de l'&#233;quipement.<br>
+        It's why we recommend you to preserve as much as possible your
+        projects files and to generate movies according to the device.<br>
         <br>
-        Pour simplifier le param&#233;trage des g&#233;n&#233;rations de
-        vid&#233;os, ffDiaporama contient une base d'&#233;quipement
-        pr&#233;vue pour les destinations suivantes :<br>
+        To simplify the settings of the render movie operation,
+        ffDiaporama contains a device for the following device:<br>
         <ul>
-          <li>Smartphone et &#233;quipements portables et d'une
-            fa&#231;on g&#233;n&#233;rale tout les petits appareils
-            permettant de lire une vid&#233;o.<br>
+          <li>Smartphone and portable device and in a general way small
+            devices allowing to read a video.<br>
           </li>
-          <li>Syst&#232;me multim&#233;dia pour tous les appareils de
-            salon et de "Home Cin&#233;ma"<br>
+          <li>Multimedia system for all lounge and "Home Cinema" devices
           </li>
-          <li>Pour internet (Blogs, sites de partage et sites sociaux)<br>
+          <li>For WEB (Blogs, sharing and social sites)<br>
           </li>
         </ul>
-        Il est &#233;galement possible de d&#233;finir vous m&#234;me
-        vos param&#232;tres au travers d'une option avanc&#233;e.<br>
-        <h3>Smartphones and tablets</h3>
-        <div style="margin-left: 40px;">D'une fa&#231;on
-          g&#233;n&#233;rale, les principales diff&#233;rences entre ces
-          &#233;quipements sont :<br>
-          <ul>
-            <li>La taille de l'&#233;cran et la r&#233;solution maximale<br>
-            </li>
-            <li>Le syst&#232;me d'exploitation de l'&#233;quipement<br>
-            </li>
-          </ul>
-          Consulter la notice technique de votre &#233;quipement ou
-          faites une rechercher sur internet pour conna&#238;tre ces
-          deux caract&#233;ristiques.<br>
-          Concernant la r&#233;solution, prenez en compte le fait que
-          les &#233;quipements peuvent en g&#233;n&#233;ral lire sans
-          difficult&#233;s des vid&#233;os de tailles inf&#233;rieures.<br>
-          <br>
-          Les mod&#232;les d'&#233;quipements disponibles dans
-          ffDiaporama sont les suivants :<br>
-          <br>
-          <table border="1" cellpadding="2">
-            <tbody>
-              <tr>
-                <td style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">Type d'&#233;quipement</span><br>
-                </td>
-                <td style="background-color: rgb(0, 0, 102); color: white; text-align: center;"><span
-                    style="font-weight: bold;">Syst&#232;me
-                    d'exploitation</span><br>
-                </td>
-                <td colspan="2" rowspan="1" style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">R&#233;solution
-                    disponibles</span><br>
-                </td>
-                <td style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">Remarque</span>s<br>
-                </td>
-              </tr>
-              <tr>
-                <td style="text-align: center;" colspan="1" rowspan="9">Smartphone<br>
-                  <br>
-                  <br>
-                  <br>
-                </td>
-                <td style="vertical-align: top; text-align: center;">Systeme
-
-
-
-
-
-
-
-
-
-
-
-
-                  Symbian S60 de Nokia<br>
-                </td>
-                <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">QVGA<br>
-                  VGA<br>
-                </td>
-                <td style="vertical-align: top;">En g&#233;n&#233;ral,
-                  les t&#233;l&#233;phones Nokia fonctionnant avec le
-                  syst&#232;me d'exploitation Symbian et &#233;tant
-                  &#233;quip&#233; d'un appareil photo, sont capables de
-                  lire des vid&#233;os. Tr&#232;s souvent, ceux munis
-                  d'un clavier offrent une r&#233;solution de 320x240
-                  (QVGA), alors que ceux munis uniquement d'un
-                  &#233;cran tactile offrent une r&#233;solution de
-                  640x360 (VGA).<br>
-                  Le format des vid&#233;os est : Container : MP4 -
-                  Codec vid&#233;o : MPEG4 - Codec audio : MP3<br>
-                  Note : D&#233;poser les fichiers vid&#233;os dans le
-                  r&#233;pertoire "My videos" apr&#232;s avoir
-                  connect&#233; le t&#233;l&#233;phone au PC en mode
-                  "P&#233;riph&#233;rique de masse"<br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">Windows
-
-
-
-
-
-
-
-
-
-
-
-
-                  Mobile 6.0/6.1/6.5 </td>
-                <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">QVGA<br>
-                  HVGA<br>
-                  VGA<br>
-                  WVGA<br>
-                </td>
-                <td style="vertical-align: top;">De tr&#232;s nombreux
-                  constructeur ont fabriqu&#233;s entre 2006 et 2010,
-                  des t&#233;l&#233;phones utilisant le syst&#232;me
-                  d'exploitation Windows Mobile 6 de Microsoft (HP, HTC,
-                  etc...).<br>
-                  Le format des vid&#233;os est : Container : 3GP - Code
-                  vid&#233;o : MPEG4 - Codec audio : AMR<br>
-                  Note : D&#233;poser les fichiers vid&#233;os dans le
-                  r&#233;pertoire "My videos" soit de l'appareil, soit
-                  de la carte SDMMC, apr&#232;s avoir connect&#233; le
-                  t&#233;l&#233;phone au PC en mode
-                  "P&#233;riph&#233;rique de masse" </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">Windows
-
-
-
-
-
-
-
-
-
-
-
-
-                  Phone 7<br>
-                </td>
-                <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">WVGA<em><strong><br>
-                    </strong></em> </td>
-                <td style="vertical-align: top;">Windows Phone 7 de
-                  Microsoft est l'&#233;volution de Windows Mobil 6<br>
-                  Le format des vid&#233;os est : Container : MP4 - Code
-                  vid&#233;o : MPEG4/AVC - Codec audio : AAC-LC </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">Android<br>
-                  1.5/1.6<br>
-                  2.1/2.2/2.3<br>
-                </td>
-                <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">QVGA<br>
-                  HVGA<br>
-                  VGA<br>
-                  WVGA </td>
-                <td style="vertical-align: top;">Pr&#232;s d'une
-                  trentaine de fabricant ont fabriqu&#233;s ou
-                  fabriquent encore des t&#233;l&#233;phones utilisant
-                  le syst&#232;me d'exploitation Android de Google.<br>
-                  Le format des vid&#233;os est : Container : MP4 - Code
-                  vid&#233;o : MPEG4/AVC - Codec audio : AAC-LC<br>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1" rowspan="2" style="vertical-align: top;">
-                  <div style="text-align: center;">Apple iOS<br>
-                  </div>
-                  <br>
-                </td>
-                <td style="vertical-align: top; text-align: center;">iPhone
-
-
-
-
-
-
-
-
-
-
-
-
-                  3G/3GS<br>
-                </td>
-                <td style="vertical-align: top; text-align: center;">HVGA</td>
-                <td colspan="1" rowspan="2" style="vertical-align: top;">
-                  Le format des vid&#233;os est : Container : MP4 - Code
-                  vid&#233;o : MPEG4/AVC - Codec audio : AAC-LC <br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">iPhone
-
-
-
-
-
-
-
-
-
-
-
-
-                  4<br>
-                </td>
-                <td style="vertical-align: top; text-align: center;">WVGA<br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">HP
-                  - WebOs</td>
-                <td style="vertical-align: top; text-align: center;"><br>
-                </td>
-                <td style="vertical-align: top; text-align: center;"><br>
-                </td>
-                <td style="vertical-align: top;">WebOs est issue du
-                  rachat de Palm par HP.<br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">Blackberry
-
-
-
-
-
-
-
-
-
-
-
-
-                  OS<br>
-                </td>
-                <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">RIM
-
-
-
-
-
-
-
-
-
-
-                  240<br>
-                </td>
-                <td style="vertical-align: top;"> Le format des
-                  vid&#233;os est : Container : AVI - Codec vid&#233;o :
-                  MPEG4 - Codec audio : MP3<br>
-                  Note : D&#233;poser les fichiers vid&#233;os dans le
-                  r&#233;pertoire "\blackberry\Video"<br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center; color: red;">Samsung
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  BADA </td>
-                <td style="vertical-align: top; text-align: center;"><br>
-                </td>
-                <td style="vertical-align: top; text-align: center;"><br>
-                </td>
-                <td style="vertical-align: top; color: red;"><em><strong>&#224;
-
-
-
-
-
-
-
-                      compl&#233;ter</strong></em> </td>
-              </tr>
-              <tr>
-                <td colspan="1" rowspan="6" style="vertical-align: top; text-align: center;">Tablette
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </td>
-                <td colspan="1" rowspan="4" style="vertical-align: top; text-align: center;">Android
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  2.x<br>
-                  Android 3.x<br>
-                  Linux</td>
-                <td style="vertical-align: top; text-align: center;">800x480<br>
-                  854x480 </td>
-                <td style="vertical-align: top; text-align: center;">WVGA
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </td>
-                <td style="vertical-align: top;">Exemples de tablette :
-                  Archos 4/5/70/Arnova 10, Dell Streak, Creative ZiiO 7<br>
-                  Le format des vid&#233;os est : Container : MP4 - Code
-                  vid&#233;o : MPEG4/AVC - Codec audio : AAC-LC <br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">1024&#215;<span
-                    class="nowrap">600</span></td>
-                <td colspan="1" rowspan="2" style="vertical-align: top; text-align: center;"><br>
-                  XGA</td>
-                <td style="vertical-align: top;">Exemples de tablette :
-                  Archos 101, Samsung Galaxy Tab, HTC Flyer, Hannspree
-                  HANNSpad SN10T, Toshiba Folio 100<br>
-                  Le format des vid&#233;os est : Container : MP4 - Code
-                  vid&#233;o : MPEG4/AVC - Codec audio : AAC-LC <br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">1024x768<br>
-                </td>
-                <td style="vertical-align: top;"> Exemples de tablette :
-                  HP TouchPad<br>
-                  Le format des vid&#233;os est : Container : MP4 - Code
-                  vid&#233;o : MPEG4/AVC - Codec audio : AAC-LC <br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">1280x800</td>
-                <td style="vertical-align: top; text-align: center;">720p</td>
-                <td style="vertical-align: top;">Exemples de tablette :
-                  ASUS Eee Pad, Motorola Xoom, Packard Bell Liberty Tab,
-                  LG Optimus Pad, Archos G9<br>
-                  Le format des vid&#233;os est : Container : MP4 - Code
-                  vid&#233;o : MPEG4/AVC - Codec audio : AAC-LC <br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">Apple
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  iOS<br>
-                </td>
-                <td style="vertical-align: top; text-align: center;">iPad</td>
-                <td style="vertical-align: top; text-align: center;">XGA<br>
-                </td>
-                <td style="vertical-align: top;">Le format des
-                  vid&#233;os est : Container : MP4 - Code vid&#233;o :
-                  MPEG4/AVC - Codec audio : AAC-LC </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">RIM
-                  BlackBerry</td>
-                <td style="vertical-align: top; text-align: center;">Playbook
-
-
-
-
-
-
-
-
-
-
-
-
-                </td>
-                <td style="vertical-align: top; text-align: center;">1024x600
-
-
-
-
-
-
-
-
-
-
-
-
-                </td>
-                <td style="vertical-align: top;">Le format des
-                  vid&#233;os est : Container : MP4 - Code vid&#233;o :
-                  MPEG4/AVC - Codec audio : AAC-LC </td>
-              </tr>
-              <tr>
-                <td colspan="1" rowspan="4" style="vertical-align: top; text-align: center;">Netbook/NetPC<br>
-                  <br>
-                </td>
-                <td style="vertical-align: top; text-align: center;">Windows/XP<br>
-                </td>
-                <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">720p
-
-
-
-
-
-
-
-
-
-
-
-
-                </td>
-                <td colspan="1" rowspan="2" style="vertical-align: top;">Avec
-
-
-
-
-
-
-
-
-
-
-
-
-                  le codec xVid ou DivX install&#233; en compl&#233;ment
-                  sur le pc<br>
-                  Le format des vid&#233;os est : Container : AVI - Code
-                  vid&#233;o : MPEG4 - Codec audio : MP3 </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">
-                  Windows/Vista</td>
-                <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">720p</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">Windows/7</td>
-                <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">720p
-
-
-
-
-
-
-
-
-
-
-
-
-                </td>
-                <td style="vertical-align: top;">Le format des
-                  vid&#233;os est : Container : MP4 - Code vid&#233;o :
-                  MPEG4/AVC - Codec audio : AAC-LC </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: center;">Android/Linux<br>
-                </td>
-                <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">720p
-
-
-
-
-
-
-
-
-
-
-
-
-                </td>
-                <td style="vertical-align: top;">Le format des
-                  vid&#233;os est : Container : MP4 - Code vid&#233;o :
-                  MPEG4/AVC - Codec audio : AAC-LC </td>
-              </tr>
-            </tbody>
-          </table>
-          <br>
-        </div>
-        <h3>Portable devices </h3>
-        <div style="margin-left: 40px;"> Ces &#233;quipements portables
-          sont en g&#233;n&#233;ral tr&#232;s sp&#233;cifique. On ne
-          parle donc ni de syst&#232;me d'exploitation, ni de
-          r&#233;solution.<br>
-          <br>
-          <table border="1" cellpadding="2">
-            <tbody>
-              <tr>
-                <td style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">Type d'&#233;quipement</span><br>
-                </td>
-                <td style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">Constructeur/Mod&#232;le</span><br>
-                </td>
-                <td style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">Remarque</span><br>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1" rowspan="3" style="vertical-align: top;">Lecteur
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  portable<br>
-                  <br>
-                </td>
-                <td style="vertical-align: top;">Lecteur de DVD/DivX
-                  portable (de voyage ou de voiture)</td>
-                <td style="vertical-align: top;">Tous ces appareils
-                  utilisent l'ancien format des DVD DivX en
-                  r&#233;solution anamorphique 720x576(PAL) ou
-                  720x480(NTSC).<br>
-                  Le format des vid&#233;os est : Container : AVI -
-                  Codec vid&#233;o : mpeg4 - Codec audio : mp3<br>
-                  Si l'appareil ne dispose pas de connecteur USB :
-                  Graver un DVD en mode donn&#233;e en y d&#233;posant
-                  vos fichiers vid&#233;os. Sinon copier simplement vos
-                  fichiers vid&#233;os sur une clef USB.<br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">iPod Classic (G5/G6)<br>
-                  iPod Nano (G3/G4/G5)<br>
-                </td>
-                <td style="vertical-align: top;">Ces deux baladeurs ont
-                  surtout &#233;t&#233; con&#231;us pour la musique. De
-                  ce fait, leur r&#233;solution n'est que QVGA.<br>
-                  Le format des vid&#233;os est : Container : MP4 - Code
-                  vid&#233;o : MPEG4/AVC - Codec audio : AAC-LC </td>
-                <td><br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">Apple iPod&#160;Touch<br>
-                </td>
-                <td style="vertical-align: top;">Ce baladeur a une
-                  r&#233;solution vid&#233;o comparable au DVD (sans
-                  anamorphisme).<br>
-                  Le format des vid&#233;os est : Container : MP4 - Code
-                  vid&#233;o : MPEG4/AVC - Codec audio : AAC-LC </td>
-                <td><br>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1" rowspan="1" style="vertical-align: top;">Console
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  de jeux portable<br>
-                </td>
-                <td style="vertical-align: top; color: red;">Sony PSP </td>
-                <td style="vertical-align: top; color: red;">R&#233;solution
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  320&#215;480 en format NTSC<br>
-                  -s 320x480 -b 512000 -ar 24000 -ab 64000 -f psp -r
-                  29.97<br>
-                  -ac 2 -ar 48000 -acodec libfAAC-LC -ab 128k -r
-                  FRAME_RATE -s WIDTHxHEIGHT -vcodec libx264 -vpre
-                  slower -vpre main -level 21 -refs 2 -b BIT_RATE -bt
-                  BIT_RATE -aspect WIDTH:HEIGHT -f psp <br>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <br>
-        </div>
-        <h3>Multimedia system (Home cinema)<br>
-        </h3>
-        <div style="margin-left: 40px;"> Ces &#233;quipements "Home
-          Cin&#233;ma" sont connect&#233;s &#224; un
-          t&#233;l&#233;viseur. Le choix du format de sortie se fera
-          donc d'abord en fonction de la capacit&#233; du
-          t&#233;l&#233;viseur.<br>
-          <br>
-          Attention : L'ancien format SD est adapt&#233; aux anciens
-          t&#233;l&#233;viseurs utilisant la technologie des tubes
-          cathodiques. Avec ces tubes, les points n'&#233;taient pas
-          rond mais ovales : on parle d'anamorphisme.<br>
-          <br>
-          Lire une vid&#233;o au format SD, sur un t&#233;l&#233;viseur
-          moderne en LCD, LED ou Plasma donne des r&#233;sultats
-          franchement calamiteux : l'image est particuli&#232;rement
-          laide ! Donc, si votre t&#233;l&#233;viseur est r&#233;cent et
-          si votre &#233;quipement de diffusion le permet,
-          pr&#233;f&#233;rer toujours un format HD ou Full-HD &#224; un
-          format SD.<br>
-          <br>
-          <table border="1" cellpadding="2">
-            <tbody>
-              <tr>
-                <td style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">Type d'&#233;quipement</span><br>
-                </td>
-                <td style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">Constructeur/Mod&#232;le</span><br>
-                </td>
-                <td style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">Remarque</span><br>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1" rowspan="4" style="vertical-align: top;">Bo&#238;tier
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  TV de BOX ADSL<br>
-                  <br>
-                  <br>
-                  <br>
-                </td>
-                <td style="vertical-align: top;">France - Livebox
-                  (Orange)<br>
-                </td>
-                <td colspan="1" rowspan="4" style="vertical-align: top;">Tous
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  ces &#233;quipements supportent l'ancien format des
-                  DVD DivX en r&#233;solution anamorphique 720x576(PAL)
-                  pour la r&#233;solution DVD <br>
-                  &#160; Container : AVI - Codec vid&#233;o : xvid -
-                  Codec audio : mp3<br>
-                  Tous ces &#233;quipements supportent le format MP4
-                  jusqu'&#224; la r&#233;solution FullHD 1080p<br>
-                  &#160;Container : MP4 - Codec vid&#233;o : x264 -
-                  Codec audio : AAC-LC<br>
-                  <br>
-                  Copier vos fichiers vid&#233;os sur une clef USB ou un
-                  disque dur externe et utiliser le lecteur
-                  multim&#233;dia int&#233;gr&#233; dans le menu du
-                  d&#233;codeur<br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">France - Freebox<br>
-                </td>
-                <td><br>
-                </td>
-                <td><br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">France - Neufbox (SFR)<br>
-                </td>
-                <td><br>
-                </td>
-                <td><br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">France - Bbox (Bouygues
-                  Telecom)<br>
-                </td>
-                <td><br>
-                </td>
-                <td><br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">Disque dur
-                  multim&#233;dia<br>
-                  et passerelle multim&#233;dia<br>
-                </td>
-                <td style="vertical-align: top;">Tout constructeur<br>
-                </td>
-                <td style="vertical-align: top;">Tous ces
-                  &#233;quipements supportent l'ancien format des DVD
-                  DivX en r&#233;solution anamorphique 720x576(PAL) pour
-                  la r&#233;solution DVD <br>
-                  &#160; Container : AVI - Codec vid&#233;o : xvid -
-                  Codec audio : mp3<br>
-                  Les &#233;quipements offrant la prise en charge de la
-                  HD (&#224; v&#233;rifier dans les sp&#233;cifications
-                  techniques de l'appareil) supportent le format MP4
-                  jusqu'&#224; la r&#233;solution FullHD 1080p<br>
-                  &#160;Container : MP4 - Codec vid&#233;o : x264 -
-                  Codec audio : AAC-LC<br>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1" rowspan="2" style="vertical-align: top;">Lecteur
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  de salon<br>
-                </td>
-                <td style="vertical-align: top;">Lecteur DVD/DivX</td>
-                <td style="vertical-align: top;">Ces appareils utilisent
-                  l'ancien format des DVD DivX en r&#233;solution
-                  anamorphique 720x576(PAL) ou 720x480(NTSC) : Container
-                  : AVI - Codec vid&#233;o : mpeg4 - Codec audio : mp3<br>
-                  Si l'appareil ne dispose pas de connecteur USB :
-                  Graver un DVD en mode donn&#233;e en y d&#233;posant
-                  vos fichiers vid&#233;os. Sinon copier simplement vos
-                  fichiers vid&#233;os sur une clef USB.</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; color: red;">Lecteur
-                  BlueRay</td>
-                <td style="vertical-align: top; color: red;">&#224;
-                  compl&#233;ter<br>
-                </td>
-                <td><br>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1" rowspan="2" style="vertical-align: top;">Console
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  de jeux<br>
-                  <br>
-                </td>
-                <td style="vertical-align: top;">PS3<br>
-                </td>
-                <td colspan="1" rowspan="2" style="vertical-align: top;">Tous
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  ces &#233;quipements supportent le format MP4
-                  jusqu'&#224; la r&#233;solution FullHD 1080p<br>
-                  &#160;Container : MP4 - Codec vid&#233;o : x264 -
-                  Codec audio : AAC-LC</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">XBox360<br>
-                </td>
-                <td><br>
-                </td>
-                <td><br>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <br>
-        </div>
-        <br>
-        <h3>For the WEB<br>
-        </h3>
-        <div style="margin-left: 40px;">En rouge, ce qu'il reste &#224;
-          faire<br>
-          <br>
-          <table border="1" cellpadding="2">
-            <tbody>
-              <tr>
-                <td style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">Type d'&#233;quipement</span><br>
-                </td>
-                <td style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">Constructeur/Mod&#232;le</span><br>
-                </td>
-                <td style="background-color: rgb(0, 0, 102); color: white;"><span
-                    style="font-weight: bold;">Remarque</span><br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">Lecteur flash (SWF)<br>
-                </td>
-                <td style="vertical-align: top;">Tout lecteur SWF<br>
-                </td>
-                <td style="vertical-align: top;">A utiliser avec des
-                  balises HTML object class="player"
-                  type="application/x-shockwave-flash"<br>
-                  &#160;- En r&#233;solution 4/3 : 320x240, 640x480,
-                  960x720, 1440x1080<br>
-                  &#160;- En r&#233;solution 16/9 : 320x180, 640x360,
-                  1280x720, 1920x1080<br>
-                  &#160;- En r&#233;solution 40/17 : 320x136, 640x272,
-                  1280x544, 1920x816<br>
-                  Container : SWF(2008) - Codec vid&#233;o : x264 -
-                  Codec audio : AAC-LC<br>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1" rowspan="3" style="vertical-align: top;">Plate-forme
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  de partage<br>
-                </td>
-                <td style="vertical-align: top;">Youtube<br>
-                </td>
-                <td style="vertical-align: top; color: red;">&#224;
-                  compl&#233;ter </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">Daily Motion<br>
-                </td>
-                <td style="vertical-align: top; color: red;">&#224;
-                  compl&#233;ter </td>
-                <td><br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">Facebook<br>
-                </td>
-                <td style="vertical-align: top; color: red;">&#224;
-                  compl&#233;ter </td>
-                <td><br>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1" rowspan="3" style="vertical-align: top;">HTML
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  5<br>
-                </td>
-                <td style="vertical-align: top;">webm<br>
-                </td>
-                <td colspan="1" rowspan="3" style="vertical-align: top;">A
-                  utiliser avec la nouvelle balise vid&#233;o de HTML 5.
-                  Pour s'assurer la prise en charge de tous les
-                  navigateurs compatibles HTML5, les 3 versions doivent
-                  &#234;tre g&#233;n&#233;r&#233;es et
-                  int&#233;gr&#233;es comme suit :<br>
-                  &lt;video&gt;<br>
-                  &#160;&#160;&#160; &lt;source src="fichier.mp4"
-                  type="video/mp4" /&gt;<br>
-                  &#160;&#160;&#160; &lt;source src="fichier.webm"
-                  type="video/webm" /&gt;<br>
-                  &#160;&#160;&#160; &lt;source src="fichier.ogv"
-                  type="video/ogv" /&gt;<br>
-                  &lt;/video&gt;<br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">mp4<br>
-                </td>
-                <td><br>
-                </td>
-                <td><br>
-                </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">ogv (Theora &#224;
-                  ajouter)<br>
-                </td>
-                <td><br>
-                </td>
-                <td><br>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <br>
-        </div>
-        <h2>See also<br>
-        </h2>
+        It is also possible to define each parameters through an
+        advanced option.<br>
+      </div>
+      <h2>Smartphones and tablets</h2>
+      <div style="margin-left: 40px;">Generally speaking the main
+        differences between these equipments are:<br>
         <ul>
-          <li><a href="fct_001.html">Index of the ffDiaporama WIKI</a></li>
-          <li><a href="fct_010.html">Movies standards and resolutions</a></li>
-          <li><a href="fct_011.html">Movies containers and codecs</a> </li>
+          <li>Screen size and maximal resolution<br>
+          </li>
+          <li>Operating system on the device<br>
+          </li>
         </ul>
+        Consult the specification sheet of your equipment or make a look
+        for on internet to know these two characteristics.<br>
+        For the resolution, note that equipments can generally read
+        videos of lower sizes without difficulties.<br>
         <br>
-        <hr style="width: 100%; height: 2px;">ffDiaporama 0.99.alpha3 -
-        July 2011 </div>
-    </div>
+        The models of available equipments in ffDiaporama are the
+        following ones:<br>
+        <br>
+        <table border="1" cellpadding="2" width="90%">
+          <tbody>
+            <tr>
+              <td style="background-color: rgb(0, 0, 102); color: white;"><span
+                  style="font-weight: bold;">Device type</span><br>
+              </td>
+              <td style="background-color: rgb(0, 0, 102); color: white; text-align: center;"><span
+                  style="font-weight: bold;">Operating system</span><br>
+              </td>
+              <td colspan="2" rowspan="1" style="background-color: rgb(0, 0, 102); color: white; text-align: center;"><span
+                  style="font-weight: bold;">Available resolution</span><br>
+              </td>
+              <td style="background-color: rgb(0, 0, 102); color: white;"><span
+                  style="font-weight: bold;">Remarks</span><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: center;" colspan="1" rowspan="9">Smartphone<br>
+                <br>
+                <br>
+                <br>
+              </td>
+              <td style="vertical-align: top; text-align: center;">Nokia
+                Symbian System S60<br>
+              </td>
+              <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">QVGA<br>
+                VGA<br>
+              </td>
+              <td style="vertical-align: top;">Generally, Nokia phones
+                working with the Symbian operating system and being
+                equipped with a camera, are capable of reading videos.
+                Very often, those provide with a keyboard offer a
+                320x240 resolution ( QVGA), while those provide only
+                with a touch-sensitive screen offer a 640x360 resolution
+                (VGA).<br>
+                Movie format is: Container: MP4 - Video Codec: MPEG4 -
+                Audio Codec: MP3<br>
+                Note: put down videos files in the "My videos" folder
+                having connected the telephone to the PC "mass storage"
+                mode.<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">Windows
+
+
+
+
+                Mobile 6.0/6.1/6.5 </td>
+              <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">QVGA<br>
+                HVGA<br>
+                VGA<br>
+                WVGA<br>
+              </td>
+              <td style="vertical-align: top;">Numerous manufacturer
+                made phones using&#160; Microsoft Windows Mobile&#160; 6
+                operating system (HP, HTC, etc.) between 2006 and 2010.<br>
+                Movie format is: Container: 3GP - Video Codec: MPEG4 -
+                Audio Codec: AMR<br>
+                Note: put down videos files in the "My videos" folder
+                having connected the telephone to the PC "mass storage"
+                mode.<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">Windows
+
+
+
+
+                Phone 7<br>
+              </td>
+              <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">WVGA<em><strong><br>
+                  </strong></em> </td>
+              <td style="vertical-align: top;">Microsoft Windows Phone 7
+                is the evolution of Windows Mobil 6<br>
+                Movie format is: Container: MP4 - Video Codec: h264
+                - Audio Codec: AAC-LC </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">Android<br>
+                1.5/1.6<br>
+                2.1/2.2/2.3<br>
+              </td>
+              <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">QVGA<br>
+                HVGA<br>
+                VGA<br>
+                WVGA </td>
+              <td style="vertical-align: top;">Near around thirty
+                manufacturer made or still make phones using the Google
+                Android operating system.<br>
+                Movie format is: Container: MP4 - Video Codec: h264
+                - Audio Codec: AAC-LC <br>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="2" style="vertical-align: top;">
+                <div style="text-align: center;">Apple iOS<br>
+                </div>
+                <br>
+              </td>
+              <td style="vertical-align: top; text-align: center;">iPhone
+
+
+
+
+                3G/3GS<br>
+              </td>
+              <td style="vertical-align: top; text-align: center;">HVGA</td>
+              <td colspan="1" rowspan="2" style="vertical-align: top;">Movie
+
+                format is: Container: MP4 - Video Codec: h264 -
+                Audio Codec: AAC-LC </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">iPhone
+
+
+
+
+                4<br>
+              </td>
+              <td style="vertical-align: top; text-align: center;">WVGA<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">HP -
+                WebOs</td>
+              <td style="vertical-align: top; text-align: center;"><br>
+              </td>
+              <td style="vertical-align: top; text-align: center;"><br>
+              </td>
+              <td style="vertical-align: top; color: red;">WebOs arises
+                from the repurchase of Palm by HP.<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">Blackberry
+
+
+
+
+                OS<br>
+              </td>
+              <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">RIM
+
+
+
+
+                240<br>
+              </td>
+              <td style="vertical-align: top;"> Movie format is:
+                Container: AVI - Video Codec: MPEG4 - Audio Codec: MP3<br>
+                Note: put down videos files in the "\blackberry\Video"
+                folder having connected the telephone to the PC "mass
+                storage" mode.<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center; color: red;">Samsung
+
+
+
+
+                BADA </td>
+              <td style="vertical-align: top; text-align: center;"><br>
+              </td>
+              <td style="vertical-align: top; text-align: center;"><br>
+              </td>
+              <td style="vertical-align: top; color: red;"><em><strong>To
+                    be completed</strong></em> </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="6" style="vertical-align: top; text-align: center;">Tablet
+
+
+
+
+              </td>
+              <td colspan="1" rowspan="4" style="vertical-align: top; text-align: center;">Android
+
+
+
+
+                2.x<br>
+                Android 3.x<br>
+                Linux</td>
+              <td style="vertical-align: top; text-align: center;">800x480<br>
+                854x480 </td>
+              <td style="vertical-align: top; text-align: center;">WVGA
+              </td>
+              <td style="vertical-align: top;">Tablet examples: Archos
+                4/5/70/Arnova 10, Dell Streak, Creative ZiiO 7<br>
+                Movie format is: Container: MP4 - Video Codec: h264
+                - Audio Codec: AAC-LC <br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">1024&#215;<span
+                  class="nowrap">600</span></td>
+              <td colspan="1" rowspan="2" style="vertical-align: top; text-align: center;"><br>
+                XGA</td>
+              <td style="vertical-align: top;">Tablet examples: Archos
+                101, Samsung Galaxy Tab, HTC Flyer, Hannspree HANNSpad
+                SN10T, Toshiba Folio 100<br>
+                Movie format is: Container: MP4 - Video Codec: h264
+                - Audio Codec: AAC-LC <br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">1024x768<br>
+              </td>
+              <td style="vertical-align: top;">Tablet examples: HP
+                TouchPad<br>
+                Movie format is: Container: MP4 - Video Codec: h264
+                - Audio Codec: AAC-LC <br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">1280x800</td>
+              <td style="vertical-align: top; text-align: center;">720p</td>
+              <td style="vertical-align: top;">Tablet examples: ASUS Eee
+                Pad, Motorola Xoom, Packard Bell Liberty Tab, LG Optimus
+                Pad, Archos G9<br>
+                Movie format is: Container: MP4 - Video Codec: h264
+                - Audio Codec: AAC-LC <br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">Apple
+                iOS<br>
+              </td>
+              <td style="vertical-align: top; text-align: center;">iPad</td>
+              <td style="vertical-align: top; text-align: center;">XGA<br>
+              </td>
+              <td style="vertical-align: top;">Movie format is:
+                Container: MP4 - Video Codec: h264 - Audio Codec:
+                AAC-LC </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">RIM
+                BlackBerry</td>
+              <td style="vertical-align: top; text-align: center;">Playbook
+
+
+
+
+              </td>
+              <td style="vertical-align: top; text-align: center;">1024x600
+
+
+
+
+              </td>
+              <td style="vertical-align: top;">Movie format is:
+                Container: MP4 - Video Codec: h264 - Audio Codec:
+                AAC-LC </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="4" style="vertical-align: top; text-align: center;">Netbook/NetPC<br>
+                <br>
+              </td>
+              <td style="vertical-align: top; text-align: center;">Windows/XP<br>
+              </td>
+              <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">720p
+
+
+
+
+              </td>
+              <td colspan="1" rowspan="2" style="vertical-align: top;">Require
+                xVid or DivX codec to be installed on the computer.<br>
+                Movie format is: Container: AVI - Video Codec: MPEG4 -
+                Audio Codec: MP3</td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">
+                Windows/Vista</td>
+              <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">720p</td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">Windows/7</td>
+              <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">720p
+
+
+
+
+              </td>
+              <td style="vertical-align: top;">Movie format is:
+                Container: MP4 - Video Codec: h264 - Audio Codec:
+                AAC-LC </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: center;">Android/Linux<br>
+              </td>
+              <td colspan="2" rowspan="1" style="vertical-align: top; text-align: center;">720p
+
+
+
+
+              </td>
+              <td style="vertical-align: top;">Movie format is:
+                Container: MP4 - Video Codec: h264 - Audio Codec:
+                AAC-LC </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+      </div>
+      <h2>Portable devices </h2>
+      <div style="margin-left: 40px;">These portable equipments are
+        generally very specific. We do not speak thus either about
+        operating system, or resolution.<br>
+        <br>
+        <table border="1" cellpadding="2" width="90%">
+          <tbody>
+            <tr>
+              <td style="background-color: rgb(0, 0, 102); color: white;"><span
+                  style="font-weight: bold;">Device type</span><br>
+              </td>
+              <td style="background-color: rgb(0, 0, 102); color: white;"><span
+                  style="font-weight: bold;">Manufacturer/Model</span><br>
+              </td>
+              <td style="background-color: rgb(0, 0, 102); color: white;"><span
+                  style="font-weight: bold;">Remark</span><br>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="3" style="vertical-align: top;">Portable
+                player<br>
+                <br>
+              </td>
+              <td style="vertical-align: top;">DVD/DivX portable player
+                (car player or travel player)</td>
+              <td style="vertical-align: top;">All these devices use the
+                old DVD/DIVX format with anamorphism resolution 720x576
+                (PAL) or 720x480 ( NTSC).<br>
+                Movie format is: Container: AVI - Video Codec: MPEG4 -
+                Audio Codec: MP3<br>
+                If the device does have a USB connector: burn a DVD with
+                your videos files. Otherwise simply copy your files
+                videos to a USB key.<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">iPod Classic (G5/G6)<br>
+                iPod Nano (G3/G4/G5)<br>
+              </td>
+              <td style="vertical-align: top;">These two portable player
+                were especially conceived for the music. Therefore,
+                their resolution is only QVGA.<br>
+                Movie format is: Container: MP4 - Video Codec: h264
+                - Audio Codec: AAC-LC </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">Apple iPod&#160;Touch<br>
+              </td>
+              <td style="vertical-align: top;">This portable player has
+                a video resolution comparable to the DVD (without
+                anamorphism).<br>
+                Movie format is: Container: MP4 - Video Codec: h264
+                - Audio Codec: AAC-LC </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="1" style="vertical-align: top;">Handheld
+                game console<br>
+              </td>
+              <td style="vertical-align: top; color: red;">Sony PSP </td>
+              <td style="vertical-align: top; color: red;">Resolution
+                320&#215;480 / NTSC<br>
+                -s 320x480 -b 512000 -ar 24000 -ab 64000 -f psp -r 29.97<br>
+                -ac 2 -ar 48000 -acodec libfAAC-LC -ab 128k -r
+                FRAME_RATE -s WIDTHxHEIGHT -vcodec libh264 -vpre slower
+                -vpre main -level 21 -refs 2 -b BIT_RATE -bt BIT_RATE
+                -aspect WIDTH:HEIGHT -f psp <br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+      </div>
+      <h2>Multimedia system (Home cinema)<br>
+      </h2>
+      <div style="margin-left: 40px;">This "Home Cinema" devices are
+        connected to a television. The format choice will thus be made
+        according to the capacity of the television.<br>
+        <br>
+        Warning: The old SD format is only adapted to the old television
+        using the cathode ray tubes technology. With these tubes, points
+        were not round but ovals: we speak about anamorphism.<br>
+        <br>
+        To read a video using SD format, on a modern television set in
+        LCD, LED or Plasma gives openly disastrous results: The image is
+        particularly ugly! Thus, if your television is recent and if
+        your device allows it, always prefer a HD or Full-HD format to a
+        SD format.<br>
+        <br>
+        <table border="1" cellpadding="2" width="90%">
+          <tbody>
+            <tr>
+              <td style="background-color: rgb(0, 0, 102); color: white;"><span
+                  style="font-weight: bold;">Device type</span><br>
+              </td>
+              <td style="background-color: rgb(0, 0, 102); color: white;"><span
+                  style="font-weight: bold;">Manufacturer/Model</span> </td>
+              <td style="background-color: rgb(0, 0, 102); color: white;"><span
+                  style="font-weight: bold;">Remark</span> </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="4" style="vertical-align: top;">TV
+                box of&#160; ADSL box<br>
+                <br>
+                <br>
+                <br>
+              </td>
+              <td style="vertical-align: top;">France - Livebox (Orange)<br>
+              </td>
+              <td colspan="1" rowspan="4" style="vertical-align: top;">All
+                these devices support the old DVD/DIVX format with
+                anamorphism resolution 720x576 (PAL) for the DVD
+                resolution<br>
+                &#160;Movie format is: Container: AVI - Video Codec:
+                MPEG4 - Audio Codec: MP3<br>
+                All these devices support the MP4 format until the
+                FullHD 1080p resolution<br>
+                &#160;Movie format is: Container: MP4 - Video Codec:
+                h264 - Audio Codec: AAC-LC <br>
+                <br>
+                Copy your videos files to an USB key or an external hard
+                disk and use the multimedia player integrated into the
+                menu of the decoder<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">France - Freebox<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">France - Neufbox (SFR)<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">France - Bbox (Bouygues
+                Telecom)<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">Multimedia hard drive and
+                gateway<br>
+              </td>
+              <td style="vertical-align: top;">All manufacturers<br>
+              </td>
+              <td style="vertical-align: top;">All these devices support
+                the old DVD/DIVX format with anamorphism resolution
+                720x576 (PAL) for the DVD resolution<br>
+                &#160;Movie format is: Container: AVI - Video Codec:
+                MPEG4 - Audio Codec: MP3<br>
+                Equipments supporting HD (to verify in the technical
+                specifications of the device) support the MP4 format
+                until the FullHD 1080p resolution<br>
+                &#160;Movie format is: Container: MP4 - Video Codec:
+                h264 - Audio Codec: AAC-LC<br>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="2" style="vertical-align: top;">Player<br>
+              </td>
+              <td style="vertical-align: top;">DVD/DivX Player<br>
+              </td>
+              <td style="vertical-align: top;">These devices only
+                support the old DVD/DIVX format with anamorphism
+                resolution 720x576 (PAL) for the DVD resolution<br>
+                &#160;Movie format is: Container: AVI - Video Codec:
+                MPEG4 - Audio Codec: MP3<br>
+                If the device does not have an USB connector: burn a DVD
+                with your videos files. Otherwise simply copy your
+                videos files to a USB key.</td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; color: red;">Lecteur
+                BlueRay</td>
+              <td style="vertical-align: top; color: red;"><em><strong>To
+                    be completed</strong></em> </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="2" style="vertical-align: top;">Console
+
+
+
+
+                de jeux<br>
+                <br>
+              </td>
+              <td style="vertical-align: top;">PS3<br>
+              </td>
+              <td colspan="1" rowspan="2" style="vertical-align: top;">All
+                these devices support the MP4 format until the FullHD
+                1080p resolution<br>
+                &#160;Movie format is: Container: MP4 - Video Codec:
+                h264 - Audio Codec: AAC-LC </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">XBox360<br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+      </div>
+      <br>
+      <h2>For the WEB<br>
+      </h2>
+      <div style="margin-left: 40px;"> <br>
+        <table border="1" cellpadding="2" width="90%">
+          <tbody>
+            <tr>
+              <td style="background-color: rgb(0, 0, 102); color: white;"><span
+                  style="font-weight: bold;">Device type</span> </td>
+              <td style="background-color: rgb(0, 0, 102); color: white;"><span
+                  style="font-weight: bold;">Manufacturer/Model</span> </td>
+              <td style="background-color: rgb(0, 0, 102); color: white;"><span
+                  style="font-weight: bold;">Remark</span><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">Flash player (SWF)<br>
+              </td>
+              <td style="vertical-align: top;">All SWF player<br>
+              </td>
+              <td style="vertical-align: top;">To be use with the HTML
+                tag object class="player"
+                type="application/x-shockwave-flash"<br>
+                &#160;- For 4/3 : 320x240, 640x480, 960x720, 1440x1080<br>
+                &#160;- For 16/9 : 320x180, 640x360, 1280x720, 1920x1080<br>
+                &#160;- For 40/17 : 320x136, 640x272, 1280x544, 1920x816<br>
+                Movie format is: Container:&#160; SWF(2008) - Video
+                Codec: h264 - Audio Codec: AAC-LC<br>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="3" style="vertical-align: top;">Plate-forme
+
+
+
+
+                de partage<br>
+              </td>
+              <td style="vertical-align: top;">Youtube<br>
+              </td>
+              <td style="vertical-align: top; color: red;"><em><strong>To
+                    be completed</strong></em></td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">Daily Motion<br>
+              </td>
+              <td style="vertical-align: top; color: red;"><em><strong>To
+                    be completed</strong></em></td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">Facebook<br>
+              </td>
+              <td style="vertical-align: top; color: red;"><em><strong>To
+                    be completed</strong></em></td>
+            </tr>
+            <tr>
+              <td colspan="1" rowspan="3" style="vertical-align: top;">HTML
+
+
+
+
+                5<br>
+              </td>
+              <td style="vertical-align: top;">webm<br>
+              </td>
+              <td colspan="1" rowspan="3" style="vertical-align: top;">To
+                be use with the HTML 5 tag. To make sure to be
+                compatible with all HTML5 browsers, 3 versions must be
+                generated and integrated as follows:<br>
+                &lt;video&gt;<br>
+                &#160;&#160;&#160; &lt;source src="fichier.mp4"
+                type="video/mp4" /&gt;<br>
+                &#160;&#160;&#160; &lt;source src="fichier.webm"
+                type="video/webm" /&gt;<br>
+                &#160;&#160;&#160; &lt;source src="fichier.ogv"
+                type="video/ogv" /&gt;<br>
+                &lt;/video&gt;<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">mp4<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">ogv<br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+      </div>
+      <h2>See also<br>
+      </h2>
+      <ul>
+        <li><a href="fct_001.html">Index of the ffDiaporama WIKI</a></li>
+        <li><a href="fct_010.html">Movies standards and resolutions</a></li>
+        <li><a href="fct_011.html">Movies containers and codecs</a> </li>
+      </ul>
+      <br>
+      <hr style="width: 100%; height: 2px;">ffDiaporama 0.99.alpha3 -
+      July 2011 </div>
   </body>
 </html>
