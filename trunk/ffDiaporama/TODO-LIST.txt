@@ -12,7 +12,7 @@ TODO: Conserver la forme sélectionnée quand on change de plan dans la boite sl
 BUGG: Probleme de lecture avec des fichiers .ogg
 BUGG: Il manque la propriété aspect ratio dans la boite de recadrage
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
-BUGG: à voir : le redimenssionnement des blocs dans la boite slide permet de dépasser de l'écran -> peut-être à controler : à traiter dans l'alpha 3 !
+BUGG: à voir : le redimensionnement des blocs dans la boite slide permet de dépasser de l'écran -> peut-être à controler : à traiter dans l'alpha 3 !
 
 TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
         => normalement c'est corrigé : faire des tests
@@ -46,22 +46,6 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 -------------------------------------
-Changelog depuis la version 20110707
+Changelog depuis la version 20110713
 -------------------------------------
-Correction de BUGG: Supprime les () dans le nom des formats video pour que les fichiers apparaissent dans la boite de dialogue de sélection de fichier
-Correction de BUGG: Change le fichier de translation des messages systèmes de QT pour supporter plus de messages en français
 
-Changement de comportement: Ajout du codec video h264 "Phone Quality" et du codec video Theora VP3
-Changement de comportement: Ajout du format de vidéo OGV (Ogg/Theora)
-Changement de comportement: Ajout des résolutions HVGA, WVGA, XGA et RIM 240
-Changement de comportement: Ajout d'un onglet dans la boite de configuration pour la gestion de la base des équipements (à finir)
-Changement de comportement: Ajout d'une zone d'information dans la barre de status indiquant le n° de la diapo en cours et le nombre de diapo
-Changement de comportement: Ajout d'un message de confirmation pour les suppressions de slide, de bloque et de plan (désactivable dans la boite de configuration)
-Changement de comportement: Mémorise l'état des guides magnétique pour les 2 boites slide et recadrage
-Changement de comportement: Passe le réglage de rotation en valeur à virgule dans la boite de recadrage
-Changement de comportement: Ajoute un bouton cancel en cas de fermeture de la fenêtre principal quand le projet n'a pas été sauvegardé
-Changement de comportement: Remplace les N° de bitrate par leur valeur dans les fichiers XML pour la base de données des devices
-Changement de comportement: Trie les combobox de bitrate dans les boites options et render
-Changement de comportement: Ajout d'un message de confirmation si écrasement d'un fichier lors des générations de vidéo
-
-Base de device: Ajout d'équipements
