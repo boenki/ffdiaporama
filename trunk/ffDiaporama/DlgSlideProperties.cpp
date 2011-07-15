@@ -82,10 +82,18 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     ui->RotateZED->setRange(-180,180);      ui->RotateZSLD->setRange(-180,180);
 
     // Init Spinbox
-    ui->PosXEd->setDecimals(2);             ui->PosXEd->setSingleStep(1);
-    ui->PosYEd->setDecimals(2);             ui->PosYEd->setSingleStep(1);
-    ui->WidthEd->setDecimals(2);            ui->WidthEd->setSingleStep(1);
-    ui->HeightEd->setDecimals(2);           ui->HeightEd->setSingleStep(1);
+
+    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
+        ui->PosXEd->setDecimals(2);             ui->PosXEd->setSingleStep(1);       ui->PosXEd->setSuffix("%");
+        ui->PosYEd->setDecimals(2);             ui->PosYEd->setSingleStep(1);       ui->PosYEd->setSuffix("%");
+        ui->WidthEd->setDecimals(2);            ui->WidthEd->setSingleStep(1);      ui->WidthEd->setSuffix("%");
+        ui->HeightEd->setDecimals(2);           ui->HeightEd->setSingleStep(1);     ui->HeightEd->setSuffix("%");
+    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
+        ui->PosXEd->setDecimals(0);             ui->PosXEd->setSingleStep(1);       ui->PosXEd->setSuffix("");
+        ui->PosYEd->setDecimals(0);             ui->PosYEd->setSingleStep(1);       ui->PosYEd->setSuffix("");
+        ui->WidthEd->setDecimals(0);            ui->WidthEd->setSingleStep(1);      ui->WidthEd->setSuffix("");
+        ui->HeightEd->setDecimals(0);           ui->HeightEd->setSingleStep(1);     ui->HeightEd->setSuffix("");
+    }
 
     // Init combo box Background  type
     ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","No brush"));              ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_NOBRUSH)));
@@ -240,6 +248,14 @@ void DlgSlideProperties::showEvent(QShowEvent *ev) {
     QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
     IsFirstInitDone=true;                                   // Set this flag to true to indicate that now we can prepeare display
     RefreshShotTable(0);                                    // Fill the ShotTable and select 1st shot
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::GetForDisplayUnit(double &DisplayW,double &DisplayH) {
+    if (DiaporamaObject->Parent->ApplicationConfig->ImageGeometry==GEOMETRY_4_3)            { DisplayW=1440; DisplayH=1080; }
+    else if (DiaporamaObject->Parent->ApplicationConfig->ImageGeometry==GEOMETRY_16_9)      { DisplayW=1920; DisplayH=1080; }
+    else /*if (DiaporamaObject->Parent->ApplicationConfig->ImageGeometry==GEOMETRY_40_17)*/ { DisplayW=1920; DisplayH=816;  }
 }
 
 //====================================================================================================================
@@ -549,10 +565,18 @@ void DlgSlideProperties::RefreshSceneImage() {
             P.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
             // Update controls with position & size value
-            ui->PosXEd->setRange(0,100-CurrentTextItem->w*100);         ui->PosXEd->setValue(CurrentTextItem->x*100);
-            ui->PosYEd->setRange(0,100-CurrentTextItem->h*100);         ui->PosYEd->setValue(CurrentTextItem->y*100);
-            ui->WidthEd->setRange(3,100-CurrentTextItem->x*100);        ui->WidthEd->setValue(CurrentTextItem->w*100);
-            ui->HeightEd->setRange(3,100-CurrentTextItem->y*100);       ui->HeightEd->setValue(CurrentTextItem->h*100);
+            if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
+                ui->PosXEd->setRange(0,100-CurrentTextItem->w*100);         ui->PosXEd->setValue(CurrentTextItem->x*100);
+                ui->PosYEd->setRange(0,100-CurrentTextItem->h*100);         ui->PosYEd->setValue(CurrentTextItem->y*100);
+                ui->WidthEd->setRange(3,100-CurrentTextItem->x*100);        ui->WidthEd->setValue(CurrentTextItem->w*100);
+                ui->HeightEd->setRange(3,100-CurrentTextItem->y*100);       ui->HeightEd->setValue(CurrentTextItem->h*100);
+            } else { // DisplayUnit==DISPLAYUNIT_PIXELS
+                double DisplayW,DisplayH;   GetForDisplayUnit(DisplayW,DisplayH);
+                ui->PosXEd->setRange(0,  (1-CurrentTextItem->w)*DisplayW);  ui->PosXEd->setValue(  CurrentTextItem->x*DisplayW);
+                ui->PosYEd->setRange(0,  (1-CurrentTextItem->h)*DisplayH);  ui->PosYEd->setValue(  CurrentTextItem->y*DisplayH);
+                ui->WidthEd->setRange(3, (1-CurrentTextItem->x)*DisplayW);  ui->WidthEd->setValue( CurrentTextItem->w*DisplayW);
+                ui->HeightEd->setRange(3,(1-CurrentTextItem->y)*DisplayH);  ui->HeightEd->setValue(CurrentTextItem->h*DisplayH);
+            }
             ui->RotateXED->setValue(CurrentTextItem->RotateXAxis);      ui->RotateXSLD->setValue(CurrentTextItem->RotateXAxis);
             ui->RotateYED->setValue(CurrentTextItem->RotateYAxis);      ui->RotateYSLD->setValue(CurrentTextItem->RotateYAxis);
             ui->RotateZED->setValue(CurrentTextItem->RotateZAxis);      ui->RotateZSLD->setValue(CurrentTextItem->RotateZAxis);
@@ -793,9 +817,14 @@ void DlgSlideProperties::s_ChgPosXValue(double Value) {
     if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
+    cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
 
-    CurrentTextItem->x=Value/100;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();
+    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
+        CurrentTextItem->x=Value/100;
+    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
+        double DisplayW,DisplayH;   GetForDisplayUnit(DisplayW,DisplayH);
+        CurrentTextItem->x=(Value/DisplayW);
+    }
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
     RectItem->setRect(Rect);
@@ -808,9 +837,13 @@ void DlgSlideProperties::s_ChgPosYValue(double Value) {
     if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-
-    CurrentTextItem->y=Value/100;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();
+    cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
+    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
+        CurrentTextItem->y=Value/100;
+    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
+        double DisplayW,DisplayH;   GetForDisplayUnit(DisplayW,DisplayH);
+        CurrentTextItem->y=(Value/DisplayH);
+    }
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
     RectItem->setRect(Rect);
@@ -823,9 +856,13 @@ void DlgSlideProperties::s_ChgWidthValue(double Value) {
     if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (RectItem==NULL)     return;
-    CurrentTextItem->w=Value/100;
+    cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
+    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
+        CurrentTextItem->w=Value/100;
+    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
+        double DisplayW,DisplayH;   GetForDisplayUnit(DisplayW,DisplayH);
+        CurrentTextItem->w=(Value/DisplayW);
+    }
     if (RectItem->KeepAspectRatio) CurrentTextItem->h=((CurrentTextItem->w*xmax)*RectItem->AspectRatio)/ymax;
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
@@ -839,9 +876,13 @@ void DlgSlideProperties::s_ChgHeightValue(double Value) {
     if (StopMAJSpinbox || InRefreshSceneImage) return;
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (RectItem==NULL)     return;
-    CurrentTextItem->h=Value/100;
+    cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
+    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
+        CurrentTextItem->h=Value/100;
+    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
+        double DisplayW,DisplayH;   GetForDisplayUnit(DisplayW,DisplayH);
+        CurrentTextItem->h=(Value/DisplayH);
+    }
     if (RectItem->KeepAspectRatio) CurrentTextItem->w=((CurrentTextItem->h*ymax)/RectItem->AspectRatio)/xmax;
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));

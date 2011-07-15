@@ -641,6 +641,7 @@ bool cApplicationConfig::InitConfigurationValues() {
     AskUserToRemove             = true;
     SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
+    DisplayUnit                 = 1;                        // Display coordinates unit
     DefaultFraming              = 2;                        // 0=Width, 1=Height, 2=Full
     MainWinState                = false;                    // Windows State
     TimelineHeight              = 120;                      // Initial height of the timeline
@@ -739,54 +740,55 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     // Load preferences
     if ((root.elementsByTagName("LastDirectories").length()>0)&&(root.elementsByTagName("LastDirectories").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("LastDirectories").item(0).toElement();
-        RememberLastDirectories =Element.attribute("RememberLastDirectories")=="1";
-        LastMediaPath           =Element.attribute("LastMediaPath");
-        LastProjectPath         =Element.attribute("LastProjectPath");
-        LastMusicPath           =Element.attribute("LastMusicPath");
-        LastRenderVideoPath     =Element.attribute("LastRenderVideoPath");
+        if (Element.hasAttribute("RememberLastDirectories"))    RememberLastDirectories =Element.attribute("RememberLastDirectories")=="1";
+        if (Element.hasAttribute("LastMediaPath"))              LastMediaPath           =Element.attribute("LastMediaPath");
+        if (Element.hasAttribute("LastProjectPath"))            LastProjectPath         =Element.attribute("LastProjectPath");
+        if (Element.hasAttribute("LastMusicPath"))              LastMusicPath           =Element.attribute("LastMusicPath");
+        if (Element.hasAttribute("LastRenderVideoPath"))        LastRenderVideoPath     =Element.attribute("LastRenderVideoPath");
     }
 
     if ((root.elementsByTagName("EditorOptions").length()>0)&&(root.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("EditorOptions").item(0).toElement();
-        AppendObject             =Element.attribute("AppendObject")=="1";
-        SortFile                 =Element.attribute("SortFile")=="1";
-        TimelineHeight           =Element.attribute("TimelineHeight").toInt();
-        DefaultFraming           =Element.attribute("DefaultFraming").toInt();
-        ApplyTransfoPreview      =Element.attribute("ApplyTransfoPreview")=="1";
-        PreviewFPS               =Element.attribute("PreviewFPS").toDouble();
-        DisableSSE2              =Element.attribute("DisableSSE2")=="1";
-        RandomTransition         =Element.attribute("RandomTransition")=="1";
-        DefaultTransitionFamilly =Element.attribute("DefaultTransitionFamilly").toInt();
-        DefaultTransitionSubType =Element.attribute("DefaultTransitionSubType").toInt();
-        DefaultTransitionDuration=Element.attribute("DefaultTransitionDuration").toInt();
-        AskUserToRemove          =Element.attribute("AskUserToRemove")!="0";
-        SlideRuler               =Element.attribute("SlideRuler")!="0";
-        FramingRuler             =Element.attribute("FramingRuler")!="0";
+        if (Element.hasAttribute("AppendObject"))               AppendObject             =Element.attribute("AppendObject")=="1";
+        if (Element.hasAttribute("DisplayUnit"))                DisplayUnit              =Element.attribute("DisplayUnit").toInt();
+        if (Element.hasAttribute("SortFile"))                   SortFile                 =Element.attribute("SortFile")=="1";
+        if (Element.hasAttribute("TimelineHeight"))             TimelineHeight           =Element.attribute("TimelineHeight").toInt();
+        if (Element.hasAttribute("DefaultFraming"))             DefaultFraming           =Element.attribute("DefaultFraming").toInt();
+        if (Element.hasAttribute("ApplyTransfoPreview"))        ApplyTransfoPreview      =Element.attribute("ApplyTransfoPreview")=="1";
+        if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS               =Element.attribute("PreviewFPS").toDouble();
+        if (Element.hasAttribute("DisableSSE2"))                DisableSSE2              =Element.attribute("DisableSSE2")=="1";
+        if (Element.hasAttribute("RandomTransition"))           RandomTransition         =Element.attribute("RandomTransition")=="1";
+        if (Element.hasAttribute("DefaultTransitionFamilly"))   DefaultTransitionFamilly =Element.attribute("DefaultTransitionFamilly").toInt();
+        if (Element.hasAttribute("DefaultTransitionSubType"))   DefaultTransitionSubType =Element.attribute("DefaultTransitionSubType").toInt();
+        if (Element.hasAttribute("DefaultTransitionDuration"))  DefaultTransitionDuration=Element.attribute("DefaultTransitionDuration").toInt();
+        if (Element.hasAttribute("AskUserToRemove"))            AskUserToRemove          =Element.attribute("AskUserToRemove")!="0";
+        if (Element.hasAttribute("SlideRuler"))                 SlideRuler               =Element.attribute("SlideRuler")!="0";
+        if (Element.hasAttribute("FramingRuler"))               FramingRuler             =Element.attribute("FramingRuler")!="0";
     }
 
     if ((root.elementsByTagName("ProjectDefault").length()>0)&&(root.elementsByTagName("ProjectDefault").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("ProjectDefault").item(0).toElement();
-        ImageGeometry           =Element.attribute("ImageGeometry").toInt();
-        NoShotDuration          =Element.attribute("NoShotDuration").toInt();
-        FixedDuration           =Element.attribute("FixedDuration").toInt();
-        SpeedWave               =Element.attribute("SpeedWave").toInt();
+        if (Element.hasAttribute("ImageGeometry"))              ImageGeometry           =Element.attribute("ImageGeometry").toInt();
+        if (Element.hasAttribute("NoShotDuration"))             NoShotDuration          =Element.attribute("NoShotDuration").toInt();
+        if (Element.hasAttribute("FixedDuration"))              FixedDuration           =Element.attribute("FixedDuration").toInt();
+        if (Element.hasAttribute("SpeedWave"))                  SpeedWave               =Element.attribute("SpeedWave").toInt();
     }
 
     if ((root.elementsByTagName("RenderDefault").length()>0)&&(root.elementsByTagName("RenderDefault").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("RenderDefault").item(0).toElement();
-        DefaultFormat           =Element.attribute("Format").toInt();
-        DefaultVideoCodec       =Element.attribute("VideoCodec");
-        DefaultVideoBitRate     =Element.attribute("VideoBitRate").toInt();
-        DefaultAudioCodec       =Element.attribute("AudioCodec");
-        DefaultAudioBitRate     =Element.attribute("AudioBitRate").toInt();
-        DefaultImageSize        =Element.attribute("ImageSize").toInt();
-        DefaultStandard         =Element.attribute("Standard").toInt();
-        DefaultSmartphoneType   =Element.attribute("DefaultSmartphoneType").toInt();
-        DefaultSmartphoneModel  =Element.attribute("DefaultSmartphoneModel").toInt();
-        DefaultMultimediaType   =Element.attribute("DefaultMultimediaType").toInt();
-        DefaultMultimediaModel  =Element.attribute("DefaultMultimediaModel").toInt();
-        DefaultForTheWEBType    =Element.attribute("DefaultForTheWEBType").toInt();
-        DefaultForTheWEBModel   =Element.attribute("DefaultForTheWEBModel").toInt();
+        if (Element.hasAttribute("DefaultFormat"))              DefaultFormat           =Element.attribute("Format").toInt();
+        if (Element.hasAttribute("DefaultVideoCodec"))          DefaultVideoCodec       =Element.attribute("VideoCodec");
+        if (Element.hasAttribute("DefaultVideoBitRate"))        DefaultVideoBitRate     =Element.attribute("VideoBitRate").toInt();
+        if (Element.hasAttribute("DefaultAudioCodec"))          DefaultAudioCodec       =Element.attribute("AudioCodec");
+        if (Element.hasAttribute("DefaultAudioBitRate"))        DefaultAudioBitRate     =Element.attribute("AudioBitRate").toInt();
+        if (Element.hasAttribute("DefaultImageSize"))           DefaultImageSize        =Element.attribute("ImageSize").toInt();
+        if (Element.hasAttribute("DefaultStandard"))            DefaultStandard         =Element.attribute("Standard").toInt();
+        if (Element.hasAttribute("DefaultSmartphoneType"))      DefaultSmartphoneType   =Element.attribute("DefaultSmartphoneType").toInt();
+        if (Element.hasAttribute("DefaultSmartphoneModel"))     DefaultSmartphoneModel  =Element.attribute("DefaultSmartphoneModel").toInt();
+        if (Element.hasAttribute("DefaultMultimediaType"))      DefaultMultimediaType   =Element.attribute("DefaultMultimediaType").toInt();
+        if (Element.hasAttribute("DefaultMultimediaModel"))     DefaultMultimediaModel  =Element.attribute("DefaultMultimediaModel").toInt();
+        if (Element.hasAttribute("DefaultForTheWEBType"))       DefaultForTheWEBType    =Element.attribute("DefaultForTheWEBType").toInt();
+        if (Element.hasAttribute("DefaultForTheWEBModel"))      DefaultForTheWEBModel   =Element.attribute("DefaultForTheWEBModel").toInt();
     }
 
     if ((root.elementsByTagName("RecentFiles").length()>0)&&(root.elementsByTagName("RecentFiles").item(0).isElement()==true)) {
@@ -879,6 +881,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
 
     Element=domDocument.createElement("EditorOptions");
     Element.setAttribute("AppendObject",             AppendObject?"1":"0");
+    Element.setAttribute("DisplayUnit",              DisplayUnit);
     Element.setAttribute("SortFile",                 SortFile?"1":"0");
     Element.setAttribute("TimelineHeight",           TimelineHeight);
     Element.setAttribute("DefaultFraming",           DefaultFraming);

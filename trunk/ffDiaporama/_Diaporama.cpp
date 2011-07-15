@@ -1725,17 +1725,21 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         QFutureWatcher<void>    PrepareTransitMusicBloc;
 
         // Load music bloc
-        if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
-            PrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
-        if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack))
-            PrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
-
+        if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)) {
+            //PrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
+            PrepareMusicBloc(Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
+        }
+        if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack)) {
+            //PrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
+            PrepareMusicBloc(Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
+        }
         // Transition Object if a previous was not keep !
         if (Info->TransitObject) {
             QFutureWatcher<void> ThreadPrepareImage;
-            ThreadPrepareImage.setFuture(QtConcurrent::run(this,&cDiaporama::LoadTransitVideoImage,Info,PreviewMode,W,H,AddStartPos));
+            //ThreadPrepareImage.setFuture(QtConcurrent::run(this,&cDiaporama::LoadTransitVideoImage,Info,PreviewMode,W,H,AddStartPos));
+            LoadTransitVideoImage(Info,PreviewMode,W,H,AddStartPos);
             LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
-            ThreadPrepareImage.waitForFinished();
+            //ThreadPrepareImage.waitForFinished();
         } else LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
 
         //==============> Background part
@@ -1771,8 +1775,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 P.end();
             }
         }
-        if (PrepareCurrentMusicBloc.isRunning()) PrepareCurrentMusicBloc.waitForFinished();
-        if (PrepareTransitMusicBloc.isRunning()) PrepareTransitMusicBloc.waitForFinished();
+        //if (PrepareCurrentMusicBloc.isRunning()) PrepareCurrentMusicBloc.waitForFinished();
+        //if (PrepareTransitMusicBloc.isRunning()) PrepareTransitMusicBloc.waitForFinished();
     }
 
     // Soundtrack mix with fade in/fade out

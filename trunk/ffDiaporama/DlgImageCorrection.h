@@ -66,7 +66,8 @@ private slots:
     void            s_RotationEDChanged(double Value);
     void            s_XValueEDChanged(double Value);
     void            s_YValueEDChanged(double Value);
-    void            s_ZoomValueEDChanged(double Value);
+    void            s_WValueEDChanged(double Value);
+    void            s_HValueEDChanged(double Value);
     void            s_RotateLeft();
     void            s_RotateRight();
     void            s_AdjustW();
