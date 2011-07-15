@@ -143,6 +143,7 @@ public:
     // Editor options
     bool                    AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
     bool                    SortFile;                                   // if true sort file by (last) number when multiple file insertion
+    int                     DisplayUnit;                                // Display coordinates unit
     int                     DefaultFraming;                             // 0=Width, 1=Height
     int                     TimelineHeight;                             // Height of the timeline
     bool                    SlideRuler;                                 // if true, ruler is on in slide properties dialog box

@@ -48,12 +48,13 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     MagneticRuler.MagnetY3     = -1000; // Disable centering ruller
     MagneticRuler.MagneticRuler= GlobalMainWindow->Diaporama->ApplicationConfig->FramingRuler;
 
-    //ui->GraphicsView->setAttribute(Qt::WA_OpaquePaintEvent);
+    ui->RotateED->setMinimum(-180);
+    ui->RotateED->setMaximum(180);
 
-    ui->XValue->setMinimum(0);              ui->XValue->setMaximum(99.99);
-    ui->YValue->setMinimum(0);              ui->YValue->setMaximum(99.99);
-    ui->ZoomValue->setMinimum(0);           ui->ZoomValue->setMaximum(100);
-    ui->RotateED->setMinimum(-180);         ui->RotateED->setMaximum(180);
+    ui->XValue->setSingleStep(1);  ui->XValue->setRange(-1000,1000);
+    ui->YValue->setSingleStep(1);  ui->YValue->setRange(-1000,1000);
+    ui->WValue->setSingleStep(1);  ui->WValue->setRange(-1000,1000);
+    ui->HValue->setSingleStep(1);  ui->HValue->setRange(-1000,1000);
 
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
@@ -63,7 +64,8 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     connect(ui->RotateED,SIGNAL(valueChanged(double)),this,SLOT(s_RotationEDChanged(double)));
     connect(ui->XValue,SIGNAL(valueChanged(double)),this,SLOT(s_XValueEDChanged(double)));
     connect(ui->YValue,SIGNAL(valueChanged(double)),this,SLOT(s_YValueEDChanged(double)));
-    connect(ui->ZoomValue,SIGNAL(valueChanged(double)),this,SLOT(s_ZoomValueEDChanged(double)));
+    connect(ui->WValue,SIGNAL(valueChanged(double)),this,SLOT(s_WValueEDChanged(double)));
+    connect(ui->HValue,SIGNAL(valueChanged(double)),this,SLOT(s_HValueEDChanged(double)));
     connect(ui->RotateLeftBT,SIGNAL(clicked()),this,SLOT(s_RotateLeft()));
     connect(ui->RotateRightBT,SIGNAL(clicked()),this,SLOT(s_RotateRight()));
     connect(ui->AdjustHBT,SIGNAL(clicked()),this,SLOT(s_AdjustH()));
@@ -199,9 +201,21 @@ void DlgImageCorrection::s_YValueEDChanged(double Value) {
 
 //====================================================================================================================
 
-void DlgImageCorrection::s_ZoomValueEDChanged(double Value) {
+void DlgImageCorrection::s_WValueEDChanged(double Value) {
     if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
+// Erreur si géométrie libre !
+
     BrushFileCorrect->ZoomFactor=Value/100;
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_HValueEDChanged(double Value) {
+    if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
+// Erreur si géométrie libre !
+
+    BrushFileCorrect->ZoomFactor=(Value/100)/BrushFileCorrect->AspectRatio;
     RefreshControls();
 }
 
@@ -219,7 +233,7 @@ void DlgImageCorrection::s_RotationEDChanged(double Value) {
 
 void DlgImageCorrection::s_RotateLeft() {
     if (BrushFileCorrect==NULL) return;
-    double Value=(((BrushFileCorrect->ImageRotation-90)/90)*90);
+    double Value=(int((BrushFileCorrect->ImageRotation-90)/90)*90);
     if (Value<=-180) Value=360-Value;
     ui->RotateED->setValue(Value);
 }
@@ -228,7 +242,7 @@ void DlgImageCorrection::s_RotateLeft() {
 
 void DlgImageCorrection::s_RotateRight() {
     if (BrushFileCorrect==NULL) return;
-    double Value=(((BrushFileCorrect->ImageRotation+90)/90)*90);
+    double Value=(int((BrushFileCorrect->ImageRotation+90)/90)*90);
     if (Value>180) Value=-360+Value;
     ui->RotateED->setValue(Value);
 }
@@ -286,15 +300,11 @@ void DlgImageCorrection::s_AdjustWH() {
 void DlgImageCorrection::RefreshControls() {
     if ((BrushFileCorrect==NULL)||(!scene)||(FLAGSTOPED)) return;
     FLAGSTOPED=true;
-    ui->XValue->setRange(0,100-BrushFileCorrect->ZoomFactor*100);
-    ui->XValue->setSingleStep(double(100)/20);
+
     ui->XValue->setValue(BrushFileCorrect->X*100);
-    ui->YValue->setRange(0,100-(BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio)*100);
-    ui->YValue->setSingleStep(double(100)/20);
     ui->YValue->setValue(BrushFileCorrect->Y*100);
-    ui->ZoomValue->setRange(1,100);
-    ui->ZoomValue->setSingleStep(double(100)/20);
-    ui->ZoomValue->setValue(BrushFileCorrect->ZoomFactor*100);
+    ui->WValue->setValue(BrushFileCorrect->ZoomFactor*100);
+    ui->HValue->setValue(BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio*100);
 
     ui->RotateED->setValue(BrushFileCorrect->ImageRotation);
 

@@ -1005,22 +1005,22 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
     if (change == QGraphicsItem::ItemPositionChange) {
         QPointF newpos = value.toPointF();
         if (IsCapture==true) {
-            double xmax = double(scene()->sceneRect().width());
-            double ymax = double(scene()->sceneRect().height());
-            *x = newpos.x()/xmax;
-            *y = newpos.y()/ymax;
-            // calcul width and height;
-            double W = xmax*(*((zoom!=NULL)?zoom:w));
-            double H = ymax*((zoom!=NULL)?((*zoom)*AspectRatio):(*h));
-            // crop rectangle in the image
-            if ((*x)*xmax<0)        *x=0;
-            if ((*x)*xmax>xmax-W)   *x=(xmax-W)/xmax;
-            if ((*y)*ymax<0)        *y=0;
-            if ((*y)*ymax>ymax-H)   *y=(ymax-H)/ymax;
-
             if ((MagneticRuler!=NULL)&&(MagneticRuler->MagneticRuler==true)) {
+                double xmax = double(scene()->sceneRect().width());
+                double ymax = double(scene()->sceneRect().height());
+                *x = newpos.x()/xmax;
+                *y = newpos.y()/ymax;
+                // calcul width and height;
+                double W  = xmax*(*((zoom!=NULL)?zoom:w));
+                double H  = ymax*((zoom!=NULL)?((*zoom)*AspectRatio):(*h));
                 double mw = HANDLEMAGNETX;
                 double mh = HANDLEMAGNETY;
+
+                if (((*x)*xmax>(0-mw))&&((*x)*xmax<(0+mw)))          *x=0;
+                if ((((*x)*xmax+W)>(xmax-mw))&&(((*x)*xmax+W)<(xmax+mw)))  *x=(xmax-W)/xmax;
+                if (((*y)*ymax>(0-mh))&&((*y)*ymax<(0+mh)))          *y=0;
+                if ((((*y)*ymax+H)>(ymax-mh))&&(((*y)*ymax+H)<(ymax+mh)))  *y=(ymax-H)/ymax;
+
                 if (((*x)*xmax>(MagneticRuler->MagnetX1-mw))&&((*x)*xmax<(MagneticRuler->MagnetX1+mw)))          *x=MagneticRuler->MagnetX1/xmax;
                 if ((((*x)*xmax+W)>(MagneticRuler->MagnetX2-mw))&&(((*x)*xmax+W)<(MagneticRuler->MagnetX2+mw)))  *x=(MagneticRuler->MagnetX2-W)/xmax;
                 if (((*y)*ymax>(MagneticRuler->MagnetY1-mh))&&((*y)*ymax<(MagneticRuler->MagnetY1+mh)))          *y=MagneticRuler->MagnetY1/ymax;

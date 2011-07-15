@@ -229,6 +229,10 @@ extern "C" {
 #define THUMBNAILTYPE_OBJECTMUSIC           2
 #define THUMBNAILTYPE_SHOT                  3
 
+// Display coordinates unit
+#define DISPLAYUNIT_PERCENT                 0
+#define DISPLAYUNIT_PIXELS                  1
+
 // Speed wave forme definition
 #define SPEEDWAVE_LINEAR                    0
 #define SPEEDWAVE_SINQUARTER                1

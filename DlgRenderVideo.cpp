@@ -588,18 +588,18 @@ void DlgRenderVideo::accept() {
         // 1st step encoding : produce WAV file with sound
         //**********************************************************************************************************************************
 
-        StartTime=QTime::currentTime();                                  // Display control : time the process start
-
         // Create tempwavefile in the same directory as destination file
         TempWAVFileName=QFileInfo(ui->DestinationFilePath->text()).absolutePath();
         TempWAVFileName=TempWAVFileName+"/temp.wav";
         TempWAVFileName=AdjustDirForOS(TempWAVFileName);
 
+        StartTime=QTime::currentTime();                                  // Display control : time the process start
         Continue=WriteTempAudioFile(TempWAVFileName);
 
         //**********************************************************************************************************************************
         // 2nd step encoding : produce final file using temporary WAV file with sound
         //**********************************************************************************************************************************
+        StartTime=QTime::currentTime();                                  // Display control : time the process start
         FPS     =(1/Diaporama->VideoFrameRate)*double(AV_TIME_BASE);          // Time duration of a frame
         NbrFrame=int(double(Diaporama->GetDuration()*1000)/double(FPS));    // Number of frame to generate
         ui->SlideProgressBar->setValue(0);
@@ -744,7 +744,12 @@ void DlgRenderVideo::accept() {
                 // Refresh Display (if needed)
                 if (RefreshDisplay) {
                     DurationProcess=StartTime.msecsTo(QTime::currentTime());
-                    DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
+                    double CalcFPS =(double(RenderedFrame)/(double(DurationProcess)/1000));
+                    double EstimDur=double(NbrFrame-RenderedFrame)/CalcFPS;
+                    DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"))+
+                            QApplication::translate("DlgRenderVideo"," - Estimated time left : ")+
+                            QString("%1").arg(QTime(0,0,0,0).addMSecs(EstimDur*1000).toString("hh:mm:ss"));
+                    ui->ElapsedTimeLabel->setText(DisplayText);
                     DisplayText=QString("%1").arg(double(RenderedFrame)/(double(DurationProcess)/1000),0,'f',1);        ui->FPSLabel->setText(DisplayText);
                     DisplayText=QString("%1/%2").arg(Column+1).arg(Diaporama->List.count());                            ui->SlideNumberLabel->setText(DisplayText);
                     DisplayText=QString("%1/%2").arg(RenderedFrame).arg(NbrFrame);                                      ui->FrameNumberLabel->setText(DisplayText);

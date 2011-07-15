@@ -945,7 +945,7 @@ void MainWindow::s_action_AddFile() {
                     case 2 :    // Adjust to Full
                         W=MagnetX2-MagnetX1;
                         H=W*CurrentBrush->BrushFileCorrect.AspectRatio;
-                        if (H>MagnetY2-MagnetY1) {
+                        if (H<MagnetY2-MagnetY1) {
                             H=MagnetY2-MagnetY1;
                             W=H/CurrentBrush->BrushFileCorrect.AspectRatio;
                         }

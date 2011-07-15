@@ -59,6 +59,7 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     while (Duration.endsWith('.')) Duration=Duration.left(Duration.length()-1);
     ui->TransitionDurationCB->setCurrentIndex(ui->TransitionDurationCB->findText(Duration));
     ui->AskUserToRemove->setChecked(ApplicationConfig->AskUserToRemove);
+    ui->UnitCB->setCurrentIndex(ApplicationConfig->DisplayUnit);
 
     //********************************
     // ProjectDefault part
@@ -233,12 +234,13 @@ void DlgApplicationSettings::accept() {
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
 
     // Editor Options part
-    ApplicationConfig->AppendObject    =ui->AppendObjectCB->currentIndex()==1;
-    ApplicationConfig->SortFile        =ui->SortFileCB->isChecked();
-    ApplicationConfig->AskUserToRemove =ui->AskUserToRemove->isChecked();
     if (ui->FramingWidth->isChecked())  ApplicationConfig->DefaultFraming=0;
     if (ui->FramingHeight->isChecked()) ApplicationConfig->DefaultFraming=1;
     if (ui->FramingFull->isChecked())   ApplicationConfig->DefaultFraming=2;
+    ApplicationConfig->AppendObject             =ui->AppendObjectCB->currentIndex()==1;
+    ApplicationConfig->SortFile                 =ui->SortFileCB->isChecked();
+    ApplicationConfig->AskUserToRemove          =ui->AskUserToRemove->isChecked();
+    ApplicationConfig->DisplayUnit              =ui->UnitCB->currentIndex();
     ApplicationConfig->DefaultTransitionDuration=int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
     ApplicationConfig->RandomTransition         =ui->RandomTransitionRD->isChecked();
     ApplicationConfig->DefaultTransitionSubType =(ui->NoTransitionRD->isChecked()?0:1);

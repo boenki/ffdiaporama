@@ -1,22 +1,24 @@
-Buggs/TODO (Dernier SVN le 13/07/2011) :
+Buggs/TODO (Dernier SVN le 14/07/2011) :
 ----------------------------------------
+BUGG: Dans la boite de recadrage les modifs W/H changent les 2 paramètres (W/H) même si on est en géometrie libre
+BUGG: Erreur de détermination du canvas si la géometrie n'est pas celle du projet => dans DrawComposition
+BUGG: Dans les zones interactives, les poignées bloquent encore sur les bords du canvas => à passer en mode guide
+
+BUGG: j'ai voulu indiquer ffDiaporama comme programme par défaut pour l'ouverture des fichiers .ffd, mais l'information est prise en compte pour tous les fichers de type "texte brut"
+BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
+
+BUGG: Probleme de lecture avec des fichiers .ogg
+
+TODO: Ajouter des raccourcis clavier dans les zones interactives des boites slide et recadrage (tout est exprimé en pas des zones de saisie)
+         Gauche=X-1               Droite=X+1              Haut=Y-1                Bas=Y+1       => Equivalent move
+    Ctrl+Gauche=W-1          Ctrl+Droite=W+1         Ctrl+Haut=H-1           Ctrl+Bas=H+1       => Equivalent bottom-right
+    Shift+Gauche=W-1/X+1    Shift+Droite=W+1/X-1    Shift+Haut=H-1/Y+1      Shift+Bas=H+1/Y-1   => Equivalent top-left
+
 TODO: Finir de trier les combobox de codec & format dans les boites options et render
-
 TODO: Double click sur un bloc dans la boite slide => ouvre texte/recadrage ou edit video selon le type de bloc
-BUGG: j'ai voulu indiquer ffDiaporama comme programme par défaut pour l'ouverture des fichiers .ffd, mais l'information est prise en compte pour tous les fichers de type "texte brut", ce qui ne m'arrange pas particulièrement ; ordinairement, j'utilise Kate pour ouvrir les fichiers .txt et consors
-
 TODO: Sur l'interface principale maintenant que tu dispose d'un peut plus de place rajouter un bouton "dupliquer" la diapos.
 TODO: avoir aussi la possibilité de faire une muti-sélection quand on veux insérer des images dans un plan (actuellement on a pas cette possibilié)
 TODO: Conserver la forme sélectionnée quand on change de plan dans la boite slide
-
-BUGG: Probleme de lecture avec des fichiers .ogg
-BUGG: Il manque la propriété aspect ratio dans la boite de recadrage
-BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
-BUGG: à voir : le redimensionnement des blocs dans la boite slide permet de dépasser de l'écran -> peut-être à controler : à traiter dans l'alpha 3 !
-
-TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
-        => normalement c'est corrigé : faire des tests
-
 TODO: Finir l'internationalisation du paquet Ubuntu
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 TODO: Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
@@ -29,23 +31,36 @@ TODO: Ajouter une option pour afficher les coordonnées en pixel plutôt qu'en %
 TODO: Permettre d'avoir d'autres animations pour les bloc entrant (1er shot ou bloc invisible dans le shot précédent)
 TODO: Permettre d'avoir des animations pour les bloc sortant (Dernier shot ou bloc invisible dans le shot suivant)
 TODO: Faire les transitions de fonds (à réfléchir !) +Faire la boite de modif des transitions de fond
-TODO: Ajouter un mode de sélection de rendu selon une liste de device
 TODO: Faire les fade in/out des musiques lors des changements de volume
 TODO: Ajouter un skip de frame inutile dans cvideofilewrapper::ReadVideoFrame
 TODO: Revoir les messages d'erreurs lié à exiv2 dans _ImageFileWrapper
 TODO: Transférer le control de volume de la boite vidéo à la boite slide
-TODO: Autoriser les blocs à sortir de l'écran
-
 TODO: Permettre à l'utilisateur de charger un LUMA pour une transition
 TODO: Permettre à l'utilisateur de mettre une vidéo en pause sans pour autant la mettre en invisible
 TODO: Permettre à l'utilisateur de changer les marges des textes à l'intérieur des blocs
 TODO: Gestion de style pour les blocs textes ?
 
+TODO: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
+        => normalement c'est corrigé : faire des tests
+
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+Correction de bugg: Le recadrage "au mieux" par défaut recadrait les images sur la largeur dans tous les cas. Maintenant il s'adapte à l'image
+Correction de bugg: Remet les rotations sur des multiples de 90° dans la boite de correction d'image
+    => bug introduit par le précédent passage en mode à virgule des rotations dans la boite de recadrage
+
+Changement de comportement: Ajoute la durée estimée de temps de traitement restant lors des générations de film
+Changement de comportement: Ajoute une option pour sélectionner l'unité d'affichage des coordonnées dans la boite d'options
+Changement de comportement: Applique l'unité d'affichage des coordonnées dans la boite de propriétés des diapositives (% ou pixel)
+Changement de comportement: Dans la boite de propriétés des slides et dans la boite de recadrage :
+    => n'emplèche plus les blocs de sortir de l'écran
+    => les bords de l'écran se comportent maintenant comme des guides
+Changement de comportement: Dans la boite de recadrage :
+    => remplace la zone zoom pour deux zones largeur/hauteur
+    => change les limites de mouvement et d'agrandissement à + ou - 100%
+    => change le pas des zones d'édition à 1%
 
 -------------------------------------
 Changelog depuis la version 20110713
 -------------------------------------
-
