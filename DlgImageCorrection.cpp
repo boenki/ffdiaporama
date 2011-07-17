@@ -51,10 +51,10 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     ui->RotateED->setMinimum(-180);
     ui->RotateED->setMaximum(180);
 
-    ui->XValue->setSingleStep(1);  ui->XValue->setRange(-1000,1000);
-    ui->YValue->setSingleStep(1);  ui->YValue->setRange(-1000,1000);
-    ui->WValue->setSingleStep(1);  ui->WValue->setRange(-1000,1000);
-    ui->HValue->setSingleStep(1);  ui->HValue->setRange(-1000,1000);
+    ui->XValue->setSingleStep(1);  ui->XValue->setRange(-200,200);
+    ui->YValue->setSingleStep(1);  ui->YValue->setRange(-200,200);
+    ui->WValue->setSingleStep(1);  ui->WValue->setRange(1,200);
+    ui->HValue->setSingleStep(1);  ui->HValue->setRange(1,200);
 
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
@@ -203,9 +203,26 @@ void DlgImageCorrection::s_YValueEDChanged(double Value) {
 
 void DlgImageCorrection::s_WValueEDChanged(double Value) {
     if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
-// Erreur si géométrie libre !
-
-    BrushFileCorrect->ZoomFactor=Value/100;
+    if (BrushFileCorrect->ImageGeometry!=GEOMETRY_CUSTOM) {
+        BrushFileCorrect->ZoomFactor=Value/100;
+    } else {
+        double newH=BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio*ymax;
+        BrushFileCorrect->ZoomFactor=Value/100;
+        double newW=BrushFileCorrect->ZoomFactor*xmax;
+        BrushFileCorrect->AspectRatio=newH/newW;
+    }
+    // Resize and repos all item in the scene
+    for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {
+        cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
+        RectItem->AspectRatio=BrushFileCorrect->AspectRatio;
+        RectItem->setPos(BrushFileCorrect->X*xmax,BrushFileCorrect->Y*ymax);
+        QRectF Rect=RectItem->mapRectFromScene(QRectF(BrushFileCorrect->X*xmax,
+                                                      BrushFileCorrect->Y*ymax,
+                                                      xmax*BrushFileCorrect->ZoomFactor,
+                                                      xmax*BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio));
+        RectItem->setRect(Rect);
+        RectItem->RecalcEmbededResizeRectItem();
+    }
     RefreshControls();
 }
 
@@ -213,9 +230,26 @@ void DlgImageCorrection::s_WValueEDChanged(double Value) {
 
 void DlgImageCorrection::s_HValueEDChanged(double Value) {
     if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
-// Erreur si géométrie libre !
-
-    BrushFileCorrect->ZoomFactor=(Value/100)/BrushFileCorrect->AspectRatio;
+    double newH=(Value/100)*ymax;
+    if (BrushFileCorrect->ImageGeometry!=GEOMETRY_CUSTOM) {
+        double newW=newH/BrushFileCorrect->AspectRatio;
+        BrushFileCorrect->ZoomFactor=newW/xmax;
+    } else {
+        double newW=BrushFileCorrect->ZoomFactor*xmax;
+        BrushFileCorrect->AspectRatio=newH/newW;
+    }
+    // Resize and repos all item in the scene
+    for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {
+        cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
+        RectItem->AspectRatio=BrushFileCorrect->AspectRatio;
+        RectItem->setPos(BrushFileCorrect->X*xmax,BrushFileCorrect->Y*ymax);
+        QRectF Rect=RectItem->mapRectFromScene(QRectF(BrushFileCorrect->X*xmax,
+                                                      BrushFileCorrect->Y*ymax,
+                                                      xmax*BrushFileCorrect->ZoomFactor,
+                                                      xmax*BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio));
+        RectItem->setRect(Rect);
+        RectItem->RecalcEmbededResizeRectItem();
+    }
     RefreshControls();
 }
 

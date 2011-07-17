@@ -345,18 +345,12 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
 
         QPen    Pen;
         double  FullMargin=0;
-        double  W=TheW*double(width);
-        double  H=TheH*double(height);
-        double  Hyp=sqrt(W*W+H*H);
+        double  W=int(TheW*double(width)/2)*2;
+        double  H=int(TheH*double(height)/2)*2;
+        double  Hyp=int((sqrt(W*W+H*H)+double(PenSize)*ADJUST_RATIO*2)/2)*2;
         double  Wb=Hyp;
-        double  Hb=Wb*(H/W);
-        if (Hb<H) {
-            Hb=Hyp;
-            Wb=Hb*(W/H);
-        }
+        double  Hb=Hyp; // always square image
 
-        Wb=Wb+double(PenSize)*ADJUST_RATIO*2;
-        Hb=Hb+double(PenSize)*ADJUST_RATIO*2;
         AddX-=(Wb-W)/2;
         AddY-=(Hb-H)/2;
         QImage   *Img=new QImage(Wb,Hb,QImage::Format_ARGB32_Premultiplied);

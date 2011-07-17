@@ -187,7 +187,8 @@ void DlgRenderVideo::SelectDestinationFile() {
                     QString(FORMATDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat].FileExtension)+")";
         }
     }
-    QString OutputFileName  =QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),Diaporama->ApplicationConfig->LastRenderVideoPath,FileFormat);
+    QString Path=QFileInfo(ui->DestinationFilePath->text()).absolutePath();
+    QString OutputFileName  =QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),Path,FileFormat);
     if (OutputFileName!="") {
         Diaporama->ApplicationConfig->LastRenderVideoPath=QFileInfo(OutputFileName).dir().absolutePath();
         ui->DestinationFilePath->setText(OutputFileName);
