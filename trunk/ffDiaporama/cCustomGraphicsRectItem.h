@@ -115,6 +115,7 @@ protected:
     virtual void        mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void        mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     virtual QVariant    itemChange(GraphicsItemChange change,const QVariant &value);
+    virtual void        keyPressEvent(QKeyEvent *event);
 
 private:
     double               StockW,StockH;  // Stock value when zoom mode is use

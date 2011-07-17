@@ -24,18 +24,6 @@
 // Specific inclusions
 #include "_ApplicationDefinitions.h"
 
-//====================================================================================================================
-#if defined(Q_OS_WIN32)
-#   include <windows.h>
-#endif
-
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-#   include <unistd.h>
-#elif defined(Q_OS_MACX)
-#   include <mach/mach.h>
-#   include <mach/machine.h>
-#endif
-
 /****************************************************************************
   Definition of image format supported by the application
 ****************************************************************************/

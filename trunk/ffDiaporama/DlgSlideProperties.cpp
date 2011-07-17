@@ -566,16 +566,16 @@ void DlgSlideProperties::RefreshSceneImage() {
 
             // Update controls with position & size value
             if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
-                ui->PosXEd->setRange(0,100-CurrentTextItem->w*100);         ui->PosXEd->setValue(CurrentTextItem->x*100);
-                ui->PosYEd->setRange(0,100-CurrentTextItem->h*100);         ui->PosYEd->setValue(CurrentTextItem->y*100);
-                ui->WidthEd->setRange(3,100-CurrentTextItem->x*100);        ui->WidthEd->setValue(CurrentTextItem->w*100);
-                ui->HeightEd->setRange(3,100-CurrentTextItem->y*100);       ui->HeightEd->setValue(CurrentTextItem->h*100);
+                ui->PosXEd->setRange(-200,200);      ui->PosXEd->setValue(CurrentTextItem->x*100);
+                ui->PosYEd->setRange(-200,200);      ui->PosYEd->setValue(CurrentTextItem->y*100);
+                ui->WidthEd->setRange(3,200);        ui->WidthEd->setValue(CurrentTextItem->w*100);
+                ui->HeightEd->setRange(3,200);       ui->HeightEd->setValue(CurrentTextItem->h*100);
             } else { // DisplayUnit==DISPLAYUNIT_PIXELS
                 double DisplayW,DisplayH;   GetForDisplayUnit(DisplayW,DisplayH);
-                ui->PosXEd->setRange(0,  (1-CurrentTextItem->w)*DisplayW);  ui->PosXEd->setValue(  CurrentTextItem->x*DisplayW);
-                ui->PosYEd->setRange(0,  (1-CurrentTextItem->h)*DisplayH);  ui->PosYEd->setValue(  CurrentTextItem->y*DisplayH);
-                ui->WidthEd->setRange(3, (1-CurrentTextItem->x)*DisplayW);  ui->WidthEd->setValue( CurrentTextItem->w*DisplayW);
-                ui->HeightEd->setRange(3,(1-CurrentTextItem->y)*DisplayH);  ui->HeightEd->setValue(CurrentTextItem->h*DisplayH);
+                ui->PosXEd->setRange(-2*DisplayW,2*DisplayW);   ui->PosXEd->setValue(  CurrentTextItem->x*DisplayW);
+                ui->PosYEd->setRange(-2*DisplayH,2*DisplayH);   ui->PosYEd->setValue(  CurrentTextItem->y*DisplayH);
+                ui->WidthEd->setRange(3,2*DisplayW);            ui->WidthEd->setValue( CurrentTextItem->w*DisplayW);
+                ui->HeightEd->setRange(3,2*DisplayH);           ui->HeightEd->setValue(CurrentTextItem->h*DisplayH);
             }
             ui->RotateXED->setValue(CurrentTextItem->RotateXAxis);      ui->RotateXSLD->setValue(CurrentTextItem->RotateXAxis);
             ui->RotateYED->setValue(CurrentTextItem->RotateYAxis);      ui->RotateYSLD->setValue(CurrentTextItem->RotateYAxis);
