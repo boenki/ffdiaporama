@@ -59,7 +59,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","Shadow upper right"));
     ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","Shadow bottom left"));
     ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","Shadow bottom right"));
-    ui->ShadowEffectED->setRange(1,30);
+    ui->ShadowEffectED->setRange(1,100);
 
     // Init combo box external border style
     ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::SolidLine);
@@ -151,6 +151,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->RotateZED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int))); connect(ui->RotateZSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int)));
     connect(ui->PenColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChPenColorCB(int)));
     connect(ui->PenSizeEd,SIGNAL(valueChanged(int)),this,SLOT(s_ChgPenSize(int)));
+    connect(ui->ShadowColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChgShadowColorCB(int)));
 
     // Brush part
     connect(ui->BrushTypeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeBrushTypeCombo(int)));
@@ -498,7 +499,8 @@ void DlgSlideProperties::RefreshControls() {
     ui->PenStyleCB->setEnabled(IsVisible&&(CurrentTextItem)&&(CurrentTextItem->PenSize!=0));
     ui->OpacityCB->setEnabled(IsVisible);
     ui->ShadowEffectCB->setEnabled(IsVisible);
-    ui->ShadowEffectED->setEnabled(IsVisible);
+    ui->ShadowEffectED->setEnabled((IsVisible)&&(CurrentTextItem)&&(CurrentTextItem->FormShadow!=0));
+    ui->ShadowColorCB->setEnabled((IsVisible)&&(CurrentTextItem)&&(CurrentTextItem->FormShadow!=0));
 
     // Refresh Scene Image
     RefreshSceneImage();
@@ -534,8 +536,6 @@ void DlgSlideProperties::RefreshSceneImage() {
     QPainter P;
     P.begin(&NewImage);
 
-    ADJUST_RATIO=double(ymax)/double(1080);    // fixe Adjustment ratio for this slide
-
     for (int i=0;i<CurrentList->List.count();i++) if (CurrentList->List[i].IsVisible) {
         // Draw composition block
         if (CurrentList->List[i].BackgroundBrush.Video) {
@@ -549,8 +549,8 @@ void DlgSlideProperties::RefreshSceneImage() {
                     }
                 }
             }
-            CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,StartVideoPos,NULL,1,NULL,true);
-        } else CurrentList->List[i].DrawCompositionObject(&P,0,0,xmax,ymax,true,0,0,NULL,1,NULL,true);
+            CurrentList->List[i].DrawCompositionObject(&P,double(ymax)/double(1080),0,0,xmax,ymax,true,0,StartVideoPos,NULL,1,NULL,true);
+        } else CurrentList->List[i].DrawCompositionObject(&P,double(ymax)/double(1080),0,0,xmax,ymax,true,0,0,NULL,1,NULL,true);
 
         // Draw frame border
         if (CurrentTextItem==&CurrentList->List[i]) {
@@ -593,6 +593,7 @@ void DlgSlideProperties::RefreshSceneImage() {
             if (CurrentTextItem->FormShadow!=ui->ShadowEffectCB->currentIndex())            ui->ShadowEffectCB->setCurrentIndex(CurrentTextItem->FormShadow);
             if (CurrentTextItem->FormShadowDistance!=ui->ShadowEffectED->value())           ui->ShadowEffectED->setValue(int(CurrentTextItem->FormShadowDistance));
             ui->PenColorCB->SetCurrentColor(&CurrentTextItem->PenColor);
+            ui->ShadowColorCB->SetCurrentColor(&CurrentTextItem->FormShadowColor);
 
             for (int i=0;i<ui->PenStyleCB->count();i++) if (ui->PenStyleCB->itemData(i).toInt()==CurrentTextItem->PenStyle) {
                 if (i!=ui->PenStyleCB->currentIndex()) ui->PenStyleCB->setCurrentIndex(i);
@@ -952,8 +953,8 @@ void DlgSlideProperties::s_ChgPenSize(int) {
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->PenSize=ui->PenSizeEd->value();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    ui->PenColorCB->setEnabled((CurrentTextItem)&&(CurrentTextItem->PenSize!=0));
-    ui->PenStyleCB->setEnabled((CurrentTextItem)&&(CurrentTextItem->PenSize!=0));
+    ui->PenColorCB->setEnabled(CurrentTextItem->PenSize!=0);
+    ui->PenStyleCB->setEnabled(CurrentTextItem->PenSize!=0);
     RefreshSceneImage();
 }
 
@@ -984,6 +985,8 @@ void DlgSlideProperties::s_ChgShadowFormValue(int value) {
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->FormShadow=value;
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
+    ui->ShadowEffectED->setEnabled(CurrentTextItem->FormShadow!=0);
+    ui->ShadowColorCB->setEnabled(CurrentTextItem->FormShadow!=0);
     RefreshSceneImage();
 }
 
@@ -993,6 +996,16 @@ void DlgSlideProperties::s_ChgShadowDistanceValue(int value) {
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->FormShadowDistance =value;
+    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
+    RefreshSceneImage();
+}
+
+//========= shadow color
+void DlgSlideProperties::s_ChgShadowColorCB(int) {
+    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
+    CurrentTextItem->FormShadowColor=ui->ShadowColorCB->GetCurrentColor();
     ApplyGlobalPropertiesToAllShots(CurrentTextItem);
     RefreshSceneImage();
 }
@@ -1017,8 +1030,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        ADJUST_RATIO=1;
-        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,0,NULL,1,NULL,false);
+        Object.DrawCompositionObject(&Painter,1,0,0,32,32,true,0,0,NULL,1,NULL,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -1817,6 +1829,7 @@ void DlgSlideProperties::CopyBlockProperties(cCompositionObject *SourceBlock,cCo
     DestBlock->PenColor             =SourceBlock->PenColor;                 // Color of the border of the form
     DestBlock->FormShadow           =SourceBlock->FormShadow;               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
     DestBlock->FormShadowDistance   =SourceBlock->FormShadowDistance;       // Distance from form to shadow
+    DestBlock->FormShadowColor      =SourceBlock->FormShadowColor;          // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
     DestBlock->Opacity              =SourceBlock->Opacity;                  // Opacity of the form
 
     // Attribut of the BackgroundBrush of the shap part

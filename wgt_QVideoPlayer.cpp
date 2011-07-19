@@ -526,7 +526,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     }
 
     // Ensure background, image and soundtrack is ready (in thread mode)
-    Diaporama->LoadSources(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),true,AddStartPos);
+    Diaporama->LoadSources(Frame,double(ui->MovieFrame->height())/double(1080),ui->MovieFrame->width(),ui->MovieFrame->height(),true,AddStartPos);
 
     // Do Assembly
     Diaporama->DoAssembly(Frame,ui->MovieFrame->width(),ui->MovieFrame->height());

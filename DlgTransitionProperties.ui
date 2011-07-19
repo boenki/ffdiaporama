@@ -49,6 +49,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>Select a transition family</string>
+       </property>
        <item>
         <property name="text">
          <string>None and basic</string>
@@ -136,6 +139,9 @@
          <width>50</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Define the animation duration</string>
        </property>
        <item>
         <property name="text">
@@ -260,6 +266,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="OKBT">
+       <property name="toolTip">
+        <string>Accept modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Ok</string>
        </property>
@@ -271,6 +280,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="CloseBT">
+       <property name="toolTip">
+        <string>Cancel modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Cancel</string>
        </property>
@@ -282,6 +294,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="HelpBT">
+       <property name="toolTip">
+        <string>Open help page describing this dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Help</string>
        </property>

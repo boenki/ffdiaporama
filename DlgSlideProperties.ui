@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>713</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -38,7 +38,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <property name="spacing">
-      <number>4</number>
+      <number>2</number>
      </property>
      <property name="margin">
       <number>0</number>
@@ -53,6 +53,24 @@
        </property>
        <item>
         <widget class="QFrame" name="frame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>26</height>
+          </size>
+         </property>
          <property name="font">
           <font>
            <family>Sans Serif</family>
@@ -66,7 +84,7 @@
 }
 QToolButton:hover{ 
     border: 2px solid #8f8f91;
-     border-radius: 6px;
+     border-radius: 1px;
      background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                        stop: 0 #f6f7fa, stop: 1 #dadbde);
 }
@@ -99,11 +117,26 @@ QToolButton:pressed {
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Sans Serif</family>
               <pointsize>7</pointsize>
              </font>
+            </property>
+            <property name="toolTip">
+             <string>Append a shot to end of the timeline</string>
             </property>
             <property name="text">
              <string>Add shot</string>
@@ -112,14 +145,8 @@ QToolButton:pressed {
              <iconset>
               <normaloff>img/add_project.png</normaloff>img/add_project.png</iconset>
             </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
             <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextUnderIcon</enum>
+             <enum>Qt::ToolButtonIconOnly</enum>
             </property>
            </widget>
           </item>
@@ -131,11 +158,26 @@ QToolButton:pressed {
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Sans Serif</family>
               <pointsize>7</pointsize>
              </font>
+            </property>
+            <property name="toolTip">
+             <string>Remove current selected shot</string>
             </property>
             <property name="text">
              <string>Remove</string>
@@ -144,14 +186,8 @@ QToolButton:pressed {
              <iconset>
               <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
             </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
             <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextUnderIcon</enum>
+             <enum>Qt::ToolButtonIconOnly</enum>
             </property>
            </widget>
           </item>
@@ -163,11 +199,26 @@ QToolButton:pressed {
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Sans Serif</family>
               <pointsize>7</pointsize>
              </font>
+            </property>
+            <property name="toolTip">
+             <string>Change the order of the shot by moving the current selected shot, of a notch towards the left</string>
             </property>
             <property name="text">
              <string>Move left</string>
@@ -176,24 +227,33 @@ QToolButton:pressed {
              <iconset>
               <normaloff>img/arrow_left.png</normaloff>img/arrow_left.png</iconset>
             </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
             <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextUnderIcon</enum>
+             <enum>Qt::ToolButtonIconOnly</enum>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="ShotRightBt">
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <family>Sans Serif</family>
               <pointsize>7</pointsize>
              </font>
+            </property>
+            <property name="toolTip">
+             <string>Change the order of the shot by moving the current selected shot, of a notch towards the right</string>
             </property>
             <property name="text">
              <string>Move right</string>
@@ -202,14 +262,8 @@ QToolButton:pressed {
              <iconset>
               <normaloff>img/arrow_right.png</normaloff>img/arrow_right.png</iconset>
             </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
             <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextUnderIcon</enum>
+             <enum>Qt::ToolButtonIconOnly</enum>
             </property>
            </widget>
           </item>
@@ -217,32 +271,6 @@ QToolButton:pressed {
            <widget class="QLabel" name="label">
             <property name="text">
              <string notr="true"/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="TVMarginsBT">
-            <property name="font">
-             <font>
-              <family>Sans Serif</family>
-              <pointsize>7</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>TV margins</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>img/ruler_ok.png</normaloff>img/ruler_ok.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextUnderIcon</enum>
             </property>
            </widget>
           </item>
@@ -322,9 +350,6 @@ QToolButton:pressed {
         </widget>
        </item>
        <item>
-        <widget class="QGraphicsView" name="GraphicsView"/>
-       </item>
-       <item>
         <layout class="QGridLayout" name="gridLayout_5">
          <property name="margin">
           <number>0</number>
@@ -352,6 +377,9 @@ QToolButton:pressed {
               <font>
                <pointsize>9</pointsize>
               </font>
+             </property>
+             <property name="toolTip">
+              <string>Indicate the duration for the current selected shot.</string>
              </property>
              <property name="maximumDateTime">
               <datetime>
@@ -388,7 +416,6 @@ QToolButton:pressed {
              </property>
              <property name="font">
               <font>
-               <pointsize>8</pointsize>
                <italic>true</italic>
               </font>
              </property>
@@ -411,6 +438,18 @@ QToolButton:pressed {
          </item>
          <item row="8" column="0">
           <widget class="QLabel" name="label_29">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>24</height>
+            </size>
+           </property>
            <property name="text">
             <string>Total slide duration :</string>
            </property>
@@ -418,24 +457,81 @@ QToolButton:pressed {
          </item>
          <item row="8" column="1">
           <widget class="QLabel" name="SlideDurationLabel">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
            <property name="text">
             <string notr="true">00:00:00.000</string>
            </property>
           </widget>
          </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_28">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Sans Serif</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Slide name :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="SlideNameED">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Sans Serif</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string>Indicate a name for the slide. It is this name which will appear on the thumbnail in the main window timeline.</string>
+           </property>
+          </widget>
+         </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QGraphicsView" name="GraphicsView"/>
        </item>
       </layout>
      </item>
      <item>
       <widget class="QWidget" name="widget" native="true">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -448,193 +544,6 @@ QToolButton:pressed {
          <number>1</number>
         </property>
         <item>
-         <widget class="QFrame" name="horizontalFrame_2">
-          <property name="styleSheet">
-           <string notr="true">QToolButton {
-	background-color: transparent;
-	border: none; 
-}
-QToolButton:hover{ 
-    border: 2px solid #8f8f91;
-     border-radius: 6px;
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
-}
-QToolButton:pressed {
-    border: 2px solid #8f8f91;
-     border-radius: 6px;
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
- }
-</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>1</number>
-           </property>
-           <item>
-            <widget class="QToolButton" name="AddTextBlock">
-             <property name="font">
-              <font>
-               <family>Sans Serif</family>
-               <pointsize>7</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Add title</string>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>img/add_text.png</normaloff>img/add_text.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextUnderIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="AddFileBlock">
-             <property name="font">
-              <font>
-               <family>Sans Serif</family>
-               <pointsize>7</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Add file</string>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>img/add_image.png</normaloff>img/add_image.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextUnderIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="RemoveBlock">
-             <property name="font">
-              <font>
-               <family>Sans Serif</family>
-               <pointsize>7</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Remove</string>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextUnderIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="CopyBlockBT">
-             <property name="font">
-              <font>
-               <family>Sans Serif</family>
-               <pointsize>7</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Copy</string>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>img/editcopy.png</normaloff>img/editcopy.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextUnderIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="CutBlockBT">
-             <property name="font">
-              <font>
-               <family>Sans Serif</family>
-               <pointsize>7</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Cut</string>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>img/editcut.png</normaloff>img/editcut.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextUnderIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="PasteBlockBT">
-             <property name="font">
-              <font>
-               <family>Sans Serif</family>
-               <pointsize>7</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Paste</string>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>img/editpaste.png</normaloff>img/editpaste.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextUnderIcon</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <property name="spacing">
            <number>0</number>
@@ -645,15 +554,21 @@ QToolButton:pressed {
           <item>
            <widget class="QTableWidget" name="BlockTable">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>108</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>80</height>
+              <height>108</height>
              </size>
             </property>
             <property name="verticalScrollBarPolicy">
@@ -737,6 +652,9 @@ QToolButton:pressed {
                 <pointsize>8</pointsize>
                </font>
               </property>
+              <property name="toolTip">
+               <string>Change the order of blocks by moving the active block upward (towards the background)</string>
+              </property>
               <property name="text">
                <string notr="true">Block up</string>
               </property>
@@ -774,6 +692,9 @@ QToolButton:pressed {
                 <family>Sans Serif</family>
                 <pointsize>8</pointsize>
                </font>
+              </property>
+              <property name="toolTip">
+               <string>Change the order of blocks by moving the active block downward (towards the foreground)</string>
               </property>
               <property name="text">
                <string notr="true">Block down</string>
@@ -823,43 +744,27 @@ QToolButton:pressed {
          </layout>
         </item>
         <item>
-         <widget class="QTabWidget" name="BlockTabWidget">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+         <widget class="QFrame" name="horizontalFrameBlock">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>26</height>
+           </size>
           </property>
-          <property name="currentIndex">
-           <number>0</number>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>26</height>
+           </size>
           </property>
-          <widget class="QWidget" name="Block">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <attribute name="title">
-            <string>Block</string>
-           </attribute>
-           <layout class="QGridLayout" name="_2">
-            <property name="margin">
-             <number>4</number>
-            </property>
-            <property name="spacing">
-             <number>2</number>
-            </property>
-            <item row="0" column="0" colspan="3">
-             <widget class="QFrame" name="horizontalFrameBlock">
-              <property name="styleSheet">
-               <string notr="true">QToolButton {
+          <property name="styleSheet">
+           <string notr="true">QToolButton {
 	background-color: transparent;
 	border: none; 
 }
 QToolButton:hover{ 
     border: 2px solid #8f8f91;
-     border-radius: 6px;
+     border-radius: 1px;
      background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                        stop: 0 #f6f7fa, stop: 1 #dadbde);
 }
@@ -870,78 +775,404 @@ QToolButton:pressed {
                                        stop: 0 #f6f7fa, stop: 1 #dadbde);
  }
 </string>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_12">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="margin">
-                <number>1</number>
-               </property>
-               <item>
-                <widget class="QToolButton" name="VisibleBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>7</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Visible</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>img/Visible_OK.png</normaloff>img/Visible_OK.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="toolButtonStyle">
-                  <enum>Qt::ToolButtonTextUnderIcon</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="SoundBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>7</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Play sound</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>img/object_sound.png</normaloff>img/object_sound.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="toolButtonStyle">
-                  <enum>Qt::ToolButtonTextUnderIcon</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="4" column="0" colspan="3">
-             <widget class="Line" name="line_7">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="18" column="0" colspan="3">
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="margin">
+            <number>1</number>
+           </property>
+           <item>
+            <widget class="QToolButton" name="AddTextBlock">
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Add a new title block</string>
+             </property>
+             <property name="text">
+              <string notr="true">Add title</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/add_text.png</normaloff>img/add_text.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="AddFileBlock">
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Add a new block of type image or video.</string>
+             </property>
+             <property name="text">
+              <string notr="true">Add file</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/add_image.png</normaloff>img/add_image.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="RemoveBlock">
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Remove the current block</string>
+             </property>
+             <property name="text">
+              <string notr="true">Remove</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="CopyBlockBT">
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Copy the current block to the ffDiaporama clipboard.</string>
+             </property>
+             <property name="text">
+              <string notr="true">Copy</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/editcopy.png</normaloff>img/editcopy.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="CutBlockBT">
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Copy the current block to the ffDiaporama clipboard and remove it from the slide</string>
+             </property>
+             <property name="text">
+              <string notr="true">Cut</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/editcut.png</normaloff>img/editcut.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="PasteBlockBT">
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Paste block from the ffDiaporama clipboard and insert it.</string>
+             </property>
+             <property name="text">
+              <string notr="true">Paste</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/editpaste.png</normaloff>img/editpaste.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="VisibleBT">
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Make visible or hidden the active block</string>
+             </property>
+             <property name="text">
+              <string notr="true">Visible</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/Visible_OK.png</normaloff>img/Visible_OK.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="SoundBT">
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Give the sound, during this shot, to the current video block</string>
+             </property>
+             <property name="text">
+              <string notr="true">Play sound</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/object_sound.png</normaloff>img/object_sound.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="TextEditBT">
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Define the properties of the text block</string>
+             </property>
+             <property name="text">
+              <string notr="true">Edit text</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/EditText.png</normaloff>img/EditText.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="ImageEditCorrectBT">
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Define framing and do correction of image or movie</string>
+             </property>
+             <property name="text">
+              <string notr="true">Framing-Correction</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/EditImage.png</normaloff>img/EditImage.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="VideoEditBT">
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Cut the video</string>
+             </property>
+             <property name="text">
+              <string notr="true">Cut video</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/EditMovie.png</normaloff>img/EditMovie.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="BlockTabWidget">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>310</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="Block">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <attribute name="title">
+            <string>Block/Object</string>
+           </attribute>
+           <layout class="QGridLayout" name="_2">
+            <property name="margin">
+             <number>4</number>
+            </property>
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <item row="17" column="0" colspan="2">
              <widget class="QScrollArea" name="scrollArea">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="frameShape">
                <enum>QFrame::NoFrame</enum>
               </property>
@@ -949,7 +1180,7 @@ QToolButton:pressed {
                <enum>Qt::ScrollBarAlwaysOn</enum>
               </property>
               <property name="horizontalScrollBarPolicy">
-               <enum>Qt::ScrollBarAlwaysOn</enum>
+               <enum>Qt::ScrollBarAlwaysOff</enum>
               </property>
               <property name="widgetResizable">
                <bool>true</bool>
@@ -959,9 +1190,15 @@ QToolButton:pressed {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>259</width>
-                 <height>430</height>
+                 <width>282</width>
+                 <height>669</height>
                 </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
                <layout class="QGridLayout" name="gridLayout">
                 <property name="leftMargin">
@@ -979,82 +1216,6 @@ QToolButton:pressed {
                 <property name="spacing">
                  <number>2</number>
                 </property>
-                <item row="11" column="0">
-                 <widget class="QLabel" name="label_22">
-                  <property name="text">
-                   <string>Dist :</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="10" column="0">
-                 <widget class="QLabel" name="label_13">
-                  <property name="font">
-                   <font>
-                    <weight>50</weight>
-                    <bold>false</bold>
-                    <underline>false</underline>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Shadow :</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="10" column="1">
-                 <widget class="QComboBox" name="ShadowEffectCB">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>120</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item row="11" column="1">
-                 <widget class="QSpinBox" name="ShadowEffectED">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>60</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>60</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>8</pointsize>
-                   </font>
-                  </property>
-                 </widget>
-                </item>
                 <item row="9" column="0">
                  <widget class="QLabel" name="label_14">
                   <property name="text">
@@ -1067,6 +1228,12 @@ QToolButton:pressed {
                 </item>
                 <item row="7" column="0">
                  <widget class="QLabel" name="label_20">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="text">
                    <string>Shape :</string>
                   </property>
@@ -1096,7 +1263,7 @@ QToolButton:pressed {
                    </size>
                   </property>
                   <property name="toolTip">
-                   <string>Select a shape for selected text</string>
+                   <string>Select a shape for current block</string>
                   </property>
                   <property name="styleSheet">
                    <string notr="true">QComboBox QAbstractItemView {
@@ -1139,6 +1306,9 @@ color: #000000;
                     <height>24</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Defined the opaqueness of the block.</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="9" column="1">
@@ -1169,7 +1339,7 @@ color: #000000;
                      </font>
                     </property>
                     <property name="toolTip">
-                     <string>Define pen size for shape of selected text</string>
+                     <string>Defined the thickness of the border</string>
                     </property>
                     <property name="buttonSymbols">
                      <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1195,6 +1365,9 @@ color: #000000;
                       <width>48</width>
                       <height>24</height>
                      </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Defined the color of the line to be used to draw the border</string>
                     </property>
                     <property name="iconSize">
                      <size>
@@ -1224,6 +1397,9 @@ color: #000000;
                       <height>24</height>
                      </size>
                     </property>
+                    <property name="toolTip">
+                     <string>Defined the type of line (solid, dotted line, etc.)</string>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">QComboBox QAbstractItemView {
 background: #ffffff;
@@ -1234,6 +1410,12 @@ color: #000000;
                   </item>
                   <item>
                    <widget class="QLabel" name="label_19">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="text">
                      <string notr="true"/>
                     </property>
@@ -1241,53 +1423,18 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="6" column="0" colspan="2">
-                 <widget class="Line" name="line_2">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="0" colspan="2">
+                <item row="5" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_22">
-                  <property name="topMargin">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="Rotate_Z">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string notr="true"/>
-                    </property>
-                    <property name="pixmap">
-                     <pixmap>img/RotateX.png</pixmap>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
                    <widget class="QSlider" name="RotateYSLD">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
@@ -1303,6 +1450,9 @@ color: #000000;
                       <width>16777215</width>
                       <height>24</height>
                      </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Define rotation according to the X axis (defined in degree).</string>
                     </property>
                     <property name="minimum">
                      <number>-180</number>
@@ -1340,6 +1490,12 @@ color: #000000;
                       <pointsize>8</pointsize>
                      </font>
                     </property>
+                    <property name="toolTip">
+                     <string>Define rotation according to the X axis (defined in degree).</string>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::PlusMinus</enum>
+                    </property>
                     <property name="minimum">
                      <number>-180</number>
                     </property>
@@ -1350,46 +1506,18 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="4" column="0" colspan="2">
+                <item row="4" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_21">
-                  <property name="topMargin">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="Rotate_Y">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string notr="true"/>
-                    </property>
-                    <property name="pixmap">
-                     <pixmap>img/RotateY.png</pixmap>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
                    <widget class="QSlider" name="RotateXSLD">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
@@ -1405,6 +1533,9 @@ color: #000000;
                       <width>16777215</width>
                       <height>24</height>
                      </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Define rotation according to the Y axis (defined in degree).</string>
                     </property>
                     <property name="minimum">
                      <number>-180</number>
@@ -1442,6 +1573,12 @@ color: #000000;
                       <pointsize>8</pointsize>
                      </font>
                     </property>
+                    <property name="toolTip">
+                     <string>Define rotation according to the Y axis (defined in degree).</string>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::PlusMinus</enum>
+                    </property>
                     <property name="minimum">
                      <number>-180</number>
                     </property>
@@ -1452,46 +1589,18 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="3" column="0" colspan="2">
+                <item row="3" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_20">
-                  <property name="topMargin">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="Rotate_X">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string notr="true"/>
-                    </property>
-                    <property name="pixmap">
-                     <pixmap>img/RotateZ.png</pixmap>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
                    <widget class="QSlider" name="RotateZSLD">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
@@ -1507,6 +1616,9 @@ color: #000000;
                       <width>16777215</width>
                       <height>24</height>
                      </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Define rotation according to the Z axis (defined in degree).</string>
                     </property>
                     <property name="minimum">
                      <number>-180</number>
@@ -1544,6 +1656,12 @@ color: #000000;
                       <pointsize>8</pointsize>
                      </font>
                     </property>
+                    <property name="toolTip">
+                     <string>Define rotation according to the Z axis (defined in degree).</string>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::PlusMinus</enum>
+                    </property>
                     <property name="minimum">
                      <number>-180</number>
                     </property>
@@ -1557,17 +1675,16 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="2" column="0" colspan="2">
-                 <widget class="Line" name="line_8">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                <item row="11" column="1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_10">
+                  <property name="spacing">
+                   <number>2</number>
                   </property>
-                 </widget>
-                </item>
-                <item row="1" column="0" colspan="2">
-                 <layout class="QHBoxLayout" name="horizontalLayout_18">
+                  <property name="margin">
+                   <number>0</number>
+                  </property>
                   <item>
-                   <widget class="QLabel" name="PosSize_Width">
+                   <widget class="QSpinBox" name="ShadowEffectED">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -1576,44 +1693,13 @@ color: #000000;
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>24</width>
+                      <width>60</width>
                       <height>24</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string notr="true"/>
-                    </property>
-                    <property name="pixmap">
-                     <pixmap>img/PosSize_Width.png</pixmap>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QDoubleSpinBox" name="WidthEd">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>75</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>75</width>
+                      <width>60</width>
                       <height>24</height>
                      </size>
                     </property>
@@ -1623,19 +1709,41 @@ color: #000000;
                      </font>
                     </property>
                     <property name="toolTip">
-                     <string>Define width of selected text</string>
+                     <string>Defined the distance between the block and its shadow</string>
                     </property>
                     <property name="buttonSymbols">
                      <enum>QAbstractSpinBox::PlusMinus</enum>
                     </property>
-                    <property name="suffix">
-                     <string notr="true">%</string>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="cCustomColorComboBox" name="ShadowColorCB">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
                     </property>
-                    <property name="maximum">
-                     <double>100.000000000000000</double>
+                    <property name="minimumSize">
+                     <size>
+                      <width>48</width>
+                      <height>24</height>
+                     </size>
                     </property>
-                    <property name="value">
-                     <double>100.000000000000000</double>
+                    <property name="maximumSize">
+                     <size>
+                      <width>48</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Defined the color of the shadow</string>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>64</width>
+                      <height>16</height>
+                     </size>
                     </property>
                    </widget>
                   </item>
@@ -1646,418 +1754,34 @@ color: #000000;
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <widget class="QLabel" name="PosSize_Height">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string notr="true"/>
-                    </property>
-                    <property name="pixmap">
-                     <pixmap>img/PosSize_Height.png</pixmap>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QDoubleSpinBox" name="HeightEd">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>75</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>75</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>8</pointsize>
-                     </font>
-                    </property>
-                    <property name="toolTip">
-                     <string>Define height of selected text</string>
-                    </property>
-                    <property name="buttonSymbols">
-                     <enum>QAbstractSpinBox::PlusMinus</enum>
-                    </property>
-                    <property name="suffix">
-                     <string notr="true">%</string>
-                    </property>
-                    <property name="maximum">
-                     <double>100.000000000000000</double>
-                    </property>
-                    <property name="value">
-                     <double>100.000000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
                  </layout>
                 </item>
-                <item row="0" column="0" colspan="2">
-                 <layout class="QHBoxLayout" name="horizontalLayout_16">
-                  <item>
-                   <widget class="QLabel" name="PosSize_X">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string notr="true"/>
-                    </property>
-                    <property name="pixmap">
-                     <pixmap>img/PosSize_X.png</pixmap>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QDoubleSpinBox" name="PosXEd">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>75</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>75</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>8</pointsize>
-                     </font>
-                    </property>
-                    <property name="toolTip">
-                     <string>Define X position of selected text</string>
-                    </property>
-                    <property name="buttonSymbols">
-                     <enum>QAbstractSpinBox::PlusMinus</enum>
-                    </property>
-                    <property name="suffix">
-                     <string notr="true">%</string>
-                    </property>
-                    <property name="maximum">
-                     <double>100.000000000000000</double>
-                    </property>
-                    <property name="value">
-                     <double>100.000000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_3">
-                    <property name="text">
-                     <string notr="true"/>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="PosSize_Y">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>24</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string notr="true"/>
-                    </property>
-                    <property name="pixmap">
-                     <pixmap>img/PosSize_Y.png</pixmap>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QDoubleSpinBox" name="PosYEd">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>75</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>75</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>8</pointsize>
-                     </font>
-                    </property>
-                    <property name="toolTip">
-                     <string>Define Y position of selected text</string>
-                    </property>
-                    <property name="buttonSymbols">
-                     <enum>QAbstractSpinBox::PlusMinus</enum>
-                    </property>
-                    <property name="suffix">
-                     <string notr="true">%</string>
-                    </property>
-                    <property name="maximum">
-                     <double>100.000000000000000</double>
-                    </property>
-                    <property name="value">
-                     <double>100.000000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item row="12" column="1">
-                 <spacer name="verticalSpacer_2">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
+                <item row="14" column="1">
+                 <widget class="QComboBox" name="BrushTypeCombo">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
-                  <property name="sizeHint" stdset="0">
+                  <property name="minimumSize">
                    <size>
-                    <width>20</width>
-                    <height>40</height>
+                    <width>175</width>
+                    <height>24</height>
                    </size>
                   </property>
-                 </spacer>
+                  <property name="maximumSize">
+                   <size>
+                    <width>175</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Define the background brush type for the shape</string>
+                  </property>
+                 </widget>
                 </item>
-               </layout>
-              </widget>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="Object">
-           <attribute name="title">
-            <string>Object</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_4">
-            <property name="margin">
-             <number>4</number>
-            </property>
-            <property name="spacing">
-             <number>2</number>
-            </property>
-            <item row="0" column="0" colspan="3">
-             <widget class="QFrame" name="horizontalFrame">
-              <property name="styleSheet">
-               <string notr="true">QToolButton {
-	background-color: transparent;
-	border: none; 
-}
-QToolButton:hover{ 
-    border: 2px solid #8f8f91;
-     border-radius: 6px;
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
-}
-QToolButton:pressed {
-    border: 2px solid #8f8f91;
-     border-radius: 6px;
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
- }
-</string>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_11">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="margin">
-                <number>1</number>
-               </property>
-               <item>
-                <widget class="QToolButton" name="TextEditBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>7</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Edit text</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>img/EditText.png</normaloff>img/EditText.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="toolButtonStyle">
-                  <enum>Qt::ToolButtonTextUnderIcon</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="ImageEditCorrectBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>7</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Framing-Correction</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>img/EditImage.png</normaloff>img/EditImage.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="toolButtonStyle">
-                  <enum>Qt::ToolButtonTextUnderIcon</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="VideoEditBT">
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>7</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Cut video</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>img/EditMovie.png</normaloff>img/EditMovie.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="toolButtonStyle">
-                  <enum>Qt::ToolButtonTextUnderIcon</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="1" column="0" colspan="3">
-             <widget class="Line" name="line">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0" colspan="3">
-             <widget class="QScrollArea" name="scrollArea_2">
-              <property name="frameShape">
-               <enum>QFrame::NoFrame</enum>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarAlwaysOn</enum>
-              </property>
-              <property name="horizontalScrollBarPolicy">
-               <enum>Qt::ScrollBarAlwaysOn</enum>
-              </property>
-              <property name="widgetResizable">
-               <bool>true</bool>
-              </property>
-              <widget class="QWidget" name="scrollAreaWidgetContents_2">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>259</width>
-                 <height>430</height>
-                </rect>
-               </property>
-               <layout class="QGridLayout" name="gridLayout_2">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>2</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>10</number>
-                </property>
-                <property name="spacing">
-                 <number>2</number>
-                </property>
-                <item row="0" column="0">
+                <item row="14" column="0">
                  <widget class="QLabel" name="BrushTypeLabel">
                   <property name="text">
                    <string>Brush :</string>
@@ -2067,23 +1791,7 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="1">
-                 <widget class="QComboBox" name="BrushTypeCombo">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
+                <item row="15" column="0">
                  <widget class="QLabel" name="ColorLabel1">
                   <property name="text">
                    <string>Color :</string>
@@ -2093,7 +1801,7 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="1">
+                <item row="15" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_3">
                   <property name="spacing">
                    <number>0</number>
@@ -2121,6 +1829,9 @@ QToolButton:pressed {
                       <height>24</height>
                      </size>
                     </property>
+                    <property name="toolTip">
+                     <string>Define the color (or first color for a gradient brush)</string>
+                    </property>
                    </widget>
                   </item>
                   <item>
@@ -2142,6 +1853,9 @@ QToolButton:pressed {
                       <width>48</width>
                       <height>24</height>
                      </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Define the second gradient brush color </string>
                     </property>
                    </widget>
                   </item>
@@ -2165,10 +1879,31 @@ QToolButton:pressed {
                       <height>24</height>
                      </size>
                     </property>
+                    <property name="toolTip">
+                     <string>Define the third gradient brush color </string>
+                    </property>
                    </widget>
                   </item>
                   <item>
                    <widget class="QLabel" name="ColorLabel2">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>24</height>
+                     </size>
+                    </property>
                     <property name="text">
                      <string notr="true"/>
                     </property>
@@ -2176,7 +1911,7 @@ QToolButton:pressed {
                   </item>
                  </layout>
                 </item>
-                <item row="2" column="0">
+                <item row="16" column="0">
                  <widget class="QLabel" name="PatternLabel">
                   <property name="text">
                    <string>Pattern :</string>
@@ -2186,7 +1921,7 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="1">
+                <item row="16" column="1">
                  <widget class="cCustomBrushComboBox" name="PatternBrushCombo">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2206,6 +1941,9 @@ QToolButton:pressed {
                     <height>24</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Select the pattern</string>
+                  </property>
                   <property name="editable">
                    <bool>false</bool>
                   </property>
@@ -2217,7 +1955,7 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="0">
+                <item row="17" column="0">
                  <widget class="QLabel" name="OrientationLabel">
                   <property name="text">
                    <string>Orientation :</string>
@@ -2227,7 +1965,7 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="1">
+                <item row="17" column="1">
                  <widget class="cGradientOrientationComboBox" name="OrientationCombo">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2247,6 +1985,9 @@ QToolButton:pressed {
                     <height>24</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Define orientation of the gradient brush</string>
+                  </property>
                   <property name="iconSize">
                    <size>
                     <width>64</width>
@@ -2255,7 +1996,7 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="4" column="0">
+                <item row="18" column="0">
                  <widget class="QLabel" name="IntermPosLabel">
                   <property name="text">
                    <string>Position :</string>
@@ -2265,7 +2006,7 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="4" column="1">
+                <item row="18" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_14">
                   <property name="margin">
                    <number>0</number>
@@ -2273,7 +2014,7 @@ QToolButton:pressed {
                   <item>
                    <widget class="QSlider" name="IntermPosSlider">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
@@ -2289,6 +2030,9 @@ QToolButton:pressed {
                       <width>16777215</width>
                       <height>24</height>
                      </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Define position of the second color in the gradient brush</string>
                     </property>
                     <property name="minimum">
                      <number>1</number>
@@ -2326,6 +2070,12 @@ QToolButton:pressed {
                       <pointsize>8</pointsize>
                      </font>
                     </property>
+                    <property name="toolTip">
+                     <string>Define position of the second color in the gradient brush</string>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::PlusMinus</enum>
+                    </property>
                     <property name="suffix">
                      <string notr="true">%</string>
                     </property>
@@ -2339,7 +2089,7 @@ QToolButton:pressed {
                   </item>
                  </layout>
                 </item>
-                <item row="5" column="0">
+                <item row="19" column="0">
                  <widget class="QLabel" name="ImageLibraryLabel">
                   <property name="text">
                    <string>Image :</string>
@@ -2349,29 +2099,32 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="5" column="1">
+                <item row="19" column="1">
                  <widget class="cBackgroundComboBox" name="BackgroundCombo">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>0</width>
+                    <width>175</width>
                     <height>66</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>16777215</width>
+                    <width>175</width>
                     <height>66</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Select an image among that present in the library</string>
+                  </property>
                  </widget>
                 </item>
-                <item row="6" column="0">
+                <item row="20" column="0">
                  <widget class="QLabel" name="FileNameLabel">
                   <property name="text">
                    <string>Filename :</string>
@@ -2381,10 +2134,13 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="6" column="1">
+                <item row="20" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_7">
                   <property name="spacing">
                    <number>0</number>
+                  </property>
+                  <property name="sizeConstraint">
+                   <enum>QLayout::SetMinimumSize</enum>
                   </property>
                   <property name="margin">
                    <number>0</number>
@@ -2392,16 +2148,25 @@ QToolButton:pressed {
                   <item>
                    <widget class="QLineEdit" name="FileNameED">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="maximumSize">
+                    <property name="minimumSize">
                      <size>
-                      <width>153</width>
+                      <width>0</width>
                       <height>24</height>
                      </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Name of image/video file</string>
                     </property>
                     <property name="readOnly">
                      <bool>true</bool>
@@ -2410,11 +2175,20 @@ QToolButton:pressed {
                   </item>
                   <item>
                    <widget class="QToolButton" name="FileNameBT">
+                    <property name="minimumSize">
+                     <size>
+                      <width>22</width>
+                      <height>0</height>
+                     </size>
+                    </property>
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
+                      <width>22</width>
                       <height>24</height>
                      </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Select an other file</string>
                     </property>
                     <property name="text">
                      <string notr="true">...</string>
@@ -2427,7 +2201,7 @@ QToolButton:pressed {
                   </item>
                  </layout>
                 </item>
-                <item row="7" column="0">
+                <item row="21" column="0">
                  <widget class="QLabel" name="ImageGeometryLabel">
                   <property name="text">
                    <string>Geometry :</string>
@@ -2437,27 +2211,67 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="7" column="1">
+                <item row="21" column="1">
                  <widget class="QComboBox" name="ImageGeometryCB">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>175</width>
+                    <height>24</height>
+                   </size>
+                  </property>
                   <property name="maximumSize">
                    <size>
                     <width>175</width>
                     <height>24</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Select the geometrical constraint to be applied to the block</string>
+                  </property>
                  </widget>
                 </item>
-                <item row="8" column="1">
+                <item row="22" column="0">
+                 <widget class="QLabel" name="TransformationLabel">
+                  <property name="text">
+                   <string>Transformation :</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="22" column="1">
                  <widget class="cOnOffFilterComboBox" name="TransformationCB">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>175</width>
+                    <height>24</height>
+                   </size>
+                  </property>
                   <property name="maximumSize">
                    <size>
                     <width>175</width>
                     <height>24</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Apply a filter to the photo or the images of the video</string>
+                  </property>
                  </widget>
                 </item>
-                <item row="9" column="0">
+                <item row="23" column="0">
                  <widget class="QLabel" name="BlurLabel">
                   <property name="text">
                    <string>Blur/Sharpen :</string>
@@ -2467,10 +2281,13 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="9" column="1">
+                <item row="23" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
                   <property name="spacing">
                    <number>0</number>
+                  </property>
+                  <property name="sizeConstraint">
+                   <enum>QLayout::SetMinimumSize</enum>
                   </property>
                   <property name="margin">
                    <number>0</number>
@@ -2478,16 +2295,25 @@ QToolButton:pressed {
                   <item>
                    <widget class="QSlider" name="BlurSigmaSlider">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="maximumSize">
+                    <property name="minimumSize">
                      <size>
-                      <width>120</width>
+                      <width>0</width>
                       <height>24</height>
                      </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Define a blur/sharpen filter to the photo</string>
                     </property>
                     <property name="minimum">
                      <number>-100</number>
@@ -2529,6 +2355,9 @@ QToolButton:pressed {
                       <height>24</height>
                      </size>
                     </property>
+                    <property name="toolTip">
+                     <string>Define a blur/sharpen filter to the photo</string>
+                    </property>
                     <property name="buttonSymbols">
                      <enum>QAbstractSpinBox::PlusMinus</enum>
                     </property>
@@ -2548,7 +2377,7 @@ QToolButton:pressed {
                   </item>
                  </layout>
                 </item>
-                <item row="10" column="0">
+                <item row="24" column="0">
                  <widget class="QLabel" name="BlurRadiusLabel">
                   <property name="text">
                    <string>Radius :</string>
@@ -2558,21 +2387,39 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="10" column="1">
+                <item row="24" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_15">
                   <property name="spacing">
                    <number>0</number>
+                  </property>
+                  <property name="sizeConstraint">
+                   <enum>QLayout::SetMinimumSize</enum>
                   </property>
                   <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
                    <widget class="QSlider" name="BlurRadiusSlider">
-                    <property name="maximumSize">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
                      <size>
-                      <width>120</width>
+                      <width>0</width>
                       <height>24</height>
                      </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Define a blur/sharpen filter to the photo</string>
                     </property>
                     <property name="maximum">
                      <number>90</number>
@@ -2605,6 +2452,9 @@ QToolButton:pressed {
                       <height>24</height>
                      </size>
                     </property>
+                    <property name="toolTip">
+                     <string>Define a blur/sharpen filter to the photo</string>
+                    </property>
                     <property name="buttonSymbols">
                      <enum>QAbstractSpinBox::PlusMinus</enum>
                     </property>
@@ -2618,17 +2468,7 @@ QToolButton:pressed {
                   </item>
                  </layout>
                 </item>
-                <item row="8" column="0">
-                 <widget class="QLabel" name="TransformationLabel">
-                  <property name="text">
-                   <string>Transformation :</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="11" column="1">
+                <item row="25" column="1">
                  <spacer name="verticalSpacer">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -2640,6 +2480,489 @@ QToolButton:pressed {
                    </size>
                   </property>
                  </spacer>
+                </item>
+                <item row="2" column="1">
+                 <layout class="QHBoxLayout" name="horizontalLayout">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="margin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QDoubleSpinBox" name="WidthEd">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>75</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>75</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="toolTip">
+                     <string>Define width of current block</string>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::PlusMinus</enum>
+                    </property>
+                    <property name="suffix">
+                     <string notr="true">%</string>
+                    </property>
+                    <property name="maximum">
+                     <double>100.000000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>100.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="PosSize_Height">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string notr="true"/>
+                    </property>
+                    <property name="pixmap">
+                     <pixmap>img/PosSize_Height.png</pixmap>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QDoubleSpinBox" name="HeightEd">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>75</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>75</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="toolTip">
+                     <string>Define height of current block</string>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::PlusMinus</enum>
+                    </property>
+                    <property name="suffix">
+                     <string notr="true">%</string>
+                    </property>
+                    <property name="maximum">
+                     <double>100.000000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>100.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="1" column="1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_16">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QDoubleSpinBox" name="PosXEd">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>75</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>75</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="toolTip">
+                     <string>Define X position of current block</string>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::PlusMinus</enum>
+                    </property>
+                    <property name="suffix">
+                     <string notr="true">%</string>
+                    </property>
+                    <property name="maximum">
+                     <double>100.000000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>100.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="PosSize_Y">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string notr="true"/>
+                    </property>
+                    <property name="pixmap">
+                     <pixmap>img/PosSize_Y.png</pixmap>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QDoubleSpinBox" name="PosYEd">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>75</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>75</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="toolTip">
+                     <string>Define Y position of current block</string>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::PlusMinus</enum>
+                    </property>
+                    <property name="suffix">
+                     <string notr="true">%</string>
+                    </property>
+                    <property name="maximum">
+                     <double>100.000000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>100.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="10" column="1">
+                 <widget class="QComboBox" name="ShadowEffectCB">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>175</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>175</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Defined in which corner the shadow will be positioned (or no shadow)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="10" column="0">
+                 <widget class="QLabel" name="label_13">
+                  <property name="font">
+                   <font>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                    <underline>false</underline>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Shadow :</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="PosSize_X">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap>img/PosSize_X.png</pixmap>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="PosSize_Width">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap>img/PosSize_Width.png</pixmap>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="Rotate_X">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap>img/RotateZ.png</pixmap>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="Rotate_Y">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap>img/RotateY.png</pixmap>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="0">
+                 <widget class="QLabel" name="Rotate_Z">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap>img/RotateX.png</pixmap>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0" colspan="2">
+                 <widget class="QLabel" name="label_8">
+                  <property name="frameShape">
+                   <enum>QFrame::Panel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <property name="text">
+                   <string>Coordinates :</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0" colspan="2">
+                 <widget class="QLabel" name="label_9">
+                  <property name="frameShape">
+                   <enum>QFrame::Panel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <property name="text">
+                   <string>Block :</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="13" column="0" colspan="2">
+                 <widget class="QLabel" name="label_10">
+                  <property name="frameShape">
+                   <enum>QFrame::Panel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <property name="text">
+                   <string>Object :</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -2761,17 +3084,27 @@ QToolButton:pressed {
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="label_28">
-       <property name="text">
-        <string>Slide name :</string>
+      <widget class="QToolButton" name="TVMarginsBT">
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <pointsize>7</pointsize>
+        </font>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <property name="toolTip">
+        <string>Enable or disable rulers corresponding to the margins of television sets.</string>
+       </property>
+       <property name="text">
+        <string>TV margins</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/ruler_ok.png</normaloff>img/ruler_ok.png</iconset>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextBesideIcon</enum>
        </property>
       </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="SlideNameED"/>
      </item>
      <item>
       <spacer name="horizontalSpacer">
@@ -2788,6 +3121,9 @@ QToolButton:pressed {
      </item>
      <item>
       <widget class="QPushButton" name="OKBT">
+       <property name="toolTip">
+        <string>Accept modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Ok</string>
        </property>
@@ -2799,6 +3135,9 @@ QToolButton:pressed {
      </item>
      <item>
       <widget class="QPushButton" name="CloseBT">
+       <property name="toolTip">
+        <string>Cancel modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Cancel</string>
        </property>
@@ -2810,6 +3149,9 @@ QToolButton:pressed {
      </item>
      <item>
       <widget class="QPushButton" name="HelpBT">
+       <property name="toolTip">
+        <string>Open help page describing this dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Help</string>
        </property>
@@ -2850,6 +3192,72 @@ QToolButton:pressed {
    <header>cCustomComboBox.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>RemoveShot</tabstop>
+  <tabstop>ShotLeftBt</tabstop>
+  <tabstop>ShotRightBt</tabstop>
+  <tabstop>ShotTable</tabstop>
+  <tabstop>SlideNameED</tabstop>
+  <tabstop>ShotDurationED</tabstop>
+  <tabstop>GraphicsView</tabstop>
+  <tabstop>TVMarginsBT</tabstop>
+  <tabstop>BlockTable</tabstop>
+  <tabstop>BlockUpBT</tabstop>
+  <tabstop>BlockDownBT</tabstop>
+  <tabstop>AddTextBlock</tabstop>
+  <tabstop>AddFileBlock</tabstop>
+  <tabstop>RemoveBlock</tabstop>
+  <tabstop>CopyBlockBT</tabstop>
+  <tabstop>CutBlockBT</tabstop>
+  <tabstop>PasteBlockBT</tabstop>
+  <tabstop>VisibleBT</tabstop>
+  <tabstop>SoundBT</tabstop>
+  <tabstop>TextEditBT</tabstop>
+  <tabstop>ImageEditCorrectBT</tabstop>
+  <tabstop>VideoEditBT</tabstop>
+  <tabstop>BlockTabWidget</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>PosXEd</tabstop>
+  <tabstop>PosYEd</tabstop>
+  <tabstop>WidthEd</tabstop>
+  <tabstop>HeightEd</tabstop>
+  <tabstop>RotateZSLD</tabstop>
+  <tabstop>RotateZED</tabstop>
+  <tabstop>RotateXSLD</tabstop>
+  <tabstop>RotateXED</tabstop>
+  <tabstop>RotateYSLD</tabstop>
+  <tabstop>RotateYED</tabstop>
+  <tabstop>BackgroundFormCB</tabstop>
+  <tabstop>OpacityCB</tabstop>
+  <tabstop>PenSizeEd</tabstop>
+  <tabstop>PenColorCB</tabstop>
+  <tabstop>PenStyleCB</tabstop>
+  <tabstop>ShadowEffectCB</tabstop>
+  <tabstop>ShadowEffectED</tabstop>
+  <tabstop>ShadowColorCB</tabstop>
+  <tabstop>BrushTypeCombo</tabstop>
+  <tabstop>FirstColorCombo</tabstop>
+  <tabstop>FinalColorCombo</tabstop>
+  <tabstop>IntermColorCombo</tabstop>
+  <tabstop>PatternBrushCombo</tabstop>
+  <tabstop>OrientationCombo</tabstop>
+  <tabstop>IntermPosSlider</tabstop>
+  <tabstop>IntermPosED</tabstop>
+  <tabstop>BackgroundCombo</tabstop>
+  <tabstop>FileNameED</tabstop>
+  <tabstop>FileNameBT</tabstop>
+  <tabstop>ImageGeometryCB</tabstop>
+  <tabstop>TransformationCB</tabstop>
+  <tabstop>BlurSigmaSlider</tabstop>
+  <tabstop>BlurSigmaED</tabstop>
+  <tabstop>BlurRadiusSlider</tabstop>
+  <tabstop>BlurRadiusED</tabstop>
+  <tabstop>OKBT</tabstop>
+  <tabstop>CloseBT</tabstop>
+  <tabstop>HelpBT</tabstop>
+  <tabstop>TableInfo</tabstop>
+  <tabstop>AddShot</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

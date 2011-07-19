@@ -256,6 +256,9 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Define the &quot; Master Volume &quot; for the movie</string>
+       </property>
        <property name="currentIndex">
         <number>-1</number>
        </property>
@@ -290,6 +293,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="OKBT">
+       <property name="toolTip">
+        <string>Accept modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Ok</string>
        </property>
@@ -301,6 +307,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="CloseBT">
+       <property name="toolTip">
+        <string>Cancel modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Cancel</string>
        </property>
@@ -312,6 +321,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="HelpBT">
+       <property name="toolTip">
+        <string>Open help page describing this dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Help</string>
        </property>

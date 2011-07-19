@@ -30,7 +30,6 @@
 // Global static
 //============================================
 
-double  ADJUST_RATIO=1;     // Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 QBrush  Transparent;        // Transparent brush
 
 //====================================================================================================================
@@ -121,6 +120,7 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey) {
     PenSize                 = DEFAULT_SHAPE_BORDERSIZE;                         // Width of the border of the form
     PenStyle                = Qt::SolidLine;                                    // Style of the pen border of the form
     PenColor                = DEFAULT_SHAPE_BORDERCOLOR;                        // Color of the border of the form
+    FormShadowColor             = DEFAULT_SHAPE_SHADOWCOLOR;                        // Color of the shadow of the form
     FormShadow              = 0;                                                // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
     FormShadowDistance      = 5;                                                // Distance from form to shadow
 
@@ -189,6 +189,7 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("PenColor",PenColor);                      // Color of the border of the form
     Element.setAttribute("FormShadow",FormShadow);                  // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
     Element.setAttribute("FormShadowDistance",FormShadowDistance);  // Distance from form to shadow
+    Element.setAttribute("FormShadowColor",FormShadowColor);                // Shadow color
     BackgroundBrush.SaveToXML(Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath);    // Brush of the background of the form
 
     domDocument.appendChild(Element);
@@ -200,44 +201,45 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
-        TypeComposition     =Element.attribute("TypeComposition").toInt();
-        IndexKey            =Element.attribute("IndexKey").toInt();
-        IsVisible           =Element.attribute("IsVisible")=="1";
+        if (Element.hasAttribute("TypeComposition"))        TypeComposition =Element.attribute("TypeComposition").toInt();
+        if (Element.hasAttribute("IndexKey"))               IndexKey        =Element.attribute("IndexKey").toInt();
+        if (Element.hasAttribute("IsVisible"))              IsVisible       =Element.attribute("IsVisible")=="1";
 
         // Attribut of the object
-        x                   =Element.attribute("x").toDouble();                     // Position x
-        y                   =Element.attribute("y").toDouble();                     // Position x
-        w                   =Element.attribute("w").toDouble();                     // size width
-        h                   =Element.attribute("h").toDouble();                     // size height
-        Opacity             =Element.attribute("BackgroundTransparent").toInt();    // Style Opacity of the background of the form
-        RotateZAxis         =Element.attribute("RotateZAxis").toDouble();           // Rotation from Z axis
-        RotateXAxis         =Element.attribute("RotateXAxis").toDouble();           // Rotation from X axis
-        RotateYAxis         =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
+        if (Element.hasAttribute("x"))                      x           =Element.attribute("x").toDouble();                     // Position x
+        if (Element.hasAttribute("y"))                      y           =Element.attribute("y").toDouble();                     // Position x
+        if (Element.hasAttribute("w"))                      w           =Element.attribute("w").toDouble();                     // size width
+        if (Element.hasAttribute("h"))                      h           =Element.attribute("h").toDouble();                     // size height
+        if (Element.hasAttribute("BackgroundTransparent"))  Opacity     =Element.attribute("BackgroundTransparent").toInt();    // Style Opacity of the background of the form
+        if (Element.hasAttribute("RotateZAxis"))            RotateZAxis =Element.attribute("RotateZAxis").toDouble();           // Rotation from Z axis
+        if (Element.hasAttribute("RotateXAxis"))            RotateXAxis =Element.attribute("RotateXAxis").toDouble();           // Rotation from X axis
+        if (Element.hasAttribute("RotateYAxis"))            RotateYAxis =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
 
         // Text part
         if (TypeComposition!=COMPOSITIONTYPE_SHOT) {
             Text=Element.attribute("Text");  // Text of the object
             if (Text!="") {
-                FontName            =Element.attribute("FontName");                         // font name
-                FontSize            =Element.attribute("FontSize").toInt();                 // font size
-                FontColor           =Element.attribute("FontColor");                        // font color
-                FontShadowColor     =Element.attribute("FontShadowColor");                  // font shadow color
-                IsBold              =Element.attribute("IsBold")=="1";                      // true if bold mode
-                IsItalic            =Element.attribute("IsItalic")=="1";                    // true if Italic mode
-                IsUnderline         =Element.attribute("IsUnderline")=="1";                 // true if Underline mode
-                HAlign              =Element.attribute("HAlign").toInt();                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-                VAlign              =Element.attribute("VAlign").toInt();                   // Vertical alignement : 0=up, 1=center, 2=bottom
-                StyleText           =Element.attribute("StyleText").toInt();                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+                if (Element.hasAttribute("FontName"))           FontName            =Element.attribute("FontName");                         // font name
+                if (Element.hasAttribute("FontSize"))           FontSize            =Element.attribute("FontSize").toInt();                 // font size
+                if (Element.hasAttribute("FontColor"))          FontColor           =Element.attribute("FontColor");                        // font color
+                if (Element.hasAttribute("FontShadowColor"))    FontShadowColor     =Element.attribute("FontShadowColor");                  // font shadow color
+                if (Element.hasAttribute("IsBold"))             IsBold              =Element.attribute("IsBold")=="1";                      // true if bold mode
+                if (Element.hasAttribute("IsItalic"))           IsItalic            =Element.attribute("IsItalic")=="1";                    // true if Italic mode
+                if (Element.hasAttribute("IsUnderline"))        IsUnderline         =Element.attribute("IsUnderline")=="1";                 // true if Underline mode
+                if (Element.hasAttribute("HAlign"))             HAlign              =Element.attribute("HAlign").toInt();                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+                if (Element.hasAttribute("VAlign"))             VAlign              =Element.attribute("VAlign").toInt();                   // Vertical alignement : 0=up, 1=center, 2=bottom
+                if (Element.hasAttribute("StyleText"))          StyleText           =Element.attribute("StyleText").toInt();                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
             }
         }
 
         // Shap part
-        BackgroundForm      =Element.attribute("BackgroundForm").toInt();           // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-        PenSize             =Element.attribute("PenSize").toInt();                  // Width of the border of the form
-        PenStyle            =Element.attribute("PenStyle").toInt();                 // Style of the pen border of the form
-        PenColor            =Element.attribute("PenColor");                         // Color of the border of the form
-        FormShadow          =Element.attribute("FormShadow").toInt();               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-        FormShadowDistance  =Element.attribute("FormShadowDistance").toInt();       // Distance from form to shadow
+        if (Element.hasAttribute("BackgroundForm"))     BackgroundForm      =Element.attribute("BackgroundForm").toInt();           // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
+        if (Element.hasAttribute("PenSize"))            PenSize             =Element.attribute("PenSize").toInt();                  // Width of the border of the form
+        if (Element.hasAttribute("PenStyle"))           PenStyle            =Element.attribute("PenStyle").toInt();                 // Style of the pen border of the form
+        if (Element.hasAttribute("PenColor"))           PenColor            =Element.attribute("PenColor");                         // Color of the border of the form
+        if (Element.hasAttribute("FormShadowColor"))        FormShadowColor         =Element.attribute("FormShadowColor");                      // Color of the shadow of the form
+        if (Element.hasAttribute("FormShadow"))         FormShadow          =Element.attribute("FormShadow").toInt();               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+        if (Element.hasAttribute("FormShadowDistance")) FormShadowDistance  =Element.attribute("FormShadowDistance").toInt();       // Distance from form to shadow
 
         if ((TypeComposition==COMPOSITIONTYPE_SHOT)&&(ObjectComposition!=NULL)) {
             // Construct link to video and image object from DiaporamaObject->ObjectComposition
@@ -303,6 +305,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
     PenSize              =CompositionObjectToCopy->PenSize;
     PenStyle             =CompositionObjectToCopy->PenStyle;
     PenColor             =CompositionObjectToCopy->PenColor;
+    FormShadowColor          =CompositionObjectToCopy->FormShadowColor;
     FormShadow           =CompositionObjectToCopy->FormShadow;
     FormShadowDistance   =CompositionObjectToCopy->FormShadowDistance;
 
@@ -311,7 +314,8 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 
 //====================================================================================================================
 
-void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,int StartPosToAdd,
+// ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
+void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,int StartPosToAdd,
                                                cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache) {
     // W and H = 0 when producing sound track in render process
     if (!IsVisible) return;
@@ -494,14 +498,20 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,int AddX,in
 
         //DestPainter.save();
         if ((FormShadow)&&(Img)&&(!Img->isNull())) {
-            double Distance=double(FormShadowDistance)*ADJUST_RATIO;
-            QImage ImgShadow=Img->copy();
-            Uint8  *Data=ImgShadow.bits();
+            double  Distance =double(FormShadowDistance)*ADJUST_RATIO;
+            QImage  ImgShadow=Img->copy();
+            Uint8   *Data    =ImgShadow.bits();
+            QColor  SColor   =QColor(FormShadowColor);
+            Uint8   R        =SColor.red();
+            Uint8   G        =SColor.green();
+            Uint8   B        =SColor.blue();
             for (int i=0;i<(Wb-1)*(Hb-1);i++) {
-                *Data++=0;  // R
-                *Data++=0;  // G
-                *Data++=0;  // B
+              if (*(Data+3)!=0) {
+                *Data++=B;
+                *Data++=G;
+                *Data++=R;
                 Data++;     // Keep Alpha chanel
+              } else Data+=4;
             }
             DestPainter->setOpacity(Opacity==0?0.75:Opacity==1?0.50:Opacity==2?0.25:0.10);
             switch (FormShadow) {
@@ -685,7 +695,7 @@ void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Pa
 
         // Add static shot composition
         if (List.count()>0) for (int j=0;j<List[0].ShotComposition.List.count();j++) {
-            List[0].ShotComposition.List[j].DrawCompositionObject(&P,0,0,ThumbWidth,ThumbHeight,true,0,0,NULL,0,NULL,true);
+            List[0].ShotComposition.List[j].DrawCompositionObject(&P,double(ThumbHeight)/1080,0,0,ThumbWidth,ThumbHeight,true,0,0,NULL,0,NULL,true);
         }
 
         P.end();
@@ -959,7 +969,7 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
     }
     //
     if (ApplyComposition) for (int j=0;j<List[Index].BackgroundComposition.List.count();j++)
-        List[Index].BackgroundComposition.List[j].DrawCompositionObject(Painter,0,0,Width,Height,true,0,0,NULL,1,NULL,true);
+        List[Index].BackgroundComposition.List[j].DrawCompositionObject(Painter,double(Height)/1080,0,0,Width,Height,true,0,0,NULL,1,NULL,true);
     Painter->restore();
 }
 
@@ -1315,9 +1325,6 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     cDiaporamaShot      *PreviousShot       =(ShotNumber>0?&List[ObjectNumber].List[ShotNumber-1]:NULL);
     QImage              *Image              =NULL;
 
-    // fixe Adjustment ratio for this slide
-    ADJUST_RATIO=double(H)/double(1080);
-
     // Parse all shot objects to create SoundTrackMontage
     if (SoundOnly) {
         for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
@@ -1340,7 +1347,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
                 }
                 VideoPosition+=(CurTimePosition-ThePosition);
 
-                CurShot->ShotComposition.List[j].DrawCompositionObject(NULL,0,0,0,0,true,VideoPosition,StartPosToAdd,SoundTrackMontage,1,NULL,false);
+                CurShot->ShotComposition.List[j].DrawCompositionObject(NULL,double(H)/double(1080),0,0,0,0,true,VideoPosition,StartPosToAdd,SoundTrackMontage,1,NULL,false);
             }
             // Special case when video object with no sound //***** PAS SUR QUE CE SOIT ENCORE UTILE !!!!!
             if ((CurShot->ShotComposition.List[j].BackgroundBrush.Video)&&(CurShot->ShotComposition.List[j].BackgroundBrush.SoundVolume==0))
@@ -1414,7 +1421,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
         } else VideoPosition=CurTimePosition;
 
         // Draw object
-        CurShot->ShotComposition.List[j].DrawCompositionObject(&P,0,0,W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,PCTDone,PrevCompoObject,false);
+        CurShot->ShotComposition.List[j].DrawCompositionObject(&P,double(H)/double(1080),0,0,W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,PCTDone,PrevCompoObject,false);
 
         // Special case when video object with no sound //***** PAS SUR QUE CE SOIT ENCORE UTILE !!!!!
         if ((!SoundTrackMontage)&&(CurShot->ShotComposition.List[j].BackgroundBrush.Video)&&(CurShot->ShotComposition.List[j].IsVisible))
@@ -1696,7 +1703,7 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
 // Produce sound only if W and H=0
 //============================================================================================
 
-void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos) {
+void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos) {
     // W and H = 0 when producing sound track in render process
     bool SoundOnly=((W==0)&&(H==0));
 
@@ -1750,7 +1757,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
                 // Apply composition to background
                 for (int j=0;j<List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List.count();j++)
-                    List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,true);
+                    List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,true);
                 P.end();
             }
             // same job for Transition Object if a previous was not keep !
@@ -1765,7 +1772,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
                 // Apply composition to background
                 for (int j=0;j<List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List.count();j++)
-                    List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,true);
+                    List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,true);
                 P.end();
             }
         }

@@ -124,6 +124,7 @@ private slots:
     void            s_ChgPenSize(int);
     void            s_ChPenColorCB(int);
     void            s_ChangePenStyle(int);
+    void            s_ChgShadowColorCB(int);
 
     void            s_ChgRotateZValue(int);
     void            s_ChgRotateXValue(int);

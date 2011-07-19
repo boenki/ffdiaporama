@@ -40,7 +40,6 @@ class cDiaporamaObject;
 // Global static
 //============================================
 
-extern  double  ADJUST_RATIO;   // Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 extern  QBrush  Transparent;    // Transparent brush
 
 //============================================
@@ -87,6 +86,7 @@ public:
     QString             PenColor;               // Color of the border of the form
     int                 FormShadow;             // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
     int                 FormShadowDistance;     // Distance from form to shadow
+    QString             FormShadowColor;        // Color of the shadow of the form
     int                 Opacity;                // Opacity of the form
 
     // Brush cache part (use to speed up interface)
@@ -100,7 +100,7 @@ public:
     ~cCompositionObject();
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
-    void        DrawCompositionObject(QPainter *Painter,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,int StartPosToAdd,
+    void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,int StartPosToAdd,
                                       cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
@@ -303,7 +303,7 @@ public:
 
     // Thread functions
     void                PrepareMusicBloc(int Column,int Position,cSoundBlockList *MusicTrack);
-    void                LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos);
+    void                LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos);
     void                DoAssembly(cDiaporamaObjectInfo *Info,int W,int H);
 
     // Transition
