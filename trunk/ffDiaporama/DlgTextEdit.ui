@@ -104,6 +104,9 @@
          <height>24</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Select font color</string>
+       </property>
        <property name="editable">
         <bool>false</bool>
        </property>
@@ -185,6 +188,9 @@ color: #000000;
          <height>24</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Select outerline/shadow color</string>
+       </property>
       </widget>
      </item>
     </layout>
@@ -212,7 +218,7 @@ color: #000000;
         </size>
        </property>
        <property name="toolTip">
-        <string>Bold</string>
+        <string>Set text to Bold</string>
        </property>
        <property name="text">
         <string notr="true">...</string>
@@ -244,7 +250,7 @@ color: #000000;
         </size>
        </property>
        <property name="toolTip">
-        <string>Italic</string>
+        <string>Set text to Italic</string>
        </property>
        <property name="text">
         <string notr="true">...</string>
@@ -273,7 +279,7 @@ color: #000000;
         </size>
        </property>
        <property name="toolTip">
-        <string>Underline</string>
+        <string>Set text to Underline</string>
        </property>
        <property name="text">
         <string notr="true">...</string>
@@ -652,6 +658,9 @@ color: #000000;
      </item>
      <item>
       <widget class="QPushButton" name="OKBT">
+       <property name="toolTip">
+        <string>Accept modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Ok</string>
        </property>
@@ -663,6 +672,9 @@ color: #000000;
      </item>
      <item>
       <widget class="QPushButton" name="CloseBT">
+       <property name="toolTip">
+        <string>Cancel modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Cancel</string>
        </property>
@@ -674,6 +686,9 @@ color: #000000;
      </item>
      <item>
       <widget class="QPushButton" name="HelpBT">
+       <property name="toolTip">
+        <string>Open help page describing this dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Help</string>
        </property>

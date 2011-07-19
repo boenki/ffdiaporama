@@ -47,7 +47,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -86,6 +86,9 @@
            </property>
            <item row="1" column="0" colspan="2">
             <widget class="QCheckBox" name="RestoreWindowCH">
+             <property name="toolTip">
+              <string>If this box is checked, the sizes and the positions of all the windows and dialogue box of ffDiaporama will be saved to be reused the next time which you will use ffDiaporama.</string>
+             </property>
              <property name="text">
               <string>Remember Windows size and positions</string>
              </property>
@@ -93,6 +96,9 @@
            </item>
            <item row="2" column="0" colspan="2">
             <widget class="QCheckBox" name="RememberLastDirectoriesCH">
+             <property name="toolTip">
+              <string>If this box is checked, the directories that you use for the images, the videos, the projects, the musics and the generations of movie will be saved to be reused the next time which you will use ffDiaporama.</string>
+             </property>
              <property name="text">
               <string>Remember last used folders</string>
              </property>
@@ -114,6 +120,9 @@
            </item>
            <item row="4" column="0" colspan="2">
             <widget class="QCheckBox" name="DisableSSE2CB">
+             <property name="toolTip">
+              <string>If this box is checked, SSE2 type hardware acceleration will be disabled.</string>
+             </property>
              <property name="text">
               <string>Disable SSE2 hardware acceleration (need application restart)</string>
              </property>
@@ -168,6 +177,9 @@
              </property>
              <item>
               <widget class="QComboBox" name="PreviewFrameRateCB">
+               <property name="toolTip">
+                <string>Defined the number of images by seconds which will be generated to show the preview.</string>
+               </property>
                <item>
                 <property name="text">
                  <string notr="true">3.125</string>
@@ -222,6 +234,9 @@
            </item>
            <item row="8" column="1">
             <widget class="QCheckBox" name="ApplyTransfoDuringPreviewCB">
+             <property name="toolTip">
+              <string>If this box is checked, The effects of transformations will be applied to the images of videos during the preview.</string>
+             </property>
              <property name="text">
               <string>Apply to video during preview</string>
              </property>
@@ -271,6 +286,9 @@
            </item>
            <item row="11" column="1">
             <widget class="QComboBox" name="AppendObjectCB">
+             <property name="toolTip">
+              <string>Define the position which occupy the new objects in the timeline during the insertions</string>
+             </property>
              <item>
               <property name="text">
                <string>Insert after current object</string>
@@ -295,6 +313,9 @@
            </item>
            <item row="12" column="1">
             <widget class="QCheckBox" name="SortFileCB">
+             <property name="toolTip">
+              <string>Adjust the way will be sorted out files when you select several files in Add file.</string>
+             </property>
              <property name="text">
               <string>Sort file by last number</string>
              </property>
@@ -326,6 +347,9 @@
                  <height>0</height>
                 </size>
                </property>
+               <property name="toolTip">
+                <string>Defined the framing to be made during the file insertion : Files will be reframed so that the totality of the width of the image is shown</string>
+               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -346,6 +370,9 @@
                  <height>0</height>
                 </size>
                </property>
+               <property name="toolTip">
+                <string>Defined the framing to be made during the file insertion : Files will be reframed so that the totality of the height of the image is shown</string>
+               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -365,6 +392,9 @@
                  <width>60</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="toolTip">
+                <string>Defined the framing to be made during the file insertion : Files will be reframed at best</string>
                </property>
                <property name="text">
                 <string notr="true"/>
@@ -419,6 +449,9 @@
                  <height>0</height>
                 </size>
                </property>
+               <property name="toolTip">
+                <string>Defined the transition to be inserted between slides during the insertions : Chosen randomly a transition in the library</string>
+               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -439,6 +472,9 @@
                  <height>0</height>
                 </size>
                </property>
+               <property name="toolTip">
+                <string>Defined the transition to be inserted between slides during the insertions : No transition</string>
+               </property>
                <property name="text">
                 <string notr="true"/>
                </property>
@@ -458,6 +494,9 @@
                  <width>60</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="toolTip">
+                <string>Defined the transition to be inserted between slides during the insertions : Crossfade transition</string>
                </property>
                <property name="text">
                 <string notr="true"/>
@@ -490,6 +529,9 @@
                  <width>50</width>
                  <height>16777215</height>
                 </size>
+               </property>
+               <property name="toolTip">
+                <string>Define the transition duration</string>
                </property>
                <item>
                 <property name="text">
@@ -555,6 +597,9 @@
            </item>
            <item row="13" column="1">
             <widget class="QCheckBox" name="AskUserToRemove">
+             <property name="toolTip">
+              <string>If this box is checked, a confirmation will display every time you remove an object</string>
+             </property>
              <property name="text">
               <string>Ask user confirmation to remove slide, object or shot</string>
              </property>
@@ -582,6 +627,9 @@
            </item>
            <item row="10" column="1">
             <widget class="QComboBox" name="UnitCB">
+             <property name="toolTip">
+              <string>Select the unit of the coordinates which will be used in properties dialog box</string>
+             </property>
              <item>
               <property name="text">
                <string>Percent</string>
@@ -624,8 +672,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>438</width>
-            <height>151</height>
+            <width>526</width>
+            <height>421</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -1668,6 +1716,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="OkBt">
+       <property name="toolTip">
+        <string>Accept modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Ok</string>
        </property>
@@ -1679,6 +1730,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="CancelBt">
+       <property name="toolTip">
+        <string>Cancel modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Cancel</string>
        </property>
@@ -1690,6 +1744,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="HelpBT">
+       <property name="toolTip">
+        <string>Open help page describing this dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Help</string>
        </property>

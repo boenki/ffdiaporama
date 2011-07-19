@@ -191,7 +191,7 @@ void DlgTextEdit::MakeTextStyleIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        Object.DrawCompositionObject(&Painter,0,0,32,32,true,0,0,NULL,1,NULL,false);
+        Object.DrawCompositionObject(&Painter,1,0,0,32,32,true,0,0,NULL,1,NULL,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
