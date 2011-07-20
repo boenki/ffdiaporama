@@ -33,20 +33,16 @@
         The shot zone is constituted by a toolbar and a timeline.<br>
         <h4>The shot toolbar<br>
         </h4>
-        <table border="0" cellpadding="0" cellspacing="10">
+        <table border="0" cellpadding="2" cellspacing="0">
           <tbody>
             <tr>
               <td><img checked="true" src="../../img/add_project.png"> </td>
-              <td style="vertical-align: top;">Add a shot<br>
-              </td>
               <td style="vertical-align: top;">Append a shot to end of
                 the timeline<br>
               </td>
             </tr>
             <tr>
               <td><img checked="true" src="../../img/trash.png"> </td>
-              <td style="vertical-align: top;">Remove shot<br>
-              </td>
               <td style="vertical-align: top;">Remove current selected
                 shot<br>
               </td>
@@ -54,8 +50,6 @@
             <tr>
               <td style="vertical-align: top;"><img style="width: 24px; height: 24px;"
                   checked="true" src="../../img/arrow_left.png"></td>
-              <td style="vertical-align: top;">To left<br>
-              </td>
               <td style="vertical-align: top;">Change the order of the
                 shot by moving the current selected shot, of a notch
                 towards the left<br>
@@ -63,19 +57,9 @@
             </tr>
             <tr>
               <td style="vertical-align: top;"><img checked="true" src="../../img/arrow_right.png"></td>
-              <td style="vertical-align: top;">To right<br>
-              </td>
               <td style="vertical-align: top;">Change the order of the
                 shot by moving the current selected shot, of a notch
                 towards the right</td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/ruler_ok.png"></td>
-              <td style="vertical-align: top;">TV Margin<br>
-              </td>
-              <td style="vertical-align: top;">Enable or disable rulers
-                corresponding to the margins of television sets.<br>
-              </td>
             </tr>
           </tbody>
         </table>
@@ -88,53 +72,11 @@
           <li>The shot duration</li>
           <li>An image representing the shot at the end of its duration</li>
         </ul>
-        <h3>To the left, in the middle: the composition zone<br>
-        </h3>
-        The composition zone allows to move and to re-size interactively
-        blocks, for the current selected shot.<br>
-        The blocks of the composition are shown with a frame (It allows
-        to differentiate them to graphic elements resulting from the
-        background).<br>
-        The current selected block is shows with controls handles (small
-        square appearing in corners and borders).<br>
-        <br>
-        With the mouse:<br>
-        <ul>
-          <li>Click one of the handle and, while maintaining the mouse
-            button pushed, move the mouse, allows to&#160; re-size the
-            block. </li>
-          <li>Click the block and, while maintaining the mouse button
-            pushed, move the mouse, allows to move the block.</li>
-        </ul>
-        With the keyboard:<br>
-        <ul>
-          <li>Use the arrows to move the block.</li>
-          <li>Use SHIFT+arrows to move the upper left handle corner,
-            what allows to change the size of the block.</li>
-          <li>Use SHIFT+arrows to move the lower right handle corner,
-            what allows to change the size of the block.</li>
-        </ul>
-        <span style="font-weight: bold; text-decoration: underline;">Remarks:</span><br>
-        <ul>
-          <li> If the TV margins are enabled, rulers corresponding to
-            these margins and to the screen center are shown. The mouse
-            will be attracted towards these rulers.<br>
-            This is valid as well for the blocks movements as for the
-            movements of the resizing handles.<br>
-            <br>
-          </li>
-          <li> In ffDiaporama, the TV margins are of type "Title safe
-            area" and are defined on 90% in width and 90% in height, for
-            all the geometries of project.<br>
-            <strong><span style="font-style: italic;">If needed, this
-                point can be the object of improvement in the future
-                versions of software!</span></strong></li>
-        </ul>
-        <h3>To the left, below: the shot time setting zone </h3>
-        <table border="0" cellpadding="0" cellspacing="10">
+        <h4>The shot time setting zone </h4>
+        <table style="margin-left: 40px;" border="1" cellpadding="2" cellspacing="0">
           <tbody>
             <tr>
-              <td style="vertical-align: top;">Shot duration:<br>
+              <td style="vertical-align: top;">Shot duration<br>
               </td>
               <td style="vertical-align: top;">Indicate here the
                 duration for the current selected shot.<br>
@@ -160,7 +102,7 @@
               </td>
             </tr>
             <tr>
-              <td style="vertical-align: top;">Total slide duration:<br>
+              <td style="vertical-align: top;">Total slide duration<br>
               </td>
               <td style="vertical-align: top;">The total slide duration
                 is display here.<br>
@@ -168,229 +110,55 @@
                 minimal duration of the shot.<br>
               </td>
             </tr>
-          </tbody>
-        </table>
-        <h3>To the left, quite below: the slide setting zone </h3>
-        Name of the slide: indicate here a name for the slide. It is
-        this name which will appear on the thumbnail in the main window
-        timeline.<br>
-        <h3>To the right at the top: the block zone</h3>
-        The block zone is established by a toolbar and by a block table.<br>
-        <h4>The toolbar</h4>
-        <table border="0" cellpadding="0" cellspacing="10">
-          <tbody>
             <tr>
-              <td><img checked="true" src="../../img/add_text.png"></td>
-              <td style="vertical-align: top;">Add title<br>
-              </td>
-              <td style="vertical-align: top;">Add a new title block<br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/add_image.png"></td>
-              <td style="vertical-align: top;">Add file<br>
-              </td>
-              <td style="vertical-align: top;">Add a new block of type
-                image or video. A file selection dialogue box appears
-                allowing you to select a file (it is not possible to
-                select several files.)<br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/trash.png"></td>
-              <td style="vertical-align: top;">Remove<br>
-              </td>
-              <td style="vertical-align: top;">Remove the current block<br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/editcopy.png"></td>
-              <td style="vertical-align: top;">Copy<br>
-              </td>
-              <td style="vertical-align: top;">Copy the current block to
-                the ffDiaporama clipboard.<br>
-                The copy is made with the parameters of block such as
-                they are defined for the current selected shot.<br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" style="width: 24px; height: 24px;"
-                  src="../../img/editcut.png"></td>
-              <td style="vertical-align: top;">Cut<br>
-              </td>
-              <td style="vertical-align: top;">Copy the current block to
-                the ffDiaporama clipboard and remove it from the slide<br>
-                The copy is made with the parameters of block such as
-                they are defined for the current selected shot.</td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/editpaste.png"></td>
-              <td style="vertical-align: top;">Paste<br>
-              </td>
-              <td style="vertical-align: top;">Paste block from the
-                ffDiaporama clipboard and insert it.<br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/arrow_up.png"></td>
-              <td style="vertical-align: top;">Up<br>
-              </td>
-              <td style="vertical-align: top;">Change the order of
-                blocks by moving the active block upward (towards the
-                background)<br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/arrow_down.png"></td>
-              <td style="vertical-align: top;">Down<br>
-              </td>
-              <td style="vertical-align: top;">Change the order of
-                blocks by moving the active block downward (towards the
-                foreground)</td>
+              <td style="vertical-align: top;"> Name of the slide</td>
+              <td style="vertical-align: top;">Indicate here a name for
+                the slide. It is this name which will appear on the
+                thumbnail in the main window timeline.</td>
             </tr>
           </tbody>
         </table>
-        <br>
-        <span style="font-weight: bold; text-decoration: underline;">Remarks
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          on blocks:</span>
-        <ul>
-          <li>All the blocks, that they are of type title, image or
-            video possess a text.<br>
-            <br>
-          </li>
-          <li>During the insertion of a new block (Add title, Add file
-            or Paste), the block is inserted:</li>
+        <div style="margin-left: 40px;"> </div>
+        <h3>To the left, in the middle: the composition zone<br>
+        </h3>
+        <div style="margin-left: 40px;"> The composition zone allows to
+          move and to re-size interactively blocks, for the current
+          selected shot.<br>
+          The blocks of the composition are shown with a frame (It
+          allows to differentiate them to graphic elements resulting
+          from the background).<br>
+          The current selected block is shows with controls handles
+          (small square appearing in corners and borders).<br>
+          <br>
+          With the mouse:<br>
+        </div>
+        <ul style="margin-left: 40px;">
+          <li>Click one of the handle and, while maintaining the mouse
+            button pushed, move the mouse, allows to&#160; re-size the
+            block. </li>
+          <li>Click the block and, while maintaining the mouse button
+            pushed, move the mouse, allows to move the block.</li>
         </ul>
+        <div style="margin-left: 40px;"> With the keyboard:<br>
+        </div>
         <ul>
           <ul>
-            <li>In visible mode for the current shot and for all the
-              following shots</li>
-            <li>In hidden mode for the shots located before the current
-              shot</li>
-            <li>Always in last position in the list of blocks (in the
-              foreground)<br>
-            </li>
+            <li>Use the arrows to move the block.</li>
+            <li>Use SHIFT+arrows to move the upper left handle corner,
+              what allows to change the size of the block.</li>
+            <li>Use SHIFT+arrows to move the lower right handle corner,
+              what allows to change the size of the block.</li>
           </ul>
         </ul>
-        <ul>
-        </ul>
+        <h3>To the right at the top: the block zone</h3>
+        The block zone is established by a toolbar and by a block table.<br>
         <h4>The block table</h4>
-        The blocks table lists, from top to bottom, the present blocks
-        in the slide.<br>
-        Blocks are displayed on 3 columns:
-        <ul>
+        <div style="margin-left: 40px;"> The blocks table lists, from
+          top to bottom, the present blocks in the slide.<br>
+          Blocks are displayed on 3 columns: </div>
+        <ul style="margin-left: 40px;">
           <li>The first column indicates the type of block (<img checked="true"
               style="width: 16px; height: 16px;" alt="" src="../../img/object_text.png">=Title,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -418,11 +186,11 @@
               image or video</li>
           </ul>
         </ul>
-        The active block is the current selected block in the block
-        table. To change active block, simply select a block in the list
-        or in the composition zone.<br>
-        <br>
-        <span style="font-weight: bold; text-decoration: underline;">Remarks
+        <div style="margin-left: 40px;"> The active block is the current
+          selected block in the block table. To change active block,
+          simply select a block in the list or in the composition zone.<br>
+          <br>
+          <span style="font-weight: bold; text-decoration: underline;">Remarks
 
 
 
@@ -436,46 +204,75 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          on blocks:</span><br>
+            on blocks:</span><br>
+        </div>
         <ul>
-          <li>Order of blocks can change a shot in the other one</li>
-          <li>Hidden blocks are shown in grey tints and italics</li>
+          <ul>
+            <li>Order of blocks can change a shot in the other one</li>
+            <li>Hidden blocks are shown in grey tints and italics</li>
+          </ul>
         </ul>
-        <h3>To the right below: the tab Block</h3>
-        This tab allows to make settings on the size and the position of
-        the active block and its contents.<br>
-        <br>
-        <table border="1" cellpadding="0" cellspacing="0" width="90%">
+        <h4>The toolbar</h4>
+        <table style="margin-left: 40px;" border="0" cellpadding="2" cellspacing="0">
           <tbody>
             <tr>
-              <td style="vertical-align: top;" colspan="1" rowspan="18"><img
-                  checked="true" src="img/dlg_003_a.png"> </td>
+              <td style="vertical-align: top;"><img checked="true" src="../../img/arrow_up.png"></td>
+              <td style="vertical-align: top;">Change the order of
+                blocks by moving the active block upward (towards the
+                background)<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;"><img checked="true" src="../../img/arrow_down.png"></td>
+              <td style="vertical-align: top;">Change the order of
+                blocks by moving the active block downward (towards the
+                foreground)</td>
+            </tr>
+            <tr>
+              <td><img checked="true" src="../../img/add_text.png"></td>
+              <td style="vertical-align: top;">Add a new title block<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;"><img checked="true" src="../../img/add_image.png"></td>
+              <td style="vertical-align: top;">Add a new block of type
+                image or video. A file selection dialogue box appears
+                allowing you to select a file (it is not possible to
+                select several files.)<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;"><img checked="true" src="../../img/trash.png"></td>
+              <td style="vertical-align: top;">Remove the current block<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;"><img checked="true" src="../../img/editcopy.png"></td>
+              <td style="vertical-align: top;">Copy the current block to
+                the ffDiaporama clipboard.<br>
+                The copy is made with the parameters of block such as
+                they are defined for the current selected shot.<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;"><img checked="true" style="width: 24px; height: 24px;"
+                  src="../../img/editcut.png"></td>
+              <td style="vertical-align: top;">Copy the current block to
+                the ffDiaporama clipboard and remove it from the slide<br>
+                The copy is made with the parameters of block such as
+                they are defined for the current selected shot.</td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;"><img checked="true" src="../../img/editpaste.png"></td>
+              <td style="vertical-align: top;">Paste block from the
+                ffDiaporama clipboard and insert it.<br>
+              </td>
+            </tr>
+            <tr>
               <td style="vertical-align: top; text-align: center;"><img
                   alt="" src="../../img/Visible_OK.png"><br>
               </td>
               <td colspan="2" rowspan="1" style="vertical-align: top;">Click
-
-
-
-
-
 
 
 
@@ -497,40 +294,79 @@
             <tr>
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/object_sound.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">This
+              <td colspan="2" rowspan="1" style="vertical-align: top;">Click
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                button is active only for videos. Click this button to
-                give the sound, during this shot, to the current video
-                block</td>
+                this button to give the sound, during this shot, to the
+                current video block. (This button is active only for
+                videos.)</td>
             </tr>
             <tr>
+              <td><img checked="true" src="../../img/EditText.png"></td>
+              <td style="vertical-align: top;">Click this button to call
+                the <a href="dlg_001.html">Define the properties of a
+                  text block dialog box</a>.<br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;"><img checked="true" src="../../img/EditImage.png"></td>
+              <td style="vertical-align: top;">Click this button to call
+                the <a href="dlg_005.html">Framing and correction of
+                  image or movie dialog box</a> <br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;"><img checked="true" src="../../img/EditMovie.png"></td>
+              <td style="vertical-align: top;">Click this button to call
+                the <a href="dlg_010.html">Cut a video dialog box</a><br>
+                This button is active only for objects containing images
+                or videos.<br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <span style="font-weight: bold; text-decoration: underline;"><br>
+        </span>
+        <div style="margin-left: 40px;"><span style="font-weight: bold; text-decoration: underline;">
+            Remarks on blocks:</span></div>
+        <ul style="margin-left: 40px;">
+          <li>All the blocks, that they are of type title, image or
+            video possess a text.<br>
+            <br>
+          </li>
+          <li>During the insertion of a new block (Add title, Add file
+            or Paste), the block is inserted:</li>
+        </ul>
+        <ul>
+          <ul>
+            <ul>
+              <li>In visible mode for the current shot and for all the
+                following shots</li>
+              <li>In hidden mode for the shots located before the
+                current shot</li>
+              <li>Always in last position in the list of blocks (in the
+                foreground)<br>
+              </li>
+            </ul>
+          </ul>
+        </ul>
+        <ul>
+        </ul>
+        <h3>To the right below: the tab Block/Object</h3>
+        This tab allows to make settings on the size and the position of
+        the active block and its contents.<br>
+        <br>
+        <table border="1" cellpadding="2" cellspacing="0" width="90%">
+          <tbody>
+            <tr>
+              <td style="vertical-align: top;" colspan="1" rowspan="17"><img
+                  checked="true" src="img/dlg_003_a.png"> </td>
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/PosSize_X.png"></td>
               <td colspan="2" rowspan="1" style="vertical-align: top;">Represent
-
-
-
-
-
-
 
 
 
@@ -568,11 +404,6 @@
 
 
 
-
-
-
-
-
                 the vertical position of the block from the top.<br>
                 This position is defined in percentage (%) of the total
                 height of the image or using pixel (for a 1080p screen)
@@ -597,11 +428,6 @@
 
 
 
-
-
-
-
-
                 the with of the block.<br>
                 This value is defined in percentage (%) of the total
                 width of the image or using pixel (for a 1080p screen)
@@ -612,6 +438,24 @@
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/PosSize_Height.png"></td>
               <td colspan="2" rowspan="1" style="vertical-align: top;">Represent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -659,6 +503,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 according to the Z axis defined in degree.<br>
               </td>
             </tr>
@@ -685,12 +547,48 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 according to the Y axis defined in degree.</td>
             </tr>
             <tr>
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/RotateX.png"></td>
               <td colspan="2" rowspan="1" style="vertical-align: top;">Rotation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -744,6 +642,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 to select a shape for the block. The selected shape will
                 be use as:<br>
                 <ul>
@@ -751,6 +667,16 @@
                   <li>cutting zone for texts<br>
                   </li>
                 </ul>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">Opacity<br>
+              </td>
+              <td style="vertical-align: top;">Opacity<br>
+              </td>
+              <td style="vertical-align: top;">Defined the opaqueness of
+                the block. This value also applies to the text of the
+                block.<br>
               </td>
             </tr>
             <tr>
@@ -782,7 +708,7 @@
                 (solid, dotted line, etc.)</td>
             </tr>
             <tr>
-              <td colspan="1" rowspan="2" style="vertical-align: top;">Shadow<br>
+              <td colspan="1" rowspan="3" style="vertical-align: top;">Shadow<br>
                 <br>
               </td>
               <td style="vertical-align: top;" nowrap="nowrap">Shadow
@@ -803,180 +729,140 @@
               </td>
             </tr>
             <tr>
-              <td style="vertical-align: top;">Opacity<br>
+              <td style="vertical-align: top;">Color<br>
               </td>
-              <td style="vertical-align: top;">Opacity<br>
-              </td>
-              <td style="vertical-align: top;">Defined the opaqueness of
-                the block. This value also applies to the text of the
-                block.<br>
+              <td style="vertical-align: top;">Shadow color<br>
               </td>
             </tr>
           </tbody>
         </table>
-        <h3>To the right below: the tab Object</h3>
-        This tab allows to make settings on the contents of the block.<br>
-        <br>
-        <table border="1" cellpadding="0" cellspacing="0" width="90%">
-          <tbody>
-            <tr>
-              <td style="vertical-align: top;" colspan="1" rowspan="4"><img
-                  checked="true" src="img/dlg_003_b.png"></td>
-              <td><img checked="true" src="../../img/EditText.png"></td>
-              <td style="vertical-align: top;">Click this button to call
-                the <a href="dlg_001.html">Define the properties of a
-                  text block dialog box</a>.<br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/EditImage.png"></td>
-              <td style="vertical-align: top;">Click this button to call
-                the <a href="dlg_005.html">Framing and correction of
-                  image or movie dialog box</a> <br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/EditMovie.png"></td>
-              <td style="vertical-align: top;">Click this button to call
-                the <a href="dlg_010.html">Cut a video dialog box</a><br>
-                This button is active only for objects containing images
-                or videos.<br>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">According
-
-
-
-
-
-
-                to the type of object, various contents are possible:<br>
-                <ul>
-                  <li>For an image or a video:</li>
-                </ul>
-                <div style="margin-left: 40px;"> The name of the file.
-                  The <img alt="" src="../../img/FolderOpen.png"> <tdstyle="vertical-align:>button</tdstyle="vertical-align:>
-                  allows to change file </div>
-                <ul style="margin-left: 40px;">
-                  <li>Attention, if you replace a file (image or video)
-                    with an other one whose image geometry is not the
-                    same, you will have to see again the image framing
-                    in all shots.</li>
-                </ul>
-                <div style="margin-left: 40px;"> Geometry: allows to
-                  select the geometrical constraint to be applied to the
-                  block. Three type of constraint are available:<br>
+        <h4> Object :</h4>
+        <div style="margin-left: 40px;"> According to the type of
+          object, various contents are possible:<br>
+        </div>
+        <ul style="margin-left: 40px;">
+          <li>For an image or a video:</li>
+        </ul>
+        <div style="margin-left: 80px;"> The name of the file. The <img
+            alt="" src="../../img/FolderOpen.png"> <tdstyle="vertical-align:>button</tdstyle="vertical-align:>
+          allows to change file </div>
+        <ul style="margin-left: 80px;">
+          <li>Attention, if you replace a file (image or video) with an
+            other one whose image geometry is not the same, you will
+            have to see again the image framing in all shots.</li>
+        </ul>
+        <div style="margin-left: 80px;"> Geometry: allows to select the
+          geometrical constraint to be applied to the block. Three type
+          of constraint are available:<br>
+          <ul>
+            <li>Project geometry : The block will be forced to the
+              geometry of the project (4/3, 16/9 or 40/17)</li>
+            <li>Image geometry : The block will be forced to the
+              geometry of origin of the image or the video</li>
+            <li>Custom geometry : The block will be forced to the
+              geometry which will be defined in the framing dialog box.</li>
+          </ul>
+          Transformation : Apply a filter to the photo or the images of
+          the video. (Note: these filters apply to all the shots of the
+          slide).<br>
+          The following filters are available:<br>
+          <ul>
+            <li>Equalize (Histogram equalization)<br>
+            </li>
+            <li>Despeckle (Noise reduction)<br>
+            </li>
+            <li>Gray (black &amp; white)<br>
+            </li>
+          </ul>
+          Blur/Sharpen and radius :<br>
+          <ul>
+            <li>Increase the blur with a negative value, using radius.<br>
+            </li>
+            <li>Increase the sharpen with a positive value, using
+              radius.</li>
+          </ul>
+        </div>
+        <ul style="margin-left: 40px;">
+          <li>For a title: Definition of a background brush for the
+            shape:<br>
+          </li>
+        </ul>
+        <div style="margin-left: 80px;">
+          <table border="1" cellpadding="2" cellspacing="0">
+            <tbody>
+              <tr>
+                <td>No brush<br>
+                </td>
+                <td>The shape will have no background and will thus be
+                  totally transparent.<br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;">Solid brush<br>
+                </td>
+                <td style="vertical-align: top;">Allows to select a
+                  plain color.<br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;">Pattern brush</td>
+                <td style="vertical-align: top;">Allows to select:
                   <ul>
-                    <li>Project geometry : The block will be forced to
-                      the geometry of the project (4/3, 16/9 or 40/17)</li>
-                    <li>Image geometry : The block will be forced to the
-                      geometry of origin of the image or the video</li>
-                    <li>Custom geometry : The block will be forced to
-                      the geometry which will be defined in the framing
-                      dialog box.</li>
+                    <li>A pattern among one of twelve available</li>
+                    <li>A color for the lines of hatching</li>
                   </ul>
-                  Transformation : Apply a filter to the photo or the
-                  images of the video. (Note: these filters apply to all
-                  the shots of the slide).<br>
-                  The following filters are available:<br>
-                  <ul>
-                    <li>Equalize (Histogram equalization)<br>
-                    </li>
-                    <li>Despeckle (Noise reduction)<br>
-                    </li>
-                    <li>Gray (black &amp; white)<br>
-                    </li>
-                  </ul>
-                  Blur/Sharpen and radius :<br>
-                  <ul>
-                    <li>Increase the blur with a negative value, using
-                      radius.<br>
-                    </li>
-                    <li>Increase the sharpen with a positive value,
-                      using radius.</li>
-                  </ul>
-                </div>
-                <ul>
-                  <li>For a title: Definition of a background brush for
-                    the shape:<br>
-                  </li>
-                </ul>
-                <div style="margin-left: 40px;">
-                  <table border="1" cellpadding="2" cellspacing="0">
-                    <tbody>
-                      <tr>
-                        <td>No brush<br>
-                        </td>
-                        <td>The shape will have no background and will
-                          thus be totally transparent.<br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;">Solid brush<br>
-                        </td>
-                        <td style="vertical-align: top;">Allows to
-                          select a plain color.<br>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;">Pattern brush</td>
-                        <td style="vertical-align: top;">Allows to
-                          select:
-                          <ul>
-                            <li>A pattern among one of twelve available</li>
-                            <li>A color for the lines of hatching</li>
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;">Gradient 2
-                          colors</td>
-                        <td style="vertical-align: top;">Allows to
-                          select a gradient of 2 colors</td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;">Gradient 3
-                          colors</td>
-                        <td style="vertical-align: top;">Allows to
-                          select a gradient of 3 colors</td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: top;">Image from
-                          library</td>
-                        <td style="vertical-align: top;">Allows to
-                          select an image among that present in the
-                          library</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;">Gradient 2 colors</td>
+                <td style="vertical-align: top;">Allows to select a
+                  gradient of 2 colors</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;">Gradient 3 colors</td>
+                <td style="vertical-align: top;">Allows to select a
+                  gradient of 3 colors</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;">Image from library</td>
+                <td style="vertical-align: top;">Allows to select an
+                  image among that present in the library</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-left: 40px;"> <br>
+        </div>
         <h3>To the right below: the tab Information</h3>
-        <table border="0" cellpadding="0" cellspacing="10">
-          <tbody>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="img/dlg_003_c.png"></td>
-              <td style="vertical-align: top;">Display information on
-                the block:<br>
-                <ul>
-                  <li>If the block is a title: show that it is a title<br>
-                  </li>
-                  <li>If the block is an image: show the EXIF values
-                    contained in the image</li>
-                  <li>If the block is a video: show the information of
-                    size and format of the video<br>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        Display information on the block:<br>
+        <ul>
+          <li>If the block is a title: show that it is a title<br>
+          </li>
+          <li>If the block is an image: show the EXIF values contained
+            in the image</li>
+          <li>If the block is a video: show the information of size and
+            format of the video<br>
+          </li>
+        </ul>
       </div>
+      <h3 style="margin-left: 40px;">TV margins</h3>
+      <div style="margin-left: 40px;"> <img checked="true" src="../../img/ruler_ok.png">
+        Enable or disable rulers corresponding to the margins of
+        television sets. </div>
+      <ul style="margin-left: 40px;">
+        <li> If the TV margins are enabled, rulers corresponding to
+          these margins and to the screen center are shown. The mouse
+          will be attracted towards these rulers.<br>
+          This is valid as well for the blocks movements as for the
+          movements of the resizing handles.</li>
+        <li> In ffDiaporama, the TV margins are of type "Title safe
+          area" and are defined on 90% in width and 90% in height, for
+          all the geometries of project.<br>
+          <strong><spanstyle="font-style: italic;="">If needed, this
+              point can be the object of improvement in the future
+              versions of software!</spanstyle="font-style:></strong><strong><spanstyle="font-style:
+              italic;=""></spanstyle="font-style:></strong></li>
+      </ul>
       <h2>See also</h2>
       <ul>
         <li><a href="fct_001.html">Index of the ffDiaporama WIKI</a></li>
@@ -996,10 +882,46 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 of TV margins and overscan</a><br>
               <a href="http://en.wikipedia.org/wiki/EXIF"> Description
                 of EXIF - Exchangeable image file format</a><br>
               <tdstyle="vertical-align:><a checked="true" href="http://en.wikipedia.org/wiki/Histogram_equalization">Filter:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -85,10 +85,17 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QLineEdit" name="DestinationFilePath"/>
+          <widget class="QLineEdit" name="DestinationFilePath">
+           <property name="toolTip">
+            <string>Destination file path</string>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QToolButton" name="DestinationFilePathBT">
+           <property name="toolTip">
+            <string>Select the destination file path</string>
+           </property>
            <property name="text">
             <string notr="true"/>
            </property>
@@ -117,6 +124,9 @@
          </property>
          <item>
           <widget class="QComboBox" name="StandardCombo">
+           <property name="toolTip">
+            <string>Select the video standard to use, PAL or NTSC.</string>
+           </property>
            <item>
             <property name="text">
              <string>PAL</string>
@@ -176,6 +186,9 @@
          </property>
          <item>
           <widget class="QComboBox" name="ImageSizeCombo">
+           <property name="toolTip">
+            <string>Select the image resolution to use for the rendering.</string>
+           </property>
            <property name="currentIndex">
             <number>-1</number>
            </property>
@@ -195,6 +208,9 @@
              <width>150</width>
              <height>0</height>
             </size>
+           </property>
+           <property name="toolTip">
+            <string>Select the video codec to use for the rendering.</string>
            </property>
           </widget>
          </item>
@@ -228,6 +244,9 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string>Select the bit rate to use for video during the rendering.</string>
+           </property>
           </widget>
          </item>
         </layout>
@@ -244,6 +263,9 @@
              <width>150</width>
              <height>0</height>
             </size>
+           </property>
+           <property name="toolTip">
+            <string>Select the audio codec to use for the rendering.</string>
            </property>
           </widget>
          </item>
@@ -271,6 +293,9 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string>Select the bit rate to use for audio during the rendering.</string>
+           </property>
           </widget>
          </item>
         </layout>
@@ -292,6 +317,9 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="toolTip">
+          <string>Select the file type to use for the rendering.</string>
          </property>
         </widget>
        </item>
@@ -316,7 +344,11 @@
         </widget>
        </item>
        <item row="6" column="1">
-        <widget class="QComboBox" name="DeviceModelCB"/>
+        <widget class="QComboBox" name="DeviceModelCB">
+         <property name="toolTip">
+          <string>Select the model of equipment</string>
+         </property>
+        </widget>
        </item>
        <item row="6" column="0">
         <widget class="QLabel" name="DeviceModelLabel">
@@ -339,7 +371,11 @@
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QComboBox" name="DeviceTypeCB"/>
+        <widget class="QComboBox" name="DeviceTypeCB">
+         <property name="toolTip">
+          <string>Select the type of equipment.</string>
+         </property>
+        </widget>
        </item>
        <item row="16" column="1">
         <spacer name="verticalSpacer_2">
@@ -721,6 +757,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="OkBt">
+       <property name="toolTip">
+        <string>Accept modification and start rendering process</string>
+       </property>
        <property name="text">
         <string>&amp;Ok</string>
        </property>
@@ -732,6 +771,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="CancelBt">
+       <property name="toolTip">
+        <string>Cancel modification or rendering process and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Cancel</string>
        </property>
@@ -743,6 +785,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="HelpBT">
+       <property name="toolTip">
+        <string>Open help page describing this dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Help</string>
        </property>
@@ -756,6 +801,24 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>FileFormatCB</tabstop>
+  <tabstop>DestinationFilePath</tabstop>
+  <tabstop>DestinationFilePathBT</tabstop>
+  <tabstop>DeviceTypeCB</tabstop>
+  <tabstop>DeviceModelCB</tabstop>
+  <tabstop>StandardCombo</tabstop>
+  <tabstop>GeometryCombo</tabstop>
+  <tabstop>ImageSizeCombo</tabstop>
+  <tabstop>VideoFormatCB</tabstop>
+  <tabstop>VideoBitRateCB</tabstop>
+  <tabstop>AudioFormatCB</tabstop>
+  <tabstop>AudioBitRateCB</tabstop>
+  <tabstop>OkBt</tabstop>
+  <tabstop>CancelBt</tabstop>
+  <tabstop>HelpBT</tabstop>
+  <tabstop>SelectDestScroll</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

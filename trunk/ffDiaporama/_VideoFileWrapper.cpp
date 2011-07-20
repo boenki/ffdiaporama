@@ -112,12 +112,7 @@ void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackB
 
     int64_t         AVNOPTSVALUE        =INT64_C(0x8000000000000000); // to solve type error with Qt
     AVStream        *AudioStream        =ffmpegAudioFile->streams[AudioStreamNumber];
-
-    #if FF_API_OLD_SAMPLE_FMT
-    int64_t         SrcSampleSize       =(av_get_bits_per_sample_fmt(AudioStream->codec->sample_fmt)>>3)*int64_t(AudioStream->codec->channels);
-    #else
-    int64_t         SrcSampleSize       =(av_get_bits_per_sample_format(AudioStream->codec->sample_fmt)>>3)*int64_t(AudioStream->codec->channels);
-    #endif
+    int64_t         SrcSampleSize       =2*int64_t(AudioStream->codec->channels);
 
     int64_t         DstSampleSize       =((SoundTrackBloc!=NULL)?(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels):0);
     AVPacket        *StreamPacket       =NULL;

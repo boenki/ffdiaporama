@@ -1425,10 +1425,19 @@ void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
 // User select a shot in the ShotTable widget
 
 void DlgSlideProperties::s_ShotTable_SelectionChanged() {
+    int i       =ui->BlockTable->currentRow();
+    int IndexKey=-1;
+    if ((i>=0)&&(i<CompositionList->List.count())) IndexKey=CompositionList->List[i].IndexKey;
+
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
     CompositionList=&DiaporamaObject->List[Current].ShotComposition;
     RefreshBlockTable(0);
+    if (IndexKey!=-1) {
+        int i=0;
+        while ((i<CompositionList->List.count())&&(CompositionList->List[i].IndexKey!=IndexKey)) i++;
+        if (i<CompositionList->List.count()) ui->BlockTable->setCurrentCell(i,0);
+    }
 }
 
 //====================================================================================================================

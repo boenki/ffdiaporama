@@ -34,6 +34,9 @@
    </property>
    <item>
     <widget class="QRadioButton" name="SameMusicRD">
+     <property name="toolTip">
+      <string>Allows to continue to play the play list define by a previous slide</string>
+     </property>
      <property name="text">
       <string>Continue current playlist (defined in a previous slide)</string>
      </property>
@@ -61,6 +64,9 @@
      </property>
      <item row="1" column="0">
       <widget class="QRadioButton" name="SameMusicReduceVolumeRD">
+       <property name="toolTip">
+        <string>Allows to indicate that from now on, the sound volume is reduced.</string>
+       </property>
        <property name="text">
         <string>Change volume level to :</string>
        </property>
@@ -88,6 +94,9 @@
          <width>50</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Define the sound volume for this slide</string>
        </property>
        <property name="currentIndex">
         <number>7</number>
@@ -154,6 +163,9 @@
      </item>
      <item row="2" column="0" colspan="3">
       <widget class="QRadioButton" name="SameMusicPauseRD">
+       <property name="toolTip">
+        <string>Set music to pause during this slide</string>
+       </property>
        <property name="text">
         <string>Set to pause</string>
        </property>
@@ -164,6 +176,9 @@
      </item>
      <item row="0" column="0" colspan="3">
       <widget class="QRadioButton" name="SameMusicNormalRD">
+       <property name="toolTip">
+        <string>No specific settings</string>
+       </property>
        <property name="text">
         <string>Normal</string>
        </property>
@@ -176,6 +191,9 @@
    </item>
    <item>
     <widget class="QRadioButton" name="NewMusicRD">
+     <property name="toolTip">
+      <string>Allows to start a new playlist.</string>
+     </property>
      <property name="text">
       <string>Start a new playlist from this slide</string>
      </property>
@@ -194,6 +212,9 @@
      </property>
      <item>
       <widget class="QToolButton" name="AddMusicBt">
+       <property name="toolTip">
+        <string>Add a file to the playlist</string>
+       </property>
        <property name="text">
         <string notr="true"/>
        </property>
@@ -205,6 +226,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="RemoveMusicBt">
+       <property name="toolTip">
+        <string>Remove the current selected file</string>
+       </property>
        <property name="text">
         <string notr="true"/>
        </property>
@@ -216,6 +240,10 @@
      </item>
      <item>
       <widget class="QToolButton" name="UpMusicBt">
+       <property name="toolTip">
+        <string>Change the order in which will be played the music files:
+Move the current selected file of a notch upward.</string>
+       </property>
        <property name="text">
         <string notr="true"/>
        </property>
@@ -227,6 +255,10 @@
      </item>
      <item>
       <widget class="QToolButton" name="DownMusicBt">
+       <property name="toolTip">
+        <string>Change the order in which will be played the music files:
+Move the current selected file of a notch downward.</string>
+       </property>
        <property name="text">
         <string notr="true"/>
        </property>
@@ -356,6 +388,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="OKBT">
+       <property name="toolTip">
+        <string>Accept modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Ok</string>
        </property>
@@ -367,6 +402,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="CloseBT">
+       <property name="toolTip">
+        <string>Cancel modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Cancel</string>
        </property>
@@ -378,6 +416,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="HelpBT">
+       <property name="toolTip">
+        <string>Open help page describing this dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Help</string>
        </property>

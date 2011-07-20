@@ -1,6 +1,6 @@
 Name:           ffDiaporama
 Version:        0.99.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        FFDIAPORAMA - Movie creator
 Summary(fr):    FFDIAPORAMA - Créateur de film
 License:        GPLv2
@@ -87,6 +87,7 @@ if [ -x %{_bindir}/gtk-update-icon-cache ]; then
   %{_bindir}/gtk-update-icon-cache -q %{_datadir}/icons/hicolor;
 fi
 update-mime-database %{_datadir}/mime &> /dev/null || :
+gtk-update-icon-cache --force /usr/share/icons/gnome &> /dev/null || :
 update-desktop-database &> /dev/null || :
 
 %postun
@@ -95,9 +96,10 @@ if [ -x %{_bindir}/gtk-update-icon-cache ]; then
   %{_bindir}/gtk-update-icon-cache -q %{_datadir}/icons/hicolor;
 fi
 update-mime-database %{_datadir}/mime &> /dev/null || :
+gtk-update-icon-cache --force /usr/share/icons/gnome &> /dev/null || :
 update-desktop-database &> /dev/null || :
 
 %changelog
 
-* Wed Jul 13 2011 Dominique LEVRAY <levray.dominique@bbox.fr> 0.99.3-3%{?dist}
-- Release 20110713
+* Wed Jul 20 2011 Dominique LEVRAY <levray.dominique@bbox.fr> 0.99.3-4%{?dist}
+- Release 20110720
