@@ -80,6 +80,8 @@ make install INSTALL_ROOT=$RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 %{_bindir}/%{name}
 %{_datadir}/applications/ffDiaporama.desktop
+%{_datadir}/icons/gnome/32x32/mimetypes/application-ffDiaporama.png
+%{_datadir}/mime/packages/ffDiaporama-mime.xml
 
 %post
 touch --no-create %{_datadir}/icons/hicolor
