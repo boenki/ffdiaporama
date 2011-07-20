@@ -178,7 +178,11 @@ unix {
     General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset libx264-pq.ffpreset
     desktop.path        = $$PREFIX/share/applications
     desktop.files       = ffDiaporama.desktop
+    mimefile.path       = $$PREFIX/share/mime/packages
+    mimefile.files      = ffDiaporama-mime.xml
+    iconfile.path       = $$PREFIX/share/icons/gnome/32x32/mimetypes
+    iconfile.files      = application-ffDiaporama.png
 
     INSTALLS += TARGET desktop translation background img tr_img luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake luma \
-            wiki_en_img wiki_en wiki_fr_img wiki_fr wiki_img wiki General
+            wiki_en_img wiki_en wiki_fr_img wiki_fr wiki_img wiki General mimefile iconfile
 }

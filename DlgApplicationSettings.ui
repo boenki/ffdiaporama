@@ -46,8 +46,11 @@
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="toolTip">
+      <string>Select the file type to use for the rendering.</string>
+     </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -73,8 +76,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>526</width>
-            <height>421</height>
+            <width>501</width>
+            <height>392</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -348,7 +351,8 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Defined the framing to be made during the file insertion : Files will be reframed so that the totality of the width of the image is shown</string>
+                <string>Defined the framing to be made during the file insertion:
+Files will be reframed so that the totality of the width of the image is shown</string>
                </property>
                <property name="text">
                 <string notr="true"/>
@@ -371,7 +375,8 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Defined the framing to be made during the file insertion : Files will be reframed so that the totality of the height of the image is shown</string>
+                <string>Defined the framing to be made during the file insertion:
+Files will be reframed so that the totality of the height of the image is shown</string>
                </property>
                <property name="text">
                 <string notr="true"/>
@@ -394,7 +399,8 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Defined the framing to be made during the file insertion : Files will be reframed at best</string>
+                <string>Defined the framing to be made during the file insertion:
+Files will be reframed at best</string>
                </property>
                <property name="text">
                 <string notr="true"/>
@@ -450,7 +456,8 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Defined the transition to be inserted between slides during the insertions : Chosen randomly a transition in the library</string>
+                <string>Defined the transition to be inserted between slides during the insertions:
+Chosen randomly a transition in the library</string>
                </property>
                <property name="text">
                 <string notr="true"/>
@@ -473,7 +480,8 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Defined the transition to be inserted between slides during the insertions : No transition</string>
+                <string>Defined the transition to be inserted between slides during the insertions:
+No transition</string>
                </property>
                <property name="text">
                 <string notr="true"/>
@@ -496,7 +504,8 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Defined the transition to be inserted between slides during the insertions : Crossfade transition</string>
+                <string>Defined the transition to be inserted between slides during the insertions:
+Crossfade transition</string>
                </property>
                <property name="text">
                 <string notr="true"/>
@@ -672,8 +681,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>526</width>
-            <height>421</height>
+            <width>438</width>
+            <height>151</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -726,6 +735,9 @@
              </property>
              <item>
               <widget class="QComboBox" name="GeometryCombo">
+               <property name="toolTip">
+                <string>Select the geometry of image to be used for the creation of the projects.</string>
+               </property>
                <property name="currentIndex">
                 <number>0</number>
                </property>
@@ -788,6 +800,9 @@
              </property>
              <item>
               <widget class="QSpinBox" name="NoShotED">
+               <property name="toolTip">
+                <string>Defined the default duration of the first shot of slides during their creation.</string>
+               </property>
                <property name="value">
                 <number>6</number>
                </property>
@@ -835,6 +850,9 @@
              </property>
              <item>
               <widget class="QSpinBox" name="StaticShotED">
+               <property name="toolTip">
+                <string>Defined the default duration of next shots.</string>
+               </property>
                <property name="value">
                 <number>3</number>
                </property>
@@ -882,6 +900,9 @@
              </property>
              <item>
               <widget class="QComboBox" name="SpeedWaveCombo">
+               <property name="toolTip">
+                <string>Defined the curve of speed to be used for the transitions and the animations.</string>
+               </property>
                <property name="currentIndex">
                 <number>1</number>
                </property>
@@ -1071,6 +1092,9 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="toolTip">
+              <string>Select the default image format to use for the rendering among the proposed list. </string>
+             </property>
              <property name="currentIndex">
               <number>0</number>
              </property>
@@ -1098,6 +1122,9 @@
            </item>
            <item row="22" column="1" colspan="2">
             <widget class="QComboBox" name="StandardCombo">
+             <property name="toolTip">
+              <string>Select the default video standard to use, PAL or NTSC.</string>
+             </property>
              <item>
               <property name="text">
                <string>PAL</string>
@@ -1143,13 +1170,24 @@
                <height>16777215</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Select the default bit rate to use for video during the rendering among the proposed list. </string>
+             </property>
             </widget>
            </item>
            <item row="26" column="1" colspan="2">
-            <widget class="QComboBox" name="VideoFormatCB"/>
+            <widget class="QComboBox" name="VideoFormatCB">
+             <property name="toolTip">
+              <string>Select the default video codec to use for the rendering among the proposed list. </string>
+             </property>
+            </widget>
            </item>
            <item row="28" column="1" colspan="2">
-            <widget class="QComboBox" name="AudioFormatCB"/>
+            <widget class="QComboBox" name="AudioFormatCB">
+             <property name="toolTip">
+              <string>Select the default audio codec to use for the rendering among the proposed list. </string>
+             </property>
+            </widget>
            </item>
            <item row="28" column="0">
             <widget class="QLabel" name="label_22">
@@ -1196,6 +1234,9 @@
                <width>70</width>
                <height>16777215</height>
               </size>
+             </property>
+             <property name="toolTip">
+              <string>Select the default bit rate to use for audio during the rendering among the proposed list. </string>
              </property>
             </widget>
            </item>
@@ -1244,13 +1285,25 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QComboBox" name="SmartphoneTypeCB"/>
+            <widget class="QComboBox" name="SmartphoneTypeCB">
+             <property name="toolTip">
+              <string>Select the type of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</string>
+             </property>
+            </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QComboBox" name="ForTheWTypeCB"/>
+            <widget class="QComboBox" name="ForTheWTypeCB">
+             <property name="toolTip">
+              <string>Select the type of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</string>
+             </property>
+            </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QComboBox" name="MMSystemTypeCB"/>
+            <widget class="QComboBox" name="MMSystemTypeCB">
+             <property name="toolTip">
+              <string>Select the type of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</string>
+             </property>
+            </widget>
            </item>
            <item row="21" column="1" colspan="2">
             <widget class="QComboBox" name="FileFormatCB">
@@ -1260,16 +1313,31 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="toolTip">
+              <string>Select the default file type to use for the rendering among the proposed list.</string>
+             </property>
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QComboBox" name="SmartphoneModelCB"/>
+            <widget class="QComboBox" name="SmartphoneModelCB">
+             <property name="toolTip">
+              <string>Select the model of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</string>
+             </property>
+            </widget>
            </item>
            <item row="2" column="2">
-            <widget class="QComboBox" name="MMSystemModelCB"/>
+            <widget class="QComboBox" name="MMSystemModelCB">
+             <property name="toolTip">
+              <string>Select the model of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</string>
+             </property>
+            </widget>
            </item>
            <item row="3" column="2">
-            <widget class="QComboBox" name="ForTheWModelCB"/>
+            <widget class="QComboBox" name="ForTheWModelCB">
+             <property name="toolTip">
+              <string>Select the model of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -1386,6 +1454,9 @@
          </property>
          <item>
           <widget class="QComboBox" name="DBStandardCB">
+           <property name="toolTip">
+            <string>Select the video standard to use, PAL or NTSC.</string>
+           </property>
            <item>
             <property name="text">
              <string>PAL</string>
@@ -1430,6 +1501,9 @@
          </property>
          <item>
           <widget class="QComboBox" name="DBImageSizeCombo">
+           <property name="toolTip">
+            <string>Select the image resolution to use for the rendering.</string>
+           </property>
            <property name="currentIndex">
             <number>-1</number>
            </property>
@@ -1459,6 +1533,9 @@
              <width>150</width>
              <height>0</height>
             </size>
+           </property>
+           <property name="toolTip">
+            <string>Select the video codec to use for the rendering.</string>
            </property>
           </widget>
          </item>
@@ -1492,6 +1569,9 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string>Select the bit rate to use for video during the rendering.</string>
+           </property>
           </widget>
          </item>
         </layout>
@@ -1519,6 +1599,9 @@
              <height>0</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string>Select the audio codec to use for the rendering.</string>
+           </property>
           </widget>
          </item>
          <item>
@@ -1545,6 +1628,9 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string>Select the bit rate to use for audio during the rendering.</string>
+           </property>
           </widget>
          </item>
         </layout>
@@ -1560,7 +1646,11 @@
         </widget>
        </item>
        <item row="8" column="1">
-        <widget class="QLineEdit" name="DBDeviceModelED"/>
+        <widget class="QLineEdit" name="DBDeviceModelED">
+         <property name="toolTip">
+          <string>Enter here the name of the equipment (free text field).</string>
+         </property>
+        </widget>
        </item>
        <item row="3" column="0" colspan="2">
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1572,6 +1662,9 @@
          </property>
          <item>
           <widget class="QPushButton" name="DBAddDevice">
+           <property name="toolTip">
+            <string>Create a new equipment which comes to be added in the database.</string>
+           </property>
            <property name="text">
             <string>Add Device</string>
            </property>
@@ -1583,6 +1676,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="DBRemoveBT">
+           <property name="toolTip">
+            <string>Delete current equipment.</string>
+           </property>
            <property name="text">
             <string>Remove Device</string>
            </property>
@@ -1594,6 +1690,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="DBResetBT">
+           <property name="toolTip">
+            <string>Cancel the modifications that you made on an equipment defined in the default ffDiaporama database</string>
+           </property>
            <property name="text">
             <string>Reset Device to Default</string>
            </property>
@@ -1616,10 +1715,18 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QComboBox" name="DBDeviceTypeCB"/>
+        <widget class="QComboBox" name="DBDeviceTypeCB">
+         <property name="toolTip">
+          <string>Select the type of equipment to be shown in the list.</string>
+         </property>
+        </widget>
        </item>
        <item row="7" column="1">
-        <widget class="QComboBox" name="DBDeviceSubtypeCB"/>
+        <widget class="QComboBox" name="DBDeviceSubtypeCB">
+         <property name="toolTip">
+          <string>Select the category in which is classified the equipment.</string>
+         </property>
+        </widget>
        </item>
        <item row="7" column="0">
         <widget class="QLabel" name="label_32">
@@ -1648,6 +1755,9 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="toolTip">
+          <string>Select the file type to use for the rendering.</string>
          </property>
         </widget>
        </item>

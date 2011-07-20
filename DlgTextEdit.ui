@@ -709,6 +709,27 @@ color: #000000;
    <header>cCustomComboBox.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>fontStyleCB</tabstop>
+  <tabstop>fontSize</tabstop>
+  <tabstop>FontColorCombo</tabstop>
+  <tabstop>fontEffectCB</tabstop>
+  <tabstop>StyleShadowColorCombo</tabstop>
+  <tabstop>bold</tabstop>
+  <tabstop>Italic</tabstop>
+  <tabstop>Souligne</tabstop>
+  <tabstop>textLeft</tabstop>
+  <tabstop>textCenter</tabstop>
+  <tabstop>textJustif</tabstop>
+  <tabstop>textRight</tabstop>
+  <tabstop>textUp</tabstop>
+  <tabstop>textVCenter</tabstop>
+  <tabstop>textBottom</tabstop>
+  <tabstop>plainTextEdit</tabstop>
+  <tabstop>OKBT</tabstop>
+  <tabstop>CloseBT</tabstop>
+  <tabstop>HelpBT</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

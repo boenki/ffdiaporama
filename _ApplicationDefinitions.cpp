@@ -21,6 +21,11 @@
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
+#if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
+#include <windows.h>
+#include <winbase.h>
+#endif
+
 // Specific inclusions
 #include "_ApplicationDefinitions.h"
 

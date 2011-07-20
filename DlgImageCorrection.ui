@@ -71,6 +71,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>Define the horizontal position from the left (X).</string>
+       </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::PlusMinus</enum>
        </property>
@@ -103,6 +106,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>Define the vertical position from the top of the image ( Y ).</string>
+       </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::PlusMinus</enum>
        </property>
@@ -130,7 +136,7 @@
      <item>
       <widget class="QToolButton" name="AdjustWBT">
        <property name="toolTip">
-        <string>Adjust to width</string>
+        <string>Define automatically the framing to the width of the image.</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -150,7 +156,7 @@
      <item>
       <widget class="QToolButton" name="AdjustHBT">
        <property name="toolTip">
-        <string>Adjust to height</string>
+        <string>Define automatically the framing to the height of the image.</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -169,6 +175,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="AdjustWHBT">
+       <property name="toolTip">
+        <string>Define automatically the framing to the diagonal of the image.</string>
+       </property>
        <property name="text">
         <string notr="true"/>
        </property>
@@ -185,6 +194,9 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Define the width</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -212,6 +224,9 @@
      </item>
      <item>
       <widget class="QLabel" name="label_10">
+       <property name="toolTip">
+        <string>Define the height</string>
+       </property>
        <property name="text">
         <string notr="true"/>
        </property>
@@ -252,7 +267,7 @@
      <item>
       <widget class="QToolButton" name="RotateLeftBT">
        <property name="toolTip">
-        <string>Rotate to left</string>
+        <string>Turn the image to the left (on the multiple fellow man of 90°).</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -271,6 +286,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>Define the rotation angle for z axis.</string>
+       </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::PlusMinus</enum>
        </property>
@@ -288,7 +306,7 @@
      <item>
       <widget class="QToolButton" name="RotateRightBT">
        <property name="toolTip">
-        <string>Rotate to right</string>
+        <string>Turn the image to the right (on the multiple fellow man of 90°).</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -336,6 +354,9 @@
          <height>25</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Adjust luminosity</string>
+       </property>
        <property name="minimum">
         <number>-250</number>
        </property>
@@ -367,6 +388,9 @@
          <height>25</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Adjust contrast</string>
+       </property>
        <property name="minimum">
         <number>-250</number>
        </property>
@@ -386,6 +410,9 @@
      </item>
      <item row="1" column="2">
       <widget class="QSpinBox" name="BrightnessValue">
+       <property name="toolTip">
+        <string>Adjust luminosity</string>
+       </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::PlusMinus</enum>
        </property>
@@ -399,6 +426,9 @@
      </item>
      <item row="3" column="2">
       <widget class="QSpinBox" name="ContrastValue">
+       <property name="toolTip">
+        <string>Adjust contrast</string>
+       </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::PlusMinus</enum>
        </property>
@@ -412,6 +442,9 @@
      </item>
      <item row="5" column="2">
       <widget class="QDoubleSpinBox" name="GammaValue">
+       <property name="toolTip">
+        <string>Adjust gamma</string>
+       </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::PlusMinus</enum>
        </property>
@@ -439,6 +472,9 @@
          <width>16777215</width>
          <height>25</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Adjust gamma</string>
        </property>
        <property name="maximum">
         <number>590</number>
@@ -474,6 +510,9 @@
          <height>25</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Adjust red chanel</string>
+       </property>
        <property name="minimum">
         <number>-250</number>
        </property>
@@ -493,6 +532,9 @@
      </item>
      <item row="1" column="5">
       <widget class="QSpinBox" name="RedValue">
+       <property name="toolTip">
+        <string>Adjust red chanel</string>
+       </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::PlusMinus</enum>
        </property>
@@ -518,6 +560,9 @@
          <height>25</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Adjust green chanel</string>
+       </property>
        <property name="minimum">
         <number>-250</number>
        </property>
@@ -537,6 +582,9 @@
      </item>
      <item row="3" column="5">
       <widget class="QSpinBox" name="GreenValue">
+       <property name="toolTip">
+        <string>Adjust green chanel</string>
+       </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::PlusMinus</enum>
        </property>
@@ -562,6 +610,9 @@
          <height>25</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Adjust blue chanel</string>
+       </property>
        <property name="minimum">
         <number>-250</number>
        </property>
@@ -581,6 +632,9 @@
      </item>
      <item row="5" column="5">
       <widget class="QSpinBox" name="BlueValue">
+       <property name="toolTip">
+        <string>Adjust blue chanel</string>
+       </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::PlusMinus</enum>
        </property>
@@ -719,6 +773,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="OKBT">
+       <property name="toolTip">
+        <string>Accept modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Ok</string>
        </property>
@@ -730,6 +787,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="CloseBT">
+       <property name="toolTip">
+        <string>Cancel modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Cancel</string>
        </property>
@@ -741,6 +801,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="HelpBT">
+       <property name="toolTip">
+        <string>Open help page describing this dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Help</string>
        </property>
@@ -754,6 +817,35 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>GraphicsView</tabstop>
+  <tabstop>XValue</tabstop>
+  <tabstop>YValue</tabstop>
+  <tabstop>AdjustWBT</tabstop>
+  <tabstop>AdjustHBT</tabstop>
+  <tabstop>AdjustWHBT</tabstop>
+  <tabstop>WValue</tabstop>
+  <tabstop>HValue</tabstop>
+  <tabstop>RotateLeftBT</tabstop>
+  <tabstop>RotateED</tabstop>
+  <tabstop>RotateRightBT</tabstop>
+  <tabstop>BrightnessSlider</tabstop>
+  <tabstop>BrightnessValue</tabstop>
+  <tabstop>ContrastSlider</tabstop>
+  <tabstop>ContrastValue</tabstop>
+  <tabstop>GammaSlider</tabstop>
+  <tabstop>GammaValue</tabstop>
+  <tabstop>RedSlider</tabstop>
+  <tabstop>RedValue</tabstop>
+  <tabstop>GreenSlider</tabstop>
+  <tabstop>GreenValue</tabstop>
+  <tabstop>BlueSlider</tabstop>
+  <tabstop>BlueValue</tabstop>
+  <tabstop>MagneticEdgeBt</tabstop>
+  <tabstop>OKBT</tabstop>
+  <tabstop>CloseBT</tabstop>
+  <tabstop>HelpBT</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
