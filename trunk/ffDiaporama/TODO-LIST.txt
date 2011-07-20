@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 19/07/2011) :
+Buggs/TODO (Dernier SVN le 20/07/2011) :
 ----------------------------------------
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
 BUGG: Probleme de lecture avec des fichiers .ogg
@@ -46,16 +46,6 @@ Evolutions diverses
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-Mise à jours des tab order & tooltip des boites de dialogue :
-    MusicProperties
-    ApplicationSetting
-    ImageCorrection
-    RenderVideo
-
-Changement de comportement: : Conserve le bloc sélectionné quand on change de plan dans la boite slide
-
-Ajout d'un type mime et d'une icone pour gnome lors de l'installation des paquets Linux pour corriger le bug déclaré par Marie-Noelle :
-    j'ai voulu indiquer ffDiaporama comme programme par défaut pour l'ouverture des fichiers .ffd, mais l'information est prise en compte pour tous les fichers de type "texte brut"
 
 -------------------------------------
 Changelog depuis la version 20110713
@@ -87,9 +77,17 @@ Changement de comportement: Modifications sur l'ombre des formes
     => Passe la limite de la distance d'ombre à 100 au lieu de 30
     => Ajoute la possibilité de changer la couleur de l'ombre
 Changement de comportement: Réorganise la boite slide pour réduire les clicks et les mouvements de souris à l'utilisation
+Changement de comportement: : Conserve le bloc sélectionné quand on change de plan dans la boite slide
 
 Mise à jours des tab order & tooltip des boites de dialogue :
     Slide
     TextEdit
     TransitionProperties
     VideoEdit
+    MusicProperties
+    ApplicationSetting
+    ImageCorrection
+    RenderVideo
+
+Ajout d'un type mime et d'une icone pour gnome lors de l'installation des paquets Linux pour corriger le bug déclaré par Marie-Noelle :
+    j'ai voulu indiquer ffDiaporama comme programme par défaut pour l'ouverture des fichiers .ffd, mais l'information est prise en compte pour tous les fichers de type "texte brut"
