@@ -1,8 +1,7 @@
 Buggs/TODO (Dernier SVN le 20/07/2011) :
 ----------------------------------------
-BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application à besoin de ses DLL pour démarrer
-BUGG: Probleme de lecture avec des fichiers .ogg
-BUGG: SSE2 dans VirtualBox ! Plus moyen d’arrêter SSE2 avec Qt 4.7.3 !
+BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
+BUGG: Problème de lecture avec des fichiers .ogg
 
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 
@@ -25,11 +24,11 @@ Evolutions fonctionnelles
 Evolutions ergonomiques :
     TODO: Gestion de style pour les blocs textes ?
     TODO: Gestion des guides pour le plus grand rectangle intérieur (images tournées) dans la boite de recadrage
-    TODO: Gérer les drags & drop dans la timeline de la fenêtre principal
+    TODO: Gérer les drags & drop dans la timeline de la fenètre principal
     TODO: Gérer les drags & drop dans la timeline de la boite slide
-    TODO: Ajouter un onglet "Trieur" dans la fenêtre principal
-    TODO: Transférer le contrôl de géometrie de la boite slide à la boite de recadrage
-    TODO: Transférer le control de volume de la boite vidéo à la boite slide
+    TODO: Ajouter un onglet "Trieur" dans la fenètre principal
+    TODO: Transférer le contrôle de géométrie de la boite slide à la boite de recadrage
+    TODO: Transférer le contrôle de volume de la boite vidéo à la boite slide
 
     TODO: Finir de trier les combobox de codec & format dans les boites options et render
     TODO: Sur l'interface principale maintenant que tu dispose d'un peut plus de place rajouter un bouton "dupliquer" la diapos.
@@ -47,47 +46,16 @@ Evolutions diverses
 Changelog depuis le dernier SVN
 --------------------------------
 
+Ajout de 2 nouveaux équipements dans la base : PS3 et XBox360
+Ajout de 4 nouvelles transitions dans la famille "Pousseur"
+
+Correction de bug :
+    Resoud une crash dans la boite de configuration (depassement de tableau)
+    Resoud le problème des boutons de la fenêtre principal qui reste enfoncés [Windows]
+
+Changement de comportement :
+    Supprime toute référence à SSE2 => l'accélération matérielle SSE2 n'est plus désactivable
+
 -------------------------------------
-Changelog depuis la version 20110713
+Changelog depuis la version 20110720
 -------------------------------------
-Correction de bugg: Le recadrage "au mieux" par défaut recadrait les images sur la largeur dans tous les cas. Maintenant il s'adapte à l'image
-Correction de bugg: Remet les rotations sur des multiples de 90° dans la boite de correction d'image
-    => bug introduit par le précédent passage en mode à virgule des rotations dans la boite de recadrage
-Correction de bugg: Maintenant, les modifications de hauteur ou largeur dans la boite de recadrage n'appliquent plus de contrainte géométrique si la géometrie du bloc est libre
-Correction de bugg: Corrige l'erreur qui coupait les images (en haut et en bas) des blocs avec rotation sur l'axe des Z
-Correction de bugg: Corrige l'erreur qui ajoutait parfois des lignes fantomes sur les formes transparentes
-Correction de bugg: Lors des sélections de fichier destination, repositionne sur le dernier répertoire utilisé pour générer le film (tel qu'inscrit dans le fichier projet) plutôt sur le dernier répertoire utilisé (tel qu'inscrit dans le fichier de config utilisateur)
-Correction de bugg: Corrige la mise à l'echelle pour la production des thumbnails
-
-Changement de comportement: Ajoute la durée estimée de temps de traitement restant lors des générations de film
-Changement de comportement: Ajoute une option pour sélectionner l'unité d'affichage des coordonnées dans la boite d'options
-Changement de comportement: Applique l'unité d'affichage des coordonnées dans la boite de propriétés des diapositives (% ou pixel)
-Changement de comportement: Dans la boite de propriétés des slides et dans la boite de recadrage :
-    => n'emplèche plus les blocs de sortir de l'écran
-    => les bords de l'écran se comportent maintenant comme des guides
-Changement de comportement: Dans la boite de recadrage :
-    => remplace la zone zoom par deux zones largeur/hauteur
-    => change les limites de mouvement et d'agrandissement à + ou - 200%
-    => change le pas des zones d'édition à 1%
-Changement de comportement: Ajout des raccourcis clavier dans les zones interactives des boites slide et recadrage
-         Gauche=X-1               Droite=X+1              Haut=Y-1                Bas=Y+1       => Equivalent move
-    Ctrl+Gauche=W-1          Ctrl+Droite=W+1         Ctrl+Haut=H-1           Ctrl+Bas=H+1       => Equivalent bottom-right
-    Shift+Gauche=W-1/X+1    Shift+Droite=W+1/X-1    Shift+Haut=H-1/Y+1      Shift+Bas=H+1/Y-1   => Equivalent top-left
-Changement de comportement: Modifications sur l'ombre des formes
-    => Passe la limite de la distance d'ombre à 100 au lieu de 30
-    => Ajoute la possibilité de changer la couleur de l'ombre
-Changement de comportement: Réorganise la boite slide pour réduire les clicks et les mouvements de souris à l'utilisation
-Changement de comportement: : Conserve le bloc sélectionné quand on change de plan dans la boite slide
-
-Mise à jours des tab order & tooltip des boites de dialogue :
-    Slide
-    TextEdit
-    TransitionProperties
-    VideoEdit
-    MusicProperties
-    ApplicationSetting
-    ImageCorrection
-    RenderVideo
-
-Ajout d'un type mime et d'une icone pour gnome lors de l'installation des paquets Linux pour corriger le bug déclaré par Marie-Noelle :
-    j'ai voulu indiquer ffDiaporama comme programme par défaut pour l'ouverture des fichiers .ffd, mais l'information est prise en compte pour tous les fichers de type "texte brut"

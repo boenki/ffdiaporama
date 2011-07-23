@@ -1621,17 +1621,21 @@ void cDiaporama::DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
     P->drawImage(box2,Reverse?*Info->TransitObject_PreparedImage:*Info->CurrentObject_PreparedImage,box1);
 }
 
+QImage RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg);
+
 //============================================================================================
 
 void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
-    QRect   box1,box2;
-    QRect   box3,box4;
-    QPoint  box;
-    int     wt,ht;
-    int     PCTW=int(Info->TransitionPCTDone*double(W));
-    int     PCTH=int(Info->TransitionPCTDone*double(H));
-    int     PCTWB=int((1-Info->TransitionPCTDone)*double(W));
-    int     PCTHB=int((1-Info->TransitionPCTDone)*double(H));
+    QRect       box1,box2;
+    QRect       box3,box4;
+    QPoint      box;
+    int         wt,ht;
+    int         PCTW=int(Info->TransitionPCTDone*double(W));
+    int         PCTH=int(Info->TransitionPCTDone*double(H));
+    int         PCTWB=int((1-Info->TransitionPCTDone)*double(W));
+    int         PCTHB=int((1-Info->TransitionPCTDone)*double(H));
+    double      Rotate,dw,dh;
+    QImage      Img;
 
     switch (Info->TransitionSubType) {
     case 0 :    // Since left to right
@@ -1694,7 +1698,80 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
         box=QPoint((W-wt)/2,H-ht);
         P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht)));
         break;
+    case 8 :    // Rotating from y axis
+        if (Info->TransitionPCTDone<0.5) {
+            Rotate=double(90)*(Info->TransitionPCTDone*2);
+            Img=RotateImage(0,Rotate,0,Info->TransitObject_PreparedImage);
+        } else {
+            Rotate=double(-90)*((1-Info->TransitionPCTDone)*2);
+            Img=RotateImage(0,Rotate,0,Info->CurrentObject_PreparedImage);
+        }
+        dw=(double(W)-double(Img.width()))/2;
+        dh=(double(H)-double(Img.height()))/2;
+        P->drawImage(QPointF(dw,dh),Img);
+        break;
+    case 9 :    // Rotating from y axis
+        if (Info->TransitionPCTDone<0.5) {
+            Rotate=double(-90)*(Info->TransitionPCTDone*2);
+            Img=RotateImage(0,Rotate,0,Info->TransitObject_PreparedImage);
+        } else {
+            Rotate=double(90)*((1-Info->TransitionPCTDone)*2);
+            Img=RotateImage(0,Rotate,0,Info->CurrentObject_PreparedImage);
+        }
+        dw=(double(W)-double(Img.width()))/2;
+        dh=(double(H)-double(Img.height()))/2;
+        P->drawImage(QPointF(dw,dh),Img);
+        break;
+    case 10 :    // Rotating from x axis
+        if (Info->TransitionPCTDone<0.5) {
+            Rotate=double(90)*(Info->TransitionPCTDone*2);
+            Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
+        } else {
+            Rotate=double(-90)*((1-Info->TransitionPCTDone)*2);
+            Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
+        }
+        dw=(double(W)-double(Img.width()))/2;
+        dh=(double(H)-double(Img.height()))/2;
+        P->drawImage(QPointF(dw,dh),Img);
+        break;
+    case 11 :    // Rotating from x axis
+        if (Info->TransitionPCTDone<0.5) {
+            Rotate=double(-90)*(Info->TransitionPCTDone*2);
+            Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
+        } else {
+            Rotate=double(90)*((1-Info->TransitionPCTDone)*2);
+            Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
+        }
+        dw=(double(W)-double(Img.width()))/2;
+        dh=(double(H)-double(Img.height()))/2;
+        P->drawImage(QPointF(dw,dh),Img);
+        break;
     }
+}
+
+QImage RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg) {
+    double dw=double(OldImg->width());
+    double dh=double(OldImg->height());
+    double hyp=sqrt(dw*dw+dh*dh);
+
+    QImage   Img(hyp,hyp,QImage::Format_ARGB32_Premultiplied);
+    QPainter Painter;
+    Painter.begin(&Img);
+    Painter.setCompositionMode(QPainter::CompositionMode_Source);
+    Painter.fillRect(QRect(0,0,hyp,hyp),Qt::transparent);
+    Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+    // All coordonates from center
+    QTransform  Matrix;
+    Matrix.translate(hyp/2,hyp/2);
+    if (TheRotateZAxis!=0) Matrix.rotate(TheRotateZAxis,Qt::ZAxis);   // Standard axis
+    if (TheRotateXAxis!=0) Matrix.rotate(TheRotateXAxis,Qt::XAxis);   // Rotate from X axis
+    if (TheRotateYAxis!=0) Matrix.rotate(TheRotateYAxis,Qt::YAxis);   // Rotate from Y axis
+    Painter.setWorldTransform(Matrix,false);
+    Painter.drawImage(-(dw)/2,-(dh)/2,*OldImg);
+
+    Painter.end();
+    return Img;
 }
 
 //============================================================================================

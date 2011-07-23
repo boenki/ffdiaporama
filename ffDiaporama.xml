@@ -58,5 +58,7 @@
         <Device_49 ImageSize="2" DeviceIndex="49" DeviceName="WebM Version-VGA" FileFormat="6" Standard="0" DeviceType="3" VideoBitrate="1500000" VideoCodec="5" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
         <Device_50 ImageSize="6" DeviceIndex="50" DeviceName="WebM Version-HD 720p" FileFormat="6" Standard="0" DeviceType="3" VideoBitrate="4000000" VideoCodec="5" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
         <Device_51 ImageSize="7" DeviceIndex="51" DeviceName="WebM Version-HD1080p" FileFormat="6" Standard="0" DeviceType="3" VideoBitrate="6000000" VideoCodec="5" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
+        <Device_52 ImageSize="7" DeviceIndex="52" DeviceName="PS3" FileFormat="4" Standard="0" DeviceType="2" VideoBitrate="8000000" VideoCodec="3" DeviceSubtype="3" AudioBitrate="160000" AudioCodec="2"/>
+        <Device_53 ImageSize="7" DeviceIndex="53" DeviceName="XBox360" FileFormat="4" Standard="0" DeviceType="2" VideoBitrate="8000000" VideoCodec="3" DeviceSubtype="3" AudioBitrate="160000" AudioCodec="2"/>
     </RenderingDeviceModel>
 </Configuration>

@@ -239,7 +239,7 @@
     <message>
         <location filename="../DlgApplicationSettings.ui" line="613"/>
         <source>Ask user confirmation to remove slide, object or shot</source>
-        <translation>Demander une confirmation pour supprimer une diapo, un bloque ou un plan</translation>
+        <translation>Confirmation pour supprimer une diapo, un bloc ou un plan</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="620"/>

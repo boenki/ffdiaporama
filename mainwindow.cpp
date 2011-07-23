@@ -431,18 +431,21 @@ void MainWindow::SetModifyFlag(bool IsModify) {
 //====================================================================================================================
 
 void MainWindow::s_About() {
+    ui->Action_About_BT->setDown(false);
     DlgAbout(this).exec();
 }
 
 //====================================================================================================================
 
 void MainWindow::s_Documentation() {
+    ui->ActionDocumentation_BT->setDown(false);
     OpenHelp(HELPFILE_SUPPORT);
 }
 
 //====================================================================================================================
 
 void MainWindow::s_NewFunctions() {
+    ui->ActionNewFunctions_BT->setDown(false);
     OpenHelp(HELPFILE_NEWS);
 }
 
@@ -602,24 +605,28 @@ void MainWindow::s_ToolbarChanged(int MenuIndex) {
 //====================================================================================================================
 
 void MainWindow::s_RenderVideo() {
+    ui->ActionRender_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     DlgRenderVideo(*Diaporama,EXPORTMODE_ADVANCED,this).exec();
     AdjustRuller();
 }
 
 void MainWindow::s_RenderSmartphone() {
+    ui->ActionSmartphone_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     DlgRenderVideo(*Diaporama,EXPORTMODE_SMARTPHONE,this).exec();
     AdjustRuller();
 }
 
 void MainWindow::s_RenderMultimedia() {
+    ui->ActionMultimedia_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     DlgRenderVideo(*Diaporama,EXPORTMODE_MULTIMEDIASYS,this).exec();
     AdjustRuller();
 }
 
 void MainWindow::s_RenderForTheWEB() {
+    ui->ActionForTheWEB_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     DlgRenderVideo(*Diaporama,EXPORTMODE_FORTHEWEB,this).exec();
     AdjustRuller();
@@ -630,6 +637,7 @@ void MainWindow::s_RenderForTheWEB() {
 //====================================================================================================================
 
 void MainWindow::s_ChangeApplicationSettings() {
+    ui->ActionConfiguration_BT->setDown(false);
     ui->preview->SetPlayerToPause();                            // Ensure player is stop
     DlgApplicationSettings(*ApplicationConfig,this).exec();
     SDLSetFPS(ApplicationConfig->PreviewFPS);                   // Reinit SDL if Preview FPS has changed
@@ -640,6 +648,7 @@ void MainWindow::s_ChangeApplicationSettings() {
 //====================================================================================================================
 
 void MainWindow::s_action_New() {
+    ui->Action_New_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","New project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
@@ -679,12 +688,12 @@ void MainWindow::s_action_OpenRecent() {
     QString Selected="";
     if (Action) Selected=Action->iconText();
     delete ContextMenu;
-    ui->Action_OpenRecent_BT->setChecked(false);
     ui->Action_OpenRecent_BT->setDown(false);
     if (Selected!="") OpenFile(Selected);
 }
 
 void MainWindow::s_action_Open() {
+    ui->Action_Open_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
@@ -742,6 +751,7 @@ void MainWindow::OpenFile(QString ProjectFileName) {
 //====================================================================================================================
 
 void MainWindow::s_action_Save() {
+    ui->Action_Save_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     if (Diaporama->ProjectFileName=="") s_action_SaveAs(); else {
         if (Diaporama->SaveFile(this)) SetModifyFlag(false);
@@ -753,6 +763,7 @@ void MainWindow::s_action_Save() {
 //====================================================================================================================
 
 void MainWindow::s_action_SaveAs() {
+    ui->ActionSave_as_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Save project as"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
     if (Diaporama->ProjectFileName!="") {
@@ -774,6 +785,7 @@ void MainWindow::s_action_SaveAs() {
 //====================================================================================================================
 
 void MainWindow::s_action_AddTitle() {
+    ui->ActionAddtitle_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;
@@ -812,6 +824,7 @@ void MainWindow::s_action_AddTitle() {
 //====================================================================================================================
 
 void MainWindow::s_action_AddFile() {
+    ui->ActionAdd_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
 
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add files"),
@@ -1002,6 +1015,7 @@ void MainWindow::s_action_AddFile() {
 //====================================================================================================================
 
 void MainWindow::s_action_AddProject() {
+    ui->ActionAddProject_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     QApplication::processEvents();
     QString ProjectFileName=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
@@ -1058,13 +1072,13 @@ void MainWindow::s_action_Edit() {
     ContextMenu->addAction(ui->actionEdit_background_transition);
     ContextMenu->exec(QCursor::pos());
     delete ContextMenu;
-    ui->ActionEdit_BT->setChecked(false);
     ui->ActionEdit_BT->setDown(false);
 }
 
 //====================================================================================================================
 
 void MainWindow::s_RemoveObject() {
+    ui->ActionRemove_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     int Current=ui->timeline->currentColumn();
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
@@ -1090,6 +1104,7 @@ void MainWindow::s_RemoveObject() {
 //====================================================================================================================
 
 void MainWindow::s_LeftObject() {
+    ui->ActionMove_left_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     int Current=ui->timeline->currentColumn();
     if ((Current<1)||(Current>=Diaporama->List.count())) return;
@@ -1108,6 +1123,7 @@ void MainWindow::s_LeftObject() {
 //====================================================================================================================
 
 void MainWindow::s_RightObject() {
+    ui->ActionMove_right_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     int Current=ui->timeline->currentColumn();
     if ((Current<0)||(Current>=Diaporama->List.count()-1)) return;
@@ -1126,6 +1142,7 @@ void MainWindow::s_RightObject() {
 //====================================================================================================================
 
 void MainWindow::s_CutToClipboard() {
+    ui->ActionCut_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     int Current=ui->timeline->currentColumn();
     if ((Current<0)||(Current>Diaporama->List.count()-1)) return;
@@ -1146,6 +1163,7 @@ void MainWindow::s_CutToClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_CopyToClipboard() {
+    ui->ActionCopy_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     int Current=ui->timeline->currentColumn();
     if ((Current<0)||(Current>Diaporama->List.count()-1)) return;
@@ -1167,6 +1185,7 @@ void MainWindow::s_CopyToClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_PasteFromClipboard() {
+    ui->ActionPaste_BT->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     // Calc position of new object depending on ApplicationConfig->AppendObject
     int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;

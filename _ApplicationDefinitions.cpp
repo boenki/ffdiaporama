@@ -568,8 +568,6 @@ cApplicationConfig::cApplicationConfig() {
     DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
     DlgVideoEditWSP             =new cSaveWindowPosition("DlgVideoEditWSP",RestoreWindow,false);            // Dialog box "Edit video" - Window size and position
     DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
-
-    DisableSSE2                 =0;
 }
 
 //====================================================================================================================
@@ -628,7 +626,6 @@ bool cApplicationConfig::InitConfigurationValues() {
     CurrentFolder   =QDir::currentPath();
 
     // Initialise all variables and set them default value
-    DisableSSE2                 = 0;
     RememberLastDirectories     = true;                     // If true, Remember all directories for future use
     RestoreWindow               = true;                     // If true, restore window state and position at startup
     AskUserToRemove             = true;
@@ -749,7 +746,6 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         if (Element.hasAttribute("DefaultFraming"))             DefaultFraming           =Element.attribute("DefaultFraming").toInt();
         if (Element.hasAttribute("ApplyTransfoPreview"))        ApplyTransfoPreview      =Element.attribute("ApplyTransfoPreview")=="1";
         if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS               =Element.attribute("PreviewFPS").toDouble();
-        if (Element.hasAttribute("DisableSSE2"))                DisableSSE2              =Element.attribute("DisableSSE2")=="1";
         if (Element.hasAttribute("RandomTransition"))           RandomTransition         =Element.attribute("RandomTransition")=="1";
         if (Element.hasAttribute("DefaultTransitionFamilly"))   DefaultTransitionFamilly =Element.attribute("DefaultTransitionFamilly").toInt();
         if (Element.hasAttribute("DefaultTransitionSubType"))   DefaultTransitionSubType =Element.attribute("DefaultTransitionSubType").toInt();
@@ -837,9 +833,6 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     DlgImageCorrectionWSP->LoadFromXML(root);
     DlgVideoEditWSP->LoadFromXML(root);
     DlgTextEditWSP->LoadFromXML(root);
-
-    if (DisableSSE2) qputenv("QT_NO_SSE2","1");
-    if (DisableSSE2) qputenv("QT_NO_SSE","1");
     return true;
 }
 
@@ -878,7 +871,6 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("SortFile",                 SortFile?"1":"0");
     Element.setAttribute("TimelineHeight",           TimelineHeight);
     Element.setAttribute("DefaultFraming",           DefaultFraming);
-    Element.setAttribute("DisableSSE2",              DisableSSE2?"1":"0");
     Element.setAttribute("PreviewFPS",               (QString("%1").arg(PreviewFPS,0,'f')));
     Element.setAttribute("ApplyTransfoPreview",      ApplyTransfoPreview?"1":0);
     Element.setAttribute("RandomTransition",         RandomTransition?"1":"0");
