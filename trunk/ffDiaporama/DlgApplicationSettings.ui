@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>538</width>
+    <width>600</width>
     <height>500</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>500</width>
+    <width>600</width>
     <height>500</height>
    </size>
   </property>
@@ -50,7 +50,7 @@
       <string>Select the file type to use for the rendering.</string>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -76,8 +76,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>501</width>
-            <height>392</height>
+            <width>588</width>
+            <height>421</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -121,17 +121,7 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="0" colspan="2">
-            <widget class="QCheckBox" name="DisableSSE2CB">
-             <property name="toolTip">
-              <string>If this box is checked, SSE2 type hardware acceleration will be disabled.</string>
-             </property>
-             <property name="text">
-              <string>Disable SSE2 hardware acceleration (need application restart)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0" colspan="2">
+           <item row="5" column="0" colspan="2">
             <widget class="QLabel" name="label_4">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -160,7 +150,7 @@
              </property>
             </widget>
            </item>
-           <item row="7" column="0">
+           <item row="6" column="0">
             <widget class="QLabel" name="label_5">
              <property name="text">
               <string>Frame rate :</string>
@@ -173,7 +163,7 @@
              </property>
             </widget>
            </item>
-           <item row="7" column="1">
+           <item row="6" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <property name="spacing">
               <number>2</number>
@@ -225,7 +215,7 @@
              </item>
             </layout>
            </item>
-           <item row="8" column="0">
+           <item row="7" column="0">
             <widget class="QLabel" name="label_16">
              <property name="text">
               <string>Image transformation :</string>
@@ -235,7 +225,7 @@
              </property>
             </widget>
            </item>
-           <item row="8" column="1">
+           <item row="7" column="1">
             <widget class="QCheckBox" name="ApplyTransfoDuringPreviewCB">
              <property name="toolTip">
               <string>If this box is checked, The effects of transformations will be applied to the images of videos during the preview.</string>
@@ -245,7 +235,7 @@
              </property>
             </widget>
            </item>
-           <item row="9" column="0" colspan="2">
+           <item row="8" column="0" colspan="2">
             <widget class="QLabel" name="label">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -274,7 +264,7 @@
              </property>
             </widget>
            </item>
-           <item row="11" column="0">
+           <item row="10" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
               <string>Object position :</string>
@@ -287,7 +277,7 @@
              </property>
             </widget>
            </item>
-           <item row="11" column="1">
+           <item row="10" column="1">
             <widget class="QComboBox" name="AppendObjectCB">
              <property name="toolTip">
               <string>Define the position which occupy the new objects in the timeline during the insertions</string>
@@ -304,7 +294,7 @@
              </item>
             </widget>
            </item>
-           <item row="12" column="0">
+           <item row="11" column="0">
             <widget class="QLabel" name="label_26">
              <property name="text">
               <string>Multiple file insertion :</string>
@@ -314,7 +304,7 @@
              </property>
             </widget>
            </item>
-           <item row="12" column="1">
+           <item row="11" column="1">
             <widget class="QCheckBox" name="SortFileCB">
              <property name="toolTip">
               <string>Adjust the way will be sorted out files when you select several files in Add file.</string>
@@ -324,7 +314,7 @@
              </property>
             </widget>
            </item>
-           <item row="14" column="0">
+           <item row="13" column="0">
             <widget class="QLabel" name="label_7">
              <property name="text">
               <string>Default framing :</string>
@@ -334,7 +324,7 @@
              </property>
             </widget>
            </item>
-           <item row="14" column="1">
+           <item row="13" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout">
              <property name="spacing">
               <number>2</number>
@@ -429,7 +419,7 @@ Files will be reframed at best</string>
              </item>
             </layout>
            </item>
-           <item row="15" column="0">
+           <item row="14" column="0">
             <widget class="QLabel" name="label_25">
              <property name="text">
               <string>Default transition :</string>
@@ -439,7 +429,7 @@ Files will be reframed at best</string>
              </property>
             </widget>
            </item>
-           <item row="15" column="1">
+           <item row="14" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_13">
              <property name="spacing">
               <number>2</number>
@@ -591,7 +581,7 @@ Crossfade transition</string>
              </item>
             </layout>
            </item>
-           <item row="17" column="0">
+           <item row="16" column="0">
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -604,7 +594,7 @@ Crossfade transition</string>
              </property>
             </spacer>
            </item>
-           <item row="13" column="1">
+           <item row="12" column="1">
             <widget class="QCheckBox" name="AskUserToRemove">
              <property name="toolTip">
               <string>If this box is checked, a confirmation will display every time you remove an object</string>
@@ -614,7 +604,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="13" column="0">
+           <item row="12" column="0">
             <widget class="QLabel" name="label_33">
              <property name="text">
               <string>Object deletion :</string>
@@ -624,7 +614,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="10" column="0">
+           <item row="9" column="0">
             <widget class="QLabel" name="label_34">
              <property name="text">
               <string>Coordinates unit :</string>
@@ -634,7 +624,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="10" column="1">
+           <item row="9" column="1">
             <widget class="QComboBox" name="UnitCB">
              <property name="toolTip">
               <string>Select the unit of the coordinates which will be used in properties dialog box</string>
@@ -976,8 +966,8 @@ Crossfade transition</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>526</width>
-            <height>421</height>
+            <width>293</width>
+            <height>351</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">

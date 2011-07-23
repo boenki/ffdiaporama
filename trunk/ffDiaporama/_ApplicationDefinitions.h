@@ -136,7 +136,6 @@ public:
     QString                 LastRenderVideoPath;                        // Last folder use for render video
 
     // Preferences
-    bool                    DisableSSE2;                                // Disable SSE2 processor extension if error with hardware acceleration
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
     bool                    AskUserToRemove;                            // If true user must answer to a confirmation dialog box to remove slide
 

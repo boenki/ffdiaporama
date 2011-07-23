@@ -95,10 +95,6 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     // RestoreWindow part
     //********************************
     ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
-    //********************************
-    // SSE2 part
-    //********************************
-    ui->DisableSSE2CB->setChecked(ApplicationConfig->DisableSSE2);
 
     //***********************************
     // Default Device type for rendering
@@ -227,7 +223,6 @@ void DlgApplicationSettings::accept() {
     // Application options part
     ApplicationConfig->RememberLastDirectories  =ui->RememberLastDirectoriesCH->isChecked();
     ApplicationConfig->RestoreWindow            =ui->RestoreWindowCH->isChecked();
-    ApplicationConfig->DisableSSE2              =ui->DisableSSE2CB->isChecked();
 
     // Preview Options part
     ApplicationConfig->ApplyTransfoPreview      =ui->ApplyTransfoDuringPreviewCB->isChecked();
@@ -271,17 +266,17 @@ void DlgApplicationSettings::accept() {
     QString Text=ui->SmartphoneModelCB->currentText();
     int i=0;
     while ((i<ApplicationConfig->RenderDeviceModel.count())&&(Text!=ApplicationConfig->RenderDeviceModel[i].DeviceName)) i++;
-    if (Text==ApplicationConfig->RenderDeviceModel[i].DeviceName) ApplicationConfig->DefaultSmartphoneModel=ApplicationConfig->RenderDeviceModel[i].DeviceIndex;
+    if ((i<ApplicationConfig->RenderDeviceModel.count())&&(Text==ApplicationConfig->RenderDeviceModel[i].DeviceName)) ApplicationConfig->DefaultSmartphoneModel=ApplicationConfig->RenderDeviceModel[i].DeviceIndex;
 
     Text=ui->MMSystemModelCB->currentText();
     i=0;
     while ((i<ApplicationConfig->RenderDeviceModel.count())&&(Text!=ApplicationConfig->RenderDeviceModel[i].DeviceName)) i++;
-    if (Text==ApplicationConfig->RenderDeviceModel[i].DeviceName) ApplicationConfig->DefaultMultimediaModel=ApplicationConfig->RenderDeviceModel[i].DeviceIndex;
+    if ((i<ApplicationConfig->RenderDeviceModel.count())&&(Text==ApplicationConfig->RenderDeviceModel[i].DeviceName)) ApplicationConfig->DefaultMultimediaModel=ApplicationConfig->RenderDeviceModel[i].DeviceIndex;
 
     Text=ui->ForTheWModelCB->currentText();
     i=0;
     while ((i<ApplicationConfig->RenderDeviceModel.count())&&(Text!=ApplicationConfig->RenderDeviceModel[i].DeviceName)) i++;
-    if (Text==ApplicationConfig->RenderDeviceModel[i].DeviceName) ApplicationConfig->DefaultForTheWEBModel=ApplicationConfig->RenderDeviceModel[i].DeviceIndex;
+    if ((i<ApplicationConfig->RenderDeviceModel.count())&&(Text==ApplicationConfig->RenderDeviceModel[i].DeviceName)) ApplicationConfig->DefaultForTheWEBModel=ApplicationConfig->RenderDeviceModel[i].DeviceIndex;
 
     // Save Window size and position
     ApplicationConfig->DlgApplicationSettingsWSP->SaveWindowState(this);
