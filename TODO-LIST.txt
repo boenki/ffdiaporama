@@ -1,7 +1,8 @@
-Buggs/TODO (Dernier SVN le 20/07/2011) :
+Buggs/TODO (Dernier SVN le 26/07/2011) :
 ----------------------------------------
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
 BUGG: Problème de lecture avec des fichiers .ogg
+BUGG: Impossible de maximiser la fenêtre des propriétés sous Windows
 
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 
@@ -21,12 +22,13 @@ Evolutions fonctionnelles
     TODO: Permettre à l'utilisateur de charger un LUMA pour une transition
     TODO: Faire les fade in/out des musiques lors des changements de volume
 
+	TODO: Ajouter la possibilité de pouvoir exporter son projet (par exemple un bouton exporter pour réunir  tous les fichiers du projet dans un dossier ou au  format zip) 
+
 Evolutions ergonomiques :
     TODO: Gestion de style pour les blocs textes ?
     TODO: Gestion des guides pour le plus grand rectangle intérieur (images tournées) dans la boite de recadrage
     TODO: Gérer les drags & drop dans la timeline de la fenètre principal
     TODO: Gérer les drags & drop dans la timeline de la boite slide
-    TODO: Ajouter un onglet "Trieur" dans la fenètre principal
     TODO: Transférer le contrôle de géométrie de la boite slide à la boite de recadrage
     TODO: Transférer le contrôle de volume de la boite vidéo à la boite slide
 
@@ -38,6 +40,9 @@ Evolutions ergonomiques :
     TODO: Ajouter des boutons de reset sur certaines zones de la boite de recadrage et de la boite slide
     TODO: Revoir DlgBackgroundProperties pour intégrer la customscene en la réécrivant comme dans DlgSlide
 
+	TODO: Ajouter une option "same as precedente" pour les 3 parties objet / bloc et coordonnées de sorte à ce que les modifs (dans une des 3 catégories) se répercutent dans les plans suivant.
+	TODO: Gérer des groupes de bloc
+
 Evolutions diverses
     TODO: Finir l'internationalisation du paquet Ubuntu
     TODO: Ajouter un skip de frame inutile dans cvideofilewrapper::ReadVideoFrame (est-ce que ça a encore un sens ?)
@@ -46,16 +51,22 @@ Evolutions diverses
 Changelog depuis le dernier SVN
 --------------------------------
 
+-------------------------------------
+Changelog depuis la version 20110720
+-------------------------------------
+
 Ajout de 2 nouveaux équipements dans la base : PS3 et XBox360
 Ajout de 4 nouvelles transitions dans la famille "Pousseur"
 
 Correction de bug :
-    Resoud une crash dans la boite de configuration (depassement de tableau)
+    Resoud une crash dans la boite de configuration (dépassement de tableau)
     Resoud le problème des boutons de la fenêtre principal qui reste enfoncés [Windows]
+    Corrige l'erreur d'affichage de la durée de transition quand la transition est "pas de transition"
+    Corrige les problèmes de sélection d'objet (qui n'était pas toujours correct quand présence de "pas de transition")
+    Corrige l'erreur d'affichage du cadre de sélection qui ne s'effacait pas toujours dans la timeline (ou refusait parfois de s'afficher)
 
 Changement de comportement :
     Supprime toute référence à SSE2 => l'accélération matérielle SSE2 n'est plus désactivable
-
--------------------------------------
-Changelog depuis la version 20110720
--------------------------------------
+    Fusionne les 3 lignes de la timeline en 1 seule afin  que les thumbnails des slides deviennent mono-cellulaire -> pré-requis au drag&drop et mode partition
+    Création du mode Partition/Trieur dans la fenètre principale
+    Ajout du drag & drop pour trier les diapo dans les 2 modes preview & partition

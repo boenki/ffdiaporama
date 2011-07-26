@@ -137,7 +137,8 @@ public:
 
     // Preferences
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
-    bool                    AskUserToRemove;                            // If true user must answer to a confirmation dialog box to remove slide
+    bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide
+    bool                    PartitionMode;                              // If true, partition mode is on
 
     // Editor options
     bool                    AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position

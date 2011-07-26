@@ -21,6 +21,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "wgt_QCustomThumbnails.h"
+#include "cCustomTableWidget.h"
 
 #include "DlgAbout.h"
 #include "DlgBackgroundProperties.h"
@@ -42,11 +43,15 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
     Clipboard_Object        =NULL;
     Clipboard_Block         =NULL;
+    DragItemSource          =-1;
+    DragItemDest            =-1;
+    IsDragOn                =false;
     ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
+    ui->preview2->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
 
     ApplicationConfig=TheCurrentApplicationConfig;
     ApplicationConfig->ParentWindow=this;
-    ui->Toolbox->setCurrentIndex(0);
+    ui->ToolBoxNormal->setCurrentIndex(0);
     ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
     QSplashScreen screen;
@@ -167,14 +172,10 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("  %1").arg(LumaList_Snake.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
     AddToSystemProperties(QApplication::translate("MainWindow","  Total:")+QString("%1").arg(IconList.List.count())+QApplication::translate("MainWindow"," transitions loaded into the transition-library"));
 
-    // Force timeline scroll bar properties
-    ui->timeline->horizontalScrollBar()->setStyleSheet("height: 14px; margin: 0px; padding: 0px;");
-    ui->timeline->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
-    ui->timeline->verticalHeader()->setResizeMode(QHeaderView::Fixed);
-
     Diaporama=new cDiaporama(ApplicationConfig);
     Diaporama->Timeline=ui->timeline;
     ui->preview->InitDiaporamaPlay(Diaporama);
+    ui->preview2->InitDiaporamaPlay(Diaporama);
 
     SetModifyFlag(false);
     ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
@@ -182,34 +183,34 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
 
     screen.hide();
 
-    connect(ui->Toolbox,SIGNAL(currentChanged(int)),this,SLOT(s_ToolbarChanged(int)));
+    connect(ui->ToolBoxNormal,SIGNAL(currentChanged(int)),this,SLOT(s_ToolbarChanged(int)));
     connect(ui->webView,SIGNAL(linkClicked(QUrl)),this,SLOT(s_WebViewOpen(QUrl)));
 
     // Help menu
     connect(ui->Action_About_BT,SIGNAL(pressed()),this,SLOT(s_About()));
-    connect(ui->ActionDocumentation_BT,SIGNAL(pressed()),this,SLOT(s_Documentation()));
+    connect(ui->ActionDocumentation_BT,SIGNAL(pressed()),this,SLOT(s_Documentation()));                 connect(ui->ActionDocumentation_BT_2,SIGNAL(pressed()),this,SLOT(s_Documentation()));
     connect(ui->ActionNewFunctions_BT,SIGNAL(pressed()),this,SLOT(s_NewFunctions()));
 
     // File menu
-    connect(ui->Action_New_BT,SIGNAL(pressed()),this,SLOT(s_action_New()));
-    connect(ui->Action_Open_BT,SIGNAL(pressed()),this,SLOT(s_action_Open()));
-    connect(ui->Action_OpenRecent_BT,SIGNAL(pressed()),this,SLOT(s_action_OpenRecent()));
-    connect(ui->Action_Save_BT,SIGNAL(pressed()),this,SLOT(s_action_Save()));
-    connect(ui->ActionSave_as_BT,SIGNAL(pressed()),this,SLOT(s_action_SaveAs()));
-    connect(ui->ActionConfiguration_BT,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));
-    connect(ui->Action_Exit_BT,SIGNAL(pressed()),this,SLOT(s_action_Exit()));
+    connect(ui->Action_New_BT,SIGNAL(pressed()),this,SLOT(s_action_New()));                             connect(ui->Action_New_BT_2,SIGNAL(pressed()),this,SLOT(s_action_New()));
+    connect(ui->Action_Open_BT,SIGNAL(pressed()),this,SLOT(s_action_Open()));                           connect(ui->Action_Open_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Open()));
+    connect(ui->Action_OpenRecent_BT,SIGNAL(pressed()),this,SLOT(s_action_OpenRecent()));               connect(ui->Action_OpenRecent_BT_2,SIGNAL(pressed()),this,SLOT(s_action_OpenRecent()));
+    connect(ui->Action_Save_BT,SIGNAL(pressed()),this,SLOT(s_action_Save()));                           connect(ui->Action_Save_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Save()));
+    connect(ui->ActionSave_as_BT,SIGNAL(pressed()),this,SLOT(s_action_SaveAs()));                       connect(ui->ActionSave_as_BT_2,SIGNAL(pressed()),this,SLOT(s_action_SaveAs()));
+    connect(ui->ActionConfiguration_BT,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));     connect(ui->ActionConfiguration_BT_2,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));
+    connect(ui->Action_Exit_BT,SIGNAL(pressed()),this,SLOT(s_action_Exit()));                           connect(ui->Action_Exit_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Exit()));
 
     // Project menu
-    connect(ui->ActionAdd_BT,SIGNAL(pressed()),this,SLOT(s_action_AddFile()));
-    connect(ui->ActionAddtitle_BT,SIGNAL(pressed()),this,SLOT(s_action_AddTitle()));
-    connect(ui->ActionAddProject_BT,SIGNAL(pressed()),this,SLOT(s_action_AddProject()));
-    connect(ui->ActionRemove_BT,SIGNAL(pressed()),this,SLOT(s_RemoveObject()));
+    connect(ui->ActionAdd_BT,SIGNAL(pressed()),this,SLOT(s_action_AddFile()));                          connect(ui->ActionAdd_BT_2,SIGNAL(pressed()),this,SLOT(s_action_AddFile()));
+    connect(ui->ActionAddtitle_BT,SIGNAL(pressed()),this,SLOT(s_action_AddTitle()));                    connect(ui->ActionAddtitle_BT_2,SIGNAL(pressed()),this,SLOT(s_action_AddTitle()));
+    connect(ui->ActionAddProject_BT,SIGNAL(pressed()),this,SLOT(s_action_AddProject()));                connect(ui->ActionAddProject_BT_2,SIGNAL(pressed()),this,SLOT(s_action_AddProject()));
+    connect(ui->ActionRemove_BT,SIGNAL(pressed()),this,SLOT(s_RemoveObject()));                         connect(ui->ActionRemove_BT_2,SIGNAL(pressed()),this,SLOT(s_RemoveObject()));
     connect(ui->ActionMove_left_BT,SIGNAL(pressed()),this,SLOT(s_LeftObject()));
     connect(ui->ActionMove_right_BT,SIGNAL(pressed()),this,SLOT(s_RightObject()));
-    connect(ui->ActionCut_BT,SIGNAL(pressed()),this,SLOT(s_CutToClipboard()));
-    connect(ui->ActionCopy_BT,SIGNAL(pressed()),this,SLOT(s_CopyToClipboard()));
-    connect(ui->ActionPaste_BT,SIGNAL(pressed()),this,SLOT(s_PasteFromClipboard()));
-    connect(ui->ActionEdit_BT,SIGNAL(pressed()),this,SLOT(s_action_Edit()));
+    connect(ui->ActionCut_BT,SIGNAL(pressed()),this,SLOT(s_CutToClipboard()));                          connect(ui->ActionCut_BT_2,SIGNAL(pressed()),this,SLOT(s_CutToClipboard()));
+    connect(ui->ActionCopy_BT,SIGNAL(pressed()),this,SLOT(s_CopyToClipboard()));                        connect(ui->ActionCopy_BT_2,SIGNAL(pressed()),this,SLOT(s_CopyToClipboard()));
+    connect(ui->ActionPaste_BT,SIGNAL(pressed()),this,SLOT(s_PasteFromClipboard()));                    connect(ui->ActionPaste_BT_2,SIGNAL(pressed()),this,SLOT(s_PasteFromClipboard()));
+    connect(ui->ActionEdit_BT,SIGNAL(pressed()),this,SLOT(s_action_Edit()));                            connect(ui->ActionEdit_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Edit()));
 
     connect(ui->actionEdit_background,SIGNAL(triggered()),this,SLOT(s_BackgroundDoubleClicked()));
     connect(ui->actionEdit_background_transition,SIGNAL(triggered()),this,SLOT(s_TransitionBackgroundDoubleClicked()));
@@ -218,15 +219,19 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     connect(ui->actionEdit_music,SIGNAL(triggered()),this,SLOT(s_MusicDoubleClicked()));
 
     // Render menu
-    connect(ui->ActionRender_BT,SIGNAL(pressed()),this,SLOT(s_RenderVideo()));
-    connect(ui->ActionSmartphone_BT,SIGNAL(pressed()),this,SLOT(s_RenderSmartphone()));
-    connect(ui->ActionMultimedia_BT,SIGNAL(pressed()),this,SLOT(s_RenderMultimedia()));
-    connect(ui->ActionForTheWEB_BT,SIGNAL(pressed()),this,SLOT(s_RenderForTheWEB()));
+    connect(ui->ActionRender_BT,SIGNAL(pressed()),this,SLOT(s_RenderVideo()));                          connect(ui->ActionRender_BT_2,SIGNAL(pressed()),this,SLOT(s_RenderVideo()));
+    connect(ui->ActionSmartphone_BT,SIGNAL(pressed()),this,SLOT(s_RenderSmartphone()));                 connect(ui->ActionSmartphone_BT_2,SIGNAL(pressed()),this,SLOT(s_RenderSmartphone()));
+    connect(ui->ActionMultimedia_BT,SIGNAL(pressed()),this,SLOT(s_RenderMultimedia()));                 connect(ui->ActionMultimedia_BT_2,SIGNAL(pressed()),this,SLOT(s_RenderMultimedia()));
+    connect(ui->ActionForTheWEB_BT,SIGNAL(pressed()),this,SLOT(s_RenderForTheWEB()));                   connect(ui->ActionForTheWEB_BT_2,SIGNAL(pressed()),this,SLOT(s_RenderForTheWEB()));
 
     // Timeline
     connect(ui->ZoomPlusBT,SIGNAL(pressed()),this,SLOT(s_action_ZoomPlus()));
     connect(ui->ZoomMinusBT,SIGNAL(pressed()),this,SLOT(s_action_ZoomMinus()));
     connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
+    connect(ui->timeline,SIGNAL(DragMoveItem()),this,SLOT(s_DragMoveItem()));
+
+    connect(ui->PartitionBT,SIGNAL(pressed()),this,SLOT(s_ChPartitionMode()));
+    connect(ui->Partition2BT,SIGNAL(pressed()),this,SLOT(s_ChPartitionMode()));
 
     // Timer
     LastCount=0;
@@ -270,35 +275,38 @@ void MainWindow::s_TimerEvent() {
 //====================================================================================================================
 
 void MainWindow::SetTimelineHeight() {
-    ui->timeline->setUpdatesEnabled(false);
-    ui->timeline->setFixedHeight(
-            15+                                     // Horizontal slider and marges
-            ApplicationConfig->TimelineHeight/2+    // Background
-            ApplicationConfig->TimelineHeight+      // Montage
-            TIMELINESOUNDHEIGHT*2+4                 // Music
-    );
-    ui->timeline->setRowHeight(TRACKBACKGROUND,ApplicationConfig->TimelineHeight/2);    // Background
-    ui->timeline->setRowHeight(TRACKMONTAGE,ApplicationConfig->TimelineHeight);         // Montage
-    ui->timeline->setRowHeight(TRACKMUSIC,TIMELINESOUNDHEIGHT*2);                       // Music
-    for (int i=0;i<ui->timeline->columnCount();i++) {
-        ui->timeline->setColumnWidth(i,Diaporama->GetWidthForHeight(ui->timeline->rowHeight(TRACKMONTAGE)-5)+32+ADJUSTXCOLUMN);
-        if (Diaporama->List[i].Thumbnail) {
-            delete Diaporama->List[i].Thumbnail;
-            Diaporama->List[i].Thumbnail=NULL;
-        }
+    if (!ApplicationConfig->PartitionMode) {
+        ui->ToolBoxPartition->setVisible(false);
+        ui->ToolBoxNormal->setVisible(true);
+        ui->preview->setVisible(true);
+        ui->preview2->setVisible(false);
+        ui->webView->setVisible(true);
+        ui->PartitionBT->setEnabled(false);
+        ui->PartitionBT->setDown(true);
+        ui->Partition2BT->setEnabled(true);
+        QApplication::processEvents();          // Give time to Qt to redefine position of each control and preview height !
+        ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-32));
+    } else {
+        ui->ToolBoxPartition->setVisible(true);
+        ui->ToolBoxNormal->setVisible(false);
+        ui->preview->setVisible(false);
+        ui->preview2->setVisible(true);
+        ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-32));
+        ui->webView->setVisible(false);
+        ui->PartitionBT->setEnabled(true);
+        ui->Partition2BT->setEnabled(false);
+        ui->Partition2BT->setDown(true);
     }
-    // Give time to Qt to redefine position of each control
-    QApplication::processEvents();
-    // Reset timeline painting
-    ui->timeline->setUpdatesEnabled(true);
-    // Adjust preview
-    ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-32));
+    QApplication::processEvents();          // Give time to Qt to redefine position of each control and redraw timeline
+    ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
+    QApplication::processEvents();          // Give time to Qt to redefine position of each control and redraw timeline
 }
 
 //====================================================================================================================
 
 void MainWindow::closeEvent(QCloseEvent *Event) {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if (Diaporama->IsModify) {
         int Bt=QMessageBox::question(this,QApplication::translate("MainWindow","Close application"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes);
@@ -318,6 +326,7 @@ void MainWindow::closeEvent(QCloseEvent *Event) {
 
 void MainWindow::resizeEvent(QResizeEvent *) {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     SetTimelineHeight();
 }
 
@@ -330,7 +339,6 @@ void MainWindow::showEvent(QShowEvent *) {
         SetTimelineHeight();                                    // setup initial size
         RefreshControls();
         Timer.start(100);
-        ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-32));
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
         connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(onNetworkReply(QNetworkReply*)));
@@ -388,32 +396,32 @@ void MainWindow::OpenHelp(QString HelpFile) {
 
 void MainWindow::RefreshControls() {
     // Timeline actions
-    ui->ActionRemove_BT->setEnabled(ui->timeline->columnCount()>0);
-    ui->ActionEdit_BT->setEnabled(ui->timeline->columnCount()>0);
-    ui->ActionMove_left_BT->setEnabled((ui->timeline->currentColumn()>0)&&(ui->timeline->columnCount()>1));
-    ui->ActionMove_right_BT->setEnabled(ui->timeline->currentColumn()<ui->timeline->columnCount()-1);
+    ui->ActionRemove_BT->setEnabled(ui->timeline->NbrItem()>0);                                             ui->ActionRemove_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionEdit_BT->setEnabled(ui->timeline->NbrItem()>0);                                               ui->ActionEdit_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionMove_left_BT->setEnabled((ui->timeline->CurrentSelected()>0)&&(ui->timeline->NbrItem()>1));
+    ui->ActionMove_right_BT->setEnabled(ui->timeline->CurrentSelected()<ui->timeline->NbrItem()-1);
 
     // File menu
-    ui->Action_Save_BT->setEnabled(Diaporama->IsModify);
-    ui->ActionSave_as_BT->setEnabled(Diaporama->List.count()>0);
-    ui->Action_OpenRecent_BT->setEnabled(ApplicationConfig->RecentFile.count()>0);
+    ui->Action_Save_BT->setEnabled(Diaporama->IsModify);                                                    ui->Action_Save_BT_2->setEnabled(Diaporama->IsModify);
+    ui->ActionSave_as_BT->setEnabled(Diaporama->List.count()>0);                                            ui->ActionSave_as_BT_2->setEnabled(Diaporama->List.count()>0);
+    ui->Action_OpenRecent_BT->setEnabled(ApplicationConfig->RecentFile.count()>0);                          ui->Action_OpenRecent_BT_2->setEnabled(ApplicationConfig->RecentFile.count()>0);
 
     // Project menu
-    ui->actionEdit_background->setEnabled(ui->timeline->columnCount()>0);
-    ui->actionEdit_background_transition->setEnabled(ui->timeline->columnCount()>0);
-    ui->actionEdit_object->setEnabled(ui->timeline->columnCount()>0);
-    ui->actionEdit_object_in_transition->setEnabled(ui->timeline->columnCount()>0);
-    ui->actionEdit_music->setEnabled(ui->timeline->columnCount()>0);
+    ui->actionEdit_background->setEnabled(ui->timeline->NbrItem()>0);
+    ui->actionEdit_background_transition->setEnabled(ui->timeline->NbrItem()>0);
+    ui->actionEdit_object->setEnabled(ui->timeline->NbrItem()>0);
+    ui->actionEdit_object_in_transition->setEnabled(ui->timeline->NbrItem()>0);
+    ui->actionEdit_music->setEnabled(ui->timeline->NbrItem()>0);
 
     // Clipboard_Object
-    ui->ActionPaste_BT->setEnabled(Clipboard_Object!=NULL);
-    ui->ActionCopy_BT->setEnabled(ui->timeline->currentColumn()>=0);
-    ui->ActionCut_BT->setEnabled(ui->timeline->currentColumn()>=0);
+    ui->ActionPaste_BT->setEnabled(Clipboard_Object!=NULL);                                                 ui->ActionPaste_BT_2->setEnabled(Clipboard_Object!=NULL);
+    ui->ActionCopy_BT->setEnabled(ui->timeline->CurrentSelected()>=0);                                      ui->ActionCopy_BT_2->setEnabled(ui->timeline->CurrentSelected()>=0);
+    ui->ActionCut_BT->setEnabled(ui->timeline->CurrentSelected()>=0);                                       ui->ActionCut_BT_2->setEnabled(ui->timeline->CurrentSelected()>=0);
 
-    ui->ActionRender_BT->setEnabled(ui->timeline->columnCount()>0);
-    ui->ActionSmartphone_BT->setEnabled(ui->timeline->columnCount()>0);
-    ui->ActionMultimedia_BT->setEnabled(ui->timeline->columnCount()>0);
-    ui->ActionForTheWEB_BT->setEnabled(ui->timeline->columnCount()>0);
+    ui->ActionRender_BT->setEnabled(ui->timeline->NbrItem()>0);                                             ui->ActionRender_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionSmartphone_BT->setEnabled(ui->timeline->NbrItem()>0);                                         ui->ActionSmartphone_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionMultimedia_BT->setEnabled(ui->timeline->NbrItem()>0);                                         ui->ActionMultimedia_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionForTheWEB_BT->setEnabled(ui->timeline->NbrItem()>0);                                          ui->ActionForTheWEB_BT_2->setEnabled(ui->timeline->NbrItem()>0);
 
     ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+QString("%1").arg(Diaporama->CurrentCol+(Diaporama->List.count()>0?1:0))+" / "+QString("%1").arg(Diaporama->List.count()));
 }
@@ -432,6 +440,7 @@ void MainWindow::SetModifyFlag(bool IsModify) {
 
 void MainWindow::s_About() {
     ui->Action_About_BT->setDown(false);
+    //ui->Action_About_BT_2->setDown(false);
     DlgAbout(this).exec();
 }
 
@@ -439,6 +448,7 @@ void MainWindow::s_About() {
 
 void MainWindow::s_Documentation() {
     ui->ActionDocumentation_BT->setDown(false);
+    ui->ActionDocumentation_BT_2->setDown(false);
     OpenHelp(HELPFILE_SUPPORT);
 }
 
@@ -446,6 +456,7 @@ void MainWindow::s_Documentation() {
 
 void MainWindow::s_NewFunctions() {
     ui->ActionNewFunctions_BT->setDown(false);
+    //ui->ActionNewFunctions_BT_2->setDown(false);
     OpenHelp(HELPFILE_NEWS);
 }
 
@@ -453,6 +464,7 @@ void MainWindow::s_NewFunctions() {
 
 void MainWindow::s_action_Exit() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     close();
 }
 
@@ -460,20 +472,40 @@ void MainWindow::s_action_Exit() {
 
 void MainWindow::s_action_ZoomPlus() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    if (ui->timeline->rowHeight(TRACKMONTAGE)<TIMELINEMAXHEIGH) ApplicationConfig->TimelineHeight+=20;
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    if ((ui->timeline->rowHeight(0)-ApplicationConfig->TimelineHeight/2-TIMELINESOUNDHEIGHT*2)<TIMELINEMAXHEIGH) {
+        ApplicationConfig->TimelineHeight+=20;
+        SetTimelineHeight();
+    }
     ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
     ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
-    SetTimelineHeight();
 }
 
 //====================================================================================================================
 
 void MainWindow::s_action_ZoomMinus() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    if (ui->timeline->rowHeight(TRACKMONTAGE)>TIMELINEMINHEIGH) ApplicationConfig->TimelineHeight-=20;
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    if ((ui->timeline->rowHeight(0)-ApplicationConfig->TimelineHeight/2-TIMELINESOUNDHEIGHT*2)>TIMELINEMINHEIGH) {
+        ApplicationConfig->TimelineHeight-=20;
+        SetTimelineHeight();
+    }
     ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
     ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_ChPartitionMode() {
+    ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    int Selected=ui->timeline->CurrentSelected(); // Save current seleted item
+    ApplicationConfig->PartitionMode=!ApplicationConfig->PartitionMode;
     SetTimelineHeight();
+    // Re-select previous current seleted item
+    if ((Selected>=0)&&(Selected<ui->timeline->NbrItem())) ui->timeline->SetCurrentCell(Selected);
+    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->Resize();
 }
 
 //====================================================================================================================
@@ -482,13 +514,14 @@ void MainWindow::s_action_ZoomMinus() {
 
 void MainWindow::s_ItemDoubleClicked() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if (DlgSlideProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0) {
         SetModifyFlag(true);
         if (Diaporama->List[Diaporama->CurrentCol].Thumbnail) {
             delete Diaporama->List[Diaporama->CurrentCol].Thumbnail;
             Diaporama->List[Diaporama->CurrentCol].Thumbnail=NULL;
         }
-        ui->preview->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+        (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
     }
 }
@@ -499,9 +532,10 @@ void MainWindow::s_ItemDoubleClicked() {
 
 void MainWindow::s_TransitionItemDoubleClicked() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if (DlgTransitionProperties(&(Diaporama->List[Diaporama->CurrentCol]),false,this).exec()==0) {
         SetModifyFlag(true);
-        ui->preview->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+        (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
     }
 }
@@ -520,9 +554,10 @@ void MainWindow::s_SoundItemDoubleClicked() {
 
 void MainWindow::s_BackgroundDoubleClicked() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if (DlgBackgroundProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0) {
         SetModifyFlag(true);
-        ui->preview->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+        (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
     }
 }
@@ -533,11 +568,12 @@ void MainWindow::s_BackgroundDoubleClicked() {
 
 void MainWindow::s_TransitionBackgroundDoubleClicked() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     QMessageBox::critical(this,QApplication::translate("MainWindow","Not implemented"),QApplication::translate("MainWindow","Sorry, not yet done !"));
 /*
     if (DlgTransitionProperties(&(Diaporama->List[Diaporama->CurrentCol]),true,this).exec()==0) {
         SetModifyFlag(true);
-        ui->preview->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+        (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
     }
 */
@@ -549,11 +585,22 @@ void MainWindow::s_TransitionBackgroundDoubleClicked() {
 
 void MainWindow::s_MusicDoubleClicked() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if (DlgMusicProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0) {
         SetModifyFlag(true);
-        ui->preview->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+        (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
     }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_DragMoveItem() {
+    if (DragItemSource<DragItemDest) DragItemDest--;
+    Diaporama->List.move(DragItemSource,DragItemDest);
+    ui->timeline->setUpdatesEnabled(false);
+    ui->timeline->SetCurrentCell(DragItemDest);
+    ui->timeline->setUpdatesEnabled(true);  // Reset timeline painting
 }
 
 //====================================================================================================================
@@ -563,21 +610,36 @@ void MainWindow::s_MusicDoubleClicked() {
 void MainWindow::s_ItemSelectionChanged() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     if (!FLAGSTOPITEMSELECTION) {
+        int Selected=ui->timeline->CurrentSelected();
+
+        if (Selected>=Diaporama->List.count()) {
+            Selected=Diaporama->List.count()-1;
+            FLAGSTOPITEMSELECTION=true;
+            ui->timeline->SetCurrentCell(Selected);
+            FLAGSTOPITEMSELECTION=false;
+        }
+        if (Selected<0) {
+            Selected=0;
+            FLAGSTOPITEMSELECTION=true;
+            ui->timeline->SetCurrentCell(Selected);
+            FLAGSTOPITEMSELECTION=false;
+        }
         if (Diaporama->CurrentCol<0) Diaporama->CurrentCol=0;
-        if ((Diaporama->CurrentCol!=ui->timeline->currentColumn())||((Diaporama->List.count()==1)&&(Diaporama->CurrentCol==0))) {
+
+        if ((Diaporama->CurrentCol!=Selected)||((Diaporama->List.count()==1)&&(Diaporama->CurrentCol==0))) {
             //************************************************************
             // We are here only if user has click on the timeline
             //************************************************************
             ui->preview->SetPlayerToPause(); // Ensure player is stop
+            ui->preview2->SetPlayerToPause(); // Ensure player is stop
             if (Diaporama->List.count()>0) {
-                Diaporama->CurrentCol=ui->timeline->currentColumn();
+                Diaporama->CurrentCol=Selected;
                 Diaporama->CurrentPosition=Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol);
-                if ((Diaporama->List[Diaporama->CurrentCol].TransitionFamilly!=0)||(Diaporama->List[Diaporama->CurrentCol].TransitionSubType!=0)) Diaporama->CurrentPosition--;
-                ui->preview->SeekPlayer(Diaporama->CurrentPosition);
+                if (Diaporama->List[Diaporama->CurrentCol].GetTransitDuration()>0) Diaporama->CurrentPosition--;
                 AdjustRuller();
             } else {
-                ui->preview->SeekPlayer(0);
-                ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
+                (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(0);
+                (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SetStartEndPos(0,0,-1,0,-1,0);
             }
         }
         Diaporama->FreeUnusedMemory(Diaporama->CurrentCol);
@@ -606,28 +668,36 @@ void MainWindow::s_ToolbarChanged(int MenuIndex) {
 
 void MainWindow::s_RenderVideo() {
     ui->ActionRender_BT->setDown(false);
+    ui->ActionRender_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     DlgRenderVideo(*Diaporama,EXPORTMODE_ADVANCED,this).exec();
     AdjustRuller();
 }
 
 void MainWindow::s_RenderSmartphone() {
     ui->ActionSmartphone_BT->setDown(false);
+    ui->ActionSmartphone_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     DlgRenderVideo(*Diaporama,EXPORTMODE_SMARTPHONE,this).exec();
     AdjustRuller();
 }
 
 void MainWindow::s_RenderMultimedia() {
     ui->ActionMultimedia_BT->setDown(false);
+    ui->ActionMultimedia_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     DlgRenderVideo(*Diaporama,EXPORTMODE_MULTIMEDIASYS,this).exec();
     AdjustRuller();
 }
 
 void MainWindow::s_RenderForTheWEB() {
     ui->ActionForTheWEB_BT->setDown(false);
+    ui->ActionForTheWEB_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     DlgRenderVideo(*Diaporama,EXPORTMODE_FORTHEWEB,this).exec();
     AdjustRuller();
 }
@@ -638,7 +708,9 @@ void MainWindow::s_RenderForTheWEB() {
 
 void MainWindow::s_ChangeApplicationSettings() {
     ui->ActionConfiguration_BT->setDown(false);
+    ui->ActionConfiguration_BT_2->setDown(false);
     ui->preview->SetPlayerToPause();                            // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     DlgApplicationSettings(*ApplicationConfig,this).exec();
     SDLSetFPS(ApplicationConfig->PreviewFPS);                   // Reinit SDL if Preview FPS has changed
 }
@@ -649,7 +721,9 @@ void MainWindow::s_ChangeApplicationSettings() {
 
 void MainWindow::s_action_New() {
     ui->Action_New_BT->setDown(false);
+    ui->Action_New_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","New project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
 
@@ -658,7 +732,7 @@ void MainWindow::s_action_New() {
     // Clean actual timeline and diaporama
     FLAGSTOPITEMSELECTION=true;
     ui->timeline->setUpdatesEnabled(false);
-    while (ui->timeline->columnCount()>0) ui->timeline->removeColumn(ui->timeline->columnCount()-1);
+    ui->timeline->CleanAll();
     delete Diaporama;
     Diaporama=NULL;
     ui->timeline->setUpdatesEnabled(true);
@@ -671,9 +745,11 @@ void MainWindow::s_action_New() {
     ui->preview->InitDiaporamaPlay(Diaporama);
     ui->preview->SetActualDuration(Diaporama->GetDuration());
     ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
+    ui->preview2->InitDiaporamaPlay(Diaporama);
+    ui->preview2->SetActualDuration(Diaporama->GetDuration());
+    ui->preview2->SetStartEndPos(0,0,-1,0,-1,0);
     SetTimelineHeight();
     RefreshControls();
-    ui->preview->Resize();
     SetModifyFlag(false);
 }
 
@@ -689,12 +765,15 @@ void MainWindow::s_action_OpenRecent() {
     if (Action) Selected=Action->iconText();
     delete ContextMenu;
     ui->Action_OpenRecent_BT->setDown(false);
+    ui->Action_OpenRecent_BT_2->setDown(false);
     if (Selected!="") OpenFile(Selected);
 }
 
 void MainWindow::s_action_Open() {
     ui->Action_Open_BT->setDown(false);
+    ui->Action_Open_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
 
@@ -716,7 +795,7 @@ void MainWindow::OpenFile(QString ProjectFileName) {
     // Clean actual timeline and diaporama
     FLAGSTOPITEMSELECTION=true;
     ui->timeline->setUpdatesEnabled(false);
-    while (ui->timeline->columnCount()>0) ui->timeline->removeColumn(ui->timeline->columnCount()-1);
+    ui->timeline->CleanAll();
     delete Diaporama;
     Diaporama=NULL;
     ui->timeline->setUpdatesEnabled(true);
@@ -730,6 +809,7 @@ void MainWindow::OpenFile(QString ProjectFileName) {
 
     // Init GUI for this project
     ui->preview->InitDiaporamaPlay(Diaporama);
+    ui->preview2->InitDiaporamaPlay(Diaporama);
     SetTimelineHeight();
 
     // Load file
@@ -740,7 +820,8 @@ void MainWindow::OpenFile(QString ProjectFileName) {
     AdjustRuller();
     SetModifyFlag(Diaporama->IsModify);
     QApplication::restoreOverrideCursor();
-    if (Diaporama->List.count()>0) ui->preview->SeekPlayer(Diaporama->List[0].TransitionDuration); else ui->preview->SeekPlayer(0);
+    if (Diaporama->List.count()>0) (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetTransitionDuration(0));
+        else (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(0);
 
     ApplicationConfig->RecentFile.append(ProjectFileName);
     while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
@@ -752,7 +833,9 @@ void MainWindow::OpenFile(QString ProjectFileName) {
 
 void MainWindow::s_action_Save() {
     ui->Action_Save_BT->setDown(false);
+    ui->Action_Save_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if (Diaporama->ProjectFileName=="") s_action_SaveAs(); else {
         if (Diaporama->SaveFile(this)) SetModifyFlag(false);
     }
@@ -764,7 +847,9 @@ void MainWindow::s_action_Save() {
 
 void MainWindow::s_action_SaveAs() {
     ui->ActionSave_as_BT->setDown(false);
+    ui->ActionSave_as_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Save project as"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
     if (Diaporama->ProjectFileName!="") {
         if (QFileInfo(Diaporama->ProjectFileName).suffix()!="ffd") Diaporama->ProjectFileName=Diaporama->ProjectFileName+".ffd";
@@ -786,7 +871,9 @@ void MainWindow::s_action_SaveAs() {
 
 void MainWindow::s_action_AddTitle() {
     ui->ActionAddtitle_BT->setDown(false);
+    ui->ActionAddtitle_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;
     int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
@@ -813,7 +900,7 @@ void MainWindow::s_action_AddTitle() {
     }
     Diaporama->List[CurIndex].TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
     AddObjectToTimeLine(CurIndex);
-    Diaporama->Timeline->setCurrentCell(TRACKMONTAGE,SavedCurIndex+1);
+    ui->timeline->SetCurrentCell(SavedCurIndex+1);
     SetModifyFlag(true);
     AdjustRuller();
     QApplication::restoreOverrideCursor();
@@ -825,7 +912,9 @@ void MainWindow::s_action_AddTitle() {
 
 void MainWindow::s_action_AddFile() {
     ui->ActionAdd_BT->setDown(false);
+    ui->ActionAdd_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
 
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add files"),
                                                        ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
@@ -1003,7 +1092,7 @@ void MainWindow::s_action_AddFile() {
     }
 
     // Set current selection to first new object
-    Diaporama->Timeline->setCurrentCell(TRACKMONTAGE,SavedCurIndex+1);
+    ui->timeline->SetCurrentCell(SavedCurIndex+1);
 
     // Set title flag
     AdjustRuller();
@@ -1016,7 +1105,9 @@ void MainWindow::s_action_AddFile() {
 
 void MainWindow::s_action_AddProject() {
     ui->ActionAddProject_BT->setDown(false);
+    ui->ActionAddProject_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     QApplication::processEvents();
     QString ProjectFileName=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
     if (ProjectFileName!="") {
@@ -1031,38 +1122,6 @@ void MainWindow::s_action_AddProject() {
 
 //====================================================================================================================
 
-void MainWindow::AddObjectToTimeLine(int CurIndex) {
-    QApplication::processEvents();  // Ensure message queue is empty !
-
-    wgt_QCustomThumbnails *ObjectBackground=new wgt_QCustomThumbnails(ui->timeline,THUMBNAILTYPE_OBJECTBACKGROUND);
-    connect(ObjectBackground,SIGNAL(EditMediaObject()),this,SLOT(s_BackgroundDoubleClicked()));
-    connect(ObjectBackground,SIGNAL(EditTransition()),this,SLOT(s_TransitionBackgroundDoubleClicked()));
-
-    wgt_QCustomThumbnails *ObjectObject    =new wgt_QCustomThumbnails(ui->timeline,THUMBNAILTYPE_OBJECTSEQUENCE);
-    connect(ObjectObject,SIGNAL(EditMediaObject()),this,SLOT(s_ItemDoubleClicked()));
-    connect(ObjectObject,SIGNAL(EditTransition()),this,SLOT(s_TransitionItemDoubleClicked()));
-    connect(ObjectObject,SIGNAL(EditSoundTrack()),this,SLOT(s_SoundItemDoubleClicked()));
-
-    wgt_QCustomThumbnails *ObjectMusic     =new wgt_QCustomThumbnails(ui->timeline,THUMBNAILTYPE_OBJECTMUSIC);
-    connect(ObjectMusic,SIGNAL(EditSoundTrack()),this,SLOT(s_MusicDoubleClicked()));
-
-    ui->timeline->insertColumn(CurIndex);
-    ui->timeline->setColumnWidth(CurIndex,Diaporama->GetWidthForHeight(ui->timeline->rowHeight(TRACKMONTAGE)-5)+32+ADJUSTXCOLUMN);
-    ui->timeline->setCellWidget(TRACKBACKGROUND,CurIndex,ObjectBackground);
-    ui->timeline->setCellWidget(TRACKMONTAGE,CurIndex,ObjectObject);
-    ui->timeline->setCellWidget(TRACKMUSIC,CurIndex,ObjectMusic);
-
-    ui->preview->SetActualDuration(Diaporama->GetDuration());   // Refresh duration
-    if ((Diaporama->CurrentCol<0)||(Diaporama->CurrentCol==CurIndex)) {
-        Diaporama->CurrentCol=CurIndex;
-        ui->preview->SeekPlayer(Diaporama->GetObjectStartPosition(CurIndex)+Diaporama->GetTransitionDuration(CurIndex));
-        AdjustRuller();
-    }
-    QApplication::processEvents();
-}
-
-//====================================================================================================================
-
 void MainWindow::s_action_Edit() {
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionEdit_background);
@@ -1073,14 +1132,17 @@ void MainWindow::s_action_Edit() {
     ContextMenu->exec(QCursor::pos());
     delete ContextMenu;
     ui->ActionEdit_BT->setDown(false);
+    ui->ActionEdit_BT_2->setDown(false);
 }
 
 //====================================================================================================================
 
 void MainWindow::s_RemoveObject() {
     ui->ActionRemove_BT->setDown(false);
+    ui->ActionRemove_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    int Current=ui->timeline->currentColumn();
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    int Current=ui->timeline->CurrentSelected();
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
 
     if (QMessageBox::question(this,QApplication::translate("MainWindow","Remove slide"),QApplication::translate("MainWindow","Are you sure to want to delete this slide?"),
@@ -1090,11 +1152,9 @@ void MainWindow::s_RemoveObject() {
     ui->timeline->setUpdatesEnabled(false);
     FLAGSTOPITEMSELECTION=true;
     Diaporama->List.removeAt(Current);
-    ui->timeline->removeColumn(Current);
-    FLAGSTOPITEMSELECTION=false;
     if (Current>=Diaporama->List.count()) Current=Diaporama->List.count()-1;
-    ui->timeline->setCurrentCell(TRACKMONTAGE,Current);
-    ui->preview->SeekPlayer(Diaporama->GetObjectStartPosition(Current)+Diaporama->GetTransitionDuration(Current));
+    ui->timeline->ResetDisplay(Current);    // FLAGSTOPITEMSELECTION is set to false by ResetDisplay
+    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Current)+Diaporama->GetTransitionDuration(Current));
     SetModifyFlag(true);
     AdjustRuller();
     ui->timeline->setUpdatesEnabled(true);
@@ -1105,15 +1165,17 @@ void MainWindow::s_RemoveObject() {
 
 void MainWindow::s_LeftObject() {
     ui->ActionMove_left_BT->setDown(false);
+    //ui->ActionMove_left_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    int Current=ui->timeline->currentColumn();
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    int Current=ui->timeline->CurrentSelected();
     if ((Current<1)||(Current>=Diaporama->List.count())) return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->timeline->setUpdatesEnabled(false);
     Diaporama->List.swap(Current,Current-1);
-    ui->timeline->setCurrentCell(TRACKMONTAGE,Current-1);
-    ui->preview->SeekPlayer(Diaporama->GetObjectStartPosition(Current-1)+Diaporama->GetTransitionDuration(Current-1));
+    ui->timeline->SetCurrentCell(Current-1);
+    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Current-1)+Diaporama->GetTransitionDuration(Current-1));
     SetModifyFlag(true);
     AdjustRuller();
     ui->timeline->setUpdatesEnabled(true);
@@ -1124,15 +1186,17 @@ void MainWindow::s_LeftObject() {
 
 void MainWindow::s_RightObject() {
     ui->ActionMove_right_BT->setDown(false);
+    //ui->ActionMove_right_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    int Current=ui->timeline->currentColumn();
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    int Current=ui->timeline->CurrentSelected();
     if ((Current<0)||(Current>=Diaporama->List.count()-1)) return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->timeline->setUpdatesEnabled(false);
     Diaporama->List.swap(Current,Current+1);
-    ui->timeline->setCurrentCell(TRACKMONTAGE,Current+1);
-    ui->preview->SeekPlayer(Diaporama->GetObjectStartPosition(Current+1)+Diaporama->GetTransitionDuration(Current+1));
+    ui->timeline->SetCurrentCell(Current+1);
+    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Current+1)+Diaporama->GetTransitionDuration(Current+1));
     SetModifyFlag(true);
     AdjustRuller();
     ui->timeline->setUpdatesEnabled(true);
@@ -1143,8 +1207,10 @@ void MainWindow::s_RightObject() {
 
 void MainWindow::s_CutToClipboard() {
     ui->ActionCut_BT->setDown(false);
+    ui->ActionCut_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    int Current=ui->timeline->currentColumn();
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    int Current=ui->timeline->CurrentSelected();
     if ((Current<0)||(Current>Diaporama->List.count()-1)) return;
 
     QDomElement root;
@@ -1164,8 +1230,10 @@ void MainWindow::s_CutToClipboard() {
 
 void MainWindow::s_CopyToClipboard() {
     ui->ActionCopy_BT->setDown(false);
+    ui->ActionCopy_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
-    int Current=ui->timeline->currentColumn();
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    int Current=ui->timeline->CurrentSelected();
     if ((Current<0)||(Current>Diaporama->List.count()-1)) return;
 
     QDomElement root;
@@ -1186,7 +1254,9 @@ void MainWindow::s_CopyToClipboard() {
 
 void MainWindow::s_PasteFromClipboard() {
     ui->ActionPaste_BT->setDown(false);
+    ui->ActionPaste_BT_2->setDown(false);
     ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview2->SetPlayerToPause(); // Ensure player is stop
     // Calc position of new object depending on ApplicationConfig->AppendObject
     int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;
     int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
@@ -1203,11 +1273,17 @@ void MainWindow::s_PasteFromClipboard() {
         AddObjectToTimeLine(CurIndex);
         SetModifyFlag(true);
         // Set current selection to first new object
-        Diaporama->Timeline->setCurrentCell(TRACKMONTAGE,SavedCurIndex+1);
+        ui->timeline->SetCurrentCell(SavedCurIndex+1);
         AdjustRuller();
         ui->timeline->setUpdatesEnabled(true);
         QApplication::restoreOverrideCursor();
     }
+}
+
+//====================================================================================================================
+
+void MainWindow::AddObjectToTimeLine(int CurIndex) {
+    ui->timeline->AddObjectToTimeLine(CurIndex);
 }
 
 //====================================================================================================================
@@ -1216,6 +1292,7 @@ void MainWindow::s_PasteFromClipboard() {
 
 void MainWindow::AdjustRuller() {
     ui->preview->SetActualDuration(Diaporama->GetDuration());
+    ui->preview2->SetActualDuration(Diaporama->GetDuration());
     if (Diaporama->List.count()>0)  {
         ui->preview->SetStartEndPos(
                 Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                           // Current slide
@@ -1224,8 +1301,18 @@ void MainWindow::AdjustRuller() {
                 (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1].GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
                 Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,    // Next slide
                 Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1].GetDuration():0);
-    } else ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
+        ui->preview2->SetStartEndPos(
+                Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                           // Current slide
+                Diaporama->List[Diaporama->CurrentCol].GetDuration(),
+                (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1),                            // Previous slide
+                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1].GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
+                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,    // Next slide
+                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1].GetDuration():0);
+    } else {
+        ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
+        ui->preview2->SetStartEndPos(0,0,-1,0,-1,0);
+    }
     ui->timeline->repaint();
-    ui->preview->repaint();
+    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->CurrentPosition);
     RefreshControls();
 }

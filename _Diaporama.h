@@ -29,12 +29,13 @@
 //===============================
 // Specific inclusions
 //===============================
+class cDiaporama;
+class cDiaporamaObject;
+
 #include "_ApplicationDefinitions.h"
 #include "_ImagesDefinitions.h"
 #include "_SoundDefinitions.h"
-
-class cDiaporama;
-class cDiaporamaObject;
+#include "cCustomTableWidget.h"
 
 //============================================
 // Global static
@@ -181,6 +182,7 @@ public:
     void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY);   // Draw Thumb @ position 0
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
+    int                     GetTransitDuration();
 };
 
 //*********************************************************************************************************************************************
@@ -257,10 +259,12 @@ public:
 //*********************************************************************************************************************************************
 // Global class containing media objects
 //*********************************************************************************************************************************************
+class cCustomTableWidget;
+
 class cDiaporama {
 public:
     cApplicationConfig      *ApplicationConfig;
-    QTableWidget            *Timeline;              // Link to timeline
+    cCustomTableWidget      *Timeline;              // Link to timeline
     int                     CurrentCol;             // Current position in the timeline (column)
     int                     CurrentPosition;        // Current position in the timeline (msec)
 
@@ -312,6 +316,7 @@ public:
     void                DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
     void                DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
     void                DoLuma(cLumaList *List,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    QImage              RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg);
 
     // Threaded functions
     void LoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos);

@@ -26,6 +26,7 @@
 
 // Specific inclusions
 #include "_Diaporama.h"
+#include "cCustomTableWidget.h"
 
 class wgt_QCustomThumbnails : public QLabel {
 Q_OBJECT
@@ -33,11 +34,15 @@ public:
     QTableWidget        *Timeline;
     cDiaporamaObject    *DiaporamaObject;   // Use only for THUMBNAILTYPE_SHOT
     int                 Type;
+    bool                HasBackGTransition;
+    QRect               BackGTransitionRect;
     bool                HasTransition;
     QRect               TransitionRect;
     bool                HasSoundTrack;
     QRect               SoundTrackRect;
+    QRect               BackgroundRect;
     QRect               MediaObjectRect;
+    QRect               MusicTrackRect;
 
     explicit wgt_QCustomThumbnails(QTableWidget *Timeline,int Type);
     ~wgt_QCustomThumbnails();
@@ -46,6 +51,9 @@ signals:
     void        EditTransition();
     void        EditSoundTrack();
     void        EditMediaObject();
+    void        EditBackGTransition();
+    void        EditBackground();
+    void        EditMusicTrack();
 
 public slots:
 

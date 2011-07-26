@@ -337,7 +337,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
                     if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
                         if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
                         Diaporama->CurrentCol=Frame->CurrentObject_Number;
-                        Diaporama->Timeline->setCurrentCell(0,Frame->CurrentObject_Number);
+                        Diaporama->Timeline->SetCurrentCell(Frame->CurrentObject_Number);
                         if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=false;
 
                         // Update slider mark
@@ -393,7 +393,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
                 if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
                 Diaporama->CurrentCol=Frame->CurrentObject_Number;
-                Diaporama->Timeline->setCurrentCell(0,Frame->CurrentObject_Number);
+                Diaporama->Timeline->SetCurrentCell(Frame->CurrentObject_Number);
                 if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=false;
 
                 // Update slider mark
