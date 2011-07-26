@@ -631,6 +631,7 @@ bool cApplicationConfig::InitConfigurationValues() {
     AskUserToRemove             = true;
     SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
+    PartitionMode               = false;                    // If true, partition mode is on
     DisplayUnit                 = 1;                        // Display coordinates unit
     DefaultFraming              = 2;                        // 0=Width, 1=Height, 2=Full
     MainWinState                = false;                    // Windows State
@@ -740,6 +741,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     if ((root.elementsByTagName("EditorOptions").length()>0)&&(root.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("EditorOptions").item(0).toElement();
         if (Element.hasAttribute("AppendObject"))               AppendObject             =Element.attribute("AppendObject")=="1";
+        if (Element.hasAttribute("PartitionMode"))              PartitionMode            =Element.attribute("PartitionMode")=="1";
         if (Element.hasAttribute("DisplayUnit"))                DisplayUnit              =Element.attribute("DisplayUnit").toInt();
         if (Element.hasAttribute("SortFile"))                   SortFile                 =Element.attribute("SortFile")=="1";
         if (Element.hasAttribute("TimelineHeight"))             TimelineHeight           =Element.attribute("TimelineHeight").toInt();
@@ -868,6 +870,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element=domDocument.createElement("EditorOptions");
     Element.setAttribute("AppendObject",             AppendObject?"1":"0");
     Element.setAttribute("DisplayUnit",              DisplayUnit);
+    Element.setAttribute("PartitionMode",            PartitionMode?"1":"0");
     Element.setAttribute("SortFile",                 SortFile?"1":"0");
     Element.setAttribute("TimelineHeight",           TimelineHeight);
     Element.setAttribute("DefaultFraming",           DefaultFraming);

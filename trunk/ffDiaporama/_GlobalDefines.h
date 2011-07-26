@@ -224,10 +224,9 @@ extern "C" {
 #define SHOTTYPE_VIDEO                      2
 
 // Thumbnail type definition
-#define THUMBNAILTYPE_OBJECTBACKGROUND      0
-#define THUMBNAILTYPE_OBJECTSEQUENCE        1
-#define THUMBNAILTYPE_OBJECTMUSIC           2
-#define THUMBNAILTYPE_SHOT                  3
+#define THUMBNAILTYPE_OBJECT                0
+#define THUMBNAILTYPE_NULL                  1
+#define THUMBNAILTYPE_SHOT                  2
 
 // Display coordinates unit
 #define DISPLAYUNIT_PERCENT                 0
@@ -236,11 +235,6 @@ extern "C" {
 // Speed wave forme definition
 #define SPEEDWAVE_LINEAR                    0
 #define SPEEDWAVE_SINQUARTER                1
-
-// Track definition
-#define TRACKBACKGROUND                     0
-#define TRACKMONTAGE                        1
-#define TRACKMUSIC                          2
 
 // Thumbnails definitions
 #define ADJUSTXCOLUMN                       10      // width to add to object image for display transition

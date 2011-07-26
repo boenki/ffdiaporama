@@ -705,6 +705,10 @@ void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Pa
 
 //===============================================================
 
+int cDiaporamaObject::GetTransitDuration() {
+    if ((TransitionFamilly!=0)||(TransitionSubType!=0)) return TransitionDuration; else return 0;
+}
+
 int cDiaporamaObject::GetCumulTransitDuration() {
     // Adjust duration to ensure transition will be full !
     int ObjectIndex=Parent->GetObjectIndex(this);
@@ -1621,8 +1625,6 @@ void cDiaporama::DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
     P->drawImage(box2,Reverse?*Info->TransitObject_PreparedImage:*Info->CurrentObject_PreparedImage,box1);
 }
 
-QImage RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg);
-
 //============================================================================================
 
 void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
@@ -1749,7 +1751,9 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
     }
 }
 
-QImage RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg) {
+//============================================================================================
+
+QImage cDiaporama::RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg) {
     double dw=double(OldImg->width());
     double dh=double(OldImg->height());
     double hyp=sqrt(dw*dw+dh*dh);

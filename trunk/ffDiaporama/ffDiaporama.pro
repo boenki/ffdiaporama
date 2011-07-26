@@ -61,7 +61,8 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     DlgSlideProperties.cpp \
     DlgImageCorrection.cpp \
     DlgVideoEdit.cpp \
-    DlgTextEdit.cpp
+    DlgTextEdit.cpp \
+    cCustomTableWidget.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
@@ -89,7 +90,8 @@ HEADERS  += _GlobalDefines.h \
     DlgSlideProperties.h \
     DlgImageCorrection.h \
     DlgVideoEdit.h \
-    DlgTextEdit.h
+    DlgTextEdit.h \
+    cCustomTableWidget.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \

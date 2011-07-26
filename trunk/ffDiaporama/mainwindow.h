@@ -44,6 +44,10 @@ public:
     QTimer                  Timer;
     int                     LastCount;
     QString                 InternetBUILDVERSION;
+    // Drag & drop operation
+    int                     DragItemSource;
+    int                     DragItemDest;
+    bool                    IsDragOn;
 
     explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
     ~MainWindow();
@@ -70,6 +74,7 @@ private slots:
     void    onNetworkReply(QNetworkReply*);
 
     // Timeline
+    void    s_DragMoveItem();                           // Drag & drop operation
     void    s_ItemSelectionChanged();
     void    s_ItemDoubleClicked();                      // Double click on widget in the object track
     void    s_TransitionItemDoubleClicked();            // Double click on transition part of widget in the object track
@@ -80,6 +85,7 @@ private slots:
 
     void    s_action_ZoomPlus();
     void    s_action_ZoomMinus();
+    void    s_ChPartitionMode();
 
     // File menu
     void    s_action_New();
