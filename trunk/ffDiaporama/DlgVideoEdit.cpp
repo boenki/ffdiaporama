@@ -27,6 +27,10 @@ DlgVideoEdit::DlgVideoEdit(cBrushDefinition *TheCurrentBrush,QWidget *parent):QD
     CurrentBrush    =TheCurrentBrush;
     IsFirstInitDone =false;            // true when first show window was done
 
+    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+    #endif
+
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root

@@ -107,7 +107,7 @@ QToolButton:pressed {
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="TabFile">
          <property name="font">
@@ -781,51 +781,6 @@ project</string>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="ActionMove_left_BT">
-            <property name="minimumSize">
-             <size>
-              <width>64</width>
-              <height>56</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>56</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
-             </font>
-            </property>
-            <property name="toolTip">
-             <string>Move current slide to the left (Ctrl+Left arrow)</string>
-            </property>
-            <property name="text">
-             <string>Move
-left</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>img/arrow_left.png</normaloff>img/arrow_left.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="shortcut">
-             <string notr="true">Ctrl+Left</string>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextUnderIcon</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QToolButton" name="ActionEdit_BT">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -907,51 +862,6 @@ left</string>
             </property>
             <property name="shortcut">
              <string>Del</string>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextUnderIcon</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="ActionMove_right_BT">
-            <property name="minimumSize">
-             <size>
-              <width>64</width>
-              <height>56</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>56</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
-             </font>
-            </property>
-            <property name="toolTip">
-             <string>Move current slide to the right (Ctrl+Right arrow)</string>
-            </property>
-            <property name="text">
-             <string>Move
-right</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>img/arrow_right.png</normaloff>img/arrow_right.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="shortcut">
-             <string notr="true">Ctrl+Right</string>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -2316,6 +2226,53 @@ smartphone</string>
             </widget>
            </item>
            <item>
+            <widget class="QToolButton" name="Action_About_BT_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>64</width>
+               <height>56</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>56</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Display informations about ffDiaporama</string>
+             </property>
+             <property name="text">
+              <string>About</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/logo.png</normaloff>img/logo.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextUnderIcon</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QToolButton" name="ActionDocumentation_BT_2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2351,6 +2308,53 @@ and help</string>
              <property name="icon">
               <iconset>
                <normaloff>img/help.png</normaloff>img/help.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextUnderIcon</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="ActionNewFunctions_BT_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>64</width>
+               <height>56</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>56</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Display blog/news page from internet WEB site</string>
+             </property>
+             <property name="text">
+              <string>What's new</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/contents.png</normaloff>img/contents.png</iconset>
              </property>
              <property name="iconSize">
               <size>

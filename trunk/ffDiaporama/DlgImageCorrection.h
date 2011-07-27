@@ -81,6 +81,12 @@ private slots:
     void            s_RedSliderMoved(int Value);
     void            s_GreenSliderMoved(int Value);
     void            s_BlueSliderMoved(int Value);
+    void            s_BrightnessReset();
+    void            s_ContrastReset();
+    void            s_GammaReset();
+    void            s_RedReset();
+    void            s_GreenReset();
+    void            s_BlueReset();
 
 private:
     Ui::DlgImageCorrection *ui;

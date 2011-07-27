@@ -36,21 +36,42 @@ Q_OBJECT
 public:
     cDiaporamaObject    *DiaporamaObject;
     QDomDocument        *Undo;                          // Save object before modification for cancel button
+    bool                StopMAJSpinbox;
+    bool                IsFirstInitDone;
 
     explicit DlgBackgroundProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent = 0);
     ~DlgBackgroundProperties();
 
+    void        RefreshControls(bool Allowed);
+
 protected:
     virtual void showEvent(QShowEvent *);
+    virtual void resizeEvent(QResizeEvent *);
     virtual void reject();
     virtual void accept();
 
 private slots:
     void        Help();
     void        SetSavedWindowGeometry();
-    void        s_TabCurrentChanged(int Page);
-    void        s_CompositionNeedRefreshBackgroundImage();
-    void        s_BackgroundTypeChange();
+    void        s_SameBackground();
+    void        s_NewBackground();
+    void        SetupUi();
+
+    void        s_ChangeBrushTypeCombo(int);
+
+    // Intermediate position for gradient 3 colors
+    void        s_IntermPosSliderMoved(int);
+    void        s_IntermPosED(int);
+
+    // Handler for custom color/brush/pattern/gradient combo box index change
+    void        s_ChIndexPatternBrushCombo(int);
+    void        s_ChIndexGradientOrientationCombo(int);
+    void        s_ChIndexGradientFirstColorCombo(int);
+    void        s_ChIndexGradientFinalColorCombo(int);
+    void        s_ChIndexGradientIntermColorCombo(int);
+    void        s_ChIndexBackgroundCombo(int);
+    void        s_SelectFile();
+    void        s_ImageEditCorrect();
 
 private:
     Ui::DlgBackgroundProperties *ui;

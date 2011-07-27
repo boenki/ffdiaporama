@@ -1,13 +1,13 @@
 Name:           ffDiaporama
-Version:        0.99.3
-Release:        4%{?dist}
+Version:        0.99.4
+Release:        1%{?dist}
 Summary:        FFDIAPORAMA - Movie creator
 Summary(fr):    FFDIAPORAMA - Créateur de film
 License:        GPLv2
 URL:            http://ffdiaporama.tuxfamily.org
 Group:		Applications/Multimedia
 Icon:		logo.xpm
-Source0:        ffDiaporama-0.99.3.tar.gz
+Source0:        ffDiaporama-0.99.4.tar.gz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  qt4-devel, qt-webkit-devel, ffmpeg-devel, SDL-devel, SDL_mixer-devel, desktop-file-utils
 Requires:       qt4, qt-webkit, SDL, SDL_mixer, ffmpeg, exiv2
@@ -103,5 +103,5 @@ update-desktop-database &> /dev/null || :
 
 %changelog
 
-* Wed Jul 20 2011 Dominique LEVRAY <levray.dominique@bbox.fr> 0.99.3-4%{?dist}
-- Release 20110720
+* Wed Jul 27 2011 Dominique LEVRAY <levray.dominique@bbox.fr> 0.99.4-1%{?dist}
+- Release 20110727

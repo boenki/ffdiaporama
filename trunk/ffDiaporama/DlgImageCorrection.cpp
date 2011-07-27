@@ -29,6 +29,10 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     BrushFileCorrect=TheBrushFileCorrect;
     CachedImage     =TheCacheImage;         // If no image and no video : program will crash !
 
+    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+    #endif
+
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
@@ -75,21 +79,63 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
 
     connect(ui->BrightnessSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_BrightnessSliderMoved(int)));
     connect(ui->BrightnessValue,SIGNAL(valueChanged(int)),this,SLOT(s_BrightnessSliderMoved(int)));
+    connect(ui->BrightnessResetBT,SIGNAL(clicked()),this,SLOT(s_BrightnessReset()));
     connect(ui->ContrastSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_ContrastSliderMoved(int)));
     connect(ui->ContrastValue,SIGNAL(valueChanged(int)),this,SLOT(s_ContrastSliderMoved(int)));
+    connect(ui->ContrastResetBT,SIGNAL(clicked()),this,SLOT(s_ContrastReset()));
     connect(ui->GammaSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_GammaSliderMoved(int)));
     connect(ui->GammaValue,SIGNAL(valueChanged(double)),this,SLOT(s_GammaValueED(double)));
+    connect(ui->GammaResetBT,SIGNAL(clicked()),this,SLOT(s_GammaReset()));
     connect(ui->RedSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_RedSliderMoved(int)));
     connect(ui->RedValue,SIGNAL(valueChanged(int)),this,SLOT(s_RedSliderMoved(int)));
+    connect(ui->RedResetBT,SIGNAL(clicked()),this,SLOT(s_RedReset()));
     connect(ui->GreenSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_GreenSliderMoved(int)));
     connect(ui->GreenValue,SIGNAL(valueChanged(int)),this,SLOT(s_GreenSliderMoved(int)));
+    connect(ui->GreenResetBT,SIGNAL(clicked()),this,SLOT(s_GreenReset()));
     connect(ui->BlueSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_BlueSliderMoved(int)));
     connect(ui->BlueValue,SIGNAL(valueChanged(int)),this,SLOT(s_BlueSliderMoved(int)));
+    connect(ui->BlueResetBT,SIGNAL(clicked()),this,SLOT(s_BlueReset()));
 }
 
 DlgImageCorrection::~DlgImageCorrection() {
     delete ui;  // Deleting this make deletion of scene and all included object
     scene=NULL;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_BrightnessReset() {
+    s_BrightnessSliderMoved(0);
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_ContrastReset() {
+    s_ContrastSliderMoved(0);
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_GammaReset() {
+    s_GammaValueED(1);
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_RedReset() {
+    s_RedSliderMoved(0);
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_GreenReset() {
+    s_GreenSliderMoved(0);
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_BlueReset() {
+    s_BlueSliderMoved(0);
 }
 
 //====================================================================================================================

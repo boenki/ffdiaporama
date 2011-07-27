@@ -29,6 +29,10 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     CurrentDevice       =-1;
     CurrentDeviceIndex  =-1;
 
+    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+    #endif
+
     //********************************
     // LastDirectories part
     //********************************

@@ -187,9 +187,9 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     connect(ui->webView,SIGNAL(linkClicked(QUrl)),this,SLOT(s_WebViewOpen(QUrl)));
 
     // Help menu
-    connect(ui->Action_About_BT,SIGNAL(pressed()),this,SLOT(s_About()));
+    connect(ui->Action_About_BT,SIGNAL(pressed()),this,SLOT(s_About()));                                connect(ui->Action_About_BT_2,SIGNAL(pressed()),this,SLOT(s_About()));
     connect(ui->ActionDocumentation_BT,SIGNAL(pressed()),this,SLOT(s_Documentation()));                 connect(ui->ActionDocumentation_BT_2,SIGNAL(pressed()),this,SLOT(s_Documentation()));
-    connect(ui->ActionNewFunctions_BT,SIGNAL(pressed()),this,SLOT(s_NewFunctions()));
+    connect(ui->ActionNewFunctions_BT,SIGNAL(pressed()),this,SLOT(s_NewFunctions()));                   connect(ui->ActionNewFunctions_BT_2,SIGNAL(pressed()),this,SLOT(s_NewFunctions()));
 
     // File menu
     connect(ui->Action_New_BT,SIGNAL(pressed()),this,SLOT(s_action_New()));                             connect(ui->Action_New_BT_2,SIGNAL(pressed()),this,SLOT(s_action_New()));
@@ -205,8 +205,6 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     connect(ui->ActionAddtitle_BT,SIGNAL(pressed()),this,SLOT(s_action_AddTitle()));                    connect(ui->ActionAddtitle_BT_2,SIGNAL(pressed()),this,SLOT(s_action_AddTitle()));
     connect(ui->ActionAddProject_BT,SIGNAL(pressed()),this,SLOT(s_action_AddProject()));                connect(ui->ActionAddProject_BT_2,SIGNAL(pressed()),this,SLOT(s_action_AddProject()));
     connect(ui->ActionRemove_BT,SIGNAL(pressed()),this,SLOT(s_RemoveObject()));                         connect(ui->ActionRemove_BT_2,SIGNAL(pressed()),this,SLOT(s_RemoveObject()));
-    connect(ui->ActionMove_left_BT,SIGNAL(pressed()),this,SLOT(s_LeftObject()));
-    connect(ui->ActionMove_right_BT,SIGNAL(pressed()),this,SLOT(s_RightObject()));
     connect(ui->ActionCut_BT,SIGNAL(pressed()),this,SLOT(s_CutToClipboard()));                          connect(ui->ActionCut_BT_2,SIGNAL(pressed()),this,SLOT(s_CutToClipboard()));
     connect(ui->ActionCopy_BT,SIGNAL(pressed()),this,SLOT(s_CopyToClipboard()));                        connect(ui->ActionCopy_BT_2,SIGNAL(pressed()),this,SLOT(s_CopyToClipboard()));
     connect(ui->ActionPaste_BT,SIGNAL(pressed()),this,SLOT(s_PasteFromClipboard()));                    connect(ui->ActionPaste_BT_2,SIGNAL(pressed()),this,SLOT(s_PasteFromClipboard()));
@@ -398,8 +396,8 @@ void MainWindow::RefreshControls() {
     // Timeline actions
     ui->ActionRemove_BT->setEnabled(ui->timeline->NbrItem()>0);                                             ui->ActionRemove_BT_2->setEnabled(ui->timeline->NbrItem()>0);
     ui->ActionEdit_BT->setEnabled(ui->timeline->NbrItem()>0);                                               ui->ActionEdit_BT_2->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionMove_left_BT->setEnabled((ui->timeline->CurrentSelected()>0)&&(ui->timeline->NbrItem()>1));
-    ui->ActionMove_right_BT->setEnabled(ui->timeline->CurrentSelected()<ui->timeline->NbrItem()-1);
+    ui->ZoomMinusBT->setEnabled((ui->timeline->NbrItem()>0)&&(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH));
+    ui->ZoomPlusBT->setEnabled((ui->timeline->NbrItem()>0)&&(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH));
 
     // File menu
     ui->Action_Save_BT->setEnabled(Diaporama->IsModify);                                                    ui->Action_Save_BT_2->setEnabled(Diaporama->IsModify);
@@ -440,7 +438,7 @@ void MainWindow::SetModifyFlag(bool IsModify) {
 
 void MainWindow::s_About() {
     ui->Action_About_BT->setDown(false);
-    //ui->Action_About_BT_2->setDown(false);
+    ui->Action_About_BT_2->setDown(false);
     DlgAbout(this).exec();
 }
 
@@ -456,7 +454,7 @@ void MainWindow::s_Documentation() {
 
 void MainWindow::s_NewFunctions() {
     ui->ActionNewFunctions_BT->setDown(false);
-    //ui->ActionNewFunctions_BT_2->setDown(false);
+    ui->ActionNewFunctions_BT_2->setDown(false);
     OpenHelp(HELPFILE_NEWS);
 }
 
@@ -477,8 +475,7 @@ void MainWindow::s_action_ZoomPlus() {
         ApplicationConfig->TimelineHeight+=20;
         SetTimelineHeight();
     }
-    ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
-    ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -490,8 +487,7 @@ void MainWindow::s_action_ZoomMinus() {
         ApplicationConfig->TimelineHeight-=20;
         SetTimelineHeight();
     }
-    ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
-    ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -1155,48 +1151,6 @@ void MainWindow::s_RemoveObject() {
     if (Current>=Diaporama->List.count()) Current=Diaporama->List.count()-1;
     ui->timeline->ResetDisplay(Current);    // FLAGSTOPITEMSELECTION is set to false by ResetDisplay
     (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Current)+Diaporama->GetTransitionDuration(Current));
-    SetModifyFlag(true);
-    AdjustRuller();
-    ui->timeline->setUpdatesEnabled(true);
-    QApplication::restoreOverrideCursor();
-}
-
-//====================================================================================================================
-
-void MainWindow::s_LeftObject() {
-    ui->ActionMove_left_BT->setDown(false);
-    //ui->ActionMove_left_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
-    int Current=ui->timeline->CurrentSelected();
-    if ((Current<1)||(Current>=Diaporama->List.count())) return;
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    ui->timeline->setUpdatesEnabled(false);
-    Diaporama->List.swap(Current,Current-1);
-    ui->timeline->SetCurrentCell(Current-1);
-    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Current-1)+Diaporama->GetTransitionDuration(Current-1));
-    SetModifyFlag(true);
-    AdjustRuller();
-    ui->timeline->setUpdatesEnabled(true);
-    QApplication::restoreOverrideCursor();
-}
-
-//====================================================================================================================
-
-void MainWindow::s_RightObject() {
-    ui->ActionMove_right_BT->setDown(false);
-    //ui->ActionMove_right_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
-    int Current=ui->timeline->CurrentSelected();
-    if ((Current<0)||(Current>=Diaporama->List.count()-1)) return;
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    ui->timeline->setUpdatesEnabled(false);
-    Diaporama->List.swap(Current,Current+1);
-    ui->timeline->SetCurrentCell(Current+1);
-    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Current+1)+Diaporama->GetTransitionDuration(Current+1));
     SetModifyFlag(true);
     AdjustRuller();
     ui->timeline->setUpdatesEnabled(true);

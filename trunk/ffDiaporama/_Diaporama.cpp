@@ -120,7 +120,7 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey) {
     PenSize                 = DEFAULT_SHAPE_BORDERSIZE;                         // Width of the border of the form
     PenStyle                = Qt::SolidLine;                                    // Style of the pen border of the form
     PenColor                = DEFAULT_SHAPE_BORDERCOLOR;                        // Color of the border of the form
-    FormShadowColor             = DEFAULT_SHAPE_SHADOWCOLOR;                        // Color of the shadow of the form
+    FormShadowColor         = DEFAULT_SHAPE_SHADOWCOLOR;                        // Color of the shadow of the form
     FormShadow              = 0;                                                // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
     FormShadowDistance      = 5;                                                // Distance from form to shadow
 

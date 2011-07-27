@@ -81,7 +81,8 @@ void cCustomTableWidget::mouseMoveEvent(QMouseEvent *event) {
             if (ItemToPaint) ItemToPaint->repaint();
         }
         setCursor(Qt::ForbiddenCursor);
-        // Try to scroll left
+        // Try to scroll left if not partition mode
+        if ((!PartitionMode)&&(horizontalScrollBar()->value()>0)) horizontalScrollBar()->setValue(horizontalScrollBar()->value()-1);
 
     } else if (event->pos().x()>=NbrX*ThumbWidth) {
         if (GlobalMainWindow->DragItemDest!=-1) {
@@ -90,12 +91,16 @@ void cCustomTableWidget::mouseMoveEvent(QMouseEvent *event) {
             if (ItemToPaint) ItemToPaint->repaint();
         }
         setCursor(Qt::ForbiddenCursor);
+        // Try to scroll right if not partition mode
+        if ((!PartitionMode)&&(horizontalScrollBar()->value()<horizontalScrollBar()->maximum())) horizontalScrollBar()->setValue(horizontalScrollBar()->value()+1);
 
     } else if (event->pos().y()<0) {
         if (GlobalMainWindow->DragItemDest!=-1) {
             wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
             GlobalMainWindow->DragItemDest=-1;
             if (ItemToPaint) ItemToPaint->repaint();
+            // Try to scroll up if partition mode
+            if ((PartitionMode)&&(verticalScrollBar()->value()>0)) verticalScrollBar()->setValue(verticalScrollBar()->value()-1);
         }
         setCursor(Qt::ForbiddenCursor);
 
@@ -106,6 +111,8 @@ void cCustomTableWidget::mouseMoveEvent(QMouseEvent *event) {
             if (ItemToPaint) ItemToPaint->repaint();
         }
         setCursor(Qt::ForbiddenCursor);
+        // Try to scroll down if partition mode
+        if ((PartitionMode)&&(verticalScrollBar()->value()<verticalScrollBar()->maximum())) verticalScrollBar()->setValue(verticalScrollBar()->value()+1);
 
     } else {
         // Get item number under mouse
