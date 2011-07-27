@@ -28,6 +28,10 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QWidget *parent)
     CurrentTextItem =TheCurrentTextItem;
     ParentWindow    =parent;
 
+    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+    #endif
+
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root

@@ -101,8 +101,6 @@ private slots:
     void    s_action_AddTitle();
     void    s_action_AddProject();
     void    s_RemoveObject();
-    void    s_LeftObject();
-    void    s_RightObject();
     void    s_CutToClipboard();
     void    s_CopyToClipboard();
     void    s_PasteFromClipboard();

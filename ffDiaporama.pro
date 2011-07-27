@@ -45,13 +45,10 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             wgt_QCustomRuller.cpp \
             wgt_QCustomThumbnails.cpp \
             fmt_filters.cpp \
-            wgt_QBackgroundDefWidget.cpp \
             DlgApplicationSettings.cpp \
             DlgBackgroundProperties.cpp \
-            wgt_QCompositionWidget.cpp \
             cCustomGraphicsRectItem.cpp \
             cCustomComboBox.cpp \
-            wgt_QCustomBrush.cpp \
             DlgMusicProperties.cpp \
             DlgRenderVideo.cpp \
             DlgTransitionProperties.cpp \
@@ -75,13 +72,10 @@ HEADERS  += _GlobalDefines.h \
             wgt_QCustomRuller.h \
             wgt_QCustomThumbnails.h \
             fmt_filters.h \
-            wgt_QBackgroundDefWidget.h \
             DlgApplicationSettings.h \
             DlgBackgroundProperties.h \
-            wgt_QCompositionWidget.h \
             cCustomGraphicsRectItem.h \
             cCustomComboBox.h \
-            wgt_QCustomBrush.h \
             DlgMusicProperties.h \
             DlgRenderVideo.h \
             DlgTransitionProperties.h \
@@ -95,11 +89,8 @@ HEADERS  += _GlobalDefines.h \
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \
-    wgt_QBackgroundDefWidget.ui \
     DlgApplicationSettings.ui \
     DlgBackgroundProperties.ui \
-    wgt_QCompositionWidget.ui \
-    wgt_QCustomBrush.ui \
     DlgMusicProperties.ui \
     DlgRenderVideo.ui \
     DlgTransitionProperties.ui \

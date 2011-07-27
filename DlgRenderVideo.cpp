@@ -30,6 +30,10 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     ExportMode      =TheExportMode;
     IsDestFileOpen  =false;
 
+    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+    #endif
+
     switch (ExportMode) {
         case EXPORTMODE_ADVANCED     :  setWindowTitle(QApplication::translate("DlgRenderVideo","Advanced render video"));                          break;
         case EXPORTMODE_SMARTPHONE   :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for mobil player and smartphone"));   break;

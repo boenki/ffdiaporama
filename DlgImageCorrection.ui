@@ -496,7 +496,7 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="4">
+     <item row="1" column="6">
       <widget class="QSlider" name="RedSlider">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -530,7 +530,7 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="5">
+     <item row="1" column="7">
       <widget class="QSpinBox" name="RedValue">
        <property name="toolTip">
         <string>Adjust red chanel</string>
@@ -546,7 +546,7 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="4">
+     <item row="3" column="6">
       <widget class="QSlider" name="GreenSlider">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -580,7 +580,7 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="5">
+     <item row="3" column="7">
       <widget class="QSpinBox" name="GreenValue">
        <property name="toolTip">
         <string>Adjust green chanel</string>
@@ -596,7 +596,7 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="4">
+     <item row="5" column="6">
       <widget class="QSlider" name="BlueSlider">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -630,7 +630,7 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="5">
+     <item row="5" column="7">
       <widget class="QSpinBox" name="BlueValue">
        <property name="toolTip">
         <string>Adjust blue chanel</string>
@@ -676,7 +676,7 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="3">
+     <item row="1" column="5">
       <widget class="QLabel" name="label_2">
        <property name="minimumSize">
         <size>
@@ -692,7 +692,7 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="3">
+     <item row="3" column="5">
       <widget class="QLabel" name="label_3">
        <property name="minimumSize">
         <size>
@@ -708,7 +708,7 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="3">
+     <item row="5" column="5">
       <widget class="QLabel" name="label_4">
        <property name="minimumSize">
         <size>
@@ -721,6 +721,109 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QToolButton" name="BrightnessResetBT">
+       <property name="toolTip">
+        <string>Reset to zero</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/undo.png</normaloff>img/undo.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3">
+      <widget class="QToolButton" name="ContrastResetBT">
+       <property name="toolTip">
+        <string>Reset to zero</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/undo.png</normaloff>img/undo.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="3">
+      <widget class="QToolButton" name="GammaResetBT">
+       <property name="toolTip">
+        <string>Reset to zero</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/undo.png</normaloff>img/undo.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="8">
+      <widget class="QToolButton" name="RedResetBT">
+       <property name="toolTip">
+        <string>Reset to zero</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/undo.png</normaloff>img/undo.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="8">
+      <widget class="QToolButton" name="GreenResetBT">
+       <property name="toolTip">
+        <string>Reset to zero</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/undo.png</normaloff>img/undo.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="8">
+      <widget class="QToolButton" name="BlueResetBT">
+       <property name="toolTip">
+        <string>Reset to zero</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/undo.png</normaloff>img/undo.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLabel" name="label_11">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>20</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string notr="true"/>
        </property>
       </widget>
      </item>
@@ -831,16 +934,22 @@
   <tabstop>RotateRightBT</tabstop>
   <tabstop>BrightnessSlider</tabstop>
   <tabstop>BrightnessValue</tabstop>
+  <tabstop>BrightnessResetBT</tabstop>
   <tabstop>ContrastSlider</tabstop>
   <tabstop>ContrastValue</tabstop>
+  <tabstop>ContrastResetBT</tabstop>
   <tabstop>GammaSlider</tabstop>
   <tabstop>GammaValue</tabstop>
+  <tabstop>GammaResetBT</tabstop>
   <tabstop>RedSlider</tabstop>
   <tabstop>RedValue</tabstop>
+  <tabstop>RedResetBT</tabstop>
   <tabstop>GreenSlider</tabstop>
   <tabstop>GreenValue</tabstop>
+  <tabstop>GreenResetBT</tabstop>
   <tabstop>BlueSlider</tabstop>
   <tabstop>BlueValue</tabstop>
+  <tabstop>BlueResetBT</tabstop>
   <tabstop>MagneticEdgeBt</tabstop>
   <tabstop>OKBT</tabstop>
   <tabstop>CloseBT</tabstop>

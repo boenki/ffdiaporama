@@ -19,7 +19,6 @@
    ====================================================================== */
 
 #include "cCustomGraphicsRectItem.h"
-#include "wgt_QCompositionWidget.h"
 #include "DlgSlideProperties.h"
 #include "DlgImageCorrection.h"
 
@@ -946,7 +945,6 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
 void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
     RecalcEmbededResizeRectItem();
     switch (ParentWidgetType) {
-        case TYPE_wgt_QCompositionWidget:   ((wgt_QCompositionWidget *)ParentWidget)->StartRefreshControls();   break;
         case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->RefreshSceneImage();          break;
         case TYPE_DlgImageCorrection:       ((DlgImageCorrection *)ParentWidget)->RefreshControls();            break;
     }
