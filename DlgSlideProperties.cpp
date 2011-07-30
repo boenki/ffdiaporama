@@ -364,7 +364,7 @@ void DlgSlideProperties::RefreshControls() {
         if (Duration<TotalDuration) AddingDuration=TotalDuration-Duration;
     }
     if (AddingDuration==0) ui->MinShotDurationLabel->setText("");
-        else ui->MinShotDurationLabel->setText(QString(QApplication::translate("DlgImageProperties","Lengthened to %1 sec")).arg(double(DiaporamaObject->List[CurrentShot].StaticDuration+AddingDuration)/1000));
+        else ui->MinShotDurationLabel->setText(QString(QApplication::translate("DlgSlideProperties","Lengthened to %1 sec")).arg(double(DiaporamaObject->List[CurrentShot].StaticDuration+AddingDuration)/1000));
 
     //====================================================================================================================
 

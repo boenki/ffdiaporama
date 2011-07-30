@@ -56,7 +56,7 @@ public:
 
     int                 ActualPosition;         // Current position (in msec)
     QTime               tDuration;              // Duration of the video
-    double              WantedFPS;              // Wanted FPS for the DlgVideoDialogBox mode
+    double              WantedFPS;
 
     cImageList          ImageList;              // Collection of bufered image
 
@@ -83,8 +83,8 @@ public:
     explicit wgt_QVideoPlayer(QWidget *parent = 0);
     ~wgt_QVideoPlayer();
 
-    bool    StartPlay(cvideofilewrapper *FileInfo,double WantedFPS);    // Start player in DlgVideoDialogBox mode
-    bool    InitDiaporamaPlay(cDiaporama *Diaporama);                   // Start player in preview mode
+    bool    StartPlay(cvideofilewrapper *FileInfo,double WantedFPS);         // Start player in DlgVideoDialogBox mode
+    bool    InitDiaporamaPlay(cDiaporama *Diaporama);       // Start player in preview mode
 
     void    SetStartEndPos(int StartPos,int Duration,int PreviousStartPos,int PrevisousEndPos,int NextStartPos,int NextEndPos);
     void    SeekPlayer(int Value);

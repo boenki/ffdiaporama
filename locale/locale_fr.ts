@@ -688,7 +688,7 @@ Transition de type fondu enchaîné</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1837"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Annulé</translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.cpp" line="306"/>
@@ -771,7 +771,7 @@ Transition de type fondu enchaîné</translation>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="636"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Annulé</translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="647"/>
@@ -970,7 +970,7 @@ Transition de type fondu enchaîné</translation>
     <message>
         <location filename="../DlgImageCorrection.ui" line="897"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Annulé</translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="908"/>
@@ -981,14 +981,6 @@ Transition de type fondu enchaîné</translation>
         <location filename="../DlgImageCorrection.ui" line="911"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
-    </message>
-</context>
-<context>
-    <name>DlgImageProperties</name>
-    <message>
-        <location filename="../DlgSlideProperties.cpp" line="367"/>
-        <source>Lengthened to %1 sec</source>
-        <translation>Allongée à %1 sec</translation>
     </message>
 </context>
 <context>
@@ -1133,7 +1125,7 @@ Déplace le fichier actuellement sélectionné dans la liste d&apos;un cran vers
     <message>
         <location filename="../DlgMusicProperties.ui" line="409"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Annulé</translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="420"/>
@@ -1391,7 +1383,7 @@ Déplace le fichier actuellement sélectionné dans la liste d&apos;un cran vers
     <message>
         <location filename="../DlgRenderVideo.ui" line="778"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Annulé</translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="38"/>
@@ -1995,7 +1987,7 @@ Voulez-vous l&apos;écraser ?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3142"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Annulé</translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3153"/>
@@ -2076,6 +2068,11 @@ Voulez-vous l&apos;écraser ?</translation>
         <location filename="../DlgSlideProperties.cpp" line="113"/>
         <source>Custom geometry</source>
         <translation>Géométrie libre</translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.cpp" line="367"/>
+        <source>Lengthened to %1 sec</source>
+        <translation>Allongée à %1 sec</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="448"/>
@@ -2435,7 +2432,7 @@ Voulez-vous l&apos;écraser ?</translation>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="287"/>
         <source>&amp;Cancel</source>
-        <translation>&amp;Annulé</translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="298"/>
@@ -3009,7 +3006,7 @@ Support</translation>
         <location filename="../_Diaporama.cpp" line="1174"/>
         <location filename="../_Diaporama.cpp" line="1181"/>
         <location filename="../_Diaporama.cpp" line="1190"/>
-        <location filename="../mainwindow.cpp" line="1085"/>
+        <location filename="../mainwindow.cpp" line="1087"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erreur</translation>
@@ -3183,19 +3180,19 @@ La géométrie d&apos;image de ce fichier ne correspond pas à celle du projet e
         <translation>Une nouvelle version de ffDiaporama est disponible sur le site WEB. SVP, faites la mise à jours depuis http://ffdiaporama.tuxfamily.org !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1144"/>
+        <location filename="../mainwindow.cpp" line="1146"/>
         <source>Remove slide</source>
         <translation>Supprimer une diapositive</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1144"/>
+        <location filename="../mainwindow.cpp" line="1146"/>
         <source>Are you sure to want to delete this slide?</source>
         <translation>Etes-vous sure de vouloir supprimer cette diapositive ?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="309"/>
-        <location filename="../mainwindow.cpp" line="723"/>
-        <location filename="../mainwindow.cpp" line="773"/>
+        <location filename="../mainwindow.cpp" line="725"/>
+        <location filename="../mainwindow.cpp" line="775"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>Le projet en cours a été modifié.
@@ -3223,34 +3220,34 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>Désolé, cette fonction n&apos;est pas encore disponible !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="723"/>
+        <location filename="../mainwindow.cpp" line="725"/>
         <source>New project</source>
         <translation>Nouveau projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="773"/>
-        <location filename="../mainwindow.cpp" line="777"/>
+        <location filename="../mainwindow.cpp" line="775"/>
+        <location filename="../mainwindow.cpp" line="779"/>
         <source>Open project</source>
         <translation>Ouvrir un projet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="849"/>
+        <location filename="../mainwindow.cpp" line="851"/>
         <source>Save project as</source>
         <translation>Enregistrer le projet sous</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="915"/>
+        <location filename="../mainwindow.cpp" line="917"/>
         <source>Add files</source>
         <translation>Ajouter des fichiers</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1085"/>
+        <location filename="../mainwindow.cpp" line="1087"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Format non supporté</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1108"/>
+        <location filename="../mainwindow.cpp" line="1110"/>
         <source>Add a sub project</source>
         <translation>Ajouter un projet</translation>
     </message>
@@ -3267,21 +3264,21 @@ Voulez-vous l&apos;enregistrer ?</translation>
     <message>
         <location filename="../_Diaporama.cpp" line="1076"/>
         <location filename="../_ImageFileWrapper.cpp" line="77"/>
-        <location filename="../_VideoFileWrapper.cpp" line="575"/>
+        <location filename="../_VideoFileWrapper.cpp" line="587"/>
         <source>Impossible to open file </source>
         <translation>Impossible d&apos;ouvrir le fichier image </translation>
     </message>
     <message>
         <location filename="../_Diaporama.cpp" line="1076"/>
         <location filename="../_ImageFileWrapper.cpp" line="77"/>
-        <location filename="../_VideoFileWrapper.cpp" line="575"/>
+        <location filename="../_VideoFileWrapper.cpp" line="587"/>
         <source>Do you want to select another file ?</source>
         <translation>Voulez vous sélectionner un autre fichier ?</translation>
     </message>
     <message>
         <location filename="../_Diaporama.cpp" line="1079"/>
         <location filename="../_ImageFileWrapper.cpp" line="80"/>
-        <location filename="../_VideoFileWrapper.cpp" line="578"/>
+        <location filename="../_VideoFileWrapper.cpp" line="590"/>
         <source>Select another file for </source>
         <translation>Sélectionner un fichier de remplacement pour </translation>
     </message>
@@ -3297,7 +3294,7 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>Chargement du fichier :</translation>
     </message>
     <message>
-        <location filename="../_VideoFileWrapper.cpp" line="574"/>
+        <location filename="../_VideoFileWrapper.cpp" line="586"/>
         <source>Open video file</source>
         <translation>Ouvrir un fichier vidéo</translation>
     </message>
@@ -3343,7 +3340,7 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <location filename="../wgt_QVideoPlayer.ui" line="101"/>
         <source>Click to start play, click again to pause the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Cliquer pour commencer la lecteur, cliquer à nouveau pour passer la lecture en pause</translation>
+        <translation>Cliquer pour commencer la lecture, cliquer à nouveau pour passer la lecture en pause</translation>
     </message>
 </context>
 </TS>

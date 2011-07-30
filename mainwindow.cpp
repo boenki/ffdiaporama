@@ -708,6 +708,8 @@ void MainWindow::s_ChangeApplicationSettings() {
     ui->preview->SetPlayerToPause();                            // Ensure player is stop
     ui->preview2->SetPlayerToPause(); // Ensure player is stop
     DlgApplicationSettings(*ApplicationConfig,this).exec();
+    ui->preview->WantedFPS=ApplicationConfig->PreviewFPS;
+    ui->preview2->WantedFPS=ApplicationConfig->PreviewFPS;
     SDLSetFPS(ApplicationConfig->PreviewFPS);                   // Reinit SDL if Preview FPS has changed
 }
 
