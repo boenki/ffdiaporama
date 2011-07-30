@@ -2106,7 +2106,10 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     TransitObject_FreeMusicTrack        =true;              // True if allow to delete TransitObject_MusicTrack during destructor
     TransitObject_MusicObject           =NULL;              // Ref to the current playing music
 
-    if (Diaporama) {
+    if (!Diaporama) {
+        CurrentObject_InObjectTime=TimePosition;
+        TransitObject_InObjectTime=TimePosition;
+    } else {
         //==============> Retrieve object informations depending on position (in msec)
         // Search wich object for given time position
         while ((CurrentObject_Number<Diaporama->List.count())&&

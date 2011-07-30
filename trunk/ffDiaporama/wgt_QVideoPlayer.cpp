@@ -80,13 +80,14 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     FLAGSTOPITEMSELECTION   = NULL;
     FileInfo                = NULL;
     Diaporama               = NULL;
+    WantedFPS               = 12.5;
     IsValide                = false;
     Flag_InTimer            = false;
     IsInit                  = false;
 
     DisplayMSec             = true;                                 // add msec to display
-    IconPlay                = QIcon(ICON_PLAYERPLAY);
-    IconPause               = QIcon(ICON_PLAYERPAUSE);
+    IconPause               = QIcon(ICON_PLAYERPLAY);
+    IconPlay                = QIcon(ICON_PLAYERPAUSE);
     PlayerPlayMode          = false;                                // Is player currently play mode
     PlayerPauseMode         = false;                                // Is player currently plause mode
     IsSliderProcess         = false;
@@ -209,6 +210,7 @@ void wgt_QVideoPlayer::EnableWidget(bool State) {
 bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
     if (Diaporama==NULL) return false;
     this->Diaporama     =Diaporama;
+    WantedFPS           =Diaporama->ApplicationConfig->PreviewFPS;
     ImageList.Diaporama =Diaporama;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -224,10 +226,10 @@ bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
 // Init a video show
 //============================================================================================
 
-bool wgt_QVideoPlayer::StartPlay(cvideofilewrapper *FileInfo,double WantedFPS) {
-    if (FileInfo==NULL) return false;
-    this->FileInfo =FileInfo;
-    this->WantedFPS=WantedFPS;
+bool wgt_QVideoPlayer::StartPlay(cvideofilewrapper *theFileInfo,double theWantedFPS) {
+    if (theFileInfo==NULL) return false;
+    FileInfo =theFileInfo;
+    WantedFPS=theWantedFPS;
     IsValide=true;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -252,7 +254,7 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
 
     // Start timer
     TimerTick=true;
-    Timer.start(int((double((uint64_t)AV_TIME_BASE)/double(FileInfo?WantedFPS:Diaporama->ApplicationConfig->PreviewFPS))/1000)/2);   // Start Timer*2 emulating FPS
+    Timer.start(int((double((uint64_t)AV_TIME_BASE)/WantedFPS)/1000)/2);   // Start Timer*2 emulating FPS
 }
 
 //============================================================================================
@@ -280,7 +282,7 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
 
 void wgt_QVideoPlayer::s_VideoPlayerPlayPauseBT() {
     if ((!PlayerPlayMode)||((PlayerPlayMode && PlayerPauseMode)))    SetPlayerToPlay();      // Stop/Pause -> play
-        else if (PlayerPlayMode && !PlayerPauseMode)                  SetPlayerToPause();     // Pause -> play
+        else if (PlayerPlayMode && !PlayerPauseMode)                 SetPlayerToPause();     // Pause -> play
 }
 
 //============================================================================================
@@ -311,17 +313,16 @@ void wgt_QVideoPlayer::s_SliderReleased() {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_SliderMoved(int Value) {
-    if (ActualPosition==Value) return;  // If no change !
-    ui->CustomRuller->Slider->setValue(Value);
-    ActualPosition=Value;
-    // Update display in controls
-    ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
-    ui->Duration->setText(tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
 
     //***********************************************************************
     // If playing
     //***********************************************************************
     if (PlayerPlayMode && !PlayerPauseMode) {
+        ui->CustomRuller->Slider->setValue(Value);
+        ActualPosition=Value;
+        // Update display in controls
+        ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
+        ui->Duration->setText(tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
         if (((FileInfo)&&(ActualPosition>=QTime(0,0,0,0).msecsTo(tDuration)))||((Diaporama)&&(Value>=Diaporama->GetDuration()))) {
             SetPlayerToPause();    // Stop sound if it's the end
         } else {
@@ -365,6 +366,12 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
     // If moving by user
     //***********************************************************************
     } else {
+        if (ActualPosition==Value) return;  // If no change !
+        ui->CustomRuller->Slider->setValue(Value);
+        ActualPosition=Value;
+        // Update display in controls
+        ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
+        ui->Duration->setText(tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
 
         // Free sound buffers
         SDL_LockAudio();                                // Ensure callback will not be call now
@@ -384,7 +391,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
         } else if (Diaporama) {
             // Create a frame from actual position
-            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Value,Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
+            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Value,Diaporama,double(1000)/WantedFPS);
             PrepareImage(Frame,false,true);          // This will add frame to the ImageList
             Frame=ImageList.DetachFirstImage(); // Then detach frame from the ImageList
             ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));  // Display frame
@@ -427,6 +434,9 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
     int LastPosition=0;
 
+    if (FileInfo) LastPosition=(PreviousFrame==NULL)?ActualPosition:PreviousFrame->CurrentObject_InObjectTime;
+        else if (Diaporama) LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
+
     // if TimerTick update the preview
     if ((TimerTick)&&(ui->CustomRuller->Slider!=NULL)) {
         ui->BufferState->setValue(ImageList.List.count());
@@ -444,30 +454,33 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         // If no image in the list then create one
         if (ImageList.List.count()==0) {
             if (FileInfo) {
+
                 // Prepare a first frame
                 LastPosition=(PreviousFrame==NULL)?ActualPosition:PreviousFrame->CurrentObject_InObjectTime;
-                cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
+                cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),NULL,int(double(1000)/WantedFPS));
                 NewFrame->CurrentObject_StartTime   =0;
-                NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
-                PrepareVideoFrame(NewFrame,LastPosition);
+                //NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
+                PrepareVideoFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
                 // Prepare a second frame
                 QApplication::processEvents();
                 PreviousFrame=NewFrame;
                 LastPosition=PreviousFrame->CurrentObject_InObjectTime;
-                NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
+                NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),NULL,int(double(1000)/WantedFPS));
                 NewFrame->CurrentObject_StartTime   =0;
-                NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
-                PrepareVideoFrame(NewFrame,LastPosition);
+                //NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
+                PrepareVideoFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
+
             } else {
+
                 // Prepare a first frame
                 LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
-                cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
+                cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),Diaporama,double(1000)/WantedFPS);
                 PrepareImage(NewFrame,true,true);
                 // Prepare a second frame
                 QApplication::processEvents();
                 PreviousFrame=NewFrame;
                 LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
-                NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
+                NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),Diaporama,double(1000)/WantedFPS);
                 PrepareImage(NewFrame,true,true);
             }
         }
@@ -479,17 +492,17 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     if ((FileInfo)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareVideo.isRunning())) {
 
         LastPosition=(PreviousFrame==NULL)?ActualPosition:PreviousFrame->CurrentObject_InObjectTime;
-        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,0,NULL,0);
+        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),NULL,int(double(1000)/WantedFPS));
         NewFrame->CurrentObject_StartTime   =0;
-        NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
-        ThreadPrepareVideo.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,LastPosition));
+        //NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
+        ThreadPrepareVideo.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,NewFrame->CurrentObject_InObjectTime));
 
     } else if (((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
 
         QApplication::processEvents();
         PreviousFrame=ImageList.GetLastImage();
         LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
-        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/Diaporama->ApplicationConfig->PreviewFPS),Diaporama,double(1000)/Diaporama->ApplicationConfig->PreviewFPS);
+        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),Diaporama,double(1000)/WantedFPS);
         ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true,true));
 
     }
@@ -507,21 +520,21 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
         // Ensure MusicTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
             Frame->CurrentObject_MusicTrack=new cSoundBlockList();
-            Frame->CurrentObject_MusicTrack->SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
+            Frame->CurrentObject_MusicTrack->SetFPS(WantedFPS);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
             Frame->TransitObject_MusicTrack=new cSoundBlockList();
-            Frame->TransitObject_MusicTrack->SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
+            Frame->TransitObject_MusicTrack->SetFPS(WantedFPS);
         }
 
         // Ensure SoundTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
             Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
-            Frame->CurrentObject_SoundTrackMontage->SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
+            Frame->CurrentObject_SoundTrackMontage->SetFPS(WantedFPS);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
             Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
-            Frame->TransitObject_SoundTrackMontage->SetFPS(Diaporama->ApplicationConfig->PreviewFPS);
+            Frame->TransitObject_SoundTrackMontage->SetFPS(WantedFPS);
         }
     }
 

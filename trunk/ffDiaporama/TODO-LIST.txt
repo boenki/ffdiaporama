@@ -1,7 +1,7 @@
 Buggs/TODO (Dernier SVN le 27/07/2011) :
 ----------------------------------------
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
-BUGG: Problème de lecture avec des fichiers .ogg
+BUGG: Problème de lecture avec des fichiers .ogg : la boucle cvideofilewrapper::ReadAudioFrame est à revoir completement
 
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 
@@ -26,13 +26,12 @@ Evolutions fonctionnelles
 
 
 Evolutions ergonomiques :
-    A intégrer ASAP :
+    A intégrer dans la prochaine version :
         Avoir aussi la possibilité de faire une muti-sélection quand on veux insérer des images dans un plan (actuellement on a pas cette possibilié)
         Double click sur un bloc dans la boite slide => ouvre texte, recadrage ou edit video selon le type de bloc
         Ajouter une option "same as precedente" pour les 3 parties objet / bloc et coordonnées de sorte à ce que les modifs (dans une des 3 catégories) se répercutent dans les plans suivant.
-
-    A intégrer dans la prochaine version :
         Ajouter la possibilité de pouvoir exporter son projet (par exemple un bouton exporter pour réunir  tous les fichiers du projet dans un dossier ou au  format zip)
+        Cadre Texte, quand on fait une inclusion de texte : clique sur le cadre de "Texte" -> ouvrir directement les propriétés permettant de modifier le texte
 
     A réfléchir pour la prochaine version (est-ce que ça a vraiment un intéret et est-ce faisable ?) :
         Gestion de style pour les blocs textes ?
@@ -52,36 +51,13 @@ Evolutions diverses
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
+    Corrige le bug du player de la boite edit vidéo qui s'arretait toute seule de façon aléatoire
+    Remplace les « annulé » par « annuler »
+    Inverse les icônes play/pause dans le lecteur
 
 Changement de comportement :
 
 -------------------------------------
-Changelog depuis la version 20110720
+Changelog depuis la version 20110727
 -------------------------------------
 
-Fait le ménage dans les fichiers sources en réintégrant les custombackground et custombrush dans la boite background
-
-Ajout de 2 nouveaux équipements dans la base : PS3 et XBox360
-Ajout de 4 nouvelles transitions dans la famille "Pousseur"
-
-Correction de bug :
-    Resoud une crash dans la boite de configuration (dépassement de tableau)
-    Resoud le problème des boutons de la fenêtre principal qui reste enfoncés [Windows]
-    Corrige l'erreur d'affichage de la durée de transition quand la transition est "pas de transition"
-    Corrige les problèmes de sélection d'objet (qui n'était pas toujours correct quand présence de "pas de transition")
-    Corrige l'erreur d'affichage du cadre de sélection qui ne s'effacait pas toujours dans la timeline (ou refusait parfois de s'afficher)
-    Rend inactif les 2 boutons de zoom quand la timeline est vide
-
-Changement de comportement :
-    Supprime toute référence à SSE2 => l'accélération matérielle SSE2 n'est plus désactivable
-    Fusionne les 3 lignes de la timeline en 1 seule afin  que les thumbnails des slides deviennent mono-cellulaire
-        -> pré-requis au drag&drop et mode partition
-        -> conséquence : supprime la tête de ligne et les icônes associées
-    Création du mode Partition/Trieur dans la fenètre principale
-    Ajout du drag & drop pour trier les diapo dans les 2 modes preview & partition
-    Ajout des scrollings quand le drag & drop sort de la timeline
-    Ajout de boutons de reset sur les zones d'édition de la boite de recadrage
-    Supprime les 2 boutons à gauche & à droite rendus inutiles par l'ajout du drag & drop
-    Supprime l'onglet de composition de la boite de fond d'écran (qui de toute façon de fonctionnait pas !)
-    Ajoute le type de fond : image disque
-    Ajoute le bouton pour maximiser la fenêtre dans toutes les boites de dialogues [Windows]

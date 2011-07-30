@@ -133,7 +133,7 @@ void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackB
 
     // Prepare a buffer for sound decoding
     if (SoundTrackBloc!=NULL) {
-        BufferToDecode      =(uint8_t *)av_malloc((AVCODEC_MAX_AUDIO_FRAME_SIZE*3)/2);
+        BufferToDecode      =(uint8_t *)av_malloc(48000*4*2);   // 2 sec buffer
         BufferForDecoded    =(uint8_t *)av_malloc(MaxAudioLenDecoded);
     }
     // Calc if we need to seek to a position
@@ -166,6 +166,17 @@ void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackB
         StreamPacket=new AVPacket();
         av_init_packet(StreamPacket);
         StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
+
+/*
+
+  Ce bout de code est à revoir car avec les fichiers vorbis, duration est toujours egale à 0 et de très nombreux paquets ne fournissent ni pts, ni dts
+  dans ce cas avcodec_decode_audio3 doit être utilisé pour lire ces paquets et les inclure dans le buffer de décodage mais la boucle ne doit pas tenir
+  compte des fausses info pour s'arreter !
+
+  => la boucle est à revoir completement
+
+*/
+
 
         if (av_read_frame(ffmpegAudioFile,StreamPacket)==0) {
 
@@ -563,6 +574,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
     CreatDateTime=QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
     ModifDateTime=QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
     Duration     =QTime(0,0,0,0);
+    CodecUsePTS =false;
 
     //====================================================================================================================
     // Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
@@ -615,9 +627,11 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
 
     // Setup STREAM options
     ffmpegAudioFile->streams[AudioStreamNumber]->discard=AVDISCARD_DEFAULT;
+    ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
 
     // Find the decoder for the audio stream and open it
     AudioDecoderCodec=avcodec_find_decoder(ffmpegAudioFile->streams[AudioStreamNumber]->codec->codec_id);
+    if (strcmp(AudioDecoderCodec->name,"vorbis")==0) AudioDecoderCodec=avcodec_find_decoder_by_name("libvorbis");
 
     // Setup decoder options
     ffmpegAudioFile->streams[AudioStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
