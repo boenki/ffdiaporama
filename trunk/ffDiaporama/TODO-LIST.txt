@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 27/07/2011) :
+Buggs/TODO (Dernier SVN le 30/07/2011) :
 ----------------------------------------
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
 BUGG: Problème de lecture avec des fichiers .ogg : la boucle cvideofilewrapper::ReadAudioFrame est à revoir completement
@@ -27,6 +27,7 @@ Evolutions fonctionnelles
 
 Evolutions ergonomiques :
     A intégrer dans la prochaine version :
+        Avoir la possibilité d'ajouter des photos/vidéos par drag&drop depuis l'exterieur de l'appli.
         Avoir aussi la possibilité de faire une muti-sélection quand on veux insérer des images dans un plan (actuellement on a pas cette possibilié)
         Double click sur un bloc dans la boite slide => ouvre texte, recadrage ou edit video selon le type de bloc
         Ajouter une option "same as precedente" pour les 3 parties objet / bloc et coordonnées de sorte à ce que les modifs (dans une des 3 catégories) se répercutent dans les plans suivant.
@@ -51,13 +52,15 @@ Evolutions diverses
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
-    Corrige le bug du player de la boite edit vidéo qui s'arretait toute seule de façon aléatoire
-    Remplace les « annulé » par « annuler »
-    Inverse les icônes play/pause dans le lecteur
+    Remet les bons intitulés pour les boutons augmenter/reduire la taille des vignettes et les boutons de mode
+    Remet les boutons de génération de vidéo dans le même ordre en mode partition qu'en mode preview
 
 Changement de comportement :
 
 -------------------------------------
 Changelog depuis la version 20110727
 -------------------------------------
-
+Correction de bug :
+    Corrige le bug du player de la boite édit vidéo qui s'arrétait toute seule de façon aléatoire
+    Remplace les « annulé » par « annuler »
+    Inverse les icônes play/pause dans le lecteur
