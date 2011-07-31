@@ -107,7 +107,7 @@ QToolButton:pressed {
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="TabFile">
          <property name="font">
@@ -2043,6 +2043,51 @@ project</string>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_11">
            <item>
+            <widget class="QToolButton" name="ActionSmartphone_BT_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>64</width>
+               <height>56</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>56</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Player and
+smartphone</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/Smartphone.png</normaloff>img/Smartphone.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextUnderIcon</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QToolButton" name="ActionMultimedia_BT_2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2114,51 +2159,6 @@ WEB</string>
              <property name="icon">
               <iconset>
                <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextUnderIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="ActionSmartphone_BT_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>64</width>
-               <height>56</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>56</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Player and
-smartphone</string>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>img/Smartphone.png</normaloff>img/Smartphone.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2607,7 +2607,7 @@ and help</string>
          </size>
         </property>
         <property name="toolTip">
-         <string>Switch display to sheet mode</string>
+         <string>Switch display to preview mode</string>
         </property>
         <property name="styleSheet">
          <string notr="true"> QToolButton {
@@ -2647,7 +2647,7 @@ and help</string>
          </size>
         </property>
         <property name="toolTip">
-         <string>Switch display to preview mode</string>
+         <string>Switch display to sheet mode</string>
         </property>
         <property name="styleSheet">
          <string notr="true"> QToolButton {
@@ -2687,7 +2687,7 @@ and help</string>
          </size>
         </property>
         <property name="toolTip">
-         <string>Reduce thumbnails</string>
+         <string>Enlarge thumbnails</string>
         </property>
         <property name="styleSheet">
          <string notr="true"> QToolButton {
@@ -2727,7 +2727,7 @@ and help</string>
          </size>
         </property>
         <property name="toolTip">
-         <string>Enlarge thumbnails</string>
+         <string>Reduce thumbnails</string>
         </property>
         <property name="styleSheet">
          <string notr="true"> QToolButton {
