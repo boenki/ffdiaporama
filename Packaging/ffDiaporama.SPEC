@@ -77,6 +77,7 @@ make install INSTALL_ROOT=$RPM_BUILD_ROOT
 
 %files
 %doc %{_datadir}/ffDiaporama/licences.txt
+%doc %{_datadir}/ffDiaporama/authors.txt
 %{_datadir}/%{name}/
 %{_bindir}/%{name}
 %{_datadir}/applications/ffDiaporama.desktop

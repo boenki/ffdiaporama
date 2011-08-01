@@ -1,8 +1,6 @@
-Buggs/TODO (Dernier SVN le 30/07/2011) :
+Buggs/TODO (Dernier SVN le 31/07/2011) :
 ----------------------------------------
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
-BUGG: Problème de lecture avec des fichiers .ogg : la boucle cvideofilewrapper::ReadAudioFrame est à revoir completement
-
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 
 Evolutions fonctionnelles
@@ -52,8 +50,8 @@ Evolutions diverses
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
-    Remet les bons intitulés pour les boutons augmenter/reduire la taille des vignettes et les boutons de mode
-    Remet les boutons de génération de vidéo dans le même ordre en mode partition qu'en mode preview
+    Corrige le problème de lecture de certains fichiers .ogg
+    Ajout du fichier authors.txt
 
 Changement de comportement :
 
@@ -61,6 +59,9 @@ Changement de comportement :
 Changelog depuis la version 20110727
 -------------------------------------
 Correction de bug :
-    Corrige le bug du player de la boite édit vidéo qui s'arrétait toute seule de façon aléatoire
+    Corrige le bug du player de la boite édit vidéo qui s'arrétait tout seul de façon aléatoire
     Remplace les « annulé » par « annuler »
     Inverse les icônes play/pause dans le lecteur
+    Remet les bons intitulés pour les boutons augmenter/reduire la taille des vignettes et les boutons de mode
+    Remet les boutons de génération de vidéo dans le même ordre en mode partition qu'en mode preview
+    4 pages anglaises corrigées par Hazel

@@ -103,7 +103,6 @@ FORMS    += mainwindow.ui \
 OTHER_FILES += \
     ffDiaporama.xml \
     TODO-LIST.txt \
-    licences.txt \
     licences.rtf \
     ffDiaporama.rc \
     BUILDVERSION.txt \
@@ -125,7 +124,9 @@ OTHER_FILES += \
     Packaging/debian/compat \
     Packaging/debian/changelog \
     Packaging/debian/source/format \
-    libx264-pq.ffpreset
+    libx264-pq.ffpreset \
+    ../licences.txt \
+    ../authors.txt
 
 TRANSLATIONS += locale/locale_fr.ts
 
@@ -168,7 +169,7 @@ unix {
     wiki_fr_img.path    = $$PREFIX/share/$$TARGETAPP/WIKI/fr/img
     wiki_fr_img.files   = WIKI/fr/img/*.*
     General.path        = $$PREFIX/share/$$TARGETAPP
-    General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt libx264-hq.ffpreset libx264-pq.ffpreset
+    General.files       = ffDiaporama.xml BUILDVERSION.txt ../licence.rtf ../licences.txt ../authors.txt libx264-hq.ffpreset libx264-pq.ffpreset
     desktop.path        = $$PREFIX/share/applications
     desktop.files       = ffDiaporama.desktop
     mimefile.path       = $$PREFIX/share/mime/packages
