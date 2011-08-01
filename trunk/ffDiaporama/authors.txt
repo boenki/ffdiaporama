@@ -1,0 +1,11 @@
+(C) 2011 Dominique LEVRAY <levray.dominique@bbox.fr>
+
+Tests and ideas :
+    Serge ESTAY             <http://serge.estay.perso.neuf.fr/ffDiaporama/co/siteWeb.html>
+    Marie-Noëlle Augendre   <http://www.marie-noelle-augendre.com/>
+
+Logo & icons :
+    Zouly                   <http://www.customxp.net/PngFactory/galerie-png-24105-Zouly.html>
+
+English help files correction :
+    Hazel                   <http://www.linuxforums.org/forum/members/hazel.html>
