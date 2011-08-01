@@ -35,6 +35,7 @@ class cvideofilewrapper {
 public:
     bool                    IsValide;                   // if true then object if fuly initialise
     bool                    MusicOnly;                  // True if object is a music only file
+    bool                    IsVorbis;                   // True if vorbis version must be use instead of MP3/WAV version
     QString                 FileName;                   // filename
     QTime                   StartPos;                   // Start position
     QTime                   EndPos;                     // End position
@@ -84,7 +85,8 @@ public:
 private:
     void        CloseVideoFileReader();
     QImage      *ReadVideoFrame(int Position,bool DontUseEndPos);
-    void        ReadAudioFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);
+    void        ReadAudioFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
+    void        ReadVorbisFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);     // VORBIS
     QImage      *YUVStreamToQImage(double dPosition,bool GetFirstValide);
 };
 
