@@ -12,15 +12,15 @@ Package: ffdiaporama
 #Template: po/templates
 #Type: text
 Description: FFDIAPORAMA - Movie creator
-ffDiaporama is an application for assembling photos and videos especially
-for preserving holiday memories. It is inspired by presentation software
-such as Impress or Powerpoint. It can read all image formats, a majority
-of cameras and camcorder video formats, and the most commonly used music
-formats. It includes 140 transitions and a device database for the
-generation of videos with more than 50 models of video viewing devices
-(including smartphones, tablets, and home cinema systems).
-.
-ffDiaporama can manage several hundreds of slides.
-Every slide can contain several tens of shots and several tens of blocks.
-Every shot contains its own block settings.
-The application calculates all the shot transformations.
+  ffDiaporama is an application for assembling photos and videos especially
+  for preserving holiday memories. It is inspired by presentation software
+  such as Impress or Powerpoint. It can read all image formats, a majority
+  of cameras and camcorder video formats, and the most commonly used music
+  formats. It includes 140 transitions and a device database for the
+  generation of videos with more than 50 models of video viewing devices
+  (including smartphones, tablets, and home cinema systems).
+  .
+  ffDiaporama can manage several hundreds of slides.
+  Every slide can contain several tens of shots and several tens of blocks.
+  Every shot contains its own block settings.
+  The application calculates all the shot transformations.
