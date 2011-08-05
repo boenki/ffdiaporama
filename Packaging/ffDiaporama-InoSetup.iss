@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ffDiaporama"
-#define MyAppVersion "1.0.beta.1"
+#define MyAppVersion "1.0.beta.2"
 #define MyAppPublisher "The ffDiaporama Team"
 #define MyAppURL "http://ffdiaporama.tuxfamily.org"
 #define MyAppExeName "ffDiaporama.exe"
@@ -34,8 +34,8 @@ VersionInfoProductName={#MyAppName}
 VersionInfoTextVersion={#MyAppName} {#MyAppVersion}
 VersionInfoCompany={#MyAppPublisher}
 ChangesAssociations=true
-VersionInfoVersion=0.99.4.1
-VersionInfoProductVersion=0.99.4.1
+VersionInfoVersion=0.99.4.2
+VersionInfoProductVersion=0.99.4.2
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -51,10 +51,22 @@ Source: C:\ffDiaporama\*; DestDir: {app}; Flags: ignoreversion recursesubdirs cr
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-;Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
+; NOTE: Ensure that you always include and set the WorkingDir.
+; Filename is the "Target" parameter in your properties
+; WorkingDir is the "Start In" parameter in your properties
+; This is where the current directory will be set in your program at start up. 
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}" 
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; WorkingDir: "{app}" 
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon; WorkingDir: "{app}" 
+
+[Registry] 
+; Associate a File Extension with ffDiaporama : Not workinbg : need a launcher
+;Root: HKCR; Subkey: ".ffd"; ValueType: string; ValueName: ""; ValueData: "ffDiaporama"; Flags: uninsdeletekey
+;Root: HKCR; Subkey: ".ffd"; ValueType: string; ValueName: "Content Type"; ValueData: "ffDiaporama"; Flags: uninsdeletekey
+;Root: HKCR; Subkey: "ffDiaporama"; ValueType: string; ValueName: ""; ValueData: "ffDiaporama"; Flags: uninsdeletekey
+;Root: HKCR; Subkey: "ffDiaporama\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\img\logo.ico"
+;Root: HKCR; Subkey: "ffDiaporama\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\ffDiaporama.exe"" ""%1""" 
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; WorkingDir: "{app}"; Flags: nowait postinstall skipifsilent
+ 

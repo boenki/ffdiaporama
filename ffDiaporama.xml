@@ -60,5 +60,7 @@
         <Device_51 ImageSize="7" DeviceIndex="51" DeviceName="WebM Version-HD1080p" FileFormat="6" Standard="0" DeviceType="3" VideoBitrate="6000000" VideoCodec="5" DeviceSubtype="2" AudioBitrate="128000" AudioCodec="4"/>
         <Device_52 ImageSize="7" DeviceIndex="52" DeviceName="PS3" FileFormat="4" Standard="0" DeviceType="2" VideoBitrate="8000000" VideoCodec="3" DeviceSubtype="3" AudioBitrate="160000" AudioCodec="2"/>
         <Device_53 ImageSize="7" DeviceIndex="53" DeviceName="XBox360" FileFormat="4" Standard="0" DeviceType="2" VideoBitrate="8000000" VideoCodec="3" DeviceSubtype="3" AudioBitrate="160000" AudioCodec="2"/>
+        <Device_54 ImageSize="6" DeviceIndex="54" DeviceName="Daily Motion" FileFormat="4" Standard="0" DeviceType="3" VideoBitrate="4000000" VideoCodec="3" DeviceSubtype="1" AudioBitrate="128000" AudioCodec="2"/>
+        <Device_55 ImageSize="6" DeviceIndex="55" DeviceName="Youtube" FileFormat="4" Standard="0" DeviceType="3" VideoBitrate="5000000" VideoCodec="2" DeviceSubtype="1" AudioBitrate="128000" AudioCodec="1"/>
     </RenderingDeviceModel>
 </Configuration>

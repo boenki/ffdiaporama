@@ -1,6 +1,6 @@
 Name:           ffDiaporama
 Version:        0.99.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        FFDIAPORAMA - Movie creator
 Summary(fr):    FFDIAPORAMA - Créateur de film
 License:        GPLv2
@@ -13,55 +13,35 @@ BuildRequires:  qt4-devel, qt-webkit-devel, ffmpeg-devel, SDL-devel, SDL_mixer-d
 Requires:       qt4, qt-webkit, SDL, SDL_mixer, ffmpeg, exiv2
 
 %description
-ffDiaporama is an application of creation of videos sequences established by
-titles, images, photos, movie clip and music.
+ffDiaporama is an application for assembling photos and videos especially
+for preserving holiday memories. It is inspired by presentation software
+such as Impress or Powerpoint. It can read all image formats, a majority
+of cameras and camcorder video formats, and the most commonly used music
+formats. It includes 140 transitions and a device database for the
+generation of videos with more than 50 models of video viewing devices
+(including smartphones, tablets, and home cinema systems).
 
-These sequences are assembled in slide show by means of transitions of
-sequence to produce complete videos
-
-Main features:
-* Refocused of images and photos and refocused and cutting of video clips
-* Note (addition of text) for images, photos, sequences and animations
-* Graphic filters on the images and the videos (passage in black and
-  white, dust removal, equalization of colors, etc.)
-* Creation of animation by zoom, rotation or Ken Burns Effect on part of
-  images or photos
-* Correction of the images and the videos during the animations
-  (luminosity, contrast, gamma, colors, etc.)
-* Transitions between sequence with definition of the transition type,
-  sequence by sequence.
-* Addition of a background sound (wav, mp3 or ogg) with customizable
-  effects of volume, fade in/out and passage in pause, sequence by
-  sequence.
-* Generation of usable videos by most of the current videos equipments
-  (DVD player/smartphone, multimedia box, hard drive, etc.) but also
-  publishable on the main video sharing Web sites (YouTube, Dailymotion,
-  etc.)
+ffDiaporama can manage several hundreds of slides.
+Every slide can contain several tens of shots and several tens of blocks.
+Every shot contains its own block settings.
+The application calculates all the shot transformations.
 
 %description -l fr
-ffDiaporama est une application de création de séquences vidéos constituées de
-titres, d'images ou de photographies, de clips vidéo et de musiques.
+ffDiaporama est un logiciel d'assemblage de photos et dee vidéos
+particulièrement conçu pour préserver ses souvenirs de vacances.
+Il s'inspire de logiciel de présentation tel que Impress ou Powerpoint.
+Il peut lire tous les formats d'image, la majorité des vidéos produites par
+les appareils photo et les caméscopes et les formats de musique les plus
+courants.
 
-Ces séquences sont assemblées en diaporama à l'aide de transitions de séquence
-pour constituer des vidéos complètes.
+Il inclut 140 transitions et une base de données de profils pour la
+génération des vidéos pour plus de 50 modèles (incluant des smartphones,
+des tablettes et des systèmes home cinema).
 
-Principales fonctionnalités :
-* Recadrage des images, photos, titres et vidéos et découpage des clips vidéos
-* Annotation (ajout de texte) des images, des photos, des vidéos et des
-  animations
-* Filtres graphiques sur les images et vidéos (passage en noir et blanc,
-  dépoussiérage, égalisation des couleurs, etc...)
-* Création d'animation par effet de zoom, de rotation, de déplacement sur des
-  portions d'images (effet Ken Burns)
-* Correction des images et des vidéos pendant les animations
-  (correction luminosité, contraste, gamma, couleurs, etc...)
-* Transitions entre séquences avec définition séquence par séquence.
-* Ajout de musique pendant le diaporama avec effets de volume, de fondu et
-  passage en pause paramétrables séquence par séquence.
-* Génération de vidéos exploitables par la plupart des équipements vidéos
-  (lecteurs de DVD de salon, disques durs multimédia, mobile/smartphone, etc.)
-  mais également diffusables sur les principaux sites WEB de partage vidéo
-  (Youtube, Dailymotion, etc.)
+FfDiaporama peut gérer plusieurs centaines de diapositives. Chaque diapositive
+peut contenir plusieurs dizaines de plans et plusieurs dizaines de blocs.
+Chaque plan contient ses propres paramètres de bloc.
+L'application calcule automatiquement toutes les transformations de plan.
 
 %prep
 %setup -q
@@ -104,5 +84,5 @@ update-desktop-database &> /dev/null || :
 
 %changelog
 
-* Wed Jul 27 2011 Dominique LEVRAY <levray.dominique@bbox.fr> 0.99.4-1%{?dist}
-- Release 20110727
+* Fri Aug 05 2011 Dominique LEVRAY <levray.dominique@bbox.fr> 0.99.4-2%{?dist}
+- Release 20110805
