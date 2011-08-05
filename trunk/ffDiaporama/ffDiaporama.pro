@@ -128,7 +128,13 @@ OTHER_FILES += \
     licences.rtf \
     authors.txt
 
-TRANSLATIONS += locale/locale_fr.ts
+TRANSLATIONS += locale/locale_fr.ts \
+    locale/locale_it.ts \
+    locale/locale_de.ts \
+    locale/locale_nl.ts \
+    locale/locale_es.ts \
+    locale/locale_pt.ts \
+    locale/locale_el.ts
 
 #install
 unix {

@@ -51,8 +51,9 @@ copy y:\ffDiaporama\ffDiaporama\libx264-hq.ffpreset
 copy y:\ffDiaporama\ffDiaporama\libx264-pq.ffpreset
 copy y:\ffDiaporama\fmt_filters.README
 copy y:\ffDiaporama\fmt_filters.VERSION
-copy y:\ffDiaporama\licence.rtf
-copy y:\ffDiaporama\licences.txt
+copy y:\ffDiaporama\ffDiaporama\licence.rtf
+copy y:\ffDiaporama\ffDiaporama\licences.txt
+copy y:\ffDiaporama\ffDiaporama\authors.txt
 md background
 xcopy /s /e Y:\ffDiaporama\ffDiaporama\background background
 md img
