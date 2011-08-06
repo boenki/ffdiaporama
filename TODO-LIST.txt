@@ -52,6 +52,8 @@ Changelog depuis le dernier SVN
 Correction de bug :
 
 Changement de comportement :
+    Optimisation des calculs : Réduction des temps de génération de 15% à 50% selon les objets multimédia
+    Nouvelles corrections de doc de Hazel
 
 -------------------------------------
 Changelog depuis la version 20110805
