@@ -1803,25 +1803,19 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
 
     } else {
 
-        QFutureWatcher<void>    PrepareCurrentMusicBloc;
-        QFutureWatcher<void>    PrepareTransitMusicBloc;
+        // if not PreviewMode then no need of music of sound
 
         // Load music bloc
-        if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)) {
-            //PrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
+        if ((PreviewMode || SoundOnly)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)) {
             PrepareMusicBloc(Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
         }
-        if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack)) {
-            //PrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
+        if ((PreviewMode || SoundOnly)&&(Info->TransitObject)&&(Info->TransitObject_MusicTrack)) {
             PrepareMusicBloc(Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
         }
         // Transition Object if a previous was not keep !
         if (Info->TransitObject) {
-            QFutureWatcher<void> ThreadPrepareImage;
-            //ThreadPrepareImage.setFuture(QtConcurrent::run(this,&cDiaporama::LoadTransitVideoImage,Info,PreviewMode,W,H,AddStartPos));
             LoadTransitVideoImage(Info,PreviewMode,W,H,AddStartPos);
             LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
-            //ThreadPrepareImage.waitForFinished();
         } else LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
 
         //==============> Background part
@@ -1857,8 +1851,6 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
                 P.end();
             }
         }
-        //if (PrepareCurrentMusicBloc.isRunning()) PrepareCurrentMusicBloc.waitForFinished();
-        //if (PrepareTransitMusicBloc.isRunning()) PrepareTransitMusicBloc.waitForFinished();
     }
 
     // Soundtrack mix with fade in/fade out
@@ -2319,24 +2311,55 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
 
             //************ PreparedImage
             if ((PreviousFrame->CurrentObject_CurrentShot==CurrentObject_CurrentShot)&&                 // Same shot
-                (PreviousFrame->CurrentObject_CurrentShotType==SHOTTYPE_STATIC)&&(CurrentObject_CurrentShotType==SHOTTYPE_STATIC)) {
+                (IsShotStatic(CurrentObject,CurrentObject_ShotSequenceNumber))) {
                 CurrentObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;                 // Use the same PreparedImage
                 PreviousFrame->CurrentObject_FreePreparedImage=false;                                   // Set tag to not delete previous PreparedImage
             }
             // PreparedImage of transition Object
             if (TransitObject) {
                 if ((PreviousFrame->CurrentObject_CurrentShot==TransitObject_CurrentShot)&&             // Same shot
-                    (PreviousFrame->CurrentObject_CurrentShotType==SHOTTYPE_STATIC)&&(TransitObject_CurrentShotType==SHOTTYPE_STATIC)) {
+                    (IsShotStatic(TransitObject,TransitObject_ShotSequenceNumber))) {
                     TransitObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;             // Use the same PreparedImage
                     PreviousFrame->CurrentObject_FreePreparedImage=false;                               // Set tag to not delete previous PreparedImage
                 } else if ((PreviousFrame->TransitObject_CurrentShot==TransitObject_CurrentShot)&&      // Same shot
-                    (PreviousFrame->TransitObject_CurrentShotType==SHOTTYPE_STATIC)&&(TransitObject_CurrentShotType==SHOTTYPE_STATIC)) {
+                    (IsShotStatic(TransitObject,TransitObject_ShotSequenceNumber))) {
                     TransitObject_PreparedImage=PreviousFrame->TransitObject_PreparedImage;             // Use the same PreparedImage
                     PreviousFrame->TransitObject_FreePreparedImage=false;                               // Set tag to not delete previous PreparedImage
                 }
             }
         }
     }
+}
+
+bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber) {
+    bool IsStatic=true;
+    if (ShotNumber==0) {
+        for (int i=0;i<Object->List[0].ShotComposition.List.count();i++) if (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.Video!=NULL) IsStatic=false;
+    } else for (int i=0;i<Object->List[ShotNumber].ShotComposition.List.count();i++) if (Object->List[ShotNumber].ShotComposition.List[i].IsVisible) {
+        if (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.Video!=NULL) IsStatic=false; else {
+            if ((Object->List[ShotNumber].ShotComposition.List[i].x!=Object->List[ShotNumber-1].ShotComposition.List[i].x)||
+                (Object->List[ShotNumber].ShotComposition.List[i].y!=Object->List[ShotNumber-1].ShotComposition.List[i].y)||
+                (Object->List[ShotNumber].ShotComposition.List[i].w!=Object->List[ShotNumber-1].ShotComposition.List[i].w)||
+                (Object->List[ShotNumber].ShotComposition.List[i].h!=Object->List[ShotNumber-1].ShotComposition.List[i].h)||
+                (Object->List[ShotNumber].ShotComposition.List[i].RotateXAxis!=Object->List[ShotNumber-1].ShotComposition.List[i].RotateXAxis)||
+                (Object->List[ShotNumber].ShotComposition.List[i].RotateYAxis!=Object->List[ShotNumber-1].ShotComposition.List[i].RotateYAxis)||
+                (Object->List[ShotNumber].ShotComposition.List[i].RotateZAxis!=Object->List[ShotNumber-1].ShotComposition.List[i].RotateZAxis)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.X            !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.X)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Y            !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Y)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ZoomFactor   !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ZoomFactor)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.AspectRatio  !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.AspectRatio)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ImageRotation!=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ImageRotation)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ImageGeometry!=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ImageGeometry)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Blue         !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Blue)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Red          !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Red)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Green        !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Green)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Brightness   !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Brightness)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Contrast     !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Contrast)||
+                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Gamma        !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Gamma))
+                IsStatic=false;
+        }
+    }
+    return IsStatic;
 }
 
 //============================================================================================

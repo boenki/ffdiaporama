@@ -254,6 +254,7 @@ public:
     cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame);
     cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int TimePosition,cDiaporama *Diaporama,double FrameDuration);
     ~cDiaporamaObjectInfo();
+    bool IsShotStatic(cDiaporamaObject *Object,int ShotNumber);
 };
 
 //*********************************************************************************************************************************************
