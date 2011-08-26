@@ -1873,6 +1873,12 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
         }
     }
 
+    // Special case to clear music buffer if not transition and music of CurrentObject is in pause mode
+    if ((!Info->IsTransition)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject->MusicPause)&&(Info->CurrentObject_MusicTrack->List.count()>0)) {
+        Info->CurrentObject_MusicTrack->ClearList();
+        for (int i=0;i<Info->CurrentObject_MusicTrack->NbrPacketForFPS;i++) Info->CurrentObject_MusicTrack->AppendNullSoundPacket();
+    }
+
     // Soundtrack mix with fade in/fade out
     if ((Info->IsTransition)&&((Info->CurrentObject_SoundTrackMontage)||(Info->TransitObject_SoundTrackMontage))) {
 
@@ -1922,6 +1928,17 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
             } else if ((Buf1==NULL)&&(Buf2!=NULL)) {
                 // swap buf1 and buf2
                 Info->CurrentObject_SoundTrackMontage->List[i]=Buf2;
+                // Apply Fade to Buf2
+                for (int j=0;j<Max;j++) {
+                    // Left channel : Adjust if necessary (16 bits)
+                    mix=int32_t(double(*(Buf2))*FadeAdjust2);
+                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                    *(Buf2++)=int16_t(mix);
+                    // Right channel : Adjust if necessary (16 bits)
+                    mix=int32_t(double(*(Buf2))*FadeAdjust2);
+                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                    *(Buf2++)=int16_t(mix);
+                }
             }
         }
     }
@@ -1962,6 +1979,17 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
             } else if ((Buf1==NULL)&&(Buf2!=NULL)) {
                 // swap buf1 and buf2
                 Info->CurrentObject_MusicTrack->List[i]=Buf2;
+                // Apply Fade to Buf2
+                for (int j=0;j<Max;j++) {
+                    // Left channel : Adjust if necessary (16 bits)
+                    mix=int32_t(double(*(Buf2))*FadeAdjust2);
+                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                    *(Buf2++)=int16_t(mix);
+                    // Right channel : Adjust if necessary (16 bits)
+                    mix=int32_t(double(*(Buf2))*FadeAdjust2);
+                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                    *(Buf2++)=int16_t(mix);
+                }
             }
         }
     }
