@@ -687,7 +687,12 @@ QString cDiaporamaObject::GetDisplayName() {
 //===============================================================
 // Draw Thumb
 void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY) {
-    if (!Thumbnail) {
+    if ((!Thumbnail)||((Thumbnail)&&((Thumbnail->width()!=ThumbWidth)||(Thumbnail->height()!=ThumbHeight)))) {
+        if (Thumbnail) {
+            qDebug()<<"Actual:"<<Thumbnail->width()<<"x"<<Thumbnail->height()<<"Wanted:"<<ThumbWidth<<"x"<<ThumbHeight;
+            delete Thumbnail;
+            Thumbnail=NULL;
+        }
         Thumbnail = new QImage(ThumbWidth,ThumbHeight,QImage::Format_ARGB32_Premultiplied);
         QPainter  P;
         P.begin(Thumbnail);
@@ -789,6 +794,16 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     Element.setAttribute("ShotNumber",List.count());
     for (int i=0;i<List.count();i++) List[i].SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath);
 
+    if (Thumbnail) {
+        QByteArray ba;
+        QBuffer buf(&ba);
+        Thumbnail->save(&buf,"PNG");
+        QByteArray Compressed=qCompress(ba,1);
+        QByteArray Hexed     =Compressed.toHex();
+        Element.setAttribute("Thumbnail",QString(Hexed));
+        Element.setAttribute("ThumbWidth",Thumbnail->width());
+        Element.setAttribute("ThumbHeight",Thumbnail->height());
+    }
     domDocument.appendChild(Element);
 }
 
@@ -844,6 +859,15 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
             if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,&ObjectComposition)) IsOk=false;
             List.append(*imagesequence);
+        }
+
+        if (Element.hasAttribute("Thumbnail")) {
+            int         ThumbWidth   =Element.attribute("ThumbWidth").toInt();
+            int         ThumbHeight  =Element.attribute("ThumbHeight").toInt();
+            Thumbnail=new QImage(ThumbWidth,ThumbHeight,QImage::Format_ARGB32_Premultiplied);
+            QByteArray  Compressed   =QByteArray::fromHex(Element.attribute("Thumbnail").toUtf8());
+            QByteArray  Decompressed =qUncompress(Compressed);
+            Thumbnail->loadFromData(Decompressed);
         }
 
         return IsOk;
@@ -1298,12 +1322,8 @@ void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *Music
             } else Factor=Factor*List[Column].MusicReduceFactor;
         }
 
-        int AncNbr=MusicTrack->List.count();
-        // Check if we need to load more data
-        if (AncNbr<MusicTrack->NbrPacketForFPS) {
-            // Get more music bloc at correct position (volume is always 100% @ this point !)
-            CurMusic->Music->ImageAt(false,Position+StartPosition,0,false,MusicTrack,1,true,NULL);
-        }
+        // Get more music bloc at correct position (volume is always 100% @ this point !)
+        CurMusic->Music->ImageAt(false,Position+StartPosition,0,false,MusicTrack,1,true,NULL);
 
         // Apply correct volume to block in queue
         if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
@@ -1884,17 +1904,25 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
             double  FadeAdjust2  =(1-Info->TransitionPCTDone-FadeDelta);
 
             int16_t *Buf2=(Paquet!=NULL)?Paquet:NULL;
-            for (int j=0;j<Max;j++) {
-                // Left channel : Adjust if necessary (16 bits)
-                if (Buf2) mix=int32_t(double(*(Buf1))*FadeAdjust+double(*(Buf2++))*FadeAdjust2); else mix=int32_t(double(*(Buf1))*FadeAdjust);
-                if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                *(Buf1++)=int16_t(mix);
-                // Right channel : Adjust if necessary (16 bits)
-                if (Buf2) mix=int32_t(double(*(Buf1))*FadeAdjust+double(*(Buf2++))*FadeAdjust2); else mix=int32_t(double(*(Buf1))*FadeAdjust);
-                if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                *(Buf1++)=int16_t(mix);
+            if ((Buf1!=NULL)&&(Buf2==NULL)) {
+                // Nothing to do !
+            } else if ((Buf1!=NULL)&&(Buf2!=NULL)) {
+                // do mixing
+                for (int j=0;j<Max;j++) {
+                    // Left channel : Adjust if necessary (16 bits)
+                    mix=int32_t(double(*(Buf1))*FadeAdjust+double(*(Buf2++))*FadeAdjust2);
+                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                    *(Buf1++)=int16_t(mix);
+                    // Right channel : Adjust if necessary (16 bits)
+                    mix=int32_t(double(*(Buf1))*FadeAdjust+double(*(Buf2++))*FadeAdjust2);
+                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                    *(Buf1++)=int16_t(mix);
+                }
+                av_free(Paquet);
+            } else if ((Buf1==NULL)&&(Buf2!=NULL)) {
+                // swap buf1 and buf2
+                Info->CurrentObject_SoundTrackMontage->List[i]=Buf2;
             }
-            if (Paquet) av_free(Paquet);
         }
     }
 
@@ -1917,17 +1945,24 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
             double  FadeAdjust2  =(1-Info->TransitionPCTDone-FadeDelta);
 
             int16_t *Buf2=(Paquet!=NULL)?Paquet:NULL;
-            for (int j=0;j<Max;j++) {
-                // Left channel : Adjust if necessary (16 bits)
-                mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
-                if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                *(Buf1++)=int16_t(mix);
-                // Right channel : Adjust if necessary (16 bits)
-                mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
-                if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
-                *(Buf1++)=int16_t(mix);
+            if ((Buf1!=NULL)&&(Buf2==NULL)) {
+                // Nothing to do !
+            } else if ((Buf1!=NULL)&&(Buf2!=NULL)) {
+                for (int j=0;j<Max;j++) {
+                    // Left channel : Adjust if necessary (16 bits)
+                    mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
+                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                    *(Buf1++)=int16_t(mix);
+                    // Right channel : Adjust if necessary (16 bits)
+                    mix=int32_t(*(Buf1)+double(*(Buf2++))*FadeAdjust2);
+                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                    *(Buf1++)=int16_t(mix);
+                }
+                if (Paquet) av_free(Paquet);
+            } else if ((Buf1==NULL)&&(Buf2!=NULL)) {
+                // swap buf1 and buf2
+                Info->CurrentObject_MusicTrack->List[i]=Buf2;
             }
-            if (Paquet) av_free(Paquet);
         }
     }
 }
@@ -2309,11 +2344,15 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
             if (PreviousFrame->TransitObject_FreeMusicTrack && ((PreviousFrame->TransitObject_MusicTrack==CurrentObject_MusicTrack)||(PreviousFrame->TransitObject_MusicTrack==TransitObject_MusicTrack)||(PreviousFrame->TransitObject_MusicTrack==PreviousFrame->CurrentObject_MusicTrack)))
                 PreviousFrame->TransitObject_FreeMusicTrack=false;
 
-            //************ PreparedImage
+            //************ PreparedImage & RenderedImage
             if ((PreviousFrame->CurrentObject_CurrentShot==CurrentObject_CurrentShot)&&                 // Same shot
                 (IsShotStatic(CurrentObject,CurrentObject_ShotSequenceNumber))) {
                 CurrentObject_PreparedImage=PreviousFrame->CurrentObject_PreparedImage;                 // Use the same PreparedImage
                 PreviousFrame->CurrentObject_FreePreparedImage=false;                                   // Set tag to not delete previous PreparedImage
+                if ((!IsTransition)&&(!PreviousFrame->IsTransition)) {
+                    RenderedImage=PreviousFrame->RenderedImage;   // Use the same RenderedImage
+                    PreviousFrame->FreeRenderedImage=false;       // Set tag to not delete previous RenderedImage
+                }
             }
             // PreparedImage of transition Object
             if (TransitObject) {

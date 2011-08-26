@@ -1045,12 +1045,21 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
 
             // Flush audio frame
             while ((Continue)&&(RenderMusic.List.count()>0)) {
-                int16_t     *Packet=RenderMusic.DetachFirstPacket();
                 AVPacket    pkt;
+
+                int16_t     *Packet=RenderMusic.DetachFirstPacket();
+                if (Packet==NULL) {
+                    Packet=(int16_t *)av_malloc(RenderMusic.SoundPacketSize+4);
+                    memset(Packet,0,RenderMusic.SoundPacketSize);
+                }
 
                 EncodedAudio.AppendData(Packet,RenderMusic.SoundPacketSize);
                 while (EncodedAudio.List.count()>0) {
                     int16_t *PacketSound=EncodedAudio.DetachFirstPacket();
+                    if (PacketSound==NULL) {
+                        PacketSound=(int16_t *)av_malloc(EncodedAudio.SoundPacketSize+4);
+                        memset(PacketSound,0,EncodedAudio.SoundPacketSize);
+                    }
                     int out_size= avcodec_encode_audio(AudioCodecContext,audio_outbuf,EncodedAudio.SoundPacketSize,(short int *)PacketSound);
                     if (out_size>0) {
                         av_init_packet(&pkt);

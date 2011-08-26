@@ -76,6 +76,8 @@ public:
     bool                Flag_InTimer;           // true if timer event is in progress
     bool                TimerTick;              // To use timer 1 time for 2 call
 
+    QImage              *ActualDisplay;
+
     // Thread controls
     QFutureWatcher<void> ThreadPrepareVideo;
     QFutureWatcher<void> ThreadPrepareImage;

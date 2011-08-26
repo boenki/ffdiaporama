@@ -92,32 +92,40 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName) {
         return false;
     }
 
+    CreatDateTime   =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
+    ModifDateTime   =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
+    IsValide        =true;
+
+    if (ImageOrientation==0) CallEXIF();
+
+    return IsValide;
+}
+
+bool cimagefilewrapper::CallEXIF() {
+
+    ImageOrientation=1; // Set default image orientation
+
     QString   Commande;
     QString   Info,Part;
     bool      ExifOK=true;
 
-    CreatDateTime   =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
-    ModifDateTime   =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
-    IsValide        =true;
-    ImageOrientation=1; // Set default image orientation
-
     // start exiv2
-    GlobalMainWindow->StatusBarList.append(QApplication::translate("MainWindow","Analyse file with EXIV2 :")+QFileInfo(GivenFileName).fileName());
-    Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pa \""+GivenFileName+"\"";
+    GlobalMainWindow->StatusBarList.append(QApplication::translate("MainWindow","Analyse file with EXIV2 :")+QFileInfo(FileName).fileName());
+    Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pa \""+FileName+"\"";
     Commande = AdjustDirForOS(Commande);
     QProcess Process;
     Process.setProcessChannelMode(QProcess::MergedChannels);
     Process.start(Commande);
     if (!Process.waitForStarted()) {
-        qDebug()<<"Impossible to start exiv2 - no exif informations will be decode for"<<GivenFileName;
+        qDebug()<<"Impossible to start exiv2 - no exif informations will be decode for"<<FileName;
         ExifOK=false;
     }
     if (ExifOK && !Process.waitForFinished()) {
-        qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<GivenFileName;
+        qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<FileName;
         ExifOK=false;
     }
     if (ExifOK && (Process.exitStatus()<0)) {
-        qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode for"<<GivenFileName;
+        qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode for"<<FileName;
         ExifOK=false;
     }
     if (ExifOK) {
@@ -156,8 +164,7 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName) {
             }
         }
     }
-
-    return IsValide;
+    return ExifOK;
 }
 
 //====================================================================================================================

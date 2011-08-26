@@ -42,6 +42,7 @@ public:
     bool                    InRefreshSceneImage;        // True if process is currently in RefreshSceneImage function
 
     bool                    StopMAJSpinbox;
+    bool                    StopMajSelect;
     bool                    BLOCKCHSIZE;
     cCompositionList        *CompositionList;           // Link to Composition List
     double                  xmax,ymax;                  // Size of the scene

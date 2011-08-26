@@ -49,6 +49,7 @@ public:
 
     bool    GetInformationFromFile(QString GivenFileName);
     QImage  *ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter);
+    bool    CallEXIF();
 };
 
 #endif // IMAGEFILEWRAPPER_H

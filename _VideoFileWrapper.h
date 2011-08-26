@@ -86,7 +86,6 @@ private:
     void        CloseVideoFileReader();
     QImage      *ReadVideoFrame(int Position,bool DontUseEndPos);
     void        ReadAudioFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
-    void        ReadVorbisFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);     // VORBIS
     QImage      *YUVStreamToQImage(double dPosition,bool GetFirstValide);
 };
 
