@@ -1,7 +1,5 @@
-Buggs/TODO (Dernier SVN le 05/08/2011) :
+Buggs/TODO (Dernier SVN le 26/08/2011) :
 ----------------------------------------
-Ajouter l'EXIF à la boite slide
-
 BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
 TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
 
@@ -35,6 +33,7 @@ Evolutions ergonomiques :
         Cadre Texte, quand on fait une inclusion de texte : clique sur le cadre de "Texte" -> ouvrir directement les propriétés permettant de modifier le texte
 
     A réfléchir pour la prochaine version (est-ce que ça a vraiment un intéret et est-ce faisable ?) :
+        Ajouter une piste de commentaire sonore
         Pouvoir déplacer le point de centrage des rotations
         Pouvoir ne sélectionner qu'une partie du montage pour le rendu
         Ce serait bien aussi de pouvoir désactiver complètement le son des vidéos, (actuellement le mini est à 10%)
@@ -55,6 +54,13 @@ Evolutions diverses
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
+
+Divers:
+
+-------------------------------------
+Changelog depuis la version 20110805
+-------------------------------------
+Correction de bug :
     Met les slashs dans le bon sens dans la liste des projets récents [Windows]
     Corrige la taille des boutons dans la barre d'outils de la fenêtre principale [Windows]
     Supprime les deprecated sur av_open_input_file
@@ -68,10 +74,3 @@ Changement de comportement :
     Accelere les chargements de projet en supprimant l'appel à EXIF pour toutes les images lors des ouvertures de projet et en intégrant les thumbnails dans les fichiers .ffd
     Ajoute des raccourcis claviers dans la fenêtre principale et les rend accessibles quelque soit l'onglet et le mode actif
     Ajout de nouveaux fond dans la librairie
-
--------------------------------------
-Changelog depuis la version 20110805
--------------------------------------
-Correction de bug :
-
-Divers:
