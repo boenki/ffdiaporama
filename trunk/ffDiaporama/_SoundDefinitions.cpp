@@ -84,9 +84,7 @@ void SDLSetFPS(double WantedFPS) {
     /*if (SDLIsAudioOpen)*/ SDL_CloseAudio();                               // Close audio
 
     // Init MixedMusic
-    SDL_LockAudio();                                                    // Ensure callback will not be call now
     MixedMusic.ClearList();                                             // Free sound buffers
-    SDL_UnlockAudio();                                                  // Ensure callback can now be call
     MixedMusic.SetFPS(WantedFPS);
 
     // Init SDL
@@ -120,6 +118,7 @@ cSoundBlockList::cSoundBlockList() {
     SampleBytes         =2;                                                                 // 16 bits : Size of a sample
     dDuration           =double(SoundPacketSize)/double(Channels*SampleBytes*SamplingRate); // Duration of a packet
     NbrPacketForFPS     =1;                                                                 // Number of packet for FPS
+    NeedLockSDL         =false;
 }
 
 //====================================================================================================================
@@ -176,23 +175,30 @@ void cSoundBlockList::ClearList() {
 // Detach the first packet of the list (do not make av_free)
 //====================================================================================================================
 int16_t *cSoundBlockList::DetachFirstPacket() {
-    if (List.count()>0) return (int16_t *)List.takeFirst(); else return NULL;
+    int16_t *Ret=NULL;
+    if (NeedLockSDL) SDL_LockAudio();
+    if (List.count()>0) Ret=(int16_t *)List.takeFirst();
+    if (NeedLockSDL) SDL_UnlockAudio();
+    return Ret;
 }
 
 //====================================================================================================================
 // Append a packet to the end of the list
 //====================================================================================================================
 void cSoundBlockList::AppendPacket(int16_t *PacketToAdd) {
+    if (NeedLockSDL) SDL_LockAudio();
     List.append(PacketToAdd);
+    if (NeedLockSDL) SDL_UnlockAudio();
 }
 
 //====================================================================================================================
 // Append a packet of null sound to the end of the list
 //====================================================================================================================
 void cSoundBlockList::AppendNullSoundPacket() {
-    int16_t *Packet=(int16_t *)av_malloc(SoundPacketSize+4);
-    memset(Packet,0,SoundPacketSize);
-    AppendPacket(Packet);
+    //int16_t *Packet=(int16_t *)av_malloc(SoundPacketSize+4);
+    //memset(Packet,0,SoundPacketSize);
+    //AppendPacket(Packet);
+    AppendPacket(NULL);
 }
 
 //====================================================================================================================
@@ -255,6 +261,7 @@ void cSoundBlockList::MixAppendPacket(int16_t *PacketA,int16_t *PacketB) {
 //====================================================================================================================
 void cSoundBlockList::ApplyVolume(int PacketNumber,double VolumeFactor) {
     int16_t *Buf1=List[PacketNumber];
+    if (Buf1==NULL) return;
     int32_t mix;
     for (int j=0;j<SoundPacketSize/(SampleBytes*Channels);j++) {
         // Left channel : Adjust if necessary (16 bits)

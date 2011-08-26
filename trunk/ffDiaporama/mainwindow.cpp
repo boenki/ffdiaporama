@@ -258,6 +258,48 @@ MainWindow::~MainWindow() {
 }
 
 //====================================================================================================================
+// A REVOIR !!
+void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+    bool Find=false;
+
+    if ((!ApplicationConfig->PartitionMode)&&(ui->ToolBoxNormal->currentIndex()!=0)) {
+        Find=true;
+        if (event->matches(QKeySequence::Quit))         s_action_Exit();
+        else if (event->matches(QKeySequence::New))     s_action_New();
+        else if (event->matches(QKeySequence::Open))    s_action_Open();
+        else if (event->matches(QKeySequence::Save))    s_action_Save();
+        else if (event->matches(QKeySequence::SaveAs))  s_action_SaveAs();
+        else Find=false;
+    }
+    if ((!Find)&&(!ApplicationConfig->PartitionMode)&&(ui->ToolBoxNormal->currentIndex()!=1)) {
+        Find=true;
+        if (event->matches(QKeySequence::Copy))         s_CopyToClipboard();
+        else if (event->matches(QKeySequence::Cut))     s_CutToClipboard();
+        else if (event->matches(QKeySequence::Paste))   s_PasteFromClipboard();
+        else if (event->matches(QKeySequence::Delete))  s_RemoveObject();
+        //else if (event->matches(QKeySequence::ZoomIn))  s_action_ZoomPlus();
+        //else if (event->matches(QKeySequence::ZoomOut)) s_action_ZoomMinus();
+        else if (event->key()==Qt::Key_Insert)          s_action_AddFile();
+        else Find=false;
+    }
+    if ((!Find)&&(!ApplicationConfig->PartitionMode)&&(ui->ToolBoxNormal->currentIndex()!=3)) {
+        Find=true;
+        if (event->key()==Qt::Key_F1)                   s_Documentation();
+        else Find=false;
+    }
+    if (!Find) {
+        Find=true;
+        if (event->key()==Qt::Key_F5)                   s_BackgroundDoubleClicked();
+        else if (event->key()==Qt::Key_F6)              s_ItemDoubleClicked();
+        else if (event->key()==Qt::Key_F7)              s_MusicDoubleClicked();
+        else if (event->key()==Qt::Key_F8)              s_TransitionItemDoubleClicked();
+        else Find=false;
+    }
+
+    if (!Find) QMainWindow::keyReleaseEvent(event);
+}
+
+//====================================================================================================================
 
 void MainWindow::s_TimerEvent() {
     if (StatusBarList.count()>0) {
@@ -757,7 +799,7 @@ void MainWindow::s_action_New() {
 
 void MainWindow::s_action_OpenRecent() {
     QMenu *ContextMenu=new QMenu(this);
-    for (int i=ApplicationConfig->RecentFile.count()-1;i>=0;i--) ContextMenu->addAction(ApplicationConfig->RecentFile.at(i));
+    for (int i=ApplicationConfig->RecentFile.count()-1;i>=0;i--) ContextMenu->addAction(AdjustDirForOS(ApplicationConfig->RecentFile.at(i)));
     QAction *Action=ContextMenu->exec(QCursor::pos());
     QString Selected="";
     if (Action) Selected=Action->iconText();
@@ -781,10 +823,11 @@ void MainWindow::s_action_Open() {
 }
 
 void MainWindow::OpenFile(QString ProjectFileName) {
+    ProjectFileName=AdjustDirForOS(ProjectFileName);
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Manage Recent files list
-    for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (ApplicationConfig->RecentFile.at(i)==ProjectFileName) {
+    for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (AdjustDirForOS(ApplicationConfig->RecentFile.at(i))==ProjectFileName) {
         ApplicationConfig->RecentFile.removeAt(i);
         break;
     }
@@ -813,7 +856,6 @@ void MainWindow::OpenFile(QString ProjectFileName) {
     // Load file
     SetModifyFlag(false);
     Diaporama->LoadFile(this,ProjectFileName);
-    ui->timeline->setCurrentCell(0,0);
     for (int i=0;i<Diaporama->List.count();i++) AddObjectToTimeLine(i);
     AdjustRuller();
     SetModifyFlag(Diaporama->IsModify);
@@ -823,6 +865,8 @@ void MainWindow::OpenFile(QString ProjectFileName) {
 
     ApplicationConfig->RecentFile.append(ProjectFileName);
     while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
+    ui->timeline->SetCurrentCell(0);
+    RefreshControls();
 }
 
 //====================================================================================================================

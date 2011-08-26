@@ -84,7 +84,6 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     IsValide                = false;
     Flag_InTimer            = false;
     IsInit                  = false;
-
     DisplayMSec             = true;                                 // add msec to display
     IconPause               = QIcon(ICON_PLAYERPLAY);
     IconPlay                = QIcon(ICON_PLAYERPAUSE);
@@ -92,7 +91,9 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     PlayerPauseMode         = false;                                // Is player currently plause mode
     IsSliderProcess         = false;
     ActualPosition          = -1;
-    tDuration               =QTime(0,0,0,0);
+    tDuration               = QTime(0,0,0,0);
+    MixedMusic.NeedLockSDL  = true;
+    ActualDisplay           = NULL;
 
     ui->Position->setFixedWidth(DisplayMSec?80:60); ui->Position->setText(QTime(0,0,0,0).toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
     ui->Duration->setFixedWidth(DisplayMSec?80:60); ui->Duration->setText(QTime(0,0,0,0).toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
@@ -266,9 +267,7 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
     Timer.stop();                                   // Stop Timer
     if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
     if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
-    SDL_LockAudio();                                // Ensure callback will not be call now
     MixedMusic.ClearList();                         // Free sound buffers
-    SDL_UnlockAudio();  // Ensure callback can now be call
     ImageList.ClearList();                          // Free ImageList
     PlayerPlayMode  = true;
     PlayerPauseMode = true;
@@ -314,72 +313,66 @@ void wgt_QVideoPlayer::s_SliderReleased() {
 
 void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
+    // Update display in controls
+    ui->CustomRuller->Slider->setValue(Value);
+    ActualPosition=Value;
+    ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
+    ui->Duration->setText(tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
+
     //***********************************************************************
     // If playing
     //***********************************************************************
     if (PlayerPlayMode && !PlayerPauseMode) {
-        ui->CustomRuller->Slider->setValue(Value);
-        ActualPosition=Value;
-        // Update display in controls
-        ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
-        ui->Duration->setText(tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
+
         if (((FileInfo)&&(ActualPosition>=QTime(0,0,0,0).msecsTo(tDuration)))||((Diaporama)&&(Value>=Diaporama->GetDuration()))) {
-            SetPlayerToPause();    // Stop sound if it's the end
-        } else {
-            if (ImageList.List.count()>0) {                        // Process
-                // Retrieve frame informations
-                cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();
 
-                // Display frame
-                if (Frame->RenderedImage) ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));
+            SetPlayerToPause();    // Stop if it's the end
 
-                // If Diaporama mode and needed, set Diaporama to an other object
-                if (Diaporama) {
-                    if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
-                        if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
-                        Diaporama->CurrentCol=Frame->CurrentObject_Number;
-                        Diaporama->Timeline->SetCurrentCell(Frame->CurrentObject_Number);
-                        if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=false;
+        } else if (ImageList.List.count()>1) {                        // Process
+            // Retrieve frame informations
+            cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();
 
-                        // Update slider mark
-                        if (Diaporama->List.count()>0)
-                            SetStartEndPos(
-                                    Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                           // Current slide
-                                    Diaporama->List[Diaporama->CurrentCol].GetDuration(),
-                                    (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1),                            // Previous slide
-                                    (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1].GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
-                                    Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,    // Next slide
-                                    Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1].GetDuration():0);
-                        else SetStartEndPos(0,0,-1,0,-1,0);
-                   }
-                    Diaporama->CurrentPosition=Value;
-                }
+            // Display frame
+            if ((Frame->RenderedImage)&&(ActualDisplay!=Frame->RenderedImage))
+                ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));
 
-                // Start sound (if not previously started)
-                if ((PlayerPlayMode) && (!PlayerPauseMode) && (SDL_GetAudioStatus()!=SDL_AUDIO_PLAYING)) SDL_PauseAudio(0);
+            ActualDisplay=Frame->RenderedImage;
 
-                // Free frame
-                delete Frame;
+            // If Diaporama mode and needed, set Diaporama to an other object
+            if (Diaporama) {
+                if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
+                    if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
+                    Diaporama->CurrentCol=Frame->CurrentObject_Number;
+                    Diaporama->Timeline->SetCurrentCell(Frame->CurrentObject_Number);
+                    if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=false;
+
+                    // Update slider mark
+                    if (Diaporama->List.count()>0)
+                        SetStartEndPos(
+                                Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                           // Current slide
+                                Diaporama->List[Diaporama->CurrentCol].GetDuration(),
+                                (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1),                            // Previous slide
+                                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1].GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
+                                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,    // Next slide
+                                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1].GetDuration():0);
+                    else SetStartEndPos(0,0,-1,0,-1,0);
+               }
+               Diaporama->CurrentPosition=Value;
             }
+
+            // Start sound (if not previously started)
+            if ((PlayerPlayMode) && (!PlayerPauseMode) && (SDL_GetAudioStatus()!=SDL_AUDIO_PLAYING)) SDL_PauseAudio(0);
+
+            // Free frame
+            delete Frame;
         }
+
     //***********************************************************************
     // If moving by user
     //***********************************************************************
     } else {
-        if (ActualPosition==Value) return;  // If no change !
-        ui->CustomRuller->Slider->setValue(Value);
-        ActualPosition=Value;
-        // Update display in controls
-        ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
-        ui->Duration->setText(tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
 
-        // Free sound buffers
-        SDL_LockAudio();                                // Ensure callback will not be call now
-        MixedMusic.ClearList();                         // Free sound buffers
-        SDL_UnlockAudio();                              // Ensure callback can now be call
-
-        // Free ImageList
-        ImageList.ClearList();
+        ActualDisplay=NULL;
 
         if (FileInfo) {
 
@@ -392,8 +385,8 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
         } else if (Diaporama) {
             // Create a frame from actual position
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Value,Diaporama,double(1000)/WantedFPS);
-            PrepareImage(Frame,false,true);          // This will add frame to the ImageList
-            Frame=ImageList.DetachFirstImage(); // Then detach frame from the ImageList
+            PrepareImage(Frame,false,true);         // This will add frame to the ImageList
+            Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
             ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));  // Display frame
 
             // If needed, set Diaporama to an other object
@@ -426,86 +419,62 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 // Timer event
 //============================================================================================
 void wgt_QVideoPlayer::s_TimerEvent() {
-    TimerTick=!TimerTick;
     if ((Flag_InTimer==true)||(IsSliderProcess))    return;     // No re-entrance
     if (!(PlayerPlayMode && !PlayerPauseMode))      return;     // Only if play mode
-    Flag_InTimer=true;
 
-    cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
+    Flag_InTimer=true;
+    TimerTick=!TimerTick;
+
     int LastPosition=0;
 
-    if (FileInfo) LastPosition=(PreviousFrame==NULL)?ActualPosition:PreviousFrame->CurrentObject_InObjectTime;
-        else if (Diaporama) LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
+    // If no image in the list then create the first
+    if (ImageList.List.count()==0) {
 
-    // if TimerTick update the preview
-    if ((TimerTick)&&(ui->CustomRuller->Slider!=NULL)) {
-        ui->BufferState->setValue(ImageList.List.count());
-        if (ImageList.List.count()<2)
-            ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: red;\n}");
-        else if (ImageList.List.count()<4)
-            ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: yellow;\n}");
-        else if (ImageList.List.count()<=BUFFERING_NBR_FRAME)
-            ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: green;\n}");
-
-        // Ensure thread are ended
-        if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
-        if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
-
-        // If no image in the list then create one
-        if (ImageList.List.count()==0) {
-            if (FileInfo) {
-
-                // Prepare a first frame
-                LastPosition=(PreviousFrame==NULL)?ActualPosition:PreviousFrame->CurrentObject_InObjectTime;
-                cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),NULL,int(double(1000)/WantedFPS));
-                NewFrame->CurrentObject_StartTime   =0;
-                //NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
-                PrepareVideoFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
-                // Prepare a second frame
-                QApplication::processEvents();
-                PreviousFrame=NewFrame;
-                LastPosition=PreviousFrame->CurrentObject_InObjectTime;
-                NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),NULL,int(double(1000)/WantedFPS));
-                NewFrame->CurrentObject_StartTime   =0;
-                //NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
-                PrepareVideoFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
-
-            } else {
-
-                // Prepare a first frame
-                LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
-                cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),Diaporama,double(1000)/WantedFPS);
-                PrepareImage(NewFrame,true,true);
-                // Prepare a second frame
-                QApplication::processEvents();
-                PreviousFrame=NewFrame;
-                LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
-                NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),Diaporama,double(1000)/WantedFPS);
-                PrepareImage(NewFrame,true,true);
-            }
+        // If no image in the list then prepare a first frame
+        if (FileInfo) {
+            LastPosition=ActualPosition;
+            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,LastPosition+int(double(1000)/WantedFPS),NULL,int(double(1000)/WantedFPS));
+            NewFrame->CurrentObject_StartTime   =0;
+            PrepareVideoFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
+        } else {
+            LastPosition=Diaporama->CurrentPosition;
+            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,LastPosition+int(double(1000)/WantedFPS),Diaporama,double(1000)/WantedFPS);
+            PrepareImage(NewFrame,true,true);
         }
-        // Move slider to the position of the next frame
-        s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
+
     }
+
+    cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
+
+    if (FileInfo) LastPosition=PreviousFrame->CurrentObject_InObjectTime;
+        else if (Diaporama) LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
 
     // Add image to the list if it's not full
     if ((FileInfo)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareVideo.isRunning())) {
 
-        LastPosition=(PreviousFrame==NULL)?ActualPosition:PreviousFrame->CurrentObject_InObjectTime;
+        LastPosition=PreviousFrame->CurrentObject_InObjectTime;
         cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),NULL,int(double(1000)/WantedFPS));
         NewFrame->CurrentObject_StartTime   =0;
-        //NewFrame->CurrentObject_InObjectTime=LastPosition+int(double(1000)/WantedFPS);
         ThreadPrepareVideo.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,NewFrame->CurrentObject_InObjectTime));
 
     } else if (((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
 
-        QApplication::processEvents();
-        PreviousFrame=ImageList.GetLastImage();
-        LastPosition=(PreviousFrame==NULL)?Diaporama->CurrentPosition:PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
+        LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
         cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),Diaporama,double(1000)/WantedFPS);
         ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true,true));
 
     }
+
+    // if TimerTick update the preview
+    if ((TimerTick)&&(ui->CustomRuller->Slider!=NULL)) s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
+
+    ui->BufferState->setValue(ImageList.List.count());
+    if (ImageList.List.count()<2)
+        ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: red;\n}");
+    else if (ImageList.List.count()<4)
+        ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: yellow;\n}");
+    else if (ImageList.List.count()<=BUFFERING_NBR_FRAME)
+        ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: green;\n}");
 
     Flag_InTimer=false;
 }
@@ -538,7 +507,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
         }
     }
 
-    // Ensure background, image and soundtrack is ready (in thread mode)
+    // Ensure background, image and soundtrack is ready
     Diaporama->LoadSources(Frame,double(ui->MovieFrame->height())/double(1080),ui->MovieFrame->width(),ui->MovieFrame->height(),true,AddStartPos);
 
     // Do Assembly
@@ -553,9 +522,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
         if (MaxPacket>MixedMusic.NbrPacketForFPS) MaxPacket=MixedMusic.NbrPacketForFPS;
 
         // Append mixed musique to the queue
-        SDL_LockAudio();                                                    // Ensure SDL Audio callback will not be call now
         for (int j=0;j<MaxPacket;j++) MixedMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
-        SDL_UnlockAudio();                                                  // Ensure SDL Audio callback can now be call
     }
 
     // Append this image to the queue
@@ -564,9 +531,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
 }
 
 void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position) {
-    SDL_LockAudio();                                                    // Ensure SDL Audio callback will not be call now
     QImage *Temp=FileInfo->ImageAt(true,Position,0,false,&MixedMusic,1,false,NULL,true);
-    SDL_UnlockAudio();                                                  // Ensure SDL Audio callback can now be call
     if (Temp) {
         QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
         NewFrame->RenderedImage=Temp2;

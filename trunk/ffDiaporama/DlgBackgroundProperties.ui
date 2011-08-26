@@ -650,6 +650,9 @@
         <iconset>
          <normaloff>img/help.png</normaloff>img/help.png</iconset>
        </property>
+       <property name="shortcut">
+        <string>F1</string>
+       </property>
       </widget>
      </item>
     </layout>

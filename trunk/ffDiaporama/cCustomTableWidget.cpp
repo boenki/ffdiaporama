@@ -232,13 +232,7 @@ void cCustomTableWidget::ResetDisplay(int Selected) {
     GlobalMainWindow->FLAGSTOPITEMSELECTION=true;
     setUpdatesEnabled(false);
     CleanAll();
-    for (int i=0;i<GlobalMainWindow->Diaporama->List.count();i++) {
-        if (GlobalMainWindow->Diaporama->List[i].Thumbnail) {
-            delete GlobalMainWindow->Diaporama->List[i].Thumbnail;
-            GlobalMainWindow->Diaporama->List[i].Thumbnail=NULL;
-        }
-        AddObjectToTimeLine(i);
-    }
+    for (int i=0;i<GlobalMainWindow->Diaporama->List.count();i++) AddObjectToTimeLine(i);
     GlobalMainWindow->FLAGSTOPITEMSELECTION=false;
     SetCurrentCell(Selected);
     setUpdatesEnabled(true);  // Reset timeline painting

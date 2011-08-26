@@ -66,6 +66,7 @@ protected:
     virtual void resizeEvent(QResizeEvent *);
     virtual void closeEvent(QCloseEvent *);
     virtual void showEvent(QShowEvent *);
+    virtual void keyReleaseEvent(QKeyEvent *event);
 
 private slots:
     void    s_WebViewOpen(QUrl);

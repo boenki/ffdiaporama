@@ -51,6 +51,8 @@ public:
     double              WantedDuration;             // Duration wanted depending on FPS
     double              FPS;
 
+    bool                NeedLockSDL;                // true if this blocklist is connected to SDL and need lock when change
+
     cSoundBlockList();
     ~cSoundBlockList();
 

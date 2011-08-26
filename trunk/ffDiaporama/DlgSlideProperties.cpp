@@ -50,6 +50,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     CompositionList = NULL;
     StopMAJSpinbox  = false;
     BLOCKCHSIZE     = false;
+    StopMajSelect   = false;
 
     MagneticRuler.MagneticRuler=DiaporamaObject->Parent->ApplicationConfig->SlideRuler;
 
@@ -723,12 +724,15 @@ void DlgSlideProperties::UpdateDockInfo() {
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Filename")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Image!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush.Image->FileName).fileName():
                                                                                       CurrentTextItem->BackgroundBrush.Video!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush.Video->FileName).fileName():""));
-
-            if (CurrentTextItem->BackgroundBrush.Image!=NULL) for (int i=0;i<CurrentTextItem->BackgroundBrush.Image->ExivValue.count();i++) {
-                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                QString Value=CurrentTextItem->BackgroundBrush.Image->ExivValue[i];
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(Value.left(Value.indexOf("##"))));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value.right(Value.length()-Value.indexOf("##")-QString("##").length())));
+            if (CurrentTextItem->BackgroundBrush.Image!=NULL) {
+                // If exiv value not loaded then call exiv2 now !
+                if (CurrentTextItem->BackgroundBrush.Image->ExivValue.count()==0) CurrentTextItem->BackgroundBrush.Image->CallEXIF();
+                for (int i=0;i<CurrentTextItem->BackgroundBrush.Image->ExivValue.count();i++) {
+                    ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                    QString Value=CurrentTextItem->BackgroundBrush.Image->ExivValue[i];
+                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(Value.left(Value.indexOf("##"))));
+                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value.right(Value.length()-Value.indexOf("##")-QString("##").length())));
+                }
             } else if (CurrentTextItem->BackgroundBrush.Video!=NULL) {
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Image size")));
@@ -1412,7 +1416,9 @@ void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
 
     ui->ShotTable->setUpdatesEnabled(false);
     StopMAJSpinbox=true;
+    StopMajSelect=true;
     while (ui->ShotTable->columnCount()>0) ui->ShotTable->removeColumn(0);    // Clear all
+    StopMajSelect=false;
     for (int i=0;i<DiaporamaObject->List.count();i++) {
         ui->ShotTable->insertColumn(i);
         wgt_QCustomThumbnails *Object=new wgt_QCustomThumbnails(ui->ShotTable,THUMBNAILTYPE_SHOT);
@@ -1429,6 +1435,7 @@ void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
 // User select a shot in the ShotTable widget
 
 void DlgSlideProperties::s_ShotTable_SelectionChanged() {
+    if (StopMajSelect) return;
     int i       =ui->BlockTable->currentRow();
     int IndexKey=-1;
     if ((i>=0)&&(i<CompositionList->List.count())) IndexKey=CompositionList->List[i].IndexKey;
@@ -1469,8 +1476,10 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No) return;
     DiaporamaObject->List.removeAt(Current);
     ui->ShotTable->setUpdatesEnabled(false);
+    StopMajSelect=true;
     ui->ShotTable->removeColumn(Current);
     ui->ShotTable->setUpdatesEnabled(true);
+    StopMajSelect=false;
     RefreshShotTable(ui->ShotTable->currentColumn()>0?ui->ShotTable->currentColumn():0);
 }
 

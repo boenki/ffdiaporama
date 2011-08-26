@@ -269,7 +269,7 @@ html>body #banner {
 	position: fixed;
 	top: 0px;
 	left: 150px;
-	width: 100%;
+	width: 712px;
 	height: 36px;
 	background-image: none;
 	background-repeat: repeat;
@@ -296,7 +296,7 @@ html>body #language_banner {
 	position: fixed;
 	top: 36px;
 	left: 150px;
-	width: 100%;
+	width: 712px;
 	height: 16px;
 	background-image: none;
 	background-repeat: repeat;
@@ -319,7 +319,7 @@ html>body #language_banner {
 }
 
 html>body #content {
-	width: 100%;
+	width: 650px;
 	height: 100%;
 	padding-top: 54px;
 	padding-left: 150px;

@@ -141,7 +141,7 @@ extern "C" {
 // Global defines
 //============================================
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "1.0 BETA 2"
+#define APPLICATION_VERSION                 "1.0 BETA 3"
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
@@ -294,7 +294,7 @@ extern "C" {
 #define HELPFILE_INDEX                      "fct_001"
 #define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/<local>/News.php"
 #define HELPFILE_WEBSITEINDEX               "http://ffdiaporama.tuxfamily.org/<local>/index.php"
-#define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/<local>/Support.php"
+#define HELPFILE_SUPPORT                    "fct_001"   //"http://ffdiaporama.tuxfamily.org/<local>/Support.php"
 #define HELPFILE_DlgTextEdit                "dlg_001"
 #define HELPFILE_DlgApplicationSettings     "dlg_002"
 #define HELPFILE_DlgSlideProperties         "dlg_003"
