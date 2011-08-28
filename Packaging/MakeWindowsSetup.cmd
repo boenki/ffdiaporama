@@ -77,3 +77,19 @@ xcopy /s /e c:\Qt\ffmpeg-win32-static ffmpeg
 
 REM Call InoSetup to make package
 "C:\Program Files\Inno Setup 5\Compil32.exe" /cc Y:\ffDiaporama\ffDiaporama\Packaging\ffDiaporama-InoSetup.iss
+
+REM Same Job with Qt DLL with no hardware acceleration
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\lib\QtCore4.dll
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\lib\QtGui4.dll
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\lib\QtXml4.dll
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\lib\QtNetwork4.dll
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\lib\QtWebKit4.dll
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\lib\phonon4.dll
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\plugins\imageformats\qgif4.dll imageformats\qgif4.dll
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\plugins\imageformats\qmng4.dll imageformats\qmng4.dll
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\plugins\imageformats\qico4.dll imageformats\qico4.dll
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\plugins\imageformats\qsvg4.dll imageformats\qsvg4.dll
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\plugins\imageformats\qjpeg4.dll imageformats\qjpeg4.dll
+copy /y C:\Qt\qt-everywhere-opensource-src-4.7.3\plugins\imageformats\qtiff4.dll imageformats\qtiff4.dll
+REM Call InoSetup to make second package
+"C:\Program Files\Inno Setup 5\Compil32.exe" /cc Y:\ffDiaporama\ffDiaporama\Packaging\ffDiaporama-NoA-InoSetup.iss

@@ -239,14 +239,13 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             ThumbHeight = Height-TimelineHeight/2-TIMELINESOUNDHEIGHT*2-5;
             ThumbWidth  = GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
 
-            int     NewThumbHeight  = ThumbHeight-TIMELINESOUNDHEIGHT-2;
-            int     NewThumbWidth   = GlobalMainWindow->Diaporama->GetWidthForHeight(NewThumbHeight);
-            int     BarWidth        = (ThumbWidth-NewThumbWidth)/2;
-
-            bool    HaveSound   =false;
-            double  SoundVolume =0;
-            bool    PreviousHaveSound=false;
-            double  PreviousSoundVolume=0;
+            int     NewThumbHeight      = ThumbHeight-TIMELINESOUNDHEIGHT-2;
+            int     NewThumbWidth       = GlobalMainWindow->Diaporama->GetWidthForHeight(NewThumbHeight);
+            int     BarWidth            = (ThumbWidth-NewThumbWidth)/2;
+            bool    HaveSound           = false;
+            double  SoundVolume         = 0;
+            bool    PreviousHaveSound   = false;
+            double  PreviousSoundVolume = 0;
 
             // Parse current ObjectComposition table to determine if slide have sound
             for (int i=0;i<Object->ObjectComposition.List.count();i++) if ((Object->ObjectComposition.List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&

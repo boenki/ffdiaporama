@@ -1,76 +1,24 @@
 Buggs/TODO (Dernier SVN le 26/08/2011) :
 ----------------------------------------
-BUGG: L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
-TODO: Tester les générations avec plusieurs lecteurs : géométrie douteuse !
-
-Evolutions fonctionnelles
-    A intégrer dans la prochaine version :
-        Rendre certaines propriétés non globales
-                la forme   => exemple : Transformation progressive de carré vers rond
-                la bordure => Transformation progressive de la couleur et de l'épaisseur (quid du style ?)
-                l'ombre    => Transformation progressive de la couleur et de la distance
-        Ajouter des animations
-                de texte (scrolling, zoom in/out)
-                autres animations pour les bloc entrant (1er shot ou bloc invisible dans le shot précédent)
-                autres animations pour les bloc sortant (Dernier shot ou bloc invisible dans le shot suivant)
-        Permettre à  l'utilisateur de mettre une vidéo en pause sans pour autant la mettre en invisible
-        Permettre à  l'utilisateur de changer les marges des textes à  l'intérieur des blocs
-        Faire les fade in/out des musiques lors des changements de volume
-
-    A réfléchir pour la prochaine version (est-ce que ça a vraiment un intéret et est-ce faisable ?) :
-        Remettre des compositions pour le fond d'écran
-        Faire les transitions de fonds+Faire la boite de modif des transitions de fond
-        Permettre à  l'utilisateur de charger un LUMA pour une transition
-
-
-Evolutions ergonomiques :
-    A intégrer dans la prochaine version :
-        Avoir la possibilité d'ajouter des photos/vidéos par drag&drop depuis l'exterieur de l'appli.
-        Avoir aussi la possibilité de faire une muti-sélection quand on veux insérer des images dans un plan (actuellement on a pas cette possibilié)
-        Double click sur un bloc dans la boite slide => ouvre texte, recadrage ou edit video selon le type de bloc
-        Ajouter une option "same as precedente" pour les 3 parties objet / bloc et coordonnées de sorte à  ce que les modifs (dans une des 3 catégories) se répercutent dans les plans suivant.
-        Ajouter la possibilité de pouvoir exporter son projet (par exemple un bouton exporter pour réunir  tous les fichiers du projet dans un dossier ou au  format zip)
-        Cadre Texte, quand on fait une inclusion de texte : clique sur le cadre de "Texte" -> ouvrir directement les propriétés permettant de modifier le texte
-
-    A réfléchir pour la prochaine version (est-ce que ça a vraiment un intéret et est-ce faisable ?) :
-        Ajouter une piste de commentaire sonore
-        Pouvoir déplacer le point de centrage des rotations
-        Pouvoir ne sélectionner qu'une partie du montage pour le rendu
-        Ce serait bien aussi de pouvoir désactiver complètement le son des vidéos, (actuellement le mini est à 10%)
-        Gestion de style pour les blocs textes ?
-        Gestion des guides pour le plus grand rectangle intérieur (images tournées) dans la boite de recadrage
-        Gérer les drags & drop dans la timeline de la boite slide
-        Transférer le contrôle de géométrie de la boite slide à  la boite de recadrage
-        Transférer le contrôle de volume de la boite vidéo à  la boite slide
-        Sur l'interface principale maintenant que tu dispose d'un peut plus de place rajouter un bouton "dupliquer" la diapos.
-        Gérer des groupes de bloc
-        Finir de trier les combobox de codec & format dans les boites options et render
-
-Evolutions diverses
-    Finir l'internationalisation du paquet Ubuntu
-    Ajouter un skip de frame inutile dans cvideofilewrapper::ReadVideoFrame (est-ce que ça a encore un intéret ?)
+BUGG:
+ - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
+ - Erreur dans le calcul des durées mini quand pas de transition et durée de slide à 0
+ - Crochotement dans le son après mixage !
+ - La playlist ne prend en compte qu'un seul morceau ????
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
+    Corrige un gros bug dans la suppression de plan de la boite slide
+    Corrige un bug dans la génération du son : Mauvais nom de répertoire (double slash au lieu d'un slash)
+    Corrige un bug dans la gestion de la playlist - les fichiers suivants étaient ignorés
 
 Divers:
 
 -------------------------------------
-Changelog depuis la version 20110805
+Changelog depuis la version 20110826
 -------------------------------------
 Correction de bug :
-    Met les slashs dans le bon sens dans la liste des projets récents [Windows]
-    Corrige la taille des boutons dans la barre d'outils de la fenêtre principale [Windows]
-    Supprime les deprecated sur av_open_input_file
-    Corrige l'erreur de selection de la 1ere diapositive après le chargement d'un projet
-    Réduit les hachures du son dans la preview
-    Corrige le plantage sur la suppression d'un plan intermédiaire dans la boite slide
 
 Changement de comportement :
-    Optimisation des calculs : Réduction des temps de génération de 15% à 50% selon les objets multimédia
-    Nouvelles corrections de doc de Hazel
-    Accelere les chargements de projet en supprimant l'appel à EXIF pour toutes les images lors des ouvertures de projet et en intégrant les thumbnails dans les fichiers .ffd
-    Ajoute des raccourcis claviers dans la fenêtre principale et les rend accessibles quelque soit l'onglet et le mode actif
-    Ajout de nouveaux fond dans la librairie

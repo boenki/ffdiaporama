@@ -1436,13 +1436,14 @@ void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
 
 void DlgSlideProperties::s_ShotTable_SelectionChanged() {
     if (StopMajSelect) return;
+    int Current=ui->ShotTable->currentColumn();
+    if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
+    CompositionList=&DiaporamaObject->List[Current].ShotComposition;
+
     int i       =ui->BlockTable->currentRow();
     int IndexKey=-1;
     if ((i>=0)&&(i<CompositionList->List.count())) IndexKey=CompositionList->List[i].IndexKey;
 
-    int Current=ui->ShotTable->currentColumn();
-    if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
-    CompositionList=&DiaporamaObject->List[Current].ShotComposition;
     RefreshBlockTable(0);
     if (IndexKey!=-1) {
         int i=0;

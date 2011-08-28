@@ -457,7 +457,10 @@ void DlgRenderVideo::accept() {
     if (IsDestFileOpen) {
         StopProcessWanted=true;
     } else {
-        if (Diaporama->OutputFileName !=ui->DestinationFilePath->text()) { Diaporama->OutputFileName   =ui->DestinationFilePath->text();    IsModify=true; }
+        if (Diaporama->OutputFileName !=ui->DestinationFilePath->text()) {
+            Diaporama->OutputFileName=ui->DestinationFilePath->text();
+            IsModify=true;
+        }
 
         if ((QFileInfo(Diaporama->OutputFileName).exists())&&(QMessageBox::question(this,QApplication::translate("DlgRenderVideo","Overwrite file ?"),
             QApplication::translate("DlgRenderVideo","The file you selected already exist.\nDo you want to overwrite it ?"),
@@ -594,9 +597,9 @@ void DlgRenderVideo::accept() {
         //**********************************************************************************************************************************
 
         // Create tempwavefile in the same directory as destination file
-        TempWAVFileName=QFileInfo(ui->DestinationFilePath->text()).absolutePath();
-        TempWAVFileName=TempWAVFileName+"/temp.wav";
-        TempWAVFileName=AdjustDirForOS(TempWAVFileName);
+        TempWAVFileName=AdjustDirForOS(QFileInfo(Diaporama->OutputFileName).absolutePath());
+        if (!TempWAVFileName.endsWith(QDir::separator())) TempWAVFileName=TempWAVFileName+QDir::separator();
+        TempWAVFileName=TempWAVFileName+"temp.wav";
 
         StartTime=QTime::currentTime();                                  // Display control : time the process start
         Continue=WriteTempAudioFile(TempWAVFileName);
