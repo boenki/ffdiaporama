@@ -159,7 +159,7 @@ bool cimagefilewrapper::CallEXIF() {
                     if ((Value=="left, top")||(Value=="gauche, haut"))      ImageOrientation=5;
                     if ((Value=="right, top")||(Value=="droit, haut"))      ImageOrientation=6;
                     if ((Value=="right, bottom")||(Value=="droit, bas"))    ImageOrientation=7;
-                    if ((Value=="left, bottom")||(Value=="gauche, haut"))   ImageOrientation=8;
+                    if ((Value=="left, bottom")||(Value=="gauche, bas"))    ImageOrientation=8;
                 }
             }
         }

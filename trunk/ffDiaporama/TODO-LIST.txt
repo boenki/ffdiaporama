@@ -1,18 +1,17 @@
-Buggs/TODO (Dernier SVN le 26/08/2011) :
+Buggs/TODO (Dernier SVN le 28/08/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
  - Erreur dans le calcul des durées mini quand pas de transition et durée de slide à 0
  - Crochotement dans le son après mixage !
- - La playlist ne prend en compte qu'un seul morceau ????
+ - La fenetre principale ne s'affiche pas correctement si plein écran [Windows]
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
-    Corrige un gros bug dans la suppression de plan de la boite slide
-    Corrige un bug dans la génération du son : Mauvais nom de répertoire (double slash au lieu d'un slash)
-    Corrige un bug dans la gestion de la playlist - les fichiers suivants étaient ignorés
+    Réécrit la fonction de ré-échantillonage du son pour limiter les craquements
+    Corrige un bug à l'ouverture des fichiers vidéos qui refusait des fichiers éligibles (format non compatible)
 
 Divers:
 
@@ -20,5 +19,8 @@ Divers:
 Changelog depuis la version 20110826
 -------------------------------------
 Correction de bug :
+    Corrige un gros bug dans la suppression de plan de la boite slide
+    Corrige un bug dans la génération du son : Mauvais nom de répertoire (double slash au lieu d'un slash)
+    Corrige un bug dans la gestion de la playlist - les fichiers suivants étaient ignorés
 
 Changement de comportement :

@@ -238,58 +238,101 @@ void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackB
     // Transfert data from BufferForDecoded to Buffer using audio_resample
     //**********************************************************************
     if (AudioLenDecoded>0) {
-        // Create a context for resampling audio data
-        ReSampleContext *RSC=NULL;  // Context for resampling audio data
 
-        if ((SoundTrackBloc->Channels!=AudioStream->codec->channels)||(SoundTrackBloc->SamplingRate!=AudioStream->codec->sample_rate)) RSC=av_audio_resample_init(
-                SoundTrackBloc->Channels,AudioStream->codec->channels,          // output_channels, input_channels
-                SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,   // output_rate, input_rate
-                SAMPLE_FMT_S16,AudioStream->codec->sample_fmt,                  // sample_fmt_out, sample_fmt_in
-                16,                                                             // filter_length
-                10,                                                             // log2_phase_count
-                0,                                                              // linear
-                0.8);                                                           // cutoff
+        // Adjust volume
+        if (Volume!=1) {
+            int16_t *Buf1=(int16_t*)BufferForDecoded;
+            int32_t mix;
+            for (int j=0;j<AudioLenDecoded/(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels);j++) {
+                // Left channel : Adjust if necessary (16 bits)
+                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+                // Right channel : Adjust if necessary (16 bits)
+                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+            }
+        }
 
-        if (RSC!=NULL) {
-            short int*BufSampled=(short int*)av_malloc((AVCODEC_MAX_AUDIO_FRAME_SIZE*3)/2);
-            // Resample sound to wanted freq. and channels
-            try {
-                int64_t SizeSampled=audio_resample(RSC,BufSampled,(short int*)BufferForDecoded,AudioLenDecoded/SrcSampleSize)*DstSampleSize;
-                // Adjust volume
-                if (Volume!=1) {
-                    int16_t *Buf1=(int16_t*)BufSampled;
-                    int32_t mix;
-                    for (int j=0;j<SizeSampled/(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels);j++) {
-                        // Left channel : Adjust if necessary (16 bits)
-                        mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                        // Right channel : Adjust if necessary (16 bits)
-                        mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+        bool Continue=true;
+        if (AudioStream->codec->channels==1) {
+            // Mono to stereo
+            int16_t *NewBuf=(short int*)av_malloc(AudioLenDecoded*DstSampleSize+DstSampleSize);
+            int16_t *Pa=NewBuf;
+            int16_t *Pb=(int16_t*)BufferForDecoded;
+
+            for (int i=0;i<AudioLenDecoded/2;i++) {
+                *(Pa++)=*Pb;
+                *(Pa++)=*(Pb++);
+            }
+            // Switch the 2 buffers
+            av_free(BufferForDecoded);
+            BufferForDecoded=(uint8_t*)NewBuf;
+            AudioLenDecoded=AudioLenDecoded*2;
+
+        } else if (AudioStream->codec->channels!=2) {
+            // 5.1 to stereo ?????
+            Continue=false;
+        }
+
+        if (Continue) {
+
+            if (SoundTrackBloc->SamplingRate!=AudioStream->codec->sample_rate) {
+
+                //////////////////////////////////////////////////////////////////////////////////////////////////////
+                // L'idée c'est de réécrire dans une boucle simple par incrément de 2 buffers
+                // en gérant 2 doubles qui s'incrémentent de 1/sample_rate
+                // avec doublement de la valeur chaque fois que l'ecart entre les 2 compteurs dépasse 1/sample_rate
+                //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                double  NewSize=(double(AudioLenDecoded/DstSampleSize)/double(AudioStream->codec->sample_rate))*double(SoundTrackBloc->SamplingRate);
+                double  PasSrc =1/double(AudioStream->codec->sample_rate);
+                double  PasDst =1/double(SoundTrackBloc->SamplingRate);
+                double  PosSrc =0;
+                double  PosDst =0;
+                int16_t *NewBuf=(short int*)av_malloc(NewSize*DstSampleSize+DstSampleSize);
+                int16_t *PtrSrc=(int16_t*)BufferForDecoded;
+                int16_t *PtrDst=NewBuf;
+                int16_t Left,Right;
+
+                for (int i=0;i<AudioLenDecoded/DstSampleSize;i++) {
+                    Left=*(PtrSrc++);
+                    Right=*(PtrSrc++);
+                    *(PtrDst++)=Left;           // First Chanel
+                    *(PtrDst++)=Right;          // Second Chanel
+                    PosSrc=PosSrc+PasSrc;
+                    PosDst=PosDst+PasDst;
+                    if ((PosSrc-PosDst)>=PasDst) {
+                        *(PtrDst++)=Left;           // First Chanel
+                        *(PtrDst++)=Right;          // Second Chanel
+                        PosDst=PosDst+PasDst;
                     }
                 }
+
                 // Append data to SoundTrackBloc
-                SoundTrackBloc->AppendData((int16_t*)BufSampled,SizeSampled);
-            } catch (...) {
-                qDebug()<<"Plantage audio_resample ????";
+                SoundTrackBloc->AppendData((int16_t*)NewBuf,trunc(NewSize)*DstSampleSize);
+                av_free(NewBuf);                                                    // Free allocated buffers
+
+/*                // Resample sound to wanted freq. using ffmpeg audio_resample function
+                ReSampleContext *RSC=av_audio_resample_init(                        // Context for resampling audio data
+                    SoundTrackBloc->Channels,2,                                     // output_channels, input_channels
+                    SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,   // output_rate, input_rate
+                    SAMPLE_FMT_S16,AudioStream->codec->sample_fmt,                  // sample_fmt_out, sample_fmt_in
+                    16,                                                             // filter_length
+                    10,                                                             // log2_phase_count
+                    0,                                                              // linear
+                    0.8);                                                           // cutoff
+                if (RSC!=NULL) {
+                    short int*BufSampled=(short int*)av_malloc((AVCODEC_MAX_AUDIO_FRAME_SIZE*3)/2);
+                    int64_t SizeSampled=audio_resample(RSC,BufSampled,(short int*)BufferForDecoded,AudioLenDecoded/SrcSampleSize)*DstSampleSize;
+                    SoundTrackBloc->AppendData((int16_t*)BufSampled,SizeSampled);   // Append data to SoundTrackBloc
+                    audio_resample_close(RSC);                                      // Close the resampling audio context
+                    av_free(BufSampled);                                            // Free allocated buffers
+                }
+*/
+
+            } else {
+                // Append data to SoundTrackBloc
+                SoundTrackBloc->AppendData((int16_t*)BufferForDecoded,AudioLenDecoded);
             }
 
-            // Close the resampling audio context
-            audio_resample_close(RSC);
-            // Free allocated buffers
-            av_free(BufSampled);
-        } else {
-            // Adjust volume
-            if (Volume!=1) {
-                int16_t *Buf1=(int16_t*)BufferForDecoded;
-                int32_t mix;
-                for (int j=0;j<AudioLenDecoded/(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels);j++) {
-                    // Left channel : Adjust if necessary (16 bits)
-                    mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                    // Right channel : Adjust if necessary (16 bits)
-                    mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                }
-            }
-            // Append data to SoundTrackBloc
-            SoundTrackBloc->AppendData((int16_t*)BufferForDecoded,AudioLenDecoded);
         }
     }
 
@@ -645,6 +688,21 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
             av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL);
         #endif
         ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
+
+        if (av_find_stream_info(ffmpegVideoFile)<0) return false;
+
+        // Get informations about duration
+        int hh,mm,ss,ms;
+        ms=ffmpegVideoFile->duration/1000;
+        ss=ms/1000;
+        mm=ss/60;
+        hh=mm/60;
+
+        mm=mm-(hh*60);
+        ss=ss-(ss/60)*60;
+        ms=ms-(ms/1000)*1000;
+        Duration=QTime(hh,mm,ss,ms);
+        EndPos  =Duration;    // By default : EndPos is set to the end of file
 
         while ((VideoStreamNumber<(int)ffmpegVideoFile->nb_streams)&&(ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_type!=AVMEDIA_TYPE_VIDEO)) VideoStreamNumber++;
         if (VideoStreamNumber>=(int)ffmpegVideoFile->nb_streams) return false;
