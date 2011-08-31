@@ -1019,7 +1019,6 @@ cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int &StartPosition,int 
 
     // Now we have the object owner of the playlist (or 0). Then we can calculate wich music in the playlist is usable for this object
     int i=0;
-    qDebug()<<QTime(0,0,0,0).msecsTo(List[Index].MusicList[i].Duration);
     while ((i<List[Index].MusicList.count())&&(StartPosition>QTime(0,0,0,0).msecsTo(List[Index].MusicList[i].Duration))) {
         StartPosition-=QTime(0,0,0,0).msecsTo(List[Index].MusicList[i].Duration);
         i++;
