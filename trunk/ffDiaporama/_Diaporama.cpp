@@ -1274,7 +1274,7 @@ void cDiaporama::FreeUnusedMemory(int ObjectNum) {
 // Function use directly or with thread to prepare an image number Column at given position
 // Note : Position is relative to the start of the Column object !
 //============================================================================================
-void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *MusicTrack) {
+void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int Position,cSoundBlockList *MusicTrack) {
     if (Column>=List.count()) {
         for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
         return;
@@ -1322,7 +1322,7 @@ void cDiaporama::PrepareMusicBloc(int Column,int Position,cSoundBlockList *Music
         }
 
         // Get more music bloc at correct position (volume is always 100% @ this point !)
-        CurMusic->Music->ImageAt(false,Position+StartPosition,0,false,MusicTrack,1,true,NULL);
+        CurMusic->Music->ImageAt(PreviewMode,Position+StartPosition,0,false,MusicTrack,1,true,NULL);
 
         // Apply correct volume to block in queue
         if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
@@ -1826,10 +1826,10 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
 
         // Load music bloc
         if ((PreviewMode || SoundOnly)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)) {
-            PrepareMusicBloc(Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
+            PrepareMusicBloc(PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
         }
         if ((PreviewMode || SoundOnly)&&(Info->TransitObject)&&(Info->TransitObject_MusicTrack)) {
-            PrepareMusicBloc(Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
+            PrepareMusicBloc(PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
         }
         // Transition Object if a previous was not keep !
         if (Info->TransitObject) {

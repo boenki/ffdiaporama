@@ -307,7 +307,7 @@ public:
     void                FreeUnusedMemory(int ObjectNum);
 
     // Thread functions
-    void                PrepareMusicBloc(int Column,int Position,cSoundBlockList *MusicTrack);
+    void                PrepareMusicBloc(bool PreviewMode,int Column,int Position,cSoundBlockList *MusicTrack);
     void                LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos);
     void                DoAssembly(cDiaporamaObjectInfo *Info,int W,int H);
 

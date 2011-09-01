@@ -141,7 +141,7 @@ extern "C" {
 // Global defines
 //============================================
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "1.0 BETA 3"
+#define APPLICATION_VERSION                 "1.0 BETA 3 patch Hermite"
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
