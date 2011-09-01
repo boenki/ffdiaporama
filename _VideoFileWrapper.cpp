@@ -106,7 +106,7 @@ void cvideofilewrapper::CloseVideoFileReader() {
 //====================================================================================================================
 // Read an audio frame from current stream
 //====================================================================================================================
-void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
+void cvideofilewrapper::ReadAudioFrame(bool PreviewMode,int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
     // Ensure file was previously open and all is ok
     if ((SoundTrackBloc==NULL)||(ffmpegAudioFile->streams[AudioStreamNumber]==NULL)||(ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
 
@@ -276,12 +276,6 @@ void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackB
 
             if (SoundTrackBloc->SamplingRate!=AudioStream->codec->sample_rate) {
 
-                //////////////////////////////////////////////////////////////////////////////////////////////////////
-                // L'idée c'est de réécrire dans une boucle simple par incrément de 2 buffers
-                // en gérant 2 doubles qui s'incrémentent de 1/sample_rate
-                // avec doublement de la valeur chaque fois que l'ecart entre les 2 compteurs dépasse 1/sample_rate
-                //////////////////////////////////////////////////////////////////////////////////////////////////////
-
                 double  NewSize=(double(AudioLenDecoded/DstSampleSize)/double(AudioStream->codec->sample_rate))*double(SoundTrackBloc->SamplingRate);
                 double  PasSrc =1/double(AudioStream->codec->sample_rate);
                 double  PasDst =1/double(SoundTrackBloc->SamplingRate);
@@ -290,27 +284,106 @@ void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackB
                 int16_t *NewBuf=(short int*)av_malloc(NewSize*DstSampleSize+DstSampleSize);
                 int16_t *PtrSrc=(int16_t*)BufferForDecoded;
                 int16_t *PtrDst=NewBuf;
-                int16_t Left,Right;
+                int     RealNewSize=0;
 
-                for (int i=0;i<AudioLenDecoded/DstSampleSize;i++) {
-                    Left=*(PtrSrc++);
-                    Right=*(PtrSrc++);
-                    *(PtrDst++)=Left;           // First Chanel
-                    *(PtrDst++)=Right;          // Second Chanel
-                    PosSrc=PosSrc+PasSrc;
-                    PosDst=PosDst+PasDst;
-                    if ((PosSrc-PosDst)>=PasDst) {
+                if (PreviewMode) {
+                    // For Preview Mode use a quick resampling linear method without interpolation
+                    int16_t Left,Right;
+
+                    for (int i=0;i<AudioLenDecoded/DstSampleSize;i++) {
+                        Left=*(PtrSrc++);
+                        Right=*(PtrSrc++);
                         *(PtrDst++)=Left;           // First Chanel
                         *(PtrDst++)=Right;          // Second Chanel
+                        PosSrc=PosSrc+PasSrc;
                         PosDst=PosDst+PasDst;
+                        RealNewSize++;
+                        if ((PosSrc-PosDst)>=PasDst) {
+                            *(PtrDst++)=Left;           // First Chanel
+                            *(PtrDst++)=Right;          // Second Chanel
+                            PosDst=PosDst+PasDst;
+                            RealNewSize++;
+                        }
                     }
+
+                } else {
+                    // For Rendering Mode use a resampling linear method with Hermit interpolation (http://en.wikipedia.org/wiki/Hermite_interpolation)
+                    int16_t Left_x0,Left_x1,Left_x2,Left_x3;
+                    int16_t Right_x0,Right_x1,Right_x2,Right_x3;
+                    float   t,c0,c1,c2,c3,Value;
+
+                    // First value
+                    Left_x0=*(PtrSrc++);    *(PtrDst++)=Left_x0;
+                    Right_x0=*(PtrSrc++);   *(PtrDst++)=Right_x0;
+                    PosSrc=PosSrc+PasSrc;
+                    PosDst=PosDst+PasDst;
+                    RealNewSize++;
+
+                    // Second value
+                    Left_x1=*(PtrSrc++);    *(PtrDst++)=Left_x1;
+                    Right_x1=*(PtrSrc++);   *(PtrDst++)=Right_x1;
+                    //PosSrc=PosSrc+PasSrc;
+                    PosDst=PosDst+PasDst;
+                    RealNewSize++;
+
+                    // Third value
+                    Left_x2=*(PtrSrc++);
+                    Right_x2=*(PtrSrc++);
+
+                    // Neutralize first swap
+                    Left_x3 =Left_x2;       Left_x2 =Left_x1;       Left_x1 =Left_x0;
+                    Right_x3=Right_x2;      Right_x2=Right_x1;      Right_x1=Right_x0;
+
+                    for (int i=2;i<(NewSize-2);i++) {
+
+                        if ((PosDst-PosSrc)>=PasSrc) {
+                            // swap all values
+                            Left_x0 =Left_x1;       Left_x1 =Left_x2;       Left_x2 =Left_x3;
+                            Right_x0=Right_x1;      Right_x1=Right_x2;      Right_x2=Right_x3;
+
+                            // Get fourth value
+                            Left_x3=*(PtrSrc++);
+                            Right_x3=*(PtrSrc++);
+                            PosSrc=PosSrc+PasSrc;
+                        }
+
+                        // Calculate distance between PosSrc and next point
+                        t=(PosDst-PosSrc)/PasSrc;
+
+                        // Calculate interpolation using Hermite method
+                        // Left Chanel
+                        c0   =Left_x1;
+                        c1   =.5F * (Left_x2 - Left_x0);
+                        c2   =Left_x0 - (2.5F * Left_x1) + (2 * Left_x2) - (.5F * Left_x3);
+                        c3   =(.5F * (Left_x3 - Left_x0)) + (1.5F * (Left_x1 - Left_x2));
+                        Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
+                        *(PtrDst++)=int16_t(Value);
+                        // Right Chanel
+                        c0   =Right_x1;
+                        c1   =.5F * (Right_x2 - Right_x0);
+                        c2   =Right_x0 - (2.5F * Right_x1) + (2 * Right_x2) - (.5F * Right_x3);
+                        c3   =(.5F * (Right_x3 - Right_x0)) + (1.5F * (Right_x1 - Right_x2));
+                        Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
+                        *(PtrDst++)=int16_t(Value);
+                        PosDst=PosDst+PasDst;
+                        RealNewSize++;
+                    }
+                    // Last 2 values
+                    *(PtrDst++)=Left_x2;
+                    *(PtrDst++)=Right_x2;
+                    RealNewSize++;
+                    *(PtrDst++)=Left_x3;
+                    *(PtrDst++)=Right_x3;
+                    RealNewSize++;
+
                 }
 
                 // Append data to SoundTrackBloc
-                SoundTrackBloc->AppendData((int16_t*)NewBuf,trunc(NewSize)*DstSampleSize);
+                SoundTrackBloc->AppendData((int16_t*)NewBuf,trunc(RealNewSize)*DstSampleSize);
                 av_free(NewBuf);                                                    // Free allocated buffers
 
-/*                // Resample sound to wanted freq. using ffmpeg audio_resample function
+                /* OLD VERSION USING FFMPEG FUNCTION
+                // Resample sound to wanted freq. using ffmpeg audio_resample function
                 ReSampleContext *RSC=av_audio_resample_init(                        // Context for resampling audio data
                     SoundTrackBloc->Channels,2,                                     // output_channels, input_channels
                     SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,   // output_rate, input_rate
@@ -326,7 +399,7 @@ void cvideofilewrapper::ReadAudioFrame(int Position,cSoundBlockList *SoundTrackB
                     audio_resample_close(RSC);                                      // Close the resampling audio context
                     av_free(BufSampled);                                            // Free allocated buffers
                 }
-*/
+                */
 
             } else {
                 // Append data to SoundTrackBloc
@@ -774,7 +847,7 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,int StartPosToA
     // Load a video frame
     QImage *LoadedImage=NULL;
 
-    if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)) ReadAudioFrame(Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
+    if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)) ReadAudioFrame(PreviewMode,Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
     if ((!MusicOnly)&&(!ForceSoundOnly)) LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
 
     if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
