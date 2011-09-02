@@ -9,6 +9,8 @@ BUGG:
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
+    Délocalise la lecture de l'orientation des images : Ne dépend plus de la langue du système.
+    Corrige les erreures de lecture des accents dans les données EXIF, XMP et IPTC.
 
 Divers:
 

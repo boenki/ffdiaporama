@@ -129,6 +129,46 @@ bool cimagefilewrapper::CallEXIF() {
         ExifOK=false;
     }
     if (ExifOK) {
+        Info=QString().fromLocal8Bit(Process.readAllStandardOutput());
+
+        while (Info.length()>0) {
+            if (Info.contains("\n")) {
+                Part=Info.left(Info.indexOf("\n"));
+                Info=Info.mid(Info.indexOf("\n")+QString("\n").length());
+            } else {
+                Part=Info;
+                Info="";
+            }
+            QString Designation,Value;
+            if (Part.contains(" ")) {
+                Designation=Part.left(Part.indexOf(" "));
+                while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
+                Value=(Part.mid(Part.indexOf(" ")+QString(" ").length())).trimmed();
+                if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
+                if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
+                if (Part.contains(" ")) Part=Part.left(Part.indexOf(" "));
+                if (Part.startsWith("Exif.")) Part=Part.mid(QString("Exif.").length());
+                ExivValue.append(Part+"##"+Value);
+            }
+        }
+    }
+    // Restart same job with -pv option to know binary value of orientation
+    Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pva -g Exif.Image.Orientation \""+FileName+"\"";
+    Commande = AdjustDirForOS(Commande);
+    Process.start(Commande);
+    if (!Process.waitForStarted()) {
+        qDebug()<<"Impossible to start exiv2 - no exif informations will be decode for"<<FileName;
+        ExifOK=false;
+    }
+    if (ExifOK && !Process.waitForFinished()) {
+        qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<FileName;
+        ExifOK=false;
+    }
+    if (ExifOK && (Process.exitStatus()<0)) {
+        qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode for"<<FileName;
+        ExifOK=false;
+    }
+    if (ExifOK) {
         Info=QString(Process.readAllStandardOutput());
 
         while (Info.length()>0) {
@@ -140,26 +180,12 @@ bool cimagefilewrapper::CallEXIF() {
                 Info="";
             }
             QString Designation,Value;
-            bool    GetValueOrientation;
             if (Part.contains(" ")) {
                 Designation=Part.left(Part.indexOf(" "));
-                GetValueOrientation=(Designation=="Exif.Image.Orientation");
                 while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
-                Value=(Part.mid(Part.indexOf(" ")+QString(" ").length())).trimmed();
-                if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
-                if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
-                if (Part.contains(" ")) Part=Part.left(Part.indexOf(" "));
-                if (Part.startsWith("Exif.")) Part=Part.mid(QString("Exif.").length());
-                ExivValue.append(Part+"##"+Value);
-                if (GetValueOrientation) {
-                    if ((Value=="top, left")||(Value=="haut, gauche"))      ImageOrientation=1;
-                    if ((Value=="top, right")||(Value=="haut, droit"))      ImageOrientation=2;
-                    if ((Value=="bottom, right")||(Value=="bas, droit"))    ImageOrientation=3;
-                    if ((Value=="bottom, left")||(Value=="bas, gauche"))    ImageOrientation=4;
-                    if ((Value=="left, top")||(Value=="gauche, haut"))      ImageOrientation=5;
-                    if ((Value=="right, top")||(Value=="droit, haut"))      ImageOrientation=6;
-                    if ((Value=="right, bottom")||(Value=="droit, bas"))    ImageOrientation=7;
-                    if ((Value=="left, bottom")||(Value=="gauche, bas"))    ImageOrientation=8;
+                if (Designation=="0x0112") {
+                    Value=(Part.mid(Part.lastIndexOf(" ")+QString(" ").length())).trimmed();
+                    ImageOrientation=Value.toInt();
                 }
             }
         }
