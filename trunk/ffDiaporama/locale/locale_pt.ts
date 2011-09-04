@@ -685,6 +685,11 @@ Crossfade transition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../DlgApplicationSettings.ui" line="1858"/>
+        <source>F1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../DlgApplicationSettings.cpp" line="306"/>
         <source>Do you whant to apply modification for this device?</source>
         <translation type="unfinished"></translation>
@@ -770,6 +775,11 @@ Crossfade transition</source>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="647"/>
         <source>&amp;Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgBackgroundProperties.ui" line="654"/>
+        <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -976,6 +986,11 @@ Crossfade transition</source>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../DlgImageCorrection.ui" line="918"/>
+        <source>F1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgMusicProperties</name>
@@ -1127,6 +1142,11 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgMusicProperties.ui" line="423"/>
         <source>&amp;Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgMusicProperties.ui" line="430"/>
+        <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1357,6 +1377,11 @@ Move the current selected file of a notch downward.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../DlgRenderVideo.ui" line="799"/>
+        <source>F1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../DlgRenderVideo.cpp" line="38"/>
         <source>Advanced render video</source>
         <translation type="unfinished"></translation>
@@ -1377,84 +1402,84 @@ Move the current selected file of a notch downward.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="462"/>
+        <location filename="../DlgRenderVideo.cpp" line="465"/>
         <source>Overwrite file ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="463"/>
+        <location filename="../DlgRenderVideo.cpp" line="466"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="500"/>
-        <location filename="../DlgRenderVideo.cpp" line="512"/>
-        <location filename="../DlgRenderVideo.cpp" line="665"/>
-        <location filename="../DlgRenderVideo.cpp" line="684"/>
-        <location filename="../DlgRenderVideo.cpp" line="835"/>
-        <location filename="../DlgRenderVideo.cpp" line="872"/>
-        <location filename="../DlgRenderVideo.cpp" line="880"/>
-        <location filename="../DlgRenderVideo.cpp" line="892"/>
-        <location filename="../DlgRenderVideo.cpp" line="902"/>
-        <location filename="../DlgRenderVideo.cpp" line="914"/>
-        <location filename="../DlgRenderVideo.cpp" line="936"/>
-        <location filename="../DlgRenderVideo.cpp" line="961"/>
-        <location filename="../DlgRenderVideo.cpp" line="970"/>
-        <location filename="../DlgRenderVideo.cpp" line="978"/>
-        <location filename="../DlgRenderVideo.cpp" line="1071"/>
-        <location filename="../DlgRenderVideo.cpp" line="1075"/>
-        <location filename="../DlgRenderVideo.cpp" line="1099"/>
+        <location filename="../DlgRenderVideo.cpp" line="503"/>
+        <location filename="../DlgRenderVideo.cpp" line="515"/>
+        <location filename="../DlgRenderVideo.cpp" line="668"/>
+        <location filename="../DlgRenderVideo.cpp" line="687"/>
+        <location filename="../DlgRenderVideo.cpp" line="838"/>
+        <location filename="../DlgRenderVideo.cpp" line="875"/>
+        <location filename="../DlgRenderVideo.cpp" line="883"/>
+        <location filename="../DlgRenderVideo.cpp" line="895"/>
+        <location filename="../DlgRenderVideo.cpp" line="905"/>
+        <location filename="../DlgRenderVideo.cpp" line="917"/>
+        <location filename="../DlgRenderVideo.cpp" line="939"/>
+        <location filename="../DlgRenderVideo.cpp" line="964"/>
+        <location filename="../DlgRenderVideo.cpp" line="973"/>
+        <location filename="../DlgRenderVideo.cpp" line="981"/>
+        <location filename="../DlgRenderVideo.cpp" line="1083"/>
+        <location filename="../DlgRenderVideo.cpp" line="1087"/>
+        <location filename="../DlgRenderVideo.cpp" line="1111"/>
         <source>Render video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="726"/>
-        <location filename="../DlgRenderVideo.cpp" line="778"/>
-        <location filename="../DlgRenderVideo.cpp" line="785"/>
-        <location filename="../DlgRenderVideo.cpp" line="820"/>
-        <location filename="../DlgRenderVideo.cpp" line="824"/>
+        <location filename="../DlgRenderVideo.cpp" line="729"/>
+        <location filename="../DlgRenderVideo.cpp" line="781"/>
+        <location filename="../DlgRenderVideo.cpp" line="788"/>
+        <location filename="../DlgRenderVideo.cpp" line="823"/>
+        <location filename="../DlgRenderVideo.cpp" line="827"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="727"/>
+        <location filename="../DlgRenderVideo.cpp" line="730"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="755"/>
+        <location filename="../DlgRenderVideo.cpp" line="758"/>
         <source> - Estimated time left : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="778"/>
+        <location filename="../DlgRenderVideo.cpp" line="781"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="785"/>
+        <location filename="../DlgRenderVideo.cpp" line="788"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="820"/>
+        <location filename="../DlgRenderVideo.cpp" line="823"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="824"/>
+        <location filename="../DlgRenderVideo.cpp" line="827"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="835"/>
+        <location filename="../DlgRenderVideo.cpp" line="838"/>
         <source>Job completed succesfully !</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1633,549 +1658,609 @@ Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="697"/>
+        <location filename="../DlgSlideProperties.ui" line="672"/>
+        <source>PgUp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.ui" line="700"/>
         <source>Change the order of blocks by moving the active block downward (towards the foreground)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="807"/>
+        <location filename="../DlgSlideProperties.ui" line="716"/>
+        <source>PgDown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.ui" line="813"/>
         <source>Add a new title block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="842"/>
+        <location filename="../DlgSlideProperties.ui" line="823"/>
+        <source>Ctrl+Ins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.ui" line="851"/>
         <source>Add a new block of type image or video.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="871"/>
+        <location filename="../DlgSlideProperties.ui" line="861"/>
+        <source>Ins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.ui" line="883"/>
         <source>Remove the current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="900"/>
+        <location filename="../DlgSlideProperties.ui" line="893"/>
+        <source>Del</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.ui" line="915"/>
         <source>Copy the current block to the ffDiaporama clipboard.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="929"/>
+        <location filename="../DlgSlideProperties.ui" line="925"/>
+        <source>Ctrl+C</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.ui" line="947"/>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="958"/>
+        <location filename="../DlgSlideProperties.ui" line="957"/>
+        <source>Ctrl+X</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.ui" line="979"/>
         <source>Paste block from the ffDiaporama clipboard and insert it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="994"/>
+        <location filename="../DlgSlideProperties.ui" line="989"/>
+        <source>Ctrl+V</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.ui" line="1018"/>
         <source>Make visible or hidden the active block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1023"/>
+        <location filename="../DlgSlideProperties.ui" line="1047"/>
         <source>Give the sound, during this shot, to the current video block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1059"/>
+        <location filename="../DlgSlideProperties.ui" line="1083"/>
         <source>Define the properties of the text block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1088"/>
+        <location filename="../DlgSlideProperties.ui" line="1093"/>
+        <source>F5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.ui" line="1115"/>
         <source>Define framing and do correction of image or movie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1117"/>
+        <location filename="../DlgSlideProperties.ui" line="1125"/>
+        <source>F6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.ui" line="1147"/>
         <source>Cut the video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1159"/>
+        <location filename="../DlgSlideProperties.ui" line="1157"/>
+        <source>F7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.ui" line="1192"/>
         <source>Block/Object</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1222"/>
+        <location filename="../DlgSlideProperties.ui" line="1255"/>
         <source>Border :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1238"/>
+        <location filename="../DlgSlideProperties.ui" line="1271"/>
         <source>Shape :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1266"/>
+        <location filename="../DlgSlideProperties.ui" line="1299"/>
         <source>Select a shape for current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1282"/>
+        <location filename="../DlgSlideProperties.ui" line="1315"/>
         <source>Opacity :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1310"/>
+        <location filename="../DlgSlideProperties.ui" line="1343"/>
         <source>Defined the opaqueness of the block.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1342"/>
+        <location filename="../DlgSlideProperties.ui" line="1375"/>
         <source>Defined the thickness of the border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1370"/>
+        <location filename="../DlgSlideProperties.ui" line="1403"/>
         <source>Defined the color of the line to be used to draw the border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1401"/>
+        <location filename="../DlgSlideProperties.ui" line="1434"/>
         <source>Defined the type of line (solid, dotted line, etc.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1455"/>
-        <location filename="../DlgSlideProperties.ui" line="1494"/>
+        <location filename="../DlgSlideProperties.ui" line="1488"/>
+        <location filename="../DlgSlideProperties.ui" line="1527"/>
         <source>Define rotation according to the X axis (defined in degree).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1538"/>
-        <location filename="../DlgSlideProperties.ui" line="1577"/>
+        <location filename="../DlgSlideProperties.ui" line="1571"/>
+        <location filename="../DlgSlideProperties.ui" line="1610"/>
         <source>Define rotation according to the Y axis (defined in degree).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1621"/>
-        <location filename="../DlgSlideProperties.ui" line="1660"/>
+        <location filename="../DlgSlideProperties.ui" line="1654"/>
+        <location filename="../DlgSlideProperties.ui" line="1693"/>
         <source>Define rotation according to the Z axis (defined in degree).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1712"/>
+        <location filename="../DlgSlideProperties.ui" line="1745"/>
         <source>Defined the distance between the block and its shadow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1740"/>
+        <location filename="../DlgSlideProperties.ui" line="1773"/>
         <source>Defined the color of the shadow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1780"/>
+        <location filename="../DlgSlideProperties.ui" line="1813"/>
         <source>Define the background brush type for the shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1787"/>
+        <location filename="../DlgSlideProperties.ui" line="1820"/>
         <source>Brush :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1797"/>
-        <location filename="../DlgSlideProperties.cpp" line="442"/>
+        <location filename="../DlgSlideProperties.ui" line="1830"/>
+        <location filename="../DlgSlideProperties.cpp" line="443"/>
         <source>Color :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1833"/>
+        <location filename="../DlgSlideProperties.ui" line="1866"/>
         <source>Define the color (or first color for a gradient brush)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1858"/>
+        <location filename="../DlgSlideProperties.ui" line="1891"/>
         <source>Define the second gradient brush color </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1883"/>
+        <location filename="../DlgSlideProperties.ui" line="1916"/>
         <source>Define the third gradient brush color </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1917"/>
+        <location filename="../DlgSlideProperties.ui" line="1950"/>
         <source>Pattern :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1945"/>
+        <location filename="../DlgSlideProperties.ui" line="1978"/>
         <source>Select the pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1961"/>
+        <location filename="../DlgSlideProperties.ui" line="1994"/>
         <source>Orientation :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1989"/>
+        <location filename="../DlgSlideProperties.ui" line="2022"/>
         <source>Define orientation of the gradient brush</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2002"/>
+        <location filename="../DlgSlideProperties.ui" line="2035"/>
         <source>Position :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2035"/>
-        <location filename="../DlgSlideProperties.ui" line="2074"/>
+        <location filename="../DlgSlideProperties.ui" line="2068"/>
+        <location filename="../DlgSlideProperties.ui" line="2107"/>
         <source>Define position of the second color in the gradient brush</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2095"/>
+        <location filename="../DlgSlideProperties.ui" line="2128"/>
         <source>Image :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2123"/>
+        <location filename="../DlgSlideProperties.ui" line="2156"/>
         <source>Select an image among that present in the library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2130"/>
+        <location filename="../DlgSlideProperties.ui" line="2163"/>
         <source>Filename :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2169"/>
+        <location filename="../DlgSlideProperties.ui" line="2202"/>
         <source>Name of image/video file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2191"/>
+        <location filename="../DlgSlideProperties.ui" line="2224"/>
         <source>Select an other file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2207"/>
+        <location filename="../DlgSlideProperties.ui" line="2240"/>
         <source>Geometry :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2235"/>
+        <location filename="../DlgSlideProperties.ui" line="2268"/>
         <source>Select the geometrical constraint to be applied to the block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2242"/>
+        <location filename="../DlgSlideProperties.ui" line="2275"/>
         <source>Transformation :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2270"/>
+        <location filename="../DlgSlideProperties.ui" line="2303"/>
         <source>Apply a filter to the photo or the images of the video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2277"/>
+        <location filename="../DlgSlideProperties.ui" line="2310"/>
         <source>Blur/Sharpen :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2316"/>
-        <location filename="../DlgSlideProperties.ui" line="2359"/>
-        <location filename="../DlgSlideProperties.ui" line="2422"/>
-        <location filename="../DlgSlideProperties.ui" line="2456"/>
+        <location filename="../DlgSlideProperties.ui" line="2349"/>
+        <location filename="../DlgSlideProperties.ui" line="2392"/>
+        <location filename="../DlgSlideProperties.ui" line="2455"/>
+        <location filename="../DlgSlideProperties.ui" line="2489"/>
         <source>Define a blur/sharpen filter to the photo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2383"/>
+        <location filename="../DlgSlideProperties.ui" line="2416"/>
         <source>Radius :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2518"/>
+        <location filename="../DlgSlideProperties.ui" line="2551"/>
         <source>Define width of current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2591"/>
+        <location filename="../DlgSlideProperties.ui" line="2624"/>
         <source>Define height of current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2640"/>
+        <location filename="../DlgSlideProperties.ui" line="2673"/>
         <source>Define X position of current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2713"/>
+        <location filename="../DlgSlideProperties.ui" line="2746"/>
         <source>Define Y position of current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2752"/>
+        <location filename="../DlgSlideProperties.ui" line="2785"/>
         <source>Defined in which corner the shadow will be positioned (or no shadow)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2766"/>
+        <location filename="../DlgSlideProperties.ui" line="2799"/>
         <source>Shadow :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2937"/>
+        <location filename="../DlgSlideProperties.ui" line="2970"/>
         <source>Coordinates :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2950"/>
+        <location filename="../DlgSlideProperties.ui" line="2983"/>
         <source>Block :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2963"/>
+        <location filename="../DlgSlideProperties.ui" line="2996"/>
         <source>Object :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2975"/>
+        <location filename="../DlgSlideProperties.ui" line="3008"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3042"/>
+        <location filename="../DlgSlideProperties.ui" line="3075"/>
         <source>Propertie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3052"/>
+        <location filename="../DlgSlideProperties.ui" line="3085"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3095"/>
+        <location filename="../DlgSlideProperties.ui" line="3128"/>
         <source>Enable or disable rulers corresponding to the margins of television sets.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3098"/>
+        <location filename="../DlgSlideProperties.ui" line="3131"/>
         <source>TV margins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3125"/>
+        <location filename="../DlgSlideProperties.ui" line="3158"/>
         <source>Accept modification and exit dialog box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3128"/>
+        <location filename="../DlgSlideProperties.ui" line="3161"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3139"/>
+        <location filename="../DlgSlideProperties.ui" line="3172"/>
         <source>Cancel modification and exit dialog box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3142"/>
+        <location filename="../DlgSlideProperties.ui" line="3175"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3153"/>
+        <location filename="../DlgSlideProperties.ui" line="3186"/>
         <source>Open help page describing this dialog box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3156"/>
+        <location filename="../DlgSlideProperties.ui" line="3189"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="61"/>
-        <source>None</source>
+        <location filename="../DlgSlideProperties.ui" line="3196"/>
+        <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="62"/>
-        <source>Shadow upper left</source>
+        <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="63"/>
-        <source>Shadow upper right</source>
+        <source>Shadow upper left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="64"/>
-        <source>Shadow bottom left</source>
+        <source>Shadow upper right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="65"/>
+        <source>Shadow bottom left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgSlideProperties.cpp" line="66"/>
         <source>Shadow bottom right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="103"/>
+        <location filename="../DlgSlideProperties.cpp" line="104"/>
         <source>No brush</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="104"/>
+        <location filename="../DlgSlideProperties.cpp" line="105"/>
         <source>Solid brush</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="105"/>
+        <location filename="../DlgSlideProperties.cpp" line="106"/>
         <source>Pattern brush</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="106"/>
+        <location filename="../DlgSlideProperties.cpp" line="107"/>
         <source>Gradient 2 colors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="107"/>
+        <location filename="../DlgSlideProperties.cpp" line="108"/>
         <source>Gradient 3 colors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="108"/>
+        <location filename="../DlgSlideProperties.cpp" line="109"/>
         <source>Image from library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="111"/>
+        <location filename="../DlgSlideProperties.cpp" line="112"/>
         <source>Project geometry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="112"/>
+        <location filename="../DlgSlideProperties.cpp" line="113"/>
         <source>Image geometry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="113"/>
+        <location filename="../DlgSlideProperties.cpp" line="114"/>
         <source>Custom geometry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="367"/>
+        <location filename="../DlgSlideProperties.cpp" line="368"/>
         <source>Lengthened to %1 sec</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="448"/>
+        <location filename="../DlgSlideProperties.cpp" line="449"/>
         <source>Colors :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="716"/>
+        <location filename="../DlgSlideProperties.cpp" line="717"/>
         <source>Object type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="717"/>
+        <location filename="../DlgSlideProperties.cpp" line="718"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="718"/>
+        <location filename="../DlgSlideProperties.cpp" line="719"/>
         <source>Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="719"/>
+        <location filename="../DlgSlideProperties.cpp" line="720"/>
         <source>Video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="723"/>
+        <location filename="../DlgSlideProperties.cpp" line="724"/>
         <source>Filename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="734"/>
+        <location filename="../DlgSlideProperties.cpp" line="738"/>
         <source>Image size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="738"/>
+        <location filename="../DlgSlideProperties.cpp" line="742"/>
         <source>Video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="742"/>
+        <location filename="../DlgSlideProperties.cpp" line="746"/>
         <source>Bitrate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="746"/>
+        <location filename="../DlgSlideProperties.cpp" line="750"/>
         <source>Frame rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="750"/>
+        <location filename="../DlgSlideProperties.cpp" line="754"/>
         <source>fps</source>
         <comment>frame per second</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="753"/>
+        <location filename="../DlgSlideProperties.cpp" line="757"/>
         <source>Aspect ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="757"/>
+        <location filename="../DlgSlideProperties.cpp" line="761"/>
         <source>Audio format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="761"/>
+        <location filename="../DlgSlideProperties.cpp" line="765"/>
         <source>Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="763"/>
+        <location filename="../DlgSlideProperties.cpp" line="767"/>
         <source>hz</source>
         <comment>audio frequency</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="766"/>
+        <location filename="../DlgSlideProperties.cpp" line="770"/>
         <source>Channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1106"/>
-        <location filename="../DlgSlideProperties.cpp" line="1677"/>
+        <location filename="../DlgSlideProperties.cpp" line="1110"/>
+        <location filename="../DlgSlideProperties.cpp" line="1687"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1468"/>
+        <location filename="../DlgSlideProperties.cpp" line="1476"/>
         <source>Remove shot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1468"/>
+        <location filename="../DlgSlideProperties.cpp" line="1476"/>
         <source>Are you sure to want to delete this shot?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1654"/>
+        <location filename="../DlgSlideProperties.cpp" line="1664"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1794"/>
+        <location filename="../DlgSlideProperties.cpp" line="1804"/>
         <source>Remove bloc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1794"/>
+        <location filename="../DlgSlideProperties.cpp" line="1804"/>
         <source>Are you sure to want to delete this bloc?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2290,6 +2375,11 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTextEdit.ui" line="693"/>
         <source>&amp;Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgTextEdit.ui" line="700"/>
+        <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2435,6 +2525,11 @@ Do you want to overwrite it ?</source>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../DlgTransitionProperties.ui" line="308"/>
+        <source>F1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgVideoEdit</name>
@@ -2534,6 +2629,11 @@ Do you want to overwrite it ?</source>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../DlgVideoEdit.ui" line="335"/>
+        <source>F1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -2544,114 +2644,114 @@ Do you want to overwrite it ?</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="156"/>
-        <location filename="../mainwindow.ui" line="1308"/>
+        <location filename="../mainwindow.ui" line="1311"/>
         <source>Create a new empty project (Ctrl+N)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="159"/>
-        <location filename="../mainwindow.ui" line="1311"/>
+        <location filename="../mainwindow.ui" line="1314"/>
         <source>New
 project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="173"/>
-        <location filename="../mainwindow.ui" line="1325"/>
+        <location filename="../mainwindow.ui" line="1328"/>
         <source>Ctrl+N</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="207"/>
-        <location filename="../mainwindow.ui" line="1359"/>
+        <location filename="../mainwindow.ui" line="1362"/>
         <source>Open a previously saved project (Ctrl+O)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="210"/>
-        <location filename="../mainwindow.ui" line="1362"/>
+        <location filename="../mainwindow.ui" line="1365"/>
         <source>Open
 project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="224"/>
-        <location filename="../mainwindow.ui" line="1376"/>
+        <location filename="../mainwindow.ui" line="1379"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="258"/>
-        <location filename="../mainwindow.ui" line="1410"/>
+        <location filename="../mainwindow.ui" line="1413"/>
         <source>Open a recently used project file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="261"/>
-        <location filename="../mainwindow.ui" line="1413"/>
+        <location filename="../mainwindow.ui" line="1416"/>
         <source>Open
 recent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="306"/>
-        <location filename="../mainwindow.ui" line="1458"/>
+        <location filename="../mainwindow.ui" line="1461"/>
         <source>Save current project (Ctrl+S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="309"/>
-        <location filename="../mainwindow.ui" line="1461"/>
+        <location filename="../mainwindow.ui" line="1464"/>
         <source>Save
 project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="323"/>
-        <location filename="../mainwindow.ui" line="1475"/>
+        <location filename="../mainwindow.ui" line="1478"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="357"/>
-        <location filename="../mainwindow.ui" line="1509"/>
+        <location filename="../mainwindow.ui" line="1512"/>
         <source>Save current project to a new project file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="360"/>
-        <location filename="../mainwindow.ui" line="1512"/>
+        <location filename="../mainwindow.ui" line="1515"/>
         <source>Save
 project as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="406"/>
-        <location filename="../mainwindow.ui" line="1558"/>
+        <location filename="../mainwindow.ui" line="1561"/>
         <source>Change application and project settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="409"/>
-        <location filename="../mainwindow.ui" line="1561"/>
+        <location filename="../mainwindow.ui" line="1564"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="447"/>
-        <location filename="../mainwindow.ui" line="1599"/>
+        <location filename="../mainwindow.ui" line="1602"/>
         <source>Exit application (Ctrl+W)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="450"/>
-        <location filename="../mainwindow.ui" line="1602"/>
+        <location filename="../mainwindow.ui" line="1605"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="463"/>
-        <location filename="../mainwindow.ui" line="1615"/>
+        <location filename="../mainwindow.ui" line="1618"/>
         <source>Ctrl+W</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2662,124 +2762,124 @@ project as</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="523"/>
-        <location filename="../mainwindow.ui" line="1673"/>
+        <location filename="../mainwindow.ui" line="1676"/>
         <source>Add an empty slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="526"/>
-        <location filename="../mainwindow.ui" line="1676"/>
+        <location filename="../mainwindow.ui" line="1679"/>
         <source>Add
 title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="571"/>
-        <location filename="../mainwindow.ui" line="1721"/>
+        <location filename="../mainwindow.ui" line="1724"/>
         <source>Add image or video as slide (INS)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="574"/>
-        <location filename="../mainwindow.ui" line="1724"/>
+        <location filename="../mainwindow.ui" line="1727"/>
         <source>Add
 files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="588"/>
-        <location filename="../mainwindow.ui" line="1738"/>
+        <location filename="../mainwindow.ui" line="1741"/>
         <source>Ins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="616"/>
-        <location filename="../mainwindow.ui" line="1766"/>
+        <location filename="../mainwindow.ui" line="1769"/>
         <source>Add a previously saved project at the end of this project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="619"/>
-        <location filename="../mainwindow.ui" line="1769"/>
+        <location filename="../mainwindow.ui" line="1772"/>
         <source>Add
 project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="665"/>
-        <location filename="../mainwindow.ui" line="1815"/>
+        <location filename="../mainwindow.ui" line="1818"/>
         <source>Copy current slide to clipboard and remove it (Ctrl+X)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="668"/>
-        <location filename="../mainwindow.ui" line="1818"/>
+        <location filename="../mainwindow.ui" line="1821"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="681"/>
-        <location filename="../mainwindow.ui" line="1831"/>
+        <location filename="../mainwindow.ui" line="1834"/>
         <source>Ctrl+X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="709"/>
-        <location filename="../mainwindow.ui" line="1859"/>
+        <location filename="../mainwindow.ui" line="1862"/>
         <source>Copy current slide to clipboard (Ctrl+C)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="712"/>
-        <location filename="../mainwindow.ui" line="1862"/>
+        <location filename="../mainwindow.ui" line="1865"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="725"/>
-        <location filename="../mainwindow.ui" line="1875"/>
+        <location filename="../mainwindow.ui" line="1878"/>
         <source>Ctrl+C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="753"/>
-        <location filename="../mainwindow.ui" line="1903"/>
+        <location filename="../mainwindow.ui" line="1906"/>
         <source>Paste current slide from clipboard (Ctrl+V)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="756"/>
-        <location filename="../mainwindow.ui" line="1906"/>
+        <location filename="../mainwindow.ui" line="1909"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="769"/>
-        <location filename="../mainwindow.ui" line="1919"/>
+        <location filename="../mainwindow.ui" line="1922"/>
         <source>Ctrl+V</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="810"/>
-        <location filename="../mainwindow.ui" line="1960"/>
+        <location filename="../mainwindow.ui" line="1963"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="848"/>
-        <location filename="../mainwindow.ui" line="1998"/>
+        <location filename="../mainwindow.ui" line="2001"/>
         <source>Remove current slide (DEL)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="851"/>
-        <location filename="../mainwindow.ui" line="2001"/>
+        <location filename="../mainwindow.ui" line="2004"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="864"/>
-        <location filename="../mainwindow.ui" line="2014"/>
+        <location filename="../mainwindow.ui" line="2017"/>
         <source>Del</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2790,34 +2890,34 @@ project</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="918"/>
-        <location filename="../mainwindow.ui" line="2072"/>
+        <location filename="../mainwindow.ui" line="2075"/>
         <source>Player and
 smartphone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="963"/>
-        <location filename="../mainwindow.ui" line="2117"/>
+        <location filename="../mainwindow.ui" line="2120"/>
         <source>Multimedia
 system</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1002"/>
-        <location filename="../mainwindow.ui" line="2156"/>
+        <location filename="../mainwindow.ui" line="2159"/>
         <source>For the
 WEB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1047"/>
-        <location filename="../mainwindow.ui" line="2201"/>
+        <location filename="../mainwindow.ui" line="2204"/>
         <source>Render project as a video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1050"/>
-        <location filename="../mainwindow.ui" line="2204"/>
+        <location filename="../mainwindow.ui" line="2207"/>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2828,128 +2928,154 @@ WEB</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1114"/>
-        <location filename="../mainwindow.ui" line="2255"/>
+        <location filename="../mainwindow.ui" line="2258"/>
         <source>Display informations about ffDiaporama</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1117"/>
-        <location filename="../mainwindow.ui" line="2258"/>
+        <location filename="../mainwindow.ui" line="2261"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1161"/>
-        <location filename="../mainwindow.ui" line="2302"/>
+        <location filename="../mainwindow.ui" line="2305"/>
         <source>Call ffDiaporama WIKI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1164"/>
-        <location filename="../mainwindow.ui" line="2305"/>
+        <location filename="../mainwindow.ui" line="2308"/>
         <source>Support
 and help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1209"/>
-        <location filename="../mainwindow.ui" line="2350"/>
-        <source>Display blog/news page from internet WEB site</source>
+        <location filename="../mainwindow.ui" line="1178"/>
+        <location filename="../mainwindow.ui" line="2322"/>
+        <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1212"/>
-        <location filename="../mainwindow.ui" line="2353"/>
+        <location filename="../mainwindow.ui" line="2356"/>
+        <source>Display blog/news page from internet WEB site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1215"/>
+        <location filename="../mainwindow.ui" line="2359"/>
         <source>What&apos;s new</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2539"/>
+        <location filename="../mainwindow.ui" line="2545"/>
         <source>about:blank</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2569"/>
+        <location filename="../mainwindow.ui" line="2575"/>
         <source>Slide : xx/xxx</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2591"/>
+        <location filename="../mainwindow.ui" line="2597"/>
         <source>Statusbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2610"/>
+        <location filename="../mainwindow.ui" line="2616"/>
         <source>Switch display to preview mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2627"/>
+        <location filename="../mainwindow.ui" line="2633"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2650"/>
+        <location filename="../mainwindow.ui" line="2656"/>
         <source>Switch display to sheet mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2690"/>
+        <location filename="../mainwindow.ui" line="2696"/>
         <source>Enlarge thumbnails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2730"/>
+        <location filename="../mainwindow.ui" line="2736"/>
         <source>Reduce thumbnails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2761"/>
+        <location filename="../mainwindow.ui" line="2767"/>
         <source>Edit background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2764"/>
+        <location filename="../mainwindow.ui" line="2770"/>
         <source>Edit the background image for the slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2769"/>
+        <location filename="../mainwindow.ui" line="2773"/>
+        <source>F5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="2778"/>
         <source>Edit slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2772"/>
+        <location filename="../mainwindow.ui" line="2781"/>
         <source>Edit the slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2777"/>
+        <location filename="../mainwindow.ui" line="2784"/>
+        <source>F6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="2789"/>
         <source>Edit music</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2780"/>
+        <location filename="../mainwindow.ui" line="2792"/>
         <source>Edit the slide musical playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2785"/>
+        <location filename="../mainwindow.ui" line="2795"/>
+        <source>F7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="2800"/>
         <source>Edit object transition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2788"/>
+        <location filename="../mainwindow.ui" line="2803"/>
         <source>Edit entering transition for the slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2793"/>
+        <location filename="../mainwindow.ui" line="2806"/>
+        <source>F8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="2811"/>
         <source>Edit background transition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2796"/>
+        <location filename="../mainwindow.ui" line="2814"/>
         <source>Edit the entering background transition for the slide</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2982,15 +3108,15 @@ and help</source>
         <location filename="../_ApplicationDefinitions.cpp" line="712"/>
         <location filename="../_ApplicationDefinitions.cpp" line="717"/>
         <location filename="../_ApplicationDefinitions.cpp" line="723"/>
-        <location filename="../_Diaporama.cpp" line="1057"/>
-        <location filename="../_Diaporama.cpp" line="1099"/>
-        <location filename="../_Diaporama.cpp" line="1104"/>
-        <location filename="../_Diaporama.cpp" line="1111"/>
-        <location filename="../_Diaporama.cpp" line="1168"/>
-        <location filename="../_Diaporama.cpp" line="1174"/>
-        <location filename="../_Diaporama.cpp" line="1181"/>
-        <location filename="../_Diaporama.cpp" line="1190"/>
-        <location filename="../mainwindow.cpp" line="1087"/>
+        <location filename="../_Diaporama.cpp" line="1080"/>
+        <location filename="../_Diaporama.cpp" line="1122"/>
+        <location filename="../_Diaporama.cpp" line="1127"/>
+        <location filename="../_Diaporama.cpp" line="1134"/>
+        <location filename="../_Diaporama.cpp" line="1191"/>
+        <location filename="../_Diaporama.cpp" line="1197"/>
+        <location filename="../_Diaporama.cpp" line="1204"/>
+        <location filename="../_Diaporama.cpp" line="1213"/>
+        <location filename="../mainwindow.cpp" line="1132"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
@@ -3026,67 +3152,67 @@ and help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1057"/>
-        <location filename="../_Diaporama.cpp" line="1058"/>
+        <location filename="../_Diaporama.cpp" line="1080"/>
+        <location filename="../_Diaporama.cpp" line="1081"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1075"/>
+        <location filename="../_Diaporama.cpp" line="1098"/>
         <source>Open project file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1076"/>
+        <location filename="../_Diaporama.cpp" line="1099"/>
         <location filename="../_ImageFileWrapper.cpp" line="77"/>
-        <location filename="../_VideoFileWrapper.cpp" line="774"/>
+        <location filename="../_VideoFileWrapper.cpp" line="690"/>
         <source>Impossible to open file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1076"/>
+        <location filename="../_Diaporama.cpp" line="1099"/>
         <location filename="../_ImageFileWrapper.cpp" line="77"/>
-        <location filename="../_VideoFileWrapper.cpp" line="774"/>
+        <location filename="../_VideoFileWrapper.cpp" line="690"/>
         <source>Do you want to select another file ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1079"/>
+        <location filename="../_Diaporama.cpp" line="1102"/>
         <location filename="../_ImageFileWrapper.cpp" line="80"/>
-        <location filename="../_VideoFileWrapper.cpp" line="777"/>
+        <location filename="../_VideoFileWrapper.cpp" line="693"/>
         <source>Select another file for </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1098"/>
-        <location filename="../_Diaporama.cpp" line="1168"/>
-        <location filename="../_Diaporama.cpp" line="1169"/>
+        <location filename="../_Diaporama.cpp" line="1121"/>
+        <location filename="../_Diaporama.cpp" line="1191"/>
+        <location filename="../_Diaporama.cpp" line="1192"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1104"/>
-        <location filename="../_Diaporama.cpp" line="1105"/>
-        <location filename="../_Diaporama.cpp" line="1174"/>
-        <location filename="../_Diaporama.cpp" line="1175"/>
+        <location filename="../_Diaporama.cpp" line="1127"/>
+        <location filename="../_Diaporama.cpp" line="1128"/>
+        <location filename="../_Diaporama.cpp" line="1197"/>
+        <location filename="../_Diaporama.cpp" line="1198"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1111"/>
-        <location filename="../_Diaporama.cpp" line="1112"/>
-        <location filename="../_Diaporama.cpp" line="1181"/>
-        <location filename="../_Diaporama.cpp" line="1182"/>
+        <location filename="../_Diaporama.cpp" line="1134"/>
+        <location filename="../_Diaporama.cpp" line="1135"/>
+        <location filename="../_Diaporama.cpp" line="1204"/>
+        <location filename="../_Diaporama.cpp" line="1205"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1190"/>
-        <location filename="../_Diaporama.cpp" line="1191"/>
+        <location filename="../_Diaporama.cpp" line="1213"/>
+        <location filename="../_Diaporama.cpp" line="1214"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -3098,18 +3224,18 @@ Image geometry in this file is not the same than the current project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="105"/>
+        <location filename="../_ImageFileWrapper.cpp" line="113"/>
         <source>Analyse file with EXIV2 :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="174"/>
-        <location filename="../_ImageFileWrapper.cpp" line="227"/>
+        <location filename="../_ImageFileWrapper.cpp" line="207"/>
+        <location filename="../_ImageFileWrapper.cpp" line="260"/>
         <source>Loading file :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_VideoFileWrapper.cpp" line="773"/>
+        <location filename="../_VideoFileWrapper.cpp" line="689"/>
         <source>Open video file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3195,83 +3321,83 @@ Image geometry in this file is not the same than the current project</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="238"/>
-        <location filename="../mainwindow.cpp" line="424"/>
+        <location filename="../mainwindow.cpp" line="466"/>
         <source>Slide : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="309"/>
+        <location filename="../mainwindow.cpp" line="351"/>
         <source>Close application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="309"/>
-        <location filename="../mainwindow.cpp" line="725"/>
-        <location filename="../mainwindow.cpp" line="775"/>
+        <location filename="../mainwindow.cpp" line="351"/>
+        <location filename="../mainwindow.cpp" line="768"/>
+        <location filename="../mainwindow.cpp" line="818"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="372"/>
+        <location filename="../mainwindow.cpp" line="414"/>
         <source>A new ffDiaporama release if available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="432"/>
+        <location filename="../mainwindow.cpp" line="474"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="568"/>
+        <location filename="../mainwindow.cpp" line="610"/>
         <source>Not implemented</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="568"/>
+        <location filename="../mainwindow.cpp" line="610"/>
         <source>Sorry, not yet done !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="725"/>
+        <location filename="../mainwindow.cpp" line="768"/>
         <source>New project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="775"/>
-        <location filename="../mainwindow.cpp" line="779"/>
+        <location filename="../mainwindow.cpp" line="818"/>
+        <location filename="../mainwindow.cpp" line="822"/>
         <source>Open project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="851"/>
+        <location filename="../mainwindow.cpp" line="896"/>
         <source>Save project as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="917"/>
+        <location filename="../mainwindow.cpp" line="962"/>
         <source>Add files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1087"/>
+        <location filename="../mainwindow.cpp" line="1132"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1110"/>
+        <location filename="../mainwindow.cpp" line="1155"/>
         <source>Add a sub project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1146"/>
+        <location filename="../mainwindow.cpp" line="1191"/>
         <source>Remove slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1146"/>
+        <location filename="../mainwindow.cpp" line="1191"/>
         <source>Are you sure to want to delete this slide?</source>
         <translation type="unfinished"></translation>
     </message>

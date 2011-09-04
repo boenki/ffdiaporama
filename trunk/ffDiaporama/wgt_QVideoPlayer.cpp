@@ -341,10 +341,8 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             // If Diaporama mode and needed, set Diaporama to an other object
             if (Diaporama) {
                 if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
-                    if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
                     Diaporama->CurrentCol=Frame->CurrentObject_Number;
                     Diaporama->Timeline->SetCurrentCell(Frame->CurrentObject_Number);
-                    if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=false;
 
                     // Update slider mark
                     if (Diaporama->List.count()>0)
