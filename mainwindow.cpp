@@ -681,6 +681,7 @@ void MainWindow::s_ItemSelectionChanged() {
             }
         }
         Diaporama->FreeUnusedMemory(Diaporama->CurrentCol);
+        RefreshControls();
     }
     QApplication::restoreOverrideCursor();
 }

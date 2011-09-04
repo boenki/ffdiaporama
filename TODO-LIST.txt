@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 31/08/2011) :
+Buggs/TODO (Dernier SVN le 02/09/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -9,8 +9,7 @@ BUGG:
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
-    Délocalise la lecture de l'orientation des images : Ne dépend plus de la langue du système.
-    Corrige les erreures de lecture des accents dans les données EXIF, XMP et IPTC.
+    La diapositive sélectionnée n'était pas correctement mis à jours par la prévisualisation
 
 Divers:
 
@@ -24,5 +23,7 @@ Correction de bug :
     Réécrit la fonction de ré-échantillonage du son pour limiter les craquements
     => 2 versions : Une linéaire sans interpollation pour la preview+1 avec interpollation selon la méthode Hermite pour la génération
     Corrige un bug à l'ouverture des fichiers vidéos qui refusait des fichiers éligibles (format non compatible)
+    Délocalise la lecture de l'orientation des images : Ne dépend plus de la langue du système.
+    Corrige les erreures de lecture des accents dans les données EXIF, XMP et IPTC.
 
 Changement de comportement :
