@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+  <head>
+    <title>How ffDiaporama work</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
+        src="../../WIKI_img/Wiki.png" align="MIDDLE"> How ffDiaporama
+      work<br>
+    </div>
+    <div style="text-align: left;" id="content_wikimode">
+      <h2 style=""><img checked="true" style="width: 24px; height: 24px;"
+          alt="" src="../../WIKI_img/Attention.png"> Traducci&#243;n en
+        curso<br>
+      </h2>
+      <h2>Functional principles</h2>
+      <div style="margin-left: 40px;">
+        <div style="text-align: justify;">Slides are shown one after
+          another, in the order in which they appear in the time line.<br>
+          The following diagram shows the principles of functioning of
+          slides:<br>
+        </div>
+        <br>
+        <div style="text-align: center;"><img checked="true" src="../../WIKI_img/Schema.png"><br>
+        </div>
+      </div>
+      <h3 style="margin-bottom: 0cm; line-height: 100%; margin-left: 40px;">The
+
+
+
+
+
+
+
+        slides</h3>
+      <div style="margin-left: 40px;"><br>
+        On the upper part of the diagram are represented slides A, B, C
+        and D.<br>
+      </div>
+      <ul style="margin-left: 40px; text-align: justify;">
+        <li>Each slide possesses an entering transition (symbolized on
+          the diagram by a small rectangle labelled T). The transitions
+          don't all have the same duration (symbolized on the diagram by
+          the lengths TA&#8217;, TB', etc.): It is indeed possible to
+          define the duration of the entering transition for each slide
+          separately (or to indicate no transition: duration=0). </li>
+        <li>Each slide possesses a duration which is appropriate for it
+          (symbolized on the diagram by the lengths B', C', etc.): Some
+          last only a few seconds while others can last several minutes.
+          The durations are expressed in seconds but are not necessarily
+          whole numbers: a slide mightl last 12.234 seconds! </li>
+        <li>Each slide is a composite, an assembly of one or more
+          multimedia elements which are animated over time. The
+          animation is realized through shots. </li>
+        <li>Each slide can define a new background (bottom of screen).</li>
+        <li>Each slide can define a new musical play-list.</li>
+      </ul>
+      <div style="margin-left: 120px; text-align: justify;">Slides which
+        do not define a background use the background defined in a
+        previous slide. So in the following example:</div>
+      <ul style="margin-left: 120px; text-align: justify;">
+        <li> Slide 1 - Defines a background</li>
+        <li> Slide 2 - Does not define a background and therefore uses
+          the background defined by slide 1</li>
+        <li> Slide 3 - Does not define a background and therefore uses
+          the background defined by slide 1</li>
+        <li> Slide 4 - Defines a background</li>
+        <li> Slide 5 - Does not define a background and therefore uses
+          the background defined by slide 4 </li>
+      </ul>
+      <div style="margin-left: 120px; text-align: justify;"> The same
+        principle applies to the musical play-lists. As long as slides
+        do not define a new play-list, they use the last defined
+        play-list. </div>
+      <h3 style="margin-bottom: 0cm; line-height: 100%; margin-left: 40px;">Shots
+
+
+
+
+
+
+
+        and blocks<br>
+      </h3>
+      <div style="margin-left: 40px;"><br>
+        <div style="text-align: justify;">The lower part of the diagram
+          represents the slide C.<br>
+        </div>
+      </div>
+      <ul style="margin-left: 40px; text-align: justify;">
+        <li>Each slide comprises one or more shots. The shots are
+          represented on the diagram by rectangles C1, C2, C3, etc.
+          &#8230; </li>
+        <li>Each shot has its own duration (symbolized on the diagram by
+          the lengths C1 ', C2 ', C3 ', etc.). Some shots can last only
+          seconds while others can last several minutes. Some shots can
+          have a duration of zero. (The durations are expressed in
+          seconds but are not necessarily whole numbers: A shot can very
+          well last 12.234 seconds!) </li>
+        <li>The shots can contain several multimedia objects. The
+          multimedia objects are integrated into blocks which can be of
+          three types: title (containing only text), images (or photos),
+          or video. </li>
+        <li>The shots are transparent. This means that if the image does
+          not fill the whole screen, the background (see bottom of
+          screen) will appear.</li>
+      </ul>
+      <div style="margin-left: 40px; text-align: justify;"><span style="text-decoration: underline;">Remarks:
+
+
+
+
+
+
+        </span><br>
+        <ul>
+          <li>The shots define the arrangement of blocks (multimedia
+            objects) at any given moment.</li>
+          <li>The shot animations are generated by the transformation of
+            these arrangements from one shot to another. </li>
+        </ul>
+      </div>
+      <div style="margin-left: 40px; text-align: justify;">Specifically,
+        if in the foreground, an image occupies the whole screen, and
+        then occupies only a small part of the screen in the following
+        shot, then the animation will consist of the transformation of
+        the image of the whole screen (previous shot) into that small
+        part of the screen (following shot).<br>
+        <br>
+      </div>
+      <div style="margin-left: 80px; text-align: justify;">&#160;
+        Example:<br>
+        <div style="margin-left: 40px;"><img checked="true" src="../../WIKI_img/Animation_1.png"><br>
+        </div>
+      </div>
+      <ul style="margin-left: 80px; text-align: justify;">
+        <li>Shot 1: Image using the whole screen: Duration=2 seconds. </li>
+        <li>Shot 2: Image using only the bottom right screen quarter:
+          Duration 3 seconds. </li>
+        <li>Shot 3: Image again using the whole screen: Duration=2
+          seconds. </li>
+      </ul>
+      <ul style="margin-left: 40px; text-align: justify;">
+        <li>Result: the image will be shown on the whole screen for 2
+          seconds, will shrink gradually over 3 seconds towards the
+          right lower quarter of the screen, and then will grow again
+          for 2 seconds until it once more occupies the whole screen. </li>
+        <li>The slide will end as soon as the image has reached the
+          position defined in shot 3. </li>
+      </ul>
+      <div style="margin-left: 40px; text-align: justify;"><span style="text-decoration: underline;">Remarks:</span><br>
+        <ul>
+          <li>The transformations are gradual: in the example you will
+            see the image being gradually reduced. </li>
+          <li>The transformations are made over the whole duration of
+            the following shot. </li>
+        </ul>
+        <br>
+        The definition of the objects in each block can vary from one
+        shot to another. The following example shows three different
+        definitions from the same block:<br>
+        <div style="margin-left: 40px;"><img checked="true" src="../../WIKI_img/Animation_2.png"><br>
+        </div>
+      </div>
+      <ul style="margin-left: 40px; text-align: justify;">
+        <li> 1st shot: The image is complete.</li>
+        <li> 2nd shot: The image is re-framed on the statue.</li>
+        <li> 3rd shot: The image is re-framed on the pedestrians.</li>
+      </ul>
+      <div style="margin-left: 40px; text-align: justify;">If we apply
+        these definitions to the previous 3 shots: </div>
+      <ul style="margin-left: 40px; text-align: justify;">
+        <li>The complete image will be shown on all the screen for 2
+          seconds, then will be reduced gradually over 3 seconds by
+          zooming in on the statue in the right lower quarter of the
+          screen, then will grow over 2 seconds until it once more
+          occupies the whole screen while moving towards the
+          pedestrians.</li>
+      </ul>
+      <div style="margin-left: 40px; text-align: justify;"><span style="text-decoration: underline;">Remarks:
+
+
+
+
+
+
+        </span><br>
+      </div>
+      <ul style="margin-left: 40px; text-align: justify;">
+        <li>ffDiaporama can manage up to several hundreds slides in a
+          single project. <br>
+        </li>
+        <li>Each slide can consist of tens of shots.</li>
+        <li>Each slide can contain tens of blocks.</li>
+        <li>Blocks can be visible on some shots and invisible on other.</li>
+      </ul>
+      <div style="margin-left: 40px; text-align: justify;">
+        <h3>The "Visible" property of blocks and the management of the
+          breaks<br>
+        </h3>
+        <div style="margin-left: 40px;">Blocks have a visible/invisible
+          property. In the following example, the image is inserted 3
+          times (in 3 different blocks) into the same slide.
+          <ul>
+            <li>The first block defines the whole image filling the
+              whole screen </li>
+            <li>The second block defines the image re-framed on the
+              statue and positioned in an ellipse at the right of the
+              screen </li>
+            <li>The third block defines the image re-framed on the
+              pedestrians and also positioned in an ellipse at the right
+              of the screen </li>
+          </ul>
+          <img alt="" src="../../WIKI_img/Animation_3.png"><br>
+          The statue and the pedestrians have their visibility property
+          set to invisible on the 1st shot.<br>
+          Then the statue becomes visible on the 2nd shot.<br>
+          Finally, the statue once more becomes invisible on the 3rd
+          shot and the pedestrians become visible.<br>
+          <br>
+          Result :<br>
+          <ul>
+            <li>For 2 seconds, the 1st shot is shown and we see only the
+              whole image which occupies all the screen </li>
+            <li>Over the next 2 seconds, the statue appears </li>
+            <li>Over a further 2 seconds, the statue is replaced by the
+              pedestrians </li>
+          </ul>
+          This example is really very simple, because it is also
+          possible to animate the appearance and the disappearance of
+          blocks.<br>
+          Indeed, as shown previously, animations are generated by the
+          transformation of the arrangement from one shot to another.<br>
+          So, if on the 1st shot, the statue occupied the left lower
+          quarter of the screen rather than the same position as on the
+          2nd shot, then instead of simply appearing for 2 seconds on
+          the 2nd shot, it would appear by growing out of the left lower
+          quarter of the screen. <br>
+          <br>
+          You should note that videos are paused when they are
+          invisible.<br>
+          Therefore a video can be displayed for several seconds in the
+          1st shot, then be made invisible and thus paused in a 2nd
+          shot, then be visible in a 3rd shot and resume playing, from
+          where it stopped at the end of the 1st shot.<br>
+        </div>
+        <h3>Remark:</h3>
+        The total duration of the project is not equal to the sum of the
+        durations of the slides because the transitions make the slides
+        overlap: Two slides of 10 seconds, each with a transition of 1
+        second, will give a total duration for the project of 19 seconds
+        (and not 20 seconds)! </div>
+      <br>
+      <h2>See also</h2>
+      <ul>
+        <li><a href="fct_001.html">Index of the ffDiaporama WIKI</a></li>
+      </ul>
+      <br>
+      <hr style="width: 100%; height: 2px;">ffDiaporama 1.0 - July 2011</div>
+  </body>
+</html>
