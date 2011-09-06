@@ -2,7 +2,6 @@ Buggs/TODO (Dernier SVN le 02/09/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
- - Erreur dans le calcul des durées mini quand pas de transition et durée de slide à 0
  - La fenetre principale ne s'affiche pas correctement si plein écran [Windows]
 
 --------------------------------
@@ -10,8 +9,11 @@ Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
     La diapositive sélectionnée n'était pas correctement mis à jours par la prévisualisation
+    Corrige l'erreur de le calcul des durées mini quand pas de transition. Il est maintenant possible d'avoir des slides de moins d'une seconde
 
 Divers:
+    Ajout de l'espagnol (100%)
+    Ajout de l'italien (40%)
 
 -------------------------------------
 Changelog depuis la version 20110826

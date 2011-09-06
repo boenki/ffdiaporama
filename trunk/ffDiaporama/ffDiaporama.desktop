@@ -2,10 +2,13 @@
 Encoding=UTF-8
 Name=Movie creator ffDiaporama
 Name[fr]=Créateur de film ffDiaporama
+Name[it]=Movie creator ffDiaporama
 GenericName=Movie creator
 GenericName[fr]=Créateur de film
+GenericName[it]=Creatore di pellicole cinematografiche
 Comment=Movie creator from photos and video clips
 Comment[fr]=Créateur de film depuis des photos et des clips vidéo
+Comment[it]=Creatore di pellicole cinematografiche da foto e filmati video
 Exec=ffDiaporama
 Icon=/usr/share/ffDiaporama/img/logo.png
 Terminal=false

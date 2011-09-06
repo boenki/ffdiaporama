@@ -3,6 +3,7 @@ Version:        0.99.4
 Release:        3%{?dist}
 Summary:        FFDIAPORAMA - Movie creator
 Summary(fr):    FFDIAPORAMA - Créateur de film
+Summary(it):    FFDIAPORAMA - Movie creator
 License:        GPLv2
 URL:            http://ffdiaporama.tuxfamily.org
 Group:		Applications/Multimedia
@@ -42,6 +43,20 @@ FfDiaporama peut gérer plusieurs centaines de diapositives. Chaque diapositive
 peut contenir plusieurs dizaines de plans et plusieurs dizaines de blocs.
 Chaque plan contient ses propres paramètres de bloc.
 L'application calcule automatiquement toutes les transformations de plan.
+
+%description -l it
+ffDiaporama è un'applicazione per il montaggio di foto e video, specialmente
+per conservare i ricordi delle vacanze. Si ispira da software per le presentazioni
+come Powerpoint o Impress. Può leggere tutti i formati immagine, una maggioranza
+di formati video di telecamere e videocamere, e formati musicali più comunemente 
+utilizzati. Comprende 140 transizioni e un database dei dispositivi per la
+generazione di video con oltre 50 modelli di dispositivi di visualizzazione video
+(Tra cui smartphone, tablet e sistemi home cinema).
+
+ffDiaporama è in grado di gestire diverse centinaia di diapositive.
+Ogni diapositiva può contenere diverse decine di scatti e diverse decine di blocchi.
+Ogni scatto contiene le propie impostazioni di blocco.
+L'applicazione calcola tutte le trasformazioni di scatto.
 
 %prep
 %setup -q
