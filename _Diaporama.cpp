@@ -711,14 +711,14 @@ void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Pa
 //===============================================================
 
 int cDiaporamaObject::GetTransitDuration() {
-    if ((TransitionFamilly!=0)||(TransitionSubType!=0)) return TransitionDuration; else return 0;
+    if ((TransitionFamilly==0)&&(TransitionSubType==0)) return 0; else return TransitionDuration;
 }
 
 int cDiaporamaObject::GetCumulTransitDuration() {
     // Adjust duration to ensure transition will be full !
     int ObjectIndex=Parent->GetObjectIndex(this);
-    int TransitDuration=TransitionDuration;
-    if (ObjectIndex<(Parent->List.count()-1)) TransitDuration+=Parent->List[ObjectIndex+1].TransitionDuration;
+    int TransitDuration=GetTransitDuration();
+    if (ObjectIndex<(Parent->List.count()-1)) TransitDuration+=Parent->List[ObjectIndex+1].GetTransitDuration();
     return TransitDuration;
 }
 
@@ -954,7 +954,7 @@ int cDiaporama::GetWidthForHeight(int WantedHeight) {
 
 int cDiaporama::GetTransitionDuration(int index) {
     int Duration=0;
-    if ((index>=0)&&(List.count()>0)&&((index<List.count())&&((List[index].TransitionFamilly!=0)||(List[index].TransitionSubType!=0)))) Duration=List[index].TransitionDuration;
+    if ((index>=0)&&(List.count()>0)&&((index<List.count())&&(!((List[index].TransitionFamilly==0)&&(List[index].TransitionSubType==0))))) Duration=List[index].TransitionDuration;
     return Duration;
 }
 
