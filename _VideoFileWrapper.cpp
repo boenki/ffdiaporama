@@ -853,6 +853,8 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,int StartPosToA
     if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
         // Scale image if anamorphous codec
         if (AspectRatio!=1) {
+            ImageWidth =LoadedImage->width();
+            ImageHeight=LoadedImage->height();
             QImage *NewLoadedImage=new QImage(LoadedImage->scaled(int(double(ImageWidth)*AspectRatio),ImageHeight,Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/));
             delete LoadedImage;
             LoadedImage=NewLoadedImage;
