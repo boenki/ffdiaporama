@@ -203,7 +203,7 @@ QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Hei
     PB.fillRect(QRect(0,0,Width+1,Height+1),Qt::transparent);
     PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
-    PB.drawImage(QRectF(DstX,DstY,DstW,DstH),*SourceImage,QRectF((RealImageW/2)-(Hyp/2)+SrcX,(RealImageH/2)-(Hyp/2)+SrcY,SrcW,SrcH));
+    PB.drawImage(QRectF(DstX,DstY,DstW,DstH),*SourceImage,QRectF(int((RealImageW/2)-(Hyp/2)+SrcX),int((RealImageH/2)-(Hyp/2)+SrcY),SrcW,SrcH));
 
     PB.end();
 

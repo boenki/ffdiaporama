@@ -4,6 +4,7 @@ Release:        3%{?dist}
 Summary:        FFDIAPORAMA - Movie creator
 Summary(fr):    FFDIAPORAMA - Créateur de film
 Summary(it):    FFDIAPORAMA - Movie creator
+Summary(es):    FFDIAPORAMA - Creador de películas
 License:        GPLv2
 URL:            http://ffdiaporama.tuxfamily.org
 Group:		Applications/Multimedia
@@ -39,24 +40,42 @@ Il inclut 140 transitions et une base de données de profils pour la
 génération des vidéos pour plus de 50 modèles (incluant des smartphones,
 des tablettes et des systèmes home cinema).
 
-FfDiaporama peut gérer plusieurs centaines de diapositives. Chaque diapositive
+ffDiaporama peut gérer plusieurs centaines de diapositives. Chaque diapositive
 peut contenir plusieurs dizaines de plans et plusieurs dizaines de blocs.
 Chaque plan contient ses propres paramètres de bloc.
 L'application calcule automatiquement toutes les transformations de plan.
 
 %description -l it
 ffDiaporama è un'applicazione per il montaggio di foto e video, specialmente
-per conservare i ricordi delle vacanze. Si ispira da software per le presentazioni
-come Powerpoint o Impress. Può leggere tutti i formati immagine, una maggioranza
-di formati video di telecamere e videocamere, e formati musicali più comunemente 
-utilizzati. Comprende 140 transizioni e un database dei dispositivi per la
-generazione di video con oltre 50 modelli di dispositivi di visualizzazione video
-(Tra cui smartphone, tablet e sistemi home cinema).
+per conservare i ricordi delle vacanze. Si ispira da software per le
+presentazioni come Powerpoint o Impress. Può leggere tutti i formati immagine,
+una maggioranza di formati video di telecamere e videocamere, e formati
+musicali più comunemente utilizzati. Comprende 140 transizioni e un database
+dei dispositivi per la generazione di video con oltre 50 modelli di
+dispositivi di visualizzazione video (Tra cui smartphone, tablet e sistemi
+home cinema).
 
 ffDiaporama è in grado di gestire diverse centinaia di diapositive.
-Ogni diapositiva può contenere diverse decine di scatti e diverse decine di blocchi.
-Ogni scatto contiene le propie impostazioni di blocco.
+Ogni diapositiva può contenere diverse decine di scatti e diverse decine di
+blocchi. Ogni scatto contiene le propie impostazioni di blocco.
 L'applicazione calcola tutte le trasformazioni di scatto.
+
+%description -l es
+ffDiaporama es una aplicación para manejar  fotos y vídeos,
+especialmente para preservar los recuerdos de las vacaciones.
+Está inspirado en programas de presentación como Impress o Powerpoint.
+Puede trabajar con todos los formatos de imagen, La mayoría de los vídeos
+producidos por las cámaras de fotos y las cámaras de vídeo, y los formatos de
+música más utilizados.
+
+Incluye 140 transiciones y una base de datos de perfiles para la
+generación de los vídeos para más de 50 modelos (incluídos smartphones,
+Tablets y sistemas home cinema).
+
+ffDiaporama puede administrar varias centenas de diapositivas.
+Cada diapositiva puede contener varias decenas de planos y varias decenas de
+bloques. Cada plano contiene sus propios parámetros de bloque.
+La aplicación calcula automáticamente todas las transformaciones del plano.
 
 %prep
 %setup -q

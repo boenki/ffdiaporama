@@ -38,21 +38,27 @@ QBrush  Transparent;        // Transparent brush
 
 void DrawShape(QPainter &Painter,int BackgroundForm,double left,double top,double width,double height,double CenterX,double CenterY) {
     double RayX=0,RayY=0;
+    /*left=int(left)-1;
+    top=int(top)-1;
+    CenterX=int(CenterX);
+    CenterY=int(CenterY);
+    width=int(width)+1;
+    height=int(height)+1;*/
 
     switch (BackgroundForm) {
         //0 = no shape
-        case 1 : Painter.drawRect(QRectF(left,top,width-1,height-1));                                   break;  // Rectangle
+        case 1 : Painter.drawRect(QRectF(left,top,width/*-1*/,height/*-1*/));                                   break;  // Rectangle
         case 2 :                                                                                                // Round rect
             RayX=width/10;     if (RayX>16) RayX=16; else if (RayX<8)  RayX=8;
             RayY=height/10;    if (RayY>16) RayY=16; else if (RayY<8)  RayY=8;
-            Painter.drawRoundedRect(QRectF(left,top,width-1,height-1),RayX,RayY,Qt::AbsoluteSize);
+            Painter.drawRoundedRect(QRectF(left,top,width/*-1*/,height/*-1*/),RayX,RayY,Qt::AbsoluteSize);
             break;
         case 3 :                                                                                                // Buble
             RayX=2*width/10;
             RayY=2*height/10;
-            Painter.drawRoundedRect(QRectF(left,top,width-1,height-1),RayX,RayY,Qt::AbsoluteSize);
+            Painter.drawRoundedRect(QRectF(left,top,width/*-1*/,height/*-1*/),RayX,RayY,Qt::AbsoluteSize);
             break;
-        case 4 : Painter.drawEllipse(QRectF(left,top,width-1,height-1));                                break;  // Ellipse
+        case 4 : Painter.drawEllipse(QRectF(left,top,width/*-1*/,height/*-1*/));                                break;  // Ellipse
         case 5 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,90);                               break;  // Triangle UP
         case 6 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,0);                                break;  // Triangle Right
         case 7 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-90);                              break;  // Triangle Down
@@ -349,12 +355,11 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
 
         QPen    Pen;
         double  FullMargin=0;
-        double  W=int(TheW*double(width)/2)*2;
-        double  H=int(TheH*double(height)/2)*2;
-        double  Hyp=int((sqrt(W*W+H*H)+double(PenSize)*ADJUST_RATIO*2)/2)*2;
-        double  Wb=Hyp;
-        double  Hb=Hyp; // always square image
-
+        double  W=TheW*double(width);  if ((int(W)<2)*2<W) W=int(W)+1; else W=int(W);
+        double  H=TheH*double(height); if ((int(H)<2)*2<H) H=int(H)+1; else H=int(H);
+        double  Hyp=sqrt(W*W+H*H)+double(PenSize)*ADJUST_RATIO*double(2);
+        double  Wb=int(Hyp); if ((int(Wb)<2)*2<Wb) Wb=int(Wb)+1;
+        double  Hb=Wb; // always square image
         AddX-=(Wb-W)/2;
         AddY-=(Hb-H)/2;
         QImage   *Img=new QImage(Wb,Hb,QImage::Format_ARGB32_Premultiplied);
@@ -381,7 +386,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         // Draw ExternalBorder border
         if (PenSize==0) Painter.setPen(Qt::NoPen); else {
             Pen.setColor(PenColor);
-            FullMargin=double(PenSize)*ADJUST_RATIO/2;
+            FullMargin=double(PenSize)*ADJUST_RATIO/double(2);
             Pen.setWidthF(double(PenSize)*ADJUST_RATIO);
             Pen.setStyle((Qt::PenStyle)PenStyle);
             Painter.setPen(Pen);
@@ -409,7 +414,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                     UpdateCachedBrush=false;
                 } else BR=CachedBrushBrush;
             } else {
-                BR=BackgroundBrush.GetBrush(QRectF(-1,-1,W-FullMargin*2,H-FullMargin*2),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?&PrevCompoObject->BackgroundBrush:NULL);
+                BR=BackgroundBrush.GetBrush(QRectF(0/*-1*/,0/*-1*/,W-FullMargin*2,H-FullMargin*2),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?&PrevCompoObject->BackgroundBrush:NULL);
                 QTransform  MatrixBR;
                 MatrixBR.translate(FullMargin-W/2,FullMargin-H/2);
                 BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
@@ -1804,6 +1809,8 @@ QImage cDiaporama::RotateImage(double TheRotateXAxis,double TheRotateYAxis,doubl
 //============================================================================================
 
 void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos) {
+    qDebug()<<"LoadSources-Adjust"<<ADJUST_RATIO<<"W="<<W<<"H="<<H;
+
     // W and H = 0 when producing sound track in render process
     bool SoundOnly=((W==0)&&(H==0));
 

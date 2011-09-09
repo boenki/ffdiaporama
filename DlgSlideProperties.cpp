@@ -866,13 +866,14 @@ void DlgSlideProperties::s_ChgWidthValue(double Value) {
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
-    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
-        CurrentTextItem->w=Value/100;
-    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-        double DisplayW,DisplayH;   GetForDisplayUnit(DisplayW,DisplayH);
-        CurrentTextItem->w=(Value/DisplayW);
-    }
-    if (RectItem->KeepAspectRatio) CurrentTextItem->h=((CurrentTextItem->w*xmax)*RectItem->AspectRatio)/ymax;
+
+    double DisplayW,DisplayH;
+    GetForDisplayUnit(DisplayW,DisplayH);
+
+    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentTextItem->w=Value/100;     // DisplayUnit==DISPLAYUNIT_PERCENT
+        else CurrentTextItem->w=(Value/DisplayW);                                                                       // DisplayUnit==DISPLAYUNIT_PIXELS
+
+    if (RectItem->KeepAspectRatio) CurrentTextItem->h=((CurrentTextItem->w*DisplayW)*RectItem->AspectRatio)/DisplayH;
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
     RectItem->setRect(Rect);
@@ -886,13 +887,14 @@ void DlgSlideProperties::s_ChgHeightValue(double Value) {
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
-    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
-        CurrentTextItem->h=Value/100;
-    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-        double DisplayW,DisplayH;   GetForDisplayUnit(DisplayW,DisplayH);
-        CurrentTextItem->h=(Value/DisplayH);
-    }
-    if (RectItem->KeepAspectRatio) CurrentTextItem->w=((CurrentTextItem->h*ymax)/RectItem->AspectRatio)/xmax;
+    double DisplayW,DisplayH;
+    GetForDisplayUnit(DisplayW,DisplayH);
+
+    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentTextItem->h=Value/100;     // DisplayUnit==DISPLAYUNIT_PERCENT
+        else CurrentTextItem->h=(Value/DisplayH);                                                                       // DisplayUnit==DISPLAYUNIT_PIXELS
+
+    if (RectItem->KeepAspectRatio) CurrentTextItem->w=((CurrentTextItem->h*DisplayH)/RectItem->AspectRatio)/DisplayW;
+
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
     QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
     RectItem->setRect(Rect);
@@ -1510,13 +1512,10 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
             }
         }
     }
+
     // Calculate scene size
-    xmax=ui->GraphicsView->width();
-    ymax=GlobalMainWindow->Diaporama->GetHeightForWidth(xmax);
-    if (ymax>ui->GraphicsView->height()) {
-        ymax=ui->GraphicsView->height();
-        xmax=GlobalMainWindow->Diaporama->GetWidthForHeight(ymax);
-    }
+    GetForDisplayUnit(xmax,ymax);
+
     // Ensure scene is created. If not : create it
     if (!scene) {
         // create the scene
@@ -1528,6 +1527,7 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
         ui->GraphicsView->setInteractive(true);
         ui->GraphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
     }
+    ui->GraphicsView->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
 
     // Check if BackgroundImage have correct size
     if ((BackgroundImage)&&((xmax!=BackgroundImage->width())||(ymax!=BackgroundImage->height()))) {
