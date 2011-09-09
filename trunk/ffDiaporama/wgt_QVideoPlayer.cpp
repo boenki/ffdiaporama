@@ -159,17 +159,15 @@ void wgt_QVideoPlayer::Resize() {
     int ToSet    =0;
 
     if ((FileInfo!=NULL)&&(FileInfo->IsValide)) {
-        TheWidth=int(double(TheHeight)*(double(FileInfo->ImageWidth)/double(FileInfo->ImageHeight)));
+        TheWidth=(int(double(TheHeight)*(double(FileInfo->ImageWidth)/double(FileInfo->ImageHeight)))/2)*2; // Rounded value to a multiple of 2
         if (TheWidth>width()) {
-            TheWidth=width();
+            TheWidth=(width()/2)*2; // Rounded value to a multiple of 2
             TheHeight=int(double(TheWidth)*(double(FileInfo->ImageHeight)/double(FileInfo->ImageWidth)));
         }
     } else if (Diaporama!=NULL) {
-        TheWidth=Diaporama->GetWidthForHeight(TheHeight);
-        if (TheWidth>width()) {
-            TheWidth =width();
-            TheHeight=Diaporama->GetHeightForWidth(TheWidth);
-        }
+        TheWidth=(Diaporama->GetWidthForHeight(TheHeight)/2)*2; // Rounded value to a multiple of 2
+        if (TheWidth>width()) TheWidth =(width()/2)*2;    // Rounded value to a multiple of 2
+        TheHeight=Diaporama->GetHeightForWidth(TheWidth);
     }
     ToSet=height()-TheHeight-HeightBT;
     ui->SpacerV1->setFixedHeight(ToSet);

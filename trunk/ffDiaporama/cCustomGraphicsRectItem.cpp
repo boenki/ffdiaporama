@@ -21,6 +21,8 @@
 #include "cCustomGraphicsRectItem.h"
 #include "DlgSlideProperties.h"
 #include "DlgImageCorrection.h"
+#include <QGraphicsView>
+#include <QTransform>
 
 #define HANDLESIZEX     8
 #define HANDLESIZEY     8
@@ -104,12 +106,15 @@ void cResizeGraphicsRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void cResizeGraphicsRectItem::CalcPosition() {
     if (scene()==NULL) return;
-    double xmax = scene()->sceneRect().width();
-    double ymax = scene()->sceneRect().height();
-    double x=0;
-    double y=0;
-    double w = HANDLESIZEX;
-    double h = HANDLESIZEY;
+    QTransform Matrix=scene()->views().at(0)->transform();
+    double xscale = Matrix.m11();   // X
+    double yscale = Matrix.m22();   // Y
+    double w      = double(HANDLESIZEX)/xscale;
+    double h      = double(HANDLESIZEY)/yscale;
+    double xmax   = scene()->sceneRect().width();
+    double ymax   = scene()->sceneRect().height();
+    double x      = 0;
+    double y      = 0;
     switch (TypeItem) {
         case 0 :    // Upper-Left corner
             x = (*RectItem->x)*xmax;
@@ -207,16 +212,19 @@ void cResizeGraphicsRectItem::paint(QPainter *painter,const QStyleOptionGraphics
 
 void cResizeGraphicsRectItem::ResizeUpperLeft(QPointF &newpos) {
     if (scene()==NULL) return;
+    QTransform Matrix=scene()->views().at(0)->transform();
+    double xscale = Matrix.m11();   // X
+    double yscale = Matrix.m22();   // Y
+    double w      = double(HANDLESIZEX)/xscale;
+    double h      = double(HANDLESIZEY)/yscale;
+    double mw     = double(HANDLEMAGNETX)/xscale;;
+    double mh     = double(HANDLEMAGNETY)/yscale;;
     double x      = double(newpos.x());
     double y      = double(newpos.y());
     double xmax   = double(scene()->sceneRect().width());   // get max width
     double ymax   = double(scene()->sceneRect().height());  // get max height
-    double w      = HANDLESIZEX;                            // calcul width and height
-    double h      = HANDLESIZEY;                            // calcul height
     double blockx = RectItem->BottomRight->pos().x();       // get value of opposite resize corner
     double blocky = RectItem->BottomRight->pos().y();       // get value of opposite resize corner
-    double mw     = HANDLEMAGNETX;
-    double mh     = HANDLEMAGNETY;
     double imgw,imgh;
 
     // Magnetic guide
@@ -291,16 +299,19 @@ void cResizeGraphicsRectItem::ResizeUpperLeft(QPointF &newpos) {
 
 void cResizeGraphicsRectItem::ResizeUpperRight(QPointF &newpos) {
     if (scene()==NULL) return;
+    QTransform Matrix=scene()->views().at(0)->transform();
+    double xscale = Matrix.m11();   // X
+    double yscale = Matrix.m22();   // Y
+    double w      = double(HANDLESIZEX)/xscale;
+    double h      = double(HANDLESIZEY)/yscale;
+    double mw     = double(HANDLEMAGNETX)/xscale;;
+    double mh     = double(HANDLEMAGNETY)/yscale;;
     double x      = double(newpos.x());
     double y      = double(newpos.y());
     double xmax   = double(scene()->sceneRect().width());   // get max width
     double ymax   = double(scene()->sceneRect().height());  // get max height
-    double w      = HANDLESIZEX;                            // calcul width and height
-    double h      = HANDLESIZEY;                            // calcul height
     double blockx = RectItem->BottomLeft->pos().x();        // get value of opposite resize corner
     double blocky = RectItem->BottomLeft->pos().y();        // get value of opposite resize corner
-    double mw     = HANDLEMAGNETX;
-    double mh     = HANDLEMAGNETY;
     double imgw,imgh;
 
     //Magnetic guide
@@ -374,16 +385,19 @@ void cResizeGraphicsRectItem::ResizeUpperRight(QPointF &newpos) {
 
 void cResizeGraphicsRectItem::ResizeBottomLeft(QPointF &newpos) {
     if (scene()==NULL) return;
+    QTransform Matrix=scene()->views().at(0)->transform();
+    double xscale = Matrix.m11();   // X
+    double yscale = Matrix.m22();   // Y
+    double w      = double(HANDLESIZEX)/xscale;
+    double h      = double(HANDLESIZEY)/yscale;
+    double mw     = double(HANDLEMAGNETX)/xscale;;
+    double mh     = double(HANDLEMAGNETY)/yscale;;
     double x      = double(newpos.x());
     double y      = double(newpos.y());
     double xmax   = double(scene()->sceneRect().width());   // get max width
     double ymax   = double(scene()->sceneRect().height());  // get max height
-    double w      = HANDLESIZEX;                            // calcul width and height
-    double h      = HANDLESIZEY;                            // calcul height
     double blockx = RectItem->UpperRight->pos().x();        // get value of opposite resize corner
     double blocky = RectItem->UpperRight->pos().y();        // get value of opposite resize corner
-    double mw     = HANDLEMAGNETX;
-    double mh     = HANDLEMAGNETY;
     double imgw,imgh;
 
     // Magnetic guide
@@ -457,16 +471,19 @@ void cResizeGraphicsRectItem::ResizeBottomLeft(QPointF &newpos) {
 
 void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
     if (scene()==NULL) return;
+    QTransform Matrix=scene()->views().at(0)->transform();
+    double xscale = Matrix.m11();   // X
+    double yscale = Matrix.m22();   // Y
+    double w      = double(HANDLESIZEX)/xscale;
+    double h      = double(HANDLESIZEY)/yscale;
+    double mw     = double(HANDLEMAGNETX)/xscale;;
+    double mh     = double(HANDLEMAGNETY)/yscale;;
     double x      = double(newpos.x());
     double y      = double(newpos.y());
     double xmax   = double(scene()->sceneRect().width());   // get max width
     double ymax   = double(scene()->sceneRect().height());  // get max height
-    double w      = HANDLESIZEX;                            // calcul width and height
-    double h      = HANDLESIZEY;                            // calcul height
     double blockx = RectItem->UpperLeft->pos().x();        // get value of opposite resize corner
     double blocky = RectItem->UpperLeft->pos().y();        // get value of opposite resize corner
-    double mw     = HANDLEMAGNETX;
-    double mh     = HANDLEMAGNETY;
     double imgw,imgh;
 
     // Magnetic guide
@@ -536,12 +553,14 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
 //====================================================================================================================
 void cResizeGraphicsRectItem::ResizeUpper(QPointF &newpos) {
     if (scene()==NULL) return;
-
+    QTransform Matrix=scene()->views().at(0)->transform();
+    double xscale = Matrix.m11();   // X
+    double yscale = Matrix.m22();   // Y
+    double w      = double(HANDLESIZEX)/xscale;
+    double h      = double(HANDLESIZEY)/yscale;
     double y      = double(newpos.y());
     double xmax   = double(scene()->sceneRect().width());   // get max width
     double ymax   = double(scene()->sceneRect().height());  // get max height
-    double w      = HANDLESIZEX;                            // calcul width and height
-    double h      = HANDLESIZEY;                            // calcul height
     double blocky = RectItem->Bottom->pos().y();            // get value of opposite resize corner
     double mh     = HANDLEMAGNETY;
     double imgh   = blocky-y;
@@ -594,12 +613,14 @@ void cResizeGraphicsRectItem::ResizeUpper(QPointF &newpos) {
 //====================================================================================================================
 void cResizeGraphicsRectItem::ResizeBottom(QPointF &newpos) {
     if (scene()==NULL) return;
-
+    QTransform Matrix=scene()->views().at(0)->transform();
+    double xscale = Matrix.m11();   // X
+    double yscale = Matrix.m22();   // Y
+    double w      = double(HANDLESIZEX)/xscale;
+    double h      = double(HANDLESIZEY)/yscale;
     double y      = double(newpos.y());
     double xmax   = double(scene()->sceneRect().width());   // get max width
     double ymax   = double(scene()->sceneRect().height());  // get max height
-    double w      = HANDLESIZEX;                            // calcul width and height
-    double h      = HANDLESIZEY;                            // calcul height
     double blocky = RectItem->Upper->pos().y();            // get value of opposite resize corner
     double mh     = HANDLEMAGNETY;
     double imgh   = y-blocky;
@@ -652,14 +673,17 @@ void cResizeGraphicsRectItem::ResizeBottom(QPointF &newpos) {
 //====================================================================================================================
 void cResizeGraphicsRectItem::ResizeLeft(QPointF &newpos) {
     if (scene()==NULL) return;
-
+    QTransform Matrix=scene()->views().at(0)->transform();
+    double xscale = Matrix.m11();   // X
+    double yscale = Matrix.m22();   // Y
+    double w      = double(HANDLESIZEX)/xscale;
+    double h      = double(HANDLESIZEY)/yscale;
+    double mw     = double(HANDLEMAGNETX)/xscale;;
+    //double mh     = double(HANDLEMAGNETY)/yscale;;
     double x      = double(newpos.x());
     double xmax   = double(scene()->sceneRect().width());   // get max width
     double ymax   = double(scene()->sceneRect().height());  // get max height
-    double w      = HANDLESIZEX;                            // calcul width and height
-    double h      = HANDLESIZEY;                            // calcul height
     double blockx = RectItem->Right->pos().x();             // get value of opposite resize corner
-    double mw     = HANDLEMAGNETX;
     double imgw   = blockx-x;
     double imgh   = (RectItem->zoom?(*RectItem->zoom*RectItem->AspectRatio):(*RectItem->h))*ymax;
 
@@ -707,14 +731,17 @@ void cResizeGraphicsRectItem::ResizeLeft(QPointF &newpos) {
 //====================================================================================================================
 void cResizeGraphicsRectItem::ResizeRight(QPointF &newpos) {
     if (scene()==NULL) return;
-
+    QTransform Matrix=scene()->views().at(0)->transform();
+    double xscale = Matrix.m11();   // X
+    double yscale = Matrix.m22();   // Y
+    double w      = double(HANDLESIZEX)/xscale;
+    double h      = double(HANDLESIZEY)/yscale;
+    double mw     = double(HANDLEMAGNETX)/xscale;;
+    //double mh     = double(HANDLEMAGNETY)/yscale;;
     double x      = double(newpos.x());
     double xmax   = double(scene()->sceneRect().width());   // get max width
     double ymax   = double(scene()->sceneRect().height());  // get max height
-    double w      = HANDLESIZEX;                            // calcul width and height
-    double h      = HANDLESIZEY;                            // calcul height
     double blockx = RectItem->Left->pos().x();              // get value of opposite resize corner
-    double mw     = HANDLEMAGNETX;
     double imgw   = x-blockx;
     double imgh   = (RectItem->zoom?(*RectItem->zoom*RectItem->AspectRatio):(*RectItem->h))*ymax;
 
@@ -908,8 +935,12 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
                 // calcul width and height;
                 double W  = xmax*(*((zoom!=NULL)?zoom:w));
                 double H  = ymax*((zoom!=NULL)?((*zoom)*AspectRatio):(*h));
-                double mw = HANDLEMAGNETX;
-                double mh = HANDLEMAGNETY;
+
+                QTransform Matrix=scene()->views().at(0)->transform();
+                double xscale = Matrix.m11();   // X
+                double yscale = Matrix.m22();   // Y
+                double mw     = double(HANDLEMAGNETX)/xscale;;
+                double mh     = double(HANDLEMAGNETY)/yscale;;
 
                 if (((*x)*xmax>(0-mw))&&((*x)*xmax<(0+mw)))                 *x=0;
                 if ((((*x)*xmax+W)>(xmax-mw))&&(((*x)*xmax+W)<(xmax+mw)))   *x=(xmax-W)/xmax;

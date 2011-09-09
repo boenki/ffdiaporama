@@ -9,3 +9,10 @@ Logo & icons :
 
 English help files correction :
     Hazel                   <http://www.linuxforums.org/forum/members/hazel.html>
+
+Spanish interface translation :
+	Pepe Baeza				<http://www.quesepuedehacerenlinux.net/2011/09/ffdiaporama.html>
+
+Italian interface translation :
+	Lino Fantasia			<http://www.anxurweb.com/fine-dello-sviluppo-di-videoporama-benvenuto-ffdiaporama.html>
+
