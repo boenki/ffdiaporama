@@ -322,7 +322,7 @@ Transizione crossfade</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="644"/>
         <source>Enable &quot;raster&quot; Graphics System (Need application restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita il sistema grafico &quot;reticolo&quot; (Bisogna riavviare l&apos;applicazione)</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="656"/>
@@ -697,7 +697,7 @@ Transizione crossfade</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1862"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.cpp" line="308"/>
@@ -790,7 +790,7 @@ Transizione crossfade</translation>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="654"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.cpp" line="46"/>
@@ -999,7 +999,7 @@ Transizione crossfade</translation>
     <message>
         <location filename="../DlgImageCorrection.ui" line="918"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -1159,7 +1159,7 @@ Spostare il file corrente selezionato di una tacca verso il basso.</translation>
     <message>
         <location filename="../DlgMusicProperties.ui" line="430"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.cpp" line="220"/>
@@ -1391,7 +1391,7 @@ Spostare il file corrente selezionato di una tacca verso il basso.</translation>
     <message>
         <location filename="../DlgRenderVideo.ui" line="799"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="38"/>
@@ -1693,7 +1693,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="672"/>
         <source>PgUp</source>
-        <translation type="unfinished"></translation>
+        <translation>PgSu</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="700"/>
@@ -1703,7 +1703,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="716"/>
         <source>PgDown</source>
-        <translation type="unfinished"></translation>
+        <translation>PgGiù</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="813"/>
@@ -1713,7 +1713,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="823"/>
         <source>Ctrl+Ins</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Ins</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="851"/>
@@ -1723,7 +1723,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="861"/>
         <source>Ins</source>
-        <translation type="unfinished">Ins</translation>
+        <translation>Ins</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="883"/>
@@ -1733,7 +1733,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="893"/>
         <source>Del</source>
-        <translation type="unfinished">Del</translation>
+        <translation>Del</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="915"/>
@@ -1743,7 +1743,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="925"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished">Ctrl+C</translation>
+        <translation>Ctrl+C</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="947"/>
@@ -1753,7 +1753,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="957"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished">Ctrl+X</translation>
+        <translation>Ctrl+X</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="979"/>
@@ -1763,7 +1763,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="989"/>
         <source>Ctrl+V</source>
-        <translation type="unfinished">Ctrl+V</translation>
+        <translation>Ctrl+V</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1018"/>
@@ -1783,7 +1783,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1093"/>
         <source>F5</source>
-        <translation type="unfinished"></translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1115"/>
@@ -1793,7 +1793,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1125"/>
         <source>F6</source>
-        <translation type="unfinished"></translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1147"/>
@@ -1803,7 +1803,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1157"/>
         <source>F7</source>
-        <translation type="unfinished"></translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1192"/>
@@ -2106,7 +2106,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3196"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="62"/>
@@ -2416,7 +2416,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgTextEdit.ui" line="700"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../DlgTextEdit.cpp" line="64"/>
@@ -2564,7 +2564,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="308"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -2668,7 +2668,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgVideoEdit.ui" line="335"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -3003,7 +3003,7 @@ e aiuto</translation>
         <location filename="../mainwindow.ui" line="1178"/>
         <location filename="../mainwindow.ui" line="2322"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1212"/>
@@ -3070,7 +3070,7 @@ e aiuto</translation>
     <message>
         <location filename="../mainwindow.ui" line="2773"/>
         <source>F5</source>
-        <translation type="unfinished"></translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2778"/>
@@ -3085,7 +3085,7 @@ e aiuto</translation>
     <message>
         <location filename="../mainwindow.ui" line="2784"/>
         <source>F6</source>
-        <translation type="unfinished"></translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2789"/>
@@ -3100,7 +3100,7 @@ e aiuto</translation>
     <message>
         <location filename="../mainwindow.ui" line="2795"/>
         <source>F7</source>
-        <translation type="unfinished"></translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2800"/>
@@ -3115,7 +3115,7 @@ e aiuto</translation>
     <message>
         <location filename="../mainwindow.ui" line="2806"/>
         <source>F8</source>
-        <translation type="unfinished"></translation>
+        <translation>F8</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2811"/>
