@@ -31,12 +31,14 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
 
     #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
         setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+        ui->RasterModeCB->setVisible(false);
     #endif
 
-    //********************************
     // LastDirectories part
-    //********************************
     ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
+
+    // Raster mode
+    ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
 
     //********************************
     // Preview Options part

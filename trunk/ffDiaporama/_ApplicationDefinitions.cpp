@@ -626,9 +626,10 @@ bool cApplicationConfig::InitConfigurationValues() {
     CurrentFolder   =QDir::currentPath();
 
     // Initialise all variables and set them default value
+    RasterMode                  = true;                     // Enable or disable raster mode [Linux only]
     RememberLastDirectories     = true;                     // If true, Remember all directories for future use
     RestoreWindow               = true;                     // If true, restore window state and position at startup
-    AskUserToRemove             = true;
+    AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
     SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
     PartitionMode               = false;                    // If true, partition mode is on
@@ -740,6 +741,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
 
     if ((root.elementsByTagName("EditorOptions").length()>0)&&(root.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("EditorOptions").item(0).toElement();
+        if (Element.hasAttribute("RasterMode"))                 RasterMode               =Element.attribute("RasterMode")=="1";
         if (Element.hasAttribute("AppendObject"))               AppendObject             =Element.attribute("AppendObject")=="1";
         if (Element.hasAttribute("PartitionMode"))              PartitionMode            =Element.attribute("PartitionMode")=="1";
         if (Element.hasAttribute("DisplayUnit"))                DisplayUnit              =Element.attribute("DisplayUnit").toInt();
@@ -868,6 +870,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     root.appendChild(Element);
 
     Element=domDocument.createElement("EditorOptions");
+    Element.setAttribute("RasterMode",               RasterMode?"1":"0");
     Element.setAttribute("AppendObject",             AppendObject?"1":"0");
     Element.setAttribute("DisplayUnit",              DisplayUnit);
     Element.setAttribute("PartitionMode",            PartitionMode?"1":"0");

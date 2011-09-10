@@ -694,7 +694,6 @@ QString cDiaporamaObject::GetDisplayName() {
 void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY) {
     if ((!Thumbnail)||((Thumbnail)&&((Thumbnail->width()!=ThumbWidth)||(Thumbnail->height()!=ThumbHeight)))) {
         if (Thumbnail) {
-            qDebug()<<"Actual:"<<Thumbnail->width()<<"x"<<Thumbnail->height()<<"Wanted:"<<ThumbWidth<<"x"<<ThumbHeight;
             delete Thumbnail;
             Thumbnail=NULL;
         }
@@ -1809,8 +1808,6 @@ QImage cDiaporama::RotateImage(double TheRotateXAxis,double TheRotateYAxis,doubl
 //============================================================================================
 
 void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos) {
-    qDebug()<<"LoadSources-Adjust"<<ADJUST_RATIO<<"W="<<W<<"H="<<H;
-
     // W and H = 0 when producing sound track in render process
     bool SoundOnly=((W==0)&&(H==0));
 

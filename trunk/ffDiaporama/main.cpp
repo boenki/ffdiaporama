@@ -29,7 +29,9 @@ int main(int argc, char *argv[]) {
     ApplicationConfig->LoadConfigurationFile(GLOBALCONFIGFILE);                                                 // Get values from global configuration file (overwrite previously initialized values)
     if (!ApplicationConfig->LoadConfigurationFile(USERCONFIGFILE)) ApplicationConfig->SaveConfigurationFile();  // Load values from user configuration file (overwrite previously initialized values)
 
-    QApplication::setGraphicsSystem("raster");
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+        if (ApplicationConfig->RasterMode) QApplication::setGraphicsSystem("raster");
+    #endif
 
     QApplication app(argc, argv);
 

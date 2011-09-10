@@ -136,6 +136,7 @@ public:
     QString                 LastRenderVideoPath;                        // Last folder use for render video
 
     // Preferences
+    bool                    RasterMode;                                 // Enable or disable raster mode [Linux only]
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
     bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide
     bool                    PartitionMode;                              // If true, partition mode is on
