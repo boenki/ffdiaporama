@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 07/09/2011) :
+Buggs/TODO (Dernier SVN le 09/09/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -8,8 +8,7 @@ BUGG:
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
-    Corrige l'erreur d'échelle dans le calcul des tailles en pixel dans la boite slide
-	Réduit la bordure parasite qui apparait dans la prévisualisation et dans la génération
+    Ajoute une option Désactiver le system graphic "raster" dans la boite de configuration
 
 Divers:
 
@@ -28,6 +27,8 @@ Correction de bug :
     La diapositive sélectionnée n'était pas correctement mis à jours par la prévisualisation
     Corrige l'erreur de le calcul des durées mini quand pas de transition. Il est maintenant possible d'avoir des slides de moins d'une seconde
     Corrige un bug de calcul avec les vidéos anamorphiques
+    Corrige l'erreur d'échelle dans le calcul des tailles en pixel dans la boite slide
+    Réduit la bordure parasite qui apparait dans la prévisualisation et dans la génération
 
 Changement de comportement :
     Ajout de l'espagnol (100%)

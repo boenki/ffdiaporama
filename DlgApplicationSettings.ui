@@ -641,6 +641,13 @@ Crossfade transition</string>
              </item>
             </widget>
            </item>
+           <item row="3" column="0" colspan="2">
+            <widget class="QCheckBox" name="RasterModeCB">
+             <property name="text">
+              <string>Enable &quot;raster&quot; Graphics System (Need application restart)</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </widget>
@@ -671,8 +678,8 @@ Crossfade transition</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>438</width>
-            <height>151</height>
+            <width>588</width>
+            <height>421</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -966,8 +973,8 @@ Crossfade transition</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>293</width>
-            <height>351</height>
+            <width>588</width>
+            <height>421</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">

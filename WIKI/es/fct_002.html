@@ -1,263 +1,204 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html lang="en">
+<html lang="es">
   <head>
-    <title>How ffDiaporama work</title>
+    <title>C&oacute;mo trabaja ffDiaporama</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
-        src="../../WIKI_img/Wiki.png" align="MIDDLE"> How ffDiaporama
-      work<br>
+        src="../../WIKI_img/Wiki.png" align="MIDDLE"> C&oacute;mo funciona ffDiaporama<br>
     </div>
     <div style="text-align: left;" id="content_wikimode">
-      <h2 style=""><img checked="true" style="width: 24px; height: 24px;"
-          alt="" src="../../WIKI_img/Attention.png"> Traducci&#243;n en
-        curso<br>
-      </h2>
-      <h2>Functional principles</h2>
+      <h2>Principios de Funcionamiento</h2>
       <div style="margin-left: 40px;">
-        <div style="text-align: justify;">Slides are shown one after
-          another, in the order in which they appear in the time line.<br>
-          The following diagram shows the principles of functioning of
-          slides:<br>
+        <div style="text-align: justify;">Las diapositivas se muestran una tras otra, en el orden en el que aparecen 
+          en la l&iacute;nea de tiempo.<br>
+          El diagrama siguiente muestra c&oacute;mo funciona el apartado de las diapositivas:<br>
         </div>
         <br>
         <div style="text-align: center;"><img checked="true" src="../../WIKI_img/Schema.png"><br>
         </div>
       </div>
-      <h3 style="margin-bottom: 0cm; line-height: 100%; margin-left: 40px;">The
-
-
-
-
-
-
-
-        slides</h3>
+      <h3 style="margin-bottom: 0cm; line-height: 100%; margin-left: 40px;">Las diapositivas</h3>
       <div style="margin-left: 40px;"><br>
-        On the upper part of the diagram are represented slides A, B, C
-        and D.<br>
+        En la parte superior del diagrama est&aacute;n representadas las diapositivas <b>A</b>, <b>B</b>, <b>C</b> y <b>D</b>.<br>
       </div>
       <ul style="margin-left: 40px; text-align: justify;">
-        <li>Each slide possesses an entering transition (symbolized on
-          the diagram by a small rectangle labelled T). The transitions
-          don't all have the same duration (symbolized on the diagram by
-          the lengths TA&#8217;, TB', etc.): It is indeed possible to
-          define the duration of the entering transition for each slide
-          separately (or to indicate no transition: duration=0). </li>
-        <li>Each slide possesses a duration which is appropriate for it
-          (symbolized on the diagram by the lengths B', C', etc.): Some
-          last only a few seconds while others can last several minutes.
-          The durations are expressed in seconds but are not necessarily
-          whole numbers: a slide mightl last 12.234 seconds! </li>
-        <li>Each slide is a composite, an assembly of one or more
-          multimedia elements which are animated over time. The
-          animation is realized through shots. </li>
-        <li>Each slide can define a new background (bottom of screen).</li>
-        <li>Each slide can define a new musical play-list.</li>
+        <li>Cada diapositiva posee una transici&oacute;n (simbolizada en el diagrama por un peque&ntilde;o rect&aacute;ngulo etiquetado como  <b>T</b>). Las transiciones no tienen todas la misma duraci&oacute;n (simbolizado en el diagrama por las longitudes <b>TA'</b>, <b>TB'</b>, etc.): De hecho, es posible definir la duraci&oacute;n de cada transici&oacute;n para cada diapositiva (o para indicar que no hay ninguna transici&oacute;n:<b> duraci&oacute;n = 0</b>).</li>
+        <li>Cada diapositiva tiene una duraci&oacute;n que es apropiada para <b>i</b> (simbolizado en el diagrama de la longitud de <b>B'</b>, <b>C'</b>, etc): Algunas tienen una duraci&oacute;n de unos pocos segundos, mientras que otras pueden durar varios minutos. Los tiempos se expresan en segundos, pero no son necesariamente n&uacute;meros enteros: un ejemplo, &uacute;ltima diapositiva ¡12.234 segundos!</li>
+        <li>Cada diapositiva es una composici&oacute;n, un conjunto de uno o m&aacute;s elementos multimedia que se animan en el tiempo. La animaci&oacute;n se realiza a trav&eacute;s de planos o tomas. </li>
+        <li>En cada diapositiva se puede definir un plano de fondo (detr&aacute;s de todas los planos).</li>
+        <li>En cada diapositiva se puede definir una nueva lista de reproducci&oacute;n.</li>
       </ul>
-      <div style="margin-left: 120px; text-align: justify;">Slides which
-        do not define a background use the background defined in a
-        previous slide. So in the following example:</div>
+      <div style="margin-left: 120px; text-align: justify;">Las diapositivas en las que no se ha configurado 
+         un fondo utilizan el fondo definido en una diapositiva anterior. He aqu&iacute; un ejemplo:</div>
       <ul style="margin-left: 120px; text-align: justify;">
-        <li> Slide 1 - Defines a background</li>
-        <li> Slide 2 - Does not define a background and therefore uses
-          the background defined by slide 1</li>
-        <li> Slide 3 - Does not define a background and therefore uses
-          the background defined by slide 1</li>
-        <li> Slide 4 - Defines a background</li>
-        <li> Slide 5 - Does not define a background and therefore uses
-          the background defined by slide 4 </li>
+        <li> Diapositiva 1 - Se ha configurado un fondo</li>
+        <li> Diapositiva 2 - No se ha definido un fondo, por lo tanto utiliza
+           el fondo definido en la diapositiva 1</li>
+        <li> Diapositiva 3 - No se ha definido un fondo, por lo tanto utiliza
+           el fondo definido en la diapositiva 1</li>
+        <li> Diapositiva 4 - Se ha configurado un fondo</li>
+        <li> Diapositiva 5 - No se ha definido un fondo, por lo tanto utiliza
+           el fondo definido en la diapositiva 4</li>
       </ul>
-      <div style="margin-left: 120px; text-align: justify;"> The same
-        principle applies to the musical play-lists. As long as slides
-        do not define a new play-list, they use the last defined
-        play-list. </div>
-      <h3 style="margin-bottom: 0cm; line-height: 100%; margin-left: 40px;">Shots
-
-
-
-
-
-
-
-        and blocks<br>
+      <div style="margin-left: 120px; text-align: justify;"> Este mismo principio se aplica a la lista de reproducci&oacute;n de m&uacute;sica. Si en las diapositivas no se configura una nueva lista de reproducci&oacute;n, se usa la &uacute;ltima lista a&ntilde;adida. </div>
+      <h3 style="margin-bottom: 0cm; line-height: 100%; margin-left: 40px;">Tomas y Bloques<br>
       </h3>
       <div style="margin-left: 40px;"><br>
-        <div style="text-align: justify;">The lower part of the diagram
-          represents the slide C.<br>
+        <div style="text-align: justify;">La parte inferior del diagrama representa la diapositiva <b>C</b>.<br>
         </div>
       </div>
       <ul style="margin-left: 40px; text-align: justify;">
-        <li>Each slide comprises one or more shots. The shots are
-          represented on the diagram by rectangles C1, C2, C3, etc.
+        <li>Cada diapositiva contiene uno o m&aacute;s tomas. Las tomas est&aacute;n representadas en el diagrama por los rect&aacute;ngulos <b>C1</b>, <b>C2</b>, <b>C3</b>, etc.
           &#8230; </li>
-        <li>Each shot has its own duration (symbolized on the diagram by
-          the lengths C1 ', C2 ', C3 ', etc.). Some shots can last only
-          seconds while others can last several minutes. Some shots can
-          have a duration of zero. (The durations are expressed in
-          seconds but are not necessarily whole numbers: A shot can very
-          well last 12.234 seconds!) </li>
-        <li>The shots can contain several multimedia objects. The
-          multimedia objects are integrated into blocks which can be of
-          three types: title (containing only text), images (or photos),
-          or video. </li>
-        <li>The shots are transparent. This means that if the image does
-          not fill the whole screen, the background (see bottom of
-          screen) will appear.</li>
+        <li>Cada toma tiene su propia duraci&oacute;n (simbolizado en el diagrama con
+           las longitudes <b>C1</b>, <b>C2</b>, <b>C3</b>, etc.).<br> Algunas tomas pueden durar s&oacute;lo
+           algunos segundos, mientras que otras pueden durar varios minutos. Otras tomas pueden
+           tener una duraci&oacute;n cero.<br> (Los tiempos se expresan en
+           segundos, pero no son necesariamente n&uacute;meros enteros: Una toma puede
+           durar perfectamente ¡12.234 segundos! )</li>
+        <li>Las tomas contienen varios objetos multimedia. Los objetos multimedia se integran en bloques que pueden ser de
+           tres tipos: el t&iacute;tulo (que contiene s&oacute;lo texto), im&aacute;genes (o fotos),
+           y v&iacute;deo. </li>
+        <li>Las tomas son transparentes. Esto significa que si la imagen
+           no ocupa toda la pantalla, el fondo aparecer&aacute;.</li>
       </ul>
-      <div style="margin-left: 40px; text-align: justify;"><span style="text-decoration: underline;">Remarks:
-
-
-
-
-
-
+      <div style="margin-left: 40px; text-align: justify;"><span style="text-decoration: underline;">Notas:
         </span><br>
         <ul>
-          <li>The shots define the arrangement of blocks (multimedia
-            objects) at any given moment.</li>
-          <li>The shot animations are generated by the transformation of
-            these arrangements from one shot to another. </li>
+          <li>Las tomas definen la disposici&oacute;n de los bloques (objetos
+             multimedia) en un momento dado.</li>
+          <li>Las animaciones de las tomas se generan por la transformaci&oacute;n de
+             estas posiciones que se lleva a cabo de una toma a otra. </li>
         </ul>
       </div>
-      <div style="margin-left: 40px; text-align: justify;">Specifically,
-        if in the foreground, an image occupies the whole screen, and
-        then occupies only a small part of the screen in the following
-        shot, then the animation will consist of the transformation of
-        the image of the whole screen (previous shot) into that small
-        part of the screen (following shot).<br>
+      <div style="margin-left: 40px; text-align: justify;">Concretando,
+         si en el primer plano la imagen ocupa toda la pantalla, y
+         despu&eacute;s s&oacute;lo ocupa una peque&ntilde;a parte de la pantalla en la siguiente
+         toma,<br> entonces la animaci&oacute;n estar&aacute; formada por la transformaci&oacute;n de
+         &eacute;sta ocupando toda la pantalla (toma previa) hasta ocupar s&oacute;lo
+         una peque&ntilde;a parte de la pantalla (toma siguiente).<br>
         <br>
       </div>
       <div style="margin-left: 80px; text-align: justify;">&#160;
-        Example:<br>
+        Ejemplo:<br>
         <div style="margin-left: 40px;"><img checked="true" src="../../WIKI_img/Animation_1.png"><br>
         </div>
       </div>
       <ul style="margin-left: 80px; text-align: justify;">
-        <li>Shot 1: Image using the whole screen: Duration=2 seconds. </li>
-        <li>Shot 2: Image using only the bottom right screen quarter:
-          Duration 3 seconds. </li>
-        <li>Shot 3: Image again using the whole screen: Duration=2
-          seconds. </li>
+        <li>Toma 1: La imagen ocupa la pantalla entera: Duraci&oacute;n=2 segundos. </li>
+        <li>Toma 2: La imagen s&oacute;lo ocupa el cuadrante inferior derecho:
+          Duraci&oacute;n 3 segundos. </li>
+        <li>Toma 3: La imagen vuelve a ocupar otra vez la pantalla entera: Duratci&oacute;n=2
+          segundos. </li>
       </ul>
       <ul style="margin-left: 40px; text-align: justify;">
-        <li>Result: the image will be shown on the whole screen for 2
-          seconds, will shrink gradually over 3 seconds towards the
-          right lower quarter of the screen, and then will grow again
-          for 2 seconds until it once more occupies the whole screen. </li>
-        <li>The slide will end as soon as the image has reached the
-          position defined in shot 3. </li>
+        <li>Resultado: la imagen se mostrar&aacute; en la pantalla completa durante 2
+          segundos, encoger&aacute; gradualmente durante otros 3 segundos hacia el
+          el cuadrante inferior derecho de la pantalla,<br> y luego crecer&aacute; otra vez
+          durante 2 segundos hasta que una vez m&aacute;s ocupe la pantalla entera. </li>
+        <li>La diapositiva terminar&aacute; tan pronto como la imagen haya llegado a la
+           posici&oacute;n definida en la toma 3ª. </li>
       </ul>
-      <div style="margin-left: 40px; text-align: justify;"><span style="text-decoration: underline;">Remarks:</span><br>
+      <div style="margin-left: 40px; text-align: justify;"><span style="text-decoration: underline;">Notas:</span><br>
         <ul>
-          <li>The transformations are gradual: in the example you will
-            see the image being gradually reduced. </li>
-          <li>The transformations are made over the whole duration of
-            the following shot. </li>
+          <li>Las transformaciones son graduales: en el ejemplo que hemos visto
+             la imagen va reduci&eacute;dose gradualmente. </li>
+          <li>Las transformaciones tienen lugar durante toda la duraci&oacute;n de
+            la toma siguiente. </li>
         </ul>
         <br>
-        The definition of the objects in each block can vary from one
-        shot to another. The following example shows three different
-        definitions from the same block:<br>
+        La definici&oacute;n de los objetos en cada bloque puede variar de una
+         toma a otra. En el siguiente ejemplo se puede comprobar tres diferentes
+         definiciones en el mismo bloque:<br>
         <div style="margin-left: 40px;"><img checked="true" src="../../WIKI_img/Animation_2.png"><br>
         </div>
       </div>
       <ul style="margin-left: 40px; text-align: justify;">
-        <li> 1st shot: The image is complete.</li>
-        <li> 2nd shot: The image is re-framed on the statue.</li>
-        <li> 3rd shot: The image is re-framed on the pedestrians.</li>
+        <li> 1ª toma: La imagen est&aacute; completa.</li>
+        <li> 2ª toma: La imagen se ha enmarcado en la zona de la estatua.</li>
+        <li> 3ª toma: La imagen se ha enmarcado en la zona de los peatones.</li>
       </ul>
-      <div style="margin-left: 40px; text-align: justify;">If we apply
-        these definitions to the previous 3 shots: </div>
+      <div style="margin-left: 40px; text-align: justify;">Si miramos en el
+        ejemplo propuesto de la estatua, m&aacute;s arriba: </div>
       <ul style="margin-left: 40px; text-align: justify;">
-        <li>The complete image will be shown on all the screen for 2
-          seconds, then will be reduced gradually over 3 seconds by
-          zooming in on the statue in the right lower quarter of the
-          screen, then will grow over 2 seconds until it once more
-          occupies the whole screen while moving towards the
-          pedestrians.</li>
+        <li>La imagen completa se muestra en toda la pantalla durante 2
+           segundos, luego va disminuyendo de tama&ntilde;o gradualmente durante 3 segundos<br>
+           haciendo un zoom sobre la imagen en el cuadrante inferior derecha de la
+           pantalla, entonces crece durante otros 2 segundos hasta que, una vez m&aacute;s,<br>
+           ocupa toda la pantalla mientras se mueve hacia la zona de los
+           peatones.</li>
       </ul>
-      <div style="margin-left: 40px; text-align: justify;"><span style="text-decoration: underline;">Remarks:
-
-
-
-
-
-
+      <div style="margin-left: 40px; text-align: justify;"><span style="text-decoration: underline;">Notas:
         </span><br>
       </div>
       <ul style="margin-left: 40px; text-align: justify;">
-        <li>ffDiaporama can manage up to several hundreds slides in a
-          single project. <br>
+        <li>ffDiaporama puede gestionar cientos de diapositivas en un
+           solo proyecto. <br>
         </li>
-        <li>Each slide can consist of tens of shots.</li>
-        <li>Each slide can contain tens of blocks.</li>
-        <li>Blocks can be visible on some shots and invisible on other.</li>
+        <li>Cada diapositiva puede contener decenas de tomas.</li>
+        <li>Cada diapositiva puede contener decenas de bloques.</li>
+        <li>Los bloques pueden ser visibles en algunas tomas e invisibles en otras.</li>
       </ul>
       <div style="margin-left: 40px; text-align: justify;">
-        <h3>The "Visible" property of blocks and the management of the
-          breaks<br>
+        <h3>La propiedad "Visible" de los bloques y la gesti&oacute;n de las pausas<br>
         </h3>
-        <div style="margin-left: 40px;">Blocks have a visible/invisible
-          property. In the following example, the image is inserted 3
-          times (in 3 different blocks) into the same slide.
+        <div style="margin-left: 40px;">Los bloques poseen las propiedad visible o invisible. 
+          En el siguiente ejemplo, la imagen se inserta 3 veces 
+          (en 3 bloques diferentes) en una misma diapositiva.
           <ul>
-            <li>The first block defines the whole image filling the
-              whole screen </li>
-            <li>The second block defines the image re-framed on the
-              statue and positioned in an ellipse at the right of the
-              screen </li>
-            <li>The third block defines the image re-framed on the
-              pedestrians and also positioned in an ellipse at the right
-              of the screen </li>
+            <li>El primer bloque muestra la imagen completa,
+              ocupando la pantalla entera </li>
+            <li>El segundo bloque muestra la imagen, con la
+               estatua enmarcada y posicionada en una elipse, a la derecha de la
+               pantalla </li>
+            <li>El tercer bloque muestra la imagen con el sector de los peatones enmarcado
+                y tambi&eacute;n posicionado en una elipse, a la derecha
+               de la pantalla </li>
           </ul>
           <img alt="" src="../../WIKI_img/Animation_3.png"><br>
-          The statue and the pedestrians have their visibility property
-          set to invisible on the 1st shot.<br>
-          Then the statue becomes visible on the 2nd shot.<br>
-          Finally, the statue once more becomes invisible on the 3rd
-          shot and the pedestrians become visible.<br>
+          La estatua y los peatones tienen la propiedad de visibilidad establecida como 'invisible' en la 1ª toma.<br>
+          Despu&eacute;s, la estatua se hace visible en la 2ª toma.<br>
+          Finalmente, la estatua se vuelve invisible otra vez  en la 3ª toma, y los peatones se hacen visibles a su vez.<br>
           <br>
-          Result :<br>
+          Resultado :<br>
           <ul>
-            <li>For 2 seconds, the 1st shot is shown and we see only the
-              whole image which occupies all the screen </li>
-            <li>Over the next 2 seconds, the statue appears </li>
-            <li>Over a further 2 seconds, the statue is replaced by the
-              pedestrians </li>
+            <li>Durante 2 segundos la 1ª toma se muestra y podemos contemplar 
+             la imagen completa en la pantalla.</li>
+            <li>Durante los 2 segundos siguientes, va apareciendo la estatua </li>
+            <li>Durante los otros 2 segundos siguientes, la estatua es sustitu&iacute;da
+             por los peatones </li>
           </ul>
-          This example is really very simple, because it is also
-          possible to animate the appearance and the disappearance of
-          blocks.<br>
-          Indeed, as shown previously, animations are generated by the
-          transformation of the arrangement from one shot to another.<br>
-          So, if on the 1st shot, the statue occupied the left lower
-          quarter of the screen rather than the same position as on the
-          2nd shot, then instead of simply appearing for 2 seconds on
-          the 2nd shot, it would appear by growing out of the left lower
-          quarter of the screen. <br>
+          Este ejemplo es muy simple, tambi&eacute;n es
+          posible animar la aparici&oacute;n y desaparici&oacute;n de
+          bloques.<br>
+          En efecto, como se indic&oacute; anteriormente, las animaciones se generan a causa
+          de las transformaciones que vamos creando de una toma a otra. <br>
+          Por lo tanto, si en la 1ª toma, la estatua ocupa el cuadrante inferior izquierdo de la pantalla,
+          en el mismo lugar que ocupa en la 2ª toma,<br> entonces en vez de aparecer s&iacute;mplemente durante 2 segundos en
+          esta 2ª toma, aparecer&aacute; aumentando desde su situaci&oacute;n original en el cuadrante inferior izquierdo. <br>
           <br>
-          You should note that videos are paused when they are
-          invisible.<br>
-          Therefore a video can be displayed for several seconds in the
-          1st shot, then be made invisible and thus paused in a 2nd
-          shot, then be visible in a 3rd shot and resume playing, from
-          where it stopped at the end of the 1st shot.<br>
+          Hay que tener en cuenta que los v&iacute;deos se detienen cuando son invisibles.<br>
+          Por lo tanto, el video del ejemplo se visualiza durante varios segundos en la 1ª toma, 
+          y despu&eacute;s se hace invisible, detieni&eacute;ndose en la 2ª toma,<br>
+          y luego se muestra visible en la 3ª toma, y volve a aparecer a partir desde
+          donde se detuvo, al final de la 1ª toma.<br>
         </div>
-        <h3>Remark:</h3>
-        The total duration of the project is not equal to the sum of the
-        durations of the slides because the transitions make the slides
-        overlap: Two slides of 10 seconds, each with a transition of 1
-        second, will give a total duration for the project of 19 seconds
-        (and not 20 seconds)! </div>
+        <h3>Nota:</h3>
+         La duraci&oacute;n total del proyecto no es igual a la suma de la
+         duraci&oacute;n de las diapositivas porque las transiciones hacen que las diapositivas
+         se superpongan: Dos diapositivas de 10 segundos, cada una con una transici&oacute;n de 1 segundo, 
+         el resultado ser&aacute; una duraci&oacute;n total del proyecto de 19 segundos
+         (y no de 20 segundos)! </div>
       <br>
-      <h2>See also</h2>
+      <h2>Consulta tambi&eacute;n</h2>
       <ul>
-        <li><a href="fct_001.html">Index of the ffDiaporama WIKI</a></li>
+        <li><a href="fct_001.html">&Iacute;ndice del WIKI de ffDiaporama</a></li>
       </ul>
       <br>
-      <hr style="width: 100%; height: 2px;">ffDiaporama 1.0 - July 2011</div>
+      <hr style="width: 100%; height: 2px;">ffDiaporama 1.0 - Julio 2011</div>
   </body>
 </html>
+
