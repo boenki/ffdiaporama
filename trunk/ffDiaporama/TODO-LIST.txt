@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 09/09/2011) :
+Buggs/TODO (Dernier SVN le 10/09/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -8,7 +8,6 @@ BUGG:
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
-    Ajoute une option Désactiver le system graphic "raster" dans la boite de configuration
 
 Divers:
 
@@ -29,6 +28,7 @@ Correction de bug :
     Corrige un bug de calcul avec les vidéos anamorphiques
     Corrige l'erreur d'échelle dans le calcul des tailles en pixel dans la boite slide
     Réduit la bordure parasite qui apparait dans la prévisualisation et dans la génération
+    Ajoute une option Désactiver le system graphic "raster" dans la boite de configuration
 
 Changement de comportement :
     Ajout de l'espagnol (100%)

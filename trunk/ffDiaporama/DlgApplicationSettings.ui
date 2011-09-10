@@ -46,9 +46,6 @@
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
-     <property name="toolTip">
-      <string>Select the file type to use for the rendering.</string>
-     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -678,8 +675,8 @@ Crossfade transition</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>588</width>
-            <height>421</height>
+            <width>438</width>
+            <height>151</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -973,8 +970,8 @@ Crossfade transition</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>588</width>
-            <height>421</height>
+            <width>293</width>
+            <height>351</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
