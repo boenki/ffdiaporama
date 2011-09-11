@@ -174,6 +174,14 @@ unix {
     wiki_fr.files       = WIKI/fr/*.*
     wiki_fr_img.path    = $$PREFIX/share/$$TARGETAPP/WIKI/fr/img
     wiki_fr_img.files   = WIKI/fr/img/*.*
+    wiki_es.path        = $$PREFIX/share/$$TARGETAPP/WIKI/es
+    wiki_es.files       = WIKI/es/*.*
+    wiki_es_img.path    = $$PREFIX/share/$$TARGETAPP/WIKI/es/img
+    wiki_es_img.files   = WIKI/es/img/*.*
+    wiki_it.path        = $$PREFIX/share/$$TARGETAPP/WIKI/it
+    wiki_it.files       = WIKI/it/*.*
+    wiki_it_img.path    = $$PREFIX/share/$$TARGETAPP/WIKI/it/img
+    wiki_it_img.files   = WIKI/it/img/*.*
     General.path        = $$PREFIX/share/$$TARGETAPP
     General.files       = ffDiaporama.xml BUILDVERSION.txt licence.rtf licences.txt authors.txt libx264-hq.ffpreset libx264-pq.ffpreset
     desktop.path        = $$PREFIX/share/applications
@@ -184,5 +192,5 @@ unix {
     iconfile.files      = application-ffDiaporama.png
 
     INSTALLS += TARGET desktop translation background img tr_img luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake luma \
-            wiki_en_img wiki_en wiki_fr_img wiki_fr wiki_img wiki General mimefile iconfile
+            wiki_en_img wiki_en wiki_fr_img wiki_fr wiki_es_img wiki_es wiki_it_img wiki_it wiki_img wiki General mimefile iconfile
 }
