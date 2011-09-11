@@ -37,6 +37,7 @@ MainWindow  *GlobalMainWindow=NULL;
 
 MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    IsFirstRefresh          =true;
     InternetBUILDVERSION    ="";
     GlobalMainWindow        =this;
     IsFirstInitDone         =false;                 // true when first show window was done
@@ -310,6 +311,10 @@ void MainWindow::s_TimerEvent() {
         LastCount++;
         if (LastCount==10) ui->StatusBar->setText(InternetBUILDVERSION);
     }
+    if (!IsFirstRefresh) {
+        IsFirstRefresh=true;
+        repaint();
+    }
 }
 
 //====================================================================================================================
@@ -379,6 +384,7 @@ void MainWindow::showEvent(QShowEvent *) {
         SetTimelineHeight();                                    // setup initial size
         RefreshControls();
         Timer.start(100);
+        IsFirstRefresh=false;
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
         connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(onNetworkReply(QNetworkReply*)));
