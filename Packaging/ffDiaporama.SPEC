@@ -1,6 +1,6 @@
 Name:           ffDiaporama
 Version:        0.99.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        FFDIAPORAMA - Movie creator
 Summary(fr):    FFDIAPORAMA - Créateur de film
 Summary(it):    FFDIAPORAMA - Movie creator
@@ -118,5 +118,5 @@ update-desktop-database &> /dev/null || :
 
 %changelog
 
-* Fri Aug 26 2011 Dominique LEVRAY <levray.dominique@bbox.fr> 0.99.4-3%{?dist}
-- Release 20110826
+* Sun Sep 11 2011 Dominique LEVRAY <levray.dominique@bbox.fr> 0.99.4-4%{?dist}
+- Release 20110911

@@ -34,6 +34,7 @@ namespace Ui {
 class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
+    bool                    IsFirstRefresh;
     bool                    IsFirstInitDone;                // true when first show window was done
     bool                    FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
     cApplicationConfig      *ApplicationConfig;

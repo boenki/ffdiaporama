@@ -8,8 +8,10 @@ BUGG:
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
+    Correction du bug de non affichage lors du démarrage de l'application sous Windows en mode plein écran
 
 Divers:
+    Passage de ffmpeg à la version du 06/09/2011
 
 -------------------------------------
 Changelog depuis la version 20110826

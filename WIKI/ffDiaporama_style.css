@@ -136,7 +136,7 @@ IE6 and below
 * html #banner {
 	position: absolute;
 	top: 0px;
-	left: 150px;
+	left: 0px;
 	width: 100%;
 	height: 36px;
 	background-image: none;
@@ -161,29 +161,29 @@ IE6 and below
 }
 
 * html #language_banner {
+	padding-top: 2pt;
 	position: absolute;
 	top: 50px;
-	left: 150px;
+	left: 0px;
 	width: 100%;
-	height: 16px;
+	height: 40px;
 	background-image: none;
 	background-repeat: repeat;
 	background-attachment: scroll;
 	background-position: 0% 0%;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	text-align: right; 
+	text-align: left; 
 	text-transform: none;
 	text-decoration: none;
-	font-size: 18pt;
-	font-weight: bold;
+	font-size: 11pt;
+	font-weight: normal;
 	font-style: normal;
 	white-space: nowrap;
 	font-family: Arial, Helvetica, sans-serif;
 
-	background-color: rgb(0, 0, 0);
+	background-color: rgb(225, 211, 157);
 	border-bottom-color: rgb(155, 102, 70); 
-	color: rgb(248, 248, 200); 
 }
 
 * html #content {
@@ -192,23 +192,9 @@ IE6 and below
 	width: 100%;
 	height: 100%;
 	padding-top: 84px;
-	padding-left: 150px;
+	padding-left: 0px;
 	margin-left: 4px;
 	margin-right: 4px;
-}
-
-* html #menu {
-	display: block;
-	list-style-type: none;
-	list-style-position: outside;
-	list-style-image: none;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	float: left;
-	width: 150px;
-	height: 100%;
-	background-color: rgb(224, 224, 224);
 }
 
 /* -----------------------------------------
@@ -268,8 +254,8 @@ html>body #content_wikimode {
 html>body #banner {
 	position: fixed;
 	top: 0px;
-	left: 150px;
-	width: 712px;
+	left: 0px;
+	width: 100%;
 	height: 36px;
 	background-image: none;
 	background-repeat: repeat;
@@ -293,51 +279,37 @@ html>body #banner {
 }
 
 html>body #language_banner {
+	padding-top: 2pt;
 	position: fixed;
 	top: 36px;
-	left: 150px;
-	width: 712px;
-	height: 16px;
+	left: 0px;
+	width: 100%;
+	height: 40px;
 	background-image: none;
 	background-repeat: repeat;
 	background-attachment: scroll;
 	background-position: 0% 0%;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	text-align: right; 
+	text-align: left; 
 	text-transform: none;
-	text-decoration: none;
-	font-size: 18pt;
-	font-weight: bold;
+    text-decoration: none;
+	font-size: 11pt;
+	font-weight: normal;
 	font-style: normal;
 	white-space: nowrap;
 	font-family: Arial, Helvetica, sans-serif;
 
-	background-color: rgb(0, 0, 0);
+	background-color: rgb(225, 211, 157);
 	border-bottom-color: rgb(155, 102, 70); 
-	color: rgb(248, 248, 200); 
 }
 
 html>body #content {
-	width: 650px;
+	width: 100%;
 	height: 100%;
-	padding-top: 54px;
-	padding-left: 150px;
-	margin-left: 4px;
-	margin-right: 4px;
-}
-
-html>body #menu {
-	position: fixed;
-	display: block;
-	list-style-type: none;
-	list-style-position: outside;
-	list-style-image: none;
-	top: 0px;
-	left: 0px;
-	float: left;
-	width: 150px;
-	height: 100%;
-	background-color: rgb(224, 224, 224);
+	padding-top: 80px;
+	padding-left: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
 }
 

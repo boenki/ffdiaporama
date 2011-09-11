@@ -13,7 +13,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 LicenseFile=C:\ffDiaporama\licences.txt
 OutputDir=Y:\ffDiaporama\SiteWEB-Paquets
-OutputBaseFilename={#MyAppName}.{#MyAppVersion}_setup
+OutputBaseFilename={#MyAppName}.{#MyAppVersion}_setup_NoA
 AppID={{113BC587-C2A9-457F-9022-9DB31ABBDD90}
 AppName={#MyAppName}
 AppCopyright={#MyAppPublisher}
