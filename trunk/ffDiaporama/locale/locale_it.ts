@@ -51,7 +51,7 @@
     <message>
         <location filename="../DlgAbout.ui" line="318"/>
         <source>Sound engine for preview is based on SDL - Simple DirectMedia Layer</source>
-        <translation>Motore sonore per l&apos;anteprima è basato su SDL - Simple DirectMedia Layer</translation>
+        <translation>Motore sonoro per l&apos;anteprima è basato su SDL - Simple DirectMedia Layer</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="349"/>
@@ -292,7 +292,7 @@ Transizione crossfade</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="600"/>
         <source>Ask user confirmation to remove slide, object or shot</source>
-        <translation>Chiedi la conferma all&apos;utente per rivuovere diapositive, ogetto o foto</translation>
+        <translation>Chiedi la conferma all&apos;utente per rivuovere diapositive, oggetti o foto</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="607"/>
@@ -412,7 +412,7 @@ Transizione crossfade</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1019"/>
         <source>Default advanced rendering options</source>
-        <translation>Opzioni avanzate di interpretazione predefinite</translation>
+        <translation>Opzioni predefinite avanzate di interpretazione</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1026"/>
@@ -606,12 +606,12 @@ Transizione crossfade</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1645"/>
         <source>Enter here the name of the equipment (free text field).</source>
-        <translation>Inserisci quì il nome dell&apos;apparecchiatura (free text field).</translation>
+        <translation>Inserisci quì il nome del dispositivo (testo libero).</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1660"/>
         <source>Create a new equipment which comes to be added in the database.</source>
-        <translation>Crea un nuova apparecchiatura che verrà aggiunta nel database.</translation>
+        <translation>Crea un nuovo dispositivo che verrà aggiunto nel database.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1663"/>
@@ -1017,7 +1017,7 @@ Transizione crossfade</translation>
     <message>
         <location filename="../DlgMusicProperties.ui" line="41"/>
         <source>Continue current playlist (defined in a previous slide)</source>
-        <translation>Continua la lista brani corrente (definisce in una diapositiva precedente)</translation>
+        <translation>Continua la lista brani corrente (definita in una diapositiva precedente)</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="44"/>
@@ -1316,7 +1316,7 @@ Spostare il file corrente selezionato di una tacca verso il basso.</translation>
     <message>
         <location filename="../DlgRenderVideo.ui" line="424"/>
         <source>Rendering to :</source>
-        <translation>Interpreta a :</translation>
+        <translation>Interpretazione di :</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="444"/>
@@ -2051,7 +2051,7 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3008"/>
         <source>Information</source>
-        <translation>Informazione</translation>
+        <translation>Informazioni</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3075"/>
@@ -2736,14 +2736,14 @@ recenti</translation>
         <location filename="../mainwindow.ui" line="306"/>
         <location filename="../mainwindow.ui" line="1461"/>
         <source>Save current project (Ctrl+S)</source>
-        <translation>Salve progetto corrente (Ctrl+S)</translation>
+        <translation>Salva il progetto corrente (Ctrl+S)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="309"/>
         <location filename="../mainwindow.ui" line="1464"/>
         <source>Save
 project</source>
-        <translation>Salve
+        <translation>Salva
 progetto</translation>
     </message>
     <message>
@@ -2756,14 +2756,14 @@ progetto</translation>
         <location filename="../mainwindow.ui" line="357"/>
         <location filename="../mainwindow.ui" line="1512"/>
         <source>Save current project to a new project file</source>
-        <translation>Salve il progetto corrente in un nuovo file</translation>
+        <translation>Salva il progetto corrente in un nuovo file</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="360"/>
         <location filename="../mainwindow.ui" line="1515"/>
         <source>Save
 project as</source>
-        <translation>Salve
+        <translation>Salva
 progetto come</translation>
     </message>
     <message>
@@ -2930,7 +2930,7 @@ progetto</translation>
     <message>
         <location filename="../mainwindow.ui" line="882"/>
         <source>Render video</source>
-        <translation>Interpretazione video</translation>
+        <translation>Genera video</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="918"/>
@@ -3301,17 +3301,17 @@ la geometria dell&apos;immagine nel file non è uguale a quella del progetto cor
     <message>
         <location filename="../mainwindow.cpp" line="148"/>
         <source>Registered video codecs for encoding :</source>
-        <translation>Registrati codec video per la codifica :</translation>
+        <translation>Codec video registrati per la codifica :</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="150"/>
         <source>Registered audio codecs for encoding :</source>
-        <translation>Registrati codec audio per la codifica :</translation>
+        <translation>Codec audio registrati per la codifica :</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="152"/>
         <source>Registered container formats for encoding :</source>
-        <translation>Registrati formati contenitore per la codifica :</translation>
+        <translation>Formati contenitore registrati per la codifica :</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="154"/>
@@ -3423,7 +3423,7 @@ Vuoi salvarlo?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="896"/>
         <source>Save project as</source>
-        <translation>Salve progetto come</translation>
+        <translation>Salva progetto come</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="962"/>
