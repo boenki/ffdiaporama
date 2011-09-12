@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+  <head>
+    <title>Make ffDiaporama for Ubuntu</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
+        alt="" src="../../WEB_img/Ubuntu.png" align="MIDDLE"> Make
+      ffDiaporama for Ubuntu</div>
+    <div style="text-align: left;" id="content_wikimode">
+      <h2>Installation of requirements</h2>
+      <h3 style="margin-left: 40px;">Execution requirements:<br>
+      </h3>
+      <div style="margin-left: 40px;">Before compiling ffDiaporama, be
+        sure that you have all the necessary packages for its execution.
+        <br>
+        First, insure MEDIBUNTU repository is enabled on your system
+        using this documentation : <a href="http://medibuntu.org/repository.php">http://medibuntu.org/repository.php</a><br>
+        Second, open a terminal and enter the following commands:<br>
+        <br>
+        <div style="margin-left: 20px;" class="codebox">
+          <pre><code>sudo apt-get install libqtcore4 libqtgui4 libqt4-network phonon libqtwebkit4<br></code><code>sudo apt-get install </code><code>libavcodec-extra-52 libavformat-extra-52 libavdevice-extra-52 libswscale-extra-0 ffmpeg </code></pre>
+        </div>
+      </div>
+      <h3 style="margin-left: 40px;">Compiling requirements:<br>
+      </h3>
+      <div style="margin-left: 40px;">Before compiling ffDiaporama, be
+        sure that you have all the necessary packages for the
+        compilation. For that open open a terminal and enter the
+        following commands:<br>
+        <br>
+        <div style="margin-left: 20px;" class="codebox">
+          <pre><code>sudo apt-get install build-essential libqt4-dev qt4-dev-tools</code><code> libqtwebkit-dev</code><code><br></code><code>sudo apt-get install </code><code>libavutil-dev libavformat-dev libavcodec-dev libswscale-dev<br></code><code>sudo apt-get install </code><code>libsdl-image1.2-dev libsdl-mixer1.2-dev </code></pre>
+        </div>
+      </div>
+      <h2>Make ffDiaporama</h2>
+      <div style="margin-left: 40px;">Once installed requirements, to
+        open a terminal and to enter the following commands:<br>
+        <br>
+        <div style="margin-left: 20px;" class="codebox">
+          <pre><code>cd ~<br>mkdir ffDiaporama<br>cd ffDiaporama<br>wget -O ffDiaporama.tar.gz http://svn.tuxfamily.org/viewvc.cgi/ffdiaporama_trunk.tar.gz?view=tar
+tar -xzf ffDiaporama.tar.gz<br>rm ffDiaporama.tar.gz<br>cd ffdiaporama_trunk/ffDiaporama<br>qmake-qt4<br>make<br>make clean </code></pre>
+        </div>
+        <br>
+        The compilation result is placed in the directory
+        ~/ffDiaporama/ffdiaporama_trunk/build<br>
+      </div>
+      <h2>Start ffDiaporama</h2>
+      <div style="margin-left: 40px;">Enter the command :
+        ~/ffDiaporama/ffDiaporama_trunk/build/ffDiaporama<br>
+        or start ffDiaporama with the file explorer since the directory
+        ~/ffDiaporama/ffDiaporama_trunk/build</div>
+      <ul style="margin-left: 40px;">
+      </ul>
+      <br>
+      <hr style="width: 100%; height: 2px;">&#169; The ffDiaporama
+      Project<br>
+    </div>
+  </body>
+</html>
