@@ -1,0 +1,815 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="fr">
+  <head>
+    <title>Journal des modifications - Change-log</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
+        src="../../WEB_img/icon_changelog.png" align="MIDDLE"> Journal
+      des modifications - Change-log</div>
+    <div style="text-align: left;" id="content_wikimode">
+      <h5>Beta3-20110826 : Changelog depuis la version Beta1 : 20110805</h5>
+      Correction de bug :<br>
+      <ul>
+        <li>Met les slashs dans le bon sens dans la liste des projets
+          r&#233;cents [Windows]</li>
+        <li>Corrige la taille des boutons dans la barre d'outils de la
+          fen&#234;tre principale [Windows]</li>
+        <li>Supprime les deprecated sur av_open_input_file</li>
+        <li>Corrige l'erreur de s&#233;lection de la 1ere diapositive
+          apr&#232;s le chargement d'un projet</li>
+        <li>R&#233;duit les hachures du son dans la preview</li>
+        <li>Corrige le plantage sur la suppression d'un plan
+          interm&#233;diaire dans la boite slide</li>
+      </ul>
+      <br>
+      Changement de comportement :<br>
+      <ul>
+        <li>Optimisation des calculs : R&#233;duction des temps de
+          g&#233;n&#233;ration de 15% &#224; 50% selon les objets
+          multim&#233;dia</li>
+        <li>Nouvelles corrections de doc de Hazel</li>
+        <li>Acc&#233;l&#232;re les chargements de projet en supprimant
+          l'appel &#224; EXIF pour toutes les images lors des ouvertures
+          de projet et en int&#233;grant les thumbnails dans les
+          fichiers .ffd</li>
+        <li>Ajoute des raccourcis claviers dans la fen&#234;tre
+          principale et les rend accessibles quelque soit l'onglet et le
+          mode actif</li>
+        <li>Ajout de nouveaux fond dans la librairie</li>
+      </ul>
+      <h5>Beta2-20110805 : Changelog depuis la version Beta1 : 20110727</h5>
+      Correction de bug :<br>
+      <ul>
+        <li>Corrige le bug du lecteur vid&#233;o de la boite &#233;dit
+          vid&#233;o qui s&#8217;arr&#234;tait tout seul de fa&#231;on
+          al&#233;atoire</li>
+        <li>Remplace les &#171; annul&#233; &#187; par &#171; annuler
+          &#187;</li>
+        <li>Inverse les ic&#244;nes play/pause dans le lecteur</li>
+        <li>Remet les bons intitul&#233;s pour les boutons
+          augmenter/r&#233;duire la taille des vignettes et les boutons
+          de mode</li>
+        <li>Remet les boutons de g&#233;n&#233;ration de vid&#233;o dans
+          le m&#234;me ordre en mode partition qu'en mode preview</li>
+        <li>Corrige le probl&#232;me de lecture de certains fichiers
+          .ogg</li>
+      </ul>
+      Divers:<br>
+      <ul>
+        <li>Premi&#232;re partie des pages anglaises corrig&#233;es par
+          Hazel</li>
+        <li>Ajout du fichier authors.txt</li>
+        <li> Ajout de deux nouveaux profils de g&#233;n&#233;ration
+          Daily Motion et Youtube<br>
+        </li>
+      </ul>
+      <h5>Beta1-20110727 : Changelog depuis la version Alpha3 : 20110720</h5>
+      M&#233;nage dans les fichiers sources en r&#233;int&#233;grant les
+      custombackground et custombrush dans la boite background<br>
+      <br>
+      Ajout de 2 nouveaux &#233;quipements dans la base : PS3 et XBox360<br>
+      Ajout de 4 nouvelles transitions dans la famille "Pousseur"<br>
+      <br>
+      Correction de bug :<br>
+      <ul>
+        <li>&#160;&#160;&#160; R&#233;sout le crash dans la boite de
+          configuration (d&#233;passement de tableau)</li>
+        <li>&#160;&#160;&#160; R&#233;sout le probl&#232;me des boutons
+          de la fen&#234;tre principal qui restaient enfonc&#233;s
+          [Windows]</li>
+        <li>&#160;&#160;&#160; Corrige l'erreur d'affichage de la
+          dur&#233;e de transition quand la transition est "pas de
+          transition"</li>
+        <li>&#160;&#160;&#160; Corrige les probl&#232;mes de
+          s&#233;lection d'objet (qui n'&#233;tait pas toujours correct
+          quand pr&#233;sence de "pas de transition")</li>
+        <li>&#160;&#160;&#160; Corrige l'erreur d'affichage du cadre de
+          s&#233;lection qui ne s&#8217;effa&#231;ait pas toujours dans
+          la timeline (ou refusait parfois de s'afficher)</li>
+        <li>&#160;&#160;&#160; Rend inactif les 2 boutons de zoom quand
+          la timeline est vide</li>
+      </ul>
+      <br>
+      Changement de comportement :<br>
+      <ul>
+        <li>&#160;&#160;&#160; Supprime toute r&#233;f&#233;rence &#224;
+          SSE2 =&gt; l'acc&#233;l&#233;ration mat&#233;rielle SSE2 n'est
+          plus d&#233;sactivable</li>
+        <li>&#160;&#160;&#160; Fusionne les 3 lignes de la timeline en 1
+          seule afin&#160; que les thumbnails des slides deviennent
+          mono-cellulaire<br>
+          &#160;&#160;&#160;&#160;&#160;&#160;&#160; -&gt;
+          pr&#233;-requis au drag&amp;drop et mode partition<br>
+          &#160;&#160;&#160;&#160;&#160;&#160;&#160; -&gt;
+          cons&#233;quence : supprime la t&#234;te de ligne et les
+          ic&#244;nes associ&#233;es</li>
+        <li>&#160;&#160;&#160; Cr&#233;ation du mode Partition/Trieur
+          dans la fen&#234;tre principale</li>
+        <li>&#160;&#160;&#160; Ajout du drag &amp; drop pour trier les
+          diapo dans les 2 modes preview &amp; partition</li>
+        <li>&#160;&#160;&#160; Ajout des scrollings quand le drag &amp;
+          drop sort de la timeline</li>
+        <li>&#160;&#160;&#160; Ajout de boutons de reset sur les zones
+          d'&#233;dition de la boite de recadrage</li>
+        <li>&#160;&#160;&#160; Supprime les 2 boutons "&#224; gauche" et
+          "&#224; droite" rendus inutiles par l'ajout du drag &amp; drop</li>
+        <li>&#160;&#160;&#160; Supprime l'onglet de composition de la
+          boite de fond d'&#233;cran (qui de toute fa&#231;on de
+          fonctionnait pas !)</li>
+        <li>&#160;&#160;&#160; Ajoute le type de fond : image disque</li>
+        <li>&#160;&#160;&#160; Ajoute le bouton pour maximiser la
+          fen&#234;tre dans toutes les boites de dialogues [Windows]</li>
+      </ul>
+      <h5>Alpha3-20110720 : Changelog depuis la version Alpha3 :
+        20110713</h5>
+      Correction de bugg:<br>
+      <ul>
+        <li>Le recadrage "au mieux" par d&#233;faut recadrait les images
+          sur la largeur dans tous les cas. Maintenant il s'adapte
+          &#224; l'image</li>
+        <li>Remet les rotations sur des multiples de 90&#176; dans la
+          boite de correction d'image<br>
+          =&gt; bug introduit par le pr&#233;c&#233;dent passage en mode
+          &#224; virgule des rotations dans la boite de recadrage</li>
+        <li>Maintenant, les modifications de hauteur ou largeur dans la
+          boite de recadrage n'appliquent plus de contrainte
+          g&#233;om&#233;trique si la g&#233;om&#233;trie du bloc est
+          libre</li>
+        <li>Corrige l'erreur qui coupait les images (en haut et en bas)
+          des blocs avec rotation sur l'axe des Z</li>
+        <li>Corrige l'erreur qui ajoutait parfois des lignes
+          fant&#244;mes sur les formes transparentes</li>
+        <li>Lors des s&#233;lections de fichier destination,
+          repositionne sur le dernier r&#233;pertoire utilis&#233; pour
+          g&#233;n&#233;rer le film (tel qu'inscrit dans le fichier
+          projet) plut&#244;t sur le dernier r&#233;pertoire
+          utilis&#233; (tel qu'inscrit dans le fichier de config
+          utilisateur)</li>
+        <li>Corrige la mise &#224; l&#8217;&#233;chelle pour la
+          production des thumbnails</li>
+      </ul>
+      Changement de comportement: <br>
+      <ul>
+        <li>Ajoute la dur&#233;e estim&#233;e de temps de traitement
+          restant lors des g&#233;n&#233;rations de film</li>
+        <li>Ajoute une option pour s&#233;lectionner l'unit&#233;
+          d'affichage des coordonn&#233;es dans la boite d'options</li>
+        <li>Applique l'unit&#233; d'affichage des coordonn&#233;es dans
+          la boite de propri&#233;t&#233;s des diapositives (% ou pixel)</li>
+        <li>Dans la boite de propri&#233;t&#233;s des slides et dans la
+          boite de recadrage :</li>
+        <li>=&gt; n&#8217;emp&#234;che plus les blocs de sortir de
+          l'&#233;cran</li>
+        <li>=&gt; les bords de l'&#233;cran se comportent maintenant
+          comme des guides</li>
+        <li>Dans la boite de recadrage :<br>
+          =&gt; remplace la zone zoom par deux zones largeur/hauteur<br>
+          =&gt; change les limites de mouvement et d'agrandissement
+          &#224; + ou - 200%<br>
+          =&gt; change le pas des zones d'&#233;dition &#224; 1%</li>
+        <li>Ajout des raccourcis clavier dans les zones interactives des
+          boites slide et recadrage<br>
+          &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+          Gauche=X-1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+
+
+
+          Droite=X+1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+
+
+
+          Haut=Y-1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+
+
+
+          Bas=Y+1&#160;&#160;&#160;&#160;&#160;&#160; =&gt; Equivalent
+          move<br>
+          &#160;&#160;&#160;
+          Ctrl+Gauche=W-1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+          Ctrl+Droite=W+1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+
+
+
+          Ctrl+Haut=H-1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+
+
+
+          Ctrl+Bas=H+1&#160;&#160;&#160;&#160;&#160;&#160; =&gt;
+          Equivalent bottom-right<br>
+          &#160;&#160;&#160; Shift+Gauche=W-1/X+1&#160;&#160;&#160;
+          Shift+Droite=W+1/X-1&#160;&#160;&#160;
+          Shift+Haut=H-1/Y+1&#160;&#160;&#160;&#160;&#160;
+          Shift+Bas=H+1/Y-1&#160;&#160; =&gt; Equivalent top-left</li>
+        <li>Modifications sur l'ombre des formes<br>
+          =&gt; Passe la limite de la distance d'ombre &#224; 100 au
+          lieu de 30<br>
+          =&gt; Ajoute la possibilit&#233; de changer la couleur de
+          l'ombre</li>
+        <li>R&#233;organise la boite slide pour r&#233;duire les clicks
+          et les mouvements de souris &#224; l'utilisation</li>
+        <li>Conserve le bloc s&#233;lectionn&#233; quand on change de
+          plan dans la boite slide</li>
+      </ul>
+      Mise &#224; jours des tab order &amp; tooltip des boites de
+      dialogue<br>
+      <br>
+      Ajout d'un type mime et d'une icone pour gnome lors de
+      l'installation des paquets Linux pour corriger le bug
+      d&#233;clar&#233; par Marie-Noelle :<br>
+      &#160;&#160;&#160; j'ai voulu indiquer ffDiaporama comme programme
+      par d&#233;faut pour l'ouverture des fichiers .ffd, mais
+      l'information est prise en compte pour tous les fichers de type
+      "texte brut"<br>
+      <h5>Alpha3-20110713 : Changelog depuis la version Alpha3 :
+        20110706</h5>
+      - Correction de BUGG: Supprime les () dans le nom des formats
+      vid&#233;o pour que les fichiers apparaissent dans la boite de
+      dialogue de s&#233;lection de fichier<br>
+      - Correction de BUGG: Change le fichier de translation des
+      messages syst&#232;mes de QT pour supporter plus de messages en
+      fran&#231;ais<br>
+      <br>
+      - Changement de comportement: Ajout du codec vid&#233;o h264
+      "Phone Quality" et du codec vid&#233;o Theora VP3<br>
+      - Changement de comportement: Ajout du format de vid&#233;o OGV
+      (Ogg/Theora)<br>
+      - Changement de comportement: Ajout des r&#233;solutions HVGA,
+      WVGA, XGA et RIM 240<br>
+      - Changement de comportement: Ajout d'un onglet dans la boite de
+      configuration pour la gestion de la base des &#233;quipements
+      (&#224; finir)<br>
+      - Changement de comportement: Ajout d'une zone d'information dans
+      la barre de statue indiquant le n&#176; de la diapo en cours et le
+      nombre de diapo<br>
+      - Changement de comportement: Ajout d'un message de confirmation
+      pour les suppressions de slide, de bloque et de plan
+      (d&#233;sactivable dans la boite de configuration)<br>
+      - Changement de comportement: M&#233;morise l'&#233;tat des guides
+      magn&#233;tique pour les 2 boites slide et recadrage<br>
+      - Changement de comportement: Passe le r&#233;glage de rotation en
+      valeur &#224; virgule dans la boite de recadrage<br>
+      - Changement de comportement: Ajoute un bouton cancel en cas de
+      fermeture de la fen&#234;tre principal quand le projet n'a pas
+      &#233;t&#233; sauvegard&#233;<br>
+      - Changement de comportement: Remplace les N&#176; de bitrate par
+      leur valeur dans les fichiers XML pour la base de donn&#233;es des
+      devices<br>
+      - Changement de comportement: Trie les combobox de bitrate dans
+      les boites options et render<br>
+      - Changement de comportement: Ajout d'un message de confirmation
+      si &#233;crasement d'un fichier lors des g&#233;n&#233;rations de
+      vid&#233;o<br>
+      <br>
+      - Base de device: Ajout d'&#233;quipements<br>
+      <h5>Alpha3-20110706 : Changelog depuis la version Alpha2 :
+        20110629</h5>
+      - Correction de bugg: Fait en sorte &#224; ce que la fonction
+      "Enregistrer sous" reste accessible m&#234;me si le projet n'a pas
+      &#233;t&#233; modifi&#233;<br>
+      - Correction de bugg: Conservation du nouveau nom du fichier
+      musical en cas de d&#233;placement du fichier et s&#233;lection
+      d'un autre fichier par l'utilisateur<br>
+      - Correction de bugg: Rajoute le format de fichier (qui manquait)
+      dans les informations sauvegard&#233;es concernant le fichier
+      vid&#233;o g&#233;n&#233;r&#233; dans le fichier projet (.ffd)<br>
+      - Correction de bugg: Corrige le bug sur la pr&#233;-selection du
+      FPS de preview dans la boite de configuration (pour les FPS sans
+      virgule)<br>
+      - Correction de bugg: Corrige les threads du lecteur vid&#233;o de
+      la fen&#234;tre principal et r&#233;sout les probl&#232;mes de
+      plantage X11<br>
+      - Correction de bugg: Fait en sorte &#224; ce que la fen&#234;tre
+      de preview soit correctement dimensionn&#233;e au d&#233;marrage
+      et lors des redimensionnements de la timeline et de la
+      fen&#234;tre principale<br>
+      - Correction de bugg: Corrige le bug de mise &#224; jours des
+      thumbnails lors des redimensionnement de la timeline<br>
+      - Correction de bugg: Corrige l'erreur d'initialisation qui
+      faisait que les codecs par d&#233;faut n'&#233;taient pas
+      pr&#233;-s&#233;lectionn&#233;s dans la boite de
+      g&#233;n&#233;ration avanc&#233;e<br>
+      - Correction de bugg: Corrige l'erreur de taille d'image pour les
+      rendus en 320x format cin&#233;ma (40:17)<br>
+      - Correction de bugg: R&#233;sout le probl&#232;me du son et
+      l'erreur de dur&#233;e lors de l'encodage des vid&#233;os en NTSC<br>
+      <br>
+      - Changement de comportement: Supprime des donn&#233;es inutiles
+      et redondantes du fichier projet (.ffd)<br>
+      - Changement de comportement: Rend le nom du fichier vid&#233;o
+      g&#233;n&#233;r&#233; relatif dans le fichier projet (.ffd)<br>
+      - Changement de comportement: D&#233;place la la zone de pic
+      (buffering) du lecteur vid&#233;o et la place entre la position
+      courante et la dur&#233;e pour augmenter la taille du slider<br>
+      - Changement de comportement: Affiche les chargements de fichiers
+      et les actions EXIV dans la zone de statut<br>
+      - Changement de comportement: Si erreur d'ouverture d'un fichier
+      projet, propose de choisir un autre fichier et g&#232;re la recent
+      list<br>
+      - Changement de comportement: Coupe la boite de configuration en
+      onglet et ajoute les pr&#233;-selections pour les "device" et
+      "model" de g&#233;n&#233;ration de film<br>
+      - Changement de comportement: Ajoute un processus Network pour
+      r&#233;cup&#233;rer la valeur de la version des paquets sur le
+      site WEB et affiche un message dans la barre de status si une
+      nouvelle version est disponible<br>
+      <br>
+      Nouvelle fonctionnalit&#233; ALPHA3 :<br>
+      <br>
+      &#160;&#160;&#160; Interface : Menu et barre de boutons<br>
+      <br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; - Supprime le menu
+      d&#233;roulant et la toolbar et remplace tout cela par un ruban
+      &#224; la sauce Windows<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; - Ajoute une fonction
+      Ouvrir un projet r&#233;cent dans le menu fichier et g&#232;re une
+      "recent list"<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; - Ajoute le bouton Edit
+      dans le menu projet<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; - Ajoute des
+      g&#233;n&#233;rations par "Device" dans le nouveau menu Render :
+      "Player and smartphone", "Multimedia system" et "For the WEB"<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+      =&gt; Commence &#224; g&#233;rer une base de device
+      "Exp&#233;rimentale" &#224; ce stade<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; - Changement de
+      comportement: Remplace la zone d'info par un browser web et
+      cr&#233;e une page par menu connect&#233;e au changement de
+      toolbar<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; - Changement de
+      comportement: Change le bouton Support du menu aide et lui fait
+      maintenant ouvrir la page Support du site WEB<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; - Changement de
+      comportement: Supprime le bouton WebSite de la boite About<br>
+      <br>
+      &#160;&#160;&#160; G&#233;n&#233;ration de film :<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; - Ajout du codec audio
+      AMR (Adaptive Multi-Rate)<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; -
+      Cr&#233;ation/validation d'une premi&#232;re liste de device<br>
+      <h5>Alpha2-20110629 : Changelog depuis la version Alpha2 :
+        20110626</h5>
+      - Correction de bugg: Corrige l'erreur d'affichage de la
+      dur&#233;e du plan dans la boite slide quand le plan ne contient
+      aucun bloc<br>
+      - Correction de bugg: Corrige la contrainte g&#233;om&#233;trique
+      des images en mode g&#233;om&#233;trie libre dans la boite slide<br>
+      - Correction de bugg: Reduit l'image dans la boite slide si elle
+      devient trop grande en sortie de la boite de recadrage<br>
+      - Correction de bugg: Corrige une erreur de syntaxe dans le
+      fichier xml de configuration par d&#233;faut<br>
+      - Correction de bugg: Corrige l'erreur de son rest&#233; actif
+      pour les vid&#233;os invisibles dans la boite slide<br>
+      - Correction de bugg: Corrige l'erreur d'affichage dans la partie
+      interactive de la boite slide pour les vid&#233;os qui ne commence
+      pas au d&#233;but<br>
+      - Correction de bugg: Repositionne correctement le curseur dans la
+      boite slide quand on supprime un plan<br>
+      - Correction de bugg: Corrige un bug dans le calcul des animations
+      pour les images en g&#233;om&#233;trie libre<br>
+      <h5>Alpha2-20110626 : Changelog depuis la version Alpha2 :
+        20110624</h5>
+      - Correction de bugg: Corrige un plantage dans la boite slide
+      (quand les images sont de petite taille &lt;1 Millions pixels)<br>
+      - Correction de bugg: Suite au renommage des fichiers background,
+      les slides des projets d'anciennes sauvegarde se trouvaient sans
+      background<br>
+      - Correction de bugg: Suppression des threads dans la preview qui
+      aboutissaient &#224; un plantage =&gt; Les threads seront remis
+      dans l'alpha3<br>
+      - Correction de bugg: Corrige la prise en compte de modification
+      quand des fichiers sont d&#233;plac&#233;s et que le programme
+      propose d'utiliser un autre fichier<br>
+      <h5>Alpha2-20110624 : Changelog depuis la version Alpha2 :
+        20110619</h5>
+      - Correction de bug: Corrige l'affichage de la dur&#233;e du
+      dernier plan dans la boite slide (quand la dur&#233;e est
+      allong&#233;e, la valeur ne prenait pas en compte l'allongement)<br>
+      - Correction de bug: Corrige l'affichage de la piste musical :<br>
+      &#160;&#160;&#160; - Un fade out apparaissait alors que la musique
+      s&#8217;&#233;tait finie pendant le slide pr&#233;c&#233;dent<br>
+      &#160;&#160;&#160; - Un fade out apparaissait pendant le slide
+      quand un morceau de la playlist se terminait mais que la playlist
+      continuait<br>
+      - Correction de bug: Corrige l'erreur de calcul des animations sur
+      les plans allong&#233;s (le calcul du % de transition ne tenait
+      pas compte de l'allongement)<br>
+      - Correction de bug: Corrige l'erreur dans la boite &#233;dit
+      vid&#233;o : le film s&#8217;arr&#234;tait sur la derni&#232;re
+      image apr&#232;s le endpos<br>
+      - Correction de bug: Conserve la contrainte g&#233;om&#233;trique
+      dans la boite Slide pour les images &amp; vid&#233;os en mode
+      g&#233;om&#233;trie custom et la supprime pour les textes<br>
+      - Correction de bug: Corrige l'erreur de recadrage des blocs
+      textes sur les guides : L'ancienne g&#233;om&#233;trie
+      s'appliquait alors que le bloc est en g&#233;om&#233;trie libre<br>
+      - Correction de bug: Corrige l'erreur qui appliquait une
+      contrainte g&#233;om&#233;trique lors des attractions des guides :<br>
+      &#160;&#160;&#160; - sur les blocs textes dans la boite slide<br>
+      &#160;&#160;&#160; - sur tous les blocs en g&#233;om&#233;trie
+      libre dans la boite de recadrage<br>
+      - Correction de bug: Corrige un petit bug de calcul qui laissait
+      tra&#238;ner une ligne en bas des images quand le recadrage
+      laissait appara&#238;tre une zone transparente en bas de l'image<br>
+      - Correction de bug: Corrige l'erreur al&#233;atoire en coller
+      d'image/undo =&gt; force tous les noms de fichier en chemin absolu
+      dans le presse papier interne<br>
+      - Correction de bug: Emp&#234;che la musique de repartir pendant
+      la transition entre de 2 vid&#233;os successives qui ont la
+      musique en pause<br>
+      - Correction de bug: Affiche l'image vid&#233;o correspondant au
+      plan en cours dans la boite de correction<br>
+      - Correction de bug: Corrige l'erreur de calcul sur la position de
+      d&#233;but des soundtrack vid&#233;o (le son ne suivait pas
+      l'image)<br>
+      <br>
+      - Changement de comportement : Quand une diapositive vid&#233;o
+      est ajout&#233;e depuis la fen&#234;tre principal, sa dur&#233;e
+      de 1er plan est fix&#233;e &#224; 1 seconde<br>
+      &#160;&#160;&#160; - C'est le m&#233;canisme d'allongement qui
+      calcul le temps n&#233;cessaire<br>
+      - Changement de comportement : La boite &#233;dit vid&#233;o ne
+      change plus la dur&#233;e du 1er plan<br>
+      - Changement de comportement : Augmente l&#233;g&#232;rement la
+      force des aimants des guides dans les boites slide et recadrage<br>
+      - Changement de comportement : Remet une gestion des threads (pour
+      la preview uniquement) pour fluidifier l'affichage<br>
+      - Changement de comportement : Remplace la zone
+      d&#8217;&#233;dition en seconde de la dur&#233;e des plans par une
+      zone en heure:minute:seconde.centieme<br>
+      - Changement de comportement : R&#233;organisation de la boite
+      slide<br>
+      &#160;&#160;&#160; Fusionne les onglets Forme et Bloc<br>
+      &#160;&#160;&#160; D&#233;place le bouton recadrage et la zone de
+      g&#233;om&#233;trie dans l'onglet Objet<br>
+      &#160;&#160;&#160; Int&#232;gre les &#233;l&#233;ments de la boite
+      transformation dans l'onglet Objet et supprime la boite
+      transformation<br>
+      - Changement de comportement : Optimisation de la boite slide
+      =&gt; R&#233;duction des chargements intempestifs d'image<br>
+      <br>
+      - Ajout de fonctionnalit&#233; : Ajout des guides centraux (X et
+      Y) dans la boite slide coupl&#233;s aux guides TV<br>
+      - Ajout de fonctionnalit&#233; : Ajout des 4 poign&#233;es
+      lat&#233;rales sur les blocs interactifs dans les boites slide et
+      recadrage<br>
+      <br>
+      - Renommage des fichiers background pour compatibilit&#233; avec
+      le packaging UBUNTU (suppression des espaces dans les noms de
+      fichier)<br>
+      &#160;&#160;&#160; - Les anciennes sauvegardes ne retrouveront pas
+      les fichiers background mais se retrouveront avec la 1ere image de
+      la librairie<br>
+      <h5>Alpha2-20110619 : Changelog depuis la version Alpha2 :
+        20110613</h5>
+      - Correction de bug : Supprime le d&#233;calage des mises en pause
+      des musiques (erreur de calcul corrig&#233;e) + ajout des fades
+      in/out sur les changements de volume ou de mode pause<br>
+      - Correction de bug : Sur les guides dans les boites Slide et
+      Correction d'image (Une erreur de calcul attirait mal les
+      poign&#233;es vers les guides)<br>
+      - Correction de bug : Erreur de trie des fichiers sous Windows
+      (lors des insertions de plusieurs fichiers)<br>
+      - Correction de bug : Correction du CSS (feuille de style WEB)
+      pour Internet Explorer 6/7 pour le WIKI et le site WEB<br>
+      - Correction de bug : Ce n'est pas la bonne image qui est
+      affich&#233;e en thumbnail et en objet interactif dans la boite
+      slide<br>
+      &#160;&#160;&#160; =&gt; Maintenant au lieu d'afficher toujours la
+      1ere image de la vid&#233;o, ffDiaporama affiche la bonne image
+      correspondant &#224; la position du plan pour l'objet interactif
+      et pour le thumbnail<br>
+      - Correction de bug : Probl&#232;me d'affichage lors des
+      changement de g&#233;ometrie dans la boite slide<br>
+      - Correction de bug : La boite Edit Vid&#233;o ne pouvait pas
+      &#234;tre r&#233;duite apr&#232;s agrandissement<br>
+      - Correction de bug : La rotation EXIF ou forc&#233; dans la boite
+      de correction n'&#233;tait pas prise en compte dans le calcul de
+      la geometrie image<br>
+      <br>
+      - Changement de comportement: Maintenant les vid&#233;os sont
+      mises en pause quand elles sont invisibles<br>
+      - Changement de comportement: Quand une vid&#233;o atteint la
+      position de fin de fichier ou de fin demand&#233;e (boite edit),
+      reste sur la derni&#232;re image au lieu d'une image transparente<br>
+      - Changement de comportement: Dans la boite de rendu, le flag de
+      modification du projet n'est maintenant activ&#233; que si un
+      param&#232;tre est chang&#233;<br>
+      - Changement de comportement: Pour les blocs en
+      g&#233;om&#233;trie libre, La g&#233;om&#233;trie devient
+      contrainte dans la boite slide et libre dans la boite de recadrage<br>
+      &#160;&#160;&#160; =&gt; &#224; l'inverse d'avant o&#249; la
+      g&#233;om&#233;trie etait libre dans la boite slide et contrainte
+      dans la boite de recadrage<br>
+      <br>
+      - Ajout de fonctionnalit&#233; : Prise en charge d'un fichier en
+      entr&#233;e du programme : ffDiaporama peut maintenant &#234;tre
+      associ&#233; aux fichiers .ffd<br>
+      - Ajout de fonctionnalit&#233; : Mise en cache des brosses de tout
+      types pour acc&#233;l&#233;rer les boites de dialogue<br>
+      - Ajout de fonctionnalit&#233; : Programmation du bouton changer
+      de fichier dans la boite slide (image/vid&#233;o)<br>
+      - Ajout de fonctionnalit&#233; : Calcul et affiche la dur&#233;e
+      minimal des plans<br>
+      <h5>Alpha2-20110613 : Changelog depuis la version Alpha2 :
+        20110609</h5>
+      - Corrige le bug de la boite slide qui faisait que le volume des
+      vid&#233;os ne pouvaient pas &#234;tre chang&#233;<br>
+      - Corrige le bug de la boite slide qui perdait la vid&#233;o quand
+      on annulait des modifications dans la boite vid&#233;os<br>
+      - Corrige le bug de la boite vid&#233;o qui s'appliquait le
+      d&#233;but de lecture dans le lecteur !!!<br>
+      - Corrige des probl&#232;mes de d&#233;codage des vid&#233;os
+      quand audio et vid&#233;o sont d&#233;cal&#233;s dans le fichier
+      source<br>
+      &#160;&#160;&#160; =&gt; Accepte beaucoup plus de fichiers
+      maintenant<br>
+      - Supprime le trait qui tra&#238;nait sous les ombres des blocs<br>
+      - Autorise le bouton supprimer bloc m&#234;me si le bloc est
+      invisible dans la boite slide<br>
+      - Active le WIKI dans toutes les boites de dialogue (met du
+      contenu derri&#232;re les boutons d'aide)<br>
+      <h5>Alpha2-20110609 : Changelog depuis la version Alpha2 :
+        20110608</h5>
+      - Ajoute les formats de g&#233;n&#233;ration vid&#233;o
+      320x240/320x180/320x136<br>
+      - Corrige le bug de reset des blocs texte quand on changeait les
+      param&#232;tres de brosses<br>
+      - Corrige le plantage de la 3eme image : lib&#233;ration du
+      cachefullimage alors qu'il &#233;tait &#233;gal &#224; cacheimage<br>
+      - Ajoute les traductions pour les messages textes de QT (Standard
+      buttons, etc...)<br>
+      - &#201;l&#233;ments de packaging pour Fedora<br>
+      - &#201;l&#233;ments de packaging pour Windows<br>
+      - Poursuite des travaux sur le WIKI<br>
+      <h5>Alpha2-20110606 : Changelog depuis la version Alpha2 :
+        20110605</h5>
+      - Ajoute un param&#232;tre de ligne de commande (-lang=local) pour
+      forcer l'utilisation d'une langue<br>
+      - Renommage du r&#233;pertoire icons en img et du r&#233;pertoire
+      transition-icons en transition-img pour compatibilit&#233;<br>
+      &#160;&#160;&#160; avec le site WEB (qui interdit un
+      r&#233;pertoire icons &#224; la racine du site)<br>
+      - Corrige la largeur des custom combobox sous Windows<br>
+      - Corrige un probl&#232;me avec le trie lors de l'insertion des
+      fichiers sous Windows<br>
+      - Ajout des pages d'aide Fran&#231;ais/Anglais pour les boites
+      "&#201;diter le texte" et "Options du programme"<br>
+      <h5>Alpha2-20110605 : Changelog depuis la version Alpha1 :
+        20110513</h5>
+      - Cr&#233;ation d'une boite de dialogue commune pour tous les
+      objets et de 4 sous boites pour la correction d'image, la
+      transformation d'image, l&#8217;&#233;dition vid&#233;o et
+      l'&#233;dition de texte<br>
+      - D&#233;placement des donn&#233;es de recadrage/rotation dans le
+      sous objet de correction d'image et modification du format de
+      fichier (compatibilit&#233; ascendante des anciennes sauvegardes
+      !)<br>
+      - Suppression des compositions globales (pour tous les types
+      d'objet). Pour compatibilit&#233; ascendante des anciennes
+      sauvegardes : transfert des blocs dans la composition du 1er plan<br>
+      - Supprime la notion de Canvas :<br>
+      &#160;&#160;&#160; L'application fonctionne en FullCanvas
+      uniquement<br>
+      &#160;&#160;&#160; Pour compatibilit&#233; ascendante des
+      anciennes sauvegardes : les anciennes coordonn&#233;es sont
+      converties si elle &#233;taient dans l'ancien mode "Normal Canvas"<br>
+      - Supprime la notion de "pas de forme" pour tous les blocs : Pour
+      compatibilit&#233; ascendante des anciennes sauvegardes, les blocs
+      sans forme passent en rectangle+bordure=0+brush=sans<br>
+      - Supprime le fichier flag _BUILDVERSION.txt (plus d'utilit&#233;
+      maintenant que les paquets sont toujours entiers)<br>
+      - Fait le m&#233;nage dans les icones =&gt; Supprime les
+      ic&#244;nes non utilis&#233;es et renomme certaines ic&#244;nes<br>
+      - Supprime la notion de dur&#233;e du projet (les dur&#233;es sont
+      toutes d&#233;finies dans les slides et ne font plus
+      r&#233;f&#233;rences aux dur&#233;es par d&#233;faut du projet)<br>
+      - Corrige le probl&#232;me de compilation sous Fedora 15 avec la
+      nouvelle version de fmmpeg<br>
+      - Corrige la sauvegarde des positions des fen&#234;tres qui
+      &#233;taient fausses avec GNOME Classic<br>
+      - Conserve le dernier &#233;tat des boutons &#224; fl&#232;ches
+      (voir/cacher) des options dans la boite slide (durant la session
+      uniquement)<br>
+      - Suppression du ZValue des blocks : L'ordre des blocs dans la
+      table d&#233;finie l'ordre d'affichage<br>
+      - [Windows] Passage aux versions QT 4.7.3 et ffmpeg 27/05/2011<br>
+      - Corrige le probl&#232;me de fermeture sous Windows (pas de
+      SDL_CloseAudio si aucun son n'a &#233;t&#233; jou&#233;)<br>
+      - Corrige des liens absolus vers des images dans plusieurs boites
+      de dialogue<br>
+      - Suppression de la boite de configuration de projet -&gt; il n'y
+      a plus que la boite de configuration de l'application<br>
+      - R&#233;organisation du menu<br>
+      - Transfert de la zone d'information EXIF dans la boite Slide<br>
+      - R&#232;gle le probl&#232;me du son des vid&#233;os dans les
+      rendus<br>
+      - Corrige le bugg d'affichage dans la timeline sur le fade out des
+      bandes son des vid&#233;os<br>
+      - Transforme la propri&#233;t&#233; SoundVolume des vid&#233;os en
+      non global =&gt; on peut maintenant changer qui a le son d'un plan
+      &#224; l'autre<br>
+      - Fait en sorte &#224; ce qu'une vid&#233;o ajout&#233;e dans la
+      boite slide ne prenne le son qu'&#224; partir du shot en cours<br>
+      - Fait en sorte &#224; ce que les blocs ajout&#233;s ne soient
+      visibles qu'&#224; partir du shot en cours<br>
+      - Corrige l'erreur de calcul dans la boite de correction : l'objet
+      RectItem n'&#233;tait pas en conformit&#233; avec ce qui est
+      affich&#233;<br>
+      - Transfert de l'objet FilterTransformObject de cBrushDefinition
+      vers les wrappers<br>
+      - Corrige l'erreur de calcul quand changement de
+      g&#233;om&#233;trie dans les animations<br>
+      - Ajoute une option dans la boite de configuration pour trier les
+      fichiers &#224; ins&#233;rer dans l'ordre du dernier num&#233;ro
+      plut&#244;t que dans l'ordre alphab&#233;tique<br>
+      - Nettoyage m&#233;moire : Ne conserve plus les images en full
+      size tout le temps (r&#233;duction de la m&#233;moire
+      n&#233;cessaire pour fonctionner)<br>
+      - Suppression de la gestion des threads (laisse tout &#224;
+      ffmpeg)<br>
+      - Ajoute l'affichage des millisecondes au player vid&#233;o<br>
+      - Gestion des guides correspondant aux marges TV dans la boite
+      slide<br>
+      - Gestion des couper/copier/coller de block dans la boite slide<br>
+      - Correction du bugg de lancement de ffmpeg pour Windows !<br>
+      <h5><span style="text-decoration: underline;"><span style="font-weight: bold;"></span></span>Alpha1-20110513
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        : Changelog depuis la version 20110509- Corrige un bug sur la
+        fermeture de SDL qui n'&#233;tait pas toujours effectu&#233;e</h5>
+      - Corrige un bug sur le calcul de la taille des bordures
+      ext&#233;rieurs des formes<br>
+      - Corrige un bug lors des chargements de projet : Si un fichier
+      n'est pas trouv&#233; (d&#233;placement/renommage), propose d'en
+      s&#233;lectionner un autre<br>
+      - Corrige un bug dans le recadrage des images : les blocs ne
+      doivent pas appara&#238;tre sur l'image<br>
+      <br>
+      - Suppression des bordures int&#233;rieurs des formes : Pour le
+      moment &#231;a pose trop de probl&#232;mes !<br>
+      - Ajout des rotations de formes (sur les 3 axes)<br>
+      - La transparence devient global &#224; la forme (texte+fond) et
+      s'applique maintenant m&#234;me s'il n'y a que du texte<br>
+      - Activation des options d'anti-aliasing pour la
+      g&#233;n&#233;ration des formes<br>
+      - Ajout du type de ligne pour la bordure des formes<br>
+      - Ajout des ombres sur les formes<br>
+      - D&#233;placement des variables SoundVolume, StartPos et EndPos
+      de cDiaporamaObject ou cDiaporamaShot vers cVideoFileWrapper<br>
+      - Charge les images dans les blocs dont le fond est
+      positionn&#233; sur "Image from disk"<br>
+      <h5>Alpha1-20110509 : Changelog depuis la version 20110506</h5>
+      - Correction d'un bugg induit par la pr&#233;c&#233;dente fusion
+      des onglets image correction et recadrage dans les boites de modif<br>
+      &#160;&#160;&#160; L'image affich&#233;e dans la boite n'est pas
+      la bonne !<br>
+      - Remplacement de la fonte Ubuntu par sans-serif dans toutes les
+      boites de dialogue<br>
+      - Ajout de directives de compilation pour portabilit&#233; vers
+      FEDORA<br>
+      <h5>Alpha1-20110506 : Changelog depuis la version 20110429</h5>
+      Correction de bugg :<br>
+      &#160;&#160;&#160; L'image ne respectait pas la
+      g&#233;om&#233;trie dans l'onglet composition de la boite image
+      [Interface]<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; Les textes de
+      background ne subissaient pas l'opacit&#233; dans les transitions
+      !<br>
+      &#160;&#160;&#160; Correction de plusieurs fuites m&#233;moire
+      dans la boite image [Interface]<br>
+      &#160;&#160;&#160; Correction d'une fuite m&#233;moire dans la
+      preview [Render]<br>
+      &#160;&#160;&#160; Les r&#233;ductions de volume sonore &#233;tait
+      d&#233;synchronis&#233;e [Preview+Render]<br>
+      &#160;&#160;&#160; Correction des 4 CustomCombo pour lesquels la
+      s&#233;lection sur la m&#234;me ligne ne g&#233;n&#233;rait pas de
+      rafra&#238;chissement<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; Le filtre de
+      transformation ne s'enlevait pas quand on repasse &#224; normal
+      dans la boite vid&#233;o !<br>
+      &#160;&#160;&#160; Correction d'une erreur de calcul dans le
+      dessin des fonds de bloc avec des brosses bas&#233;es sur des
+      images<br>
+      &#160;&#160;&#160;&#160;&#160;&#160;&#160; Le remplissage des
+      formes n'&#233;tait pas toujours complet<br>
+      <br>
+      Fusion des onglets plan et correction d'image [Interface]<br>
+      &#160;&#160;&#160; Simplification de l'interface<br>
+      &#160;&#160;&#160; La correction d'image devient disponible pour
+      les videos<br>
+      <br>
+      Ajout du nom de fichier et de la dur&#233;e des slides dans
+      l'affichage des thumbnails [Interface]<br>
+      Ajout d'une combo dans la boite vid&#233;o - Onglet edition - pour
+      r&#233;gler le volume du son des vid&#233;os<br>
+      Impl&#233;mentation de la fonction d'ajout d'un sous projet<br>
+      Transformation de l'option "Image de la librairie" des
+      s&#233;lections de brosse [Arriere-plan + brosse des blocs de
+      composition]<br>
+      &#160;&#160;&#160; Les images de la librairie apparaissent
+      d&#233;sormais sous forme de combobox et non plus de table<br>
+      &#160;&#160;&#160; Simplification de l'interface<br>
+      <br>
+      Transformation du fonctionnement de la librairie pour les images
+      d'arri&#232;re plan :<br>
+      &#160;&#160;&#160; Un fichier de licence n'est plus obligatoire
+      pour chaque image<br>
+      &#160;&#160;&#160; Les images peuvent maintenant &#234;tre aussi
+      des png (en plus des jpg)<br>
+      <br>
+      Modification du fonctionnement de la custom combobox pour les
+      couleurs :<br>
+      &#160;&#160;&#160; Maintenant si on click sur la couleur custom,
+      la boite couleur est affich&#233;e<br>
+      &#160;&#160;&#160; Suppression des boutons d'appel de la boite
+      couleur dans les onglets de composition et de fond d'&#233;cran<br>
+      <br>
+      Modification des formes triangulaires (elles deviennent des
+      polygones r&#233;guliers)<br>
+      Modification des bordures des blocs (ajout d'une bordure
+      int&#233;rieur)<br>
+      &#160;&#160;&#160; Le travail est encore en cours ...<br>
+      <h5>Alpha1-20110429 : Changelog depuis la build 20110424</h5>
+      - Correction d'un bugg qui emp&#234;chait la production des
+      thumbnails pour certaines photo<br>
+      - Correction d'une erreur de calcul qui r&#233;duisait
+      consid&#233;rablement la qualit&#233; des images [Preview+render]<br>
+      - Correction d'un bugg li&#233; &#224; la lecture des musiques
+      [Preview+render]<br>
+      &#160;&#160;&#160; Les musiques s'arr&#234;taient apr&#232;s le
+      passage d'une vid&#233;o et n'&#233;taient plus jou&#233;es que
+      lors des transitions<br>
+      - Correction d'un bugg : La preview n'&#233;tait pas mise &#224;
+      jour en sortie des boites de modification<br>
+      - Correction d'un bugg li&#233; &#224; la s&#233;lection &#224; la
+      souris des blocs dans les compositions de texte<br>
+      &#160;&#160;&#160; Les blocs de texte &#233;taient mal
+      s&#233;lectionn&#233;s quand on changeaient de plan en &#233;tant
+      d&#233;j&#224; dans l'onglet<br>
+      <br>
+      - Transformation du moteur de g&#233;n&#233;ration des vid&#233;os
+      [render]<br>
+      &#160;&#160;&#160; Les libav sont maintenant utilis&#233;es pour
+      la g&#233;n&#233;ration d'un fichier son temporaire puis la
+      vid&#233;o est compil&#233;e via ffmpeg en externe avec
+      utilisation du fichier son temporaire<br>
+      - Ajout de formats de rendu [render]<br>
+      &#160;&#160;&#160; Ajout des containers Flash (FLV), WebM et MPEG<br>
+      &#160;&#160;&#160; Ajout des codecs FLV, Sorenson H.263, VP8 et
+      Mpeg2video<br>
+      - Correction des liens WEB cass&#233;s dans les menus<br>
+      &#160;&#160;&#160; Suite au passage en PHP des pages du sites WEB,
+      certains liens ne s'ouvraient plus<br>
+      - Privil&#233;gie libfaac &#224; l'encodeur aac interne de ffmpeg
+      [render]<br>
+      &#160;&#160;&#160; Si libfaac est d&#233;tect&#233; par ffmpeg, il
+      est utilis&#233; en lieu et place de l'encodeur interne : La
+      qualit&#233; de l'aac etait mauvaise dans les rendues avec la
+      version ffmpeg de Ubuntu/Maverick<br>
+      - Privil&#233;gie libxvid &#224; l'encodeur mpeg4 interne de
+      ffmpeg [render]<br>
+      &#160;&#160;&#160; Si libxvid est d&#233;tect&#233; par ffmpeg, il
+      est utilis&#233; en lieu et place de l'encodeur interne<br>
+      - Correction du bugg de chargement des images de fond dans la
+      librairie [Version Windows]<br>
+      &#160;&#160;&#160; Remet les s&#233;parateurs dans le bon sens
+      pour les noms de r&#233;pertoire<br>
+      - Correction du bugg d'affichage des r&#233;pertoires dans system
+      properties (boite A propos de) [Version Windows]<br>
+      &#160;&#160;&#160; Remet les s&#233;parateurs dans le bon sens
+      pour les noms de r&#233;pertoire<br>
+      - Correction du bugg d'affichage des noms de fichier dans la zone
+      d'informations [Version Windows]<br>
+      &#160;&#160;&#160; Remet les s&#233;parateurs dans le bon sens
+      pour les noms de r&#233;pertoire<br>
+      - Adaptation de toutes les boites de dialogue pour Qt 4.7.2 et
+      Windows<br>
+      &#160;&#160;&#160; Windows et Qt 4.7.2 ajoutent des nouvelles
+      options pour certains contr&#244;les comme des shapes
+      suppl&#233;mentaires, un d&#233;placement du % dans les progress
+      bar etc...<br>
+      - Ajout d'un bouton d'aide dans toutes les boites de dialogue<br>
+      - Ajout d'un SplashScreen de d&#233;marrage<br>
+      <br>
+      <h5>Alpha1-20110424 : 1ere version publi&#233;e</h5>
+      <br>
+      <hr style="width: 100%; height: 2px;">&#169; The ffDiaporama
+      Project - Ao&#251;t 2011 </div>
+  </body>
+</html>

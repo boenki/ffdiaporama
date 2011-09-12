@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="fr">
+  <head>
+    <title>Compiler ffDiaporama pour Fedora</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
+        src="../../WEB_img/Fedora.png" align="MIDDLE"> Compiler
+      ffDiaporama pour Fedora</div>
+    <div style="text-align: left;" id="content_wikimode">
+      <h2>Installation des pr&#233;-requis</h2>
+      <h3 style="margin-left: 40px;">Pr&#233;-requis d'ex&#233;cution :<br>
+      </h3>
+      <div style="margin-left: 40px;">Avant de compiler ffDiaporama,
+        assurez vous que vous disposez bien de tous les paquets
+        n&#233;cessaires &#224; son ex&#233;cution.<br>
+        <br>
+        Tout d'abord : activer le d&#233;pot RPM Fusion en suivant la
+        documentation <a href="http://rpmfusion.org/Configuration">http://rpmfusion.org/Configuration</a><br>
+        Puis, en entrant les commandes suivantes depuis un terminal :<br>
+        <br>
+        <div style="margin-left: 20px;" class="codebox">
+          <pre><code>su<br>yum install qt4 qt-webkit ffmpeg SDL SDL_mixer exiv2
+</code></pre></div>
+      </div>
+      <h3 style="margin-left: 40px;">Pr&#233;-requis de compilation :</h3>
+      <div style="margin-left: 40px;">Avant de compiler ffDiaporama,
+        assurez vous que vous disposez bien de tous les paquets
+        n&#233;cessaires en entrant les commandes suivantes depuis un
+        terminal :<br>
+        <br>
+        <div style="margin-left: 20px;" class="codebox">
+          <pre><code>su<br>yum groupinstall "Development Tools"<br>yum install qt4-devel </code><code>qt-webkit-devel </code><code>ffmpeg-devel SDL-devel SDL_mixer-devel wget</code></pre>
+        </div>
+      </div>
+      <h2>Compilation de ffDiaporama</h2>
+      <div style="margin-left: 40px;">Une fois les pr&#233;-requis
+        install&#233;s, ouvrir un terminal et entrer les commandes
+        suivantes :<br>
+        <br>
+        <div style="margin-left: 20px;" class="codebox">
+          <pre><code>cd ~<br>mkdir ffDiaporama<br>cd ffDiaporama<br>wget -O ffDiaporama.tar.gz http://svn.tuxfamily.org/viewvc.cgi/ffdiaporama_trunk.tar.gz?view=tar<br>tar -xzf ffDiaporama.tar.gz<br>rm ffDiaporama.tar.gz<br>cd ffdiaporama_trunk/ffDiaporama<br>qmake-qt4<br>make<br>make clean</code></pre>
+        </div>
+        <br>
+        Le r&#233;sultat de la compilation est plac&#233; dans le
+        r&#233;pertoire ~/ffDiaporama/ffdiaporama_trunk/build </div>
+      <h2>Execution de ffDiaporama</h2>
+      <div style="margin-left: 40px;">Entrer la commande :
+        ~/ffDiaporama/ffDiaporama_trunk/build/ffDiaporama<br>
+        ou lancer ffDiaporama avec l'explorateur de fichier depuis le
+        r&#233;pertoire ~/ffDiaporama/ffDiaporama_trunk/build</div>
+      <ul style="margin-left: 40px;">
+      </ul>
+      <br>
+      <hr style="width: 100%; height: 2px;">&#169; The ffDiaporama
+      Project</div>
+  </body>
+</html>
