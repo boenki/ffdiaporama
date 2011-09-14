@@ -25,7 +25,7 @@
 		  $locale=$_SERVER['PHP_SELF'];
 		  if (strpos($locale,"/fr/")     !== false) echo "Main/Index";
 		  elseif (strpos($locale,"/es/") !== false) echo "Principal/Indice";
-		  elseif (strpos($locale,"/it/") !== false) echo "Main/Index";
+		  elseif (strpos($locale,"/it/") !== false) echo "Principale/Indice";
 		  else echo "Main/Index";
 		?></a>
 	&nbsp;&nbsp;
@@ -43,7 +43,7 @@
 		  $locale=$_SERVER['PHP_SELF'];
 		  if (strpos($locale,"/fr/")     !== false) echo "Photos d'&#233;cran";
 		  elseif (strpos($locale,"/es/") !== false) echo "Capturas de pantalla";
-		  elseif (strpos($locale,"/it/") !== false) echo "Fotografie di schermo";
+		  elseif (strpos($locale,"/it/") !== false) echo "Immagini";
 		  else echo "Screenshots";
 		?></a>
 	&nbsp;&nbsp;
@@ -52,7 +52,7 @@
 		  $locale=$_SERVER['PHP_SELF'];
 		  if (strpos($locale,"/fr/")     !== false) echo "T&#233;l&#233;chargement";
 		  elseif (strpos($locale,"/es/") !== false) echo "Descargas";
-		  elseif (strpos($locale,"/it/") !== false) echo "Scarichi";
+		  elseif (strpos($locale,"/it/") !== false) echo "Scarica";
 		  else echo "Download";
 		?></a>
 	&nbsp;&nbsp;
@@ -70,7 +70,7 @@
 		  $locale=$_SERVER['PHP_SELF'];
 		  if (strpos($locale,"/fr/")     !== false) echo "Contribuer";
 		  elseif (strpos($locale,"/es/") !== false) echo "Contribuir";
-		  elseif (strpos($locale,"/it/") !== false) echo "Contribuisca";
+		  elseif (strpos($locale,"/it/") !== false) echo "Contributi";
 		  else echo "Contribute";
 		?></a>
 	&nbsp;&nbsp;
