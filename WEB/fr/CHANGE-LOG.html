@@ -10,7 +10,49 @@
         src="../../WEB_img/icon_changelog.png" align="MIDDLE"> Journal
       des modifications - Change-log</div>
     <div style="text-align: left;" id="content_wikimode">
-      <h5>Beta3-20110826 : Changelog depuis la version Beta1 : 20110805</h5>
+      <h5>Beta4-20110911 : Changelog depuis la version Beta3 : 20110826</h5>
+      Correction de bug :<br>
+      <ul>
+        <li> Corrige un gros bug dans la suppression de plan de la boite
+          slide</li>
+        <li>Corrige un bug dans la g&#233;n&#233;ration du son : Mauvais
+          nom de r&#233;pertoire (double slash au lieu d'un slash)</li>
+        <li>Corrige un bug dans la gestion de la playlist - les fichiers
+          suivants &#233;taient ignor&#233;s</li>
+        <li>R&#233;&#233;crit la fonction de r&#233;-&#233;chantillonage
+          du son pour limiter les craquements</li>
+        <li>=&gt; 2 versions : Une lin&#233;aire sans interpollation
+          pour la preview+1 avec interpollation selon la m&#233;thode
+          Hermite pour la g&#233;n&#233;ration</li>
+        <li>Corrige un bug &#224; l'ouverture des fichiers vid&#233;os
+          qui refusait des fichiers &#233;ligibles (format non
+          compatible)</li>
+        <li>D&#233;localise la lecture de l'orientation des images : Ne
+          d&#233;pend plus de la langue du syst&#232;me.</li>
+        <li>Corrige les erreures de lecture des accents dans les
+          donn&#233;es EXIF, XMP et IPTC.</li>
+        <li>La diapositive s&#233;lectionn&#233;e n'&#233;tait pas
+          correctement mis &#224; jours par la pr&#233;visualisation</li>
+        <li>Corrige l'erreur de le calcul des dur&#233;es mini quand pas
+          de transition. Il est maintenant possible d'avoir des slides
+          de moins d'une seconde</li>
+        <li>Corrige un bug de calcul avec les vid&#233;os anamorphiques</li>
+        <li>Corrige l'erreur d'&#233;chelle dans le calcul des tailles
+          en pixel dans la boite slide</li>
+        <li>R&#233;duit la bordure parasite qui apparait dans la
+          pr&#233;visualisation et dans la g&#233;n&#233;ration</li>
+        <li>Ajoute une option D&#233;sactiver le system graphic "raster"
+          dans la boite de configuration</li>
+        <li>Correction du bug de non affichage lors du d&#233;marrage de
+          l'application sous Windows en mode plein &#233;cran</li>
+      </ul>
+      Changement de comportement :<br>
+      <ul>
+        <li> Ajout de l'espagnol (100%)</li>
+        <li>Ajout de l'italien (100%)</li>
+        <li>Passage de ffmpeg &#224; la version du 06/09/2011</li>
+      </ul>
+      <h5>Beta3-20110826 : Changelog depuis la version Beta2 : 20110805</h5>
       Correction de bug :<br>
       <ul>
         <li>Met les slashs dans le bon sens dans la liste des projets
@@ -177,11 +219,14 @@
 
 
 
+
           Droite=X+1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
 
 
 
+
           Haut=Y-1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+
 
 
 
@@ -193,7 +238,9 @@
 
 
 
+
           Ctrl+Haut=H-1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+
 
 
 
@@ -636,6 +683,7 @@
       - Gestion des couper/copier/coller de block dans la boite slide<br>
       - Correction du bugg de lancement de ffmpeg pour Windows !<br>
       <h5><span style="text-decoration: underline;"><span style="font-weight: bold;"></span></span>Alpha1-20110513
+
 
 
 
