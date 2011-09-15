@@ -4,29 +4,29 @@
 		$locale=$_SERVER['PHP_SELF'];
 		if (strpos($locale,"/en/") === false) {
 		  $newadress="../en/".substr(strrchr($locale,"/"),1);
-		  echo "<a href='$newadress'><img style='border: 0px solid ; width: 24px; height: 24px;' alt='Flag-en' src='../img/Flag-en.png'></a>";
+		  echo "<a href='$newadress'><img style='border: 0px solid ; width: 24px; height: 24px;' alt='EN' title='EN' src='../img/Flag-en.png'></a>";
 		}
 		if (strpos($locale,"/fr/") === false) {
 		  $newadress="../fr/".substr(strrchr($locale,"/"),1);
-		  echo "<a href='$newadress'><img style='border: 0px solid ; width: 24px; height: 24px;' alt='Flag-fr' src='../img/Flag-fr.png'></a>";
+		  echo "<a href='$newadress'><img style='border: 0px solid ; width: 24px; height: 24px;' alt='FR' title='FR' src='../img/Flag-fr.png'></a>";
 		}
 		if (strpos($locale,"/es/") === false) {
 		  $newadress="../es/".substr(strrchr($locale,"/"),1);
-		  echo "<a href='$newadress'><img style='border: 0px solid ; width: 24px; height: 24px;' alt='Flag-es' src='../img/Flag-es.png'></a>";
+		  echo "<a href='$newadress'><img style='border: 0px solid ; width: 24px; height: 24px;' alt='ES' title='ES'  src='../img/Flag-es.png'></a>";
 		}
 		if (strpos($locale,"/it/") === false) {
 		  $newadress="../it/".substr(strrchr($locale,"/"),1);
-		  echo "<a href='$newadress'><img style='border: 0px solid ; width: 24px; height: 24px;' alt='Flag-it' src='../img/Flag-it.png'></a>";
+		  echo "<a href='$newadress'><img style='border: 0px solid ; width: 24px; height: 24px;' alt='IT' title='IT'  src='../img/Flag-it.png'></a>";
 		}
 	?>
 	&nbsp;&nbsp;
     <a href="index.php"> <img style="border: 0px solid ; width: 24px; height: 24px;" alt="" src="../img/logo.png">
 		<?php
 		  $locale=$_SERVER['PHP_SELF'];
-		  if (strpos($locale,"/fr/")     !== false) echo "Main/Index";
-		  elseif (strpos($locale,"/es/") !== false) echo "Principal/Indice";
-		  elseif (strpos($locale,"/it/") !== false) echo "Principale/Indice";
-		  else echo "Main/Index";
+		  if (strpos($locale,"/fr/")     !== false) echo "Home";
+		  elseif (strpos($locale,"/es/") !== false) echo "Home";
+		  elseif (strpos($locale,"/it/") !== false) echo "Home";
+		  else echo "Home";
 		?></a>
 	&nbsp;&nbsp;
     <a href="News.php"> <img style="border: 0px solid ; width: 24px; height: 24px;" alt="" src="../img/bt_news.png">
@@ -42,7 +42,7 @@
 		<?php
 		  $locale=$_SERVER['PHP_SELF'];
 		  if (strpos($locale,"/fr/")     !== false) echo "Photos d'&#233;cran";
-		  elseif (strpos($locale,"/es/") !== false) echo "Capturas de pantalla";
+		  elseif (strpos($locale,"/es/") !== false) echo "Capturas";
 		  elseif (strpos($locale,"/it/") !== false) echo "Immagini";
 		  else echo "Screenshots";
 		?></a>
