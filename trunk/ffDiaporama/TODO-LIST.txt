@@ -1,37 +1,18 @@
-Buggs/TODO (Dernier SVN le 10/09/2011) :
+Buggs/TODO (Dernier SVN le 11/09/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
- - La fenetre principale ne s'affiche pas correctement si plein écran [Windows]
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
-    Correction du bug de non affichage lors du démarrage de l'application sous Windows en mode plein écran
 
 Divers:
-    Passage de ffmpeg à la version du 06/09/2011
 
 -------------------------------------
-Changelog depuis la version 20110826
+Changelog depuis la version 20110911
 -------------------------------------
 Correction de bug :
-    Corrige un gros bug dans la suppression de plan de la boite slide
-    Corrige un bug dans la génération du son : Mauvais nom de répertoire (double slash au lieu d'un slash)
-    Corrige un bug dans la gestion de la playlist - les fichiers suivants étaient ignorés
-    Réécrit la fonction de ré-échantillonage du son pour limiter les craquements
-    => 2 versions : Une linéaire sans interpollation pour la preview+1 avec interpollation selon la méthode Hermite pour la génération
-    Corrige un bug à l'ouverture des fichiers vidéos qui refusait des fichiers éligibles (format non compatible)
-    Délocalise la lecture de l'orientation des images : Ne dépend plus de la langue du système.
-    Corrige les erreures de lecture des accents dans les données EXIF, XMP et IPTC.
-    La diapositive sélectionnée n'était pas correctement mis à jours par la prévisualisation
-    Corrige l'erreur de le calcul des durées mini quand pas de transition. Il est maintenant possible d'avoir des slides de moins d'une seconde
-    Corrige un bug de calcul avec les vidéos anamorphiques
-    Corrige l'erreur d'échelle dans le calcul des tailles en pixel dans la boite slide
-    Réduit la bordure parasite qui apparait dans la prévisualisation et dans la génération
-    Ajoute une option Désactiver le system graphic "raster" dans la boite de configuration
 
 Changement de comportement :
-    Ajout de l'espagnol (100%)
-    Ajout de l'italien (40%)
