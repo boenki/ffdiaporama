@@ -7,6 +7,7 @@ BUGG:
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
+    Corrige l'erreur sur la couleur personnalisée dans la combobox custom
 
 Divers:
 
