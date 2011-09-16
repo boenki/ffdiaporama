@@ -134,16 +134,23 @@ cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
 //========================================================================================================================
 
 void cCustomColorComboBox::SetCurrentColor(QString *Color) {
-    if (STOPMAJ) return;
+    qDebug()<<"SetCurrentColor"<<*Color;
     CurrentColor=Color;
     int i=0;
     while ((i<MAXCOLORREF)&&(ColorRef[i]!=*CurrentColor)) i++;
     int Row=i/5;
     int Col=i-(i/5)*5;
-    ((QTableWidget *)view())->setCurrentCell(Row,Col);
-    setCurrentIndex(Row);
     StandardColor=((i>=0)&&(i<MAXCOLORREF));
-    if (!StandardColor) SavedCustomColor=*CurrentColor; else SavedCustomColor="#fefefe";
+    if (STOPMAJ) return;
+    if (!StandardColor) {
+        SavedCustomColor=*CurrentColor;
+        ((QTableWidget *)view())->setCurrentCell(Row,5);
+        setCurrentIndex(Row);
+    } else {
+        //SavedCustomColor=ColorRef[i]/*"#fefefe"*/;
+        ((QTableWidget *)view())->setCurrentCell(Row,Col);
+        setCurrentIndex(Row);
+    }
     MakeIcons();
 }
 
@@ -153,23 +160,34 @@ QString cCustomColorComboBox::GetCurrentColor() {
     if (!CurrentColor) return SavedCustomColor;
     int i=((QTableWidget *)view())->currentRow()*5+((QTableWidget *)view())->currentColumn();
     StandardColor=((i>=0)&&(i<MAXCOLORREF));
-    if ((i>=0)&&(i<MAXCOLORREF)) *CurrentColor=ColorRef[i];
-    return *CurrentColor;
+    if ((i>=0)&&(i<MAXCOLORREF)) {
+        *CurrentColor=ColorRef[i];
+        return *CurrentColor;
+    }
+    return SavedCustomColor;
 }
 
 //========================================================================================================================
 
 void cCustomColorComboBox::MakeIcons() {
-    int CurrentRow=((QTableWidget *)view())->currentRow();      if (CurrentRow<0) CurrentRow=0;
-    int CurrentCol=((QTableWidget *)view())->currentColumn();   if (CurrentCol<0) CurrentCol=0;
-    int ColorNum=CurrentRow*5+CurrentCol;
+    int ColorNum=0;
+    if (CurrentColor) {
+        while ((ColorNum<MAXCOLORREF)&&(ColorRef[ColorNum]!=*CurrentColor)) ColorNum++;
+    } else {
+        int CurrentRow=((QTableWidget *)view())->currentRow();      if (CurrentRow<0) CurrentRow=0;
+        int CurrentCol=((QTableWidget *)view())->currentColumn();   if (CurrentCol<0) CurrentCol=0;
+        ColorNum=CurrentRow*5+CurrentCol;
+    }
     QPixmap  Image(iconSize());
     QPainter Painter;
     Painter.begin(&Image);
-    if (ColorNum<MAXCOLORREF) Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),QColor(ColorRef[ColorNum])); else {
+    if (ColorNum<MAXCOLORREF) {
+        Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),QColor(ColorRef[ColorNum]));
+    } else {
         Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),QColor(SavedCustomColor));
         QImage  Img("img/colorize.png");
-        Painter.drawImage(QRectF((iconSize().width()-16)/2,(iconSize().height()-16)/2,16,16),Img,QRectF(0,0,Img.width(),Img.height()));
+        //Painter.drawImage(QRectF((iconSize().width()-16)/2,(iconSize().height()-16)/2,16,16),Img,QRectF(0,0,Img.width(),Img.height()));
+        Painter.drawImage(QRectF(0,0,16,16),Img,QRectF(0,0,Img.width(),Img.height()));
     }
     Painter.end();
     setItemIcon(currentIndex(),QIcon(Image));
