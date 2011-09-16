@@ -125,10 +125,10 @@ IE6 and below
 * html #content_wikimode {
 	position: absolute;
 	top: 0px;
-	width: 100%;
+	width: 98%;
 	height: 100%;
 	padding-top:  54px;
-	padding-left: 0px;
+	padding-left: 1%;
 	margin-left: 4px;
 	margin-right: 4px;
 }
@@ -189,10 +189,10 @@ IE6 and below
 * html #content {
 	position: absolute;
 	top: 0px;
-	width: 100%;
+	width: 98%;
 	height: 100%;
 	padding-top: 84px;
-	padding-left: 0px;
+	padding-left: 1%;
 	margin-left: 4px;
 	margin-right: 4px;
 }
@@ -243,10 +243,10 @@ html>body #banner_wikimode {
 }
 
 html>body #content_wikimode {
-	width: 100%;
+	width: 98%;
 	height: 100%;
 	padding-top: 44px;
-	padding-left: 0px;
+	padding-left: 1%;
 	margin-left: 4px;
 	margin-right: 4px;
 }
@@ -305,10 +305,10 @@ html>body #language_banner {
 }
 
 html>body #content {
-	width: 100%;
+	width: 98%;
 	height: 100%;
 	padding-top: 80px;
-	padding-left: 0px;
+	padding-left: 1%;
 	margin-left: 0px;
 	margin-right: 0px;
 }
