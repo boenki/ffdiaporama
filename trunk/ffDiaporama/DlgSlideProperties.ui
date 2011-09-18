@@ -1174,7 +1174,7 @@ QToolButton:pressed {
           </property>
           <property name="minimumSize">
            <size>
-            <width>310</width>
+            <width>340</width>
             <height>0</height>
            </size>
           </property>
@@ -1223,7 +1223,7 @@ QToolButton:pressed {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>282</width>
+                 <width>312</width>
                  <height>669</height>
                 </rect>
                </property>

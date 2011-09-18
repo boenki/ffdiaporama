@@ -10,6 +10,8 @@ Correction de bug :
     Corrige l'erreur sur la couleur personnalisée dans la combobox custom
 
 Divers:
+    Le changement de fichier (image ou video) dans la boite slide positionne maintenant sur le répertoire du fichier au lieu du dernier répertoire utilisé
+    Elargie la zone de paramétrage dans la boite slide pour tous les boutons soient visibles en Italien
 
 -------------------------------------
 Changelog depuis la version 20110911
