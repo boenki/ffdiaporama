@@ -1108,9 +1108,11 @@ void DlgSlideProperties::ChangeBrushDiskFile() {
     cBrushDefinition    *CurrentBrush=GetCurrentBrush();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)||(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK)) return;
 
+    QString ActualFilePath=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).absolutePath();
+
     QString NewFile=QFileDialog::getOpenFileName(this,
                                                  QApplication::translate("DlgSlideProperties","Select a file"),
-                                                 GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
+                                                 ActualFilePath,//GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
                                                  GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(CurrentBrush->Image?cApplicationConfig::IMAGEFILE:cApplicationConfig::VIDEOFILE));
     QApplication::processEvents();
     if (NewFile=="") return;
