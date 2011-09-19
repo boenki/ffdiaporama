@@ -355,10 +355,10 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
 
         QPen    Pen;
         double  FullMargin=0;
-        double  W=TheW*double(width);  if ((int(W)<2)*2<W) W=int(W)+1; else W=int(W);
-        double  H=TheH*double(height); if ((int(H)<2)*2<H) H=int(H)+1; else H=int(H);
+        double  W=int(TheW*double(width));  if ((int(W) & 0x01)==1) W=W+1;
+        double  H=int(TheH*double(height)); if ((int(H) & 0x01)==1) H=H+1;
         double  Hyp=sqrt(W*W+H*H)+double(PenSize)*ADJUST_RATIO*double(2);
-        double  Wb=int(Hyp); if ((int(Wb)<2)*2<Wb) Wb=int(Wb)+1;
+        double  Wb=int(Hyp); if ((int(Wb) & 0x01)==1) Wb=Wb+1;   if ((int((Wb-W)/2) & 0x01)==1) Wb=Wb+2;
         double  Hb=Wb; // always square image
         AddX-=(Wb-W)/2;
         AddY-=(Hb-H)/2;
@@ -375,14 +375,6 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
 
         Pen.setStyle(Qt::SolidLine);
 
-        // All coordonates from center
-        QTransform  Matrix;
-        Matrix.translate(W/2+(Wb-W)/2,H/2+(Hb-H)/2);
-        if (TheRotateZAxis!=0) Matrix.rotate(TheRotateZAxis,Qt::ZAxis);   // Standard axis
-        if (TheRotateXAxis!=0) Matrix.rotate(TheRotateXAxis,Qt::XAxis);   // Rotate from X axis
-        if (TheRotateYAxis!=0) Matrix.rotate(TheRotateYAxis,Qt::YAxis);   // Rotate from Y axis
-        Painter.setWorldTransform(Matrix,false);
-
         // Draw ExternalBorder border
         if (PenSize==0) Painter.setPen(Qt::NoPen); else {
             Pen.setColor(PenColor);
@@ -391,6 +383,16 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             Pen.setStyle((Qt::PenStyle)PenStyle);
             Painter.setPen(Pen);
         }
+        // All coordonates from center
+        double      CenterX=W/2+(Wb-W)/2;
+        double      CenterY=H/2+(Hb-H)/2;
+        QTransform  Matrix;
+        Matrix.translate(CenterX,CenterY);
+        if (TheRotateZAxis!=0) Matrix.rotate(TheRotateZAxis,Qt::ZAxis);   // Standard axis
+        if (TheRotateXAxis!=0) Matrix.rotate(TheRotateXAxis,Qt::XAxis);   // Rotate from X axis
+        if (TheRotateYAxis!=0) Matrix.rotate(TheRotateYAxis,Qt::YAxis);   // Rotate from Y axis
+        Painter.setWorldTransform(Matrix,false);
+
         // Draw internal shape
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
             if (BackgroundBrush.Video==NULL) UseBrushCache=false;   // Accept UseBrushCache only for video !
@@ -406,7 +408,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                     NewP.begin(&NewImage);
                     NewP.setBrush(*CachedBrushBrush);
                     NewP.setCompositionMode(QPainter::CompositionMode_Source);
-                    NewP.fillRect(QRect(0,0,CachedBrushW+1,CachedBrushH+1),Qt::transparent);
+                    NewP.fillRect(QRect(0,0,CachedBrushW,CachedBrushH),Qt::transparent);
                     NewP.setCompositionMode(QPainter::CompositionMode_SourceOver);
                     NewP.drawRect(0,0,CachedBrushW,CachedBrushH);
                     NewP.end();
@@ -416,6 +418,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             } else {
                 BR=BackgroundBrush.GetBrush(QRectF(0/*-1*/,0/*-1*/,W-FullMargin*2,H-FullMargin*2),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?&PrevCompoObject->BackgroundBrush:NULL);
                 QTransform  MatrixBR;
+                //MatrixBR.translate(FullMargin-CenterX,FullMargin-CenterY);
                 MatrixBR.translate(FullMargin-W/2,FullMargin-H/2);
                 BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
             }
@@ -436,6 +439,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         }
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
         DrawShape(Painter,BackgroundForm,FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2,0,0);
+        //DrawShape(Painter,BackgroundForm,FullMargin-CenterX,FullMargin-CenterY,W-FullMargin*2,H-FullMargin*2,0,0);
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
         Painter.setPen(Qt::NoPen);
@@ -2284,7 +2288,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
         if (TransitObject!=NULL) TransitObject_MusicObject=Diaporama->GetMusicObject(TransitObject_Number,StartPosition);
 
         //==============> Try to re-use values from PreviousFrame
-        if (PreviousFrame) {
+        if ((CurrentObject)&&(PreviousFrame)) {
             //************ Background
             if (PreviousFrame->CurrentObject_BackgroundIndex==CurrentObject_BackgroundIndex) {
                 CurrentObject_BackgroundBrush=PreviousFrame->CurrentObject_BackgroundBrush;             // Use the same background
