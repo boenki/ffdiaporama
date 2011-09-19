@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 11/09/2011) :
+Buggs/TODO (Dernier SVN le 18/09/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -7,15 +7,18 @@ BUGG:
 Changelog depuis le dernier SVN
 --------------------------------
 Correction de bug :
-    Corrige l'erreur sur la couleur personnalisée dans la combobox custom
+    Corrige l'erreur d'arrondie qui générait par moment un décalage parasite des images
+    Corrige le plantage de l'application quand on lance le lecteur sans aucune diapositive
 
 Divers:
-    Le changement de fichier (image ou video) dans la boite slide positionne maintenant sur le répertoire du fichier au lieu du dernier répertoire utilisé
-    Elargie la zone de paramétrage dans la boite slide pour tous les boutons soient visibles en Italien
+    Autorise les vidéos sans piste sonore
 
 -------------------------------------
 Changelog depuis la version 20110911
 -------------------------------------
 Correction de bug :
+    Corrige l'erreur sur la couleur personnalisée dans la combobox custom
 
 Changement de comportement :
+    Le changement de fichier (image ou video) dans la boite slide positionne maintenant sur le répertoire du fichier au lieu du dernier répertoire utilisé
+    Elargie la zone de paramétrage dans la boite slide pour tous les boutons soient visibles en Italien

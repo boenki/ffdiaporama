@@ -108,7 +108,7 @@ void cvideofilewrapper::CloseVideoFileReader() {
 //====================================================================================================================
 void cvideofilewrapper::ReadAudioFrame(bool PreviewMode,int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
     // Ensure file was previously open and all is ok
-    if ((SoundTrackBloc==NULL)||(ffmpegAudioFile->streams[AudioStreamNumber]==NULL)||(ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
+    if ((SoundTrackBloc==NULL)||(AudioStreamNumber==-1)||(ffmpegAudioFile->streams[AudioStreamNumber]==NULL)||(ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
 
     // Ensure Position is not > EndPosition
     if (Position>QTime(0,0,0,0).msecsTo(DontUseEndPos?Duration:EndPos)) return;
@@ -726,29 +726,32 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
     // Find the first audio stream
     AudioStreamNumber=0;
     while ((AudioStreamNumber<(int)ffmpegAudioFile->nb_streams)&&(ffmpegAudioFile->streams[AudioStreamNumber]->codec->codec_type!=AVMEDIA_TYPE_AUDIO)) AudioStreamNumber++;
-    if (AudioStreamNumber>=(int)ffmpegAudioFile->nb_streams) return false;
+    if (AudioStreamNumber>=(int)ffmpegAudioFile->nb_streams) {
+        //return false;
+        AudioStreamNumber=-1;
+    } else {
+        // Setup STREAM options
+        ffmpegAudioFile->streams[AudioStreamNumber]->discard=AVDISCARD_DEFAULT;
+        ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
 
-    // Setup STREAM options
-    ffmpegAudioFile->streams[AudioStreamNumber]->discard=AVDISCARD_DEFAULT;
-    ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
+        // Find the decoder for the audio stream and open it
+        AudioDecoderCodec=avcodec_find_decoder(ffmpegAudioFile->streams[AudioStreamNumber]->codec->codec_id);
+        IsVorbis=(strcmp(AudioDecoderCodec->name,"vorbis")==0);
 
-    // Find the decoder for the audio stream and open it
-    AudioDecoderCodec=avcodec_find_decoder(ffmpegAudioFile->streams[AudioStreamNumber]->codec->codec_id);
-    IsVorbis=(strcmp(AudioDecoderCodec->name,"vorbis")==0);
+        // Setup decoder options
+        ffmpegAudioFile->streams[AudioStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
+        ffmpegAudioFile->streams[AudioStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
+        ffmpegAudioFile->streams[AudioStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
+        ffmpegAudioFile->streams[AudioStreamNumber]->codec->lowres           =0;                    // low resolution decoding, 1-> 1/2 size, 2->1/4 size
+        ffmpegAudioFile->streams[AudioStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
+        ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
+        ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
+        ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
+        ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
+        ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_concealment=3;
 
-    // Setup decoder options
-    ffmpegAudioFile->streams[AudioStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
-    ffmpegAudioFile->streams[AudioStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
-    ffmpegAudioFile->streams[AudioStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
-    ffmpegAudioFile->streams[AudioStreamNumber]->codec->lowres           =0;                    // low resolution decoding, 1-> 1/2 size, 2->1/4 size
-    ffmpegAudioFile->streams[AudioStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
-    ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
-    ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
-    ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-    ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
-    ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_concealment=3;
-
-    if ((AudioDecoderCodec==NULL)||(avcodec_open(ffmpegAudioFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec)<0)) return false;
+        if ((AudioDecoderCodec==NULL)||(avcodec_open(ffmpegAudioFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec)<0)) return false;
+    }
 
     // Find the first video stream
     VideoStreamNumber=0;
