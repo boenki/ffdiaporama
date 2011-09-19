@@ -74,7 +74,7 @@
 		  else echo "Contribute";
 		?></a>
 	&nbsp;&nbsp;
-	<a href="http://groups.google.com/group/ffdiaporama"> <img style="border: 0px solid ; width: 24px; height: 24px;" alt="" src="../img/bt_forum.png">
+	<a href="http://ffdiaporama.tuxfamily.org/Forum/"> <img style="border: 0px solid ; width: 24px; height: 24px;" alt="" src="../img/bt_forum.png">
 		<?php
 		  $locale=$_SERVER['PHP_SELF'];
 		  if (strpos($locale,"/fr/")     !== false) echo "Forum";
