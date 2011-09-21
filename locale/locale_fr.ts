@@ -2270,12 +2270,12 @@ Voulez-vous l&apos;écraser ?</translation>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="1804"/>
         <source>Remove bloc</source>
-        <translation>Supprimer un bloque</translation>
+        <translation>Supprimer un bloc</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="1804"/>
         <source>Are you sure to want to delete this bloc?</source>
-        <translation>Etes-vous sure de vouloir supprimer ce bloque ?</translation>
+        <translation>Etes-vous sûr de vouloir supprimer ce bloc ?</translation>
     </message>
 </context>
 <context>
