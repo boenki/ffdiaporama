@@ -312,4 +312,26 @@ html>body #content {
 	margin-left: 0px;
 	margin-right: 0px;
 }
+/* --------------------------------
+Video Demo with decoration 
+-----------------------------------*/
+html > body .video {
+	height: 293px;
+	margin: 0 -3px;
+	width: 520px;
+	display:block;
+}
 
+html > body .demo {
+	height: 293px;
+	margin: 33px 0;
+	width: 528px;
+}
+html > body .videodecoration {
+	position:absolute;
+	background: url(../img/film.gif);
+	height: 359px;
+	margin: 0 -8px;
+	width: 528px;
+	z-index:-1
+}

@@ -1,43 +1,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html lang="en">
+<html lang="es">
   <head>
-    <title>Containers and codecs</title>
+    <title>Contenedores y codecs</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
-        src="../../WIKI_img/Wiki.png" align="MIDDLE"> Containers and
-      codecs</div>
+        src="../../WIKI_img/Wiki.png" align="MIDDLE"> Contenedores y codecs</div>
     <div style="text-align: left;" id="content_wikimode">
-      <h2 style=""><img checked="true" style="width: 24px; height: 24px;"
-          alt="" src="../../WIKI_img/Attention.png"> Traducci&#243;n en
-        curso<br>
-      </h2>
-      <h2> Introduction</h2>
-      <div style="margin-left: 40px;">A digital video consists of a
-        computer file called the container.<br>
-        In this file we find:
+      <h2> Introducci&oacute;n</h2>
+      <div style="margin-left: 40px;">Un video digital consiste en
+      un archivo de ordenador llamado contenedor.<br>
+        En este archivo podemos encontrar:
         <ul>
-          <li>One or more video tracks. Each track is built using a
-            Video Codec. </li>
-          <li>One or more audio tracks. Each track is built using an
-            Audio Codec. </li>
-          <li>Possibly, one or more subtitles. Each subtitle is built in
-            a subtitle format. </li>
-          <li>Possibly, a definition of chapters. </li>
+          <li>Una o m&aacute;s pistas de video. Cada pista se construye usando un
+         Codec de Video. </li>
+          <li>Una o m&aacute;s pistas de audio. se construye usando un
+         Codec de Audio. </li>
+          <li>Pos&iacute;blemente, uno o m&aacute;s subt&iacute;tulos. 
+          Cada subt&iacute;tulo se crea en un formato de subt&iacute;tulo. </li>
+          <li>Pos&iacute;blemente, una definici&oacute;n de cap&iacute;tulos. </li>
         </ul>
-        <span style="text-decoration: underline;">Limitations :</span><br>
+        <span style="text-decoration: underline;">Limitaciones :</span><br>
         <ul>
-          <li>ffDiaporama does not manage either subtitles or
-            definitions of chapters.</li>
-          <li>ffDiaporama generates files that include a single video
-            track and a single audio track. </li>
+          <li>ffDiaporama no llega a manejar subt&iacute;tulos o
+             definiciones de cap&iacute;tulos.</li>
+          <li>ffDiaporama genera archivos que incluyen una sola pista de video 
+             y una sola pista de audio. </li>
         </ul>
       </div>
-      <h2>Video codec </h2>
-      <div style="margin-left: 40px;">The following table lists the
-        video codecs which ffDiaporama can use to generate videos:<br>
+      <h2>Codec de Video </h2>
+      <div style="margin-left: 40px;">La siguiente tabla muestra el
+         codecs de video que ffDiaporama puede utilizar para generar videos:<br>
         <br>
         <table border="1" cellpadding="2" cellspacing="0">
           <tbody>
@@ -77,22 +72,22 @@
             <tr>
               <td style="vertical-align: top;">H264HQ<br>
               </td>
-              <td style="vertical-align: top;">High Quality H.264
+              <td style="vertical-align: top;">Calidad Alta H.264
                 AVC/MPEG-4 AVC<br>
               </td>
               <td colspan="1" rowspan="2" style="vertical-align: top;"><a
                   href="http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC">http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC</a><br>
-                Remark : ffDiaporama uses two preset h264 codecs
-                specifically designed for this program. They contain
-                different combinations of h264 parameters: High Quality
-                for "Home Cinema" devices and "Phone Quality" for mobile
-                devices. (Both preset files are placed in the same
-                directory as the binary of ffDiaporama.)<br>
+                <b>Nota</b> : ffDiaporama utiliza dos codecs h264 preestablecidos
+                 y dise&ntilde;ados espec&iacute;ficamente para este programa. Contienen
+                 diferentes combinaciones de par&aacute;metros h264: Alta Calidad
+                 para dispositivos "Home Cinema", y "Calidad de tel&eacute;fono" para dispositivos m&oacute;viles.
+                (Ambos archivos predeterminados se sit&uacute;an en el mismo
+                 directorio que el binario de ffDiaporama.)<br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top;">H264PQ</td>
-              <td style="vertical-align: top;">Phone Quality H.264
+              <td style="vertical-align: top;">Calidad tel&eacute;fono H.264
                 AVC/MPEG-4 AVC<br>
               </td>
             </tr>
@@ -123,9 +118,9 @@
           </tbody>
         </table>
       </div>
-      <h2>Audio codec </h2>
-      <div style="margin-left: 40px;"> The following table lists the
-        audio codecs which ffDiaporama can use to generate videos:<br>
+      <h2>Codec de Audio </h2>
+      <div style="margin-left: 40px;"> La siguiente tabla muestra los
+         los codecs de audio que ffDiaporama puede utilizar para generar videos:<br>
         <br>
         <table border="1" cellpadding="2" cellspacing="0">
           <tbody>
@@ -198,10 +193,10 @@
           </tbody>
         </table>
       </div>
-      <h2> Container</h2>
-      <div style="margin-left: 40px;">The following table lists the
-        containers which ffDiaporama can use to generate videos, as well
-        as the available audio and video codecs for every container:<br>
+      <h2> Contenedor</h2>
+      <div style="margin-left: 40px;">La siguiente tabla muestra los
+         contenedores que ffDiaporama puede utilizar para generar videos, as&iacute;
+         como el audio y codecs de video disponibles para cada contenedor:<br>
         <br>
         <table border="1" cellpadding="2" cellspacing="0">
           <tbody>
@@ -210,75 +205,9 @@
               </td>
               <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Nom<br>
               </td>
-              <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Codecs
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                vid&#233;o<br>
+              <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Codecs vid&#233;o<br>
               </td>
-              <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Codecs
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                Audio<br>
+              <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Codecs Audio<br>
               </td>
               <td colspan="1" rowspan="1" style="vertical-align: middle; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">WIKIPEDIA<br>
               </td>
@@ -298,7 +227,7 @@
             <tr>
               <td style="vertical-align: top;">AVI<br>
               </td>
-              <td style="vertical-align: top;">Audio Video Interleave<br>
+              <td style="vertical-align: top;">Audio Video Entrelazado<br>
               </td>
               <td style="vertical-align: top;">MJPEG, MPEG2, MPEG4,
                 H264HQ/H264PQ<br>
@@ -311,7 +240,7 @@
             <tr>
               <td style="vertical-align: top;">MKV<br>
               </td>
-              <td style="vertical-align: top;">Matroska file format<br>
+              <td style="vertical-align: top;">Formato Matroska<br>
               </td>
               <td style="vertical-align: top;">MPEG4, H264HQ/H264PQ,
                 THEORA<br>
@@ -349,7 +278,7 @@
             <tr>
               <td style="vertical-align: top;">MPEG<br>
               </td>
-              <td style="vertical-align: top;">MPEG program stream<br>
+              <td style="vertical-align: top;">MPEG stream<br>
               </td>
               <td style="vertical-align: top;">MPEG2</td>
               <td style="vertical-align: top;">MP2<br>
@@ -372,7 +301,7 @@
             <tr>
               <td colspan="1" rowspan="2" style="vertical-align: middle;">FLV<br>
               </td>
-              <td style="vertical-align: top;">Flash file format 2005<br>
+              <td style="vertical-align: top;">Formato Flash 2005<br>
               </td>
               <td style="vertical-align: top;">H263<br>
               </td>
@@ -383,7 +312,7 @@
               </td>
             </tr>
             <tr>
-              <td style="vertical-align: top;">Flash file format 2008<br>
+              <td style="vertical-align: top;">Formato Flash 2008<br>
               </td>
               <td style="vertical-align: top;">H264HQ/H264PQ</td>
               <td style="vertical-align: top;">AAC<br>
@@ -404,15 +333,16 @@
           </tbody>
         </table>
       </div>
-      <h2>See also</h2>
+      <h2>Consulta tambi&eacute;n</h2>
       <ul>
-        <li><a href="fct_001.html">Index of the ffDiaporama WIKI</a></li>
-        <li><a href="fct_009.html">Rendering videos</a></li>
-        <li><a href="fct_010.html">Videos standards and resolutions</a></li>
+        <li><a href="fct_001.html">&Iacute;ndice del WIKI de ffDiaporama</a></li>
+        <li><a href="fct_009.html">Generar Videos</a></li>
+        <li><a href="fct_010.html">Normas y resoluciones de videos</a></li>
       </ul>
       <br>
-      <hr style="width: 100%; height: 2px;">ffDiaporama 1.0 - July 2011
+      <hr style="width: 100%; height: 2px;">Proyecto ffDiaporama
     </div>
     &#160;&#160;&#160; <br>
   </body>
 </html>
+
