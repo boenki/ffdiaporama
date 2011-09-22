@@ -757,18 +757,19 @@ void DlgSlideProperties::UpdateDockInfo() {
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Aspect ratio")));
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg((double(CurrentTextItem->BackgroundBrush.Video->ImageWidth)*CurrentTextItem->BackgroundBrush.Video->AspectRatio)/double(CurrentTextItem->BackgroundBrush.Video->ImageHeight),0,'f',3)));
 
-                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Audio format")));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Video->AudioDecoderCodec->name));
+                if (CurrentTextItem->BackgroundBrush.Video->AudioDecoderCodec) {
+                    ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Audio format")));
+                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Video->AudioDecoderCodec->name));
 
-                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Frequency")));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->AudioStreamNumber]->codec->sample_rate)
-                        +" "+QApplication::translate("DlgSlideProperties","hz","audio frequency")));
-
-                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Channels")));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->AudioStreamNumber]->codec->channels)));
+                    ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Frequency")));
+                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->AudioStreamNumber]->codec->sample_rate)
+                            +" "+QApplication::translate("DlgSlideProperties","hz","audio frequency")));
+                    ui->TableInfo->insertRow(ui->TableInfo->rowCount());
+                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Channels")));
+                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->AudioStreamNumber]->codec->channels)));
+                }
             }
             ui->TableInfo->resizeColumnsToContents();
             ui->TableInfo->resizeRowsToContents();
