@@ -1,82 +1,71 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html lang="en">
+<html lang="es">
   <head>
-    <title>Defining slide transitions</title>
+    <title>Configurar las transiciones para las diapositivas</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
-        src="../../WIKI_img/Wiki.png" align="MIDDLE"> Defining slide
-      transitions </div>
+        src="../../WIKI_img/Wiki.png" align="MIDDLE"> Configurar las transiciones para las diapositivas </div>
     <div style="text-align: left;" id="content_wikimode">
-      <h2 style=""><img checked="true" style="width: 24px; height: 24px;"
-          alt="" src="../../WIKI_img/Attention.png"> Traducci&#243;n en
-        curso<br>
-      </h2>
-      <h2><span style="font-weight: bold;"></span>Introduction </h2>
-      <div style="margin-left: 40px;">The transition properties dialog
-        allows you to define the entering transition for a slide :<br>
+
+      <h2><span style="font-weight: bold;"></span>Introducci&oacute;n </h2>
+      <div style="margin-left: 40px;">La ventana de di&aacute;logo con las propiedades de transici&oacute;n
+         permite definir la transici&oacute;n de entrada para la diapositiva :<br>
         <br>
         <img checked="true" src="img/dlg_009.png"><br>
         <br>
-        This dialog is called by double-clicking the transition zone of
-        slides in the timeline of the main window.<br>
+        Esta ventana se abre haciendo doble clic en la zona de transici&aacute;n de las
+         diapositivas, en la l&iacute;nea de tiempo de la ventana principal.<br>
       </div>
-      <h2> Description of the dialog<br>
+      <h2> Descripci&oacute; de la ventana<br>
       </h2>
       <h3> </h3>
       <br>
       <table border="0" cellspacing="10">
         <tbody>
           <tr>
-            <td style="vertical-align: top;">Transition type</td>
-            <td style="vertical-align: top;">Allows you to select a
-              transition family :
+            <td style="vertical-align: top;">Transici&oacute;n tipo</td>
+            <td style="vertical-align: top;">Permite seleccionar familia de transici&oacute;n :
               <div style="margin-left: 40px;">
                 <table border="1" cellspacing="0">
                   <tbody>
                     <tr>
-                      <td style="vertical-align: top;">No transition<br>
+                      <td style="vertical-align: top;">Sin transici&oacute;n<br>
                       </td>
-                      <td style="vertical-align: top;">No transition :
-                        The new slide immediately replaces the old one.<br>
-                        Note that this also deactivates:
+                      <td style="vertical-align: top;">Sin transici&oacute;n :
+                        La nueva diapositiva  sustituye inmediatamente a la anterior. <br>
+                         Hay que tener en cuenta que esto tambi&eacute;n desactiva:
                         <ul>
-                          <li>Sound fades (The playlist of the new slide
-                            immediately replaces that of the old one) </li>
-                          <li>Background transitions<br>
+                          <li>Desvanecimiento de sonido (La lista sustituye a la antigua) </li>
+                          <li>Transiciones del fondo<br>
                           </li>
                         </ul>
                       </td>
                     </tr>
                     <tr>
-                      <td style="vertical-align: top;">Basic<br>
+                      <td style="vertical-align: top;">B&aacute;sico<br>
                       </td>
-                      <td style="vertical-align: top;">Dissolve effect :
-                        The slide appears gradually, with gradually
-                        increasing opacity. </td>
+                      <td style="vertical-align: top;">Efecto de disolver :
+                        La diapositiva aparece gradualmente, y aumenta la opacidad a medida que se muestra. </td>
                     </tr>
                     <tr>
-                      <td style="vertical-align: top;">Scripted
-                        transition<br>
+                      <td style="vertical-align: top;">Transici&oacute;n de script<br>
                       </td>
-                      <td style="vertical-align: top;">Zoom : The new
-                        slide appears by getting bigger while the old
-                        slide disappears with a dissolve effect.<br>
-                        Slide : The new slide glides onto the old slide
-                        which disappears with a dissolve effect.<br>
-                        Push : The new slide takes the place of the old
-                        slide by pushing it aside. </td>
+                      <td style="vertical-align: top;">Zoom : La nueva diapositiva aparece cada vez mayor mientras
+                         que la anterior diapositiva desaparece con un efecto de disoluci&oacute;n.<br>
+                         Deslizar : La nueva diapositiva se desliza en la diapositiva anterior
+                         que desaparece con un efecto de disoluci&oacute;n.<br>
+                         Empujar : La nueva diapositiva toma el lugar de la anterior
+                         empujandola hacia un lado. </td>
                     </tr>
                     <tr>
-                      <td style="vertical-align: top;">LUMA transition <br>
+                      <td style="vertical-align: top;">Transici&oacute;n LUMA<br>
                       </td>
-                      <td style="vertical-align: top;">The animation is
-                        based on a luminance mask : the darker the
-                        points in the mask, the faster corresponding
-                        points in the new slide take the place of those
-                        in the old slide. </td>
+                      <td style="vertical-align: top;">la animaci&oacute;n se
+                         basa en una m&aacute;scara de luminancia: la oscuridad de puntos en la m&aacute;scara
+                         corresponde a los puntos de la nueva diapositiva, que va tomando el lugar de la anterior. </td>
                     </tr>
                   </tbody>
                 </table>
@@ -84,27 +73,26 @@
             </td>
           </tr>
           <tr>
-            <td style="vertical-align: top;">Duration<br>
+            <td style="vertical-align: top;">Duraci&oacute;n<br>
             </td>
-            <td style="vertical-align: top;">Allows you to define the
-              animation duration.<br>
-              Possible choice are:
+            <td style="vertical-align: top;">Permite definir la duraci&oacute;n de la animaci&oacute;n.<br>
+              Las opciones son las siguientes:
               <ul>
-                <li>0,5 secondes (very quick)</li>
-                <li>1 seconde (normal)</li>
-                <li>2 secondes (slow)</li>
-                <li>4 secondes (very slow)</li>
+                <li>0,5 segundos (muy r&aacute;pido)</li>
+                <li>1 segundo (normal)</li>
+                <li>2 segundos (lento)</li>
+                <li>4 segundos (muy lento)</li>
               </ul>
             </td>
           </tr>
         </tbody>
       </table>
-      <h2>See also</h2>
+      <h2>Consulta tambi&eacute;n</h2>
       <ul>
-        <li><a href="fct_001.html">Index of the ffDiaporama WIKI</a></li>
-        <li><a href="fct_002.html">How ffDiaporama works</a></li>
-        <li><a href="fct_003.html">The timeline</a></li>
-        <li><a href="dlg_007.html">Defining the music track</a><br>
+        <li><a href="fct_001.html">&Iacute;ndice del WIKI de ffDiaporama</a></li>
+        <li><a href="fct_002.html">C&oacute;mo trabaja ffDiaporama</a></li>
+        <li><a href="fct_003.html">La l&iacute;a de tiempo</a></li>
+        <li><a href="dlg_007.html">Configurar la pista de sonido</a><br>
         </li>
       </ul>
       <br>
@@ -115,22 +103,13 @@
                   checked="true" style="width: 48px; height: 48px;" alt=""
                   src="../../WIKI_img/Wikipedia.png"></a><br>
               <small>WIKIPEDIA</small> </td>
-            <td style="vertical-align: middle;"><a checked="true" href="http://en.wikipedia.org/wiki/Luma_%28video%29">Description
-
-
-
-
-
-
-
-
-                of LUMA</a><br>
+            <td style="vertical-align: middle;"><a checked="true" href="http://en.wikipedia.org/wiki/Luma_%28video%29">Descripci&oacute;n de LUMA</a><br>
             </td>
           </tr>
         </tbody>
       </table>
       <br>
-      <hr style="width: 100%; height: 2px;">ffDiaporama 1.0 - August
-      2011</div>
+      <hr style="width: 100%; height: 2px;">Proyecto ffDiaporama</div>
   </body>
 </html>
+
