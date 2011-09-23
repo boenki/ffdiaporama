@@ -286,7 +286,7 @@ extern "C" {
 #define TRANSITIONMAXSUBTYPE_BASE           2
 #define TRANSITIONMAXSUBTYPE_ZOOMINOUT      18
 #define TRANSITIONMAXSUBTYPE_SLIDE          16
-#define TRANSITIONMAXSUBTYPE_PUSH           14
+#define TRANSITIONMAXSUBTYPE_PUSH           16
 
 //============================================
 // Dialogbox help file

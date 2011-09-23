@@ -1811,6 +1811,42 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
             P->drawImage(QRectF(W/2,dh,Img.width()/2,Img.height()),Img,QRectF(Img.width()/2,0,Img.width()/2,Img.height()));
         }
         break;
+    case 14 :    // 1/2 Rotating from x axis (flip)
+        dh=H/2;
+        P->drawImage(QRectF(0,0,W,dh),*Info->TransitObject_PreparedImage,QRectF(0,0,W,dh));
+        P->drawImage(QRectF(0,dh,W,dh),*Info->CurrentObject_PreparedImage,QRectF(0,dh,W,dh));
+        if (Info->TransitionPCTDone<0.5) {
+            Rotate=double(90)*(Info->TransitionPCTDone*2);
+            Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
+            dw=(double(W)-double(Img.width()))/2;
+            dh=(double(H)-double(Img.height()))/2;
+            P->drawImage(QRectF(dw,H/2,Img.width(),Img.height()/2),Img,QRectF(0,Img.height()/2,Img.width(),Img.height()/2));
+        } else {
+            Rotate=double(-90)*((1-Info->TransitionPCTDone)*2);
+            Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
+            dw=(double(W)-double(Img.width()))/2;
+            dh=(double(H)-double(Img.height()))/2;
+            P->drawImage(QRectF(dw,dh,Img.width(),Img.height()/2),Img,QRectF(0,0,Img.width(),Img.height()/2));
+        }
+        break;
+    case 15 :    // 1/2 Rotating from x axis (flip)
+        dh=H/2;
+        P->drawImage(QRectF(0,0,W,dh),*Info->CurrentObject_PreparedImage,QRectF(0,0,W,dh));
+        P->drawImage(QRectF(0,dh,W,dh),*Info->TransitObject_PreparedImage,QRectF(0,dh,W,dh));
+        if (Info->TransitionPCTDone<0.5) {
+            Rotate=double(-90)*(Info->TransitionPCTDone*2);
+            Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
+            dw=(double(W)-double(Img.width()))/2;
+            dh=(double(H)-double(Img.height()))/2;
+            P->drawImage(QRectF(dw,dh,Img.width(),Img.height()/2),Img,QRectF(0,0,Img.width(),Img.height()/2));
+        } else {
+            Rotate=double(90)*((1-Info->TransitionPCTDone)*2);
+            Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
+            dw=(double(W)-double(Img.width()))/2;
+            dh=(double(H)-double(Img.height()))/2;
+            P->drawImage(QRectF(dw,H/2,Img.width(),Img.height()/2),Img,QRectF(0,Img.height()/2,Img.width(),Img.height()/2));
+        }
+        break;
     }
 }
 
