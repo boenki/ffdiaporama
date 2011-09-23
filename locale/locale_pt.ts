@@ -2216,17 +2216,17 @@ Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="761"/>
+        <location filename="../DlgSlideProperties.cpp" line="762"/>
         <source>Audio format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="765"/>
+        <location filename="../DlgSlideProperties.cpp" line="766"/>
         <source>Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="767"/>
+        <location filename="../DlgSlideProperties.cpp" line="768"/>
         <source>hz</source>
         <comment>audio frequency</comment>
         <translation type="unfinished"></translation>
@@ -2237,34 +2237,34 @@ Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1112"/>
-        <location filename="../DlgSlideProperties.cpp" line="1687"/>
+        <location filename="../DlgSlideProperties.cpp" line="1115"/>
+        <location filename="../DlgSlideProperties.cpp" line="1690"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1478"/>
+        <location filename="../DlgSlideProperties.cpp" line="1481"/>
         <source>Remove shot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1478"/>
+        <location filename="../DlgSlideProperties.cpp" line="1481"/>
         <source>Are you sure to want to delete this shot?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1664"/>
+        <location filename="../DlgSlideProperties.cpp" line="1667"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1804"/>
+        <location filename="../DlgSlideProperties.cpp" line="1807"/>
         <source>Remove bloc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1804"/>
+        <location filename="../DlgSlideProperties.cpp" line="1807"/>
         <source>Are you sure to want to delete this bloc?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3112,15 +3112,15 @@ and help</source>
         <location filename="../_ApplicationDefinitions.cpp" line="713"/>
         <location filename="../_ApplicationDefinitions.cpp" line="718"/>
         <location filename="../_ApplicationDefinitions.cpp" line="724"/>
-        <location filename="../_Diaporama.cpp" line="1084"/>
-        <location filename="../_Diaporama.cpp" line="1126"/>
-        <location filename="../_Diaporama.cpp" line="1131"/>
-        <location filename="../_Diaporama.cpp" line="1138"/>
-        <location filename="../_Diaporama.cpp" line="1195"/>
-        <location filename="../_Diaporama.cpp" line="1201"/>
-        <location filename="../_Diaporama.cpp" line="1208"/>
-        <location filename="../_Diaporama.cpp" line="1217"/>
-        <location filename="../mainwindow.cpp" line="1132"/>
+        <location filename="../_Diaporama.cpp" line="1088"/>
+        <location filename="../_Diaporama.cpp" line="1130"/>
+        <location filename="../_Diaporama.cpp" line="1135"/>
+        <location filename="../_Diaporama.cpp" line="1142"/>
+        <location filename="../_Diaporama.cpp" line="1199"/>
+        <location filename="../_Diaporama.cpp" line="1205"/>
+        <location filename="../_Diaporama.cpp" line="1212"/>
+        <location filename="../_Diaporama.cpp" line="1221"/>
+        <location filename="../mainwindow.cpp" line="1138"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
@@ -3150,73 +3150,73 @@ and help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="654"/>
+        <location filename="../_Diaporama.cpp" line="658"/>
         <source>Title</source>
         <comment>Default slide name when no file</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1084"/>
-        <location filename="../_Diaporama.cpp" line="1085"/>
+        <location filename="../_Diaporama.cpp" line="1088"/>
+        <location filename="../_Diaporama.cpp" line="1089"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1102"/>
+        <location filename="../_Diaporama.cpp" line="1106"/>
         <source>Open project file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1103"/>
+        <location filename="../_Diaporama.cpp" line="1107"/>
         <location filename="../_ImageFileWrapper.cpp" line="77"/>
         <location filename="../_VideoFileWrapper.cpp" line="690"/>
         <source>Impossible to open file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1103"/>
+        <location filename="../_Diaporama.cpp" line="1107"/>
         <location filename="../_ImageFileWrapper.cpp" line="77"/>
         <location filename="../_VideoFileWrapper.cpp" line="690"/>
         <source>Do you want to select another file ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1106"/>
+        <location filename="../_Diaporama.cpp" line="1110"/>
         <location filename="../_ImageFileWrapper.cpp" line="80"/>
         <location filename="../_VideoFileWrapper.cpp" line="693"/>
         <source>Select another file for </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1125"/>
-        <location filename="../_Diaporama.cpp" line="1195"/>
-        <location filename="../_Diaporama.cpp" line="1196"/>
+        <location filename="../_Diaporama.cpp" line="1129"/>
+        <location filename="../_Diaporama.cpp" line="1199"/>
+        <location filename="../_Diaporama.cpp" line="1200"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1131"/>
-        <location filename="../_Diaporama.cpp" line="1132"/>
-        <location filename="../_Diaporama.cpp" line="1201"/>
-        <location filename="../_Diaporama.cpp" line="1202"/>
+        <location filename="../_Diaporama.cpp" line="1135"/>
+        <location filename="../_Diaporama.cpp" line="1136"/>
+        <location filename="../_Diaporama.cpp" line="1205"/>
+        <location filename="../_Diaporama.cpp" line="1206"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1138"/>
-        <location filename="../_Diaporama.cpp" line="1139"/>
-        <location filename="../_Diaporama.cpp" line="1208"/>
-        <location filename="../_Diaporama.cpp" line="1209"/>
+        <location filename="../_Diaporama.cpp" line="1142"/>
+        <location filename="../_Diaporama.cpp" line="1143"/>
+        <location filename="../_Diaporama.cpp" line="1212"/>
+        <location filename="../_Diaporama.cpp" line="1213"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1217"/>
-        <location filename="../_Diaporama.cpp" line="1218"/>
+        <location filename="../_Diaporama.cpp" line="1221"/>
+        <location filename="../_Diaporama.cpp" line="1222"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -3244,164 +3244,168 @@ Image geometry in this file is not the same than the current project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="66"/>
+        <location filename="../mainwindow.cpp" line="67"/>
         <source>Starting SDL...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="71"/>
+        <location filename="../mainwindow.cpp" line="72"/>
         <source>Starting ffmpeg...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="148"/>
+        <location filename="../mainwindow.cpp" line="149"/>
         <source>Registered video codecs for encoding :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="150"/>
+        <location filename="../mainwindow.cpp" line="151"/>
         <source>Registered audio codecs for encoding :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="152"/>
+        <location filename="../mainwindow.cpp" line="153"/>
         <source>Registered container formats for encoding :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="154"/>
+        <location filename="../mainwindow.cpp" line="155"/>
         <source> Device registered for rendering</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="156"/>
+        <location filename="../mainwindow.cpp" line="157"/>
         <source>Library :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="158"/>
+        <location filename="../mainwindow.cpp" line="159"/>
         <source>Loading background library...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="159"/>
+        <location filename="../mainwindow.cpp" line="160"/>
         <source> images loaded into the background-library from </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="160"/>
+        <location filename="../mainwindow.cpp" line="161"/>
         <source>Loading no-luma transitions...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="165"/>
+        <location filename="../mainwindow.cpp" line="166"/>
         <source> no-luma transitions loaded into the transition-library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="166"/>
+        <location filename="../mainwindow.cpp" line="167"/>
         <source>Loading luma transitions...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="167"/>
         <location filename="../mainwindow.cpp" line="168"/>
         <location filename="../mainwindow.cpp" line="169"/>
         <location filename="../mainwindow.cpp" line="170"/>
         <location filename="../mainwindow.cpp" line="171"/>
         <location filename="../mainwindow.cpp" line="172"/>
+        <location filename="../mainwindow.cpp" line="173"/>
         <source> luma transitions loaded into the transition-library from </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="173"/>
+        <location filename="../mainwindow.cpp" line="174"/>
         <source>  Total:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="173"/>
+        <location filename="../mainwindow.cpp" line="174"/>
         <source> transitions loaded into the transition-library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="238"/>
-        <location filename="../mainwindow.cpp" line="466"/>
+        <location filename="../mainwindow.cpp" line="239"/>
+        <location filename="../mainwindow.cpp" line="472"/>
         <source>Slide : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="351"/>
+        <location filename="../mainwindow.cpp" line="356"/>
         <source>Close application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="351"/>
-        <location filename="../mainwindow.cpp" line="768"/>
-        <location filename="../mainwindow.cpp" line="818"/>
+        <location filename="../mainwindow.cpp" line="356"/>
+        <source>Want to save the project before closing?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="774"/>
+        <location filename="../mainwindow.cpp" line="824"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="414"/>
+        <location filename="../mainwindow.cpp" line="420"/>
         <source>A new ffDiaporama release if available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="474"/>
+        <location filename="../mainwindow.cpp" line="480"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="610"/>
+        <location filename="../mainwindow.cpp" line="616"/>
         <source>Not implemented</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="610"/>
+        <location filename="../mainwindow.cpp" line="616"/>
         <source>Sorry, not yet done !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="768"/>
+        <location filename="../mainwindow.cpp" line="774"/>
         <source>New project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="818"/>
-        <location filename="../mainwindow.cpp" line="822"/>
+        <location filename="../mainwindow.cpp" line="824"/>
+        <location filename="../mainwindow.cpp" line="828"/>
         <source>Open project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="896"/>
+        <location filename="../mainwindow.cpp" line="902"/>
         <source>Save project as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="962"/>
+        <location filename="../mainwindow.cpp" line="968"/>
         <source>Add files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1132"/>
+        <location filename="../mainwindow.cpp" line="1138"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1155"/>
+        <location filename="../mainwindow.cpp" line="1161"/>
         <source>Add a sub project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1191"/>
+        <location filename="../mainwindow.cpp" line="1197"/>
         <source>Remove slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1191"/>
+        <location filename="../mainwindow.cpp" line="1197"/>
         <source>Are you sure to want to delete this slide?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3409,34 +3413,34 @@ Do you want to save-it ?</source>
 <context>
     <name>wgt_QImageFilterTransform</name>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="492"/>
-        <location filename="../cCustomComboBox.cpp" line="540"/>
-        <location filename="../cCustomComboBox.cpp" line="561"/>
-        <location filename="../cCustomComboBox.cpp" line="581"/>
+        <location filename="../cCustomComboBox.cpp" line="510"/>
+        <location filename="../cCustomComboBox.cpp" line="558"/>
+        <location filename="../cCustomComboBox.cpp" line="579"/>
+        <location filename="../cCustomComboBox.cpp" line="599"/>
         <source>Gray</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="493"/>
-        <location filename="../cCustomComboBox.cpp" line="541"/>
-        <location filename="../cCustomComboBox.cpp" line="562"/>
-        <location filename="../cCustomComboBox.cpp" line="582"/>
+        <location filename="../cCustomComboBox.cpp" line="511"/>
+        <location filename="../cCustomComboBox.cpp" line="559"/>
+        <location filename="../cCustomComboBox.cpp" line="580"/>
+        <location filename="../cCustomComboBox.cpp" line="600"/>
         <source>Equalize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="494"/>
-        <location filename="../cCustomComboBox.cpp" line="542"/>
-        <location filename="../cCustomComboBox.cpp" line="563"/>
-        <location filename="../cCustomComboBox.cpp" line="583"/>
+        <location filename="../cCustomComboBox.cpp" line="512"/>
+        <location filename="../cCustomComboBox.cpp" line="560"/>
+        <location filename="../cCustomComboBox.cpp" line="581"/>
+        <location filename="../cCustomComboBox.cpp" line="601"/>
         <source>Despeckle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="495"/>
-        <location filename="../cCustomComboBox.cpp" line="543"/>
-        <location filename="../cCustomComboBox.cpp" line="564"/>
-        <location filename="../cCustomComboBox.cpp" line="584"/>
+        <location filename="../cCustomComboBox.cpp" line="513"/>
+        <location filename="../cCustomComboBox.cpp" line="561"/>
+        <location filename="../cCustomComboBox.cpp" line="582"/>
+        <location filename="../cCustomComboBox.cpp" line="602"/>
         <source>No transformation</source>
         <translation type="unfinished"></translation>
     </message>

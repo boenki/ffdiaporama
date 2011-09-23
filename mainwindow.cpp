@@ -353,7 +353,7 @@ void MainWindow::closeEvent(QCloseEvent *Event) {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if (Diaporama->IsModify) {
-        int Bt=QMessageBox::question(this,QApplication::translate("MainWindow","Close application"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
+        int Bt=QMessageBox::question(this,QApplication::translate("MainWindow","Close application"),QApplication::translate("MainWindow","Want to save the project before closing?"),
         QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes);
         if (Bt==QMessageBox::Yes) s_action_Save();
         if (Bt==QMessageBox::Cancel) {
