@@ -1,55 +1,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html lang="en">
+<html>
   <head>
-    <title>Framing and correction of images or videos</title>
+    <title>Inquadramento e correzione delle immagini o dei video</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="banner_wikimode"><img style="width: 48px; height: 48px;" checked="true"
-        src="../../img/EditImage.png" align="MIDDLE"> Framing and
-      correction of images or videos<br>
-    </div>
+        src="../../img/EditImage.png" align="MIDDLE"> Inquadramento e
+      correzione delle immagini o dei video</div>
     <div style="text-align: left;" id="content_wikimode">
-      <h2 style=""><img checked="true" style="width: 24px; height: 24px;"
-          alt="" src="../../WIKI_img/Attention.png"> Traduzione in corso<br>
-      </h2>
-      <h2 style="">Introduction</h2>
-      <div style="margin-left: 40px;">The Image framing and correction
-        dialog allows several actions : </div>
+      <h2 style="">Introduzione</h2>
+      <div style="margin-left: 40px;">La finestra di inquadramento e
+        correzione immagini permette diverse azioni: </div>
       <ul style="margin-left: 40px;">
-        <li>Image framing (selecting a part of the image). </li>
-        <li>Image rotation (changing or restoring the orientation
-          (portrait/landscape)). </li>
-        <li>Image correction (changing the color and/or exposure
-          parameters). </li>
+        <li>Inquadratura immagine&#160; (selezionare una parte
+          dell'immagine).</li>
+        <li>Rotazione delle immagini (cambiare o ripristinare
+          l'orientamento (verticale/orizzontale)).</li>
+        <li>Correzione delle immagini (cambiare il colore e/o parametri
+          di esposizione).</li>
       </ul>
-      <div style="margin-left: 40px;">The image settings are per shot.
-        This means that every shot has its own settings and the path
-        from one shot to another defines a path from one group of
-        settings to another, creating a shot animation: it's a
-        &#8220;Ken Burns&#8221; effect. Here are some possibilities:
+      <div style="margin-left: 40px;">Le impostazioni dell'immagine sono
+        per diapositiva. Questo significa che ogni diapositiva ha le
+        proprie impostazioni e il percorso da un'inquadratura all'altra
+        definisce un percorso da un gruppo di impostazioni ad un altro,
+        creando una animazione: si tratta dell'effetto "Ken Burns". Ecco
+        alcune possibilit&#224;:
         <ul>
-          <li>Zooming in on a portion of the image </li>
-          <li>Scrolling of a portion from one image to another </li>
-          <li>Brightening or darkening of a portion of the image </li>
-          <li>etc...<br>
+          <li>Ingrandimento di una porzione d'immagine</li>
+          <li>Scorrimento da una parte all'altra di una immagine</li>
+          <li>Schiarimento o oscuramento di una parte dell'immagine</li>
+          <li>ecc...<br>
           </li>
         </ul>
-        This dialog is called by two other dialogs when you click the
-        button <img checked="true" style="width: 16px; height: 16px;" src="../../img/EditImage.png">
-        :
-        <ul>
-          <li>From <a href="dlg_003.html">the slide properties dialog
-              box</a></li>
-          <li>From <a href="dlg_004.html">the background properties
-              dialog box</a> </li>
-        </ul>
-      </div>
-      <h2> Description of the dialog <br>
-      </h2>
-      <h3 style="margin-left: 40px;">Framing<br>
-      </h3>
+        Questa finestra&#160;&#232; richiamata <a href="dlg_003.html">dalla
+          finestre delle propiet&#224; diapositiva</a> quando si fa
+        click sul pulsante <img checked="true" style="width: 16px; height: 16px;"
+          src="../../img/EditImage.png"> . </div>
+      <h2> Descrizione della finestra&#160; </h2>
+      <h3 style="margin-left: 40px;"> Inquadratura </h3>
       <h3> </h3>
       <div style="margin-left: 40px;">
         <table style="width: 100%;" border="0">
@@ -57,168 +47,181 @@
             <tr>
               <td style="vertical-align: top;"><img alt="" src="img/dlg_005.png"><br>
               </td>
-              <td style="vertical-align: top;">The framing of an image
-                is defined by 5 values:<br>
+              <td style="vertical-align: top;">L'inquadratura di una
+                immagine &#232; definita di 5 valori:<br>
                 <ul>
                   <li><img checked="true" alt="" src="../../img/PosSize_X.png">
-                    The horizontal position from the left (X). This
-                    position is expressed as a percentage (%) of the
-                    width of the image.<br>
-                    Example: if X=25 % then the 1st quarter to the left
-                    of the image is eliminated.<br>
+                    La posizione orizzontale da sinistra (X). Questa
+                    posizione &#232; espressa in percentuale (%) della
+                    larghezza dell'immagine.<br>
+                    Esempio: se X=25 %&#160; il 1&#176; quarto a
+                    sinistra dell'immagine viene eliminata.<br>
                     <br>
                   </li>
                   <li><img checked="true" alt="" src="../../img/PosSize_Y.png">
-                    The vertical position from the top of the image ( Y
-                    ). This position is expressed as a percentage (%) of
-                    the height of the image.<br>
-                    Example: if Y=25 % the 1st quarter at the top of the
-                    image is eliminated.<br>
+                    La posizione verticale dalla parte superiore
+                    dell'immagine ( Y ). Questa posizione &#232;
+                    espressa in percentuale (%) dell'altezza
+                    dell'immagine.<br>
+                    Esempio: se Y=25 % il 1&#176; quarto superiore
+                    dell'immagine viene eliminato.<br>
                     <br>
                   </li>
                   <li><img checked="true" alt="" src="../../img/PosSize_Width.png">
-                    The width. This value is expressed as a percentage
-                    (%) of the original width of the image.<br>
-                    Example: if Width=33 %, the re-framed image will
-                    represent 1/3 of the original.<br>
+                    L a larghezza. Questo valore &#232; espresso in
+                    percentuale (%) della larghezza originale
+                    dell'immagine.<br>
+                    Esempio: se Larghezza=33 %, L'immagine elaborata
+                    rappresenter&#224; 1/3 di quella originale.<br>
                     <br>
                   </li>
                   <li><img checked="true" alt="" src="../../img/PosSize_Height.png">
-                    The height. This value is expressed as a percentage
-                    (%) of the original height of the image.<br>
-                    Example: if Height=33 %, the re-framed image will
-                    represent 1/3 of the original.<br>
+                    L'Altezza. Questo valore &#232; espresso in
+                    percentuale (%) dell'altezza dell'immagine
+                    originale.<br>
+                    Esempio: se Altezza=33 %, L'immagine elaborata
+                    rappresenter&#224; 1/3 di quella originale.<br>
                     <br>
                   </li>
                   <li><img checked="true" alt="" src="../../img/RotateZ.png">
-                    The rotation angle for the z axis. This position is
-                    expressed in degrees.<br>
-                    Example: if Rotation=90&#176;, the image is turned
-                    by a quarter to the right. </li>
+                    L'angolo di rotazione per l'asse z. Questa posizione
+                    &#232; espressa in gradi.<br>
+                    Esempio: se Rotazione=90&#176;, l'immagine viene
+                    girata di un quarto a destra.</li>
                 </ul>
               </td>
             </tr>
           </tbody>
         </table>
         <br>
-        You can use the + and - buttons in each input field to change
-        the settings, or directly enter values for the five parameters.<br>
-        Alternatively, you can use the interactive zone to set the
-        framing with the mouse or the keyboard.<br>
+        E' possibile utilizzare i pulsanti + e - in ogni campo di input
+        per modificare le impostazioni, o digitare direttamente i valori
+        per i cinque parametri .<br>
+        In alternativa, &#232; possibile utilizzare la zona interattiva
+        per impostare l'inquadratura con il mouse o la tastiera.<br>
         <br>
-        With the mouse:<br>
+        Con il mouse:<br>
         <ul>
-          <li>Click one of the handles and, with the mouse button down,
-            drag the mouse to modify the size (to increase or reduce the
-            part of the image to be kept). </li>
-          <li>Click the image and, with the mouse button down, drag the
-            mouse to modify the part of the image which will be kept.</li>
+          <li>Fare click su uno dei manici con il pulsante del mouse,
+            trascinarlo per modificare la dimensione (per aumentare o
+            ridurre la parte dell'immagine da mantenere).</li>
+          <li>Fare click sull'immagine&#160; con il pulsante del mouse e
+            trascinare&#160; per modificare la parte dell'immagine che
+            sar&#224; mantenuta.</li>
         </ul>
-        With the keyboard:<br>
+        Con la tastiera:<br>
         <ul>
-          <li>Use the arrows to move the part of the image which will be
-            kept. </li>
-          <li>Use SHIFT+arrows to move the upper left corner handle or
-            CTRL+arraows to move the lower right corner handle, to
-            change the size of the part of the image which will be kept.
-          </li>
+          <li>Utilizzare le frecce per spostare la parte dell'immagine
+            che sar&#224; mantenuta.</li>
+          <li>Utilizzare SHIFT + frecce per spostare la maniglia in alto
+            a sinistra o CTRL + freccie per spostare la maniglia in
+            basso a destra, per modificare le dimensioni della parte
+            dell'immagine che sar&#224; mantenuta.</li>
         </ul>
-        Note: when the image does not correspond to the geometry of the
-        video to be produced, transparent zones appear. For example: an
-        4:3 image used in a 16:9 project will be shown by default with a
-        transparent zone on each side.<br>
+        Nota : quando l'immagine non corrisponde alla geometria del
+        video da produrre, zone trasparenti appariranno. Per esempio: un
+        immagine 4:3 utilizzata in un progetto 16:09 verr&#224; mostrata
+        di default con una zona trasparente su ogni lato.<br>
         <br>
-        The following buttons help in image framing:<br>
+        I seguenti pulsanti aiutano nella definizione dell'immagine :<br>
         <table border="1" cellpadding="2" cellspacing="0">
           <tbody>
             <tr>
               <td style="vertical-align: top; text-align: left;"><img checked="true"
                   style="width: 16px; height: 16px;" src="../../img/ruler_ok.png"><br>
               </td>
-              <td style="vertical-align: top; text-align: left;">Enable
-                or disable the magnetic rulers: When rulers are enabled,
-                the mouse will automatically be attracted to the edges
-                of the photo, facilitating the framing.</td>
+              <td style="vertical-align: top; text-align: left;">
+                Attivare o disattivare i righelli magnetici: quando i
+                righelli sono abilitati, il puntatore del mouse
+                sar&#224; automaticamente attratto ai bordi della foto ,
+                facilitando l'inquadratura .</td>
             </tr>
             <tr>
               <td style="vertical-align: top; text-align: left;"><img checked="true"
                   style="width: 16px; height: 16px;" src="../../img/AdjustW.png"><br>
               </td>
-              <td style="vertical-align: top; text-align: left;">Set the
-                framing automatically to the width of the image. If the
-                image is too tall for the frame, the high and low parts
-                will be cut. </td>
+              <td style="vertical-align: top; text-align: left;">
+                Impostare l'inquadratura automatica per la larghezza
+                dell'immagine. Se l'immagine &#232; troppo larga
+                rispetto al fotogramma, le parti a destra e sinistra
+                saranno tagliate. </td>
             </tr>
             <tr>
               <td style="vertical-align: top; text-align: left;"><img checked="true"
                   style="width: 16px; height: 16px;" src="../../img/AdjustH.png"></td>
-              <td style="vertical-align: top; text-align: left;">Set the
-                framing automatically to the height of the image. If the
-                image is too wide for the frame, the right and left
-                parts will be cut.</td>
+              <td style="vertical-align: top; text-align: left;">
+                Impostare l'inquadratura automatica per l'altezza
+                dell'immagine. Se l'immagine &#232; troppo alta rispetto
+                al fotogramma, le parti alte e basse saranno tagliate.</td>
             </tr>
             <tr>
               <td style="vertical-align: top; text-align: left;"><img checked="true"
                   style="width: 16px; height: 16px;" src="../../img/AdjustWH.png"><br>
               </td>
-              <td style="vertical-align: top; text-align: left;">Set the
-                framing automatically to the diagonal of the image. The
-                framing is adjusted in such a way that the image is
-                fully seen.</td>
+              <td style="vertical-align: top; text-align: left;">
+                Impostare l'inquadratura automatica alla diagonale
+                dell'immagine. L'inquadratura &#232; regolata in modo
+                tale che l'immagine &#232; pienamente visibile.</td>
             </tr>
             <tr>
               <td style="vertical-align: top; text-align: left;"><img checked="true"
                   style="width: 16px; height: 16px;" src="../../img/rotationg.png"><br>
               </td>
-              <td style="vertical-align: top; text-align: left;">Turn
-                the image to the left (to the nearest multiple of
-                90&#176;). </td>
+              <td style="vertical-align: top; text-align: left;">
+                Ruotare l'immagine a sinistra (al pi&#249; vicino
+                multiplo di 90&#176;). </td>
             </tr>
             <tr>
               <td style="vertical-align: top; text-align: left;"><img checked="true"
                   style="width: 16px; height: 16px;" src="../../img/rotationd.png"></td>
-              <td style="vertical-align: top; text-align: left;">Turn
-                the image to the right (to the nearest multiple of
-                90&#176;).</td>
+              <td style="vertical-align: top; text-align: left;">
+                Ruotare l'immagine a destra (al pi&#249; vicino multiplo
+                di 90 &#176;).</td>
             </tr>
           </tbody>
         </table>
-        <h3>Image correction</h3>
-        Image correction allows you to brighten or darken the image to
-        correct the following three values:
+        <h3>Correzione immagine <br>
+        </h3>
+        La correzione immagini consente di schiarire o scurire
+        l'immagine per correggere i seguenti tre valori:
         <ul>
-          <li>Luminosity<br>
+          <li>Luminosit&#224;<br>
           </li>
-          <li>Contrast<br>
+          <li>Contrasto<br>
           </li>
           <li>Gamma<br>
           </li>
         </ul>
-        Image correction also allows you to modify the coloring of an
-        image by changing the strength of the primary colors:<br>
+        La correzione immagini consente anche di modificare il colore di
+        un'immagine modificando la tonalit&#224; dei colori primari:<br>
         <br>
-        For example:<br>
+        Per esempio:<br>
         <ul>
-          <li>Red : Reducing the red component makes the image more
-            yellow - increasing it makes make the image more blue </li>
-          <li>Green : Reducing the green component makes the image more
-            red - increasing it makes the image more green</li>
-          <li>Blue : Reducing the green component makes the image more
-            red - increasing it makes the image more blue</li>
+          <li>Rosso : Ridurre la componente rossa rende l'immagine
+            pi&#249; gialla - aumentandola&#160; rende l'immagine
+            pi&#249; blu</li>
+          <li>Verde : Ridurre la componente verde rende l'immagine
+            pi&#249; rossa - aumentandola rende l'immagine pi&#249;
+            verde</li>
+          <li>Blu : Ridurre la componente verde rende l'immagine
+            pi&#249; rossa - aumentandola rende l'immagine pi&#249; blu</li>
         </ul>
-        All the combinations are possible. For example: you can increase
-        the red and reduce the green at the same time.<br>
-        The results depend on the initial strength of the primary color
-        components of the source image.<br>
+        Tutte le combinazioni sono possibili. Per esempio: &#232;
+        possibile aumentare il rosso&#160; e ridurre allo stesso tempo
+        il verde .<br>
+        I risultati dipendono dalla forza iniziale dei colori primari
+        dell'immagine sorgente.<br>
         <br>
-        Remark : For all correction settings, the <img alt="" src="../../img/undo.png">
-        button allows the value to be reset to zero. </div>
+        Osservazione: Per tutte le impostazioni di correzione, il
+        pulsante <img alt="" src="../../img/undo.png"> permette
+        di&#160; azzerare il valore .</div>
       <h2>See also <br>
       </h2>
       <ul>
-        <li><a checked="true" href="fct_001.html">Index of the
-            ffDiaporama WIKI</a> </li>
-        <li><a href="fct_002.html">How ffDiaporama works</a></li>
+        <li><a checked="true" href="fct_001.html">Indice del WIKI
+            ffDiaporama</a> </li>
+        <li><a checked="true" href="fct_002.html">Come lavora
+            ffDiaporama</a></li>
       </ul>
       <br>
       <table border="0" cellpadding="0" cellspacing="10">
@@ -228,7 +231,7 @@
                   checked="true" style="width: 48px; height: 48px;" alt=""
                   src="../../WIKI_img/Wikipedia.png"></a><br>
               <small>WIKIPEDIA</small> </td>
-            <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Ken_Burns_effect">Ken
+            <td style="vertical-align: top;"><a checked="true" href="http://en.wikipedia.org/wiki/Ken_Burns_effect">Effetto
 
 
 
@@ -237,14 +240,12 @@
 
 
 
-
-                Burns effects </a><br>
+                Ken Burns </a><br>
             </td>
           </tr>
         </tbody>
       </table>
       <br>
-      <hr style="width: 100%; height: 2px;">ffDiaporama 1.0 - August
-      2011</div>
+      <hr style="width: 100%; height: 2px;">ffDiaporama 1.0 </div>
   </body>
 </html>

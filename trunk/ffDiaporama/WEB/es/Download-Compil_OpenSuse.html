@@ -1,62 +1,61 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html lang="en">
+<html lang="es">
   <head>
-    <title>Make ffDiaporama for OpenSuse</title>
+    <title>Compilar ffDiaporama para openSUSE</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <div id="banner_wikimode"><img checked="true" style="height: 48px;"
-        src="../../WEB_img/opensuse.png" align="MIDDLE"> Make
-      ffDiaporama for OpenSuse</div>
+    <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
+        src="../../WEB_img/opensuse.png" align="MIDDLE"> Compilar
+      ffDiaporama para openSUSE</div>
     <div style="text-align: left;" id="content_wikimode">
-      <h2 style=""><img checked="true" style="width: 24px; height: 24px;"
-          alt="" src="../../WIKI_img/Attention.png"> Traducci&#243;n en
-        curso<br>
-      </h2>
-      <h2>Installation of requirements</h2>
-      <h3 style="margin-left: 40px;">Execution requirements:</h3>
-      <div style="margin-left: 40px;">Before compiling ffDiaporama, be
-        sure that you have all the necessary packages for its execution.<br>
+      <h2>Instalaci&#243;n de dependencias</h2>
+      <h3 style="margin-left: 40px;">Dependencias para ejecutar
+        ffDiaporama:</h3>
+      <div style="margin-left: 40px;">Antes de compilar ffDiaporama,
+        aseg&#250;rate que tienes todos los paquetes necesarios.<br>
         <br>
-        For that, open open a terminal and enter the following commands:<br>
+        Para ello, abrimos un terminal y escribimos los siguientes
+        comandos:<br>
         <br>
         <div style="margin-left: 20px;" class="codebox">
           <pre>zypper in libqt4 libQtWebKit4 ffmpeg libSDL-1_2-0 libSDL_mixer-1_2-0 exiv2<code></code><code>
-</code></pre></div>
+          </code></pre>
+        </div>
       </div>
-      <h3 style="margin-left: 40px;">Compiling requirements :<br>
+      <h3 style="margin-left: 40px;">Dependencias para compilar
+        ffDiaporama :<br>
       </h3>
       <h4 style="margin-left: 40px;"> </h4>
-      <div style="margin-left: 40px;">Before compiling ffDiaporama, be
-        sure that you have all the necessary packages for the
-        compilation. For that open open a terminal and enter the
-        following commands:<br>
+      <div style="margin-left: 40px;">Antes de compilar ffDiaporama,
+        aseg&#250;rate que tienes todos los paquetes necesarios para
+        compilar. <br>
+        Para ello, abre un terminal y escribe los siguientes comandos:<br>
         <br>
         <div style="margin-left: 20px;" class="codebox">
           <pre>zypper in libqt4-devel libQtWebKit-devel libffmpeg-devel libSDL-devel libSDL_mixer-devel wget<code></code><code></code></pre>
         </div>
       </div>
-      <h2>Make ffDiaporama</h2>
-      <div style="margin-left: 40px;">Once installed requirements, to
-        open a terminal and to enter the following commands:<br>
+      <h2>Construir ffDiaporama</h2>
+      <div style="margin-left: 40px;">Una vez instaladas todas las
+        dependencias, abrir un terminal y escribir los siguientes
+        comandos:<br>
         <br>
         <div style="margin-left: 20px;" class="codebox">
-          <pre><code>cd ~<br>mkdir ffDiaporama<br>cd ffDiaporama<br>wget -O ffDiaporama.tar.gz http://svn.tuxfamily.org/viewvc.cgi/ffdiaporama_trunk.tar.gz?view=tar<br>tar -xzf ffDiaporama.tar.gz<br>rm ffDiaporama.tar.gz<br>cd ffdiaporama_trunk/ffDiaporama<br>qmake-qt4<br>make<br>make clean</code></pre>
+          <pre><code>cd ~<br>mkdir ffDiaporama<br>cd ffDiaporama<br>wget -O ffDiaporama.tar.gz http://svn.tuxfamily.org/viewvc.cgi/ffdiaporama_trunk.tar.gz?view=tar<br>tar -xzf ffDiaporama.tar.gz<br>rm ffDiaporama.tar.gz<br>cd ffdiaporama_trunk/ffDiaporama<br>qmake<br>make<br>make clean</code></pre>
         </div>
         <br>
-        The compilation result is placed in the directory
-        ~/ffDiaporama/ffdiaporama_trunk/build<br>
+        El resultado, una vez compilado ffDiaporama, se encontrar&#225;
+        en <i>~/ffDiaporama/ffdiaporama_trunk/build</i><br>
       </div>
-      <h2>Start ffDiaporama</h2>
-      <div style="margin-left: 40px;">Enter the command :
-        ~/ffDiaporama/ffDiaporama_trunk/build/ffDiaporama<br>
-        or start ffDiaporama with the file explorer since the directory
-        ~/ffDiaporama/ffDiaporama_trunk/build</div>
+      <h2>Lanzar ffDiaporama</h2>
+      <div style="margin-left: 40px;">Introducir el comando : <i>~/ffDiaporama/ffDiaporama_trunk/build/ffDiaporama</i>,<br>
+        o bien ejecutar ffDiaporama navegando al directorio <i>~/ffDiaporama/ffDiaporama_trunk/build</i>,<br>
+        y entonces hacer click en el ejecutable <i>ffDiaporama</i></div>
       <ul style="margin-left: 40px;">
       </ul>
       <br>
-      <hr style="width: 100%; height: 2px;">&#169; The ffDiaporama
-      Project</div>
+      <hr style="width: 100%; height: 2px;">&#169; Proyecto ffDiaporama</div>
   </body>
 </html>

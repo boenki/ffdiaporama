@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ffDiaporama"
-#define MyAppVersion "1.0.beta.4"
+#define MyAppVersion "1.0"
 #define MyAppPublisher "The ffDiaporama Team"
 #define MyAppURL "http://ffdiaporama.tuxfamily.org"
 #define MyAppExeName "ffDiaporama.exe"
@@ -34,8 +34,8 @@ VersionInfoProductName={#MyAppName}
 VersionInfoTextVersion={#MyAppName} {#MyAppVersion}
 VersionInfoCompany={#MyAppPublisher}
 ChangesAssociations=true
-VersionInfoVersion=0.99.4.4
-VersionInfoProductVersion=0.99.4.4
+VersionInfoVersion=1.0.0.0
+VersionInfoProductVersion=1.0.0.0
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

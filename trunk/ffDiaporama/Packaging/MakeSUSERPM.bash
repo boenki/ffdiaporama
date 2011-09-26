@@ -9,7 +9,7 @@ wget -O ffDiaporama.tar.gz http://svn.tuxfamily.org/viewvc.cgi/ffdiaporama_trunk
 tar -xzf ffDiaporama.tar.gz
 rm ffDiaporama.tar.gz
 cd ffdiaporama_trunk
-cp ffDiaporama/Packaging/ffDiaporama.SPEC ~/rpmbuild/SPECS
+cp ffDiaporama/Packaging/ffDiaporama-SUSE.SPEC ~/rpmbuild/SPECS/ffDiaporama.SPEC
 cp ffDiaporama/img/logo.xpm ~/rpmbuild/SOURCES
 rm -Rf ffDiaporama/Packaging
 rm ffDiaporama/locale/*.ts
