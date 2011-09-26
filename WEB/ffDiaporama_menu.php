@@ -56,7 +56,7 @@
 		  else echo "Download";
 		?></a>
 	&nbsp;&nbsp;
-	<a href="Support.php"> <img style="border: 0px solid ; width: 24px; height: 24px;" alt="" src="../img/help.png">
+	<a href="fct_001.html"> <img style="border: 0px solid ; width: 24px; height: 24px;" alt="" src="../img/help.png">
 		<?php
 		  $locale=$_SERVER['PHP_SELF'];
 		  if (strpos($locale,"/fr/")     !== false) echo "Aide";

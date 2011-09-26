@@ -16,3 +16,4 @@ tar -czf ../ffdiaporama_1.0.0.orig.tar.gz *
 mv ffdiaporama-1.0.0 ~/debbuild/SOURCES/ffdiaporama-1.0.0
 cd ../ffdiaporama-1.0.0
 debuild -b --lintian-opts -i
+

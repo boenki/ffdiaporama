@@ -1,58 +1,59 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html lang="en">
+<html lang="es">
   <head>
-    <title>Make ffDiaporama for Windows</title>
+    <title>Compilar ffDiaporama para Windows</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
-        src="../../WEB_img/Windows7.png" align="MIDDLE"> Make
-      ffDiaporama for Windows</div>
+        src="../../WEB_img/Windows7.png" align="MIDDLE"> Compilar
+      ffDiaporama para Windows</div>
     <div style="text-align: left;" id="content_wikimode">
-      <h2 style=""><img checked="true" style="width: 24px; height: 24px;"
-          alt="" src="../../WIKI_img/Attention.png"> Traducci&#243;n en
-        curso<br>
-      </h2>
-      <h2>Installation of requirements</h2>
-      <div style="margin-left: 40px;">FfDiaporama is written in Qt and
-        uses two external library.<br>
-        To compile it you have to have Qt-Creator release 4.7.3, ffmpeg
-        and SDL. </div>
+      <h2>Instalaci&#243;n de dependencias</h2>
+      <div style="margin-left: 40px;">FfDiaporama est&#225; escrito en <b>Qt</b>
+        y utiliza dos bibliotecas externas.<br>
+        Para compilarlo hay que tener <b>Qt-Creador</b> versi&#243;n
+        4.7.3, <b>ffmpeg</b> y <b>SDL</b>. </div>
       <div style="margin-left: 40px;">
-        <h3> Qt for Windows: </h3>
+        <h3> Qt para Windows: </h3>
       </div>
-      <div style="margin-left: 80px;">Download page : <a href="http://qt.nokia.com/downloads">http://qt.nokia.com/downloads</a><br>
-        Click on <strong>Qt SDK version 1.1.1 </strong>- in fact <a href="http://get.qt.nokia.com/qtsdk/Qt_SDK_Win_offline_v1_1_1_en.exe">http://get.qt.nokia.com/qtsdk/Qt_SDK_Win_offline_v1_1_1_en.exe</a><br>
-        Start the .exe file and install all. </div>
-      <h3 style="margin-left: 40px;">librairies ffmpeg pour Windows</h3>
-      <div style="margin-left: 80px;">Download page : <a href="http://hawkeye.arrozcru.org/">http://hawkeye.arrozcru.org/</a><br>
-        Get the more up to date release in the 32-bit Builds (Static),
-        32-bit Builds (Shared) and 32-bit Builds (Dev) sections<br>
-        Unzip the 3 .7z file :<br>
+      <div style="margin-left: 80px;">Sitio de descargas : <a href="http://qt.nokia.com/downloads">http://qt.nokia.com/downloads</a><br>
+        Selecccionar <strong>Qt SDK version 1.1.1 </strong>- en
+        concreto <a href="http://get.qt.nokia.com/qtsdk/Qt_SDK_Win_offline_v1_1_1_en.exe">http://get.qt.nokia.com/qtsdk/Qt_SDK_Win_offline_v1_1_1_en.exe</a><br>
+        Ejecutar el archivo <b><i>.exe</i></b> e instalarlo. </div>
+      <h3 style="margin-left: 40px;">librer&#237;as ffmpeg para Windows</h3>
+      <div style="margin-left: 80px;">Sitio de descargas : <a href="http://ffmpeg.zeranoe.com/builds/">http://ffmpeg.zeranoe.com/builds/</a><br>
+        Obtener la versi&#243;n m&#225;s actualizada en las secciones: <b>32-bit
+          Builds (Static)</b>, <b>32-bit Builds (Shared)</b> y <b>32-bit
+          Builds</b><br>
+        Descomprimir los siguientes 3 archivos <b>.7z</b> :<br>
         <ul>
-          <li>32-bit Builds (Static) in a sub directory ffmpeg under
+          <li>32-bit Builds (Static) en un subdirectorio ffmpeg bajo
             winbuild</li>
-          <li>Copy .dll file from 32-bit Builds (Shared) in the winbuild
-            folder </li>
-          <li> 32-bit Builds (Dev) in a sub directory under QT
+          <li>Copiar archivos .dll de 32-bit Builds (Shared) en el
+            directorio winbuild </li>
+          <li> 32-bit Builds (Dev) en un subdirectorio bajo QT
             (C:\Qt\ffmpeg-win32-dev)</li>
         </ul>
       </div>
-      <h3 style="margin-left: 40px;">SDL for Windows:</h3>
-      <div style="margin-left: 80px;">Download page : <a href="http://www.libsdl.org/download-1.2.php">http://www.libsdl.org/download-1.2.php</a><br>
-        Get the more up to date Mingw release in the "Development
-        Libraries for Windows" section - in fact : <a href="http://www.libsdl.org/release/SDL-devel-1.2.14-mingw32.tar.gz">http://www.libsdl.org/release/SDL-devel-1.2.14-mingw32.tar.gz</a><br>
-        Unzip the .7z file rather in your Qt directory. </div>
-      <h3 style="margin-left: 40px;">Download ffDiaporama sources:</h3>
-      <div style="margin-left: 80px;">File to download : <a href="http://svn.tuxfamily.org/viewvc.cgi/ffdiaporama_trunk.tar.gz?view=tar">http://svn.tuxfamily.org/viewvc.cgi/ffdiaporama_trunk.tar.gz?view=tar</a><br>
-        Unzip the .tar.gz file in a directory </div>
-      <h3 style="margin-left: 40px;">Modification of ffDiaporama.pro
-        file: </h3>
-      <div style="margin-left: 80px;">You have to modify the
-        ffDiaporama.pro file to indicate in which directory you put
-        ffmpeg and SDL.<br>
-        In the ffDiaporama.pro file, modify this block :<br>
+      <h3 style="margin-left: 40px;">SDL para Windows:</h3>
+      <div style="margin-left: 80px;">Sitios de descargas : <a href="http://www.libsdl.org/download-1.2.php">http://www.libsdl.org/download-1.2.php</a><br>
+        Obtener la versi&#243;n m&#225;s actualizada de <b>Mingw</b> en
+        la secci&#243;n "Librer&#237;as de desarrollo para Windows"- en
+        concreto : <a href="http://www.libsdl.org/release/SDL-devel-1.2.14-mingw32.tar.gz">http://www.libsdl.org/release/SDL-devel-1.2.14-mingw32.tar.gz</a><br>
+        Descomprimir los siguientes archivos <b>.7z</b> en el
+        directorio <b>Qt</b>. </div>
+      <h3 style="margin-left: 40px;">Descargar el c&#243;digo fuente de
+        ffDiaporama:</h3>
+      <div style="margin-left: 80px;">Descargar el archivo: <a href="http://svn.tuxfamily.org/viewvc.cgi/ffdiaporama_trunk.tar.gz?view=tar">http://svn.tuxfamily.org/viewvc.cgi/ffdiaporama_trunk.tar.gz?view=tar</a><br>
+        Descomprimir el archivo <b>.tar.gz</b> en un directorio </div>
+      <h3 style="margin-left: 40px;">Modificaciones en el archivo
+        ffDiaporama.pro: </h3>
+      <div style="margin-left: 80px;">Hay que modificar el archivo
+        ffDiaporama.pro para indicar en qu&#233; directorios est&#225;n
+        ffmpeg y SDL. En el archivo de ffDiaporama.pro, modificar este
+        bloque :<br>
         <br>
         <div style="margin-left: 20px;" class="codebox">
           <pre><code>win32 { <br>  DESTDIR     += ../winbuild/ <br>  OBJECTS_DIR += ../winbuild/ <br>  MOC_DIR     += ../winbuild/ <br>  UI_DIR      += ../winbuild/<br><br>  INCLUDEPATH += . \<br>    <span
@@ -62,16 +63,16 @@ style="color: yellow;">C:\Qt\ffmpeg-win32-dev\</span>lib" \               #-----
 style="color: yellow;">C:\Qt\SDL-1.2.14\</span>lib" \                     #------ SDL library path<br>          -lavformat -lavcodec -lavutil -lswscale -lSDL <br>} </code></pre>
         </div>
         <br>
-        The lines in yellow corresponds to directories to be modified. </div>
-      <h2>Make ffDiaporama</h2>
-      <div style="margin-left: 40px;">You do not have more than to start
-        Qt-Creator, to open the ffDiaporama.pro file and to start the
-        compilation. </div>
-      <h2>Start ffDiaporama</h2>
-      <div style="margin-left: 40px;">Double click on ffDiaporama.exe
-        since the ffDiaporama\winbuild directory<br>
+        Las l&#237;neas escritas en amarillo corresponden a los
+        directorios que se han de modificar. </div>
+      <h2>Construir ffDiaporama</h2>
+      <div style="margin-left: 40px;">Hay que ejecutar <b>Qt-Creator</b>,
+        abrir el archivo ffDiaporama.pro e iniciar la compilaci&#243;n.
       </div>
-      <hr style="width: 100%; height: 2px;">&#169; The ffDiaporama
-      Project</div>
+      <h2>Lanzar ffDiaporama</h2>
+      <div style="margin-left: 40px;">Doble click en <b>ffDiaporama.exe</b>
+        en el directorio <i>ffDiaporama\winbuild</i><br>
+      </div>
+      <hr style="width: 100%; height: 2px;">&#169; Proyecto ffDiaporama</div>
   </body>
 </html>

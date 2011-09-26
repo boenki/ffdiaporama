@@ -1,6 +1,7 @@
 Name:           ffDiaporama
 Version:        1.0.0
 Release:        0%{?dist}
+Distribution: 	openSUSE 11.4
 Summary:        FFDIAPORAMA - Movie creator
 Summary(fr):    FFDIAPORAMA - Créateur de film
 Summary(it):    FFDIAPORAMA - Movie creator
@@ -11,8 +12,8 @@ Group:		Applications/Multimedia
 Icon:		logo.xpm
 Source0:        ffDiaporama-1.0.0.tar.gz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:  qt4-devel, qt-webkit-devel, ffmpeg-devel, SDL-devel, SDL_mixer-devel, desktop-file-utils
-Requires:       qt4, qt-webkit, SDL, SDL_mixer, ffmpeg, exiv2
+BuildRequires:  libqt4-devel, libQtWebKit-devel, libffmpeg-devel, libSDL-devel, libSDL_mixer-devel, desktop-file-utils
+Requires:       libqt4, libQtWebKit4, ffmpeg, libSDL-1_2-0, libSDL_mixer-1_2-0, exiv2
 
 %description
 ffDiaporama is an application for assembling photos and videos especially
@@ -81,7 +82,7 @@ La aplicación calcula automáticamente todas las transformaciones del plano.
 %setup -q
 
 %build
-qmake-qt4
+qmake
 make %{?_smp_mflags}
 
 
