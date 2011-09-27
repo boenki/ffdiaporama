@@ -10,7 +10,7 @@
         src="../../WEB_img/icon_download.png" align="MIDDLE">
       T&#233;l&#233;charger ffDiaporama</div>
     <div style="text-align: left;" id="content_wikimode"> <br>
-      <h2>ffDiaporama 1.0 Beta 4 du 11/09/2011<br>
+      <h2>ffDiaporama 1.0 du 26/09/2011<br>
       </h2>
       <div style="margin-left: 40px;"> Pour le moment, il n'existe pas
         encore de version stable de ffDiaporama.<br>
@@ -31,6 +31,19 @@
               <td style="vertical-align: top;" nowrap="nowrap">Version
                 standard</td>
               <td><span style="font-weight: bold; text-decoration: underline;"></span>La
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -84,6 +97,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
                 la version standard ne fonctionne pas correctement sur
                 votre ordinateur (crash du lecteur) ou si vous
                 d&#233;sirez utiliser ffDiaporama dans une machine
@@ -111,12 +137,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
                   Acceleration</a> </td>
             </tr>
             <tr>
               <td style="vertical-align: top;" nowrap="nowrap">Version
                 portable</td>
               <td style="vertical-align: top;"><span style="font-weight: bold; text-decoration: underline;"></span>Version
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -164,105 +216,156 @@
                   vertical-align="middle"><span style="font-weight: bold;"><br>
                   Ubuntu</span><br>
               </td>
-              <td style="vertical-align: top; width: 100%;">Les paquets
-                Ubuntu sont con&#231;us pour fonctionner avec Ubuntu
-                11.10, 11.04 et 10.10<br>
-                <h4> Ubuntu 11.10 - (Oneric)</h4>
+              <td style="vertical-align: top; width: 100%;">
+                <h4>Ubuntu 11.10 - (Oneiric Ocelot)</h4>
                 <div style="margin-left: 20px;"> Avant d'installer le
-                  paquet ffDiaporama, installer les librairies ffmpeg en
-                  entrant les commandes suivantes dans un terminal.<br>
+                  paquet ffDiaporama, installer les librairies ffmpeg et
+                  SDL en entrant les commandes suivantes dans un
+                  terminal.<br>
                 </div>
                 <br>
                 <div style="margin-left: 20px;" class="codebox"> <code>sudo
 
+
+
+
+
+
+
+
+
+
+
+
+
+
                     apt-get install libavcodec-extra-53
                     libavformat-extra-53 libavdevice-extra-53
-                    libswscale-extra-2</code> </div>
-                <h4> Ubuntu 11.04 (Natty)</h4>
+                    libswscale-extra-2 libsdl1.2debian-pulseaudio</code>
+                </div>
+                <h4> Ubuntu 11.04 (Natty Narwhal)</h4>
                 <div style="margin-left: 20px;">Avant d'installer le
-                  paquet ffDiaporama, installer les librairies ffmpeg en
-                  entrant les commandes suivantes dans un terminal.<br>
+                  paquet ffDiaporama, installer les librairies ffmpeg et
+                  SDL en entrant les commandes suivantes dans un
+                  terminal.<br>
                   <br>
                 </div>
                 <div style="margin-left: 20px;" class="codebox"> <code>sudo
 
+
+
+
+
+
+
+
+
+
+
+
+
+
                     apt-get install libavcodec-extra-52
                     libavformat-extra-52 libavdevice-extra-52
-                    libswscale-extra-0</code> </div>
-                <h4> Ubuntu 10.10 (Maverick)</h4>
-                <div style="margin-left: 40px;">Avant d'installer le
+                    libswscale-extra-0 libsdl1.2debian-pulseaudio</code>
+                </div>
+                <div style="margin-left: 20px;"><br>
+                  <a href="http://ffdiaporama.tuxfamily.org/download.php?f=20110911/ffdiaporama_0.99.4-4_i386.deb">Ubuntu-32
+
+
+
+                    bits</a>, <a href="http://ffdiaporama.tuxfamily.org/download.php?f=20110911/ffdiaporama_0.99.4-4_amd64.deb">Ubuntu-64
+
+
+
+                    bits</a><br>
+                </div>
+                <h4>Ubuntu 10.10 (Maverick Meerkat)</h4>
+                <div style="margin-left: 20px;">Avant d'installer le
                   paquet ffDiaporama :<br>
-                  <ul>
-                    <li>Activer le d&#233;p&#244;t <a href="http://medibuntu.org/repository.php">Medibuntu</a>
-                      pour la prise en compte des d&#233;pendances.</li>
-                    <li>Installer les librairies ffmpeg en entrant les
-                      commandes suivantes dans un terminal.</li>
-                  </ul>
+                </div>
+                <ul>
+                  <li>Activer le d&#233;p&#244;t <a href="http://medibuntu.org/repository.php">Medibuntu</a>
+                    pour la prise en compte des d&#233;pendances.</li>
+                  <li>Installer les librairies ffmpeg et SDL en entrant
+                    les commandes suivantes dans un terminal.</li>
+                </ul>
+                <div style="margin-left: 20px;" class="codebox"> <code>sudo
+
+
+
+
+
+
+
+
+
+
+
+                    apt-get install libavcodec-extra-52
+                    libavformat-extra-52 libavdevice-extra-52
+                    libswscale-extra-0 libsdl1.2debian-pulseaudio</code>
+                </div>
+                <h4>Note :</h4>
+                <div style="margin-left: 20px;"> Si vous avez des
+                  probl&#232;mes de son lors de la
+                  pr&#233;visualisation, installer d'autres
+                  p&#233;riph&#233;riques SDL en entrant la commande
+                  suivante dans un terminal :<br>
+                  <br>
                 </div>
                 <div style="margin-left: 20px;" class="codebox"> <code>sudo
 
-                    apt-get install libavcodec-extra-52
-                    libavformat-extra-52 libavdevice-extra-52
-                    libswscale-extra-0</code> </div>
+
+
+
+
+
+
+
+
+
+
+                    apt-get install libsdl1.2debian-all</code> </div>
                 <br>
               </td>
-              <td style="vertical-align: top;" nowrap="nowrap"> <a href="http://ffdiaporama.tuxfamily.org/download.php?f=20110911/ffdiaporama_0.99.4-4_i386.deb">Ubuntu-32
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  bits</a><br>
-                <a href="http://ffdiaporama.tuxfamily.org/download.php?f=20110911/ffdiaporama_0.99.4-4_amd64.deb">Ubuntu-64
-
-                  bits</a> </td>
+              <td style="vertical-align: top;" nowrap="nowrap"> <br>
+              </td>
             </tr>
             <tr>
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" style="width: 32px; height: 32px;" src="../../WEB_img/Fedora.png"><br>
                 <span style="font-weight: bold;">Fedora</span><br>
               </td>
-              <td style="vertical-align: top;">Les paquets Fedora sont
-                con&#231;us pour fonctionner avec Fedora 15 Lovelock et
-                Fedora 14.<br>
-                L'installation n&#233;cessite l'activation du
-                d&#233;p&#244;t <a checked="true" href="http://rpmfusion.org/Configuration">RPM
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  Fusion</a> pour la prise en compte des
-                d&#233;pendances.</td>
+              <td style="vertical-align: top;">
+                <h4>Fedora 15 (Lovelock)</h4>
+                <div style="margin-left: 20px;">L'installation
+                  n&#233;cessite l'activation du d&#233;p&#244;t <a checked="true"
+                    href="http://rpmfusion.org/Configuration">RPM Fusion</a>
+                  pour la prise en compte des d&#233;pendances.<br>
+                </div>
+                <h4>Fedora 14 (<span class="st">Laughlin)</span></h4>
+                <div style="margin-left: 20px;">L'installation
+                  n&#233;cessite l'activation du d&#233;p&#244;t <a checked="true"
+                    href="http://rpmfusion.org/Configuration">RPM Fusion</a>
+                  pour la prise en compte des d&#233;pendances.<br>
+                  <br>
+                </div>
+              </td>
               <td style="vertical-align: top;" nowrap="nowrap"><a href="http://ffdiaporama.tuxfamily.org/download.php?f=20110911/ffDiaporama-0.99.4-4.fc15.i686.rpm">Fedora
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -303,8 +406,34 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
                   15-64 bits</a><br>
                 <a href="http://ffdiaporama.tuxfamily.org/download.php?f=20110911/ffDiaporama-0.99.4-4.fc14.i686.rpm">Fedora
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -345,6 +474,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
                   14-64 bits</a><br>
               </td>
             </tr>
@@ -354,12 +496,28 @@
                   src="../../WEB_img/opensuse.png"><br>
                 <span style="font-weight: bold;">OpenSuze</span><br>
               </td>
-              <td style="vertical-align: top;">Les paquets OpenSuze sont
-                con&#231;us pour fonctionner avec openSUSE 11.4.<br>
-                L'installation n&#233;cessite l'activation du
-                d&#233;p&#244;t <a href="http://en.opensuse.org/Additional_package_repositories#Packman">packman-multimedia</a>
-                pour la prise en compte des d&#233;pendances. </td>
+              <td style="vertical-align: top;">
+                <h4>openSUSE 11.4.</h4>
+                <div style="margin-left: 20px;"> L'installation
+                  n&#233;cessite l'activation du d&#233;p&#244;t <a href="http://en.opensuse.org/Additional_package_repositories#Packman">packman-multimedia</a>
+                  pour la prise en compte des d&#233;pendances.<br>
+                  <br>
+                </div>
+              </td>
               <td style="vertical-align: top;" nowrap="nowrap"> <a href="http://ffdiaporama.tuxfamily.org/download.php?f=20110911/ffDiaporama-0.99.4-4.i586.rpm">openSUSE-32
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -375,6 +533,19 @@
 
                   bits</a><br>
                 <a href="http://ffdiaporama.tuxfamily.org/download.php?f=20110911/ffDiaporama-0.99.4-4.x86_64.rpm">openSUSE-64
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -544,9 +715,35 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
                 images ont &#233;t&#233; sp&#233;cialement con&#231;us
                 par <a href="http://www.pngfactory.net/gallery/24105/Zouly">Zouly</a>,
                 un des membres du site <a href="http://www.pngfactory.net/">PNG
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -596,7 +793,33 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
               de pr&#233;sentation de ffDiaporama</a> <span style="font-style: italic;">(Fichier
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -645,6 +868,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
               ffDiaporama</a><br>
           </li>
         </ul>
@@ -654,6 +890,19 @@
         </span></div>
       <ul style="margin-left: 40px;">
         <li><a checked="true" href="Download-Compil_Windows.html">Compilation
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -727,9 +976,35 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
               report/Feature request[Developpement version]</a></li>
           <li><img checked="true" style="width: 16px; height: 16px;" alt=""
               src="../../WEB_img/Flag-fr.png"> <a href="http://ffdiaporama.tuxfamily.org/Forum/viewforum.php?id=8">Aide/rapport
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
