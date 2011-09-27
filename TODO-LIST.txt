@@ -3,6 +3,9 @@ Buggs/TODO (Dernier SVN le 18/09/2011) :
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
 
+Il y a un problème avec l'association de fichier sous GNOME
+Pour le résoudre, il faut ajouter : application/ffDiaporama=ffDiaporama.desktop dans la section [Default Applications] du fichier /etc/gnome/defaults.list
+
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------

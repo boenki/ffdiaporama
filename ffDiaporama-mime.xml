@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/ffDiaporama">
-  <glob pattern="*.ffd"/>
-  <comment>ffDiaporama file</comment>
-</mime-type>
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="application/ffDiaporama">
+  	    <glob pattern="*.ffd"/>
+  	    <comment>ffDiaporama file</comment>
+    </mime-type>
+</mime-info>
+
