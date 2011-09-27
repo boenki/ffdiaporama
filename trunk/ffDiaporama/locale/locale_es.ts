@@ -99,7 +99,7 @@
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1754"/>
         <source>Select the file type to use for the rendering.</source>
-        <translation>Seleccionar modo para el renderizado de gráficos (raster o nativo).</translation>
+        <translation>Seleccionar modo para generación del video (raster o nativo).</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="54"/>
@@ -407,18 +407,18 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="951"/>
         <source>Rendering Options</source>
-        <translation>Opciones de Render</translation>
+        <translation>Opciones de generación de video</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1019"/>
         <source>Default advanced rendering options</source>
-        <translation>Opciones avanzadas y predeterminadas para el Render</translation>
+        <translation>Opciones avanzadas y predeterminadas para la generación de video</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1026"/>
         <location filename="../DlgApplicationSettings.ui" line="1437"/>
         <source>Video standard :</source>
-        <translation>Estándar de vídeo :</translation>
+        <translation>Norma de video :</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1039"/>
@@ -440,7 +440,7 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1090"/>
         <source>Select the default image format to use for the rendering among the proposed list. </source>
-        <translation>Seleccionar el formato de imagen predeterminado para renderizar según lista propuesta. </translation>
+        <translation>Seleccionar el formato de imagen predeterminado para generar según lista propuesta. </translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1120"/>
@@ -470,17 +470,17 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1168"/>
         <source>Select the default bit rate to use for video during the rendering among the proposed list. </source>
-        <translation>Seleccionar tasa de bits para el vídeo durante el render según lista propuesta. </translation>
+        <translation>Seleccionar tasa de bits para el vídeo durante la generación del video según lista propuesta. </translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1175"/>
         <source>Select the default video codec to use for the rendering among the proposed list. </source>
-        <translation>Seleccionar codec de vídeo para el render según lista propuesta. </translation>
+        <translation>Seleccionar codec de vídeo para la generación del video según lista propuesta. </translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1182"/>
         <source>Select the default audio codec to use for the rendering among the proposed list. </source>
-        <translation>Seleccionar el codec de audio para el render según lista propuesta. </translation>
+        <translation>Seleccionar el codec de audio para la generación del video según lista propuesta. </translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1189"/>
@@ -491,12 +491,12 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1233"/>
         <source>Select the default bit rate to use for audio during the rendering among the proposed list. </source>
-        <translation>Selecciona la tasa de bits predeterminada para el audio durante el renderizado, según lista propuesta. </translation>
+        <translation>Selecciona la tasa de bits predeterminada para el audio durante la generación, según lista propuesta. </translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1247"/>
         <source>Default device mode rendering options</source>
-        <translation>Opciones predeterminadas para el modo Render</translation>
+        <translation>Opciones predeterminadas para el modo generación de video</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1254"/>
@@ -516,17 +516,17 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1284"/>
         <source>Select the type of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleccione el tipo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Player y Smartphone&quot; botón del menú &quot;Render video&quot;</translation>
+        <translation>Seleccione el tipo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Player y Smartphone&quot; botón del menú &quot;Generar video&quot;</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1291"/>
         <source>Select the type of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleccione el tipo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Para la WEB&quot; botón del menú &quot;Render video&quot;</translation>
+        <translation>Seleccione el tipo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Para la WEB&quot; botón del menú &quot;Generar video&quot;</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1298"/>
         <source>Select the type of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleccione el tipo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Sistema Multimedia&quot; botón del menú &quot;Render video&quot;</translation>
+        <translation>Seleccione el tipo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Sistema Multimedia&quot; botón del menú &quot;Generar video&quot;</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1311"/>
@@ -536,17 +536,17 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1318"/>
         <source>Select the model of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleccionar el modelo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Player y Smartphone&quot; botón del menu en &quot;Render vídeo&quot;</translation>
+        <translation>Seleccionar el modelo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Player y Smartphone&quot; botón del menu en &quot;Generar video&quot;</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1325"/>
         <source>Select the model of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleccionar el modelo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Sistema Multimedia&quot; botón del menu en &quot;Render vídeo&quot;</translation>
+        <translation>Seleccionar el modelo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Sistema Multimedia&quot; botón del menu en &quot;Generar video&quot;</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1332"/>
         <source>Select the model of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleccionar el modelo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Para la WEB&quot; botón del menu en &quot;Render vídeo&quot;</translation>
+        <translation>Seleccionar el modelo de equipo que se propone de forma predeterminada cuando se haga clic en &quot;Para la WEB&quot; botón del menu en &quot;Generar video&quot;</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1344"/>
@@ -576,27 +576,27 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1499"/>
         <source>Select the image resolution to use for the rendering.</source>
-        <translation>Seleccionar resolución de imágen para el Render.</translation>
+        <translation>Seleccionar resolución de imagen para generar el video.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1532"/>
         <source>Select the video codec to use for the rendering.</source>
-        <translation>Selecciona codec de vídeo para el Render.</translation>
+        <translation>Selecciona codec de video para generarlo.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1567"/>
         <source>Select the bit rate to use for video during the rendering.</source>
-        <translation>Seleccionar tasa de bits de vídeo para el Render.</translation>
+        <translation>Seleccionar tasa de bits de vídeo para generarlo.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1597"/>
         <source>Select the audio codec to use for the rendering.</source>
-        <translation>Seleccionar codec de audio para el Render.</translation>
+        <translation>Seleccionar codec de audio para generar el video.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1626"/>
         <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation>Seleccionar tasa de bits de audio para el Render.</translation>
+        <translation>Seleccionar tasa de bits de audio para generar el video.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1635"/>
@@ -1197,22 +1197,22 @@ Desplazar el archivo actual desde la señal hasta abajo.</translation>
     <message>
         <location filename="../DlgRenderVideo.ui" line="90"/>
         <source>Destination file path</source>
-        <translation>Ruta del Destino del archivo</translation>
+        <translation>Ruta de destino del archivo</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="97"/>
         <source>Select the destination file path</source>
-        <translation>Selecciona la ruta del destino del archivo</translation>
+        <translation>Selecciona la ruta de destino del archivo</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="113"/>
         <source>Video standard :</source>
-        <translation>Estándar de vídeo :</translation>
+        <translation>Norma de video :</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="128"/>
         <source>Select the video standard to use, PAL or NTSC.</source>
-        <translation>Seleccionar el estándar de vídeo que vamos a utilizar : PAL o NTSC.</translation>
+        <translation>Seleccionar la norma de vídeo que vamos a utilizar : PAL o NTSC.</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="132"/>
@@ -1247,12 +1247,12 @@ Desplazar el archivo actual desde la señal hasta abajo.</translation>
     <message>
         <location filename="../DlgRenderVideo.ui" line="190"/>
         <source>Select the image resolution to use for the rendering.</source>
-        <translation>Seleccionar la resolución de la imagen que se utilizará en el Render.</translation>
+        <translation>Seleccionar la resolución de la imagen que se utilizará en la generación del video.</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="213"/>
         <source>Select the video codec to use for the rendering.</source>
-        <translation>Seleccionar codec de vídeo para trabajar con el Render.</translation>
+        <translation>Seleccionar codec de vídeo para generarlo.</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="226"/>
@@ -1263,17 +1263,17 @@ Desplazar el archivo actual desde la señal hasta abajo.</translation>
     <message>
         <location filename="../DlgRenderVideo.ui" line="248"/>
         <source>Select the bit rate to use for video during the rendering.</source>
-        <translation>Seleccionar la velocidad de bits a utilizar para el vídeo durante la representación.</translation>
+        <translation>Seleccionar la velocidad de bits a utilizar para el vídeo durante la generación.</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="268"/>
         <source>Select the audio codec to use for the rendering.</source>
-        <translation>Seleccionar codec de audio para trabajar con el Render.</translation>
+        <translation>Seleccionar codec de audio que se va a usar para la generación del video.</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="297"/>
         <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation>Selecciona tasa de bits para el audio durante el renderizado.</translation>
+        <translation>Selecciona tasa de bits para el audio que se va a usar para la generación del video.</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="306"/>
@@ -1283,7 +1283,7 @@ Desplazar el archivo actual desde la señal hasta abajo.</translation>
     <message>
         <location filename="../DlgRenderVideo.ui" line="322"/>
         <source>Select the file type to use for the rendering.</source>
-        <translation>Seleccionar tipo de archivo para trabajar con el Render.</translation>
+        <translation>Seleccionar tipo de archivo que se va a usar en la generación del video.</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="329"/>
@@ -1318,7 +1318,7 @@ Desplazar el archivo actual desde la señal hasta abajo.</translation>
     <message>
         <location filename="../DlgRenderVideo.ui" line="424"/>
         <source>Rendering to :</source>
-        <translation>Renderizar a :</translation>
+        <translation>Generar video a :</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="444"/>
@@ -1353,7 +1353,7 @@ Desplazar el archivo actual desde la señal hasta abajo.</translation>
     <message>
         <location filename="../DlgRenderVideo.ui" line="675"/>
         <source>Average render speed :</source>
-        <translation>Promedio de velocidad del Render :</translation>
+        <translation>Promedio de velocidad durannte generación del video :</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="711"/>
@@ -1373,7 +1373,7 @@ Desplazar el archivo actual desde la señal hasta abajo.</translation>
     <message>
         <location filename="../DlgRenderVideo.ui" line="775"/>
         <source>Cancel modification or rendering process and exit dialog box</source>
-        <translation>Cancelar modificación o el proceso de renderizado y salir de este diálogo</translation>
+        <translation>Cancelar modificación o el proceso de generación y salir de este diálogo</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="778"/>
@@ -1398,22 +1398,22 @@ Desplazar el archivo actual desde la señal hasta abajo.</translation>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="38"/>
         <source>Advanced render video</source>
-        <translation>Render de vídeo avanzado</translation>
+        <translation>Generación de video avanzado</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="39"/>
         <source>Render video for mobil player and smartphone</source>
-        <translation>Render vídeo para Reproductor móvil y Smartphone</translation>
+        <translation>Generar vídeo para Reproductor móvil y Smartphone</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="40"/>
         <source>Render video for multimedia system</source>
-        <translation>Render vídeo para Sistema Multimedia</translation>
+        <translation>Generar video para Sistema Multimedia</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="41"/>
         <source>Render video for the WEB</source>
-        <translation>Render vídeo para la WEB</translation>
+        <translation>Generar video para la WEB</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="465"/>
@@ -1446,7 +1446,7 @@ Do you want to overwrite it ?</source>
         <location filename="../DlgRenderVideo.cpp" line="1087"/>
         <location filename="../DlgRenderVideo.cpp" line="1111"/>
         <source>Render video</source>
-        <translation>Render vídeo</translation>
+        <translation>Generar video</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="729"/>
@@ -2938,7 +2938,7 @@ proyecto</translation>
     <message>
         <location filename="../mainwindow.ui" line="882"/>
         <source>Render video</source>
-        <translation>Render vídeo</translation>
+        <translation>Generar video</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="918"/>
@@ -2968,7 +2968,7 @@ WEB</translation>
         <location filename="../mainwindow.ui" line="1047"/>
         <location filename="../mainwindow.ui" line="2204"/>
         <source>Render project as a video</source>
-        <translation>Renderizar proyecto como vídeo</translation>
+        <translation>Generar proyecto como video</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1050"/>
@@ -3335,7 +3335,7 @@ La geometría de la imagen de este archivo no es igual que la del proyecto actua
     <message>
         <location filename="../mainwindow.cpp" line="155"/>
         <source> Device registered for rendering</source>
-        <translation> Dispositivo registrado para renderizar</translation>
+        <translation> Dispositivo registrado para generar video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="157"/>
