@@ -1,4 +1,5 @@
 [Desktop Entry]
+Version=1.0
 Encoding=UTF-8
 Name=Movie creator ffDiaporama
 Name[fr]=Créateur de film ffDiaporama
@@ -12,9 +13,11 @@ Comment=Movie creator from photos and video clips
 Comment[fr]=Créateur de film depuis des photos et des clips vidéo
 Comment[it]=Creatore di pellicole cinematografiche da foto e filmati video
 Comment[es]=Creador de películas a partir de fotos y clips de vídeo
-Exec=ffDiaporama
 Icon=/usr/share/ffDiaporama/img/logo.png
 Terminal=false
 Type=Application
 Categories=GNOME;AudioVideo;
 Path=/usr/share/ffDiaporama
+Exec=ffDiaporama %F
+TryExec=ffDiaporama
+

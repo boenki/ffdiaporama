@@ -126,7 +126,8 @@ OTHER_FILES += \
     libx264-pq.ffpreset \
     licences.txt \
     licences.rtf \
-    authors.txt
+    authors.txt \
+    ffDiaporama
 
 TRANSLATIONS += locale/locale_fr.ts \
     locale/locale_it.ts \
