@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /download.php
-Disallow: /en/DisplayStats.php
-Disallow: /fr/DisplayStats.php
