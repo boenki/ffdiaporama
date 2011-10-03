@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="pt_PT">
+<TS version="2.0" language="ru">
 <context>
     <name>DlgAbout</name>
     <message>
         <location filename="../DlgAbout.ui" line="26"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>О программе</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="93"/>
         <source>Licence</source>
-        <translation type="unfinished"></translation>
+        <translation>Лицензия</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="105"/>
         <source>Copyright (C) 2011 Dominique LEVRAY</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>However, it may be better to leave the english version.</translatorcomment>
+        <translation>Все права защищены 2011 Доминик Леврей</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="112"/>
         <source>This software is licensed under the GPL version 2 :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Эта программа распростроняется по лицензии:</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="196"/>
         <source>Credits</source>
-        <translation type="unfinished"></translation>
+        <translation>Авторы</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="240"/>
         <source>This application was developped using Open Source version of Qt 4.7 SDK</source>
-        <translation type="unfinished"></translation>
+        <translation>Это приложени было разработано с помощью Qt 4.7 SDK с открытым исходным кодом</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="250"/>
@@ -41,52 +42,52 @@
         <location filename="../DlgAbout.ui" line="400"/>
         <location filename="../DlgAbout.ui" line="455"/>
         <source>WEB site &amp; licence :</source>
-        <translation type="unfinished"></translation>
+        <translation>Сайт программы и лицензия:</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="287"/>
         <source>Video decoding and encoding engines are based on ffmpeg</source>
-        <translation type="unfinished"></translation>
+        <translation>Кодирование и декодирование видео происзодит с помощью ffmpeg</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="318"/>
         <source>Sound engine for preview is based on SDL - Simple DirectMedia Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио движок при предпросмотреоснован на SDL - Simple DirectMedia Layer</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="349"/>
         <source>Image exif decoding is based on Exiv2 - Image metadata library and tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Данные изображения (exif) декодируются с помощью  Exiv2 - Image metadata library and tools</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="380"/>
         <source>Other images and graphical material are using Creative Common Licence  2</source>
-        <translation type="unfinished"></translation>
+        <translation>Другие изображения и графические материалы используются по лицензии Creative Common Licence  2</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="393"/>
         <source>C.C. WEB site :</source>
-        <translation type="unfinished"></translation>
+        <translation>Сайт Creative common:</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="418"/>
         <source>Many icons are from the Crystal Project</source>
-        <translation type="unfinished"></translation>
+        <translation>Многочисленные иконки взяты из Crystal Project</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="442"/>
         <source>Image effects are based on fmt_filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Эффект, применяемые к фотографиям основаны на fmt_filters</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="599"/>
         <source>System informations</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметры системы</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="706"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ок</translation>
     </message>
 </context>
 <context>
@@ -94,27 +95,27 @@
     <message>
         <location filename="../DlgApplicationSettings.ui" line="32"/>
         <source>Application settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки приложения</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1754"/>
         <source>Select the file type to use for the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать тип файла для рендирования.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="54"/>
         <source>Application Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметры приложения</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="90"/>
         <source>If this box is checked, the sizes and the positions of all the windows and dialogue box of ffDiaporama will be saved to be reused the next time which you will use ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Если этот пункт отмечен, размер и позиция всех окон и диалоговый </translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="93"/>
         <source>Remember Windows size and positions</source>
-        <translation type="unfinished"></translation>
+        <translation>Запомнить размер и позицию окон</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="100"/>
@@ -124,57 +125,57 @@
     <message>
         <location filename="../DlgApplicationSettings.ui" line="103"/>
         <source>Remember last used folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Запомнить последнию используюмую папку</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="117"/>
         <source>Application options</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметры приложения</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="143"/>
         <source>Preview options</source>
-        <translation type="unfinished"></translation>
+        <translation>Пареметры предпросмотра</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="153"/>
         <source>Frame rate :</source>
-        <translation type="unfinished"></translation>
+        <translation>Частота кадров(frame rate):</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="171"/>
         <source>Defined the number of images by seconds which will be generated to show the preview.</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить количество изображение в секундах, которое будет сгенерировано для предварительного показа.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="209"/>
         <source>fps (Reduce this value for slow computer)</source>
-        <translation type="unfinished"></translation>
+        <translation>Кадров/секунду (если компьютер медленный, уменьшите эту велечину)</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="218"/>
         <source>Image transformation :</source>
-        <translation type="unfinished"></translation>
+        <translation>Трансформация фотографии:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="228"/>
         <source>If this box is checked, The effects of transformations will be applied to the images of videos during the preview.</source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот пункт отмечен, эффект трансформации будет применен к изображениям в предпросмотре.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="231"/>
         <source>Apply to video during preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Применить к видео в предпросмотре</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="257"/>
         <source>Editor options (when adding objects)</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметры  редактора (при добавлении объекта)</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="267"/>
         <source>Object position :</source>
-        <translation type="unfinished"></translation>
+        <translation>Позиция объекта:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="280"/>
@@ -184,32 +185,32 @@
     <message>
         <location filename="../DlgApplicationSettings.ui" line="284"/>
         <source>Insert after current object</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставить после текущегообъекта</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="289"/>
         <source>Append at project end</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить в конец проекта</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="297"/>
         <source>Multiple file insertion :</source>
-        <translation type="unfinished"></translation>
+        <translation>Множественная вставка файла:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="307"/>
         <source>Adjust the way will be sorted out files when you select several files in Add file.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Изменить </translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="310"/>
         <source>Sort file by last number</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировка по последней цифре в номере файла</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="317"/>
         <source>Default framing :</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество кадров по умолчанию:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="341"/>
@@ -276,17 +277,17 @@ Crossfade transition</source>
         <location filename="../DlgApplicationSettings.ui" line="808"/>
         <location filename="../DlgApplicationSettings.ui" line="858"/>
         <source>sec</source>
-        <translation type="unfinished"></translation>
+        <translation>Сек</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="597"/>
         <source>If this box is checked, a confirmation will display every time you remove an object</source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот пункт отмечен, будет необходимо подтверждать удаление любого объекта</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="600"/>
         <source>Ask user confirmation to remove slide, object or shot</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="607"/>
@@ -396,12 +397,12 @@ Crossfade transition</source>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="910"/>
         <source>Quarter sine</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="951"/>
         <source>Rendering Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки рендирования</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1019"/>
@@ -412,24 +413,24 @@ Crossfade transition</source>
         <location filename="../DlgApplicationSettings.ui" line="1026"/>
         <location filename="../DlgApplicationSettings.ui" line="1437"/>
         <source>Video standard :</source>
-        <translation type="unfinished"></translation>
+        <translation>Видео стандарт:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1039"/>
         <location filename="../DlgApplicationSettings.ui" line="1511"/>
         <source>Video codec :</source>
-        <translation type="unfinished"></translation>
+        <translation>Видео кодек:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1052"/>
         <location filename="../DlgApplicationSettings.ui" line="1738"/>
         <source>File format :</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат файла:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1071"/>
         <source>Format :</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1090"/>
@@ -625,68 +626,68 @@ Crossfade transition</source>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1688"/>
         <source>Cancel the modifications that you made on an equipment defined in the default ffDiaporama database</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1691"/>
         <source>Reset Device to Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки девайса по умолчанию</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1704"/>
         <source>Device type :</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип девайса:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1714"/>
         <source>Select the type of equipment to be shown in the list.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выбрать вид оборудования, которой классифицируется .</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1721"/>
         <source>Select the category in which is classified the equipment.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать категорию, по которой классифицируется оборудование.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1728"/>
         <source>Device subtype :</source>
-        <translation type="unfinished"></translation>
+        <translation>Подвид девайса:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1800"/>
         <location filename="../DlgApplicationSettings.cpp" line="307"/>
         <source>Apply modification</source>
-        <translation type="unfinished"></translation>
+        <translation>Применить изменение</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1824"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Принять изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1827"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ок</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1838"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Отменить изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1841"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1852"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1855"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1862"/>
@@ -701,7 +702,7 @@ Crossfade transition</source>
     <message>
         <location filename="../DlgApplicationSettings.cpp" line="880"/>
         <source>&lt;new device&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>новый девайс</translation>
     </message>
 </context>
 <context>
@@ -709,77 +710,77 @@ Crossfade transition</source>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="26"/>
         <source>Background properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Свойства фона</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="44"/>
         <source>Same background as precedent object</source>
-        <translation type="unfinished"></translation>
+        <translation>Тот же фон что и предыдущий объект</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="57"/>
         <source>Select a new background</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор нового фона</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="504"/>
         <source>Brush type :</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип кисти:</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="517"/>
         <source>Pattern :</source>
-        <translation type="unfinished"></translation>
+        <translation>Текстура:</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="527"/>
         <source>Color :</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет:</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="537"/>
         <source>2nd Color :</source>
-        <translation type="unfinished"></translation>
+        <translation>2-ой цвет:</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="547"/>
         <source>Final color :</source>
-        <translation type="unfinished"></translation>
+        <translation>Финальный цвет:</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="557"/>
         <source>Orientation :</source>
-        <translation type="unfinished"></translation>
+        <translation>Ориентация:</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="567"/>
         <source>Position :</source>
-        <translation type="unfinished"></translation>
+        <translation>Позиция:</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="577"/>
         <source>Image :</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображение:</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="587"/>
         <source>File :</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл:</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="625"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ок</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="636"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="647"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="654"/>
@@ -789,32 +790,32 @@ Crossfade transition</source>
     <message>
         <location filename="../DlgBackgroundProperties.cpp" line="46"/>
         <source>Solid brush</source>
-        <translation type="unfinished"></translation>
+        <translation>Твердая кисть</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.cpp" line="48"/>
         <source>Gradient 2 colors</source>
-        <translation type="unfinished"></translation>
+        <translation>Градиент из двух цветов</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.cpp" line="50"/>
         <source>Gradient 3 colors</source>
-        <translation type="unfinished"></translation>
+        <translation>Градиент из трех цветов</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.cpp" line="52"/>
         <source>Image from library</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображение из бибилиотеки</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.cpp" line="54"/>
         <source>Image from disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображение с диска</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.cpp" line="278"/>
         <source>Select a file</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор файла</translation>
     </message>
 </context>
 <context>
@@ -963,32 +964,32 @@ Crossfade transition</source>
     <message>
         <location filename="../DlgImageCorrection.ui" line="880"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Принять изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="883"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ок</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="894"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отменить изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="897"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="908"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="911"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="918"/>
@@ -1101,7 +1102,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgMusicProperties.ui" line="324"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Файл</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="334"/>
@@ -1121,32 +1122,32 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgMusicProperties.ui" line="392"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Принять изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="395"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ок</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="406"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отменить изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="409"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="420"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="423"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="430"/>
@@ -1168,7 +1169,7 @@ Move the current selected file of a notch downward.</source>
         <location filename="../DlgMusicProperties.cpp" line="252"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Формат не поддерживается</translation>
     </message>
 </context>
 <context>
@@ -1197,7 +1198,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgRenderVideo.ui" line="113"/>
         <source>Video standard :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Видео стандарт:</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="128"/>
@@ -1268,12 +1269,12 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgRenderVideo.ui" line="306"/>
         <source>File format :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Формат файла:</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="322"/>
         <source>Select the file type to use for the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выбрать тип файла для рендирования.</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="329"/>
@@ -1283,7 +1284,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgRenderVideo.ui" line="339"/>
         <source>Video codec :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Видео кодек:</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="349"/>
@@ -1298,7 +1299,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgRenderVideo.ui" line="366"/>
         <source>Device type :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Тип девайса:</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="376"/>
@@ -1358,7 +1359,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgRenderVideo.ui" line="764"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ок</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="775"/>
@@ -1368,17 +1369,17 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgRenderVideo.ui" line="778"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="789"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="792"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="799"/>
@@ -1435,7 +1436,7 @@ Do you want to overwrite it ?</source>
         <location filename="../DlgRenderVideo.cpp" line="1087"/>
         <location filename="../DlgRenderVideo.cpp" line="1111"/>
         <source>Render video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Рендировать видео</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="729"/>
@@ -1491,7 +1492,7 @@ Do you want to overwrite it ?</source>
         <location filename="../_ApplicationDefinitions.cpp" line="678"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Дополнительно</translation>
     </message>
     <message>
         <location filename="../_ApplicationDefinitions.cpp" line="679"/>
@@ -1604,7 +1605,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="183"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Удалить</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="221"/>
@@ -1694,7 +1695,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="861"/>
         <source>Ins</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вставить</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="883"/>
@@ -1704,7 +1705,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="893"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Удалить</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="915"/>
@@ -1714,7 +1715,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="925"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+C</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="947"/>
@@ -1724,7 +1725,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="957"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+X</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="979"/>
@@ -1734,7 +1735,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="989"/>
         <source>Ctrl+V</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+V</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1018"/>
@@ -1863,7 +1864,7 @@ Do you want to overwrite it ?</source>
         <location filename="../DlgSlideProperties.ui" line="1830"/>
         <location filename="../DlgSlideProperties.cpp" line="443"/>
         <source>Color :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Цвет:</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1866"/>
@@ -1883,7 +1884,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1950"/>
         <source>Pattern :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Текстура:</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1978"/>
@@ -1893,7 +1894,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1994"/>
         <source>Orientation :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ориентация:</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="2022"/>
@@ -1903,7 +1904,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="2035"/>
         <source>Position :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Позиция:</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="2068"/>
@@ -1914,7 +1915,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="2128"/>
         <source>Image :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Изображение:</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="2156"/>
@@ -2047,32 +2048,32 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3158"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Принять изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3161"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ок</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3172"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отменить изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3175"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3186"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3189"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="3196"/>
@@ -2112,7 +2113,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="105"/>
         <source>Solid brush</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Твердая кисть</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="106"/>
@@ -2122,17 +2123,17 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="107"/>
         <source>Gradient 2 colors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Градиент из двух цветов</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="108"/>
         <source>Gradient 3 colors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Градиент из трех цветов</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="109"/>
         <source>Image from library</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Изображение из бибилиотеки</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="112"/>
@@ -2240,7 +2241,7 @@ Do you want to overwrite it ?</source>
         <location filename="../DlgSlideProperties.cpp" line="1115"/>
         <location filename="../DlgSlideProperties.cpp" line="1690"/>
         <source>Select a file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выбор файла</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="1481"/>
@@ -2354,32 +2355,32 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTextEdit.ui" line="662"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Принять изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgTextEdit.ui" line="665"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ок</translation>
     </message>
     <message>
         <location filename="../DlgTextEdit.ui" line="676"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отменить изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgTextEdit.ui" line="679"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../DlgTextEdit.ui" line="690"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../DlgTextEdit.ui" line="693"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../DlgTextEdit.ui" line="700"/>
@@ -2502,32 +2503,32 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="270"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Принять изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="273"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ок</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="284"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отменить изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="287"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="298"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="301"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="308"/>
@@ -2606,32 +2607,32 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgVideoEdit.ui" line="297"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Принять изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="300"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ок</translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="311"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отменить изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="314"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="325"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="328"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="335"/>
@@ -2644,316 +2645,317 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../mainwindow.ui" line="120"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="156"/>
         <location filename="../mainwindow.ui" line="1311"/>
         <source>Create a new empty project (Ctrl+N)</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать новый пустой проекст (Ctrl+N)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="159"/>
         <location filename="../mainwindow.ui" line="1314"/>
         <source>New
 project</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый проект</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="173"/>
         <location filename="../mainwindow.ui" line="1328"/>
         <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+N</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="207"/>
         <location filename="../mainwindow.ui" line="1362"/>
         <source>Open a previously saved project (Ctrl+O)</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть ранее сохраненный проект (Ctrl+O)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="210"/>
         <location filename="../mainwindow.ui" line="1365"/>
         <source>Open
 project</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть проект</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="224"/>
         <location filename="../mainwindow.ui" line="1379"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+O</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="258"/>
         <location filename="../mainwindow.ui" line="1413"/>
         <source>Open a recently used project file</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть недавно сохраненный проект</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="261"/>
         <location filename="../mainwindow.ui" line="1416"/>
         <source>Open
 recent</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть недавний</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="306"/>
         <location filename="../mainwindow.ui" line="1461"/>
         <source>Save current project (Ctrl+S)</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохраненнить этот проект (Ctrl+S)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="309"/>
         <location filename="../mainwindow.ui" line="1464"/>
         <source>Save
 project</source>
-        <translation type="unfinished"></translation>
+        <translation>Cохранить проект</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="323"/>
         <location filename="../mainwindow.ui" line="1478"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+S</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="357"/>
         <location filename="../mainwindow.ui" line="1512"/>
         <source>Save current project to a new project file</source>
-        <translation type="unfinished"></translation>
+        <translation>Cохранить этот проект в новый файл проект</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="360"/>
         <location filename="../mainwindow.ui" line="1515"/>
         <source>Save
 project as</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить проект в</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="406"/>
         <location filename="../mainwindow.ui" line="1561"/>
         <source>Change application and project settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить приложение и свойства проекта</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="409"/>
         <location filename="../mainwindow.ui" line="1564"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Свойства</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="447"/>
         <location filename="../mainwindow.ui" line="1602"/>
         <source>Exit application (Ctrl+W)</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть приложение</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="450"/>
         <location filename="../mainwindow.ui" line="1605"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Выход</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="463"/>
         <location filename="../mainwindow.ui" line="1618"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="487"/>
         <source>Project</source>
-        <translation type="unfinished"></translation>
+        <translation>Проект</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="523"/>
         <location filename="../mainwindow.ui" line="1676"/>
         <source>Add an empty slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить пустый слайд</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="526"/>
         <location filename="../mainwindow.ui" line="1679"/>
         <source>Add
 title</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить название</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="571"/>
         <location filename="../mainwindow.ui" line="1724"/>
         <source>Add image or video as slide (INS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить фотографию или видео как слайд (INS)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="574"/>
         <location filename="../mainwindow.ui" line="1727"/>
         <source>Add
 files</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить файлы</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="588"/>
         <location filename="../mainwindow.ui" line="1741"/>
         <source>Ins</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставить</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="616"/>
         <location filename="../mainwindow.ui" line="1769"/>
         <source>Add a previously saved project at the end of this project</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить ранее сохраненный проект в конец данного проекта</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="619"/>
         <location filename="../mainwindow.ui" line="1772"/>
         <source>Add
 project</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить проект</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="665"/>
         <location filename="../mainwindow.ui" line="1818"/>
         <source>Copy current slide to clipboard and remove it (Ctrl+X)</source>
-        <translation type="unfinished"></translation>
+        <translation>Вырезать текущий слайд в буфер обмена (Ctrl+X)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="668"/>
         <location filename="../mainwindow.ui" line="1821"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Вырезать</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="681"/>
         <location filename="../mainwindow.ui" line="1834"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+X</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="709"/>
         <location filename="../mainwindow.ui" line="1862"/>
         <source>Copy current slide to clipboard (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Копировать слайд в буфер обмена</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="712"/>
         <location filename="../mainwindow.ui" line="1865"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Копировать</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="725"/>
         <location filename="../mainwindow.ui" line="1878"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+C</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="753"/>
         <location filename="../mainwindow.ui" line="1906"/>
         <source>Paste current slide from clipboard (Ctrl+V)</source>
-        <translation type="unfinished"></translation>
+        <translation>вставить текйщий слайд из буфера обмена (Ctrl+V)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="756"/>
         <location filename="../mainwindow.ui" line="1909"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставить</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="769"/>
         <location filename="../mainwindow.ui" line="1922"/>
         <source>Ctrl+V</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+V</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="810"/>
         <location filename="../mainwindow.ui" line="1963"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактировать</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="848"/>
         <location filename="../mainwindow.ui" line="2001"/>
         <source>Remove current slide (DEL)</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить текущай слайд (Delete)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="851"/>
         <location filename="../mainwindow.ui" line="2004"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="864"/>
         <location filename="../mainwindow.ui" line="2017"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="882"/>
         <source>Render video</source>
-        <translation type="unfinished"></translation>
+        <translation>Рендировать видео</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="918"/>
         <location filename="../mainwindow.ui" line="2075"/>
         <source>Player and
 smartphone</source>
-        <translation type="unfinished"></translation>
+        <translation>Плеер и смартфон</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="963"/>
         <location filename="../mainwindow.ui" line="2120"/>
         <source>Multimedia
 system</source>
-        <translation type="unfinished"></translation>
+        <translation>Система мультимедия</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1002"/>
         <location filename="../mainwindow.ui" line="2159"/>
         <source>For the
 WEB</source>
-        <translation type="unfinished"></translation>
+        <translation>Для ВЕБа</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1047"/>
         <location filename="../mainwindow.ui" line="2204"/>
         <source>Render project as a video</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Can be phylologically not correct</translatorcomment>
+        <translation>Рендировать проект в видеофайл</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1050"/>
         <location filename="../mainwindow.ui" line="2207"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Дополнительно</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1078"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Помощь</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1114"/>
         <location filename="../mainwindow.ui" line="2258"/>
         <source>Display informations about ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать информацию о ffDiaporama</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1117"/>
         <location filename="../mainwindow.ui" line="2261"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>О программе</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1161"/>
         <location filename="../mainwindow.ui" line="2305"/>
         <source>Call ffDiaporama WIKI</source>
-        <translation type="unfinished"></translation>
+        <translation>Вызвать ffDiaporama WIKI</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1164"/>
         <location filename="../mainwindow.ui" line="2308"/>
         <source>Support
 and help</source>
-        <translation type="unfinished"></translation>
+        <translation>Поддержка и помощь</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1178"/>
@@ -2965,58 +2967,59 @@ and help</source>
         <location filename="../mainwindow.ui" line="1212"/>
         <location filename="../mainwindow.ui" line="2356"/>
         <source>Display blog/news page from internet WEB site</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать блог/новости с домашней  веб-страницы</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1215"/>
         <location filename="../mainwindow.ui" line="2359"/>
         <source>What&apos;s new</source>
-        <translation type="unfinished"></translation>
+        <translation>Что нового </translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2545"/>
         <source>about:blank</source>
-        <translation type="unfinished"></translation>
+        <translation>about:blank</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2575"/>
         <source>Slide : xx/xxx</source>
-        <translation type="unfinished"></translation>
+        <translation>Слайд: xx/xxx</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2597"/>
         <source>Statusbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Строка состояния</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2616"/>
         <source>Switch display to preview mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключить экран в вид предварительного просмотра</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2633"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2656"/>
         <source>Switch display to sheet mode</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>What means sheet mode???</translatorcomment>
+        <translation>Переключить экран в вид листа</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2696"/>
         <source>Enlarge thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Увеличить значки</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2736"/>
         <source>Reduce thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Уменьшить значки</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2767"/>
         <source>Edit background</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактировать фон</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2770"/>
@@ -3417,65 +3420,65 @@ Do you want to save-it ?</source>
     <message>
         <location filename="../mainwindow.cpp" line="420"/>
         <source>A new ffDiaporama release if available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
-        <translation type="unfinished"></translation>
+        <translation>Выпущен новый релиз ffDiaporama на сайте разработчика. Пожалуйста обновитесь с  http://ffdiaporama.tuxfamily.org !</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="484"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Новый проект&gt;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="621"/>
         <source>Not implemented</source>
-        <translation type="unfinished"></translation>
+        <translation>Не применено</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="621"/>
         <source>Sorry, not yet done !</source>
-        <translation type="unfinished"></translation>
+        <translation>Извините, еще не сделано!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="846"/>
         <source>New project</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый проект</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="896"/>
         <location filename="../mainwindow.cpp" line="900"/>
         <source>Open project</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть проект</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="974"/>
         <source>Save project as</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить проет как</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1040"/>
         <source>Add files</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить файлы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Формат не поддерживается</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>Add a sub project</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить под-проект</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1269"/>
         <source>Remove slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить слайд</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1269"/>
         <source>Are you sure to want to delete this slide?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы уверены что хотите удалить этот слайд?</translation>
     </message>
 </context>
 <context>
@@ -3486,7 +3489,7 @@ Do you want to save-it ?</source>
         <location filename="../cCustomComboBox.cpp" line="579"/>
         <location filename="../cCustomComboBox.cpp" line="599"/>
         <source>Gray</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Серый</translation>
     </message>
     <message>
         <location filename="../cCustomComboBox.cpp" line="511"/>
@@ -3502,7 +3505,8 @@ Do you want to save-it ?</source>
         <location filename="../cCustomComboBox.cpp" line="581"/>
         <location filename="../cCustomComboBox.cpp" line="601"/>
         <source>Despeckle</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>I am not sure at all that the translation is correct inthis context</translatorcomment>
+        <translation type="unfinished">Удаление пятен</translation>
     </message>
     <message>
         <location filename="../cCustomComboBox.cpp" line="513"/>
@@ -3510,7 +3514,7 @@ Do you want to save-it ?</source>
         <location filename="../cCustomComboBox.cpp" line="582"/>
         <location filename="../cCustomComboBox.cpp" line="602"/>
         <source>No transformation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Без трансформации</translation>
     </message>
 </context>
 <context>
@@ -3519,7 +3523,7 @@ Do you want to save-it ?</source>
         <location filename="../wgt_QVideoPlayer.ui" line="101"/>
         <source>Click to start play, click again to pause the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите для проигрования, нажмите еще раз для паузы</translation>
     </message>
 </context>
 </TS>

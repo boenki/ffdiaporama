@@ -141,11 +141,13 @@ extern "C" {
 // Global defines
 //============================================
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "1.0"
+#define APPLICATION_VERSION                 "1.1 devel version"
+//#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Stable/BUILDVERSION.txt"
+#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Devel/BUILDVERSION.txt"
+
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
-#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Stable/BUILDVERSION.txt"
 
 #define GLOBALCONFIGFILE                    2                                     // Type of config file : Global
 #define USERCONFIGFILE                      3                                     // Type of config file : USER
@@ -184,11 +186,11 @@ extern "C" {
 
 // Export mode definition
 #define EXPORTMODE_ADVANCED                 0
-#define ICON_ADVANCED                      "img/render.png"
+#define ICON_ADVANCED                       "img/render.png"
 #define EXPORTMODE_SMARTPHONE               1
-#define ICON_SMARTPHONE                    "img/Smartphone.png"
+#define ICON_SMARTPHONE                     "img/Smartphone.png"
 #define EXPORTMODE_MULTIMEDIASYS            2
-#define ICON_MULTIMEDIASYS                 "img/tv.png"
+#define ICON_MULTIMEDIASYS                  "img/tv.png"
 #define EXPORTMODE_FORTHEWEB                3
 #define ICON_FORTHEWEB                      "img/Internet.png"
 
@@ -294,7 +296,7 @@ extern "C" {
 #define HELPFILE_INDEX                      "fct_001"
 #define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/<local>/News.php"
 #define HELPFILE_WEBSITEINDEX               "http://ffdiaporama.tuxfamily.org/<local>/index.php"
-#define HELPFILE_SUPPORT                    "fct_001"   //"http://ffdiaporama.tuxfamily.org/<local>/Support.php"
+#define HELPFILE_SUPPORT                    "fct_001"
 #define HELPFILE_DlgTextEdit                "dlg_001"
 #define HELPFILE_DlgApplicationSettings     "dlg_002"
 #define HELPFILE_DlgSlideProperties         "dlg_003"

@@ -4,11 +4,22 @@
     <title>Modifica diapositive</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
+<!--[if lt IE 7]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE7.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE8.js"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+<![endif]-->
   </head>
-  <body>
-    <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
-        src="../../WIKI_img/Wiki.png" align="MIDDLE"> Modifica
-      diapositive</div>
+  <body><div class="wrapper"><!-- wrapper for all -->
+    <div class="icon_place" style="text-align: left;" ><img checked="true" style="width: 48px; height: 48px;" src="../../WIKI_img/Wiki.png" align="MIDDLE"></div>
+    <div id="header"><!-- banner sup -->
+      <div id="banner"><span>Modifica diapositive</span></div>
+    </div><!-- Header end -->
+
     <div style="text-align: left;" id="content_wikimode">
       <h2 style="">Introduzione</h2>
       <div style="margin-left: 40px;"> La finestra Propriet&#224;
@@ -171,38 +182,7 @@
         <ul style="margin-left: 40px;">
           <li>La prima colonna indica il tipo di blocco (<img checked="true"
               style="width: 16px; height: 16px;" alt="" src="../../img/object_text.png">=Titolo,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <img alt="" src="../../img/object_image.png">=Immagine, <img
+              <img alt="" src="../../img/object_image.png">=Immagine, <img
               checked="true" style="width: 16px; height: 16px;" alt="" src="../../img/object_movie.png">=Video)</li>
           <li>La seconda colonna indica il blocco che riproduce il suono
             durante l'inquadratura : viene visualizzata l'icona <img checked="true"
@@ -305,41 +285,13 @@
             <tr>
               <td><img checked="true" src="../../img/EditText.png"></td>
               <td style="vertical-align: top;">Fare clic su questo
-                pulsante per richiamare la <a href="dlg_001.html">Fiestra
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  di modifica blocco testo</a>.<br>
+                pulsante per richiamare la <a href="dlg_001.html">Fiestra di modifica blocco testo</a>.<br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top;"><img checked="true" src="../../img/EditImage.png"></td>
               <td style="vertical-align: top;">Fare clic su questo
-                pulsante per richiamare la <a href="dlg_005.html">Finestra
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  inquadratura immagine e correzione</a><br>
+                pulsante per richiamare la <a href="dlg_005.html">Finestra inquadratura immagine e correzione</a><br>
                 Questo pulsante &#232; attivo solo per gli oggetti che
                 contengono immagini e video.<br>
               </td>
@@ -347,21 +299,7 @@
             <tr>
               <td style="vertical-align: top;"><img checked="true" src="../../img/EditMovie.png"></td>
               <td style="vertical-align: top;">Fare clic su questo
-                pulsante per richiamare la <a href="dlg_010.html">Finestra
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  taglia video</a><br>
+                pulsante per richiamare la <a href="dlg_010.html">Finestra taglia video</a><br>
                 Questo pulsante &#232; attivo solo per gli oggetti che
                 contengono video.<br>
               </td>
@@ -426,20 +364,8 @@
             <tr checked="true">
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/PosSize_Width.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Rappresenta
-
-
-
-
-
-
-
-
-
-
-
-
-                la larghezza del blocco.<br>
+              <td colspan="2" rowspan="1" style="vertical-align: top;">
+                Rappresenta la larghezza del blocco.<br>
                 Questa posizione &#232; definita come una percentuale
                 (%) della larghezza totale dell'immagine in pixel o in
                 pixel (per uno&#160; schermo 1080p) secondo l'unit&#224;
@@ -448,20 +374,8 @@
             <tr>
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/PosSize_Height.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Rappresenta
-
-
-
-
-
-
-
-
-
-
-
-
-                l'altezza del blocco.<br>
+              <td colspan="2" rowspan="1" style="vertical-align: top;">
+                Rappresenta l'altezza del blocco.<br>
                 Questa posizione &#232; definita come una percentuale
                 (%) dell'altezza totale dell'immagine in pixel o in
                 pixel (per uno&#160; schermo 1080p) secondo l'unit&#224;
@@ -694,76 +608,20 @@
                   checked="true" style="width: 48px; height: 48px;" alt=""
                   src="../../WIKI_img/Wikipedia.png"></a><br>
               <small>WIKIPEDIA</small> </td>
-            <td style="vertical-align: middle;"><a href="http://en.wikipedia.org/wiki/Overscan">Descrizione
-
-                dei margini&#160; TV e sovrascansione</a><br>
+            <td style="vertical-align: middle;"><a href="http://en.wikipedia.org/wiki/Overscan">
+               Descrizione dei margini&#160; TV e sovrascansione</a><br>
               <a checked="true" href="http://it.wikipedia.org/wiki/Exchangeable_image_file_format">
                 Descrizione di EXIF - Formato del file immagine
                 interscambiabile</a><br>
-              <tdstyle="vertical-align:><a href="http://en.wikipedia.org/wiki/Histogram_equalization">Filtro:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  Equalizzazione istogramma</a><br>
-                <ahref="http: en.wikipedia.org="" wiki="" despeckle=""></ahref="http:></tdstyle="vertical-align:><tdstyle="vertical-align:><a
-                  checked="true" href="http://en.wikipedia.org/wiki/Despeckle">Filtro:
-
-
-
-
-
-
-
-
-
-
-                  Riduzione rumore</a><br>
-              </tdstyle="vertical-align:> </td>
+             <a href="http://en.wikipedia.org/wiki/Histogram_equalization">
+               Filtro:  Equalizzazione istogramma</a><br>
+             <a href="http://en.wikipedia.org/wiki/Despeckle">
+               Filtro: Riduzione rumore</a><br>
+              </td>
           </tr>
         </tbody>
       </table>
       <br>
       <hr style="width: 100%; height: 2px;">ffDiaporama 1.0 </div>
-  </body>
+  </div></body><!-- div wrapper  End-->
 </html>

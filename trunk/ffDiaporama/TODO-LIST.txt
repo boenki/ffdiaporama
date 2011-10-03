@@ -1,27 +1,45 @@
-Buggs/TODO (Dernier SVN le 18/09/2011) :
+Buggs/TODO (Dernier SVN le 26/09/2011) :
 ----------------------------------------
 BUGG:
- - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
+ - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour dÃ©marrer
 
-Il y a un problème avec l'association de fichier sous GNOME
-Pour le résoudre, il faut ajouter : application/ffDiaporama=ffDiaporama.desktop dans la section [Default Applications] du fichier /etc/gnome/defaults.list
+Mandatory :
+ - To add animations of text (scrolling, zoom in / out), animations for entering blocks (1st shot or invisible block in the previous shot) and of animations for outgoing block (the Last one shot or invisible block in the following shot)
+ - Allow the user to put a video in break without putting it in invisible
+ - To add precedent/following buttons in the slide dialog
+ - Have the possibility of rendering the video only for a part of the project
+ - Have the possibility of adding photos/videos by drag & drop since the outside of the application
+ - Have the possibility of making a multiple selection when one want to insert images into a plan
+ - Double click on a block in the slide dialog = > open text, reframing or video edit according to the block type
+ - To add an option "same as precedent" for 3 sections object/block and coordinates as so as the modifications in one of 3 sections echo in the following shots.
+ - When we add new text block directly open the properties allowing to modify the text
+
+May-be :
+ - To add UNDO functionnality
+ - Allow the user to change the margins of texts inside blocks
+ - Allow the user to load a custom LUMA for a transition
+ - Be able to disable sound video track (for now mini is 10%)
+ - Style sheet for text
+ - Add a management of route: A line object with multiple points being outlined during the animation with a PNG attached to the point being drawn
+ - Finish the internationalization of the Ubuntu package
+ - Link musics of the playlist without waiting for the following slide
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-Correction de bug :
-    Corrige l'erreur d'arrondie qui générait par moment un décalage parasite des images
-    Corrige le plantage de l'application quand on lance le lecteur sans aucune diapositive
+French version
+- Rend possible le support partielle d'une langue (Interface seul ou Interface+WIKI ou Interface+WIKI+WEB)
+- Ajout des fichiers de langue du Russe (25%)
+- Deplace le contenu des 4 fichiers tab_00x.html dans le fichier .ts
 
-Divers:
-    Autorise les vidéos sans piste sonore
+English version
+- Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
+- Addition of the files of the Russian language (25 %)
+- Move the contents of 4 tab_00x.html files in the .ts file
 
 -------------------------------------
-Changelog depuis la version 20110911
+Changelog depuis la version 20110926
 -------------------------------------
-Correction de bug :
-    Corrige l'erreur sur la couleur personnalisée dans la combobox custom
+French version
 
-Changement de comportement :
-    Le changement de fichier (image ou video) dans la boite slide positionne maintenant sur le répertoire du fichier au lieu du dernier répertoire utilisé
-    Elargie la zone de paramétrage dans la boite slide pour tous les boutons soient visibles en Italien
+English version

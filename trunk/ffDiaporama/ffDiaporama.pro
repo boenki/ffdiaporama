@@ -135,6 +135,7 @@ TRANSLATIONS += locale/locale_fr.ts \
     locale/locale_nl.ts \
     locale/locale_es.ts \
     locale/locale_pt.ts \
+    locale/locale_ru.ts \
     locale/locale_el.ts
 
 #install

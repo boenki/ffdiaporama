@@ -4,11 +4,22 @@
     <title>Modifier des diapositives</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
+<!--[if lt IE 7]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE7.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE8.js"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+<![endif]-->
   </head>
-  <body>
-    <div id="banner_wikimode"><img checked="true" style="width: 48px; height: 48px;"
-        src="../../WIKI_img/Wiki.png" align="MIDDLE"> Modifier des
-      diapositives</div>
+  <body><div class="wrapper"><!-- wrapper for all -->
+    <div class="icon_place" style="text-align: left;" ><img checked="true" style="width: 48px; height: 48px;" src="../../WIKI_img/Wiki.png" align="MIDDLE"></div>
+    <div id="header"><!-- banner sup -->
+      <div id="banner"><span>Modifier des diapositives</span></div>
+    </div><!-- Header end -->
+
     <div style="text-align: left;" id="content_wikimode">
       <h2 checked="true" style="">Introduction</h2>
       <div style="margin-left: 40px;"> La boite "Propri&#233;t&#233;s de
@@ -190,24 +201,7 @@
           Pour changer de bloc actif, s&#233;lectionn&#233; simplement
           un bloc dans la liste ou dans la zone de composition.<br>
           <br>
-          <span checked="true" style="text-decoration: underline; font-weight: bold;">Notes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            sur les blocs :</span> </div>
+          <span checked="true" style="text-decoration: underline; font-weight: bold;">Notes sur les blocs :</span> </div>
         <ul>
           <ul>
             <li>L'ordre des blocs peut changer d'un plan &#224; l'autre</li>
@@ -297,140 +291,26 @@
             <tr>
               <td><img checked="true" src="../../img/EditText.png"></td>
               <td style="vertical-align: top;">Cliquer sur ce bouton
-                pour appeler la boite <a href="dlg_001.html">&#201;diter
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  le texte du bloc</a>.<br>
+                pour appeler la boite <a href="dlg_001.html">&#201;diter le texte du bloc</a>.<br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top;"><img checked="true" src="../../img/EditImage.png"></td>
               <td style="vertical-align: top;">Cliquer sur le bouton
-                pour appeler la boite de dialogue <a href="dlg_005.html">Recadrer
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  et/ou corriger une image ou une vid&#233;o</a> <br>
+                pour appeler la boite de dialogue <a href="dlg_005.html">Recadrer et/ou corriger une image ou une vid&#233;o</a> <br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top;"><img checked="true" src="../../img/EditMovie.png"></td>
               <td style="vertical-align: top;">Cliquer sur ce bouton
-                pour appeler la boite <a href="dlg_010.html">D&#233;couper
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  une vid&#233;o</a>. Note : Ce bouton n'est actif que
+                pour appeler la boite <a href="dlg_010.html">D&#233;couper une vid&#233;o</a>. Note : Ce bouton n'est actif que
                 pour les objets contenant des vid&#233;os.<br>
               </td>
             </tr>
           </tbody>
         </table>
         <div style="margin-left: 40px;"><br>
-          <span style="font-weight: bold; text-decoration: underline;">Notes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            sur les blocs :</span></div>
+          <span style="font-weight: bold; text-decoration: underline;">Notes sur les blocs :</span></div>
         <ul style="margin-left: 40px;">
           <li>Tous les blocs, qu'ils soient de type titre, image ou
             vid&#233;o poss&#232;dent un texte. </li>
@@ -468,37 +348,7 @@
                   checked="true" src="img/dlg_003_a.png"> </td>
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/PosSize_X.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Repr&#233;sente
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                la position horizontal du bloc &#224; partir de la
+              <td colspan="2" rowspan="1" style="vertical-align: top;">Repr&#233;sente la position horizontal du bloc &#224; partir de la
                 gauche. (Cette position est exprim&#233;e soit en
                 pourcentage (%) de la largeur total de l'image, soit en
                 pixel (pour un &#233;cran 1080p) en fonction de
@@ -509,69 +359,7 @@
             <tr>
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/PosSize_Y.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Repr&#233;sente
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                la position vertical du bloc&#160; &#224; partir du haut
+              <td colspan="2" rowspan="1" style="vertical-align: top;">Repr&#233;sente la position vertical du bloc&#160; &#224; partir du haut
                 de l'image. (Cette position est exprim&#233;e soit en
                 pourcentage (%) de la hauteur total de l'image, soit en
                 pixel (pour un &#233;cran 1080p) en fonction de
@@ -581,69 +369,7 @@
             <tr checked="true">
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/PosSize_Width.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Repr&#233;sente
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                la largeur du bloc. (Cette position est exprim&#233;e
+              <td colspan="2" rowspan="1" style="vertical-align: top;">Repr&#233;sente la largeur du bloc. (Cette position est exprim&#233;e
                 soit en pourcentage (%) de la largeur total de l'image,
                 soit en pixel (pour un &#233;cran 1080p) en fonction de
                 l'unit&#233; d&#233;finie dans la boite de
@@ -652,69 +378,7 @@
             <tr>
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/PosSize_Height.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Repr&#233;sente
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                la hauteur du bloc. (Cette position est exprim&#233;e
+              <td colspan="2" rowspan="1" style="vertical-align: top;">Repr&#233;sente la hauteur du bloc. (Cette position est exprim&#233;e
                 soit en pourcentage (%) de la hauteur total de l'image,
                 soit en pixel (pour un &#233;cran 1080p) en fonction de
                 l'unit&#233; d&#233;finie dans la boite de
@@ -723,257 +387,23 @@
             <tr>
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/RotateZ.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Rotation
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                selon l'axe des Z exprim&#233;e en degr&#233;.<br>
+              <td colspan="2" rowspan="1" style="vertical-align: top;">Rotation selon l'axe des Z exprim&#233;e en degr&#233;.<br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/RotateY.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Rotation
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                selon l'axe des Y exprim&#233;e en degr&#233;. </td>
+              <td colspan="2" rowspan="1" style="vertical-align: top;">Rotation selon l'axe des Y exprim&#233;e en degr&#233;. </td>
             </tr>
             <tr>
               <td style="vertical-align: top; text-align: center;"><img
                   checked="true" src="../../img/RotateX.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Rotation
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                selon l'axe des X exprim&#233;e en degr&#233;.</td>
+              <td colspan="2" rowspan="1" style="vertical-align: top;">Rotation selon l'axe des X exprim&#233;e en degr&#233;.</td>
             </tr>
             <tr>
               <td style="vertical-align: top;">Forme<br>
               </td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Permet
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                de s&#233;lectionner une forme pour le bloc. La forme
+              <td colspan="2" rowspan="1" style="vertical-align: top;">Permet de s&#233;lectionner une forme pour le bloc. La forme
                 s&#233;lectionn&#233;e servira de masque de fusion pour
                 les images et les vid&#233;os et de zone de coupure pour
                 les textes</td>
@@ -1139,91 +569,8 @@
                 <td style="vertical-align: top;">D&#233;grad&#233;
                   &#224; 3 couleurs<br>
                 </td>
-                <td style="vertical-align: top;"><tdstyle="vertical-align:>Permet
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    de s&#233;lectionner un d&#233;grad&#233; de 3
-                    couleurs</tdstyle="vertical-align:></td>
+                <td style="vertical-align: top;">Permet de s&#233;lectionner un d&#233;grad&#233; de 3
+                    couleurs</td>
               </tr>
               <tr>
                 <td style="vertical-align: top;">Image de la librairie<br>
@@ -1280,102 +627,10 @@
                   checked="true" style="width: 48px; height: 48px;" alt=""
                   src="../../WIKI_img/Wikipedia.png"></a><br>
               <small>WIKIPEDIA</small> </td>
-            <td style="vertical-align: middle;"><a href="http://en.wikipedia.org/wiki/Overscan">Explications
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                sur les marges TV et "l'overscan"</a><br>
+            <td style="vertical-align: middle;"><a href="http://en.wikipedia.org/wiki/Overscan">Explications sur les marges TV et "l'overscan"</a><br>
               <a href="http://fr.wikipedia.org/wiki/EXIF"> Explications
                 sur l'EXIF-Exchangeable image file format</a><br>
-              <a href="http://fr.wikipedia.org/wiki/%C3%89galisation_d%27histogramme">Filtre
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                de type : &#201;galisation d'histogramme</a><br>
+              <a href="http://fr.wikipedia.org/wiki/%C3%89galisation_d%27histogramme">Filtre de type : &#201;galisation d'histogramme</a><br>
               <a href="http://en.wikipedia.org/wiki/Despeckle">Filtre de
                 type : R&#233;duction de bruit</a><br>
             </td>
@@ -1384,5 +639,5 @@
       </table>
       <br>
       <hr style="width: 100%; height: 2px;">ffDiaporama 1.0</div>
-  </body>
+  </div></body><!-- div wrapper  End-->
 </html>

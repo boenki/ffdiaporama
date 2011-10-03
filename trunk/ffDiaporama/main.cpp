@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Validate if system locale is supported and if not force use of "en"
-    if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")) CurrentLanguage="en";
+    if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")&&(CurrentLanguage!="ru")) CurrentLanguage="en";
 
     // Install translation (if needed)
     if (CurrentLanguage!="en") {
