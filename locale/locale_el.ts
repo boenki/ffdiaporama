@@ -3120,7 +3120,7 @@ and help</source>
         <location filename="../_Diaporama.cpp" line="1205"/>
         <location filename="../_Diaporama.cpp" line="1212"/>
         <location filename="../_Diaporama.cpp" line="1221"/>
-        <location filename="../mainwindow.cpp" line="1138"/>
+        <location filename="../mainwindow.cpp" line="1210"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
@@ -3325,7 +3325,7 @@ Image geometry in this file is not the same than the current project</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="239"/>
-        <location filename="../mainwindow.cpp" line="472"/>
+        <location filename="../mainwindow.cpp" line="476"/>
         <source>Slide : </source>
         <translation type="unfinished"></translation>
     </message>
@@ -3340,8 +3340,76 @@ Image geometry in this file is not the same than the current project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="774"/>
-        <location filename="../mainwindow.cpp" line="824"/>
+        <location filename="../mainwindow.cpp" line="719"/>
+        <source>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta content=&quot;text/html; charset=UTF-8&quot; http-equiv=&quot;Content-Type&quot;&gt;&lt;/head&gt;
+&lt;body&gt;&lt;div style=&quot;text-align: center;&quot;&gt;
+  &lt;table height=&quot;100%&quot; border=&quot;1&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;
+    &lt;td style=&quot;text-align: center;&quot;&gt;
+      &lt;img checked=&quot;true&quot; alt=&quot;&quot; src=&quot;../../img/logo_big.png&quot;&gt;&lt;br&gt;
+      &lt;br&gt;Select a project to open or to create a new project&lt;br&gt;
+      To discover ffDiaporama:&lt;br&gt;
+      &lt;a href=&quot;fct_001.html&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="733"/>
+        <source>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta content=&quot;text/html; charset=UTF-8&quot; http-equiv=&quot;Content-Type&quot;&gt;&lt;/head&gt;
+&lt;body&gt;&lt;div style=&quot;text-align: center;&quot;&gt;
+  &lt;table height=&quot;100%&quot; border=&quot;1&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;
+    &lt;td style=&quot;text-align: center;&quot;&gt;
+      &lt;img checked=&quot;true&quot; alt=&quot;&quot; src=&quot;../../img/logo_big.png&quot;&gt;&lt;br&gt;
+       &lt;br&gt;Add empty slides or slides based on photos or videos&lt;br&gt;
+       To discover how to build your slide show and to animate slides:&lt;br&gt;
+       &lt;a href=&quot;fct_002.html&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="747"/>
+        <source>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta content=&quot;text/html; charset=UTF-8&quot; http-equiv=&quot;Content-Type&quot;&gt;&lt;/head&gt;
+&lt;body&gt;&lt;div style=&quot;text-align: center;&quot;&gt;
+  &lt;table height=&quot;100%&quot; border=&quot;1&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;
+    &lt;td style=&quot;text-align: center;&quot;&gt;
+      &lt;img checked=&quot;true&quot; alt=&quot;&quot; src=&quot;../../img/logo_big.png&quot;&gt;&lt;br&gt;
+      &lt;br&gt;Select the equipment type that you plan to use for your video&lt;br&gt;
+      To discover how to render videos:&lt;br&gt;
+      &lt;a href=&quot;fct_009.html&quot;&gt;Consult the Rendering videos WIKI page&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="761"/>
+        <source>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta content=&quot;text/html; charset=UTF-8&quot; http-equiv=&quot;Content-Type&quot;&gt;&lt;/head&gt;
+&lt;body&gt;&lt;div style=&quot;text-align: center;&quot;&gt;
+  &lt;table height=&quot;100%&quot; border=&quot;1&quot; width=&quot;100%&quot;&gt;&lt;tbody&gt;&lt;tr&gt;
+    &lt;td style=&quot;text-align: center;&quot;&gt;
+      &lt;img checked=&quot;true&quot; alt=&quot;&quot; src=&quot;../../img/logo_big.png&quot;&gt;&lt;br&gt;
+      &lt;br&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;
+      consult tutorials and learn the lastest news:&lt;br&gt;
+      &lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="846"/>
+        <location filename="../mainwindow.cpp" line="896"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation type="unfinished"></translation>
@@ -3352,60 +3420,60 @@ Do you want to save-it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="480"/>
+        <location filename="../mainwindow.cpp" line="484"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="616"/>
+        <location filename="../mainwindow.cpp" line="621"/>
         <source>Not implemented</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="616"/>
+        <location filename="../mainwindow.cpp" line="621"/>
         <source>Sorry, not yet done !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="774"/>
+        <location filename="../mainwindow.cpp" line="846"/>
         <source>New project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="824"/>
-        <location filename="../mainwindow.cpp" line="828"/>
+        <location filename="../mainwindow.cpp" line="896"/>
+        <location filename="../mainwindow.cpp" line="900"/>
         <source>Open project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="902"/>
+        <location filename="../mainwindow.cpp" line="974"/>
         <source>Save project as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="968"/>
+        <location filename="../mainwindow.cpp" line="1040"/>
         <source>Add files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1138"/>
+        <location filename="../mainwindow.cpp" line="1210"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1161"/>
+        <location filename="../mainwindow.cpp" line="1233"/>
         <source>Add a sub project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1197"/>
+        <location filename="../mainwindow.cpp" line="1269"/>
         <source>Remove slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1197"/>
+        <location filename="../mainwindow.cpp" line="1269"/>
         <source>Are you sure to want to delete this slide?</source>
         <translation type="unfinished"></translation>
     </message>

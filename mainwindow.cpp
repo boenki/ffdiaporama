@@ -430,10 +430,14 @@ void MainWindow::OpenHelp(QString HelpFile) {
     if (HelpFile.startsWith(("file://"))) {
         QDesktopServices::openUrl(QUrl(HelpFile));
     } else if (HelpFile.startsWith(("http://"))) {
-        QString HelpPath=HelpFile.replace("<local>",CurrentLanguage);
+        QString HelpPath;
+        if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")) HelpPath=HelpFile.replace("<local>","en");
+            else HelpPath=HelpFile.replace("<local>",CurrentLanguage);
         QDesktopServices::openUrl(QUrl(HelpPath));
     } else {
-        QString HelpPath="WIKI/"+CurrentLanguage+"/"+HelpFile+".html";
+        QString HelpPath;
+        if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")) HelpPath="WIKI/en/"+HelpFile+".html";
+            else HelpPath="WIKI/"+CurrentLanguage+"/"+HelpFile+".html";
         QDesktopServices::openUrl(QUrl(HelpPath));
     }
 }
@@ -597,6 +601,7 @@ void MainWindow::s_SoundItemDoubleClicked() {
 //====================================================================================================================
 
 void MainWindow::s_BackgroundDoubleClicked() {
+    if (Diaporama->CurrentCol>=Diaporama->List.count()) return;
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if (DlgBackgroundProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0) {
@@ -702,7 +707,74 @@ void MainWindow::s_WebViewOpen(QUrl Url) {
 
 void MainWindow::s_ToolbarChanged(int MenuIndex) {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    ui->webView->setUrl(QUrl("WIKI/"+CurrentLanguage+"/tab_00"+QString("%1").arg(MenuIndex+1)+".html"));
+
+    QString BaseUrl=QDir::currentPath();
+    if (!BaseUrl.endsWith(QDir::separator())) BaseUrl=BaseUrl+QDir::separator();
+    BaseUrl="file://"+BaseUrl;
+    if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")) BaseUrl=BaseUrl+"WIKI"+QDir::separator()+"en"+QDir::separator();
+        else BaseUrl=BaseUrl+"WIKI"+QDir::separator()+CurrentLanguage+QDir::separator();
+
+    QString Html;
+    switch (MenuIndex) {
+    case 0: Html=QApplication::translate("MainWindow",
+                "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"\
+                "<html><head><meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"></head>\n"\
+                "<body><div style=\"text-align: center;\">\n"\
+                "  <table height=\"100%\" border=\"1\" width=\"100%\"><tbody><tr>\n"\
+                "    <td style=\"text-align: center;\">\n"\
+                "      <img checked=\"true\" alt=\"\" src=\"../../img/logo_big.png\"><br>\n"\
+                "      <br>Select a project to open or to create a new project<br>\n"\
+                "      To discover ffDiaporama:<br>\n"\
+                "      <a href=\"fct_001.html\">Consult the WIKI</a><br><br>\n"\
+                "    </td>\n"\
+                "  </tr></tbody></table>\n"\
+                "</div></body></html>\n");
+            break;
+    case 1: Html=QApplication::translate("MainWindow",
+                "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"\
+                "<html><head><meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"></head>\n"\
+                "<body><div style=\"text-align: center;\">\n"\
+                "  <table height=\"100%\" border=\"1\" width=\"100%\"><tbody><tr>\n"\
+                "    <td style=\"text-align: center;\">\n"\
+                "      <img checked=\"true\" alt=\"\" src=\"../../img/logo_big.png\"><br>\n"\
+                "       <br>Add empty slides or slides based on photos or videos<br>\n"
+                "       To discover how to build your slide show and to animate slides:<br>\n"
+                "       <a href=\"fct_002.html\">Discover the principles of functioning of ffDiaporama</a><br><br>\n"
+                "    </td>\n"\
+                "  </tr></tbody></table>\n"\
+                "</div></body></html>\n");
+            break;
+    case 2: Html=QApplication::translate("MainWindow",
+                "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"\
+                "<html><head><meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"></head>\n"\
+                "<body><div style=\"text-align: center;\">\n"\
+                "  <table height=\"100%\" border=\"1\" width=\"100%\"><tbody><tr>\n"\
+                "    <td style=\"text-align: center;\">\n"\
+                "      <img checked=\"true\" alt=\"\" src=\"../../img/logo_big.png\"><br>\n"\
+                "      <br>Select the equipment type that you plan to use for your video<br>\n"\
+                "      To discover how to render videos:<br>\n"\
+                "      <a href=\"fct_009.html\">Consult the Rendering videos WIKI page</a><br><br>\n"\
+                "    </td>\n"\
+                "  </tr></tbody></table>\n"\
+                "</div></body></html>\n");
+            break;
+    case 3: Html=QApplication::translate("MainWindow",
+                "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"\
+                "<html><head><meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"></head>\n"\
+                "<body><div style=\"text-align: center;\">\n"\
+                "  <table height=\"100%\" border=\"1\" width=\"100%\"><tbody><tr>\n"\
+                "    <td style=\"text-align: center;\">\n"\
+                "      <img checked=\"true\" alt=\"\" src=\"../../img/logo_big.png\"><br>\n"\
+                "      <br>Visit the ffDiaporama Web site to use the forum,<br>\n"\
+                "      consult tutorials and learn the lastest news:<br>\n"\
+                "      <a href=\"http://ffdiaporama.tuxfamily.org\">http://ffdiaporama.tuxfamily.org</a><br><br>\n"\
+                "    </td>\n"\
+                "  </tr></tbody></table>\n"\
+                "</div></body></html>\n");
+            break;
+    }
+
+    ui->webView->setHtml(Html,BaseUrl);
     ui->webView->history()->clear();
     QApplication::restoreOverrideCursor();
 }
