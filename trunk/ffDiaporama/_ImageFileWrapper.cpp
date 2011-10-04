@@ -153,7 +153,8 @@ bool cimagefilewrapper::CallEXIF() {
         }
     }
     // Restart same job with -pv option to know binary value of orientation
-    Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pva -g Exif.Image.Orientation \""+FileName+"\"";
+//    Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pva -g Exif.Image.Orientation \""+FileName+"\"";
+    Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pva \""+FileName+"\"";
     Commande = AdjustDirForOS(Commande);
     Process.start(Commande);
     if (!Process.waitForStarted()) {
