@@ -981,6 +981,14 @@ void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
     }
 }
 
+void cCustomGraphicsRectItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
+    QGraphicsRectItem::mouseDoubleClickEvent(event);
+    switch (ParentWidgetType) {
+        case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->s_Scene_DoubleClick();      break;
+        //case TYPE_DlgImageCorrection:       ((DlgImageCorrection *)ParentWidget)->OnDoubleClick();          break;
+    }
+}
+
 //====================================================================================================================
 
 void cCustomGraphicsRectItem::RecalcEmbededResizeRectItem() {

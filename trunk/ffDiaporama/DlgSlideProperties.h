@@ -61,6 +61,7 @@ public:
     void            UpdateDockInfo();
     void            AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
     void            GetForDisplayUnit(double &DisplayW,double &DisplayH);
+    void            s_Scene_DoubleClick();                      // User double click on a block in the scene widget
 
     // Utility functions
     cCustomGraphicsRectItem *GetSelectItem();                       // Return selected item
@@ -108,6 +109,7 @@ private slots:
 
     // Block table/scene part
     void            s_BlockTable_SelectionChanged();            // User select a block in the BlocTable widget
+    void            s_BlockTable_ItemDoubleClicked(QTableWidgetItem * item);
     void            s_Scene_SelectionChanged();                 // User select a block in the scene widget
     void            s_BlockTable_AddNewTextBlock();
     void            s_BlockTable_AddNewFileBlock();

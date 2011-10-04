@@ -465,6 +465,9 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     QImage   *SourceImage=NULL;
     QPainter P;
 
+    double SizeRatio=double(xmax)/double(ui->GraphicsView->width());
+    int    WithPen  =int(SizeRatio); if (double(WithPen)<SizeRatio) WithPen++;
+
     // Rotate image if needed and create a SourceImage
     if (BrushFileCorrect->ImageRotation!=0) {
         QTransform matrix;
@@ -523,7 +526,7 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     P.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
     QColor col=QColor(255,0,0);
     QPen   pen=QPen(col);
-    pen.setWidth(2);
+    pen.setWidth(WithPen);
     pen.setJoinStyle(Qt::RoundJoin);
     pen.setStyle(Qt::DotLine);
     P.setPen(pen);
@@ -532,7 +535,7 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     if (MagneticRuler.MagneticRuler==true) {
         QColor col=QColor(0,255,0);
         QPen   pen=QPen(col);
-        pen.setWidth(2);
+        pen.setWidth(WithPen);
         pen.setJoinStyle(Qt::RoundJoin);
         pen.setStyle(Qt::DotLine);
         P.setPen(pen);

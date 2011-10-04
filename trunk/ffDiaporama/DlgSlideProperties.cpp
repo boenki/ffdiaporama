@@ -185,6 +185,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
 
     // Block table/scene part
     connect(ui->BlockTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_BlockTable_SelectionChanged()));
+    connect(ui->BlockTable,SIGNAL(itemDoubleClicked(QTableWidgetItem *)),this,SLOT(s_BlockTable_ItemDoubleClicked(QTableWidgetItem *)));
     connect(ui->AddTextBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewTextBlock()));
     connect(ui->AddFileBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewFileBlock()));
     connect(ui->RemoveBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_RemoveBlock()));
@@ -541,6 +542,9 @@ void DlgSlideProperties::RefreshSceneImage() {
     QPainter P;
     P.begin(&NewImage);
 
+    double SizeRatio=double(BackgroundImage->width())/double(ui->GraphicsView->width());
+    int    WithPen  =int(SizeRatio); if (double(WithPen)<SizeRatio) WithPen++;
+
     for (int i=0;i<CurrentList->List.count();i++) if (CurrentList->List[i].IsVisible) {
         // Draw composition block
         if (CurrentList->List[i].BackgroundBrush.Video) {
@@ -562,7 +566,7 @@ void DlgSlideProperties::RefreshSceneImage() {
             // draw rect out of the rectangle
             P.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
             QPen pen=QPen(Qt::red);
-            pen.setWidth(2);
+            pen.setWidth(WithPen);
             pen.setStyle(Qt::DotLine);
             P.setPen(pen);
             P.setBrush(Qt::NoBrush);
@@ -609,7 +613,7 @@ void DlgSlideProperties::RefreshSceneImage() {
             // draw rect out of the rectangle
             P.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
             QPen pen=QPen(Qt::lightGray);
-            pen.setWidth(2);
+            pen.setWidth(WithPen);
             pen.setStyle(Qt::DotLine);
             P.setPen(pen);
             P.setBrush(Qt::NoBrush);
@@ -622,7 +626,7 @@ void DlgSlideProperties::RefreshSceneImage() {
     if (MagneticRuler.MagneticRuler==true) {
         QColor col=QColor(0,255,0);
         QPen   pen=QPen(col);
-        pen.setWidth(2);
+        pen.setWidth(WithPen);
         pen.setJoinStyle(Qt::RoundJoin);
         pen.setStyle(Qt::DotLine);
         P.setPen(pen);
@@ -1634,6 +1638,13 @@ void DlgSlideProperties::s_BlockTable_SelectionChanged() {
 }
 
 //====================================================================================================================
+// User double click on a block in the BlockTable widget
+
+void DlgSlideProperties::s_BlockTable_ItemDoubleClicked(QTableWidgetItem *) {
+    s_Scene_DoubleClick();
+}
+
+//====================================================================================================================
 // User select a block in the scene widget
 
 void DlgSlideProperties::s_Scene_SelectionChanged() {
@@ -1652,6 +1663,17 @@ void DlgSlideProperties::s_Scene_SelectionChanged() {
     ui->BlockTable->setUpdatesEnabled(true);
     StopMAJSpinbox=false;
     RefreshControls();
+}
+
+//====================================================================================================================
+// User double click on a block in the scene widget
+
+void DlgSlideProperties::s_Scene_DoubleClick() {
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if (CurrentTextItem==NULL) return;
+    if (CurrentTextItem->BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK)    TextEditor();
+    else if (CurrentTextItem->BackgroundBrush.Image!=NULL)                  ImageEditCorrect();
+    else if (CurrentTextItem->BackgroundBrush.Video!=NULL)                  VideoEdit();
 }
 
 //====================================================================================================================
@@ -1681,6 +1703,7 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
     NextZValue+=10;
 
     RefreshBlockTable(CompositionList->List.count()-1);
+    TextEditor();   // Open text editor
 }
 
 //====================================================================================================================
