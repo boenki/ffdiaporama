@@ -4,653 +4,705 @@
     <title>Modificando las diapositivas</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <link href="../ffDiaporama_style.css" rel="stylesheet" type="text/css">
-<!--[if lt IE 7]>
-<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE7.js"></script>
-<![endif]-->
-<!--[if lt IE 8]>
-<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE8.js"></script>
-<![endif]-->
-<!--[if lt IE 9]>
-<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
-<![endif]-->
+    <!--[if lt IE 7]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE7.js"></script><![endif]-->
+    <!--[if lt IE 8]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE8.js"></script><![endif]-->
+    <!--[if lt IE 9]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script><![endif]-->
   </head>
-  <body><div class="wrapper"><!-- wrapper for all -->
-    <div class="icon_place" style="text-align: left;" ><img checked="true" style="width: 48px; height: 48px;" src="../../WIKI_img/Wiki.png" align="MIDDLE"></div>
-    <div id="header"><!-- banner sup -->
-      <div id="banner"><span>Modificando las diapositivas</span></div>
-    </div><!-- Header end -->
-
-    <div style="text-align: left;" id="content_wikimode">
-      <h2 style="">Introducci&#243;n</h2>
-      <div style="margin-left: 40px;">La ventana "Propiedades de
-        diapositiva" permite definir la configuraci&#243;n de las
-        diapositivas: <br>
-        <br>
-        <img checked="true" src="img/dlg_003.png"><br>
-        <br>
-        Esta ventana se abre haciendo doble clic en la zona de de
-        diapositivas, en la l&#237;nea de tiempo<br>
+  <body>
+    <div class="wrapper"><!-- wrapper for all -->
+      <div class="icon_place" style="text-align: left;"><img checked="true"
+          style="width: 48px; height: 48px;" src="../../WIKI_img/Wiki.png"
+          align="MIDDLE"></div>
+      <div id="header"><!-- banner sup -->
+        <div id="banner"><span>Modificando las diapositivas</span></div>
       </div>
-      <h2> Descripci&#243;n de la ventana<br>
-      </h2>
-      <div style="margin-left: 40px;">Esta ventana incluye numerosas
-        zonas:<br>
-        <ul>
-          <li>Las zonas de la izquierda corresponden a la
-            configuraci&#243;n de la diapositiva y sus tomas (planos)</li>
-          <li>Las zonas de la derecha corresponden a la
-            configuraci&#243;n de los bloques</li>
-        </ul>
-      </div>
-      <div style="margin-left: 40px;">
-        <h3>A la izquierda, en la parte superior: la zona de las tomas
-          (planos)<br>
-        </h3>
-        La zona de las tomas (planos) consiste en una barra de
-        herramientas y una l&#237;nea de tiempo.
-        <h4>La barra de herramientas de las tomas (planos)<br>
-        </h4>
-        <table border="0" cellpadding="2" cellspacing="0">
-          <tbody>
-            <tr>
-              <td><img checked="true" src="../../img/add_project.png"> </td>
-              <td style="vertical-align: top;">A&#241;adir una toma al
-                final de la l&#237;nea de tiempo </td>
-            </tr>
-            <tr>
-              <td><img checked="true" src="../../img/trash.png"> </td>
-              <td style="vertical-align: top;">Quitar actual toma
-                seleccionada </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img style="width: 24px; height: 24px;"
-                  checked="true" src="../../img/arrow_left.png"></td>
-              <td style="vertical-align: top;">Cambiar el orden de las
-                tomas moviendo la toma actual seleccionada un paso a la
-                izquierda </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/arrow_right.png"></td>
-              <td style="vertical-align: top;">Cambiar el orden de las
-                tomas moviendo la toma actual seleccionada un paso a la
-                derecha</td>
-            </tr>
-          </tbody>
-        </table>
-        <h4>La l&#237;nea de tiempo de la toma<br>
-        </h4>
-        La l&#237;nea de tiempo muestra las tomas como miniaturas, en el
-        orden en el que se reproducir&#225; (de izquierda a derecha). <br>
-        Para cada toma, muestra la miniatura :
-        <ul>
-          <li>Duraci&#243;n de la toma</li>
-          <li>Una imagen que representa la toma al final de su
-            duraci&#243;n</li>
-        </ul>
-        <h4>Zona de configuraci&#243;n del tiempo de la toma </h4>
-        <table style="margin-left: 40px;" border="1" cellpadding="2" cellspacing="0">
-          <tbody>
-            <tr>
-              <td style="vertical-align: top;">Duraci&#243;n de la toma<br>
-              </td>
-              <td style="vertical-align: top;">Indicar aqu&#237; la
-                duraci&#243;n para la toma actual seleccionada.<br>
-                Para la &#250;ltima toma de la diapositiva, hay una
-                duraci&#243;n m&#237;nima.<br>
-                <br>
-                <div style="margin-left: 40px;">Las siguientes
-                  gu&#237;as son utilizadas para calcular la
-                  duraci&#243;n m&#237;nima de la toma:
-                  <ul>
-                    <li>La duraci&#243;n total de la diapositiva no
-                      puede ser inferior a la suma de las duraciones de
-                      la transici&#243;n de la diapositiva y la de la
-                      transici&#243;n de la diapositiva siguiente </li>
-                    <li>La duraci&#243;n total de la diapositiva debe
-                      permitir completar la reproducci&#243;n m&#225;s
-                      larga de la secuencia de video (tiempo de pausas
-                      se tiene en cuenta) </li>
-                  </ul>
-                  Si se especifica una duraci&#243;n inferior a la
-                  m&#237;nima calculando la duraci&#243;n de la toma, es
-                  esta m&#237;nima duraci&#243;n la que se
-                  utilizar&#225; en lugar del valor del que se que ha
-                  especificado. </div>
-                <br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;">Duraci&#243;n total de la
-                diapositiva<br>
-              </td>
-              <td style="vertical-align: top;">La duraci&#243;n total de
-                la diapositiva se muestra aqu&#237;.<br>
-                Esta duraci&#243;n toma en cuenta los ajustes posibles
-                para la duraci&#243;n m&#237;nima de la toma, como se ha
-                descrito anteriormente. </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"> Nombre de la diapositiva</td>
-              <td style="vertical-align: top;">Indicar aqu&#237; el
-                nombre de la diapositiva. Este es el nombre que
-                aparecer&#225; en la miniatura de la l&#237;nea de
-                tiempo, en la ventana principal .</td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="margin-left: 40px;"> </div>
-        <h3>A la izquierda, en el centro: la zona de la composici&#243;n<br>
-        </h3>
-        <div style="margin-left: 40px;"> La zona de la composici&#243;n
-          permite moverse de forma interactiva y redimensionar los
-          bloques para la actual toma seleccionada.<br>
-          Los bloques de la composici&#243;n se muestran con un marco
-          (para diferenciarlos de los elementos gr&#225;ficos del
-          fondo). <br>
-          El bloque actual seleccionado se muestra con identificadores
-          de control (peque&#241;os cuadrados que aparecen en las
-          esquinas y bordes).<br>
+      <!-- Header end -->
+      <div style="text-align: left;" id="content_wikimode">
+        <h2 style="">Introducci&#243;n</h2>
+        <div style="margin-left: 40px;">La ventana "Propiedades de
+          diapositiva" permite definir la configuraci&#243;n de las
+          diapositivas: <br>
           <br>
-          Con el rat&#243;n:<br>
-        </div>
-        <ul style="margin-left: 40px;">
-          <li>Para cambiar el tama&#241;o del bloque, hacer clic en uno
-            de los controladores y arrastre el rat&#243;n manteniendo
-            presionado el bot&#243;n. </li>
-          <li>Para mover el bloque, hacer clic dentro del bloque y
-            arrastrar el rat&#243;n con el bot&#243;n presionado. </li>
-        </ul>
-        <div style="margin-left: 40px;"> Con el teclado:<br>
-        </div>
-        <ul>
-          <ul>
-            <li>Para mover el bloque, utilice las teclas de flechas. </li>
-            <li>Para cambiar el tama&#241;o del bloque, utilice SHIFT +
-              flechas para mover el control de la esquina superior
-              izquierda o CTRL + flechas para mover el control de la
-              esquina inferior derecha. </li>
-          </ul>
-        </ul>
-        <h3>A la derecha en la parte superior: la zona del bloque</h3>
-        La zona del bloque consiste en una barra de herramientas y un
-        &#225;rea de trabajo del bloque.
-        <h4>&#193;rea de trabajo del bloque</h4>
-        <div style="margin-left: 40px;"> En el &#225;rea de trabajo de
-          bloques, de arriba a abajo, los bloques actuales en la
-          diapositiva.<br>
-          Los bloques se muestran en 3 columnas: </div>
-        <ul style="margin-left: 40px;">
-          <li>La primera columna indica el tipo de bloque (<img checked="true"
-              style="width: 16px; height: 16px;" alt="" src="../../img/object_text.png">=T&#237;tulo,
-
-
-            <img checked="true" style="width: 16px; height: 16px;" alt=""
-              src="../../img/object_image.png">=Imagen, <img checked="true"
-              style="width: 16px; height: 16px;" alt="" src="../../img/object_movie.png">=Video)</li>
-          <li>La segunda columna indica el bloque que reproduce el
-            sonido durante la toma : un icono <img checked="true" style="width: 16px; height: 16px;"
-              alt="" src="../../img/object_sound.png"> aparece para el
-            bloque que tiene sonido </li>
-          <li>La tercera columna indica:</li>
-          <ul>
-            <li>El texto del bloque, si se trata de un bloque de
-              t&#237;tulo </li>
-            <li>El nombre del archivo, si es una imagen o un video </li>
-          </ul>
-        </ul>
-        <div style="margin-left: 40px;"> El bloque activo es el actual
-          bloque seleccionado en la tabla de bloques. Para cambiar el
-          bloque activo, s&#243;lo tiene que seleccionar un bloque en la
-          lista o en la zona de la composici&#243;n.<br>
+          <img checked="true" src="img/dlg_003.png"><br>
           <br>
-          <span style="font-weight: bold; text-decoration: underline;">Notas
-
-            sobre los bloques:</span><br>
+          Esta ventana se abre haciendo doble clic en la zona de de
+          diapositivas, en la l&#237;nea de tiempo<br>
         </div>
-        <ul>
+        <h2> Descripci&#243;n de la ventana<br>
+        </h2>
+        <div style="margin-left: 40px;">Esta ventana incluye numerosas
+          zonas:<br>
           <ul>
-            <li>El orden del bloque puede cambiar de una toma a otra </li>
-            <li>Los bloques ocultos se muestran en escala de grises y en
-              cursiva</li>
-          </ul>
-        </ul>
-        <h4>Barra de herramientas</h4>
-        <table style="margin-left: 40px;" border="0" cellpadding="2" cellspacing="0">
-          <tbody>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/arrow_up.png"></td>
-              <td style="vertical-align: top;">Cambiar el orden de los
-                bloques moviendo el bloque activo hacia arriba (hacia el
-                fondo) </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/arrow_down.png"></td>
-              <td style="vertical-align: top;">Cambiar el orden de los
-                bloques moviendo el bloque activo hacia abajo (hacia el
-                primer plano)</td>
-            </tr>
-            <tr>
-              <td><img checked="true" src="../../img/add_text.png"></td>
-              <td style="vertical-align: top;">A&#241;adir un nuevo
-                bloque de texto<br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/add_image.png"></td>
-              <td style="vertical-align: top;">A&#241;adir un bloque de
-                imagen nueva o video. Se abre una ventana de
-                di&#225;logo de selecci&#243;n de archivos, que permite
-                seleccionar un archivo ( no es posible seleccionar
-                varios archivos.) </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/trash.png"></td>
-              <td style="vertical-align: top;">Eliminar el bloque actual<br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/editcopy.png"></td>
-              <td style="vertical-align: top;">Copiar el bloque actual
-                al portapapeles de ffDiaporama.<br>
-                La copia se realiza con los par&#225;metros del bloque
-                para la toma actual seleccionada. </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" style="width: 24px; height: 24px;"
-                  src="../../img/editcut.png"></td>
-              <td style="vertical-align: top;">Copiar el bloque actual
-                al portapapeles de ffDiaporama y quitarlo de la
-                diapositiva <br>
-                La copia se realiza con los par&#225;metros del bloque
-                para la toma actual seleccionada.</td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/editpaste.png"></td>
-              <td style="vertical-align: top;">Pegar el bloque desde el
-                portapapeles de ffDiaporama e insertarlo. </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top; text-align: center;"><img
-                  alt="" src="../../img/Visible_OK.png"><br>
-              </td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Hacer
-
-                clic en este bot&#243;n para hacer el bloque activo,
-                visible u oculto. <b>Nota</b>: Los bloques ocultos de
-                video se detiene autom&#225;ticamente </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top; text-align: center;"><img
-                  checked="true" src="../../img/object_sound.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">Hacer
-
-                clic en este bot&#243;n para dar el sonido, durante esta
-                toma, al bloque de video actual. (Este bot&#243;n
-                s&#243;lo est&#225; activo para videos.)</td>
-            </tr>
-            <tr>
-              <td><img checked="true" src="../../img/EditText.png"></td>
-              <td style="vertical-align: top;">Hacer clic en este
-                bot&#243;n para abrir la ventana de di&#225;logo&#160;<a
-                  href="dlg_001.html">Editar bloque de texto</a>.<br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/EditImage.png"></td>
-              <td style="vertical-align: top;">Hacer clic en este
-                bot&#243;n para abrir la ventana de di&#225;logo&#160;<a
-                  href="dlg_005.html">Encuadre y correci&#243;n de
-                  imagen</a> <br>
-                Este bot&#243;n se activa s&#243;lo para los objetos que
-                contienen im&#225;genes o videos.<br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;"><img checked="true" src="../../img/EditMovie.png"></td>
-              <td style="vertical-align: top;">Hacer clic en este
-                bot&#243;n para abrir la ventana de di&#225;logo&#160;<a
-                  href="dlg_010.html">Cortar video</a><br>
-                Este bot&#243;n se activa s&#243;lo para los objetos que
-                contienen videos.<br>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <span style="font-weight: bold; text-decoration: underline;"><br>
-        </span>
-        <div style="margin-left: 40px;"><span style="font-weight: bold; text-decoration: underline;">
-            Nota sobre los bloques:</span></div>
-        <ul style="margin-left: 40px;">
-          <li>Todos los bloques, ya sea un t&#237;tulo, una imagen o un
-            video, poseen un elemento de texto.<br>
-            <br>
-          </li>
-          <li>Durante la inserci&#243;n de un nuevo bloque (A&#241;adir
-            t&#237;tulo, A&#241;adir archivo o pegar), el bloque es
-            insertado: </li>
-        </ul>
-        <ul>
-          <ul>
-            <ul>
-              <li>En el modo visible, para la toma actual y para todas
-                las siguientes tomas </li>
-              <li>En el modo visible, para las tomas situados justo
-                antes de la toma seleccionada </li>
-              <li>Siempre en la &#250;ltima posici&#243;n en la lista de
-                bloques (en primer plano) </li>
-            </ul>
-          </ul>
-        </ul>
-        <ul>
-        </ul>
-        <h3>En la parte inferior derecha: la pesta&#241;a Bloque/Objeto<br>
-        </h3>
-        Esta pesta&#241;a permite configurar el tama&#241;o y la
-        posici&#243;n del bloque activo y su contenido.<br>
-        <br>
-        <table border="1" cellpadding="2" cellspacing="0" width="90%">
-          <tbody>
-            <tr>
-              <td style="vertical-align: top;" colspan="1" rowspan="17"><img
-                  checked="true" src="img/dlg_003_a.png"> </td>
-              <td style="vertical-align: top; text-align: center;"><img
-                  checked="true" src="../../img/PosSize_X.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">
-                Representa la posici&#243;n horizontal del bloque desde
-                la izquierda. <br>
-                Esta posici&#243;n se define con un porcentaje (%) de la
-                anchura total de la imagen, o en p&#237;xeles (para una
-                pantalla 1080p), de acuerdo con la unidad definida en la
-                ventana de di&#225;logo de configuraci&#243;n. </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top; text-align: center;"><img
-                  checked="true" src="../../img/PosSize_Y.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">
-                Representa la posici&#243;n vertical del bloque a partir
-                de la altura de la imagen.<br>
-                Esta posici&#243;n se define con un porcentaje (%) de la
-                altura total de la imagen, o en p&#237;xeles (para una
-                pantalla 1080p), de acuerdo con la unidad definida en la
-                ventana de di&#225;logo de configuraci&#243;n.</td>
-            </tr>
-            <tr checked="true">
-              <td style="vertical-align: top; text-align: center;"><img
-                  checked="true" src="../../img/PosSize_Width.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">
-                Representa la anchura del bloque.<br>
-                Este valor se define con un porcentaje (%) de la anchura
-                total de la imagen, o en p&#237;xeles (para una pantalla
-                1080p), de acuerdo con la unidad definida en la ventana
-                de di&#225;logo de configuraci&#243;n.</td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top; text-align: center;"><img
-                  checked="true" src="../../img/PosSize_Height.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">
-                Representa la altura del bloque.<br>
-                Este valor se define con un porcentaje (%) de la altura
-                total de la imagen, o en p&#237;xeles (para una pantalla
-                1080p), de acuerdo con la unidad definida en la ventana
-                de di&#225;logo de configuraci&#243;n.</td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top; text-align: center;"><img
-                  checked="true" src="../../img/RotateZ.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">
-                Rotaci&#243;n alrededor del eje Z, en grados. </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top; text-align: center;"><img
-                  checked="true" src="../../img/RotateY.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">
-                Rotaci&#243;n alrededor del eje Y, en grados</td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top; text-align: center;"><img
-                  checked="true" src="../../img/RotateX.png"></td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">
-                Rotaci&#243;n alrededor del eje X, en grados</td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;">Forma<br>
-              </td>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">
-                Permite seleccionar una forma para el bloque :
-                <ul>
-                  <li>Una m&#225;scara de mezcla para las im&#225;genes
-                    y los videos.</li>
-                  <li>Una zona de recorte para el texto. </li>
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;">Opacity<br>
-              </td>
-              <td style="vertical-align: top;">Opacity<br>
-              </td>
-              <td style="vertical-align: top;">Define la opacidad del
-                bloque. Este valor tambi&#233;n se aplica al texto del
-                bloque. </td>
-            </tr>
-            <tr>
-              <td colspan="1" rowspan="3" style="vertical-align: top;">Borde<br>
-                <br>
-                <br>
-              </td>
-              <td style="vertical-align: top;" nowrap="nowrap">Grosor
-                del borde<br>
-              </td>
-              <td style="vertical-align: top;">Define el grosor de del
-                borde (Este valor es definido como 1 / 1080 de la altura
-                de la pantalla. Un valor de 10 corresponde a 10 puntos
-                en una pantalla FullHD 1920x1080, pero s&#243;lo a 6
-                puntos en una pantalla de 1280x720).</td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;" nowrap="nowrap">Border
-                color<br>
-              </td>
-              <td style="vertical-align: top;">Define el color de la
-                l&#237;nea que se utilizar&#225; para dibujar el borde</td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;" nowrap="nowrap">Tipo de
-                l&#237;nea del borde<br>
-              </td>
-              <td style="vertical-align: top;">Define el tipo de
-                l&#237;nea (l&#237;nea s&#243;lida, punteada, etc)</td>
-            </tr>
-            <tr>
-              <td colspan="1" rowspan="3" style="vertical-align: top;">Sombra<br>
-                <br>
-              </td>
-              <td style="vertical-align: top;" nowrap="nowrap">
-                Posici&#243;n de la sombra<br>
-              </td>
-              <td style="vertical-align: top;">Define en qu&#233;
-                esquina se colocar&#225; la sombra (<b>Nota</b>: la
-                posici&#243;n de la sombra es independiente de la
-                rotaci&#243;n del bloque: la esquina inferior derecha es
-                siempre la esquina inferior derecha, siempre aplicado a
-                la rotaci&#243;n). </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;" nowrap="nowrap">Distancia
-                de la sombra</td>
-              <td style="vertical-align: top;">Define la distancia entre
-                el bloque y su sombra </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;">Color<br>
-              </td>
-              <td style="vertical-align: top;">Color de la sombra<br>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <h4> Objeto :</h4>
-        <div style="margin-left: 40px;"> De acuerdo con el tipo de de
-          objeto, son posibles diferentes contenidos:<br>
-        </div>
-        <ul style="margin-left: 40px;">
-          <li>Para una imagen o un video:</li>
-        </ul>
-        <div style="margin-left: 80px;"> El nombre del archivo. El
-          bot&#243;n <img alt="" src="../../img/FolderOpen.png">
-          permite cambiar el archivo </div>
-        <ul style="margin-left: 80px;">
-          <li><b>&#161;Advertencia!</b> Si se reemplaza un archivo
-            (imagen o video) con otro, con una geometr&#237;a de imagen
-            diferente, ser&#225; necesario revisar el encuadre de la
-            imagen en todas las tomas. </li>
-        </ul>
-        <div style="margin-left: 80px;"> La geometr&#237;a permite
-          seleccionar la restricci&#243;n geom&#233;trica que se aplica
-          al bloque. tres tipos de restricci&#243;n se encuentran
-          disponibles:
-          <ul>
-            <li>Geometr&#237;a del proyecto: El bloque se ver&#225;
-              obligado a la geometr&#237;a del proyecto (4/3, 16/9 o
-              40/17)</li>
-            <li>Geometr&#237;a de la imagen: El bloque se ver&#225;
-              obligado a la geometr&#237;a original de la imagen o el
-              video </li>
-            <li>Geometr&#237;a personalizada: El bloque se ver&#225;
-              obligado a la geometr&#237;a definida en la ventana
-              "Encuadrar y corregir imagen". </li>
-          </ul>
-          Transformaci&#243;n: Aplicar un filtro a las im&#225;genes de
-          fotos o videos. (Nota: estos filtros se aplican a todas las
-          tomas de la diapositiva). <br>
-          Los filtros disponibles son las siguientes:
-          <ul>
-            <li>Ecualizador (Histograma de ecualizaci&#243;n)<br>
-            </li>
-            <li>Eliminaci&#243;n de ruido (Reducci&#243;n de Ruido)<br>
-            </li>
-            <li>Gris (blanco y negro)<br>
-            </li>
-          </ul>
-          Difuminado/N&#237;tido y radio :<br>
-          <ul>
-            <li>Aumentar el desenfoque con un valor negativo, con un
-              radio.<br>
-            </li>
-            <li>Aumentar la nitidez con un valor positivo, con un radio.</li>
+            <li>Las zonas de la izquierda corresponden a la
+              configuraci&#243;n de la diapositiva y sus tomas (planos)</li>
+            <li>Las zonas de la derecha corresponden a la
+              configuraci&#243;n de los bloques</li>
           </ul>
         </div>
-        <ul style="margin-left: 40px;">
-          <li>Para el t&#237;tulo: Definici&#243;n de un fondo para la
-            forma: </li>
-        </ul>
-        <div style="margin-left: 80px;">
-          <table border="1" cellpadding="2" cellspacing="0">
+        <div style="margin-left: 40px;">
+          <h3>A la izquierda, en la parte superior: la zona de las tomas
+            (planos)<br>
+          </h3>
+          La zona de las tomas (planos) consiste en una barra de
+          herramientas y una l&#237;nea de tiempo.
+          <h4>La barra de herramientas de las tomas (planos)<br>
+          </h4>
+          <table border="0" cellpadding="2" cellspacing="0">
             <tbody>
               <tr>
-                <td>No brush<br>
+                <td><img checked="true" src="../../img/add_project.png">
                 </td>
-                <td>La forma no tendr&#225; fondo y ser&#225; por lo
-                  tanto totalmente transparente.<br>
-                </td>
+                <td style="vertical-align: top;">A&#241;adir una toma al
+                  final de la l&#237;nea de tiempo </td>
               </tr>
               <tr>
-                <td style="vertical-align: top;">Fondo s&#243;lido<br>
-                </td>
-                <td style="vertical-align: top;">Permite seleccionar un
-                  color plano.<br>
-                </td>
+                <td><img checked="true" src="../../img/trash.png"> </td>
+                <td style="vertical-align: top;">Quitar actual toma
+                  seleccionada </td>
               </tr>
               <tr>
-                <td style="vertical-align: top;">Patr&#243;n de fondo</td>
-                <td style="vertical-align: top;">Permite seleccionar:
-                  <ul>
-                    <li>Un patr&#243;n de uno de los doce disponibles</li>
-                    <li>Un color para el trazado de l&#237;neas</li>
-                  </ul>
-                </td>
+                <td style="vertical-align: top;"><img style="width: 24px; height: 24px;"
+                    checked="true" src="../../img/arrow_left.png"></td>
+                <td style="vertical-align: top;">Cambiar el orden de las
+                  tomas moviendo la toma actual seleccionada un paso a
+                  la izquierda </td>
               </tr>
               <tr>
-                <td style="vertical-align: top;">Gradiente de 2 colores</td>
-                <td style="vertical-align: top;">Permite seleccionar un
-                  gradiente de 2 colores</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">Gradiente de 3 colores</td>
-                <td style="vertical-align: top;">Permite seleccionar un
-                  gradiente de 3 colores</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top;">Imagen de la biblioteca</td>
-                <td style="vertical-align: top;">Permite seleccionar una
-                  imagen de la biblioteca</td>
+                <td style="vertical-align: top;"><img checked="true" src="../../img/arrow_right.png"></td>
+                <td style="vertical-align: top;">Cambiar el orden de las
+                  tomas moviendo la toma actual seleccionada un paso a
+                  la derecha</td>
               </tr>
             </tbody>
           </table>
-        </div>
-        <div style="margin-left: 40px;"> <br>
-        </div>
-        <h3>A la derecha abajo: la pesta&#241;a Informaci&#243;n </h3>
-        Muestra la informaci&#243;n en el bloque:<br>
-        <ul>
-          <li>Si el bloque es un t&#237;tulo: muestra que es un
-            t&#237;tulo<br>
-          </li>
-          <li>Si el bloque es una imagen: muestra los valores EXIF
-            contenidos en la imagen </li>
-          <li>Si el bloque es un video: muestra la informaci&#243;n del
-            tama&#241;o y el formato del video </li>
-        </ul>
-      </div>
-      <h3 style="margin-left: 40px;">M&#225;rgenes de TV</h3>
-      <div style="margin-left: 40px;"> <img checked="true" src="../../img/ruler_ok.png">
-        Activar o desactivar gu&#237;as que corresponden a los
-        m&#225;rgenes de los aparatos de televisi&#243;n. </div>
-      <ul style="margin-left: 40px;">
-        <li> Si los m&#225;rgenes de la TV est&#225;n habilitadas, las
-          gu&#237;as correspondientes a estos m&#225;rgenes se muestran
-          en el centro de la pantalla. El rat&#243;n se sentir&#225;
-          atra&#237;do hacia estas gu&#237;as.<br>
-          Esto es v&#225;lido tanto para los movimientos del bloque como
-          para los movimientos de que maneja el cambio de tama&#241;o. </li>
-        <li> En ffDiaporama, los m&#225;rgenes de TV son del tipo
-          "T&#237;tulo del &#225;rea de seguridad" y se define con el
-          90% de ancho y el 90% en la altura, para odas las
-          geometr&#237;as de los proyectos..<br>
-          <strong>Si es necesario, &#161;este punto se puede mejorar en
-            las futuras versiones del software!</strong></li>
-      </ul>
-      <h2>Consulta tambi&#233;n</h2>
-      <ul>
-        <li><a href="fct_001.html">&#205;ndice del WIKI de ffDiaporama</a></li>
-        <li><a href="fct_002.html">C&#243;mo trabaja ffDiaporama</a></li>
-        <li><a checked="true" href="fct_003.html">La l&#237;nea de
-            tiempo</a></li>
-      </ul>
-      <table border="0" cellpadding="0" cellspacing="10">
-        <tbody>
-          <tr>
-            <td style="vertical-align: top; text-align: center;"> <a href="http://en.wikipedia.org/wiki/Overscan">
-                <img src="../../WIKI_img/Wikipedia.png" style="width: 48px; height: 48px;"
-                  checked="true"> </a> <br>
-              <small>WIKIPEDIA</small> </td>
-            <td style="vertical-align: middle;"> <a href="http://en.wikipedia.org/wiki/Overscan">Descripci&#243;n
+          <h4>La l&#237;nea de tiempo de la toma<br>
+          </h4>
+          La l&#237;nea de tiempo muestra las tomas como miniaturas, en
+          el orden en el que se reproducir&#225; (de izquierda a
+          derecha). <br>
+          Para cada toma, muestra la miniatura :
+          <ul>
+            <li>Duraci&#243;n de la toma</li>
+            <li>Una imagen que representa la toma al final de su
+              duraci&#243;n</li>
+          </ul>
+          <h4>Zona de configuraci&#243;n del tiempo de la toma </h4>
+          <table style="margin-left: 40px;" border="1" cellpadding="2" cellspacing="0">
+            <tbody>
+              <tr>
+                <td style="vertical-align: top;">Duraci&#243;n de la
+                  toma<br>
+                </td>
+                <td style="vertical-align: top;">Indicar aqu&#237; la
+                  duraci&#243;n para la toma actual seleccionada.<br>
+                  Para la &#250;ltima toma de la diapositiva, hay una
+                  duraci&#243;n m&#237;nima.<br>
+                  <br>
+                  <div style="margin-left: 40px;">Las siguientes
+                    gu&#237;as son utilizadas para calcular la
+                    duraci&#243;n m&#237;nima de la toma:
+                    <ul>
+                      <li>La duraci&#243;n total de la diapositiva no
+                        puede ser inferior a la suma de las duraciones
+                        de la transici&#243;n de la diapositiva y la de
+                        la transici&#243;n de la diapositiva siguiente </li>
+                      <li>La duraci&#243;n total de la diapositiva debe
+                        permitir completar la reproducci&#243;n m&#225;s
+                        larga de la secuencia de video (tiempo de pausas
+                        se tiene en cuenta) </li>
+                    </ul>
+                    Si se especifica una duraci&#243;n inferior a la
+                    m&#237;nima calculando la duraci&#243;n de la toma,
+                    es esta m&#237;nima duraci&#243;n la que se
+                    utilizar&#225; en lugar del valor del que se que ha
+                    especificado. </div>
+                  <br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;">Duraci&#243;n total de
+                  la diapositiva<br>
+                </td>
+                <td style="vertical-align: top;">La duraci&#243;n total
+                  de la diapositiva se muestra aqu&#237;.<br>
+                  Esta duraci&#243;n toma en cuenta los ajustes posibles
+                  para la duraci&#243;n m&#237;nima de la toma, como se
+                  ha descrito anteriormente. </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"> Nombre de la
+                  diapositiva</td>
+                <td style="vertical-align: top;">Indicar aqu&#237; el
+                  nombre de la diapositiva. Este es el nombre que
+                  aparecer&#225; en la miniatura de la l&#237;nea de
+                  tiempo, en la ventana principal .</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="margin-left: 40px;"> </div>
+          <h3>A la izquierda, en el centro: la zona de la
+            composici&#243;n<br>
+          </h3>
+          <div style="margin-left: 40px;"> La zona de la
+            composici&#243;n permite moverse de forma interactiva y
+            redimensionar los bloques para la actual toma seleccionada.<br>
+            Los bloques de la composici&#243;n se muestran con un marco
+            (para diferenciarlos de los elementos gr&#225;ficos del
+            fondo). <br>
+            El bloque actual seleccionado se muestra con identificadores
+            de control (peque&#241;os cuadrados que aparecen en las
+            esquinas y bordes).<br>
+            <br>
+            Con el rat&#243;n:<br>
+          </div>
+          <ul style="margin-left: 40px;">
+            <li>Para cambiar el tama&#241;o del bloque, hacer clic en
+              uno de los controladores y arrastre el rat&#243;n
+              manteniendo presionado el bot&#243;n. </li>
+            <li>Para mover el bloque, hacer clic dentro del bloque y
+              arrastrar el rat&#243;n con el bot&#243;n presionado. </li>
+          </ul>
+          <div style="margin-left: 40px;"> Con el teclado:<br>
+          </div>
+          <ul>
+            <ul>
+              <li>Para mover el bloque, utilice las teclas de flechas. </li>
+              <li>Para cambiar el tama&#241;o del bloque, utilice SHIFT
+                + flechas para mover el control de la esquina superior
+                izquierda o CTRL + flechas para mover el control de la
+                esquina inferior derecha. </li>
+            </ul>
+          </ul>
+          <div style="margin-left: 40px;"><span style="color: orange;">Double
 
-                de los m&#225;rgenes de la televisi&#243;n y "overscan"</a>
+
+              click on a block allows to open the block editor
+              associated with the block type (for a text block: open the
+              text editor. For an image block open the reframing dialog,
+              etc.)<br>
+            </span> </div>
+          <h3>A la derecha en la parte superior: la zona del bloque</h3>
+          La zona del bloque consiste en una barra de herramientas y un
+          &#225;rea de trabajo del bloque.
+          <h4>&#193;rea de trabajo del bloque</h4>
+          <div style="margin-left: 40px;"> En el &#225;rea de trabajo de
+            bloques, de arriba a abajo, los bloques actuales en la
+            diapositiva.<br>
+            Los bloques se muestran en 3 columnas: </div>
+          <ul style="margin-left: 40px;">
+            <li>La primera columna indica el tipo de bloque (<img checked="true"
+                style="width: 16px; height: 16px;" alt="" src="../../img/object_text.png">=T&#237;tulo,
+
+
+
+
+
+
+              <img checked="true" style="width: 16px; height: 16px;" alt=""
+                src="../../img/object_image.png">=Imagen, <img checked="true"
+                style="width: 16px; height: 16px;" alt="" src="../../img/object_movie.png">=Video)</li>
+            <li>La segunda columna indica el bloque que reproduce el
+              sonido durante la toma : un icono <img checked="true" style="width: 16px; height: 16px;"
+                alt="" src="../../img/object_sound.png"> aparece para el
+              bloque que tiene sonido </li>
+            <li>La tercera columna indica:</li>
+            <ul>
+              <li>El texto del bloque, si se trata de un bloque de
+                t&#237;tulo </li>
+              <li>El nombre del archivo, si es una imagen o un video </li>
+            </ul>
+          </ul>
+          <div style="margin-left: 40px;"> El bloque activo es el actual
+            bloque seleccionado en la tabla de bloques. Para cambiar el
+            bloque activo, s&#243;lo tiene que seleccionar un bloque en
+            la lista o en la zona de la composici&#243;n.<br>
+            <span style="color: orange;">Double click on a block allows
+              to open the block editor associated with the block type
+              (for a text block: open the text editor. For an image
+              block open the reframing dialog, etc.) </span> <br>
+            <br>
+            <span style="font-weight: bold; text-decoration: underline;">Notas
+
+
+
+
+
+              sobre los bloques:</span><br>
+          </div>
+          <ul>
+            <ul>
+              <li>El orden del bloque puede cambiar de una toma a otra </li>
+              <li>Los bloques ocultos se muestran en escala de grises y
+                en cursiva</li>
+            </ul>
+          </ul>
+          <h4>Barra de herramientas</h4>
+          <table style="margin-left: 40px;" border="0" cellpadding="2" cellspacing="0">
+            <tbody>
+              <tr>
+                <td style="vertical-align: top;"><img checked="true" src="../../img/arrow_up.png"></td>
+                <td style="vertical-align: top;">Cambiar el orden de los
+                  bloques moviendo el bloque activo hacia arriba (hacia
+                  el fondo) </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><img checked="true" src="../../img/arrow_down.png"></td>
+                <td style="vertical-align: top;">Cambiar el orden de los
+                  bloques moviendo el bloque activo hacia abajo (hacia
+                  el primer plano)</td>
+              </tr>
+              <tr>
+                <td><img checked="true" src="../../img/add_text.png"></td>
+                <td style="vertical-align: top;">A&#241;adir un nuevo
+                  bloque de texto<br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><img checked="true" src="../../img/add_image.png"></td>
+                <td style="vertical-align: top;">A&#241;adir un bloque
+                  de imagen nueva o video. Se abre una ventana de
+                  di&#225;logo de selecci&#243;n de archivos, que
+                  permite seleccionar un archivo ( no es posible
+                  seleccionar varios archivos.) </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><img checked="true" src="../../img/trash.png"></td>
+                <td style="vertical-align: top;">Eliminar el bloque
+                  actual<br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><img checked="true" src="../../img/editcopy.png"></td>
+                <td style="vertical-align: top;">Copiar el bloque actual
+                  al portapapeles de ffDiaporama.<br>
+                  La copia se realiza con los par&#225;metros del bloque
+                  para la toma actual seleccionada. </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><img checked="true" style="width: 24px; height: 24px;"
+                    src="../../img/editcut.png"></td>
+                <td style="vertical-align: top;">Copiar el bloque actual
+                  al portapapeles de ffDiaporama y quitarlo de la
+                  diapositiva <br>
+                  La copia se realiza con los par&#225;metros del bloque
+                  para la toma actual seleccionada.</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><img checked="true" src="../../img/editpaste.png"></td>
+                <td style="vertical-align: top;">Pegar el bloque desde
+                  el portapapeles de ffDiaporama e insertarlo. </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top; text-align: center;"><img
+                    alt="" src="../../img/Visible_OK.png"><br>
+                </td>
+                <td colspan="2" rowspan="1" style="vertical-align: top;">Hacer
+
+
+
+
+
+                  clic en este bot&#243;n para hacer el bloque activo,
+                  visible u oculto. <b>Nota</b>: Los bloques ocultos de
+                  video se detiene autom&#225;ticamente </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top; text-align: center;"><img
+                    checked="true" src="../../img/object_sound.png"></td>
+                <td colspan="2" rowspan="1" style="vertical-align: top;">Hacer
+
+
+
+
+
+                  clic en este bot&#243;n para dar el sonido, durante
+                  esta toma, al bloque de video actual. (Este bot&#243;n
+                  s&#243;lo est&#225; activo para videos.)</td>
+              </tr>
+              <tr>
+                <td><img checked="true" src="../../img/EditText.png"></td>
+                <td style="vertical-align: top;">Hacer clic en este
+                  bot&#243;n para abrir la ventana de di&#225;logo&#160;<a
+                    href="dlg_001.html">Editar bloque de texto</a>.<br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><img checked="true" src="../../img/EditImage.png"></td>
+                <td style="vertical-align: top;">Hacer clic en este
+                  bot&#243;n para abrir la ventana de di&#225;logo&#160;<a
+                    href="dlg_005.html">Encuadre y correci&#243;n de
+                    imagen</a> <br>
+                  Este bot&#243;n se activa s&#243;lo para los objetos
+                  que contienen im&#225;genes o videos.<br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><img checked="true" src="../../img/EditMovie.png"></td>
+                <td style="vertical-align: top;">Hacer clic en este
+                  bot&#243;n para abrir la ventana de di&#225;logo&#160;<a
+                    href="dlg_010.html">Cortar video</a><br>
+                  Este bot&#243;n se activa s&#243;lo para los objetos
+                  que contienen videos.<br>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <span style="font-weight: bold; text-decoration: underline;"><br>
+          </span>
+          <div style="margin-left: 40px;"><span style="font-weight: bold; text-decoration: underline;">
+              Nota sobre los bloques:</span></div>
+          <ul style="margin-left: 40px;">
+            <li>Todos los bloques, ya sea un t&#237;tulo, una imagen o
+              un video, poseen un elemento de texto.<br>
               <br>
-              <a href="http://en.wikipedia.org/wiki/EXIF">
-                Descripci&#243;n de EXIF - Formato de archivo de imagen
-                intercambiable</a> <br>
-              <a href="http://en.wikipedia.org/wiki/Histogram_equalization"
-                checked="true">Filtro: Histograma de ecualizaci&#243;n</a>
-              <br>
-              <a href="http://en.wikipedia.org/wiki/Despeckle">Filter:
-                Reducci&#243;n de ruido</a> <br>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <br>
-      <hr style="width: 100%; height: 2px;">&#169; Proyecto ffDiaporama</div>
-  </div></body><!-- div wrapper  End-->
+            </li>
+            <li>Durante la inserci&#243;n de un nuevo bloque
+              (A&#241;adir t&#237;tulo, A&#241;adir archivo o pegar), el
+              bloque es insertado: </li>
+          </ul>
+          <ul>
+            <ul>
+              <ul>
+                <li>En el modo visible, para la toma actual y para todas
+                  las siguientes tomas </li>
+                <li>En el modo visible, para las tomas situados justo
+                  antes de la toma seleccionada </li>
+                <li>Siempre en la &#250;ltima posici&#243;n en la lista
+                  de bloques (en primer plano) </li>
+              </ul>
+            </ul>
+          </ul>
+          <ul>
+          </ul>
+          <h3>En la parte inferior derecha: la pesta&#241;a
+            Bloque/Objeto<br>
+          </h3>
+          Esta pesta&#241;a permite configurar el tama&#241;o y la
+          posici&#243;n del bloque activo y su contenido.<br>
+          <br>
+          <table border="1" cellpadding="2" cellspacing="0" width="90%">
+            <tbody>
+              <tr>
+                <td style="vertical-align: top;" colspan="1" rowspan="17"><img
+                    checked="true" src="img/dlg_003_a.png"> </td>
+                <td style="vertical-align: top; text-align: center;"><img
+                    checked="true" src="../../img/PosSize_X.png"></td>
+                <td colspan="2" rowspan="1" style="vertical-align: top;">
+                  Representa la posici&#243;n horizontal del bloque
+                  desde la izquierda. <br>
+                  Esta posici&#243;n se define con un porcentaje (%) de
+                  la anchura total de la imagen, o en p&#237;xeles (para
+                  una pantalla 1080p), de acuerdo con la unidad definida
+                  en la ventana de di&#225;logo de configuraci&#243;n. </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top; text-align: center;"><img
+                    checked="true" src="../../img/PosSize_Y.png"></td>
+                <td colspan="2" rowspan="1" style="vertical-align: top;">
+                  Representa la posici&#243;n vertical del bloque a
+                  partir de la altura de la imagen.<br>
+                  Esta posici&#243;n se define con un porcentaje (%) de
+                  la altura total de la imagen, o en p&#237;xeles (para
+                  una pantalla 1080p), de acuerdo con la unidad definida
+                  en la ventana de di&#225;logo de configuraci&#243;n.</td>
+              </tr>
+              <tr checked="true">
+                <td style="vertical-align: top; text-align: center;"><img
+                    checked="true" src="../../img/PosSize_Width.png"></td>
+                <td colspan="2" rowspan="1" style="vertical-align: top;">
+                  Representa la anchura del bloque.<br>
+                  Este valor se define con un porcentaje (%) de la
+                  anchura total de la imagen, o en p&#237;xeles (para
+                  una pantalla 1080p), de acuerdo con la unidad definida
+                  en la ventana de di&#225;logo de configuraci&#243;n.</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top; text-align: center;"><img
+                    checked="true" src="../../img/PosSize_Height.png"></td>
+                <td colspan="2" rowspan="1" style="vertical-align: top;">
+                  Representa la altura del bloque.<br>
+                  Este valor se define con un porcentaje (%) de la
+                  altura total de la imagen, o en p&#237;xeles (para una
+                  pantalla 1080p), de acuerdo con la unidad definida en
+                  la ventana de di&#225;logo de configuraci&#243;n.</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top; text-align: center;"><img
+                    checked="true" src="../../img/RotateZ.png"></td>
+                <td colspan="2" rowspan="1" style="vertical-align: top;">
+                  Rotaci&#243;n alrededor del eje Z, en grados. </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top; text-align: center;"><img
+                    checked="true" src="../../img/RotateY.png"></td>
+                <td colspan="2" rowspan="1" style="vertical-align: top;">
+                  Rotaci&#243;n alrededor del eje Y, en grados</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top; text-align: center;"><img
+                    checked="true" src="../../img/RotateX.png"></td>
+                <td colspan="2" rowspan="1" style="vertical-align: top;">
+                  Rotaci&#243;n alrededor del eje X, en grados</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;">Forma<br>
+                </td>
+                <td colspan="2" rowspan="1" style="vertical-align: top;">
+                  Permite seleccionar una forma para el bloque :
+                  <ul>
+                    <li>Una m&#225;scara de mezcla para las
+                      im&#225;genes y los videos.</li>
+                    <li>Una zona de recorte para el texto. </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;">Opacity<br>
+                </td>
+                <td style="vertical-align: top;">Opacity<br>
+                </td>
+                <td style="vertical-align: top;">Define la opacidad del
+                  bloque. Este valor tambi&#233;n se aplica al texto del
+                  bloque. </td>
+              </tr>
+              <tr>
+                <td colspan="1" rowspan="3" style="vertical-align: top;">Borde<br>
+                  <br>
+                  <br>
+                </td>
+                <td style="vertical-align: top;" nowrap="nowrap">Grosor
+                  del borde<br>
+                </td>
+                <td style="vertical-align: top;">Define el grosor de del
+                  borde (Este valor es definido como 1 / 1080 de la
+                  altura de la pantalla. Un valor de 10 corresponde a 10
+                  puntos en una pantalla FullHD 1920x1080, pero
+                  s&#243;lo a 6 puntos en una pantalla de 1280x720).</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;" nowrap="nowrap">Border
+                  color<br>
+                </td>
+                <td style="vertical-align: top;">Define el color de la
+                  l&#237;nea que se utilizar&#225; para dibujar el borde</td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;" nowrap="nowrap">Tipo de
+                  l&#237;nea del borde<br>
+                </td>
+                <td style="vertical-align: top;">Define el tipo de
+                  l&#237;nea (l&#237;nea s&#243;lida, punteada, etc)</td>
+              </tr>
+              <tr>
+                <td colspan="1" rowspan="3" style="vertical-align: top;">Sombra<br>
+                  <br>
+                </td>
+                <td style="vertical-align: top;" nowrap="nowrap">
+                  Posici&#243;n de la sombra<br>
+                </td>
+                <td style="vertical-align: top;">Define en qu&#233;
+                  esquina se colocar&#225; la sombra (<b>Nota</b>: la
+                  posici&#243;n de la sombra es independiente de la
+                  rotaci&#243;n del bloque: la esquina inferior derecha
+                  es siempre la esquina inferior derecha, siempre
+                  aplicado a la rotaci&#243;n). </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;" nowrap="nowrap">Distancia
+
+
+
+
+                  de la sombra</td>
+                <td style="vertical-align: top;">Define la distancia
+                  entre el bloque y su sombra </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;">Color<br>
+                </td>
+                <td style="vertical-align: top;">Color de la sombra<br>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h4> Objeto :</h4>
+          <div style="margin-left: 40px;"> De acuerdo con el tipo de de
+            objeto, son posibles diferentes contenidos:<br>
+          </div>
+          <ul style="margin-left: 40px;">
+            <li>Para una imagen o un video:</li>
+          </ul>
+          <div style="margin-left: 80px;"> El nombre del archivo. El
+            bot&#243;n <img alt="" src="../../img/FolderOpen.png">
+            permite cambiar el archivo </div>
+          <ul style="margin-left: 80px;">
+            <li><b>&#161;Advertencia!</b> Si se reemplaza un archivo
+              (imagen o video) con otro, con una geometr&#237;a de
+              imagen diferente, ser&#225; necesario revisar el encuadre
+              de la imagen en todas las tomas. </li>
+          </ul>
+          <div style="margin-left: 80px;"> La geometr&#237;a permite
+            seleccionar la restricci&#243;n geom&#233;trica que se
+            aplica al bloque. tres tipos de restricci&#243;n se
+            encuentran disponibles:
+            <ul>
+              <li>Geometr&#237;a del proyecto: El bloque se ver&#225;
+                obligado a la geometr&#237;a del proyecto (4/3, 16/9 o
+                40/17)</li>
+              <li>Geometr&#237;a de la imagen: El bloque se ver&#225;
+                obligado a la geometr&#237;a original de la imagen o el
+                video </li>
+              <li>Geometr&#237;a personalizada: El bloque se ver&#225;
+                obligado a la geometr&#237;a definida en la ventana
+                "Encuadrar y corregir imagen". </li>
+            </ul>
+            Transformaci&#243;n: Aplicar un filtro a las im&#225;genes
+            de fotos o videos. (Nota: estos filtros se aplican a todas
+            las tomas de la diapositiva). <br>
+            Los filtros disponibles son las siguientes:
+            <ul>
+              <li>Ecualizador (Histograma de ecualizaci&#243;n)<br>
+              </li>
+              <li>Eliminaci&#243;n de ruido (Reducci&#243;n de Ruido)<br>
+              </li>
+              <li>Gris (blanco y negro)<br>
+              </li>
+            </ul>
+            Difuminado/N&#237;tido y radio :<br>
+            <ul>
+              <li>Aumentar el desenfoque con un valor negativo, con un
+                radio.<br>
+              </li>
+              <li>Aumentar la nitidez con un valor positivo, con un
+                radio.</li>
+            </ul>
+          </div>
+          <ul style="margin-left: 40px;">
+            <li>Para el t&#237;tulo: Definici&#243;n de un fondo para la
+              forma: </li>
+          </ul>
+          <div style="margin-left: 80px;">
+            <table border="1" cellpadding="2" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td>No brush<br>
+                  </td>
+                  <td>La forma no tendr&#225; fondo y ser&#225; por lo
+                    tanto totalmente transparente.<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">Fondo s&#243;lido<br>
+                  </td>
+                  <td style="vertical-align: top;">Permite seleccionar
+                    un color plano.<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">Patr&#243;n de fondo</td>
+                  <td style="vertical-align: top;">Permite seleccionar:
+                    <ul>
+                      <li>Un patr&#243;n de uno de los doce disponibles</li>
+                      <li>Un color para el trazado de l&#237;neas</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">Gradiente de 2
+                    colores</td>
+                  <td style="vertical-align: top;">Permite seleccionar
+                    un gradiente de 2 colores</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">Gradiente de 3
+                    colores</td>
+                  <td style="vertical-align: top;">Permite seleccionar
+                    un gradiente de 3 colores</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">Imagen de la
+                    biblioteca</td>
+                  <td style="vertical-align: top;">Permite seleccionar
+                    una imagen de la biblioteca</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-left: 40px;"> <br>
+          </div>
+          <h3>A la derecha abajo: la pesta&#241;a Informaci&#243;n </h3>
+          Muestra la informaci&#243;n en el bloque:<br>
+          <ul>
+            <li>Si el bloque es un t&#237;tulo: muestra que es un
+              t&#237;tulo<br>
+            </li>
+            <li>Si el bloque es una imagen: muestra los valores EXIF
+              contenidos en la imagen </li>
+            <li>Si el bloque es un video: muestra la informaci&#243;n
+              del tama&#241;o y el formato del video </li>
+          </ul>
+        </div>
+        <h3 style="margin-left: 40px;">M&#225;rgenes de TV</h3>
+        <div style="margin-left: 40px;"> <img checked="true" src="../../img/ruler_ok.png">
+          Activar o desactivar gu&#237;as que corresponden a los
+          m&#225;rgenes de los aparatos de televisi&#243;n. </div>
+        <ul style="margin-left: 40px;">
+          <li> Si los m&#225;rgenes de la TV est&#225;n habilitadas, las
+            gu&#237;as correspondientes a estos m&#225;rgenes se
+            muestran en el centro de la pantalla. El rat&#243;n se
+            sentir&#225; atra&#237;do hacia estas gu&#237;as.<br>
+            Esto es v&#225;lido tanto para los movimientos del bloque
+            como para los movimientos de que maneja el cambio de
+            tama&#241;o. </li>
+          <li> En ffDiaporama, los m&#225;rgenes de TV son del tipo
+            "T&#237;tulo del &#225;rea de seguridad" y se define con el
+            90% de ancho y el 90% en la altura, para odas las
+            geometr&#237;as de los proyectos..<br>
+            <strong>Si es necesario, &#161;este punto se puede mejorar
+              en las futuras versiones del software!</strong></li>
+        </ul>
+        <h2>Consulta tambi&#233;n</h2>
+        <ul>
+          <li><a href="fct_001.html">&#205;ndice del WIKI de ffDiaporama</a></li>
+          <li><a href="fct_002.html">C&#243;mo trabaja ffDiaporama</a></li>
+          <li><a checked="true" href="fct_003.html">La l&#237;nea de
+              tiempo</a></li>
+        </ul>
+        <table border="0" cellpadding="0" cellspacing="10">
+          <tbody>
+            <tr>
+              <td style="vertical-align: top; text-align: center;"> <a
+                  href="http://en.wikipedia.org/wiki/Overscan"> <img src="../../WIKI_img/Wikipedia.png"
+                    style="width: 48px; height: 48px;" checked="true"> </a>
+                <br>
+                <small>WIKIPEDIA</small> </td>
+              <td style="vertical-align: middle;"> <a href="http://en.wikipedia.org/wiki/Overscan">Descripci&#243;n
+
+
+
+
+
+                  de los m&#225;rgenes de la televisi&#243;n y
+                  "overscan"</a> <br>
+                <a href="http://en.wikipedia.org/wiki/EXIF">
+                  Descripci&#243;n de EXIF - Formato de archivo de
+                  imagen intercambiable</a> <br>
+                <a href="http://en.wikipedia.org/wiki/Histogram_equalization"
+                  checked="true">Filtro: Histograma de ecualizaci&#243;n</a>
+                <br>
+                <a href="http://en.wikipedia.org/wiki/Despeckle">Filter:
+                  Reducci&#243;n de ruido</a> <br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <hr style="width: 100%; height: 2px;">ffDiaporama 1.1<br>
+      </div>
+    </div>
+  </body>
+  <!-- div wrapper  End-->
 </html>

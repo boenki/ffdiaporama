@@ -134,7 +134,6 @@ cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
 //========================================================================================================================
 
 void cCustomColorComboBox::SetCurrentColor(QString *Color) {
-    qDebug()<<"SetCurrentColor"<<*Color;
     CurrentColor=Color;
     int i=0;
     while ((i<MAXCOLORREF)&&(ColorRef[i]!=*CurrentColor)) i++;

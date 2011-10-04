@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 26/09/2011) :
+Buggs/TODO (Dernier SVN le 03/10/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -10,9 +10,7 @@ Mandatory :
  - Have the possibility of rendering the video only for a part of the project
  - Have the possibility of adding photos/videos by drag & drop since the outside of the application
  - Have the possibility of making a multiple selection when one want to insert images into a plan
- - Double click on a block in the slide dialog = > open text, reframing or video edit according to the block type
  - To add an option "same as precedent" for 3 sections object/block and coordinates as so as the modifications in one of 3 sections echo in the following shots.
- - When we add new text block directly open the properties allowing to modify the text
 
 May-be :
  - To add UNDO functionnality
@@ -28,18 +26,30 @@ May-be :
 Changelog depuis le dernier SVN
 --------------------------------
 French version
-- Rend possible le support partielle d'une langue (Interface seul ou Interface+WIKI ou Interface+WIKI+WEB)
-- Ajout des fichiers de langue du Russe (25%)
-- Deplace le contenu des 4 fichiers tab_00x.html dans le fichier .ts
+- Mise à jours de la doc fct_008 (Ajout du russe)
+- Mise à jours des doc Dlg_001, Dlg_005 et Dlg_010 pour ajouter l'ouverture par double click
+- Mise à jours de la doc Dlg_003 (Ajout des doubles click)
+- Correction du bug d'affichage des guides et des cadres dans les boites diapositive et recadrage (les traits n'apparaissaient pas toujours quand les boites étaient petites)
+- Ouvre immédiatement la boite d'édition de texte quand on ajoute un nouveau bloc texte dans la boite de dialogue diapositive
+- Quand on double clique sur un bloc dans la boite diapositive (scene ou table des blocs) ouvre la boite texte, la boite de recadrage ou la boite video en fonction du type de bloc
 
 English version
-- Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
-- Addition of the files of the Russian language (25 %)
-- Move the contents of 4 tab_00x.html files in the .ts file
+- Doc update fct_008 (Adding Russian)
+- Doc update Dlg_001, Dlg_005 et Dlg_010 (addition of opening with double click)
+- Doc update Dlg_003 (addition of double-clicks)
+- Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
+- Open immediately the dialog allowing to modify the text when we add new text block in the slide dialog
+- When double click on a block in the slide dialog (scene or block table) then open text dialog, reframing dialog or video edit dialog according to the block type
 
 -------------------------------------
 Changelog depuis la version 20110926
 -------------------------------------
 French version
+- Rend possible le support partielle d'une langue (Interface seul ou Interface+WIKI ou Interface+WIKI+WEB)
+- Ajout des fichiers de langue du Russe (25%)
+- Déplace le contenu des 4 fichiers tab_00x.html dans le fichier .ts
 
 English version
+- Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
+- Addition of the files of the Russian language (25 %)
+- Move the contents of 4 tab_00x.html files in the .ts file
