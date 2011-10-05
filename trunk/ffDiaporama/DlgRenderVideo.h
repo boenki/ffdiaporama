@@ -36,6 +36,7 @@ Q_OBJECT
 public:
     cDiaporama      *Diaporama;
     int             ExportMode;                     // Export mode (smartphone, advanced, etc...)
+    bool            StopSpinboxRecursion;
     bool            StopProcessWanted;              // True if user click on cancel or close during encoding process
     int             Extend;                         // amout of padding (top and bottom) for cinema mode with DVD
     int             VideoCodecIndex;                // Index of video codec
@@ -50,7 +51,7 @@ public:
     explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,QWidget *parent = 0);
     ~DlgRenderVideo();
 
-    bool            WriteTempAudioFile(QString TempWAVFileName);
+    bool            WriteTempAudioFile(QString TempWAVFileName,int FromSlide);
 
 protected:
     virtual void    showEvent(QShowEvent *);
@@ -68,6 +69,10 @@ private slots:
     void            InitAudioBitRateCB(int);
     void            s_DeviceTypeCB(int);
     void            s_DeviceModelCB(int);
+    void            SetZoneToAll();
+    void            SetZoneToPartial();
+    void            s_ChgRenderZoneFromED(int);
+    void            s_ChgRenderZoneToED(int);
 
 private:
     Ui::DlgRenderVideo *ui;

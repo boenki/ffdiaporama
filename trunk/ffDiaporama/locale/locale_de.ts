@@ -1175,7 +1175,7 @@ Move the current selected file of a notch downward.</source>
     <name>DlgRenderVideo</name>
     <message>
         <location filename="../DlgRenderVideo.ui" line="62"/>
-        <location filename="../DlgRenderVideo.ui" line="434"/>
+        <location filename="../DlgRenderVideo.ui" line="491"/>
         <source>Image format :</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1306,184 +1306,204 @@ Move the current selected file of a notch downward.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="424"/>
+        <location filename="../DlgRenderVideo.ui" line="408"/>
+        <source>All slides</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.ui" line="415"/>
+        <source>From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.ui" line="425"/>
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.ui" line="450"/>
+        <source>To render :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.ui" line="481"/>
         <source>Rendering to :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="444"/>
+        <location filename="../DlgRenderVideo.ui" line="501"/>
         <source>Video format :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="454"/>
+        <location filename="../DlgRenderVideo.ui" line="511"/>
         <source>Audio format :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="515"/>
+        <location filename="../DlgRenderVideo.ui" line="572"/>
         <source>Audio track - Total progression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="548"/>
+        <location filename="../DlgRenderVideo.ui" line="605"/>
         <source>Video track - Current slide progression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="609"/>
+        <location filename="../DlgRenderVideo.ui" line="666"/>
         <source>Video track - Total progression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="665"/>
+        <location filename="../DlgRenderVideo.ui" line="722"/>
         <source>Elapsed time :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="675"/>
+        <location filename="../DlgRenderVideo.ui" line="732"/>
         <source>Average render speed :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="711"/>
+        <location filename="../DlgRenderVideo.ui" line="768"/>
         <source>fps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="761"/>
+        <location filename="../DlgRenderVideo.ui" line="818"/>
         <source>Accept modification and start rendering process</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="764"/>
+        <location filename="../DlgRenderVideo.ui" line="821"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="775"/>
+        <location filename="../DlgRenderVideo.ui" line="832"/>
         <source>Cancel modification or rendering process and exit dialog box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="778"/>
+        <location filename="../DlgRenderVideo.ui" line="835"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="789"/>
+        <location filename="../DlgRenderVideo.ui" line="846"/>
         <source>Open help page describing this dialog box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="792"/>
+        <location filename="../DlgRenderVideo.ui" line="849"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="799"/>
+        <location filename="../DlgRenderVideo.ui" line="856"/>
         <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="38"/>
+        <location filename="../DlgRenderVideo.cpp" line="39"/>
         <source>Advanced render video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="39"/>
+        <location filename="../DlgRenderVideo.cpp" line="40"/>
         <source>Render video for mobil player and smartphone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="40"/>
+        <location filename="../DlgRenderVideo.cpp" line="41"/>
         <source>Render video for multimedia system</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="41"/>
+        <location filename="../DlgRenderVideo.cpp" line="42"/>
         <source>Render video for the WEB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="465"/>
+        <location filename="../DlgRenderVideo.cpp" line="518"/>
         <source>Overwrite file ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="466"/>
+        <location filename="../DlgRenderVideo.cpp" line="519"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="503"/>
-        <location filename="../DlgRenderVideo.cpp" line="515"/>
-        <location filename="../DlgRenderVideo.cpp" line="668"/>
-        <location filename="../DlgRenderVideo.cpp" line="687"/>
-        <location filename="../DlgRenderVideo.cpp" line="838"/>
-        <location filename="../DlgRenderVideo.cpp" line="875"/>
-        <location filename="../DlgRenderVideo.cpp" line="883"/>
-        <location filename="../DlgRenderVideo.cpp" line="895"/>
-        <location filename="../DlgRenderVideo.cpp" line="905"/>
-        <location filename="../DlgRenderVideo.cpp" line="917"/>
-        <location filename="../DlgRenderVideo.cpp" line="939"/>
-        <location filename="../DlgRenderVideo.cpp" line="964"/>
-        <location filename="../DlgRenderVideo.cpp" line="973"/>
-        <location filename="../DlgRenderVideo.cpp" line="981"/>
-        <location filename="../DlgRenderVideo.cpp" line="1083"/>
-        <location filename="../DlgRenderVideo.cpp" line="1087"/>
-        <location filename="../DlgRenderVideo.cpp" line="1111"/>
+        <location filename="../DlgRenderVideo.cpp" line="558"/>
+        <location filename="../DlgRenderVideo.cpp" line="570"/>
+        <location filename="../DlgRenderVideo.cpp" line="724"/>
+        <location filename="../DlgRenderVideo.cpp" line="743"/>
+        <location filename="../DlgRenderVideo.cpp" line="896"/>
+        <location filename="../DlgRenderVideo.cpp" line="933"/>
+        <location filename="../DlgRenderVideo.cpp" line="941"/>
+        <location filename="../DlgRenderVideo.cpp" line="953"/>
+        <location filename="../DlgRenderVideo.cpp" line="963"/>
+        <location filename="../DlgRenderVideo.cpp" line="975"/>
+        <location filename="../DlgRenderVideo.cpp" line="997"/>
+        <location filename="../DlgRenderVideo.cpp" line="1022"/>
+        <location filename="../DlgRenderVideo.cpp" line="1031"/>
+        <location filename="../DlgRenderVideo.cpp" line="1039"/>
+        <location filename="../DlgRenderVideo.cpp" line="1141"/>
+        <location filename="../DlgRenderVideo.cpp" line="1145"/>
+        <location filename="../DlgRenderVideo.cpp" line="1169"/>
         <source>Render video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="729"/>
-        <location filename="../DlgRenderVideo.cpp" line="781"/>
-        <location filename="../DlgRenderVideo.cpp" line="788"/>
-        <location filename="../DlgRenderVideo.cpp" line="823"/>
-        <location filename="../DlgRenderVideo.cpp" line="827"/>
+        <location filename="../DlgRenderVideo.cpp" line="785"/>
+        <location filename="../DlgRenderVideo.cpp" line="839"/>
+        <location filename="../DlgRenderVideo.cpp" line="846"/>
+        <location filename="../DlgRenderVideo.cpp" line="881"/>
+        <location filename="../DlgRenderVideo.cpp" line="885"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="730"/>
+        <location filename="../DlgRenderVideo.cpp" line="786"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="758"/>
+        <location filename="../DlgRenderVideo.cpp" line="816"/>
         <source> - Estimated time left : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="781"/>
+        <location filename="../DlgRenderVideo.cpp" line="839"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="788"/>
+        <location filename="../DlgRenderVideo.cpp" line="846"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="823"/>
+        <location filename="../DlgRenderVideo.cpp" line="881"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="827"/>
+        <location filename="../DlgRenderVideo.cpp" line="885"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="838"/>
+        <location filename="../DlgRenderVideo.cpp" line="896"/>
         <source>Job completed succesfully !</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1861,7 +1881,7 @@ Do you want to overwrite it ?</source>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1830"/>
-        <location filename="../DlgSlideProperties.cpp" line="443"/>
+        <location filename="../DlgSlideProperties.cpp" line="444"/>
         <source>Color :</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2150,121 +2170,121 @@ Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="368"/>
+        <location filename="../DlgSlideProperties.cpp" line="369"/>
         <source>Lengthened to %1 sec</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="449"/>
+        <location filename="../DlgSlideProperties.cpp" line="450"/>
         <source>Colors :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="717"/>
+        <location filename="../DlgSlideProperties.cpp" line="721"/>
         <source>Object type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="718"/>
+        <location filename="../DlgSlideProperties.cpp" line="722"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="719"/>
+        <location filename="../DlgSlideProperties.cpp" line="723"/>
         <source>Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="720"/>
+        <location filename="../DlgSlideProperties.cpp" line="724"/>
         <source>Video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="724"/>
+        <location filename="../DlgSlideProperties.cpp" line="728"/>
         <source>Filename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="738"/>
+        <location filename="../DlgSlideProperties.cpp" line="742"/>
         <source>Image size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="742"/>
+        <location filename="../DlgSlideProperties.cpp" line="746"/>
         <source>Video format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="746"/>
+        <location filename="../DlgSlideProperties.cpp" line="750"/>
         <source>Bitrate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="750"/>
+        <location filename="../DlgSlideProperties.cpp" line="754"/>
         <source>Frame rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="754"/>
+        <location filename="../DlgSlideProperties.cpp" line="758"/>
         <source>fps</source>
         <comment>frame per second</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="757"/>
+        <location filename="../DlgSlideProperties.cpp" line="761"/>
         <source>Aspect ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="762"/>
+        <location filename="../DlgSlideProperties.cpp" line="766"/>
         <source>Audio format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="766"/>
+        <location filename="../DlgSlideProperties.cpp" line="770"/>
         <source>Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="768"/>
+        <location filename="../DlgSlideProperties.cpp" line="772"/>
         <source>hz</source>
         <comment>audio frequency</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="770"/>
+        <location filename="../DlgSlideProperties.cpp" line="774"/>
         <source>Channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1115"/>
-        <location filename="../DlgSlideProperties.cpp" line="1690"/>
+        <location filename="../DlgSlideProperties.cpp" line="1119"/>
+        <location filename="../DlgSlideProperties.cpp" line="1713"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1481"/>
+        <location filename="../DlgSlideProperties.cpp" line="1485"/>
         <source>Remove shot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1481"/>
+        <location filename="../DlgSlideProperties.cpp" line="1485"/>
         <source>Are you sure to want to delete this shot?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1667"/>
+        <location filename="../DlgSlideProperties.cpp" line="1689"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1807"/>
+        <location filename="../DlgSlideProperties.cpp" line="1830"/>
         <source>Remove bloc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1807"/>
+        <location filename="../DlgSlideProperties.cpp" line="1830"/>
         <source>Are you sure to want to delete this bloc?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3084,7 +3104,7 @@ and help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="195"/>
+        <location filename="../DlgRenderVideo.cpp" line="248"/>
         <source>Select destination file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3112,14 +3132,14 @@ and help</source>
         <location filename="../_ApplicationDefinitions.cpp" line="713"/>
         <location filename="../_ApplicationDefinitions.cpp" line="718"/>
         <location filename="../_ApplicationDefinitions.cpp" line="724"/>
-        <location filename="../_Diaporama.cpp" line="1088"/>
-        <location filename="../_Diaporama.cpp" line="1130"/>
-        <location filename="../_Diaporama.cpp" line="1135"/>
+        <location filename="../_Diaporama.cpp" line="1100"/>
         <location filename="../_Diaporama.cpp" line="1142"/>
-        <location filename="../_Diaporama.cpp" line="1199"/>
-        <location filename="../_Diaporama.cpp" line="1205"/>
-        <location filename="../_Diaporama.cpp" line="1212"/>
-        <location filename="../_Diaporama.cpp" line="1221"/>
+        <location filename="../_Diaporama.cpp" line="1147"/>
+        <location filename="../_Diaporama.cpp" line="1154"/>
+        <location filename="../_Diaporama.cpp" line="1211"/>
+        <location filename="../_Diaporama.cpp" line="1217"/>
+        <location filename="../_Diaporama.cpp" line="1224"/>
+        <location filename="../_Diaporama.cpp" line="1233"/>
         <location filename="../mainwindow.cpp" line="1210"/>
         <source>Error</source>
         <comment>Error message</comment>
@@ -3156,67 +3176,67 @@ and help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1088"/>
-        <location filename="../_Diaporama.cpp" line="1089"/>
+        <location filename="../_Diaporama.cpp" line="1100"/>
+        <location filename="../_Diaporama.cpp" line="1101"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1106"/>
+        <location filename="../_Diaporama.cpp" line="1118"/>
         <source>Open project file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1107"/>
+        <location filename="../_Diaporama.cpp" line="1119"/>
         <location filename="../_ImageFileWrapper.cpp" line="77"/>
         <location filename="../_VideoFileWrapper.cpp" line="690"/>
         <source>Impossible to open file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1107"/>
+        <location filename="../_Diaporama.cpp" line="1119"/>
         <location filename="../_ImageFileWrapper.cpp" line="77"/>
         <location filename="../_VideoFileWrapper.cpp" line="690"/>
         <source>Do you want to select another file ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1110"/>
+        <location filename="../_Diaporama.cpp" line="1122"/>
         <location filename="../_ImageFileWrapper.cpp" line="80"/>
         <location filename="../_VideoFileWrapper.cpp" line="693"/>
         <source>Select another file for </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1129"/>
-        <location filename="../_Diaporama.cpp" line="1199"/>
-        <location filename="../_Diaporama.cpp" line="1200"/>
+        <location filename="../_Diaporama.cpp" line="1141"/>
+        <location filename="../_Diaporama.cpp" line="1211"/>
+        <location filename="../_Diaporama.cpp" line="1212"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1135"/>
-        <location filename="../_Diaporama.cpp" line="1136"/>
-        <location filename="../_Diaporama.cpp" line="1205"/>
-        <location filename="../_Diaporama.cpp" line="1206"/>
+        <location filename="../_Diaporama.cpp" line="1147"/>
+        <location filename="../_Diaporama.cpp" line="1148"/>
+        <location filename="../_Diaporama.cpp" line="1217"/>
+        <location filename="../_Diaporama.cpp" line="1218"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1142"/>
-        <location filename="../_Diaporama.cpp" line="1143"/>
-        <location filename="../_Diaporama.cpp" line="1212"/>
-        <location filename="../_Diaporama.cpp" line="1213"/>
+        <location filename="../_Diaporama.cpp" line="1154"/>
+        <location filename="../_Diaporama.cpp" line="1155"/>
+        <location filename="../_Diaporama.cpp" line="1224"/>
+        <location filename="../_Diaporama.cpp" line="1225"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1221"/>
-        <location filename="../_Diaporama.cpp" line="1222"/>
+        <location filename="../_Diaporama.cpp" line="1233"/>
+        <location filename="../_Diaporama.cpp" line="1234"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -3233,8 +3253,8 @@ Image geometry in this file is not the same than the current project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="207"/>
-        <location filename="../_ImageFileWrapper.cpp" line="260"/>
+        <location filename="../_ImageFileWrapper.cpp" line="208"/>
+        <location filename="../_ImageFileWrapper.cpp" line="261"/>
         <source>Loading file :</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3481,11 +3501,19 @@ Do you want to save-it ?</source>
 <context>
     <name>wgt_QImageFilterTransform</name>
     <message>
+        <location filename="../cCustomComboBox.cpp" line="509"/>
+        <location filename="../cCustomComboBox.cpp" line="557"/>
+        <location filename="../cCustomComboBox.cpp" line="578"/>
+        <location filename="../cCustomComboBox.cpp" line="598"/>
+        <source>Gray</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../cCustomComboBox.cpp" line="510"/>
         <location filename="../cCustomComboBox.cpp" line="558"/>
         <location filename="../cCustomComboBox.cpp" line="579"/>
         <location filename="../cCustomComboBox.cpp" line="599"/>
-        <source>Gray</source>
+        <source>Equalize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3493,7 +3521,7 @@ Do you want to save-it ?</source>
         <location filename="../cCustomComboBox.cpp" line="559"/>
         <location filename="../cCustomComboBox.cpp" line="580"/>
         <location filename="../cCustomComboBox.cpp" line="600"/>
-        <source>Equalize</source>
+        <source>Despeckle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3501,14 +3529,6 @@ Do you want to save-it ?</source>
         <location filename="../cCustomComboBox.cpp" line="560"/>
         <location filename="../cCustomComboBox.cpp" line="581"/>
         <location filename="../cCustomComboBox.cpp" line="601"/>
-        <source>Despeckle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../cCustomComboBox.cpp" line="513"/>
-        <location filename="../cCustomComboBox.cpp" line="561"/>
-        <location filename="../cCustomComboBox.cpp" line="582"/>
-        <location filename="../cCustomComboBox.cpp" line="602"/>
         <source>No transformation</source>
         <translation type="unfinished"></translation>
     </message>

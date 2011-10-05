@@ -7,7 +7,6 @@ Mandatory :
  - To add animations of text (scrolling, zoom in / out), animations for entering blocks (1st shot or invisible block in the previous shot) and of animations for outgoing block (the Last one shot or invisible block in the following shot)
  - Allow the user to put a video in break without putting it in invisible
  - To add precedent/following buttons in the slide dialog
- - Have the possibility of rendering the video only for a part of the project
  - Have the possibility of adding photos/videos by drag & drop since the outside of the application
  - Have the possibility of making a multiple selection when one want to insert images into a plan
  - To add an option "same as precedent" for 3 sections object/block and coordinates as so as the modifications in one of 3 sections echo in the following shots.
@@ -26,19 +25,21 @@ May-be :
 Changelog depuis le dernier SVN
 --------------------------------
 French version
-- Correction du bug de détection de l'orientation des photo avec des versions anciennes d'EXIV2
+- Ajoute des options dans les boites de génération de vidéo pour selection la génération de toutes les diapositives ou seulement d'une partie (depuis->jusqu'à)
 
 English version
-- Correction of the bug of detection of the image orientation with old EXIV2 version
+- Add options to the render dialogs to select rendering for all slide or only for some (from->to selection)
 
 -------------------------------------
 Changelog depuis la version 20110926
 -------------------------------------
 Bug fix French version
 - Correction du bug d'affichage des guides et des cadres dans les boites diapositive et recadrage (les traits n'apparaissaient pas toujours quand les boites étaient petites)
+- Correction du bug de détection de l'orientation des photo avec des versions anciennes d'EXIV2
 
 Bug fix English version
 - Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
+- Correction of the bug of detection of the image orientation with old EXIV2 version [Some Linux distribution of 2010 and previous]
 
 French version
 - Rend possible le support partielle d'une langue (Interface seul ou Interface+WIKI ou Interface+WIKI+WEB)

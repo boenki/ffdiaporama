@@ -296,6 +296,7 @@ public:
     int                 GetWidthForHeight(int WantedHeight);
     int                 GetObjectIndex(cDiaporamaObject *ObjectToFind);
     int                 GetDuration();
+    int                 GetPartialDuration(int from,int to);
     int                 GetObjectStartPosition(int index);
     int                 GetTransitionDuration(int index);
     void                PrepareBackground(int ObjectIndex,int Width,int Height,QPainter *Painter,int AddX,int AddY,bool ApplyComposition);

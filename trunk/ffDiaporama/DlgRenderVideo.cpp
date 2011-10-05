@@ -26,9 +26,10 @@
 
 DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidget *parent):QDialog(parent),ui(new Ui::DlgRenderVideo) {
     ui->setupUi(this);
-    Diaporama       =&TheDiaporama;
-    ExportMode      =TheExportMode;
-    IsDestFileOpen  =false;
+    Diaporama           =&TheDiaporama;
+    ExportMode          =TheExportMode;
+    IsDestFileOpen      =false;
+    StopSpinboxRecursion=false;
 
     #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
         setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
@@ -120,6 +121,20 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
         connect(ui->DeviceModelCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_DeviceModelCB(int)));
     }
 
+    ui->RenderZoneAllBt->setChecked(true);
+    ui->RenderZoneFromBt->setChecked(false);
+    ui->RenderZoneFromED->setEnabled(ui->RenderZoneFromBt->isChecked());
+    ui->RenderZoneToED->setEnabled(ui->RenderZoneFromBt->isChecked());
+    ui->RenderZoneTo->setEnabled(ui->RenderZoneFromBt->isChecked());
+    ui->RenderZoneFromED->setRange(1,Diaporama->List.count());
+    ui->RenderZoneFromED->setValue(1);
+    ui->RenderZoneToED->setRange(1,Diaporama->List.count());
+    ui->RenderZoneToED->setValue(Diaporama->List.count());
+    connect(ui->RenderZoneAllBt,SIGNAL(clicked()),this,SLOT(SetZoneToAll()));
+    connect(ui->RenderZoneFromBt,SIGNAL(clicked()),this,SLOT(SetZoneToPartial()));
+    connect(ui->RenderZoneFromED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRenderZoneFromED(int)));
+    connect(ui->RenderZoneToED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRenderZoneToED(int)));
+
     ui->DestinationFilePath->setText(QDir::cleanPath(QDir(QFileInfo(Diaporama->ProjectFileName).dir().absolutePath()).absoluteFilePath(Diaporama->OutputFileName)));
     AdjustDestinationFile();
     connect(ui->DestinationFilePathBT,SIGNAL(clicked()),this,SLOT(SelectDestinationFile()));
@@ -141,6 +156,44 @@ DlgRenderVideo::~DlgRenderVideo() {
 
 void DlgRenderVideo::Help() {
     GlobalMainWindow->OpenHelp(HELPFILE_DlgRenderVideo);
+}
+
+//====================================================================================================================
+
+void DlgRenderVideo::SetZoneToAll() {
+    ui->RenderZoneAllBt->setChecked(true);
+    ui->RenderZoneFromBt->setChecked(false);
+    ui->RenderZoneFromED->setEnabled(ui->RenderZoneFromBt->isChecked());
+    ui->RenderZoneToED->setEnabled(ui->RenderZoneFromBt->isChecked());
+    ui->RenderZoneTo->setEnabled(ui->RenderZoneFromBt->isChecked());
+}
+
+//====================================================================================================================
+
+void DlgRenderVideo::SetZoneToPartial() {
+    ui->RenderZoneAllBt->setChecked(false);
+    ui->RenderZoneFromBt->setChecked(true);
+    ui->RenderZoneFromED->setEnabled(ui->RenderZoneFromBt->isChecked());
+    ui->RenderZoneToED->setEnabled(ui->RenderZoneFromBt->isChecked());
+    ui->RenderZoneTo->setEnabled(ui->RenderZoneFromBt->isChecked());
+}
+
+//====================================================================================================================
+
+void DlgRenderVideo::s_ChgRenderZoneFromED(int NewValue) {
+    if (StopSpinboxRecursion) return;
+    StopSpinboxRecursion=true;
+    if (ui->RenderZoneToED->value()<NewValue) ui->RenderZoneToED->setValue(NewValue);
+    StopSpinboxRecursion=false;
+}
+
+//====================================================================================================================
+
+void DlgRenderVideo::s_ChgRenderZoneToED(int NewValue) {
+    if (StopSpinboxRecursion) return;
+    StopSpinboxRecursion=true;
+    if (ui->RenderZoneFromED->value()>NewValue) ui->RenderZoneFromED->setValue(NewValue);
+    StopSpinboxRecursion=false;
 }
 
 //====================================================================================================================
@@ -490,6 +543,8 @@ void DlgRenderVideo::accept() {
         int         ExtendH=0;
         int         ExtendV=0;
         int         Channels=2;
+        int         FromSlide=(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneFromED->value()-1:0;
+        int         ToSlide  =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneToED->value()-1:Diaporama->List.count()-1;
 
         if (ExportMode==EXPORTMODE_ADVANCED) {
             if (Diaporama->LastStandard !=ui->StandardCombo->currentIndex())   { Diaporama->LastStandard =ui->StandardCombo->currentIndex();   IsModify=true; }
@@ -580,8 +635,8 @@ void DlgRenderVideo::accept() {
 
         //**********************************************************************************************************************************
 
-        FPS     =(1/double(25)/*Diaporama->VideoFrameRate*/)*double(AV_TIME_BASE);    // Time duration of a frame (pour éviter les problèmes d'arrondi, génère le son en PAL)
-        NbrFrame=int(double(Diaporama->GetDuration()*1000)/double(FPS));    // Number of frame to generate
+        FPS     =(1/double(25)/*Diaporama->VideoFrameRate*/)*double(AV_TIME_BASE);  // Time duration of a frame (pour éviter les problèmes d'arrondi, génère le son en PAL)
+        NbrFrame=int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/double(FPS));            // Number of frame to generate
 
         ui->SoundProgressBar->setValue(0);
         ui->SoundProgressBar->setMaximum(NbrFrame);
@@ -602,14 +657,15 @@ void DlgRenderVideo::accept() {
         TempWAVFileName=TempWAVFileName+"temp.wav";
 
         StartTime=QTime::currentTime();                                  // Display control : time the process start
-        Continue=WriteTempAudioFile(TempWAVFileName);
+        Continue=WriteTempAudioFile(TempWAVFileName,FromSlide);
 
         //**********************************************************************************************************************************
         // 2nd step encoding : produce final file using temporary WAV file with sound
         //**********************************************************************************************************************************
-        StartTime=QTime::currentTime();                                  // Display control : time the process start
-        FPS     =(1/Diaporama->VideoFrameRate)*double(AV_TIME_BASE);          // Time duration of a frame
-        NbrFrame=int(double(Diaporama->GetDuration()*1000)/double(FPS));    // Number of frame to generate
+        StartTime=QTime::currentTime();                                     // Display control : time the process start
+        FPS     =(1/Diaporama->VideoFrameRate)*double(AV_TIME_BASE);        // Time duration of a frame
+        NbrFrame=int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/double(FPS));    // Number of frame to generate
+
         ui->SlideProgressBar->setValue(0);
         ui->TotalProgressBar->setValue(0);
         ui->TotalProgressBar->setMaximum(NbrFrame);
@@ -735,16 +791,18 @@ void DlgRenderVideo::accept() {
 
         // Encode video
         if (Continue) {
-            LastCheckTime   =StartTime;     // Display control : last time the loop start
-            int Position    =0;             // Render current position
-            int ColumnStart =-1;            // Render start position of current object
-            int Column      =-1;            // Render current object
+            LastCheckTime   =StartTime;                                     // Display control : last time the loop start
+            int Position    =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
+            int ColumnStart =-1;                                            // Render start position of current object
+            int Column      =-1;                                            // Render current object
 
             for (int RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
                 if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))<=Position))) {
-                    Column++;
-                    ColumnStart=Position;
-                    if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))/(FPS/double(1000)))-1);
+                    while ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))<=Position))) {
+                        Column++;
+                        ColumnStart=Diaporama->GetObjectStartPosition(Column);
+                        if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))/(FPS/double(1000)))-1);
+                    }
                     RefreshDisplay =true;
                     if (Column>0) Diaporama->FreeUnusedMemory(Column-1);
                 } else RefreshDisplay =(LastCheckTime.msecsTo(QTime::currentTime())>=1000);    // Refresh display only one time per second
@@ -759,7 +817,7 @@ void DlgRenderVideo::accept() {
                             QString("%1").arg(QTime(0,0,0,0).addMSecs(EstimDur*1000).toString("hh:mm:ss"));
                     ui->ElapsedTimeLabel->setText(DisplayText);
                     DisplayText=QString("%1").arg(double(RenderedFrame)/(double(DurationProcess)/1000),0,'f',1);        ui->FPSLabel->setText(DisplayText);
-                    DisplayText=QString("%1/%2").arg(Column+1).arg(Diaporama->List.count());                            ui->SlideNumberLabel->setText(DisplayText);
+                    DisplayText=QString("%1/%2").arg(Column-FromSlide+1).arg(ToSlide-FromSlide+1);                      ui->SlideNumberLabel->setText(DisplayText);
                     DisplayText=QString("%1/%2").arg(RenderedFrame).arg(NbrFrame);                                      ui->FrameNumberLabel->setText(DisplayText);
                     ui->SlideProgressBar->setValue(int(double(Position-ColumnStart)/(FPS/double(1000))));
                     ui->TotalProgressBar->setValue(RenderedFrame);
@@ -814,7 +872,7 @@ void DlgRenderVideo::accept() {
             DurationProcess=StartTime.msecsTo(QTime::currentTime());
             DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
             DisplayText=QString("%1").arg(double(NbrFrame)/(double(DurationProcess)/1000),0,'f',1);             ui->FPSLabel->setText(DisplayText);
-            DisplayText=QString("%1/%2").arg(Column+1).arg(Diaporama->List.count());                            ui->SlideNumberLabel->setText(DisplayText);
+            DisplayText=QString("%1/%2").arg(Column-FromSlide+1).arg(ToSlide-FromSlide+1);                      ui->SlideNumberLabel->setText(DisplayText);
             DisplayText=QString("%1/%2").arg(NbrFrame).arg(NbrFrame);                                           ui->FrameNumberLabel->setText(DisplayText);
             ui->SlideProgressBar->setValue(ui->SlideProgressBar->maximum());
             ui->TotalProgressBar->setValue(NbrFrame);
@@ -849,7 +907,7 @@ void DlgRenderVideo::accept() {
 // Make audio temp file
 //============================================================================================
 
-bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
+bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     bool                    Continue            =true;      // true if no error occur
     cDiaporamaObjectInfo    *PreviousFrame      =NULL;
     cDiaporamaObjectInfo    *Frame              =NULL;
@@ -984,10 +1042,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName) {
 
     // Encode the file
     if (Continue) {
-        LastCheckTime   =StartTime;     // Display control : last time the loop start
-        int Position    =0;             // Render current position
-        int ColumnStart =-1;            // Render start position of current object
-        int Column      =-1;            // Render current object
+        LastCheckTime   =StartTime;                                     // Display control : last time the loop start
+        int Position    =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
+        int ColumnStart =-1;                                            // Render start position of current object
+        int Column      =-1;                                            // Render current object
         for (int RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
             // Calculate position & column
             if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))<=Position))) {
