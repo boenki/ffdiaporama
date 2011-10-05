@@ -25,12 +25,8 @@ May-be :
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
-- Lors du chargement d'un projet, si un fichier est introuvable et que vous répondez non à la proposition d'en choisir un autre, la diapositive correspondante est supprimée
-- Impossible de déplacer un bloc à la souris si les guides sont désactivés dans les boites slides et recadrage
 
 English version / Bug fix :
-- During the load of a project, if a file is unreachable and you answer not to the proposition to choose another file, the corresponding slide is deleted
-- Impossible de move block with mouse if ruler are disabled in the slide and reframing dialogs
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -38,10 +34,14 @@ Changelog depuis la version 20110926
 Bug fix French version
 - Correction du bug d'affichage des guides et des cadres dans les boites diapositive et recadrage (les traits n'apparaissaient pas toujours quand les boites étaient petites)
 - Correction du bug de détection de l'orientation des photo avec des versions anciennes d'EXIV2
+- Lors du chargement d'un projet, si un fichier est introuvable et que vous répondez non à la proposition d'en choisir un autre, la diapositive correspondante est supprimée
+- Impossible de déplacer un bloc à la souris si les guides sont désactivés dans les boites slides et recadrage
 
 Bug fix English version
 - Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
 - Correction of the bug of detection of the image orientation with old EXIV2 version [Some Linux distribution of 2010 and previous]
+- During the load of a project, if a file is unreachable and you answer not to the proposition to choose another file, the corresponding slide is deleted
+- Impossible de move block with mouse if ruler are disabled in the slide and reframing dialogs
 
 French version
 - Rend possible le support partielle d'une langue (Interface seul ou Interface+WIKI ou Interface+WIKI+WEB)
