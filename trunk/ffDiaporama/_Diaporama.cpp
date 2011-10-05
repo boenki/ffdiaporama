@@ -206,6 +206,7 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
 bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
+        bool IsOk=true;
 
         if (Element.hasAttribute("TypeComposition"))        TypeComposition =Element.attribute("TypeComposition").toInt();
         if (Element.hasAttribute("IndexKey"))               IndexKey        =Element.attribute("IndexKey").toInt();
@@ -274,12 +275,12 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
             BackgroundForm           =1;        // Set to rectangle
             PenSize                  =0;        // border=0
             BackgroundBrush.BrushType=0;        // brushtype=no brush
-        } else BackgroundBrush.LoadFromXML(Element,"BackgroundBrush",PathForRelativPath);  // Brush of the background of the form
+        } else IsOk=BackgroundBrush.LoadFromXML(Element,"BackgroundBrush",PathForRelativPath);  // Brush of the background of the form
 
         // Ensure unvisible video have no sound !
         if ((!IsVisible)&&(BackgroundBrush.Video!=NULL)) BackgroundBrush.SoundVolume=0;
 
-        return true;
+        return IsOk;
     }
     return false;
 }
@@ -859,7 +860,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         }
 
         // Global blocks composition table
-        ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath,NULL);         // ObjectComposition
+        IsOk=ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath,NULL);         // ObjectComposition
 
         // Shots definitions
         int ShotNumber=Element.attribute("ShotNumber").toInt();
