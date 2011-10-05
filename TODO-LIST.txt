@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 04/10/2011) :
+Buggs/TODO (Dernier SVN le 05/10/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -24,11 +24,13 @@ May-be :
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-French version
-- Ajoute des options dans les boites de génération de vidéo pour selection la génération de toutes les diapositives ou seulement d'une partie (depuis->jusqu'à)
+French version / Correction de bug :
+- Lors du chargement d'un projet, si un fichier est introuvable et que vous répondez non à la proposition d'en choisir un autre, la diapositive correspondante est supprimée
+- Impossible de déplacer un bloc à la souris si les guides sont désactivés dans les boites slides et recadrage
 
-English version
-- Add options to the render dialogs to select rendering for all slide or only for some (from->to selection)
+English version / Bug fix :
+- During the load of a project, if a file is unreachable and you answer not to the proposition to choose another file, the corresponding slide is deleted
+- Impossible de move block with mouse if ruler are disabled in the slide and reframing dialogs
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -50,6 +52,7 @@ French version
 - Mise à jours de la doc Dlg_003 (Ajout des doubles click)
 - Ouvre immédiatement la boite d'édition de texte quand on ajoute un nouveau bloc texte dans la boite de dialogue diapositive
 - Quand on double clique sur un bloc dans la boite diapositive (scene ou table des blocs) ouvre la boite texte, la boite de recadrage ou la boite video en fonction du type de bloc
+- Ajoute des options dans les boites de génération de vidéo pour selectionner la génération de toutes les diapositives ou seulement d'une partie (depuis->jusqu'à)
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -60,3 +63,4 @@ English version
 - Doc update Dlg_003 (addition of double-clicks)
 - Open immediately the dialog allowing to modify the text when we add new text block in the slide dialog
 - When double click on a block in the slide dialog (scene or block table) then open text dialog, reframing dialog or video edit dialog according to the block type
+- Add options to the render dialogs to select rendering for all slide or only for some (from->to selection)

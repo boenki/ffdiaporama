@@ -527,7 +527,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         }
 
         BrushFileCorrect.LoadFromXML(Element,"ImageCorrection");         // Image correction if image from disk
-        return true;
+        return (BrushType==BRUSHTYPE_IMAGEDISK)?(Image!=NULL)||(Video!=NULL):true;
     }
     return false;
 }

@@ -927,26 +927,26 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
     if (change == QGraphicsItem::ItemPositionChange) {
         QPointF newpos = value.toPointF();
         if (IsCapture==true) {
+            double xmax = double(scene()->sceneRect().width());
+            double ymax = double(scene()->sceneRect().height());
+            *x = newpos.x()/xmax;
+            *y = newpos.y()/ymax;
+            // calcul width and height;
+            double W  = xmax*(*((zoom!=NULL)?zoom:w));
+            double H  = ymax*((zoom!=NULL)?((*zoom)*AspectRatio):(*h));
+
+            QTransform Matrix=scene()->views().at(0)->transform();
+            double xscale = Matrix.m11();   // X
+            double yscale = Matrix.m22();   // Y
+            double mw     = double(HANDLEMAGNETX)/xscale;;
+            double mh     = double(HANDLEMAGNETY)/yscale;;
+
+            if (((*x)*xmax>(0-mw))&&((*x)*xmax<(0+mw)))                 *x=0;
+            if ((((*x)*xmax+W)>(xmax-mw))&&(((*x)*xmax+W)<(xmax+mw)))   *x=(xmax-W)/xmax;
+            if (((*y)*ymax>(0-mh))&&((*y)*ymax<(0+mh)))                 *y=0;
+            if ((((*y)*ymax+H)>(ymax-mh))&&(((*y)*ymax+H)<(ymax+mh)))   *y=(ymax-H)/ymax;
+
             if ((MagneticRuler!=NULL)&&(MagneticRuler->MagneticRuler==true)) {
-                double xmax = double(scene()->sceneRect().width());
-                double ymax = double(scene()->sceneRect().height());
-                *x = newpos.x()/xmax;
-                *y = newpos.y()/ymax;
-                // calcul width and height;
-                double W  = xmax*(*((zoom!=NULL)?zoom:w));
-                double H  = ymax*((zoom!=NULL)?((*zoom)*AspectRatio):(*h));
-
-                QTransform Matrix=scene()->views().at(0)->transform();
-                double xscale = Matrix.m11();   // X
-                double yscale = Matrix.m22();   // Y
-                double mw     = double(HANDLEMAGNETX)/xscale;;
-                double mh     = double(HANDLEMAGNETY)/yscale;;
-
-                if (((*x)*xmax>(0-mw))&&((*x)*xmax<(0+mw)))                 *x=0;
-                if ((((*x)*xmax+W)>(xmax-mw))&&(((*x)*xmax+W)<(xmax+mw)))   *x=(xmax-W)/xmax;
-                if (((*y)*ymax>(0-mh))&&((*y)*ymax<(0+mh)))                 *y=0;
-                if ((((*y)*ymax+H)>(ymax-mh))&&(((*y)*ymax+H)<(ymax+mh)))   *y=(ymax-H)/ymax;
-
                 if (((*x)*xmax>(MagneticRuler->MagnetX1-mw))&&((*x)*xmax<(MagneticRuler->MagnetX1+mw)))          *x=MagneticRuler->MagnetX1/xmax;
                 if ((((*x)*xmax+W)>(MagneticRuler->MagnetX2-mw))&&(((*x)*xmax+W)<(MagneticRuler->MagnetX2+mw)))  *x=(MagneticRuler->MagnetX2-W)/xmax;
                 if (((*y)*ymax>(MagneticRuler->MagnetY1-mh))&&((*y)*ymax<(MagneticRuler->MagnetY1+mh)))          *y=MagneticRuler->MagnetY1/ymax;
@@ -961,10 +961,10 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
                     if ((((*x)*xmax+W/2)>(MagneticRuler->MagnetX3-mw))&&(((*x)*xmax+W/2)<(MagneticRuler->MagnetX3+mw)))  *x=(MagneticRuler->MagnetX3-W/2)/xmax;
                     if ((((*y)*ymax+H/2)>(MagneticRuler->MagnetY3-mh))&&(((*y)*ymax+H/2)<(MagneticRuler->MagnetY3+mh)))  *y=(MagneticRuler->MagnetY3-H/2)/ymax;
                 }
-
-                newpos.setX((*x)*xmax);
-                newpos.setY((*y)*ymax);
             }
+
+            newpos.setX((*x)*xmax);
+            newpos.setY((*y)*ymax);
             SendRefreshBackgroundImage();
         }
         return newpos;
