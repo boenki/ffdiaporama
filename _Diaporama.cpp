@@ -976,6 +976,18 @@ int cDiaporama::GetDuration() {
 
 //====================================================================================================================
 
+int cDiaporama::GetPartialDuration(int from,int to) {
+    if (from<0)             from=0;
+    if (from>=List.count()) from=List.count()-1;
+    if (to<0)               to=0;
+    if (to>=List.count())   to=List.count()-1;
+    int Duration=0;
+    for (int i=from;i<=to;i++) Duration=Duration+List[i].GetDuration()-GetTransitionDuration(i+1);
+    return Duration;
+}
+
+//====================================================================================================================
+
 int cDiaporama::GetObjectStartPosition(int index) {
     int Duration=0;
     for (int i=0;i<index;i++) Duration=Duration+List[i].GetDuration()-GetTransitionDuration(i+1);
