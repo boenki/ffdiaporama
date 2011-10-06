@@ -41,12 +41,7 @@ cResizeGraphicsRectItem::cResizeGraphicsRectItem(QGraphicsScene *scene,cCustomGr
     TypeItem        = TheTypeItem;
     IsCapture       = false;
     BlockRecursion  = false;            // Flag to stop recursion during resize
-
-    // define a pen for the rectangle
-    QColor  Col=QColor(255,0,0);
-    QPen    Pen=QPen(Col);
-    Pen.setWidth(1);
-    setPen(Pen);
+    CurrentPenWith  = -1;
 
     // define Mouse cursor
     switch (TypeItem) {
@@ -194,7 +189,8 @@ QVariant cResizeGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
 //====================================================================================================================
 
 void cResizeGraphicsRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget) {
-    if (RectItem->zoom==NULL) {
+    if (RectItem->zoom==NULL) { // Slide dialog
+
         cCustomGraphicsRectItem *CurrentTextItem=NULL;
         for (int i=0;i<scene()->selectedItems().count();i++) {
             QGraphicsItem   *Item=scene()->selectedItems()[i];
@@ -202,8 +198,44 @@ void cResizeGraphicsRectItem::paint(QPainter *painter,const QStyleOptionGraphics
             if (data=="CustomGraphicsRectItem")      CurrentTextItem=(cCustomGraphicsRectItem *)Item;
             else if (data=="ResizeGraphicsRectItem") CurrentTextItem=((cResizeGraphicsRectItem *)Item)->RectItem;
         }
-        if (CurrentTextItem==RectItem) QGraphicsRectItem::paint(painter,option,widget);
-    } else QGraphicsRectItem::paint(painter,option,widget);
+        if (CurrentTextItem==RectItem) {
+
+            if (CurrentTextItem->ParentWidgetType==TYPE_DlgSlideProperties) {
+                if (CurrentPenWith!=((DlgSlideProperties *)CurrentTextItem->ParentWidget)->WithPen) {
+                    CurrentPenWith=((DlgSlideProperties *)CurrentTextItem->ParentWidget)->WithPen;
+                    // define a pen for the rectangle
+                    QColor  Col=QColor(255,0,0);
+                    QPen    Pen=QPen(Col);
+                    Pen.setWidth(CurrentPenWith);
+                    setPen(Pen);
+                }
+            } else if (CurrentPenWith!=1) {
+                CurrentPenWith=1;
+                // define a pen for the rectangle
+                QColor  Col=QColor(255,0,0);
+                QPen    Pen=QPen(Col);
+                Pen.setWidth(CurrentPenWith);
+                setPen(Pen);
+            }
+
+            // Draw rectangle
+            QGraphicsRectItem::paint(painter,option,widget);
+        }
+
+    } else {    // Reframming dialog
+
+        if (CurrentPenWith!=1) {
+            CurrentPenWith=1;
+            // define a pen for the rectangle
+            QColor  Col=QColor(255,0,0);
+            QPen    Pen=QPen(Col);
+            Pen.setWidth(CurrentPenWith);
+            setPen(Pen);
+        }
+
+        // Draw rectangle
+        QGraphicsRectItem::paint(painter,option,widget);
+    }
 }
 
 //====================================================================================================================

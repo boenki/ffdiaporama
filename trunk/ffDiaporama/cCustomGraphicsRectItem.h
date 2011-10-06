@@ -55,6 +55,7 @@ public:
     int                     TypeItem;
     bool                    IsCapture;
     bool                    BlockRecursion;
+    int                     CurrentPenWith;
 
     explicit cResizeGraphicsRectItem(QGraphicsScene *scene,cCustomGraphicsRectItem *RectItem,int ZValue,int TypeItem,QGraphicsItem *parent=NULL);
     virtual ~cResizeGraphicsRectItem();

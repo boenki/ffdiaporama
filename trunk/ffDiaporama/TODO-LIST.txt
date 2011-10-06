@@ -3,6 +3,8 @@ Buggs/TODO (Dernier SVN le 05/10/2011) :
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
 
+- Vérifier ce qu'il se passe dans un slide à plusieurs bloc si on dit non pour un des blocs !
+
 Mandatory :
  - To add animations of text (scrolling, zoom in / out), animations for entering blocks (1st shot or invisible block in the previous shot) and of animations for outgoing block (the Last one shot or invisible block in the following shot)
  - Allow the user to put a video in break without putting it in invisible
@@ -25,8 +27,16 @@ May-be :
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+- Correction du bug d'affichage des poignées dans la boite diapositive (les traits n'apparaissaient pas toujours quand les boites étaient petites)
+
+French version / Nouvelles fonctionnalités :
+- Ouvre la boite de dialog diapositive quand on double click dans la fenêtre de prévisualisation
 
 English version / Bug fix :
+- Correction of the bug of display handles in dialog box slide (lines did not still appear when dialogs were small)
+
+English version / New features :
+- Open slide dialog when double click on preview zone
 
 -------------------------------------
 Changelog depuis la version 20110926

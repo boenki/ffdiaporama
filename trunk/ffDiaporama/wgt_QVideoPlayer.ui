@@ -49,7 +49,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="MovieFrame">
+      <widget class="QMovieLabel" name="MovieFrame">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -362,6 +362,11 @@ color: white;
    <class>wgt_QCustomRuller</class>
    <extends>QLabel</extends>
    <header>wgt_QCustomRuller.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QMovieLabel</class>
+   <extends>QLabel</extends>
+   <header>wgt_QVideoPlayer.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

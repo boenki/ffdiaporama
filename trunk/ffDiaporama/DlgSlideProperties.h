@@ -51,6 +51,7 @@ public:
     QImage                  *BackgroundImage;           // Background Image
 
     sMagneticRuler          MagneticRuler;              // TV Margins ruler
+    int                     WithPen;                    // With for ruler pen
 
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent = 0);
     ~DlgSlideProperties();

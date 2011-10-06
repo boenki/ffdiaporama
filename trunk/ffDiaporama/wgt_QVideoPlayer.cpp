@@ -23,6 +23,21 @@
 #include "ui_wgt_QVideoPlayer.h"
 
 //*********************************************************************************************************************************************
+// Base object for Movie frame
+//*********************************************************************************************************************************************
+QMovieLabel::QMovieLabel(QWidget *parent):QLabel(parent) {
+
+}
+
+QMovieLabel::~QMovieLabel() {
+
+}
+
+void QMovieLabel::mouseDoubleClickEvent(QMouseEvent *) {
+    emit DoubleClick();
+}
+
+//*********************************************************************************************************************************************
 // Base object for image manipulation
 //*********************************************************************************************************************************************
 
@@ -114,6 +129,7 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
 
     connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
     connect(ui->VideoPlayerPlayPauseBT,SIGNAL(clicked()),this,SLOT(s_VideoPlayerPlayPauseBT()));
+    connect(ui->MovieFrame,SIGNAL(DoubleClick()),this,SLOT(s_DoubleClick()));
 
     // Slider control
     connect(ui->CustomRuller->Slider,SIGNAL(sliderPressed()),this,SLOT(s_SliderPressed()));
@@ -141,6 +157,12 @@ void wgt_QVideoPlayer::showEvent(QShowEvent *) {
         SetPlayerToPlay();
         IsInit=true;
     }
+}
+
+//============================================================================================
+
+void wgt_QVideoPlayer::s_DoubleClick() {
+    emit DoubleClick();
 }
 
 //============================================================================================
