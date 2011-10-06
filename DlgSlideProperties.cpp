@@ -1709,115 +1709,147 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
-    QString NewFile=QFileDialog::getOpenFileName(this,
-                                                 QApplication::translate("DlgSlideProperties","Select a file"),
-                                                 GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
-                                                 GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
+    QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("DlgSlideProperties","Add files"),
+                                                       DiaporamaObject->Parent->ApplicationConfig->RememberLastDirectories?DiaporamaObject->Parent->ApplicationConfig->LastMediaPath:"",
+                                                       DiaporamaObject->Parent->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
+
+    // Sort files in the fileList
+    if (DiaporamaObject->Parent->ApplicationConfig->SortFile) {
+        // Sort by last number
+        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
+            QString NameA=QFileInfo(FileList[j]).completeBaseName();
+            int NumA=NameA.length()-1;
+            while ((NumA>0)&&(NameA[NumA]>='0')&&(NameA[NumA]<='9')) NumA--;
+            if (NumA>=0) NumA=NameA.mid(NumA+1).toInt();
+
+            QString NameB=QFileInfo(FileList[j+1]).completeBaseName();
+            int NumB=NameB.length()-1;
+            while ((NumB>0)&&(NameB[NumB]>='0')&&(NameB[NumB]<='9')) NumB--;
+            if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
+
+            if (NumA>NumB) FileList.swap(j,j+1);
+        }
+    } else {
+        // Sort by alphabetical order
+        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
+            if (QFileInfo(FileList[j]).completeBaseName()>QFileInfo(FileList[j+1]).completeBaseName()) FileList.swap(j,j+1);
+        }
+    }
+
     QApplication::processEvents();
-    if (NewFile=="") return;
-    if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
-    // Create and append a composition block to the object list
-    DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
-    cCompositionObject  *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-    cBrushDefinition    *CurrentBrush=&CompositionObject->BackgroundBrush;
-    int                 CurrentShot=ui->ShotTable->currentColumn();
+    // Add files
+    for (int i=0;i<FileList.count();i++) {
+        QString NewFile=FileList[i];
 
-    CompositionObject->Text     ="";
-    CompositionObject->PenSize  =0;
-    CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
+        /*QString NewFile=QFileDialog::getOpenFileName(this,
+                                                     QApplication::translate("DlgSlideProperties","Select a file"),
+                                                     GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
+                                                     GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));*/
+        if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
-    QString BrushFileName =QFileInfo(NewFile).absoluteFilePath();
+        // Create and append a composition block to the object list
+        DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
+        cCompositionObject  *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+        cBrushDefinition    *CurrentBrush=&CompositionObject->BackgroundBrush;
+        int                 CurrentShot=ui->ShotTable->currentColumn();
 
-    bool    IsValide =false;
-    QString Extension=QFileInfo(BrushFileName).suffix().toLower();
+        CompositionObject->Text     ="";
+        CompositionObject->PenSize  =0;
+        CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
 
-    // Search if file is an image
-    for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
-        // Create an image wrapper
-        CurrentBrush->Image=new cimagefilewrapper();
-        IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName);
-        if (!IsValide) {
-            delete CurrentBrush->Image;
-            CurrentBrush->Image=NULL;
+        QString BrushFileName =QFileInfo(NewFile).absoluteFilePath();
+
+        bool    IsValide =false;
+        QString Extension=QFileInfo(BrushFileName).suffix().toLower();
+
+        // Search if file is an image
+        for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
+            // Create an image wrapper
+            CurrentBrush->Image=new cimagefilewrapper();
+            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName);
+            if (!IsValide) {
+                delete CurrentBrush->Image;
+                CurrentBrush->Image=NULL;
+            }
+            break;
         }
-        break;
-    }
-    // If it's not an image : search if file is a video
-    if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
-        // Create a video wrapper
-        CurrentBrush->Video=new cvideofilewrapper();
-        IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false);
-        if (!IsValide) {
-            delete CurrentBrush->Video;
-            CurrentBrush->Video=NULL;
-        } else {
-            CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
-            //DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
+        // If it's not an image : search if file is a video
+        if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
+            // Create a video wrapper
+            CurrentBrush->Video=new cvideofilewrapper();
+            IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false);
+            if (!IsValide) {
+                delete CurrentBrush->Video;
+                CurrentBrush->Video=NULL;
+            } else {
+                CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
+                //DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
+            }
+            break;
         }
-        break;
-    }
-    if (IsValide) {
+        if (IsValide) {
 
-        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
-                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
-                       NULL);
-        if (Image) {
-            // Calc hypothenuse of the image rectangle
-            double  Hyp     =sqrt(Image->width()*Image->width()+Image->height()*Image->height());
+            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
+                           NULL);
+            if (Image) {
+                // Calc hypothenuse of the image rectangle
+                double  Hyp     =sqrt(Image->width()*Image->width()+Image->height()*Image->height());
 
-            // setup BrushFileCorrect to full image
-            CurrentBrush->BrushFileCorrect.ImageGeometry=GEOMETRY_IMAGE;
-            CurrentBrush->BrushFileCorrect.X            =((Hyp-double(Image->width()))/2)/Hyp;
-            CurrentBrush->BrushFileCorrect.Y            =((Hyp-double(Image->height()))/2)/Hyp;
-            CurrentBrush->BrushFileCorrect.ZoomFactor   =double(Image->width())/Hyp;
-            CurrentBrush->BrushFileCorrect.AspectRatio  =double(Image->height())/double(Image->width());
-            double NewW=CompositionObject->w*GlobalMainWindow->Diaporama->InternalWidth;
-            double NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
-            NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
-            NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
-            if (NewH>1) {
-                NewH=CompositionObject->h*GlobalMainWindow->Diaporama->InternalHeight;
-                NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
+                // setup BrushFileCorrect to full image
+                CurrentBrush->BrushFileCorrect.ImageGeometry=GEOMETRY_IMAGE;
+                CurrentBrush->BrushFileCorrect.X            =((Hyp-double(Image->width()))/2)/Hyp;
+                CurrentBrush->BrushFileCorrect.Y            =((Hyp-double(Image->height()))/2)/Hyp;
+                CurrentBrush->BrushFileCorrect.ZoomFactor   =double(Image->width())/Hyp;
+                CurrentBrush->BrushFileCorrect.AspectRatio  =double(Image->height())/double(Image->width());
+                double NewW=CompositionObject->w*GlobalMainWindow->Diaporama->InternalWidth;
+                double NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
                 NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
                 NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+                if (NewH>1) {
+                    NewH=CompositionObject->h*GlobalMainWindow->Diaporama->InternalHeight;
+                    NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
+                    NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
+                    NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+                }
+                CompositionObject->w=NewW;
+                CompositionObject->h=NewH;
+                delete Image;
             }
-            CompositionObject->w=NewW;
-            CompositionObject->h=NewH;
-            delete Image;
         }
+
+        // Now create and append a shot composition block to all shot
+        for (int i=0;i<DiaporamaObject->List.count();i++) {
+            DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
+            DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(CompositionObject);
+            // Ensure new object is not visible in previous shot
+            if (i<CurrentShot) DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].IsVisible=false;
+        }
+
+        // If this object is a video will gain sound from this shots !
+        if (CurrentBrush->Video!=NULL) for (int k=0;k<DiaporamaObject->List.count();k++) for (int l=0;l<DiaporamaObject->List[k].ShotComposition.List.count();l++)
+            if ((DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
+                (DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)) {
+                if (k<CurrentShot) {
+                    // Set this new block to SoundVolume=0
+                    if (CurrentBrush->Video==DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)
+                        DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=0;
+                } else {
+                    // Set all other block to SoundVolume=0 and this block to SoundVolume=1
+                    if (CurrentBrush->Video!=DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)
+                        DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=0;
+                    else DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=1;
+                }
+        }
+
+        // Inc NextIndexKey
+        DiaporamaObject->NextIndexKey++;
+
+        // 10 by 10 step for ZValue
+        NextZValue+=10;
+
     }
-
-    // Now create and append a shot composition block to all shot
-    for (int i=0;i<DiaporamaObject->List.count();i++) {
-        DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
-        DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(CompositionObject);
-        // Ensure new object is not visible in previous shot
-        if (i<CurrentShot) DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].IsVisible=false;
-    }
-
-    // If this object is a video will gain sound from this shots !
-    if (CurrentBrush->Video!=NULL) for (int k=0;k<DiaporamaObject->List.count();k++) for (int l=0;l<DiaporamaObject->List[k].ShotComposition.List.count();l++)
-        if ((DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
-            (DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)) {
-            if (k<CurrentShot) {
-                // Set this new block to SoundVolume=0
-                if (CurrentBrush->Video==DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)
-                    DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=0;
-            } else {
-                // Set all other block to SoundVolume=0 and this block to SoundVolume=1
-                if (CurrentBrush->Video!=DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)
-                    DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=0;
-                else DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=1;
-            }
-    }
-
-    // Inc NextIndexKey
-    DiaporamaObject->NextIndexKey++;
-
-    // 10 by 10 step for ZValue
-    NextZValue+=10;
-
     RefreshBlockTable(CompositionList->List.count()-1);
 }
 
