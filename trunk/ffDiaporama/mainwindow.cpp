@@ -178,6 +178,7 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     ui->preview->InitDiaporamaPlay(Diaporama);
     ui->preview2->InitDiaporamaPlay(Diaporama);
     connect(ui->preview,SIGNAL(DoubleClick()),this,SLOT(s_ItemDoubleClicked()));
+    connect(ui->preview2,SIGNAL(DoubleClick()),this,SLOT(s_ItemDoubleClicked()));
 
     SetModifyFlag(false);
     ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
