@@ -46,6 +46,19 @@ public:
     void                    AppendImage(cDiaporamaObjectInfo *Frame);           // Append an image to the end of the list
 };
 
+class QMovieLabel : public QLabel {
+Q_OBJECT
+public:
+    explicit QMovieLabel(QWidget *parent=0);
+    ~QMovieLabel();
+
+protected:
+    virtual void mouseDoubleClickEvent(QMouseEvent * e);
+
+signals:
+    void     DoubleClick();
+};
+
 class wgt_QVideoPlayer : public QWidget {
 Q_OBJECT
 public:
@@ -106,6 +119,7 @@ protected:
     virtual void showEvent(QShowEvent *);
 
 private slots:
+    void    s_DoubleClick();
     void    s_TimerEvent();
     void    s_VideoPlayerPlayPauseBT();
     void    s_SliderPressed();
@@ -119,6 +133,9 @@ private:
     void    PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position);
 
     Ui::wgt_QVideoPlayer *ui;
+
+signals:
+    void     DoubleClick();
 };
 
 #endif // WGT_QVIDEOPLAYER_H

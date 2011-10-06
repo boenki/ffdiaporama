@@ -43,14 +43,14 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
 
     IsFirstInitDone     = false;                // True when first show window was done
     InRefreshSceneImage = false;                // True if process is currently in RefreshSceneImage function
-
-    scene           = NULL;
-    NextZValue      = 500;
-    BackgroundImage = NULL;
-    CompositionList = NULL;
-    StopMAJSpinbox  = false;
-    BLOCKCHSIZE     = false;
-    StopMajSelect   = false;
+    scene               = NULL;
+    NextZValue          = 500;
+    BackgroundImage     = NULL;
+    CompositionList     = NULL;
+    StopMAJSpinbox      = false;
+    BLOCKCHSIZE         = false;
+    StopMajSelect       = false;
+    WithPen             = 1;
 
     MagneticRuler.MagneticRuler=DiaporamaObject->Parent->ApplicationConfig->SlideRuler;
 
@@ -543,7 +543,7 @@ void DlgSlideProperties::RefreshSceneImage() {
     P.begin(&NewImage);
 
     double SizeRatio=double(BackgroundImage->width())/double(ui->GraphicsView->width());
-    int    WithPen  =int(SizeRatio); if (double(WithPen)<SizeRatio) WithPen++;
+    WithPen  =int(SizeRatio); if (double(WithPen)<SizeRatio) WithPen++;
 
     for (int i=0;i<CurrentList->List.count();i++) if (CurrentList->List[i].IsVisible) {
         // Draw composition block
