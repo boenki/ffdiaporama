@@ -46,9 +46,11 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     Clipboard_Block         =NULL;
     DragItemSource          =-1;
     DragItemDest            =-1;
-    IsDragOn                =false;
+    IsDragOn                =0;
     ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
     ui->preview2->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
+
+    setAcceptDrops(true);
 
     ApplicationConfig=TheCurrentApplicationConfig;
     ApplicationConfig->ParentWindow=this;
@@ -1043,7 +1045,6 @@ void MainWindow::s_action_AddFile() {
                                                        ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
                                                        ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
     QApplication::processEvents();
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     // Calc position of new object depending on ApplicationConfig->AppendObject
     int SavedCurIndex=0;
     int CurIndex     =0;
@@ -1056,6 +1057,11 @@ void MainWindow::s_action_AddFile() {
         CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
         if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
     }
+    AddFiles(FileList,SavedCurIndex,CurIndex);
+}
+
+void MainWindow::AddFiles(QStringList &FileList,int SavedCurIndex,int CurIndex) {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Sort files in the fileList
     if (Diaporama->ApplicationConfig->SortFile) {

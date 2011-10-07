@@ -2429,7 +2429,7 @@ and help</string>
        </font>
       </property>
       <property name="acceptDrops">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="frameShape">
        <enum>QFrame::Box</enum>
@@ -2450,16 +2450,19 @@ and help</string>
        <set>QAbstractItemView::DoubleClicked</set>
       </property>
       <property name="showDropIndicator" stdset="0">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="dragEnabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="dragDropOverwriteMode">
        <bool>false</bool>
       </property>
       <property name="dragDropMode">
-       <enum>QAbstractItemView::NoDragDrop</enum>
+       <enum>QAbstractItemView::DropOnly</enum>
+      </property>
+      <property name="defaultDropAction">
+       <enum>Qt::LinkAction</enum>
       </property>
       <property name="selectionMode">
        <enum>QAbstractItemView::SingleSelection</enum>

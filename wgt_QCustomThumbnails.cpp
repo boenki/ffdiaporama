@@ -566,10 +566,10 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             Painter.restore();
         }
         // Draw selected box (if needed)
-        if ((GlobalMainWindow->IsDragOn)&&(Col!=GlobalMainWindow->DragItemSource)&&(Col!=GlobalMainWindow->DragItemSource+1)&&
-            (Col<GlobalMainWindow->Diaporama->List.count())&&(
-             (Col==GlobalMainWindow->DragItemDest)||((Col==GlobalMainWindow->Diaporama->List.count()-1)&&(GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count())))
-            ) {
+        if (((GlobalMainWindow->IsDragOn==1)&&(Col!=GlobalMainWindow->DragItemSource)&&(Col!=GlobalMainWindow->DragItemSource+1)&&(Col<GlobalMainWindow->Diaporama->List.count())&&(
+             (Col==GlobalMainWindow->DragItemDest)||((Col==GlobalMainWindow->Diaporama->List.count()-1)&&(GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()))))||
+             ((GlobalMainWindow->IsDragOn==2)&&((Col==GlobalMainWindow->DragItemDest)||((Col+1==GlobalMainWindow->DragItemDest)&&(Col=GlobalMainWindow->Diaporama->List.count()-1)))))
+            {
             Painter.save();
             Pen.setColor(WidgetDrag_Color);
             Pen.setStyle(Qt::SolidLine);

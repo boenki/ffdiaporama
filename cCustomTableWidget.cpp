@@ -32,15 +32,78 @@ cCustomTableWidget::cCustomTableWidget(QWidget *parent):QTableWidget(parent) {
 
     setDragDropOverwriteMode(false);
     setAcceptDrops(true);
-    setDragDropMode(QAbstractItemView::InternalMove);
     setDropIndicatorShown(true);
+}
 
+//====================================================================================================================
+
+void cCustomTableWidget::dragEnterEvent(QDragEnterEvent *event) {
+    GlobalMainWindow->IsDragOn=2;
+    GlobalMainWindow->DragItemSource=-1;
+    GlobalMainWindow->DragItemDest  =-1;
+    setCursor(Qt::ClosedHandCursor);
+    event->acceptProposedAction();
+}
+
+void cCustomTableWidget::dropEvent(QDropEvent *event) {
+    GlobalMainWindow->IsDragOn=0;
+
+    QList<QUrl> urlList;
+    QString     fName;
+    QStringList fList;
+    QFileInfo   info;
+
+    if (event->mimeData()->hasUrls()) {
+        urlList = event->mimeData()->urls(); // returns list of QUrls
+        for (int i=0;i<urlList.count();i++) {
+            fName = urlList[i].toLocalFile();           // convert first QUrl to local path
+            info.setFile(fName);                        // information about file
+            if (info.isFile()) fList.append(fName);     // append file
+        }
+    }
+    GlobalMainWindow->AddFiles(fList,GlobalMainWindow->DragItemDest>0?GlobalMainWindow->DragItemDest-1:0,GlobalMainWindow->DragItemDest);
+    event->acceptProposedAction();
+}
+
+void cCustomTableWidget::dragMoveEvent(QDragMoveEvent *event) {
+    int ThumbWidth  =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
+    int ThumbHeight =GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
+    int NbrX        =width()/ThumbWidth;
+    int NbrY        =height()/ThumbHeight;  if (NbrY>rowCount()) NbrY=rowCount();
+    int ToUse       =GlobalMainWindow->DragItemDest; if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
+    int row         =PartitionMode?ToUse/NbrX:0;
+    int col         =PartitionMode?ToUse-(ToUse/NbrX)*NbrX:ToUse;
+
+    // Get item number under mouse
+    int newrow=(event->pos().y()+verticalOffset())/ThumbHeight;
+    int newcol=(event->pos().x()+horizontalOffset())/ThumbWidth;
+    int Selected=(PartitionMode?newrow*NbrX+newcol:newcol);
+    if (Selected>GlobalMainWindow->Diaporama->List.count()) Selected=GlobalMainWindow->Diaporama->List.count();
+    if (Selected<0) Selected=0;
+
+    if (Selected!=GlobalMainWindow->DragItemDest) {
+        GlobalMainWindow->DragItemDest=-1;
+        wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+        if (ItemToPaint) ItemToPaint->repaint();
+
+        GlobalMainWindow->DragItemDest=Selected;
+        int ToUse=GlobalMainWindow->DragItemDest;
+        if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
+        row=PartitionMode?ToUse/NbrX:0;
+        col=PartitionMode?ToUse-(ToUse/NbrX)*NbrX:ToUse;
+        ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+        if (ItemToPaint) ItemToPaint->repaint();
+    }
+    event->acceptProposedAction();
+    setCursor(Qt::ClosedHandCursor);
 }
 
 //====================================================================================================================
 
 void cCustomTableWidget::mousePressEvent(QMouseEvent *event) {
-    if (GlobalMainWindow->IsDragOn) return;
+    if (GlobalMainWindow->IsDragOn==1) return;
+    setCursor(Qt::ArrowCursor);
+    GlobalMainWindow->IsDragOn=false;
 
     // Get item number under mouse
     int ThumbWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
@@ -55,7 +118,7 @@ void cCustomTableWidget::mousePressEvent(QMouseEvent *event) {
         // if item is correct, check if it was previously selected. Then if not select it
         if (Selected!=CurrentSelected()) SetCurrentCell(Selected); else {
             // if it was previously selected then start a drag & drop operation
-            GlobalMainWindow->IsDragOn=true;
+            GlobalMainWindow->IsDragOn=1;
             GlobalMainWindow->DragItemSource=Selected;
             GlobalMainWindow->DragItemDest  =Selected;
             wgt_QCustomThumbnails *Previous=(wgt_QCustomThumbnails *)cellWidget(row,col); if (Previous) Previous->repaint();
@@ -65,90 +128,96 @@ void cCustomTableWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void cCustomTableWidget::mouseMoveEvent(QMouseEvent *event) {
-    if (!GlobalMainWindow->IsDragOn) return;
-    int ThumbWidth  =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
-    int ThumbHeight =GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
-    int NbrX        =width()/ThumbWidth;
-    int NbrY        =height()/ThumbHeight;  if (NbrY>rowCount()) NbrY=rowCount();
-    int ToUse       =GlobalMainWindow->DragItemDest; if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
-    int row         =PartitionMode?ToUse/NbrX:0;
-    int col         =PartitionMode?ToUse-(ToUse/NbrX)*NbrX:ToUse;
-
-    if (event->pos().x()<0) {
-        if (GlobalMainWindow->DragItemDest!=-1) {
-            wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-            GlobalMainWindow->DragItemDest=-1;
-            if (ItemToPaint) ItemToPaint->repaint();
-        }
-        setCursor(Qt::ForbiddenCursor);
-        // Try to scroll left if not partition mode
-        if ((!PartitionMode)&&(horizontalScrollBar()->value()>0)) horizontalScrollBar()->setValue(horizontalScrollBar()->value()-1);
-
-    } else if (event->pos().x()>=NbrX*ThumbWidth) {
-        if (GlobalMainWindow->DragItemDest!=-1) {
-            wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-            GlobalMainWindow->DragItemDest=-1;
-            if (ItemToPaint) ItemToPaint->repaint();
-        }
-        setCursor(Qt::ForbiddenCursor);
-        // Try to scroll right if not partition mode
-        if ((!PartitionMode)&&(horizontalScrollBar()->value()<horizontalScrollBar()->maximum())) horizontalScrollBar()->setValue(horizontalScrollBar()->value()+1);
-
-    } else if (event->pos().y()<0) {
-        if (GlobalMainWindow->DragItemDest!=-1) {
-            wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-            GlobalMainWindow->DragItemDest=-1;
-            if (ItemToPaint) ItemToPaint->repaint();
-            // Try to scroll up if partition mode
-            if ((PartitionMode)&&(verticalScrollBar()->value()>0)) verticalScrollBar()->setValue(verticalScrollBar()->value()-1);
-        }
-        setCursor(Qt::ForbiddenCursor);
-
-    } else if (event->pos().y()>=NbrY*ThumbHeight) {
-        if (GlobalMainWindow->DragItemDest!=-1) {
-            wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-            GlobalMainWindow->DragItemDest=-1;
-            if (ItemToPaint) ItemToPaint->repaint();
-        }
-        setCursor(Qt::ForbiddenCursor);
-        // Try to scroll down if partition mode
-        if ((PartitionMode)&&(verticalScrollBar()->value()<verticalScrollBar()->maximum())) verticalScrollBar()->setValue(verticalScrollBar()->value()+1);
-
+    if (GlobalMainWindow->IsDragOn!=1) {
+        QTableWidget::mouseMoveEvent(event);
     } else {
-        // Get item number under mouse
-        int newrow=(event->pos().y()+verticalOffset())/ThumbHeight;
-        int newcol=(event->pos().x()+horizontalOffset())/ThumbWidth;
+        int ThumbWidth  =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
+        int ThumbHeight =GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
+        int NbrX        =width()/ThumbWidth;
+        int NbrY        =height()/ThumbHeight;  if (NbrY>rowCount()) NbrY=rowCount();
+        int ToUse       =GlobalMainWindow->DragItemDest; if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
+        int row         =PartitionMode?ToUse/NbrX:0;
+        int col         =PartitionMode?ToUse-(ToUse/NbrX)*NbrX:ToUse;
 
-        int Selected=(PartitionMode?newrow*NbrX+newcol:newcol);
-        if ((Selected>NbrItem())||(Selected==GlobalMainWindow->DragItemSource)||(Selected==GlobalMainWindow->DragItemSource+1)) {
+        if (event->pos().x()<0) {
             if (GlobalMainWindow->DragItemDest!=-1) {
                 wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
                 GlobalMainWindow->DragItemDest=-1;
                 if (ItemToPaint) ItemToPaint->repaint();
             }
             setCursor(Qt::ForbiddenCursor);
-        } else {
-            setCursor(Qt::ClosedHandCursor);
-            if (Selected!=GlobalMainWindow->DragItemDest) {
+            // Try to scroll left if not partition mode
+            if ((!PartitionMode)&&(horizontalScrollBar()->value()>0)) horizontalScrollBar()->setValue(horizontalScrollBar()->value()-1);
+
+        } else if (event->pos().x()>=NbrX*ThumbWidth) {
+            if (GlobalMainWindow->DragItemDest!=-1) {
                 wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-                GlobalMainWindow->DragItemDest=Selected;
+                GlobalMainWindow->DragItemDest=-1;
                 if (ItemToPaint) ItemToPaint->repaint();
-                int ToUse=GlobalMainWindow->DragItemDest;
-                if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
-                row=PartitionMode?ToUse/NbrX:0;
-                col=PartitionMode?ToUse-(ToUse/NbrX)*NbrX:ToUse;
-                ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+            }
+            setCursor(Qt::ForbiddenCursor);
+            // Try to scroll right if not partition mode
+            if ((!PartitionMode)&&(horizontalScrollBar()->value()<horizontalScrollBar()->maximum())) horizontalScrollBar()->setValue(horizontalScrollBar()->value()+1);
+
+        } else if (event->pos().y()<0) {
+            if (GlobalMainWindow->DragItemDest!=-1) {
+                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                GlobalMainWindow->DragItemDest=-1;
                 if (ItemToPaint) ItemToPaint->repaint();
+                // Try to scroll up if partition mode
+                if ((PartitionMode)&&(verticalScrollBar()->value()>0)) verticalScrollBar()->setValue(verticalScrollBar()->value()-1);
+            }
+            setCursor(Qt::ForbiddenCursor);
+
+        } else if (event->pos().y()>=NbrY*ThumbHeight) {
+            if (GlobalMainWindow->DragItemDest!=-1) {
+                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                GlobalMainWindow->DragItemDest=-1;
+                if (ItemToPaint) ItemToPaint->repaint();
+            }
+            setCursor(Qt::ForbiddenCursor);
+            // Try to scroll down if partition mode
+            if ((PartitionMode)&&(verticalScrollBar()->value()<verticalScrollBar()->maximum())) verticalScrollBar()->setValue(verticalScrollBar()->value()+1);
+
+        } else {
+            // Get item number under mouse
+            int newrow=(event->pos().y()+verticalOffset())/ThumbHeight;
+            int newcol=(event->pos().x()+horizontalOffset())/ThumbWidth;
+
+            int Selected=(PartitionMode?newrow*NbrX+newcol:newcol);
+            if ((Selected>NbrItem())||(Selected==GlobalMainWindow->DragItemSource)||(Selected==GlobalMainWindow->DragItemSource+1)) {
+                if (GlobalMainWindow->DragItemDest!=-1) {
+                    wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                    GlobalMainWindow->DragItemDest=-1;
+                    if (ItemToPaint) ItemToPaint->repaint();
+                }
+                setCursor(Qt::ForbiddenCursor);
+            } else {
+                setCursor(Qt::ClosedHandCursor);
+                if (Selected!=GlobalMainWindow->DragItemDest) {
+                    wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                    GlobalMainWindow->DragItemDest=Selected;
+                    if (ItemToPaint) ItemToPaint->repaint();
+                    int ToUse=GlobalMainWindow->DragItemDest;
+                    if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
+                    row=PartitionMode?ToUse/NbrX:0;
+                    col=PartitionMode?ToUse-(ToUse/NbrX)*NbrX:ToUse;
+                    ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                    if (ItemToPaint) ItemToPaint->repaint();
+                }
             }
         }
     }
 }
 
-void cCustomTableWidget::mouseReleaseEvent(QMouseEvent *) {
-    if (!GlobalMainWindow->IsDragOn) return;
-    setCursor(Qt::ArrowCursor);
-    GlobalMainWindow->IsDragOn=false;
-    if (GlobalMainWindow->DragItemDest!=-1) emit DragMoveItem();
+void cCustomTableWidget::mouseReleaseEvent(QMouseEvent *event) {
+    if (GlobalMainWindow->IsDragOn!=1) {
+        QTableWidget::mouseReleaseEvent(event);
+    } else {
+        setCursor(Qt::ArrowCursor);
+        GlobalMainWindow->IsDragOn=false;
+        if (GlobalMainWindow->DragItemDest!=-1) emit DragMoveItem();
+    }
 }
 
 //====================================================================================================================

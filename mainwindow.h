@@ -48,7 +48,7 @@ public:
     // Drag & drop operation
     int                     DragItemSource;
     int                     DragItemDest;
-    bool                    IsDragOn;
+    int                     IsDragOn;                       // DragOff=0, DragInternal=0 or DragExternal=0
 
     explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
     ~MainWindow();
@@ -62,6 +62,7 @@ public:
     void    SetTimelineHeight();
     void    OpenFile(QString ProjectFileName);
     void    CheckVersion();
+    void    AddFiles(QStringList &FileList,int SavedCurIndex,int CurIndex);
 
 protected:
     virtual void resizeEvent(QResizeEvent *);
