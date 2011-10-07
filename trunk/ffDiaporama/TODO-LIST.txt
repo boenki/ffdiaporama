@@ -26,14 +26,20 @@ May-be :
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+- Correction du format des vidéos générées en mode DVD (720x576-PAL ou 720x480-NTSC)
+- La boite de dialog slide utilise la géométrie par défaut au lieu de la géométrie du projet
+- Lors du chargement d'un projet, si un fichier est introuvable et que vous répondez non à la proposition d'en choisir un autre, le bloc contenant le fichier est supprimé, si vous répondez oui et que le même fichier est réutilisé dans le projet, la question ne sera pas reposée
 
 French version / Nouvelles fonctionnalités :
-- Ajoute la possibilité de sélectionner plusieurs fichiers quand on veut insérer des nouveaux objets (images ou vidéos) dans un plan dans la boite diapositive
+- Ajout des fichiers de langue du Grec (50%)
 
 English version / Bug fix :
+- Fix video format error when rendering using DVD size (720x576-PAL or 720x480-NTSC)
+- Slide dialog box use default geometry instead of project geometry
+- During the load of a project, if a file is unreachable and you answer not to the proposition to choose another file, the corresponding block is deleted, if you answer yes and the file is use again, the question will not be ask again
 
 English version / New features :
-- Add the possibility of making a multiple selection when one want to insert new objects (images or video) into a shot in the slide dialog
+- Addition of the files of the Greek language (50 %)
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -41,39 +47,38 @@ Changelog depuis la version 20110926
 Bug fix French version
 - Correction du bug d'affichage des guides et des cadres dans les boites diapositive et recadrage (les traits n'apparaissaient pas toujours quand les boites étaient petites)
 - Correction du bug de détection de l'orientation des photo avec des versions anciennes d'EXIV2
-- Lors du chargement d'un projet, si un fichier est introuvable et que vous répondez non à la proposition d'en choisir un autre, la diapositive correspondante est supprimée
 - Impossible de déplacer un bloc à la souris si les guides sont désactivés dans les boites slides et recadrage
 - Correction du bug d'affichage des poignées dans la boite diapositive (les traits n'apparaissaient pas toujours quand les boites étaient petites)
 
 Bug fix English version
 - Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
 - Correction of the bug of detection of the image orientation with old EXIV2 version [Some Linux distribution of 2010 and previous]
-- During the load of a project, if a file is unreachable and you answer not to the proposition to choose another file, the corresponding slide is deleted
 - Impossible de move block with mouse if ruler are disabled in the slide and reframing dialogs
+
+Documentation update
+- fct_008 (Adding Russian)
+- Dlg_001, Dlg_005 et Dlg_010 (addition of opening with double click)
+- Dlg_003 (addition of double-clicks and multiple file insertion)
+- Dlg_008 (Adding partial rendering)
+- Fct_004 (Adding dialog if file not found)
 
 French version
 - Rend possible le support partielle d'une langue (Interface seul ou Interface+WIKI ou Interface+WIKI+WEB)
 - Ajout des fichiers de langue du Russe (25%)
 - Déplace le contenu des 4 fichiers tab_00x.html dans le fichier .ts
-- Mise à jours de la doc fct_008 (Ajout du russe)
-- Mise à jours des doc Dlg_001, Dlg_005 et Dlg_010 pour ajouter l'ouverture par double click
-- Mise à jours de la doc Dlg_008 (Ajout de la génération partielle)
-- Mise à jours de la doc Dlg_003 (Ajout des doubles click)
 - Ouvre immédiatement la boite d'édition de texte quand on ajoute un nouveau bloc texte dans la boite de dialogue diapositive
 - Quand on double clique sur un bloc dans la boite diapositive (scene ou table des blocs) ouvre la boite texte, la boite de recadrage ou la boite video en fonction du type de bloc
 - Ajoute des options dans les boites de génération de vidéo pour selectionner la génération de toutes les diapositives ou seulement d'une partie (depuis->jusqu'à)
 - Ouvre la boite de dialog diapositive quand on double click dans la fenêtre de prévisualisation
+- Ajoute la possibilité de sélectionner plusieurs fichiers quand on veut insérer des nouveaux objets (images ou vidéos) dans un plan dans la boite diapositive
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
 - Addition of the files of the Russian language (25 %)
 - Move the contents of 4 tab_00x.html files in the .ts file
-- Doc update fct_008 (Adding Russian)
-- Doc update Dlg_001, Dlg_005 et Dlg_010 (addition of opening with double click)
-- Doc update Dlg_003 (addition of double-clicks)
-- Doc update Dlg_008 (Adding partial rendering)
 - Open immediately the dialog allowing to modify the text when we add new text block in the slide dialog
 - When double click on a block in the slide dialog (scene or block table) then open text dialog, reframing dialog or video edit dialog according to the block type
 - Add options to the render dialogs to select rendering for all slide or only for some (from->to selection)
 - Correction of the bug of display handles in dialog box slide (lines did not still appear when dialogs were small)
 - Open slide dialog when double click on preview zone
+- Add the possibility of making a multiple selection when one want to insert new objects (images or video) into a shot in the slide dialog

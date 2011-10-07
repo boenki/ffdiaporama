@@ -97,7 +97,10 @@ void DlgVideoEdit::reject() {
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgVideoEditWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","");
+    if (root.tagName()=="UNDO-DLG") {
+        QStringList AliasList;
+        CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
+    }
     done(1);
 }
 

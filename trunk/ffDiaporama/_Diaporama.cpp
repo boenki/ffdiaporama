@@ -203,7 +203,7 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
 
 //====================================================================================================================
 
-bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition) {
+bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList &AliasList) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         bool IsOk=true;
@@ -275,7 +275,7 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
             BackgroundForm           =1;        // Set to rectangle
             PenSize                  =0;        // border=0
             BackgroundBrush.BrushType=0;        // brushtype=no brush
-        } else IsOk=BackgroundBrush.LoadFromXML(Element,"BackgroundBrush",PathForRelativPath);  // Brush of the background of the form
+        } else IsOk=BackgroundBrush.LoadFromXML(Element,"BackgroundBrush",PathForRelativPath,AliasList);  // Brush of the background of the form
 
         // Ensure unvisible video have no sound !
         if ((!IsVisible)&&(BackgroundBrush.Video!=NULL)) BackgroundBrush.SoundVolume=0;
@@ -590,7 +590,7 @@ void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
 //====================================================================================================================
 
-bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition) {
+bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList &AliasList) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         bool IsOk=true;
@@ -600,8 +600,10 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         int CompositionNumber=Element.attribute("CompositionNumber").toInt();
         for (int i=0;i<CompositionNumber;i++) {
             cCompositionObject *CompositionObject=new cCompositionObject(TypeComposition,0);    // IndexKey will be load from XML
-            if (!CompositionObject->LoadFromXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ObjectComposition)) IsOk=false;
-            List.append(*CompositionObject);
+            if (!CompositionObject->LoadFromXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ObjectComposition,AliasList)) {
+                //IsOk=false;
+                delete CompositionObject;
+            } else List.append(*CompositionObject);
         }
         return IsOk;
     } else return false;
@@ -637,11 +639,11 @@ void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QStr
 
 //===============================================================
 
-bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition) {
+bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList &AliasList) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         StaticDuration=Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
-        ShotComposition.LoadFromXML(Element,"ShotComposition",PathForRelativPath,ObjectComposition);      // Composition list for this object
+        ShotComposition.LoadFromXML(Element,"ShotComposition",PathForRelativPath,ObjectComposition,AliasList);      // Composition list for this object
         return true;
     }
     return false;
@@ -818,7 +820,8 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
 //===============================================================
 
-bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath) {
+bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList &AliasList) {
+
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
@@ -835,8 +838,8 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
             QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
             BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
-            if (!BackgroundBrush.LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath)) IsOk=false;                          // Background brush
-            if ((!IsOk)||(!BackgroundComposition.LoadFromXML(SubElement,"BackgroundComposition",PathForRelativPath,NULL))) IsOk=false;   // Background composition
+            if (!BackgroundBrush.LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath,AliasList)) IsOk=false;                          // Background brush
+            if ((!IsOk)||(!BackgroundComposition.LoadFromXML(SubElement,"BackgroundComposition",PathForRelativPath,NULL,AliasList))) IsOk=false;   // Background composition
         }
         // Transition properties
         if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
@@ -855,18 +858,18 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
         for (int i=0;i<MusicNumber;i++) {
             cMusicObject *MusicObject=new cMusicObject();
-            if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath)) IsOk=false;
+            if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,AliasList)) IsOk=false;
             MusicList.append(*MusicObject);
         }
 
         // Global blocks composition table
-        IsOk=ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath,NULL);         // ObjectComposition
+        IsOk=ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath,NULL,AliasList);         // ObjectComposition
 
         // Shots definitions
         int ShotNumber=Element.attribute("ShotNumber").toInt();
         for (int i=0;i<ShotNumber;i++) {
             cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
-            if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,&ObjectComposition)) IsOk=false;
+            if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,&ObjectComposition,AliasList)) IsOk=false;
             List.append(*imagesequence);
         }
 
@@ -1114,7 +1117,9 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 //====================================================================================================================
 
 bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
-    bool Continue=true;
+    QStringList AliasList;
+    bool        Continue=true;
+
     while ((Continue)&&(!QFileInfo(ProjectFileName).exists())) {
         if (QMessageBox::question(GlobalMainWindow,QApplication::translate("MainWindow","Open project file"),
             QApplication::translate("MainWindow","Impossible to open file ")+ProjectFileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
@@ -1188,7 +1193,7 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
         for (int i=0;i<ObjectNumber;i++) if ((root.elementsByTagName("Object-"+QString("%1").arg(i)).length()>0)&&
                                              (root.elementsByTagName("Object-"+QString("%1").arg(i)).item(0).isElement()==true)) {
             List.append(cDiaporamaObject(this));
-            if (List[List.count()-1].LoadFromXML(root,"Object-"+QString("%1").arg(i).trimmed(),QFileInfo(ProjectFileName).absolutePath())) {
+            if (List[List.count()-1].LoadFromXML(root,"Object-"+QString("%1").arg(i).trimmed(),QFileInfo(ProjectFileName).absolutePath(),AliasList)) {
                 //GlobalMainWindow->AddObjectToTimeLine(i);
             } else {
                 List.removeLast();
@@ -1207,6 +1212,7 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName) {
     QDomElement     root;
     QString         errorStr;
     int             errorLine,errorColumn;
+    QStringList     AliasList;
 
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
         if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading project file","Error message"),QMessageBox::Close);
@@ -1247,7 +1253,7 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName) {
         for (int i=0;i<ObjectNumber;i++) if ((root.elementsByTagName("Object-"+QString("%1").arg(i)).length()>0)&&
                                              (root.elementsByTagName("Object-"+QString("%1").arg(i)).item(0).isElement()==true)) {
             List.append(cDiaporamaObject(this));
-            if (List[List.count()-1].LoadFromXML(root,"Object-"+QString("%1").arg(i).trimmed(),QFileInfo(ProjectFileName).absolutePath())) {
+            if (List[List.count()-1].LoadFromXML(root,"Object-"+QString("%1").arg(i).trimmed(),QFileInfo(ProjectFileName).absolutePath(),AliasList)) {
                 if (ParentWindow!=NULL) ((MainWindow *)ParentWindow)->AddObjectToTimeLine(i);
             } else {
                 List.removeLast();

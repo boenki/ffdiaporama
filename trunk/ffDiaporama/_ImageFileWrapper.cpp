@@ -59,7 +59,7 @@ cimagefilewrapper::~cimagefilewrapper() {
 
 //====================================================================================================================
 
-bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName) {
+bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName,QStringList &AliasList) {
     if (CacheFullImage!=NULL) {
         if (CacheFullImage!=CacheImage) delete CacheFullImage;
         CacheFullImage=NULL;
@@ -70,17 +70,26 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName) {
     }
 
     FileName=QFileInfo(GivenFileName).absoluteFilePath();
+    // Use aliaslist
+    int i;
+    for (i=0;(i<AliasList.count())&&(!AliasList.at(i).startsWith(FileName));i++);
+    if ((i<AliasList.count())&&(AliasList.at(i).startsWith(FileName))) {
+        FileName=AliasList.at(i);
+        if (FileName.indexOf("####")>0) FileName=FileName.mid(FileName.indexOf("####")+QString("####").length());
+    }
 
     bool Continue=true;
     while ((Continue)&&(!QFileInfo(FileName).exists())) {
         if (QMessageBox::question(GlobalMainWindow,QApplication::translate("MainWindow","Open image file"),
             QApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
-            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
-
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)
+            Continue=false;
+        else {
             QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(FileName).fileName(),
                GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
                GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::IMAGEFILE));
             if (NewFileName!="") {
+                AliasList.append(FileName+"####"+NewFileName);
                 FileName=NewFileName;
                 if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(FileName).absolutePath();     // Keep folder for next use
                 GlobalMainWindow->SetModifyFlag(true);

@@ -215,7 +215,10 @@ void DlgImageCorrection::reject() {
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgImageCorrectionWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","");
+    if (root.tagName()=="UNDO-DLG") {
+        QStringList AliasList;
+        CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
+    }
     done(1);
 }
 

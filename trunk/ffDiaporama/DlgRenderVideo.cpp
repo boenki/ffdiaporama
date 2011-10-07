@@ -751,8 +751,21 @@ void DlgRenderVideo::accept() {
                 #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
                 ffmpegCommand=Diaporama->ApplicationConfig->PathFFMPEG;
                 #endif
+                QString AddSizestr="";
+                if (W==720) {
+                    AddSizestr=QString(" -s %1x%2").
+                            arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Width).
+                            arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Height);
+
+                    switch (Diaporama->ImageGeometry) {
+                        case GEOMETRY_4_3:      W=(double(H)/3)*4;      break;
+                        case GEOMETRY_16_9:     W=(double(H)/9)*16;     break;
+                        case GEOMETRY_40_17:    W=(double(H)/17)*40;    break;
+                    }
+
+                }
                 ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r "+QString(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].FPS)+" -i -"+
-                      " -i \"")+TempWAVFileName+"\" -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+" -r "+
+                      " -i \"")+TempWAVFileName+"\" -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+AddSizestr+" -r "+
                       QString(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].FPS)+                        
                       " "+aCodec+QString(" -ar %1 -ac %2 -aspect %3:%4")
                       .arg(Diaporama->AudioFrequency)

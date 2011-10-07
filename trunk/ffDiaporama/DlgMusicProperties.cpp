@@ -109,7 +109,10 @@ void DlgMusicProperties::reject() {
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgMusicPropertiesWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","");
+    if (root.tagName()=="UNDO-DLG") {
+        QStringList AliasList;
+        DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
+    }
     done(1);
 }
 
@@ -231,7 +234,8 @@ void DlgMusicProperties::s_AddMusic() {
             DiaporamaObject->Parent->ApplicationConfig->LastMusicPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
         DiaporamaObject->MusicList.insert(CurIndex,cMusicObject());
-        if (DiaporamaObject->MusicList[CurIndex].LoadMedia(NewFile)) {
+        QStringList AliasList;
+        if (DiaporamaObject->MusicList[CurIndex].LoadMedia(NewFile,AliasList)) {
 
             // Add music to PlayListTable
             int j=ui->PlayListTable->rowCount();     // Item will be add at end of the list

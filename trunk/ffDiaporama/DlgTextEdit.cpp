@@ -108,7 +108,10 @@ void DlgTextEdit::reject() {
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgTextEditWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
+    if (root.tagName()=="UNDO-DLG") {
+        QStringList AliasList;
+        CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,AliasList);
+    }
     done(1);
 }
 

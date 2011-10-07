@@ -150,7 +150,10 @@ void DlgTransitionProperties::reject() {
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgTransitionPropertiesWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","");
+    if (root.tagName()=="UNDO-DLG") {
+        QStringList AliasList;
+        DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
+    }
     done(1);
 }
 

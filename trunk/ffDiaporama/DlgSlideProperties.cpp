@@ -260,9 +260,9 @@ void DlgSlideProperties::showEvent(QShowEvent *ev) {
 //====================================================================================================================
 
 void DlgSlideProperties::GetForDisplayUnit(double &DisplayW,double &DisplayH) {
-    if (DiaporamaObject->Parent->ApplicationConfig->ImageGeometry==GEOMETRY_4_3)            { DisplayW=1440; DisplayH=1080; }
-    else if (DiaporamaObject->Parent->ApplicationConfig->ImageGeometry==GEOMETRY_16_9)      { DisplayW=1920; DisplayH=1080; }
-    else /*if (DiaporamaObject->Parent->ApplicationConfig->ImageGeometry==GEOMETRY_40_17)*/ { DisplayW=1920; DisplayH=816;  }
+    if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_4_3)            { DisplayW=1440; DisplayH=1080; }
+    else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_16_9)      { DisplayW=1920; DisplayH=1080; }
+    else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
 }
 
 //====================================================================================================================
@@ -286,7 +286,10 @@ void DlgSlideProperties::reject() {
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","");
+    if (root.tagName()=="UNDO-DLG") {
+        QStringList AliasList;
+        DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
+    }
     done(1);
 }
 
@@ -1124,8 +1127,9 @@ void DlgSlideProperties::ChangeBrushDiskFile() {
     if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
     QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
 
-    if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(BrushFileName);
-        else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(BrushFileName,false);
+    QStringList AliasList;
+    if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(BrushFileName,AliasList);
+        else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(BrushFileName,false,AliasList);
 
     // free CachedBrushBrush
     for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
@@ -1739,6 +1743,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     QApplication::processEvents();
 
     // Add files
+    QStringList AliasList;
     for (int i=0;i<FileList.count();i++) {
         QString NewFile=FileList[i];
 
@@ -1767,7 +1772,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
         for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
             // Create an image wrapper
             CurrentBrush->Image=new cimagefilewrapper();
-            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName);
+            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,AliasList);
             if (!IsValide) {
                 delete CurrentBrush->Image;
                 CurrentBrush->Image=NULL;
@@ -1778,7 +1783,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
         if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
             // Create a video wrapper
             CurrentBrush->Video=new cvideofilewrapper();
-            IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false);
+            IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false,AliasList);
             if (!IsValide) {
                 delete CurrentBrush->Video;
                 CurrentBrush->Video=NULL;
@@ -2026,6 +2031,7 @@ void DlgSlideProperties::s_CutBlockBT() {
 void DlgSlideProperties::s_PasteBlockBT() {
     if (!GlobalMainWindow->Clipboard_Block) return;
 
+    QStringList AliasList;
     QDomElement root=GlobalMainWindow->Clipboard_Block->documentElement();
     if (root.tagName()=="CLIPBOARD") {
         int CurrentShot=ui->ShotTable->currentColumn();
@@ -2033,11 +2039,11 @@ void DlgSlideProperties::s_PasteBlockBT() {
         // Create and append a composition block to the object list
         DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
         cCompositionObject *GlobalBlock=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-        GlobalBlock->LoadFromXML(root,"CLIPBOARD-BLOCK-GLOBAL","",NULL);
+        GlobalBlock->LoadFromXML(root,"CLIPBOARD-BLOCK-GLOBAL","",NULL,AliasList);
         GlobalBlock->IndexKey=DiaporamaObject->NextIndexKey;
 
         cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey);
-        ShotBlock.LoadFromXML(root,"CLIPBOARD-BLOCK-SHOT","",NULL);
+        ShotBlock.LoadFromXML(root,"CLIPBOARD-BLOCK-SHOT","",NULL,AliasList);
         ShotBlock.IndexKey=DiaporamaObject->NextIndexKey;
         ShotBlock.BackgroundBrush.Image=GlobalBlock->BackgroundBrush.Image;
         ShotBlock.BackgroundBrush.Video=GlobalBlock->BackgroundBrush.Video;
