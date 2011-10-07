@@ -104,7 +104,7 @@ public:
     void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,int StartPosToAdd,
                                       cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList &AliasList);
 };
 
 //*********************************************************************************************************************************************
@@ -120,7 +120,7 @@ public:
     ~cCompositionList();
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList &AliasList);
 };
 
 //*********************************************************************************************************************************************
@@ -136,7 +136,7 @@ public:
     ~cDiaporamaShot();
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList &AliasList);
 };
 
 //*********************************************************************************************************************************************
@@ -181,7 +181,7 @@ public:
     int                     GetDuration();
     void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY);   // Draw Thumb @ position 0
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
+    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList &AliasList);
     int                     GetTransitDuration();
 };
 

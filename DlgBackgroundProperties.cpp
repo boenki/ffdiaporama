@@ -122,7 +122,10 @@ void DlgBackgroundProperties::reject() {
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgBackgroundPropertiesWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","");
+    if (root.tagName()=="UNDO-DLG") {
+        QStringList AliasList;
+        DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
+    }
     done(1);
 }
 
@@ -287,7 +290,8 @@ void DlgBackgroundProperties::s_SelectFile() {
         DiaporamaObject->BackgroundBrush.Image=NULL;
     }
     DiaporamaObject->BackgroundBrush.Image=new cimagefilewrapper();
-    bool IsValide=DiaporamaObject->BackgroundBrush.Image->GetInformationFromFile(BrushFileName);
+    QStringList AliasList;
+    bool IsValide=DiaporamaObject->BackgroundBrush.Image->GetInformationFromFile(BrushFileName,AliasList);
     if (!IsValide) {
         delete DiaporamaObject->BackgroundBrush.Image;
         DiaporamaObject->BackgroundBrush.Image=NULL;

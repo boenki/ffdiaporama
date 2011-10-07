@@ -458,7 +458,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
 //====================================================================================================================
 
-bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath) {
+bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList &AliasList) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
@@ -493,7 +493,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
                         Image=new cimagefilewrapper();
                         if (Element.hasAttribute("ImageOrientation")) Image->ImageOrientation=Element.attribute("ImageOrientation").toInt();
-                        IsValide=Image->GetInformationFromFile(BrushFileName);
+                        IsValide=Image->GetInformationFromFile(BrushFileName,AliasList);
                         if (!IsValide) {
                             delete Image;
                             Image=NULL;
@@ -502,7 +502,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     }
                     if (Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
                         Video=new cvideofilewrapper();
-                        IsValide=Video->GetInformationFromFile(BrushFileName,false);
+                        IsValide=Video->GetInformationFromFile(BrushFileName,false,AliasList);
                         if (!IsValide) {
                             delete Video;
                             Video=NULL;

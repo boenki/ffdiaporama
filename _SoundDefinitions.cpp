@@ -320,13 +320,13 @@ void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QStrin
 
 //====================================================================================================================
 
-bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath) {
+bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList &AliasList) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
         FilePath=Element.attribute("FilePath","");
         if (PathForRelativPath!="") FilePath=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FilePath));
-        if (LoadMedia(FilePath)) {
+        if (LoadMedia(FilePath,AliasList)) {
             StartPos=QTime().fromString(Element.attribute("StartPos"));
             EndPos  =QTime().fromString(Element.attribute("EndPos"));
             FadeIn  =Element.attribute("FadeIn")=="1";
@@ -339,7 +339,7 @@ bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QStri
 
 //====================================================================================================================
 
-bool cMusicObject::LoadMedia(QString &filename) {
+bool cMusicObject::LoadMedia(QString &filename,QStringList &AliasList) {
     // Clean all
     if (Music!=NULL) {
         delete Music;
@@ -347,7 +347,7 @@ bool cMusicObject::LoadMedia(QString &filename) {
     }
 
     Music=new cvideofilewrapper();
-    IsValide=Music->GetInformationFromFile(filename,true);
+    IsValide=Music->GetInformationFromFile(filename,true,AliasList);
     FilePath=QFileInfo(Music->FileName).absoluteFilePath();
     StartPos=QTime(0,0,0,0);                // Start position
     EndPos  =Music->Duration;

@@ -89,8 +89,8 @@ public:
     ~cMusicObject();
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadMedia(QString &filename);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList &AliasList);
+    bool        LoadMedia(QString &filename,QStringList &AliasList);
 };
 
 //*********************************************************************************************************************************************

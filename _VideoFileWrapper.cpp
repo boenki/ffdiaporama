@@ -654,7 +654,7 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
 
 //====================================================================================================================
 
-bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusicOnly) {
+bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusicOnly,QStringList &AliasList) {
     // Clean memory if a previous file was loaded
     CloseVideoFileReader();
     if (CacheFirstImage!=NULL) {
@@ -669,10 +669,13 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
     //Reset SourceFile values
     MusicOnly    =aMusicOnly;
     FileName     =QFileInfo(GivenFileName).absoluteFilePath();
-    CreatDateTime=QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
-    ModifDateTime=QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
-    Duration     =QTime(0,0,0,0);
-    CodecUsePTS =false;
+    // Use aliaslist
+    int i;
+    for (i=0;(i<AliasList.count())&&(!AliasList.at(i).startsWith(FileName));i++);
+    if ((i<AliasList.count())&&(AliasList.at(i).startsWith(FileName))) {
+        FileName=AliasList.at(i);
+        if (FileName.indexOf("####")>0) FileName=FileName.mid(FileName.indexOf("####")+QString("####").length());
+    }
 
     //====================================================================================================================
     // Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
@@ -688,12 +691,15 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
         #endif
         if (QMessageBox::question(GlobalMainWindow,QApplication::translate("MainWindow","Open video file"),
             QApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
-            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)
+            Continue=false;
+        else {
 
             QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(FileName).fileName(),
                GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
                GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(aMusicOnly?cApplicationConfig::MUSICFILE:cApplicationConfig::VIDEOFILE));
             if (NewFileName!="") {
+                AliasList.append(FileName+"####"+NewFileName);
                 FileName=NewFileName;
                 if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(FileName).absolutePath();     // Keep folder for next use
                 GlobalMainWindow->SetModifyFlag(true);
@@ -704,6 +710,10 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
         qDebug()<<"Impossible to open file"<<FileName;
         return false;
     }
+    CreatDateTime=QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
+    ModifDateTime=QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
+    Duration     =QTime(0,0,0,0);
+    CodecUsePTS =false;
 
     // Setup AVFormatContext options
     ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.

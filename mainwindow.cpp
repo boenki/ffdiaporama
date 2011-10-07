@@ -1115,10 +1115,11 @@ void MainWindow::s_action_AddFile() {
         QString Extension=QFileInfo(BrushFileName).suffix().toLower();
 
         // Search if file is an image
+        QStringList AliasList;
         for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
             // Create an image wrapper
             CurrentBrush->Image=new cimagefilewrapper();
-            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName);
+            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,AliasList);
             if (!IsValide) {
                 delete CurrentBrush->Image;
                 CurrentBrush->Image=NULL;
@@ -1129,7 +1130,7 @@ void MainWindow::s_action_AddFile() {
         if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
             // Create a video wrapper
             CurrentBrush->Video=new cvideofilewrapper();
-            IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false);
+            IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false,AliasList);
             if (!IsValide) {
                 delete CurrentBrush->Video;
                 CurrentBrush->Video=NULL;
@@ -1350,7 +1351,8 @@ void MainWindow::s_PasteFromClipboard() {
     if (root.tagName()=="CLIPBOARD") {
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         ui->timeline->setUpdatesEnabled(false);
-        Diaporama->List[CurIndex].LoadFromXML(root,"CLIPBOARD-OBJECT","");
+        QStringList AliasList;
+        Diaporama->List[CurIndex].LoadFromXML(root,"CLIPBOARD-OBJECT","",AliasList);
         AddObjectToTimeLine(CurIndex);
         SetModifyFlag(true);
         // Set current selection to first new object
