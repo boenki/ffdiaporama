@@ -103,7 +103,7 @@ void cCustomTableWidget::dragMoveEvent(QDragMoveEvent *event) {
 void cCustomTableWidget::mousePressEvent(QMouseEvent *event) {
     if (GlobalMainWindow->IsDragOn==1) return;
     setCursor(Qt::ArrowCursor);
-    GlobalMainWindow->IsDragOn=false;
+    GlobalMainWindow->IsDragOn=0;
 
     // Get item number under mouse
     int ThumbWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
@@ -129,7 +129,7 @@ void cCustomTableWidget::mousePressEvent(QMouseEvent *event) {
 
 void cCustomTableWidget::mouseMoveEvent(QMouseEvent *event) {
     if (GlobalMainWindow->IsDragOn!=1) {
-        QTableWidget::mouseMoveEvent(event);
+        //QTableWidget::mouseMoveEvent(event);
     } else {
         int ThumbWidth  =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
         int ThumbHeight =GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
