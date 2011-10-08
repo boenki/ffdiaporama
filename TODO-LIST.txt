@@ -26,12 +26,18 @@ Changelog depuis le dernier SVN
 French version / Correction de bug :
 
 French version / Nouvelles fonctionnalités :
-- Ajoute la possibilité d'insérer des diapositives par drag & drop depuis l'explorateur de fichiers vers la timeline
+- Change l'affichage des vignettes dans la timeline :
+  - Ajoute le n° de slide à coté du fond d'écran
+  - Change l'icône représentant la présence de plusieurs plans
+  - Ajoute une icône représentant la présence de plusieurs blocs
 
 English version / Bug fix :
 
 English version / New features :
-- Add the possibility of inserting slides by drag and drop since the files explorer towards the timeline
+- Change thumbnails display in the timeline :
+  - Add slide number near background
+  - Change the icon representing the presence of several plans
+  - Add an icon representing the presence of several blocks
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -58,7 +64,8 @@ Documentation update
 - Dlg_001, Dlg_005 et Dlg_010 (addition of opening with double click)
 - Dlg_003 (addition of double-clicks and multiple file insertion)
 - Dlg_008 (Adding partial rendering)
-- Fct_004 (Adding dialog if file not found)
+- Fct_004 (Adding dialog if file not found and Drag & Drop)
+- Fct_003 (Change thumbnails)
 
 French version
 - Rend possible le support partielle d'une langue (Interface seul ou Interface+WIKI ou Interface+WIKI+WEB)
@@ -70,6 +77,7 @@ French version
 - Ajoute des options dans les boites de génération de vidéo pour selectionner la génération de toutes les diapositives ou seulement d'une partie (depuis->jusqu'à)
 - Ouvre la boite de dialog diapositive quand on double click dans la fenêtre de prévisualisation
 - Ajoute la possibilité de sélectionner plusieurs fichiers quand on veut insérer des nouveaux objets (images ou vidéos) dans un plan dans la boite diapositive
+- Ajoute la possibilité d'insérer des diapositives par drag & drop depuis l'explorateur de fichiers vers la timeline
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -82,3 +90,4 @@ English version
 - Correction of the bug of display handles in dialog box slide (lines did not still appear when dialogs were small)
 - Open slide dialog when double click on preview zone
 - Add the possibility of making a multiple selection when one want to insert new objects (images or video) into a shot in the slide dialog
+- Add the possibility of inserting slides by drag and drop since the files explorer towards the timeline

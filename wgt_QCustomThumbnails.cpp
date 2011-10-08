@@ -210,11 +210,11 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             Painter.setBrush(QBrush(QColor(ObjectBackground_Ruller)));
             Painter.drawRect(-1,(TimelineHeight/2-16)/2,Width+2,16);
 
-            int ThumbHeight = TimelineHeight/2-6;
-            int ThumbWidth  = GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
-            Object->Parent->PrepareBackground(Col,ThumbWidth,ThumbHeight,&Painter,TransitionSize+3,2,true);  // Draw Thumb
-            DrawThumbnailsBox(TransitionSize+3,2,ThumbWidth,ThumbHeight,Painter,NULL);
-            BackgroundRect=QRect(TransitionSize+3,2,ThumbWidth,ThumbHeight);
+            int BackThumbHeight = TimelineHeight/2-6;
+            int BackThumbWidth  = GlobalMainWindow->Diaporama->GetWidthForHeight(BackThumbHeight);
+            Object->Parent->PrepareBackground(Col,BackThumbWidth,BackThumbHeight,&Painter,TransitionSize+3,2,true);  // Draw Thumb
+            DrawThumbnailsBox(TransitionSize+3,2,BackThumbWidth,BackThumbHeight,Painter,NULL);
+            BackgroundRect=QRect(TransitionSize+3,2,BackThumbWidth,BackThumbHeight);
 
             //==========================================================================================================================
             // Draw background transition box & icon
@@ -236,8 +236,8 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             //==========================================================================================================================
             // Track OBJECTSEQUENCE
             //==========================================================================================================================
-            ThumbHeight = Height-TimelineHeight/2-TIMELINESOUNDHEIGHT*2-5;
-            ThumbWidth  = GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
+            int ThumbHeight = Height-TimelineHeight/2-TIMELINESOUNDHEIGHT*2-5;
+            int ThumbWidth  = GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
 
             int     NewThumbHeight      = ThumbHeight-TIMELINESOUNDHEIGHT-2;
             int     NewThumbWidth       = GlobalMainWindow->Diaporama->GetWidthForHeight(NewThumbHeight);
@@ -303,6 +303,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 Painter.fillRect(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,ThumbHeight,Transparent);
                 Object->DrawThumbnail(ThumbWidth+2,ThumbHeight+2,&Painter,TransitionSize+3,TimelineHeight/2+2-1);   // Draw Thumb
                 if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32,QImage(ICON_SHOTPRESENCE));
+                if (Object->ObjectComposition.List.count()>1) Painter.drawImage(TransitionSize+3+8,2-1+ThumbHeight-32,QImage(ICON_BLOCKPRESENCE));
                 DrawThumbnailsBox(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,ThumbHeight,Painter,NULL);
                 MediaObjectRect=QRect(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,ThumbHeight);
 
@@ -317,6 +318,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 Painter.fillRect(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,NewThumbHeight,Transparent);
                 Object->DrawThumbnail(NewThumbWidth+2,NewThumbHeight+2,&Painter,TransitionSize+3+BarWidth,TimelineHeight/2+2-1);   // Draw Thumb
                 if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+BarWidth+NewThumbWidth-32,TimelineHeight/2+2-1+NewThumbHeight-32,QImage(ICON_SHOTPRESENCE));
+                if (Object->ObjectComposition.List.count()>1) Painter.drawImage(TransitionSize+3+BarWidth+8,TimelineHeight/2+2-1+NewThumbHeight-32,QImage(ICON_BLOCKPRESENCE));
                 DrawThumbnailsBox(TransitionSize+3+BarWidth,TimelineHeight/2+2-1,NewThumbWidth,NewThumbHeight,Painter,NULL);
                 DrawThumbnailsBox(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,NewThumbHeight,Painter,NULL);
                 MediaObjectRect=QRect(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,NewThumbHeight);
@@ -390,6 +392,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             QString SlideDuration=QTime(0,0,0,0).addMSecs(Object->GetDuration()).toString("hh:mm:ss.zzz");
             QString FileName=Object->SlideName;
             QString TransitionDuration=QTime(0,0,0,0).addMSecs(Object->GetTransitDuration()).toString("ss.zzz");
+            QString SlideNumber=QString("%1").arg(Col+1);
             TransitionDuration=TransitionDuration.right(TransitionDuration.length()-1);   // Cut first 0
 
             if (Object->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO) {
@@ -398,24 +401,28 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 Painter.drawText(QRectF(TransitionSize+3+BarWidth+1,TimelineHeight/2+2-1+1,NewThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
                 Painter.drawText(QRectF(TransitionSize+3+BarWidth+1,TimelineHeight/2+2-1+1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
                 Painter.drawText(QRectF(2+1,TimelineHeight/2+2-1+34+1,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                Painter.drawText(QRectF(BackThumbWidth+2+1,(TimelineHeight/2-16)/2+1,Width-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
 
                 Pen.setColor(Qt::white);
                 Painter.setPen(Pen);
                 Painter.drawText(QRectF(TransitionSize+3+BarWidth,TimelineHeight/2+2-1,NewThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
                 Painter.drawText(QRectF(TransitionSize+3+BarWidth,TimelineHeight/2+2-1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
                 Painter.drawText(QRectF(2,TimelineHeight/2+2-1+34,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                Painter.drawText(QRectF(BackThumbWidth+2,(TimelineHeight/2-16)/2,Width-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
             } else {
                 Pen.setColor(Qt::black);
                 Painter.setPen(Pen);
                 Painter.drawText(QRectF(TransitionSize+3+1,TimelineHeight/2+2-1+1,ThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
                 Painter.drawText(QRectF(TransitionSize+3+1,TimelineHeight/2+2-1+1+ThumbHeight-16,ThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
                 Painter.drawText(QRectF(2+1,TimelineHeight/2+2-1+34+1,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                Painter.drawText(QRectF(BackThumbWidth+2+1,(TimelineHeight/2-16)/2+1,Width-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
 
                 Pen.setColor(Qt::white);
                 Painter.setPen(Pen);
                 Painter.drawText(QRectF(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
                 Painter.drawText(QRectF(TransitionSize+3,TimelineHeight/2+2-1+ThumbHeight-16,ThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
                 Painter.drawText(QRectF(2,TimelineHeight/2+2-1+34,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+                Painter.drawText(QRectF(BackThumbWidth+2,(TimelineHeight/2-16)/2,Width-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
             }
 
             //==========================================================================================================================
