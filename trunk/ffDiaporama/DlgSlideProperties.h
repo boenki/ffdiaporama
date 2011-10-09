@@ -80,6 +80,8 @@ protected:
     virtual void    accept();
 
 private slots:
+    void            OKPrevious();
+    void            OKNext();
     void            Help();
     void            SetSavedWindowGeometry();
     void            s_SlideNameChange(QString NewText);
@@ -91,8 +93,6 @@ private slots:
     void            s_CutBlockBT();
     void            s_PasteBlockBT();
 
-    void            ShotLeft();
-    void            ShotRight();
     void            BlockUp();
     void            BlockDown();
 
@@ -107,6 +107,9 @@ private slots:
     void            s_ShotTable_SelectionChanged();             // User select a shot in the ShotTable widget
     void            s_ShotTable_AddShot();
     void            s_ShotTable_RemoveShot();
+    void            s_ShotTableDragMoveItem();
+    void            s_ShotTableMoveLeft();
+    void            s_ShotTableMoveRight();
 
     // Block table/scene part
     void            s_BlockTable_SelectionChanged();            // User select a block in the BlocTable widget

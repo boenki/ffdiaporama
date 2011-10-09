@@ -421,7 +421,7 @@ void MainWindow::onNetworkReply(QNetworkReply* reply) {
             }
             int CurrentVersion =Line.toInt();
             int InternetVersion=InternetBUILDVERSION.toInt();
-            if (InternetVersion>CurrentVersion) InternetBUILDVERSION=QApplication::translate("MainWindow","A new ffDiaporama release if available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !");
+            if (InternetVersion>CurrentVersion) InternetBUILDVERSION=QApplication::translate("MainWindow","A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !");
                 else InternetBUILDVERSION="";
         } else InternetBUILDVERSION="";
     } else InternetBUILDVERSION="";
@@ -567,14 +567,36 @@ void MainWindow::s_ChPartitionMode() {
 void MainWindow::s_ItemDoubleClicked() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     ui->preview2->SetPlayerToPause(); // Ensure player is stop
-    if (DlgSlideProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0) {
-        SetModifyFlag(true);
-        if (Diaporama->List[Diaporama->CurrentCol].Thumbnail) {
-            delete Diaporama->List[Diaporama->CurrentCol].Thumbnail;
-            Diaporama->List[Diaporama->CurrentCol].Thumbnail=NULL;
+    bool DoneAgain=true;
+    while (DoneAgain) {
+        DoneAgain=false;
+        int Ret=DlgSlideProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec();
+        if (Ret!=1) {
+            SetModifyFlag(true);
+            if (Diaporama->List[Diaporama->CurrentCol].Thumbnail) {
+                delete Diaporama->List[Diaporama->CurrentCol].Thumbnail;
+                Diaporama->List[Diaporama->CurrentCol].Thumbnail=NULL;
+            }
+            (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+            AdjustRuller();
         }
-        (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
-        AdjustRuller();
+        if ((Ret==2)||(Ret==3)) {
+            Diaporama->CurrentCol=Diaporama->CurrentCol+((Ret==2)?-1:1);
+            Diaporama->Timeline->SetCurrentCell(Diaporama->CurrentCol);
+
+            // Update slider mark
+            if (Diaporama->List.count()>0)
+                (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SetStartEndPos(
+                        Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                               // Current slide
+                        Diaporama->List[Diaporama->CurrentCol].GetDuration(),
+                        (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1), // Previous slide
+                        (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1].GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
+                        Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,        // Next slide
+                        Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1].GetDuration():0);
+            else (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SetStartEndPos(0,0,-1,0,-1,0);
+            // open dialog again
+            DoneAgain=true;
+        }
     }
 }
 

@@ -29,7 +29,10 @@
 
 DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgSlideProperties) {
     ui->setupUi(this);
-    this->DiaporamaObject=DiaporamaObject;
+    this->DiaporamaObject           =DiaporamaObject;
+    GlobalMainWindow->DragItemSource=-1;
+    GlobalMainWindow->DragItemDest  =-1;
+    GlobalMainWindow->IsDragOn      =0;
 
     #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
         setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
@@ -40,6 +43,10 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
     DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
+
+    setWindowTitle(windowTitle()+" - "+QApplication::translate("DlgSlideProperties","Slide")+QString(" %1/%2").arg(DiaporamaObject->Parent->CurrentCol+1).arg(DiaporamaObject->Parent->List.count()));
+    ui->OKPreviousBT->setEnabled(DiaporamaObject->Parent->CurrentCol>0);
+    ui->OKNextBT->setEnabled(DiaporamaObject->Parent->CurrentCol<DiaporamaObject->Parent->List.count()-1);
 
     IsFirstInitDone     = false;                // True when first show window was done
     InRefreshSceneImage = false;                // True if process is currently in RefreshSceneImage function
@@ -118,6 +125,8 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
+    connect(ui->OKPreviousBT,SIGNAL(clicked()),this,SLOT(OKPrevious()));
+    connect(ui->OKNextBT,SIGNAL(clicked()),this,SLOT(OKNext()));
     connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
     connect(ui->TVMarginsBT,SIGNAL(clicked()),this,SLOT(s_TVMarginsBt()));
 
@@ -128,8 +137,6 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->VisibleBT,SIGNAL(clicked()),this,SLOT(ChangeVisibleState()));
     connect(ui->SoundBT,SIGNAL(clicked()),this,SLOT(GetSound()));
 
-    connect(ui->ShotLeftBt,SIGNAL(clicked()),this,SLOT(ShotLeft()));
-    connect(ui->ShotRightBt,SIGNAL(clicked()),this,SLOT(ShotRight()));
     connect(ui->BlockUpBT,SIGNAL(clicked()),this,SLOT(BlockUp()));
     connect(ui->BlockDownBT,SIGNAL(clicked()),this,SLOT(BlockDown()));
 
@@ -180,8 +187,11 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
 
     // Shot table part
     connect(ui->ShotTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_ShotTable_SelectionChanged()));
+    connect(ui->ShotTable,SIGNAL(DragMoveItem()),this,SLOT(s_ShotTableDragMoveItem()));
     connect(ui->AddShot,SIGNAL(pressed()),this,SLOT(s_ShotTable_AddShot()));
     connect(ui->RemoveShot,SIGNAL(pressed()),this,SLOT(s_ShotTable_RemoveShot()));
+    connect(ui->ShotTableMoveLeftBt,SIGNAL(clicked()),this,SLOT(s_ShotTableMoveLeft()));
+    connect(ui->ShotTableMoveRightBt,SIGNAL(clicked()),this,SLOT(s_ShotTableMoveRight()));
 
     // Block table/scene part
     connect(ui->BlockTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_BlockTable_SelectionChanged()));
@@ -302,6 +312,20 @@ void DlgSlideProperties::accept() {
     done(0);
 }
 
+void DlgSlideProperties::OKPrevious() {
+    // Save Window size and position
+    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this);
+    // Close the box
+    done(2);
+}
+
+void DlgSlideProperties::OKNext() {
+    // Save Window size and position
+    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this);
+    // Close the box
+    done(3);
+}
+
 //====================================================================================================================
 
 void DlgSlideProperties::GetSound() {
@@ -341,8 +365,8 @@ void DlgSlideProperties::RefreshControls() {
     // Update controls
     //--------------------------------------------------------------------
     CompositionList=&DiaporamaObject->List[CurrentShot].ShotComposition;
-    ui->ShotLeftBt->setEnabled(CurrentShot>0);
-    ui->ShotRightBt->setEnabled(CurrentShot<ui->ShotTable->columnCount()-1);
+    ui->ShotTableMoveLeftBt->setEnabled(CurrentShot>0);
+    ui->ShotTableMoveRightBt->setEnabled(CurrentShot<ui->ShotTable->columnCount()-1);
 
     int CurrentBlock=ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=NULL;
@@ -1445,6 +1469,32 @@ void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
 }
 
 //====================================================================================================================
+
+void DlgSlideProperties::s_ShotTableDragMoveItem() {
+    if (GlobalMainWindow->DragItemSource<GlobalMainWindow->DragItemDest) GlobalMainWindow->DragItemDest--;
+    DiaporamaObject->List.move(GlobalMainWindow->DragItemSource,GlobalMainWindow->DragItemDest);
+    ui->ShotTable->setUpdatesEnabled(false);
+    ui->ShotTable->SetCurrentCell(GlobalMainWindow->DragItemDest);
+    ui->ShotTable->setUpdatesEnabled(true);  // Reset timeline painting
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_ShotTableMoveLeft() {
+    int CurrentShot=ui->ShotTable->currentColumn();
+    DiaporamaObject->List.swap(CurrentShot,CurrentShot-1);
+    RefreshShotTable(CurrentShot-1);
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_ShotTableMoveRight() {
+    int CurrentShot=ui->ShotTable->currentColumn();
+    DiaporamaObject->List.swap(CurrentShot+1,CurrentShot);
+    RefreshShotTable(CurrentShot+1);
+}
+
+//====================================================================================================================
 // User select a shot in the ShotTable widget
 
 void DlgSlideProperties::s_ShotTable_SelectionChanged() {
@@ -1960,22 +2010,6 @@ void DlgSlideProperties::ChangeVisibleState() {
         }
     }
     RefreshBlockTable(ui->BlockTable->currentRow());
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::ShotLeft() {
-    int CurrentShot=ui->ShotTable->currentColumn();
-    DiaporamaObject->List.swap(CurrentShot,CurrentShot-1);
-    RefreshShotTable(CurrentShot-1);
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::ShotRight() {
-    int CurrentShot=ui->ShotTable->currentColumn();
-    DiaporamaObject->List.swap(CurrentShot+1,CurrentShot);
-    RefreshShotTable(CurrentShot+1);
 }
 
 //====================================================================================================================

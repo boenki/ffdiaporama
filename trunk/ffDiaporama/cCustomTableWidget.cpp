@@ -22,6 +22,10 @@
 #include "wgt_QCustomThumbnails.h"
 #include "cCustomTableWidget.h"
 
+//********************************************************************************************************************
+// cCustomTableWidget
+//********************************************************************************************************************
+
 cCustomTableWidget::cCustomTableWidget(QWidget *parent):QTableWidget(parent) {
     PartitionMode=false;
     horizontalScrollBar()->setStyleSheet("height: 14px; margin: 0px; padding: 0px;");
@@ -181,9 +185,8 @@ void cCustomTableWidget::mouseMoveEvent(QMouseEvent *event) {
 
         } else {
             // Get item number under mouse
-            int newrow=(event->pos().y()+verticalOffset())/ThumbHeight;
-            int newcol=(event->pos().x()+horizontalOffset())/ThumbWidth;
-
+            int newrow  =(event->pos().y()+verticalOffset())/ThumbHeight;
+            int newcol  =(event->pos().x()+horizontalOffset())/ThumbWidth;
             int Selected=(PartitionMode?newrow*NbrX+newcol:newcol);
             if ((Selected>NbrItem())||(Selected==GlobalMainWindow->DragItemSource)||(Selected==GlobalMainWindow->DragItemSource+1)) {
                 if (GlobalMainWindow->DragItemDest!=-1) {
@@ -199,7 +202,7 @@ void cCustomTableWidget::mouseMoveEvent(QMouseEvent *event) {
                     GlobalMainWindow->DragItemDest=Selected;
                     if (ItemToPaint) ItemToPaint->repaint();
                     int ToUse=GlobalMainWindow->DragItemDest;
-                    if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
+                    if (GlobalMainWindow->DragItemDest>=GlobalMainWindow->Diaporama->List.count()) ToUse--;
                     row=PartitionMode?ToUse/NbrX:0;
                     col=PartitionMode?ToUse-(ToUse/NbrX)*NbrX:ToUse;
                     ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
@@ -347,3 +350,137 @@ void cCustomTableWidget::CleanAll() {
     while (columnCount()>0) removeColumn(columnCount()-1);
     while (rowCount())      removeRow(rowCount()-1);
 }
+
+//********************************************************************************************************************
+// cCustomTableWidget2
+//********************************************************************************************************************
+
+cCustomTableWidget2::cCustomTableWidget2(QWidget *parent):QTableWidget(parent) {
+    horizontalScrollBar()->setStyleSheet("height: 14px; margin: 0px; padding: 0px;");
+    horizontalHeader()->setResizeMode(QHeaderView::Fixed);
+    verticalHeader()->setResizeMode(QHeaderView::Fixed);
+    setSelectionBehavior(QAbstractItemView::SelectItems);
+    setSelectionMode(QAbstractItemView::SingleSelection);
+
+    setDragDropOverwriteMode(false);
+    setAcceptDrops(false);
+    setDropIndicatorShown(false);
+}
+
+//====================================================================================================================
+
+void cCustomTableWidget2::mousePressEvent(QMouseEvent *event) {
+    if (GlobalMainWindow->IsDragOn==1) return;
+    setCursor(Qt::ArrowCursor);
+    GlobalMainWindow->IsDragOn=0;
+
+    // Get item number under mouse
+    int ThumbHeight=rowHeight(0);
+    int ThumbWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
+    int row        =(event->pos().y()+verticalOffset())/ThumbHeight;
+    int col        =(event->pos().x()+horizontalOffset())/ThumbWidth;
+    int Selected   =col;
+
+    if ((Selected>=0)&&(Selected<NbrItem())) {
+        // if item is correct, check if it was previously selected. Then if not select it
+        if (Selected!=CurrentSelected()) SetCurrentCell(Selected); else {
+            // if it was previously selected then start a drag & drop operation
+            GlobalMainWindow->IsDragOn=1;
+            GlobalMainWindow->DragItemSource=Selected;
+            GlobalMainWindow->DragItemDest  =Selected;
+            wgt_QCustomThumbnails *Previous=(wgt_QCustomThumbnails *)cellWidget(row,col); if (Previous) Previous->repaint();
+            setCursor(Qt::ClosedHandCursor);
+        }
+    }
+}
+
+void cCustomTableWidget2::mouseMoveEvent(QMouseEvent *event) {
+    if (GlobalMainWindow->IsDragOn!=1) {
+        //QTableWidget::mouseMoveEvent(event);
+    } else {
+        int ThumbHeight=rowHeight(0);
+        int ThumbWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
+        int NbrX       =width()/ThumbWidth;
+        int NbrY       =height()/ThumbHeight;  if (NbrY>rowCount()) NbrY=rowCount();
+        int ToUse      =GlobalMainWindow->DragItemDest; if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
+        int row        =0;
+        int col        =ToUse;
+
+        if (event->pos().x()<0) {
+            if (GlobalMainWindow->DragItemDest!=-1) {
+                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                GlobalMainWindow->DragItemDest=-1;
+                if (ItemToPaint) ItemToPaint->repaint();
+            }
+            setCursor(Qt::ForbiddenCursor);
+            // Try to scroll left if not partition mode
+            if ((horizontalScrollBar()->value()>0)) horizontalScrollBar()->setValue(horizontalScrollBar()->value()-1);
+
+        } else if (event->pos().x()>=NbrX*ThumbWidth) {
+            if (GlobalMainWindow->DragItemDest!=-1) {
+                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                GlobalMainWindow->DragItemDest=-1;
+                if (ItemToPaint) ItemToPaint->repaint();
+            }
+            setCursor(Qt::ForbiddenCursor);
+            // Try to scroll right if not partition mode
+            if ((horizontalScrollBar()->value()<horizontalScrollBar()->maximum())) horizontalScrollBar()->setValue(horizontalScrollBar()->value()+1);
+
+        } else {
+            // Get item number under mouse
+            int Selected=(event->pos().x()+horizontalOffset())/ThumbWidth;
+            if ((Selected>NbrItem())||(Selected==GlobalMainWindow->DragItemSource)||(Selected==GlobalMainWindow->DragItemSource+1)) {
+                if (GlobalMainWindow->DragItemDest!=-1) {
+                    wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                    GlobalMainWindow->DragItemDest=-1;
+                    if (ItemToPaint) ItemToPaint->repaint();
+                }
+                setCursor(Qt::ForbiddenCursor);
+            } else {
+                setCursor(Qt::ClosedHandCursor);
+                if (Selected!=GlobalMainWindow->DragItemDest) {
+                    wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                    GlobalMainWindow->DragItemDest=Selected;
+                    if (ItemToPaint) ItemToPaint->repaint();
+                    int ToUse=GlobalMainWindow->DragItemDest;
+                    if (GlobalMainWindow->DragItemDest>=GlobalMainWindow->Diaporama->List.count()) ToUse--;
+                    row=0;
+                    col=ToUse;
+                    ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                    if (ItemToPaint) ItemToPaint->repaint();
+                }
+            }
+        }
+    }
+}
+
+void cCustomTableWidget2::mouseReleaseEvent(QMouseEvent *event) {
+    if (GlobalMainWindow->IsDragOn!=1) {
+        QTableWidget::mouseReleaseEvent(event);
+    } else {
+        setCursor(Qt::ArrowCursor);
+        GlobalMainWindow->IsDragOn=false;
+        if (GlobalMainWindow->DragItemDest!=-1) emit DragMoveItem();
+    }
+}
+
+//====================================================================================================================
+
+int cCustomTableWidget2::CurrentSelected() {
+    return currentColumn();
+}
+
+//====================================================================================================================
+
+int cCustomTableWidget2::NbrItem() {
+    return columnCount();
+}
+
+//====================================================================================================================
+
+void cCustomTableWidget2::SetCurrentCell(int Index) {
+    setUpdatesEnabled(false);
+    setCurrentCell(0,Index);
+    setUpdatesEnabled(true);
+}
+
