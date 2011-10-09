@@ -192,7 +192,7 @@ QToolButton:pressed {
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="ShotLeftBt">
+           <widget class="QToolButton" name="ShotTableMoveLeftBt">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -233,7 +233,7 @@ QToolButton:pressed {
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="ShotRightBt">
+           <widget class="QToolButton" name="ShotTableMoveRightBt">
             <property name="minimumSize">
              <size>
               <width>24</width>
@@ -278,7 +278,7 @@ QToolButton:pressed {
         </widget>
        </item>
        <item>
-        <widget class="QTableWidget" name="ShotTable">
+        <widget class="cCustomTableWidget2" name="ShotTable">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -314,6 +314,12 @@ QToolButton:pressed {
          </property>
          <property name="dragDropOverwriteMode">
           <bool>false</bool>
+         </property>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::InternalMove</enum>
+         </property>
+         <property name="defaultDropAction">
+          <enum>Qt::LinkAction</enum>
          </property>
          <property name="selectionMode">
           <enum>QAbstractItemView::SingleSelection</enum>
@@ -3153,6 +3159,20 @@ color: #000000;
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="OKPreviousBT">
+       <property name="toolTip">
+        <string>Accept modification and go to previous slide</string>
+       </property>
+       <property name="text">
+        <string>Previous</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/arrow_left.png</normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/arrow_left.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="OKBT">
        <property name="toolTip">
         <string>Accept modification and exit dialog box</string>
@@ -3163,6 +3183,45 @@ color: #000000;
        <property name="icon">
         <iconset>
          <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="OKNextBT">
+       <property name="toolTip">
+        <string>Accept modification and go to next slide</string>
+       </property>
+       <property name="text">
+        <string>Next</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/arrow_right.png</normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/arrow_right.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>20</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>20</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string notr="true"/>
        </property>
       </widget>
      </item>
@@ -3227,11 +3286,16 @@ color: #000000;
    <extends>QComboBox</extends>
    <header>cCustomComboBox.h</header>
   </customwidget>
+  <customwidget>
+   <class>cCustomTableWidget2</class>
+   <extends>QTableWidget</extends>
+   <header>cCustomTableWidget.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>RemoveShot</tabstop>
-  <tabstop>ShotLeftBt</tabstop>
-  <tabstop>ShotRightBt</tabstop>
+  <tabstop>ShotTableMoveLeftBt</tabstop>
+  <tabstop>ShotTableMoveRightBt</tabstop>
   <tabstop>ShotTable</tabstop>
   <tabstop>SlideNameED</tabstop>
   <tabstop>ShotDurationED</tabstop>

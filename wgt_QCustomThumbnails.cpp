@@ -83,7 +83,9 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QPainter Painter(this);
 
-    if (Type==THUMBNAILTYPE_SHOT) {
+    //===========================================================================================================================
+    if (Type==THUMBNAILTYPE_SHOT) { // Thumnails of the slide dialog timeline
+    //===========================================================================================================================
 
         if (DiaporamaObject) {
             // Draw a standard thumbnail (just the image) at position of the current row
@@ -145,6 +147,24 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                         Painter.drawRect(0,0,this->width()-1,this->height()-1);
                     }
 
+                    // Draw Drag & Drop inserting point (if needed)
+                    if ((GlobalMainWindow->IsDragOn==1)&&(Col!=GlobalMainWindow->DragItemSource)&&((Col!=GlobalMainWindow->DragItemSource+1)||(GlobalMainWindow->DragItemSource!=DiaporamaObject->List.count()-1))&&(Col<DiaporamaObject->List.count())&&(
+                        (Col==GlobalMainWindow->DragItemDest)||((Col==DiaporamaObject->List.count()-1)&&(GlobalMainWindow->DragItemDest>=DiaporamaObject->List.count()))))
+                        {
+                        Painter.save();
+                        QPen Pen;
+                        Pen.setColor(WidgetDrag_Color);
+                        Pen.setStyle(Qt::SolidLine);
+                        Pen.setWidth(10);
+                        Painter.setPen(Pen);
+                        Painter.setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
+                        Painter.setOpacity(0.5);
+                        if ((Col==DiaporamaObject->List.count()-1)&&(GlobalMainWindow->DragItemDest>=DiaporamaObject->List.count())) Painter.drawRect(width(),0,width(),Height);
+                            else Painter.drawRect(0,0,0,Height);
+                        Painter.setOpacity(1);
+                        Painter.restore();
+                    }
+
                     // -------------------------- Draw shot duration
                     QPen  Pen;
                     QFont font= QApplication::font();
@@ -167,9 +187,11 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             }
             Painter.restore();
         }
-        //===========================================================================================================================
 
-    } else {
+    //===========================================================================================================================
+    } else { // Thumnails of the mainwindow timeline
+    //===========================================================================================================================
+
         Painter.save();
         cCustomTableWidget  *Timeline=(cCustomTableWidget *)this->Timeline;
 
@@ -558,7 +580,6 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 
         Painter.restore();
 
-
         // Draw selected box (if needed)
         if (Col==GlobalMainWindow->Diaporama->CurrentCol) {
             Painter.save();
@@ -572,9 +593,9 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             Painter.setOpacity(1);
             Painter.restore();
         }
-        // Draw selected box (if needed)
-        if (((GlobalMainWindow->IsDragOn==1)&&(Col!=GlobalMainWindow->DragItemSource)&&(Col!=GlobalMainWindow->DragItemSource+1)&&(Col<GlobalMainWindow->Diaporama->List.count())&&(
-             (Col==GlobalMainWindow->DragItemDest)||((Col==GlobalMainWindow->Diaporama->List.count()-1)&&(GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()))))||
+        // Draw Drag & Drop inserting point (if needed)
+        if (((GlobalMainWindow->IsDragOn==1)&&(Col!=GlobalMainWindow->DragItemSource)&&((Col!=GlobalMainWindow->DragItemSource+1)||(GlobalMainWindow->DragItemSource!=GlobalMainWindow->Diaporama->List.count()-1))&&(Col<GlobalMainWindow->Diaporama->List.count())&&(
+             (Col==GlobalMainWindow->DragItemDest)||((Col==GlobalMainWindow->Diaporama->List.count()-1)&&(GlobalMainWindow->DragItemDest>=GlobalMainWindow->Diaporama->List.count()))))||
              ((GlobalMainWindow->IsDragOn==2)&&((Col==GlobalMainWindow->DragItemDest)||((Col+1==GlobalMainWindow->DragItemDest)&&(Col=GlobalMainWindow->Diaporama->List.count()-1)))))
             {
             Painter.save();
@@ -584,7 +605,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             Painter.setPen(Pen);
             Painter.setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
             Painter.setOpacity(0.5);
-            if ((Col==GlobalMainWindow->Diaporama->List.count()-1)&&(GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()))
+            if ((Col==GlobalMainWindow->Diaporama->List.count()-1)&&(GlobalMainWindow->DragItemDest>=GlobalMainWindow->Diaporama->List.count()))
                 Painter.drawRect(width(),0,width(),Height); else Painter.drawRect(0,0,0,Height);
             Painter.setOpacity(1);
             Painter.restore();

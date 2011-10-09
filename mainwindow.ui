@@ -2447,7 +2447,7 @@ and help</string>
        <enum>Qt::ScrollBarAlwaysOn</enum>
       </property>
       <property name="editTriggers">
-       <set>QAbstractItemView::DoubleClicked</set>
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
       <property name="showDropIndicator" stdset="0">
        <bool>true</bool>

@@ -31,22 +31,41 @@
 class cCustomTableWidget : public QTableWidget {
 Q_OBJECT
 public:
-    bool    PartitionMode;
+    bool        PartitionMode;
 
-    explicit cCustomTableWidget(QWidget *parent = 0);
+    explicit    cCustomTableWidget(QWidget *parent = 0);
 
-    void    AddObjectToTimeLine(int CurIndex);
-    void    SetTimelineHeight(bool NewPartitionMode);
-    int     CurrentSelected();
-    int     NbrItem();
-    void    SetCurrentCell(int Index);
-    void    CleanAll();
-    void    ResetDisplay(int Selected);
+    void        AddObjectToTimeLine(int CurIndex);
+    void        SetTimelineHeight(bool NewPartitionMode);
+    int         CurrentSelected();
+    int         NbrItem();
+    void        SetCurrentCell(int Index);
+    void        CleanAll();
+    void        ResetDisplay(int Selected);
 
 protected:
     virtual void dragEnterEvent(QDragEnterEvent *event);
     virtual void dragMoveEvent(QDragMoveEvent *event);
     virtual void dropEvent(QDropEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseReleaseEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
+
+private slots:
+
+signals:
+    void DragMoveItem();
+};
+
+class cCustomTableWidget2 : public QTableWidget {
+Q_OBJECT
+public:
+    explicit    cCustomTableWidget2(QWidget *parent = 0);
+    int         CurrentSelected();
+    int         NbrItem();
+    void        SetCurrentCell(int Index);
+
+protected:
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);

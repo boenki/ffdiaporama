@@ -1,13 +1,12 @@
-Buggs/TODO (Dernier SVN le 07/10/2011) :
+Buggs/TODO (Dernier SVN le 08/10/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
+ - When using the cross fade transition between 2 identical pictures the brightness changes
 
 Mandatory :
  - To add animations of text (scrolling, zoom in / out), animations for entering blocks (1st shot or invisible block in the previous shot) and of animations for outgoing block (the Last one shot or invisible block in the following shot)
  - Allow the user to put a video in break without putting it in invisible
- - To add precedent/following buttons in the slide dialog
- - Have the possibility of adding photos/videos by drag & drop since the outside of the application
  - To add an option "same as precedent" for 3 sections object/block and coordinates as so as the modifications in one of 3 sections echo in the following shots.
 
 May-be :
@@ -26,18 +25,16 @@ Changelog depuis le dernier SVN
 French version / Correction de bug :
 
 French version / Nouvelles fonctionnalités :
-- Change l'affichage des vignettes dans la timeline :
-  - Ajoute le n° de slide à coté du fond d'écran
-  - Change l'icône représentant la présence de plusieurs plans
-  - Ajoute une icône représentant la présence de plusieurs blocs
+- Ajoute des boutons précédente/suivante dans la boite de dialogue des diapositives
+- Ajoute le n° de la diapositive dans le titre de la boite de dialogue des diapositives
+- Ajoute le Drag & Drop à la timeline de la boite titre (table des plans)
 
 English version / Bug fix :
 
 English version / New features :
-- Change thumbnails display in the timeline :
-  - Add slide number near background
-  - Change the icon representing the presence of several plans
-  - Add an icon representing the presence of several blocks
+- Add previous/next buttons in the slide dialog
+- Add title number in the slide dialog title
+- Add Drag & Drop to the slide dialog timeline (shots table)
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -62,7 +59,7 @@ Bug fix English version
 Documentation update
 - fct_008 (Adding Russian & Greec)
 - Dlg_001, Dlg_005 et Dlg_010 (addition of opening with double click)
-- Dlg_003 (addition of double-clicks and multiple file insertion)
+- Dlg_003 (addition of double-clicks, multiple file insertion, drag & drop for shots table)
 - Dlg_008 (Adding partial rendering)
 - Fct_004 (Adding dialog if file not found and Drag & Drop)
 - Fct_003 (Change thumbnails)
@@ -70,7 +67,7 @@ Documentation update
 French version
 - Rend possible le support partielle d'une langue (Interface seul ou Interface+WIKI ou Interface+WIKI+WEB)
 - Ajout des fichiers de langue du Russe (25%)
-- Ajout des fichiers de langue du Grec (50%)
+- Ajout des fichiers de langue du Grec (100%)
 - Déplace le contenu des 4 fichiers tab_00x.html dans le fichier .ts
 - Ouvre immédiatement la boite d'édition de texte quand on ajoute un nouveau bloc texte dans la boite de dialogue diapositive
 - Quand on double clique sur un bloc dans la boite diapositive (scene ou table des blocs) ouvre la boite texte, la boite de recadrage ou la boite video en fonction du type de bloc
@@ -78,11 +75,15 @@ French version
 - Ouvre la boite de dialog diapositive quand on double click dans la fenêtre de prévisualisation
 - Ajoute la possibilité de sélectionner plusieurs fichiers quand on veut insérer des nouveaux objets (images ou vidéos) dans un plan dans la boite diapositive
 - Ajoute la possibilité d'insérer des diapositives par drag & drop depuis l'explorateur de fichiers vers la timeline
+- Change l'affichage des vignettes dans la timeline :
+  - Ajoute le n° de slide à coté du fond d'écran
+  - Change l'icône représentant la présence de plusieurs plans
+  - Ajoute une icône représentant la présence de plusieurs blocs
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
-- Addition of the files of the Russian language (25 %)
-- Addition of the files of the Greek language (50 %)
+- Addition of the files of the Russian language (25%)
+- Addition of the files of the Greek language (100%)
 - Move the contents of 4 tab_00x.html files in the .ts file
 - Open immediately the dialog allowing to modify the text when we add new text block in the slide dialog
 - When double click on a block in the slide dialog (scene or block table) then open text dialog, reframing dialog or video edit dialog according to the block type
@@ -91,3 +92,7 @@ English version
 - Open slide dialog when double click on preview zone
 - Add the possibility of making a multiple selection when one want to insert new objects (images or video) into a shot in the slide dialog
 - Add the possibility of inserting slides by drag and drop since the files explorer towards the timeline
+- Change thumbnails display in the timeline :
+  - Add slide number near background
+  - Change the icon representing the presence of several shots
+  - Add an icon representing the presence of several blocks
