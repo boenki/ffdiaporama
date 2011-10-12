@@ -22,25 +22,35 @@
 #include "ui_DlgImageCorrection.h"
 #include "mainwindow.h"
 
-DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,cFilterCorrectObject *TheBrushFileCorrect,QImage *TheCacheImage,QWidget *parent):QDialog(parent),ui(new Ui::DlgImageCorrection) {
+DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,cFilterCorrectObject *TheBrushFileCorrect,int TheVideoPosition,QWidget *parent):QDialog(parent),ui(new Ui::DlgImageCorrection) {
     ui->setupUi(this);
     BackgroundForm  =TheBackgroundForm;
     CurrentBrush    =TheCurrentBrush;
     BrushFileCorrect=TheBrushFileCorrect;
-    CachedImage     =TheCacheImage;         // If no image and no video : program will crash !
+    VideoPosition   =TheVideoPosition;
 
     #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
         setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
     #endif
 
-    // Save object before modification for cancel button
-    Undo=new QDomDocument(APPLICATION_NAME);
-    QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
+    if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
+        else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
+
+    // Save objects before modification for cancel button
+    UndoSlide=new QDomDocument(APPLICATION_NAME);
+    QDomElement root=UndoSlide->createElement("UNDO-DLG");  // Create xml document and root
     CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(GlobalMainWindow->Diaporama->ProjectFileName).absolutePath(),true);  // Save object
-    Undo->appendChild(root);                                // Add object to xml document
+    UndoSlide->appendChild(root);                           // Add object to xml document
+
+    UndoShot=new QDomDocument(APPLICATION_NAME);
+    root=UndoShot->createElement("UNDO-DLG");               // Create xml document and root
+    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
+    Filter->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(GlobalMainWindow->Diaporama->ProjectFileName).absolutePath());  // Save object
+    UndoShot->appendChild(root);                           // Add object to xml document
 
     IsFirstInitDone = false;                                // true when first show window was done
     FLAGSTOPED      = false;
+    FLAGSTOPSPIN    = false;
     scene           = NULL;
     cadre           = NULL;
 
@@ -60,6 +70,22 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     ui->WValue->setSingleStep(1);  ui->WValue->setRange(1,200);
     ui->HValue->setSingleStep(1);  ui->HValue->setRange(1,200);
 
+    ui->TransformationCB->SetCurrentFilter(CachedImage,CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform.OnOffFilter:&CurrentBrush->Image->BrushFileTransform.OnOffFilter);
+
+    // If it's not an image then disable blur/sharpen
+    if (CurrentBrush->Image==NULL) {
+        ui->TransformationLabel->setVisible(false);
+        ui->TransformationCB->setVisible(false);
+        ui->BlurLabel->setVisible(false);
+        ui->BlurSigmaSlider->setVisible(false);
+        ui->BlurSigmaSB->setVisible(false);
+        ui->BlurSharpenResetBT->setVisible(false);
+        ui->BlurRadiusLabel->setVisible(false);
+        ui->BlurRadiusSlider->setVisible(false);
+        ui->BlurRadiusED->setVisible(false);
+        ui->RadiusResetBT->setVisible(false);
+    }
+
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
@@ -77,29 +103,38 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     connect(ui->AdjustWHBT,SIGNAL(clicked()),this,SLOT(s_AdjustWH()));
     connect(ui->MagneticEdgeBt,SIGNAL(clicked()),this,SLOT(s_MagneticEdgeBt()));
 
-    connect(ui->BrightnessSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_BrightnessSliderMoved(int)));
+    connect(ui->BrightnessSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BrightnessSliderMoved(int)));
     connect(ui->BrightnessValue,SIGNAL(valueChanged(int)),this,SLOT(s_BrightnessSliderMoved(int)));
     connect(ui->BrightnessResetBT,SIGNAL(clicked()),this,SLOT(s_BrightnessReset()));
-    connect(ui->ContrastSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_ContrastSliderMoved(int)));
+    connect(ui->ContrastSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ContrastSliderMoved(int)));
     connect(ui->ContrastValue,SIGNAL(valueChanged(int)),this,SLOT(s_ContrastSliderMoved(int)));
     connect(ui->ContrastResetBT,SIGNAL(clicked()),this,SLOT(s_ContrastReset()));
-    connect(ui->GammaSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_GammaSliderMoved(int)));
+    connect(ui->GammaSlider,SIGNAL(valueChanged(int)),this,SLOT(s_GammaSliderMoved(int)));
     connect(ui->GammaValue,SIGNAL(valueChanged(double)),this,SLOT(s_GammaValueED(double)));
     connect(ui->GammaResetBT,SIGNAL(clicked()),this,SLOT(s_GammaReset()));
-    connect(ui->RedSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_RedSliderMoved(int)));
+    connect(ui->RedSlider,SIGNAL(valueChanged(int)),this,SLOT(s_RedSliderMoved(int)));
     connect(ui->RedValue,SIGNAL(valueChanged(int)),this,SLOT(s_RedSliderMoved(int)));
     connect(ui->RedResetBT,SIGNAL(clicked()),this,SLOT(s_RedReset()));
-    connect(ui->GreenSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_GreenSliderMoved(int)));
+    connect(ui->GreenSlider,SIGNAL(valueChanged(int)),this,SLOT(s_GreenSliderMoved(int)));
     connect(ui->GreenValue,SIGNAL(valueChanged(int)),this,SLOT(s_GreenSliderMoved(int)));
     connect(ui->GreenResetBT,SIGNAL(clicked()),this,SLOT(s_GreenReset()));
-    connect(ui->BlueSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_BlueSliderMoved(int)));
+    connect(ui->BlueSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlueSliderMoved(int)));
     connect(ui->BlueValue,SIGNAL(valueChanged(int)),this,SLOT(s_BlueSliderMoved(int)));
     connect(ui->BlueResetBT,SIGNAL(clicked()),this,SLOT(s_BlueReset()));
+
+    connect(ui->TransformationCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChTransformationCB(int)));
+    connect(ui->BlurRadiusSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlurRadiusSliderMoved(int)));
+    connect(ui->BlurRadiusED,SIGNAL(valueChanged(int)),this,SLOT(s_BlurRadiusSliderMoved(int)));
+    connect(ui->BlurSigmaSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlurSigmaSliderMoved(int)));
+    connect(ui->BlurSigmaSB,SIGNAL(valueChanged(double)),this,SLOT(s_BlurSigmaValueED(double)));
+    connect(ui->BlurSharpenResetBT,SIGNAL(clicked()),this,SLOT(s_BlurSharpenReset()));
+    connect(ui->RadiusResetBT,SIGNAL(clicked()),this,SLOT(s_RadiusReset()));
 }
 
 DlgImageCorrection::~DlgImageCorrection() {
     delete ui;  // Deleting this make deletion of scene and all included object
     scene=NULL;
+    delete CachedImage;
 }
 
 //====================================================================================================================
@@ -137,6 +172,19 @@ void DlgImageCorrection::s_GreenReset() {
 void DlgImageCorrection::s_BlueReset() {
     s_BlueSliderMoved(0);
 }
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_BlurSharpenReset() {
+    s_BlurSigmaSliderMoved(0);
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_RadiusReset() {
+    s_BlurRadiusSliderMoved(5);
+}
+
 
 //====================================================================================================================
 
@@ -214,11 +262,20 @@ void DlgImageCorrection::showEvent(QShowEvent *ev) {
 void DlgImageCorrection::reject() {
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgImageCorrectionWSP->SaveWindowState(this);
-    QDomElement root=Undo->documentElement();
+
+    // Restore objects
+    QDomElement root=UndoSlide->documentElement();
     if (root.tagName()=="UNDO-DLG") {
         QStringList AliasList;
         CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
     }
+
+    root=UndoShot->documentElement();
+    if (root.tagName()=="UNDO-DLG") {
+        cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
+        Filter->LoadFromXML(root,"UNDO-DLG-OBJECT","");
+    }
+
     done(1);
 }
 
@@ -399,17 +456,10 @@ void DlgImageCorrection::RefreshControls() {
     ui->GreenSlider->setValue(BrushFileCorrect->Green);               ui->GreenValue->setValue(BrushFileCorrect->Green);
     ui->BlueSlider->setValue(BrushFileCorrect->Blue);                 ui->BlueValue->setValue(BrushFileCorrect->Blue);
 
-    // Update aspect ratio (only if geometrie is image)
-    if (BrushFileCorrect->ImageGeometry==GEOMETRY_IMAGE) {
-        if (BrushFileCorrect->ImageRotation!=0) {
-            QTransform matrix;
-            matrix.rotate(BrushFileCorrect->ImageRotation,Qt::ZAxis);
-            QImage *SourceImage=new QImage(CachedImage->transformed(matrix));
-            BrushFileCorrect->AspectRatio=double(SourceImage->height())/double(SourceImage->width());
-            delete SourceImage;
-        // if image have no rotation => determine image aspect ratio
-        } else BrushFileCorrect->AspectRatio=double(CachedImage->height())/double(CachedImage->width());
-    }
+    ui->BlurSigmaSlider->setValue((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurSigma*10);
+    ui->BlurSigmaSB->setValue((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurSigma);
+    ui->BlurRadiusSlider->setValue(int((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurRadius));
+    ui->BlurRadiusED->setValue(int((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurRadius));
 
     // Resize and repos all item in the scene
     for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {
@@ -427,9 +477,60 @@ void DlgImageCorrection::RefreshControls() {
         RectItem->setRect(Rect);
         RectItem->RecalcEmbededResizeRectItem();
     }
+
     // Refresh image
     RefreshBackgroundImage();
     FLAGSTOPED=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_ChTransformationCB(int) {
+    if (FLAGSTOPSPIN) return;
+    FLAGSTOPSPIN=true;
+    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
+    Filter->OnOffFilter=ui->TransformationCB->GetCurrentFilter();
+    RefreshBackgroundImage();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_BlurSigmaSliderMoved(int Value) {
+    if (FLAGSTOPSPIN) return;
+    FLAGSTOPSPIN=true;
+    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
+    Filter->BlurSigma=double(Value)/10;
+    ui->BlurSigmaSlider->setValue(Filter->BlurSigma*10);
+    ui->BlurSigmaSB->setValue(Filter->BlurSigma);
+    RefreshBackgroundImage();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_BlurSigmaValueED(double Value) {
+    if (FLAGSTOPSPIN) return;
+    FLAGSTOPSPIN=true;
+    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
+    Filter->BlurSigma=Value;
+    ui->BlurSigmaSlider->setValue(Filter->BlurSigma*10);
+    ui->BlurSigmaSB->setValue(Filter->BlurSigma);
+    RefreshBackgroundImage();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_BlurRadiusSliderMoved(int Value) {
+    if (FLAGSTOPSPIN) return;
+    FLAGSTOPSPIN=true;
+    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
+    Filter->BlurRadius=double(Value);
+    ui->BlurRadiusSlider->setValue(int(Filter->BlurRadius));
+    ui->BlurRadiusED->setValue(int(Filter->BlurRadius));
+    RefreshBackgroundImage();
+    FLAGSTOPSPIN=false;
 }
 
 //====================================================================================================================
@@ -489,11 +590,15 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     double  DstW=RealImageW*(xmax/Hyp);
     double  DstH=RealImageH*(ymax/Hyp);
 
+    QImage ToUseImage=SourceImage->scaled(DstW,DstH);
+    if (CurrentBrush->Image) CurrentBrush->Image->BrushFileTransform.ApplyFilter(&ToUseImage);
+        else if (CurrentBrush->Video) CurrentBrush->Video->BrushFileTransform.ApplyFilter(&ToUseImage);
+    BrushFileCorrect->ApplyFilter(&ToUseImage);
+
     P.begin(NewImage);
     P.fillRect(QRectF(0,0,xmax,ymax),Transparent);
-    P.drawImage(QRectF(DstX,DstY,DstW,DstH),*SourceImage,QRectF(0,0,RealImageW,RealImageH));
+    P.drawImage(QRectF(DstX,DstY,DstW,DstH),ToUseImage,QRectF(0,0,DstW,DstH));
     if (SourceImage!=CachedImage) delete SourceImage;
-    BrushFileCorrect->ApplyFilter(NewImage);
 
     //********************************************************
 
@@ -557,44 +662,55 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     im->setPos(0,0);
     delete NewImage;
 
-    RefreshControls();
     QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_BrightnessSliderMoved(int Value) {
+    if (FLAGSTOPSPIN) return;
+    FLAGSTOPSPIN=true;
     BrushFileCorrect->Brightness=Value;
     ui->BrightnessSlider->setValue(BrushFileCorrect->Brightness);
     ui->BrightnessValue->setValue(BrushFileCorrect->Brightness);
     RefreshBackgroundImage();
+    FLAGSTOPSPIN=false;
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_ContrastSliderMoved(int Value) {
+    if (FLAGSTOPSPIN) return;
+    FLAGSTOPSPIN=true;
     BrushFileCorrect->Contrast=Value;
     ui->ContrastSlider->setValue(BrushFileCorrect->Contrast);
     ui->ContrastValue->setValue(BrushFileCorrect->Contrast);
     RefreshBackgroundImage();
+    FLAGSTOPSPIN=false;
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_GammaSliderMoved(int Value) {
+    if (FLAGSTOPSPIN) return;
+    FLAGSTOPSPIN=true;
     BrushFileCorrect->Gamma=double(Value)/100;
     ui->GammaSlider->setValue(BrushFileCorrect->Gamma*100);
     ui->GammaValue->setValue(BrushFileCorrect->Gamma);
     RefreshBackgroundImage();
+    FLAGSTOPSPIN=false;
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_GammaValueED(double Value) {
+    if (FLAGSTOPSPIN) return;
+    FLAGSTOPSPIN=true;
     BrushFileCorrect->Gamma=Value;
     ui->GammaSlider->setValue(BrushFileCorrect->Gamma*100);
     ui->GammaValue->setValue(BrushFileCorrect->Gamma);
     RefreshBackgroundImage();
+    FLAGSTOPSPIN=false;
 }
 
 //====================================================================================================================

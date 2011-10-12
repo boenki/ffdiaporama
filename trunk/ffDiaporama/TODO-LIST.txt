@@ -1,40 +1,75 @@
-Buggs/TODO (Dernier SVN le 08/10/2011) :
+Buggs/TODO (Dernier SVN le 09/10/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
  - When using the cross fade transition between 2 identical pictures the brightness changes
+ - Génération de vidéo : Le chemin par défaut n'est pas pris en compte correctement sous Windows si le nom de fichier n'a pas été modifier
 
-Mandatory :
- - To add animations of text (scrolling, zoom in / out), animations for entering blocks (1st shot or invisible block in the previous shot) and of animations for outgoing block (the Last one shot or invisible block in the following shot)
- - Allow the user to put a video in break without putting it in invisible
- - To add an option "same as precedent" for 3 sections object/block and coordinates as so as the modifications in one of 3 sections echo in the following shots.
+TODO-List
+---------
+  Editor
+    -To add UNDO functionnality
+    -To add an option "same as precedent" for 3 sections object/block and coordinates as so as the modifications in one of 3 sections echo in the following shots.
+    -Allow the user to load a custom LUMA for a transition
+    -Be able to move the centring point of the rotations
+    -Management of guides for the biggest internal rectangle (when rotation in reframing dialog)
+    -To transfer the geometry control of slide dialog to reframing dialog
+    -Add a duplicate slide button to the main toolbar
+    -Manage block groups
+    -Transform some properties to not global (shape => Example : Progressive transformation of square to circle, Border => Progressive transformation of the color and the thickness (what about style ?), Shadow => Progressive transformation of the color and the distance)
 
-May-be :
- - To add UNDO functionnality
- - Allow the user to change the margins of texts inside blocks
- - Allow the user to load a custom LUMA for a transition
- - Be able to disable sound video track (for now mini is 10%)
- - Style sheet for text
- - Add a management of route: A line object with multiple points being outlined during the animation with a PNG attached to the point being drawn
- - Finish the internationalization of the Ubuntu package
- - Link musics of the playlist without waiting for the following slide
+  Background
+    -Put back compositions for the background
+    -Make the background transitions + Make  background transitions dialog
+
+  Various
+    -To add the possibility to export its project (for example a button export to combine all the files of the project in a zip file)
+    -Finalize sorting of codec and size in render dialog
+    -Finish the internationalization of the Ubuntu package
+    -Add a management of route: A line object with multiple points being outlined during the animation with a PNG attached to the point being drawn
+    -Add a "mass modifications" feature to all slide or a group of slide. First shot duration - Transition - Random Ken Burns effect - etc...
+    -Add a tools to convert video
+
+  Text
+    -To add animations of text (scrolling, zoom in / out), animations for entering blocks (1st shot or invisible block in the previous shot) and of animations for outgoing block (the Last one shot or invisible block in the following shot)
+    -Allow the user to change the margins of texts inside blocks
+    -Style sheet for text
+
+  Video
+    -When we cut a video, to have the possibility of creating a new shot or a new slide with the end of the video
+    -Be able to disable sound video track (for now mini is 10%)
+    -To transfer the volume controle from video edit dialog to slide dialog
+    -Allow the user to put a video in break without putting it in invisible
+    -Be able to change video speed
+
+  Sound/Music
+    -Link musics of the playlist without waiting for the following slide
+    -Make fade in/out musics during the changes of volume
+    -To add a sound comment track
+    -Add support for video with 5.1 audio trak
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+- Corrige tous les sliders (les clicks de page n'étaient pas pris en compte)
 
 French version / Nouvelles fonctionnalités :
-- Ajoute des boutons précédente/suivante dans la boite de dialogue des diapositives
-- Ajoute le n° de la diapositive dans le titre de la boite de dialogue des diapositives
-- Ajoute le Drag & Drop à la timeline de la boite titre (table des plans)
+- Mise à jour de la traduction en grec
+- Modifie le design de la boite de recadrage
+- Transfert les réglages de transformation et de flou/netteté de la boite slide vers la boite de recadrage
+- Limite la propriété rayon du filtre flou/netteté à la fourchette 1-10
+- Ajoute des boutons reset aux 2 lignes de propriétés du flou/netteté
 
 English version / Bug fix :
+- Fix all sliders (Page clicks was not used)
 
 English version / New features :
-- Add previous/next buttons in the slide dialog
-- Add title number in the slide dialog title
-- Add Drag & Drop to the slide dialog timeline (shots table)
+- Greec translation update
+- New design for reframming dialog
+- Transfer of the settings of transformation and blur/sharpness for slide dialog to reframming dialog
+- Limit the radius property of the blur/sharpness filter to the range 1-10
+- Add two reset buttons to controls lines of the blur/sharpness filter
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -79,6 +114,9 @@ French version
   - Ajoute le n° de slide à coté du fond d'écran
   - Change l'icône représentant la présence de plusieurs plans
   - Ajoute une icône représentant la présence de plusieurs blocs
+- Ajoute des boutons précédente/suivante dans la boite de dialogue des diapositives
+- Ajoute le n° de la diapositive dans le titre de la boite de dialogue des diapositives
+- Ajoute le Drag & Drop à la timeline de la boite titre (table des plans)
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -96,3 +134,6 @@ English version
   - Add slide number near background
   - Change the icon representing the presence of several shots
   - Add an icon representing the presence of several blocks
+- Add previous/next buttons in the slide dialog
+- Add title number in the slide dialog title
+- Add Drag & Drop to the slide dialog timeline (shots table)

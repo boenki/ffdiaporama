@@ -74,7 +74,7 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
     connect(ui->BackgroundCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexBackgroundCombo(int)));
 
     // Intermediate position for gradient 3 colors
-    connect(ui->IntermPosSlider,SIGNAL(sliderMoved(int)),this,SLOT(s_IntermPosSliderMoved(int)));
+    connect(ui->IntermPosSlider,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosSliderMoved(int)));
     connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
 
     connect(ui->ImageFileBT,SIGNAL(pressed()),this,SLOT(s_SelectFile()));
@@ -387,7 +387,7 @@ void DlgBackgroundProperties::s_ChIndexBackgroundCombo(int) {
 //========= Image file correction
 void DlgBackgroundProperties::s_ImageEditCorrect() {
     if (DiaporamaObject->BackgroundBrush.Image) {
-        DlgImageCorrection(1,&DiaporamaObject->BackgroundBrush,&DiaporamaObject->BackgroundBrush.BrushFileCorrect,DiaporamaObject->BackgroundBrush.Image->CacheImage,this).exec();
+        DlgImageCorrection(1,&DiaporamaObject->BackgroundBrush,&DiaporamaObject->BackgroundBrush.BrushFileCorrect,0,this).exec();
         RefreshControls(ui->NewBackgroundRD->isChecked());
     }
 }

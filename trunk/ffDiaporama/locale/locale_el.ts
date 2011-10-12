@@ -831,173 +831,166 @@ Crossfade transition</source>
         <translation>Πλαισίωση εικόνας και διόρθωση</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="75"/>
+        <location filename="../DlgImageCorrection.ui" line="155"/>
         <source>Define the horizontal position from the left (X).</source>
         <translation>Καθορίζει την οριζόντια θέση από τα αριστερά (X).</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="110"/>
+        <location filename="../DlgImageCorrection.ui" line="207"/>
         <source>Define the vertical position from the top of the image ( Y ).</source>
         <translation>Καθορίζει την κάθετη θέση από την κορυφή της εικόνας (Y).</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="129"/>
-        <source>Size :</source>
-        <translation>Μέγεθος:</translation>
-    </message>
-    <message>
-        <location filename="../DlgImageCorrection.ui" line="139"/>
+        <location filename="../DlgImageCorrection.ui" line="1481"/>
         <source>Define automatically the framing to the width of the image.</source>
         <translation>Καθορίζει αυτόματα την πλαισίωση στο πλάτος της εικόνας.</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="159"/>
+        <location filename="../DlgImageCorrection.ui" line="1501"/>
         <source>Define automatically the framing to the height of the image.</source>
         <translation>Καθορίζει αυτόματα την πλαισίωση στο ύψος της εικόνας.</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="179"/>
+        <location filename="../DlgImageCorrection.ui" line="1521"/>
         <source>Define automatically the framing to the diagonal of the image.</source>
         <translation>Καθορίζει αυτόματα την πλαισίωση διαγώνια της εικόνας.</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="199"/>
+        <location filename="../DlgImageCorrection.ui" line="228"/>
         <source>Define the width</source>
         <translation>Καθορισμός του πλάτους</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="228"/>
+        <location filename="../DlgImageCorrection.ui" line="104"/>
+        <source>Properties for this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgImageCorrection.ui" line="285"/>
         <source>Define the height</source>
         <translation>Καθορισμός του ύψους</translation>
     </message>
     <message utf8="true">
-        <location filename="../DlgImageCorrection.ui" line="270"/>
+        <location filename="../DlgImageCorrection.ui" line="357"/>
         <source>Turn the image to the left (on the multiple fellow man of 90°).</source>
         <translation>Περιστροφή της εικόνας προς τα αριστερά (στο επόμενο πολλαπλάσιο των 90°).</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="290"/>
+        <location filename="../DlgImageCorrection.ui" line="394"/>
         <source>Define the rotation angle for z axis.</source>
         <translation>Καθορίζει την γωνία περιστροφής για τον άξονα z.</translation>
     </message>
     <message utf8="true">
-        <location filename="../DlgImageCorrection.ui" line="309"/>
+        <location filename="../DlgImageCorrection.ui" line="413"/>
         <source>Turn the image to the right (on the multiple fellow man of 90°).</source>
         <translation>Περιστροφή της εικόνας προς τα δεξιά (στο επόμενο πολλαπλάσιο των 90°).</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="358"/>
-        <location filename="../DlgImageCorrection.ui" line="414"/>
+        <location filename="../DlgImageCorrection.ui" line="472"/>
+        <location filename="../DlgImageCorrection.ui" line="505"/>
         <source>Adjust luminosity</source>
         <translation>Ρύθμιση της φωτεινότητας</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="392"/>
-        <location filename="../DlgImageCorrection.ui" line="430"/>
+        <location filename="../DlgImageCorrection.ui" line="586"/>
+        <location filename="../DlgImageCorrection.ui" line="619"/>
         <source>Adjust contrast</source>
         <translation>Ρύθμιση της αντίθεσης</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="446"/>
-        <location filename="../DlgImageCorrection.ui" line="477"/>
+        <location filename="../DlgImageCorrection.ui" line="687"/>
+        <location filename="../DlgImageCorrection.ui" line="723"/>
         <source>Adjust gamma</source>
         <translation>Ρύθμιση του γάμμα</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="514"/>
-        <location filename="../DlgImageCorrection.ui" line="536"/>
+        <location filename="../DlgImageCorrection.ui" line="800"/>
+        <location filename="../DlgImageCorrection.ui" line="833"/>
         <source>Adjust red chanel</source>
         <translation>Ρύθμιση του καναλιού του κόκκινου</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="564"/>
-        <location filename="../DlgImageCorrection.ui" line="586"/>
+        <location filename="../DlgImageCorrection.ui" line="907"/>
+        <location filename="../DlgImageCorrection.ui" line="940"/>
         <source>Adjust green chanel</source>
         <translation>Ρύθμιση του καναλιού του πράσινου</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="614"/>
-        <location filename="../DlgImageCorrection.ui" line="636"/>
+        <location filename="../DlgImageCorrection.ui" line="1014"/>
+        <location filename="../DlgImageCorrection.ui" line="1047"/>
         <source>Adjust blue chanel</source>
         <translation>Ρύθμιση του καναλιού του μπλε</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="652"/>
-        <source>Brightness :</source>
-        <translation>Φωτεινότητα:</translation>
-    </message>
-    <message>
-        <location filename="../DlgImageCorrection.ui" line="662"/>
-        <source>Contrast :</source>
-        <translation>Αντίθεση:</translation>
-    </message>
-    <message>
-        <location filename="../DlgImageCorrection.ui" line="672"/>
-        <source>Gamma :</source>
-        <translation>Γάμμα:</translation>
-    </message>
-    <message>
-        <location filename="../DlgImageCorrection.ui" line="688"/>
-        <source>Red :</source>
-        <translation>Κόκκινο:</translation>
-    </message>
-    <message>
-        <location filename="../DlgImageCorrection.ui" line="704"/>
-        <source>Green :</source>
-        <translation>Πράσινο:</translation>
-    </message>
-    <message>
-        <location filename="../DlgImageCorrection.ui" line="720"/>
-        <source>Blue :</source>
-        <translation>Μπλε:</translation>
-    </message>
-    <message>
-        <location filename="../DlgImageCorrection.ui" line="730"/>
-        <location filename="../DlgImageCorrection.ui" line="744"/>
-        <location filename="../DlgImageCorrection.ui" line="758"/>
-        <location filename="../DlgImageCorrection.ui" line="772"/>
-        <location filename="../DlgImageCorrection.ui" line="786"/>
-        <location filename="../DlgImageCorrection.ui" line="800"/>
+        <location filename="../DlgImageCorrection.ui" line="521"/>
+        <location filename="../DlgImageCorrection.ui" line="635"/>
+        <location filename="../DlgImageCorrection.ui" line="742"/>
+        <location filename="../DlgImageCorrection.ui" line="849"/>
+        <location filename="../DlgImageCorrection.ui" line="956"/>
+        <location filename="../DlgImageCorrection.ui" line="1063"/>
+        <location filename="../DlgImageCorrection.ui" line="1243"/>
         <source>Reset to zero</source>
         <translation>Επαναφορά στο μηδέν</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="847"/>
+        <location filename="../DlgImageCorrection.ui" line="1102"/>
+        <source>Apply a filter to the photo or the images of the video</source>
+        <translation type="unfinished">Εφαρμόζει ένα φίλτρο στην φωτογραφία ή στις εικόνες του βίντεο</translation>
+    </message>
+    <message>
+        <location filename="../DlgImageCorrection.ui" line="1181"/>
+        <location filename="../DlgImageCorrection.ui" line="1312"/>
+        <location filename="../DlgImageCorrection.ui" line="1357"/>
+        <source>Define a blur/sharpen filter to the photo</source>
+        <translation type="unfinished">Καθορίζει ένα φίλτρο θολώματος/όξυνσης στην φωτογραφία</translation>
+    </message>
+    <message>
+        <location filename="../DlgImageCorrection.ui" line="1379"/>
+        <source>Reset to 5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgImageCorrection.ui" line="1419"/>
+        <source>Properties for all shots</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgImageCorrection.ui" line="1461"/>
         <source>Show/Hide rullers</source>
         <translation>Εμφάνιση/απόκρυψη χάρακα</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="880"/>
+        <location filename="../DlgImageCorrection.ui" line="1548"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Αποδοχή των αλλαγών και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="883"/>
+        <location filename="../DlgImageCorrection.ui" line="1551"/>
         <source>&amp;Ok</source>
         <translation>&amp;Εντάξει</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="894"/>
+        <location filename="../DlgImageCorrection.ui" line="1562"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Ακύρωση των αλλαγών και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="897"/>
+        <location filename="../DlgImageCorrection.ui" line="1565"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="908"/>
+        <location filename="../DlgImageCorrection.ui" line="1576"/>
         <source>Open help page describing this dialog box</source>
         <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="911"/>
+        <location filename="../DlgImageCorrection.ui" line="1579"/>
         <source>&amp;Help</source>
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.ui" line="918"/>
+        <location filename="../DlgImageCorrection.ui" line="1586"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
@@ -1656,673 +1649,645 @@ Do you want to overwrite it ?</source>
         <translation>Μετακίνηση δεξιά</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="382"/>
+        <location filename="../DlgSlideProperties.ui" line="388"/>
         <source>Indicate the duration for the current selected shot.</source>
         <translation>Εμφανίζει την διάρκεια για το επιλεγμένο στιγμιότυπο.</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="405"/>
+        <location filename="../DlgSlideProperties.ui" line="411"/>
         <source>HH:mm:ss.zzz</source>
         <translation>ΩΩ:λλ:δδ.zzz</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="432"/>
+        <location filename="../DlgSlideProperties.ui" line="438"/>
         <source>Shot duration :</source>
         <translation>Διάρκεια στιγμιότυπου:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="454"/>
+        <location filename="../DlgSlideProperties.ui" line="460"/>
         <source>Total slide duration :</source>
         <translation>Ολική διάρκεια διαφάνειας:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="492"/>
+        <location filename="../DlgSlideProperties.ui" line="498"/>
         <source>Slide name :</source>
         <translation>Όνομα διαφάνειας:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="520"/>
+        <location filename="../DlgSlideProperties.ui" line="526"/>
         <source>Indicate a name for the slide. It is this name which will appear on the thumbnail in the main window timeline.</source>
         <translation>Καθορίστε ένα όνομα για την διαφάνεια. Αυτό το όνομα θα εμφανίζεται στην εικόνα προεπισκόπησης στο χρονοδιάγραμμα του κυρίου παραθύρου.</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="656"/>
+        <location filename="../DlgSlideProperties.ui" line="662"/>
         <source>Change the order of blocks by moving the active block upward (towards the background)</source>
         <translation>Αλλάζει την σειρά των τμημάτων μετακινώντας το ενεργό τμήμα προς τα πάνω (προς το παρασκήνιο)</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="672"/>
+        <location filename="../DlgSlideProperties.ui" line="678"/>
         <source>PgUp</source>
         <translation>PgUp</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="700"/>
+        <location filename="../DlgSlideProperties.ui" line="706"/>
         <source>Change the order of blocks by moving the active block downward (towards the foreground)</source>
         <translation>Αλλάζει την σειρά των τμημάτων μετακινώντας το ενεργό τμήμα προς τα κάτω (προς το προσκήνιο)</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="716"/>
+        <location filename="../DlgSlideProperties.ui" line="722"/>
         <source>PgDown</source>
         <translation>PgDown</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="813"/>
+        <location filename="../DlgSlideProperties.ui" line="819"/>
         <source>Add a new title block</source>
         <translation>Προσθήκη ενός νέου τίτλου τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="823"/>
+        <location filename="../DlgSlideProperties.ui" line="829"/>
         <source>Ctrl+Ins</source>
         <translation>Ctrl+Ins</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="851"/>
+        <location filename="../DlgSlideProperties.ui" line="857"/>
         <source>Add a new block of type image or video.</source>
         <translation>Προσθέτει ένα νέο τμήμα τύπου εικόνας ή βίντεο.</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="861"/>
+        <location filename="../DlgSlideProperties.ui" line="867"/>
         <source>Ins</source>
         <translation>Ins</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="883"/>
+        <location filename="../DlgSlideProperties.ui" line="889"/>
         <source>Remove the current block</source>
         <translation>Αφαίρεση του τρέχοντος τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="893"/>
+        <location filename="../DlgSlideProperties.ui" line="899"/>
         <source>Del</source>
         <translation>Del</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="915"/>
+        <location filename="../DlgSlideProperties.ui" line="921"/>
         <source>Copy the current block to the ffDiaporama clipboard.</source>
         <translation>Αντιγραφή του τρέχοντος τμήματος στο πρόχειρο του ffDiaporama.</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="925"/>
+        <location filename="../DlgSlideProperties.ui" line="931"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="947"/>
+        <location filename="../DlgSlideProperties.ui" line="953"/>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide</source>
         <translation>Αντιγραφή του τρέχοντος τμήματος στο πρόχειρο του ffDiaporama και αφαίρεσή του από την διαφάνεια</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="957"/>
+        <location filename="../DlgSlideProperties.ui" line="963"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="979"/>
+        <location filename="../DlgSlideProperties.ui" line="985"/>
         <source>Paste block from the ffDiaporama clipboard and insert it.</source>
         <translation>Επικόλληση και εισαγωγή του τμήματος από το πρόχειρο του ffDiaporama.</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="989"/>
+        <location filename="../DlgSlideProperties.ui" line="995"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1018"/>
+        <location filename="../DlgSlideProperties.ui" line="1024"/>
         <source>Make visible or hidden the active block</source>
         <translation>Κάνει το τρέχον τμήμα ορατό ή κρυφό</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1047"/>
+        <location filename="../DlgSlideProperties.ui" line="1053"/>
         <source>Give the sound, during this shot, to the current video block</source>
         <translation>Δίνει τον ήχο, κατά την διάρκεια αυτού του στιγμιότυπου, στο τρέχον τμήμα βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1083"/>
+        <location filename="../DlgSlideProperties.ui" line="1089"/>
         <source>Define the properties of the text block</source>
         <translation>Καθορίζει τις ιδιότητες του τμήματος κειμένου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1093"/>
+        <location filename="../DlgSlideProperties.ui" line="1099"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1115"/>
+        <location filename="../DlgSlideProperties.ui" line="1121"/>
         <source>Define framing and do correction of image or movie</source>
         <translation>Καθορίζει την πλαισίωση και διορθώνει την εικόνα ή την ταινία</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1125"/>
+        <location filename="../DlgSlideProperties.ui" line="1131"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1147"/>
+        <location filename="../DlgSlideProperties.ui" line="1153"/>
         <source>Cut the video</source>
         <translation>Αποκοπή του βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1157"/>
+        <location filename="../DlgSlideProperties.ui" line="1163"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1192"/>
+        <location filename="../DlgSlideProperties.ui" line="1198"/>
         <source>Block/Object</source>
         <translation>Τμήμα/Αντικείμενο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1255"/>
+        <location filename="../DlgSlideProperties.ui" line="1261"/>
         <source>Border :</source>
         <translation>Περίγραμμα:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1271"/>
+        <location filename="../DlgSlideProperties.ui" line="1277"/>
         <source>Shape :</source>
         <translation>Σχήμα:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1299"/>
+        <location filename="../DlgSlideProperties.ui" line="1305"/>
         <source>Select a shape for current block</source>
         <translation>Επιλέξτε ένα σχήμα για το τρέχον τμήμα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1315"/>
+        <location filename="../DlgSlideProperties.ui" line="1321"/>
         <source>Opacity :</source>
         <translation>Αδιαφάνεια:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1343"/>
+        <location filename="../DlgSlideProperties.ui" line="1349"/>
         <source>Defined the opaqueness of the block.</source>
         <translation>Καθορίζει την αδιαφάνεια του τμήματος.</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1375"/>
+        <location filename="../DlgSlideProperties.ui" line="1381"/>
         <source>Defined the thickness of the border</source>
         <translation>Καθορίζει το πάχος του περιγράμματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1403"/>
+        <location filename="../DlgSlideProperties.ui" line="1409"/>
         <source>Defined the color of the line to be used to draw the border</source>
         <translation>Καθορίζει το χρώμα της γραμμής που θα χρησιμοποιηθεί για την σχεδίαση του περιγράμματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1434"/>
+        <location filename="../DlgSlideProperties.ui" line="1440"/>
         <source>Defined the type of line (solid, dotted line, etc.)</source>
         <translation>Καθορίζει τον τύπο της γραμμής (συμπαγές, γραμμή με κουκκίδες, κλπ)</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1488"/>
-        <location filename="../DlgSlideProperties.ui" line="1527"/>
+        <location filename="../DlgSlideProperties.ui" line="1494"/>
+        <location filename="../DlgSlideProperties.ui" line="1533"/>
         <source>Define rotation according to the X axis (defined in degree).</source>
         <translation>Καθορίζει την περιστροφή σύμφωνα με τον άξονα X (σε μοίρες).</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1571"/>
-        <location filename="../DlgSlideProperties.ui" line="1610"/>
+        <location filename="../DlgSlideProperties.ui" line="1577"/>
+        <location filename="../DlgSlideProperties.ui" line="1616"/>
         <source>Define rotation according to the Y axis (defined in degree).</source>
         <translation>Καθορίζει την περιστροφή σύμφωνα με τον άξονα Y (σε μοίρες).</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1654"/>
-        <location filename="../DlgSlideProperties.ui" line="1693"/>
+        <location filename="../DlgSlideProperties.ui" line="1660"/>
+        <location filename="../DlgSlideProperties.ui" line="1699"/>
         <source>Define rotation according to the Z axis (defined in degree).</source>
         <translation>Καθορίζει την περιστροφή σύμφωνα με τον άξονα Z (σε μοίρες).</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1745"/>
+        <location filename="../DlgSlideProperties.ui" line="1751"/>
         <source>Defined the distance between the block and its shadow</source>
         <translation>Καθορίζει την απόσταση μεταξύ του τμήματος και της σκιάς του</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1773"/>
+        <location filename="../DlgSlideProperties.ui" line="1779"/>
         <source>Defined the color of the shadow</source>
         <translation>Καθορίζει το χρώμα της σκιάς</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1813"/>
+        <location filename="../DlgSlideProperties.ui" line="1819"/>
         <source>Define the background brush type for the shape</source>
         <translation>Καθορίζει τον τύπο πινέλου του φόντου του σχήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1820"/>
+        <location filename="../DlgSlideProperties.ui" line="1826"/>
         <source>Brush :</source>
         <translation>Πινέλο:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1830"/>
-        <location filename="../DlgSlideProperties.cpp" line="467"/>
+        <location filename="../DlgSlideProperties.ui" line="1836"/>
+        <location filename="../DlgSlideProperties.cpp" line="457"/>
         <source>Color :</source>
         <translation>Χρώμα:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1866"/>
+        <location filename="../DlgSlideProperties.ui" line="1872"/>
         <source>Define the color (or first color for a gradient brush)</source>
         <translation>Καθορίζει το χρώμα (ή το πρώτο χρώμα για ένα πινέλο με διαβάθμιση)</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1891"/>
+        <location filename="../DlgSlideProperties.ui" line="1897"/>
         <source>Define the second gradient brush color </source>
         <translation>Καθορίζει το δεύτερο χρώμα διαβάθμισης του πινέλου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1916"/>
+        <location filename="../DlgSlideProperties.ui" line="1922"/>
         <source>Define the third gradient brush color </source>
         <translation>Καθορίζει το τρίτο χρώμα διαβάθμισης του πινέλου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1950"/>
+        <location filename="../DlgSlideProperties.ui" line="1956"/>
         <source>Pattern :</source>
         <translation>Μοτίβο:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1978"/>
+        <location filename="../DlgSlideProperties.ui" line="1984"/>
         <source>Select the pattern</source>
         <translation>Επιλέξτε το μοτίβο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1994"/>
+        <location filename="../DlgSlideProperties.ui" line="2000"/>
         <source>Orientation :</source>
         <translation>Προσανατολισμός:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2022"/>
+        <location filename="../DlgSlideProperties.ui" line="2028"/>
         <source>Define orientation of the gradient brush</source>
         <translation>Καθορίζει τον προσανατολισμό της διαβάθμισης του πινέλου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2035"/>
+        <location filename="../DlgSlideProperties.ui" line="2041"/>
         <source>Position :</source>
         <translation>Θέση:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2068"/>
-        <location filename="../DlgSlideProperties.ui" line="2107"/>
+        <location filename="../DlgSlideProperties.ui" line="2074"/>
+        <location filename="../DlgSlideProperties.ui" line="2113"/>
         <source>Define position of the second color in the gradient brush</source>
         <translation>Καθορίζει την θέση του δεύτερου χρώματος στη διαβάθμιση του πινέλου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2128"/>
+        <location filename="../DlgSlideProperties.ui" line="2134"/>
         <source>Image :</source>
         <translation>Εικόνα:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2156"/>
+        <location filename="../DlgSlideProperties.ui" line="2162"/>
         <source>Select an image among that present in the library</source>
         <translation>Επιλέξτε μια εικόνα μεταξύ αυτών στην βιβλιοθήκη</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2163"/>
+        <location filename="../DlgSlideProperties.ui" line="2169"/>
         <source>Filename :</source>
         <translation>Όνομα αρχείου:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2202"/>
+        <location filename="../DlgSlideProperties.ui" line="2208"/>
         <source>Name of image/video file</source>
         <translation>Το όνομα του αρχείου εικόνας/βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2224"/>
+        <location filename="../DlgSlideProperties.ui" line="2230"/>
         <source>Select an other file</source>
         <translation>Επιλέξτε ένα άλλο αρχείο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2240"/>
+        <location filename="../DlgSlideProperties.ui" line="2742"/>
         <source>Geometry :</source>
         <translation>Γεωμετρία:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2268"/>
+        <location filename="../DlgSlideProperties.ui" line="2770"/>
         <source>Select the geometrical constraint to be applied to the block</source>
         <translation>Επιλέξτε τον γεωμετρικό περιορισμό που θα εφαρμόζεται στο τμήμα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2275"/>
-        <source>Transformation :</source>
-        <translation>Μετασχηματισμός:</translation>
-    </message>
-    <message>
-        <location filename="../DlgSlideProperties.ui" line="2303"/>
-        <source>Apply a filter to the photo or the images of the video</source>
-        <translation>Εφαρμόζει ένα φίλτρο στην φωτογραφία ή στις εικόνες του βίντεο</translation>
-    </message>
-    <message>
-        <location filename="../DlgSlideProperties.ui" line="2310"/>
-        <source>Blur/Sharpen :</source>
-        <translation>Θόλωμα/Όξυνση:</translation>
-    </message>
-    <message>
-        <location filename="../DlgSlideProperties.ui" line="2349"/>
-        <location filename="../DlgSlideProperties.ui" line="2392"/>
-        <location filename="../DlgSlideProperties.ui" line="2455"/>
-        <location filename="../DlgSlideProperties.ui" line="2489"/>
-        <source>Define a blur/sharpen filter to the photo</source>
-        <translation>Καθορίζει ένα φίλτρο θολώματος/όξυνσης στην φωτογραφία</translation>
-    </message>
-    <message>
-        <location filename="../DlgSlideProperties.ui" line="2416"/>
-        <source>Radius :</source>
-        <translation>Ακτίνα:</translation>
-    </message>
-    <message>
-        <location filename="../DlgSlideProperties.ui" line="2551"/>
+        <location filename="../DlgSlideProperties.ui" line="2290"/>
         <source>Define width of current block</source>
         <translation>Καθορίζει το πλάτος του τρέχοντος τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2624"/>
+        <location filename="../DlgSlideProperties.ui" line="2363"/>
         <source>Define height of current block</source>
         <translation>Καθορίζει το ύψος του τρέχοντος τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2673"/>
+        <location filename="../DlgSlideProperties.ui" line="2412"/>
         <source>Define X position of current block</source>
         <translation>Καθορίζει την θέση X του τρέχοντος τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2746"/>
+        <location filename="../DlgSlideProperties.ui" line="2485"/>
         <source>Define Y position of current block</source>
         <translation>Καθορίζει την θέση Y του τρέχοντος τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2785"/>
+        <location filename="../DlgSlideProperties.ui" line="2524"/>
         <source>Defined in which corner the shadow will be positioned (or no shadow)</source>
         <translation>Καθορίζει σε ποια γωνία θα τοποθετείται η σκιά (ή χωρίς σκιά)</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2799"/>
+        <location filename="../DlgSlideProperties.ui" line="2538"/>
         <source>Shadow :</source>
         <translation>Σκιά:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2970"/>
+        <location filename="../DlgSlideProperties.ui" line="2709"/>
         <source>Coordinates :</source>
         <translation>Συντεταγμένες:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2983"/>
+        <location filename="../DlgSlideProperties.ui" line="2722"/>
         <source>Block :</source>
         <translation>Τμήμα:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2996"/>
+        <location filename="../DlgSlideProperties.ui" line="2735"/>
         <source>Object :</source>
         <translation>Αντικείμενο:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3008"/>
+        <location filename="../DlgSlideProperties.ui" line="2782"/>
         <source>Information</source>
         <translation>Πληροφορίες</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3075"/>
+        <location filename="../DlgSlideProperties.ui" line="2849"/>
         <source>Propertie</source>
         <translation>Ιδιότητα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3085"/>
+        <location filename="../DlgSlideProperties.ui" line="2859"/>
         <source>Value</source>
         <translation>Τιμή</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3128"/>
+        <location filename="../DlgSlideProperties.ui" line="2902"/>
         <source>Enable or disable rulers corresponding to the margins of television sets.</source>
         <translation>Ενεργοποιεί ή απενεργοποιεί τους χάρακες που αντιστοιχούν στα περιθώρια των ρυθμίσεων τηλεόρασης.</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3131"/>
+        <location filename="../DlgSlideProperties.ui" line="2905"/>
         <source>TV margins</source>
         <translation>Περιθώρια TV</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3158"/>
+        <location filename="../DlgSlideProperties.ui" line="2932"/>
         <source>Accept modification and go to previous slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3161"/>
+        <location filename="../DlgSlideProperties.ui" line="2935"/>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3172"/>
+        <location filename="../DlgSlideProperties.ui" line="2946"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3175"/>
+        <location filename="../DlgSlideProperties.ui" line="2949"/>
         <source>&amp;Ok</source>
         <translation>&amp;Εντάξει</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3186"/>
+        <location filename="../DlgSlideProperties.ui" line="2960"/>
         <source>Accept modification and go to next slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3189"/>
+        <location filename="../DlgSlideProperties.ui" line="2963"/>
         <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3225"/>
+        <location filename="../DlgSlideProperties.ui" line="2999"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Ακύρωση των αλλαγών και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3228"/>
+        <location filename="../DlgSlideProperties.ui" line="3002"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3239"/>
+        <location filename="../DlgSlideProperties.ui" line="3013"/>
         <source>Open help page describing this dialog box</source>
         <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3242"/>
+        <location filename="../DlgSlideProperties.ui" line="3016"/>
         <source>&amp;Help</source>
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="3249"/>
+        <location filename="../DlgSlideProperties.ui" line="3023"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="44"/>
+        <location filename="../DlgSlideProperties.cpp" line="47"/>
         <source>Slide</source>
         <translation type="unfinished">Διαφάνεια</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="66"/>
+        <location filename="../DlgSlideProperties.cpp" line="69"/>
         <source>None</source>
         <translation>Κανένα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="67"/>
+        <location filename="../DlgSlideProperties.cpp" line="70"/>
         <source>Shadow upper left</source>
         <translation>Σκιά πάνω αριστερά</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="68"/>
+        <location filename="../DlgSlideProperties.cpp" line="71"/>
         <source>Shadow upper right</source>
         <translation>Σκιά πάνω δεξιά</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="69"/>
+        <location filename="../DlgSlideProperties.cpp" line="72"/>
         <source>Shadow bottom left</source>
         <translation>Σκιά κάτω αριστερά</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="70"/>
+        <location filename="../DlgSlideProperties.cpp" line="73"/>
         <source>Shadow bottom right</source>
         <translation>Σκιά κάτω δεξιά</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="108"/>
+        <location filename="../DlgSlideProperties.cpp" line="111"/>
         <source>No brush</source>
         <translation>Χωρίς πινέλο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="109"/>
+        <location filename="../DlgSlideProperties.cpp" line="112"/>
         <source>Solid brush</source>
         <translation>Συμπαγές πινέλο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="110"/>
+        <location filename="../DlgSlideProperties.cpp" line="113"/>
         <source>Pattern brush</source>
         <translation>Μοτίβο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="111"/>
+        <location filename="../DlgSlideProperties.cpp" line="114"/>
         <source>Gradient 2 colors</source>
         <translation>Διαβάθμιση 2 χρωμάτων</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="112"/>
+        <location filename="../DlgSlideProperties.cpp" line="115"/>
         <source>Gradient 3 colors</source>
         <translation>Διαβάθμιση 3 χρωμάτων</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="113"/>
+        <location filename="../DlgSlideProperties.cpp" line="116"/>
         <source>Image from library</source>
         <translation>Εικόνα από βιβλιοθήκη</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="116"/>
+        <location filename="../DlgSlideProperties.cpp" line="119"/>
         <source>Project geometry</source>
         <translation>Γεωμετρία έργου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="117"/>
+        <location filename="../DlgSlideProperties.cpp" line="120"/>
         <source>Image geometry</source>
         <translation>Γεωμετρία εικόνας</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="118"/>
+        <location filename="../DlgSlideProperties.cpp" line="121"/>
         <source>Custom geometry</source>
         <translation>Προσαρμοσμένη γεωμετρία</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="392"/>
+        <location filename="../DlgSlideProperties.cpp" line="390"/>
         <source>Lengthened to %1 sec</source>
         <translation>Επιμήκυνση κατά %1 δευτ </translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="473"/>
+        <location filename="../DlgSlideProperties.cpp" line="463"/>
         <source>Colors :</source>
         <translation>Χρώματα:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="744"/>
+        <location filename="../DlgSlideProperties.cpp" line="725"/>
         <source>Object type</source>
         <translation>Τύπος αντικειμένου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="745"/>
+        <location filename="../DlgSlideProperties.cpp" line="726"/>
         <source>Title</source>
         <translation>Τίτλος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="746"/>
+        <location filename="../DlgSlideProperties.cpp" line="727"/>
         <source>Image</source>
         <translation>Εικόνα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="747"/>
+        <location filename="../DlgSlideProperties.cpp" line="728"/>
         <source>Video</source>
         <translation>Βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="751"/>
+        <location filename="../DlgSlideProperties.cpp" line="732"/>
         <source>Filename</source>
         <translation>Όνομα αρχείου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="765"/>
+        <location filename="../DlgSlideProperties.cpp" line="746"/>
         <source>Image size</source>
         <translation>Μέγεθος εικόνας</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="769"/>
+        <location filename="../DlgSlideProperties.cpp" line="750"/>
         <source>Video format</source>
         <translation>Μορφή βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="773"/>
+        <location filename="../DlgSlideProperties.cpp" line="754"/>
         <source>Bitrate</source>
         <translation>Ρυθμός bit</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="777"/>
+        <location filename="../DlgSlideProperties.cpp" line="758"/>
         <source>Frame rate</source>
         <translation>Ρυθμός καρέ</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="781"/>
+        <location filename="../DlgSlideProperties.cpp" line="762"/>
         <source>fps</source>
         <comment>frame per second</comment>
         <translation>fps</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="784"/>
+        <location filename="../DlgSlideProperties.cpp" line="765"/>
         <source>Aspect ratio</source>
         <translation>Αναλογία διαστάσεων</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="789"/>
+        <location filename="../DlgSlideProperties.cpp" line="770"/>
         <source>Audio format</source>
         <translation>Μορφή ήχου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="793"/>
+        <location filename="../DlgSlideProperties.cpp" line="774"/>
         <source>Frequency</source>
         <translation>Συχνότητα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="795"/>
+        <location filename="../DlgSlideProperties.cpp" line="776"/>
         <source>hz</source>
         <comment>audio frequency</comment>
         <translation>hz</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="797"/>
+        <location filename="../DlgSlideProperties.cpp" line="778"/>
         <source>Channels</source>
         <translation>Κανάλια</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1142"/>
+        <location filename="../DlgSlideProperties.cpp" line="1123"/>
         <source>Select a file</source>
         <translation>Επιλέξτε ένα αρχείο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1509"/>
+        <location filename="../DlgSlideProperties.cpp" line="1467"/>
         <source>Remove shot</source>
         <translation>Αφαίρεση στιγμιότυπου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1509"/>
+        <location filename="../DlgSlideProperties.cpp" line="1467"/>
         <source>Are you sure to want to delete this shot?</source>
         <translation>Επιθυμείτε σίγουρα την διαγραφή αυτού του στιγμιότυπου;</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1713"/>
+        <location filename="../DlgSlideProperties.cpp" line="1671"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Κείμενο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1736"/>
+        <location filename="../DlgSlideProperties.cpp" line="1694"/>
         <source>Add files</source>
         <translation>Προσθήκη αρχείων</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1887"/>
+        <location filename="../DlgSlideProperties.cpp" line="1845"/>
         <source>Remove bloc</source>
         <translation>Αφαίρεση τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1887"/>
+        <location filename="../DlgSlideProperties.cpp" line="1845"/>
         <source>Are you sure to want to delete this bloc?</source>
         <translation>Επιθυμείτε σίγουρα την διαγραφή αυτού του τμήματος;</translation>
     </message>
@@ -2335,112 +2300,117 @@ Do you want to overwrite it ?</source>
         <translation>Επεξεργασία κειμένου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="58"/>
+        <location filename="../DlgTextEdit.ui" line="46"/>
+        <source>Properties for all shots</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgTextEdit.ui" line="112"/>
         <source>Select font family</source>
         <translation>Επιλογή οικογένειας γραμματοσειράς</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="83"/>
+        <location filename="../DlgTextEdit.ui" line="137"/>
         <source>Select font size</source>
         <translation>Επιλογή μεγέθους γραμματοσειράς</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="108"/>
+        <location filename="../DlgTextEdit.ui" line="162"/>
         <source>Select font color</source>
         <translation>Επιλογή χρώματος γραμματοσειράς</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="161"/>
+        <location filename="../DlgTextEdit.ui" line="215"/>
         <source>Select font effect (outerline, shadow)</source>
         <translation>Επιλογή εφέ γραμματοσειράς (περίγραμμα, σκιά)</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="192"/>
+        <location filename="../DlgTextEdit.ui" line="246"/>
         <source>Select outerline/shadow color</source>
         <translation>Επιλογή χρώματος περιγράμματος/σκιάς</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="221"/>
+        <location filename="../DlgTextEdit.ui" line="275"/>
         <source>Set text to Bold</source>
         <translation>Διαμόρφωση κειμένου σε Έντονα</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="253"/>
+        <location filename="../DlgTextEdit.ui" line="307"/>
         <source>Set text to Italic</source>
         <translation>Διαμόρφωση κειμένου σε Πλάγια</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="282"/>
+        <location filename="../DlgTextEdit.ui" line="336"/>
         <source>Set text to Underline</source>
         <translation>Διαμόρφωση κειμένου σε Υπογραμμισμένα</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="336"/>
+        <location filename="../DlgTextEdit.ui" line="390"/>
         <source>Align left</source>
         <translation>Στοίχιση αριστερά</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="371"/>
+        <location filename="../DlgTextEdit.ui" line="425"/>
         <source>Align center</source>
-        <translation>Ευθυγράμμιση στο κέντρο</translation>
+        <translation>Στοίχιση στο κέντρο</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="403"/>
+        <location filename="../DlgTextEdit.ui" line="457"/>
         <source>Align justify</source>
-        <translation>Στοίχιση</translation>
+        <translation>Στοίχιση ομοιόμορφα</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="435"/>
+        <location filename="../DlgTextEdit.ui" line="489"/>
         <source>Align right</source>
         <translation>Στοίχιση δεξιά</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="492"/>
+        <location filename="../DlgTextEdit.ui" line="546"/>
         <source>Align top</source>
         <translation>Στοίχιση πάνω</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="524"/>
+        <location filename="../DlgTextEdit.ui" line="578"/>
         <source>Align in the middle</source>
         <translation>Στοίχιση στη μέση</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="556"/>
+        <location filename="../DlgTextEdit.ui" line="610"/>
         <source>Align bottom</source>
         <translation>Στοίχιση κάτω</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="662"/>
+        <location filename="../DlgTextEdit.ui" line="720"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="665"/>
+        <location filename="../DlgTextEdit.ui" line="723"/>
         <source>&amp;Ok</source>
         <translation>&amp;Εντάξει</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="676"/>
+        <location filename="../DlgTextEdit.ui" line="734"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Ακύρωση των αλλαγών και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="679"/>
+        <location filename="../DlgTextEdit.ui" line="737"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="690"/>
+        <location filename="../DlgTextEdit.ui" line="748"/>
         <source>Open help page describing this dialog box</source>
         <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="693"/>
+        <location filename="../DlgTextEdit.ui" line="751"/>
         <source>&amp;Help</source>
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="700"/>
+        <location filename="../DlgTextEdit.ui" line="758"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
@@ -2601,98 +2571,103 @@ Do you want to overwrite it ?</source>
         <translation>Αποκοπή βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="56"/>
+        <location filename="../DlgVideoEdit.ui" line="52"/>
+        <source>Properties for all shots</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgVideoEdit.ui" line="110"/>
         <source>Start :</source>
         <translation>Εκκίνηση: </translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="63"/>
+        <location filename="../DlgVideoEdit.ui" line="117"/>
         <source>Move to start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Μετάβαση στην θέση εκκίνησης</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="77"/>
+        <location filename="../DlgVideoEdit.ui" line="131"/>
         <source>Use current position as start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Χρήση της τρέχουσας θέσης ως θέση εκκίνησης</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="103"/>
+        <location filename="../DlgVideoEdit.ui" line="157"/>
         <source>Define the start position to use for</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Καθορίστε την θέση εκκίνησης που θα χρησιμοποιήσετε</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="125"/>
+        <location filename="../DlgVideoEdit.ui" line="179"/>
         <source>End :</source>
         <translation>Τερματισμός: </translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="147"/>
+        <location filename="../DlgVideoEdit.ui" line="201"/>
         <source>Define the end position to use for</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Καθορίστε την θέση τερματισμού που θα χρησιμοποιήσετε</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="166"/>
+        <location filename="../DlgVideoEdit.ui" line="220"/>
         <source>Use current position as end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Χρήση της τρέχουσας θέσης ως θέση τερματισμού</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="180"/>
+        <location filename="../DlgVideoEdit.ui" line="234"/>
         <source>Move to end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Μετάβαση στη θέση τερματισμού</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="200"/>
+        <location filename="../DlgVideoEdit.ui" line="254"/>
         <source>Duration :</source>
         <translation>Διάρκεια: </translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="232"/>
+        <location filename="../DlgVideoEdit.ui" line="286"/>
         <source>Volume :</source>
         <translation>Ένταση: </translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="260"/>
+        <location filename="../DlgVideoEdit.ui" line="314"/>
         <source>Define the &quot; Master Volume &quot; for the movie</source>
         <translation>Καθορίστε την ένταση του ήχου για το βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="297"/>
+        <location filename="../DlgVideoEdit.ui" line="355"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="300"/>
+        <location filename="../DlgVideoEdit.ui" line="358"/>
         <source>&amp;Ok</source>
         <translation>&amp;Εντάξει</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="311"/>
+        <location filename="../DlgVideoEdit.ui" line="369"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Ακύρωση των αλλαγών και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="314"/>
+        <location filename="../DlgVideoEdit.ui" line="372"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="325"/>
+        <location filename="../DlgVideoEdit.ui" line="383"/>
         <source>Open help page describing this dialog box</source>
         <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="328"/>
+        <location filename="../DlgVideoEdit.ui" line="386"/>
         <source>&amp;Help</source>
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../DlgVideoEdit.ui" line="335"/>
+        <location filename="../DlgVideoEdit.ui" line="393"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
@@ -3413,7 +3388,7 @@ Image geometry in this file is not the same than the current project</source>
     <message>
         <location filename="../mainwindow.cpp" line="424"/>
         <source>A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
-        <translation>Μια νέα έκδοση του ffDiaporama είναι διαθέσιμη στην ιστοσελίδα. Μπορείτε να πραγματοποιήσετε την ενημέρωση από το http://ffdiaporama.tuxfamily.org !</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="745"/>

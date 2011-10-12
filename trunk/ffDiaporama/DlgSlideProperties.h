@@ -139,10 +139,6 @@ private slots:
 
     // Brush part
     void            s_ChangeBrushTypeCombo(int);
-    void            s_ChTransformationCB(int);
-    void            s_BlurSigmaSliderMoved(int Value);
-    void            s_BlurSigmaValueED(double Value);
-    void            s_BlurRadiusSliderMoved(int Value);
 
     // Intermediate position for gradient 3 colors
     void            s_IntermPosSliderMoved(int);

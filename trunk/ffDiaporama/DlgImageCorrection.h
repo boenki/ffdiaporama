@@ -37,17 +37,19 @@ Q_OBJECT
 public:
     cBrushDefinition        *CurrentBrush;
     cFilterCorrectObject    *BrushFileCorrect;
-    QDomDocument            *Undo;                          // Save object before modification for cancel button
+    QDomDocument            *UndoSlide,*UndoShot;           // Save objects before modification for cancel button
     bool                    IsFirstInitDone;                // true when first show window was done
     bool                    FLAGSTOPED;                     // Flag to stop spin box during settings
+    bool                    FLAGSTOPSPIN;                   // Flag to stop spin box during blur change
     sMagneticRuler          MagneticRuler;
     QGraphicsScene          *scene;
     cCustomGraphicsRectItem *cadre;
     int                     BackgroundForm;
     double                  xmax,ymax;
     QImage                  *CachedImage;                   // Link to the image to work
+    int                     VideoPosition;
 
-    explicit DlgImageCorrection(int BackgroundForm,cBrushDefinition *CurrentBrush,cFilterCorrectObject *BrushFileCorrect,QImage *TheCacheImage,QWidget *parent = 0);
+    explicit DlgImageCorrection(int BackgroundForm,cBrushDefinition *CurrentBrush,cFilterCorrectObject *BrushFileCorrect,int TheVideoPosition,QWidget *parent = 0);
     ~DlgImageCorrection();
 
     void            RefreshBackgroundImage();
@@ -87,6 +89,12 @@ private slots:
     void            s_RedReset();
     void            s_GreenReset();
     void            s_BlueReset();
+    void            s_ChTransformationCB(int);
+    void            s_BlurSigmaSliderMoved(int Value);
+    void            s_BlurSigmaValueED(double Value);
+    void            s_BlurRadiusSliderMoved(int Value);
+    void            s_BlurSharpenReset();
+    void            s_RadiusReset();
 
 private:
     Ui::DlgImageCorrection *ui;
