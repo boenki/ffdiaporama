@@ -134,7 +134,7 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     // Slider control
     connect(ui->CustomRuller->Slider,SIGNAL(sliderPressed()),this,SLOT(s_SliderPressed()));
     connect(ui->CustomRuller->Slider,SIGNAL(sliderReleased()),this,SLOT(s_SliderReleased()));
-    connect(ui->CustomRuller->Slider,SIGNAL(sliderMoved(int)),this,SLOT(s_SliderMoved(int)));
+    connect(ui->CustomRuller->Slider,SIGNAL(valueChanged(int)),this,SLOT(s_SliderMoved(int)));
 }
 
 //============================================================================================

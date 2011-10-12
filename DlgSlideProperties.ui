@@ -1230,7 +1230,7 @@ QToolButton:pressed {
                  <x>0</x>
                  <y>0</y>
                  <width>312</width>
-                 <height>669</height>
+                 <height>587</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -1255,7 +1255,7 @@ QToolButton:pressed {
                 <property name="spacing">
                  <number>2</number>
                 </property>
-                <item row="9" column="0">
+                <item row="11" column="0">
                  <widget class="QLabel" name="label_14">
                   <property name="text">
                    <string>Border :</string>
@@ -1265,7 +1265,7 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="7" column="0">
+                <item row="9" column="0">
                  <widget class="QLabel" name="label_20">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -1281,7 +1281,7 @@ QToolButton:pressed {
                   </property>
                  </widget>
                 </item>
-                <item row="7" column="1">
+                <item row="9" column="1">
                  <widget class="QComboBox" name="BackgroundFormCB">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1315,7 +1315,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="8" column="0">
+                <item row="10" column="0">
                  <widget class="QLabel" name="label_21">
                   <property name="text">
                    <string>Opacity :</string>
@@ -1325,7 +1325,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="8" column="1">
+                <item row="10" column="1">
                  <widget class="QComboBox" name="OpacityCB">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1350,7 +1350,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="9" column="1">
+                <item row="11" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_6">
                   <property name="spacing">
                    <number>0</number>
@@ -1714,7 +1714,7 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="11" column="1">
+                <item row="13" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_10">
                   <property name="spacing">
                    <number>2</number>
@@ -1795,7 +1795,7 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="14" column="1">
+                <item row="17" column="1">
                  <widget class="QComboBox" name="BrushTypeCombo">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1820,7 +1820,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="14" column="0">
+                <item row="17" column="0">
                  <widget class="QLabel" name="BrushTypeLabel">
                   <property name="text">
                    <string>Brush :</string>
@@ -1830,7 +1830,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="15" column="0">
+                <item row="18" column="0">
                  <widget class="QLabel" name="ColorLabel1">
                   <property name="text">
                    <string>Color :</string>
@@ -1840,7 +1840,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="15" column="1">
+                <item row="18" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_3">
                   <property name="spacing">
                    <number>0</number>
@@ -1950,7 +1950,7 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="16" column="0">
+                <item row="19" column="0">
                  <widget class="QLabel" name="PatternLabel">
                   <property name="text">
                    <string>Pattern :</string>
@@ -1960,7 +1960,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="16" column="1">
+                <item row="19" column="1">
                  <widget class="cCustomBrushComboBox" name="PatternBrushCombo">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1994,7 +1994,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="17" column="0">
+                <item row="20" column="0">
                  <widget class="QLabel" name="OrientationLabel">
                   <property name="text">
                    <string>Orientation :</string>
@@ -2004,7 +2004,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="17" column="1">
+                <item row="20" column="1">
                  <widget class="cGradientOrientationComboBox" name="OrientationCombo">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2035,7 +2035,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="18" column="0">
+                <item row="21" column="0">
                  <widget class="QLabel" name="IntermPosLabel">
                   <property name="text">
                    <string>Position :</string>
@@ -2045,7 +2045,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="18" column="1">
+                <item row="21" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_14">
                   <property name="margin">
                    <number>0</number>
@@ -2128,7 +2128,7 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="19" column="0">
+                <item row="22" column="0">
                  <widget class="QLabel" name="ImageLibraryLabel">
                   <property name="text">
                    <string>Image :</string>
@@ -2138,7 +2138,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="19" column="1">
+                <item row="22" column="1">
                  <widget class="cBackgroundComboBox" name="BackgroundCombo">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2163,7 +2163,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="20" column="0">
+                <item row="23" column="0">
                  <widget class="QLabel" name="FileNameLabel">
                   <property name="text">
                    <string>Filename :</string>
@@ -2173,7 +2173,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="20" column="1">
+                <item row="23" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_7">
                   <property name="spacing">
                    <number>0</number>
@@ -2235,273 +2235,6 @@ color: #000000;
                     <property name="icon">
                      <iconset>
                       <normaloff>img/FolderOpen.png</normaloff>img/FolderOpen.png</iconset>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item row="21" column="0">
-                 <widget class="QLabel" name="ImageGeometryLabel">
-                  <property name="text">
-                   <string>Geometry :</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="21" column="1">
-                 <widget class="QComboBox" name="ImageGeometryCB">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>175</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>175</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="toolTip">
-                   <string>Select the geometrical constraint to be applied to the block</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="22" column="0">
-                 <widget class="QLabel" name="TransformationLabel">
-                  <property name="text">
-                   <string>Transformation :</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="22" column="1">
-                 <widget class="cOnOffFilterComboBox" name="TransformationCB">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>175</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>175</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="toolTip">
-                   <string>Apply a filter to the photo or the images of the video</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="23" column="0">
-                 <widget class="QLabel" name="BlurLabel">
-                  <property name="text">
-                   <string>Blur/Sharpen :</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="23" column="1">
-                 <layout class="QHBoxLayout" name="horizontalLayout_4">
-                  <property name="spacing">
-                   <number>0</number>
-                  </property>
-                  <property name="sizeConstraint">
-                   <enum>QLayout::SetMinimumSize</enum>
-                  </property>
-                  <property name="margin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QSlider" name="BlurSigmaSlider">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Define a blur/sharpen filter to the photo</string>
-                    </property>
-                    <property name="minimum">
-                     <number>-100</number>
-                    </property>
-                    <property name="maximum">
-                     <number>100</number>
-                    </property>
-                    <property name="singleStep">
-                     <number>5</number>
-                    </property>
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="tickPosition">
-                     <enum>QSlider::TicksBelow</enum>
-                    </property>
-                    <property name="tickInterval">
-                     <number>10</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QDoubleSpinBox" name="BlurSigmaED">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>55</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>55</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Define a blur/sharpen filter to the photo</string>
-                    </property>
-                    <property name="buttonSymbols">
-                     <enum>QAbstractSpinBox::PlusMinus</enum>
-                    </property>
-                    <property name="decimals">
-                     <number>1</number>
-                    </property>
-                    <property name="minimum">
-                     <double>-10.000000000000000</double>
-                    </property>
-                    <property name="maximum">
-                     <double>10.000000000000000</double>
-                    </property>
-                    <property name="singleStep">
-                     <double>0.500000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item row="24" column="0">
-                 <widget class="QLabel" name="BlurRadiusLabel">
-                  <property name="text">
-                   <string>Radius :</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="24" column="1">
-                 <layout class="QHBoxLayout" name="horizontalLayout_15">
-                  <property name="spacing">
-                   <number>0</number>
-                  </property>
-                  <property name="sizeConstraint">
-                   <enum>QLayout::SetMinimumSize</enum>
-                  </property>
-                  <property name="margin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QSlider" name="BlurRadiusSlider">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Define a blur/sharpen filter to the photo</string>
-                    </property>
-                    <property name="maximum">
-                     <number>90</number>
-                    </property>
-                    <property name="singleStep">
-                     <number>5</number>
-                    </property>
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="tickPosition">
-                     <enum>QSlider::TicksBelow</enum>
-                    </property>
-                    <property name="tickInterval">
-                     <number>10</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QSpinBox" name="BlurRadiusED">
-                    <property name="minimumSize">
-                     <size>
-                      <width>55</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>55</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Define a blur/sharpen filter to the photo</string>
-                    </property>
-                    <property name="buttonSymbols">
-                     <enum>QAbstractSpinBox::PlusMinus</enum>
-                    </property>
-                    <property name="maximum">
-                     <number>90</number>
-                    </property>
-                    <property name="singleStep">
-                     <number>5</number>
                     </property>
                    </widget>
                   </item>
@@ -2767,7 +2500,7 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="10" column="1">
+                <item row="12" column="1">
                  <widget class="QComboBox" name="ShadowEffectCB">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2792,7 +2525,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="10" column="0">
+                <item row="12" column="0">
                  <widget class="QLabel" name="label_13">
                   <property name="font">
                    <font>
@@ -2977,7 +2710,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="6" column="0" colspan="2">
+                <item row="7" column="0" colspan="2">
                  <widget class="QLabel" name="label_9">
                   <property name="frameShape">
                    <enum>QFrame::Panel</enum>
@@ -2990,7 +2723,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="13" column="0" colspan="2">
+                <item row="15" column="0" colspan="2">
                  <widget class="QLabel" name="label_10">
                   <property name="frameShape">
                    <enum>QFrame::Panel</enum>
@@ -3000,6 +2733,41 @@ color: #000000;
                   </property>
                   <property name="text">
                    <string>Object :</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="0">
+                 <widget class="QLabel" name="ImageGeometryLabel">
+                  <property name="text">
+                   <string>Geometry :</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="1">
+                 <widget class="QComboBox" name="ImageGeometryCB">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>175</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>175</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Select the geometrical constraint to be applied to the block</string>
                   </property>
                  </widget>
                 </item>
@@ -3282,11 +3050,6 @@ color: #000000;
    <header>cCustomComboBox.h</header>
   </customwidget>
   <customwidget>
-   <class>cOnOffFilterComboBox</class>
-   <extends>QComboBox</extends>
-   <header>cCustomComboBox.h</header>
-  </customwidget>
-  <customwidget>
    <class>cCustomTableWidget2</class>
    <extends>QTableWidget</extends>
    <header>cCustomTableWidget.h</header>
@@ -3346,12 +3109,6 @@ color: #000000;
   <tabstop>BackgroundCombo</tabstop>
   <tabstop>FileNameED</tabstop>
   <tabstop>FileNameBT</tabstop>
-  <tabstop>ImageGeometryCB</tabstop>
-  <tabstop>TransformationCB</tabstop>
-  <tabstop>BlurSigmaSlider</tabstop>
-  <tabstop>BlurSigmaED</tabstop>
-  <tabstop>BlurRadiusSlider</tabstop>
-  <tabstop>BlurRadiusED</tabstop>
   <tabstop>OKBT</tabstop>
   <tabstop>CloseBT</tabstop>
   <tabstop>HelpBT</tabstop>
