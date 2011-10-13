@@ -146,7 +146,6 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->TextEditBT,SIGNAL(clicked()),this,SLOT(TextEditor()));
     connect(ui->ImageEditCorrectBT,SIGNAL(clicked()),this,SLOT(ImageEditCorrect()));
     connect(ui->VideoEditBT,SIGNAL(clicked()),this,SLOT(VideoEdit()));
-    connect(ui->FileNameBT,SIGNAL(clicked()),this,SLOT(ChangeBrushDiskFile()));
 
     connect(ui->PosXEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgPosXValue(double)));
     connect(ui->PosYEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgPosYValue(double)));
@@ -426,7 +425,6 @@ void DlgSlideProperties::RefreshControls() {
     ui->PatternBrushCombo->setVisible(Allow_Pattern);                           ui->PatternBrushCombo->setEnabled(IsVisible && Allow_Pattern);
     ui->ImageLibraryLabel->setVisible(Allow_Library);                           ui->ImageLibraryLabel->setEnabled(IsVisible && Allow_Library);
     ui->BackgroundCombo->setVisible(Allow_Library);                             ui->BackgroundCombo->setEnabled(IsVisible && Allow_Library);
-    ui->FileNameLabel->setVisible(Allow_File);                                  ui->FileNameLabel->setEnabled(IsVisible && Allow_File);
     ui->ImageGeometryLabel->setVisible(Allow_File);                             ui->ImageGeometryLabel->setEnabled(IsVisible && Allow_File);
     ui->ImageGeometryCB->setVisible(Allow_File);                                ui->ImageGeometryCB->setEnabled(IsVisible && Allow_File);
 
@@ -434,9 +432,6 @@ void DlgSlideProperties::RefreshControls() {
     ui->VideoEditBT->setEnabled(IsVisible && Allow_File && (CurrentBrush->Video!=NULL));
     ui->TextEditBT->setEnabled(IsVisible);
     ui->VisibleBT->setEnabled(CurrentTextItem!=NULL);
-
-    ui->FileNameED->setVisible(Allow_File);                                     ui->FileNameED->setEnabled(IsVisible && Allow_File);
-    ui->FileNameBT->setVisible(Allow_File);                                     ui->FileNameBT->setEnabled(IsVisible && Allow_File);
 
     if (CurrentBrush!=NULL) {
         // Set brush type combo index
@@ -471,7 +466,6 @@ void DlgSlideProperties::RefreshControls() {
                 cCustomGraphicsRectItem *RectItem=GetSelectItem();
                 // Adjust aspect ratio (if custom mode)
                 if ((RectItem)&&(!RectItem->KeepAspectRatio)) CurrentBrush->BrushFileCorrect.AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
-                ui->FileNameED->setText(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video?CurrentBrush->Video->FileName:"");
                 ui->ImageGeometryCB->setCurrentIndex(CurrentBrush->BrushFileCorrect.ImageGeometry);
                 break;
         }
@@ -1109,41 +1103,6 @@ void DlgSlideProperties::s_IntermPosED(int Value) {
     RefreshControls();
 }
 
-
-//====================================================================================================================
-
-void DlgSlideProperties::ChangeBrushDiskFile() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)||(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK)) return;
-
-    QString ActualFilePath=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).absolutePath();
-
-    QString NewFile=QFileDialog::getOpenFileName(this,
-                                                 QApplication::translate("DlgSlideProperties","Select a file"),
-                                                 ActualFilePath,//GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
-                                                 GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(CurrentBrush->Image?cApplicationConfig::IMAGEFILE:cApplicationConfig::VIDEOFILE));
-    QApplication::processEvents();
-    if (NewFile=="") return;
-    if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
-    QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
-
-    QStringList AliasList;
-    if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(BrushFileName,AliasList);
-        else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(BrushFileName,false,AliasList);
-
-    // free CachedBrushBrush
-    for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
-        if (DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush) {
-            delete DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush;
-            DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
-        }
-    }
-
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshBlockTable(ui->BlockTable->currentRow());
-}
-
 //====================================================================================================================
 // Handler for custom color/brush/pattern/gradient combo box index change
 //====================================================================================================================
@@ -1344,7 +1303,16 @@ void DlgSlideProperties::ImageEditCorrect() {
             RectItem->setRect(Rect);
             RectItem->RecalcEmbededResizeRectItem();
         }
+        // free CachedBrushBrush
+        for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
+            if (DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush) {
+                delete DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush;
+                DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
+            }
+        }
+        // Apply global part
         ApplyGlobalPropertiesToAllShots(CurrentTextItem);
+        // Refresh display
         RefreshSceneImageAndCache(CurrentTextItem,CurrentBrush);
     }
 }

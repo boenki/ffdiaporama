@@ -272,6 +272,7 @@ struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
 ****************************************************************************/
 QString CurrentLanguage;                                        // Current language code (en, fr, ...)
 QString SystemProperties="";                                    // System properties log
+QString CurrentAppVersion="";                                   // Application version read from BUILDVERSION.txt
 
 void AddToSystemProperties(QString StringToAdd) {
     if (SystemProperties.length()>0) SystemProperties=SystemProperties+"\n";

@@ -45,6 +45,7 @@ public:
     QTimer                  Timer;
     int                     LastCount;
     QString                 InternetBUILDVERSION;
+    QString                 TitleBar;
     // Drag & drop operation
     int                     DragItemSource;
     int                     DragItemDest;

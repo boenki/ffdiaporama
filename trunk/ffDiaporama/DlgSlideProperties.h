@@ -101,7 +101,6 @@ private slots:
     void            ImageEditCorrect();
     void            VideoEdit();
     void            GetSound();
-    void            ChangeBrushDiskFile();
 
     // Shot table part
     void            s_ShotTable_SelectionChanged();             // User select a shot in the ShotTable widget

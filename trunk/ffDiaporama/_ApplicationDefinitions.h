@@ -27,6 +27,7 @@
 // Global values
 extern QString CurrentLanguage;                                 // Current language code (en, fr, ...)
 extern QString SystemProperties;                                // System properties log
+extern QString CurrentAppVersion;                               // Application version read from BUILDVERSION.txt
 
 // Utility functions
 int     getCpuCount();                                          // Retrieve number of processor

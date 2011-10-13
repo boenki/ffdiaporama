@@ -38,6 +38,8 @@ public:
     cBrushDefinition        *CurrentBrush;
     cFilterCorrectObject    *BrushFileCorrect;
     QDomDocument            *UndoSlide,*UndoShot;           // Save objects before modification for cancel button
+    bool                    UndoReloadImage;                // True if image change and undo must reload it
+    QString                 UndoBrushFileName;              // Name of previous file is undo
     bool                    IsFirstInitDone;                // true when first show window was done
     bool                    FLAGSTOPED;                     // Flag to stop spin box during settings
     bool                    FLAGSTOPSPIN;                   // Flag to stop spin box during blur change
@@ -95,6 +97,7 @@ private slots:
     void            s_BlurRadiusSliderMoved(int Value);
     void            s_BlurSharpenReset();
     void            s_RadiusReset();
+    void            ChangeBrushDiskFile();
 
 private:
     Ui::DlgImageCorrection *ui;

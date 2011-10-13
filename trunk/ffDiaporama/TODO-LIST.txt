@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 09/10/2011) :
+Buggs/TODO (Dernier SVN le 12/10/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -52,24 +52,14 @@ TODO-List
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
-- Corrige tous les sliders (les clicks de page n'étaient pas pris en compte)
 
 French version / Nouvelles fonctionnalités :
-- Mise à jour de la traduction en grec
-- Modifie le design de la boite de recadrage
-- Transfert les réglages de transformation et de flou/netteté de la boite slide vers la boite de recadrage
-- Limite la propriété rayon du filtre flou/netteté à la fourchette 1-10
-- Ajoute des boutons reset aux 2 lignes de propriétés du flou/netteté
+- Transfert la fonction de changement de fichier image/video de la boite slide vers la boite de recadrage
 
 English version / Bug fix :
-- Fix all sliders (Page clicks was not used)
 
 English version / New features :
-- Greec translation update
-- New design for reframming dialog
-- Transfer of the settings of transformation and blur/sharpness for slide dialog to reframming dialog
-- Limit the radius property of the blur/sharpness filter to the range 1-10
-- Add two reset buttons to controls lines of the blur/sharpness filter
+- Transfert of changing image/video file function for slide dialog to reframming dialog
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -82,6 +72,7 @@ Bug fix French version
 - Correction du format des vidéos générées en mode DVD (720x576-PAL ou 720x480-NTSC)
 - La boite de dialog slide utilise la géométrie par défaut au lieu de la géométrie du projet
 - Lors du chargement d'un projet, si un fichier est introuvable et que vous répondez non à la proposition d'en choisir un autre, le bloc contenant le fichier est supprimé, si vous répondez oui et que le même fichier est réutilisé dans le projet, la question ne sera pas reposée
+- Corrige tous les sliders (les clicks de page n'étaient pas pris en compte)
 
 Bug fix English version
 - Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -90,6 +81,7 @@ Bug fix English version
 - Fix video format error when rendering using DVD size (720x576-PAL or 720x480-NTSC)
 - Slide dialog box use default geometry instead of project geometry
 - During the load of a project, if a file is unreachable and you answer not to the proposition to choose another file, the corresponding block is deleted, if you answer yes and the file is use again, the question will not be ask again
+- Fix all sliders (Page clicks was not used)
 
 Documentation update
 - fct_008 (Adding Russian & Greec)
@@ -116,7 +108,12 @@ French version
   - Ajoute une icône représentant la présence de plusieurs blocs
 - Ajoute des boutons précédente/suivante dans la boite de dialogue des diapositives
 - Ajoute le n° de la diapositive dans le titre de la boite de dialogue des diapositives
-- Ajoute le Drag & Drop à la timeline de la boite titre (table des plans)
+- Ajoute le Drag & Drop à la timeline de la boite diapositive (table des plans)
+- Mise à jour de la traduction en grec
+- Modifie le design de la boite de recadrage
+- Transfert les réglages de transformation et de flou/netteté de la boite slide vers la boite de recadrage
+- Limite la propriété rayon du filtre flou/netteté à la fourchette 1-10
+- Ajoute des boutons reset aux 2 lignes de propriétés du flou/netteté
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -137,3 +134,8 @@ English version
 - Add previous/next buttons in the slide dialog
 - Add title number in the slide dialog title
 - Add Drag & Drop to the slide dialog timeline (shots table)
+- Greec translation update
+- New design for reframming dialog
+- Transfer of the settings of transformation and blur/sharpness for slide dialog to reframming dialog
+- Limit the radius property of the blur/sharpness filter to the range 1-10
+- Add two reset buttons to controls lines of the blur/sharpness filter
