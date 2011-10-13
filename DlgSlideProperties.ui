@@ -1228,9 +1228,9 @@ QToolButton:pressed {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>0</y>
+                 <y>-286</y>
                  <width>312</width>
-                 <height>587</height>
+                 <height>559</height>
                 </rect>
                </property>
                <property name="sizePolicy">
@@ -2163,84 +2163,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="23" column="0">
-                 <widget class="QLabel" name="FileNameLabel">
-                  <property name="text">
-                   <string>Filename :</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="23" column="1">
-                 <layout class="QHBoxLayout" name="horizontalLayout_7">
-                  <property name="spacing">
-                   <number>0</number>
-                  </property>
-                  <property name="sizeConstraint">
-                   <enum>QLayout::SetMinimumSize</enum>
-                  </property>
-                  <property name="margin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QLineEdit" name="FileNameED">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Name of image/video file</string>
-                    </property>
-                    <property name="readOnly">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QToolButton" name="FileNameBT">
-                    <property name="minimumSize">
-                     <size>
-                      <width>22</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>22</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Select an other file</string>
-                    </property>
-                    <property name="text">
-                     <string notr="true">...</string>
-                    </property>
-                    <property name="icon">
-                     <iconset>
-                      <normaloff>img/FolderOpen.png</normaloff>img/FolderOpen.png</iconset>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item row="25" column="1">
+                <item row="24" column="1">
                  <spacer name="verticalSpacer">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -3107,8 +3030,6 @@ color: #000000;
   <tabstop>IntermPosSlider</tabstop>
   <tabstop>IntermPosED</tabstop>
   <tabstop>BackgroundCombo</tabstop>
-  <tabstop>FileNameED</tabstop>
-  <tabstop>FileNameBT</tabstop>
   <tabstop>OKBT</tabstop>
   <tabstop>CloseBT</tabstop>
   <tabstop>HelpBT</tabstop>

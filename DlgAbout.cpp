@@ -30,16 +30,7 @@ DlgAbout::DlgAbout(QWidget *parent):QDialog(parent),ui(new Ui::DlgAbout) {
     #endif
 
     ui->ApplicationNameLabel->setText(QString(APPLICATION_VERSION));
-    // Search if a BUILDVERSION.txt file exist
-    QFile file("BUILDVERSION.txt");
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString Line=QString(file.readLine());
-        if (Line.endsWith("\n")) Line=Line.left(Line.length()-QString("\n").length());
-        while (Line.endsWith(" ")) Line=Line.left(Line.length()-1);
-        if (Line.lastIndexOf(" ")) Line=Line.mid(Line.lastIndexOf(" ")+1);
-        ui->ApplicationReleaseLabel->setText(Line);
-    }
-    file.close();
+    ui->ApplicationReleaseLabel->setText(CurrentAppVersion);
     ui->SystemInfoED->setText(SystemProperties);
     ui->tabWidget->setCurrentIndex(0);
     connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));

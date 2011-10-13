@@ -28,6 +28,7 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     CurrentBrush    =TheCurrentBrush;
     BrushFileCorrect=TheBrushFileCorrect;
     VideoPosition   =TheVideoPosition;
+    UndoReloadImage =false;
 
     #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
         setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
@@ -37,6 +38,8 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
         else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
 
     // Save objects before modification for cancel button
+    UndoBrushFileName=(CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
+
     UndoSlide=new QDomDocument(APPLICATION_NAME);
     QDomElement root=UndoSlide->createElement("UNDO-DLG");  // Create xml document and root
     CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(GlobalMainWindow->Diaporama->ProjectFileName).absolutePath(),true);  // Save object
@@ -74,8 +77,6 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
 
     // If it's not an image then disable blur/sharpen
     if (CurrentBrush->Image==NULL) {
-        ui->TransformationLabel->setVisible(false);
-        ui->TransformationCB->setVisible(false);
         ui->BlurLabel->setVisible(false);
         ui->BlurSigmaSlider->setVisible(false);
         ui->BlurSigmaSB->setVisible(false);
@@ -84,6 +85,7 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
         ui->BlurRadiusSlider->setVisible(false);
         ui->BlurRadiusED->setVisible(false);
         ui->RadiusResetBT->setVisible(false);
+        ui->FileLabel->setPixmap(QPixmap(ICON_OBJECT_MOVIE));
     }
 
     // Define handler
@@ -274,6 +276,18 @@ void DlgImageCorrection::reject() {
     if (root.tagName()=="UNDO-DLG") {
         cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
         Filter->LoadFromXML(root,"UNDO-DLG-OBJECT","");
+    }
+    if (UndoReloadImage) {
+        QStringList AliasList;
+        if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(UndoBrushFileName,AliasList);
+            else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(UndoBrushFileName,false,AliasList);
+        delete CachedImage;
+        CachedImage=NULL;
+        if (CurrentBrush->Image) {
+            delete CurrentBrush->Image->UnfilteredImage;
+            CurrentBrush->Image->UnfilteredImage=NULL;
+            CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
+        } else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
     }
 
     done(1);
@@ -478,9 +492,43 @@ void DlgImageCorrection::RefreshControls() {
         RectItem->RecalcEmbededResizeRectItem();
     }
 
+    ui->FileNameED->setText(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video?CurrentBrush->Video->FileName:"");
+    connect(ui->FileNameBT,SIGNAL(clicked()),this,SLOT(ChangeBrushDiskFile()));
+
     // Refresh image
     RefreshBackgroundImage();
     FLAGSTOPED=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::ChangeBrushDiskFile() {
+    QString ActualFilePath=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).absolutePath();
+
+    QString NewFile=QFileDialog::getOpenFileName(this,
+                                                 QApplication::translate("DlgSlideProperties","Select a file"),
+                                                 ActualFilePath,//GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
+                                                 GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(CurrentBrush->Image?cApplicationConfig::IMAGEFILE:cApplicationConfig::VIDEOFILE));
+    QApplication::processEvents();
+    if (NewFile=="") return;
+    if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
+    QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
+
+    QStringList AliasList;
+    if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(BrushFileName,AliasList);
+        else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(BrushFileName,false,AliasList);
+
+    delete CachedImage;
+    CachedImage=NULL;
+    if (CurrentBrush->Image) {
+        delete CurrentBrush->Image->UnfilteredImage;
+        CurrentBrush->Image->UnfilteredImage=NULL;
+        CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
+    } else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
+
+    UndoReloadImage=true;
+
+    RefreshControls();
 }
 
 //====================================================================================================================

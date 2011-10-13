@@ -175,6 +175,17 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("  %1").arg(LumaList_Snake.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
     AddToSystemProperties(QApplication::translate("MainWindow","  Total:")+QString("%1").arg(IconList.List.count())+QApplication::translate("MainWindow"," transitions loaded into the transition-library"));
 
+    QFile file("BUILDVERSION.txt");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        CurrentAppVersion=QString(file.readLine());
+        if (CurrentAppVersion.endsWith("\n")) CurrentAppVersion=CurrentAppVersion.left(CurrentAppVersion.length()-QString("\n").length());
+        while (CurrentAppVersion.endsWith(" ")) CurrentAppVersion=CurrentAppVersion.left(CurrentAppVersion.length()-1);
+        if (CurrentAppVersion.lastIndexOf(" ")) CurrentAppVersion=CurrentAppVersion.mid(CurrentAppVersion.lastIndexOf(" ")+1);
+        file.close();
+    }
+    TitleBar=QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
+    if (TitleBar.indexOf("devel")!=-1) TitleBar=TitleBar+QString(" ")+CurrentAppVersion;
+
     Diaporama=new cDiaporama(ApplicationConfig);
     Diaporama->Timeline=ui->timeline;
     ui->preview->InitDiaporamaPlay(Diaporama);
@@ -411,15 +422,7 @@ void MainWindow::onNetworkReply(QNetworkReply* reply) {
             if (InternetBUILDVERSION.endsWith("\n"))   InternetBUILDVERSION=InternetBUILDVERSION.left(InternetBUILDVERSION.length()-QString("\n").length());
             while (InternetBUILDVERSION.endsWith(" ")) InternetBUILDVERSION=InternetBUILDVERSION.left(InternetBUILDVERSION.length()-1);
             if (InternetBUILDVERSION.lastIndexOf(" ")) InternetBUILDVERSION=InternetBUILDVERSION.mid(InternetBUILDVERSION.lastIndexOf(" ")+1);
-
-            QFile file("BUILDVERSION.txt");
-            if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                Line=QString(file.readLine());
-                if (Line.endsWith("\n")) Line=Line.left(Line.length()-QString("\n").length());
-                while (Line.endsWith(" ")) Line=Line.left(Line.length()-1);
-                if (Line.lastIndexOf(" ")) Line=Line.mid(Line.lastIndexOf(" ")+1);
-            }
-            int CurrentVersion =Line.toInt();
+            int CurrentVersion =CurrentAppVersion.toInt();
             int InternetVersion=InternetBUILDVERSION.toInt();
             if (InternetVersion>CurrentVersion) InternetBUILDVERSION=QApplication::translate("MainWindow","A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !");
                 else InternetBUILDVERSION="";
@@ -484,7 +487,7 @@ void MainWindow::RefreshControls() {
 
 void MainWindow::SetModifyFlag(bool IsModify) {
     Diaporama->IsModify=IsModify;
-    this->setWindowTitle(QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION)+QString("-")+
+    this->setWindowTitle(TitleBar+QString("-")+
                          (Diaporama->ProjectFileName!=""?Diaporama->ProjectFileName:QApplication::translate("MainWindow","<new project>","when project have no name define"))+
                          (Diaporama->IsModify?"*":""));
     RefreshControls();

@@ -30,197 +30,286 @@
           <li>Image rotation (changing or restoring the orientation
             (portrait/landscape)). </li>
           <li>Image correction (changing the color and/or exposure
-            parameters). </li>
+            parameters) but also apply it graphic filters. </li>
         </ul>
-        <div style="margin-left: 40px;">The image settings are per shot.
-          This means that every shot has its own settings and the path
-          from one shot to another defines a path from one group of
-          settings to another, creating a shot animation: it's a
-          &#8220;Ken Burns&#8221; effect. Here are some possibilities:
-          <ul>
-            <li>Zooming in on a portion of the image </li>
-            <li>Scrolling of a portion from one image to another </li>
-            <li>Brightening or darkening of a portion of the image </li>
-            <li>etc...<br>
-            </li>
-          </ul>
+        <div style="margin-left: 40px;">There are two categories of settings
+            :<br>
+            <ul>
+              <li><strong>Settings which apply to the current shot.</strong>
+                The image settings are per shot. This means that every
+                shot has its own settings and the path from one shot to
+                another defines a path from one group of settings to
+                another, creating a shot animation: it's a &#8220;Ken
+                Burns&#8221; effect. Here are some possibilities: </li>
+              <ul>
+                <li>Zooming in on a portion of the image </li>
+                <li>Scrolling of a portion from one image to another </li>
+                <li>Brightening or darkening of a portion of the image </li>
+                <li>etc...</li>
+              </ul>
+            </ul>
+            <ul>
+              <li><strong>Settings which
+                    apply to all shots</strong><strong>.</strong>
+                These image settings are made globally, that is that
+                their effects will be visible on all the slide
+                shots. Here are
+                  some possibilities: 
+                <ul>
+                  <li>Equalize (Histogram equalization)</li>
+                  <li>Despeckle (Noise reduction) </li>
+                  <li>Gray (black &amp; white)</li>
+                  <li>Blur/Sharpen</li>
+                  <li>etc...<br>
+                  </li>
+                </ul>
+              </li>
+            </ul>
           This dialog is called from <a href="dlg_003.html">the slide
             properties dialog box</a> when you click the button <img checked="true"
             style="width: 16px; height: 16px;" src="../../img/EditImage.png">
-          <span style="color: orange;">or when you double-click on an
-            image block.</span> </div>
+           or when you double-click on an
+            image block.</div>
         <h2> Description of the dialog <br>
         </h2>
-        <h3 style="margin-left: 40px;">Framing<br>
-        </h3>
-        <h3> </h3>
         <div style="margin-left: 40px;">
-          <table style="width: 100%;" border="0">
-            <tbody>
-              <tr>
-                <td style="vertical-align: top;"><img alt="" src="img/dlg_005.png"><br>
-                </td>
-                <td style="vertical-align: top;">The framing of an image
-                  is defined by 5 values:<br>
-                  <ul>
-                    <li><img checked="true" alt="" src="../../img/PosSize_X.png">
-                      The horizontal position from the left (X). This
-                      position is expressed as a percentage (%) of the
-                      width of the image.<br>
-                      Example: if X=25 % then the 1st quarter to the
-                      left of the image is eliminated.<br>
-                      <br>
-                    </li>
-                    <li><img checked="true" alt="" src="../../img/PosSize_Y.png">
-                      The vertical position from the top of the image (
-                      Y ). This position is expressed as a percentage
-                      (%) of the height of the image.<br>
-                      Example: if Y=25 % the 1st quarter at the top of
-                      the image is eliminated.<br>
-                      <br>
-                    </li>
-                    <li><img checked="true" alt="" src="../../img/PosSize_Width.png">
-                      The width. This value is expressed as a percentage
-                      (%) of the original width of the image.<br>
-                      Example: if Width=33 %, the re-framed image will
-                      represent 1/3 of the original.<br>
-                      <br>
-                    </li>
-                    <li><img checked="true" alt="" src="../../img/PosSize_Height.png">
-                      The height. This value is expressed as a
-                      percentage (%) of the original height of the
-                      image.<br>
-                      Example: if Height=33 %, the re-framed image will
-                      represent 1/3 of the original.<br>
-                      <br>
-                    </li>
-                    <li><img checked="true" alt="" src="../../img/RotateZ.png">
-                      The rotation angle for the z axis. This position
-                      is expressed in degrees.<br>
-                      Example: if Rotation=90&#176;, the image is turned
-                      by a quarter to the right. </li>
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <br>
-          You can use the + and - buttons in each input field to change
-          the settings, or directly enter values for the five
-          parameters.<br>
-          Alternatively, you can use the interactive zone to set the
-          framing with the mouse or the keyboard.<br>
-          <br>
-          With the mouse:<br>
-          <ul>
-            <li>Click one of the handles and, with the mouse button
-              down, drag the mouse to modify the size (to increase or
-              reduce the part of the image to be kept). </li>
-            <li>Click the image and, with the mouse button down, drag
-              the mouse to modify the part of the image which will be
-              kept.</li>
-          </ul>
-          With the keyboard:<br>
-          <ul>
-            <li>Use the arrows to move the part of the image which will
-              be kept. </li>
-            <li>Use SHIFT+arrows to move the upper left corner handle or
-              CTRL+arraows to move the lower right corner handle, to
-              change the size of the part of the image which will be
-              kept. </li>
-          </ul>
-          Note: when the image does not correspond to the geometry of
-          the video to be produced, transparent zones appear. For
-          example: an 4:3 image used in a 16:9 project will be shown by
-          default with a transparent zone on each side.<br>
-          <br>
-          The following buttons help in image framing:<br>
-          <table border="1" cellpadding="2" cellspacing="0">
-            <tbody>
-              <tr>
-                <td style="vertical-align: top; text-align: left;"><img
-                    checked="true" style="width: 16px; height: 16px;" src="../../img/ruler_ok.png"><br>
-                </td>
-                <td style="vertical-align: top; text-align: left;">Enable
+          <h3>Framing (per shot settings)<br>
+          </h3>
+          <div style="margin-left: 40px;">
+            <table style="width: 100%;" border="0">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;"><img alt="" src="img/dlg_005.png"><br>
+                  </td>
+                  <td style="vertical-align: top;">The framing of an
+                    image is defined by 5 values:<br>
+                    <ul>
+                      <li><img checked="true" alt="" src="../../img/PosSize_X.png">
+                        The horizontal position from the left (X). This
+                        position is expressed as a percentage (%) of the
+                        width of the image.<br>
+                        Example: if X=25 % then the 1st quarter to the
+                        left of the image is eliminated.<br>
+                        <br>
+                      </li>
+                      <li><img checked="true" alt="" src="../../img/PosSize_Y.png">
+                        The vertical position from the top of the image
+                        ( Y ). This position is expressed as a
+                        percentage (%) of the height of the image.<br>
+                        Example: if Y=25 % the 1st quarter at the top of
+                        the image is eliminated.<br>
+                        <br>
+                      </li>
+                      <li><img checked="true" alt="" src="../../img/PosSize_Width.png">
+                        The width. This value is expressed as a
+                        percentage (%) of the original width of the
+                        image.<br>
+                        Example: if Width=33 %, the re-framed image will
+                        represent 1/3 of the original.<br>
+                        <br>
+                      </li>
+                      <li><img checked="true" alt="" src="../../img/PosSize_Height.png">
+                        The height. This value is expressed as a
+                        percentage (%) of the original height of the
+                        image.<br>
+                        Example: if Height=33 %, the re-framed image
+                        will represent 1/3 of the original.<br>
+                        <br>
+                      </li>
+                      <li><img checked="true" alt="" src="../../img/RotateZ.png">
+                        The rotation angle for the z axis. This position
+                        is expressed in degrees.<br>
+                        Example: if Rotation=90&#176;, the image is
+                        turned by a quarter to the right. </li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            You can use the + and - buttons in each input field to
+            change the settings, or directly enter values for the five
+            parameters.<br>
+            Alternatively, you can use the interactive zone to set the
+            framing with the mouse or the keyboard.<br>
+            <br>
+            With the mouse:<br>
+            <ul>
+              <li>Click one of the handles and, with the mouse button
+                down, drag the mouse to modify the size (to increase or
+                reduce the part of the image to be kept). </li>
+              <li>Click the image and, with the mouse button down, drag
+                the mouse to modify the part of the image which will be
+                kept.</li>
+            </ul>
+            With the keyboard:<br>
+            <ul>
+              <li>Use the arrows to move the part of the image which
+                will be kept. </li>
+              <li>Use SHIFT+arrows to move the upper left corner handle
+                or CTRL+arraows to move the lower right corner handle,
+                to change the size of the part of the image which will
+                be kept. </li>
+            </ul>
+            Note: when the image does not correspond to the geometry of
+            the video to be produced, transparent zones appear. For
+            example: an 4:3 image used in a 16:9 project will be shown
+            by default with a transparent zone on each side.<br>
+            <br>
+            The following buttons help in image framing:<br>
+            <table border="1" cellpadding="2" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top; text-align: left;"><img
+                      checked="true" style="width: 16px; height: 16px;"
+                      src="../../img/ruler_ok.png"><br>
+                  </td>
+                  <td style="vertical-align: top; text-align: left;">Enable
 
 
-                  or disable the magnetic rulers: When rulers are
-                  enabled, the mouse will automatically be attracted to
-                  the edges of the photo, facilitating the framing.</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: left;"><img
-                    checked="true" style="width: 16px; height: 16px;" src="../../img/AdjustW.png"><br>
-                </td>
-                <td style="vertical-align: top; text-align: left;">Set
-                  the framing automatically to the width of the image.
-                  If the image is too tall for the frame, the high and
-                  low parts will be cut. </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: left;"><img
-                    checked="true" style="width: 16px; height: 16px;" src="../../img/AdjustH.png"></td>
-                <td style="vertical-align: top; text-align: left;">Set
-                  the framing automatically to the height of the image.
-                  If the image is too wide for the frame, the right and
-                  left parts will be cut.</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: left;"><img
-                    checked="true" style="width: 16px; height: 16px;" src="../../img/AdjustWH.png"><br>
-                </td>
-                <td style="vertical-align: top; text-align: left;">Set
-                  the framing automatically to the diagonal of the
-                  image. The framing is adjusted in such a way that the
-                  image is fully seen.</td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: left;"><img
-                    checked="true" style="width: 16px; height: 16px;" src="../../img/rotationg.png"><br>
-                </td>
-                <td style="vertical-align: top; text-align: left;">Turn
-                  the image to the left (to the nearest multiple of
-                  90&#176;). </td>
-              </tr>
-              <tr>
-                <td style="vertical-align: top; text-align: left;"><img
-                    checked="true" style="width: 16px; height: 16px;" src="../../img/rotationd.png"></td>
-                <td style="vertical-align: top; text-align: left;">Turn
-                  the image to the right (to the nearest multiple of
-                  90&#176;).</td>
-              </tr>
-            </tbody>
-          </table>
-          <h3>Image correction</h3>
-          Image correction allows you to brighten or darken the image to
-          correct the following three values:
-          <ul>
-            <li>Luminosity<br>
-            </li>
-            <li>Contrast<br>
-            </li>
-            <li>Gamma<br>
-            </li>
-          </ul>
-          Image correction also allows you to modify the coloring of an
-          image by changing the strength of the primary colors:<br>
-          <br>
-          For example:<br>
-          <ul>
-            <li>Red : Reducing the red component makes the image more
-              yellow - increasing it makes make the image more blue </li>
-            <li>Green : Reducing the green component makes the image
-              more red - increasing it makes the image more green</li>
-            <li>Blue : Reducing the green component makes the image more
-              red - increasing it makes the image more blue</li>
-          </ul>
-          All the combinations are possible. For example: you can
-          increase the red and reduce the green at the same time.<br>
-          The results depend on the initial strength of the primary
-          color components of the source image.<br>
-          <br>
-          Remark : For all correction settings, the <img alt="" src="../../img/undo.png">
-          button allows the value to be reset to zero. </div>
+
+
+
+
+
+
+
+
+
+
+                    or disable the magnetic rulers: When rulers are
+                    enabled, the mouse will automatically be attracted
+                    to the edges of the photo, facilitating the framing.</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top; text-align: left;"><img
+                      checked="true" style="width: 16px; height: 16px;"
+                      src="../../img/AdjustW.png"><br>
+                  </td>
+                  <td style="vertical-align: top; text-align: left;">Set
+                    the framing automatically to the width of the image.
+                    If the image is too tall for the frame, the high and
+                    low parts will be cut. </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top; text-align: left;"><img
+                      checked="true" style="width: 16px; height: 16px;"
+                      src="../../img/AdjustH.png"></td>
+                  <td style="vertical-align: top; text-align: left;">Set
+                    the framing automatically to the height of the
+                    image. If the image is too wide for the frame, the
+                    right and left parts will be cut.</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top; text-align: left;"><img
+                      checked="true" style="width: 16px; height: 16px;"
+                      src="../../img/AdjustWH.png"><br>
+                  </td>
+                  <td style="vertical-align: top; text-align: left;">Set
+                    the framing automatically to the diagonal of the
+                    image. The framing is adjusted in such a way that
+                    the image is fully seen.</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top; text-align: left;"><img
+                      checked="true" style="width: 16px; height: 16px;"
+                      src="../../img/rotationg.png"><br>
+                  </td>
+                  <td style="vertical-align: top; text-align: left;">Turn
+
+
+
+
+
+                    the image to the left (to the nearest multiple of
+                    90&#176;). </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top; text-align: left;"><img
+                      checked="true" style="width: 16px; height: 16px;"
+                      src="../../img/rotationd.png"></td>
+                  <td style="vertical-align: top; text-align: left;">Turn
+
+
+
+
+
+                    the image to the right (to the nearest multiple of
+                    90&#176;).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>Image correction (per shot settings)</h3>
+          <div style="margin-left: 40px;"> Image correction allows you
+            to brighten or darken the image to correct the following
+            three values:
+            <ul>
+              <li><img src="../../img/Brightness.png"> Luminosity<br>
+              </li>
+              <li><img src="../../img/Contrast.png"> Contrast<br>
+              </li>
+              <li><img src="../../img/Gamma.png"> Gamma<br>
+              </li>
+            </ul>
+            Image correction also allows you to modify the coloring of
+            an image by changing the strength of the primary colors:<br>
+            <br>
+            For example:<br>
+            <ul>
+              <li><img src="../../img/Red.png"> Red : Reducing the red
+                component makes the image more yellow - increasing it
+                makes make the image more blue </li>
+              <li><img src="../../img/Green.png"> Green : Reducing the
+                green component makes the image more red - increasing it
+                makes the image more green</li>
+              <li><img src="../../img/Blue.png"> Blue : Reducing the
+                green component makes the image more red - increasing it
+                makes the image more blue</li>
+            </ul>
+            All the combinations are possible. For example: you can
+            increase the red and reduce the green at the same time.<br>
+            The results depend on the initial strength of the primary
+            color components of the source image.<br>
+            <br>
+            Remark : For all correction settings, the <img alt="" src="../../img/undo.png">
+            button allows the value to be reset to zero. </div>
+          <h3>Image tranformations (All shot settings) </h3>
+          <div style="margin-left: 40px;"><img style="width: 24px; height: 24px;"
+              alt="" src="../../img/object_image.png">/<img style="width: 24px; height: 24px;"
+              alt="" src="../../img/object_movie.png"> Object file
+            (image or video). The <img alt="" src="../../img/FolderOpen.png">
+            <tdstyle="vertical-align:>button</tdstyle="vertical-align:>
+            allows you to change the file
+            <ul>
+              <li>Warning! If you replace a file (image or video) with
+                another one with a different image geometry, you will
+                need to review the image framing in all shots. </li>
+            </ul>
+            <img alt="" src="../../img/Transform.png"> Transformation :
+            Apply a filter to the photo or video images. (Note: these
+            filters apply to all the shots of the slide).<br>
+            The following filters are available:
+            <ul>
+              <li>Equalize (Histogram equalization)<br>
+              </li>
+              <li>Despeckle (Noise reduction)<br>
+              </li>
+              <li>Gray (black &amp; white)<br>
+              </li>
+            </ul>
+            <img alt="" src="../../img/Blur.png"> Blur/Sharpen and
+            radius :<br>
+            <ul>
+              <li>Increase the blur with a negative value, using radius.<br>
+              </li>
+              <li>Increase the sharpen with a positive value, using
+                radius.</li>
+            </ul>
+            <b>Remark:</b> For some transformation settings, the <img alt=""
+              src="../../img/undo.png">&#160; button allows the value to
+            be reset to zero. </div>
+        </div>
         <h2>See also <br>
         </h2>
         <ul>
@@ -228,7 +317,6 @@
               ffDiaporama WIKI</a> </li>
           <li><a href="fct_002.html">How ffDiaporama works</a></li>
         </ul>
-        <br>
         <table border="0" cellpadding="0" cellspacing="10">
           <tbody>
             <tr>
@@ -238,7 +326,27 @@
                 <small>WIKIPEDIA</small> </td>
               <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/Ken_Burns_effect">Ken
 
+
+
+
+
+
+
+
                   Burns effects </a><br>
+                <a href="http://en.wikipedia.org/wiki/Histogram_equalization">Filter:
+
+
+
+
+
+
+
+
+
+                  Histogram equalization</a><br>
+                <a href="http://en.wikipedia.org/wiki/Despeckle">Filter:
+                  Noise reduction</a><br>
               </td>
             </tr>
           </tbody>
