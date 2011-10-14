@@ -1,9 +1,8 @@
-Buggs/TODO (Dernier SVN le 12/10/2011) :
+Buggs/TODO (Dernier SVN le 13/10/2011) :
 ----------------------------------------
 BUGG:
  - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
  - When using the cross fade transition between 2 identical pictures the brightness changes
- - Génération de vidéo : Le chemin par défaut n'est pas pris en compte correctement sous Windows si le nom de fichier n'a pas été modifier
 
 TODO-List
 ---------
@@ -13,7 +12,6 @@ TODO-List
     -Allow the user to load a custom LUMA for a transition
     -Be able to move the centring point of the rotations
     -Management of guides for the biggest internal rectangle (when rotation in reframing dialog)
-    -To transfer the geometry control of slide dialog to reframing dialog
     -Add a duplicate slide button to the main toolbar
     -Manage block groups
     -Transform some properties to not global (shape => Example : Progressive transformation of square to circle, Border => Progressive transformation of the color and the thickness (what about style ?), Shadow => Progressive transformation of the color and the distance)
@@ -38,7 +36,6 @@ TODO-List
   Video
     -When we cut a video, to have the possibility of creating a new shot or a new slide with the end of the video
     -Be able to disable sound video track (for now mini is 10%)
-    -To transfer the volume controle from video edit dialog to slide dialog
     -Allow the user to put a video in break without putting it in invisible
     -Be able to change video speed
 
@@ -52,14 +49,16 @@ TODO-List
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+- Corrige le bug sous Windows au premier lancement si l'entrée [My vidéos] est vide, utilise [My documents]
+- Corrige le bug sous Windows lors des générations de vidéo quand le fichier de destination ou le répertoire de destination contient des accents
 
 French version / Nouvelles fonctionnalités :
-- Transfert la fonction de changement de fichier image/video de la boite slide vers la boite de recadrage
 
 English version / Bug fix :
+- Fix Windows bug at first startup use [My documents] instead of [My videos] if [My videos] is undefined
+- Fix Windows bug when render video and filename or path of destination file have special characters like accents
 
 English version / New features :
-- Transfert of changing image/video file function for slide dialog to reframming dialog
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -83,10 +82,11 @@ Bug fix English version
 - During the load of a project, if a file is unreachable and you answer not to the proposition to choose another file, the corresponding block is deleted, if you answer yes and the file is use again, the question will not be ask again
 - Fix all sliders (Page clicks was not used)
 
-Documentation update
+Documentations updates
 - fct_008 (Adding Russian & Greec)
 - Dlg_001, Dlg_005 et Dlg_010 (addition of opening with double click)
-- Dlg_003 (addition of double-clicks, multiple file insertion, drag & drop for shots table)
+- Dlg_005 (dialog re-design and move of functions from slide dialog)
+- Dlg_003 (addition of double-clicks, multiple file insertion, drag & drop for shots table, move of functions to framing dialog)
 - Dlg_008 (Adding partial rendering)
 - Fct_004 (Adding dialog if file not found and Drag & Drop)
 - Fct_003 (Change thumbnails)
@@ -114,6 +114,7 @@ French version
 - Transfert les réglages de transformation et de flou/netteté de la boite slide vers la boite de recadrage
 - Limite la propriété rayon du filtre flou/netteté à la fourchette 1-10
 - Ajoute des boutons reset aux 2 lignes de propriétés du flou/netteté
+- Transfert la fonction de changement de fichier image/video de la boite slide vers la boite de recadrage
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -139,3 +140,4 @@ English version
 - Transfer of the settings of transformation and blur/sharpness for slide dialog to reframming dialog
 - Limit the radius property of the blur/sharpness filter to the range 1-10
 - Add two reset buttons to controls lines of the blur/sharpness filter
+- Transfert of changing image/video file function for slide dialog to reframming dialog

@@ -2859,7 +2859,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/arrow_left.png</normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/arrow_left.png</iconset>
+         <normaloff>img/arrow_left.png</normaloff>img/arrow_left.png</iconset>
        </property>
       </widget>
      </item>
@@ -2887,7 +2887,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/arrow_right.png</normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/arrow_right.png</iconset>
+         <normaloff>img/arrow_right.png</normaloff>img/arrow_right.png</iconset>
        </property>
       </widget>
      </item>

@@ -57,13 +57,13 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>240</width>
+         <width>250</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>240</width>
+         <width>250</width>
          <height>16777215</height>
         </size>
        </property>
@@ -81,7 +81,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>228</width>
+          <width>232</width>
           <height>463</height>
          </rect>
         </property>
@@ -584,7 +584,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/Brightness.png</pixmap>
+            <pixmap>img/Brightness.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -597,7 +597,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/Contrast.png</pixmap>
+            <pixmap>img/Contrast.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -698,7 +698,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/Gamma.png</pixmap>
+            <pixmap>img/Gamma.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -811,7 +811,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/Red.png</pixmap>
+            <pixmap>img/Red.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -918,7 +918,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/Green.png</pixmap>
+            <pixmap>img/Green.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1025,7 +1025,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/Blue.png</pixmap>
+            <pixmap>img/Blue.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1167,7 +1167,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/Transform.png</pixmap>
+            <pixmap>img/Transform.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1186,7 +1186,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/Blur.png</pixmap>
+            <pixmap>img/Blur.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1294,7 +1294,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/undo.png</normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/undo.png</iconset>
+               <normaloff>img/undo.png</normaloff>img/undo.png</iconset>
              </property>
             </widget>
            </item>
@@ -1328,7 +1328,7 @@
               <string notr="true"/>
              </property>
              <property name="pixmap">
-              <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/Radius.png</pixmap>
+              <pixmap>img/Radius.png</pixmap>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1430,7 +1430,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/undo.png</normaloff>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/undo.png</iconset>
+               <normaloff>img/undo.png</normaloff>img/undo.png</iconset>
              </property>
             </widget>
            </item>
@@ -1575,7 +1575,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/object_image.png</pixmap>
+            <pixmap>img/object_image.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>

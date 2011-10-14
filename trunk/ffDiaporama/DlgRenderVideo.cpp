@@ -941,7 +941,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     ui->SoundProgressBar->setMaximum(NbrFrame);
 
     // Get the container format
-    Fmt=av_guess_format(NULL,TempWAVFileName.toLocal8Bit(),NULL);
+    Fmt=av_guess_format(NULL,TempWAVFileName.toUtf8(),NULL);
     if (Fmt==NULL) {
         QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary wav file !");
         Continue=false;
@@ -949,12 +949,13 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
     // allocate the output media context
     if (Continue) {
+
         OutputFormatContext = avformat_alloc_context();
         if (!OutputFormatContext) {
             QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : Unable to allocate OutputFormatContext !");
             Continue=false;
         } else {
-            memcpy(OutputFormatContext->filename,TempWAVFileName.toLocal8Bit(),strlen(TempWAVFileName.toLocal8Bit())+1);
+            memcpy(OutputFormatContext->filename,TempWAVFileName.toUtf8(),strlen(TempWAVFileName.toUtf8())+1);
             OutputFormatContext->oformat  =Fmt;
             OutputFormatContext->timestamp=0;
             OutputFormatContext->bit_rate =1536;
@@ -1023,13 +1024,13 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     // open the file for writing
     if (Continue) {
         #if FF_API_OLD_AVIO
-        #if AVIO_WRONLY
-        if (avio_open(&OutputFormatContext->pb,TempWAVFileName.toLocal8Bit(),AVIO_WRONLY)<0) {
+            #if AVIO_WRONLY
+            if (avio_open(&OutputFormatContext->pb,TempWAVFileName.toUtf8(),AVIO_WRONLY)<0) {
+            #else
+                if (avio_open(&OutputFormatContext->pb,TempWAVFileName.toUtf8(),URL_WRONLY)<0) {
+            #endif
         #else
-        if (avio_open(&OutputFormatContext->pb,TempWAVFileName.toLocal8Bit(),URL_WRONLY)<0) {
-        #endif
-        #else
-        if (url_fopen(&OutputFormatContext->pb,TempWAVFileName.toLocal8Bit(),URL_WRONLY)<0) {
+            if (url_fopen(&OutputFormatContext->pb,TempWAVFileName.toUtf8(),URL_WRONLY)<0) {
         #endif
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
             QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary audio file !");
