@@ -668,6 +668,7 @@ bool cApplicationConfig::InitConfigurationValues() {
     LastProjectPath         = WINDOWS_DOCUMENTS;            // Last folder use for project
     LastMusicPath           = WINDOWS_MUSIC;                // Last folder use for music
     LastRenderVideoPath     = WINDOWS_VIDEO;                // Last folder use for render video
+    if (LastRenderVideoPath=="") LastRenderVideoPath=WINDOWS_DOCUMENTS;
 #endif
 #ifdef Q_WS_X11
     LastMediaPath           = QDir::home().absolutePath();  // Last folder use for image/video
