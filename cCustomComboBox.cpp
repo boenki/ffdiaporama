@@ -417,6 +417,7 @@ cGradientOrientationComboBox::cGradientOrientationComboBox(QWidget *parent):QCom
     }
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
+    setIconSize(QSize(width()-16,16));
     MakeIcons();
     this->view()->setFixedWidth(3*32+18);
     this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -452,7 +453,7 @@ void cGradientOrientationComboBox::MakeIcons() {
     int CurrentCol=((QTableWidget *)view())->currentColumn();
     if (CurrentCol<0) CurrentCol=0;
     int ColorNum=CurrentRow*3+CurrentCol;
-    QPixmap  Image(64,16);
+    QPixmap  Image(width()-16,16);
     QPainter Painter;
     Painter.begin(&Image);
     if ((ColorNum>=0)&&(ColorNum<MAXGRADIENTORIENTATION)) {
@@ -463,13 +464,13 @@ void cGradientOrientationComboBox::MakeIcons() {
         TheBrush.ColorIntermed=Brush->ColorIntermed;
         TheBrush.Intermediate=Brush->Intermediate;
         TheBrush.GradientOrientation=ColorNum;
-        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,64,16),true,0,0,NULL,1,NULL);
+        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,width()-16,16),true,0,0,NULL,1,NULL);
         Painter.setBrush(*BR);
         delete BR;
-        Painter.drawRect(QRectF(0,0,64,16));
+        Painter.drawRect(QRectF(0,0,width()-16,16));
     } else {
         Painter.setBrush(QBrush(Qt::white));
-        Painter.drawRect(QRectF(0,0,64,16));
+        Painter.drawRect(QRectF(0,0,width()-16,16));
     }
     Painter.end();
     setItemIcon(CurrentRow,QIcon(Image));

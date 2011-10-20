@@ -80,7 +80,7 @@ in connection with ImageMagick or the use or other dealings in ImageMagick.
 //===============================
 #include <cmath>
 #include <algorithm>
-#include "fmt_filters.h"
+#include <fmt_filters.h>
 
 namespace fmt_filters
 {

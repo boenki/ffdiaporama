@@ -121,8 +121,12 @@ public:
     QStringList             AllowImageExtension;                        // List of all file extension allowed for image
     QStringList             AllowMusicExtension;                        // List of all file extension allowed for music
 
-    // Rendering device model
+    // Collections
     QList<cDeviceModelDef>  RenderDeviceModel;                          // List of known rendering device model
+    cStyleCollection        StyleTextCollection;                        // List of known text style
+    cStyleCollection        StyleTextBackgroundCollection;              // List of known background text style
+    cStyleCollection        StyleCoordinateCollection;                  // List of known Coordinate style
+    cStyleCollection        StyleBlockShapeCollection;                  // List of known BlockShapestyle
 
     // User contexte
     QString                 UserConfigPath;                             // Path and filename to user profil path
@@ -201,6 +205,7 @@ public:
     cSaveWindowPosition     *DlgImageCorrectionWSP;                     // Dialog box "Image Correction" - Window size and position
     cSaveWindowPosition     *DlgVideoEditWSP;                           // Dialog box "Edit video" - Window size and position
     cSaveWindowPosition     *DlgTextEditWSP;                            // Dialog box "Text editor" - Window size and position
+    cSaveWindowPosition     *DlgManageStyleWSP;                         // Dialog box "Manage style" - Window size and position
 
     cApplicationConfig();
     ~cApplicationConfig();

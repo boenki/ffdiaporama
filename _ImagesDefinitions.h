@@ -25,10 +25,6 @@
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
-// Specific inclusions
-#include "_ApplicationDefinitions.h"
-#include "_SoundDefinitions.h"
-
 // Utility function to create a gradient brush
 QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QString ColorD,QString ColorF,QString ColorIntermed,double Intermediate);
 

@@ -26,9 +26,6 @@
 #include <winbase.h>
 #endif
 
-// Specific inclusions
-#include "_ApplicationDefinitions.h"
-
 /****************************************************************************
   Definition of image format supported by the application
 ****************************************************************************/
@@ -389,6 +386,8 @@ void cSaveWindowPosition::LoadFromXML(QDomElement domDocument) {
 }
 
 //====================================================================================================================
+// Device model definition
+//====================================================================================================================
 
 cDeviceModelDef::cDeviceModelDef(bool IsGlobalConf,int IndexKey) {
     FromGlobalConf  =IsGlobalConf;                          // true if device model is defined in global config file
@@ -464,6 +463,12 @@ cApplicationConfig::cApplicationConfig() {
 
     //qDebug() << "IN:cApplicationConfig::cApplicationConfig";
     ParentWindow=NULL;
+
+    // Init collections
+    StyleTextCollection.CollectionName          =QString(STYLENAME_TEXTSTYLE);
+    StyleTextBackgroundCollection.CollectionName=QString(STYLENAME_BACKGROUNDSTYLE);
+    StyleCoordinateCollection.CollectionName    =QString(STYLENAME_COORDINATESTYLE);
+    StyleBlockShapeCollection.CollectionName    =QString(STYLENAME_BLOCKSHAPESTYLE);
 
     #ifdef Q_OS_WIN
         // Search plateforme and define specific value depending on plateforme
@@ -569,6 +574,7 @@ cApplicationConfig::cApplicationConfig() {
     DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
     DlgVideoEditWSP             =new cSaveWindowPosition("DlgVideoEditWSP",RestoreWindow,false);            // Dialog box "Edit video" - Window size and position
     DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
+    DlgManageStyleWSP           =new cSaveWindowPosition("DlgManageStyleWSP",RestoreWindow,false);          // Dialog box "Manage style" - Window size and position
 }
 
 //====================================================================================================================
@@ -584,7 +590,7 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgImageCorrectionWSP;
     delete DlgVideoEditWSP;
     delete DlgTextEditWSP;
-
+    delete DlgManageStyleWSP;
 }
 
 //====================================================================================================================
@@ -797,6 +803,9 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         }
     }
 
+    //***************************************
+    // Load RenderDeviceModel collection
+    //***************************************
     if ((root.elementsByTagName("RenderingDeviceModel").length()>0)&&(root.elementsByTagName("RenderingDeviceModel").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("RenderingDeviceModel").item(0).toElement();
         int i=0;
@@ -824,6 +833,16 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         }
     }
 
+    // Load other collections
+    StyleTextCollection.LoadFromXML(domDocument,root,TypeConfigFile);
+    StyleTextBackgroundCollection.LoadFromXML(domDocument,root,TypeConfigFile);
+    StyleCoordinateCollection.LoadFromXML(domDocument,root,TypeConfigFile);
+    StyleBlockShapeCollection.LoadFromXML(domDocument,root,TypeConfigFile);
+
+    //***************************************
+    // Windows size & position
+    //***************************************
+
     NodeList=root.elementsByTagName("RestoreWindow");
     if ((NodeList.length()>0)&&(NodeList.at(0).childNodes().length()>0)) RestoreWindow=NodeList.at(0).childNodes().at(0).nodeValue()=="1";
 
@@ -839,6 +858,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     DlgImageCorrectionWSP->LoadFromXML(root);
     DlgVideoEditWSP->LoadFromXML(root);
     DlgTextEditWSP->LoadFromXML(root);
+    DlgManageStyleWSP->LoadFromXML(root);
     return true;
 }
 
@@ -925,13 +945,22 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.appendChild(domDocument.createTextNode(RestoreWindow?"1":"0"));
     root.appendChild(Element);
 
+    int j;
+
+    // Save RenderDeviceModel collection
+    j=0;
     Element=domDocument.createElement("RenderingDeviceModel");
-    int j=0;
     for (int i=0;i<RenderDeviceModel.count();i++) if (RenderDeviceModel[i].FromUserConf) {
         RenderDeviceModel[i].SaveToXML(Element,QString("Device_"+QString("%1").arg(j)));
         j++;
     }
     if (j>0) root.appendChild(Element);
+
+    // Save other collections
+    StyleTextCollection.SaveToXML(domDocument,root);
+    StyleTextBackgroundCollection.SaveToXML(domDocument,root);
+    StyleCoordinateCollection.SaveToXML(domDocument,root);
+    StyleBlockShapeCollection.SaveToXML(domDocument,root);
 
     // Save windows size and position
     MainWinWSP->SaveToXML(root);                                // MainWindow - Window size and position
@@ -945,6 +974,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     DlgImageCorrectionWSP->SaveToXML(root);
     DlgVideoEditWSP->SaveToXML(root);
     DlgTextEditWSP->SaveToXML(root);
+    DlgManageStyleWSP->SaveToXML(root);
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {

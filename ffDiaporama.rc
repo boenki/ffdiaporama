@@ -2,8 +2,8 @@
 IDI_CON1 ICON        DISCARDABLE "img/logo.ico"
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION    	1,0,0,0
-PRODUCTVERSION 	1,0,0,0
+FILEVERSION    	1,0,2011,1020
+PRODUCTVERSION 	1,0,2011,1020
 FILEFLAGSMASK  	0
 FILEFLAGS      	0
 FILEOS         	VOS__WINDOWS32
@@ -19,7 +19,7 @@ FILESUBTYPE    	0
             VALUE "InternalName",     "ffDiaporama"
             VALUE "OriginalFilename", "ffDiaporama.exe"
             VALUE "ProductName",      "ffDiaporama"
-            VALUE "ProductVersion",   "1.0.0.0"
+            VALUE "ProductVersion",   "1.0.2011.1020"
         }
     }
     BLOCK "VarFileInfo" {

@@ -19,6 +19,7 @@ unix {
     UI_DIR      += ../build/
     ICON        = img/logo.png
     INCLUDEPATH += /usr/include/ffmpeg/  # Specific for Fedora
+    INCLUDEPATH += ./fmt_filters/
 }
 win32 {
     DESTDIR     += ../winbuild/
@@ -28,7 +29,8 @@ win32 {
     RC_FILE     = ffDiaporama.rc
     INCLUDEPATH += . \
                    C:\\Qt\\ffmpeg-win32-dev\\include \                  #------ ffmpeg library path
-                   C:\\Qt\\SDL-1.2.14\\include                          #------ SDL library path
+                   C:\\Qt\\SDL-1.2.14\\include \                        #------ SDL library path
+                   .\\fmt_filters
 
     LIBS        += -L"C:\\Qt\\ffmpeg-win32-dev\\lib" \                  #------ ffmpeg library path
                    -L"C:\\Qt\\SDL-1.2.14\\lib" \                        #------ SDL library path
@@ -44,7 +46,6 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             wgt_QVideoPlayer.cpp \
             wgt_QCustomRuller.cpp \
             wgt_QCustomThumbnails.cpp \
-            fmt_filters.cpp \
             DlgApplicationSettings.cpp \
             DlgBackgroundProperties.cpp \
             cCustomGraphicsRectItem.cpp \
@@ -59,7 +60,10 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     DlgImageCorrection.cpp \
     DlgVideoEdit.cpp \
     DlgTextEdit.cpp \
-    cCustomTableWidget.cpp
+    cCustomTableWidget.cpp \
+    DlgManageStyle.cpp \
+    _StyleDefinitions.cpp \
+    fmt_filters/fmt_filters.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
@@ -71,7 +75,6 @@ HEADERS  += _GlobalDefines.h \
             wgt_QVideoPlayer.h \
             wgt_QCustomRuller.h \
             wgt_QCustomThumbnails.h \
-            fmt_filters.h \
             DlgApplicationSettings.h \
             DlgBackgroundProperties.h \
             cCustomGraphicsRectItem.h \
@@ -85,7 +88,10 @@ HEADERS  += _GlobalDefines.h \
     DlgImageCorrection.h \
     DlgVideoEdit.h \
     DlgTextEdit.h \
-    cCustomTableWidget.h
+    cCustomTableWidget.h \
+    DlgManageStyle.h \
+    _StyleDefinitions.h \
+    fmt_filters/fmt_filters.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \
@@ -98,7 +104,8 @@ FORMS    += mainwindow.ui \
     DlgSlideProperties.ui \
     DlgImageCorrection.ui \
     DlgVideoEdit.ui \
-    DlgTextEdit.ui
+    DlgTextEdit.ui \
+    DlgManageStyle.ui
 
 OTHER_FILES += \
     ffDiaporama.xml \
