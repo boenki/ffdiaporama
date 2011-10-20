@@ -21,11 +21,12 @@
 #include "mainwindow.h"
 #include "DlgTextEdit.h"
 #include "ui_DlgTextEdit.h"
-#include "DlgSlideProperties.h"
+#include "DlgTextEdit.h"
 
-DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QWidget *parent):QDialog(parent),ui(new Ui::DlgTextEdit) {
+DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,cBrushDefinition *TheCurrentBrush,QWidget *parent):QDialog(parent),ui(new Ui::DlgTextEdit) {
     ui->setupUi(this);
     CurrentTextItem =TheCurrentTextItem;
+    CurrentBrush    =TheCurrentBrush;
     ParentWindow    =parent;
 
     #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
@@ -71,6 +72,14 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QWidget *parent)
     ui->fontEffectCB->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     MakeTextStyleIcon(ui->fontEffectCB);
 
+    // Init combo box Background  type
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgTextEdit","No brush"));              ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_NOBRUSH)));
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgTextEdit","Solid brush"));           ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_SOLID)));
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgTextEdit","Pattern brush"));         ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_PATTERN)));
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgTextEdit","Gradient 2 colors"));     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT2)));
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgTextEdit","Gradient 3 colors"));     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT3)));
+    ui->BrushTypeCombo->addItem(QApplication::translate("DlgTextEdit","Image from library"));    ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGELIBRARY)));
+
     RefreshControls();
 
     // Define handler
@@ -93,6 +102,21 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QWidget *parent)
     connect(ui->textVCenter,SIGNAL(pressed()),this,SLOT(s_SetTextVCenter()));
     connect(ui->textBottom,SIGNAL(pressed()),this,SLOT(s_SetTextBottom()));
     connect(ui->fontEffectCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeStyleFont(int)));
+
+    connect(ui->TextStyleBT,SIGNAL(pressed()),this,SLOT(s_TextStyleBT()));
+    connect(ui->BackgroundStyleBT,SIGNAL(pressed()),this,SLOT(s_BackgroundStyleBT()));
+
+    // Brush part
+    connect(ui->BrushTypeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeBrushTypeCombo(int)));
+    connect(ui->PatternBrushCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexPatternBrushCombo(int)));
+    connect(ui->OrientationCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientOrientationCombo(int)));
+    connect(ui->FirstColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientFirstColorCombo(int)));
+    connect(ui->FinalColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientFinalColorCombo(int)));
+    connect(ui->IntermColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientIntermColorCombo(int)));
+    connect(ui->BackgroundCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexBackgroundCombo(int)));
+    connect(ui->IntermPosSlider,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosSliderMoved(int)));
+    connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
+
 }
 
 //====================================================================================================================
@@ -172,8 +196,66 @@ void DlgTextEdit::RefreshControls() {
     ui->FontColorCombo->SetCurrentColor(&CurrentTextItem->FontColor);
     ui->StyleShadowColorCombo->SetCurrentColor(&CurrentTextItem->FontShadowColor);
     ui->StyleShadowColorCombo->setEnabled(CurrentTextItem->StyleText!=0);
+    ui->fontEffectCB->view()->setFixedWidth(250);
+
+    // Brush TAB part
+    bool Allow_Brush  =(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK);
+    bool Allow_Color1 =(Allow_Brush)&&((CurrentBrush->BrushType==BRUSHTYPE_SOLID)||(CurrentBrush->BrushType==BRUSHTYPE_PATTERN)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
+    bool Allow_Color2 =(Allow_Brush)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
+    bool Allow_Color3 =(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3);
+    bool Allow_Pattern=(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_PATTERN);
+    bool Allow_Library=(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY);
+
+    ui->BackgroundSpacer->setVisible(Allow_Brush);
+    ui->BackgroundLabel->setVisible(Allow_Brush);
+    ui->BackgroundStyleBT->setVisible(Allow_Brush);
+    ui->BrushTypeLabel->setVisible(Allow_Brush);
+    ui->BrushTypeCombo->setVisible(Allow_Brush);
+    ui->ColorLabel1->setVisible(Allow_Color1);
+    ui->ColorLabel2->setVisible(Allow_Color1);
+    ui->FirstColorCombo->setVisible(Allow_Color1);
+    ui->FinalColorCombo->setVisible(Allow_Color2);
+    ui->IntermColorCombo->setVisible(Allow_Color3);
+    ui->OrientationSpacer->setVisible(Allow_Color2 & !Allow_Color3);
+    ui->OrientationCombo->setVisible(Allow_Color2);
+    ui->IntermPosLabel->setVisible(Allow_Color2);
+    ui->IntermPosSlider->setVisible(Allow_Color3);
+    ui->IntermPosED->setVisible(Allow_Color3);
+    ui->PatternLabel->setVisible(Allow_Pattern);
+    ui->PatternBrushCombo->setVisible(Allow_Pattern);
+    ui->ImageLibraryLabel->setVisible(Allow_Library);
+    ui->BackgroundCombo->setVisible(Allow_Library);
+
+    // Set brush type combo index
+    for (int i=0;i<ui->BrushTypeCombo->count();i++) if (ui->BrushTypeCombo->itemData(i).toInt()==CurrentBrush->BrushType) ui->BrushTypeCombo->setCurrentIndex(i);
+    ui->PatternBrushCombo->SetCurrentBrush(CurrentBrush);
+    ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
+    ui->IntermColorCombo->SetCurrentColor(&CurrentBrush->ColorIntermed);
+    ui->FinalColorCombo->SetCurrentColor(&CurrentBrush->ColorF);
+    ui->OrientationCombo->SetCurrentBrush(CurrentBrush);
+    ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
+
+    // Set controls depending on brush type
+    switch (CurrentBrush->BrushType) {
+        case BRUSHTYPE_NOBRUSH :
+            break;
+        case BRUSHTYPE_PATTERN :
+        case BRUSHTYPE_SOLID :          break;
+            break;
+        case BRUSHTYPE_GRADIENT3 :
+        case BRUSHTYPE_GRADIENT2 :
+            ui->IntermPosSlider->setValue(CurrentBrush->Intermediate*100);
+            ui->IntermPosED->setValue(CurrentBrush->Intermediate*100);
+            break;
+        case BRUSHTYPE_IMAGELIBRARY :
+            // Ensure BrushImage is valide
+            if ((BackgroundList.SearchImage(CurrentBrush->BrushImage)==-1)&&(BackgroundList.List.count()>0)) CurrentBrush->BrushImage=BackgroundList.List[0].Name;
+            ui->BackgroundCombo->SetCurrentBackground(CurrentBrush->BrushImage);
+            break;
+    }
+
     StopMAJSpinbox=false;
-    ((DlgSlideProperties *)ParentWindow)->RefreshSceneImage();
+    emit RefreshDisplay();
 }
 
 void DlgTextEdit::MakeTextStyleIcon(QComboBox *UICB) {
@@ -318,4 +400,144 @@ void DlgTextEdit::s_ChIndexFontShadowColorCombo(int) {
     if (StopMAJSpinbox) return;
     CurrentTextItem->FontShadowColor=ui->StyleShadowColorCombo->GetCurrentColor();
     RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgTextEdit::s_ChangeBrushTypeCombo(int Value) {
+    if (StopMAJSpinbox) return;
+    CurrentBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgTextEdit::s_IntermPosSliderMoved(int Value) {
+    if (StopMAJSpinbox) return;
+    CurrentBrush->Intermediate=double(Value)/100;
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgTextEdit::s_IntermPosED(int Value) {
+    if (StopMAJSpinbox) return;
+    CurrentBrush->Intermediate=double(Value)/100;
+    RefreshControls();
+}
+
+//====================================================================================================================
+// Handler for custom color/brush/pattern/gradient combo box index change
+//====================================================================================================================
+
+//========= Pattern shape combo
+void DlgTextEdit::s_ChIndexPatternBrushCombo(int) {
+    if (StopMAJSpinbox) return;
+    CurrentBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
+    RefreshControls();
+}
+
+//========= Gradient shape orientation
+void DlgTextEdit::s_ChIndexGradientOrientationCombo(int) {
+    if (StopMAJSpinbox) return;
+    CurrentBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
+    RefreshControls();
+}
+
+//========= Shape/Gradient shape first color
+void DlgTextEdit::s_ChIndexGradientFirstColorCombo(int) {
+    if (StopMAJSpinbox) return;
+    CurrentBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
+    RefreshControls();
+}
+
+//========= Gradient shape last color
+void DlgTextEdit::s_ChIndexGradientFinalColorCombo(int) {
+    if (StopMAJSpinbox) return;
+    CurrentBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
+    RefreshControls();
+}
+
+//========= Gradient shape intermediate color
+void DlgTextEdit::s_ChIndexGradientIntermColorCombo(int) {
+    if (StopMAJSpinbox) return;
+    CurrentBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
+    RefreshControls();
+}
+
+//========= Background image
+void DlgTextEdit::s_ChIndexBackgroundCombo(int) {
+    if (StopMAJSpinbox) return;
+    CurrentBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
+    RefreshControls();
+}
+
+//====================================================================================================================
+// Handler for style sheet management
+//====================================================================================================================
+
+void DlgTextEdit::s_TextStyleBT() {
+    QString ActualStyle=
+            QString("FontSize:%1").arg(CurrentTextItem->FontSize)+
+            QString("###HAlign:%1").arg(CurrentTextItem->HAlign)+
+            QString("###VAlign:%1").arg(CurrentTextItem->VAlign)+
+            QString("###StyleText:%1").arg(CurrentTextItem->StyleText)+
+            "###FontColor:"+CurrentTextItem->FontColor+
+            "###FontShadowColor:"+CurrentTextItem->FontShadowColor+
+            QString("###Bold:%1").arg(CurrentTextItem->IsBold?1:0)+
+            QString("###Italic:%1").arg(CurrentTextItem->IsItalic?1:0)+
+            QString("###Underline:%1").arg(CurrentTextItem->IsUnderline?1:0)+
+            "###FontName:"+CurrentTextItem->FontName;
+
+    QString Item=GlobalMainWindow->ApplicationConfig->StyleTextCollection.PopupCollectionMenu(this,ActualStyle);
+
+    ui->TextStyleBT->setDown(false);
+    if (Item!="") {
+        QStringList List;
+        GlobalMainWindow->ApplicationConfig->StyleTextCollection.StringToStringList(Item,List);
+        for (int i=0;i<List.count();i++) {
+            if      (List[i].startsWith("FontSize:"))           CurrentTextItem->FontSize       =List[i].mid(QString("FontSize:").length()).toInt();
+            else if (List[i].startsWith("HAlign:"))             CurrentTextItem->HAlign         =List[i].mid(QString("HAlign:").length()).toInt();
+            else if (List[i].startsWith("VAlign:"))             CurrentTextItem->VAlign         =List[i].mid(QString("VAlign:").length()).toInt();
+            else if (List[i].startsWith("StyleText:"))          CurrentTextItem->StyleText      =List[i].mid(QString("StyleText:").length()).toInt();
+            else if (List[i].startsWith("FontColor:"))          CurrentTextItem->FontColor      =List[i].mid(QString("FontColor:").length());
+            else if (List[i].startsWith("FontShadowColor:"))    CurrentTextItem->FontShadowColor=List[i].mid(QString("FontShadowColor:").length());
+            else if (List[i].startsWith("Bold:"))               CurrentTextItem->IsBold         =List[i].mid(QString("Bold:").length()).toInt()==1;
+            else if (List[i].startsWith("Italic:"))             CurrentTextItem->IsItalic       =List[i].mid(QString("Italic:").length()).toInt()==1;
+            else if (List[i].startsWith("Underline:"))          CurrentTextItem->IsUnderline    =List[i].mid(QString("Underline:").length()).toInt()==1;
+            else if (List[i].startsWith("FontName:"))           CurrentTextItem->FontName       =List[i].mid(QString("FontName:").length());
+        }
+        RefreshControls();
+    }
+}
+
+void DlgTextEdit::s_BackgroundStyleBT() {
+    QString ActualStyle=
+            QString("BrushType:%1").arg(CurrentBrush->BrushType)+
+            QString("###PatternType:%1").arg(CurrentBrush->PatternType)+
+            QString("###GradientOrientation:%1").arg(CurrentBrush->GradientOrientation)+
+            "###ColorD:"+CurrentBrush->ColorD+
+            "###ColorF:"+CurrentBrush->ColorF+
+            "###ColorIntermed:"+CurrentBrush->ColorIntermed+
+            QString("###Intermediate:%1").arg(CurrentBrush->Intermediate,0,'f',3)+
+            "###BrushImage:"+CurrentBrush->BrushImage;
+
+    QString Item=GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection.PopupCollectionMenu(this,ActualStyle);
+
+    ui->BackgroundStyleBT->setDown(false);
+    if (Item!="") {
+        QStringList List;
+        GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection.StringToStringList(Item,List);
+        for (int i=0;i<List.count();i++) {
+            if      (List[i].startsWith("BrushType:"))              CurrentBrush->BrushType             =List[i].mid(QString("BrushType:").length()).toInt();
+            else if (List[i].startsWith("PatternType:"))            CurrentBrush->PatternType           =List[i].mid(QString("PatternType:").length()).toInt();
+            else if (List[i].startsWith("GradientOrientation:"))    CurrentBrush->GradientOrientation   =List[i].mid(QString("GradientOrientation:").length()).toInt();
+            else if (List[i].startsWith("ColorD:"))                 CurrentBrush->ColorD                =List[i].mid(QString("ColorD:").length());
+            else if (List[i].startsWith("ColorF:"))                 CurrentBrush->ColorF                =List[i].mid(QString("ColorF:").length());
+            else if (List[i].startsWith("ColorIntermed:"))          CurrentBrush->ColorIntermed         =List[i].mid(QString("ColorIntermed:").length());
+            else if (List[i].startsWith("Intermediate:"))           CurrentBrush->Intermediate          =List[i].mid(QString("Intermediate:").length()).toDouble();
+            else if (List[i].startsWith("BrushImage:"))             CurrentBrush->BrushImage            =List[i].mid(QString("BrushImage:").length());
+        }
+        RefreshControls();
+    }
 }

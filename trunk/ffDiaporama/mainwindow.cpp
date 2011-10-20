@@ -737,7 +737,8 @@ void MainWindow::s_WebViewOpen(QUrl Url) {
 void MainWindow::s_ToolbarChanged(int MenuIndex) {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    QString BaseUrl=QDir::currentPath();
+    QString BaseUrl=AdjustDirForOS(QDir::currentPath());
+
     if (!BaseUrl.endsWith(QDir::separator())) BaseUrl=BaseUrl+QDir::separator();
     BaseUrl="file://"+BaseUrl;
     if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")) BaseUrl=BaseUrl+"WIKI"+QDir::separator()+"en"+QDir::separator();
@@ -765,7 +766,7 @@ void MainWindow::s_ToolbarChanged(int MenuIndex) {
                 "<body><div style=\"text-align: center;\">\n"\
                 "  <table height=\"100%\" border=\"1\" width=\"100%\"><tbody><tr>\n"\
                 "    <td style=\"text-align: center;\">\n"\
-                "      <img checked=\"true\" alt=\"\" src=\"img/logo_big.png\"><br>\n"\
+                "      <img checked=\"true\" alt=\"\" src=\"../../img/logo_big.png\"><br>\n"\
                 "       <br>Add empty slides or slides based on photos or videos<br>\n"
                 "       To discover how to build your slide show and to animate slides:<br>\n"
                 "       <a href=\"fct_002.html\">Discover the principles of functioning of ffDiaporama</a><br><br>\n"
@@ -779,10 +780,10 @@ void MainWindow::s_ToolbarChanged(int MenuIndex) {
                 "<body><div style=\"text-align: center;\">\n"\
                 "  <table height=\"100%\" border=\"1\" width=\"100%\"><tbody><tr>\n"\
                 "    <td style=\"text-align: center;\">\n"\
-                "      <img checked=\"true\" alt=\"\" src=\"img/logo_big.png\"><br>\n"\
+                "      <img checked=\"true\" alt=\"\" src=\"../../img/logo_big.png\"><br>\n"\
                 "      <br>Select the equipment type that you plan to use for your video<br>\n"\
                 "      To discover how to render videos:<br>\n"\
-                "      <a href=\"fct_009.html\">Consult the Rendering videos WIKI page</a><br><br>\n"\
+                "      <a href=\"fct_009.html\">Consult the rendering videos WIKI page</a><br><br>\n"\
                 "    </td>\n"\
                 "  </tr></tbody></table>\n"\
                 "</div></body></html>\n");
@@ -793,7 +794,7 @@ void MainWindow::s_ToolbarChanged(int MenuIndex) {
                 "<body><div style=\"text-align: center;\">\n"\
                 "  <table height=\"100%\" border=\"1\" width=\"100%\"><tbody><tr>\n"\
                 "    <td style=\"text-align: center;\">\n"\
-                "      <img checked=\"true\" alt=\"\" src=\"img/logo_big.png\"><br>\n"\
+                "      <img checked=\"true\" alt=\"\" src=\"../../img/logo_big.png\"><br>\n"\
                 "      <br>Visit the ffDiaporama Web site to use the forum,<br>\n"\
                 "      consult tutorials and learn the lastest news:<br>\n"\
                 "      <a href=\"http://ffdiaporama.tuxfamily.org\">http://ffdiaporama.tuxfamily.org</a><br><br>\n"\

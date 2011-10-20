@@ -107,14 +107,6 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
         ui->HeightEd->setDecimals(0);           ui->HeightEd->setSingleStep(1);     ui->HeightEd->setSuffix("");
     }
 
-    // Init combo box Background  type
-    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","No brush"));              ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_NOBRUSH)));
-    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","Solid brush"));           ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_SOLID)));
-    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","Pattern brush"));         ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_PATTERN)));
-    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","Gradient 2 colors"));     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT2)));
-    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","Gradient 3 colors"));     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT3)));
-    ui->BrushTypeCombo->addItem(QApplication::translate("DlgSlideProperties","Image from library"));    ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGELIBRARY)));
-
     // Init image geometry combo box
     ui->ImageGeometryCB->addItem(QApplication::translate("DlgSlideProperties","Project geometry"));
     ui->ImageGeometryCB->addItem(QApplication::translate("DlgSlideProperties","Image geometry"));
@@ -164,17 +156,6 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->PenSizeEd,SIGNAL(valueChanged(int)),this,SLOT(s_ChgPenSize(int)));
     connect(ui->ShadowColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChgShadowColorCB(int)));
 
-    // Brush part
-    connect(ui->BrushTypeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeBrushTypeCombo(int)));
-    connect(ui->PatternBrushCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexPatternBrushCombo(int)));
-    connect(ui->OrientationCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientOrientationCombo(int)));
-    connect(ui->FirstColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientFirstColorCombo(int)));
-    connect(ui->FinalColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientFinalColorCombo(int)));
-    connect(ui->IntermColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientIntermColorCombo(int)));
-    connect(ui->BackgroundCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexBackgroundCombo(int)));
-    connect(ui->IntermPosSlider,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosSliderMoved(int)));
-    connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
-
     // Image part
     connect(ui->ImageGeometryCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeImageGeometry(int)));
 
@@ -192,6 +173,10 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->AddTextBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewTextBlock()));
     connect(ui->AddFileBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewFileBlock()));
     connect(ui->RemoveBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_RemoveBlock()));
+
+    // Style buttons
+    connect(ui->CoordinateStyleBT,SIGNAL(pressed()),this,SLOT(s_CoordinateStyleBT()));
+    connect(ui->BlockShapeStyleBT,SIGNAL(pressed()),this,SLOT(s_BlockShapeStyleBT()));
 }
 
 //====================================================================================================================
@@ -394,37 +379,13 @@ void DlgSlideProperties::RefreshControls() {
     bool                IsVisible       =(CurrentTextItem)&&(CurrentTextItem->IsVisible);
     bool                IsVideo         =(CurrentTextItem)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentTextItem->BackgroundBrush.Video!=NULL);
     bool                HaveSound       =IsVideo && (CurrentTextItem->BackgroundBrush.SoundVolume!=0);
+    bool                Allow_File      =(IsVisible)&&(CurrentBrush!=NULL)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK);
 
     ui->VisibleBT->setIcon(QIcon(QString(!IsVisible?ICON_VISIBLE_OK:ICON_VISIBLE_KO)));
     ui->SoundBT->setIcon(QIcon(QString(!HaveSound?ICON_SOUND_OK:ICON_SOUND_KO)));
     ui->TVMarginsBT->setIcon(QIcon(QString(MagneticRuler.MagneticRuler?ICON_RULER_ON:ICON_RULER_OFF)));
     ui->SoundBT->setEnabled(IsVideo && !HaveSound);
 
-    // Brush TAB part
-    bool Allow_Brush  =(CurrentBrush!=NULL)&&(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK);
-    bool Allow_Color1 =(Allow_Brush)&&((CurrentBrush->BrushType==BRUSHTYPE_SOLID)||(CurrentBrush->BrushType==BRUSHTYPE_PATTERN)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-    bool Allow_Color2 =(Allow_Brush)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-    bool Allow_Color3 =(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3);
-    bool Allow_Pattern=(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_PATTERN);
-    bool Allow_Library=(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY);
-    bool Allow_File   =(IsVisible)&&(CurrentBrush!=NULL)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK);
-
-    ui->BrushTypeLabel->setVisible(Allow_Brush);                                ui->BrushTypeLabel->setEnabled(IsVisible && Allow_Brush);
-    ui->BrushTypeCombo->setVisible(Allow_Brush);                                ui->BrushTypeCombo->setEnabled(IsVisible && Allow_Brush);
-    ui->ColorLabel1->setVisible(Allow_Color1);                                  ui->ColorLabel1->setEnabled(IsVisible && Allow_Color1);
-    ui->ColorLabel2->setVisible(Allow_Color1);                                  ui->ColorLabel2->setEnabled(IsVisible && Allow_Color1);
-    ui->FirstColorCombo->setVisible(Allow_Color1);                              ui->FirstColorCombo->setEnabled(IsVisible && Allow_Color1);
-    ui->FinalColorCombo->setVisible(Allow_Color2);                              ui->FinalColorCombo->setEnabled(IsVisible && Allow_Color2);
-    ui->IntermColorCombo->setVisible(Allow_Color3);                             ui->IntermColorCombo->setEnabled(IsVisible && Allow_Color3);
-    ui->OrientationLabel->setVisible(Allow_Color2);                             ui->OrientationLabel->setEnabled(IsVisible && Allow_Color2);
-    ui->OrientationCombo->setVisible(Allow_Color2);                             ui->OrientationCombo->setEnabled(IsVisible && Allow_Color2);
-    ui->IntermPosLabel->setVisible(Allow_Color3);                               ui->IntermPosLabel->setEnabled(IsVisible && Allow_Color3);
-    ui->IntermPosSlider->setVisible(Allow_Color3);                              ui->IntermPosSlider->setEnabled(IsVisible && Allow_Color3);
-    ui->IntermPosED->setVisible(Allow_Color3);                                  ui->IntermPosED->setEnabled(IsVisible && Allow_Color3);
-    ui->PatternLabel->setVisible(Allow_Pattern);                                ui->PatternLabel->setEnabled(IsVisible && Allow_Pattern);
-    ui->PatternBrushCombo->setVisible(Allow_Pattern);                           ui->PatternBrushCombo->setEnabled(IsVisible && Allow_Pattern);
-    ui->ImageLibraryLabel->setVisible(Allow_Library);                           ui->ImageLibraryLabel->setEnabled(IsVisible && Allow_Library);
-    ui->BackgroundCombo->setVisible(Allow_Library);                             ui->BackgroundCombo->setEnabled(IsVisible && Allow_Library);
     ui->ImageGeometryLabel->setVisible(Allow_File);                             ui->ImageGeometryLabel->setEnabled(IsVisible && Allow_File);
     ui->ImageGeometryCB->setVisible(Allow_File);                                ui->ImageGeometryCB->setEnabled(IsVisible && Allow_File);
 
@@ -433,42 +394,11 @@ void DlgSlideProperties::RefreshControls() {
     ui->TextEditBT->setEnabled(IsVisible);
     ui->VisibleBT->setEnabled(CurrentTextItem!=NULL);
 
-    if (CurrentBrush!=NULL) {
-        // Set brush type combo index
-        for (int i=0;i<ui->BrushTypeCombo->count();i++) if (ui->BrushTypeCombo->itemData(i).toInt()==CurrentBrush->BrushType) ui->BrushTypeCombo->setCurrentIndex(i);
-        ui->PatternBrushCombo->SetCurrentBrush(CurrentBrush);
-        ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
-        ui->IntermColorCombo->SetCurrentColor(&CurrentBrush->ColorIntermed);
-        ui->FinalColorCombo->SetCurrentColor(&CurrentBrush->ColorF);
-        ui->OrientationCombo->SetCurrentBrush(CurrentBrush);
-        ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
-
-        // Set controls depending on brush type
-        switch (CurrentBrush->BrushType) {
-            case BRUSHTYPE_NOBRUSH :
-                break;
-            case BRUSHTYPE_PATTERN :
-            case BRUSHTYPE_SOLID :          break;
-                ui->ColorLabel1->setText(QApplication::translate("DlgSlideProperties","Color :"));
-                break;
-            case BRUSHTYPE_GRADIENT3 :
-            case BRUSHTYPE_GRADIENT2 :
-                ui->IntermPosSlider->setValue(CurrentBrush->Intermediate*100);
-                ui->IntermPosED->setValue(CurrentBrush->Intermediate*100);
-                ui->ColorLabel1->setText(QApplication::translate("DlgSlideProperties","Colors :"));
-                break;
-            case BRUSHTYPE_IMAGELIBRARY :
-                // Ensure BrushImage is valide
-                if ((BackgroundList.SearchImage(CurrentBrush->BrushImage)==-1)&&(BackgroundList.List.count()>0)) CurrentBrush->BrushImage=BackgroundList.List[0].Name;
-                ui->BackgroundCombo->SetCurrentBackground(CurrentBrush->BrushImage);
-                break;
-            case BRUSHTYPE_IMAGEDISK :
-                cCustomGraphicsRectItem *RectItem=GetSelectItem();
-                // Adjust aspect ratio (if custom mode)
-                if ((RectItem)&&(!RectItem->KeepAspectRatio)) CurrentBrush->BrushFileCorrect.AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
-                ui->ImageGeometryCB->setCurrentIndex(CurrentBrush->BrushFileCorrect.ImageGeometry);
-                break;
-        }
+    if ((CurrentBrush!=NULL)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK)) {
+        cCustomGraphicsRectItem *RectItem=GetSelectItem();
+        // Adjust aspect ratio (if custom mode)
+        if ((RectItem)&&(!RectItem->KeepAspectRatio)) CurrentBrush->BrushFileCorrect.AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
+        ui->ImageGeometryCB->setCurrentIndex(CurrentBrush->BrushFileCorrect.ImageGeometry);
     }
 
     ui->RemoveBlock->setEnabled(CurrentTextItem!=NULL);
@@ -1067,112 +997,6 @@ void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
     }
 }
 
-//====================================================================================================================
-
-void DlgSlideProperties::s_ChangeBrushTypeCombo(int Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
-    CurrentBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_IntermPosSliderMoved(int Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
-    CurrentBrush->Intermediate=double(Value)/100;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_IntermPosED(int Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
-    CurrentBrush->Intermediate=double(Value)/100;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//====================================================================================================================
-// Handler for custom color/brush/pattern/gradient combo box index change
-//====================================================================================================================
-
-//========= Pattern shape combo
-void DlgSlideProperties::s_ChIndexPatternBrushCombo(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
-    CurrentBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//========= Gradient shape orientation
-void DlgSlideProperties::s_ChIndexGradientOrientationCombo(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
-    CurrentBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//========= Shape/Gradient shape first color
-void DlgSlideProperties::s_ChIndexGradientFirstColorCombo(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
-    CurrentBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//========= Gradient shape last color
-void DlgSlideProperties::s_ChIndexGradientFinalColorCombo(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
-    CurrentBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//========= Gradient shape intermediate color
-void DlgSlideProperties::s_ChIndexGradientIntermColorCombo(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
-    CurrentBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
-//========= Background image
-void DlgSlideProperties::s_ChIndexBackgroundCombo(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)||(!CurrentBrush)) return;
-    CurrentBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshControls();
-}
-
 //========= geometry of embeded image or video
 void DlgSlideProperties::s_ChangeImageGeometry(int value) {
     if (StopMAJSpinbox) return;
@@ -1250,11 +1074,19 @@ void DlgSlideProperties::s_ChangeImageGeometry(int value) {
 void DlgSlideProperties::TextEditor() {
     if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    if (DlgTextEdit(CurrentTextItem,this).exec()==0) {
+    cBrushDefinition    *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
+    DlgTextEdit         *Dlg=new DlgTextEdit(CurrentTextItem,CurrentBrush,this);
+    connect(Dlg,SIGNAL(RefreshDisplay()),this,SLOT(TextEditorRefreshDisplay()));
+    if (Dlg->exec()==0) {
         ApplyGlobalPropertiesToAllShots(CurrentTextItem);
         ui->BlockTable->item(ui->BlockTable->currentRow(),2)->setText(CurrentTextItem->Text);
         RefreshControls();
     }
+    delete Dlg;
+}
+
+void DlgSlideProperties::TextEditorRefreshDisplay() {
+    RefreshSceneImage();
 }
 
 //========= Open image correction editor
@@ -2011,5 +1843,86 @@ void DlgSlideProperties::s_PasteBlockBT() {
         NextZValue+=10;
 
         RefreshBlockTable(CompositionList->List.count()-1);
+    }
+}
+
+//====================================================================================================================
+// Handler for style sheet management
+//====================================================================================================================
+
+void DlgSlideProperties::s_CoordinateStyleBT() {
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
+
+    QString ActualStyle=
+            QString("###X:%1").arg(CurrentTextItem->x,0,'f',3)+
+            QString("###Y:%1").arg(CurrentTextItem->y,0,'f',3)+
+            QString("###W:%1").arg(CurrentTextItem->w,0,'f',3)+
+            QString("###H:%1").arg(CurrentTextItem->h,0,'f',3)+
+            QString("###RotateZAxis:%1").arg(CurrentTextItem->RotateZAxis,0,'f',3)+
+            QString("###RotateXAxis:%1").arg(CurrentTextItem->RotateXAxis,0,'f',3)+
+            QString("###RotateYAxis:%1").arg(CurrentTextItem->RotateYAxis,0,'f',3)+
+            QString("###ImageGeometry:%1").arg(CurrentTextItem->BackgroundBrush.BrushFileCorrect.ImageGeometry);
+
+
+    QString Item=GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.PopupCollectionMenu(this,ActualStyle);
+
+    ui->CoordinateStyleBT->setDown(false);
+    if (Item!="") {
+        QStringList List;
+        GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.StringToStringList(Item,List);
+        for (int i=0;i<List.count();i++) {
+            if      (List[i].startsWith("X:"))              CurrentTextItem->x          =List[i].mid(QString("X:").length()).toDouble();
+            else if (List[i].startsWith("Y:"))              CurrentTextItem->y          =List[i].mid(QString("Y:").length()).toDouble();
+            else if (List[i].startsWith("W:"))              CurrentTextItem->w          =List[i].mid(QString("W:").length()).toDouble();
+            else if (List[i].startsWith("H:"))              CurrentTextItem->h          =List[i].mid(QString("H:").length()).toDouble();
+            else if (List[i].startsWith("RotateZAxis:"))    CurrentTextItem->RotateZAxis=List[i].mid(QString("RotateZAxis:").length()).toDouble();
+            else if (List[i].startsWith("RotateXAxis:"))    CurrentTextItem->RotateXAxis=List[i].mid(QString("RotateXAxis:").length()).toDouble();
+            else if (List[i].startsWith("RotateYAxis:"))    CurrentTextItem->RotateYAxis=List[i].mid(QString("RotateYAxis:").length()).toDouble();
+            else if (List[i].startsWith("ImageGeometry:"))  {
+                int NewGeometry=List[i].mid(QString("ImageGeometry:").length()).toInt();
+                if (NewGeometry!=CurrentTextItem->BackgroundBrush.BrushFileCorrect.ImageGeometry) s_ChangeImageGeometry(NewGeometry);
+            }
+
+        }
+        int CurrentRow=ui->BlockTable->currentRow();
+        RefreshBlockTable(CurrentRow>0?CurrentRow-1:0);
+    }
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlockShapeStyleBT() {
+    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
+    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
+
+    QString ActualStyle=
+            QString("###BackgroundForm:%1").arg(CurrentTextItem->BackgroundForm)+
+            QString("###PenSize:%1").arg(CurrentTextItem->PenSize)+
+            QString("###PenStyle:%1").arg(CurrentTextItem->PenStyle)+
+            QString("###FormShadow:%1").arg(CurrentTextItem->FormShadow)+
+            QString("###FormShadowDistance:%1").arg(CurrentTextItem->FormShadowDistance)+
+            QString("###Opacity:%1").arg(CurrentTextItem->Opacity)+
+            "###PenColor:"+CurrentTextItem->PenColor+
+            "###FormShadowColor:"+CurrentTextItem->FormShadowColor;
+
+    QString Item=GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.PopupCollectionMenu(this,ActualStyle);
+
+    ui->BlockShapeStyleBT->setDown(false);
+    if (Item!="") {
+        QStringList List;
+        GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.StringToStringList(Item,List);
+        for (int i=0;i<List.count();i++) {
+            if      (List[i].startsWith("BackgroundForm:"))     CurrentTextItem->BackgroundForm     =List[i].mid(QString("BackgroundForm:").length()).toInt();
+            else if (List[i].startsWith("PenSize:"))            CurrentTextItem->PenSize            =List[i].mid(QString("PenSize:").length()).toInt();
+            else if (List[i].startsWith("PenStyle:"))           CurrentTextItem->PenStyle           =List[i].mid(QString("PenStyle:").length()).toInt();
+            else if (List[i].startsWith("FormShadow:"))         CurrentTextItem->FormShadow         =List[i].mid(QString("FormShadow:").length()).toInt();
+            else if (List[i].startsWith("FormShadowDistance:")) CurrentTextItem->FormShadowDistance =List[i].mid(QString("FormShadowDistance:").length()).toInt();
+            else if (List[i].startsWith("Opacity:"))            CurrentTextItem->Opacity            =List[i].mid(QString("Opacity:").length()).toInt();
+            else if (List[i].startsWith("PenColor:"))           CurrentTextItem->PenColor           =List[i].mid(QString("PenColor:").length());
+            else if (List[i].startsWith("FormShadowColor:"))    CurrentTextItem->FormShadowColor    =List[i].mid(QString("FormShadowColor:").length());
+        }
+        int CurrentRow=ui->BlockTable->currentRow();
+        RefreshBlockTable(CurrentRow>0?CurrentRow-1:0);
     }
 }

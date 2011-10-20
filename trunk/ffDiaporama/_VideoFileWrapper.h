@@ -24,9 +24,6 @@
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
-// Specific inclusions
-#include "_SoundDefinitions.h"
-
 //*********************************************************************************************************************************************
 // video file wrapper : encapsulate all stream type objects
 //*********************************************************************************************************************************************

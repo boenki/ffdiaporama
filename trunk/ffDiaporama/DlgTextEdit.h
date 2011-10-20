@@ -35,13 +35,14 @@ class DlgTextEdit : public QDialog {
 Q_OBJECT
 public:
     QDomDocument        *Undo;                      // Save object before modification for cancel button
-    cCompositionObject  *CurrentTextItem;           // Object to modify
+    cCompositionObject  *CurrentTextItem;           // Text to modify
+    cBrushDefinition    *CurrentBrush;              // Brush to modify
     bool                StopMAJSpinbox;
     bool                IsFirstInitDone;
     QWidget             *ParentWindow;
 
 
-    explicit DlgTextEdit(cCompositionObject *CurrentTextItem,QWidget *parent = 0);
+    explicit DlgTextEdit(cCompositionObject *CurrentTextItem,cBrushDefinition *CurrentBrush,QWidget *parent = 0);
     ~DlgTextEdit();
 
     void            RefreshControls();
@@ -73,6 +74,27 @@ private slots:
     void            s_plainTextEditChange();
     void            s_ChIndexFontColorCombo(int);
     void            s_ChIndexFontShadowColorCombo(int);
+
+    // Brush part
+    void            s_ChangeBrushTypeCombo(int);
+
+    // Intermediate position for gradient 3 colors
+    void            s_IntermPosSliderMoved(int);
+    void            s_IntermPosED(int);
+
+    // Handler for custom color/brush/pattern/gradient combo box index change
+    void            s_ChIndexPatternBrushCombo(int);
+    void            s_ChIndexGradientOrientationCombo(int);
+    void            s_ChIndexGradientFirstColorCombo(int);
+    void            s_ChIndexGradientFinalColorCombo(int);
+    void            s_ChIndexGradientIntermColorCombo(int);
+    void            s_ChIndexBackgroundCombo(int);
+
+    void            s_TextStyleBT();
+    void            s_BackgroundStyleBT();
+
+signals:
+    void     RefreshDisplay();
 
 private:
     Ui::DlgTextEdit *ui;

@@ -24,10 +24,6 @@
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
-// Specific inclusions
-#include "_ApplicationDefinitions.h"
-#include "_ImagesDefinitions.h"
-
 class cimagefilewrapper {
 public:
     bool                    IsValide;               // if true then object if fuly initialise

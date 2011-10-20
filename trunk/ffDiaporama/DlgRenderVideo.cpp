@@ -782,10 +782,9 @@ void DlgRenderVideo::accept() {
                         )) ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount());
 
                 ffmpegCommand=ffmpegCommand+" \""+Diaporama->OutputFileName+"\"";
+                qDebug()<<ffmpegCommand;
 
                 ffmpegCommand=AdjustDirForOS(ffmpegCommand);
-
-                qDebug()<<ffmpegCommand;
             }
         }
 

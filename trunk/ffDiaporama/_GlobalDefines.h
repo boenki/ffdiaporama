@@ -81,6 +81,7 @@ extern "C" {
 #include <QHeaderView>
 #include <QIcon>
 #include <QImage>
+#include <QInputDialog>
 #include <QLabel>
 #include <QList>
 #include <QListView>
@@ -135,7 +136,7 @@ extern "C" {
 }
 
 // FMT_FILTERS
-#include "fmt_filters.h"
+#include <fmt_filters.h>
 
 //============================================
 // Global defines
@@ -173,6 +174,11 @@ extern "C" {
 #define ICON_RULER_OFF                      "img/ruler_ko.png"
 #define ICON_GLOBALCONF                     "img/db.png"
 #define ICON_USERCONF                       "img/db_update.png"
+
+#define STYLENAME_TEXTSTYLE                 "TextStyleCollection"
+#define STYLENAME_BACKGROUNDSTYLE           "TextBackgroundStyleCollection"
+#define STYLENAME_COORDINATESTYLE           "StyleCoordinateCollection"
+#define STYLENAME_BLOCKSHAPESTYLE           "StyleBlockShapeCollection"
 
 // Project geometry definition
 #define GEOMETRY_4_3                        0
@@ -303,7 +309,7 @@ extern "C" {
 #define HELPFILE_DlgSlideProperties         "dlg_003"
 #define HELPFILE_DlgBackgroundProperties    "dlg_004"
 #define HELPFILE_DlgImageCorrection         "dlg_005"
-#define HELPFILE_DlgImageTransformation     "dlg_006"
+#define HELPFILE_DlgManageStyle             "dlg_006"
 #define HELPFILE_DlgMusicProperties         "dlg_007"
 #define HELPFILE_DlgRenderVideo             "dlg_008"
 #define HELPFILE_DlgTransitionProperties    "dlg_009"
@@ -433,7 +439,11 @@ extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];              // Real definiti
 //============================================
 // Basic class from this project
 //============================================
+#include "_StyleDefinitions.h"
+#include "_SoundDefinitions.h"
+#include "_ImagesDefinitions.h"
 #include "_ImageFileWrapper.h"
 #include "_VideoFileWrapper.h"
+#include "_ApplicationDefinitions.h"
 
 #endif // GLOBALDEFINES_H

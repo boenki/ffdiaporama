@@ -98,6 +98,7 @@ private slots:
 
     // Buttons associated to a Dialog box
     void            TextEditor();
+    void            TextEditorRefreshDisplay();
     void            ImageEditCorrect();
     void            VideoEdit();
     void            GetSound();
@@ -136,23 +137,12 @@ private slots:
     void            s_ChgRotateXValue(int);
     void            s_ChgRotateYValue(int);
 
-    // Brush part
-    void            s_ChangeBrushTypeCombo(int);
-
-    // Intermediate position for gradient 3 colors
-    void            s_IntermPosSliderMoved(int);
-    void            s_IntermPosED(int);
-
-    // Handler for custom color/brush/pattern/gradient combo box index change
-    void            s_ChIndexPatternBrushCombo(int);
-    void            s_ChIndexGradientOrientationCombo(int);
-    void            s_ChIndexGradientFirstColorCombo(int);
-    void            s_ChIndexGradientFinalColorCombo(int);
-    void            s_ChIndexGradientIntermColorCombo(int);
-    void            s_ChIndexBackgroundCombo(int);
-
     // Image part
     void            s_ChangeImageGeometry(int);
+
+    // Style buttons
+    void            s_CoordinateStyleBT();
+    void            s_BlockShapeStyleBT();
 
 private:
     void            Clean();
