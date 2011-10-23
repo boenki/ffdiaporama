@@ -461,7 +461,6 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
     QImage          *RetImage           =NULL;
     AVStream        *VideoStream        =ffmpegVideoFile->streams[VideoStreamNumber];
     AVPacket        *StreamPacket       =NULL;
-    double          EndPosition         =dPosition;
 
     // Cac difftime between asked position and previous end decoded position
     double DiffTimePosition=dPosition-NextVideoPacketPosition;
@@ -495,7 +494,6 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
     bool    IsVideoFind     =false;
     double  FrameTimeBase   =0;
     double  FramePosition   =0;
-    double  FrameDuration   =0;
 
     while (Continue) {
         StreamPacket=new AVPacket();
@@ -509,8 +507,6 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
                 if (!CodecUsePTS) FramePosition=double((StreamPacket->pts!=AVNOPTSVALUE)?StreamPacket->pts:0)*FrameTimeBase;   // pts instead of dts
                     else          FramePosition=double((StreamPacket->dts!=AVNOPTSVALUE)?StreamPacket->dts:0)*FrameTimeBase;   // dts instead of pts
 
-                FrameDuration           =double(StreamPacket->duration)*FrameTimeBase;;
-                EndPosition             =FramePosition+FrameDuration;
                 NextVideoPacketPosition =FramePosition;  // Keep NextPacketPosition for determine next time if we need to seek
 
                 if (((StreamPacket->flags & AV_PKT_FLAG_KEY)>0)) KeyFrame=true;

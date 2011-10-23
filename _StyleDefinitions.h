@@ -52,18 +52,22 @@ class cStyleCollection {
 public:
     QString                     CollectionName;                 // Collection name
     QList<cStyleCollectionItem> Collection;                     // Collection items
+    bool                        GeometryFilter;                 // True if GeometryFilter is ON
+    QString                     ActiveFilter;
 
     cStyleCollection();
     ~cStyleCollection();
 
     void    SaveToXML(QDomDocument &domDocument,QDomElement &root);
     void    LoadFromXML(QDomDocument &domDocument,QDomElement root,int TypeConfigFile);
+    void    SetActiveFilter(int Geometry);
 
     QString PopupCollectionMenu(QWidget *ParentWindow,QString ActualStyleDef);
     void    UpdateExistingStyle(QString StyleName,QString ActualStyleDef);
     void    CreateNewStyle(QWidget *ParentWindow,QString ActualStyleDef);
     void    ManageExistingStyle(QWidget *ParentWindow);
     void    StringToStringList(QString String,QStringList &List);
+
 };
 
 #endif // _STYLEDEFINITIONS_H

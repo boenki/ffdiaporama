@@ -30,9 +30,11 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     VideoPosition   =TheVideoPosition;
     UndoReloadImage =false;
 
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
-        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-    #endif
+#if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+    setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+#else
+    setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
+#endif
 
     if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
         else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);

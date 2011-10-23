@@ -40,9 +40,11 @@ DlgManageStyle::DlgManageStyle(cStyleCollection *TheCollection,QWidget *parent):
     ui->setupUi(this);
     TheCollection=Collection;
 
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
-        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-    #endif
+#if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+    setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+#else
+    setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
+#endif
 
     // Define handler
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));

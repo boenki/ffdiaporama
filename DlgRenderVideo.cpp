@@ -31,9 +31,11 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     IsDestFileOpen      =false;
     StopSpinboxRecursion=false;
 
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
-        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-    #endif
+#if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+    setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+#else
+    setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
+#endif
 
     switch (ExportMode) {
         case EXPORTMODE_ADVANCED     :  setWindowTitle(QApplication::translate("DlgRenderVideo","Advanced render video"));                          break;
@@ -555,7 +557,7 @@ void DlgRenderVideo::accept() {
             // Video codec
             VideoCodecIndex=ui->VideoFormatCB->currentIndex();
             if (VideoCodecIndex<0) {
-                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Video codec error !");
+                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Video codec error!");
                 done(0);
                 return;
             }
@@ -567,7 +569,7 @@ void DlgRenderVideo::accept() {
             // Audio codec
             AudioCodecIndex=ui->AudioFormatCB->currentIndex();
             if (AudioCodecIndex<0) {
-                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec error !");
+                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec error!");
                 done(0);
                 return;
             }
@@ -843,7 +845,7 @@ void DlgRenderVideo::accept() {
                 Diaporama->LoadSources(Frame,double(H)/double(1080),W,H,false,true);                                     // Load source images
                 Diaporama->DoAssembly(Frame,W,H);                                            // Make final assembly
 
-                // Give time to interface !
+                // Give time to interface!
                 QApplication::processEvents();
 
                 // Save image to the pipe
@@ -858,7 +860,7 @@ void DlgRenderVideo::accept() {
                         QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","ffmpeg error","Error message"),QMessageBox::Close);
                         Continue=false;
                     }
-                    // Give time to interface !
+                    // Give time to interface!
                     QApplication::processEvents();
                     // Stop the process if error occur or user ask to stop
                     Continue=Continue && !StopProcessWanted;;
@@ -905,7 +907,7 @@ void DlgRenderVideo::accept() {
         Diaporama->FreeUnusedMemory(-1);
 
         // Inform user of success
-        if (Continue) QMessageBox::information(this,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed succesfully !"));
+        if (Continue) QMessageBox::information(this,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed succesfully!"));
 
         // Save Window size and position
         Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);
@@ -923,7 +925,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     bool                    Continue            =true;      // true if no error occur
     cDiaporamaObjectInfo    *PreviousFrame      =NULL;
     cDiaporamaObjectInfo    *Frame              =NULL;
-    AVOutputFormat          *Fmt                =NULL;      // No delete needed !
+    AVOutputFormat          *Fmt                =NULL;      // No delete needed!
     AVFormatContext         *OutputFormatContext=NULL;
     AVStream                *AudioStream        =NULL;
     AVCodecContext          *AudioCodecContext  =NULL;
@@ -942,7 +944,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     // Get the container format
     Fmt=av_guess_format(NULL,TempWAVFileName.toUtf8(),NULL);
     if (Fmt==NULL) {
-        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary wav file !");
+        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary wav file!");
         Continue=false;
     } else Fmt->audio_codec=CODEC_ID_PCM_S16LE;
 
@@ -951,7 +953,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
         OutputFormatContext = avformat_alloc_context();
         if (!OutputFormatContext) {
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : Unable to allocate OutputFormatContext !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : Unable to allocate OutputFormatContext!");
             Continue=false;
         } else {
             memcpy(OutputFormatContext->filename,TempWAVFileName.toUtf8(),strlen(TempWAVFileName.toUtf8())+1);
@@ -963,7 +965,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             // set the output parameters
             if (av_set_parameters(OutputFormatContext,&fpOutFile)<0) {
                 av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Invalid output format parameters !");
+                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Invalid output format parameters!");
                 Continue=false;
             }
         }
@@ -973,7 +975,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     if (Continue) {
         AudioStream=av_new_stream(OutputFormatContext,0);
         if (AudioStream==NULL) {
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream!");
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
             Continue=false;
         }
@@ -985,7 +987,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
         avcodec_get_context_defaults2(AudioCodecContext,AVMEDIA_TYPE_AUDIO);  // Fill stream with default values
         AudioCodec=avcodec_find_encoder(CODEC_ID_PCM_S16LE);                // Open Audio encoder
         if (!AudioCodec) {
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found!");
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
             Continue=false;
         } else {
@@ -1007,7 +1009,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
             // open the codec
             if (avcodec_open(AudioCodecContext,AudioCodec)<0) {
-                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"could not open audio codec !");
+                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"could not open audio codec!");
                 av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
                 Continue=false;
             } else {
@@ -1032,7 +1034,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             if (url_fopen(&OutputFormatContext->pb,TempWAVFileName.toUtf8(),URL_WRONLY)<0) {
         #endif
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary audio file !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary audio file!");
             Continue=false;
         }
     }
@@ -1041,7 +1043,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     if (Continue) {
         audio_outbuf=(uint8_t *)av_malloc(FF_MIN_BUFFER_SIZE);
         if (audio_outbuf==NULL) {
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio buffer !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio buffer!");
             Continue=false;
         }
     }
@@ -1049,7 +1051,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     // write the header
     if ((Continue)&&(av_write_header(OutputFormatContext)!=0)) {
         av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file !");
+        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file!");
         Continue=false;
     }
 
@@ -1100,10 +1102,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 Frame->TransitObject_SoundTrackMontage->SetFPS(25/*Diaporama->VideoFrameRate*/);        // Pour la generation du sond, force en PAL pour eviter les problèmes d'arrondi
             }
 
-            // Prepare frame with W and H =0 to force SoundMusicOnly ! (thread mode is not necessary here)
+            // Prepare frame with W and H =0 to force SoundMusicOnly! (thread mode is not necessary here)
             Diaporama->LoadSources(Frame,0,0,0,false,true);
 
-            // Give time to interface !
+            // Give time to interface!
             QApplication::processEvents();
 
             // Calc number of packet to mix
@@ -1151,11 +1153,11 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                         // write the compressed frame in the media file
                         if (av_interleaved_write_frame(OutputFormatContext,&pkt)!=0) {
                             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-                            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame !");
+                            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
                             Continue=false;
                         }
                     } else if (out_size<0) {
-                        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound !");
+                        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
                         Continue=false;
                     }
                     av_free(PacketSound);
@@ -1164,7 +1166,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 av_free(Packet);
 
             }
-            QApplication::processEvents();  // Give time to interface !
+            QApplication::processEvents();  // Give time to interface!
 
             // Calculate next position
             Position     +=(FPS/1000);
@@ -1179,7 +1181,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
         // Write de trailer
         if ((Continue)&&(av_write_trailer(OutputFormatContext)!=0)) {
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the trailer of the temporary audio file !");
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the trailer of the temporary audio file!");
             Continue=false;
         }
     }

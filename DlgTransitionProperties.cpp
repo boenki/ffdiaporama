@@ -50,9 +50,12 @@ DlgTransitionProperties::DlgTransitionProperties(cDiaporamaObject *DiaporamaObje
     this->DiaporamaObject       =DiaporamaObject;
     this->IsBackgroundTransition=IsBackgroundTransition;
 
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
-        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-    #endif
+#if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+    setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+#else
+    setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
+#endif
+
 
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);

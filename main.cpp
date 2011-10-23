@@ -22,19 +22,22 @@
 #include <QTranslator>
 
 int main(int argc, char *argv[]) {
-    // Initialise configuration options
-    cApplicationConfig *ApplicationConfig=new cApplicationConfig();
-    ApplicationConfig->ParentWindow=NULL;
-    ApplicationConfig->InitConfigurationValues();                                                               // Init all values
-    ApplicationConfig->LoadConfigurationFile(GLOBALCONFIGFILE);                                                 // Get values from global configuration file (overwrite previously initialized values)
-    if (!ApplicationConfig->LoadConfigurationFile(USERCONFIGFILE)) ApplicationConfig->SaveConfigurationFile();  // Load values from user configuration file (overwrite previously initialized values)
-
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        if (ApplicationConfig->RasterMode) QApplication::setGraphicsSystem("raster");
+    QString CurrentPath=QDir::currentPath();
+    AddToSystemProperties(QString(STARTINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
+    // Ensure correct path
+    #if defined(Q_OS_WIN)
+    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
+    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString(APPLICATION_NAME));
     #endif
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
+    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("/usr/share/")+QString(APPLICATION_NAME));
+    #endif
+    AddToSystemProperties(QString(WORKINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
+    CurrentPath=QDir::currentPath();
+    if (!CurrentPath.endsWith(QDir::separator())) CurrentPath=CurrentPath+QDir::separator();
 
     QApplication app(argc, argv);
-
     app.setApplicationName(QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION));
 
     // Search system language
@@ -68,6 +71,17 @@ int main(int argc, char *argv[]) {
     }
     AddSeparatorToSystemProperties();
     Transparent.setTextureImage(QImage("img/transparent.png"));  // Load transparent brush
+
+    // Initialise configuration options
+    cApplicationConfig *ApplicationConfig=new cApplicationConfig();
+    ApplicationConfig->ParentWindow=NULL;
+    ApplicationConfig->InitConfigurationValues();                                                               // Init all values
+    ApplicationConfig->LoadConfigurationFile(GLOBALCONFIGFILE);                                                 // Get values from global configuration file (overwrite previously initialized values)
+    if (!ApplicationConfig->LoadConfigurationFile(USERCONFIGFILE)) ApplicationConfig->SaveConfigurationFile();  // Load values from user configuration file (overwrite previously initialized values)
+
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+        if (ApplicationConfig->RasterMode) QApplication::setGraphicsSystem("raster");
+    #endif
 
     MainWindow w(ApplicationConfig);
 
