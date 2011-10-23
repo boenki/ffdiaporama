@@ -30,7 +30,7 @@
     <number>4</number>
    </property>
    <property name="margin">
-    <number>4</number>
+    <number>8</number>
    </property>
    <item>
     <layout class="QGridLayout" name="gridLayout">
@@ -236,8 +236,8 @@ This General Public License does not permit incorporating your program into prop
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>485</width>
-                <height>488</height>
+                <width>493</width>
+                <height>537</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_2">

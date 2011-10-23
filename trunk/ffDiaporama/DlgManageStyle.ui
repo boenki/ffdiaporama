@@ -17,17 +17,17 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Manage style</string>
+   <string comment="Dialog title">Manage style</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>4</number>
    </property>
    <property name="margin">
-    <number>4</number>
+    <number>8</number>
    </property>
    <item>
-    <widget class="QTableWidget" name="TableDevice">
+    <widget class="QTableWidget" name="TableStyle">
      <property name="font">
       <font>
        <pointsize>9</pointsize>
@@ -110,10 +110,10 @@
      <item>
       <widget class="QPushButton" name="DBAddDevice">
        <property name="toolTip">
-        <string>Create a new equipment which comes to be added in the database.</string>
+        <string>Rename style</string>
        </property>
        <property name="text">
-        <string>Rename style</string>
+        <string>Rename</string>
        </property>
        <property name="icon">
         <iconset>
@@ -124,10 +124,10 @@
      <item>
       <widget class="QPushButton" name="DBRemoveBT">
        <property name="toolTip">
-        <string>Delete current equipment.</string>
+        <string>Remove style</string>
        </property>
        <property name="text">
-        <string>Remove style</string>
+        <string>Remove</string>
        </property>
        <property name="icon">
         <iconset>
@@ -138,10 +138,10 @@
      <item>
       <widget class="QPushButton" name="DBResetBT">
        <property name="toolTip">
-        <string>Cancel the modifications that you made on an equipment defined in the default ffDiaporama database</string>
+        <string>Cancel the modifications that you made on a standard style</string>
        </property>
        <property name="text">
-        <string>Reset style to default</string>
+        <string>Reset to default</string>
        </property>
        <property name="icon">
         <iconset>

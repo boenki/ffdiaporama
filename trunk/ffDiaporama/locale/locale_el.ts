@@ -660,7 +660,7 @@ Crossfade transition</source>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1800"/>
-        <location filename="../DlgApplicationSettings.cpp" line="307"/>
+        <location filename="../DlgApplicationSettings.cpp" line="309"/>
         <source>Apply modification</source>
         <translation>Εφαρμογή των αλλαγών</translation>
     </message>
@@ -700,12 +700,12 @@ Crossfade transition</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.cpp" line="308"/>
+        <location filename="../DlgApplicationSettings.cpp" line="310"/>
         <source>Do you whant to apply modification for this device?</source>
         <translation>Επιθυμείτε την εφαρμογή των αλλαγών για την συσκευή αυτή;</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.cpp" line="880"/>
+        <location filename="../DlgApplicationSettings.cpp" line="876"/>
         <source>&lt;new device&gt;</source>
         <translation>&lt;νέα συσκευή&gt;</translation>
     </message>
@@ -793,32 +793,32 @@ Crossfade transition</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.cpp" line="46"/>
+        <location filename="../DlgBackgroundProperties.cpp" line="48"/>
         <source>Solid brush</source>
         <translation>Συμπαγές πινέλο</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.cpp" line="48"/>
+        <location filename="../DlgBackgroundProperties.cpp" line="50"/>
         <source>Gradient 2 colors</source>
         <translation>Διαβάθμιση 2 χρωμάτων</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.cpp" line="50"/>
+        <location filename="../DlgBackgroundProperties.cpp" line="52"/>
         <source>Gradient 3 colors</source>
         <translation>Διαβάθμιση 3 χρωμάτων</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.cpp" line="52"/>
+        <location filename="../DlgBackgroundProperties.cpp" line="54"/>
         <source>Image from library</source>
         <translation>Εικόνα από βιβλιοθήκη</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.cpp" line="54"/>
+        <location filename="../DlgBackgroundProperties.cpp" line="56"/>
         <source>Image from disk</source>
         <translation>Εικόνα από τον δίσκο</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.cpp" line="281"/>
+        <location filename="../DlgBackgroundProperties.cpp" line="283"/>
         <source>Select a file</source>
         <translation>Επιλέξτε ένα αρχείο</translation>
     </message>
@@ -1008,43 +1008,44 @@ Crossfade transition</source>
 <context>
     <name>DlgManageStyle</name>
     <message>
-        <location filename="../DlgManageStyle.ui" line="20"/>
-        <source>Manage style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../DlgManageStyle.ui" line="88"/>
         <source>Style name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="113"/>
-        <source>Create a new equipment which comes to be added in the database.</source>
-        <translation type="unfinished">Δημιουργία ενός νέου εξοπλισμού ο οποίος θα προστεθεί στην βάση δεδομένων.</translation>
-    </message>
-    <message>
-        <location filename="../DlgManageStyle.ui" line="116"/>
         <source>Rename style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="127"/>
-        <source>Delete current equipment.</source>
-        <translation type="unfinished">Διαγραφή του τρέχοντος εξοπλισμού.</translation>
-    </message>
-    <message>
-        <location filename="../DlgManageStyle.ui" line="130"/>
         <source>Remove style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../DlgManageStyle.ui" line="20"/>
+        <source>Manage style</source>
+        <comment>Dialog title</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgManageStyle.ui" line="116"/>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgManageStyle.ui" line="130"/>
+        <source>Remove</source>
+        <translation type="unfinished">Αφαίρεση</translation>
+    </message>
+    <message>
         <location filename="../DlgManageStyle.ui" line="141"/>
-        <source>Cancel the modifications that you made on an equipment defined in the default ffDiaporama database</source>
-        <translation type="unfinished">Ακυρώνει τις τροποποιήσεις που έχετε πραγματοποιήσει σε έναν εξοπλισμό που έχει καθοριστεί στην προκαθορισμένη βάση δεδομένων του ffDiaporama</translation>
+        <source>Cancel the modifications that you made on a standard style</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="144"/>
-        <source>Reset style to default</source>
+        <source>Reset to default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1083,35 +1084,180 @@ Crossfade transition</source>
         <translation type="unfinished">F1</translation>
     </message>
     <message>
+        <location filename="../_StyleDefinitions.cpp" line="128"/>
+        <source>Big black text with white outlines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="129"/>
+        <source>Big light yellow text with dark brown shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="130"/>
+        <source>Medium black text with white outlines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="131"/>
+        <source>Medium light yellow text with dark brown shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="132"/>
+        <source>Small white text with black outlines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="133"/>
+        <source>Centered Blue Gradient</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="134"/>
+        <source>Centered Brown Gradient</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="135"/>
+        <source>Centered Dark-Gray Gradient</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="136"/>
+        <source>Centered Green Gradient</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="137"/>
+        <source>Centered Light-Gray Gradient</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../_StyleDefinitions.cpp" line="138"/>
-        <location filename="../_StyleDefinitions.cpp" line="184"/>
-        <location filename="../_StyleDefinitions.cpp" line="189"/>
-        <source>Create new style</source>
+        <source>Centered Red Gradient</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="139"/>
-        <source>Manage existing style</source>
+        <source>Transparent block (no brush)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="140"/>
-        <source>Update existing style</source>
+        <source>16:9-Centered 10x15 Landscape Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="141"/>
+        <source>16:9-Centered 10x15 Portrait Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="142"/>
+        <source>16:9-Centered 4:3 Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="143"/>
+        <source>16:9-Centered Cinema Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="144"/>
+        <source>16:9-Full Screen block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="145"/>
-        <location filename="../_StyleDefinitions.cpp" line="158"/>
+        <source>2.35:1-Centered 10x15 Landscape Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="146"/>
+        <source>2.35:1-Centered 10x15 Portrait Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="147"/>
+        <source>2.35:1-Centered 16:9 Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="148"/>
+        <source>2.35:1-Centered 4:3 Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="149"/>
+        <source>2.35:1-Full Screen block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="150"/>
+        <source>4:3-Centered 10x15 Landscape Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="151"/>
+        <source>4:3-Centered 10x15 Portrait Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="152"/>
+        <source>4:3-Centered 16:9 Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="153"/>
+        <source>4:3-Centered Cinema Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="154"/>
+        <source>4:3-Full Screen block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="155"/>
+        <source>Rounded rectangle with small brown border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="156"/>
+        <source>Rectangle with no effect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="185"/>
+        <location filename="../_StyleDefinitions.cpp" line="239"/>
+        <location filename="../_StyleDefinitions.cpp" line="244"/>
+        <source>Create new style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="186"/>
+        <source>Manage existing style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="187"/>
+        <source>Update existing style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="196"/>
+        <location filename="../_StyleDefinitions.cpp" line="210"/>
         <source>Update style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="184"/>
+        <location filename="../_StyleDefinitions.cpp" line="239"/>
         <source>Style name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="190"/>
+        <location filename="../_StyleDefinitions.cpp" line="245"/>
         <source>A style with this name already exist.
 Do you want to overwrite-it ?</source>
         <translation type="unfinished"></translation>
@@ -1277,18 +1423,18 @@ Move the current selected file of a notch downward.</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../DlgMusicProperties.cpp" line="223"/>
+        <location filename="../DlgMusicProperties.cpp" line="225"/>
         <source>Add music files</source>
         <translation>Προσθήκη αρχείων μουσικής</translation>
     </message>
     <message>
-        <location filename="../DlgMusicProperties.cpp" line="255"/>
+        <location filename="../DlgMusicProperties.cpp" line="257"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Σφάλμα</translation>
     </message>
     <message>
-        <location filename="../DlgMusicProperties.cpp" line="256"/>
+        <location filename="../DlgMusicProperties.cpp" line="258"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Μη υποστηριζόμενη μορφή</translation>
@@ -1529,195 +1675,195 @@ Move the current selected file of a notch downward.</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="39"/>
+        <location filename="../DlgRenderVideo.cpp" line="41"/>
         <source>Advanced render video</source>
         <translation>Δημιουργία του βίντεο (Προχωρημένη)</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="40"/>
+        <location filename="../DlgRenderVideo.cpp" line="42"/>
         <source>Render video for mobil player and smartphone</source>
         <translation>Δημιουργία βίντεο για smartphone και φορητούς αναπαραγωγείς</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="41"/>
+        <location filename="../DlgRenderVideo.cpp" line="43"/>
         <source>Render video for multimedia system</source>
         <translation>Δημιουργία βίντεο για συστήματα πολυμέσων</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="42"/>
+        <location filename="../DlgRenderVideo.cpp" line="44"/>
         <source>Render video for the WEB</source>
         <translation>Δημιουργία βίντεο για το διαδίκτυο</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="518"/>
+        <location filename="../DlgRenderVideo.cpp" line="520"/>
         <source>Overwrite file ?</source>
         <translation>Αντικατάσταση του αρχείου;</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="519"/>
+        <location filename="../DlgRenderVideo.cpp" line="521"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
         <translation>Το αρχείο που επιλέξατε υπάρχει ήδη.
 Επιθυμείτε την αντικατάστασή του;</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="558"/>
-        <location filename="../DlgRenderVideo.cpp" line="570"/>
-        <location filename="../DlgRenderVideo.cpp" line="724"/>
-        <location filename="../DlgRenderVideo.cpp" line="743"/>
-        <location filename="../DlgRenderVideo.cpp" line="908"/>
-        <location filename="../DlgRenderVideo.cpp" line="945"/>
-        <location filename="../DlgRenderVideo.cpp" line="954"/>
-        <location filename="../DlgRenderVideo.cpp" line="966"/>
-        <location filename="../DlgRenderVideo.cpp" line="976"/>
-        <location filename="../DlgRenderVideo.cpp" line="988"/>
-        <location filename="../DlgRenderVideo.cpp" line="1010"/>
-        <location filename="../DlgRenderVideo.cpp" line="1035"/>
-        <location filename="../DlgRenderVideo.cpp" line="1044"/>
-        <location filename="../DlgRenderVideo.cpp" line="1052"/>
-        <location filename="../DlgRenderVideo.cpp" line="1154"/>
-        <location filename="../DlgRenderVideo.cpp" line="1158"/>
-        <location filename="../DlgRenderVideo.cpp" line="1182"/>
+        <location filename="../DlgRenderVideo.cpp" line="560"/>
+        <location filename="../DlgRenderVideo.cpp" line="572"/>
+        <location filename="../DlgRenderVideo.cpp" line="726"/>
+        <location filename="../DlgRenderVideo.cpp" line="745"/>
+        <location filename="../DlgRenderVideo.cpp" line="910"/>
+        <location filename="../DlgRenderVideo.cpp" line="947"/>
+        <location filename="../DlgRenderVideo.cpp" line="956"/>
+        <location filename="../DlgRenderVideo.cpp" line="968"/>
+        <location filename="../DlgRenderVideo.cpp" line="978"/>
+        <location filename="../DlgRenderVideo.cpp" line="990"/>
+        <location filename="../DlgRenderVideo.cpp" line="1012"/>
+        <location filename="../DlgRenderVideo.cpp" line="1037"/>
+        <location filename="../DlgRenderVideo.cpp" line="1046"/>
+        <location filename="../DlgRenderVideo.cpp" line="1054"/>
+        <location filename="../DlgRenderVideo.cpp" line="1156"/>
+        <location filename="../DlgRenderVideo.cpp" line="1160"/>
+        <location filename="../DlgRenderVideo.cpp" line="1184"/>
         <source>Render video</source>
         <translation>Δημιουργία του βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="797"/>
-        <location filename="../DlgRenderVideo.cpp" line="851"/>
-        <location filename="../DlgRenderVideo.cpp" line="858"/>
-        <location filename="../DlgRenderVideo.cpp" line="893"/>
-        <location filename="../DlgRenderVideo.cpp" line="897"/>
+        <location filename="../DlgRenderVideo.cpp" line="799"/>
+        <location filename="../DlgRenderVideo.cpp" line="853"/>
+        <location filename="../DlgRenderVideo.cpp" line="860"/>
+        <location filename="../DlgRenderVideo.cpp" line="895"/>
+        <location filename="../DlgRenderVideo.cpp" line="899"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Σφάλμα</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="798"/>
+        <location filename="../DlgRenderVideo.cpp" line="800"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Σφάλμα εκκίνησης του ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="828"/>
+        <location filename="../DlgRenderVideo.cpp" line="830"/>
         <source> - Estimated time left : </source>
         <translation> - Εκτίμηση εναπομένοντος χρόνου: </translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="851"/>
+        <location filename="../DlgRenderVideo.cpp" line="853"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την αποστολή της εικόνας στο ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="858"/>
+        <location filename="../DlgRenderVideo.cpp" line="860"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation>Σφάλμα ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="893"/>
+        <location filename="../DlgRenderVideo.cpp" line="895"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την διεργασία του ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="897"/>
+        <location filename="../DlgRenderVideo.cpp" line="899"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την έξοδο του ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="908"/>
-        <source>Job completed succesfully !</source>
-        <translation>Η εργασία ολοκληρώθηκε με επιτυχία !</translation>
+        <location filename="../DlgRenderVideo.cpp" line="910"/>
+        <source>Job completed succesfully!</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="686"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="671"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
         <translation>Προχωρημένος</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="687"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="691"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="672"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="676"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
         <translation>Smartphone</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="688"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="673"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
         <translation>Σύστημα πολυμέσων</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="689"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="674"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
         <translation>Για το διαδίκτυο</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="692"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="677"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
         <translation>Φορητός αναπαραγωγέας</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="693"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="678"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
         <translation>Netbook/NetPC</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="694"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="679"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
         <translation>Φορητή κονσόλα παιχνιδιών</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="695"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="680"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
         <translation>Ταμπλέτα επαφής</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="696"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="681"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
         <translation>Πύλη και σκληρός δίσκος πολυμέσων</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="697"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="682"/>
         <source>Player</source>
         <comment>Device database type</comment>
         <translation>Αναπαραγωγέας</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="698"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="683"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
         <translation>ADSL δρομολογητής</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="699"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="684"/>
         <source>Game console</source>
         <comment>Device database type</comment>
         <translation>Κονσόλα παιχνιδιών</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="700"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="685"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
         <translation>SWF Αναπαραγωγέας Flash</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="701"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="686"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
         <translation>Ιστοσελίδες κοινόχρηστων βίντεο και κοινωνικών δικτύων</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="702"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="687"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>
@@ -1841,448 +1987,448 @@ Do you want to overwrite it ?</source>
         <translation>Ins</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="889"/>
+        <location filename="../DlgSlideProperties.ui" line="895"/>
         <source>Remove the current block</source>
         <translation>Αφαίρεση του τρέχοντος τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="899"/>
+        <location filename="../DlgSlideProperties.ui" line="905"/>
         <source>Del</source>
         <translation>Del</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="921"/>
+        <location filename="../DlgSlideProperties.ui" line="933"/>
         <source>Copy the current block to the ffDiaporama clipboard.</source>
         <translation>Αντιγραφή του τρέχοντος τμήματος στο πρόχειρο του ffDiaporama.</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="931"/>
+        <location filename="../DlgSlideProperties.ui" line="943"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="953"/>
+        <location filename="../DlgSlideProperties.ui" line="971"/>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide</source>
         <translation>Αντιγραφή του τρέχοντος τμήματος στο πρόχειρο του ffDiaporama και αφαίρεσή του από την διαφάνεια</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="963"/>
+        <location filename="../DlgSlideProperties.ui" line="981"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="985"/>
+        <location filename="../DlgSlideProperties.ui" line="1009"/>
         <source>Paste block from the ffDiaporama clipboard and insert it.</source>
         <translation>Επικόλληση και εισαγωγή του τμήματος από το πρόχειρο του ffDiaporama.</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="995"/>
+        <location filename="../DlgSlideProperties.ui" line="1019"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1024"/>
+        <location filename="../DlgSlideProperties.ui" line="1054"/>
         <source>Make visible or hidden the active block</source>
         <translation>Κάνει το τρέχον τμήμα ορατό ή κρυφό</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1053"/>
+        <location filename="../DlgSlideProperties.ui" line="1089"/>
         <source>Give the sound, during this shot, to the current video block</source>
         <translation>Δίνει τον ήχο, κατά την διάρκεια αυτού του στιγμιότυπου, στο τρέχον τμήμα βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1089"/>
+        <location filename="../DlgSlideProperties.ui" line="1131"/>
         <source>Define the properties of the text block</source>
         <translation>Καθορίζει τις ιδιότητες του τμήματος κειμένου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1099"/>
+        <location filename="../DlgSlideProperties.ui" line="1141"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1121"/>
+        <location filename="../DlgSlideProperties.ui" line="1169"/>
         <source>Define framing and do correction of image or movie</source>
         <translation>Καθορίζει την πλαισίωση και διορθώνει την εικόνα ή την ταινία</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1131"/>
+        <location filename="../DlgSlideProperties.ui" line="1179"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1153"/>
+        <location filename="../DlgSlideProperties.ui" line="1207"/>
         <source>Cut the video</source>
         <translation>Αποκοπή του βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1163"/>
+        <location filename="../DlgSlideProperties.ui" line="1217"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1198"/>
+        <location filename="../DlgSlideProperties.ui" line="1252"/>
         <source>Block/Object</source>
         <translation>Τμήμα/Αντικείμενο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1261"/>
+        <location filename="../DlgSlideProperties.ui" line="1315"/>
         <source>Border :</source>
         <translation>Περίγραμμα:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1277"/>
+        <location filename="../DlgSlideProperties.ui" line="1331"/>
         <source>Shape :</source>
         <translation>Σχήμα:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1305"/>
+        <location filename="../DlgSlideProperties.ui" line="1359"/>
         <source>Select a shape for current block</source>
         <translation>Επιλέξτε ένα σχήμα για το τρέχον τμήμα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1321"/>
+        <location filename="../DlgSlideProperties.ui" line="1375"/>
         <source>Opacity :</source>
         <translation>Αδιαφάνεια:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1349"/>
+        <location filename="../DlgSlideProperties.ui" line="1403"/>
         <source>Defined the opaqueness of the block.</source>
         <translation>Καθορίζει την αδιαφάνεια του τμήματος.</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1381"/>
+        <location filename="../DlgSlideProperties.ui" line="1435"/>
         <source>Defined the thickness of the border</source>
         <translation>Καθορίζει το πάχος του περιγράμματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1409"/>
+        <location filename="../DlgSlideProperties.ui" line="1463"/>
         <source>Defined the color of the line to be used to draw the border</source>
         <translation>Καθορίζει το χρώμα της γραμμής που θα χρησιμοποιηθεί για την σχεδίαση του περιγράμματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1440"/>
+        <location filename="../DlgSlideProperties.ui" line="1494"/>
         <source>Defined the type of line (solid, dotted line, etc.)</source>
         <translation>Καθορίζει τον τύπο της γραμμής (συμπαγές, γραμμή με κουκκίδες, κλπ)</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1494"/>
-        <location filename="../DlgSlideProperties.ui" line="1533"/>
+        <location filename="../DlgSlideProperties.ui" line="1548"/>
+        <location filename="../DlgSlideProperties.ui" line="1587"/>
         <source>Define rotation according to the X axis (defined in degree).</source>
         <translation>Καθορίζει την περιστροφή σύμφωνα με τον άξονα X (σε μοίρες).</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1577"/>
-        <location filename="../DlgSlideProperties.ui" line="1616"/>
+        <location filename="../DlgSlideProperties.ui" line="1631"/>
+        <location filename="../DlgSlideProperties.ui" line="1670"/>
         <source>Define rotation according to the Y axis (defined in degree).</source>
         <translation>Καθορίζει την περιστροφή σύμφωνα με τον άξονα Y (σε μοίρες).</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1660"/>
-        <location filename="../DlgSlideProperties.ui" line="1699"/>
+        <location filename="../DlgSlideProperties.ui" line="1714"/>
+        <location filename="../DlgSlideProperties.ui" line="1753"/>
         <source>Define rotation according to the Z axis (defined in degree).</source>
         <translation>Καθορίζει την περιστροφή σύμφωνα με τον άξονα Z (σε μοίρες).</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2208"/>
+        <location filename="../DlgSlideProperties.ui" line="2262"/>
         <source>Defined the distance between the block and its shadow</source>
         <translation>Καθορίζει την απόσταση μεταξύ του τμήματος και της σκιάς του</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2236"/>
+        <location filename="../DlgSlideProperties.ui" line="2290"/>
         <source>Defined the color of the shadow</source>
         <translation>Καθορίζει το χρώμα της σκιάς</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2364"/>
+        <location filename="../DlgSlideProperties.ui" line="2427"/>
         <source>Geometry :</source>
         <translation>Γεωμετρία:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2392"/>
+        <location filename="../DlgSlideProperties.ui" line="2455"/>
         <source>Select the geometrical constraint to be applied to the block</source>
         <translation>Επιλέξτε τον γεωμετρικό περιορισμό που θα εφαρμόζεται στο τμήμα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1764"/>
+        <location filename="../DlgSlideProperties.ui" line="1818"/>
         <source>Define width of current block</source>
         <translation>Καθορίζει το πλάτος του τρέχοντος τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1837"/>
+        <location filename="../DlgSlideProperties.ui" line="1891"/>
         <source>Define height of current block</source>
         <translation>Καθορίζει το ύψος του τρέχοντος τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1886"/>
+        <location filename="../DlgSlideProperties.ui" line="1940"/>
         <source>Define X position of current block</source>
         <translation>Καθορίζει την θέση X του τρέχοντος τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1959"/>
+        <location filename="../DlgSlideProperties.ui" line="2013"/>
         <source>Define Y position of current block</source>
         <translation>Καθορίζει την θέση Y του τρέχοντος τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="1998"/>
+        <location filename="../DlgSlideProperties.ui" line="2052"/>
         <source>Defined in which corner the shadow will be positioned (or no shadow)</source>
         <translation>Καθορίζει σε ποια γωνία θα τοποθετείται η σκιά (ή χωρίς σκιά)</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2012"/>
+        <location filename="../DlgSlideProperties.ui" line="2066"/>
         <source>Shadow :</source>
         <translation>Σκιά:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2300"/>
+        <location filename="../DlgSlideProperties.ui" line="2363"/>
         <source>Block shape :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2355"/>
+        <location filename="../DlgSlideProperties.ui" line="2418"/>
         <source>Coordinates :</source>
         <translation>Συντεταγμένες:</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2404"/>
+        <location filename="../DlgSlideProperties.ui" line="2467"/>
         <source>Information</source>
         <translation>Πληροφορίες</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2471"/>
+        <location filename="../DlgSlideProperties.ui" line="2534"/>
         <source>Propertie</source>
         <translation>Ιδιότητα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2481"/>
+        <location filename="../DlgSlideProperties.ui" line="2544"/>
         <source>Value</source>
         <translation>Τιμή</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2524"/>
+        <location filename="../DlgSlideProperties.ui" line="2587"/>
         <source>Enable or disable rulers corresponding to the margins of television sets.</source>
         <translation>Ενεργοποιεί ή απενεργοποιεί τους χάρακες που αντιστοιχούν στα περιθώρια των ρυθμίσεων τηλεόρασης.</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2527"/>
+        <location filename="../DlgSlideProperties.ui" line="2590"/>
         <source>TV margins</source>
         <translation>Περιθώρια TV</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2554"/>
+        <location filename="../DlgSlideProperties.ui" line="2617"/>
         <source>Accept modification and go to previous slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2557"/>
+        <location filename="../DlgSlideProperties.ui" line="2620"/>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2568"/>
+        <location filename="../DlgSlideProperties.ui" line="2631"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2571"/>
+        <location filename="../DlgSlideProperties.ui" line="2634"/>
         <source>&amp;Ok</source>
         <translation>&amp;Εντάξει</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2582"/>
+        <location filename="../DlgSlideProperties.ui" line="2645"/>
         <source>Accept modification and go to next slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2585"/>
+        <location filename="../DlgSlideProperties.ui" line="2648"/>
         <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2621"/>
+        <location filename="../DlgSlideProperties.ui" line="2684"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Ακύρωση των αλλαγών και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2624"/>
+        <location filename="../DlgSlideProperties.ui" line="2687"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2635"/>
+        <location filename="../DlgSlideProperties.ui" line="2698"/>
         <source>Open help page describing this dialog box</source>
         <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2638"/>
+        <location filename="../DlgSlideProperties.ui" line="2701"/>
         <source>&amp;Help</source>
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.ui" line="2645"/>
+        <location filename="../DlgSlideProperties.ui" line="2708"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="47"/>
+        <location filename="../DlgSlideProperties.cpp" line="49"/>
         <source>Slide</source>
         <translation>Διαφάνεια</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="69"/>
+        <location filename="../DlgSlideProperties.cpp" line="71"/>
         <source>None</source>
         <translation>Κανένα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="70"/>
+        <location filename="../DlgSlideProperties.cpp" line="72"/>
         <source>Shadow upper left</source>
         <translation>Σκιά πάνω αριστερά</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="71"/>
+        <location filename="../DlgSlideProperties.cpp" line="73"/>
         <source>Shadow upper right</source>
         <translation>Σκιά πάνω δεξιά</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="72"/>
+        <location filename="../DlgSlideProperties.cpp" line="74"/>
         <source>Shadow bottom left</source>
         <translation>Σκιά κάτω αριστερά</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="73"/>
+        <location filename="../DlgSlideProperties.cpp" line="75"/>
         <source>Shadow bottom right</source>
         <translation>Σκιά κάτω δεξιά</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="111"/>
+        <location filename="../DlgSlideProperties.cpp" line="113"/>
         <source>Project geometry</source>
         <translation>Γεωμετρία έργου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="112"/>
+        <location filename="../DlgSlideProperties.cpp" line="114"/>
         <source>Image geometry</source>
         <translation>Γεωμετρία εικόνας</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="113"/>
+        <location filename="../DlgSlideProperties.cpp" line="115"/>
         <source>Custom geometry</source>
         <translation>Προσαρμοσμένη γεωμετρία</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="374"/>
+        <location filename="../DlgSlideProperties.cpp" line="376"/>
         <source>Lengthened to %1 sec</source>
         <translation>Επιμήκυνση κατά %1 δευτ </translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="649"/>
+        <location filename="../DlgSlideProperties.cpp" line="651"/>
         <source>Object type</source>
         <translation>Τύπος αντικειμένου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="650"/>
+        <location filename="../DlgSlideProperties.cpp" line="652"/>
         <source>Title</source>
         <translation>Τίτλος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="651"/>
+        <location filename="../DlgSlideProperties.cpp" line="653"/>
         <source>Image</source>
         <translation>Εικόνα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="652"/>
+        <location filename="../DlgSlideProperties.cpp" line="654"/>
         <source>Video</source>
         <translation>Βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="656"/>
+        <location filename="../DlgSlideProperties.cpp" line="658"/>
         <source>Filename</source>
         <translation>Όνομα αρχείου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="670"/>
+        <location filename="../DlgSlideProperties.cpp" line="672"/>
         <source>Image size</source>
         <translation>Μέγεθος εικόνας</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="674"/>
+        <location filename="../DlgSlideProperties.cpp" line="676"/>
         <source>Video format</source>
         <translation>Μορφή βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="678"/>
+        <location filename="../DlgSlideProperties.cpp" line="680"/>
         <source>Bitrate</source>
         <translation>Ρυθμός bit</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="682"/>
+        <location filename="../DlgSlideProperties.cpp" line="684"/>
         <source>Frame rate</source>
         <translation>Ρυθμός καρέ</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="686"/>
+        <location filename="../DlgSlideProperties.cpp" line="688"/>
         <source>fps</source>
         <comment>frame per second</comment>
         <translation>fps</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="689"/>
+        <location filename="../DlgSlideProperties.cpp" line="691"/>
         <source>Aspect ratio</source>
         <translation>Αναλογία διαστάσεων</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="694"/>
+        <location filename="../DlgSlideProperties.cpp" line="696"/>
         <source>Audio format</source>
         <translation>Μορφή ήχου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="698"/>
+        <location filename="../DlgSlideProperties.cpp" line="700"/>
         <source>Frequency</source>
         <translation>Συχνότητα</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="700"/>
+        <location filename="../DlgSlideProperties.cpp" line="702"/>
         <source>hz</source>
         <comment>audio frequency</comment>
         <translation>hz</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="702"/>
+        <location filename="../DlgSlideProperties.cpp" line="704"/>
         <source>Channels</source>
         <translation>Κανάλια</translation>
     </message>
     <message>
-        <location filename="../DlgImageCorrection.cpp" line="509"/>
+        <location filename="../DlgImageCorrection.cpp" line="511"/>
         <source>Select a file</source>
         <translation>Επιλέξτε ένα αρχείο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1267"/>
+        <location filename="../DlgSlideProperties.cpp" line="1269"/>
         <source>Remove shot</source>
         <translation>Αφαίρεση στιγμιότυπου</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1267"/>
+        <location filename="../DlgSlideProperties.cpp" line="1269"/>
         <source>Are you sure to want to delete this shot?</source>
         <translation>Επιθυμείτε σίγουρα την διαγραφή αυτού του στιγμιότυπου;</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1471"/>
+        <location filename="../DlgSlideProperties.cpp" line="1473"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Κείμενο</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1494"/>
+        <location filename="../DlgSlideProperties.cpp" line="1496"/>
         <source>Add files</source>
         <translation>Προσθήκη αρχείων</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1645"/>
+        <location filename="../DlgSlideProperties.cpp" line="1647"/>
         <source>Remove bloc</source>
         <translation>Αφαίρεση τμήματος</translation>
     </message>
     <message>
-        <location filename="../DlgSlideProperties.cpp" line="1645"/>
+        <location filename="../DlgSlideProperties.cpp" line="1647"/>
         <source>Are you sure to want to delete this bloc?</source>
         <translation>Επιθυμείτε σίγουρα την διαγραφή αυτού του τμήματος;</translation>
     </message>
@@ -2295,228 +2441,228 @@ Do you want to overwrite it ?</source>
         <translation>Επεξεργασία κειμένου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="160"/>
+        <location filename="../DlgTextEdit.ui" line="175"/>
         <source>Properties for all shots</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="131"/>
+        <location filename="../DlgTextEdit.ui" line="146"/>
         <source>Select font family</source>
         <translation>Επιλογή οικογένειας γραμματοσειράς</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="312"/>
+        <location filename="../DlgTextEdit.ui" line="327"/>
         <source>Select font size</source>
         <translation>Επιλογή μεγέθους γραμματοσειράς</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="337"/>
+        <location filename="../DlgTextEdit.ui" line="352"/>
         <source>Select font color</source>
         <translation>Επιλογή χρώματος γραμματοσειράς</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="391"/>
+        <location filename="../DlgTextEdit.ui" line="406"/>
         <source>Select font effect (outerline, shadow)</source>
         <translation>Επιλογή εφέ γραμματοσειράς (περίγραμμα, σκιά)</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="422"/>
+        <location filename="../DlgTextEdit.ui" line="437"/>
         <source>Select outerline/shadow color</source>
         <translation>Επιλογή χρώματος περιγράμματος/σκιάς</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="203"/>
+        <location filename="../DlgTextEdit.ui" line="218"/>
         <source>Set text to Bold</source>
         <translation>Διαμόρφωση κειμένου σε Έντονα</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="235"/>
+        <location filename="../DlgTextEdit.ui" line="250"/>
         <source>Set text to Italic</source>
         <translation>Διαμόρφωση κειμένου σε Πλάγια</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="264"/>
+        <location filename="../DlgTextEdit.ui" line="279"/>
         <source>Set text to Underline</source>
         <translation>Διαμόρφωση κειμένου σε Υπογραμμισμένα</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="480"/>
+        <location filename="../DlgTextEdit.ui" line="495"/>
         <source>Align left</source>
         <translation>Στοίχιση αριστερά</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="515"/>
+        <location filename="../DlgTextEdit.ui" line="530"/>
         <source>Align center</source>
         <translation>Στοίχιση στο κέντρο</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="547"/>
+        <location filename="../DlgTextEdit.ui" line="562"/>
         <source>Align justify</source>
         <translation>Στοίχιση ομοιόμορφα</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="579"/>
+        <location filename="../DlgTextEdit.ui" line="594"/>
         <source>Align right</source>
         <translation>Στοίχιση δεξιά</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="624"/>
+        <location filename="../DlgTextEdit.ui" line="639"/>
         <source>Align top</source>
         <translation>Στοίχιση πάνω</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="656"/>
+        <location filename="../DlgTextEdit.ui" line="671"/>
         <source>Align in the middle</source>
         <translation>Στοίχιση στη μέση</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="688"/>
+        <location filename="../DlgTextEdit.ui" line="703"/>
         <source>Align bottom</source>
         <translation>Στοίχιση κάτω</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="750"/>
+        <location filename="../DlgTextEdit.ui" line="765"/>
         <source>Define the background brush type for the shape</source>
         <translation type="unfinished">Καθορίζει τον τύπο πινέλου του φόντου του σχήματος</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="802"/>
+        <location filename="../DlgTextEdit.ui" line="817"/>
         <source>Define the color (or first color for a gradient brush)</source>
         <translation type="unfinished">Καθορίζει το χρώμα (ή το πρώτο χρώμα για ένα πινέλο με διαβάθμιση)</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="827"/>
+        <location filename="../DlgTextEdit.ui" line="842"/>
         <source>Define the second gradient brush color </source>
         <translation type="unfinished">Καθορίζει το δεύτερο χρώμα διαβάθμισης του πινέλου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="852"/>
+        <location filename="../DlgTextEdit.ui" line="867"/>
         <source>Define the third gradient brush color </source>
         <translation type="unfinished">Καθορίζει το τρίτο χρώμα διαβάθμισης του πινέλου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="911"/>
+        <location filename="../DlgTextEdit.ui" line="926"/>
         <source>Select the pattern</source>
         <translation type="unfinished">Επιλέξτε το μοτίβο</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="972"/>
+        <location filename="../DlgTextEdit.ui" line="987"/>
         <source>Define orientation of the gradient brush</source>
         <translation type="unfinished">Καθορίζει τον προσανατολισμό της διαβάθμισης του πινέλου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="1016"/>
-        <location filename="../DlgTextEdit.ui" line="1055"/>
+        <location filename="../DlgTextEdit.ui" line="1031"/>
+        <location filename="../DlgTextEdit.ui" line="1070"/>
         <source>Define position of the second color in the gradient brush</source>
         <translation type="unfinished">Καθορίζει την θέση του δεύτερου χρώματος στη διαβάθμιση του πινέλου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="1145"/>
+        <location filename="../DlgTextEdit.ui" line="1160"/>
         <source>Select an image among that present in the library</source>
         <translation type="unfinished">Επιλέξτε μια εικόνα μεταξύ αυτών στην βιβλιοθήκη</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="1207"/>
+        <location filename="../DlgTextEdit.ui" line="1222"/>
         <source>Texte style :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="1258"/>
+        <location filename="../DlgTextEdit.ui" line="1282"/>
         <source>Block background style :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="1308"/>
+        <location filename="../DlgTextEdit.ui" line="1325"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="1311"/>
+        <location filename="../DlgTextEdit.ui" line="1328"/>
         <source>&amp;Ok</source>
         <translation>&amp;Εντάξει</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="1322"/>
+        <location filename="../DlgTextEdit.ui" line="1339"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Ακύρωση των αλλαγών και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="1325"/>
+        <location filename="../DlgTextEdit.ui" line="1342"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="1336"/>
+        <location filename="../DlgTextEdit.ui" line="1353"/>
         <source>Open help page describing this dialog box</source>
         <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="1339"/>
+        <location filename="../DlgTextEdit.ui" line="1356"/>
         <source>&amp;Help</source>
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.ui" line="1346"/>
+        <location filename="../DlgTextEdit.ui" line="1363"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="65"/>
+        <location filename="../DlgTextEdit.cpp" line="67"/>
         <source>No effect</source>
         <translation>Κανένα εφέ</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="66"/>
+        <location filename="../DlgTextEdit.cpp" line="68"/>
         <source>Outerline</source>
         <translation>Περίγραμμα</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="67"/>
+        <location filename="../DlgTextEdit.cpp" line="69"/>
         <source>Shadow upper left</source>
         <translation>Σκιά πάνω αριστερά</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="68"/>
+        <location filename="../DlgTextEdit.cpp" line="70"/>
         <source>Shadow upper right</source>
         <translation>Σκιά πάνω δεξιά</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="69"/>
+        <location filename="../DlgTextEdit.cpp" line="71"/>
         <source>Shadow bottom left</source>
         <translation>Σκιά κάτω αριστερά</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="70"/>
+        <location filename="../DlgTextEdit.cpp" line="72"/>
         <source>Shadow bottom right</source>
         <translation>Σκιά κάτω δεξιά</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="76"/>
+        <location filename="../DlgTextEdit.cpp" line="78"/>
         <source>No brush</source>
         <translation type="unfinished">Χωρίς πινέλο</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="77"/>
+        <location filename="../DlgTextEdit.cpp" line="79"/>
         <source>Solid brush</source>
         <translation type="unfinished">Συμπαγές πινέλο</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="78"/>
+        <location filename="../DlgTextEdit.cpp" line="80"/>
         <source>Pattern brush</source>
         <translation type="unfinished">Μοτίβο</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="79"/>
+        <location filename="../DlgTextEdit.cpp" line="81"/>
         <source>Gradient 2 colors</source>
         <translation type="unfinished">Διαβάθμιση 2 χρωμάτων</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="80"/>
+        <location filename="../DlgTextEdit.cpp" line="82"/>
         <source>Gradient 3 colors</source>
         <translation type="unfinished">Διαβάθμιση 3 χρωμάτων</translation>
     </message>
     <message>
-        <location filename="../DlgTextEdit.cpp" line="81"/>
+        <location filename="../DlgTextEdit.cpp" line="83"/>
         <source>Image from library</source>
         <translation type="unfinished">Εικόνα από βιβλιοθήκη</translation>
     </message>
@@ -3205,67 +3351,67 @@ and help</source>
         <translation>Επεξεργασία της μετάβασης εισαγωγής του φόντου για την διαφάνεια</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="248"/>
+        <location filename="../DlgRenderVideo.cpp" line="250"/>
         <source>Select destination file</source>
         <translation>Επιλέξτε αρχείο προορισμού</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="602"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="587"/>
         <source>All suported file (</source>
         <translation>Όλα τα υποστηριζόμενα αρχεία (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="609"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="594"/>
         <source>Image file (</source>
         <translation>Αρχείο εικόνας (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="615"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="600"/>
         <source>Video file (</source>
         <translation>Αρχείο βίντεο (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="621"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="606"/>
         <source>Music file (</source>
         <translation>Αρχείο μουσικής (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="721"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="726"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="732"/>
-        <location filename="../_Diaporama.cpp" line="1104"/>
-        <location filename="../_Diaporama.cpp" line="1148"/>
-        <location filename="../_Diaporama.cpp" line="1153"/>
-        <location filename="../_Diaporama.cpp" line="1160"/>
-        <location filename="../_Diaporama.cpp" line="1218"/>
-        <location filename="../_Diaporama.cpp" line="1224"/>
-        <location filename="../_Diaporama.cpp" line="1231"/>
-        <location filename="../_Diaporama.cpp" line="1240"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="706"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="711"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="717"/>
+        <location filename="../_Diaporama.cpp" line="1105"/>
+        <location filename="../_Diaporama.cpp" line="1149"/>
+        <location filename="../_Diaporama.cpp" line="1154"/>
+        <location filename="../_Diaporama.cpp" line="1161"/>
+        <location filename="../_Diaporama.cpp" line="1219"/>
+        <location filename="../_Diaporama.cpp" line="1225"/>
+        <location filename="../_Diaporama.cpp" line="1232"/>
+        <location filename="../_Diaporama.cpp" line="1241"/>
         <location filename="../mainwindow.cpp" line="1245"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Σφάλμα</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="721"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="706"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την ανάγνωση του αρχείου ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="726"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="711"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Σφάλμα στην ανάγνωση του περιεχομένου του αρχείου ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="732"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="717"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Το αρχείο δεν είναι ένα έγκυρο αρχείο ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="981"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="966"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την δημιουργία του αρχείου ρυθμίσεων</translation>
@@ -3277,67 +3423,67 @@ and help</source>
         <translation>Τίτλος</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1104"/>
         <location filename="../_Diaporama.cpp" line="1105"/>
+        <location filename="../_Diaporama.cpp" line="1106"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την δημιουργία του αρχείου δεδομένων</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1124"/>
+        <location filename="../_Diaporama.cpp" line="1125"/>
         <source>Open project file</source>
         <translation>Άνοιγμα αρχείου έργου</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1125"/>
+        <location filename="../_Diaporama.cpp" line="1126"/>
         <location filename="../_ImageFileWrapper.cpp" line="84"/>
-        <location filename="../_VideoFileWrapper.cpp" line="693"/>
+        <location filename="../_VideoFileWrapper.cpp" line="689"/>
         <source>Impossible to open file </source>
         <translation>Αδύνατο το άνοιγμα του αρχείου </translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1125"/>
+        <location filename="../_Diaporama.cpp" line="1126"/>
         <location filename="../_ImageFileWrapper.cpp" line="84"/>
-        <location filename="../_VideoFileWrapper.cpp" line="693"/>
+        <location filename="../_VideoFileWrapper.cpp" line="689"/>
         <source>Do you want to select another file ?</source>
         <translation>Θέλετε να επιλέξετε ένα άλλο αρχείο;</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1128"/>
+        <location filename="../_Diaporama.cpp" line="1129"/>
         <location filename="../_ImageFileWrapper.cpp" line="88"/>
-        <location filename="../_VideoFileWrapper.cpp" line="698"/>
+        <location filename="../_VideoFileWrapper.cpp" line="694"/>
         <source>Select another file for </source>
         <translation>Επιλογή ενός αρχείου αντικατάστασης για </translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1147"/>
-        <location filename="../_Diaporama.cpp" line="1218"/>
+        <location filename="../_Diaporama.cpp" line="1148"/>
         <location filename="../_Diaporama.cpp" line="1219"/>
+        <location filename="../_Diaporama.cpp" line="1220"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την ανάγνωση του αρχείου του έργου</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1153"/>
         <location filename="../_Diaporama.cpp" line="1154"/>
-        <location filename="../_Diaporama.cpp" line="1224"/>
+        <location filename="../_Diaporama.cpp" line="1155"/>
         <location filename="../_Diaporama.cpp" line="1225"/>
+        <location filename="../_Diaporama.cpp" line="1226"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation>Σφάλμα στην ανάγνωση του περιεχομένου του αρχείου του έργου</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1160"/>
         <location filename="../_Diaporama.cpp" line="1161"/>
-        <location filename="../_Diaporama.cpp" line="1231"/>
+        <location filename="../_Diaporama.cpp" line="1162"/>
         <location filename="../_Diaporama.cpp" line="1232"/>
+        <location filename="../_Diaporama.cpp" line="1233"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation>Το αρχείο δεν είναι ένα έγκυρο αρχείο έργου</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1240"/>
         <location filename="../_Diaporama.cpp" line="1241"/>
+        <location filename="../_Diaporama.cpp" line="1242"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -3361,7 +3507,7 @@ Image geometry in this file is not the same than the current project</source>
         <translation>Φόρτωση του αρχείου:</translation>
     </message>
     <message>
-        <location filename="../_VideoFileWrapper.cpp" line="692"/>
+        <location filename="../_VideoFileWrapper.cpp" line="688"/>
         <source>Open video file</source>
         <translation>Άνοιγμα αρχείου βίντεο</translation>
     </message>

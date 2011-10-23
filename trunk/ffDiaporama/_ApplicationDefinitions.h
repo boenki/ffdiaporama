@@ -210,12 +210,12 @@ public:
     cApplicationConfig();
     ~cApplicationConfig();
 
-    virtual bool        InitConfigurationValues();
-    virtual bool        LoadConfigurationFile(int TypeConfigFile);
-    virtual bool        SaveConfigurationFile();
+    bool        InitConfigurationValues();
+    bool        LoadConfigurationFile(int TypeConfigFile);
+    bool        SaveConfigurationFile();
 
     enum FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
-    virtual QString     GetFilterForMediaFile(FilterFile type);
+    QString     GetFilterForMediaFile(FilterFile type);
 };
 
 #endif // APPLICATIONDEFINITIONS_H

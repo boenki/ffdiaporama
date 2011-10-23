@@ -1,13 +1,14 @@
-Buggs/TODO (Dernier SVN le 14/10/2011) :
+Buggs/TODO (Dernier SVN le 20/10/2011) :
 ----------------------------------------
 BUGG:
- - L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
- - When using the cross fade transition between 2 identical pictures the brightness changes
- - Les diapo peuvent avoir une durée à 0 et quand les diapo ont une durée à 0, un double click ne permet pas de les ouvrir
- - Les fichiers .flv ne sont pas proposés dans la liste des extentions vidéos supportées.
- - Le mixage de 2 pistes audio à fort volume donne un résultat saturé
- - Problème avec le champs jusqu'à dans la sélection d'une plage de diapositive dans la boite de génération
- - Dans Fichier/Options/Options de génération/Options par défaut en mode avancé, quel que soit le format de fichier choisi, c'est toujours AVI qui est proposé au moment de la génération du film
+- L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
+- When using the cross fade transition between 2 identical pictures the brightness changes
+- Les diapo peuvent avoir une durée à 0 et quand les diapo ont une durée à 0, un double click ne permet pas de les ouvrir
+- Les fichiers .flv ne sont pas proposés dans la liste des extentions vidéos supportées.
+- Le mixage de 2 pistes audio à fort volume donne un résultat saturé
+- Problème avec le champs jusqu'à dans la sélection d'une plage de diapositive dans la boite de génération
+- Dans Fichier/Options/Options de génération/Options par défaut en mode avancé, quel que soit le format de fichier choisi, c'est toujours AVI qui est proposé au moment de la génération du film
+- When canceling a "add files" dialog, current selection is move to the next side
 
 TODO-List
 ---------
@@ -29,6 +30,7 @@ Background
 Configuration dialog
 -Allow default shots duration to less than 1 sec
 -Use style to define default block settings
+-Add an option for transition for the first slide
 
 Various
 -To add the possibility to export its project
@@ -39,6 +41,7 @@ Various
 -Add a management of route: A line object with multiple points being outlined during the animation with a PNG attached to the point being drawn
 -Add a "mass modifications" feature to all slide or a group of slide. First shot duration - Transition - Random Ken Burns effect - etc...
 -Add a tools to convert video
+-Add the possibility to render a video without audio track
 
 Text
 -To add animations of text (scrolling, zoom in / out), animations for entering blocks (1st shot or invisible block in the previous shot) and of animations for outgoing block (the Last one shot or invisible block in the following shot)
@@ -60,26 +63,22 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
-- [Code cleaning] Transfert les fichiers fmt_filters dans leurs propres sous-répertoire
+- Force les barres de titre dans les boites de dialogue même si elles sont désactivées par les propriétés du système [Linux-Gnome shell]
+- Force les icones dans le menu style même si ils sont désactivés par les propriétés du système [Linux-Gnome shell]
 
 French version / Nouvelles fonctionnalités :
-- Modifie le design de la boite texte
-- Transfert les réglages de fond de bloc texte de la boite slide vers la boite texte
-- Synchronise l'affichage dans la boite slide avec les modifications dans la boite texte (en temps réel)
-- Ajoute la gestion des styles
-    - Ajoute des boutons menu de style pour les coordonnées et la forme des blocs dans la boite slide
-    - Ajoute des boutons menu de style pour les textes et le fond de bloc des textes dans la boite texte
+- Crée une première série de style standard
+- Traduit les styles standards
+- Ajoute un filtre sur la géomtrie pour les styles de coordonnées de bloc
 
 English version / Bug fix :
-- [Code cleaning] Move fmt_filters files to their own sub-directory
+- Force dialog title bar even if title bar are disabled by systeme settings [Linux-Gnome shell]
+- Force icon in style menu even if icons are disabled by systeme settings [Linux-Gnome shell]
 
 English version / New features :
-- New design for text dialog
-- Transfer of the settings of background text block for slide dialog to text dialog
-- Synchronize the display in slide dialog with the modifications in text dialog (real time)
-- Add style management system
-    - Add style menu button for coordinates and block shape in the slide dialog
-    - Add style menu button for text and text block background in the text dialog
+- Creat a first collection for standard style
+- Translate standard styles
+- Add a geometry filter to block coordinates styles
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -95,6 +94,7 @@ Bug fix French version
 - Corrige tous les sliders (les clicks de page n'étaient pas pris en compte)
 - Corrige le bug sous Windows au premier lancement si l'entrée [My vidéos] est vide, utilise [My documents]
 - Corrige le bug sous Windows lors des générations de vidéo quand le fichier de destination ou le répertoire de destination contient des accents
+- [Code cleaning] Transfert les fichiers fmt_filters dans leurs propres sous-répertoire
 
 Bug fix English version
 - Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -106,6 +106,7 @@ Bug fix English version
 - Fix all sliders (Page clicks was not used)
 - Fix Windows bug at first startup use [My documents] instead of [My videos] if [My videos] is undefined
 - Fix Windows bug when render video and filename or path of destination file have special characters like accents
+- [Code cleaning] Move fmt_filters files to their own sub-directory
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
@@ -140,6 +141,12 @@ French version
 - Limite la propriété rayon du filtre flou/netteté à la fourchette 1-10
 - Ajoute des boutons reset aux 2 lignes de propriétés du flou/netteté
 - Transfert la fonction de changement de fichier image/video de la boite slide vers la boite de recadrage
+- Modifie le design de la boite texte
+- Transfert les réglages de fond de bloc texte de la boite slide vers la boite texte
+- Synchronise l'affichage dans la boite slide avec les modifications dans la boite texte (en temps réel)
+- Ajoute la gestion des styles
+    - Ajoute des boutons menu de style pour les coordonnées et la forme des blocs dans la boite slide
+    - Ajoute des boutons menu de style pour les textes et le fond de bloc des textes dans la boite texte
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -166,3 +173,9 @@ English version
 - Limit the radius property of the blur/sharpness filter to the range 1-10
 - Add two reset buttons to controls lines of the blur/sharpness filter
 - Transfert of changing image/video file function for slide dialog to reframming dialog
+- New design for text dialog
+- Transfer of the settings of background text block for slide dialog to text dialog
+- Synchronize the display in slide dialog with the modifications in text dialog (real time)
+- Add style management system
+    - Add style menu button for coordinates and block shape in the slide dialog
+    - Add style menu button for text and text block background in the text dialog

@@ -28,6 +28,10 @@
 
 #include "DlgManageStyle.h"
 
+bool toAssending(const cStyleCollectionItem &Item1 ,const cStyleCollectionItem &Item2) {
+    return Item1.StyleName<Item2.StyleName;
+}
+
 //====================================================================================================================
 // Style collections definition
 //====================================================================================================================
@@ -78,11 +82,23 @@ bool cStyleCollectionItem::LoadFromXML(QDomElement domDocument,QString ElementNa
 //====================================================================================================================
 
 cStyleCollection::cStyleCollection() {
+    GeometryFilter=false;
 }
 
 //************************************************
 
 cStyleCollection::~cStyleCollection() {
+}
+
+//====================================================================================================================
+
+void cStyleCollection::SetActiveFilter(int Geometry) {
+    switch (Geometry) {
+        case GEOMETRY_4_3:      ActiveFilter="4:3-";        break;
+        case GEOMETRY_16_9:     ActiveFilter="16:9-";       break;
+        case GEOMETRY_40_17:    ActiveFilter="2.35:1-";     break;
+    }
+    GeometryFilter=true;
 }
 
 //************************************************
@@ -109,6 +125,36 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
                 // Reading from global config file : append device
                 Collection.append(cStyleCollectionItem(TypeConfigFile==GLOBALCONFIGFILE,i,"",""));
                 Collection[i].LoadFromXML(Element,QString(CollectionName+QString("Item_%1").arg(i)),false);
+                if (Collection[i].StyleName=="Big black text with white outlines")                      Collection[i].StyleName=QApplication::translate("DlgManageStyle","Big black text with white outlines");
+                else if (Collection[i].StyleName=="Big light yellow text with dark brown shadow")       Collection[i].StyleName=QApplication::translate("DlgManageStyle","Big light yellow text with dark brown shadow");
+                else if (Collection[i].StyleName=="Medium black text with white outlines")              Collection[i].StyleName=QApplication::translate("DlgManageStyle","Medium black text with white outlines");
+                else if (Collection[i].StyleName=="Medium light yellow text with dark brown shadow")    Collection[i].StyleName=QApplication::translate("DlgManageStyle","Medium light yellow text with dark brown shadow");
+                else if (Collection[i].StyleName=="Small white text with black outlines")               Collection[i].StyleName=QApplication::translate("DlgManageStyle","Small white text with black outlines");
+                else if (Collection[i].StyleName=="Centered Blue Gradient")                             Collection[i].StyleName=QApplication::translate("DlgManageStyle","Centered Blue Gradient");
+                else if (Collection[i].StyleName=="Centered Brown Gradient")                            Collection[i].StyleName=QApplication::translate("DlgManageStyle","Centered Brown Gradient");
+                else if (Collection[i].StyleName=="Centered Dark-Gray Gradient")                        Collection[i].StyleName=QApplication::translate("DlgManageStyle","Centered Dark-Gray Gradient");
+                else if (Collection[i].StyleName=="Centered Green Gradient")                            Collection[i].StyleName=QApplication::translate("DlgManageStyle","Centered Green Gradient");
+                else if (Collection[i].StyleName=="Centered Light-Gray Gradient")                       Collection[i].StyleName=QApplication::translate("DlgManageStyle","Centered Light-Gray Gradient");
+                else if (Collection[i].StyleName=="Centered Red Gradient")                              Collection[i].StyleName=QApplication::translate("DlgManageStyle","Centered Red Gradient");
+                else if (Collection[i].StyleName=="Transparent block (no brush)")                       Collection[i].StyleName=QApplication::translate("DlgManageStyle","Transparent block (no brush)");
+                else if (Collection[i].StyleName=="16:9-Centered 10x15 Landscape Image")                Collection[i].StyleName=QApplication::translate("DlgManageStyle","16:9-Centered 10x15 Landscape Image");
+                else if (Collection[i].StyleName=="16:9-Centered 10x15 Portrait Image")                 Collection[i].StyleName=QApplication::translate("DlgManageStyle","16:9-Centered 10x15 Portrait Image");
+                else if (Collection[i].StyleName=="16:9-Centered 4:3 Image")                            Collection[i].StyleName=QApplication::translate("DlgManageStyle","16:9-Centered 4:3 Image");
+                else if (Collection[i].StyleName=="16:9-Centered Cinema Image")                         Collection[i].StyleName=QApplication::translate("DlgManageStyle","16:9-Centered Cinema Image");
+                else if (Collection[i].StyleName=="16:9-Full Screen block")                             Collection[i].StyleName=QApplication::translate("DlgManageStyle","16:9-Full Screen block");
+                else if (Collection[i].StyleName=="2.35:1-Centered 10x15 Landscape Image")              Collection[i].StyleName=QApplication::translate("DlgManageStyle","2.35:1-Centered 10x15 Landscape Image");
+                else if (Collection[i].StyleName=="2.35:1-Centered 10x15 Portrait Image")               Collection[i].StyleName=QApplication::translate("DlgManageStyle","2.35:1-Centered 10x15 Portrait Image");
+                else if (Collection[i].StyleName=="2.35:1-Centered 16:9 Image")                         Collection[i].StyleName=QApplication::translate("DlgManageStyle","2.35:1-Centered 16:9 Image");
+                else if (Collection[i].StyleName=="2.35:1-Centered 4:3 Image")                          Collection[i].StyleName=QApplication::translate("DlgManageStyle","2.35:1-Centered 4:3 Image");
+                else if (Collection[i].StyleName=="2.35:1-Full Screen block")                           Collection[i].StyleName=QApplication::translate("DlgManageStyle","2.35:1-Full Screen block");
+                else if (Collection[i].StyleName=="4:3-Centered 10x15 Landscape Image")                 Collection[i].StyleName=QApplication::translate("DlgManageStyle","4:3-Centered 10x15 Landscape Image");
+                else if (Collection[i].StyleName=="4:3-Centered 10x15 Portrait Image")                  Collection[i].StyleName=QApplication::translate("DlgManageStyle","4:3-Centered 10x15 Portrait Image");
+                else if (Collection[i].StyleName=="4:3-Centered 16:9 Image")                            Collection[i].StyleName=QApplication::translate("DlgManageStyle","4:3-Centered 16:9 Image");
+                else if (Collection[i].StyleName=="4:3-Centered Cinema Image")                          Collection[i].StyleName=QApplication::translate("DlgManageStyle","4:3-Centered Cinema Image");
+                else if (Collection[i].StyleName=="4:3-Full Screen block")                              Collection[i].StyleName=QApplication::translate("DlgManageStyle","4:3-Full Screen block");
+                else if (Collection[i].StyleName=="Rounded rectangle with small brown border")          Collection[i].StyleName=QApplication::translate("DlgManageStyle","Rounded rectangle with small brown border");
+                else if (Collection[i].StyleName=="Rectangle with no effect")                           Collection[i].StyleName=QApplication::translate("DlgManageStyle","Rectangle with no effect");
+                Collection[i].BckStyleName=Collection[i].StyleName;
             } else {
                 // Reading from user config file : search if Style already exist, then load it else append a new one
                 QString ElementName=QString(CollectionName+QString("Item_%1").arg(i));
@@ -127,6 +173,7 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
             i++;
         }
     }
+    qSort(Collection.begin(),Collection.end(),toAssending);
 }
 
 //************************************************
@@ -139,9 +186,13 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString Actu
     QAction *ActionManage=new QAction(QApplication::translate("DlgManageStyle","Manage existing style"),ParentWindow);
     UpdateMenu->setTitle(QApplication::translate("DlgManageStyle","Update existing style"));
 
-    for (int i=0;i<Collection.count();i++) {
-        ContextMenu->addAction(new QAction(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Collection[i].StyleName,ParentWindow));
-        QAction *UpdateAction=new QAction(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Collection[i].StyleName,ParentWindow);
+    for (int i=0;i<Collection.count();i++) if (!GeometryFilter || Collection[i].StyleName.startsWith(ActiveFilter)) {
+        if (GeometryFilter) Item=Collection[i].StyleName.mid(ActiveFilter.length()); else Item=Collection[i].StyleName;
+        QAction *NormalAction=new QAction(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item,ParentWindow);
+        NormalAction->setIconVisibleInMenu(true);
+        ContextMenu->addAction(NormalAction);
+        QAction *UpdateAction=new QAction(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item,ParentWindow);
+        UpdateAction->setIconVisibleInMenu(true);
         UpdateAction->setToolTip(QApplication::translate("DlgManageStyle","Update style"));
         UpdateMenu->addAction(UpdateAction);
     }
@@ -153,10 +204,11 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString Actu
     QAction *Ret=ContextMenu->exec(QCursor::pos());
 
     if (Ret!=NULL) {
+        Item="";
         if (Ret==ActionCreate)                                                              CreateNewStyle(ParentWindow,ActualStyleDef);
         else if (Ret==ActionManage)                                                         ManageExistingStyle(ParentWindow);
-        else if (Ret->toolTip()==QApplication::translate("DlgManageStyle","Update style"))  UpdateExistingStyle(Ret->text(),ActualStyleDef);
-        else Item=Ret->text();
+        else if (Ret->toolTip()==QApplication::translate("DlgManageStyle","Update style"))  UpdateExistingStyle((GeometryFilter?ActiveFilter:"")+Ret->text(),ActualStyleDef);
+        else Item=(GeometryFilter?ActiveFilter:"")+Ret->text();
     }
     delete ContextMenu;
     delete UpdateMenu;
@@ -170,7 +222,10 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString Actu
 void cStyleCollection::UpdateExistingStyle(QString StyleName,QString ActualStyleDef) {
     int i=0;
     while ((i<Collection.count())&&(Collection[i].StyleName!=StyleName)) i++;
-    if ((i<Collection.count())&&(Collection[i].StyleName==StyleName)) Collection[i].StyleDef=ActualStyleDef;
+    if ((i<Collection.count())&&(Collection[i].StyleName==StyleName)) {
+        Collection[i].StyleDef=ActualStyleDef;
+        Collection[i].FromUserConf=true;
+    }
 }
 
 //************************************************
@@ -198,6 +253,7 @@ void cStyleCollection::CreateNewStyle(QWidget *ParentWindow,QString ActualStyleD
             }
         }
     }
+    qSort(Collection.begin(),Collection.end(),toAssending);
 }
 
 //************************************************

@@ -934,6 +934,7 @@ void cDiaporama::DefineSizeAndGeometry(int Geometry) {
     LumaList_Clock.SetGeometry(ImageGeometry);
     LumaList_Box.SetGeometry(ImageGeometry);
     LumaList_Snake.SetGeometry(ImageGeometry);
+    ApplicationConfig->StyleCoordinateCollection.SetActiveFilter(ImageGeometry);
 }
 
 //=======================================================

@@ -31,6 +31,8 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,cBrushDefinition
 
     #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
         setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+    #else
+        setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
     #endif
 
     // Save object before modification for cancel button
@@ -206,7 +208,6 @@ void DlgTextEdit::RefreshControls() {
     bool Allow_Pattern=(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_PATTERN);
     bool Allow_Library=(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY);
 
-    ui->BackgroundSpacer->setVisible(Allow_Brush);
     ui->BackgroundLabel->setVisible(Allow_Brush);
     ui->BackgroundStyleBT->setVisible(Allow_Brush);
     ui->BrushTypeLabel->setVisible(Allow_Brush);

@@ -24,7 +24,7 @@
     <number>4</number>
    </property>
    <property name="margin">
-    <number>4</number>
+    <number>8</number>
    </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

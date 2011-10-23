@@ -527,21 +527,6 @@ cApplicationConfig::cApplicationConfig() {
 
     GlobalConfigFile=QString(APPLICATION_NAME)+QString(CONFIGFILEEXT);
 
-    QString CurrentPath=QDir::currentPath();
-    AddToSystemProperties(QString(STARTINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
-    // Ensure correct path
-    #if defined(Q_OS_WIN)
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString(APPLICATION_NAME));
-    #endif
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("/usr/share/")+QString(APPLICATION_NAME));
-    #endif
-    AddToSystemProperties(QString(WORKINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
-    CurrentPath=QDir::currentPath();
-    if (!CurrentPath.endsWith(QDir::separator())) CurrentPath=CurrentPath+QDir::separator();
-
     // set UserConfigFile value (depending on operating system)
     #ifdef Q_OS_WIN
     UserConfigPath=WINDOWS_APPDATA;

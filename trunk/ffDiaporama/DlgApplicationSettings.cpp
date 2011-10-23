@@ -29,10 +29,12 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     CurrentDevice       =-1;
     CurrentDeviceIndex  =-1;
 
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
-        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-        ui->RasterModeCB->setVisible(false);
-    #endif
+#if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+    setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+    ui->RasterModeCB->setVisible(false);
+#else
+    setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
+#endif
 
     // LastDirectories part
     ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
@@ -655,7 +657,6 @@ void DlgApplicationSettings::DBFileFormatCombo(int /*ChangeIndex*/) {
     QString     AllowedCodec=FORMATDEF[CurrentFormat].PossibleVideoCodec;
     QString     Codec="";
     int         Index=0;
-    bool        IsFindCodec=false;
     while (AllowedCodec.length()>0) {
         Index=AllowedCodec.indexOf("#");
         if (Index>0) {
@@ -676,7 +677,6 @@ void DlgApplicationSettings::DBFileFormatCombo(int /*ChangeIndex*/) {
     AllowedCodec=FORMATDEF[CurrentFormat].PossibleAudioCodec;
     Codec="";
     Index=0;
-    IsFindCodec=false;
     while (AllowedCodec.length()>0) {
         Index=AllowedCodec.indexOf("#");
         if (Index>0) {
@@ -744,11 +744,9 @@ void DlgApplicationSettings::DBVideoBitRateCB(int) {
         QString     AllowedBitRate;
         QString     BitRate="";
         int         Index=0;
-        bool        IsFindBitRate=false;
         AllowedBitRate=VIDEOCODECDEF[CurrentCodec].PossibleBitrate;
         BitRate="";
         Index=0;
-        IsFindBitRate=false;
         while (AllowedBitRate.length()>0) {
             Index=AllowedBitRate.indexOf("#");
             if (Index>0) {
@@ -777,11 +775,9 @@ void DlgApplicationSettings::DBAudioBitRateCB(int) {
         QString     AllowedBitRate;;
         QString     BitRate="";
         int         Index=0;
-        bool        IsFindBitRate=false;
         AllowedBitRate=AUDIOCODECDEF[CurrentCodec].PossibleBitrate2CH;
         BitRate="";
         Index=0;
-        IsFindBitRate=false;
         while (AllowedBitRate.length()>0) {
             Index=AllowedBitRate.indexOf("#");
             if (Index>0) {
