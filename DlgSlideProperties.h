@@ -56,6 +56,7 @@ public:
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent = 0);
     ~DlgSlideProperties();
 
+    void            RefreshStyleControls();
     void            RefreshControls();
     void            RefreshSceneImage();
     void            RefreshSceneImageAndCache(cCompositionObject  *CurrentTextItem,cBrushDefinition *CurrentBrush);

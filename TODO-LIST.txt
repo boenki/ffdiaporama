@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 23/10/2011) :
+Buggs/TODO (Dernier SVN le 25/10/2011) :
 ----------------------------------------
 BUGG:
 -L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -71,16 +71,16 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
-- Corrige l'erreur de filtrage lors des créations de style
-
-French version / Nouvelles fonctionnalités :
-- Developpement de la boite de gestion des styles
 
 English version / Bug fix :
-- Fix filtering error when creating new style
+
+French version / Nouvelles fonctionnalités :
+- Desactive les fonctions d'ajout ou de mise à jour des styles quand ils existent déjà
+- Affiche les styles en cours ou "Style personnalisé" dans la boite slide et dans la boite texte
 
 English version / New features :
-- Manage style dialog developpment
+- Disable add style and update style when they already exist
+- Display current style or "Custom style" in the slide dialog and in the text dialog
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -99,6 +99,7 @@ Bug fix French version
 - [Code cleaning] Transfert les fichiers fmt_filters dans leurs propres sous-répertoire
 - Force les barres de titre dans les boites de dialogue même si elles sont désactivées par les propriétés du système [Linux-Gnome shell]
 - Force les icones dans le menu style même si ils sont désactivés par les propriétés du système [Linux-Gnome shell]
+- Corrige l'erreur de filtrage lors des créations de style
 
 Bug fix English version
 - Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -113,6 +114,7 @@ Bug fix English version
 - [Code cleaning] Move fmt_filters files to their own sub-directory
 - Force dialog title bar even if title bar are disabled by systeme settings [Linux-Gnome shell]
 - Force icon in style menu even if icons are disabled by systeme settings [Linux-Gnome shell]
+- Fix filtering error when creating new style
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
@@ -156,6 +158,7 @@ French version
 - Crée une première série de style standard
 - Traduit les styles standards
 - Ajoute un filtre sur la géométrie pour les styles de coordonnées de bloc
+- Developpement de la boite de gestion des styles
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -191,3 +194,4 @@ English version
 - Creat a first collection for standard style
 - Translate standard styles
 - Add a geometry filter to block coordinates styles
+- Manage style dialog developpment

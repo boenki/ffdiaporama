@@ -181,6 +181,7 @@ void DlgTextEdit::showEvent(QShowEvent *ev) {
 void DlgTextEdit::RefreshControls() {
     StopMAJSpinbox=true;
     // Update text controls
+    ui->TextStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleTextCollection.GetStyleName(CurrentTextItem->GetTextStyle()));
     if (CurrentTextItem->FontSize!=ui->fontSize->currentIndex())        ui->fontSize->setCurrentIndex(ui->fontSize->findText(QString("%1").arg(CurrentTextItem->FontSize)));
     if (CurrentTextItem->Text!=ui->plainTextEdit->toPlainText())        ui->plainTextEdit->setPlainText(CurrentTextItem->Text);
     if (CurrentTextItem->FontName!=ui->fontStyleCB->currentText())      ui->fontStyleCB->setCurrentIndex(ui->fontStyleCB->findText(QString(CurrentTextItem->FontName)));
@@ -210,6 +211,8 @@ void DlgTextEdit::RefreshControls() {
 
     ui->BackgroundLabel->setVisible(Allow_Brush);
     ui->BackgroundStyleBT->setVisible(Allow_Brush);
+    ui->BackgroundStyleED->setVisible(Allow_Brush);
+    if (Allow_Brush) ui->BackgroundStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection.GetStyleName(CurrentTextItem->GetBackgroundStyle()));
     ui->BrushTypeLabel->setVisible(Allow_Brush);
     ui->BrushTypeCombo->setVisible(Allow_Brush);
     ui->ColorLabel1->setVisible(Allow_Color1);
@@ -478,20 +481,8 @@ void DlgTextEdit::s_ChIndexBackgroundCombo(int) {
 //====================================================================================================================
 
 void DlgTextEdit::s_TextStyleBT() {
-    QString ActualStyle=
-            QString("FontSize:%1").arg(CurrentTextItem->FontSize)+
-            QString("###HAlign:%1").arg(CurrentTextItem->HAlign)+
-            QString("###VAlign:%1").arg(CurrentTextItem->VAlign)+
-            QString("###StyleText:%1").arg(CurrentTextItem->StyleText)+
-            "###FontColor:"+CurrentTextItem->FontColor+
-            "###FontShadowColor:"+CurrentTextItem->FontShadowColor+
-            QString("###Bold:%1").arg(CurrentTextItem->IsBold?1:0)+
-            QString("###Italic:%1").arg(CurrentTextItem->IsItalic?1:0)+
-            QString("###Underline:%1").arg(CurrentTextItem->IsUnderline?1:0)+
-            "###FontName:"+CurrentTextItem->FontName;
-
+    QString ActualStyle=CurrentTextItem->GetTextStyle();
     QString Item=GlobalMainWindow->ApplicationConfig->StyleTextCollection.PopupCollectionMenu(this,ActualStyle);
-
     ui->TextStyleBT->setDown(false);
     if (Item!="") {
         QStringList List;
@@ -508,23 +499,13 @@ void DlgTextEdit::s_TextStyleBT() {
             else if (List[i].startsWith("Underline:"))          CurrentTextItem->IsUnderline    =List[i].mid(QString("Underline:").length()).toInt()==1;
             else if (List[i].startsWith("FontName:"))           CurrentTextItem->FontName       =List[i].mid(QString("FontName:").length());
         }
-        RefreshControls();
     }
+    RefreshControls();
 }
 
 void DlgTextEdit::s_BackgroundStyleBT() {
-    QString ActualStyle=
-            QString("BrushType:%1").arg(CurrentBrush->BrushType)+
-            QString("###PatternType:%1").arg(CurrentBrush->PatternType)+
-            QString("###GradientOrientation:%1").arg(CurrentBrush->GradientOrientation)+
-            "###ColorD:"+CurrentBrush->ColorD+
-            "###ColorF:"+CurrentBrush->ColorF+
-            "###ColorIntermed:"+CurrentBrush->ColorIntermed+
-            QString("###Intermediate:%1").arg(CurrentBrush->Intermediate,0,'f',3)+
-            "###BrushImage:"+CurrentBrush->BrushImage;
-
+    QString ActualStyle=CurrentTextItem->GetBackgroundStyle();
     QString Item=GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection.PopupCollectionMenu(this,ActualStyle);
-
     ui->BackgroundStyleBT->setDown(false);
     if (Item!="") {
         QStringList List;
@@ -539,6 +520,6 @@ void DlgTextEdit::s_BackgroundStyleBT() {
             else if (List[i].startsWith("Intermediate:"))           CurrentBrush->Intermediate          =List[i].mid(QString("Intermediate:").length()).toDouble();
             else if (List[i].startsWith("BrushImage:"))             CurrentBrush->BrushImage            =List[i].mid(QString("BrushImage:").length());
         }
-        RefreshControls();
     }
+    RefreshControls();
 }

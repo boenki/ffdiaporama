@@ -83,7 +83,7 @@ bool cStyleCollectionItem::LoadFromXML(QDomElement domDocument,QString ElementNa
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
         // Ensure BckStyleName is corresponding. Elsewhere return false
-        if ((MustCheck)&&(Element.hasAttribute("BckStyleName"))&&(BckStyleName!=Element.attribute("BckStyleName"))) return false;
+        if ((MustCheck)&&(Element.hasAttribute("BckStyleName"))&&(Element.attribute("BckStyleName")!=BckStyleName)) return false;
 
         if (IsUserConfigFile) FromUserConf=true;
         StyleName=Element.attribute("StyleName");
@@ -136,7 +136,21 @@ void cStyleCollection::SortList() {
     qSort(Collection.begin(),Collection.end(),toAssending);
 }
 
-//====================================================================================================================
+//************************************************
+
+QString cStyleCollection::GetStyleName(QString StyleDef) {
+    int i=0;
+    if (GeometryFilter) while ((i<Collection.count())&&((Collection[i].StyleDef!=StyleDef)||(!Collection[i].StyleName.startsWith(ActiveFilter)))) i++;
+        else            while ((i<Collection.count())&&(Collection[i].StyleDef!=StyleDef)) i++;
+
+    if ((i<Collection.count())&&(Collection[i].StyleDef==StyleDef)) {
+        QString StyleName=Collection[i].StyleName;
+        if (GeometryFilter) StyleName=StyleName.mid(ActiveFilter.length());
+        return StyleName;
+    } else return QApplication::translate("DlgManageStyle","Custom style");
+}
+
+//************************************************
 
 void cStyleCollection::SetActiveFilter(int Geometry) {
     switch (Geometry) {
@@ -200,7 +214,6 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
                 else if (Collection[i].StyleName=="4:3-Full Screen block")                              Collection[i].StyleName=QApplication::translate("DlgManageStyle","4:3-Full Screen block");
                 else if (Collection[i].StyleName=="Rounded rectangle with small brown border")          Collection[i].StyleName=QApplication::translate("DlgManageStyle","Rounded rectangle with small brown border");
                 else if (Collection[i].StyleName=="Rectangle with no effect")                           Collection[i].StyleName=QApplication::translate("DlgManageStyle","Rectangle with no effect");
-                Collection[i].BckStyleName=Collection[i].StyleName;
             } else {
                 // Reading from user config file : search if Style already exist, then load it else append a new one
                 QString ElementName=QString(CollectionName+QString("Item_%1").arg(i));
@@ -209,7 +222,7 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
                     int IndexKey=TheElement.attribute("StyleIndex").toInt();
                     int j=0;
                     while ((j<Collection.count())&&(Collection[j].StyleIndex!=IndexKey)) j++;
-                    bool NotAppend=(j<Collection.count())&& Collection[IndexKey].LoadFromXML(Element,QString(CollectionName+QString("Item_%1").arg(i)),true,true);
+                    bool NotAppend=(j<Collection.count())&& Collection[j].LoadFromXML(Element,QString(CollectionName+QString("Item_%1").arg(i)),true,true);
                     if (!NotAppend) {
                         j=Collection.count();
                         Collection.append(cStyleCollectionItem(false,j/*IndexKey*/,"",""));
@@ -227,6 +240,7 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
 
 QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString ActualStyleDef) {
     QString Item="";
+    bool    IsStyleFound =false;
     QMenu   *ContextMenu =new QMenu(ParentWindow);
     QMenu   *UpdateMenu  =new QMenu(ParentWindow);
     QAction *ActionCreate=new QAction(QApplication::translate("DlgManageStyle","Create new style"),ParentWindow);
@@ -237,6 +251,10 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString Actu
         if (GeometryFilter) Item=Collection[i].StyleName.mid(ActiveFilter.length()); else Item=Collection[i].StyleName;
         QAction *NormalAction=new QAction(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item,ParentWindow);
         NormalAction->setIconVisibleInMenu(true);
+        if (Collection[i].StyleDef==ActualStyleDef) {
+            NormalAction->setText("*"+NormalAction->text());
+            IsStyleFound=true;
+        }
         ContextMenu->addAction(NormalAction);
         QAction *UpdateAction=new QAction(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item,ParentWindow);
         UpdateAction->setIconVisibleInMenu(true);
@@ -248,6 +266,10 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString Actu
     ContextMenu->addAction(ActionCreate);
     ContextMenu->addMenu(UpdateMenu);
     ContextMenu->addAction(ActionManage);
+    if (IsStyleFound) {
+        ActionCreate->setEnabled(false);
+        UpdateMenu->setEnabled(false);
+    }
     QAction *Ret=ContextMenu->exec(QCursor::pos());
 
     if (Ret!=NULL) {
