@@ -105,6 +105,12 @@ public:
                                       cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList &AliasList);
+
+    // Style managment functions
+    QString     GetCoordinateStyle();
+    QString     GetBlockShapeStyle();
+    QString     GetTextStyle();
+    QString     GetBackgroundStyle();
 };
 
 //*********************************************************************************************************************************************

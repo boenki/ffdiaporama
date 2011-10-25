@@ -331,6 +331,21 @@ void DlgSlideProperties::GetSound() {
 
 //====================================================================================================================
 
+void DlgSlideProperties::RefreshStyleControls() {
+    int CurrentBlock=ui->BlockTable->currentRow();
+    cCompositionObject  *CurrentTextItem=NULL;
+    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
+    bool IsVisible=(CurrentTextItem)&&(CurrentTextItem->IsVisible);
+    ui->CoordinateStyleBT->setEnabled(IsVisible);
+    ui->CoordinateStyleED->setEnabled(IsVisible);
+    if (CurrentTextItem) ui->CoordinateStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.GetStyleName(CurrentTextItem->GetCoordinateStyle())); else ui->CoordinateStyleED->setText("");
+    ui->BlockShapeStyleBT->setEnabled(IsVisible);
+    ui->BlockShapeStyleED->setEnabled(IsVisible);
+    if (CurrentTextItem) ui->BlockShapeStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.GetStyleName(CurrentTextItem->GetBlockShapeStyle())); else ui->BlockShapeStyleED->setText("");
+}
+
+//====================================================================================================================
+
 void DlgSlideProperties::RefreshControls() {
     // Ensure box is init and Current contain index of currented selected sequence
     if ((!IsFirstInitDone)||(!CompositionList)||(StopMAJSpinbox)) return;
@@ -592,6 +607,8 @@ void DlgSlideProperties::RefreshSceneImage() {
     // Refresh thumbnail
     ui->ShotTable->setUpdatesEnabled(false);
     ui->ShotTable->setUpdatesEnabled(true);
+
+    RefreshStyleControls();
 
     InRefreshSceneImage=false;
     QApplication::restoreOverrideCursor();
@@ -1856,19 +1873,8 @@ void DlgSlideProperties::s_CoordinateStyleBT() {
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
 
-    QString ActualStyle=
-            QString("###X:%1").arg(CurrentTextItem->x,0,'f',3)+
-            QString("###Y:%1").arg(CurrentTextItem->y,0,'f',3)+
-            QString("###W:%1").arg(CurrentTextItem->w,0,'f',3)+
-            QString("###H:%1").arg(CurrentTextItem->h,0,'f',3)+
-            QString("###RotateZAxis:%1").arg(CurrentTextItem->RotateZAxis,0,'f',3)+
-            QString("###RotateXAxis:%1").arg(CurrentTextItem->RotateXAxis,0,'f',3)+
-            QString("###RotateYAxis:%1").arg(CurrentTextItem->RotateYAxis,0,'f',3)+
-            QString("###ImageGeometry:%1").arg(CurrentTextItem->BackgroundBrush.BrushFileCorrect.ImageGeometry);
-
-
+    QString ActualStyle=CurrentTextItem->GetCoordinateStyle();
     QString Item=GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.PopupCollectionMenu(this,ActualStyle);
-
     ui->CoordinateStyleBT->setDown(false);
     if (Item!="") {
         QStringList List;
@@ -1890,6 +1896,7 @@ void DlgSlideProperties::s_CoordinateStyleBT() {
         int CurrentRow=ui->BlockTable->currentRow();
         RefreshBlockTable(CurrentRow>0?CurrentRow-1:0);
     }
+    RefreshStyleControls();
 }
 
 //====================================================================================================================
@@ -1898,18 +1905,8 @@ void DlgSlideProperties::s_BlockShapeStyleBT() {
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
 
-    QString ActualStyle=
-            QString("###BackgroundForm:%1").arg(CurrentTextItem->BackgroundForm)+
-            QString("###PenSize:%1").arg(CurrentTextItem->PenSize)+
-            QString("###PenStyle:%1").arg(CurrentTextItem->PenStyle)+
-            QString("###FormShadow:%1").arg(CurrentTextItem->FormShadow)+
-            QString("###FormShadowDistance:%1").arg(CurrentTextItem->FormShadowDistance)+
-            QString("###Opacity:%1").arg(CurrentTextItem->Opacity)+
-            "###PenColor:"+CurrentTextItem->PenColor+
-            "###FormShadowColor:"+CurrentTextItem->FormShadowColor;
-
+    QString ActualStyle=CurrentTextItem->GetBlockShapeStyle();
     QString Item=GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.PopupCollectionMenu(this,ActualStyle);
-
     ui->BlockShapeStyleBT->setDown(false);
     if (Item!="") {
         QStringList List;
@@ -1927,4 +1924,5 @@ void DlgSlideProperties::s_BlockShapeStyleBT() {
         int CurrentRow=ui->BlockTable->currentRow();
         RefreshBlockTable(CurrentRow>0?CurrentRow-1:0);
     }
+    RefreshStyleControls();
 }

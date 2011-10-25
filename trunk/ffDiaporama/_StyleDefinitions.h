@@ -68,7 +68,7 @@ public:
     void    LoadFromXML(QDomDocument &domDocument,QDomElement root,int TypeConfigFile);
     void    SetActiveFilter(int Geometry);
     void    SortList();
-
+    QString GetStyleName(QString StyleDef);
     QString PopupCollectionMenu(QWidget *ParentWindow,QString ActualStyleDef);
     void    UpdateExistingStyle(QString StyleName,QString ActualStyleDef);
     void    CreateNewStyle(QWidget *ParentWindow,QString ActualStyleDef);

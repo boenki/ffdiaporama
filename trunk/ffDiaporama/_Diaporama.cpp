@@ -287,6 +287,55 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 
 //====================================================================================================================
 
+QString cCompositionObject::GetCoordinateStyle() {
+    // Important : ImageGeomery at first !
+    return  QString("###ImageGeometry:%1").arg(BackgroundBrush.BrushFileCorrect.ImageGeometry)+
+            QString("###X:%1").arg(x,0,'f',3)+
+            QString("###Y:%1").arg(y,0,'f',3)+
+            QString("###W:%1").arg(w,0,'f',3)+
+            QString("###H:%1").arg(h,0,'f',3)+
+            QString("###RotateZAxis:%1").arg(RotateZAxis,0,'f',3)+
+            QString("###RotateXAxis:%1").arg(RotateXAxis,0,'f',3)+
+            QString("###RotateYAxis:%1").arg(RotateYAxis,0,'f',3);
+}
+
+QString cCompositionObject::GetBlockShapeStyle() {
+    return  QString("###BackgroundForm:%1").arg(BackgroundForm)+
+            QString("###PenSize:%1").arg(PenSize)+
+            QString("###PenStyle:%1").arg(PenStyle)+
+            QString("###FormShadow:%1").arg(FormShadow)+
+            QString("###FormShadowDistance:%1").arg(FormShadowDistance)+
+            QString("###Opacity:%1").arg(Opacity)+
+            "###PenColor:"+PenColor+
+            "###FormShadowColor:"+FormShadowColor;
+}
+
+QString cCompositionObject::GetTextStyle() {
+    return  QString("FontSize:%1").arg(FontSize)+
+            QString("###HAlign:%1").arg(HAlign)+
+            QString("###VAlign:%1").arg(VAlign)+
+            QString("###StyleText:%1").arg(StyleText)+
+            "###FontColor:"+FontColor+
+            "###FontShadowColor:"+FontShadowColor+
+            QString("###Bold:%1").arg(IsBold?1:0)+
+            QString("###Italic:%1").arg(IsItalic?1:0)+
+            QString("###Underline:%1").arg(IsUnderline?1:0)+
+            "###FontName:"+FontName;
+}
+
+QString cCompositionObject::GetBackgroundStyle() {
+    return  QString("BrushType:%1").arg(BackgroundBrush.BrushType)+
+            QString("###PatternType:%1").arg(BackgroundBrush.PatternType)+
+            QString("###GradientOrientation:%1").arg(BackgroundBrush.GradientOrientation)+
+            "###ColorD:"+BackgroundBrush.ColorD+
+            "###ColorF:"+BackgroundBrush.ColorF+
+            "###ColorIntermed:"+BackgroundBrush.ColorIntermed+
+            QString("###Intermediate:%1").arg(BackgroundBrush.Intermediate,0,'f',3)+
+            "###BrushImage:"+BackgroundBrush.BrushImage;
+}
+
+//====================================================================================================================
+
 void cCompositionObject::CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy) {
     IsVisible            =CompositionObjectToCopy->IsVisible;
     x                    =CompositionObjectToCopy->x;
