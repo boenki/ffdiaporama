@@ -848,7 +848,7 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgImageCorrection.ui" line="1505"/>
         <source>Properties for all shots</source>
-        <translation>Propiedades para todas las tomas</translation>
+        <translation>Propiedades todas las tomas</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="466"/>
@@ -1031,7 +1031,7 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgManageStyle.ui" line="116"/>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Renombrar</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="130"/>
@@ -1041,12 +1041,12 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgManageStyle.ui" line="141"/>
         <source>Cancel the modifications that you made on a standard style</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar las modificaciones que se han realizado en un estilo estándar</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="144"/>
         <source>Reset to default</source>
-        <translation type="unfinished"></translation>
+        <translation>Predeterminado</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="182"/>
@@ -1086,147 +1086,147 @@ Transición de fundido</translation>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="128"/>
         <source>Big black text with white outlines</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto grande negro con contorno blanco</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="129"/>
         <source>Big light yellow text with dark brown shadow</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto grande de color amarillo claro con sombra marrón oscuro</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="130"/>
         <source>Medium black text with white outlines</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto mediano negro con contorno blanco</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="131"/>
         <source>Medium light yellow text with dark brown shadow</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto mediano de color amarillo claro con sombra marrón oscuro</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="132"/>
         <source>Small white text with black outlines</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto pequeño con contorno blanco</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="133"/>
         <source>Centered Blue Gradient</source>
-        <translation type="unfinished"></translation>
+        <translation>Gradiente Azul centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="134"/>
         <source>Centered Brown Gradient</source>
-        <translation type="unfinished"></translation>
+        <translation>Gradiente Marrón centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="135"/>
         <source>Centered Dark-Gray Gradient</source>
-        <translation type="unfinished"></translation>
+        <translation>Gradiente Gris oscuro centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="136"/>
         <source>Centered Green Gradient</source>
-        <translation type="unfinished"></translation>
+        <translation>Gradiente Verde centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="137"/>
         <source>Centered Light-Gray Gradient</source>
-        <translation type="unfinished"></translation>
+        <translation>Gradiente Gris claro centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="138"/>
         <source>Centered Red Gradient</source>
-        <translation type="unfinished"></translation>
+        <translation>Gadiente Rojo centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="139"/>
         <source>Transparent block (no brush)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloque transparente (sin fondo)</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="140"/>
         <source>16:9-Centered 10x15 Landscape Image</source>
-        <translation type="unfinished"></translation>
+        <translation>16:9-Foto (paisaje) 10x15 Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="141"/>
         <source>16:9-Centered 10x15 Portrait Image</source>
-        <translation type="unfinished"></translation>
+        <translation>16:9-Foto (retrato) 10x15 Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="142"/>
         <source>16:9-Centered 4:3 Image</source>
-        <translation type="unfinished"></translation>
+        <translation>16:9-Imagen 4:3 Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="143"/>
         <source>16:9-Centered Cinema Image</source>
-        <translation type="unfinished"></translation>
+        <translation>16:9-Imagen 2:35/1 (cinema) Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="144"/>
         <source>16:9-Full Screen block</source>
-        <translation type="unfinished"></translation>
+        <translation>16:9-Pantalla completa</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="145"/>
         <source>2.35:1-Centered 10x15 Landscape Image</source>
-        <translation type="unfinished"></translation>
+        <translation>2.35:1-Fototo 10x15 (paisaje) Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="146"/>
         <source>2.35:1-Centered 10x15 Portrait Image</source>
-        <translation type="unfinished"></translation>
+        <translation>2.35:1-Foto 10x15 (retrato) Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="147"/>
         <source>2.35:1-Centered 16:9 Image</source>
-        <translation type="unfinished"></translation>
+        <translation>2.35:1-Imagen 16/9 Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="148"/>
         <source>2.35:1-Centered 4:3 Image</source>
-        <translation type="unfinished"></translation>
+        <translation>2.35:1-Imagen 4/3 Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="149"/>
         <source>2.35:1-Full Screen block</source>
-        <translation type="unfinished"></translation>
+        <translation>2.35:1-Pantalla completa</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="150"/>
         <source>4:3-Centered 10x15 Landscape Image</source>
-        <translation type="unfinished"></translation>
+        <translation>4:3-Foto 10x15 (paisaje) Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="151"/>
         <source>4:3-Centered 10x15 Portrait Image</source>
-        <translation type="unfinished"></translation>
+        <translation>4:3-Foto 10x15 (retrato) Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="152"/>
         <source>4:3-Centered 16:9 Image</source>
-        <translation type="unfinished"></translation>
+        <translation>4:3-Imagen 16/9 Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="153"/>
         <source>4:3-Centered Cinema Image</source>
-        <translation type="unfinished"></translation>
+        <translation>4:3-Imagen 2:35/1 (cinema) Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="154"/>
         <source>4:3-Full Screen block</source>
-        <translation type="unfinished"></translation>
+        <translation>4:3-Pantalla completa</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="155"/>
         <source>Rounded rectangle with small brown border</source>
-        <translation type="unfinished"></translation>
+        <translation>Rectangulo redondeado con borde marron</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="156"/>
         <source>Rectangle with no effect</source>
-        <translation type="unfinished"></translation>
+        <translation>Rectángulo sin efecto</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="185"/>
@@ -1783,7 +1783,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="910"/>
         <source>Job completed succesfully!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Trabajo completado!</translation>
     </message>
     <message>
         <location filename="../_ApplicationDefinitions.cpp" line="671"/>
@@ -2469,7 +2469,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTextEdit.ui" line="175"/>
         <source>Properties for all shots</source>
-        <translation>Propiedades de todas las tomas</translation>
+        <translation>Propiedades todas las tomas</translation>
     </message>
     <message>
         <location filename="../DlgTextEdit.ui" line="146"/>
@@ -3730,7 +3730,7 @@ Do you want to save-it ?</source>
     &lt;td style=&quot;text-align: center;&quot;&gt;
       &lt;img checked=&quot;true&quot; alt=&quot;&quot; src=&quot;../../img/logo_big.png&quot;&gt;&lt;br&gt;
        &lt;br&gt;Agregar diapositivas vacías o basadas en fotos o videos.&lt;br&gt;
-       Para aprender a construir su presentación y animar las diapositivas ::&lt;br&gt;
+       Para aprender a construir su presentación y animar las diapositivas :&lt;br&gt;
        &lt;a href=&quot;fct_002.html&quot;&gt;Descubrir los principios del funcionamiento de ffDiaporama&lt;/a&gt;&lt;br&gt;&lt;br&gt;
     &lt;/td&gt;
   &lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
