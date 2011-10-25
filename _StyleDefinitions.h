@@ -25,7 +25,7 @@
 #include "_GlobalDefines.h"
 
 //============================================
-// Style collections definition
+// Style collection item definition
 //============================================
 
 class cStyleCollectionItem {
@@ -42,11 +42,16 @@ public:
     QString BckStyleDef;                                        // Backup value for style definition (use for reset to global conf)
 
     cStyleCollectionItem(bool IsGlobalConf,int IndexKey,QString StyleName,QString StyleDef);
+    cStyleCollectionItem(cStyleCollectionItem *Item);
     ~cStyleCollectionItem();
 
     void    SaveToXML(QDomElement &domDocument,QString ElementName);
-    bool    LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile);
+    bool    LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile,bool MustCheck);
 };
+
+//============================================
+// Style collection definition
+//============================================
 
 class cStyleCollection {
 public:
@@ -54,6 +59,7 @@ public:
     QList<cStyleCollectionItem> Collection;                     // Collection items
     bool                        GeometryFilter;                 // True if GeometryFilter is ON
     QString                     ActiveFilter;
+    cStyleCollection            *SourceCollection;              // SourceCollection if collection is an undo object
 
     cStyleCollection();
     ~cStyleCollection();
@@ -61,6 +67,7 @@ public:
     void    SaveToXML(QDomDocument &domDocument,QDomElement &root);
     void    LoadFromXML(QDomDocument &domDocument,QDomElement root,int TypeConfigFile);
     void    SetActiveFilter(int Geometry);
+    void    SortList();
 
     QString PopupCollectionMenu(QWidget *ParentWindow,QString ActualStyleDef);
     void    UpdateExistingStyle(QString StyleName,QString ActualStyleDef);
@@ -68,6 +75,8 @@ public:
     void    ManageExistingStyle(QWidget *ParentWindow);
     void    StringToStringList(QString String,QStringList &List);
 
+    cStyleCollection *PrepUndo();
+    void    ApplyUndo(cStyleCollection *UndoCollection);
 };
 
 #endif // _STYLEDEFINITIONS_H

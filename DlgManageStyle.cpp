@@ -38,7 +38,8 @@
 
 DlgManageStyle::DlgManageStyle(cStyleCollection *TheCollection,QWidget *parent):QDialog(parent),ui(new Ui::DlgManageStyle) {
     ui->setupUi(this);
-    TheCollection=Collection;
+    Collection    =TheCollection;
+    UndoCollection=Collection->PrepUndo();
 
 #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
@@ -46,16 +47,27 @@ DlgManageStyle::DlgManageStyle(cStyleCollection *TheCollection,QWidget *parent):
     setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
 #endif
 
+    PopulateList("");
+
     // Define handler
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OkBt,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
+
+    connect(ui->ListStyle,SIGNAL(currentRowChanged(int)),this,SLOT(s_currentRowChanged(int)));
+
+    connect(ui->DBRenameBT,SIGNAL(clicked()),this,SLOT(s_DBRename()));
+    connect(ui->DBRemoveBT,SIGNAL(clicked()),this,SLOT(s_DBRemove()));
+    connect(ui->DBResetBT,SIGNAL(clicked()),this,SLOT(s_DBReset()));
+
+    ui->ListStyle->setCurrentRow(0);
 }
 
 //====================================================================================================================
 
 DlgManageStyle::~DlgManageStyle() {
     delete ui;
+    delete UndoCollection;
 }
 
 //====================================================================================================================
@@ -82,6 +94,7 @@ void DlgManageStyle::showEvent(QShowEvent *ev) {
 void DlgManageStyle::reject() {
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgManageStyleWSP->SaveWindowState(this);
+    UndoCollection->SourceCollection->ApplyUndo(UndoCollection);
     done(1);
 }
 
@@ -91,4 +104,115 @@ void DlgManageStyle::accept() {
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgManageStyleWSP->SaveWindowState(this);
     done(0);
+}
+
+//====================================================================================================================
+
+void DlgManageStyle::PopulateList(QString StyleToActivate) {
+    ui->ListStyle->setUpdatesEnabled(false);
+    ui->ListStyle->clear();
+    QString Item;
+    for (int i=0;i<Collection->Collection.count();i++) if (!Collection->GeometryFilter || Collection->Collection[i].StyleName.startsWith(Collection->ActiveFilter)) {
+        if (Collection->GeometryFilter) Item=Collection->Collection[i].StyleName.mid(Collection->ActiveFilter.length()); else Item=Collection->Collection[i].StyleName;
+        ui->ListStyle->addItem(new QListWidgetItem(Collection->Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item));
+        if (StyleToActivate==(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item) ui->ListStyle->setCurrentRow(ui->ListStyle->count()-1);
+    }
+    ui->ListStyle->setUpdatesEnabled(true);
+}
+
+//====================================================================================================================
+
+void DlgManageStyle::s_currentRowChanged(int NewRow) {
+    QListWidgetItem *Item=ui->ListStyle->item(NewRow);
+    if (Item) {
+        QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();
+        int i=0;
+        while ((i<Collection->Collection.count())&&(Collection->Collection[i].StyleName!=StyleName)) i++;
+        if ((i<Collection->Collection.count())&&(Collection->Collection[i].StyleName==StyleName)) {
+            ui->DBRenameBT->setEnabled(true);
+            ui->DBRemoveBT->setEnabled(Collection->Collection[i].FromGlobalConf==false);
+            ui->DBResetBT->setEnabled(Collection->Collection[i].FromGlobalConf==true);
+        } else {
+            ui->DBRenameBT->setEnabled(false);
+            ui->DBRemoveBT->setEnabled(false);
+            ui->DBResetBT->setEnabled(false);
+        }
+    } else {
+        ui->DBRenameBT->setEnabled(false);
+        ui->DBRemoveBT->setEnabled(false);
+        ui->DBResetBT->setEnabled(false);
+    }
+}
+
+//====================================================================================================================
+
+void DlgManageStyle::s_DBRename() {
+    QListWidgetItem *Item=ui->ListStyle->item(ui->ListStyle->currentRow());
+    if (Item) {
+        QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();
+        int i=0;
+        while ((i<Collection->Collection.count())&&(Collection->Collection[i].StyleName!=StyleName)) i++;
+        if ((i<Collection->Collection.count())&&(Collection->Collection[i].StyleName==StyleName)) {
+            bool    Ok,Continue=true;
+            QString Text=Item->text();
+            while (Continue) {
+                Continue=false;
+                Text=QInputDialog::getText(this,QApplication::translate("DlgManageStyle","Rename style"),QApplication::translate("DlgManageStyle","New style name:"),QLineEdit::Normal,Text,&Ok);
+                if (Ok && !Text.isEmpty()) {
+                    // Ensure Style is not use by another style
+                    int j=0;
+                    while ((j<Collection->Collection.count())&&((j==i)||(Collection->Collection[j].StyleName!=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Text))) j++;
+                    if ((j<Collection->Collection.count())&&(Collection->Collection[j].StyleName==(Collection->GeometryFilter?Collection->ActiveFilter:"")+Text)) {
+                        QMessageBox::critical(this,QApplication::translate("DlgManageStyle","Rename style"),
+                                              QApplication::translate("DlgManageStyle","A style with this name already exist.\nPlease select another name!"));
+                        Continue=true;
+                    } else {
+                        // If all is ok then apply new name
+                        Collection->Collection[i].StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Text;
+                        Collection->Collection[i].FromUserConf=true;
+                    }
+                }
+            }
+            QString StyleName=Collection->Collection[i].StyleName;
+            Collection->SortList();
+            PopulateList(StyleName);
+        }
+    }
+}
+
+//====================================================================================================================
+
+void DlgManageStyle::s_DBRemove() {
+    QListWidgetItem *Item=ui->ListStyle->item(ui->ListStyle->currentRow());
+    if (Item) {
+        QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();
+        int i=0;
+        while ((i<Collection->Collection.count())&&(Collection->Collection[i].StyleName!=StyleName)) i++;
+        if ((i<Collection->Collection.count())&&(Collection->Collection[i].StyleName==StyleName)) {
+            if (ui->ListStyle->currentRow()<ui->ListStyle->count()-1) Item=ui->ListStyle->item(ui->ListStyle->currentRow()+1);
+            else if (ui->ListStyle->currentRow()>0) Item=ui->ListStyle->item(ui->ListStyle->currentRow()-1);
+            else Item=NULL;
+            Collection->Collection.removeAt(i);
+            PopulateList(Item==NULL?"":(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text());
+        }
+    }
+}
+
+//====================================================================================================================
+
+void DlgManageStyle::s_DBReset() {
+    QListWidgetItem *Item=ui->ListStyle->item(ui->ListStyle->currentRow());
+    if (Item) {
+        QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();
+        int i=0;
+        while ((i<Collection->Collection.count())&&(Collection->Collection[i].StyleName!=StyleName)) i++;
+        if ((i<Collection->Collection.count())&&(Collection->Collection[i].StyleName==StyleName)) {
+            Collection->Collection[i].StyleName=Collection->Collection[i].BckStyleName;
+            Collection->Collection[i].StyleDef =Collection->Collection[i].BckStyleDef;
+            Collection->Collection[i].FromUserConf=false;
+            QString StyleName=Collection->Collection[i].StyleName;
+            Collection->SortList();
+            PopulateList(StyleName);
+        }
+    }
 }

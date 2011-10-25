@@ -1,14 +1,19 @@
-Buggs/TODO (Dernier SVN le 20/10/2011) :
+Buggs/TODO (Dernier SVN le 23/10/2011) :
 ----------------------------------------
 BUGG:
-- L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
-- When using the cross fade transition between 2 identical pictures the brightness changes
-- Les diapo peuvent avoir une durée à 0 et quand les diapo ont une durée à 0, un double click ne permet pas de les ouvrir
-- Les fichiers .flv ne sont pas proposés dans la liste des extentions vidéos supportées.
-- Le mixage de 2 pistes audio à fort volume donne un résultat saturé
-- Problème avec le champs jusqu'à dans la sélection d'une plage de diapositive dans la boite de génération
-- Dans Fichier/Options/Options de génération/Options par défaut en mode avancé, quel que soit le format de fichier choisi, c'est toujours AVI qui est proposé au moment de la génération du film
-- When canceling a "add files" dialog, current selection is move to the next side
+-L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
+-When using the cross fade transition between 2 identical pictures the brightness changes
+-Les diapo peuvent avoir une durée à 0 et quand les diapo ont une durée à 0, un double click ne permet pas de les ouvrir
+-Les fichiers .flv ne sont pas proposés dans la liste des extentions vidéos supportées.
+-Le mixage de 2 pistes audio à fort volume donne un résultat saturé
+-Problème avec le champs jusqu'à dans la sélection d'une plage de diapositive dans la boite de génération
+-Dans Fichier/Options/Options de génération/Options par défaut en mode avancé, quel que soit le format de fichier choisi, c'est toujours AVI qui est proposé au moment de la génération du film
+-When canceling a "add files" dialog, current selection is move to the next side
+
+
+-Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
+
+
 
 TODO-List
 ---------
@@ -21,7 +26,10 @@ Editor
 -Add a duplicate slide button to the main toolbar
 -Manage block groups
 -Transform some properties to not global (shape => Example : Progressive transformation of square to circle, Border => Progressive transformation of the color and the thickness (what about style ?), Shadow => Progressive transformation of the color and the distance)
--Style sheet for text, background text, blocks shape and blocks size & positionning
+-[Work in progress] Style sheet for text, background text, blocks shape and blocks size & positionning
+    -> Functionnality is OK now
+    -> Documentation to be written
+    -> Need to modify Configuration Options dialog to predefine block properties using style
 
 Background
 -Put back compositions for the background
@@ -63,22 +71,16 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
-- Force les barres de titre dans les boites de dialogue même si elles sont désactivées par les propriétés du système [Linux-Gnome shell]
-- Force les icones dans le menu style même si ils sont désactivés par les propriétés du système [Linux-Gnome shell]
+- Corrige l'erreur de filtrage lors des créations de style
 
 French version / Nouvelles fonctionnalités :
-- Crée une première série de style standard
-- Traduit les styles standards
-- Ajoute un filtre sur la géomtrie pour les styles de coordonnées de bloc
+- Developpement de la boite de gestion des styles
 
 English version / Bug fix :
-- Force dialog title bar even if title bar are disabled by systeme settings [Linux-Gnome shell]
-- Force icon in style menu even if icons are disabled by systeme settings [Linux-Gnome shell]
+- Fix filtering error when creating new style
 
 English version / New features :
-- Creat a first collection for standard style
-- Translate standard styles
-- Add a geometry filter to block coordinates styles
+- Manage style dialog developpment
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -95,6 +97,8 @@ Bug fix French version
 - Corrige le bug sous Windows au premier lancement si l'entrée [My vidéos] est vide, utilise [My documents]
 - Corrige le bug sous Windows lors des générations de vidéo quand le fichier de destination ou le répertoire de destination contient des accents
 - [Code cleaning] Transfert les fichiers fmt_filters dans leurs propres sous-répertoire
+- Force les barres de titre dans les boites de dialogue même si elles sont désactivées par les propriétés du système [Linux-Gnome shell]
+- Force les icones dans le menu style même si ils sont désactivés par les propriétés du système [Linux-Gnome shell]
 
 Bug fix English version
 - Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -107,6 +111,8 @@ Bug fix English version
 - Fix Windows bug at first startup use [My documents] instead of [My videos] if [My videos] is undefined
 - Fix Windows bug when render video and filename or path of destination file have special characters like accents
 - [Code cleaning] Move fmt_filters files to their own sub-directory
+- Force dialog title bar even if title bar are disabled by systeme settings [Linux-Gnome shell]
+- Force icon in style menu even if icons are disabled by systeme settings [Linux-Gnome shell]
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
@@ -147,6 +153,9 @@ French version
 - Ajoute la gestion des styles
     - Ajoute des boutons menu de style pour les coordonnées et la forme des blocs dans la boite slide
     - Ajoute des boutons menu de style pour les textes et le fond de bloc des textes dans la boite texte
+- Crée une première série de style standard
+- Traduit les styles standards
+- Ajoute un filtre sur la géométrie pour les styles de coordonnées de bloc
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -179,3 +188,6 @@ English version
 - Add style management system
     - Add style menu button for coordinates and block shape in the slide dialog
     - Add style menu button for text and text block background in the text dialog
+- Creat a first collection for standard style
+- Translate standard styles
+- Add a geometry filter to block coordinates styles

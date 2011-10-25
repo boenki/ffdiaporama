@@ -35,10 +35,13 @@ namespace Ui {
 class DlgManageStyle : public QDialog {
 Q_OBJECT
 public:
-    cStyleCollection *Collection;
+    cStyleCollection    *Collection;
+    cStyleCollection    *UndoCollection;
 
     explicit DlgManageStyle(cStyleCollection *Collection,QWidget *parent=0);
     ~DlgManageStyle();
+
+    void        PopulateList(QString StyleToActivate);
 
 protected:
     virtual void showEvent(QShowEvent *);
@@ -48,6 +51,11 @@ protected:
 private slots:
     void        Help();
     void        SetSavedWindowGeometry();
+
+    void        s_currentRowChanged(int);
+    void        s_DBRename();
+    void        s_DBRemove();
+    void        s_DBReset();
 
 private:
     Ui::DlgManageStyle *ui;

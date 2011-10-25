@@ -29,7 +29,7 @@
 #include "DlgManageStyle.h"
 
 bool toAssending(const cStyleCollectionItem &Item1 ,const cStyleCollectionItem &Item2) {
-    return Item1.StyleName<Item2.StyleName;
+    return Item1.StyleName.toUpper()<Item2.StyleName.toUpper();
 }
 
 //====================================================================================================================
@@ -47,6 +47,19 @@ cStyleCollectionItem::cStyleCollectionItem(bool IsGlobalConf,int IndexKey,QStrin
 
 //************************************************
 
+cStyleCollectionItem::cStyleCollectionItem(cStyleCollectionItem *Item) {
+    FromGlobalConf  =Item->FromGlobalConf;
+    FromUserConf    =Item->FromUserConf;
+    IsFind          =Item->IsFind;
+    StyleIndex      =Item->StyleIndex;
+    StyleName       =Item->StyleName;
+    StyleDef        =Item->StyleDef;
+    BckStyleName    =Item->BckStyleName;
+    BckStyleDef     =Item->BckStyleDef;
+}
+
+//************************************************
+
 cStyleCollectionItem::~cStyleCollectionItem() {
 
 }
@@ -58,15 +71,20 @@ void cStyleCollectionItem::SaveToXML(QDomElement &domDocument,QString ElementNam
     QDomElement     Element=DomDocument.createElement(ElementName);
     Element.setAttribute("StyleIndex",      StyleIndex);
     Element.setAttribute("StyleName",       StyleName);
+    Element.setAttribute("BckStyleName",    BckStyleName);
     Element.setAttribute("StyleDefinition", StyleDef);
     domDocument.appendChild(Element);
 }
 
 //************************************************
 
-bool cStyleCollectionItem::LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile) {
+bool cStyleCollectionItem::LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile,bool MustCheck) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
+
+        // Ensure BckStyleName is corresponding. Elsewhere return false
+        if ((MustCheck)&&(Element.hasAttribute("BckStyleName"))&&(BckStyleName!=Element.attribute("BckStyleName"))) return false;
+
         if (IsUserConfigFile) FromUserConf=true;
         StyleName=Element.attribute("StyleName");
         StyleDef =Element.attribute("StyleDefinition");
@@ -82,12 +100,40 @@ bool cStyleCollectionItem::LoadFromXML(QDomElement domDocument,QString ElementNa
 //====================================================================================================================
 
 cStyleCollection::cStyleCollection() {
-    GeometryFilter=false;
+    GeometryFilter  =false;
+    SourceCollection=NULL;
 }
 
 //************************************************
 
 cStyleCollection::~cStyleCollection() {
+}
+
+//************************************************
+
+cStyleCollection *cStyleCollection::PrepUndo() {
+    cStyleCollection *UndoCollection=new cStyleCollection();
+
+    UndoCollection->SourceCollection=this;
+    UndoCollection->CollectionName  =CollectionName;
+    UndoCollection->GeometryFilter  =GeometryFilter;
+    UndoCollection->ActiveFilter    =ActiveFilter;
+
+    for (int i=0;i<Collection.count();i++) UndoCollection->Collection.append(new cStyleCollectionItem(Collection[i]));
+    return UndoCollection;
+}
+
+//************************************************
+
+void cStyleCollection::ApplyUndo(cStyleCollection *UndoCollection) {
+    Collection.clear();
+    for (int i=0;i<UndoCollection->Collection.count();i++) Collection.append(new cStyleCollectionItem(UndoCollection->Collection[i]));
+}
+
+//************************************************
+
+void cStyleCollection::SortList() {
+    qSort(Collection.begin(),Collection.end(),toAssending);
 }
 
 //====================================================================================================================
@@ -124,7 +170,7 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
             if (TypeConfigFile==GLOBALCONFIGFILE) {
                 // Reading from global config file : append device
                 Collection.append(cStyleCollectionItem(TypeConfigFile==GLOBALCONFIGFILE,i,"",""));
-                Collection[i].LoadFromXML(Element,QString(CollectionName+QString("Item_%1").arg(i)),false);
+                Collection[i].LoadFromXML(Element,QString(CollectionName+QString("Item_%1").arg(i)),false,false);
                 if (Collection[i].StyleName=="Big black text with white outlines")                      Collection[i].StyleName=QApplication::translate("DlgManageStyle","Big black text with white outlines");
                 else if (Collection[i].StyleName=="Big light yellow text with dark brown shadow")       Collection[i].StyleName=QApplication::translate("DlgManageStyle","Big light yellow text with dark brown shadow");
                 else if (Collection[i].StyleName=="Medium black text with white outlines")              Collection[i].StyleName=QApplication::translate("DlgManageStyle","Medium black text with white outlines");
@@ -163,17 +209,18 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
                     int IndexKey=TheElement.attribute("StyleIndex").toInt();
                     int j=0;
                     while ((j<Collection.count())&&(Collection[j].StyleIndex!=IndexKey)) j++;
-                    if (j<Collection.count()) Collection[IndexKey].LoadFromXML(Element,QString(CollectionName+QString("Item_%1").arg(i)),true); else {
+                    bool NotAppend=(j<Collection.count())&& Collection[IndexKey].LoadFromXML(Element,QString(CollectionName+QString("Item_%1").arg(i)),true,true);
+                    if (!NotAppend) {
                         j=Collection.count();
-                        Collection.append(cStyleCollectionItem(false,IndexKey,"",""));
-                        Collection[j].LoadFromXML(Element,QString(CollectionName+QString("Item_%1").arg(i)),true);
+                        Collection.append(cStyleCollectionItem(false,j/*IndexKey*/,"",""));
+                        Collection[j].LoadFromXML(Element,QString(CollectionName+QString("Item_%1").arg(i)),true,false);
                     }
                 }
             }
             i++;
         }
     }
-    qSort(Collection.begin(),Collection.end(),toAssending);
+    SortList();
 }
 
 //************************************************
@@ -238,6 +285,7 @@ void cStyleCollection::CreateNewStyle(QWidget *ParentWindow,QString ActualStyleD
         Continue=false;
         Text=QInputDialog::getText(ParentWindow,QApplication::translate("DlgManageStyle","Create new style"),QApplication::translate("DlgManageStyle","Style name:"),QLineEdit::Normal,Text,&Ok);
         if (Ok && !Text.isEmpty()) {
+            Text=(GeometryFilter?ActiveFilter:"")+Text;
             int i=0;
             while ((i<Collection.count())&&(Collection[i].StyleName!=Text)) i++;
             if ((i<Collection.count())&&(Collection[i].StyleName==Text)) {
@@ -253,7 +301,7 @@ void cStyleCollection::CreateNewStyle(QWidget *ParentWindow,QString ActualStyleD
             }
         }
     }
-    qSort(Collection.begin(),Collection.end(),toAssending);
+    SortList();
 }
 
 //************************************************
