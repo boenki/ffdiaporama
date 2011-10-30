@@ -112,8 +112,11 @@ void DlgManageStyle::PopulateList(QString StyleToActivate) {
     ui->ListStyle->setUpdatesEnabled(false);
     ui->ListStyle->clear();
     QString Item;
-    for (int i=0;i<Collection->Collection.count();i++) if (!Collection->GeometryFilter || Collection->Collection[i].StyleName.startsWith(Collection->ActiveFilter)) {
-        if (Collection->GeometryFilter) Item=Collection->Collection[i].StyleName.mid(Collection->ActiveFilter.length()); else Item=Collection->Collection[i].StyleName;
+    for (int i=0;i<Collection->Collection.count();i++)
+        if (((!Collection->GeometryFilter)&&(Collection->Collection[i].GetFilteredPart()==""))||
+            (((Collection->GeometryFilter)&&(Collection->Collection[i].GetFilteredPart()==Collection->ActiveFilter)))
+        ) {
+        Item=Collection->Collection[i].StyleName.mid(Collection->Collection[i].GetFilteredPart().length());
         ui->ListStyle->addItem(new QListWidgetItem(Collection->Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item));
         if (StyleToActivate==(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item) ui->ListStyle->setCurrentRow(ui->ListStyle->count()-1);
     }

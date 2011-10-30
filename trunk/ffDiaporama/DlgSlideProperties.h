@@ -43,6 +43,7 @@ public:
 
     bool                    StopMAJSpinbox;
     bool                    StopMajSelect;
+    bool                    StopMajFramingStyle;
     bool                    BLOCKCHSIZE;
     cCompositionList        *CompositionList;           // Link to Composition List
     double                  xmax,ymax;                  // Size of the scene
@@ -138,10 +139,8 @@ private slots:
     void            s_ChgRotateXValue(int);
     void            s_ChgRotateYValue(int);
 
-    // Image part
-    void            s_ChangeImageGeometry(int);
-
-    // Style buttons
+    // Style
+    void            s_ChangeFramingStyle(int);
     void            s_CoordinateStyleBT();
     void            s_BlockShapeStyleBT();
 

@@ -174,11 +174,20 @@ extern "C" {
 #define ICON_RULER_OFF                      "img/ruler_ko.png"
 #define ICON_GLOBALCONF                     "img/db.png"
 #define ICON_USERCONF                       "img/db_update.png"
+#define ICON_GEOMETRY_LOCKED                "img/Geometry_Lock.png"
+#define ICON_GEOMETRY_UNLOCKED              "img/Geometry_Unlock.png"
+#define ICON_GEOMETRY_PROJECT               "img/Geometry_ProjectLock.png"
+#define ICON_GEOMETRY_IMAGE                 "img/Geometry_ImageLock.png"
+#define ICON_FRAMING_WIDTH                  "img/AdjustW.png"
+#define ICON_FRAMING_HEIGHT                 "img/AdjustH.png"
+#define ICON_FRAMING_FULL                   "img/AdjustWH.png"
+#define ICON_FRAMING_CUSTOM                 "img/action_cancel.png"
 
 #define STYLENAME_TEXTSTYLE                 "TextStyleCollection"
 #define STYLENAME_BACKGROUNDSTYLE           "TextBackgroundStyleCollection"
 #define STYLENAME_COORDINATESTYLE           "StyleCoordinateCollection"
 #define STYLENAME_BLOCKSHAPESTYLE           "StyleBlockShapeCollection"
+#define STYLENAME_FRAMINGSTYLE              "StyleImageFramingCollection"
 
 // Project geometry definition
 #define GEOMETRY_4_3                        0
@@ -186,10 +195,15 @@ extern "C" {
 #define GEOMETRY_40_17                      2
 #define NBR_GEOMETRY_DEF                    3
 
-// Image geometry definition
-#define GEOMETRY_PROJECT                    0
-#define GEOMETRY_IMAGE                      1
-#define GEOMETRY_CUSTOM                     2
+#define IMAGE_GEOMETRY_UNKNOWN              0   // undefined image geometry
+#define IMAGE_GEOMETRY_3_2                  1   // Standard 3:2 landscape image
+#define IMAGE_GEOMETRY_2_3                  2   // Standard 3:2 portrait image
+#define IMAGE_GEOMETRY_4_3                  3   // Standard 4:3 landscape image
+#define IMAGE_GEOMETRY_3_4                  4   // Standard 4:3 portrait image
+#define IMAGE_GEOMETRY_16_9                 5   // Standard 16:9 landscape image
+#define IMAGE_GEOMETRY_9_16                 6   // Standard 16:9 portrait image
+#define IMAGE_GEOMETRY_40_17                7   // Standard cinema landscape image
+#define IMAGE_GEOMETRY_17_40                8   // Standard cinema portrait image
 
 // Export mode definition
 #define EXPORTMODE_ADVANCED                 0

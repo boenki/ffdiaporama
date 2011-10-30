@@ -126,17 +126,17 @@ bool cFilterTransformObject::LoadFromXML(QDomElement domDocument,QString Element
 //*********************************************************************************************************************************************
 
 cFilterCorrectObject::cFilterCorrectObject() {
-    ImageRotation   = 0;                // Image rotation
-    X               = 0;                // X position (in %) relative to up/left corner
-    Y               = 0;                // Y position (in %) relative to up/left corner
-    ZoomFactor      = 1;                // Zoom factor (in %)
-    Brightness      = 0;
-    Contrast        = 0;
-    Gamma           = 1;
-    Red             = 0;
-    Green           = 0;
-    Blue            = 0;
-    ImageGeometry   = GlobalMainWindow->Diaporama->ImageGeometry;
+    ImageRotation           = 0;                // Image rotation
+    X                       = 0;                // X position (in %) relative to up/left corner
+    Y                       = 0;                // Y position (in %) relative to up/left corner
+    ZoomFactor              = 1;                // Zoom factor (in %)
+    Brightness              = 0;
+    Contrast                = 0;
+    Gamma                   = 1;
+    Red                     = 0;
+    Green                   = 0;
+    Blue                    = 0;
+    LockGeometry            = false;
 }
 
 QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Height,double PctDone,cFilterCorrectObject *PreviousFilter) {
@@ -248,7 +248,7 @@ void cFilterCorrectObject::SaveToXML(QDomElement &domDocument,QString ElementNam
     Element.setAttribute("Red",             Red);
     Element.setAttribute("Green",           Green);
     Element.setAttribute("Blue",            Blue);
-    Element.setAttribute("ImageGeometry",   ImageGeometry);
+    Element.setAttribute("LockGeometry",    LockGeometry?1:0);
     Element.setAttribute("AspectRatio",     AspectRatio);
 
     domDocument.appendChild(Element);
@@ -260,18 +260,22 @@ bool cFilterCorrectObject::LoadFromXML(QDomElement domDocument,QString ElementNa
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
-        X               =Element.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
-        Y               =Element.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
-        ZoomFactor      =Element.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
-        ImageRotation   =Element.attribute("ImageRotation").toDouble();          // Image rotation (in °)
-        Brightness      =Element.attribute("Brightness").toInt();
-        Contrast        =Element.attribute("Contrast").toInt();
-        Gamma           =Element.attribute("Gamma").toDouble();
-        Red             =Element.attribute("Red").toInt();
-        Green           =Element.attribute("Green").toInt();
-        Blue            =Element.attribute("Blue").toInt();
-        ImageGeometry   =Element.attribute("ImageGeometry").toInt();
-        AspectRatio     =Element.attribute("AspectRatio").toDouble();
+        X                       =Element.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
+        Y                       =Element.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
+        ZoomFactor              =Element.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
+        ImageRotation           =Element.attribute("ImageRotation").toDouble();          // Image rotation (in °)
+        Brightness              =Element.attribute("Brightness").toInt();
+        Contrast                =Element.attribute("Contrast").toInt();
+        Gamma                   =Element.attribute("Gamma").toDouble();
+        Red                     =Element.attribute("Red").toInt();
+        Green                   =Element.attribute("Green").toInt();
+        Blue                    =Element.attribute("Blue").toInt();
+        AspectRatio             =Element.attribute("AspectRatio").toDouble();
+
+        // If old ImageGeometry value in project file then compute LockGeometry
+        if (Element.hasAttribute("ImageGeometry")) LockGeometry=(Element.attribute("ImageGeometry").toInt()!=2);
+            // Else load saved value
+            else LockGeometry=Element.attribute("LockGeometry").toInt()==1;
 
         return true;
     }
@@ -310,6 +314,7 @@ cBrushDefinition::~cBrushDefinition() {
 }
 
 //====================================================================================================================
+
 QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
     switch (BrushType) {
         case BRUSHTYPE_NOBRUSH :        return new QBrush(Qt::NoBrush);
@@ -321,6 +326,110 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int
         case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect,PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PreviousBrush);
     }
     return new QBrush(Qt::NoBrush);
+}
+
+//====================================================================================================================
+
+void cBrushDefinition::GetDefaultFraming(FramingType TheFramingType,bool LockGeometry,double &X,double &Y,double &ZoomFactor,double &AspectRatio) {
+    if ((Image==NULL)&&(Video==NULL)) return;
+
+    // Calc coordinates of the part in the source image
+    double  RealImageW  =double(Image!=NULL?Image->ImageWidth:Video->ImageWidth);
+    double  RealImageH  =double(Image!=NULL?Image->ImageHeight:Video->ImageHeight);
+    double  Hyp         =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);             // Calc hypothenuse of the image to define full canvas
+    double  DstX        =((Hyp-RealImageW)/2);
+    double  DstY        =((Hyp-RealImageH)/2);
+    double  DstW        =RealImageW;
+    double  DstH        =RealImageH;
+    double  W;
+    double  H;
+
+    switch (TheFramingType) {
+        case ADJUST_WITH : // Adjust to With
+            W=DstX+DstW-DstX;
+            H=W*AspectRatio;
+            X=((Hyp-W)/2)/Hyp;
+            Y=((Hyp-H)/2)/Hyp;
+            ZoomFactor=W/Hyp;
+            break;
+        case ADJUST_HEIGHT : // Adjust to Height
+            H=DstY+DstH-DstY;
+            W=H/AspectRatio;
+            X=((Hyp-W)/2)/Hyp;
+            Y=((Hyp-H)/2)/Hyp;
+            ZoomFactor=W/Hyp;
+            break;
+        case ADJUST_FULL : // Adjust to FullImage
+            if (!LockGeometry) {
+                W=DstX+DstW-DstX;
+                H=DstY+DstH-DstY;
+                AspectRatio=H/W;
+                X=((Hyp-W)/2)/Hyp;
+                Y=((Hyp-H)/2)/Hyp;
+                ZoomFactor=W/Hyp;
+            } else {
+                W=DstX+DstW-DstX;
+                H=W*AspectRatio;
+                if (H<DstY+DstH-DstY) {
+                    H=DstY+DstH-DstY;
+                    W=H/AspectRatio;
+                    X=((Hyp-W)/2)/Hyp;
+                    Y=((Hyp-H)/2)/Hyp;
+                    ZoomFactor=W/Hyp;
+                } else {
+                    W=DstX+DstW-DstX;
+                    H=W*AspectRatio;
+                    X=((Hyp-W)/2)/Hyp;
+                    Y=((Hyp-H)/2)/Hyp;
+                    ZoomFactor=W/Hyp;
+                }
+            }
+            break;
+    }
+}
+
+//====================================================================================================================
+
+QString cBrushDefinition::GetFramingStyle(double X,double Y,double ZoomFactor,double AspectRatio,double ImageRotation) {
+    return  QString("###X:%1").arg(X,0,'e',4)+
+            QString("###Y:%1").arg(Y,0,'e',4)+
+            QString("###ZoomFactor:%1").arg(ZoomFactor,0,'e')+
+            QString("###ImageRotation:%1").arg(ImageRotation,0,'e')+
+            QString("###AspectRatio:%1").arg(AspectRatio,0,'e');
+}
+
+//====================================================================================================================
+
+void cBrushDefinition::InitDefaultFramingStyle(bool LockGeometry,double AspectRatio) {
+    double X,Y,ZoomFactor;
+
+    GetDefaultFraming(ADJUST_WITH,LockGeometry,X,Y,ZoomFactor,AspectRatio);     DefaultFramingW=GetFramingStyle(X,Y,ZoomFactor,AspectRatio,0);
+    GetDefaultFraming(ADJUST_HEIGHT,LockGeometry,X,Y,ZoomFactor,AspectRatio);   DefaultFramingH=GetFramingStyle(X,Y,ZoomFactor,AspectRatio,0);
+    GetDefaultFraming(ADJUST_FULL,LockGeometry,X,Y,ZoomFactor,AspectRatio);     DefaultFramingF=GetFramingStyle(X,Y,ZoomFactor,AspectRatio,0);
+}
+
+//====================================================================================================================
+
+void cBrushDefinition::ApplyStyle(bool LockGeometry,QString Style) {
+    QStringList List;
+
+    // String to StringList
+    while (Style.contains("###")) {
+        List.append(Style.left(Style.indexOf("###")));
+        Style=Style.mid(Style.indexOf("###")+QString("###").length());
+    }
+    if (!Style.isEmpty()) List.append(Style);
+
+    // Apply
+    BrushFileCorrect.LockGeometry=LockGeometry;
+    for (int i=0;i<List.count();i++) {
+        if      (List[i].startsWith("X:"))              BrushFileCorrect.X             =List[i].mid(QString("X:").length()).toDouble();
+        else if (List[i].startsWith("Y:"))              BrushFileCorrect.Y             =List[i].mid(QString("Y:").length()).toDouble();
+        else if (List[i].startsWith("ZoomFactor:"))     BrushFileCorrect.ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
+        else if (List[i].startsWith("ImageRotation:"))  BrushFileCorrect.ImageRotation =List[i].mid(QString("ImageRotation:").length()).toDouble();
+        else if (List[i].startsWith("AspectRatio:"))    BrushFileCorrect.AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
+
+    }
 }
 
 //====================================================================================================================

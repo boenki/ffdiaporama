@@ -31,6 +31,7 @@
 class cvideofilewrapper {
 public:
     bool                    IsValide;                   // if true then object if fuly initialise
+    int                     ObjectGeometry;             // Image geometry of the embeded image or video
     bool                    MusicOnly;                  // True if object is a music only file
     bool                    IsVorbis;                   // True if vorbis version must be use instead of MP3/WAV version
     QString                 FileName;                   // filename

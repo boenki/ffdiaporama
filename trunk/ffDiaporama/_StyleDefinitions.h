@@ -47,6 +47,7 @@ public:
 
     void    SaveToXML(QDomElement &domDocument,QString ElementName);
     bool    LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile,bool MustCheck);
+    QString GetFilteredPart();
 };
 
 //============================================
@@ -66,14 +67,17 @@ public:
 
     void    SaveToXML(QDomDocument &domDocument,QDomElement &root);
     void    LoadFromXML(QDomDocument &domDocument,QDomElement root,int TypeConfigFile);
-    void    SetActiveFilter(int Geometry);
+    void    SetProjectGeometryFilter(int Geometry);
+    void    SetImageGeometryFilter(int ProjectGeometry,int ImageGeometry);
     void    SortList();
     QString GetStyleName(QString StyleDef);
     QString PopupCollectionMenu(QWidget *ParentWindow,QString ActualStyleDef);
+    void    FillCollectionCB(QComboBox *CB,QString ActualStyleName,bool AdditionnalFramingStyle);
     void    UpdateExistingStyle(QString StyleName,QString ActualStyleDef);
     void    CreateNewStyle(QWidget *ParentWindow,QString ActualStyleDef);
     void    ManageExistingStyle(QWidget *ParentWindow);
     void    StringToStringList(QString String,QStringList &List);
+    void    StringDefToStringList(QString String,QStringList &List);
 
     cStyleCollection *PrepUndo();
     void    ApplyUndo(cStyleCollection *UndoCollection);

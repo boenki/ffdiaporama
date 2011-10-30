@@ -61,7 +61,7 @@ public:
     int         Red;                    // Red adjustment
     int         Green;                  // Green adjustment
     int         Blue;                   // Blue adjustment
-    int         ImageGeometry;          // Geometry for embeded image
+    bool        LockGeometry;           // True if geometry is locked
     double      AspectRatio;            // Aspect Ratio of image
 
     cFilterCorrectObject();
@@ -91,11 +91,13 @@ public:
     QString                 ColorIntermed;          // Intermediate Color
     double                  Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
     QString                 BrushImage;             // Image name if image from library
-    //QString                 BrushFileName;          // Image name if image from disk
     cFilterCorrectObject    BrushFileCorrect;       // Image correction if image from disk
     cimagefilewrapper       *Image;                 // Embeded Object for title and image type
     double                  SoundVolume;            // Volume of soundtrack
     cvideofilewrapper       *Video;                 // Embeded Object for video type
+    QString                 DefaultFramingW;        // Default Framing when ADJUST_WITH
+    QString                 DefaultFramingH;        // Default Framing when ADJUST_HEIGHT
+    QString                 DefaultFramingF;        // Default Framing when ADJUST_FULL
 
     cBrushDefinition();
     ~cBrushDefinition();
@@ -103,6 +105,12 @@ public:
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList &AliasList);
     QBrush      *GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
+
+    enum FramingType {ADJUST_WITH,ADJUST_HEIGHT,ADJUST_FULL};
+    void        GetDefaultFraming(FramingType TheFramingType,bool LockGeometry,double &X,double &Y,double &ZoomFactor,double &AspectRatio);
+    void        InitDefaultFramingStyle(bool LockGeometry,double AspectRatio);
+    QString     GetFramingStyle(double X,double Y,double ZoomFactor,double AspectRatio,double ImageRotation);
+    void        ApplyStyle(bool LockGeometry,QString Style);
 
 private:
     QBrush      *GetLibraryBrush(QRectF Rect);

@@ -35,6 +35,7 @@ namespace Ui {
 class DlgImageCorrection : public QDialog {
 Q_OBJECT
 public:
+    cCompositionObject      *CurrentTextItem;               // Block to modify
     cBrushDefinition        *CurrentBrush;
     cFilterCorrectObject    *BrushFileCorrect;
     QDomDocument            *UndoSlide,*UndoShot;           // Save objects before modification for cancel button
@@ -50,8 +51,10 @@ public:
     double                  xmax,ymax;
     QImage                  *CachedImage;                   // Link to the image to work
     int                     VideoPosition;
+    double                  ImageGeometry;
+    double                  ProjectGeometry;
 
-    explicit DlgImageCorrection(int BackgroundForm,cBrushDefinition *CurrentBrush,cFilterCorrectObject *BrushFileCorrect,int TheVideoPosition,QWidget *parent = 0);
+    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int BackgroundForm,cBrushDefinition *CurrentBrush,cFilterCorrectObject *BrushFileCorrect,int TheVideoPosition,QWidget *parent = 0);
     ~DlgImageCorrection();
 
     void            RefreshBackgroundImage();
@@ -98,6 +101,8 @@ private slots:
     void            s_BlurSharpenReset();
     void            s_RadiusReset();
     void            ChangeBrushDiskFile();
+    void            s_LockGeometryCB(int value);
+    void            s_FramingStyleBT();
 
 private:
     Ui::DlgImageCorrection *ui;

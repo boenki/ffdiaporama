@@ -127,6 +127,7 @@ public:
     cStyleCollection        StyleTextBackgroundCollection;              // List of known background text style
     cStyleCollection        StyleCoordinateCollection;                  // List of known Coordinate style
     cStyleCollection        StyleBlockShapeCollection;                  // List of known BlockShapestyle
+    cStyleCollection        StyleImageFramingCollection;                // List of known Framing style
 
     // User contexte
     QString                 UserConfigPath;                             // Path and filename to user profil path
@@ -154,6 +155,7 @@ public:
     int                     TimelineHeight;                             // Height of the timeline
     bool                    SlideRuler;                                 // if true, ruler is on in slide properties dialog box
     bool                    FramingRuler;                               // if true, ruler is on in framing/correction dialog box
+    bool                    Crop1088To1080;                             // Automaticaly crop video from 1088 lines to 1080 (CANON)
 
     // Preview setting
     double                  PreviewFPS;                                 // Preview FrameRate

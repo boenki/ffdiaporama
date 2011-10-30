@@ -32,9 +32,15 @@
 *************************************************************************************************************************************/
 
 cvideofilewrapper::cvideofilewrapper() {
-    CacheFirstImage         = NULL;             // Cache image of first image of the video
-    CacheLastImage          = NULL;             // Cache image of last image of the video (Preview mode only)
-    dEndFileCachePos        = 0;                // Position of the cache image of last image of the video
+    IsValide                = false;                    // if true then object if fuly initialise
+    ObjectGeometry          = IMAGE_GEOMETRY_UNKNOWN;
+    FileName                = "";                       // filename
+    ImageWidth              = 0;                        // Widht of normal image
+    ImageHeight             = 0;                        // Height of normal image
+
+    CacheFirstImage         = NULL;                     // Cache image of first image of the video
+    CacheLastImage          = NULL;                     // Cache image of last image of the video (Preview mode only)
+    dEndFileCachePos        = 0;                        // Position of the cache image of last image of the video
 
     // LibAVFormat/Codec/SWScale part
     ffmpegVideoFile         = NULL;
@@ -569,6 +575,12 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
             // Check if we need to continue loop
             Continue=(IsVideoFind==false)&&((dEndFile==0)||(FramePosition<dEndFile));
 
+            if ((IsVideoFind)&&(GlobalMainWindow->ApplicationConfig->Crop1088To1080)&&(RetImage->height()==1088)&&(RetImage->width()==1920)) {
+                QImage *newRetImage=new QImage(RetImage->copy(0,4,1920,1080));
+                delete RetImage;
+                RetImage=newRetImage;
+            }
+
         } else {
             // if error in av_read_frame(...) then may be we have reach the end of file !
             Continue=false;
@@ -617,11 +629,30 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
 
                 IsVideoFind=(RetImage!=NULL);
                 if (IsVideoFind) {
+                    if ((GlobalMainWindow->ApplicationConfig->Crop1088To1080)&&(RetImage->height()==1088)&&(RetImage->width()==1920)) {
+                        QImage *newRetImage=new QImage(RetImage->copy(0,4,1920,1080));
+                        delete RetImage;
+                        RetImage=newRetImage;
+                    }
                     if (CacheLastImage) delete CacheLastImage;
                     CacheLastImage  =new QImage(RetImage->copy());
                     dEndFileCachePos=dEndFile;  // keep position for future use
                 }
+
             }
+        }
+
+        if (IsVideoFind) {
+            ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+            double RatioHW=double(RetImage->width())/double(RetImage->height());
+            if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+            else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+            else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+            else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+            else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+            else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+            else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+            else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
         }
 
         // Continue with a new one
