@@ -1177,41 +1177,12 @@ void MainWindow::AddFiles(QStringList &FileList,int SavedCurIndex,int CurIndex) 
                            CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
                            NULL);
             if (Image) {
-                CurrentBrush->BrushFileCorrect.ImageGeometry=GEOMETRY_PROJECT;
-                CurrentBrush->BrushFileCorrect.AspectRatio  =double(Diaporama->InternalHeight)/double(Diaporama->InternalWidth);
-
-                double  RealImageW=Image->width();
-                double  RealImageH=Image->height();
-                double  Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse
-                double  VirtImageW=Hyp;                                            // Calc canvas size
-                double  VirtImageH=Hyp;//Diaporama->GetHeightForWidth(VirtImageW);       // Calc canvas size
-                double  MagnetX1=(VirtImageW-RealImageW)/2;
-                double  MagnetX2=MagnetX1+RealImageW;
-                double  MagnetY1=(VirtImageH-RealImageH)/2;
-                double  MagnetY2=MagnetY1+RealImageH;
-                double  W=0;
-                double  H=0;
+                CurrentBrush->InitDefaultFramingStyle(true,double(Diaporama->InternalHeight)/double(Diaporama->InternalWidth));
                 switch (ApplicationConfig->DefaultFraming) {
-                    case 0 :    // Adjust to Width
-                        W=MagnetX2-MagnetX1;
-                        H=W*CurrentBrush->BrushFileCorrect.AspectRatio;
-                        break;
-                    case 1 :    // Adjust to Height
-                        H=MagnetY2-MagnetY1;
-                        W=H/CurrentBrush->BrushFileCorrect.AspectRatio;
-                        break;
-                    case 2 :    // Adjust to Full
-                        W=MagnetX2-MagnetX1;
-                        H=W*CurrentBrush->BrushFileCorrect.AspectRatio;
-                        if (H<MagnetY2-MagnetY1) {
-                            H=MagnetY2-MagnetY1;
-                            W=H/CurrentBrush->BrushFileCorrect.AspectRatio;
-                        }
-                        break;
+                case 0 : CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingW); break;   // Adjust to Width
+                case 1 : CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingH); break;   // Adjust to Height
+                case 2 : CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF); break;   // Adjust to Full
                 }
-                CurrentBrush->BrushFileCorrect.X=((VirtImageW-W)/2)/VirtImageW;
-                CurrentBrush->BrushFileCorrect.Y=((VirtImageH-H)/2)/VirtImageH;
-                CurrentBrush->BrushFileCorrect.ZoomFactor=W/VirtImageW;
                 delete Image;
             }
 

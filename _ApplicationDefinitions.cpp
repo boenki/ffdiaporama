@@ -469,6 +469,7 @@ cApplicationConfig::cApplicationConfig() {
     StyleTextBackgroundCollection.CollectionName=QString(STYLENAME_BACKGROUNDSTYLE);
     StyleCoordinateCollection.CollectionName    =QString(STYLENAME_COORDINATESTYLE);
     StyleBlockShapeCollection.CollectionName    =QString(STYLENAME_BLOCKSHAPESTYLE);
+    StyleImageFramingCollection.CollectionName  =QString(STYLENAME_FRAMINGSTYLE);
 
     #ifdef Q_OS_WIN
         // Search plateforme and define specific value depending on plateforme
@@ -506,6 +507,8 @@ cApplicationConfig::cApplicationConfig() {
     AllowVideoExtension.append("m4v");     AllowVideoExtension.append("M4V");
     AllowVideoExtension.append("mkv");     AllowVideoExtension.append("MKV");
     AllowVideoExtension.append("mp4");     AllowVideoExtension.append("MP4");
+    AllowVideoExtension.append("flv");     AllowVideoExtension.append("FLV");
+    AllowVideoExtension.append("3gp");     AllowVideoExtension.append("3GP");
     // List of all file extension allowed for image
     AllowImageExtension.append("bmp");     AllowImageExtension.append("BMP");
     AllowImageExtension.append("gif");     AllowImageExtension.append("GIF");
@@ -635,8 +638,9 @@ bool cApplicationConfig::InitConfigurationValues() {
     FixedDuration               = 3000;                     // Default duration for fixed image (msec)
     SpeedWave                   = SPEEDWAVE_LINEAR;         // Default speed wave methode
     ImageGeometry               = GEOMETRY_16_9;            // Project image geometry for image rendering
-    SlideRuler                  = true;
-    FramingRuler                = true;
+    SlideRuler                  = true;                     // if true, ruler is on in slide properties dialog box
+    FramingRuler                = true;                     // if true, ruler is on in framing/correction dialog box
+    Crop1088To1080              = true;                     // Automaticaly crop video from 1088 lines to 1080 (CANON)
 
     DefaultFormat               = 1;                        // Default format = avi
     DefaultImageSize            = SIZE_720P;                // Default image size
@@ -750,6 +754,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         if (Element.hasAttribute("AskUserToRemove"))            AskUserToRemove          =Element.attribute("AskUserToRemove")!="0";
         if (Element.hasAttribute("SlideRuler"))                 SlideRuler               =Element.attribute("SlideRuler")!="0";
         if (Element.hasAttribute("FramingRuler"))               FramingRuler             =Element.attribute("FramingRuler")!="0";
+        if (Element.hasAttribute("Crop1088To1080"))             Crop1088To1080           =Element.attribute("Crop1088To1080")!="0";
     }
 
     if ((root.elementsByTagName("ProjectDefault").length()>0)&&(root.elementsByTagName("ProjectDefault").item(0).isElement()==true)) {
@@ -823,6 +828,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     StyleTextBackgroundCollection.LoadFromXML(domDocument,root,TypeConfigFile);
     StyleCoordinateCollection.LoadFromXML(domDocument,root,TypeConfigFile);
     StyleBlockShapeCollection.LoadFromXML(domDocument,root,TypeConfigFile);
+    StyleImageFramingCollection.LoadFromXML(domDocument,root,TypeConfigFile);
 
     //***************************************
     // Windows size & position
@@ -893,6 +899,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("AskUserToRemove",          AskUserToRemove?"1":"0");
     Element.setAttribute("SlideRuler",               SlideRuler?"1":"0");
     Element.setAttribute("FramingRuler",             FramingRuler?"1":"0");
+    Element.setAttribute("Crop1088To1080",           Crop1088To1080?"1":"0");
     root.appendChild(Element);
 
     Element=domDocument.createElement("ProjectDefault");
@@ -946,6 +953,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     StyleTextBackgroundCollection.SaveToXML(domDocument,root);
     StyleCoordinateCollection.SaveToXML(domDocument,root);
     StyleBlockShapeCollection.SaveToXML(domDocument,root);
+    StyleImageFramingCollection.SaveToXML(domDocument,root);
 
     // Save windows size and position
     MainWinWSP->SaveToXML(root);                                // MainWindow - Window size and position

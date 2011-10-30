@@ -1282,8 +1282,8 @@ QToolButton:pressed {
                <property name="geometry">
                 <rect>
                  <x>0</x>
-                 <y>-20</y>
-                 <width>270</width>
+                 <y>0</y>
+                 <width>267</width>
                  <height>407</height>
                 </rect>
                </property>
@@ -1516,7 +1516,7 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="10" column="1">
+                <item row="11" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_22">
                   <property name="spacing">
                    <number>0</number>
@@ -1599,7 +1599,7 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="9" column="1">
+                <item row="10" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_21">
                   <property name="spacing">
                    <number>0</number>
@@ -1682,7 +1682,7 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="8" column="1">
+                <item row="9" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_20">
                   <property name="spacing">
                    <number>0</number>
@@ -1781,7 +1781,7 @@ color: #000000;
                   </property>
                  </spacer>
                 </item>
-                <item row="7" column="1">
+                <item row="8" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout">
                   <property name="spacing">
                    <number>0</number>
@@ -1906,7 +1906,7 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="6" column="1">
+                <item row="7" column="1">
                  <layout class="QHBoxLayout" name="horizontalLayout_16">
                   <property name="spacing">
                    <number>0</number>
@@ -2070,7 +2070,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="6" column="0">
+                <item row="7" column="0">
                  <widget class="QLabel" name="PosSize_X">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2101,7 +2101,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="7" column="0">
+                <item row="8" column="0">
                  <widget class="QLabel" name="PosSize_Width">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2132,7 +2132,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="8" column="0">
+                <item row="9" column="0">
                  <widget class="QLabel" name="Rotate_X">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2163,7 +2163,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="9" column="0">
+                <item row="10" column="0">
                  <widget class="QLabel" name="Rotate_Y">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2194,7 +2194,7 @@ color: #000000;
                   </property>
                  </widget>
                 </item>
-                <item row="10" column="0">
+                <item row="11" column="0">
                  <widget class="QLabel" name="Rotate_Z">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2355,41 +2355,6 @@ color: #000000;
                   </item>
                  </layout>
                 </item>
-                <item row="11" column="0">
-                 <widget class="QLabel" name="ImageGeometryLabel">
-                  <property name="text">
-                   <string>Geometry :</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="11" column="1">
-                 <widget class="QComboBox" name="ImageGeometryCB">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>175</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>175</width>
-                    <height>24</height>
-                   </size>
-                  </property>
-                  <property name="toolTip">
-                   <string>Select the geometrical constraint to be applied to the block</string>
-                  </property>
-                 </widget>
-                </item>
                 <item row="2" column="0" colspan="2">
                  <widget class="QLabel" name="label_8">
                   <property name="font">
@@ -2523,6 +2488,53 @@ color: #000000;
                   </property>
                   <property name="text">
                    <string notr="true">StyleName</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
+                 <widget class="QLabel" name="FramingStyleLabel">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/EditImage.png</pixmap>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="1">
+                 <widget class="QComboBox" name="FramingStyleCB">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>24</height>
+                   </size>
                   </property>
                  </widget>
                 </item>

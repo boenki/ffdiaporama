@@ -300,21 +300,8 @@ void DlgBackgroundProperties::s_SelectFile() {
     } else {
         QImage *Image=DiaporamaObject->BackgroundBrush.Image->ImageAt(true,true,&DiaporamaObject->BackgroundBrush.Image->BrushFileTransform);
         if (Image) {
-            DiaporamaObject->BackgroundBrush.BrushFileCorrect.ImageGeometry=GEOMETRY_PROJECT;
-            DiaporamaObject->BackgroundBrush.BrushFileCorrect.AspectRatio  =double(DiaporamaObject->Parent->InternalHeight)/double(DiaporamaObject->Parent->InternalWidth);
-
-            double  RealImageW=Image->width();
-            double  RealImageH=Image->height();
-            double  Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse
-            double  VirtImageW=Hyp;                                            // Calc canvas size
-            double  VirtImageH=Hyp;//Diaporama->GetHeightForWidth(VirtImageW);       // Calc canvas size
-            double  MagnetX1=(VirtImageW-RealImageW)/2;
-            double  MagnetX2=MagnetX1+RealImageW;
-            double  W=MagnetX2-MagnetX1;
-            double  H=W*DiaporamaObject->BackgroundBrush.BrushFileCorrect.AspectRatio;
-            DiaporamaObject->BackgroundBrush.BrushFileCorrect.X=((VirtImageW-W)/2)/VirtImageW;
-            DiaporamaObject->BackgroundBrush.BrushFileCorrect.Y=((VirtImageH-H)/2)/VirtImageH;
-            DiaporamaObject->BackgroundBrush.BrushFileCorrect.ZoomFactor=W/VirtImageW;
+            DiaporamaObject->BackgroundBrush.InitDefaultFramingStyle(true,double(DiaporamaObject->Parent->InternalHeight)/double(DiaporamaObject->Parent->InternalWidth));
+            DiaporamaObject->BackgroundBrush.ApplyStyle(true,DiaporamaObject->BackgroundBrush.DefaultFramingF); // Adjust to Full
             delete Image;
         } else {
             delete DiaporamaObject->BackgroundBrush.Image;
@@ -389,7 +376,7 @@ void DlgBackgroundProperties::s_ChIndexBackgroundCombo(int) {
 //========= Image file correction
 void DlgBackgroundProperties::s_ImageEditCorrect() {
     if (DiaporamaObject->BackgroundBrush.Image) {
-        DlgImageCorrection(1,&DiaporamaObject->BackgroundBrush,&DiaporamaObject->BackgroundBrush.BrushFileCorrect,0,this).exec();
+        DlgImageCorrection(NULL,1,&DiaporamaObject->BackgroundBrush,&DiaporamaObject->BackgroundBrush.BrushFileCorrect,0,this).exec();
         RefreshControls(ui->NewBackgroundRD->isChecked());
     }
 }

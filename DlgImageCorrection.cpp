@@ -22,9 +22,10 @@
 #include "ui_DlgImageCorrection.h"
 #include "mainwindow.h"
 
-DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,cFilterCorrectObject *TheBrushFileCorrect,int TheVideoPosition,QWidget *parent):QDialog(parent),ui(new Ui::DlgImageCorrection) {
+DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,cFilterCorrectObject *TheBrushFileCorrect,int TheVideoPosition,QWidget *parent):QDialog(parent),ui(new Ui::DlgImageCorrection) {
     ui->setupUi(this);
     BackgroundForm  =TheBackgroundForm;
+    CurrentTextItem =TheCurrentTextItem;
     CurrentBrush    =TheCurrentBrush;
     BrushFileCorrect=TheBrushFileCorrect;
     VideoPosition   =TheVideoPosition;
@@ -36,8 +37,20 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
 #endif
 
-    if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
-        else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
+    if (CurrentBrush->Image) {
+        CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
+        GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentBrush->Image->ObjectGeometry);
+     } else if (CurrentBrush->Video) {
+        CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
+        GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentBrush->Video->ObjectGeometry);
+    }
+
+    ui->LockGeometryCB->view()->setFixedWidth(300);
+
+    ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_UNLOCKED),QApplication::translate("DlgImageCorrection","Unlock"));
+    ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_LOCKED),  QApplication::translate("DlgImageCorrection","Lock to this geometry"));
+    ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_PROJECT), QApplication::translate("DlgImageCorrection","Lock to project geometry"));
+    ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_IMAGE),   QApplication::translate("DlgImageCorrection","Lock to image geometry"));
 
     // Save objects before modification for cancel button
     UndoBrushFileName=(CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
@@ -58,6 +71,18 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     FLAGSTOPSPIN    = false;
     scene           = NULL;
     cadre           = NULL;
+
+    switch (GlobalMainWindow->Diaporama->ImageGeometry) {
+        case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
+        case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
+        case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
+
+    }
+    ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+
+    if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
+        else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
+    ImageGeometry=QString("%1").arg(ImageGeometry,0,'e').toDouble();  // Rounded to same number as style managment
 
     MagneticRuler.MagnetX1     = -1;
     MagneticRuler.MagnetY1     = -1;
@@ -133,6 +158,9 @@ DlgImageCorrection::DlgImageCorrection(int TheBackgroundForm,cBrushDefinition *T
     connect(ui->BlurSigmaSB,SIGNAL(valueChanged(double)),this,SLOT(s_BlurSigmaValueED(double)));
     connect(ui->BlurSharpenResetBT,SIGNAL(clicked()),this,SLOT(s_BlurSharpenReset()));
     connect(ui->RadiusResetBT,SIGNAL(clicked()),this,SLOT(s_RadiusReset()));
+
+    connect(ui->LockGeometryCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_LockGeometryCB(int)));
+    connect(ui->FramingStyleBT,SIGNAL(pressed()),this,SLOT(s_FramingStyleBT()));
 }
 
 DlgImageCorrection::~DlgImageCorrection() {
@@ -325,7 +353,7 @@ void DlgImageCorrection::s_YValueEDChanged(double Value) {
 
 void DlgImageCorrection::s_WValueEDChanged(double Value) {
     if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
-    if (BrushFileCorrect->ImageGeometry!=GEOMETRY_CUSTOM) {
+    if (BrushFileCorrect->LockGeometry) {
         BrushFileCorrect->ZoomFactor=Value/100;
     } else {
         double newH=BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio*ymax;
@@ -353,7 +381,7 @@ void DlgImageCorrection::s_WValueEDChanged(double Value) {
 void DlgImageCorrection::s_HValueEDChanged(double Value) {
     if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
     double newH=(Value/100)*ymax;
-    if (BrushFileCorrect->ImageGeometry!=GEOMETRY_CUSTOM) {
+    if (BrushFileCorrect->LockGeometry) {
         double newW=newH/BrushFileCorrect->AspectRatio;
         BrushFileCorrect->ZoomFactor=newW/xmax;
     } else {
@@ -432,7 +460,7 @@ void DlgImageCorrection::s_AdjustH() {
 void DlgImageCorrection::s_AdjustWH() {
     if (BrushFileCorrect==NULL) return;
     // Special case for custom geometry -> use all the image then change aspect ratio to image aspect ratio
-    if (BrushFileCorrect->ImageGeometry==GEOMETRY_CUSTOM) {
+    if (!BrushFileCorrect->LockGeometry) {
         double W=MagneticRuler.MagnetX2-MagneticRuler.MagnetX1;
         double H=MagneticRuler.MagnetY2-MagneticRuler.MagnetY1;
         BrushFileCorrect->AspectRatio=H/W;
@@ -457,10 +485,25 @@ void DlgImageCorrection::RefreshControls() {
     if ((BrushFileCorrect==NULL)||(!scene)||(FLAGSTOPED)) return;
     FLAGSTOPED=true;
 
+    if (((CurrentTextItem->BackgroundBrush.Image==NULL)&&(CurrentTextItem->BackgroundBrush.Video==NULL))||
+        ((CurrentTextItem->BackgroundBrush.Image!=NULL)&&(CurrentTextItem->BackgroundBrush.Image->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))||
+        ((CurrentTextItem->BackgroundBrush.Video!=NULL)&&(CurrentTextItem->BackgroundBrush.Video->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))) {
+        ui->FramingStyleED->setText(QApplication::translate("DlgSlideProperties","No style for nonstandard geometry image"));
+        ui->FramingStyleBT->setEnabled(false);
+    } else {
+        ui->FramingStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.GetStyleName(CurrentTextItem->GetFramingStyle()));
+        ui->FramingStyleBT->setEnabled(true);
+    }
+
     ui->XValue->setValue(BrushFileCorrect->X*100);
     ui->YValue->setValue(BrushFileCorrect->Y*100);
     ui->WValue->setValue(BrushFileCorrect->ZoomFactor*100);
     ui->HValue->setValue(BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio*100);
+
+    if (!BrushFileCorrect->LockGeometry)                        ui->LockGeometryCB->setCurrentIndex(0);
+    else if (BrushFileCorrect->AspectRatio==ProjectGeometry)    ui->LockGeometryCB->setCurrentIndex(2);
+    else if (BrushFileCorrect->AspectRatio==ImageGeometry)      ui->LockGeometryCB->setCurrentIndex(3);
+    else                                                        ui->LockGeometryCB->setCurrentIndex(1);
 
     ui->RotateED->setValue(BrushFileCorrect->ImageRotation);
 
@@ -482,7 +525,8 @@ void DlgImageCorrection::RefreshControls() {
         cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
 
         // Set aspect ratio from Brush to Rect if geometrie is not custom or from rect to brush if geometrie is custom
-        if (BrushFileCorrect->ImageGeometry!=GEOMETRY_CUSTOM) RectItem->AspectRatio=BrushFileCorrect->AspectRatio;
+        if (BrushFileCorrect->LockGeometry)
+            RectItem->AspectRatio=BrushFileCorrect->AspectRatio;
             else BrushFileCorrect->AspectRatio=RectItem->AspectRatio;
 
         RectItem->setPos(BrushFileCorrect->X*xmax,BrushFileCorrect->Y*ymax);
@@ -611,7 +655,7 @@ void DlgImageCorrection::RefreshBackgroundImage() {
 
     // Create selection box
     if (cadre==NULL) cadre=new cCustomGraphicsRectItem(scene,300,&BrushFileCorrect->X,&BrushFileCorrect->Y,&BrushFileCorrect->ZoomFactor,
-                                                       NULL,NULL,xmax,ymax,BrushFileCorrect->ImageGeometry==GEOMETRY_CUSTOM?false:true,
+                                                       NULL,NULL,xmax,ymax,BrushFileCorrect->LockGeometry,
                                                        BrushFileCorrect->AspectRatio,&MagneticRuler,this,TYPE_DlgImageCorrection,0);
 
     // Prepare CacheImage
@@ -788,4 +832,52 @@ void DlgImageCorrection::s_BlueSliderMoved(int Value) {
     ui->BlueSlider->setValue(BrushFileCorrect->Blue);
     ui->BlueValue->setValue(BrushFileCorrect->Blue);
     RefreshBackgroundImage();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_LockGeometryCB(int Value) {
+    switch (Value) {
+        case 0 :
+            BrushFileCorrect->LockGeometry=false;
+            break;
+        case 1 :
+            BrushFileCorrect->LockGeometry=true;
+            break;
+        case 2 :
+            BrushFileCorrect->LockGeometry=true;
+            BrushFileCorrect->AspectRatio =ProjectGeometry;
+            break;
+        case 3 :
+            BrushFileCorrect->LockGeometry=true;
+            BrushFileCorrect->AspectRatio =ImageGeometry;
+            break;
+    }
+    if (cadre!=NULL) {
+        cadre->KeepAspectRatio=BrushFileCorrect->LockGeometry;
+        RefreshControls();
+    }
+}
+
+//====================================================================================================================
+// Handler for style sheet management
+//====================================================================================================================
+
+void DlgImageCorrection::s_FramingStyleBT() {
+    if (!CurrentTextItem) return;
+    QString ActualStyle=CurrentTextItem->GetFramingStyle();
+    QString Item=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.PopupCollectionMenu(this,ActualStyle);
+    ui->FramingStyleBT->setDown(false);
+    if (Item!="") {
+        QStringList List;
+        GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringToStringList(Item,List);
+        for (int i=0;i<List.count();i++) {
+            if      (List[i].startsWith("X:"))              BrushFileCorrect->X             =List[i].mid(QString("X:").length()).toDouble();
+            else if (List[i].startsWith("Y:"))              BrushFileCorrect->Y             =List[i].mid(QString("Y:").length()).toDouble();
+            else if (List[i].startsWith("ZoomFactor:"))     BrushFileCorrect->ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
+            else if (List[i].startsWith("LockGeometry:"))   BrushFileCorrect->LockGeometry  =List[i].mid(QString("LockGeometry:").length()).toInt()==1;
+            else if (List[i].startsWith("AspectRatio:"))    BrushFileCorrect->AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
+        }
+    }
+    RefreshControls();
 }

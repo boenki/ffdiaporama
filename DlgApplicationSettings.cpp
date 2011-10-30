@@ -68,6 +68,7 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     ui->TransitionDurationCB->setCurrentIndex(ui->TransitionDurationCB->findText(Duration));
     ui->AskUserToRemove->setChecked(ApplicationConfig->AskUserToRemove);
     ui->UnitCB->setCurrentIndex(ApplicationConfig->DisplayUnit);
+    ui->Crop1088To1080CB->setChecked(ApplicationConfig->Crop1088To1080);
 
     //********************************
     // ProjectDefault part
@@ -244,6 +245,8 @@ void DlgApplicationSettings::accept() {
     ApplicationConfig->SortFile                 =ui->SortFileCB->isChecked();
     ApplicationConfig->AskUserToRemove          =ui->AskUserToRemove->isChecked();
     ApplicationConfig->DisplayUnit              =ui->UnitCB->currentIndex();
+    ApplicationConfig->Crop1088To1080           =ui->Crop1088To1080CB->isChecked();
+
     ApplicationConfig->DefaultTransitionDuration=int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
     ApplicationConfig->RandomTransition         =ui->RandomTransitionRD->isChecked();
     ApplicationConfig->DefaultTransitionSubType =(ui->NoTransitionRD->isChecked()?0:1);

@@ -27,6 +27,7 @@
 class cimagefilewrapper {
 public:
     bool                    IsValide;               // if true then object if fuly initialise
+    int                     ObjectGeometry;         // Image geometry of the embeded image or video
     QString                 FileName;               // filename
     QDateTime               CreatDateTime;          // Original date/time
     QDateTime               ModifDateTime;          // Last modified date/time

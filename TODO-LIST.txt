@@ -4,16 +4,19 @@ BUGG:
 -L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
 -When using the cross fade transition between 2 identical pictures the brightness changes
 -Les diapo peuvent avoir une durée à 0 et quand les diapo ont une durée à 0, un double click ne permet pas de les ouvrir
--Les fichiers .flv ne sont pas proposés dans la liste des extentions vidéos supportées.
 -Le mixage de 2 pistes audio à fort volume donne un résultat saturé
 -Problème avec le champs jusqu'à dans la sélection d'une plage de diapositive dans la boite de génération
 -Dans Fichier/Options/Options de génération/Options par défaut en mode avancé, quel que soit le format de fichier choisi, c'est toujours AVI qui est proposé au moment de la génération du film
 -When canceling a "add files" dialog, current selection is move to the next side
+-Le fond n'est pas initialisé quand le fond est une image qui contient des parties transparentes !
 
-
+TODO
+----
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
 
-
+-Gérer les changements géométrique sur les changements de fichier dans la boite image + passage en mode style
+    => ChangeBrushDiskFile
+    + vérifier l'undo sur le rechargement du fichier
 
 TODO-List
 ---------
@@ -75,12 +78,22 @@ French version / Correction de bug :
 English version / Bug fix :
 
 French version / Nouvelles fonctionnalités :
-- Desactive les fonctions d'ajout ou de mise à jour des styles quand ils existent déjà
-- Affiche les styles en cours ou "Style personnalisé" dans la boite slide et dans la boite texte
+-Déplace la combobox de contrainte géométrique de la boite slide vers la boite image
+-Ajoute l'option de vérouillage d'une contrainte géométrique personalisée
+-Ajoute des styles de recadrage
+-Intègre les styles de recadrage dans les styles de coordonnées
+-Ajoute les extensions flv et 3gp dans les fichiers vidéo supportés (pour l'ajout d'objet)
+-Déplace les options de transition et de recadrage par défaut de l'onglet options d'application vers l'onglet options du projet [boite de configuration]
+-Ajoute une option dans la boite de configuration pour couper automatiquement les vidéos 1920x1088 en 1920x1080
 
 English version / New features :
-- Disable add style and update style when they already exist
-- Display current style or "Custom style" in the slide dialog and in the text dialog
+-Move geometrical constraint combobox from slide dialog to the framming dialog
+-Add lock custom geometrical constraint option
+-Add style for image framing
+-Integrate image framing style into coordinates style
+-Add flv and 3gp extensions in the video supported files (when adding object)
+-Move default transition and default framing options from application to project tab [option dialog]
+-Add an option in the configuration dialog to automaticaly cut 1920x1088 videos to 1920x1080
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -159,6 +172,8 @@ French version
 - Traduit les styles standards
 - Ajoute un filtre sur la géométrie pour les styles de coordonnées de bloc
 - Developpement de la boite de gestion des styles
+- Desactive les fonctions d'ajout ou de mise à jour des styles quand ils existent déjà
+- Affiche les styles en cours ou "Style personnalisé" dans la boite slide et dans la boite texte
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -191,7 +206,9 @@ English version
 - Add style management system
     - Add style menu button for coordinates and block shape in the slide dialog
     - Add style menu button for text and text block background in the text dialog
-- Creat a first collection for standard style
+- Create a first collection for standard style
 - Translate standard styles
 - Add a geometry filter to block coordinates styles
-- Manage style dialog developpment
+- Manage style dialog development
+- Disable add style and update style when they already exist
+- Display current style or "Custom style" in the slide dialog and in the text dialog

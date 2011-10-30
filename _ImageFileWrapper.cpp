@@ -30,14 +30,15 @@
 //*********************************************************************************************************************************************
 
 cimagefilewrapper::cimagefilewrapper() {
-    IsValide            = false;    // if true then object if fuly initialise
-    FileName            = "";       // filename
-    ImageWidth          = 0;        // Widht of normal image
-    ImageHeight         = 0;        // Height of normal image
-    CacheImage          = NULL;     // Cache image for preview mode
-    CacheFullImage      = NULL;     // Cache image for Full image mode
-    UnfilteredImage     = NULL;     // Cache image (Preview image with no filter)
-    ImageOrientation    = 0;        // Image orientation (EXIF)
+    IsValide            = false;                    // if true then object if fuly initialise
+    ObjectGeometry      = IMAGE_GEOMETRY_UNKNOWN;
+    FileName            = "";                       // filename
+    ImageWidth          = 0;                        // Widht of normal image
+    ImageHeight         = 0;                        // Height of normal image
+    CacheImage          = NULL;                     // Cache image for preview mode
+    CacheFullImage      = NULL;                     // Cache image for Full image mode
+    UnfilteredImage     = NULL;                     // Cache image (Preview image with no filter)
+    ImageOrientation    = 0;                        // Image orientation (EXIF)
 }
 
 //====================================================================================================================
@@ -238,6 +239,18 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
                   UnfilteredImage=NewImage;
             }
             delete LoadedImg;
+
+            ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+            double RatioHW=double(UnfilteredImage->width())/double(UnfilteredImage->height());
+            if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+            else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+            else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+            else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+            else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+            else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+            else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+            else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+
             return new QImage(UnfilteredImage->copy());
         }
         return NULL;
@@ -295,6 +308,17 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
                   delete CacheFullImage;
                   CacheFullImage=NewImage;
             }
+            ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+            double RatioHW=double(CacheFullImage->width())/double(CacheFullImage->height());
+            if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+            else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+            else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+            else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+            else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+            else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+            else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+            else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+
             // if filter then apply filter
             if (Filter && !PreviewMode) Filter->ApplyFilter(CacheFullImage);
 

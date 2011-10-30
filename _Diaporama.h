@@ -60,7 +60,7 @@ public:
     int                 IndexKey;
     bool                IsVisible;              // True if block is visible during this shot
 
-    // Attribut of the text object (Shot values)
+    // Coordinates attributs of the object (Shot values)
     double              x,y,w,h;                // Position (x,y) and size (width,height)
     double              RotateZAxis;            // Rotation from Z axis
     double              RotateXAxis;            // Rotation from X axis
@@ -111,6 +111,7 @@ public:
     QString     GetBlockShapeStyle();
     QString     GetTextStyle();
     QString     GetBackgroundStyle();
+    QString     GetFramingStyle();
 };
 
 //*********************************************************************************************************************************************

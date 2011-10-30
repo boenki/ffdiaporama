@@ -287,18 +287,6 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 
 //====================================================================================================================
 
-QString cCompositionObject::GetCoordinateStyle() {
-    // Important : ImageGeomery at first !
-    return  QString("###ImageGeometry:%1").arg(BackgroundBrush.BrushFileCorrect.ImageGeometry)+
-            QString("###X:%1").arg(x,0,'f',3)+
-            QString("###Y:%1").arg(y,0,'f',3)+
-            QString("###W:%1").arg(w,0,'f',3)+
-            QString("###H:%1").arg(h,0,'f',3)+
-            QString("###RotateZAxis:%1").arg(RotateZAxis,0,'f',3)+
-            QString("###RotateXAxis:%1").arg(RotateXAxis,0,'f',3)+
-            QString("###RotateYAxis:%1").arg(RotateYAxis,0,'f',3);
-}
-
 QString cCompositionObject::GetBlockShapeStyle() {
     return  QString("###BackgroundForm:%1").arg(BackgroundForm)+
             QString("###PenSize:%1").arg(PenSize)+
@@ -330,8 +318,60 @@ QString cCompositionObject::GetBackgroundStyle() {
             "###ColorD:"+BackgroundBrush.ColorD+
             "###ColorF:"+BackgroundBrush.ColorF+
             "###ColorIntermed:"+BackgroundBrush.ColorIntermed+
-            QString("###Intermediate:%1").arg(BackgroundBrush.Intermediate,0,'f',3)+
+            QString("###Intermediate:%1").arg(BackgroundBrush.Intermediate,0,'e')+
             "###BrushImage:"+BackgroundBrush.BrushImage;
+}
+
+QString cCompositionObject::GetCoordinateStyle() {
+    QString Style=QString("###X:%1").arg(x,0,'e')+
+            QString("###Y:%1").arg(y,0,'e')+
+            QString("###W:%1").arg(w,0,'e')+
+            QString("###H:%1").arg(h,0,'e')+
+            QString("###RotateZAxis:%1").arg(RotateZAxis,0,'e')+
+            QString("###RotateXAxis:%1").arg(RotateXAxis,0,'e')+
+            QString("###RotateYAxis:%1").arg(RotateYAxis,0,'e');
+
+    // If block is image or video
+    if ((BackgroundBrush.Image!=NULL)||(BackgroundBrush.Video!=NULL)) {
+        // Get Framing style definition
+        QString             StyleDef=GetFramingStyle();
+        cStyleCollection    *FS     =&GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection;
+
+        // Prepare collection
+        BackgroundBrush.InitDefaultFramingStyle(BackgroundBrush.BrushFileCorrect.LockGeometry,BackgroundBrush.BrushFileCorrect.AspectRatio);
+        if (BackgroundBrush.Image!=NULL)            FS->SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,BackgroundBrush.Image->ObjectGeometry);
+            else if (BackgroundBrush.Video!=NULL)   FS->SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,BackgroundBrush.Video->ObjectGeometry);
+
+        // Search if Framing style is custom or defined
+        int i=0;
+        if (FS->GeometryFilter) while ((i<FS->Collection.count())&&((FS->Collection[i].StyleDef!=StyleDef)||(!FS->Collection[i].StyleName.startsWith(FS->ActiveFilter)))) i++;
+            else                while ((i<FS->Collection.count())&&(FS->Collection[i].StyleDef!=StyleDef)) i++;
+
+        if ((i<FS->Collection.count())&&(FS->Collection[i].StyleDef==StyleDef)) {
+            // Defined style
+            if (FS->Collection[i].FromGlobalConf) {
+                // Standard style (defined in global conf)
+                Style=Style+QString("###FramingStyleIndex:%1").arg(FS->Collection[i].StyleIndex);
+            } else {
+                // User style (defined in global conf)
+                Style=Style+QString("###FramingStyleName:%1").arg(FS->Collection[i].StyleName);
+            }
+
+        } else {
+            // Custom style
+            Style=Style+QString("###CustomFramingStyle:")+StyleDef.replace("###","&&&");
+        }
+
+    }
+    return Style;
+}
+
+QString cCompositionObject::GetFramingStyle() {
+    return  QString("###X:%1").arg(BackgroundBrush.BrushFileCorrect.X,0,'e')+
+            QString("###Y:%1").arg(BackgroundBrush.BrushFileCorrect.Y,0,'e')+
+            QString("###ZoomFactor:%1").arg(BackgroundBrush.BrushFileCorrect.ZoomFactor,0,'e')+
+            QString("###LockGeometry:%1").arg(BackgroundBrush.BrushFileCorrect.LockGeometry?1:0)+
+            QString("###AspectRatio:%1").arg(BackgroundBrush.BrushFileCorrect.AspectRatio,0,'e');
 }
 
 //====================================================================================================================
@@ -361,7 +401,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
     PenSize              =CompositionObjectToCopy->PenSize;
     PenStyle             =CompositionObjectToCopy->PenStyle;
     PenColor             =CompositionObjectToCopy->PenColor;
-    FormShadowColor          =CompositionObjectToCopy->FormShadowColor;
+    FormShadowColor      =CompositionObjectToCopy->FormShadowColor;
     FormShadow           =CompositionObjectToCopy->FormShadow;
     FormShadowDistance   =CompositionObjectToCopy->FormShadowDistance;
 
@@ -983,7 +1023,7 @@ void cDiaporama::DefineSizeAndGeometry(int Geometry) {
     LumaList_Clock.SetGeometry(ImageGeometry);
     LumaList_Box.SetGeometry(ImageGeometry);
     LumaList_Snake.SetGeometry(ImageGeometry);
-    ApplicationConfig->StyleCoordinateCollection.SetActiveFilter(ImageGeometry);
+    ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(ImageGeometry);
 }
 
 //=======================================================
@@ -2564,7 +2604,6 @@ bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber)
                 (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ZoomFactor   !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ZoomFactor)||
                 (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.AspectRatio  !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.AspectRatio)||
                 (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ImageRotation!=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ImageRotation)||
-                (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ImageGeometry!=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.ImageGeometry)||
                 (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Blue         !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Blue)||
                 (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Red          !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Red)||
                 (Object->List[ShotNumber].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Green        !=Object->List[ShotNumber-1].ShotComposition.List[i].BackgroundBrush.BrushFileCorrect.Green)||
