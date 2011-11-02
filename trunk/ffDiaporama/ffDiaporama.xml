@@ -2,7 +2,31 @@
 <Configuration>
     <LastDirectories RememberLastDirectories="1"/>
     <EditorOptions DisableSSE2="0" DefaultTransitionFamilly="0" TimelineHeight="80" RandomTransition="1" ApplyTransfoPreview="1" DefaultTransitionDuration="1000" AppendObject="0" DefaultFraming="2" DefaultTransitionSubType="1" SortFile="1" PreviewFPS="12.500000"/>
-    <ProjectDefault FixedDuration="3000" SpeedWave="0" ImageGeometry="1" MobilDuration="3000" NoShotDuration="6000"/>
+    <ProjectDefault FixedDuration="3000" SpeedWave="0" ImageGeometry="1" NoShotDuration="6000">
+        <DefaultBlock_Text Coord0ST="###GLOBALSTYLE###:120" Coord2ST="###GLOBALSTYLE###:122" Coord1ST="###GLOBALSTYLE###:121" ShapeST="###GLOBALSTYLE###:1" BackGST="###GLOBALSTYLE###:6" TextST="###GLOBALSTYLE###:1"/>
+        <DefaultBlockSL_IMG ShapeST="###GLOBALSTYLE###:1" TextST="###GLOBALSTYLE###:4">
+            <IMG_GEO_0 CoordST_0="###GLOBALSTYLE###:120" CoordST_1="###GLOBALSTYLE###:121" CoordST_2="###GLOBALSTYLE###:122"/>
+            <IMG_GEO_1 CoordST_0="###GLOBALSTYLE###:52" CoordST_1="###GLOBALSTYLE###:20" CoordST_2="###GLOBALSTYLE###:92"/>
+            <IMG_GEO_2 CoordST_0="###GLOBALSTYLE###:49" CoordST_1="###GLOBALSTYLE###:17" CoordST_2="###GLOBALSTYLE###:89"/>
+            <IMG_GEO_3 CoordST_0="###GLOBALSTYLE###:64" CoordST_1="###GLOBALSTYLE###:32" CoordST_2="###GLOBALSTYLE###:102"/>
+            <IMG_GEO_4 CoordST_0="###GLOBALSTYLE###:57" CoordST_1="###GLOBALSTYLE###:25" CoordST_2="###GLOBALSTYLE###:97"/>
+            <IMG_GEO_5 CoordST_0="###GLOBALSTYLE###:40" CoordST_1="###GLOBALSTYLE###:10" CoordST_2="###GLOBALSTYLE###:80"/>
+            <IMG_GEO_6 CoordST_0="###GLOBALSTYLE###:67" CoordST_1="###GLOBALSTYLE###:37" CoordST_2="###GLOBALSTYLE###:107"/>
+            <IMG_GEO_7 CoordST_0="###GLOBALSTYLE###:60" CoordST_1="###GLOBALSTYLE###:28" CoordST_2="###GLOBALSTYLE###:100"/>
+            <IMG_GEO_8 CoordST_0="###GLOBALSTYLE###:45" CoordST_1="###GLOBALSTYLE###:13" CoordST_2="###GLOBALSTYLE###:85"/>
+        </DefaultBlockSL_IMG>
+        <DefaultBlockBA_IMG ShapeST="###GLOBALSTYLE###:1" TextST="###GLOBALSTYLE###:4">
+            <IMG_GEO_0 CoordST_0="###GLOBALSTYLE###:120" CoordST_1="###GLOBALSTYLE###:121" CoordST_2="###GLOBALSTYLE###:122"/>
+            <IMG_GEO_1 CoordST_0="###GLOBALSTYLE###:54" CoordST_1="###GLOBALSTYLE###:22" CoordST_2="###GLOBALSTYLE###:94"/>
+            <IMG_GEO_2 CoordST_0="###GLOBALSTYLE###:50" CoordST_1="###GLOBALSTYLE###:18" CoordST_2="###GLOBALSTYLE###:90"/>
+            <IMG_GEO_3 CoordST_0="###GLOBALSTYLE###:65" CoordST_1="###GLOBALSTYLE###:35" CoordST_2="###GLOBALSTYLE###:105"/>
+            <IMG_GEO_4 CoordST_0="###GLOBALSTYLE###:58" CoordST_1="###GLOBALSTYLE###:26" CoordST_2="###GLOBALSTYLE###:98"/>
+            <IMG_GEO_5 CoordST_0="###GLOBALSTYLE###:42" CoordST_1="###GLOBALSTYLE###:11" CoordST_2="###GLOBALSTYLE###:82"/>
+            <IMG_GEO_6 CoordST_0="###GLOBALSTYLE###:68" CoordST_1="###GLOBALSTYLE###:38" CoordST_2="###GLOBALSTYLE###:108"/>
+            <IMG_GEO_7 CoordST_0="###GLOBALSTYLE###:62" CoordST_1="###GLOBALSTYLE###:30" CoordST_2="###GLOBALSTYLE###:101"/>
+            <IMG_GEO_8 CoordST_0="###GLOBALSTYLE###:46" CoordST_1="###GLOBALSTYLE###:14" CoordST_2="###GLOBALSTYLE###:86"/>
+        </DefaultBlockBA_IMG>
+    </ProjectDefault>
     <RenderDefault AudioBitRate="160" ImageSize="2" Format="4" Standard="0" VideoCodec="libx264" VideoBitRate="2500" AudioCodec="libfaac"/>
     <RestoreWindow>1</RestoreWindow>
     <RenderingDeviceModel>
@@ -299,6 +323,10 @@
         <StyleCoordinateCollectionItem_117 BckStyleName="" StyleName="2.35:1-Right high quarter of the screen"                      StyleDefinition="###X:5.000000e-01###Y:0.000000e+00###W:5.000000e-01###H:5.000000e-01###RotateZAxis:0.000000e+00###RotateXAxis:0.000000e+00###RotateYAxis:0.000000e+00" StyleIndex="117"/>
         <StyleCoordinateCollectionItem_118 BckStyleName="" StyleName="2.35:1-Right low quarter of the screen"                       StyleDefinition="###X:5.000000e-01###Y:5.000000e-01###W:5.000000e-01###H:5.000000e-01###RotateZAxis:0.000000e+00###RotateXAxis:0.000000e+00###RotateYAxis:0.000000e+00" StyleIndex="118"/>
         <StyleCoordinateCollectionItem_119 BckStyleName="" StyleName="2.35:1-TV margins"                                            StyleDefinition="###X:5.000000e-02###Y:5.000000e-02###W:9.000000e-01###H:9.000000e-01###RotateZAxis:0.000000e+00###RotateXAxis:0.000000e+00###RotateYAxis:0.000000e+00" StyleIndex="119"/>
+
+        <StyleCoordinateCollectionItem_120 BckStyleName="" StyleName="4:3-50% screen size-Centered"                                 StyleDefinition="###X:2.500000e-01###Y:2.500000e-01###W:5.000000e-01###H:5.000000e-01###RotateZAxis:0.000000e+00###RotateXAxis:0.000000e+00###RotateYAxis:0.000000e+00" StyleIndex="120"/>
+        <StyleCoordinateCollectionItem_121 BckStyleName="" StyleName="16:9-50% screen size-Centered"                                StyleDefinition="###X:2.500000e-01###Y:2.500000e-01###W:5.000000e-01###H:5.000000e-01###RotateZAxis:0.000000e+00###RotateXAxis:0.000000e+00###RotateYAxis:0.000000e+00" StyleIndex="121"/>
+        <StyleCoordinateCollectionItem_122 BckStyleName="" StyleName="2.35:1-50% screen size-Centered"                              StyleDefinition="###X:2.500000e-01###Y:2.500000e-01###W:5.000000e-01###H:5.000000e-01###RotateZAxis:0.000000e+00###RotateXAxis:0.000000e+00###RotateYAxis:0.000000e+00" StyleIndex="122"/>
     </StyleCoordinateCollection>
 
 </Configuration>

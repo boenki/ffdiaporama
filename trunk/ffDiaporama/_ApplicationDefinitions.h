@@ -129,6 +129,22 @@ public:
     cStyleCollection        StyleBlockShapeCollection;                  // List of known BlockShapestyle
     cStyleCollection        StyleImageFramingCollection;                // List of known Framing style
 
+    // Default new text block options
+    QString                 DefaultBlock_Text_TextST;
+    QString                 DefaultBlock_Text_BackGST;
+    QString                 DefaultBlock_Text_CoordST[3];
+    QString                 DefaultBlock_Text_ShapeST;
+
+    // Default new image block option (when slide creation)
+    QString                 DefaultBlockSL_IMG_TextST;
+    QString                 DefaultBlockSL_IMG_ShapeST;
+    QString                 DefaultBlockSL_IMG_CoordST[9][3];
+
+    // Default new image block option (when block add in slide dialog)
+    QString                 DefaultBlockBA_IMG_TextST;
+    QString                 DefaultBlockBA_IMG_ShapeST;
+    QString                 DefaultBlockBA_IMG_CoordST[9][3];
+
     // User contexte
     QString                 UserConfigPath;                             // Path and filename to user profil path
     QString                 UserConfigFile;                             // Path and filename to user configuration file

@@ -71,8 +71,6 @@ private slots:
     void            s_DeviceModelCB(int);
     void            SetZoneToAll();
     void            SetZoneToPartial();
-    void            s_ChgRenderZoneFromED(int);
-    void            s_ChgRenderZoneToED(int);
 
 private:
     Ui::DlgRenderVideo *ui;

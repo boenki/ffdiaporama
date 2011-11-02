@@ -97,7 +97,32 @@
         <translation>Impostazioni applicazione</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1787"/>
+        <location filename="../DlgApplicationSettings.ui" line="471"/>
+        <source>Project options (default values)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="481"/>
+        <source>Project geometry:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="546"/>
+        <source>1st shot duration:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="596"/>
+        <source>Next shot duration:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="646"/>
+        <source>Speed wave:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="3476"/>
         <source>Select the file type to use for the rendering.</source>
         <translation>Seleziona il tipo di file da usare per il rendering.</translation>
     </message>
@@ -207,80 +232,42 @@
         <translation>Ordina file dall&apos;ultimo numero</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="712"/>
-        <source>Default framing :</source>
-        <translation>Inquadratura predefinita :</translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="736"/>
-        <source>Defined the framing to be made during the file insertion:
-Files will be reframed so that the totality of the width of the image is shown</source>
-        <translation>Definisce l&apos;inquadratura da effettuare durante l&apos;inserimento di file:
-I file verranno riformulati in modo che la totalità della larghezza dell&apos;immagine verrà visualizzata</translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="747"/>
-        <location filename="../DlgApplicationSettings.ui" line="771"/>
-        <location filename="../DlgApplicationSettings.ui" line="795"/>
-        <source>FramingButtons</source>
-        <translation>BottoneInquadratura</translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="760"/>
-        <source>Defined the framing to be made during the file insertion:
-Files will be reframed so that the totality of the height of the image is shown</source>
-        <translation>Definisce l&apos;inquadratura da effettuare durante l&apos;inserimento di file:
-I file verranno riformulati in modo che la totalità dell&apos;altezza dell&apos;immagine verrà visualizzata</translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="784"/>
-        <source>Defined the framing to be made during the file insertion:
-Files will be reframed at best</source>
-        <translation>Definisce l&apos;inquadratura da effettuare durante l&apos;inserimento di file:
-I file verranno riformulati al meglio</translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="817"/>
-        <source>Default transition :</source>
-        <translation>Transizione predefinita :</translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="841"/>
+        <location filename="../DlgApplicationSettings.ui" line="723"/>
         <source>Defined the transition to be inserted between slides during the insertions:
 Chosen randomly a transition in the library</source>
         <translation>Definisce la transizione da inserire tra le diapositive durante l&apos;inserimento:
 Sceglie casualmente una transizione nella libreria</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="852"/>
-        <location filename="../DlgApplicationSettings.ui" line="876"/>
-        <location filename="../DlgApplicationSettings.ui" line="900"/>
+        <location filename="../DlgApplicationSettings.ui" line="734"/>
+        <location filename="../DlgApplicationSettings.ui" line="758"/>
+        <location filename="../DlgApplicationSettings.ui" line="782"/>
         <source>TransitionButtons</source>
         <translation>BottoneTransizione</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="865"/>
+        <location filename="../DlgApplicationSettings.ui" line="747"/>
         <source>Defined the transition to be inserted between slides during the insertions:
 No transition</source>
         <translation>Definisce la transizione da inserire tra le diapositive durante l&apos;inserimento:
 Nessuna transizione</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="889"/>
+        <location filename="../DlgApplicationSettings.ui" line="771"/>
         <source>Defined the transition to be inserted between slides during the insertions:
 Crossfade transition</source>
         <translation>Definisce la transizione da inserire tra le diapositive durante l&apos;inserimento:
 Transizione dissolvenza incrociata</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="925"/>
+        <location filename="../DlgApplicationSettings.ui" line="807"/>
         <source>Define the transition duration</source>
         <translation>Definisce la durata transizione</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="574"/>
         <location filename="../DlgApplicationSettings.ui" line="624"/>
-        <location filename="../DlgApplicationSettings.ui" line="957"/>
+        <location filename="../DlgApplicationSettings.ui" line="839"/>
         <source>sec</source>
         <translation>sec</translation>
     </message>
@@ -340,16 +327,6 @@ Transizione dissolvenza incrociata</translation>
         <translation>Opzioni Progetto</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="471"/>
-        <source>Project options</source>
-        <translation>Opzioni progetto</translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="481"/>
-        <source>New project geometry :</source>
-        <translation>Nuova geometria progetto :</translation>
-    </message>
-    <message>
         <location filename="../DlgApplicationSettings.ui" line="499"/>
         <source>Select the geometry of image to be used for the creation of the projects.</source>
         <translation>Seleziona la geometria dell&apos;immagine che sarà usata per la creazione del progetto.</translation>
@@ -375,29 +352,14 @@ Transizione dissolvenza incrociata</translation>
         <translation>(Solo per nuovo progetto)</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="546"/>
-        <source>Default 1st shot duration :</source>
-        <translation>Durata predefinita 1a inquadratura :</translation>
-    </message>
-    <message>
         <location filename="../DlgApplicationSettings.ui" line="564"/>
         <source>Defined the default duration of the first shot of slides during their creation.</source>
         <translation>Definisce la durata predefinita della prima inquadratura delle diapositive durante la loro crazione.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="596"/>
-        <source>Next shot duration :</source>
-        <translation>Durata prossima diapositiva :</translation>
-    </message>
-    <message>
         <location filename="../DlgApplicationSettings.ui" line="614"/>
         <source>Defined the default duration of next shots.</source>
         <translation>Definisce la durata predefinita delle prossime diapositive.</translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="646"/>
-        <source>Speed wave :</source>
-        <translation>Velocità onda :</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="664"/>
@@ -415,307 +377,513 @@ Transizione dissolvenza incrociata</translation>
         <translation>Quarto sinusoidale</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="984"/>
+        <location filename="../DlgApplicationSettings.ui" line="699"/>
+        <source>Default transition:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="880"/>
+        <source>Default options for new text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="896"/>
+        <source>Text</source>
+        <translation type="unfinished">Testo</translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="912"/>
+        <source>Background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="947"/>
+        <source>Default options for new image or video block (when adding block in slide dialog)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="965"/>
+        <location filename="../DlgApplicationSettings.ui" line="1109"/>
+        <location filename="../DlgApplicationSettings.ui" line="1327"/>
+        <location filename="../DlgApplicationSettings.ui" line="1388"/>
+        <location filename="../DlgApplicationSettings.ui" line="1449"/>
+        <location filename="../DlgApplicationSettings.ui" line="1510"/>
+        <location filename="../DlgApplicationSettings.ui" line="1571"/>
+        <location filename="../DlgApplicationSettings.ui" line="1700"/>
+        <location filename="../DlgApplicationSettings.ui" line="1761"/>
+        <location filename="../DlgApplicationSettings.ui" line="1822"/>
+        <location filename="../DlgApplicationSettings.ui" line="2089"/>
+        <location filename="../DlgApplicationSettings.ui" line="2150"/>
+        <location filename="../DlgApplicationSettings.ui" line="2211"/>
+        <location filename="../DlgApplicationSettings.ui" line="2272"/>
+        <location filename="../DlgApplicationSettings.ui" line="2333"/>
+        <location filename="../DlgApplicationSettings.ui" line="2394"/>
+        <location filename="../DlgApplicationSettings.ui" line="2455"/>
+        <location filename="../DlgApplicationSettings.ui" line="2516"/>
+        <location filename="../DlgApplicationSettings.ui" line="2577"/>
+        <source>For 4:3 project:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="982"/>
+        <location filename="../DlgApplicationSettings.ui" line="1116"/>
+        <location filename="../DlgApplicationSettings.ui" line="1334"/>
+        <location filename="../DlgApplicationSettings.ui" line="1395"/>
+        <location filename="../DlgApplicationSettings.ui" line="1456"/>
+        <location filename="../DlgApplicationSettings.ui" line="1517"/>
+        <location filename="../DlgApplicationSettings.ui" line="1578"/>
+        <location filename="../DlgApplicationSettings.ui" line="1707"/>
+        <location filename="../DlgApplicationSettings.ui" line="1768"/>
+        <location filename="../DlgApplicationSettings.ui" line="1829"/>
+        <location filename="../DlgApplicationSettings.ui" line="2096"/>
+        <location filename="../DlgApplicationSettings.ui" line="2157"/>
+        <location filename="../DlgApplicationSettings.ui" line="2218"/>
+        <location filename="../DlgApplicationSettings.ui" line="2279"/>
+        <location filename="../DlgApplicationSettings.ui" line="2340"/>
+        <location filename="../DlgApplicationSettings.ui" line="2401"/>
+        <location filename="../DlgApplicationSettings.ui" line="2462"/>
+        <location filename="../DlgApplicationSettings.ui" line="2523"/>
+        <location filename="../DlgApplicationSettings.ui" line="2584"/>
+        <source>For 16:9 project:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="989"/>
+        <location filename="../DlgApplicationSettings.ui" line="1123"/>
+        <location filename="../DlgApplicationSettings.ui" line="1341"/>
+        <location filename="../DlgApplicationSettings.ui" line="1402"/>
+        <location filename="../DlgApplicationSettings.ui" line="1463"/>
+        <location filename="../DlgApplicationSettings.ui" line="1524"/>
+        <location filename="../DlgApplicationSettings.ui" line="1585"/>
+        <location filename="../DlgApplicationSettings.ui" line="1714"/>
+        <location filename="../DlgApplicationSettings.ui" line="1775"/>
+        <location filename="../DlgApplicationSettings.ui" line="1836"/>
+        <location filename="../DlgApplicationSettings.ui" line="2103"/>
+        <location filename="../DlgApplicationSettings.ui" line="2164"/>
+        <location filename="../DlgApplicationSettings.ui" line="2225"/>
+        <location filename="../DlgApplicationSettings.ui" line="2286"/>
+        <location filename="../DlgApplicationSettings.ui" line="2347"/>
+        <location filename="../DlgApplicationSettings.ui" line="2408"/>
+        <location filename="../DlgApplicationSettings.ui" line="2469"/>
+        <location filename="../DlgApplicationSettings.ui" line="2530"/>
+        <location filename="../DlgApplicationSettings.ui" line="2591"/>
+        <source>For cinema project:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1024"/>
+        <source>Coordinates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1053"/>
+        <source>Default options for new image or video block (when creating slide)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1069"/>
+        <location filename="../DlgApplicationSettings.ui" line="2636"/>
+        <source>Text style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1088"/>
+        <location filename="../DlgApplicationSettings.ui" line="1168"/>
+        <location filename="../DlgApplicationSettings.ui" line="2655"/>
+        <source>Shape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1187"/>
+        <location filename="../DlgApplicationSettings.ui" line="1881"/>
+        <source>Coordinates
+for 3:2
+image in 
+landscape
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1210"/>
+        <location filename="../DlgApplicationSettings.ui" line="1904"/>
+        <source>Coordinates
+for 3:2
+image in 
+portrait
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1233"/>
+        <location filename="../DlgApplicationSettings.ui" line="1927"/>
+        <source>Coordinates
+for 4:3
+image in 
+landscape
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1256"/>
+        <location filename="../DlgApplicationSettings.ui" line="1950"/>
+        <source>Coordinates
+for 4:3
+image in 
+portrait
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1279"/>
+        <location filename="../DlgApplicationSettings.ui" line="1973"/>
+        <source>Coordinates
+for 16:9
+image in 
+landscape
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1302"/>
+        <location filename="../DlgApplicationSettings.ui" line="1996"/>
+        <source>Coordinates
+for 16:9
+image in 
+portrait
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1630"/>
+        <location filename="../DlgApplicationSettings.ui" line="2019"/>
+        <source>Coordinates
+for cinema
+image in 
+landscape
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1653"/>
+        <location filename="../DlgApplicationSettings.ui" line="2042"/>
+        <source>Coordinates
+for cinema
+image in 
+portrait
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1676"/>
+        <location filename="../DlgApplicationSettings.ui" line="2065"/>
+        <source>Coordinates
+for 
+nonstandard
+image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="2673"/>
         <source>Rendering Options</source>
         <translation>Opzioni Rendering</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1052"/>
+        <location filename="../DlgApplicationSettings.ui" line="2741"/>
         <source>Default advanced rendering options</source>
         <translation>Opzioni avanzate di rendering predefinite</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1059"/>
-        <location filename="../DlgApplicationSettings.ui" line="1470"/>
+        <location filename="../DlgApplicationSettings.ui" line="2748"/>
+        <location filename="../DlgApplicationSettings.ui" line="3159"/>
         <source>Video standard :</source>
         <translation>Video standard :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1072"/>
-        <location filename="../DlgApplicationSettings.ui" line="1544"/>
+        <location filename="../DlgApplicationSettings.ui" line="2761"/>
+        <location filename="../DlgApplicationSettings.ui" line="3233"/>
         <source>Video codec :</source>
         <translation>Codec video :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1085"/>
-        <location filename="../DlgApplicationSettings.ui" line="1771"/>
+        <location filename="../DlgApplicationSettings.ui" line="2774"/>
+        <location filename="../DlgApplicationSettings.ui" line="3460"/>
         <source>File format :</source>
         <translation>Formato file :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1104"/>
+        <location filename="../DlgApplicationSettings.ui" line="2793"/>
         <source>Format :</source>
         <translation>Formato :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1123"/>
+        <location filename="../DlgApplicationSettings.ui" line="2812"/>
         <source>Select the default image format to use for the rendering among the proposed list. </source>
         <translation>Seleziona il formato immagine predefinito da usare per il rendering tra la lista proposta.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1153"/>
+        <location filename="../DlgApplicationSettings.ui" line="2842"/>
         <source>Select the default video standard to use, PAL or NTSC.</source>
         <translation>Seleziona lo standard video predefinito da usare, PAL o NTSC.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1157"/>
-        <location filename="../DlgApplicationSettings.ui" line="1489"/>
+        <location filename="../DlgApplicationSettings.ui" line="2846"/>
+        <location filename="../DlgApplicationSettings.ui" line="3178"/>
         <source>PAL</source>
         <translation>PAL</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1162"/>
-        <location filename="../DlgApplicationSettings.ui" line="1494"/>
+        <location filename="../DlgApplicationSettings.ui" line="2851"/>
+        <location filename="../DlgApplicationSettings.ui" line="3183"/>
         <source>NTSC</source>
         <translation>NTSC</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1176"/>
-        <location filename="../DlgApplicationSettings.ui" line="1241"/>
-        <location filename="../DlgApplicationSettings.ui" line="1578"/>
-        <location filename="../DlgApplicationSettings.ui" line="1637"/>
+        <location filename="../DlgApplicationSettings.ui" line="2865"/>
+        <location filename="../DlgApplicationSettings.ui" line="2930"/>
+        <location filename="../DlgApplicationSettings.ui" line="3267"/>
+        <location filename="../DlgApplicationSettings.ui" line="3326"/>
         <source>Bit rate :</source>
         <translation>Bit rate :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1201"/>
+        <location filename="../DlgApplicationSettings.ui" line="2890"/>
         <source>Select the default bit rate to use for video during the rendering among the proposed list. </source>
         <translation>Seleziona il bit rate  predefinito da usare per il rendering tra la lista proposta.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1208"/>
+        <location filename="../DlgApplicationSettings.ui" line="2897"/>
         <source>Select the default video codec to use for the rendering among the proposed list. </source>
         <translation>Seleziona il codec video predefinito da usare per il rendering tra la lista proposta.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1215"/>
+        <location filename="../DlgApplicationSettings.ui" line="2904"/>
         <source>Select the default audio codec to use for the rendering among the proposed list. </source>
         <translation>Seleziona il codec audio predefinito da usare per il rendering tra la lista proposta.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1222"/>
-        <location filename="../DlgApplicationSettings.ui" line="1609"/>
+        <location filename="../DlgApplicationSettings.ui" line="2911"/>
+        <location filename="../DlgApplicationSettings.ui" line="3298"/>
         <source>Audio codec :</source>
         <translation>Codec audio :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1266"/>
+        <location filename="../DlgApplicationSettings.ui" line="2955"/>
         <source>Select the default bit rate to use for audio during the rendering among the proposed list. </source>
         <translation>Seleziona il bit rate  predefinito da usare per il rendering audio tra la lista proposta.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1280"/>
+        <location filename="../DlgApplicationSettings.ui" line="2969"/>
         <source>Default device mode rendering options</source>
         <translation>Opzioni dispositivo per la modalità di rendering predefinite</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1287"/>
+        <location filename="../DlgApplicationSettings.ui" line="2976"/>
         <source>Smartphone :</source>
         <translation>Smartphone :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1297"/>
+        <location filename="../DlgApplicationSettings.ui" line="2986"/>
         <source>Multimedia system :</source>
         <translation>Sistema multimediale :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1307"/>
+        <location filename="../DlgApplicationSettings.ui" line="2996"/>
         <source>For the WEB :</source>
         <translation>Per il WEB :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1317"/>
+        <location filename="../DlgApplicationSettings.ui" line="3006"/>
         <source>Select the type of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</source>
         <translation>Seleziona il tipo di dispositivi che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;Player and Smartphone&quot; sul menu &quot;Render movie&quot;</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1324"/>
+        <location filename="../DlgApplicationSettings.ui" line="3013"/>
         <source>Select the type of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</source>
         <translation>Seleziona il tipo di dispositivi che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;For the WEB&quot; sul menu &quot;Render movie&quot;</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1331"/>
+        <location filename="../DlgApplicationSettings.ui" line="3020"/>
         <source>Select the type of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</source>
         <translation>Seleziona il tipo di dispositivi che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;Multimedia system&quot; sul menu &quot;Render movie&quot;</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1344"/>
+        <location filename="../DlgApplicationSettings.ui" line="3033"/>
         <source>Select the default file type to use for the rendering among the proposed list.</source>
         <translation>Seleziona il tipo di file predefinito da usare per il rendering dalla lista proposta.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1351"/>
+        <location filename="../DlgApplicationSettings.ui" line="3040"/>
         <source>Select the model of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</source>
         <translation>Seleziona il modello dei dispositivi che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;Player and Smartphone&quot; sul menu &quot;Render movie&quot;</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1358"/>
+        <location filename="../DlgApplicationSettings.ui" line="3047"/>
         <source>Select the model of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</source>
         <translation>Seleziona il modello dei dispositivi che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;Multimedia system&quot; sul menu &quot;Render movie&quot;</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1365"/>
+        <location filename="../DlgApplicationSettings.ui" line="3054"/>
         <source>Select the model of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</source>
         <translation>Seleziona il modello di dispositivo che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;For the WEB&quot; sul menu &quot;Render movie&quot;</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1377"/>
+        <location filename="../DlgApplicationSettings.ui" line="3066"/>
         <source>Manage Device Database</source>
         <translation>Gestione database dispositivi</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1445"/>
+        <location filename="../DlgApplicationSettings.ui" line="3134"/>
         <source>Subtype</source>
         <translation>Sottotipo</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1456"/>
+        <location filename="../DlgApplicationSettings.ui" line="3145"/>
         <source>Model</source>
         <translation>Modello</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1485"/>
+        <location filename="../DlgApplicationSettings.ui" line="3174"/>
         <source>Select the video standard to use, PAL or NTSC.</source>
         <translation>Seleziona il video standard da usare, PAL o NTSC.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1517"/>
+        <location filename="../DlgApplicationSettings.ui" line="3206"/>
         <source>Image format :</source>
         <translation>Formato immagine :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1532"/>
+        <location filename="../DlgApplicationSettings.ui" line="3221"/>
         <source>Select the image resolution to use for the rendering.</source>
         <translation>Seleziona la risoluzione immagine da usare per il rendering.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1565"/>
+        <location filename="../DlgApplicationSettings.ui" line="3254"/>
         <source>Select the video codec to use for the rendering.</source>
         <translation>Seleziona il codec video da usare per il rendering.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1600"/>
+        <location filename="../DlgApplicationSettings.ui" line="3289"/>
         <source>Select the bit rate to use for video during the rendering.</source>
         <translation>Seleziona il bit rate da usare per il video durante il rendering.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1630"/>
+        <location filename="../DlgApplicationSettings.ui" line="3319"/>
         <source>Select the audio codec to use for the rendering.</source>
         <translation>Seleziona il codec audio da usare per il rendering.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1659"/>
+        <location filename="../DlgApplicationSettings.ui" line="3348"/>
         <source>Select the bit rate to use for audio during the rendering.</source>
         <translation>Seleziona il bit rate da usare per l&apos;audio durante il rendering.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1668"/>
+        <location filename="../DlgApplicationSettings.ui" line="3357"/>
         <source>Device model :</source>
         <translation>Modello dispositivo :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1678"/>
+        <location filename="../DlgApplicationSettings.ui" line="3367"/>
         <source>Enter here the name of the equipment (free text field).</source>
         <translation>Inserisci quì il nome del dispositivo (testo libero).</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1693"/>
+        <location filename="../DlgApplicationSettings.ui" line="3382"/>
         <source>Create a new equipment which comes to be added in the database.</source>
         <translation>Crea un nuovo dispositivo che verrà aggiunto nel database.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1696"/>
+        <location filename="../DlgApplicationSettings.ui" line="3385"/>
         <source>Add Device</source>
         <translation>Aggiungi dispositivo</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1707"/>
+        <location filename="../DlgApplicationSettings.ui" line="3396"/>
         <source>Delete current equipment.</source>
         <translation>Cancella il dispositivo corrente.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1710"/>
+        <location filename="../DlgApplicationSettings.ui" line="3399"/>
         <source>Remove Device</source>
         <translation>Rimuovi dispositivo</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1721"/>
+        <location filename="../DlgApplicationSettings.ui" line="3410"/>
         <source>Cancel the modifications that you made on an equipment defined in the default ffDiaporama database</source>
         <translation>Annulla le modifiche che hai effettuato sulle definizioni attrezzature nel database predefinito ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1724"/>
+        <location filename="../DlgApplicationSettings.ui" line="3413"/>
         <source>Reset Device to Default</source>
         <translation>Ripristina i dispositivi predefiniti</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1737"/>
+        <location filename="../DlgApplicationSettings.ui" line="3426"/>
         <source>Device type :</source>
         <translation>Tipo dispositivo :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1747"/>
+        <location filename="../DlgApplicationSettings.ui" line="3436"/>
         <source>Select the type of equipment to be shown in the list.</source>
         <translation>Seleziona il tipo di dispositivo che sarà mostrato nella lista.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1754"/>
+        <location filename="../DlgApplicationSettings.ui" line="3443"/>
         <source>Select the category in which is classified the equipment.</source>
         <translation>Seleziona la categoria che classifica i dispositivi.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1761"/>
+        <location filename="../DlgApplicationSettings.ui" line="3450"/>
         <source>Device subtype :</source>
         <translation>Sottotipo dispositivo :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1833"/>
-        <location filename="../DlgApplicationSettings.cpp" line="312"/>
+        <location filename="../DlgApplicationSettings.ui" line="3522"/>
+        <location filename="../DlgApplicationSettings.cpp" line="366"/>
         <source>Apply modification</source>
         <translation>Applica modifiche</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1857"/>
+        <location filename="../DlgApplicationSettings.ui" line="3546"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1860"/>
+        <location filename="../DlgApplicationSettings.ui" line="3549"/>
         <source>&amp;Ok</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1871"/>
+        <location filename="../DlgApplicationSettings.ui" line="3560"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1874"/>
+        <location filename="../DlgApplicationSettings.ui" line="3563"/>
         <source>&amp;Cancel</source>
         <translation>Annulla (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1885"/>
+        <location filename="../DlgApplicationSettings.ui" line="3574"/>
         <source>Open help page describing this dialog box</source>
         <translation>Apri la pagina di aiuto di questa finestra di dialogo</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1888"/>
+        <location filename="../DlgApplicationSettings.ui" line="3577"/>
         <source>&amp;Help</source>
         <translation>Aiuto(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1895"/>
+        <location filename="../DlgApplicationSettings.ui" line="3584"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.cpp" line="313"/>
+        <location filename="../DlgApplicationSettings.cpp" line="367"/>
         <source>Do you whant to apply modification for this device?</source>
         <translation>Vuoi applicare le modifiche per questo dispositivo?</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.cpp" line="879"/>
+        <location filename="../DlgApplicationSettings.cpp" line="933"/>
         <source>&lt;new device&gt;</source>
         <translation>&lt;nuovo dispositivo&gt;</translation>
     </message>
@@ -1231,100 +1399,105 @@ Transizione dissolvenza incrociata</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="267"/>
+        <location filename="../_StyleDefinitions.cpp" line="266"/>
         <source>Full screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="268"/>
+        <location filename="../_StyleDefinitions.cpp" line="267"/>
         <source>TV margins size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="269"/>
+        <location filename="../_StyleDefinitions.cpp" line="268"/>
         <source>Maximum size for image geometry mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="270"/>
+        <location filename="../_StyleDefinitions.cpp" line="269"/>
         <source>TV margins maximum size for image geometry mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="271"/>
+        <location filename="../_StyleDefinitions.cpp" line="270"/>
         <source>High half of the screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="272"/>
+        <location filename="../_StyleDefinitions.cpp" line="271"/>
         <source>Left half of the screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="273"/>
+        <location filename="../_StyleDefinitions.cpp" line="272"/>
         <source>Left high quarter of the screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="274"/>
+        <location filename="../_StyleDefinitions.cpp" line="273"/>
         <source>Left low quarter of the screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="275"/>
+        <location filename="../_StyleDefinitions.cpp" line="274"/>
         <source>Low half of the screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="276"/>
+        <location filename="../_StyleDefinitions.cpp" line="275"/>
         <source>Right half of the screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="277"/>
+        <location filename="../_StyleDefinitions.cpp" line="276"/>
         <source>Right high quarter of the screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="278"/>
+        <location filename="../_StyleDefinitions.cpp" line="277"/>
         <source>Right low quarter of the screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="279"/>
+        <location filename="../_StyleDefinitions.cpp" line="278"/>
         <source>TV margins</source>
         <translation type="unfinished">Margini TV</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="338"/>
-        <location filename="../_StyleDefinitions.cpp" line="404"/>
-        <location filename="../_StyleDefinitions.cpp" line="410"/>
+        <location filename="../_StyleDefinitions.cpp" line="279"/>
+        <source>50% screen size-Centered</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="337"/>
+        <location filename="../_StyleDefinitions.cpp" line="403"/>
+        <location filename="../_StyleDefinitions.cpp" line="409"/>
         <source>Create new style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="339"/>
+        <location filename="../_StyleDefinitions.cpp" line="338"/>
         <source>Manage existing style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="340"/>
+        <location filename="../_StyleDefinitions.cpp" line="339"/>
         <source>Update existing style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="357"/>
-        <location filename="../_StyleDefinitions.cpp" line="375"/>
+        <location filename="../_StyleDefinitions.cpp" line="356"/>
+        <location filename="../_StyleDefinitions.cpp" line="374"/>
         <source>Update style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="404"/>
+        <location filename="../_StyleDefinitions.cpp" line="403"/>
         <source>Style name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="411"/>
+        <location filename="../_StyleDefinitions.cpp" line="410"/>
         <source>A style with this name already exist.
 Do you want to overwrite-it ?</source>
         <translation type="unfinished"></translation>
@@ -1342,25 +1515,25 @@ Please select another name!</source>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="353"/>
-        <location filename="../_StyleDefinitions.cpp" line="308"/>
+        <location filename="../_StyleDefinitions.cpp" line="307"/>
         <source>Adjust to image width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="354"/>
-        <location filename="../_StyleDefinitions.cpp" line="309"/>
+        <location filename="../_StyleDefinitions.cpp" line="308"/>
         <source>Adjust to image height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="355"/>
-        <location filename="../_StyleDefinitions.cpp" line="310"/>
+        <location filename="../_StyleDefinitions.cpp" line="309"/>
         <source>Adjust to full image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="356"/>
-        <location filename="../_StyleDefinitions.cpp" line="311"/>
+        <location filename="../_StyleDefinitions.cpp" line="310"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3481,9 +3654,9 @@ e aiuto</translation>
         <translation>File musicali (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="710"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="715"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="721"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="726"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="731"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="737"/>
         <location filename="../_Diaporama.cpp" line="1194"/>
         <location filename="../_Diaporama.cpp" line="1238"/>
         <location filename="../_Diaporama.cpp" line="1243"/>
@@ -3498,25 +3671,25 @@ e aiuto</translation>
         <translation>Errore</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="710"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="726"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Errore lettura file di configurazione</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="715"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="731"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Errore lettura contenuto del file di configurazione</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="721"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="737"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Il file non è un valido file di configurazione</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="974"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="1047"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translation>Errore nella creazione del file di configurazione</translation>

@@ -37,26 +37,25 @@ cvideofilewrapper::cvideofilewrapper() {
     FileName                = "";                       // filename
     ImageWidth              = 0;                        // Widht of normal image
     ImageHeight             = 0;                        // Height of normal image
+    StartPos                = QTime(0,0,0,0);   // Start position
+    EndPos                  = QTime(0,0,0,0);   // End position
 
+    // Video part
+    ffmpegVideoFile         = NULL;
+    VideoDecoderCodec       = NULL;
+    VideoStreamNumber       = 0;
+    FrameBufferYUV          = NULL;
+    FrameBufferYUVReady     = false;
+    FrameBufferYUVPosition  = 0;
     CacheFirstImage         = NULL;                     // Cache image of first image of the video
     CacheLastImage          = NULL;                     // Cache image of last image of the video (Preview mode only)
     dEndFileCachePos        = 0;                        // Position of the cache image of last image of the video
 
-    // LibAVFormat/Codec/SWScale part
-    ffmpegVideoFile         = NULL;
-    VideoDecoderCodec       = NULL;
-    VideoStreamNumber       = 0;
-    NextVideoPacketPosition = -1;
-    FrameBufferYUV          = NULL;
-
+    // Audio part
     ffmpegAudioFile         = NULL;
     AudioDecoderCodec       = NULL;
-    NextAudioPacketPosition = -1;
-
+    LastAudioReadedPosition = -1;
     IsVorbis                = false;
-
-    StartPos                = QTime(0,0,0,0);   // Start position
-    EndPos                  = QTime(0,0,0,0);   // End position
 }
 
 //====================================================================================================================
@@ -72,14 +71,14 @@ cvideofilewrapper::~cvideofilewrapper() {
     }
 
     // Close LibAVFormat and LibAVCodec contexte for the file
-    CloseVideoFileReader();
+    CloseCodecAndFile();
 }
 
 //====================================================================================================================
 // Close LibAVFormat and LibAVCodec contexte for the file
 //====================================================================================================================
 
-void cvideofilewrapper::CloseVideoFileReader() {
+void cvideofilewrapper::CloseCodecAndFile() {
     // Close the video codec
     if (VideoDecoderCodec!=NULL) {
         avcodec_close(ffmpegVideoFile->streams[VideoStreamNumber]->codec);
@@ -112,7 +111,7 @@ void cvideofilewrapper::CloseVideoFileReader() {
 //====================================================================================================================
 // Read an audio frame from current stream
 //====================================================================================================================
-void cvideofilewrapper::ReadAudioFrame(bool PreviewMode,int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
+void cvideofilewrapper::ReadAudioFrame(bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
     // Ensure file was previously open and all is ok
     if ((SoundTrackBloc==NULL)||(AudioStreamNumber==-1)||(ffmpegAudioFile->streams[AudioStreamNumber]==NULL)||(ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
 
@@ -138,7 +137,7 @@ void cvideofilewrapper::ReadAudioFrame(bool PreviewMode,int Position,cSoundBlock
     double          FrameDuration   =0;
 
     // Cac difftime between asked position and previous end decoded position
-    int DiffTimePosition=NextAudioPacketPosition-Position;
+    int DiffTimePosition=LastAudioReadedPosition-Position;
     if (DiffTimePosition<0) DiffTimePosition=-DiffTimePosition;
 
     // Adjust position if input file have a start_time value
@@ -238,7 +237,7 @@ void cvideofilewrapper::ReadAudioFrame(bool PreviewMode,int Position,cSoundBlock
         }
     }
     // Keep NextPacketPosition for determine next time if we need to seek
-    NextAudioPacketPosition=int(EndPosition*1000);
+    LastAudioReadedPosition=int(EndPosition*1000);
 
     //**********************************************************************
     // Transfert data from BufferForDecoded to Buffer using audio_resample
@@ -428,7 +427,9 @@ void cvideofilewrapper::ReadAudioFrame(bool PreviewMode,int Position,cSoundBlock
 
 #define MAXELEMENTSINOBJECTLIST 500
 
-QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
+QImage *cvideofilewrapper::ReadVideoFrame(int64_t Position,bool DontUseEndPos) {
+    int64_t AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
+
     // Ensure file was previously open
     if ((ffmpegVideoFile==NULL)||(VideoDecoderCodec==NULL)) return NULL;
 
@@ -447,40 +448,43 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
             CacheLastImage=NULL;
             dEndFileCachePos=0;
         }
-        NextVideoPacketPosition=dPosition+1;
+    }
+
+    // Adjust position if input file have a start_time value
+    if (ffmpegVideoFile->start_time!=AVNOPTSVALUE)  {
+        dPosition+=double(ffmpegVideoFile->start_time)/double(AV_TIME_BASE);
+        Position  =int(dPosition*1000);
     }
 
     // Allocate structure for YUV image
     if (FrameBufferYUV==NULL) FrameBufferYUV=avcodec_alloc_frame();
     if (FrameBufferYUV==NULL) return NULL;
 
-    // Allocate structure for RGB image
-    AVFrame *FrameBufferRGB=avcodec_alloc_frame();
-    if (FrameBufferRGB==NULL) {
-        av_free(FrameBufferYUV);
-        return NULL;
-    }
-
     bool            KeyFrame            =false;
     bool            DataInBuffer        =false;
-    int64_t         AVNOPTSVALUE        =INT64_C(0x8000000000000000); // to solve type error with Qt
     QImage          *RetImage           =NULL;
     AVStream        *VideoStream        =ffmpegVideoFile->streams[VideoStreamNumber];
     AVPacket        *StreamPacket       =NULL;
 
-    // Cac difftime between asked position and previous end decoded position
-    double DiffTimePosition=dPosition-NextVideoPacketPosition;
+    if ((FrameBufferYUVReady)&&(FrameBufferYUVPosition==Position)) {
+        return ConvertYUVToRGB();
+    }
 
-    // Adjust position if input file have a start_time value
-    if (ffmpegVideoFile->start_time!=AVNOPTSVALUE)  dPosition+=double(ffmpegVideoFile->start_time)/double(AV_TIME_BASE);
+    // Cac difftime between asked position and previous end decoded position
+    int64_t DiffTimePosition=-1;
+    if (FrameBufferYUVReady) DiffTimePosition=Position-FrameBufferYUVPosition;
+
 
     // Calc if we need to seek to a position
-    if ((Position==0)||(DiffTimePosition<-0.01)||(DiffTimePosition>1)) { // Allow 1 sec diff (rounded double !)
+    if ((Position==0)||(DiffTimePosition<0)||(DiffTimePosition>100)) { // Allow 0,1 sec diff
+
         // Flush all buffers
         for (unsigned int i=0;i<ffmpegVideoFile->nb_streams;i++)  {
             AVCodecContext *codec_context = ffmpegVideoFile->streams[i]->codec;
             if (codec_context && codec_context->codec) avcodec_flush_buffers(codec_context);
         }
+        FrameBufferYUVReady    = false;
+        FrameBufferYUVPosition = 0;
 
         // Seek to nearest previous key frame
         int64_t seek_target=av_rescale_q(int64_t(Position*1000),AV_TIME_BASE_Q,ffmpegVideoFile->streams[VideoStreamNumber]->time_base);
@@ -488,7 +492,6 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
             qDebug()<<"Seek error";
         }
     } else {
-        //qDebug()<<"No seek";
         KeyFrame=true;
         DataInBuffer=true;
     }
@@ -498,7 +501,7 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
     //*************************************************************************************************************************************
     bool    Continue        =true;
     bool    IsVideoFind     =false;
-    double  FrameTimeBase   =0;
+    double  FrameTimeBase   =av_q2d(VideoStream->time_base);;
     double  FramePosition   =0;
 
     while (Continue) {
@@ -509,65 +512,19 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
         if (av_read_frame(ffmpegVideoFile,StreamPacket)==0) {
 
             if (StreamPacket->stream_index==VideoStreamNumber) {
-                FrameTimeBase   =av_q2d(VideoStream->time_base);
                 if (!CodecUsePTS) FramePosition=double((StreamPacket->pts!=AVNOPTSVALUE)?StreamPacket->pts:0)*FrameTimeBase;   // pts instead of dts
                     else          FramePosition=double((StreamPacket->dts!=AVNOPTSVALUE)?StreamPacket->dts:0)*FrameTimeBase;   // dts instead of pts
 
-                NextVideoPacketPosition =FramePosition;  // Keep NextPacketPosition for determine next time if we need to seek
+                int FrameDecoded=0;
+                avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket);
+                if (FrameDecoded>0) DataInBuffer=true;
 
-                if (((StreamPacket->flags & AV_PKT_FLAG_KEY)>0)) KeyFrame=true;
-                if (KeyFrame) { // Decode video begining with a key frame
-
-                    int FrameDecoded=0;
-                    avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket);
-                    if (FrameDecoded>0) DataInBuffer=true;
-
-                    // Create image
-                    if ((DataInBuffer)&&((FramePosition>=dPosition)||(FramePosition>=dEndFile))) {
-
-                        // Calc destination size
-                        int W=ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
-                        int H=ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
-
-                        // Create QImage
-                        RetImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-
-                        // Assign appropriate parts of ImageBuffer to image planes in FrameBufferRGB
-                        avpicture_fill(
-                                (AVPicture *)FrameBufferRGB,        // Buffer to prepare
-                                RetImage->bits(),                   // Buffer which will contain the image data
-                                PIX_FMT_BGRA,                       // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
-                                W,                                  // The width of the image in pixels
-                                H                                   // The height of the image in pixels
-                        );
-
-                        // Get a converter from libswscale
-                        struct SwsContext *img_convert_ctx=sws_getContext(
-                            W,H,ffmpegVideoFile->streams[VideoStreamNumber]->codec->pix_fmt,        // Src Widht,Height,Format
-                            W,H,PIX_FMT_BGRA,                                                       // Destination Width,Height,Format
-                            SWS_FAST_BILINEAR/*SWS_BICUBIC*/,                                       // flags
-                            NULL,NULL,NULL);                                                        // src Filter,dst Filter,param
-
-                        if (img_convert_ctx!=NULL) {
-                            int ret = sws_scale(
-                                img_convert_ctx,                                                    // libswscale converter
-                                FrameBufferYUV->data,                                               // Source buffer
-                                FrameBufferYUV->linesize,                                           // Source Stride ?
-                                0,                                                                  // Source SliceY:the position in the source image of the slice to process, that is the number (counted starting from zero) in the image of the first row of the slice
-                                H,                                                                  // Source SliceH:the height of the source slice, that is the number of rows in the slice
-                                FrameBufferRGB->data,                                               // Destination buffer
-                                FrameBufferRGB->linesize                                            // Destination Stride
-                            );
-                            if (ret<=0) {
-                                delete RetImage;
-                                RetImage=NULL;
-                            }
-                            sws_freeContext(img_convert_ctx);
-                        }
-
-                        IsVideoFind=(RetImage!=NULL);
-                    }
-
+                // Create image
+                if ((DataInBuffer)&&((FramePosition>=dPosition)||(FramePosition>=dEndFile))) {
+                    FrameBufferYUVReady   =true;                        // Keep actual value for FrameBufferYUV
+                    FrameBufferYUVPosition=int(FramePosition*1000);     // Keep actual value for FrameBufferYUV
+                    RetImage              =ConvertYUVToRGB();           // Create RetImage from YUV Buffer
+                    IsVideoFind           =(RetImage!=NULL);
                 }
 
             }
@@ -587,47 +544,11 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
             // Create image
             if (DataInBuffer) {
 
-                // Calc destination size
-                int W=ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
-                int H=ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
+                FrameBufferYUVReady   =true;                        // Keep actual value for FrameBufferYUV
+                FrameBufferYUVPosition=int(FramePosition*1000);     // Keep actual value for FrameBufferYUV
+                RetImage              =ConvertYUVToRGB();           // Create RetImage from YUV Buffer
+                IsVideoFind           =(RetImage!=NULL);
 
-                // Create QImage
-                RetImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-
-                // Assign appropriate parts of ImageBuffer to image planes in FrameBufferRGB
-                avpicture_fill(
-                        (AVPicture *)FrameBufferRGB,        // Buffer to prepare
-                        RetImage->bits(),                   // Buffer which will contain the image data
-                        PIX_FMT_BGRA,                       // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
-                        W,                                  // The width of the image in pixels
-                        H                                   // The height of the image in pixels
-                );
-
-                // Get a converter from libswscale
-                struct SwsContext *img_convert_ctx=sws_getContext(
-                    W,H,ffmpegVideoFile->streams[VideoStreamNumber]->codec->pix_fmt,        // Src Widht,Height,Format
-                    W,H,PIX_FMT_BGRA,                                                       // Destination Width,Height,Format
-                    SWS_FAST_BILINEAR/*SWS_BICUBIC*/,                                       // flags
-                    NULL,NULL,NULL);                                                        // src Filter,dst Filter,param
-
-                if (img_convert_ctx!=NULL) {
-                    int ret = sws_scale(
-                        img_convert_ctx,                                                    // libswscale converter
-                        FrameBufferYUV->data,                                               // Source buffer
-                        FrameBufferYUV->linesize,                                           // Source Stride ?
-                        0,                                                                  // Source SliceY:the position in the source image of the slice to process, that is the number (counted starting from zero) in the image of the first row of the slice
-                        H,                                                                  // Source SliceH:the height of the source slice, that is the number of rows in the slice
-                        FrameBufferRGB->data,                                               // Destination buffer
-                        FrameBufferRGB->linesize                                            // Destination Stride
-                    );
-                    if (ret<=0) {
-                        delete RetImage;
-                        RetImage=NULL;
-                    }
-                    sws_freeContext(img_convert_ctx);
-                }
-
-                IsVideoFind=(RetImage!=NULL);
                 if (IsVideoFind) {
                     if ((GlobalMainWindow->ApplicationConfig->Crop1088To1080)&&(RetImage->height()==1088)&&(RetImage->width()==1920)) {
                         QImage *newRetImage=new QImage(RetImage->copy(0,4,1920,1080));
@@ -667,9 +588,6 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
         qDebug()<<"No video image return !";
     }
 
-    // Free the 2 AVFrame buffers
-    av_free(FrameBufferRGB);
-
     // Check if it's the last image and if we need to  cache it
     if ((FramePosition>=dEndFile)&&(RetImage)) {
         CacheLastImage  =new QImage(RetImage->copy());
@@ -679,11 +597,58 @@ QImage *cvideofilewrapper::ReadVideoFrame(int Position,bool DontUseEndPos) {
     return RetImage;
 }
 
+QImage *cvideofilewrapper::ConvertYUVToRGB() {
+    int     W               =ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
+    int     H               =ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
+    QImage  *RetImage       =new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+    AVFrame *FrameBufferRGB =avcodec_alloc_frame();  // Allocate structure for RGB image
+
+    if (FrameBufferRGB!=NULL) {
+
+        avpicture_fill(
+                (AVPicture *)FrameBufferRGB,        // Buffer to prepare
+                RetImage->bits(),                   // Buffer which will contain the image data
+                PIX_FMT_BGRA,                       // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
+                W,                                  // The width of the image in pixels
+                H                                   // The height of the image in pixels
+        );
+
+        // Get a converter from libswscale
+        struct SwsContext *img_convert_ctx=sws_getContext(
+            W,H,ffmpegVideoFile->streams[VideoStreamNumber]->codec->pix_fmt,        // Src Widht,Height,Format
+            W,H,PIX_FMT_BGRA,                                                       // Destination Width,Height,Format
+            SWS_FAST_BILINEAR/*SWS_BICUBIC*/,                                       // flags
+            NULL,NULL,NULL);                                                        // src Filter,dst Filter,param
+
+        if (img_convert_ctx!=NULL) {
+            int ret = sws_scale(
+                img_convert_ctx,                                                    // libswscale converter
+                FrameBufferYUV->data,                                               // Source buffer
+                FrameBufferYUV->linesize,                                           // Source Stride ?
+                0,                                                                  // Source SliceY:the position in the source image of the slice to process, that is the number (counted starting from zero) in the image of the first row of the slice
+                H,                                                                  // Source SliceH:the height of the source slice, that is the number of rows in the slice
+                FrameBufferRGB->data,                                               // Destination buffer
+                FrameBufferRGB->linesize                                            // Destination Stride
+            );
+            if (ret<=0) {
+                delete RetImage;
+                RetImage=NULL;
+            }
+            sws_freeContext(img_convert_ctx);
+        }
+
+        // free FrameBufferRGB because we don't need it in the future
+        av_free(FrameBufferRGB);
+    }
+
+    return RetImage;
+}
+
 //====================================================================================================================
 
 bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusicOnly,QStringList &AliasList) {
     // Clean memory if a previous file was loaded
-    CloseVideoFileReader();
+    CloseCodecAndFile();
     if (CacheFirstImage!=NULL) {
         delete CacheFirstImage;
         CacheFirstImage=NULL;
@@ -710,12 +675,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
 
     // Open video file and retrieve stream information
     bool Continue=true;
-    while ((Continue)&&
-        #ifdef avformat_open_input
-           (avformat_open_input(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0)) {
-        #else
-           (av_open_input_file(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0)) {
-        #endif
+    while ((Continue)&&(avformat_open_input(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0)) {
         if (QMessageBox::question(GlobalMainWindow,QApplication::translate("MainWindow","Open video file"),
             QApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)
@@ -795,11 +755,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
     VideoDecoderCodec=NULL;
     if (!MusicOnly) {
         // Reopen file for video
-        #ifdef avformat_open_input
-            avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL);
-        #else
-            av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL);
-        #endif
+        avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL);
         ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
 
         if (av_find_stream_info(ffmpegVideoFile)<0) return false;
@@ -872,7 +828,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
 
 //====================================================================================================================
 
-QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int Position,int StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,
+QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int64_t Position,int StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,
                                    bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos) {
     if (!IsValide)
         return NULL;

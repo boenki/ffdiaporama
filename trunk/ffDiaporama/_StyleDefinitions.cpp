@@ -168,35 +168,43 @@ QString cStyleCollection::GetStyleName(QString StyleDef) {
 
 //************************************************
 
+QString cStyleCollection::GetStyleDef(QString StyleName) {
+    int i=0;
+    while ((i<Collection.count())&&(Collection[i].StyleName!=ActiveFilter+StyleName)) i++;
+    if ((i<Collection.count())&&(Collection[i].StyleName==ActiveFilter+StyleName)) return Collection[i].StyleDef; else return "";
+}
+
+//************************************************
+
 void cStyleCollection::SetProjectGeometryFilter(int Geometry) {
-    switch (Geometry) {
-        case GEOMETRY_4_3:      ActiveFilter="4:3-";        break;
-        case GEOMETRY_16_9:     ActiveFilter="16:9-";       break;
-        case GEOMETRY_40_17:    ActiveFilter="2.35:1-";     break;
-    }
-    GeometryFilter=true;
+    SetImageGeometryFilter(Geometry,-1);
 }
 
 //************************************************
 
 void cStyleCollection::SetImageGeometryFilter(int ProjectGeometry,int ImageGeometry) {
-    switch (ProjectGeometry) {
-        case GEOMETRY_4_3:          ActiveFilter="4:3-";        break;
-        case GEOMETRY_16_9:         ActiveFilter="16:9-";       break;
-        case GEOMETRY_40_17:        ActiveFilter="2.35:1-";     break;
-        default:                    ActiveFilter="";            break;
+    if (ProjectGeometry==-1) {
+        GeometryFilter=false;
+        ActiveFilter  ="";
+    } else {
+        switch (ProjectGeometry) {
+            case GEOMETRY_4_3:          ActiveFilter="4:3-";        break;
+            case GEOMETRY_16_9:         ActiveFilter="16:9-";       break;
+            case GEOMETRY_40_17:        ActiveFilter="2.35:1-";     break;
+            default:                    ActiveFilter="";            break;
+        }
+        switch (ImageGeometry) {
+            case IMAGE_GEOMETRY_3_2:    ActiveFilter=ActiveFilter+"3:2-";       break;   // Standard 3:2 landscape image
+            case IMAGE_GEOMETRY_2_3:    ActiveFilter=ActiveFilter+"2:3-";       break;   // Standard 3:2 portrait image
+            case IMAGE_GEOMETRY_4_3:    ActiveFilter=ActiveFilter+"4:3-";       break;   // Standard 4:3 landscape image
+            case IMAGE_GEOMETRY_3_4:    ActiveFilter=ActiveFilter+"3:4-";       break;   // Standard 4:3 portrait image
+            case IMAGE_GEOMETRY_16_9:   ActiveFilter=ActiveFilter+"16:9-";      break;   // Standard 16:9 landscape image
+            case IMAGE_GEOMETRY_9_16:   ActiveFilter=ActiveFilter+"9:16-";      break;   // Standard 16:9 portrait image
+            case IMAGE_GEOMETRY_40_17:  ActiveFilter=ActiveFilter+"40:17-";     break;   // Standard cinema landscape image
+            case IMAGE_GEOMETRY_17_40:  ActiveFilter=ActiveFilter+"17:40-";     break;   // Standard cinema portrait image
+        }
+        GeometryFilter=true;
     }
-    switch (ImageGeometry) {
-        case IMAGE_GEOMETRY_3_2:    ActiveFilter=ActiveFilter+"3:2-";       break;   // Standard 3:2 landscape image
-        case IMAGE_GEOMETRY_2_3:    ActiveFilter=ActiveFilter+"2:3-";       break;   // Standard 3:2 portrait image
-        case IMAGE_GEOMETRY_4_3:    ActiveFilter=ActiveFilter+"4:3-";       break;   // Standard 4:3 landscape image
-        case IMAGE_GEOMETRY_3_4:    ActiveFilter=ActiveFilter+"3:4-";       break;   // Standard 4:3 portrait image
-        case IMAGE_GEOMETRY_16_9:   ActiveFilter=ActiveFilter+"16:9-";      break;   // Standard 16:9 landscape image
-        case IMAGE_GEOMETRY_9_16:   ActiveFilter=ActiveFilter+"9:16-";      break;   // Standard 16:9 portrait image
-        case IMAGE_GEOMETRY_40_17:  ActiveFilter=ActiveFilter+"40:17-";     break;   // Standard cinema landscape image
-        case IMAGE_GEOMETRY_17_40:  ActiveFilter=ActiveFilter+"17:40-";     break;   // Standard cinema portrait image
-    }
-    GeometryFilter=true;
 }
 
 //************************************************
@@ -276,7 +284,7 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
                 else if (UnfilteredStyleName=="Right high quarter of the screen")                       Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Right high quarter of the screen"));
                 else if (UnfilteredStyleName=="Right low quarter of the screen")                        Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Right low quarter of the screen"));
                 else if (UnfilteredStyleName=="TV margins")                                             Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","TV margins"));
-
+                else if (UnfilteredStyleName=="50% screen size-Centered")                               Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","50% screen size-Centered"));
             } else {
                 // Reading from user config file : search if Style already exist, then load it else append a new one
                 QString ElementName=QString(CollectionName+QString("Item_%1").arg(i));
@@ -372,7 +380,7 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString Actu
         if (Ret==ActionCreate)                                                              CreateNewStyle(ParentWindow,ActualStyleDef);
         else if (Ret==ActionManage)                                                         ManageExistingStyle(ParentWindow);
         else if (Ret->toolTip()==QApplication::translate("DlgManageStyle","Update style"))  UpdateExistingStyle((GeometryFilter?ActiveFilter:"")+Ret->text(),ActualStyleDef);
-        else Item=(GeometryFilter?ActiveFilter:"")+Ret->text();
+        else Item=/*(GeometryFilter?ActiveFilter:"")+*/Ret->text();
     }
     delete ContextMenu;
     delete UpdateMenu;
@@ -432,7 +440,7 @@ void cStyleCollection::ManageExistingStyle(QWidget *ParentWindow) {
 
 void cStyleCollection::StringToStringList(QString Item,QStringList &List) {
     int i=0;
-    while ((i<Collection.count())&&(Collection[i].StyleName!=Item)) i++;
+    while ((i<Collection.count())&&(Collection[i].StyleName!=ActiveFilter+Item)) i++;
     if (i<Collection.count()) StringDefToStringList(Collection[i].StyleDef,List);
 }
 
@@ -444,3 +452,28 @@ void cStyleCollection::StringDefToStringList(QString String,QStringList &List) {
     if (!String.isEmpty()) List.append(String);
 }
 
+//************************************************
+
+QString cStyleCollection::DecodeString(QString String) {
+    if (!String.contains("###GLOBALSTYLE###:")) return String;
+    int StyleIndex=String.mid(QString("###GLOBALSTYLE###:").length()).toInt();
+    int i=0;
+    while ((i<Collection.count())&&(Collection[i].StyleIndex!=StyleIndex)) i++;
+    if ((i<Collection.count())&&(Collection[i].StyleIndex==StyleIndex)) return Collection[i].StyleName.mid(Collection[i].GetFilteredPart().length());
+        else return "";
+}
+
+//************************************************
+
+QString cStyleCollection::EncodeString(QComboBox *CB,int ProjectGeometry,int ImageGeometry) {
+    QString CurStyleName=CB->currentText();
+    SetImageGeometryFilter(ProjectGeometry,ImageGeometry);
+    if (GeometryFilter) CurStyleName=ActiveFilter+CurStyleName;
+    int i=0;
+    while ((i<Collection.count())&&(Collection[i].StyleName!=CurStyleName)) i++;
+    if ((i<Collection.count())&&(Collection[i].StyleName==CurStyleName)) {
+        if (Collection[i].FromGlobalConf) return QString("###GLOBALSTYLE###:%1").arg(Collection[i].StyleIndex);
+        else return Collection[i].StyleName;
+    }
+    return CurStyleName;
+}

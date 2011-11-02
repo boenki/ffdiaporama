@@ -36,29 +36,40 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
 #endif
 
-    // LastDirectories part
-    ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
+    //********************************
+    // Application TAB
+    //********************************
 
-    // Raster mode
+    // Application options
+    ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
+    ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
     ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
 
-    //********************************
-    // Preview Options part
-    //********************************
+    // Preview Options
     QString FPS=(QString("%1").arg(ApplicationConfig->PreviewFPS,0,'f')).trimmed();
     while (FPS.endsWith('0')) FPS=FPS.left(FPS.length()-1);
     if (FPS.endsWith('.')) FPS=FPS.left(FPS.length()-1);
-    ui->ApplyTransfoDuringPreviewCB->setChecked(ApplicationConfig->ApplyTransfoPreview);
     ui->PreviewFrameRateCB->setCurrentIndex(ui->PreviewFrameRateCB->findText(FPS));
+    ui->ApplyTransfoDuringPreviewCB->setChecked(ApplicationConfig->ApplyTransfoPreview);
+
+    // Editor options
+    ui->UnitCB->setCurrentIndex(ApplicationConfig->DisplayUnit);
+    ui->AppendObjectCB->setCurrentIndex(ApplicationConfig->AppendObject?1:0);
+    ui->SortFileCB->setChecked(ApplicationConfig->SortFile);
+    ui->AskUserToRemove->setChecked(ApplicationConfig->AskUserToRemove);
+
+    // Video options
+    ui->Crop1088To1080CB->setChecked(ApplicationConfig->Crop1088To1080);
 
     //********************************
-    // EditorOptions part
+    // Project TAB
     //********************************
-    ui->SortFileCB->setChecked(ApplicationConfig->SortFile);
-    ui->AppendObjectCB->setCurrentIndex(ApplicationConfig->AppendObject?1:0);
-    ui->FramingWidth->setChecked( ApplicationConfig->DefaultFraming==0);
-    ui->FramingHeight->setChecked(ApplicationConfig->DefaultFraming==1);
-    ui->FramingFull->setChecked(ApplicationConfig->DefaultFraming==2);
+
+    // Project options
+    ui->GeometryCombo->setCurrentIndex(ApplicationConfig->ImageGeometry);
+    ui->NoShotED->setValue(double(ApplicationConfig->NoShotDuration)/1000);
+    ui->StaticShotED->setValue(double(ApplicationConfig->FixedDuration)/1000);
+    ui->SpeedWaveCombo->setCurrentIndex(ApplicationConfig->SpeedWave);
     ui->RandomTransitionRD->setChecked(ApplicationConfig->RandomTransition);
     ui->NoTransitionRD->setChecked((!ApplicationConfig->RandomTransition)&&(ApplicationConfig->DefaultTransitionFamilly==0)&&(ApplicationConfig->DefaultTransitionSubType==0));
     ui->BasicTransitionRD->setChecked((!ApplicationConfig->RandomTransition)&&(ApplicationConfig->DefaultTransitionFamilly==0)&&(ApplicationConfig->DefaultTransitionSubType==1));
@@ -66,17 +77,51 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     while (Duration.endsWith('0')) Duration=Duration.left(Duration.length()-1);
     while (Duration.endsWith('.')) Duration=Duration.left(Duration.length()-1);
     ui->TransitionDurationCB->setCurrentIndex(ui->TransitionDurationCB->findText(Duration));
-    ui->AskUserToRemove->setChecked(ApplicationConfig->AskUserToRemove);
-    ui->UnitCB->setCurrentIndex(ApplicationConfig->DisplayUnit);
-    ui->Crop1088To1080CB->setChecked(ApplicationConfig->Crop1088To1080);
 
-    //********************************
-    // ProjectDefault part
-    //********************************
-    ui->GeometryCombo->setCurrentIndex(ApplicationConfig->ImageGeometry);
-    ui->NoShotED->setValue(ApplicationConfig->NoShotDuration/1000);
-    ui->StaticShotED->setValue(ApplicationConfig->FixedDuration/1000);
-    ui->SpeedWaveCombo->setCurrentIndex(ApplicationConfig->SpeedWave);
+    // New text block options
+    ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->ST_Text_TextCB,        ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_TextST),false);
+    ApplicationConfig->StyleTextBackgroundCollection.   FillCollectionCB(ui->ST_Text_BackgroundCB,  ApplicationConfig->StyleTextBackgroundCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_BackGST),false);
+    ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->ST_Text_ShapeCB,       ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_ShapeST),false);
+    ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(0);
+    ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(ui->ST_Text_Coord43CB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[0]),false);
+    ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(1);
+    ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(ui->ST_Text_Coord169CB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[1]),false);
+    ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(2);
+    ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(ui->ST_Text_CoordCineCB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[2]),false);
+
+    // Get link to combobox
+    CB_SL[0][0]=ui->STBlockSL_IMG0_Coord43CB;    CB_SL[0][1]=ui->STBlockSL_IMG0_Coord169CB;    CB_SL[0][2]=ui->STBlockSL_IMG0_CoordCineCB;
+    CB_SL[1][0]=ui->STBlockSL_IMG1_Coord43CB;    CB_SL[1][1]=ui->STBlockSL_IMG1_Coord169CB;    CB_SL[1][2]=ui->STBlockSL_IMG1_CoordCineCB;
+    CB_SL[2][0]=ui->STBlockSL_IMG2_Coord43CB;    CB_SL[2][1]=ui->STBlockSL_IMG2_Coord169CB;    CB_SL[2][2]=ui->STBlockSL_IMG2_CoordCineCB;
+    CB_SL[3][0]=ui->STBlockSL_IMG3_Coord43CB;    CB_SL[3][1]=ui->STBlockSL_IMG3_Coord169CB;    CB_SL[3][2]=ui->STBlockSL_IMG3_CoordCineCB;
+    CB_SL[4][0]=ui->STBlockSL_IMG4_Coord43CB;    CB_SL[4][1]=ui->STBlockSL_IMG4_Coord169CB;    CB_SL[4][2]=ui->STBlockSL_IMG4_CoordCineCB;
+    CB_SL[5][0]=ui->STBlockSL_IMG5_Coord43CB;    CB_SL[5][1]=ui->STBlockSL_IMG5_Coord169CB;    CB_SL[5][2]=ui->STBlockSL_IMG5_CoordCineCB;
+    CB_SL[6][0]=ui->STBlockSL_IMG6_Coord43CB;    CB_SL[6][1]=ui->STBlockSL_IMG6_Coord169CB;    CB_SL[6][2]=ui->STBlockSL_IMG6_CoordCineCB;
+    CB_SL[7][0]=ui->STBlockSL_IMG7_Coord43CB;    CB_SL[7][1]=ui->STBlockSL_IMG7_Coord169CB;    CB_SL[7][2]=ui->STBlockSL_IMG7_CoordCineCB;
+    CB_SL[8][0]=ui->STBlockSL_IMG8_Coord43CB;    CB_SL[8][1]=ui->STBlockSL_IMG8_Coord169CB;    CB_SL[8][2]=ui->STBlockSL_IMG8_CoordCineCB;
+    CB_BA[0][0]=ui->STBlockBA_IMG0_Coord43CB;    CB_BA[0][1]=ui->STBlockBA_IMG0_Coord169CB;    CB_BA[0][2]=ui->STBlockBA_IMG0_CoordCineCB;
+    CB_BA[1][0]=ui->STBlockBA_IMG1_Coord43CB;    CB_BA[1][1]=ui->STBlockBA_IMG1_Coord169CB;    CB_BA[1][2]=ui->STBlockBA_IMG1_CoordCineCB;
+    CB_BA[2][0]=ui->STBlockBA_IMG2_Coord43CB;    CB_BA[2][1]=ui->STBlockBA_IMG2_Coord169CB;    CB_BA[2][2]=ui->STBlockBA_IMG2_CoordCineCB;
+    CB_BA[3][0]=ui->STBlockBA_IMG3_Coord43CB;    CB_BA[3][1]=ui->STBlockBA_IMG3_Coord169CB;    CB_BA[3][2]=ui->STBlockBA_IMG3_CoordCineCB;
+    CB_BA[4][0]=ui->STBlockBA_IMG4_Coord43CB;    CB_BA[4][1]=ui->STBlockBA_IMG4_Coord169CB;    CB_BA[4][2]=ui->STBlockBA_IMG4_CoordCineCB;
+    CB_BA[5][0]=ui->STBlockBA_IMG5_Coord43CB;    CB_BA[5][1]=ui->STBlockBA_IMG5_Coord169CB;    CB_BA[5][2]=ui->STBlockBA_IMG5_CoordCineCB;
+    CB_BA[6][0]=ui->STBlockBA_IMG6_Coord43CB;    CB_BA[6][1]=ui->STBlockBA_IMG6_Coord169CB;    CB_BA[6][2]=ui->STBlockBA_IMG6_CoordCineCB;
+    CB_BA[7][0]=ui->STBlockBA_IMG7_Coord43CB;    CB_BA[7][1]=ui->STBlockBA_IMG7_Coord169CB;    CB_BA[7][2]=ui->STBlockBA_IMG7_CoordCineCB;
+    CB_BA[8][0]=ui->STBlockBA_IMG8_Coord43CB;    CB_BA[8][1]=ui->STBlockBA_IMG8_Coord169CB;    CB_BA[8][2]=ui->STBlockBA_IMG8_CoordCineCB;
+
+    // New image block options (when slide creation)
+    ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->STBlockSL_IMG_TextCB,  ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST),false);
+    ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->STBlockSL_IMG_ShapeCB, ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST),false);
+
+    // New image block options (when block add in slide dialog)
+    ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->STBlockBA_IMG_TextCB,  ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_TextST),false);
+    ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->STBlockBA_IMG_ShapeCB, ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_ShapeST),false);
+
+    for (int i=0;i<9;i++) for (int j=0;j<3;j++) {
+        ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(j,i);
+        ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(CB_SL[i][j],ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_CoordST[i][j]),false);
+        ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(CB_BA[i][j],ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_CoordST[i][j]),false);
+    }
 
     //********************************
     // RenderDefault part
@@ -99,11 +144,6 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     connect(ui->FileFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
     connect(ui->VideoFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
     connect(ui->AudioFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitAudioBitRateCB(int)));
-
-    //********************************
-    // RestoreWindow part
-    //********************************
-    ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
 
     //***********************************
     // Default Device type for rendering
@@ -238,9 +278,6 @@ void DlgApplicationSettings::accept() {
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
 
     // Editor Options part
-    if (ui->FramingWidth->isChecked())  ApplicationConfig->DefaultFraming=0;
-    if (ui->FramingHeight->isChecked()) ApplicationConfig->DefaultFraming=1;
-    if (ui->FramingFull->isChecked())   ApplicationConfig->DefaultFraming=2;
     ApplicationConfig->AppendObject             =ui->AppendObjectCB->currentIndex()==1;
     ApplicationConfig->SortFile                 =ui->SortFileCB->isChecked();
     ApplicationConfig->AskUserToRemove          =ui->AskUserToRemove->isChecked();
@@ -253,10 +290,27 @@ void DlgApplicationSettings::accept() {
     ApplicationConfig->DefaultTransitionFamilly =0;
 
     // ProjectDefault part
-    ApplicationConfig->NoShotDuration           =ui->NoShotED->value()*1000;
-    ApplicationConfig->FixedDuration            =ui->StaticShotED->value()*1000;
+    ApplicationConfig->NoShotDuration           =int(ui->NoShotED->value()*1000);
+    ApplicationConfig->FixedDuration            =int(ui->StaticShotED->value()*1000);
     ApplicationConfig->SpeedWave                =ui->SpeedWaveCombo->currentIndex();
     ApplicationConfig->ImageGeometry            =ui->GeometryCombo->currentIndex();
+
+    ApplicationConfig->DefaultBlock_Text_TextST     =ApplicationConfig->StyleTextCollection.EncodeString(ui->ST_Text_TextCB,-1,-1);
+    ApplicationConfig->DefaultBlock_Text_BackGST    =ApplicationConfig->StyleTextBackgroundCollection.EncodeString(ui->ST_Text_BackgroundCB,-1,-1);
+    ApplicationConfig->DefaultBlock_Text_CoordST[0] =ApplicationConfig->StyleCoordinateCollection.EncodeString(ui->ST_Text_Coord43CB,0,-1);
+    ApplicationConfig->DefaultBlock_Text_CoordST[1] =ApplicationConfig->StyleCoordinateCollection.EncodeString(ui->ST_Text_Coord169CB,1,-1);
+    ApplicationConfig->DefaultBlock_Text_CoordST[2] =ApplicationConfig->StyleCoordinateCollection.EncodeString(ui->ST_Text_CoordCineCB,2,-1);
+    ApplicationConfig->DefaultBlock_Text_ShapeST    =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->ST_Text_ShapeCB,-1,-1);
+    ApplicationConfig->DefaultBlockSL_IMG_TextST    =ApplicationConfig->StyleTextCollection.EncodeString(ui->STBlockSL_IMG_TextCB,-1,-1);
+    ApplicationConfig->DefaultBlockSL_IMG_ShapeST   =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->STBlockSL_IMG_ShapeCB,-1,-1);
+    ApplicationConfig->DefaultBlockBA_IMG_TextST    =ApplicationConfig->StyleTextCollection.EncodeString(ui->STBlockBA_IMG_TextCB,-1,-1);
+    ApplicationConfig->DefaultBlockBA_IMG_ShapeST   =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->STBlockBA_IMG_ShapeCB,-1,-1);
+
+    for (int i=0;i<9;i++) for (int j=0;j<3;j++) {
+        ApplicationConfig->DefaultBlockSL_IMG_CoordST[i][j]=ApplicationConfig->StyleCoordinateCollection.EncodeString(CB_SL[i][j],j,i);
+        ApplicationConfig->DefaultBlockBA_IMG_CoordST[i][j]=ApplicationConfig->StyleCoordinateCollection.EncodeString(CB_BA[i][j],j,i);
+    }
+
 
     // RenderDefault part
     ApplicationConfig->DefaultStandard          =ui->StandardCombo->currentIndex();

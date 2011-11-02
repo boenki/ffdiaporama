@@ -485,13 +485,13 @@ void DlgImageCorrection::RefreshControls() {
     if ((BrushFileCorrect==NULL)||(!scene)||(FLAGSTOPED)) return;
     FLAGSTOPED=true;
 
-    if (((CurrentTextItem->BackgroundBrush.Image==NULL)&&(CurrentTextItem->BackgroundBrush.Video==NULL))||
-        ((CurrentTextItem->BackgroundBrush.Image!=NULL)&&(CurrentTextItem->BackgroundBrush.Image->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))||
-        ((CurrentTextItem->BackgroundBrush.Video!=NULL)&&(CurrentTextItem->BackgroundBrush.Video->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))) {
+    if (((CurrentBrush->Image==NULL)&&(CurrentBrush->Video==NULL))||
+        ((CurrentBrush->Image!=NULL)&&(CurrentBrush->Image->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))||
+        ((CurrentBrush->Video!=NULL)&&(CurrentBrush->Video->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))) {
         ui->FramingStyleED->setText(QApplication::translate("DlgSlideProperties","No style for nonstandard geometry image"));
         ui->FramingStyleBT->setEnabled(false);
     } else {
-        ui->FramingStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.GetStyleName(CurrentTextItem->GetFramingStyle()));
+        ui->FramingStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.GetStyleName(CurrentBrush->GetFramingStyle()));
         ui->FramingStyleBT->setEnabled(true);
     }
 

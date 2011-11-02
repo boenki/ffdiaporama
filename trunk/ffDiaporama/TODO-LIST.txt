@@ -1,14 +1,10 @@
-Buggs/TODO (Dernier SVN le 25/10/2011) :
+Buggs/TODO (Dernier SVN le 30/10/2011) :
 ----------------------------------------
 BUGG:
 -L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
 -When using the cross fade transition between 2 identical pictures the brightness changes
--Les diapo peuvent avoir une durée à 0 et quand les diapo ont une durée à 0, un double click ne permet pas de les ouvrir
 -Le mixage de 2 pistes audio à fort volume donne un résultat saturé
--Problème avec le champs jusqu'à dans la sélection d'une plage de diapositive dans la boite de génération
 -Dans Fichier/Options/Options de génération/Options par défaut en mode avancé, quel que soit le format de fichier choisi, c'est toujours AVI qui est proposé au moment de la génération du film
--When canceling a "add files" dialog, current selection is move to the next side
--Le fond n'est pas initialisé quand le fond est une image qui contient des parties transparentes !
 
 TODO
 ----
@@ -17,6 +13,7 @@ TODO
 -Gérer les changements géométrique sur les changements de fichier dans la boite image + passage en mode style
     => ChangeBrushDiskFile
     + vérifier l'undo sur le rechargement du fichier
+    + tester les framing custom dans les styles de coordonnées
 
 TODO-List
 ---------
@@ -32,7 +29,6 @@ Editor
 -[Work in progress] Style sheet for text, background text, blocks shape and blocks size & positionning
     -> Functionnality is OK now
     -> Documentation to be written
-    -> Need to modify Configuration Options dialog to predefine block properties using style
 
 Background
 -Put back compositions for the background
@@ -74,26 +70,30 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige le bug avec la barre de défilement horizontale de la timeline dans la fenêtre principale et dans la table de plans dans la boite slide
+-Corrige l'erreur d'affichage des parties transparentes des fonds
+-Corrige l'erreur de changement de sélection quand l'ajout de fichier est annulée dans la fenêtre principale
+-Corrige l'erreur dans la détection d'erreur de la plage de diapositive dans la boite de génération
+-Corrige l'erreur sur la durée minimum des diapo. Maintenant elles ne peuvent pas avoir une durée inférieur à 1/30 sec
+-Corrige l'erreur de vitesse lors de la prévisualisation (la vitesse était doublée)
+-Corrige l'erreur de saccadement des vidéos générées
 
 English version / Bug fix :
+-Bug fix with horizontal scroll bar of timeline in mainwindow and shot table in slide dialog
+-Bug fix of display when background have transparents part
+-Bug fix : When canceling a "add files" dialog, current selection is move to the next side
+-Bug fix with slide range error detection in render video dialog
+-Bug fix on minimum slide duration. Now minimum duration is 1/30 sec
+-Bug fix on preview speed (speed was double)
+-Bug fix on rendering video : remove jerky
 
 French version / Nouvelles fonctionnalités :
--Déplace la combobox de contrainte géométrique de la boite slide vers la boite image
--Ajoute l'option de vérouillage d'une contrainte géométrique personalisée
--Ajoute des styles de recadrage
--Intègre les styles de recadrage dans les styles de coordonnées
--Ajoute les extensions flv et 3gp dans les fichiers vidéo supportés (pour l'ajout d'objet)
--Déplace les options de transition et de recadrage par défaut de l'onglet options d'application vers l'onglet options du projet [boite de configuration]
--Ajoute une option dans la boite de configuration pour couper automatiquement les vidéos 1920x1088 en 1920x1080
+-Modifie la boite de configuration pour la définition des valeurs par défaut des blocs et des diapositives
+-Modifie les champs de durée du 1er plan et des plans suivants pour autoriser des valeurs en millième de secondes dans la boite de configuration
 
 English version / New features :
--Move geometrical constraint combobox from slide dialog to the framming dialog
--Add lock custom geometrical constraint option
--Add style for image framing
--Integrate image framing style into coordinates style
--Add flv and 3gp extensions in the video supported files (when adding object)
--Move default transition and default framing options from application to project tab [option dialog]
--Add an option in the configuration dialog to automaticaly cut 1920x1088 videos to 1920x1080
+-Modify configuration dialog to use style sheet to defined default settings for blocks and slides
+-Modify duration fields for 1st shot and following shots to authorize values in thousandth of seconds in configuration dialog
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -174,6 +174,13 @@ French version
 - Developpement de la boite de gestion des styles
 - Desactive les fonctions d'ajout ou de mise à jour des styles quand ils existent déjà
 - Affiche les styles en cours ou "Style personnalisé" dans la boite slide et dans la boite texte
+- Déplace la combobox de contrainte géométrique de la boite slide vers la boite image
+- Ajoute l'option de vérouillage d'une contrainte géométrique personalisée
+- Ajoute des styles de recadrage
+- Intègre les styles de recadrage dans les styles de coordonnées
+- Ajoute les extensions flv et 3gp dans les fichiers vidéo supportés (pour l'ajout d'objet)
+- Déplace les options de transition et de recadrage par défaut de l'onglet options d'application vers l'onglet options du projet [boite de configuration]
+- Ajoute une option dans la boite de configuration pour couper automatiquement les vidéos 1920x1088 en 1920x1080
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -212,3 +219,10 @@ English version
 - Manage style dialog development
 - Disable add style and update style when they already exist
 - Display current style or "Custom style" in the slide dialog and in the text dialog
+- Move geometrical constraint combobox from slide dialog to the framming dialog
+- Add lock custom geometrical constraint option
+- Add style for image framing
+- Integrate image framing style into coordinates style
+- Add flv and 3gp extensions in the video supported files (when adding object)
+- Move default transition and default framing options from application to project tab [option dialog]
+- Add an option in the configuration dialog to automaticaly cut 1920x1088 videos to 1920x1080

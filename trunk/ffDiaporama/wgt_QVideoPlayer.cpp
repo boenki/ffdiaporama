@@ -275,7 +275,7 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
 
     // Start timer
     TimerTick=true;
-    Timer.start(int((double((uint64_t)AV_TIME_BASE)/WantedFPS)/1000)/2);   // Start Timer*2 emulating FPS
+    Timer.start(int((double((uint64_t)AV_TIME_BASE)/WantedFPS)/1000));   // Start Timer
 }
 
 //============================================================================================
