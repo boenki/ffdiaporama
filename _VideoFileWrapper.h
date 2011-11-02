@@ -50,41 +50,35 @@ public:
     cFilterTransformObject  BrushFileTransform;         // Image transformation if image from disk
     double                  AspectRatio;                // Aspect ratio
 
-    // LibAVFormat/Codec/SWScale part
+    // Video part
     AVFormatContext         *ffmpegVideoFile;           // LibAVFormat context
-    AVFrame                 *FrameBufferYUV;
     AVCodec                 *VideoDecoderCodec;         // Associated LibAVCodec for video stream
     int                     VideoStreamNumber;          // Number of the video stream
-    double                  NextVideoPacketPosition;    // Use to keep the last NextPacketPosition to determine if a seek is needed
+    AVFrame                 *FrameBufferYUV;
+    bool                    FrameBufferYUVReady;        // true if FrameBufferYUV is ready to convert
+    int64_t                 FrameBufferYUVPosition;     // If FrameBufferYUV is ready to convert then keep FrameBufferYUV position
 
+    // Audio part
     AVFormatContext         *ffmpegAudioFile;           // LibAVFormat context
     AVCodec                 *AudioDecoderCodec;         // Associated LibAVCodec for audio stream
     int                     AudioStreamNumber;          // Number of the audio stream
-    int                     NextAudioPacketPosition;    // Use to keep the last NextPacketPosition to determine if a seek is needed
+    int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
 
     cvideofilewrapper();
     ~cvideofilewrapper();
 
+    void        CloseCodecAndFile();
+
     bool        GetInformationFromFile(QString GivenFileName,bool MusicOnly,QStringList &AliasList);
-    QImage      *ImageAt(bool PreviewMode,int Position,int StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos=false);
-
-    int         PreviousPosition;
-    bool        IsReadVideoStarted;
-    bool        StartReadVideoStream(int Position);
-    QProcess    *ReadVideoProcess;
-    QImage      *ReadNext(int Position);
-    void        StopReadVideoStream();
-
     QString     GetVideoCodecName(QString Codec);
     QString     GetContainerName(QString Codec);
     QString     GetMovieGeometryName(QString Geometry);
     QString     GetSizeName(QString Size,int X,int Y);
 
-private:
-    void        CloseVideoFileReader();
-    QImage      *ReadVideoFrame(int Position,bool DontUseEndPos);
-    void        ReadAudioFrame(bool PreviewMode,int Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
-    QImage      *YUVStreamToQImage(double dPosition,bool GetFirstValide);
+    QImage      *ImageAt(bool PreviewMode,int64_t Position,int StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos=false);
+    QImage      *ReadVideoFrame(int64_t Position,bool DontUseEndPos);
+    void        ReadAudioFrame(bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
+    QImage      *ConvertYUVToRGB();
 };
 
 #endif // VIDEOFILEWRAPPER_H

@@ -1032,8 +1032,7 @@ void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
 void DlgSlideProperties::TextEditor() {
     if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cBrushDefinition    *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
-    DlgTextEdit         *Dlg=new DlgTextEdit(CurrentTextItem,CurrentBrush,this);
+    DlgTextEdit         *Dlg=new DlgTextEdit(CurrentTextItem,this);
     connect(Dlg,SIGNAL(RefreshDisplay()),this,SLOT(TextEditorRefreshDisplay()));
     if (Dlg->exec()==0) {
         ApplyGlobalPropertiesToAllShots(CurrentTextItem);
@@ -1425,6 +1424,15 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
     cCompositionObject *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
     CompositionObject->BackgroundBrush.BrushFileCorrect.LockGeometry=false;
     CompositionObject->BackgroundBrush.BrushFileCorrect.AspectRatio=1;
+
+    // Apply Styles
+    CompositionObject->ApplyTextStyle(DiaporamaObject->Parent->ApplicationConfig->StyleTextCollection.GetStyleDef(DiaporamaObject->Parent->ApplicationConfig->StyleTextCollection.DecodeString(DiaporamaObject->Parent->ApplicationConfig->DefaultBlock_Text_TextST)));
+    CompositionObject->ApplyBackgroundStyle(DiaporamaObject->Parent->ApplicationConfig->StyleTextBackgroundCollection.GetStyleDef(DiaporamaObject->Parent->ApplicationConfig->StyleTextBackgroundCollection.DecodeString(DiaporamaObject->Parent->ApplicationConfig->DefaultBlock_Text_BackGST)));
+    CompositionObject->ApplyBlockShapeStyle(DiaporamaObject->Parent->ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(DiaporamaObject->Parent->ApplicationConfig->StyleBlockShapeCollection.DecodeString(DiaporamaObject->Parent->ApplicationConfig->DefaultBlock_Text_ShapeST)));
+    // Force filtering for CoordinateStyle
+    DiaporamaObject->Parent->ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(DiaporamaObject->Parent->ImageGeometry);
+    CompositionObject->ApplyCoordinateStyle(DiaporamaObject->Parent->ApplicationConfig->StyleCoordinateCollection.GetStyleDef(DiaporamaObject->Parent->ApplicationConfig->StyleCoordinateCollection.DecodeString(DiaporamaObject->Parent->ApplicationConfig->DefaultBlock_Text_CoordST[DiaporamaObject->Parent->ImageGeometry])));
+
     CompositionObject->Text=QApplication::translate("DlgSlideProperties","Text","Default text value");
 
     // Now create and append a shot composition block to all shot
@@ -1482,10 +1490,6 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     for (int i=0;i<FileList.count();i++) {
         QString NewFile=FileList[i];
 
-        /*QString NewFile=QFileDialog::getOpenFileName(this,
-                                                     QApplication::translate("DlgSlideProperties","Select a file"),
-                                                     GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
-                                                     GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));*/
         if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
         // Create and append a composition block to the object list
@@ -1534,24 +1538,36 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
                            CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
                            NULL);
             if (Image) {
-                // Adjust to Full in lock to image geometry mode
-                double ImageGeometry;
-                if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
-                    else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
-                CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
-                double NewW=CompositionObject->w*GlobalMainWindow->Diaporama->InternalWidth;
-                double NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
-                NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
-                NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
-                if (NewH>1) {
-                    NewH=CompositionObject->h*GlobalMainWindow->Diaporama->InternalHeight;
-                    NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
+
+                // Apply Styles
+                CompositionObject->ApplyTextStyle(DiaporamaObject->Parent->ApplicationConfig->StyleTextCollection.GetStyleDef(DiaporamaObject->Parent->ApplicationConfig->StyleTextCollection.DecodeString(DiaporamaObject->Parent->ApplicationConfig->DefaultBlockBA_IMG_TextST)));
+                CompositionObject->ApplyBlockShapeStyle(DiaporamaObject->Parent->ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(DiaporamaObject->Parent->ApplicationConfig->StyleBlockShapeCollection.DecodeString(DiaporamaObject->Parent->ApplicationConfig->DefaultBlockBA_IMG_ShapeST)));
+                // Force filtering for CoordinateStyle
+                DiaporamaObject->Parent->ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(DiaporamaObject->Parent->ImageGeometry,CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry);
+                CompositionObject->ApplyCoordinateStyle(DiaporamaObject->Parent->ApplicationConfig->StyleCoordinateCollection.GetStyleDef(DiaporamaObject->Parent->ApplicationConfig->StyleCoordinateCollection.DecodeString(
+                    DiaporamaObject->Parent->ApplicationConfig->DefaultBlockBA_IMG_CoordST[CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry][DiaporamaObject->Parent->ImageGeometry])));
+
+                // Special case for nonstandard image => force to image geometry constraint and adapt frame coordinates
+                if ((CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry)==IMAGE_GEOMETRY_UNKNOWN) {
+                    // Adjust to Full in lock to image geometry mode
+                    double ImageGeometry;
+                    if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
+                        else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
+                    CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
+                    CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
+                    double NewW=CompositionObject->w*GlobalMainWindow->Diaporama->InternalWidth;
+                    double NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
                     NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
                     NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+                    if (NewH>1) {
+                        NewH=CompositionObject->h*GlobalMainWindow->Diaporama->InternalHeight;
+                        NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
+                        NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
+                        NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+                    }
+                    CompositionObject->w=NewW;
+                    CompositionObject->h=NewH;
                 }
-                CompositionObject->w=NewW;
-                CompositionObject->h=NewH;
                 delete Image;
             }
         }
@@ -1821,59 +1837,14 @@ void DlgSlideProperties::s_CoordinateStyleBT() {
     QString Item=GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.PopupCollectionMenu(this,ActualStyle);
     ui->CoordinateStyleBT->setDown(false);
     if (Item!="") {
-        QStringList List;
-        GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.StringToStringList(Item,List);
-        for (int i=0;i<List.count();i++) {
-            if      (List[i].startsWith("X:"))              CurrentTextItem->x          =List[i].mid(QString("X:").length()).toDouble();
-            else if (List[i].startsWith("Y:"))              CurrentTextItem->y          =List[i].mid(QString("Y:").length()).toDouble();
-            else if (List[i].startsWith("W:"))              CurrentTextItem->w          =List[i].mid(QString("W:").length()).toDouble();
-            else if (List[i].startsWith("H:"))              CurrentTextItem->h          =List[i].mid(QString("H:").length()).toDouble();
-            else if (List[i].startsWith("RotateZAxis:"))    CurrentTextItem->RotateZAxis=List[i].mid(QString("RotateZAxis:").length()).toDouble();
-            else if (List[i].startsWith("RotateXAxis:"))    CurrentTextItem->RotateXAxis=List[i].mid(QString("RotateXAxis:").length()).toDouble();
-            else if (List[i].startsWith("RotateYAxis:"))    CurrentTextItem->RotateYAxis=List[i].mid(QString("RotateYAxis:").length()).toDouble();
+        CurrentTextItem->ApplyCoordinateStyle(GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.GetStyleDef(Item));
 
-            else if ((List[i].startsWith("FramingStyleIndex:"))||(List[i].startsWith("FramingStyleName:"))||(List[i].startsWith("CustomFramingStyle:"))) {
-                QString CustomFramingStyle="";
-                if (List[i].startsWith("FramingStyleIndex:")) {
-                    int FramingStyleIndex=List[i].mid(QString("FramingStyleIndex:").length()).toInt();
-                    int k=0;
-                    while ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleIndex!=FramingStyleIndex)) k++;
-                    if ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleIndex==FramingStyleIndex))
-                        CustomFramingStyle=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleDef;
-                } else if (List[i].startsWith("FramingStyleName:")) {
-                    QString FramingStyleName=List[i].mid(QString("FramingStyleName:").length());
-                    int k=0;
-                    while ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleName!=FramingStyleName)) k++;
-                    if ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleName==FramingStyleName))
-                        CustomFramingStyle=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleDef;
-                } else if (List[i].startsWith("CustomFramingStyle:")) {
-                    CustomFramingStyle=List[i].mid(QString("CustomFramingStyle:").length());
-                    CustomFramingStyle.replace("&&&","###");
-                }
-                if (CustomFramingStyle!="") {
-                    QStringList List;
-                    GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CustomFramingStyle,List);
-                    if (List.count()>0) {
-                        for (int k=0;k<List.count();k++) {
-                            if      (List[k].startsWith("X:"))              CurrentBrush->BrushFileCorrect.X             =List[k].mid(QString("X:").length()).toDouble();
-                            else if (List[k].startsWith("Y:"))              CurrentBrush->BrushFileCorrect.Y             =List[k].mid(QString("Y:").length()).toDouble();
-                            else if (List[k].startsWith("ZoomFactor:"))     CurrentBrush->BrushFileCorrect.ZoomFactor    =List[k].mid(QString("ZoomFactor:").length()).toDouble();
-                            else if (List[k].startsWith("LockGeometry:"))   CurrentBrush->BrushFileCorrect.LockGeometry  =List[k].mid(QString("LockGeometry:").length()).toInt()==1;
-                            else if (List[k].startsWith("AspectRatio:"))    CurrentBrush->BrushFileCorrect.AspectRatio   =List[k].mid(QString("AspectRatio:").length()).toDouble();
-                        }
-                        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
-                        if (CurrentTextItem->h>(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax) CurrentTextItem->h=(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax;
-                            else CurrentTextItem->w=(CurrentTextItem->h*ymax/RectItem->AspectRatio)/xmax;
-                    }
-                }
+        // Report new shot framing to RectItem
+        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+        if (CurrentTextItem->h>(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax) CurrentTextItem->h=(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax;
+            else CurrentTextItem->w=(CurrentTextItem->h*ymax/RectItem->AspectRatio)/xmax;
 
-            }
-
-        }
-        // Force Aspect Ratio and lock of Geometry
-        CurrentTextItem->BackgroundBrush.BrushFileCorrect.LockGeometry=true;
-        CurrentTextItem->BackgroundBrush.BrushFileCorrect.AspectRatio =(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
-
+        // Refresh block table
         int CurrentRow=ui->BlockTable->currentRow();
         RefreshBlockTable(CurrentRow>0?CurrentRow:0);
     }
@@ -1890,18 +1861,7 @@ void DlgSlideProperties::s_BlockShapeStyleBT() {
     QString Item=GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.PopupCollectionMenu(this,ActualStyle);
     ui->BlockShapeStyleBT->setDown(false);
     if (Item!="") {
-        QStringList List;
-        GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.StringToStringList(Item,List);
-        for (int i=0;i<List.count();i++) {
-            if      (List[i].startsWith("BackgroundForm:"))     CurrentTextItem->BackgroundForm     =List[i].mid(QString("BackgroundForm:").length()).toInt();
-            else if (List[i].startsWith("PenSize:"))            CurrentTextItem->PenSize            =List[i].mid(QString("PenSize:").length()).toInt();
-            else if (List[i].startsWith("PenStyle:"))           CurrentTextItem->PenStyle           =List[i].mid(QString("PenStyle:").length()).toInt();
-            else if (List[i].startsWith("FormShadow:"))         CurrentTextItem->FormShadow         =List[i].mid(QString("FormShadow:").length()).toInt();
-            else if (List[i].startsWith("FormShadowDistance:")) CurrentTextItem->FormShadowDistance =List[i].mid(QString("FormShadowDistance:").length()).toInt();
-            else if (List[i].startsWith("Opacity:"))            CurrentTextItem->Opacity            =List[i].mid(QString("Opacity:").length()).toInt();
-            else if (List[i].startsWith("PenColor:"))           CurrentTextItem->PenColor           =List[i].mid(QString("PenColor:").length());
-            else if (List[i].startsWith("FormShadowColor:"))    CurrentTextItem->FormShadowColor    =List[i].mid(QString("FormShadowColor:").length());
-        }
+        CurrentTextItem->ApplyBlockShapeStyle(GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(Item));
         int CurrentRow=ui->BlockTable->currentRow();
         RefreshBlockTable(CurrentRow>0?CurrentRow:0);
     }
@@ -1932,7 +1892,7 @@ void DlgSlideProperties::s_ChangeFramingStyle(int Value) {
         case 3: // None
             break;
         default:
-            GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringToStringList(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.ActiveFilter+ui->FramingStyleCB->itemText(Value),List);
+            GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringToStringList(ui->FramingStyleCB->itemText(Value),List);
             break;
     }
     if (List.count()>0) {

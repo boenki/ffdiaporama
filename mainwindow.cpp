@@ -953,8 +953,6 @@ void MainWindow::OpenFile(QString ProjectFileName) {
 
     // Create new diaporama
     Diaporama=new cDiaporama(ApplicationConfig);
-    //BackgroundList.ScanDisk("background",Diaporama->ImageGeometry); // Reload list with the correct geometry
-    //LumaList.ScanDisk("luma",Diaporama->ImageGeometry);             // Reload list with the correct geometry
     Diaporama->Timeline=ui->timeline;
 
     // Init GUI for this project
@@ -1071,6 +1069,8 @@ void MainWindow::s_action_AddFile() {
                                                        ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
                                                        ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
     QApplication::processEvents();
+    if (FileList.count()==0) return;
+
     // Calc position of new object depending on ApplicationConfig->AppendObject
     int SavedCurIndex=0;
     int CurIndex     =0;
@@ -1177,11 +1177,35 @@ void MainWindow::AddFiles(QStringList &FileList,int SavedCurIndex,int CurIndex) 
                            CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
                            NULL);
             if (Image) {
-                CurrentBrush->InitDefaultFramingStyle(true,double(Diaporama->InternalHeight)/double(Diaporama->InternalWidth));
-                switch (ApplicationConfig->DefaultFraming) {
-                case 0 : CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingW); break;   // Adjust to Width
-                case 1 : CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingH); break;   // Adjust to Height
-                case 2 : CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF); break;   // Adjust to Full
+
+                // Apply Styles
+                CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST)));
+                CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST)));
+                // Force filtering for CoordinateStyle
+                ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(Diaporama->ImageGeometry,CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry);
+                CompositionObject->ApplyCoordinateStyle(ApplicationConfig->StyleCoordinateCollection.GetStyleDef(ApplicationConfig->StyleCoordinateCollection.DecodeString(
+                    ApplicationConfig->DefaultBlockSL_IMG_CoordST[CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry][Diaporama->ImageGeometry])));
+
+                // Special case for nonstandard image => force to image geometry constraint and adapt frame coordinates
+                if ((CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry)==IMAGE_GEOMETRY_UNKNOWN) {
+                    // Adjust to Full in lock to image geometry mode
+                    double ImageGeometry;
+                    if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
+                        else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
+                    CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
+                    CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
+                    double NewW=CompositionObject->w*GlobalMainWindow->Diaporama->InternalWidth;
+                    double NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
+                    NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
+                    NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+                    if (NewH>1) {
+                        NewH=CompositionObject->h*GlobalMainWindow->Diaporama->InternalHeight;
+                        NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
+                        NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
+                        NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+                    }
+                    CompositionObject->w=NewW;
+                    CompositionObject->h=NewH;
                 }
                 delete Image;
             }

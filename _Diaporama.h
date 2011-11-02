@@ -108,10 +108,18 @@ public:
 
     // Style managment functions
     QString     GetCoordinateStyle();
-    QString     GetBlockShapeStyle();
-    QString     GetTextStyle();
-    QString     GetBackgroundStyle();
+    void        ApplyCoordinateStyle(QString StyleDef);
+
     QString     GetFramingStyle();
+
+    QString     GetTextStyle();
+    void        ApplyTextStyle(QString StyleDef);
+
+    QString     GetBackgroundStyle();
+    void        ApplyBackgroundStyle(QString StyleDef);
+
+    QString     GetBlockShapeStyle();
+    void        ApplyBlockShapeStyle(QString StyleDef);
 };
 
 //*********************************************************************************************************************************************

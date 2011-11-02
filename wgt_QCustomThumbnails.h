@@ -47,6 +47,10 @@ public:
     explicit wgt_QCustomThumbnails(QTableWidget *Timeline,int Type);
     ~wgt_QCustomThumbnails();
 
+protected:
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
+
 signals:
     void        EditTransition();
     void        EditSoundTrack();

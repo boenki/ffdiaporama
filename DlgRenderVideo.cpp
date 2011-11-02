@@ -134,8 +134,6 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     ui->RenderZoneToED->setValue(Diaporama->List.count());
     connect(ui->RenderZoneAllBt,SIGNAL(clicked()),this,SLOT(SetZoneToAll()));
     connect(ui->RenderZoneFromBt,SIGNAL(clicked()),this,SLOT(SetZoneToPartial()));
-    connect(ui->RenderZoneFromED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRenderZoneFromED(int)));
-    connect(ui->RenderZoneToED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRenderZoneToED(int)));
 
     ui->DestinationFilePath->setText(QDir::cleanPath(QDir(QFileInfo(Diaporama->ProjectFileName).dir().absolutePath()).absoluteFilePath(Diaporama->OutputFileName)));
     AdjustDestinationFile();
@@ -178,24 +176,6 @@ void DlgRenderVideo::SetZoneToPartial() {
     ui->RenderZoneFromED->setEnabled(ui->RenderZoneFromBt->isChecked());
     ui->RenderZoneToED->setEnabled(ui->RenderZoneFromBt->isChecked());
     ui->RenderZoneTo->setEnabled(ui->RenderZoneFromBt->isChecked());
-}
-
-//====================================================================================================================
-
-void DlgRenderVideo::s_ChgRenderZoneFromED(int NewValue) {
-    if (StopSpinboxRecursion) return;
-    StopSpinboxRecursion=true;
-    if (ui->RenderZoneToED->value()<NewValue) ui->RenderZoneToED->setValue(NewValue);
-    StopSpinboxRecursion=false;
-}
-
-//====================================================================================================================
-
-void DlgRenderVideo::s_ChgRenderZoneToED(int NewValue) {
-    if (StopSpinboxRecursion) return;
-    StopSpinboxRecursion=true;
-    if (ui->RenderZoneFromED->value()>NewValue) ui->RenderZoneFromED->setValue(NewValue);
-    StopSpinboxRecursion=false;
 }
 
 //====================================================================================================================
@@ -512,6 +492,16 @@ void DlgRenderVideo::accept() {
     if (IsDestFileOpen) {
         StopProcessWanted=true;
     } else {
+        int FromSlide=(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneFromED->value()-1:0;
+        int ToSlide  =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneToED->value()-1:Diaporama->List.count()-1;
+
+        if (FromSlide>ToSlide) {
+            QMessageBox::critical(GlobalMainWindow,QApplication::translate("DlgRenderVideo","Range selection"),
+                QApplication::translate("DlgRenderVideo","Slide range is defined to incorrect values"));
+            ui->RenderZoneToED->setFocus();
+            return;
+        }
+
         if (Diaporama->OutputFileName !=ui->DestinationFilePath->text()) {
             Diaporama->OutputFileName=ui->DestinationFilePath->text();
             IsModify=true;
@@ -545,8 +535,6 @@ void DlgRenderVideo::accept() {
         int         ExtendH=0;
         int         ExtendV=0;
         int         Channels=2;
-        int         FromSlide=(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneFromED->value()-1:0;
-        int         ToSlide  =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneToED->value()-1:Diaporama->List.count()-1;
 
         if (ExportMode==EXPORTMODE_ADVANCED) {
             if (Diaporama->LastStandard !=ui->StandardCombo->currentIndex())   { Diaporama->LastStandard =ui->StandardCombo->currentIndex();   IsModify=true; }
@@ -592,8 +580,6 @@ void DlgRenderVideo::accept() {
                 AudioCodecIndex =Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec;
 
                 int ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize;
-                //int W=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].Width;
-                //int H=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].Height;
                 VideoFrameRate=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].dFPS;
                 Diaporama->LastImageSize=ImgSize;
                 VideoBitRate=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate;
@@ -637,7 +623,7 @@ void DlgRenderVideo::accept() {
 
         //**********************************************************************************************************************************
 
-        FPS     =(1/double(25)/*Diaporama->VideoFrameRate*/)*double(AV_TIME_BASE);  // Time duration of a frame (pour éviter les problèmes d'arrondi, génère le son en PAL)
+        FPS     =double(AV_TIME_BASE)/double(25);  // Time duration of a frame (pour éviter les problèmes d'arrondi, génère le son en PAL)
         NbrFrame=int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/double(FPS));            // Number of frame to generate
 
         ui->SoundProgressBar->setValue(0);
@@ -664,8 +650,8 @@ void DlgRenderVideo::accept() {
         //**********************************************************************************************************************************
         // 2nd step encoding : produce final file using temporary WAV file with sound
         //**********************************************************************************************************************************
-        StartTime=QTime::currentTime();                                     // Display control : time the process start
-        FPS     =(1/Diaporama->VideoFrameRate)*double(AV_TIME_BASE);        // Time duration of a frame
+        StartTime=QTime::currentTime();                                                             // Display control : time the process start
+        FPS     =double((uint64_t)AV_TIME_BASE)/double(Diaporama->VideoFrameRate);                  // Time duration of a frame
         NbrFrame=int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/double(FPS));    // Number of frame to generate
 
         ui->SlideProgressBar->setValue(0);
@@ -792,9 +778,9 @@ void DlgRenderVideo::accept() {
 
         // Start ffmpegCommand
         if (Continue) {
-            Process.setProcessChannelMode(QProcess::ForwardedChannels);                     // Forward standard and error message to the ffdiaporama console
-            //Process.setWorkingDirectory(Diaporama->ApplicationConfig->UserConfigPath);      // Set working directory to user folder (for log generation)
-            Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);            // Start command
+            Process.setProcessChannelMode(QProcess::SeparateChannels/*ForwardedChannels*/);      // Forward standard and error message to the ffdiaporama console
+            //Process.setWorkingDirectory(Diaporama->ApplicationConfig->UserConfigPath);         // Set working directory to user folder (for log generation)
+            Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);                 // Start command
             if (!Process.waitForStarted()) {
                 QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),
                                       QApplication::translate("DlgRenderVideo","Error starting ffmpeg","Error message")+"\n"+ffmpegCommand,
@@ -811,11 +797,16 @@ void DlgRenderVideo::accept() {
             int Column      =-1;                                            // Render current object
 
             for (int RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
-                if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))<=Position))) {
-                    while ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))<=Position))) {
+                int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
+                if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
+
+                if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
+                    while ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
                         Column++;
+                        AdjustedDuration=(Column<Diaporama->List.count())?Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
+                        if (AdjustedDuration<33) AdjustedDuration=33;   // Not less than 1/30 sec
                         ColumnStart=Diaporama->GetObjectStartPosition(Column);
-                        if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))/(FPS/double(1000)))-1);
+                        if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(AdjustedDuration)/(FPS/double(1000)))-1);
                     }
                     RefreshDisplay =true;
                     if (Column>0) Diaporama->FreeUnusedMemory(Column-1);
@@ -960,14 +951,6 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             OutputFormatContext->oformat  =Fmt;
             OutputFormatContext->timestamp=0;
             OutputFormatContext->bit_rate =1536;
-            //OutputFormatContext->preload  = (int)(0.5 * AV_TIME_BASE);
-            //OutputFormatContext->max_delay= (int)(0.7 * AV_TIME_BASE);
-            // set the output parameters
-            if (av_set_parameters(OutputFormatContext,&fpOutFile)<0) {
-                av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Invalid output format parameters!");
-                Continue=false;
-            }
         }
     }
 
@@ -1016,7 +999,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 // Init sound blocks
                 int audio_input_frame_size=AudioStream->codec->frame_size;                          // frame size in samples
                 if (audio_input_frame_size<=1) audio_input_frame_size=RenderMusic.SoundPacketSize; else audio_input_frame_size*=RenderMusic.SampleBytes*RenderMusic.Channels;
-                RenderMusic.SetFPS(25/*Diaporama->VideoFrameRate*/);        // Pour la generation du sond, force en PAL pour eviter les problèmes d'arrondi
+                RenderMusic.SetFPS(25);         // For sound generation, use only 25 FPS to avoir rounded issue
                 EncodedAudio.SetFrameSize(audio_input_frame_size);
             }
         }
@@ -1049,7 +1032,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     }
 
     // write the header
-    if ((Continue)&&(av_write_header(OutputFormatContext)!=0)) {
+    if ((Continue)&&(avformat_write_header(OutputFormatContext,NULL)<0)) {
         av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
         QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file!");
         Continue=false;
@@ -1063,8 +1046,12 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
         int Column      =-1;                                            // Render current object
         for (int RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
             // Calculate position & column
-            if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1))<=Position))) {
+            int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
+            if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
+            if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
                 Column++;
+                AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
+                if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
                 ColumnStart=Position;
             }
             // Refresh Display (if needed)

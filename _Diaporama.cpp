@@ -298,6 +298,31 @@ QString cCompositionObject::GetBlockShapeStyle() {
             "###FormShadowColor:"+FormShadowColor;
 }
 
+void cCompositionObject::ApplyBlockShapeStyle(QString StyleDef) {
+    QStringList List;
+
+    // String to StringList
+    while (StyleDef.contains("###")) {
+        List.append(StyleDef.left(StyleDef.indexOf("###")));
+        StyleDef=StyleDef.mid(StyleDef.indexOf("###")+QString("###").length());
+    }
+    if (!StyleDef.isEmpty()) List.append(StyleDef);
+
+    // Apply Style
+    for (int i=0;i<List.count();i++) {
+        if      (List[i].startsWith("BackgroundForm:"))     BackgroundForm     =List[i].mid(QString("BackgroundForm:").length()).toInt();
+        else if (List[i].startsWith("PenSize:"))            PenSize            =List[i].mid(QString("PenSize:").length()).toInt();
+        else if (List[i].startsWith("PenStyle:"))           PenStyle           =List[i].mid(QString("PenStyle:").length()).toInt();
+        else if (List[i].startsWith("FormShadow:"))         FormShadow         =List[i].mid(QString("FormShadow:").length()).toInt();
+        else if (List[i].startsWith("FormShadowDistance:")) FormShadowDistance =List[i].mid(QString("FormShadowDistance:").length()).toInt();
+        else if (List[i].startsWith("Opacity:"))            Opacity            =List[i].mid(QString("Opacity:").length()).toInt();
+        else if (List[i].startsWith("PenColor:"))           PenColor           =List[i].mid(QString("PenColor:").length());
+        else if (List[i].startsWith("FormShadowColor:"))    FormShadowColor    =List[i].mid(QString("FormShadowColor:").length());
+    }
+}
+
+//====================================================================================================================
+
 QString cCompositionObject::GetTextStyle() {
     return  QString("FontSize:%1").arg(FontSize)+
             QString("###HAlign:%1").arg(HAlign)+
@@ -311,6 +336,33 @@ QString cCompositionObject::GetTextStyle() {
             "###FontName:"+FontName;
 }
 
+void cCompositionObject::ApplyTextStyle(QString StyleDef) {
+    QStringList List;
+
+    // String to StringList
+    while (StyleDef.contains("###")) {
+        List.append(StyleDef.left(StyleDef.indexOf("###")));
+        StyleDef=StyleDef.mid(StyleDef.indexOf("###")+QString("###").length());
+    }
+    if (!StyleDef.isEmpty()) List.append(StyleDef);
+
+    // Apply Style
+    for (int i=0;i<List.count();i++) {
+        if      (List[i].startsWith("FontSize:"))           FontSize       =List[i].mid(QString("FontSize:").length()).toInt();
+        else if (List[i].startsWith("HAlign:"))             HAlign         =List[i].mid(QString("HAlign:").length()).toInt();
+        else if (List[i].startsWith("VAlign:"))             VAlign         =List[i].mid(QString("VAlign:").length()).toInt();
+        else if (List[i].startsWith("StyleText:"))          StyleText      =List[i].mid(QString("StyleText:").length()).toInt();
+        else if (List[i].startsWith("FontColor:"))          FontColor      =List[i].mid(QString("FontColor:").length());
+        else if (List[i].startsWith("FontShadowColor:"))    FontShadowColor=List[i].mid(QString("FontShadowColor:").length());
+        else if (List[i].startsWith("Bold:"))               IsBold         =List[i].mid(QString("Bold:").length()).toInt()==1;
+        else if (List[i].startsWith("Italic:"))             IsItalic       =List[i].mid(QString("Italic:").length()).toInt()==1;
+        else if (List[i].startsWith("Underline:"))          IsUnderline    =List[i].mid(QString("Underline:").length()).toInt()==1;
+        else if (List[i].startsWith("FontName:"))           FontName       =List[i].mid(QString("FontName:").length());
+    }
+}
+
+//====================================================================================================================
+
 QString cCompositionObject::GetBackgroundStyle() {
     return  QString("BrushType:%1").arg(BackgroundBrush.BrushType)+
             QString("###PatternType:%1").arg(BackgroundBrush.PatternType)+
@@ -321,6 +373,31 @@ QString cCompositionObject::GetBackgroundStyle() {
             QString("###Intermediate:%1").arg(BackgroundBrush.Intermediate,0,'e')+
             "###BrushImage:"+BackgroundBrush.BrushImage;
 }
+
+void cCompositionObject::ApplyBackgroundStyle(QString StyleDef) {
+    QStringList List;
+
+    // String to StringList
+    while (StyleDef.contains("###")) {
+        List.append(StyleDef.left(StyleDef.indexOf("###")));
+        StyleDef=StyleDef.mid(StyleDef.indexOf("###")+QString("###").length());
+    }
+    if (!StyleDef.isEmpty()) List.append(StyleDef);
+
+    // Apply Style
+    for (int i=0;i<List.count();i++) {
+        if      (List[i].startsWith("BrushType:"))              BackgroundBrush.BrushType           =List[i].mid(QString("BrushType:").length()).toInt();
+        else if (List[i].startsWith("PatternType:"))            BackgroundBrush.PatternType         =List[i].mid(QString("PatternType:").length()).toInt();
+        else if (List[i].startsWith("GradientOrientation:"))    BackgroundBrush.GradientOrientation =List[i].mid(QString("GradientOrientation:").length()).toInt();
+        else if (List[i].startsWith("ColorD:"))                 BackgroundBrush.ColorD              =List[i].mid(QString("ColorD:").length());
+        else if (List[i].startsWith("ColorF:"))                 BackgroundBrush.ColorF              =List[i].mid(QString("ColorF:").length());
+        else if (List[i].startsWith("ColorIntermed:"))          BackgroundBrush.ColorIntermed       =List[i].mid(QString("ColorIntermed:").length());
+        else if (List[i].startsWith("Intermediate:"))           BackgroundBrush.Intermediate        =List[i].mid(QString("Intermediate:").length()).toDouble();
+        else if (List[i].startsWith("BrushImage:"))             BackgroundBrush.BrushImage          =List[i].mid(QString("BrushImage:").length());
+    }
+}
+
+//====================================================================================================================
 
 QString cCompositionObject::GetCoordinateStyle() {
     QString Style=QString("###X:%1").arg(x,0,'e')+
@@ -366,12 +443,75 @@ QString cCompositionObject::GetCoordinateStyle() {
     return Style;
 }
 
+void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
+    QStringList List;
+
+    // String to StringList
+    while (StyleDef.contains("###")) {
+        List.append(StyleDef.left(StyleDef.indexOf("###")));
+        StyleDef=StyleDef.mid(StyleDef.indexOf("###")+QString("###").length());
+    }
+    if (!StyleDef.isEmpty()) List.append(StyleDef);
+
+    // Apply Style
+    for (int i=0;i<List.count();i++) {
+        if      (List[i].startsWith("X:"))              x          =List[i].mid(QString("X:").length()).toDouble();
+        else if (List[i].startsWith("Y:"))              y          =List[i].mid(QString("Y:").length()).toDouble();
+        else if (List[i].startsWith("W:"))              w          =List[i].mid(QString("W:").length()).toDouble();
+        else if (List[i].startsWith("H:"))              h          =List[i].mid(QString("H:").length()).toDouble();
+        else if (List[i].startsWith("RotateZAxis:"))    RotateZAxis=List[i].mid(QString("RotateZAxis:").length()).toDouble();
+        else if (List[i].startsWith("RotateXAxis:"))    RotateXAxis=List[i].mid(QString("RotateXAxis:").length()).toDouble();
+        else if (List[i].startsWith("RotateYAxis:"))    RotateYAxis=List[i].mid(QString("RotateYAxis:").length()).toDouble();
+
+        else if ((List[i].startsWith("FramingStyleIndex:"))||(List[i].startsWith("FramingStyleName:"))||(List[i].startsWith("CustomFramingStyle:"))) {
+            QString CustomFramingStyle="";
+            if (List[i].startsWith("FramingStyleIndex:")) {
+                int FramingStyleIndex=List[i].mid(QString("FramingStyleIndex:").length()).toInt();
+                int k=0;
+                while ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleIndex!=FramingStyleIndex)) k++;
+                if ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleIndex==FramingStyleIndex))
+                    CustomFramingStyle=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleDef;
+            } else if (List[i].startsWith("FramingStyleName:")) {
+                QString FramingStyleName=List[i].mid(QString("FramingStyleName:").length());
+                int k=0;
+                while ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleName!=FramingStyleName)) k++;
+                if ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleName==FramingStyleName))
+                    CustomFramingStyle=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleDef;
+            } else if (List[i].startsWith("CustomFramingStyle:")) {
+                CustomFramingStyle=List[i].mid(QString("CustomFramingStyle:").length());
+                CustomFramingStyle.replace("&&&","###");
+            }
+            if (CustomFramingStyle!="") {
+                QStringList List;
+                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CustomFramingStyle,List);
+                if (List.count()>0) {
+                    for (int k=0;k<List.count();k++) {
+                        if      (List[k].startsWith("X:"))              BackgroundBrush.BrushFileCorrect.X             =List[k].mid(QString("X:").length()).toDouble();
+                        else if (List[k].startsWith("Y:"))              BackgroundBrush.BrushFileCorrect.Y             =List[k].mid(QString("Y:").length()).toDouble();
+                        else if (List[k].startsWith("ZoomFactor:"))     BackgroundBrush.BrushFileCorrect.ZoomFactor    =List[k].mid(QString("ZoomFactor:").length()).toDouble();
+                        else if (List[k].startsWith("LockGeometry:"))   BackgroundBrush.BrushFileCorrect.LockGeometry  =List[k].mid(QString("LockGeometry:").length()).toInt()==1;
+                        else if (List[k].startsWith("AspectRatio:"))    BackgroundBrush.BrushFileCorrect.AspectRatio   =List[k].mid(QString("AspectRatio:").length()).toDouble();
+                    }
+                }
+            }
+
+        }
+
+    }
+    // Force Aspect Ratio and lock of Geometry
+    BackgroundBrush.BrushFileCorrect.LockGeometry=true;
+
+    double DisplayW,DisplayH;
+    if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_4_3)        { DisplayW=1440; DisplayH=1080; }
+    else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
+    else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
+    BackgroundBrush.BrushFileCorrect.AspectRatio =(h*DisplayH)/(w*DisplayW);
+}
+
+//====================================================================================================================
+
 QString cCompositionObject::GetFramingStyle() {
-    return  QString("###X:%1").arg(BackgroundBrush.BrushFileCorrect.X,0,'e')+
-            QString("###Y:%1").arg(BackgroundBrush.BrushFileCorrect.Y,0,'e')+
-            QString("###ZoomFactor:%1").arg(BackgroundBrush.BrushFileCorrect.ZoomFactor,0,'e')+
-            QString("###LockGeometry:%1").arg(BackgroundBrush.BrushFileCorrect.LockGeometry?1:0)+
-            QString("###AspectRatio:%1").arg(BackgroundBrush.BrushFileCorrect.AspectRatio,0,'e');
+    return BackgroundBrush.GetFramingStyle();
 }
 
 //====================================================================================================================
@@ -850,7 +990,8 @@ int cDiaporamaObject::GetDuration() {
         CurrentDuration+=WantedDuration;
         if (MaxMovieDuration<CurrentDuration) MaxMovieDuration=CurrentDuration;
     }
-    if (Duration<MaxMovieDuration) Duration=MaxMovieDuration;
+    if (Duration<MaxMovieDuration)  Duration=MaxMovieDuration;
+    if (Duration<33)                Duration=33;    // In all case minumum duration set to 1/30 sec
 
     return Duration;
 }
@@ -1064,7 +1205,7 @@ int cDiaporama::GetTransitionDuration(int index) {
 
 int cDiaporama::GetDuration() {
     int Duration=0;
-    for (int i=0;i<List.count();i++) Duration=Duration+List[i].GetDuration()-GetTransitionDuration(i+1);
+    for (int i=0;i<List.count();i++) Duration=Duration+((List[i].GetDuration()-GetTransitionDuration(i+1)>=33)?List[i].GetDuration()-GetTransitionDuration(i+1):33);
     return Duration;
 }
 
@@ -1076,7 +1217,7 @@ int cDiaporama::GetPartialDuration(int from,int to) {
     if (to<0)               to=0;
     if (to>=List.count())   to=List.count()-1;
     int Duration=0;
-    for (int i=from;i<=to;i++) Duration=Duration+List[i].GetDuration()-GetTransitionDuration(i+1);
+    for (int i=from;i<=to;i++) Duration=Duration+((List[i].GetDuration()-GetTransitionDuration(i+1)>=33)?List[i].GetDuration()-GetTransitionDuration(i+1):33);
     return Duration;
 }
 
@@ -1084,7 +1225,7 @@ int cDiaporama::GetPartialDuration(int from,int to) {
 
 int cDiaporama::GetObjectStartPosition(int index) {
     int Duration=0;
-    for (int i=0;i<index;i++) Duration=Duration+List[i].GetDuration()-GetTransitionDuration(i+1);
+    for (int i=0;i<index;i++) Duration=Duration+((List[i].GetDuration()-GetTransitionDuration(i+1))>=33?List[i].GetDuration()-GetTransitionDuration(i+1):33);
     return Duration;
 }
 
@@ -1104,7 +1245,8 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
     // Make painter translation to ensure QBrush image will start at AddX AddY position
     Painter->save();
     Painter->translate(AddX,AddY);
-    if (!List[Index].BackgroundType) Painter->fillRect(QRect(0,0,Width,Height),QBrush(Qt::black)); else {
+    Painter->fillRect(QRect(0,0,Width,Height),QBrush(Qt::black));
+    if (List[Index].BackgroundType) {
         QBrush *BR=List[Index].BackgroundBrush.GetBrush(QRectF(0,0,Width,Height),true,0,0,NULL,1,NULL);
         Painter->fillRect(QRect(0,0,Width,Height),*BR);
         delete BR;
@@ -1127,7 +1269,7 @@ cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int &StartPosition,int 
 
     // Music type : false=same as precedent - true=new playlist definition
     while ((Index>0)&&(!List[Index].MusicType)) {
-        if (!List[Index-1].MusicPause) StartPosition+=(List[Index-1].GetDuration()-GetTransitionDuration(Index));
+        if (!List[Index-1].MusicPause) StartPosition+=((List[Index-1].GetDuration()-GetTransitionDuration(Index))>=33?List[Index-1].GetDuration()-GetTransitionDuration(Index):33);
         Index--;
     }
 
@@ -1489,9 +1631,6 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
 
                 CurShot->ShotComposition.List[j].DrawCompositionObject(NULL,double(H)/double(1080),0,0,0,0,true,VideoPosition,StartPosToAdd,SoundTrackMontage,1,NULL,false);
             }
-            // Special case when video object with no sound //***** PAS SUR QUE CE SOIT ENCORE UTILE !!!!!
-            if ((CurShot->ShotComposition.List[j].BackgroundBrush.Video)&&(CurShot->ShotComposition.List[j].BackgroundBrush.SoundVolume==0))
-                CurShot->ShotComposition.List[j].BackgroundBrush.Video->NextVideoPacketPosition+=Info->FrameDuration;
         }
         return;
     }
@@ -1563,9 +1702,6 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
         // Draw object
         CurShot->ShotComposition.List[j].DrawCompositionObject(&P,double(H)/double(1080),0,0,W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,PCTDone,PrevCompoObject,false);
 
-        // Special case when video object with no sound //***** PAS SUR QUE CE SOIT ENCORE UTILE !!!!!
-        if ((!SoundTrackMontage)&&(CurShot->ShotComposition.List[j].BackgroundBrush.Video)&&(CurShot->ShotComposition.List[j].IsVisible))
-            CurShot->ShotComposition.List[j].BackgroundBrush.Video->NextVideoPacketPosition+=Info->FrameDuration;
     }
     P.end();
 
@@ -2037,7 +2173,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
                 Info->CurrentObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
                 QPainter P;
                 P.begin(Info->CurrentObject_PreparedBackground);
-                if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
+                P.fillRect(QRect(0,0,W,H),QBrush(Qt::black));
+                if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush);
                 // Apply composition to background
                 for (int j=0;j<List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List.count();j++)
                     List[Info->CurrentObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,true);
@@ -2052,7 +2189,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
                 Info->TransitObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
                 QPainter P;
                 P.begin(Info->TransitObject_PreparedBackground);
-                if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush); else P.fillRect(0,0,W,H,Qt::black);
+                P.fillRect(QRect(0,0,W,H),QBrush(Qt::black));
+                if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush);
                 // Apply composition to background
                 for (int j=0;j<List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List.count();j++)
                     List[Info->TransitObject_BackgroundIndex].BackgroundComposition.List[j].DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,true);
@@ -2355,11 +2493,15 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     } else {
         //==============> Retrieve object informations depending on position (in msec)
         // Search wich object for given time position
+        int AdjustedDuration=(CurrentObject_Number<Diaporama->List.count())?Diaporama->List[CurrentObject_Number].GetDuration()-Diaporama->GetTransitionDuration(CurrentObject_Number+1):0;
+        if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
         while ((CurrentObject_Number<Diaporama->List.count())&&
-               ((CurrentObject_StartTime+(Diaporama->List[CurrentObject_Number].GetDuration()-Diaporama->GetTransitionDuration(CurrentObject_Number+1))<=TimePosition))) {
+               ((CurrentObject_StartTime+AdjustedDuration<=TimePosition))) {
 
-            CurrentObject_StartTime=CurrentObject_StartTime+Diaporama->List[CurrentObject_Number].GetDuration()-Diaporama->GetTransitionDuration(CurrentObject_Number+1);
+            CurrentObject_StartTime=CurrentObject_StartTime+AdjustedDuration;
             CurrentObject_Number++;
+            AdjustedDuration=(CurrentObject_Number<Diaporama->List.count())?Diaporama->List[CurrentObject_Number].GetDuration()-Diaporama->GetTransitionDuration(CurrentObject_Number+1):0;
+            if (AdjustedDuration<33) AdjustedDuration=33;   // Not less than 1/30 sec
         }
         // Adjust CurrentObject_Number
         if (CurrentObject_Number>=Diaporama->List.count()) {

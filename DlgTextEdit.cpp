@@ -23,10 +23,9 @@
 #include "ui_DlgTextEdit.h"
 #include "DlgTextEdit.h"
 
-DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,cBrushDefinition *TheCurrentBrush,QWidget *parent):QDialog(parent),ui(new Ui::DlgTextEdit) {
+DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QWidget *parent):QDialog(parent),ui(new Ui::DlgTextEdit) {
     ui->setupUi(this);
     CurrentTextItem =TheCurrentTextItem;
-    CurrentBrush    =TheCurrentBrush;
     ParentWindow    =parent;
 
     #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
@@ -202,12 +201,12 @@ void DlgTextEdit::RefreshControls() {
     ui->fontEffectCB->view()->setFixedWidth(250);
 
     // Brush TAB part
-    bool Allow_Brush  =(CurrentBrush->BrushType!=BRUSHTYPE_IMAGEDISK);
-    bool Allow_Color1 =(Allow_Brush)&&((CurrentBrush->BrushType==BRUSHTYPE_SOLID)||(CurrentBrush->BrushType==BRUSHTYPE_PATTERN)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-    bool Allow_Color2 =(Allow_Brush)&&((CurrentBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3));
-    bool Allow_Color3 =(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_GRADIENT3);
-    bool Allow_Pattern=(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_PATTERN);
-    bool Allow_Library=(Allow_Brush)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGELIBRARY);
+    bool Allow_Brush  =(CurrentTextItem->BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK);
+    bool Allow_Color1 =(Allow_Brush)&&((CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_SOLID)||(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_PATTERN)||(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
+    bool Allow_Color2 =(Allow_Brush)&&((CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
+    bool Allow_Color3 =(Allow_Brush)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3);
+    bool Allow_Pattern=(Allow_Brush)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_PATTERN);
+    bool Allow_Library=(Allow_Brush)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGELIBRARY);
 
     ui->BackgroundLabel->setVisible(Allow_Brush);
     ui->BackgroundStyleBT->setVisible(Allow_Brush);
@@ -231,16 +230,16 @@ void DlgTextEdit::RefreshControls() {
     ui->BackgroundCombo->setVisible(Allow_Library);
 
     // Set brush type combo index
-    for (int i=0;i<ui->BrushTypeCombo->count();i++) if (ui->BrushTypeCombo->itemData(i).toInt()==CurrentBrush->BrushType) ui->BrushTypeCombo->setCurrentIndex(i);
-    ui->PatternBrushCombo->SetCurrentBrush(CurrentBrush);
-    ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
-    ui->IntermColorCombo->SetCurrentColor(&CurrentBrush->ColorIntermed);
-    ui->FinalColorCombo->SetCurrentColor(&CurrentBrush->ColorF);
-    ui->OrientationCombo->SetCurrentBrush(CurrentBrush);
-    ui->FirstColorCombo->SetCurrentColor(&CurrentBrush->ColorD);
+    for (int i=0;i<ui->BrushTypeCombo->count();i++) if (ui->BrushTypeCombo->itemData(i).toInt()==CurrentTextItem->BackgroundBrush.BrushType) ui->BrushTypeCombo->setCurrentIndex(i);
+    ui->PatternBrushCombo->SetCurrentBrush(&CurrentTextItem->BackgroundBrush);
+    ui->FirstColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush.ColorD);
+    ui->IntermColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush.ColorIntermed);
+    ui->FinalColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush.ColorF);
+    ui->OrientationCombo->SetCurrentBrush(&CurrentTextItem->BackgroundBrush);
+    ui->FirstColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush.ColorD);
 
     // Set controls depending on brush type
-    switch (CurrentBrush->BrushType) {
+    switch (CurrentTextItem->BackgroundBrush.BrushType) {
         case BRUSHTYPE_NOBRUSH :
             break;
         case BRUSHTYPE_PATTERN :
@@ -248,13 +247,13 @@ void DlgTextEdit::RefreshControls() {
             break;
         case BRUSHTYPE_GRADIENT3 :
         case BRUSHTYPE_GRADIENT2 :
-            ui->IntermPosSlider->setValue(CurrentBrush->Intermediate*100);
-            ui->IntermPosED->setValue(CurrentBrush->Intermediate*100);
+            ui->IntermPosSlider->setValue(CurrentTextItem->BackgroundBrush.Intermediate*100);
+            ui->IntermPosED->setValue(CurrentTextItem->BackgroundBrush.Intermediate*100);
             break;
         case BRUSHTYPE_IMAGELIBRARY :
             // Ensure BrushImage is valide
-            if ((BackgroundList.SearchImage(CurrentBrush->BrushImage)==-1)&&(BackgroundList.List.count()>0)) CurrentBrush->BrushImage=BackgroundList.List[0].Name;
-            ui->BackgroundCombo->SetCurrentBackground(CurrentBrush->BrushImage);
+            if ((BackgroundList.SearchImage(CurrentTextItem->BackgroundBrush.BrushImage)==-1)&&(BackgroundList.List.count()>0)) CurrentTextItem->BackgroundBrush.BrushImage=BackgroundList.List[0].Name;
+            ui->BackgroundCombo->SetCurrentBackground(CurrentTextItem->BackgroundBrush.BrushImage);
             break;
     }
 
@@ -410,7 +409,7 @@ void DlgTextEdit::s_ChIndexFontShadowColorCombo(int) {
 
 void DlgTextEdit::s_ChangeBrushTypeCombo(int Value) {
     if (StopMAJSpinbox) return;
-    CurrentBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
+    CurrentTextItem->BackgroundBrush.BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
     RefreshControls();
 }
 
@@ -418,7 +417,7 @@ void DlgTextEdit::s_ChangeBrushTypeCombo(int Value) {
 
 void DlgTextEdit::s_IntermPosSliderMoved(int Value) {
     if (StopMAJSpinbox) return;
-    CurrentBrush->Intermediate=double(Value)/100;
+    CurrentTextItem->BackgroundBrush.Intermediate=double(Value)/100;
     RefreshControls();
 }
 
@@ -426,7 +425,7 @@ void DlgTextEdit::s_IntermPosSliderMoved(int Value) {
 
 void DlgTextEdit::s_IntermPosED(int Value) {
     if (StopMAJSpinbox) return;
-    CurrentBrush->Intermediate=double(Value)/100;
+    CurrentTextItem->BackgroundBrush.Intermediate=double(Value)/100;
     RefreshControls();
 }
 
@@ -437,42 +436,42 @@ void DlgTextEdit::s_IntermPosED(int Value) {
 //========= Pattern shape combo
 void DlgTextEdit::s_ChIndexPatternBrushCombo(int) {
     if (StopMAJSpinbox) return;
-    CurrentBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
+    CurrentTextItem->BackgroundBrush.PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
     RefreshControls();
 }
 
 //========= Gradient shape orientation
 void DlgTextEdit::s_ChIndexGradientOrientationCombo(int) {
     if (StopMAJSpinbox) return;
-    CurrentBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
+    CurrentTextItem->BackgroundBrush.GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
     RefreshControls();
 }
 
 //========= Shape/Gradient shape first color
 void DlgTextEdit::s_ChIndexGradientFirstColorCombo(int) {
     if (StopMAJSpinbox) return;
-    CurrentBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
+    CurrentTextItem->BackgroundBrush.ColorD=ui->FirstColorCombo->GetCurrentColor();
     RefreshControls();
 }
 
 //========= Gradient shape last color
 void DlgTextEdit::s_ChIndexGradientFinalColorCombo(int) {
     if (StopMAJSpinbox) return;
-    CurrentBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
+    CurrentTextItem->BackgroundBrush.ColorF=ui->FinalColorCombo->GetCurrentColor();
     RefreshControls();
 }
 
 //========= Gradient shape intermediate color
 void DlgTextEdit::s_ChIndexGradientIntermColorCombo(int) {
     if (StopMAJSpinbox) return;
-    CurrentBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
+    CurrentTextItem->BackgroundBrush.ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
     RefreshControls();
 }
 
 //========= Background image
 void DlgTextEdit::s_ChIndexBackgroundCombo(int) {
     if (StopMAJSpinbox) return;
-    CurrentBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
+    CurrentTextItem->BackgroundBrush.BrushImage=ui->BackgroundCombo->GetCurrentBackground();
     RefreshControls();
 }
 
@@ -484,22 +483,7 @@ void DlgTextEdit::s_TextStyleBT() {
     QString ActualStyle=CurrentTextItem->GetTextStyle();
     QString Item=GlobalMainWindow->ApplicationConfig->StyleTextCollection.PopupCollectionMenu(this,ActualStyle);
     ui->TextStyleBT->setDown(false);
-    if (Item!="") {
-        QStringList List;
-        GlobalMainWindow->ApplicationConfig->StyleTextCollection.StringToStringList(Item,List);
-        for (int i=0;i<List.count();i++) {
-            if      (List[i].startsWith("FontSize:"))           CurrentTextItem->FontSize       =List[i].mid(QString("FontSize:").length()).toInt();
-            else if (List[i].startsWith("HAlign:"))             CurrentTextItem->HAlign         =List[i].mid(QString("HAlign:").length()).toInt();
-            else if (List[i].startsWith("VAlign:"))             CurrentTextItem->VAlign         =List[i].mid(QString("VAlign:").length()).toInt();
-            else if (List[i].startsWith("StyleText:"))          CurrentTextItem->StyleText      =List[i].mid(QString("StyleText:").length()).toInt();
-            else if (List[i].startsWith("FontColor:"))          CurrentTextItem->FontColor      =List[i].mid(QString("FontColor:").length());
-            else if (List[i].startsWith("FontShadowColor:"))    CurrentTextItem->FontShadowColor=List[i].mid(QString("FontShadowColor:").length());
-            else if (List[i].startsWith("Bold:"))               CurrentTextItem->IsBold         =List[i].mid(QString("Bold:").length()).toInt()==1;
-            else if (List[i].startsWith("Italic:"))             CurrentTextItem->IsItalic       =List[i].mid(QString("Italic:").length()).toInt()==1;
-            else if (List[i].startsWith("Underline:"))          CurrentTextItem->IsUnderline    =List[i].mid(QString("Underline:").length()).toInt()==1;
-            else if (List[i].startsWith("FontName:"))           CurrentTextItem->FontName       =List[i].mid(QString("FontName:").length());
-        }
-    }
+    if (Item!="") CurrentTextItem->ApplyTextStyle(GlobalMainWindow->ApplicationConfig->StyleTextCollection.GetStyleDef(Item));
     RefreshControls();
 }
 
@@ -507,19 +491,6 @@ void DlgTextEdit::s_BackgroundStyleBT() {
     QString ActualStyle=CurrentTextItem->GetBackgroundStyle();
     QString Item=GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection.PopupCollectionMenu(this,ActualStyle);
     ui->BackgroundStyleBT->setDown(false);
-    if (Item!="") {
-        QStringList List;
-        GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection.StringToStringList(Item,List);
-        for (int i=0;i<List.count();i++) {
-            if      (List[i].startsWith("BrushType:"))              CurrentBrush->BrushType             =List[i].mid(QString("BrushType:").length()).toInt();
-            else if (List[i].startsWith("PatternType:"))            CurrentBrush->PatternType           =List[i].mid(QString("PatternType:").length()).toInt();
-            else if (List[i].startsWith("GradientOrientation:"))    CurrentBrush->GradientOrientation   =List[i].mid(QString("GradientOrientation:").length()).toInt();
-            else if (List[i].startsWith("ColorD:"))                 CurrentBrush->ColorD                =List[i].mid(QString("ColorD:").length());
-            else if (List[i].startsWith("ColorF:"))                 CurrentBrush->ColorF                =List[i].mid(QString("ColorF:").length());
-            else if (List[i].startsWith("ColorIntermed:"))          CurrentBrush->ColorIntermed         =List[i].mid(QString("ColorIntermed:").length());
-            else if (List[i].startsWith("Intermediate:"))           CurrentBrush->Intermediate          =List[i].mid(QString("Intermediate:").length()).toDouble();
-            else if (List[i].startsWith("BrushImage:"))             CurrentBrush->BrushImage            =List[i].mid(QString("BrushImage:").length());
-        }
-    }
+    if (Item!="") CurrentTextItem->ApplyBackgroundStyle(GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection.GetStyleDef(Item));
     RefreshControls();
 }

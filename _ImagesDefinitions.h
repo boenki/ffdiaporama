@@ -110,6 +110,7 @@ public:
     void        GetDefaultFraming(FramingType TheFramingType,bool LockGeometry,double &X,double &Y,double &ZoomFactor,double &AspectRatio);
     void        InitDefaultFramingStyle(bool LockGeometry,double AspectRatio);
     QString     GetFramingStyle(double X,double Y,double ZoomFactor,double AspectRatio,double ImageRotation);
+    QString     GetFramingStyle();
     void        ApplyStyle(bool LockGeometry,QString Style);
 
 private:

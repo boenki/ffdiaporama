@@ -38,6 +38,8 @@ public:
     bool                IsDeviceChanged;
     int                 CurrentDevice;
     int                 CurrentDeviceIndex;
+    QComboBox           *CB_SL[9][3];
+    QComboBox           *CB_BA[9][3];
 
     explicit DlgApplicationSettings(cApplicationConfig &ApplicationConfig,QWidget *parent = 0);
     ~DlgApplicationSettings();

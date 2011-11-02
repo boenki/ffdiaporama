@@ -690,6 +690,22 @@ bool cApplicationConfig::InitConfigurationValues() {
     TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","Video-sharing and social WebSite","Device database type"));
     TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","HTML 5","Device database type"));
 
+    // Default new text block options
+    DefaultBlock_Text_TextST    ="###GLOBALSTYLE###:0";
+    DefaultBlock_Text_BackGST   ="###GLOBALSTYLE###:0";
+    DefaultBlock_Text_ShapeST   ="###GLOBALSTYLE###:0";
+    for (int i=0;i<3;i++) DefaultBlock_Text_CoordST[i]="###GLOBALSTYLE###:0";
+
+    // Default new image block option (when slide creation)
+    DefaultBlockSL_IMG_TextST   ="###GLOBALSTYLE###:0";
+    DefaultBlockSL_IMG_ShapeST  ="###GLOBALSTYLE###:0";
+    for (int i=0;i<9;i++) for (int j=0;j<3;j++) DefaultBlockSL_IMG_CoordST[i][j]="###GLOBALSTYLE###:0";
+
+    // Default new image block option (when block add in slide dialog)
+    DefaultBlockBA_IMG_TextST   ="###GLOBALSTYLE###:0";
+    DefaultBlockBA_IMG_ShapeST  ="###GLOBALSTYLE###:0";
+    for (int i=0;i<9;i++) for (int j=0;j<3;j++) DefaultBlockBA_IMG_CoordST[i][j]="###GLOBALSTYLE###:0";
+
     return true;
 }
 
@@ -729,42 +745,70 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     // Load preferences
     if ((root.elementsByTagName("LastDirectories").length()>0)&&(root.elementsByTagName("LastDirectories").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("LastDirectories").item(0).toElement();
-        if (Element.hasAttribute("RememberLastDirectories"))    RememberLastDirectories =Element.attribute("RememberLastDirectories")=="1";
-        if (Element.hasAttribute("LastMediaPath"))              LastMediaPath           =Element.attribute("LastMediaPath");
-        if (Element.hasAttribute("LastProjectPath"))            LastProjectPath         =Element.attribute("LastProjectPath");
-        if (Element.hasAttribute("LastMusicPath"))              LastMusicPath           =Element.attribute("LastMusicPath");
-        if (Element.hasAttribute("LastRenderVideoPath"))        LastRenderVideoPath     =Element.attribute("LastRenderVideoPath");
+        if (Element.hasAttribute("RememberLastDirectories"))    RememberLastDirectories     =Element.attribute("RememberLastDirectories")=="1";
+        if (Element.hasAttribute("LastMediaPath"))              LastMediaPath               =Element.attribute("LastMediaPath");
+        if (Element.hasAttribute("LastProjectPath"))            LastProjectPath             =Element.attribute("LastProjectPath");
+        if (Element.hasAttribute("LastMusicPath"))              LastMusicPath               =Element.attribute("LastMusicPath");
+        if (Element.hasAttribute("LastRenderVideoPath"))        LastRenderVideoPath         =Element.attribute("LastRenderVideoPath");
     }
 
     if ((root.elementsByTagName("EditorOptions").length()>0)&&(root.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("EditorOptions").item(0).toElement();
-        if (Element.hasAttribute("RasterMode"))                 RasterMode               =Element.attribute("RasterMode")=="1";
-        if (Element.hasAttribute("AppendObject"))               AppendObject             =Element.attribute("AppendObject")=="1";
-        if (Element.hasAttribute("PartitionMode"))              PartitionMode            =Element.attribute("PartitionMode")=="1";
-        if (Element.hasAttribute("DisplayUnit"))                DisplayUnit              =Element.attribute("DisplayUnit").toInt();
-        if (Element.hasAttribute("SortFile"))                   SortFile                 =Element.attribute("SortFile")=="1";
-        if (Element.hasAttribute("TimelineHeight"))             TimelineHeight           =Element.attribute("TimelineHeight").toInt();
-        if (Element.hasAttribute("DefaultFraming"))             DefaultFraming           =Element.attribute("DefaultFraming").toInt();
-        if (Element.hasAttribute("ApplyTransfoPreview"))        ApplyTransfoPreview      =Element.attribute("ApplyTransfoPreview")=="1";
-        if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS               =Element.attribute("PreviewFPS").toDouble();
-        if (Element.hasAttribute("RandomTransition"))           RandomTransition         =Element.attribute("RandomTransition")=="1";
-        if (Element.hasAttribute("DefaultTransitionFamilly"))   DefaultTransitionFamilly =Element.attribute("DefaultTransitionFamilly").toInt();
-        if (Element.hasAttribute("DefaultTransitionSubType"))   DefaultTransitionSubType =Element.attribute("DefaultTransitionSubType").toInt();
-        if (Element.hasAttribute("DefaultTransitionDuration"))  DefaultTransitionDuration=Element.attribute("DefaultTransitionDuration").toInt();
-        if (Element.hasAttribute("AskUserToRemove"))            AskUserToRemove          =Element.attribute("AskUserToRemove")!="0";
-        if (Element.hasAttribute("SlideRuler"))                 SlideRuler               =Element.attribute("SlideRuler")!="0";
-        if (Element.hasAttribute("FramingRuler"))               FramingRuler             =Element.attribute("FramingRuler")!="0";
-        if (Element.hasAttribute("Crop1088To1080"))             Crop1088To1080           =Element.attribute("Crop1088To1080")!="0";
+        if (Element.hasAttribute("RasterMode"))                 RasterMode                  =Element.attribute("RasterMode")=="1";
+        if (Element.hasAttribute("AppendObject"))               AppendObject                =Element.attribute("AppendObject")=="1";
+        if (Element.hasAttribute("PartitionMode"))              PartitionMode               =Element.attribute("PartitionMode")=="1";
+        if (Element.hasAttribute("DisplayUnit"))                DisplayUnit                 =Element.attribute("DisplayUnit").toInt();
+        if (Element.hasAttribute("SortFile"))                   SortFile                    =Element.attribute("SortFile")=="1";
+        if (Element.hasAttribute("TimelineHeight"))             TimelineHeight              =Element.attribute("TimelineHeight").toInt();
+        if (Element.hasAttribute("DefaultFraming"))             DefaultFraming              =Element.attribute("DefaultFraming").toInt();
+        if (Element.hasAttribute("ApplyTransfoPreview"))        ApplyTransfoPreview         =Element.attribute("ApplyTransfoPreview")=="1";
+        if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS                  =Element.attribute("PreviewFPS").toDouble();
+        if (Element.hasAttribute("RandomTransition"))           RandomTransition            =Element.attribute("RandomTransition")=="1";
+        if (Element.hasAttribute("DefaultTransitionFamilly"))   DefaultTransitionFamilly    =Element.attribute("DefaultTransitionFamilly").toInt();
+        if (Element.hasAttribute("DefaultTransitionSubType"))   DefaultTransitionSubType    =Element.attribute("DefaultTransitionSubType").toInt();
+        if (Element.hasAttribute("DefaultTransitionDuration"))  DefaultTransitionDuration   =Element.attribute("DefaultTransitionDuration").toInt();
+        if (Element.hasAttribute("AskUserToRemove"))            AskUserToRemove             =Element.attribute("AskUserToRemove")!="0";
+        if (Element.hasAttribute("SlideRuler"))                 SlideRuler                  =Element.attribute("SlideRuler")!="0";
+        if (Element.hasAttribute("FramingRuler"))               FramingRuler                =Element.attribute("FramingRuler")!="0";
+        if (Element.hasAttribute("Crop1088To1080"))             Crop1088To1080              =Element.attribute("Crop1088To1080")!="0";
     }
 
     if ((root.elementsByTagName("ProjectDefault").length()>0)&&(root.elementsByTagName("ProjectDefault").item(0).isElement()==true)) {
-        QDomElement Element=root.elementsByTagName("ProjectDefault").item(0).toElement();
-        if (Element.hasAttribute("ImageGeometry"))              ImageGeometry           =Element.attribute("ImageGeometry").toInt();
-        if (Element.hasAttribute("NoShotDuration"))             NoShotDuration          =Element.attribute("NoShotDuration").toInt();
-        if (Element.hasAttribute("FixedDuration"))              FixedDuration           =Element.attribute("FixedDuration").toInt();
-        if (Element.hasAttribute("SpeedWave"))                  SpeedWave               =Element.attribute("SpeedWave").toInt();
-    }
+        QDomElement  Element=root.elementsByTagName("ProjectDefault").item(0).toElement();
+        if (Element.hasAttribute("ImageGeometry"))              ImageGeometry               =Element.attribute("ImageGeometry").toInt();
+        if (Element.hasAttribute("NoShotDuration"))             NoShotDuration              =Element.attribute("NoShotDuration").toInt();
+        if (Element.hasAttribute("FixedDuration"))              FixedDuration               =Element.attribute("FixedDuration").toInt();
+        if (Element.hasAttribute("SpeedWave"))                  SpeedWave                   =Element.attribute("SpeedWave").toInt();
 
+        if ((Element.elementsByTagName("DefaultBlock_Text").length()>0)&&(Element.elementsByTagName("DefaultBlock_Text").item(0).isElement()==true)) {
+            QDomElement SubElement=Element.elementsByTagName("DefaultBlock_Text").item(0).toElement();
+            if (SubElement.hasAttribute("TextST"))   DefaultBlock_Text_TextST    =SubElement.attribute("TextST");
+            if (SubElement.hasAttribute("BackGST"))  DefaultBlock_Text_BackGST   =SubElement.attribute("BackGST");
+            if (SubElement.hasAttribute("Coord0ST")) DefaultBlock_Text_CoordST[0]=SubElement.attribute("Coord0ST");
+            if (SubElement.hasAttribute("Coord1ST")) DefaultBlock_Text_CoordST[1]=SubElement.attribute("Coord1ST");
+            if (SubElement.hasAttribute("Coord2ST")) DefaultBlock_Text_CoordST[2]=SubElement.attribute("Coord2ST");
+            if (SubElement.hasAttribute("ShapeST"))  DefaultBlock_Text_ShapeST   =SubElement.attribute("ShapeST");
+        }
+        if ((Element.elementsByTagName("DefaultBlockSL_IMG").length()>0)&&(Element.elementsByTagName("DefaultBlockSL_IMG").item(0).isElement()==true)) {
+            QDomElement SubElement=Element.elementsByTagName("DefaultBlockSL_IMG").item(0).toElement();
+            if (SubElement.hasAttribute("TextST"))   DefaultBlockSL_IMG_TextST    =SubElement.attribute("TextST");
+            if (SubElement.hasAttribute("ShapeST"))  DefaultBlockSL_IMG_ShapeST   =SubElement.attribute("ShapeST");
+            for (int i=0;i<9;i++) if ((SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).length()>0)&&(SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).isElement()==true)) {
+                QDomElement SubSubElement=SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).toElement();
+                for (int j=0;j<3;j++) if (SubSubElement.hasAttribute(QString("CoordST_%1").arg(j))) DefaultBlockSL_IMG_CoordST[i][j]=SubSubElement.attribute(QString("CoordST_%1").arg(j));
+            }
+        }
+
+        if ((Element.elementsByTagName("DefaultBlockBA_IMG").length()>0)&&(Element.elementsByTagName("DefaultBlockBA_IMG").item(0).isElement()==true)) {
+            QDomElement SubElement=Element.elementsByTagName("DefaultBlockBA_IMG").item(0).toElement();
+            if (SubElement.hasAttribute("TextST"))   DefaultBlockBA_IMG_TextST    =SubElement.attribute("TextST");
+            if (SubElement.hasAttribute("ShapeST"))  DefaultBlockBA_IMG_ShapeST   =SubElement.attribute("ShapeST");
+            for (int i=0;i<9;i++) if ((SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).length()>0)&&(SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).isElement()==true)) {
+                QDomElement SubSubElement=SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).toElement();
+                for (int j=0;j<3;j++) if (SubSubElement.hasAttribute(QString("CoordST_%1").arg(j))) DefaultBlockBA_IMG_CoordST[i][j]=SubSubElement.attribute(QString("CoordST_%1").arg(j));
+            }
+        }
+    }
     if ((root.elementsByTagName("RenderDefault").length()>0)&&(root.elementsByTagName("RenderDefault").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("RenderDefault").item(0).toElement();
         if (Element.hasAttribute("DefaultFormat"))              DefaultFormat           =Element.attribute("Format").toInt();
@@ -861,7 +905,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     // Save all option to the configuration file
     QFile           file(UserConfigFile);
     QDomDocument    domDocument(APPLICATION_NAME);
-    QDomElement     Element,SubElement;
+    QDomElement     Element,SubElement,SubSubElement;
     QDomElement     root;
 
     // Ensure destination exist
@@ -875,54 +919,83 @@ bool cApplicationConfig::SaveConfigurationFile() {
 
     // Save preferences
     Element=domDocument.createElement("LastDirectories");
-    Element.setAttribute("RememberLastDirectories", RememberLastDirectories?"1":"0");
-    Element.setAttribute("LastMediaPath",           LastMediaPath);
-    Element.setAttribute("LastProjectPath",         LastProjectPath);
-    Element.setAttribute("LastMusicPath",           LastMusicPath);
-    Element.setAttribute("LastRenderVideoPath",     LastRenderVideoPath);
+    Element.setAttribute("RememberLastDirectories",     RememberLastDirectories?"1":"0");
+    Element.setAttribute("LastMediaPath",               LastMediaPath);
+    Element.setAttribute("LastProjectPath",             LastProjectPath);
+    Element.setAttribute("LastMusicPath",               LastMusicPath);
+    Element.setAttribute("LastRenderVideoPath",         LastRenderVideoPath);
     root.appendChild(Element);
 
     Element=domDocument.createElement("EditorOptions");
-    Element.setAttribute("RasterMode",               RasterMode?"1":"0");
-    Element.setAttribute("AppendObject",             AppendObject?"1":"0");
-    Element.setAttribute("DisplayUnit",              DisplayUnit);
-    Element.setAttribute("PartitionMode",            PartitionMode?"1":"0");
-    Element.setAttribute("SortFile",                 SortFile?"1":"0");
-    Element.setAttribute("TimelineHeight",           TimelineHeight);
-    Element.setAttribute("DefaultFraming",           DefaultFraming);
-    Element.setAttribute("PreviewFPS",               (QString("%1").arg(PreviewFPS,0,'f')));
-    Element.setAttribute("ApplyTransfoPreview",      ApplyTransfoPreview?"1":0);
-    Element.setAttribute("RandomTransition",         RandomTransition?"1":"0");
-    Element.setAttribute("DefaultTransitionFamilly", DefaultTransitionFamilly);
-    Element.setAttribute("DefaultTransitionSubType", DefaultTransitionSubType);
-    Element.setAttribute("DefaultTransitionDuration",DefaultTransitionDuration);
-    Element.setAttribute("AskUserToRemove",          AskUserToRemove?"1":"0");
-    Element.setAttribute("SlideRuler",               SlideRuler?"1":"0");
-    Element.setAttribute("FramingRuler",             FramingRuler?"1":"0");
-    Element.setAttribute("Crop1088To1080",           Crop1088To1080?"1":"0");
+    Element.setAttribute("RasterMode",                  RasterMode?"1":"0");
+    Element.setAttribute("AppendObject",                AppendObject?"1":"0");
+    Element.setAttribute("DisplayUnit",                 DisplayUnit);
+    Element.setAttribute("PartitionMode",               PartitionMode?"1":"0");
+    Element.setAttribute("SortFile",                    SortFile?"1":"0");
+    Element.setAttribute("TimelineHeight",              TimelineHeight);
+    Element.setAttribute("DefaultFraming",              DefaultFraming);
+    Element.setAttribute("PreviewFPS",                  (QString("%1").arg(PreviewFPS,0,'f')));
+    Element.setAttribute("ApplyTransfoPreview",         ApplyTransfoPreview?"1":0);
+    Element.setAttribute("RandomTransition",            RandomTransition?"1":"0");
+    Element.setAttribute("DefaultTransitionFamilly",    DefaultTransitionFamilly);
+    Element.setAttribute("DefaultTransitionSubType",    DefaultTransitionSubType);
+    Element.setAttribute("DefaultTransitionDuration",   DefaultTransitionDuration);
+    Element.setAttribute("AskUserToRemove",             AskUserToRemove?"1":"0");
+    Element.setAttribute("SlideRuler",                  SlideRuler?"1":"0");
+    Element.setAttribute("FramingRuler",                FramingRuler?"1":"0");
+    Element.setAttribute("Crop1088To1080",              Crop1088To1080?"1":"0");
     root.appendChild(Element);
 
     Element=domDocument.createElement("ProjectDefault");
-    Element.setAttribute("ImageGeometry",           ImageGeometry);
-    Element.setAttribute("NoShotDuration",          NoShotDuration);
-    Element.setAttribute("FixedDuration",           FixedDuration);
-    Element.setAttribute("SpeedWave",               SpeedWave);
+    Element.setAttribute("ImageGeometry",               ImageGeometry);
+    Element.setAttribute("NoShotDuration",              NoShotDuration);
+    Element.setAttribute("FixedDuration",               FixedDuration);
+    Element.setAttribute("SpeedWave",                   SpeedWave);
+
+    SubElement=domDocument.createElement("DefaultBlock_Text");
+    SubElement.setAttribute("TextST",    DefaultBlock_Text_TextST);
+    SubElement.setAttribute("BackGST",   DefaultBlock_Text_BackGST);
+    SubElement.setAttribute("Coord0ST",  DefaultBlock_Text_CoordST[0]);
+    SubElement.setAttribute("Coord1ST",  DefaultBlock_Text_CoordST[1]);
+    SubElement.setAttribute("Coord2ST",  DefaultBlock_Text_CoordST[2]);
+    SubElement.setAttribute("ShapeST",   DefaultBlock_Text_ShapeST);
+    Element.appendChild(SubElement);
+
+    SubElement=domDocument.createElement("DefaultBlockSL_IMG");
+    SubElement.setAttribute("TextST",    DefaultBlockSL_IMG_TextST);
+    SubElement.setAttribute("ShapeST",   DefaultBlockSL_IMG_ShapeST);
+    for (int i=0;i<9;i++) {
+        SubSubElement=domDocument.createElement(QString("IMG_GEO_%1").arg(i));
+        for (int j=0;j<3;j++) SubSubElement.setAttribute(QString("CoordST_%1").arg(j),DefaultBlockSL_IMG_CoordST[i][j]);
+        SubElement.appendChild(SubSubElement);
+    }
+    Element.appendChild(SubElement);
+
+    SubElement=domDocument.createElement("DefaultBlockBA_IMG");
+    SubElement.setAttribute("TextST",    DefaultBlockBA_IMG_TextST);
+    SubElement.setAttribute("ShapeST",   DefaultBlockBA_IMG_ShapeST);
+    for (int i=0;i<9;i++) {
+        SubSubElement=domDocument.createElement(QString("IMG_GEO_%1").arg(i));
+        for (int j=0;j<3;j++) SubSubElement.setAttribute(QString("CoordST_%1").arg(j),DefaultBlockBA_IMG_CoordST[i][j]);
+        SubElement.appendChild(SubSubElement);
+    }
+    Element.appendChild(SubElement);
     root.appendChild(Element);
 
     Element=domDocument.createElement("RenderDefault");
-    Element.setAttribute("Format",                  DefaultFormat);
-    Element.setAttribute("VideoCodec",              DefaultVideoCodec);
-    Element.setAttribute("VideoBitRate",            DefaultVideoBitRate);
-    Element.setAttribute("AudioCodec",              DefaultAudioCodec);
-    Element.setAttribute("AudioBitRate",            DefaultAudioBitRate);
-    Element.setAttribute("Standard",                DefaultStandard);
-    Element.setAttribute("ImageSize",               DefaultImageSize);
-    Element.setAttribute("DefaultSmartphoneType",   DefaultSmartphoneType);
-    Element.setAttribute("DefaultSmartphoneModel",  DefaultSmartphoneModel);
-    Element.setAttribute("DefaultMultimediaType",   DefaultMultimediaType);
-    Element.setAttribute("DefaultMultimediaModel",  DefaultMultimediaModel);
-    Element.setAttribute("DefaultForTheWEBType",    DefaultForTheWEBType);
-    Element.setAttribute("DefaultForTheWEBModel",   DefaultForTheWEBModel);
+    Element.setAttribute("Format",                      DefaultFormat);
+    Element.setAttribute("VideoCodec",                  DefaultVideoCodec);
+    Element.setAttribute("VideoBitRate",                DefaultVideoBitRate);
+    Element.setAttribute("AudioCodec",                  DefaultAudioCodec);
+    Element.setAttribute("AudioBitRate",                DefaultAudioBitRate);
+    Element.setAttribute("Standard",                    DefaultStandard);
+    Element.setAttribute("ImageSize",                   DefaultImageSize);
+    Element.setAttribute("DefaultSmartphoneType",       DefaultSmartphoneType);
+    Element.setAttribute("DefaultSmartphoneModel",      DefaultSmartphoneModel);
+    Element.setAttribute("DefaultMultimediaType",       DefaultMultimediaType);
+    Element.setAttribute("DefaultMultimediaModel",      DefaultMultimediaModel);
+    Element.setAttribute("DefaultForTheWEBType",        DefaultForTheWEBType);
+    Element.setAttribute("DefaultForTheWEBModel",       DefaultForTheWEBModel);
     root.appendChild(Element);
 
     Element=domDocument.createElement("RecentFiles");

@@ -61,6 +61,14 @@ wgt_QCustomThumbnails::wgt_QCustomThumbnails(QTableWidget *TheTimeline,int TheTy
 wgt_QCustomThumbnails::~wgt_QCustomThumbnails() {
 }
 
+void wgt_QCustomThumbnails::mouseMoveEvent(QMouseEvent *event) {
+    QLabel::mouseMoveEvent(event);
+}
+
+void wgt_QCustomThumbnails::mousePressEvent(QMouseEvent *event) {
+    QLabel::mousePressEvent(event);
+}
+
 //===========================================================================================================================
 // Double click handler : emit edit signal depending on mouse position
 //===========================================================================================================================

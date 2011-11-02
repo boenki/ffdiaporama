@@ -71,6 +71,7 @@ public:
     void    SetImageGeometryFilter(int ProjectGeometry,int ImageGeometry);
     void    SortList();
     QString GetStyleName(QString StyleDef);
+    QString GetStyleDef(QString StyleName);
     QString PopupCollectionMenu(QWidget *ParentWindow,QString ActualStyleDef);
     void    FillCollectionCB(QComboBox *CB,QString ActualStyleName,bool AdditionnalFramingStyle);
     void    UpdateExistingStyle(QString StyleName,QString ActualStyleDef);
@@ -78,6 +79,10 @@ public:
     void    ManageExistingStyle(QWidget *ParentWindow);
     void    StringToStringList(QString String,QStringList &List);
     void    StringDefToStringList(QString String,QStringList &List);
+
+    // Configuration option
+    QString DecodeString(QString String);
+    QString EncodeString(QComboBox *CB,int ProjectGeometry,int ImageGeometry);
 
     cStyleCollection *PrepUndo();
     void    ApplyUndo(cStyleCollection *UndoCollection);

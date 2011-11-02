@@ -494,6 +494,16 @@ int cBrushDefinition::GetWidthForHeight(int WantedHeight,QRectF Rect) {
 }
 
 //====================================================================================================================
+
+QString cBrushDefinition::GetFramingStyle() {
+    return  QString("###X:%1").arg(BrushFileCorrect.X,0,'e')+
+            QString("###Y:%1").arg(BrushFileCorrect.Y,0,'e')+
+            QString("###ZoomFactor:%1").arg(BrushFileCorrect.ZoomFactor,0,'e')+
+            QString("###LockGeometry:%1").arg(BrushFileCorrect.LockGeometry?1:0)+
+            QString("###AspectRatio:%1").arg(BrushFileCorrect.AspectRatio,0,'e');
+}
+
+//====================================================================================================================
 // create a COMPOSITIONTYPE_SHOT brush as a copy of a given brush
 
 void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {

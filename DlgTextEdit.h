@@ -42,7 +42,7 @@ public:
     QWidget             *ParentWindow;
 
 
-    explicit DlgTextEdit(cCompositionObject *CurrentTextItem,cBrushDefinition *CurrentBrush,QWidget *parent = 0);
+    explicit DlgTextEdit(cCompositionObject *CurrentTextItem,QWidget *parent = 0);
     ~DlgTextEdit();
 
     void            RefreshControls();

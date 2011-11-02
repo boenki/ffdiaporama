@@ -28,7 +28,6 @@
 
 cCustomTableWidget::cCustomTableWidget(QWidget *parent):QTableWidget(parent) {
     PartitionMode=false;
-    horizontalScrollBar()->setStyleSheet("height: 14px; margin: 0px; padding: 0px;");
     horizontalHeader()->setResizeMode(QHeaderView::Fixed);
     verticalHeader()->setResizeMode(QHeaderView::Fixed);
     setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -356,7 +355,6 @@ void cCustomTableWidget::CleanAll() {
 //********************************************************************************************************************
 
 cCustomTableWidget2::cCustomTableWidget2(QWidget *parent):QTableWidget(parent) {
-    horizontalScrollBar()->setStyleSheet("height: 14px; margin: 0px; padding: 0px;");
     horizontalHeader()->setResizeMode(QHeaderView::Fixed);
     verticalHeader()->setResizeMode(QHeaderView::Fixed);
     setSelectionBehavior(QAbstractItemView::SelectItems);
