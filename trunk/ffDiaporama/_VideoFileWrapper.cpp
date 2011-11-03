@@ -460,7 +460,6 @@ QImage *cvideofilewrapper::ReadVideoFrame(int64_t Position,bool DontUseEndPos) {
     if (FrameBufferYUV==NULL) FrameBufferYUV=avcodec_alloc_frame();
     if (FrameBufferYUV==NULL) return NULL;
 
-    bool            KeyFrame            =false;
     bool            DataInBuffer        =false;
     QImage          *RetImage           =NULL;
     AVStream        *VideoStream        =ffmpegVideoFile->streams[VideoStreamNumber];
@@ -492,7 +491,6 @@ QImage *cvideofilewrapper::ReadVideoFrame(int64_t Position,bool DontUseEndPos) {
             qDebug()<<"Seek error";
         }
     } else {
-        KeyFrame=true;
         DataInBuffer=true;
     }
 

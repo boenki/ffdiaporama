@@ -72,7 +72,6 @@ protected:
     virtual void keyReleaseEvent(QKeyEvent *event);
 
 private slots:
-    void    s_WebViewOpen(QUrl);
     void    s_ToolbarChanged(int MenuIndex);
     void    s_TimerEvent();
     void    onNetworkReply(QNetworkReply*);
@@ -120,6 +119,7 @@ private slots:
     void    s_About();
     void    s_Documentation();
     void    s_NewFunctions();
+    void    s_TABTooltipLink(const QString);
 
 private:
     Ui::MainWindow *ui;

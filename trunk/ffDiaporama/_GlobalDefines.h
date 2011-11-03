@@ -115,9 +115,9 @@ extern "C" {
 #include <QTimeEdit>
 #include <QTimer>
 #include <QTranslator>
-#include <QtWebKit/QWebView>
-#include <QtWebKit/QWebHistory>
-#include <QtWebKit/QWebPage>
+//#include <QtWebKit/QWebView>
+//#include <QtWebKit/QWebHistory>
+//#include <QtWebKit/QWebPage>
 #include <QWidget>
 #include <QWindowsStyle>
 #include <QtXml/QDomDocument>

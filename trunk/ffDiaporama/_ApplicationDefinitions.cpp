@@ -536,7 +536,7 @@ cApplicationConfig::cApplicationConfig() {
     if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
     UserConfigPath  = UserConfigPath+APPLICATION_NAME+QDir::separator();
     PathEXIV2       = "exiv2\\exiv2.exe";                                       // FileName of exiv2 (with path) : Windows version
-    PathFFMPEG      = AdjustDirForOS(CurrentPath+"ffmpeg\\bin\\ffmpeg.exe");    // FileName of ffmpeg (with path) : Windows version
+    PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg\\bin\\ffmpeg.exe");    // FileName of ffmpeg (with path) : Windows version
     #endif
     #ifdef Q_WS_X11
     UserConfigPath=QDir::homePath();

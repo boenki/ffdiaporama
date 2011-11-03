@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 30/10/2011) :
+Buggs/TODO (Dernier SVN le 02/11/2011) :
 ----------------------------------------
 BUGG:
 -L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -70,7 +70,36 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le bug avec la barre de défilement horizontale de la timeline dans la fenêtre principale et dans la table de plans dans la boite slide
+-Corrige le bug d'affichage du logo dans la zone à coté du lecteur [Windows]
+
+English version / Bug fix :
+-Fix bug of display logo in the zone near the player [Windows]
+
+French version / Nouvelles fonctionnalités :
+-Supprime la dépendance à QtWebKit et Phonon : QtWebKit et phonon ne sont plus nécessaire !
+
+English version / New features :
+-Remove QtWebKit and Phonon dependancies : QtWebKit and Phonon are no longer needed!
+
+-------------------------------------
+Changelog depuis la version 20110926
+-------------------------------------
+Bug fix French version
+-Correction du bug d'affichage des guides et des cadres dans les boites diapositive et recadrage (les traits n'apparaissaient pas toujours quand les boites étaient petites)
+-Correction du bug de détection de l'orientation des photo avec des versions anciennes d'EXIV2
+-Impossible de déplacer un bloc à la souris si les guides sont désactivés dans les boites slides et recadrage
+-Correction du bug d'affichage des poignées dans la boite diapositive (les traits n'apparaissaient pas toujours quand les boites étaient petites)
+-Correction du format des vidéos générées en mode DVD (720x576-PAL ou 720x480-NTSC)
+-La boite de dialog slide utilise la géométrie par défaut au lieu de la géométrie du projet
+-Lors du chargement d'un projet, si un fichier est introuvable et que vous répondez non à la proposition d'en choisir un autre, le bloc contenant le fichier est supprimé, si vous répondez oui et que le même fichier est réutilisé dans le projet, la question ne sera pas reposée
+-Corrige tous les sliders (les clicks de page n'étaient pas pris en compte)
+-Corrige le bug sous Windows au premier lancement si l'entrée [My vidéos] est vide, utilise [My documents]
+-Corrige le bug sous Windows lors des générations de vidéo quand le fichier de destination ou le répertoire de destination contient des accents
+-[Code cleaning] Transfert les fichiers fmt_filters dans leurs propres sous-répertoire
+-Force les barres de titre dans les boites de dialogue même si elles sont désactivées par les propriétés du système [Linux-Gnome shell]
+-Force les icones dans le menu style même si ils sont désactivés par les propriétés du système [Linux-Gnome shell]
+-Corrige l'erreur de filtrage lors des créations de style
+-Corrige le bug avec la barre de défilement horizontale de la timeline dans la fenêtre principale et dans la table de plans dans la boite slide [KDE]
 -Corrige l'erreur d'affichage des parties transparentes des fonds
 -Corrige l'erreur de changement de sélection quand l'ajout de fichier est annulée dans la fenêtre principale
 -Corrige l'erreur dans la détection d'erreur de la plage de diapositive dans la boite de génération
@@ -78,56 +107,27 @@ French version / Correction de bug :
 -Corrige l'erreur de vitesse lors de la prévisualisation (la vitesse était doublée)
 -Corrige l'erreur de saccadement des vidéos générées
 
-English version / Bug fix :
--Bug fix with horizontal scroll bar of timeline in mainwindow and shot table in slide dialog
--Bug fix of display when background have transparents part
+Bug fix English version
+-Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
+-Correction of the bug of detection of the image orientation with old EXIV2 version [Some Linux distribution of 2010 and previous]
+-Impossible to move block with mouse if ruler are disabled in the slide and reframing dialogs
+-Fix video format error when rendering using DVD size (720x576-PAL or 720x480-NTSC)
+-Slide dialog box use default geometry instead of project geometry
+-During the load of a project, if a file is unreachable and you answer not to the proposition to choose another file, the corresponding block is deleted, if you answer yes and the file is use again, the question will not be ask again
+-Fix all sliders (Page clicks was not used)
+-Fix Windows bug at first startup use [My documents] instead of [My videos] if [My videos] is undefined
+-Fix Windows bug when render video and filename or path of destination file have special characters like accents
+-[Code cleaning] Move fmt_filters files to their own sub-directory
+-Force dialog title bar even if title bar are disabled by systeme settings [Linux-Gnome shell]
+-Force icon in style menu even if icons are disabled by systeme settings [Linux-Gnome shell]
+-Fix filtering error when creating new style
+-Bug fix with horizontal scroll bar of timeline in mainwindow and shot table in slide dialog [KDE]
+-Bug fix of display when background have transparent part
 -Bug fix : When canceling a "add files" dialog, current selection is move to the next side
 -Bug fix with slide range error detection in render video dialog
 -Bug fix on minimum slide duration. Now minimum duration is 1/30 sec
 -Bug fix on preview speed (speed was double)
 -Bug fix on rendering video : remove jerky
-
-French version / Nouvelles fonctionnalités :
--Modifie la boite de configuration pour la définition des valeurs par défaut des blocs et des diapositives
--Modifie les champs de durée du 1er plan et des plans suivants pour autoriser des valeurs en millième de secondes dans la boite de configuration
-
-English version / New features :
--Modify configuration dialog to use style sheet to defined default settings for blocks and slides
--Modify duration fields for 1st shot and following shots to authorize values in thousandth of seconds in configuration dialog
-
--------------------------------------
-Changelog depuis la version 20110926
--------------------------------------
-Bug fix French version
-- Correction du bug d'affichage des guides et des cadres dans les boites diapositive et recadrage (les traits n'apparaissaient pas toujours quand les boites étaient petites)
-- Correction du bug de détection de l'orientation des photo avec des versions anciennes d'EXIV2
-- Impossible de déplacer un bloc à la souris si les guides sont désactivés dans les boites slides et recadrage
-- Correction du bug d'affichage des poignées dans la boite diapositive (les traits n'apparaissaient pas toujours quand les boites étaient petites)
-- Correction du format des vidéos générées en mode DVD (720x576-PAL ou 720x480-NTSC)
-- La boite de dialog slide utilise la géométrie par défaut au lieu de la géométrie du projet
-- Lors du chargement d'un projet, si un fichier est introuvable et que vous répondez non à la proposition d'en choisir un autre, le bloc contenant le fichier est supprimé, si vous répondez oui et que le même fichier est réutilisé dans le projet, la question ne sera pas reposée
-- Corrige tous les sliders (les clicks de page n'étaient pas pris en compte)
-- Corrige le bug sous Windows au premier lancement si l'entrée [My vidéos] est vide, utilise [My documents]
-- Corrige le bug sous Windows lors des générations de vidéo quand le fichier de destination ou le répertoire de destination contient des accents
-- [Code cleaning] Transfert les fichiers fmt_filters dans leurs propres sous-répertoire
-- Force les barres de titre dans les boites de dialogue même si elles sont désactivées par les propriétés du système [Linux-Gnome shell]
-- Force les icones dans le menu style même si ils sont désactivés par les propriétés du système [Linux-Gnome shell]
-- Corrige l'erreur de filtrage lors des créations de style
-
-Bug fix English version
-- Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
-- Correction of the bug of detection of the image orientation with old EXIV2 version [Some Linux distribution of 2010 and previous]
-- Impossible to move block with mouse if ruler are disabled in the slide and reframing dialogs
-- Fix video format error when rendering using DVD size (720x576-PAL or 720x480-NTSC)
-- Slide dialog box use default geometry instead of project geometry
-- During the load of a project, if a file is unreachable and you answer not to the proposition to choose another file, the corresponding block is deleted, if you answer yes and the file is use again, the question will not be ask again
-- Fix all sliders (Page clicks was not used)
-- Fix Windows bug at first startup use [My documents] instead of [My videos] if [My videos] is undefined
-- Fix Windows bug when render video and filename or path of destination file have special characters like accents
-- [Code cleaning] Move fmt_filters files to their own sub-directory
-- Force dialog title bar even if title bar are disabled by systeme settings [Linux-Gnome shell]
-- Force icon in style menu even if icons are disabled by systeme settings [Linux-Gnome shell]
-- Fix filtering error when creating new style
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
@@ -181,6 +181,8 @@ French version
 - Ajoute les extensions flv et 3gp dans les fichiers vidéo supportés (pour l'ajout d'objet)
 - Déplace les options de transition et de recadrage par défaut de l'onglet options d'application vers l'onglet options du projet [boite de configuration]
 - Ajoute une option dans la boite de configuration pour couper automatiquement les vidéos 1920x1088 en 1920x1080
+- Modifie la boite de configuration pour la définition des valeurs par défaut des blocs et des diapositives
+- Modifie les champs de durée du 1er plan et des plans suivants pour autoriser des valeurs en millième de secondes dans la boite de configuration
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -226,3 +228,5 @@ English version
 - Add flv and 3gp extensions in the video supported files (when adding object)
 - Move default transition and default framing options from application to project tab [option dialog]
 - Add an option in the configuration dialog to automaticaly cut 1920x1088 videos to 1920x1080
+- Modify configuration dialog to use style sheet to defined default settings for blocks and slides
+- Modify duration fields for 1st shot and following shots to authorize values in thousandth of seconds in configuration dialog
