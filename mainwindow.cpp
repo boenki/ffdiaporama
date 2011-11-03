@@ -55,7 +55,6 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     ApplicationConfig=TheCurrentApplicationConfig;
     ApplicationConfig->ParentWindow=this;
     ui->ToolBoxNormal->setCurrentIndex(0);
-    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
     QSplashScreen screen;
     screen.setPixmap(QPixmap("img/splash.png"));
@@ -200,7 +199,6 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     screen.hide();
 
     connect(ui->ToolBoxNormal,SIGNAL(currentChanged(int)),this,SLOT(s_ToolbarChanged(int)));
-    connect(ui->webView,SIGNAL(linkClicked(QUrl)),this,SLOT(s_WebViewOpen(QUrl)));
 
     // Help menu
     connect(ui->Action_About_BT,SIGNAL(pressed()),this,SLOT(s_About()));                                connect(ui->Action_About_BT_2,SIGNAL(pressed()),this,SLOT(s_About()));
@@ -246,6 +244,8 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
 
     connect(ui->PartitionBT,SIGNAL(pressed()),this,SLOT(s_ChPartitionMode()));
     connect(ui->Partition2BT,SIGNAL(pressed()),this,SLOT(s_ChPartitionMode()));
+
+    connect(ui->TABTooltip,SIGNAL(linkActivated(const QString)),this,SLOT(s_TABTooltipLink(const QString)));
 
     // Timer
     LastCount=0;
@@ -340,7 +340,8 @@ void MainWindow::SetTimelineHeight() {
         ui->ToolBoxNormal->setVisible(true);
         ui->preview->setVisible(true);
         ui->preview2->setVisible(false);
-        ui->webView->setVisible(true);
+        ui->TABTooltip->setVisible(true);
+        ui->TABToolimg->setVisible(true);
         ui->PartitionBT->setEnabled(false);
         ui->PartitionBT->setDown(true);
         ui->Partition2BT->setEnabled(true);
@@ -352,7 +353,8 @@ void MainWindow::SetTimelineHeight() {
         ui->preview->setVisible(false);
         ui->preview2->setVisible(true);
         ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-32));
-        ui->webView->setVisible(false);
+        ui->TABTooltip->setVisible(false);
+        ui->TABToolimg->setVisible(false);
         ui->PartitionBT->setEnabled(true);
         ui->Partition2BT->setEnabled(false);
         ui->Partition2BT->setDown(true);
@@ -730,8 +732,8 @@ void MainWindow::s_ItemSelectionChanged() {
 // Update dock informations
 //====================================================================================================================
 
-void MainWindow::s_WebViewOpen(QUrl Url) {
-    OpenHelp(Url.toString());
+void MainWindow::s_TABTooltipLink(const QString Link) {
+    OpenHelp(Link);
 }
 
 void MainWindow::s_ToolbarChanged(int MenuIndex) {
@@ -746,66 +748,21 @@ void MainWindow::s_ToolbarChanged(int MenuIndex) {
 
     QString Html;
     switch (MenuIndex) {
-    case 0: Html=QApplication::translate("MainWindow",
-                "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"\
-                "<html><head><meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"></head>\n"\
-                "<body><div style=\"text-align: center;\">\n"\
-                "  <table height=\"100%\" border=\"1\" width=\"100%\"><tbody><tr>\n"\
-                "    <td style=\"text-align: center;\">\n"\
-                "      <img checked=\"true\" alt=\"\" src=\"../../img/logo_big.png\"><br>\n"\
-                "      <br>Select a project to open or to create a new project<br>\n"\
-                "      To discover ffDiaporama:<br>\n"\
-                "      <a href=\"fct_001.html\">Consult the WIKI</a><br><br>\n"\
-                "    </td>\n"\
-                "  </tr></tbody></table>\n"\
-                "</div></body></html>\n");
+    case 0: Html=QApplication::translate("MainWindow","<html><body>Select a project to open or to create a new project<br>"\
+                "To discover ffDiaporama:<br><a href=\"fct_001\">Consult the WIKI</a></body></html>");
             break;
-    case 1: Html=QApplication::translate("MainWindow",
-                "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"\
-                "<html><head><meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"></head>\n"\
-                "<body><div style=\"text-align: center;\">\n"\
-                "  <table height=\"100%\" border=\"1\" width=\"100%\"><tbody><tr>\n"\
-                "    <td style=\"text-align: center;\">\n"\
-                "      <img checked=\"true\" alt=\"\" src=\"../../img/logo_big.png\"><br>\n"\
-                "       <br>Add empty slides or slides based on photos or videos<br>\n"
-                "       To discover how to build your slide show and to animate slides:<br>\n"
-                "       <a href=\"fct_002.html\">Discover the principles of functioning of ffDiaporama</a><br><br>\n"
-                "    </td>\n"\
-                "  </tr></tbody></table>\n"\
-                "</div></body></html>\n");
+    case 1: Html=QApplication::translate("MainWindow","<html><body>Add empty slides or slides based on photos or videos<br>"\
+                "To discover how to build your slide show and to animate slides:<br><a href=\"fct_002\">Discover the principles of functioning of ffDiaporama</a></body></html>");
             break;
-    case 2: Html=QApplication::translate("MainWindow",
-                "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"\
-                "<html><head><meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"></head>\n"\
-                "<body><div style=\"text-align: center;\">\n"\
-                "  <table height=\"100%\" border=\"1\" width=\"100%\"><tbody><tr>\n"\
-                "    <td style=\"text-align: center;\">\n"\
-                "      <img checked=\"true\" alt=\"\" src=\"../../img/logo_big.png\"><br>\n"\
-                "      <br>Select the equipment type that you plan to use for your video<br>\n"\
-                "      To discover how to render videos:<br>\n"\
-                "      <a href=\"fct_009.html\">Consult the rendering videos WIKI page</a><br><br>\n"\
-                "    </td>\n"\
-                "  </tr></tbody></table>\n"\
-                "</div></body></html>\n");
+    case 2: Html=QApplication::translate("MainWindow","<html><body>Select the equipment type that you plan to use for your video<br>"\
+                "To discover how to render videos:<br><a href=\"fct_009\">Consult the rendering videos WIKI page</a></body></html>");
             break;
-    case 3: Html=QApplication::translate("MainWindow",
-                "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n"\
-                "<html><head><meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\"></head>\n"\
-                "<body><div style=\"text-align: center;\">\n"\
-                "  <table height=\"100%\" border=\"1\" width=\"100%\"><tbody><tr>\n"\
-                "    <td style=\"text-align: center;\">\n"\
-                "      <img checked=\"true\" alt=\"\" src=\"../../img/logo_big.png\"><br>\n"\
-                "      <br>Visit the ffDiaporama Web site to use the forum,<br>\n"\
-                "      consult tutorials and learn the lastest news:<br>\n"\
-                "      <a href=\"http://ffdiaporama.tuxfamily.org\">http://ffdiaporama.tuxfamily.org</a><br><br>\n"\
-                "    </td>\n"\
-                "  </tr></tbody></table>\n"\
-                "</div></body></html>\n");
+    case 3: Html=QApplication::translate("MainWindow","<html><body>Visit the ffDiaporama Web site to use the forum,<br>"\
+                "consult tutorials and learn the lastest news:<br><a href=\"http://ffdiaporama.tuxfamily.org\">http://ffdiaporama.tuxfamily.org</a></body></html>");
             break;
     }
 
-    ui->webView->setHtml(Html,BaseUrl);
-    ui->webView->history()->clear();
+    ui->TABTooltip->setText(Html);
     QApplication::restoreOverrideCursor();
 }
 
