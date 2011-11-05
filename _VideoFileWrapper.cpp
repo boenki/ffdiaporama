@@ -673,7 +673,12 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
 
     // Open video file and retrieve stream information
     bool Continue=true;
-    while ((Continue)&&(avformat_open_input(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0)) {
+    while ((Continue)&&
+    #if FF_API_FORMAT_PARAMETERS
+        (avformat_open_input(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0)) {
+    #else
+        (av_open_input_file(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0)) {
+    #endif
         if (QMessageBox::question(GlobalMainWindow,QApplication::translate("MainWindow","Open video file"),
             QApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)
@@ -753,7 +758,11 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
     VideoDecoderCodec=NULL;
     if (!MusicOnly) {
         // Reopen file for video
+        #if FF_API_FORMAT_PARAMETERS
         avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL);
+        #else
+        av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL);
+        #endif
         ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
 
         if (av_find_stream_info(ffmpegVideoFile)<0) return false;

@@ -951,6 +951,14 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             OutputFormatContext->oformat  =Fmt;
             OutputFormatContext->timestamp=0;
             OutputFormatContext->bit_rate =1536;
+            #if FF_API_FORMAT_PARAMETERS
+            #else
+            if (av_set_parameters(OutputFormatContext,&fpOutFile)<0) {
+                av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Invalid output format parameters!");
+                Continue=false;
+            }
+            #endif
         }
     }
 
@@ -1032,7 +1040,12 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     }
 
     // write the header
-    if ((Continue)&&(avformat_write_header(OutputFormatContext,NULL)<0)) {
+    if ((Continue)&&
+        #if FF_API_FORMAT_PARAMETERS
+            (avformat_write_header(OutputFormatContext,NULL)<0)) {
+        #else
+            (av_write_header(OutputFormatContext)!=0)) {
+        #endif
         av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
         QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file!");
         Continue=false;
