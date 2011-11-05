@@ -314,20 +314,23 @@ extern "C" {
 //============================================
 // Dialogbox help file
 //============================================
-#define HELPFILE_INDEX                      "fct_001"
+#define WIKI_CMS_PATH                       "http://ffdiaporama.tuxfamily.org/private/ffdiaporama/?page_id="
+#define HELPFILE_INDEX                      "1567"                                                              //fct_001
+#define HELPFILE_PRINCIPLES                 "1306"                                                              //fct_002
+#define HELPFILE_DEVICES                    "1322"                                                              //fct_009
 #define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/<local>/News.php"
 #define HELPFILE_WEBSITEINDEX               "http://ffdiaporama.tuxfamily.org/<local>/index.php"
-#define HELPFILE_SUPPORT                    "fct_001"
-#define HELPFILE_DlgTextEdit                "dlg_001"
-#define HELPFILE_DlgApplicationSettings     "dlg_002"
-#define HELPFILE_DlgSlideProperties         "dlg_003"
-#define HELPFILE_DlgBackgroundProperties    "dlg_004"
-#define HELPFILE_DlgImageCorrection         "dlg_005"
-#define HELPFILE_DlgManageStyle             "dlg_006"
-#define HELPFILE_DlgMusicProperties         "dlg_007"
-#define HELPFILE_DlgRenderVideo             "dlg_008"
-#define HELPFILE_DlgTransitionProperties    "dlg_009"
-#define HELPFILE_DlgVideoEdit               "dlg_010"
+#define HELPFILE_SUPPORT                    "1567"                                                              //fct_001"
+#define HELPFILE_DlgTextEdit                "1282"                                                              //dlg_001"
+#define HELPFILE_DlgApplicationSettings     "1286"                                                              //dlg_002"
+#define HELPFILE_DlgSlideProperties         "1288"                                                              //dlg_003"
+#define HELPFILE_DlgBackgroundProperties    "1290"                                                              //dlg_004"
+#define HELPFILE_DlgImageCorrection         "1292"                                                              //dlg_005"
+#define HELPFILE_DlgManageStyle             "1762"                                                              //dlg_006"
+#define HELPFILE_DlgMusicProperties         "1296"                                                              //dlg_007"
+#define HELPFILE_DlgRenderVideo             "1298"                                                              //dlg_008"
+#define HELPFILE_DlgTransitionProperties    "1300"                                                              //dlg_009"
+#define HELPFILE_DlgVideoEdit               "1302"                                                              //dlg_010"
 
 //============================================
 // Default values

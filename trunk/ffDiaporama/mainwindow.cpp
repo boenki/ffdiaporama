@@ -445,8 +445,8 @@ void MainWindow::OpenHelp(QString HelpFile) {
         QDesktopServices::openUrl(QUrl(HelpPath));
     } else {
         QString HelpPath;
-        if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")) HelpPath="WIKI/en/"+HelpFile+".html";
-            else HelpPath="WIKI/"+CurrentLanguage+"/"+HelpFile+".html";
+        if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")) HelpPath=WIKI_CMS_PATH+HelpFile+"&lang=en";
+            else HelpPath=WIKI_CMS_PATH+HelpFile+"&lang="+CurrentLanguage;
         QDesktopServices::openUrl(QUrl(HelpPath));
     }
 }
@@ -749,13 +749,13 @@ void MainWindow::s_ToolbarChanged(int MenuIndex) {
     QString Html;
     switch (MenuIndex) {
     case 0: Html=QApplication::translate("MainWindow","<html><body>Select a project to open or to create a new project<br>"\
-                "To discover ffDiaporama:<br><a href=\"fct_001\">Consult the WIKI</a></body></html>");
+                                         "To discover ffDiaporama:<br><a href=\"1567\">Consult the WIKI</a></body></html>");
             break;
     case 1: Html=QApplication::translate("MainWindow","<html><body>Add empty slides or slides based on photos or videos<br>"\
-                "To discover how to build your slide show and to animate slides:<br><a href=\"fct_002\">Discover the principles of functioning of ffDiaporama</a></body></html>");
+                                         "To discover how to build your slide show and to animate slides:<br><a href=\"1306\">Discover the principles of functioning of ffDiaporama</a></body></html>");
             break;
     case 2: Html=QApplication::translate("MainWindow","<html><body>Select the equipment type that you plan to use for your video<br>"\
-                "To discover how to render videos:<br><a href=\"fct_009\">Consult the rendering videos WIKI page</a></body></html>");
+                                         "To discover how to render videos:<br><a href=\"1322\">Consult the rendering videos WIKI page</a></body></html>");
             break;
     case 3: Html=QApplication::translate("MainWindow","<html><body>Visit the ffDiaporama Web site to use the forum,<br>"\
                 "consult tutorials and learn the lastest news:<br><a href=\"http://ffdiaporama.tuxfamily.org\">http://ffdiaporama.tuxfamily.org</a></body></html>");

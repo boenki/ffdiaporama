@@ -99,27 +99,27 @@
     <message>
         <location filename="../DlgApplicationSettings.ui" line="471"/>
         <source>Project options (default values)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones del proyecto (valores por defecto)</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="481"/>
         <source>Project geometry:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geometría del proyecto:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="546"/>
         <source>1st shot duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Duarción de la 1ª toma:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="599"/>
         <source>Next shot duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Duaración de la siguiente toma:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="652"/>
         <source>Speed wave:</source>
-        <translation type="unfinished"></translation>
+        <translation>Curva de velocidad :</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3482"/>
@@ -314,12 +314,12 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="403"/>
         <source>Video options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones de video</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="410"/>
         <source>Automaticaly crop 1920x1088 video to 1920x1080</source>
-        <translation type="unfinished"></translation>
+        <translation>Corta automáticamente 1920x1088 a 1920x1080</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="422"/>
@@ -379,27 +379,27 @@ Transición de fundido</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="705"/>
         <source>Default transition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Transición predeterminada:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="886"/>
         <source>Default options for new text block</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciónes predeterminadas para el nuevo bloque de texto</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="902"/>
         <source>Text</source>
-        <translation type="unfinished">TextO</translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="918"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Fondo</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="953"/>
         <source>Default options for new image or video block (when adding block in slide dialog)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones predeterminadas para el nuevo bloque de imagen o vídeo (cuando se añade un bloque en el diálogo de diapositiva)</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="971"/>
@@ -422,7 +422,7 @@ Transición de fundido</translation>
         <location filename="../DlgApplicationSettings.ui" line="2522"/>
         <location filename="../DlgApplicationSettings.ui" line="2583"/>
         <source>For 4:3 project:</source>
-        <translation type="unfinished"></translation>
+        <translation>Para un proyecto 4:3:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="988"/>
@@ -445,7 +445,7 @@ Transición de fundido</translation>
         <location filename="../DlgApplicationSettings.ui" line="2529"/>
         <location filename="../DlgApplicationSettings.ui" line="2590"/>
         <source>For 16:9 project:</source>
-        <translation type="unfinished"></translation>
+        <translation>Para un proyecto 16:9:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="995"/>
@@ -468,30 +468,30 @@ Transición de fundido</translation>
         <location filename="../DlgApplicationSettings.ui" line="2536"/>
         <location filename="../DlgApplicationSettings.ui" line="2597"/>
         <source>For cinema project:</source>
-        <translation type="unfinished"></translation>
+        <translation>Para un proyecto Cinema:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1030"/>
         <source>Coordinates</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordenadas</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1059"/>
         <source>Default options for new image or video block (when creating slide)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones predeterminadas para un nuevo bloque de image o video (cuando se crea una diapositiva)</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1075"/>
         <location filename="../DlgApplicationSettings.ui" line="2642"/>
         <source>Text style</source>
-        <translation type="unfinished"></translation>
+        <translation>Estilo de Texto</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1094"/>
         <location filename="../DlgApplicationSettings.ui" line="1174"/>
         <location filename="../DlgApplicationSettings.ui" line="2661"/>
         <source>Shape</source>
-        <translation type="unfinished"></translation>
+        <translation>Forma</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1193"/>
@@ -501,7 +501,11 @@ for 3:2
 image in 
 landscape
 mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordenadas
+para imagen
+3:2 
+en modo
+paisaje</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1216"/>
@@ -511,7 +515,11 @@ for 3:2
 image in 
 portrait
 mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordenadas
+para imagen
+3:2 
+en modo
+retrato</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1239"/>
@@ -521,7 +529,11 @@ for 4:3
 image in 
 landscape
 mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordenadas
+para imagen
+4:3 
+en modo
+paisaje</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1262"/>
@@ -531,7 +543,11 @@ for 4:3
 image in 
 portrait
 mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordenadas
+para imagen
+4:3 
+en modo
+retrato</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1285"/>
@@ -541,7 +557,11 @@ for 16:9
 image in 
 landscape
 mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordenadas
+para imagen
+16:9 
+en modo
+paisaje</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1308"/>
@@ -551,7 +571,11 @@ for 16:9
 image in 
 portrait
 mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordenadas
+para imagen
+16:9 
+en modo
+retrato</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1636"/>
@@ -561,7 +585,11 @@ for cinema
 image in 
 landscape
 mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordenadas
+para imagen
+Cinema 
+en modo
+paisaje</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1659"/>
@@ -571,7 +599,11 @@ for cinema
 image in 
 portrait
 mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordenadas
+para imagen
+Cinema 
+en modo
+retrato</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="1682"/>
@@ -580,7 +612,9 @@ mode</source>
 for 
 nonstandard
 image</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordenadas
+para imagen
+no estándar</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="2679"/>
@@ -988,12 +1022,12 @@ image</source>
     <message>
         <location filename="../DlgBackgroundProperties.cpp" line="54"/>
         <source>Image from library</source>
-        <translation>Imágen desde biblioteca</translation>
+        <translation>Imagen desde biblioteca</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.cpp" line="56"/>
         <source>Image from disk</source>
-        <translation>Imágen desde disco</translation>
+        <translation>Imagen desde disco</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.cpp" line="283"/>
@@ -1145,12 +1179,12 @@ image</source>
     <message>
         <location filename="../DlgImageCorrection.ui" line="1470"/>
         <source>Framing :</source>
-        <translation type="unfinished"></translation>
+        <translation>Encuadre:</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="1501"/>
         <source>Image correction :</source>
-        <translation type="unfinished"></translation>
+        <translation>Corrección de imagen:</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="1831"/>
@@ -1195,22 +1229,22 @@ image</source>
     <message>
         <location filename="../DlgImageCorrection.cpp" line="50"/>
         <source>Unlock</source>
-        <translation type="unfinished"></translation>
+        <translation>Debloquear</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.cpp" line="51"/>
         <source>Lock to this geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquear esta geometría</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.cpp" line="52"/>
         <source>Lock to project geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquear esta geometría del proyecto</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.cpp" line="53"/>
         <source>Lock to image geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquear esta geometría de la imagen</translation>
     </message>
 </context>
 <context>
@@ -1291,7 +1325,7 @@ image</source>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="166"/>
         <source>Custom style</source>
-        <translation type="unfinished"></translation>
+        <translation>Estilo predeterminado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="251"/>
@@ -1366,107 +1400,107 @@ image</source>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="267"/>
         <source>Image geometry-Full image</source>
-        <translation type="unfinished"></translation>
+        <translation>Geometría de imagen-Imagen Completa</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="268"/>
         <source>Project geometry-Adjust on the width-Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Geometría de proyecto-Ajustar al tamaño-Debajo</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="269"/>
         <source>Project geometry-Adjust on the width-Middle</source>
-        <translation type="unfinished"></translation>
+        <translation>Geometría de proyecto-Ajustar al tamaño-Medio</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="270"/>
         <source>Project geometry-Adjust on the width-Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Geometría de proyecto-Ajustar al tamaño-Arriba</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="271"/>
         <source>Project geometry-Adjust on the height-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Geometría de proyecto-Ajustar al tamaño-Izquierda</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="272"/>
         <source>Project geometry-Adjust on the height-Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Geometría de proyecto-Ajustar al tamaño-Centro</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="273"/>
         <source>Project geometry-Adjust on the height-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Geometría de proyecto-Ajustar al tamaño-Derecha</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="274"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Pantalla Completa</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="275"/>
         <source>TV margins size</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamaño márgenes TV</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="276"/>
         <source>Maximum size for image geometry mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamaño máximo para modo geometría imagen</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="277"/>
         <source>TV margins maximum size for image geometry mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamaño máximo márgenes de TV para modo geometría imagen</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="278"/>
         <source>High half of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Mitad superior de la pantalla</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="279"/>
         <source>Left half of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Mitad izquierda de la pantalla</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="280"/>
         <source>Left high quarter of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Cuadrante izquierdo superior de la pantalla</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="281"/>
         <source>Left low quarter of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Cuadrante izquierdo inferior de la pantalla</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="282"/>
         <source>Low half of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Mitad inferior de la pantalla</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="283"/>
         <source>Right half of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Mitad derecha de la pantalla</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="284"/>
         <source>Right high quarter of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Cuadrante derecho superior de la pantalla</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="285"/>
         <source>Right low quarter of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Cuadrante derecho inferior de la pantalla</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="286"/>
         <source>TV margins</source>
-        <translation type="unfinished">Márgenes de TV</translation>
+        <translation>Márgenes de TV</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="287"/>
         <source>50% screen size-Centered</source>
-        <translation type="unfinished"></translation>
+        <translation>50% tamaño pantalla-Centrado</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="345"/>
@@ -1506,37 +1540,38 @@ Do you want to overwrite-it ?</source>
     <message>
         <location filename="../DlgManageStyle.cpp" line="163"/>
         <source>New style name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre nuevo estilo:</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.cpp" line="170"/>
         <source>A style with this name already exist.
 Please select another name!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ya existe un estilo con ese nombre.
+¡Selecciona otro nombre, por favor!</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="353"/>
         <location filename="../_StyleDefinitions.cpp" line="315"/>
         <source>Adjust to image width</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajusta imagen a la anchura</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="354"/>
         <location filename="../_StyleDefinitions.cpp" line="316"/>
         <source>Adjust to image height</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajusta imagen a la altura</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="355"/>
         <location filename="../_StyleDefinitions.cpp" line="317"/>
         <source>Adjust to full image</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajusta al tamaño completo</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="356"/>
         <location filename="../_StyleDefinitions.cpp" line="318"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Personalizado</translation>
     </message>
 </context>
 <context>
@@ -1975,12 +2010,12 @@ Desplazar el archivo actual desde la señal hasta abajo.</translation>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="499"/>
         <source>Range selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Rango</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="500"/>
         <source>Slide range is defined to incorrect values</source>
-        <translation type="unfinished"></translation>
+        <translation>Rango de diapositivas se define con valores incorrectos</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="510"/>
@@ -2683,7 +2718,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgImageCorrection.cpp" line="491"/>
         <source>No style for nonstandard geometry image</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin estilo para geometría de imagen no estándar</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.cpp" line="555"/>
@@ -3916,23 +3951,23 @@ La geometría de la imagen de este archivo no es igual que la del proyecto actua
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="751"/>
-        <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;fct_001&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;1567&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="754"/>
-        <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;fct_002&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;1306&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="757"/>
-        <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;fct_009&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;1322&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="760"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Visitar el sitio de  ffDiaporama para usar el Foro,&lt;br&gt;consulta tutoriales y últimas noticias:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="833"/>
