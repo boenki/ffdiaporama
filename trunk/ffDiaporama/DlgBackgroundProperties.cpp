@@ -199,18 +199,12 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
         ui->PatternBrushCombo->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_PATTERN));
         ui->PatternBrushCombo->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_PATTERN));
 
-        ui->FinalColorLabel->setVisible((Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3)));
-        ui->FinalColorSpacer->setVisible((Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3)));
         ui->FinalColorCombo->setVisible((Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3)));
         ui->FinalColorCombo->setEnabled((Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3)));
 
-        ui->IntermColorLabel->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermColorSpacer->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
         ui->IntermColorCombo->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
         ui->IntermColorCombo->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
 
-        ui->IntermPosLabel->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermPosSpacer->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
         ui->IntermPosSlider->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
         ui->IntermPosSlider->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
         ui->IntermPosED->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
@@ -222,6 +216,7 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
         ui->OrientationCombo->setEnabled((Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3)));
 
         ui->ImageLibraryLabel->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGELIBRARY));
+        ui->ImageLibraryLabel2->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGELIBRARY));
         ui->BackgroundCombo->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGELIBRARY));
         ui->BackgroundComboSpacer->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGELIBRARY));
 
@@ -233,15 +228,21 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
         ui->ImageFileED->setText(DiaporamaObject->BackgroundBrush.Image?DiaporamaObject->BackgroundBrush.Image->FileName:"");
 
         ui->Preview->setVisible(true);
+        ui->scrollArea->setVisible(true);
         QApplication::processEvents();
 
-        int H=ui->Preview->height();
-        int W=DiaporamaObject->Parent->GetWidthForHeight(H);
-        QImage Background=QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+
+        int W=ui->Preview->width();
+        int H=DiaporamaObject->Parent->GetHeightForWidth(W);
+        if (H>ui->Preview->height()) {
+            H=ui->Preview->height();
+            W=DiaporamaObject->Parent->GetWidthForHeight(H);
+        }
+        QImage Background=QImage(ui->Preview->width(),ui->Preview->height(),QImage::Format_ARGB32_Premultiplied);
         QPainter Painter;
         Painter.begin(&Background);
-        Painter.fillRect(0,0,W,H,Qt::black);
-        DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),W,H,&Painter,0,0,false);
+        Painter.fillRect(0,0,Background.width(),Background.height(),Qt::black);
+        DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),W,H,&Painter,(Background.width()-W)/2,(Background.height()-H)/2,false);
         Painter.end();
         ui->Preview->setPixmap(QPixmap::fromImage(Background));
 
@@ -252,19 +253,18 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
         ui->FirstColorCombo->setEnabled(false);     ui->FirstColorCombo->setVisible(false);
         ui->PatternLabel->setVisible(false);        ui->PatternSpacer->setVisible(false);
         ui->PatternBrushCombo->setEnabled(false);   ui->PatternBrushCombo->setVisible(false);
-        ui->FinalColorLabel->setVisible(false);     ui->FinalColorSpacer->setVisible(false);
         ui->FinalColorCombo->setVisible(false);     ui->FinalColorCombo->setEnabled(false);
-        ui->IntermColorLabel->setVisible(false);    ui->IntermColorSpacer->setVisible(false);
         ui->IntermColorCombo->setVisible(false);    ui->IntermColorCombo->setEnabled(false);
-        ui->IntermPosLabel->setVisible(false);      ui->IntermPosSpacer->setVisible(false);
         ui->IntermPosSlider->setVisible(false);     ui->IntermPosSlider->setEnabled(false);
         ui->IntermPosED->setVisible(false);         ui->IntermPosED->setEnabled(false);
         ui->OrientationLabel->setVisible(false);    ui->OrientationSpacer->setVisible(false);
         ui->OrientationCombo->setVisible(false);    ui->OrientationCombo->setEnabled(false);
-        ui->ImageLibraryLabel->setVisible(false);   ui->BackgroundCombo->setVisible(false);     ui->BackgroundComboSpacer->setVisible(false);
+        ui->ImageLibraryLabel->setVisible(false);   ui->ImageLibraryLabel2->setVisible(false);
+        ui->BackgroundCombo->setVisible(false);     ui->BackgroundComboSpacer->setVisible(false);
         ui->ImageFileLabel->setVisible(false);      ui->ImageFileED->setVisible(false);         ui->ImageFileBT->setVisible(false);
         ui->ImageEditCorrectBT->setVisible(false);
         ui->Preview->setVisible(false);
+        ui->scrollArea->setVisible(false);
     }
 }
 

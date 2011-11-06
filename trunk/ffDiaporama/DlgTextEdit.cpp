@@ -227,6 +227,7 @@ void DlgTextEdit::RefreshControls() {
     ui->PatternLabel->setVisible(Allow_Pattern);
     ui->PatternBrushCombo->setVisible(Allow_Pattern);
     ui->ImageLibraryLabel->setVisible(Allow_Library);
+    ui->ImageLibraryLabel2->setVisible(Allow_Library);
     ui->BackgroundCombo->setVisible(Allow_Library);
 
     // Set brush type combo index
