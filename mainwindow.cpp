@@ -336,6 +336,7 @@ void MainWindow::s_TimerEvent() {
 
 void MainWindow::SetTimelineHeight() {
     if (!ApplicationConfig->PartitionMode) {
+        ui->scrollArea->setVisible(true);
         ui->ToolBoxPartition->setVisible(false);
         ui->ToolBoxNormal->setVisible(true);
         ui->preview->setVisible(true);
@@ -348,6 +349,7 @@ void MainWindow::SetTimelineHeight() {
         QApplication::processEvents();          // Give time to Qt to redefine position of each control and preview height !
         ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-32));
     } else {
+        ui->scrollArea->setVisible(false);
         ui->ToolBoxPartition->setVisible(true);
         ui->ToolBoxNormal->setVisible(false);
         ui->preview->setVisible(false);

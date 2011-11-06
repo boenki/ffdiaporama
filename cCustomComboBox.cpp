@@ -102,7 +102,7 @@ QSize cCustomColorComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,
 cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
     STOPMAJ=false;
     CurrentColor=NULL;
-    setIconSize(QSize(24*5-30,16));
+
     QTableWidget    *Table=new QTableWidget();
     Table->horizontalHeader()->hide();
     Table->verticalHeader()->hide();
@@ -169,6 +169,7 @@ QString cCustomColorComboBox::GetCurrentColor() {
 //========================================================================================================================
 
 void cCustomColorComboBox::MakeIcons() {
+
     int ColorNum=0;
     if (CurrentColor) {
         while ((ColorNum<MAXCOLORREF)&&(ColorRef[ColorNum]!=*CurrentColor)) ColorNum++;
@@ -177,6 +178,8 @@ void cCustomColorComboBox::MakeIcons() {
         int CurrentCol=((QTableWidget *)view())->currentColumn();   if (CurrentCol<0) CurrentCol=0;
         ColorNum=CurrentRow*5+CurrentCol;
     }
+    //setIconSize(QSize(width()-16,16));
+    setIconSize(QSize(24,12));
     QPixmap  Image(iconSize());
     QPainter Painter;
     Painter.begin(&Image);
@@ -186,7 +189,7 @@ void cCustomColorComboBox::MakeIcons() {
         Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),QColor(SavedCustomColor));
         QImage  Img("img/colorize.png");
         //Painter.drawImage(QRectF((iconSize().width()-16)/2,(iconSize().height()-16)/2,16,16),Img,QRectF(0,0,Img.width(),Img.height()));
-        Painter.drawImage(QRectF(0,0,16,16),Img,QRectF(0,0,Img.width(),Img.height()));
+        Painter.drawImage(QRectF(0,0,8,8),Img,QRectF(0,0,Img.width(),Img.height()));
     }
     Painter.end();
     setItemIcon(currentIndex(),QIcon(Image));
@@ -320,7 +323,9 @@ void cCustomBrushComboBox::MakeIcons() {
     int CurrentCol=((QTableWidget *)view())->currentColumn();
     if (CurrentCol<0) CurrentCol=0;
     int ColorNum=CurrentRow*4+CurrentCol;
-    QPixmap  Image(64,16);
+    //setIconSize(QSize(width()-16,16));
+    setIconSize(QSize(24,12));
+    QPixmap  Image(iconSize());
     QPainter Painter;
     Painter.begin(&Image);
     if (ColorNum<MAXBRUSHPATTERN) {
@@ -328,14 +333,14 @@ void cCustomBrushComboBox::MakeIcons() {
         TheBrush.ColorD=Brush->ColorD;
         TheBrush.BrushType  =BRUSHTYPE_PATTERN;
         TheBrush.PatternType=ColorNum;
-        Painter.fillRect(QRectF(0,0,64,16),TheBrush.ColorD.toLower()!="#ffffff"?Qt::white:Qt::black);
-        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,64,16),true,0,0,NULL,1,NULL);
+        Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),TheBrush.ColorD.toLower()!="#ffffff"?Qt::white:Qt::black);
+        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,iconSize().width(),iconSize().height()),true,0,0,NULL,1,NULL);
         Painter.setBrush(*BR);
         delete BR;
-        Painter.drawRect(QRectF(0,0,64,16));
+        Painter.drawRect(QRectF(0,0,iconSize().width(),iconSize().height()));
     } else {
         Painter.setBrush(QBrush(Qt::white));
-        Painter.drawRect(QRectF(0,0,64,16));
+        Painter.drawRect(QRectF(0,0,iconSize().width(),iconSize().height()));
     }
     Painter.end();
     setItemIcon(CurrentRow,QIcon(Image));
@@ -417,7 +422,6 @@ cGradientOrientationComboBox::cGradientOrientationComboBox(QWidget *parent):QCom
     }
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
-    setIconSize(QSize(width()-16,16));
     MakeIcons();
     this->view()->setFixedWidth(3*32+18);
     this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -453,7 +457,9 @@ void cGradientOrientationComboBox::MakeIcons() {
     int CurrentCol=((QTableWidget *)view())->currentColumn();
     if (CurrentCol<0) CurrentCol=0;
     int ColorNum=CurrentRow*3+CurrentCol;
-    QPixmap  Image(width()-16,16);
+    //setIconSize(QSize(width()-16,16));
+    setIconSize(QSize(24,12));
+    QPixmap  Image(iconSize());
     QPainter Painter;
     Painter.begin(&Image);
     if ((ColorNum>=0)&&(ColorNum<MAXGRADIENTORIENTATION)) {
@@ -464,13 +470,13 @@ void cGradientOrientationComboBox::MakeIcons() {
         TheBrush.ColorIntermed=Brush->ColorIntermed;
         TheBrush.Intermediate=Brush->Intermediate;
         TheBrush.GradientOrientation=ColorNum;
-        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,width()-16,16),true,0,0,NULL,1,NULL);
+        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,iconSize().width(),iconSize().height()),true,0,0,NULL,1,NULL);
         Painter.setBrush(*BR);
         delete BR;
-        Painter.drawRect(QRectF(0,0,width()-16,16));
+        Painter.drawRect(QRectF(0,0,iconSize().width(),iconSize().height()));
     } else {
         Painter.setBrush(QBrush(Qt::white));
-        Painter.drawRect(QRectF(0,0,width()-16,16));
+        Painter.drawRect(QRectF(0,0,iconSize().width(),iconSize().height()));
     }
     Painter.end();
     setItemIcon(CurrentRow,QIcon(Image));

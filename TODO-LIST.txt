@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 03/11/2011) :
+Buggs/TODO (Dernier SVN le 05/11/2011) :
 ----------------------------------------
 BUGG:
 -L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -70,16 +70,12 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Fix le bug de compilation avec ffmpeg 0.52 (ubuntu 10.10 et 11.04)
 
 English version / Bug fix :
--Fix compilation issue with ffmpeg 0.52 (ubuntu 10.10 et 11.04)
 
 French version / Nouvelles fonctionnalités :
--Supprime les fichiers du WIKI. Désormais le WIKI n'est accessible que sur internet via le CMS du site WEB.
 
 English version / New features :
--Remove WIKI files. Now WIKI is only accessible online using CMS on WEB site.
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -107,6 +103,7 @@ Bug fix French version
 -Corrige l'erreur de vitesse lors de la prévisualisation (la vitesse était doublée)
 -Corrige l'erreur de saccadement des vidéos générées
 -Corrige le bug d'affichage du logo dans la zone à coté du lecteur [Windows]
+-Fix le bug de compilation avec ffmpeg 0.52 (ubuntu 10.10 et 11.04)
 
 Bug fix English version
 -Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -130,6 +127,7 @@ Bug fix English version
 -Bug fix on preview speed (speed was double)
 -Bug fix on rendering video : remove jerky
 -Fix bug of display logo in the zone near the player [Windows]
+-Fix compilation issue with ffmpeg 0.52 (ubuntu 10.10 et 11.04)
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
@@ -186,6 +184,7 @@ French version
 - Modifie la boite de configuration pour la définition des valeurs par défaut des blocs et des diapositives
 - Modifie les champs de durée du 1er plan et des plans suivants pour autoriser des valeurs en millième de secondes dans la boite de configuration
 - Supprime la dépendance à QtWebKit et Phonon : QtWebKit et phonon ne sont plus nécessaire !
+- Supprime les fichiers du WIKI. Désormais le WIKI n'est accessible que sur internet via le CMS du site WEB.
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -234,3 +233,4 @@ English version
 - Modify configuration dialog to use style sheet to defined default settings for blocks and slides
 - Modify duration fields for 1st shot and following shots to authorize values in thousandth of seconds in configuration dialog
 - Remove QtWebKit and Phonon dependancies : QtWebKit and Phonon are no longer needed!
+- Remove WIKI files. Now WIKI is only accessible online using CMS on WEB site.

@@ -2559,7 +2559,7 @@ and help</string>
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>-92</y>
+           <y>-81</y>
            <width>402</width>
            <height>293</height>
           </rect>
@@ -2593,7 +2593,7 @@ and help</string>
              <number>0</number>
             </property>
             <item>
-             <spacer name="horizontalSpacer_4">
+             <spacer name="HorizSpacerL">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -2640,7 +2640,7 @@ and help</string>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_5">
+             <spacer name="HorizSpacerR">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>

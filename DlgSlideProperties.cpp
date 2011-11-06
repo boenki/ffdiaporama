@@ -533,7 +533,8 @@ void DlgSlideProperties::RefreshSceneImage() {
                 ui->WidthEd->setRange(3,200);        ui->WidthEd->setValue(CurrentTextItem->w*100);
                 ui->HeightEd->setRange(3,200);       ui->HeightEd->setValue(CurrentTextItem->h*100);
             } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-                double DisplayW,DisplayH;   GetForDisplayUnit(DisplayW,DisplayH);
+                double DisplayW=0,DisplayH=0;
+                GetForDisplayUnit(DisplayW,DisplayH);
                 ui->PosXEd->setRange(-2*DisplayW,2*DisplayW);   ui->PosXEd->setValue(  CurrentTextItem->x*DisplayW);
                 ui->PosYEd->setRange(-2*DisplayH,2*DisplayH);   ui->PosYEd->setValue(  CurrentTextItem->y*DisplayH);
                 ui->WidthEd->setRange(3,2*DisplayW);            ui->WidthEd->setValue( CurrentTextItem->w*DisplayW);
@@ -810,7 +811,8 @@ void DlgSlideProperties::s_ChgPosYValue(double Value) {
     if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
         CurrentTextItem->y=Value/100;
     } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-        double DisplayW,DisplayH;   GetForDisplayUnit(DisplayW,DisplayH);
+        double DisplayW=0,DisplayH=0;
+        GetForDisplayUnit(DisplayW,DisplayH);
         CurrentTextItem->y=(Value/DisplayH);
     }
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
@@ -827,7 +829,7 @@ void DlgSlideProperties::s_ChgWidthValue(double Value) {
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
 
-    double DisplayW,DisplayH;
+    double DisplayW=0,DisplayH=0;
     GetForDisplayUnit(DisplayW,DisplayH);
 
     if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentTextItem->w=Value/100;     // DisplayUnit==DISPLAYUNIT_PERCENT
@@ -847,7 +849,7 @@ void DlgSlideProperties::s_ChgHeightValue(double Value) {
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
-    double DisplayW,DisplayH;
+    double DisplayW=0,DisplayH=0;
     GetForDisplayUnit(DisplayW,DisplayH);
 
     if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentTextItem->h=Value/100;     // DisplayUnit==DISPLAYUNIT_PERCENT
@@ -996,11 +998,11 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
         Object.PenStyle                 =Qt::SolidLine;
         Object.PenColor                 ="#000000";
         Object.BackgroundBrush.BrushType=BRUSHTYPE_NOBRUSH;
-        QPixmap  Image(32,32);
+        QPixmap  Image(UICB->iconSize());
         QPainter Painter;
         Painter.begin(&Image);
-        Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,0,0,32,32,true,0,0,NULL,1,NULL,false);
+        Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
+        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,NULL,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
