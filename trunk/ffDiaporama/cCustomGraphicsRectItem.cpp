@@ -1024,6 +1024,7 @@ void cCustomGraphicsRectItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
 //====================================================================================================================
 
 void cCustomGraphicsRectItem::RecalcEmbededResizeRectItem() {
+    if ((!KeepAspectRatio)&&(zoom==NULL)) AspectRatio=(double(scene()->sceneRect().height())*(*h))/(double(scene()->sceneRect().width())*(*w));
     // Refresh Resizebox position
     if (UpperLeft)   UpperLeft->CalcPosition();
     if (UpperRight)  UpperRight->CalcPosition();

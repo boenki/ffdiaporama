@@ -53,6 +53,8 @@ public:
 
     sMagneticRuler          MagneticRuler;              // TV Margins ruler
     int                     WithPen;                    // With for ruler pen
+    double                  ProjectGeometry;
+    QString                 FramingStyleLabelPixmap;
 
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent = 0);
     ~DlgSlideProperties();
