@@ -38,27 +38,21 @@ QBrush  Transparent;        // Transparent brush
 
 void DrawShape(QPainter &Painter,int BackgroundForm,double left,double top,double width,double height,double CenterX,double CenterY) {
     double RayX=0,RayY=0;
-    /*left=int(left)-1;
-    top=int(top)-1;
-    CenterX=int(CenterX);
-    CenterY=int(CenterY);
-    width=int(width)+1;
-    height=int(height)+1;*/
 
     switch (BackgroundForm) {
         //0 = no shape
-        case 1 : Painter.drawRect(QRectF(left,top,width/*-1*/,height/*-1*/));                                   break;  // Rectangle
-        case 2 :                                                                                                // Round rect
-            RayX=width/10;     if (RayX>16) RayX=16; else if (RayX<8)  RayX=8;
-            RayY=height/10;    if (RayY>16) RayY=16; else if (RayY<8)  RayY=8;
+        case 1 : Painter.drawRect(QRectF(left,top,width/*-1*/,height/*-1*/)); break;  // Rectangle
+        case 2 : // Round rect
+            RayX=width/10;     if (RayX>16) RayX=16; else if (RayX<2)  RayX=2;
+            RayY=height/10;    if (RayY>16) RayY=16; else if (RayY<2)  RayY=2;
             Painter.drawRoundedRect(QRectF(left,top,width/*-1*/,height/*-1*/),RayX,RayY,Qt::AbsoluteSize);
             break;
-        case 3 :                                                                                                // Buble
-            RayX=2*width/10;
-            RayY=2*height/10;
+        case 3 : // Buble
+            RayX=2*width/10;   if (RayX<4)  RayX=4;
+            RayY=2*height/10;  if (RayY<4)  RayY=4;
             Painter.drawRoundedRect(QRectF(left,top,width/*-1*/,height/*-1*/),RayX,RayY,Qt::AbsoluteSize);
             break;
-        case 4 : Painter.drawEllipse(QRectF(left,top,width/*-1*/,height/*-1*/));                                break;  // Ellipse
+        case 4 : Painter.drawEllipse(QRectF(left,top,width/*-1*/,height/*-1*/));                        break;  // Ellipse
         case 5 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,90);                               break;  // Triangle UP
         case 6 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,0);                                break;  // Triangle Right
         case 7 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-90);                              break;  // Triangle Down
@@ -498,6 +492,7 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
         }
 
     }
+    /*
     // Force Aspect Ratio and lock of Geometry
     BackgroundBrush.BrushFileCorrect.LockGeometry=true;
 
@@ -506,6 +501,7 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
     else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
     else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
     BackgroundBrush.BrushFileCorrect.AspectRatio =(h*DisplayH)/(w*DisplayW);
+    */
 }
 
 //====================================================================================================================

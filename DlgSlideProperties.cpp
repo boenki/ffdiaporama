@@ -50,6 +50,16 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     ui->OKPreviousBT->setEnabled(DiaporamaObject->Parent->CurrentCol>0);
     ui->OKNextBT->setEnabled(DiaporamaObject->Parent->CurrentCol<DiaporamaObject->Parent->List.count()-1);
 
+    switch (GlobalMainWindow->Diaporama->ImageGeometry) {
+        case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
+        case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
+        case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
+
+    }
+    ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+
+    //******************************
+
     IsFirstInitDone     = false;                // True when first show window was done
     InRefreshSceneImage = false;                // True if process is currently in RefreshSceneImage function
     scene               = NULL;
@@ -67,6 +77,8 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     // Init combo box Background form
     for (int i=0;i<12;i++) ui->BackgroundFormCB->addItem("");
     MakeFormIcon(ui->BackgroundFormCB);
+    ui->FramingStyleCB->view()->setFixedWidth(300);
+    ui->ShadowEffectCB->view()->setFixedWidth(300);
 
     // Init combo box Background shadow form
     ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","None"));
@@ -339,18 +351,52 @@ void DlgSlideProperties::RefreshStyleControls() {
         ((CurrentTextItem->BackgroundBrush.Image==NULL)&&(CurrentTextItem->BackgroundBrush.Video==NULL))||
         ((CurrentTextItem->BackgroundBrush.Image!=NULL)&&(CurrentTextItem->BackgroundBrush.Image->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))||
         ((CurrentTextItem->BackgroundBrush.Video!=NULL)&&(CurrentTextItem->BackgroundBrush.Video->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))) {
-        ui->FramingStyleLabel->setEnabled(false);
-        ui->FramingStyleCB->setEnabled(false);
+        if ((CurrentTextItem!=NULL)&&(CurrentTextItem->BackgroundBrush.Image==NULL)&&(CurrentTextItem->BackgroundBrush.Video==NULL)) {
+            // It's a text block
+            StopMajFramingStyle=true;
+            if (!ui->FramingStyleLabel->isEnabled()) ui->FramingStyleLabel->setEnabled(true);
+            if (FramingStyleLabelPixmap!="Geometry.png") {
+                FramingStyleLabelPixmap="Geometry.png";
+                ui->FramingStyleLabel->setPixmap(QPixmap(QString("img")+QString(QDir::separator())+FramingStyleLabelPixmap));
+            }
+            if (!ui->FramingStyleCB->isEnabled()) ui->FramingStyleCB->setEnabled(true);
+            if (ui->FramingStyleCB->itemText(0)!=QApplication::translate("DlgImageCorrection","Unlock")) {
+                ui->FramingStyleCB->setUpdatesEnabled(false);
+                ui->FramingStyleCB->clear();
+                ui->FramingStyleCB->addItem(QIcon(ICON_GEOMETRY_UNLOCKED),QApplication::translate("DlgImageCorrection","Unlock"));
+                ui->FramingStyleCB->addItem(QIcon(ICON_GEOMETRY_LOCKED),  QApplication::translate("DlgImageCorrection","Lock to this geometry"));
+                ui->FramingStyleCB->addItem(QIcon(ICON_GEOMETRY_PROJECT), QApplication::translate("DlgImageCorrection","Lock to project geometry"));
+            }
+            int Index=1;
+            if (!CurrentTextItem->BackgroundBrush.BrushFileCorrect.LockGeometry)                         Index=0;
+                else if (CurrentTextItem->BackgroundBrush.BrushFileCorrect.AspectRatio==ProjectGeometry) Index=2;
+            if (ui->FramingStyleCB->currentIndex()!=Index) ui->FramingStyleCB->setCurrentIndex(Index);
+            if (!ui->FramingStyleCB->updatesEnabled()) ui->FramingStyleCB->setUpdatesEnabled(true);
+            StopMajFramingStyle=false;
+        } else {
+            // No block
+            if (ui->FramingStyleLabel->isEnabled()) ui->FramingStyleLabel->setEnabled(false);
+            if (FramingStyleLabelPixmap!="EditImage.png") {
+                FramingStyleLabelPixmap="EditImage.png";
+                ui->FramingStyleLabel->setPixmap(QPixmap(QString("img")+QString(QDir::separator())+FramingStyleLabelPixmap));
+            }
+            ui->FramingStyleCB->setEnabled(false);
+            if (ui->FramingStyleCB->count()>0) ui->FramingStyleCB->clear();
+        }
     } else {
-        ui->FramingStyleLabel->setEnabled(true);
+        if (!ui->FramingStyleLabel->isEnabled()) ui->FramingStyleLabel->setEnabled(true);
+        if (FramingStyleLabelPixmap!="EditImage.png") {
+            FramingStyleLabelPixmap="EditImage.png";
+            ui->FramingStyleLabel->setPixmap(QPixmap(QString("img")+QString(QDir::separator())+FramingStyleLabelPixmap));
+        }
         ui->FramingStyleCB->setEnabled(true);
         CurrentTextItem->BackgroundBrush.InitDefaultFramingStyle(CurrentTextItem->BackgroundBrush.BrushFileCorrect.LockGeometry,CurrentTextItem->BackgroundBrush.BrushFileCorrect.AspectRatio);
         if (CurrentTextItem->BackgroundBrush.Image!=NULL) GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentTextItem->BackgroundBrush.Image->ObjectGeometry);
-        else if (CurrentTextItem->BackgroundBrush.Video!=NULL) GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentTextItem->BackgroundBrush.Video->ObjectGeometry);
+            else if (CurrentTextItem->BackgroundBrush.Video!=NULL) GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentTextItem->BackgroundBrush.Video->ObjectGeometry);
         QString StyleDef=CurrentTextItem->GetFramingStyle();
         QString StyleName=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.GetStyleName(StyleDef);
         if (StyleName=="") {
-            if (StyleDef==CurrentTextItem->BackgroundBrush.DefaultFramingW) StyleName=QApplication::translate("DlgManageStyle","Adjust to image width");
+            if (StyleDef==CurrentTextItem->BackgroundBrush.DefaultFramingW)      StyleName=QApplication::translate("DlgManageStyle","Adjust to image width");
             else if (StyleDef==CurrentTextItem->BackgroundBrush.DefaultFramingH) StyleName=QApplication::translate("DlgManageStyle","Adjust to image height");
             else if (StyleDef==CurrentTextItem->BackgroundBrush.DefaultFramingF) StyleName=QApplication::translate("DlgManageStyle","Adjust to full image");
             else StyleName=QApplication::translate("DlgManageStyle","Custom");
@@ -1878,36 +1924,61 @@ void DlgSlideProperties::s_ChangeFramingStyle(int Value) {
     cBrushDefinition        *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (!RectItem) return;
 
-    int         i;
-    QStringList List;
-
-    switch (Value) {
-        case 0: // Adjust to width
-            GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingW,List);
-            break;
-        case 1: // Adjust to heigth
-            GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingH,List);
-            break;
-        case 2: // Adjust to full
-            GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingF,List);
-            break;
-        case 3: // None
-            break;
-        default:
-            GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringToStringList(ui->FramingStyleCB->itemText(Value),List);
-            break;
-    }
-    if (List.count()>0) {
-        for (i=0;i<List.count();i++) {
-            if      (List[i].startsWith("X:"))              CurrentBrush->BrushFileCorrect.X             =List[i].mid(QString("X:").length()).toDouble();
-            else if (List[i].startsWith("Y:"))              CurrentBrush->BrushFileCorrect.Y             =List[i].mid(QString("Y:").length()).toDouble();
-            else if (List[i].startsWith("ZoomFactor:"))     CurrentBrush->BrushFileCorrect.ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
-            else if (List[i].startsWith("LockGeometry:"))   CurrentBrush->BrushFileCorrect.LockGeometry  =List[i].mid(QString("LockGeometry:").length()).toInt()==1;
-            else if (List[i].startsWith("AspectRatio:"))    CurrentBrush->BrushFileCorrect.AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
+    if ((CurrentBrush->Image==NULL)&&(CurrentBrush->Video==NULL)) {
+        // It's a text block
+        switch (Value) {
+            case 0: // Unlock
+                CurrentBrush->BrushFileCorrect.LockGeometry=false;
+                break;
+            case 1: // Lock to this geometry
+                CurrentBrush->BrushFileCorrect.LockGeometry=true;
+                CurrentBrush->BrushFileCorrect.AspectRatio =RectItem->AspectRatio;
+                break;
+            case 2: // Lock to project geometry
+                CurrentBrush->BrushFileCorrect.LockGeometry=true;
+                CurrentBrush->BrushFileCorrect.AspectRatio=ProjectGeometry;
+                break;
+            default:
+                return;
         }
-        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+        RectItem->KeepAspectRatio=CurrentBrush->BrushFileCorrect.LockGeometry;
+        RectItem->AspectRatio    =CurrentBrush->BrushFileCorrect.AspectRatio;
         if (CurrentTextItem->h>(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax) CurrentTextItem->h=(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax;
             else CurrentTextItem->w=(CurrentTextItem->h*ymax/RectItem->AspectRatio)/xmax;
+    } else {
+        // It's an image or video block
+        int         i;
+        QStringList List;
+
+        switch (Value) {
+            case 0: // Adjust to width
+                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingW,List);
+                break;
+            case 1: // Adjust to heigth
+                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingH,List);
+                break;
+            case 2: // Adjust to full
+                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingF,List);
+                break;
+            case 3: // None
+                break;
+            default:
+                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringToStringList(ui->FramingStyleCB->itemText(Value),List);
+                break;
+        }
+        if (List.count()>0) {
+            for (i=0;i<List.count();i++) {
+                if      (List[i].startsWith("X:"))              CurrentBrush->BrushFileCorrect.X             =List[i].mid(QString("X:").length()).toDouble();
+                else if (List[i].startsWith("Y:"))              CurrentBrush->BrushFileCorrect.Y             =List[i].mid(QString("Y:").length()).toDouble();
+                else if (List[i].startsWith("ZoomFactor:"))     CurrentBrush->BrushFileCorrect.ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
+                else if (List[i].startsWith("LockGeometry:"))   CurrentBrush->BrushFileCorrect.LockGeometry  =List[i].mid(QString("LockGeometry:").length()).toInt()==1;
+                else if (List[i].startsWith("AspectRatio:"))    CurrentBrush->BrushFileCorrect.AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
+            }
+            RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+            if (CurrentTextItem->h>(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax) CurrentTextItem->h=(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax;
+                else CurrentTextItem->w=(CurrentTextItem->h*ymax/RectItem->AspectRatio)/xmax;
+        }
+
     }
     int CurrentRow=ui->BlockTable->currentRow();
     RefreshBlockTable(CurrentRow>0?CurrentRow:0);

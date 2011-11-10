@@ -309,30 +309,54 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
 
 //************************************************
 void cStyleCollection::FillCollectionCB(QComboBox *CB,QString ActualStyleName,bool AdditionnalFramingStyle) {
-    CB->setUpdatesEnabled(false);
-    CB->clear();
-    if (AdditionnalFramingStyle) {
-        CB->addItem(QIcon(ICON_FRAMING_WIDTH),QApplication::translate("DlgManageStyle","Adjust to image width"));
-        CB->addItem(QIcon(ICON_FRAMING_HEIGHT),QApplication::translate("DlgManageStyle","Adjust to image height"));
-        CB->addItem(QIcon(ICON_FRAMING_FULL),QApplication::translate("DlgManageStyle","Adjust to full image"));
-        CB->addItem(QIcon(ICON_FRAMING_CUSTOM),QApplication::translate("DlgManageStyle","Custom"));
-    }
+    // Compute if update is needed !
+    bool NeedUpdate=false;
+
+    if (CB->itemText(0)!=QApplication::translate("DlgManageStyle","Adjust to image width"))  NeedUpdate=true;
+    if (CB->itemText(1)!=QApplication::translate("DlgManageStyle","Adjust to image height")) NeedUpdate=true;
+    if (CB->itemText(2)!=QApplication::translate("DlgManageStyle","Adjust to full image"))   NeedUpdate=true;
+    if (CB->itemText(3)!=QApplication::translate("DlgManageStyle","Custom"))                 NeedUpdate=true;
+
     QString Item="";
     int     i;
     bool    IsFind=false;
+    int     CurCB=4;
     for (i=0;i<Collection.count();i++) if (((!GeometryFilter)&&(Collection[i].GetFilteredPart()==""))||((GeometryFilter&&(Collection[i].GetFilteredPart()==ActiveFilter)))) {
         Item=Collection[i].StyleName.mid(Collection[i].GetFilteredPart().length());
-        CB->addItem(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item);
+        QString Compare=CB->itemText(CurCB);
+        if (Compare!=Item) NeedUpdate=true;
+        CurCB++;
+    }
+
+    // Only if update is needed then do update
+    if (NeedUpdate) {
+        CB->setUpdatesEnabled(false);
+        CB->clear();
+        if (AdditionnalFramingStyle) {
+            CB->addItem(QIcon(ICON_FRAMING_WIDTH),QApplication::translate("DlgManageStyle","Adjust to image width"));
+            CB->addItem(QIcon(ICON_FRAMING_HEIGHT),QApplication::translate("DlgManageStyle","Adjust to image height"));
+            CB->addItem(QIcon(ICON_FRAMING_FULL),QApplication::translate("DlgManageStyle","Adjust to full image"));
+            CB->addItem(QIcon(ICON_FRAMING_CUSTOM),QApplication::translate("DlgManageStyle","Custom"));
+        }
+        Item="";
+        for (i=0;i<Collection.count();i++) if (((!GeometryFilter)&&(Collection[i].GetFilteredPart()==""))||((GeometryFilter&&(Collection[i].GetFilteredPart()==ActiveFilter)))) {
+            Item=Collection[i].StyleName.mid(Collection[i].GetFilteredPart().length());
+            CB->addItem(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item);
+        }
     }
     for (i=0;i<CB->count();i++) if (ActualStyleName==CB->itemText(i)) {
-        CB->setCurrentIndex(i);
+        if (CB->currentIndex()!=i) CB->setCurrentIndex(i);
         IsFind=true;
     }
     if (!IsFind) {
-        if (AdditionnalFramingStyle) CB->setCurrentIndex(3); else CB->setCurrentIndex(-1);
+        if (AdditionnalFramingStyle) {
+            if (CB->currentIndex()!=3) CB->setCurrentIndex(3);
+        } else {
+            if (CB->currentIndex()!=-1) CB->setCurrentIndex(-1);
+        }
     }
-    CB->view()->setFixedWidth(500);
-    CB->setUpdatesEnabled(true);
+    if (CB->view()->width()!=500)  CB->view()->setFixedWidth(500);
+    if (!CB->updatesEnabled()) CB->setUpdatesEnabled(true);
 }
 
 //************************************************

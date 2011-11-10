@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
-    <height>427</height>
+    <width>500</width>
+    <height>420</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
+  <property name="minimumSize">
+   <size>
+    <width>500</width>
+    <height>350</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -44,8 +44,8 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-133</y>
-        <width>474</width>
+        <y>0</y>
+        <width>467</width>
         <height>313</height>
        </rect>
       </property>

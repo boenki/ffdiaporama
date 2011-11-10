@@ -70,8 +70,12 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige le bug d'affichage des formes dans la boite slide [suite aux dernier changement 20111106]
+-Remet la possibilité de changer la contrainte géométrique pour les blocs texte [suite aux dernier changement 20111106]
 
 English version / Bug fix :
+-Fix display bug of shap in slide dialog [since 20111106]
+-Puts back the possibility of changing the geometrical constraint for blocks text [since 20111106]
 
 French version / Nouvelles fonctionnalités :
 
