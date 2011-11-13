@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 05/11/2011) :
+Buggs/TODO (Dernier SVN le 10/11/2011) :
 ----------------------------------------
 BUGG:
 -L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -70,12 +70,10 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le bug d'affichage des formes dans la boite slide [suite aux dernier changement 20111106]
--Remet la possibilité de changer la contrainte géométrique pour les blocs texte [suite aux dernier changement 20111106]
+-Change la zone WEB pour les pages du WIKI : passage en zone root pour le CMS
 
 English version / Bug fix :
--Fix display bug of shap in slide dialog [since 20111106]
--Puts back the possibility of changing the geometrical constraint for blocks text [since 20111106]
+-Change WEB zone for the WIKI pages : move to CMS root zone
 
 French version / Nouvelles fonctionnalités :
 
@@ -108,6 +106,8 @@ Bug fix French version
 -Corrige l'erreur de saccadement des vidéos générées
 -Corrige le bug d'affichage du logo dans la zone à coté du lecteur [Windows]
 -Fix le bug de compilation avec ffmpeg 0.52 (ubuntu 10.10 et 11.04)
+-Corrige le bug d'affichage des formes dans la boite slide [suite aux dernier changement 20111106]
+-Remet la possibilité de changer la contrainte géométrique pour les blocs texte [suite aux dernier changement 20111106]
 
 Bug fix English version
 -Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -132,6 +132,8 @@ Bug fix English version
 -Bug fix on rendering video : remove jerky
 -Fix bug of display logo in the zone near the player [Windows]
 -Fix compilation issue with ffmpeg 0.52 (ubuntu 10.10 et 11.04)
+-Fix display bug of shap in slide dialog [since 20111106]
+-Puts back the possibility of changing the geometrical constraint for blocks text [since 20111106]
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
