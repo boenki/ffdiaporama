@@ -314,7 +314,7 @@ extern "C" {
 //============================================
 // Dialogbox help file
 //============================================
-#define WIKI_CMS_PATH                       "http://ffdiaporama.tuxfamily.org/private/ffdiaporama/?page_id="
+#define WIKI_CMS_PATH                       "http://ffdiaporama.tuxfamily.org/ffdiaporama/?page_id="
 #define HELPFILE_INDEX                      "1567"                                                              //fct_001
 #define HELPFILE_PRINCIPLES                 "1306"                                                              //fct_002
 #define HELPFILE_DEVICES                    "1322"                                                              //fct_009
