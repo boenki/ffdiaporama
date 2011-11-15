@@ -40,7 +40,7 @@ DlgVideoEdit::DlgVideoEdit(cBrushDefinition *TheCurrentBrush,QWidget *parent):QD
     Undo->appendChild(root);                                // Add object to xml document
 
     // Init embeded widgets
-    for (int Factor=150;Factor>=10;Factor-=10) ui->VolumeReductionFactorCB->addItem(QString("%1%").arg(Factor));
+    for (int Factor=150;Factor>=0;Factor-=10) ui->VolumeReductionFactorCB->addItem(QString("%1%").arg(Factor));
     ui->StartPosEd->setTime(CurrentBrush->Video->StartPos);
     ui->EndPosEd->setTime(CurrentBrush->Video->EndPos);
     SetActualDuration();

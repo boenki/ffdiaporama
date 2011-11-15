@@ -734,6 +734,8 @@ void DlgRenderVideo::accept() {
             }
 
             if (Continue) {
+                int GeoW=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARNUM;
+                int GeoH=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARDEN;
                 #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
                 ffmpegCommand="\""+Diaporama->ApplicationConfig->PathFFMPEG+"\"";
                 #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
@@ -746,9 +748,9 @@ void DlgRenderVideo::accept() {
                             arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Height);
 
                     switch (Diaporama->ImageGeometry) {
-                        case GEOMETRY_4_3:      W=(double(H)/3)*4;      break;
-                        case GEOMETRY_16_9:     W=(double(H)/9)*16;     break;
-                        case GEOMETRY_40_17:    W=(double(H)/17)*40;    break;
+                        case GEOMETRY_4_3:      W=(double(H)/3)*4;      GeoW=4;     GeoH=3; break;
+                        case GEOMETRY_16_9:     W=(double(H)/9)*16;     GeoW=16;    GeoH=9; break;
+                        case GEOMETRY_40_17:    W=(double(H)/17)*40;    GeoW=16;    GeoH=9; break;
                     }
 
                 }
@@ -758,8 +760,8 @@ void DlgRenderVideo::accept() {
                       " "+aCodec+QString(" -ar %1 -ac %2 -aspect %3:%4")
                       .arg(Diaporama->AudioFrequency)
                       .arg(Channels)
-                      .arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARNUM)
-                      .arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARDEN);
+                      .arg(GeoW)
+                      .arg(GeoH);
                 if (ExtendV>0) ffmpegCommand=ffmpegCommand+QString(" -padtop %1 -padbottom %2").arg(ExtendV/2).arg(ExtendV-ExtendV/2);
                 if (ExtendH>0) ffmpegCommand=ffmpegCommand+QString(" -padleft %1 -padright %2").arg(ExtendH/2).arg(ExtendH-ExtendH/2);
 
