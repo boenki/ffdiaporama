@@ -60,6 +60,8 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
         ui->DeviceModelCB->setVisible(false);
         ui->DeviceModelLabel->setVisible(false);
         ui->RenderFormatText->setVisible(false);
+        ui->VideoFormatCB->view()->setFixedWidth(400);
+        ui->AudioFormatCB->view()->setFixedWidth(400);
 
         // Init format container combo
         for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {

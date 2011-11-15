@@ -255,7 +255,7 @@ struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
     {false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA",       "pcm_s16le#libmp3lame#mp3#libfaac#aac#ac3#libvorbis#vorbis"},
     {false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                            "pcm_s16le"},
     {false, "mp4",      "mp4",  "MP4 file format",              "MPEG4#H264HQ#H264PQ",              "libmp3lame#mp3#libfaac#aac"},
-    {false, "mpeg",     "mpg",  "MPEG file format",             "MPEG",                             "mp2"},
+    {false, "mpeg",     "mpg",  "MPEG file format",             "MPEG",                             "mp2#ac3"},
     {false, "webm",     "webm", "WEBM file format",             "VP8",                              "libvorbis#vorbis"},
     {false, "flv",      "flv",  "FLV Flash file format 2005",   "H263",                             "libmp3lame#mp3"},
     {false, "flv",      "flv",  "FLV Flash file format 2008",   "H264HQ#H264PQ",                    "libfaac#aac"},
