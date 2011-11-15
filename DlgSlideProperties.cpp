@@ -1408,10 +1408,10 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
 // User select a block in the BlockTable widget
 
 void DlgSlideProperties::s_BlockTable_SelectionChanged() {
-    if (StopMAJSpinbox) return;
+    if (StopMajSelect) return;
     int CurrentBlock=ui->BlockTable->currentRow();
     if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return;
-    StopMAJSpinbox=true;
+    StopMajSelect=true;
     // Select item
     for (int i=0;i<scene->items().count();i++) {
         QGraphicsItem   *Item=scene->items().at(i);
@@ -1419,8 +1419,8 @@ void DlgSlideProperties::s_BlockTable_SelectionChanged() {
         if ((data=="CustomGraphicsRectItem")&&(((cCustomGraphicsRectItem *)Item)->IndexKey==CompositionList->List[CurrentBlock].IndexKey)) scene->items().at(i)->setSelected(true);
             else scene->items().at(i)->setSelected(false);
     }
-    StopMAJSpinbox=false;
-    RefreshControls();
+    if (!StopMAJSpinbox) RefreshControls();
+    StopMajSelect=false;
 }
 
 //====================================================================================================================
@@ -1448,7 +1448,7 @@ void DlgSlideProperties::s_Scene_SelectionChanged() {
     }
     ui->BlockTable->setUpdatesEnabled(true);
     StopMAJSpinbox=false;
-    RefreshControls();
+    if (!StopMajSelect) RefreshControls();
 }
 
 //====================================================================================================================

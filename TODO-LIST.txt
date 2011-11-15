@@ -73,10 +73,8 @@ French version / Correction de bug :
 English version / Bug fix :
 
 French version / Nouvelles fonctionnalités :
-- Ajoute l'AC3 dans la liste des codecs audio possible pour le container .mpg
 
 English version / New features :
-- Add the AC3 in the possible audio list of codecs for the .mpg container
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -195,6 +193,7 @@ French version
 - Supprime la dépendance à QtWebKit et Phonon : QtWebKit et phonon ne sont plus nécessaire !
 - Supprime les fichiers du WIKI. Désormais le WIKI n'est accessible que sur internet via le CMS du site WEB.
 - Ajoute la possibilité de désactiver le son d'une vidéo (passage à 0%)
+- Ajoute l'AC3 dans la liste des codecs audio possible pour le container .mpg
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -245,3 +244,4 @@ English version
 - Remove QtWebKit and Phonon dependancies : QtWebKit and Phonon are no longer needed!
 - Remove WIKI files. Now WIKI is only accessible online using CMS on WEB site.
 - Add the possibility of deactivating the sound of a video (volume=0%)
+- Add the AC3 in the possible audio list of codecs for the .mpg container
