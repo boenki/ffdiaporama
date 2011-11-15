@@ -47,7 +47,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -407,7 +407,7 @@
            <item row="17" column="1">
             <widget class="QCheckBox" name="Crop1088To1080CB">
              <property name="text">
-              <string>Automaticaly crop 1920x1088 video to 1920x1080</string>
+              <string>Automatically crop 1920x1088 video to 1920x1080</string>
              </property>
             </widget>
            </item>
@@ -2698,8 +2698,8 @@ image</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>676</width>
-            <height>416</height>
+            <width>307</width>
+            <height>341</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
