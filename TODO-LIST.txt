@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 13/11/2011) :
+Buggs/TODO (Dernier SVN le 15/11/2011) :
 ----------------------------------------
 BUGG:
 -L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -69,16 +69,14 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le bug de géométrie lors des générations en format SD/DVD
 
 English version / Bug fix :
--Bug fix of geometry in SD/DVD rendering
 
 French version / Nouvelles fonctionnalités :
--Ajoute la possibilité de désactiver le son d'une vidéo (passage à 0%)
+- Ajoute l'AC3 dans la liste des codecs audio possible pour le container .mpg
 
 English version / New features :
--Add the possibility of deactivating the sound of a video (volume=0%)
+- Add the AC3 in the possible audio list of codecs for the .mpg container
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -110,6 +108,7 @@ Bug fix French version
 -Corrige le bug d'affichage des formes dans la boite slide [suite aux dernier changement 20111106]
 -Remet la possibilité de changer la contrainte géométrique pour les blocs texte [suite aux dernier changement 20111106]
 -Change la zone WEB pour les pages du WIKI : passage en zone root pour le CMS
+-Corrige le bug de géométrie lors des générations en format SD/DVD
 
 Bug fix English version
 -Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -137,6 +136,7 @@ Bug fix English version
 -Fix display bug of shap in slide dialog [since 20111106]
 -Puts back the possibility of changing the geometrical constraint for blocks text [since 20111106]
 -Change WEB zone for the WIKI pages : move to CMS root zone
+-Bug fix of geometry in SD/DVD rendering
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
@@ -194,6 +194,7 @@ French version
 - Modifie les champs de durée du 1er plan et des plans suivants pour autoriser des valeurs en millième de secondes dans la boite de configuration
 - Supprime la dépendance à QtWebKit et Phonon : QtWebKit et phonon ne sont plus nécessaire !
 - Supprime les fichiers du WIKI. Désormais le WIKI n'est accessible que sur internet via le CMS du site WEB.
+- Ajoute la possibilité de désactiver le son d'une vidéo (passage à 0%)
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -243,3 +244,4 @@ English version
 - Modify duration fields for 1st shot and following shots to authorize values in thousandth of seconds in configuration dialog
 - Remove QtWebKit and Phonon dependancies : QtWebKit and Phonon are no longer needed!
 - Remove WIKI files. Now WIKI is only accessible online using CMS on WEB site.
+- Add the possibility of deactivating the sound of a video (volume=0%)
