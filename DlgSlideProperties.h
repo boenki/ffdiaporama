@@ -39,12 +39,7 @@ public:
     QDomDocument            *Undo;                      // Save object before modification for cancel button
 
     bool                    IsFirstInitDone;            // true when first show window was done
-    bool                    InRefreshSceneImage;        // True if process is currently in RefreshSceneImage function
 
-    bool                    StopMAJSpinbox;
-    bool                    StopMajSelect;
-    bool                    StopMajFramingStyle;
-    bool                    BLOCKCHSIZE;
     cCompositionList        *CompositionList;           // Link to Composition List
     double                  xmax,ymax;                  // Size of the scene
     int                     NextZValue;                 // Current zvalue
@@ -55,6 +50,16 @@ public:
     int                     WithPen;                    // With for ruler pen
     double                  ProjectGeometry;
     QString                 FramingStyleLabelPixmap;
+
+    // Re-entrence flags
+    bool                    InBlockTable_SelectionChanged;
+    bool                    InScene_SelectionChanged;
+    bool                    InShotTable_SelectionChanged;
+    bool                    InRefreshStyleControls;
+    bool                    InRefreshControls;
+    bool                    InRefreshSceneImage;
+    bool                    StopMAJSpinbox;                         // Use to avoid controls to send refreshcontrol
+    bool                    StopMajFramingStyle;
 
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent = 0);
     ~DlgSlideProperties();
