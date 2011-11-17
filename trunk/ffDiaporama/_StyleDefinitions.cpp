@@ -285,6 +285,8 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
                 else if (UnfilteredStyleName=="Right low quarter of the screen")                        Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Right low quarter of the screen"));
                 else if (UnfilteredStyleName=="TV margins")                                             Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","TV margins"));
                 else if (UnfilteredStyleName=="50% screen size-Centered")                               Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","50% screen size-Centered"));
+                Collection[i].BckStyleName=Collection[i].StyleName;
+
             } else {
                 // Reading from user config file : search if Style already exist, then load it else append a new one
                 QString ElementName=QString(CollectionName+QString("Item_%1").arg(i));

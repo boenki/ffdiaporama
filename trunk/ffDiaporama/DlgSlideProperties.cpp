@@ -61,16 +61,23 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     //******************************
 
     IsFirstInitDone     = false;                // True when first show window was done
-    InRefreshSceneImage = false;                // True if process is currently in RefreshSceneImage function
     scene               = NULL;
     NextZValue          = 500;
     BackgroundImage     = NULL;
     CompositionList     = NULL;
-    StopMAJSpinbox      = false;
-    BLOCKCHSIZE         = false;
-    StopMajFramingStyle = false;
-    StopMajSelect       = false;
     WithPen             = 1;
+
+    // Re-entrence flags
+    InBlockTable_SelectionChanged   =false;
+    InScene_SelectionChanged        =false;
+    InShotTable_SelectionChanged    =false;
+
+    InRefreshStyleControls          =false;
+    InRefreshControls               =false;
+    InRefreshSceneImage             =false;
+
+    StopMAJSpinbox      = false;
+    StopMajFramingStyle = false;
 
     MagneticRuler.MagneticRuler=DiaporamaObject->Parent->ApplicationConfig->SlideRuler;
 
@@ -273,7 +280,7 @@ void DlgSlideProperties::s_ShotDurationChange(QTime NewValue) {
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
     DiaporamaObject->List[Current].StaticDuration=QTime(0,0,0,0).msecsTo(NewValue);
-    RefreshControls();
+    if (!StopMAJSpinbox) RefreshControls();
 }
 
 //====================================================================================================================
@@ -338,6 +345,9 @@ void DlgSlideProperties::GetSound() {
 //====================================================================================================================
 
 void DlgSlideProperties::RefreshStyleControls() {
+    if (InRefreshStyleControls) return;
+    InRefreshStyleControls=true;
+
     int CurrentBlock=ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=NULL;
     if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
@@ -406,18 +416,23 @@ void DlgSlideProperties::RefreshStyleControls() {
         StopMajFramingStyle=false;
     }
     if (CurrentTextItem) ui->CoordinateStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.GetStyleName(CurrentTextItem->GetCoordinateStyle())); else ui->CoordinateStyleED->setText("");
+    InRefreshStyleControls=false;
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::RefreshControls() {
+    if (InRefreshControls) return;
+
     // Ensure box is init and Current contain index of currented selected sequence
-    if ((!IsFirstInitDone)||(!CompositionList)||(StopMAJSpinbox)) return;
+    if ((!IsFirstInitDone)||(!CompositionList)) return;
 
     int CurrentShot=ui->ShotTable->currentColumn();
     if ((CurrentShot<0)||(CurrentShot>=DiaporamaObject->List.count())) return;
 
-    StopMAJSpinbox=true;    // Disable reintrence in this RefreshControls function
+    InRefreshControls=true;
+    StopMAJSpinbox   =true;    // Avoid controls to send refreshcontrol
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     //--------------------------------------------------------------------
@@ -514,7 +529,9 @@ void DlgSlideProperties::RefreshControls() {
     UpdateDockInfo();
 
     QApplication::restoreOverrideCursor();
-    StopMAJSpinbox=false;
+
+    StopMAJSpinbox   =false;    // Allow controls to send refreshcontrol
+    InRefreshControls=false;
 }
 
 //====================================================================================================================
@@ -522,9 +539,9 @@ void DlgSlideProperties::RefreshControls() {
 
 void DlgSlideProperties::RefreshSceneImage() {
     if (InRefreshSceneImage) return;
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
     InRefreshSceneImage=true;
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Get current shot object composition list
     int                 CurrentShot     =ui->ShotTable->currentColumn();
@@ -572,6 +589,9 @@ void DlgSlideProperties::RefreshSceneImage() {
             P.drawRect(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,CurrentTextItem->w*xmax,CurrentTextItem->h*ymax));
             P.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
+
+            StopMAJSpinbox=true;    // Avoid controls to send refreshcontrol
+
             // Update controls with position & size value
             if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
                 ui->PosXEd->setRange(-200,200);      ui->PosXEd->setValue(CurrentTextItem->x*100);
@@ -608,6 +628,8 @@ void DlgSlideProperties::RefreshSceneImage() {
                 if (i!=ui->PenStyleCB->currentIndex()) ui->PenStyleCB->setCurrentIndex(i);
                 break;
             }
+
+            StopMAJSpinbox=false;    // Allow controls to send refreshcontrol
 
         } else {
             // draw rect out of the rectangle
@@ -665,8 +687,8 @@ void DlgSlideProperties::RefreshSceneImage() {
 
     RefreshStyleControls();
 
-    InRefreshSceneImage=false;
     QApplication::restoreOverrideCursor();
+    InRefreshSceneImage=false;
 }
 
 //====================================================================================================================
@@ -830,7 +852,7 @@ cBrushDefinition *DlgSlideProperties::GetCurrentBrush() {
 
 //========= X position
 void DlgSlideProperties::s_ChgPosXValue(double Value) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
@@ -850,7 +872,7 @@ void DlgSlideProperties::s_ChgPosXValue(double Value) {
 
 //========= Y position
 void DlgSlideProperties::s_ChgPosYValue(double Value) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
@@ -870,7 +892,7 @@ void DlgSlideProperties::s_ChgPosYValue(double Value) {
 
 //========= Width
 void DlgSlideProperties::s_ChgWidthValue(double Value) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
@@ -891,7 +913,7 @@ void DlgSlideProperties::s_ChgWidthValue(double Value) {
 
 //========= Height
 void DlgSlideProperties::s_ChgHeightValue(double Value) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
@@ -912,7 +934,7 @@ void DlgSlideProperties::s_ChgHeightValue(double Value) {
 
 //========= X Rotation value
 void DlgSlideProperties::s_ChgRotateXValue(int Value) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
 
@@ -922,7 +944,7 @@ void DlgSlideProperties::s_ChgRotateXValue(int Value) {
 
 //========= Y Rotation value
 void DlgSlideProperties::s_ChgRotateYValue(int Value) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
 
@@ -932,7 +954,7 @@ void DlgSlideProperties::s_ChgRotateYValue(int Value) {
 
 //========= Z Rotation value
 void DlgSlideProperties::s_ChgRotateZValue(int Value) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
 
@@ -946,7 +968,7 @@ void DlgSlideProperties::s_ChgRotateZValue(int Value) {
 
 //========= Background forme
 void DlgSlideProperties::s_ChangeBackgroundForm(int Style) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->BackgroundForm=Style+1;
@@ -956,7 +978,7 @@ void DlgSlideProperties::s_ChangeBackgroundForm(int Style) {
 
 //========= Opacity
 void DlgSlideProperties::s_ChangeOpacity(int Style) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->Opacity=Style;
@@ -966,7 +988,7 @@ void DlgSlideProperties::s_ChangeOpacity(int Style) {
 
 //========= Border pen size
 void DlgSlideProperties::s_ChgPenSize(int) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->PenSize=ui->PenSizeEd->value();
@@ -978,7 +1000,7 @@ void DlgSlideProperties::s_ChgPenSize(int) {
 
 //========= Border pen style
 void DlgSlideProperties::s_ChangePenStyle(int index) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->PenStyle=ui->PenStyleCB->itemData(index).toInt();
@@ -988,7 +1010,7 @@ void DlgSlideProperties::s_ChangePenStyle(int index) {
 
 //========= Border pen color
 void DlgSlideProperties::s_ChPenColorCB(int) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->PenColor=ui->PenColorCB->GetCurrentColor();
@@ -998,7 +1020,7 @@ void DlgSlideProperties::s_ChPenColorCB(int) {
 
 //========= Shape shadow style
 void DlgSlideProperties::s_ChgShadowFormValue(int value) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->FormShadow=value;
@@ -1010,7 +1032,7 @@ void DlgSlideProperties::s_ChgShadowFormValue(int value) {
 
 //========= Shape shadow distance
 void DlgSlideProperties::s_ChgShadowDistanceValue(int value) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->FormShadowDistance =value;
@@ -1020,7 +1042,7 @@ void DlgSlideProperties::s_ChgShadowDistanceValue(int value) {
 
 //========= shadow color
 void DlgSlideProperties::s_ChgShadowColorCB(int) {
-    if (StopMAJSpinbox || InRefreshSceneImage) return;
+    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     CurrentTextItem->FormShadowColor=ui->ShadowColorCB->GetCurrentColor();
@@ -1078,7 +1100,6 @@ void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
 
 //========= Open text editor
 void DlgSlideProperties::TextEditor() {
-    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     DlgTextEdit         *Dlg=new DlgTextEdit(CurrentTextItem,this);
     connect(Dlg,SIGNAL(RefreshDisplay()),this,SLOT(TextEditorRefreshDisplay()));
@@ -1096,7 +1117,6 @@ void DlgSlideProperties::TextEditorRefreshDisplay() {
 
 //========= Open image correction editor
 void DlgSlideProperties::ImageEditCorrect() {
-    if (StopMAJSpinbox) return;
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     cBrushDefinition        *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
     cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (!RectItem) return;
@@ -1155,7 +1175,6 @@ void DlgSlideProperties::ImageEditCorrect() {
 
 //========= Open video editor
 void DlgSlideProperties::VideoEdit() {
-    if (StopMAJSpinbox) return;
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();        if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
     cBrushDefinition    *CurrentBrush=&CurrentTextItem->BackgroundBrush;        if (!CurrentBrush) return;
     if (!CurrentBrush->Video) return;
@@ -1185,9 +1204,7 @@ void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
 
     ui->ShotTable->setUpdatesEnabled(false);
     StopMAJSpinbox=true;
-    StopMajSelect=true;
     while (ui->ShotTable->columnCount()>0) ui->ShotTable->removeColumn(0);    // Clear all
-    StopMajSelect=false;
     for (int i=0;i<DiaporamaObject->List.count();i++) {
         ui->ShotTable->insertColumn(i);
         wgt_QCustomThumbnails *Object=new wgt_QCustomThumbnails(ui->ShotTable,THUMBNAILTYPE_SHOT);
@@ -1230,9 +1247,11 @@ void DlgSlideProperties::s_ShotTableMoveRight() {
 // User select a shot in the ShotTable widget
 
 void DlgSlideProperties::s_ShotTable_SelectionChanged() {
-    if (StopMajSelect) return;
+    if (InShotTable_SelectionChanged) return;
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
+
+    InShotTable_SelectionChanged=true;
     CompositionList=&DiaporamaObject->List[Current].ShotComposition;
 
     int i       =ui->BlockTable->currentRow();
@@ -1245,6 +1264,7 @@ void DlgSlideProperties::s_ShotTable_SelectionChanged() {
         while ((i<CompositionList->List.count())&&(CompositionList->List[i].IndexKey!=IndexKey)) i++;
         if (i<CompositionList->List.count()) ui->BlockTable->setCurrentCell(i,0);
     }
+    InShotTable_SelectionChanged=false;
 }
 
 //====================================================================================================================
@@ -1272,10 +1292,8 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No) return;
     DiaporamaObject->List.removeAt(Current);
     ui->ShotTable->setUpdatesEnabled(false);
-    StopMajSelect=true;
     ui->ShotTable->removeColumn(Current);
     ui->ShotTable->setUpdatesEnabled(true);
-    StopMajSelect=false;
     RefreshShotTable(ui->ShotTable->currentColumn()>0?ui->ShotTable->currentColumn():0);
 }
 
@@ -1408,10 +1426,10 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
 // User select a block in the BlockTable widget
 
 void DlgSlideProperties::s_BlockTable_SelectionChanged() {
-    if (StopMajSelect) return;
+    if (InBlockTable_SelectionChanged) return;
     int CurrentBlock=ui->BlockTable->currentRow();
     if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return;
-    StopMajSelect=true;
+    InBlockTable_SelectionChanged=true;
     // Select item
     for (int i=0;i<scene->items().count();i++) {
         QGraphicsItem   *Item=scene->items().at(i);
@@ -1419,8 +1437,8 @@ void DlgSlideProperties::s_BlockTable_SelectionChanged() {
         if ((data=="CustomGraphicsRectItem")&&(((cCustomGraphicsRectItem *)Item)->IndexKey==CompositionList->List[CurrentBlock].IndexKey)) scene->items().at(i)->setSelected(true);
             else scene->items().at(i)->setSelected(false);
     }
-    if (!StopMAJSpinbox) RefreshControls();
-    StopMajSelect=false;
+    RefreshControls();
+    InBlockTable_SelectionChanged=false;
 }
 
 //====================================================================================================================
@@ -1434,21 +1452,21 @@ void DlgSlideProperties::s_BlockTable_ItemDoubleClicked(QTableWidgetItem *) {
 // User select a block in the scene widget
 
 void DlgSlideProperties::s_Scene_SelectionChanged() {
-    if (StopMAJSpinbox) return;
+    if (InScene_SelectionChanged) return;
     cCustomGraphicsRectItem  *CurrentTextItem=GetSelectItem();
     if (CurrentTextItem==NULL) {
         ui->BlockTable->setCurrentCell(-1,-1);
         RefreshControls();
         return;
     }
-    StopMAJSpinbox=true;
+    InScene_SelectionChanged=true;
     ui->BlockTable->setUpdatesEnabled(false);
     for (int i=0;i<ui->BlockTable->rowCount();i++) {
         if (CompositionList->List[i].IndexKey==CurrentTextItem->IndexKey) ui->BlockTable->setCurrentCell(i,0);
     }
     ui->BlockTable->setUpdatesEnabled(true);
-    StopMAJSpinbox=false;
-    if (!StopMajSelect) RefreshControls();
+    RefreshControls();
+    InScene_SelectionChanged=false;
 }
 
 //====================================================================================================================
