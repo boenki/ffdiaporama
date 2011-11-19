@@ -2,7 +2,6 @@ Buggs/TODO (Dernier SVN le 15/11/2011) :
 ----------------------------------------
 BUGG:
 -L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
--When using the cross fade transition between 2 identical pictures the brightness changes
 -Le mixage de 2 pistes audio à fort volume donne un résultat saturé
 -Dans Fichier/Options/Options de génération/Options par défaut en mode avancé, quel que soit le format de fichier choisi, c'est toujours AVI qui est proposé au moment de la génération du film
 
@@ -69,8 +68,14 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige le bug de changement de luminosité lors des transitions en fondu (cross fade)
+-Corrige les problèmes de sélection de forme dans la boite diapositive
+-Retire les marges internes lors de l'application d'image dans une forme (générait des lignes vides)
 
 English version / Bug fix :
+-Fix bug : When using the cross fade transition between 2 identical pictures the brightness changes
+-Fix bug of block selection in slide dialog
+-Remove internal margin when drawing image in a shape (Empty lines appear)
 
 French version / Nouvelles fonctionnalités :
 

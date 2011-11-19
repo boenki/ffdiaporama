@@ -439,6 +439,7 @@ QString cCompositionObject::GetCoordinateStyle() {
 
 void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
     QStringList List;
+    bool        RecalcAspectRatio=true;
 
     // String to StringList
     while (StyleDef.contains("###")) {
@@ -484,7 +485,10 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
                         else if (List[k].startsWith("Y:"))              BackgroundBrush.BrushFileCorrect.Y             =List[k].mid(QString("Y:").length()).toDouble();
                         else if (List[k].startsWith("ZoomFactor:"))     BackgroundBrush.BrushFileCorrect.ZoomFactor    =List[k].mid(QString("ZoomFactor:").length()).toDouble();
                         else if (List[k].startsWith("LockGeometry:"))   BackgroundBrush.BrushFileCorrect.LockGeometry  =List[k].mid(QString("LockGeometry:").length()).toInt()==1;
-                        else if (List[k].startsWith("AspectRatio:"))    BackgroundBrush.BrushFileCorrect.AspectRatio   =List[k].mid(QString("AspectRatio:").length()).toDouble();
+                        else if (List[k].startsWith("AspectRatio:"))    {
+                            BackgroundBrush.BrushFileCorrect.AspectRatio   =List[k].mid(QString("AspectRatio:").length()).toDouble();
+                            RecalcAspectRatio=false;
+                        }
                     }
                 }
             }
@@ -492,16 +496,14 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
         }
 
     }
-    /*
-    // Force Aspect Ratio and lock of Geometry
-    BackgroundBrush.BrushFileCorrect.LockGeometry=true;
-
-    double DisplayW,DisplayH;
-    if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_4_3)        { DisplayW=1440; DisplayH=1080; }
-    else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
-    else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
-    BackgroundBrush.BrushFileCorrect.AspectRatio =(h*DisplayH)/(w*DisplayW);
-    */
+    // if not set by style then compute Aspect Ratio
+    if (RecalcAspectRatio) {
+        double DisplayW,DisplayH;
+        if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_4_3)        { DisplayW=1440; DisplayH=1080; }
+        else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
+        else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
+        BackgroundBrush.BrushFileCorrect.AspectRatio =(h*DisplayH)/(w*DisplayW);
+    }
 }
 
 //====================================================================================================================
@@ -642,10 +644,9 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                     UpdateCachedBrush=false;
                 } else BR=CachedBrushBrush;
             } else {
-                BR=BackgroundBrush.GetBrush(QRectF(0/*-1*/,0/*-1*/,W-FullMargin*2,H-FullMargin*2),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?&PrevCompoObject->BackgroundBrush:NULL);
+                BR=BackgroundBrush.GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?&PrevCompoObject->BackgroundBrush:NULL);
                 QTransform  MatrixBR;
-                //MatrixBR.translate(FullMargin-CenterX,FullMargin-CenterY);
-                MatrixBR.translate(FullMargin-W/2,FullMargin-H/2);
+                MatrixBR.translate(-W/2,-H/2);
                 BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
             }
 
@@ -664,8 +665,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             if (BR!=CachedBrushBrush) delete BR;
         }
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-        DrawShape(Painter,BackgroundForm,FullMargin-W/2,FullMargin-H/2,W-FullMargin*2,H-FullMargin*2,0,0);
-        //DrawShape(Painter,BackgroundForm,FullMargin-CenterX,FullMargin-CenterY,W-FullMargin*2,H-FullMargin*2,0,0);
+        DrawShape(Painter,BackgroundForm,-W/2,-H/2,W,H,0,0);
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
         Painter.setPen(Qt::NoPen);
@@ -779,9 +779,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         if (SrcY+DstH>Hb)   DstH=Hb-SrcY;
 
         if ((Img)&&(!Img->isNull())) DestPainter->drawImage(QRectF(DstX,DstY,DstW,DstH),*Img,QRectF(SrcX,SrcY,DstW,DstH));
-        //DestPainter.drawImage(AddX+TheX*double(width),AddY+TheY*double(height),*Img);
         DestPainter->setOpacity(1);
-        //DestPainter.restore();
         if (Img) {
             delete Img;
             Img=NULL;
@@ -1769,7 +1767,7 @@ void cDiaporama::DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int,int) {
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
         break;
     case 1:
-        P->setOpacity(1-Info->TransitionPCTDone);
+        //P->setOpacity(1-Info->TransitionPCTDone);
         P->drawImage(0,0,*Info->TransitObject_PreparedImage);
         P->setOpacity(Info->TransitionPCTDone);
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);

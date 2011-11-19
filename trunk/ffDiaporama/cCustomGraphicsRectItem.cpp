@@ -820,7 +820,8 @@ void cResizeGraphicsRectItem::ResizeRight(QPointF &newpos) {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // x,y and zoom or w/h are always give in %
 cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZValue,double *Thex,double *They,double *Thezoom,double *Thew,double *Theh,double xmax,double ymax,
-                                                 bool TheKeepAspectRatio,double TheAspectRatio,sMagneticRuler *TheMagneticRuler,QWidget *TheParentWidget,int TheParentWidgetType,int TheIndexKey)
+                                                 bool TheKeepAspectRatio,double TheAspectRatio,sMagneticRuler *TheMagneticRuler,QWidget *TheParentWidget,int TheParentWidgetType,
+                                                 int TheIndexKey,bool TheIsVisible)
                                                 :QGraphicsRectItem((*Thex)*xmax,(*They)*ymax,xmax*(*((Thezoom!=NULL)?Thezoom:Thew)),ymax*(*((Thezoom!=NULL)?Thezoom:Theh)),NULL)
 
 {
@@ -833,6 +834,7 @@ cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZV
     zoom            = Thezoom;
     KeepAspectRatio = TheKeepAspectRatio;
     AspectRatio     = TheAspectRatio;
+    IsVisible       = TheIsVisible;
 
     if (zoom!=NULL) {
         // If zoom mode is use
@@ -876,14 +878,16 @@ cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZV
 
     // Add this item to the scene and create resize box
     TheScene->addItem(this);
-    UpperLeft  =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,0);
-    UpperRight =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,1);
-    BottomLeft =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,2);
-    BottomRight=new cResizeGraphicsRectItem(TheScene,this,ZValue+1,3);
-    Upper      =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,4);
-    Bottom     =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,5);
-    Left       =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,6);
-    Right      =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,7);
+    if (IsVisible) {
+        UpperLeft  =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,0);
+        UpperRight =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,1);
+        BottomLeft =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,2);
+        BottomRight=new cResizeGraphicsRectItem(TheScene,this,ZValue+1,3);
+        Upper      =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,4);
+        Bottom     =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,5);
+        Left       =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,6);
+        Right      =new cResizeGraphicsRectItem(TheScene,this,ZValue+1,7);
+    }
 }
 
 //====================================================================================================================
@@ -957,10 +961,12 @@ void cCustomGraphicsRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVariant &value) {
     if (change == QGraphicsItem::ItemPositionChange) {
-        QPointF newpos = value.toPointF();
-        if (IsCapture==true) {
-            double xmax = double(scene()->sceneRect().width());
-            double ymax = double(scene()->sceneRect().height());
+
+        QPointF newpos=value.toPointF();
+        double  xmax  =double(scene()->sceneRect().width());
+        double  ymax  =double(scene()->sceneRect().height());
+
+        if (IsCapture && IsVisible) {
             *x = newpos.x()/xmax;
             *y = newpos.y()/ymax;
             // calcul width and height;
@@ -998,6 +1004,11 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
             newpos.setX((*x)*xmax);
             newpos.setY((*y)*ymax);
             SendRefreshBackgroundImage();
+
+        } else if (!IsVisible) {
+            // If not visible then undo move !
+            newpos.setX((*x)*xmax);
+            newpos.setY((*y)*ymax);
         }
         return newpos;
     } else return QGraphicsRectItem::itemChange(change,value);
