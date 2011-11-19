@@ -73,8 +73,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>676</width>
-            <height>416</height>
+            <width>659</width>
+            <height>445</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -232,7 +232,7 @@
              </property>
             </widget>
            </item>
-           <item row="8" column="0" colspan="2">
+           <item row="9" column="0" colspan="2">
             <widget class="QLabel" name="label">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -261,7 +261,7 @@
              </property>
             </widget>
            </item>
-           <item row="10" column="0">
+           <item row="11" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
               <string>Object position :</string>
@@ -274,7 +274,7 @@
              </property>
             </widget>
            </item>
-           <item row="10" column="1">
+           <item row="11" column="1">
             <widget class="QComboBox" name="AppendObjectCB">
              <property name="toolTip">
               <string>Define the position which occupy the new objects in the timeline during the insertions</string>
@@ -291,7 +291,7 @@
              </item>
             </widget>
            </item>
-           <item row="11" column="0">
+           <item row="12" column="0">
             <widget class="QLabel" name="label_26">
              <property name="text">
               <string>Multiple file insertion :</string>
@@ -301,7 +301,7 @@
              </property>
             </widget>
            </item>
-           <item row="11" column="1">
+           <item row="12" column="1">
             <widget class="QCheckBox" name="SortFileCB">
              <property name="toolTip">
               <string>Adjust the way will be sorted out files when you select several files in Add file.</string>
@@ -311,7 +311,7 @@
              </property>
             </widget>
            </item>
-           <item row="18" column="0">
+           <item row="19" column="0">
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -324,7 +324,7 @@
              </property>
             </spacer>
            </item>
-           <item row="12" column="1">
+           <item row="13" column="1">
             <widget class="QCheckBox" name="AskUserToRemove">
              <property name="toolTip">
               <string>If this box is checked, a confirmation will display every time you remove an object</string>
@@ -334,7 +334,7 @@
              </property>
             </widget>
            </item>
-           <item row="12" column="0">
+           <item row="13" column="0">
             <widget class="QLabel" name="label_33">
              <property name="text">
               <string>Object deletion :</string>
@@ -344,7 +344,7 @@
              </property>
             </widget>
            </item>
-           <item row="9" column="0">
+           <item row="10" column="0">
             <widget class="QLabel" name="label_34">
              <property name="text">
               <string>Coordinates unit :</string>
@@ -354,7 +354,7 @@
              </property>
             </widget>
            </item>
-           <item row="9" column="1">
+           <item row="10" column="1">
             <widget class="QComboBox" name="UnitCB">
              <property name="toolTip">
               <string>Select the unit of the coordinates which will be used in properties dialog box</string>
@@ -378,7 +378,7 @@
              </property>
             </widget>
            </item>
-           <item row="15" column="0" colspan="2">
+           <item row="16" column="0" colspan="2">
             <widget class="QLabel" name="label_35">
              <property name="minimumSize">
               <size>
@@ -404,10 +404,73 @@
              </property>
             </widget>
            </item>
-           <item row="17" column="1">
+           <item row="18" column="1">
             <widget class="QCheckBox" name="Crop1088To1080CB">
              <property name="text">
               <string>Automatically crop 1920x1088 video to 1920x1080</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Slide in memory :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QComboBox" name="PreviewCachedSlidesCB">
+               <item>
+                <property name="text">
+                 <string>11</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>21</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>31</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>41</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>51</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_42">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="4" column="0" colspan="2">
+            <widget class="QCheckBox" name="SDLAudioModeCB">
+             <property name="text">
+              <string>SDL Audio use old mode</string>
              </property>
             </widget>
            </item>
@@ -441,7 +504,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>659</width>
+            <width>556</width>
             <height>1999</height>
            </rect>
           </property>

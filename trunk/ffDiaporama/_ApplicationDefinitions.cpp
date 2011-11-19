@@ -622,6 +622,8 @@ bool cApplicationConfig::InitConfigurationValues() {
 
     // Initialise all variables and set them default value
     RasterMode                  = true;                     // Enable or disable raster mode [Linux only]
+    NbrSlideInCache             = 5;                        // Number of slide in cache (Real compute is NbrSlideInCache*2+1)
+    SDLAudioOldMode             = false;                    // If true SDL audio use old mode sample instead byte
     RememberLastDirectories     = true;                     // If true, Remember all directories for future use
     RestoreWindow               = true;                     // If true, restore window state and position at startup
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
@@ -755,6 +757,8 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     if ((root.elementsByTagName("EditorOptions").length()>0)&&(root.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("EditorOptions").item(0).toElement();
         if (Element.hasAttribute("RasterMode"))                 RasterMode                  =Element.attribute("RasterMode")=="1";
+        if (Element.hasAttribute("NbrSlideInCache"))            NbrSlideInCache             =Element.attribute("NbrSlideInCache").toInt();
+        if (Element.hasAttribute("SDLAudioOldMode"))            SDLAudioOldMode             =Element.attribute("SDLAudioOldMode")=="1";
         if (Element.hasAttribute("AppendObject"))               AppendObject                =Element.attribute("AppendObject")=="1";
         if (Element.hasAttribute("PartitionMode"))              PartitionMode               =Element.attribute("PartitionMode")=="1";
         if (Element.hasAttribute("DisplayUnit"))                DisplayUnit                 =Element.attribute("DisplayUnit").toInt();
@@ -928,6 +932,8 @@ bool cApplicationConfig::SaveConfigurationFile() {
 
     Element=domDocument.createElement("EditorOptions");
     Element.setAttribute("RasterMode",                  RasterMode?"1":"0");
+    Element.setAttribute("NbrSlideInCache",             NbrSlideInCache);
+    Element.setAttribute("SDLAudioOldMode",             SDLAudioOldMode?"1":"0");
     Element.setAttribute("AppendObject",                AppendObject?"1":"0");
     Element.setAttribute("DisplayUnit",                 DisplayUnit);
     Element.setAttribute("PartitionMode",               PartitionMode?"1":"0");

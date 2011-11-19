@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 15/11/2011) :
+Buggs/TODO (Dernier SVN le 19/11/2011) :
 ----------------------------------------
 BUGG:
 -L'association de fichier ne fonctionne pas sous Windows car l'application a besoin de ses DLL pour démarrer
@@ -68,18 +68,24 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le bug de changement de luminosité lors des transitions en fondu (cross fade)
--Corrige les problèmes de sélection de forme dans la boite diapositive
--Retire les marges internes lors de l'application d'image dans une forme (générait des lignes vides)
+-Corrige le gestionnaire de mémoire pour supprimer plus de blocs
+-Corrige la fenetre principal et la boite slide pour qu'ils tiennent compte de l'option "pas de confirmation lors des suppressions)
+-Corrige le problème de lecture du son sur certaines distributions Linux par l'ajout d'une option SDL Ancien mode dans la boite de configuration
 
 English version / Bug fix :
--Fix bug : When using the cross fade transition between 2 identical pictures the brightness changes
--Fix bug of block selection in slide dialog
--Remove internal margin when drawing image in a shape (Empty lines appear)
+-Fix memory manager to remove more blocks
+-Fix MainWindow and slide dialog for they use option "Ask user for removing objects"
+-Fix play of sound for some Linux release by the addition of a new option in the option dialog
 
 French version / Nouvelles fonctionnalités :
+-Ajoute une option dans la boite de configuration pour sélectionner le nombre de slide conservés en mémoire cache
+-Ajoute une option dans la boite de configuration pour activer l'ancien mode audio pour SDL
+-Ajout d'un fond supplémentaire dans la librairie Tulle
 
 English version / New features :
+-Add an option in option dialog to select how many slides are keep in cache
+-Add an option in option dialog to activate SDL audio old mode
+-Add a new backgound in the library Tulle
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -112,6 +118,9 @@ Bug fix French version
 -Remet la possibilité de changer la contrainte géométrique pour les blocs texte [suite aux dernier changement 20111106]
 -Change la zone WEB pour les pages du WIKI : passage en zone root pour le CMS
 -Corrige le bug de géométrie lors des générations en format SD/DVD
+-Corrige le bug de changement de luminosité lors des transitions en fondu (cross fade)
+-Corrige les problèmes de sélection de forme dans la boite diapositive
+-Retire les marges internes lors de l'application d'image dans une forme (générait des lignes vides)
 
 Bug fix English version
 -Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -140,6 +149,9 @@ Bug fix English version
 -Puts back the possibility of changing the geometrical constraint for blocks text [since 20111106]
 -Change WEB zone for the WIKI pages : move to CMS root zone
 -Bug fix of geometry in SD/DVD rendering
+-Fix bug : When using the cross fade transition between 2 identical pictures the brightness changes
+-Fix bug of block selection in slide dialog
+-Remove internal margin when drawing image in a shape (Empty lines appear)
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)

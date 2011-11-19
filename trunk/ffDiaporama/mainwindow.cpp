@@ -66,7 +66,7 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
 
     // Now, we have application settings then we can init SDL
     screen.showMessage(QApplication::translate("MainWindow","Starting SDL..."),Qt::AlignHCenter|Qt::AlignBottom);
-    SDLFirstInit(ApplicationConfig->PreviewFPS);
+    SDLFirstInit(ApplicationConfig->PreviewFPS,ApplicationConfig->SDLAudioOldMode);
     AddToSystemProperties(QString(SDLVERSION_STR)+QString("%1").arg(SDL_MAJOR_VERSION)+"."+QString("%1").arg(SDL_MINOR_VERSION)+"."+QString("%1").arg(SDL_PATCHLEVEL)+"-Licence=GPL version 2.1 or later");
 
     // Register all formats and codecs for libavformat/libavcodec/etc ...
@@ -724,7 +724,7 @@ void MainWindow::s_ItemSelectionChanged() {
                 (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SetStartEndPos(0,0,-1,0,-1,0);
             }
         }
-        Diaporama->FreeUnusedMemory(Diaporama->CurrentCol);
+        Diaporama->FreeUnusedMemory(Diaporama->CurrentCol,Diaporama->ApplicationConfig->NbrSlideInCache);
         RefreshControls();
     }
     QApplication::restoreOverrideCursor();
@@ -820,7 +820,7 @@ void MainWindow::s_ChangeApplicationSettings() {
     DlgApplicationSettings(*ApplicationConfig,this).exec();
     ui->preview->WantedFPS=ApplicationConfig->PreviewFPS;
     ui->preview2->WantedFPS=ApplicationConfig->PreviewFPS;
-    SDLSetFPS(ApplicationConfig->PreviewFPS);                   // Reinit SDL if Preview FPS has changed
+    SDLSetFPS(ApplicationConfig->PreviewFPS,ApplicationConfig->SDLAudioOldMode);  // Reinit SDL if Preview FPS has changed
 }
 
 //====================================================================================================================
@@ -1148,7 +1148,7 @@ void MainWindow::AddFiles(QStringList &FileList,int SavedCurIndex,int CurIndex) 
                 // Special case for nonstandard image => force to image geometry constraint and adapt frame coordinates
                 if ((CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry)==IMAGE_GEOMETRY_UNKNOWN) {
                     // Adjust to Full in lock to image geometry mode
-                    double ImageGeometry;
+                    double ImageGeometry=1;
                     if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
                         else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
                     CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
@@ -1255,8 +1255,8 @@ void MainWindow::s_RemoveObject() {
     int Current=ui->timeline->CurrentSelected();
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
 
-    if (QMessageBox::question(this,QApplication::translate("MainWindow","Remove slide"),QApplication::translate("MainWindow","Are you sure to want to delete this slide?"),
-                              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No) return;
+    if ((ApplicationConfig->AskUserToRemove)&&(QMessageBox::question(this,QApplication::translate("MainWindow","Remove slide"),QApplication::translate("MainWindow","Are you sure to want to delete this slide?"),
+                              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->timeline->setUpdatesEnabled(false);

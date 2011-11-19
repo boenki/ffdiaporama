@@ -44,6 +44,9 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
     ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
     ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
+    ui->SDLAudioModeCB->setChecked(ApplicationConfig->SDLAudioOldMode);
+
+    for (int i=0;i<ui->PreviewCachedSlidesCB->count();i++) if (ui->PreviewCachedSlidesCB->itemText(i)==QString("%1").arg(ApplicationConfig->NbrSlideInCache*2+1)) ui->PreviewCachedSlidesCB->setCurrentIndex(i);
 
     // Preview Options
     QString FPS=(QString("%1").arg(ApplicationConfig->PreviewFPS,0,'f')).trimmed();
@@ -272,10 +275,12 @@ void DlgApplicationSettings::accept() {
     // Application options part
     ApplicationConfig->RememberLastDirectories  =ui->RememberLastDirectoriesCH->isChecked();
     ApplicationConfig->RestoreWindow            =ui->RestoreWindowCH->isChecked();
+    ApplicationConfig->SDLAudioOldMode          =ui->SDLAudioModeCB->isChecked();
 
     // Preview Options part
     ApplicationConfig->ApplyTransfoPreview      =ui->ApplyTransfoDuringPreviewCB->isChecked();
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
+    ApplicationConfig->NbrSlideInCache          =(ui->PreviewCachedSlidesCB->currentText().toInt()-1)/2;
 
     // Editor Options part
     ApplicationConfig->AppendObject             =ui->AppendObjectCB->currentIndex()==1;

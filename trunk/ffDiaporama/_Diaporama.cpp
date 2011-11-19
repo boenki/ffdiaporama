@@ -1495,30 +1495,40 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName) {
 //   if ObjectNum=-1 then free all object
 //   else only object prior to ObjectNum-1 and after ObjectNum+1 are free
 //============================================================================================
-void cDiaporama::FreeUnusedMemory(int ObjectNum) {
+void cDiaporama::FreeUnusedMemory(int ObjectNum,int NbrSlideInCache) {
+    if (ObjectNum==-1) return;
     // free CacheFullImage
-    for (int i=0;i<List.count();i++) for (int j=0;j<List[i].ObjectComposition.List.count();j++) if ((ObjectNum==-1)||(i<ObjectNum-1)||(i>ObjectNum+1)) {
-        if ((List[i].ObjectComposition.List[j].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
-            (List[i].ObjectComposition.List[j].BackgroundBrush.Image)&&
-            (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage)) {
-            // Cached Full image if different from Cached image
-            if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage!=List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheImage)
-                delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage;
-            List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage=NULL;
+    for (int i=0;i<List.count();i++) if ((i<(ObjectNum-NbrSlideInCache))||(i>(ObjectNum+NbrSlideInCache))) {
+        for (int j=0;j<List[i].ObjectComposition.List.count();j++) {
+            if (List[i].ObjectComposition.List[j].BackgroundBrush.Image) {
 
-            // Unfiltered image
-            if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage) {
-                delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage;
-                List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage=NULL;
+                // Cached Full image if different from Cached image
+                if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage) {
+                    if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage!=List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheImage)
+                        delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage;
+                    List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage=NULL;
+                }
+
+                // Unfiltered image
+                if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage) {
+                    delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage;
+                    List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage=NULL;
+                }
+
+                // Cached Full image if different from Cached image
+                if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheImage!=NULL) {
+                    delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheImage;
+                    List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheImage=NULL;
+                }
+
             }
-
         }
-    }
-    // free CachedBrushBrush
-    for (int i=0;i<List.count();i++) for (int j=0;j<List[i].List.count();j++) for (int k=0;k<List[i].List[j].ShotComposition.List.count();k++) {
-        if (List[i].List[j].ShotComposition.List[k].CachedBrushBrush) {
-            delete List[i].List[j].ShotComposition.List[k].CachedBrushBrush;
-            List[i].List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
+        // free CachedBrushBrush
+        for (int j=0;j<List[i].List.count();j++) for (int k=0;k<List[i].List[j].ShotComposition.List.count();k++) {
+            if (List[i].List[j].ShotComposition.List[k].CachedBrushBrush) {
+                delete List[i].List[j].ShotComposition.List[k].CachedBrushBrush;
+                List[i].List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
+            }
         }
     }
 }
