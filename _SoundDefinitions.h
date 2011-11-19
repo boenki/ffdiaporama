@@ -28,9 +28,9 @@
 // Functions to manage SDL library
 //*********************************************************************************************************************************************
 void SDLAudioCallback(void *,Uint8 *stream,int len);
-void SDLFirstInit(double WantedFPS);
+void SDLFirstInit(double WantedFPS,bool SDLAncMode);
 void SDLLastClose();
-void SDLSetFPS(double WantedFPS);
+void SDLSetFPS(double WantedFPS,bool SDLAncMode);
 
 //*********************************************************************************************************************************************
 // Base object for sound manipulation

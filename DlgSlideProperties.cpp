@@ -878,7 +878,8 @@ void DlgSlideProperties::s_ChgPosXValue(double Value) {
     if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
         CurrentTextItem->x=Value/100;
     } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-        double DisplayW,DisplayH;   GetForDisplayUnit(DisplayW,DisplayH);
+        double DisplayW=0,DisplayH=0;
+        GetForDisplayUnit(DisplayW,DisplayH);
         CurrentTextItem->x=(Value/DisplayW);
     }
     RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
@@ -1306,8 +1307,8 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
     if (DiaporamaObject->List.count()<2) return;
-    if (QMessageBox::question(this,QApplication::translate("DlgSlideProperties","Remove shot"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this shot?"),
-                              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No) return;
+    if ((GlobalMainWindow->ApplicationConfig->AskUserToRemove)&&(QMessageBox::question(this,QApplication::translate("DlgSlideProperties","Remove shot"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this shot?"),
+                              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
     DiaporamaObject->List.removeAt(Current);
     ui->ShotTable->setUpdatesEnabled(false);
     ui->ShotTable->removeColumn(Current);
@@ -1651,7 +1652,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
                 // Special case for nonstandard image => force to image geometry constraint and adapt frame coordinates
                 if ((CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry)==IMAGE_GEOMETRY_UNKNOWN) {
                     // Adjust to Full in lock to image geometry mode
-                    double ImageGeometry;
+                    double ImageGeometry=1;
                     if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
                         else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
                     CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
@@ -1713,8 +1714,8 @@ void DlgSlideProperties::s_BlockTable_RemoveBlock() {
     int                 CurrentRow=ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
-    if (QMessageBox::question(this,QApplication::translate("DlgSlideProperties","Remove bloc"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this bloc?"),
-                              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No) return;
+    if ((GlobalMainWindow->ApplicationConfig->AskUserToRemove)&&(QMessageBox::question(this,QApplication::translate("DlgSlideProperties","Remove bloc"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this bloc?"),
+                              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
     int i=0;
     while ((i<CompositionList->List.count())&&(CompositionList->List[i].IndexKey!=CurrentTextItem->IndexKey)) i++;
 

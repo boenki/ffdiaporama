@@ -159,6 +159,8 @@ public:
 
     // Preferences
     bool                    RasterMode;                                 // Enable or disable raster mode [Linux only]
+    int                     NbrSlideInCache;                            // Number of slide in cache (memory)
+    bool                    SDLAudioOldMode;                            // If true SDL audio use old mode sample instead byte
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
     bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide
     bool                    PartitionMode;                              // If true, partition mode is on

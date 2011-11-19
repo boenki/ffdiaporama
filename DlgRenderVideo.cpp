@@ -813,7 +813,7 @@ void DlgRenderVideo::accept() {
                         if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(AdjustedDuration)/(FPS/double(1000)))-1);
                     }
                     RefreshDisplay =true;
-                    if (Column>0) Diaporama->FreeUnusedMemory(Column-1);
+                    if (Column>0) Diaporama->FreeUnusedMemory(Column-1,1);
                 } else RefreshDisplay =(LastCheckTime.msecsTo(QTime::currentTime())>=1000);    // Refresh display only one time per second
 
                 // Refresh Display (if needed)
@@ -897,9 +897,6 @@ void DlgRenderVideo::accept() {
         }
 
         QFile::remove(TempWAVFileName);
-
-        // Free unused CacheFullImage
-        Diaporama->FreeUnusedMemory(-1);
 
         // Inform user of success
         if (Continue) QMessageBox::information(this,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed succesfully!"));

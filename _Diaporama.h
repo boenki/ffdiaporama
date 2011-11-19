@@ -320,7 +320,7 @@ public:
     bool                SaveFile(QWidget *ParentWindow);
     bool                LoadFile(QWidget *ParentWindow,QString &ProjectFileName);
     bool                AppendFile(QWidget *ParentWindow,QString ProjectFileName);
-    void                FreeUnusedMemory(int ObjectNum);
+    void                FreeUnusedMemory(int ObjectNum,int NbrSlideInCache);
 
     // Thread functions
     void                PrepareMusicBloc(bool PreviewMode,int Column,int Position,cSoundBlockList *MusicTrack);

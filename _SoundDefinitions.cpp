@@ -63,10 +63,10 @@ void SDLAudioCallback(void *,Uint8 *stream,int len) {
 // SDL Init/Reinit function
 //*********************************************************************************************************************************************
 
-void SDLFirstInit(double WantedFPS) {
+void SDLFirstInit(double WantedFPS,bool SDLAncMode) {
     // Start SDL
     if (SDL_Init(SDL_INIT_AUDIO)) ExitApplicationWithFatalError("SDLFirstInit=Could not initialize SDL :"+QString("%1").arg(SDL_GetError()));
-    SDLSetFPS(WantedFPS);
+    SDLSetFPS(WantedFPS,SDLAncMode);
 }
 
 void SDLLastClose() {
@@ -77,7 +77,7 @@ void SDLLastClose() {
     }
 }
 
-void SDLSetFPS(double WantedFPS) {
+void SDLSetFPS(double WantedFPS,bool SDLAncMode) {
     if (SDLCurrentFPS==WantedFPS) return;
     SDLCurrentFPS=WantedFPS;
 
@@ -95,9 +95,9 @@ void SDLSetFPS(double WantedFPS) {
     Desired.userdata=NULL;                                              // userdata parameter : not used
     Desired.callback=SDLAudioCallback;                                  // Link to callback function
     Desired.samples =MixedMusic.SoundPacketSize/MixedMusic.Channels;    // In samples unit * chanels number for Linux version
-#if defined(Q_OS_WIN32)
-    Desired.samples/=MixedMusic.SampleBytes;                            // In byte for Windows Version
-#endif
+
+    if (!SDLAncMode) Desired.samples/=MixedMusic.SampleBytes;           // New SDL use byte instead of sample
+
     Desired.silence =0;
     if (SDL_OpenAudio(&Desired,&AudioSpec)<0) {
         ExitApplicationWithFatalError("SDLSetFPS=Error in SDL_OpenAudio:"+QString(SDL_GetError()));
