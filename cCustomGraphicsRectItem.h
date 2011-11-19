@@ -94,6 +94,7 @@ public:
     bool                KeepAspectRatio;    // true if aspect ratio is keep during resize
     double              AspectRatio;
     int                 IndexKey;
+    bool                IsVisible;
 
     cResizeGraphicsRectItem *UpperLeft;
     cResizeGraphicsRectItem *UpperRight;
@@ -105,7 +106,8 @@ public:
     cResizeGraphicsRectItem *Right;
 
     explicit cCustomGraphicsRectItem(QGraphicsScene *scene,int ZValue,double *x,double *y,double *zoom,double *w,double *h,double xmax,double ymax,
-                                     bool KeepAspectRatio,double AspectRatio,sMagneticRuler *MagneticRuler,QWidget *ParentWidget,int ParentWidgetType,int IndexKey);
+                                     bool KeepAspectRatio,double AspectRatio,sMagneticRuler *MagneticRuler,QWidget *ParentWidget,int ParentWidgetType,
+                                     int IndexKey,bool IsVisible);
     virtual ~cCustomGraphicsRectItem();
 
     void                SendRefreshBackgroundImage();
