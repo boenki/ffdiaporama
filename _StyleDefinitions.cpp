@@ -401,8 +401,8 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString Actu
     }
     QAction *Ret=ContextMenu->exec(QCursor::pos());
 
+    Item="";
     if (Ret!=NULL) {
-        Item="";
         if (Ret==ActionCreate)                                                              CreateNewStyle(ParentWindow,ActualStyleDef);
         else if (Ret==ActionManage)                                                         ManageExistingStyle(ParentWindow);
         else if (Ret->toolTip()==QApplication::translate("DlgManageStyle","Update style"))  UpdateExistingStyle((GeometryFilter?ActiveFilter:"")+Ret->text(),ActualStyleDef);
