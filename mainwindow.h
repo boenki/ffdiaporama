@@ -50,11 +50,15 @@ public:
     int                     DragItemSource;
     int                     DragItemDest;
     int                     IsDragOn;                       // DragOff=0, DragInternal=0 or DragExternal=0
+    cLuLoImageCache         ImagesCache;                    // cLuLoImageCache List Object
+    Qt::HANDLE              CurrentThreadId;
+
 
     explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
     ~MainWindow();
 
     void    OpenHelp(QString HelpFile);
+    void    SetTempStatusText(QString Text);
 
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);

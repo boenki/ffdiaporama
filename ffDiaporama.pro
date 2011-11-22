@@ -63,7 +63,8 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     cCustomTableWidget.cpp \
     DlgManageStyle.cpp \
     _StyleDefinitions.cpp \
-    fmt_filters/fmt_filters.cpp
+    fmt_filters/fmt_filters.cpp \
+    _cLuLoImageCache.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
@@ -91,7 +92,8 @@ HEADERS  += _GlobalDefines.h \
     cCustomTableWidget.h \
     DlgManageStyle.h \
     _StyleDefinitions.h \
-    fmt_filters/fmt_filters.h
+    fmt_filters/fmt_filters.h \
+    _cLuLoImageCache.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \

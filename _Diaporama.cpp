@@ -41,18 +41,18 @@ void DrawShape(QPainter &Painter,int BackgroundForm,double left,double top,doubl
 
     switch (BackgroundForm) {
         //0 = no shape
-        case 1 : Painter.drawRect(QRectF(left,top,width/*-1*/,height/*-1*/)); break;  // Rectangle
+        case 1 : Painter.drawRect(QRectF(left,top,width-1,height-1)); break;  // Rectangle
         case 2 : // Round rect
             RayX=width/10;     if (RayX>16) RayX=16; else if (RayX<2)  RayX=2;
             RayY=height/10;    if (RayY>16) RayY=16; else if (RayY<2)  RayY=2;
-            Painter.drawRoundedRect(QRectF(left,top,width/*-1*/,height/*-1*/),RayX,RayY,Qt::AbsoluteSize);
+            Painter.drawRoundedRect(QRectF(left,top,width-1,height-1),RayX,RayY,Qt::AbsoluteSize);
             break;
         case 3 : // Buble
             RayX=2*width/10;   if (RayX<4)  RayX=4;
             RayY=2*height/10;  if (RayY<4)  RayY=4;
-            Painter.drawRoundedRect(QRectF(left,top,width/*-1*/,height/*-1*/),RayX,RayY,Qt::AbsoluteSize);
+            Painter.drawRoundedRect(QRectF(left,top,width-1,height-1),RayX,RayY,Qt::AbsoluteSize);
             break;
-        case 4 : Painter.drawEllipse(QRectF(left,top,width/*-1*/,height/*-1*/));                        break;  // Ellipse
+        case 4 : Painter.drawEllipse(QRectF(left,top,width-1,height-1));                        break;  // Ellipse
         case 5 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,90);                               break;  // Triangle UP
         case 6 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,0);                                break;  // Triangle Right
         case 7 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-90);                              break;  // Triangle Down
@@ -1299,6 +1299,8 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
     QDomElement     Element;
     QDomElement     root;
 
+    GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Saving project file ..."));
+
     // Create xml document and root
     root=domDocument.createElement(APPLICATION_ROOTNAME);
     domDocument.appendChild(root);
@@ -1499,6 +1501,7 @@ void cDiaporama::FreeUnusedMemory(int ObjectNum,int NbrSlideInCache) {
     if (ObjectNum==-1) return;
     // free CacheFullImage
     for (int i=0;i<List.count();i++) if ((i<(ObjectNum-NbrSlideInCache))||(i>(ObjectNum+NbrSlideInCache))) {
+        /*
         for (int j=0;j<List[i].ObjectComposition.List.count();j++) {
             if (List[i].ObjectComposition.List[j].BackgroundBrush.Image) {
 
@@ -1523,6 +1526,7 @@ void cDiaporama::FreeUnusedMemory(int ObjectNum,int NbrSlideInCache) {
 
             }
         }
+        */
         // free CachedBrushBrush
         for (int j=0;j<List[i].List.count();j++) for (int k=0;k<List[i].List[j].ShotComposition.List.count();k++) {
             if (List[i].List[j].ShotComposition.List[k].CachedBrushBrush) {
@@ -1530,6 +1534,7 @@ void cDiaporama::FreeUnusedMemory(int ObjectNum,int NbrSlideInCache) {
                 List[i].List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
             }
         }
+        GlobalMainWindow->ImagesCache.FreeMemoryToMaxValue(1024*1024*1024);
     }
 }
 
@@ -1777,10 +1782,27 @@ void cDiaporama::DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int,int) {
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
         break;
     case 1:
+        P->setOpacity(1-Info->TransitionPCTDone);
+        P->drawImage(0,0,*Info->TransitObject_PreparedImage);
+        P->setOpacity(Info->TransitionPCTDone);
+        P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
+        P->setOpacity(1);
+        break;
+    case 2:
         //P->setOpacity(1-Info->TransitionPCTDone);
         P->drawImage(0,0,*Info->TransitObject_PreparedImage);
         P->setOpacity(Info->TransitionPCTDone);
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
+        P->setOpacity(1);
+        break;
+    case 3:
+        if (Info->TransitionPCTDone<0.5) {
+            P->setOpacity(1-(Info->TransitionPCTDone)*2);
+            P->drawImage(0,0,*Info->TransitObject_PreparedImage);
+        } else {
+            P->setOpacity((Info->TransitionPCTDone-0.5)*2);
+            P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
+        }
         P->setOpacity(1);
         break;
     }
@@ -2161,10 +2183,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
             PrepareMusicBloc(PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
         }
         // Transition Object if a previous was not keep !
-        if (Info->TransitObject) {
-            LoadTransitVideoImage(Info,PreviewMode,W,H,AddStartPos);
-            LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
-        } else LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
+        if (Info->TransitObject) LoadTransitVideoImage(Info,PreviewMode,W,H,AddStartPos);
+        LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
 
         //==============> Background part
         if (!SoundOnly) {

@@ -35,15 +35,17 @@ cimagefilewrapper::cimagefilewrapper() {
     FileName            = "";                       // filename
     ImageWidth          = 0;                        // Widht of normal image
     ImageHeight         = 0;                        // Height of normal image
+/*
     CacheImage          = NULL;                     // Cache image for preview mode
     CacheFullImage      = NULL;                     // Cache image for Full image mode
     UnfilteredImage     = NULL;                     // Cache image (Preview image with no filter)
-    ImageOrientation    = 0;                        // Image orientation (EXIF)
+*/
 }
 
 //====================================================================================================================
 
 cimagefilewrapper::~cimagefilewrapper() {
+/*
     if (CacheFullImage!=NULL) {
         if (CacheFullImage!=CacheImage) delete CacheFullImage;
         CacheFullImage=NULL;
@@ -56,71 +58,25 @@ cimagefilewrapper::~cimagefilewrapper() {
         delete UnfilteredImage;
         UnfilteredImage=NULL;
     }
+*/
 }
 
 //====================================================================================================================
 
-bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName,QStringList &AliasList) {
-    if (CacheFullImage!=NULL) {
-        if (CacheFullImage!=CacheImage) delete CacheFullImage;
-        CacheFullImage=NULL;
-    }
-    if (CacheImage!=NULL) {
-        delete CacheImage;
-        CacheImage=NULL;
-    }
-
-    FileName=QFileInfo(GivenFileName).absoluteFilePath();
-    // Use aliaslist
-    int i;
-    for (i=0;(i<AliasList.count())&&(!AliasList.at(i).startsWith(FileName));i++);
-    if ((i<AliasList.count())&&(AliasList.at(i).startsWith(FileName))) {
-        FileName=AliasList.at(i);
-        if (FileName.indexOf("####")>0) FileName=FileName.mid(FileName.indexOf("####")+QString("####").length());
-    }
-
-    bool Continue=true;
-    while ((Continue)&&(!QFileInfo(FileName).exists())) {
-        if (QMessageBox::question(GlobalMainWindow,QApplication::translate("MainWindow","Open image file"),
-            QApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
-            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)
-            Continue=false;
-        else {
-            QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(FileName).fileName(),
-               GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
-               GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::IMAGEFILE));
-            if (NewFileName!="") {
-                AliasList.append(FileName+"####"+NewFileName);
-                FileName=NewFileName;
-                if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(FileName).absolutePath();     // Keep folder for next use
-                GlobalMainWindow->SetModifyFlag(true);
-            } else Continue=false;
-        }
-    }
-    if (!Continue) {
-        qDebug()<<"Impossible to open file"<<FileName;
-        return false;
-    }
-
-    CreatDateTime   =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
-    ModifDateTime   =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
-    IsValide        =true;
-
-    if (ImageOrientation==0) CallEXIF();
-
-    return IsValide;
-}
-
 bool cimagefilewrapper::CallEXIF() {
+    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName);
+    if (!ImageObject) return false;
 
-    ImageOrientation=1; // Set default image orientation
+    ImageObject->ImageOrientation=1; // Set default image orientation
 
     QString   Commande;
     QString   Info,Part;
     bool      ExifOK=true;
 
     // start exiv2
-    GlobalMainWindow->StatusBarList.append(QApplication::translate("MainWindow","Analyse file with EXIV2 :")+QFileInfo(FileName).fileName());
+    //GlobalMainWindow->StatusBarList.append(QApplication::translate("MainWindow","Analyse file with EXIV2 :")+QFileInfo(FileName).fileName());
+    GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Analyse file with EXIV2 :")+QFileInfo(FileName).fileName());
+
     Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pa \""+FileName+"\"";
     Commande = AdjustDirForOS(Commande);
     QProcess Process;
@@ -196,7 +152,7 @@ bool cimagefilewrapper::CallEXIF() {
                 while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
                 if (Designation=="0x0112") {
                     Value=(Part.mid(Part.lastIndexOf(" ")+QString(" ").length())).trimmed();
-                    ImageOrientation=Value.toInt();
+                    ImageObject->ImageOrientation=Value.toInt();
                 }
             }
         }
@@ -206,40 +162,78 @@ bool cimagefilewrapper::CallEXIF() {
 
 //====================================================================================================================
 
+bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName,QStringList &AliasList) {
+    FileName=QFileInfo(GivenFileName).absoluteFilePath();
+
+    // Use aliaslist
+    int i;
+    for (i=0;(i<AliasList.count())&&(!AliasList.at(i).startsWith(FileName));i++);
+    if ((i<AliasList.count())&&(AliasList.at(i).startsWith(FileName))) {
+        FileName=AliasList.at(i);
+        if (FileName.indexOf("####")>0) FileName=FileName.mid(FileName.indexOf("####")+QString("####").length());
+    }
+
+    bool Continue=true;
+    while ((Continue)&&(!QFileInfo(FileName).exists())) {
+        if (QMessageBox::question(GlobalMainWindow,QApplication::translate("MainWindow","Open image file"),
+            QApplication::translate("MainWindow","Impossible to open file ")+FileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)
+            Continue=false;
+        else {
+            QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(FileName).fileName(),
+               GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
+               GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::IMAGEFILE));
+            if (NewFileName!="") {
+                AliasList.append(FileName+"####"+NewFileName);
+                FileName=NewFileName;
+                if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(FileName).absolutePath();     // Keep folder for next use
+                GlobalMainWindow->SetModifyFlag(true);
+            } else Continue=false;
+        }
+    }
+    if (!Continue) {
+        qDebug()<<"Impossible to open file"<<FileName;
+        return false;
+    }
+
+    CreatDateTime   =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
+    ModifDateTime   =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
+    IsValide        =true;
+
+    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName);
+    if (ImageObject) {
+        ImageObject->ClearAll();    // Clear all cached images
+        if (ImageObject->ImageOrientation==0) CallEXIF();
+    }
+/*
+    if (CacheFullImage!=NULL) {
+        if (CacheFullImage!=CacheImage) delete CacheFullImage;
+        CacheFullImage=NULL;
+    }
+    if (CacheImage!=NULL) {
+        delete CacheImage;
+        CacheImage=NULL;
+    }
+*/
+    return IsValide;
+}
+
+//====================================================================================================================
+
 QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter) {
     if (!IsValide) return NULL;
 
+    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName);
+    if (!ImageObject) {
+        qDebug()<<"ImagesCache.FindObject return NULL !";
+        return NULL;  // There is an error !!!!!
+    }
 
     // Unfiltered image
     if (PreviewMode && ForceLoadDisk && (!Filter)) {
-        // Use cached UnfilteredImage (if exist)
-        if (UnfilteredImage!=NULL) return new QImage(UnfilteredImage->copy());
-        // else : create UnfilteredImage
-        GlobalMainWindow->StatusBarList.append(QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
-        QImage *LoadedImg=new QImage(FileName);
-        if (LoadedImg) {
-            UnfilteredImage=new QImage(LoadedImg->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
-            // If image is ok then apply exif orientation (if needed)
-            // A good explanation of the exif orientation tag is available at http://jpegclub.org/exif_orientation.html
-            QMatrix matrix;
-            if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
-                  matrix.rotate(-90);
-                  QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
-                  delete UnfilteredImage;
-                  UnfilteredImage=NewImage;
-            } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
-                  matrix.rotate(180);
-                  QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
-                  delete UnfilteredImage;
-                  UnfilteredImage=NewImage;
-            } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
-                  matrix.rotate(90);
-                  QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
-                  delete UnfilteredImage;
-                  UnfilteredImage=NewImage;
-            }
-            delete LoadedImg;
-
+        QImage *UnfilteredImage=ImageObject->ValidateUnfilteredImage();
+        if (UnfilteredImage && !UnfilteredImage->isNull()) {
+            // Compute image geometry
             ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
             double RatioHW=double(UnfilteredImage->width())/double(UnfilteredImage->height());
             if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
@@ -250,97 +244,54 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
             else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
             else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
             else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
-
             return new QImage(UnfilteredImage->copy());
         }
-        return NULL;
+        return NULL;    // Image is not correct !
     }
 
-    // If ForceLoadDisk then ensure CacheImage is null
-    if (ForceLoadDisk) {
-        if (CacheFullImage!=NULL) {
-            if (CacheFullImage!=CacheImage) delete CacheFullImage;
-            CacheFullImage=NULL;
-        }
-        if (CacheImage!=NULL) {
-            delete CacheImage;
-            CacheImage=NULL;
-        }
+    // Ensure ImageObject is at correct state
+    if ((ForceLoadDisk)||                                                                           // If full refresh asked
+        ((!PreviewMode)&&(ImageObject->CacheFullImage==NULL)&&(ImageObject->CacheImage!=NULL))||    // if not preview mode and CacheImage not null but CacheFullImage is null
+        ((PreviewMode)&&(ImageObject->CacheImage==NULL)&&(ImageObject->CacheFullImage!=NULL)))      // if preview mode and CacheFullImage not null but CacheImage is null       ??????????????
+            ImageObject->ClearCacheAndCacheFull();
+
+    // Stop here if we have wanted image
+    if ((PreviewMode)&&(ImageObject->CacheImage)) return new QImage(ImageObject->CacheImage->copy());
+
+
+    // Ensure CacheFullImage is valide
+    QImage *CacheFullImage=ImageObject->ValidateCacheFullImage((Filter && !PreviewMode)?Filter:NULL);
+    if (CacheFullImage && !CacheFullImage->isNull()) {
+        // Compute image geometry
+        ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+        double RatioHW=double(CacheFullImage->width())/double(CacheFullImage->height());
+        if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+        else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+        else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+        else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+        else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+        else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+        else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+        else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
     }
 
-    // Try to load image from FileName
-    if (((!PreviewMode)&&(!CacheFullImage))||((PreviewMode)&&(!CacheImage))) {
-        // Make sure we have nothing !
-        if (CacheFullImage!=NULL) {
-            if (CacheFullImage!=CacheImage) delete CacheFullImage;
-            CacheFullImage=NULL;
-        }
-        if (CacheImage!=NULL) {
-            delete CacheImage;
-            CacheImage=NULL;
-        }
-        // Make cache image
-        GlobalMainWindow->StatusBarList.append(QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
-        CacheFullImage=new QImage(FileName);
+    // if PreviewMode then ensure CacheImage is valide
+    if (PreviewMode) {
+        QImage *CacheImage=ImageObject->ValidateCacheImage(Filter);
 
-        if (CacheFullImage->isNull()) {
-            // If error then free CacheFullImage
-            IsValide=false;
-            delete CacheFullImage;
-            CacheFullImage=NULL;
-        } else {
-            // If image is ok then apply exif orientation (if needed)
-            // A good explanation of the exif orientation tag is available at http://jpegclub.org/exif_orientation.html
-            QMatrix matrix;
-            if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
-                  matrix.rotate(-90);
-                  QImage *NewImage=new QImage(CacheFullImage->transformed(matrix));
-                  delete CacheFullImage;
-                  CacheFullImage=NewImage;
-            } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
-                  matrix.rotate(180);
-                  QImage *NewImage=new QImage(CacheFullImage->transformed(matrix));
-                  delete CacheFullImage;
-                  CacheFullImage=NewImage;
-            } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
-                  matrix.rotate(90);
-                  QImage *NewImage=new QImage(CacheFullImage->transformed(matrix));
-                  delete CacheFullImage;
-                  CacheFullImage=NewImage;
-            }
-            ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
-            double RatioHW=double(CacheFullImage->width())/double(CacheFullImage->height());
-            if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
-            else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
-            else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
-            else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
-            else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
-            else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
-            else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
-            else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
-
-            // if filter then apply filter
-            if (Filter && !PreviewMode) Filter->ApplyFilter(CacheFullImage);
-
-            // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
-            if (CacheFullImage->height()<=GlobalMainWindow->ApplicationConfig->PreviewMaxHeight*2)  CacheImage=CacheFullImage;
-                else CacheImage=new QImage(CacheFullImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
-
-            if (Filter && PreviewMode) Filter->ApplyFilter(CacheImage);
-
-            // Get preview image size
-            ImageHeight=CacheImage->height();
-            ImageWidth =CacheImage->width();
-        }
+        // Get preview image size
+        ImageHeight=CacheImage->height();
+        ImageWidth =CacheImage->width();
     }
+
     // For memory usage reduction : free CacheFullImage if preview mode
-    if ((PreviewMode)&&(CacheFullImage!=NULL)&&(CacheFullImage!=CacheImage)) {
-        delete CacheFullImage;
-        CacheFullImage=NULL;
+    if ((PreviewMode)&&(ImageObject->CacheFullImage!=NULL)&&(ImageObject->CacheFullImage!=ImageObject->CacheImage)) {
+        delete ImageObject->CacheFullImage;
+        ImageObject->CacheFullImage=NULL;
     }
 
     // return wanted image
-    if ((PreviewMode)&&(CacheImage))      return new QImage(CacheImage->copy());
-    if ((!PreviewMode)&&(CacheFullImage)) return new QImage(CacheFullImage->copy());
+    if ((PreviewMode)&&(ImageObject->CacheImage))      return new QImage(ImageObject->CacheImage->copy());
+    if ((!PreviewMode)&&(ImageObject->CacheFullImage)) return new QImage(ImageObject->CacheFullImage->copy());
     return NULL; // if image is not valide
 }

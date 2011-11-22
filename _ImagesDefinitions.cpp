@@ -564,8 +564,9 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
             } else if (Image!=NULL) {
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
                     Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
-                    Element.setAttribute("ImageOrientation",Image->ImageOrientation);
                     Image->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
+                    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(BrushFileName); // Get image object
+                    if (ImageObject) Element.setAttribute("ImageOrientation",ImageObject->ImageOrientation);
                 }
             }
             break;
@@ -611,11 +612,13 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     QString Extension=QFileInfo(BrushFileName).suffix().toLower();
                     for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
                         Image=new cimagefilewrapper();
-                        if (Element.hasAttribute("ImageOrientation")) Image->ImageOrientation=Element.attribute("ImageOrientation").toInt();
                         IsValide=Image->GetInformationFromFile(BrushFileName,AliasList);
                         if (!IsValide) {
                             delete Image;
                             Image=NULL;
+                        } else {
+                            cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(BrushFileName); // Get image object
+                            if ((ImageObject)&&(Element.hasAttribute("ImageOrientation"))) ImageObject->ImageOrientation=Element.attribute("ImageOrientation").toInt();
                         }
                         break;
                     }

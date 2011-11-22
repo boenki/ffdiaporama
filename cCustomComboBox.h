@@ -237,4 +237,19 @@ public slots:
     void s_ItemSelectionChanged();
 };
 
+//******************************************************************************************************************
+// Custom QLabel
+//******************************************************************************************************************
+
+class cCustomLabel : public QLabel {
+Q_OBJECT
+public:
+    explicit cCustomLabel(QWidget *parent=0);
+
+    void DisplayCustomText(QString Text);
+
+protected:
+    virtual void paintEvent (QPaintEvent *);
+};
+
 #endif // cCustomColorComboBox_H

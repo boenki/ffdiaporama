@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 19/11/2011) :
+Buggs/TODO (Dernier SVN le 20/11/2011) :
 ----------------------------------------
 BUGG:
 -Le mixage de 2 pistes audio à fort volume donne un résultat saturé
@@ -65,18 +65,23 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige l'erreur d'affectation d'un style quand on n'en sélectionne aucun dans le menu popup des styles
+-Corrige un bug pour retrouver un style custom définit dans la boite de configuration à appliquer
+-Corrige le bug d'affichage qui empêchait l'information du chargement de fichier d'apparaître lors des sélections de slide par l'utilisateur
+-Modifie la correction du bug de changement de luminosité lors des transitions en fondu (cross fade) par l'ajout d'une 2eme transition en fondu sans disparition
+
 
 English version / Bug fix :
--Buf fix of style affectation when nothing is selected in the style popup menu
+-Fix a bug to find correct style when it is defined in option dialog and it is custom
+-Fix display bug which prevented the information of loading file from appearing during the selections of slide by the user
+-Modify bug fix of cross fade transition by the addition of a second cross fade transition without disapear of previous image
 
 French version / Nouvelles fonctionnalités :
--Active les traductions pour l'allemand, le néerlandais et le portugais, même si les traductions ne sont pas faites
--Ajout d'un launcher dans le paquet pour Windows afin de rendre l'association de fichier fonctionnelle sous Windows (il est maintenant possible de lancer l'application par double click sur un fichier .ffd dans l'explorateur de fichier)
+-Améliore encore le gestionnaire de mémoire avec la mise en place d'un cache d'image en LuLo (Last Used is Last Out)
+-Ajoute une transition Passage au noir dans la famille Basic
 
 English version / New features :
--Activate the translations for German, Dutch and Portuguese, even if the translations are not made
--Addition of a launcher in the Windows package to make the file association functional under Windows (it is now possible to launch the application by click double on a .ffd file in the windows explorer)
+-Still improve the cache memory manager with the implementation of LuLo cache (Last Used is Last Out)
+-Add a "Go to black" transition in Basic familly
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -115,6 +120,7 @@ Bug fix French version
 -Corrige le gestionnaire de mémoire pour supprimer plus de blocs
 -Corrige la fenetre principal et la boite slide pour qu'ils tiennent compte de l'option "pas de confirmation lors des suppressions)
 -Corrige le problème de lecture du son sur certaines distributions Linux par l'ajout d'une option SDL Ancien mode dans la boite de configuration
+-Corrige l'erreur d'affectation d'un style quand on n'en sélectionne aucun dans le menu popup des styles
 
 Bug fix English version
 -Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -149,6 +155,7 @@ Bug fix English version
 -Fix memory manager to remove more blocks
 -Fix MainWindow and slide dialog for they use option "Ask user for removing objects"
 -Fix play of sound for some Linux release by the addition of a new option in the option dialog
+-Buf fix of style affectation when nothing is selected in the style popup menu
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
@@ -211,6 +218,8 @@ French version
 -Ajoute une option dans la boite de configuration pour sélectionner le nombre de slide conservés en mémoire cache
 -Ajoute une option dans la boite de configuration pour activer l'ancien mode audio pour SDL
 -Ajout d'un fond supplémentaire dans la librairie Tulle
+-Active les traductions pour l'allemand, le néerlandais et le portugais, même si les traductions ne sont pas faites
+-Ajout d'un launcher dans le paquet pour Windows afin de rendre l'association de fichier fonctionnelle sous Windows (il est maintenant possible de lancer l'application par double click sur un fichier .ffd dans l'explorateur de fichier)
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -265,3 +274,5 @@ English version
 -Add an option in option dialog to select how many slides are keep in cache
 -Add an option in option dialog to activate SDL audio old mode
 -Add a new backgound in the library Tulle
+-Activate the translations for German, Dutch and Portuguese, even if the translations are not made
+-Addition of a launcher in the Windows package to make the file association functional under Windows (it is now possible to launch the application by click double on a .ffd file in the windows explorer)
