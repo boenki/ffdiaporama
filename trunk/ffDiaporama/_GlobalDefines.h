@@ -306,7 +306,7 @@ extern "C" {
 #define TRANSITIONFAMILLY_LUMA_SNAKE        9
 
 // No luma transition : number of sub type
-#define TRANSITIONMAXSUBTYPE_BASE           2
+#define TRANSITIONMAXSUBTYPE_BASE           4
 #define TRANSITIONMAXSUBTYPE_ZOOMINOUT      18
 #define TRANSITIONMAXSUBTYPE_SLIDE          16
 #define TRANSITIONMAXSUBTYPE_PUSH           16
@@ -459,6 +459,7 @@ extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];              // Real definiti
 #include "_StyleDefinitions.h"
 #include "_SoundDefinitions.h"
 #include "_ImagesDefinitions.h"
+#include "_cLuLoImageCache.h"
 #include "_ImageFileWrapper.h"
 #include "_VideoFileWrapper.h"
 #include "_ApplicationDefinitions.h"

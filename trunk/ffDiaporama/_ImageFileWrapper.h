@@ -33,13 +33,14 @@ public:
     QDateTime               ModifDateTime;          // Last modified date/time
     int                     ImageWidth;             // Widht of normal image
     int                     ImageHeight;            // Height of normal image
-    int                     ImageOrientation;       // Image orientation (EXIF)
+    cFilterTransformObject  BrushFileTransform;     // Image transformation if image from disk
+    QStringList             ExivValue;
+
+    /*
     QImage                  *CacheImage;            // Cache image (Preview mode)
     QImage                  *CacheFullImage;        // Cache image (Full image mode)
     QImage                  *UnfilteredImage;       // Cache image (Preview image with no filter)
-    cFilterTransformObject  BrushFileTransform;     // Image transformation if image from disk
-
-    QStringList             ExivValue;
+    */
 
     cimagefilewrapper();
     ~cimagefilewrapper();

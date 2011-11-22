@@ -211,6 +211,7 @@ DlgSlideProperties::~DlgSlideProperties() {
 
 void DlgSlideProperties::Clean() {
     StopMAJSpinbox=true;
+    InScene_SelectionChanged=true;
     // Delete scene and all of it's content, if exist
     if (scene!=NULL) {
         // delete all items
@@ -229,6 +230,7 @@ void DlgSlideProperties::Clean() {
         delete scene;
         scene=NULL;
     }
+    InScene_SelectionChanged=false;
     StopMAJSpinbox=false;
 }
 
@@ -713,14 +715,8 @@ void DlgSlideProperties::RefreshSceneImage() {
 
 void DlgSlideProperties::RefreshSceneImageAndCache(cCompositionObject *CurrentTextItem,cBrushDefinition *CurrentBrush) {
     if (CurrentBrush->Image) {
-        if (CurrentBrush->Image->CacheImage) {
-            if (CurrentBrush->Image->CacheImage!=CurrentBrush->Image->CacheFullImage) delete CurrentBrush->Image->CacheImage;
-            CurrentBrush->Image->CacheImage=NULL;
-        }
-        if (CurrentBrush->Image->CacheFullImage) {
-            delete CurrentBrush->Image->CacheFullImage;
-            CurrentBrush->Image->CacheFullImage=NULL;
-        }
+        cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(CurrentBrush->Image->FileName);
+        ImageObject->ClearCacheAndCacheFull();
     } else if (CurrentBrush->Video) {
         if (CurrentBrush->Video->CacheFirstImage) {
             delete CurrentBrush->Video->CacheFirstImage;
@@ -1283,6 +1279,7 @@ void DlgSlideProperties::s_ShotTable_SelectionChanged() {
         while ((i<CompositionList->List.count())&&(CompositionList->List[i].IndexKey!=IndexKey)) i++;
         if (i<CompositionList->List.count()) ui->BlockTable->setCurrentCell(i,0);
     }
+
     InShotTable_SelectionChanged=false;
 }
 
@@ -1463,19 +1460,28 @@ void DlgSlideProperties::s_BlockTable_SelectionChanged() {
     cCustomGraphicsRectItem *CurrentItemInScene=GetSelectItem();
     cCompositionObject      *CurrentItemInTable=GetSelectedCompositionObject();
 
+    // If Item already selected then exit
+    if (CurrentItemInScene && CurrentItemInTable &&(CurrentItemInScene->IndexKey==CurrentItemInTable->IndexKey)) return;
+    InBlockTable_SelectionChanged=true;
+
     // Check if the scene current item must be change
-    if (!((CurrentItemInScene!=NULL)&&(CurrentItemInTable!=NULL)&&(CurrentItemInScene->IndexKey==CurrentItemInTable->IndexKey))) {
-        InBlockTable_SelectionChanged=true;
-        // Select item
-        for (int i=0;i<scene->items().count();i++) {
-            QGraphicsItem   *Item=scene->items().at(i);
-            QString         data =Item->data(0).toString();
-            if ((data=="CustomGraphicsRectItem")&&(((cCustomGraphicsRectItem *)Item)->IndexKey==CompositionList->List[CurrentBlock].IndexKey)) scene->items().at(i)->setSelected(true);
-                else scene->items().at(i)->setSelected(false);
+    // Select item
+    InScene_SelectionChanged=true;  // Neutralise s_Scene_SelectionChanged
+    for (int i=0;i<scene->items().count();i++) {
+        cCustomGraphicsRectItem *Item=(cCustomGraphicsRectItem *)scene->items().at(i);
+        QString                 data =Item->data(0).toString();
+        if ((data=="CustomGraphicsRectItem")&&(Item->IsVisible)) {
+            if ((Item)&&(Item->IndexKey==CompositionList->List[CurrentBlock].IndexKey)) {
+                if (!Item->isSelected()) Item->setSelected(true);
+            } else {
+                if (Item->isSelected()) Item->setSelected(false);
+            }
         }
-        RefreshControls();
-        InBlockTable_SelectionChanged=false;
     }
+    InScene_SelectionChanged=false;
+
+    RefreshControls();
+    InBlockTable_SelectionChanged=false;
 }
 
 //====================================================================================================================

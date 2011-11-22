@@ -411,49 +411,41 @@
              </property>
             </widget>
            </item>
-           <item row="8" column="0">
-            <widget class="QLabel" name="label_7">
+           <item row="4" column="0" colspan="2">
+            <widget class="QCheckBox" name="SDLAudioModeCB">
              <property name="text">
-              <string>Slides in memory :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <string>SDL Audio use old mode</string>
              </property>
             </widget>
            </item>
            <item row="8" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout">
+            <layout class="QHBoxLayout" name="horizontalLayout_16">
              <item>
-              <widget class="QComboBox" name="PreviewCachedSlidesCB">
+              <widget class="QComboBox" name="MemCacheProfilCB">
                <item>
                 <property name="text">
-                 <string notr="true">11</string>
+                 <string>256 Mb</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string notr="true">21</string>
+                 <string>512 Mb</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string notr="true">31</string>
+                 <string>1 Gb</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string notr="true">41</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string notr="true">51</string>
+                 <string>2 Gb</string>
                 </property>
                </item>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_42">
+              <widget class="QLabel" name="label_89">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -467,10 +459,13 @@
              </item>
             </layout>
            </item>
-           <item row="4" column="0" colspan="2">
-            <widget class="QCheckBox" name="SDLAudioModeCB">
+           <item row="8" column="0">
+            <widget class="QLabel" name="label_7">
              <property name="text">
-              <string>SDL Audio use old mode</string>
+              <string>Memory profil :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
@@ -504,7 +499,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>556</width>
+            <width>555</width>
             <height>1999</height>
            </rect>
           </property>

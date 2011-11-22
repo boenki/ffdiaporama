@@ -47,7 +47,10 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
     ui->SDLAudioModeCB->setChecked(ApplicationConfig->SDLAudioOldMode);
 
-    for (int i=0;i<ui->PreviewCachedSlidesCB->count();i++) if (ui->PreviewCachedSlidesCB->itemText(i)==QString("%1").arg(ApplicationConfig->NbrSlideInCache*2+1)) ui->PreviewCachedSlidesCB->setCurrentIndex(i);
+    if (ApplicationConfig->MemCacheMaxValue<=qlonglong(128*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(0);
+    else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(1);
+    else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(512*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(2);
+    else ui->MemCacheProfilCB->setCurrentIndex(3);
 
     // Preview Options
     QString FPS=(QString("%1").arg(ApplicationConfig->PreviewFPS,0,'f')).trimmed();
@@ -281,7 +284,21 @@ void DlgApplicationSettings::accept() {
     // Preview Options part
     ApplicationConfig->ApplyTransfoPreview      =ui->ApplyTransfoDuringPreviewCB->isChecked();
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
-    ApplicationConfig->NbrSlideInCache          =(ui->PreviewCachedSlidesCB->currentText().toInt()-1)/2;
+
+    switch (ui->MemCacheProfilCB->currentIndex()) {
+        case 3 : ApplicationConfig->MemCacheMaxValue=qlonglong(1024*1024*1024);
+                 ApplicationConfig->NbrSlideInCache =40;
+                 break;
+        case 2 : ApplicationConfig->MemCacheMaxValue=qlonglong(512*1024*1024);
+                 ApplicationConfig->NbrSlideInCache =20;
+                 break;
+        case 1 : ApplicationConfig->MemCacheMaxValue=qlonglong(256*1024*1024);
+                 ApplicationConfig->NbrSlideInCache =10;
+                 break;
+        default : ApplicationConfig->MemCacheMaxValue=qlonglong(128*1024*1024);
+                 ApplicationConfig->NbrSlideInCache =5;
+                 break;
+        }
 
     // Editor Options part
     ApplicationConfig->AppendObject             =ui->AppendObjectCB->currentIndex()==1;

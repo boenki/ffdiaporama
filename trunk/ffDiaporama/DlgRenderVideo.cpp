@@ -837,8 +837,8 @@ void DlgRenderVideo::accept() {
                 Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
 
                 // Prepare frame with correct W and H
-                Diaporama->LoadSources(Frame,double(H)/double(1080),W,H,false,true);                                     // Load source images
-                Diaporama->DoAssembly(Frame,W,H);                                            // Make final assembly
+                Diaporama->LoadSources(Frame,double(H)/double(1080),W,H,false,true);        // Load source images
+                Diaporama->DoAssembly(Frame,W,H);                                           // Make final assembly
 
                 // Give time to interface!
                 QApplication::processEvents();
@@ -858,7 +858,7 @@ void DlgRenderVideo::accept() {
                     // Give time to interface!
                     QApplication::processEvents();
                     // Stop the process if error occur or user ask to stop
-                    Continue=Continue && !StopProcessWanted;;
+                    Continue=Continue && !StopProcessWanted;
                 }
 
                 // Calculate next position

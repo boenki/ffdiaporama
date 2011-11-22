@@ -170,8 +170,13 @@ QString cStyleCollection::GetStyleName(QString StyleDef) {
 
 QString cStyleCollection::GetStyleDef(QString StyleName) {
     int i=0;
-    while ((i<Collection.count())&&(Collection[i].StyleName!=ActiveFilter+StyleName)) i++;
-    if ((i<Collection.count())&&(Collection[i].StyleName==ActiveFilter+StyleName)) return Collection[i].StyleDef; else return "";
+    if (StyleName.startsWith(ActiveFilter)) {
+        while ((i<Collection.count())&&(Collection[i].StyleName!=StyleName)) i++;
+        if ((i<Collection.count())&&(Collection[i].StyleName==StyleName)) return Collection[i].StyleDef; else return "";
+    } else {
+        while ((i<Collection.count())&&(Collection[i].StyleName!=ActiveFilter+StyleName)) i++;
+        if ((i<Collection.count())&&(Collection[i].StyleName==ActiveFilter+StyleName)) return Collection[i].StyleDef; else return "";
+    }
 }
 
 //************************************************
@@ -311,6 +316,8 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
 
 //************************************************
 void cStyleCollection::FillCollectionCB(QComboBox *CB,QString ActualStyleName,bool AdditionnalFramingStyle) {
+    if ((ActiveFilter!="")&&(ActualStyleName.startsWith(ActiveFilter))) ActualStyleName=ActualStyleName.mid(ActiveFilter.length());
+
     // Compute if update is needed !
     bool NeedUpdate=false;
 

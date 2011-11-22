@@ -2559,7 +2559,7 @@ and help</string>
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>-81</y>
+           <y>0</y>
            <width>402</width>
            <height>293</height>
           </rect>
@@ -2702,6 +2702,24 @@ and help</string>
       </property>
       <item>
        <widget class="QLabel" name="StatusBar_SlideNumber">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>21</height>
+         </size>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -2717,12 +2735,24 @@ and help</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="StatusBar">
+       <widget class="cCustomLabel" name="StatusBar">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>21</height>
+         </size>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -2734,7 +2764,7 @@ and help</string>
          <number>2</number>
         </property>
         <property name="text">
-         <string>Statusbar</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -2966,6 +2996,11 @@ and help</string>
    <class>cCustomTableWidget</class>
    <extends>QTableWidget</extends>
    <header>cCustomTableWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCustomLabel</class>
+   <extends>QLabel</extends>
+   <header>cCustomComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

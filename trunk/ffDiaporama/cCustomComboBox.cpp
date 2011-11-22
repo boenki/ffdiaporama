@@ -737,3 +737,22 @@ void cBackgroundComboBox::s_ItemSelectionChanged() {
     emit currentIndexChanged(((QTableWidget *)view())->currentRow());
     STOPMAJ=false;
 }
+
+//========================================================================================================================
+
+cCustomLabel::cCustomLabel(QWidget *parent):QLabel(parent) {
+    setAttribute(Qt::WA_PaintOutsidePaintEvent, true);
+}
+
+void cCustomLabel::paintEvent(QPaintEvent *) {
+    DisplayCustomText(text());
+}
+
+void cCustomLabel::DisplayCustomText(QString Text) {
+    QPainter Painter(this);
+    Painter.save();
+    Painter.setBrush(QBrush(Qt::lightGray));
+    Painter.drawRoundedRect(QRect(1,1,this->width()-3,this->height()-3),5,5);
+    Painter.drawText(QRect(3,2,this->width()-5,this->height()-5),Text,QTextOption(Qt::AlignVCenter));
+    Painter.restore();
+}

@@ -37,6 +37,7 @@ MainWindow  *GlobalMainWindow=NULL;
 
 MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    CurrentThreadId         =this->thread()->currentThreadId();
     IsFirstRefresh          =true;
     InternetBUILDVERSION    ="";
     GlobalMainWindow        =this;
@@ -332,6 +333,15 @@ void MainWindow::s_TimerEvent() {
     }
 }
 
+void MainWindow::SetTempStatusText(QString Text) {
+    if (CurrentThreadId==this->thread()->currentThreadId()) {
+        ui->StatusBar->DisplayCustomText(Text);
+        ui->StatusBar->repaint();
+    } else {
+        StatusBarList.append(Text);
+    }
+}
+
 //====================================================================================================================
 
 void MainWindow::SetTimelineHeight() {
@@ -574,6 +584,7 @@ void MainWindow::s_ChPartitionMode() {
 void MainWindow::s_ItemDoubleClicked() {
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     bool DoneAgain=true;
     while (DoneAgain) {
         DoneAgain=false;
@@ -835,6 +846,7 @@ void MainWindow::s_action_New() {
     if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","New project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
 
+    ImagesCache.List.clear();
     cDiaporama *NewDiaporama=new cDiaporama(ApplicationConfig);
 
     // Clean actual timeline and diaporama
@@ -893,6 +905,10 @@ void MainWindow::s_action_Open() {
 void MainWindow::OpenFile(QString ProjectFileName) {
     ProjectFileName=AdjustDirForOS(ProjectFileName);
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    ImagesCache.List.clear();
+
+    GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Open file :")+QFileInfo(ProjectFileName).fileName());
 
     // Manage Recent files list
     for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (AdjustDirForOS(ApplicationConfig->RecentFile.at(i))==ProjectFileName) {
