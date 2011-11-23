@@ -205,16 +205,6 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName,QStringList
         ImageObject->ClearAll();    // Clear all cached images
         if (ImageObject->ImageOrientation==0) CallEXIF();
     }
-/*
-    if (CacheFullImage!=NULL) {
-        if (CacheFullImage!=CacheImage) delete CacheFullImage;
-        CacheFullImage=NULL;
-    }
-    if (CacheImage!=NULL) {
-        delete CacheImage;
-        CacheImage=NULL;
-    }
-*/
     return IsValide;
 }
 
