@@ -135,6 +135,13 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     //********************************
     InitImageSizeCombo(0);
 
+    ui->SmartphoneTypeCB->view()->setFixedWidth(400);
+    ui->MMSystemTypeCB->view()->setFixedWidth(400);
+    ui->ForTheWTypeCB->view()->setFixedWidth(400);
+    ui->SmartphoneModelCB->view()->setFixedWidth(400);
+    ui->MMSystemModelCB->view()->setFixedWidth(400);
+    ui->ForTheWModelCB->view()->setFixedWidth(400);
+
     // Init format container combo
     for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
         ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));

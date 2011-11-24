@@ -121,6 +121,12 @@ bool cFilterTransformObject::LoadFromXML(QDomElement domDocument,QString Element
     return false;
 }
 
+//====================================================================================================================
+
+QString cFilterTransformObject::FilterToString() {
+    return QString("%1##%2##%3").arg(int(BlurSigma*100)).arg(int(BlurRadius*100)).arg(OnOffFilter);
+}
+
 //*********************************************************************************************************************************************
 // Base object for filters correction image
 //*********************************************************************************************************************************************
@@ -439,10 +445,10 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
     // W and H = 0 when producing sound track in render process
     bool    SoundOnly=((Rect.width()==0)&&(Rect.height()==0));
 
-    QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&Image->BrushFileTransform):
-                        Video?Video->ImageAt(PreviewMode,Position,StartPosToAdd,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform):
-                        NULL);
-    if ((!SoundOnly)&&(RenderImage)) {
+    if (!SoundOnly) {
+        QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&Image->BrushFileTransform):
+                            Video?Video->ImageAt(PreviewMode,Position,StartPosToAdd,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform):
+                            NULL);
         // Create brush image with ken burns effect !
         QImage *Img=BrushFileCorrect.GetImage(RenderImage,Rect.width(),Rect.height(),PctDone,PreviousBrush?&PreviousBrush->BrushFileCorrect:NULL);
         QBrush *Ret=new QBrush(*Img);
@@ -450,7 +456,11 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
         delete RenderImage;
         return Ret;
     } else {
-        if (RenderImage) delete RenderImage;
+        // Force loading of sound of video
+        if (Video) {
+            QImage *RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform);
+            delete RenderImage;
+        }
         return new QBrush(Qt::NoBrush);
     }
 }
@@ -565,7 +575,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
                     Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
                     Image->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
-                    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(BrushFileName); // Get image object
+                    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(BrushFileName,&Image->BrushFileTransform); // Get image object
                     if (ImageObject) Element.setAttribute("ImageOrientation",ImageObject->ImageOrientation);
                 }
             }
@@ -617,7 +627,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                             delete Image;
                             Image=NULL;
                         } else {
-                            cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(BrushFileName); // Get image object
+                            cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(BrushFileName,&Image->BrushFileTransform); // Get image object
                             if ((ImageObject)&&(Element.hasAttribute("ImageOrientation"))) ImageObject->ImageOrientation=Element.attribute("ImageOrientation").toInt();
                         }
                         break;

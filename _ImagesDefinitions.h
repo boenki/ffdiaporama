@@ -43,6 +43,7 @@ public:
     void        ApplyFilter(QImage *Image);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
+    QString     FilterToString();
 };
 
 //*********************************************************************************************************************************************

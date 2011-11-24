@@ -52,6 +52,7 @@ public:
     int                     IsDragOn;                       // DragOff=0, DragInternal=0 or DragExternal=0
     cLuLoImageCache         ImagesCache;                    // cLuLoImageCache List Object
     Qt::HANDLE              CurrentThreadId;
+    bool                    InPlayerUpdate;
 
 
     explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);

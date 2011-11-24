@@ -1501,32 +1501,6 @@ void cDiaporama::FreeUnusedMemory(int ObjectNum,int NbrSlideInCache) {
     if (ObjectNum==-1) return;
     // free CacheFullImage
     for (int i=0;i<List.count();i++) if ((i<(ObjectNum-NbrSlideInCache))||(i>(ObjectNum+NbrSlideInCache))) {
-        /*
-        for (int j=0;j<List[i].ObjectComposition.List.count();j++) {
-            if (List[i].ObjectComposition.List[j].BackgroundBrush.Image) {
-
-                // Cached Full image if different from Cached image
-                if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage) {
-                    if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage!=List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheImage)
-                        delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage;
-                    List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheFullImage=NULL;
-                }
-
-                // Unfiltered image
-                if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage) {
-                    delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage;
-                    List[i].ObjectComposition.List[j].BackgroundBrush.Image->UnfilteredImage=NULL;
-                }
-
-                // Cached Full image if different from Cached image
-                if (List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheImage!=NULL) {
-                    delete List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheImage;
-                    List[i].ObjectComposition.List[j].BackgroundBrush.Image->CacheImage=NULL;
-                }
-
-            }
-        }
-        */
         // free CachedBrushBrush
         for (int j=0;j<List[i].List.count();j++) for (int k=0;k<List[i].List[j].ShotComposition.List.count();k++) {
             if (List[i].List[j].ShotComposition.List[k].CachedBrushBrush) {

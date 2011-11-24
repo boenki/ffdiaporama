@@ -48,6 +48,7 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     DragItemSource          =-1;
     DragItemDest            =-1;
     IsDragOn                =0;
+    InPlayerUpdate          =false;
     ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
     ui->preview2->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
 
@@ -213,6 +214,7 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     connect(ui->Action_Save_BT,SIGNAL(pressed()),this,SLOT(s_action_Save()));                           connect(ui->Action_Save_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Save()));
     connect(ui->ActionSave_as_BT,SIGNAL(pressed()),this,SLOT(s_action_SaveAs()));                       connect(ui->ActionSave_as_BT_2,SIGNAL(pressed()),this,SLOT(s_action_SaveAs()));
     connect(ui->ActionConfiguration_BT,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));     connect(ui->ActionConfiguration_BT_2,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));
+
     connect(ui->Action_Exit_BT,SIGNAL(pressed()),this,SLOT(s_action_Exit()));                           connect(ui->Action_Exit_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Exit()));
 
     // Project menu
@@ -227,7 +229,9 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
 
     connect(ui->actionEdit_background,SIGNAL(triggered()),this,SLOT(s_BackgroundDoubleClicked()));
     connect(ui->actionEdit_background_transition,SIGNAL(triggered()),this,SLOT(s_TransitionBackgroundDoubleClicked()));
+
     connect(ui->actionEdit_object,SIGNAL(triggered()),this,SLOT(s_ItemDoubleClicked()));
+
     connect(ui->actionEdit_object_in_transition,SIGNAL(triggered()),this,SLOT(s_TransitionItemDoubleClicked()));
     connect(ui->actionEdit_music,SIGNAL(triggered()),this,SLOT(s_MusicDoubleClicked()));
 
@@ -245,7 +249,6 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
 
     connect(ui->PartitionBT,SIGNAL(pressed()),this,SLOT(s_ChPartitionMode()));
     connect(ui->Partition2BT,SIGNAL(pressed()),this,SLOT(s_ChPartitionMode()));
-
     connect(ui->TABTooltip,SIGNAL(linkActivated(const QString)),this,SLOT(s_TABTooltipLink(const QString)));
 
     // Timer
@@ -325,7 +328,7 @@ void MainWindow::s_TimerEvent() {
         LastCount=0;
     } else {
         LastCount++;
-        if (LastCount==10) ui->StatusBar->setText(InternetBUILDVERSION);
+        if (LastCount>=10) ui->StatusBar->setText(InternetBUILDVERSION);
     }
     if (!IsFirstRefresh) {
         IsFirstRefresh=true;
@@ -335,10 +338,15 @@ void MainWindow::s_TimerEvent() {
 
 void MainWindow::SetTempStatusText(QString Text) {
     if (CurrentThreadId==this->thread()->currentThreadId()) {
+        /*
         ui->StatusBar->DisplayCustomText(Text);
         ui->StatusBar->repaint();
+        */
+        ui->StatusBar->setText(Text);
+        QApplication::processEvents();
     } else {
-        StatusBarList.append(Text);
+        ui->StatusBar->setText(Text);
+        //StatusBarList.append(Text);
     }
 }
 
@@ -534,16 +542,26 @@ void MainWindow::s_NewFunctions() {
 //====================================================================================================================
 
 void MainWindow::s_action_Exit() {
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_action_Exit()));
+        return;
+    }
+
     close();
 }
 
 //====================================================================================================================
 
 void MainWindow::s_action_ZoomPlus() {
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_action_ZoomPlus()));
+        return;
+    }
+
     if ((ui->timeline->rowHeight(0)-ApplicationConfig->TimelineHeight/2-TIMELINESOUNDHEIGHT*2)<TIMELINEMAXHEIGH) {
         ApplicationConfig->TimelineHeight+=20;
         SetTimelineHeight();
@@ -554,8 +572,13 @@ void MainWindow::s_action_ZoomPlus() {
 //====================================================================================================================
 
 void MainWindow::s_action_ZoomMinus() {
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_action_ZoomMinus()));
+        return;
+    }
+
     if ((ui->timeline->rowHeight(0)-ApplicationConfig->TimelineHeight/2-TIMELINESOUNDHEIGHT*2)>TIMELINEMINHEIGH) {
         ApplicationConfig->TimelineHeight-=20;
         SetTimelineHeight();
@@ -566,8 +589,13 @@ void MainWindow::s_action_ZoomMinus() {
 //====================================================================================================================
 
 void MainWindow::s_ChPartitionMode() {
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_ChPartitionMode()));
+        return;
+    }
+
     int Selected=ui->timeline->CurrentSelected(); // Save current seleted item
     ApplicationConfig->PartitionMode=!ApplicationConfig->PartitionMode;
     SetTimelineHeight();
@@ -582,8 +610,12 @@ void MainWindow::s_ChPartitionMode() {
 //====================================================================================================================
 
 void MainWindow::s_ItemDoubleClicked() {
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_ItemDoubleClicked()));
+        return;
+    }
 
     bool DoneAgain=true;
     while (DoneAgain) {
@@ -623,8 +655,13 @@ void MainWindow::s_ItemDoubleClicked() {
 //====================================================================================================================
 
 void MainWindow::s_TransitionItemDoubleClicked() {
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_TransitionItemDoubleClicked()));
+        return;
+    }
+
     if (DlgTransitionProperties(&(Diaporama->List[Diaporama->CurrentCol]),false,this).exec()==0) {
         SetModifyFlag(true);
         (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
@@ -646,8 +683,13 @@ void MainWindow::s_SoundItemDoubleClicked() {
 
 void MainWindow::s_BackgroundDoubleClicked() {
     if (Diaporama->CurrentCol>=Diaporama->List.count()) return;
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_BackgroundDoubleClicked()));
+        return;
+    }
+
     if (DlgBackgroundProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0) {
         SetModifyFlag(true);
         (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
@@ -660,9 +702,14 @@ void MainWindow::s_BackgroundDoubleClicked() {
 //====================================================================================================================
 
 void MainWindow::s_TransitionBackgroundDoubleClicked() {
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
-    QMessageBox::critical(this,QApplication::translate("MainWindow","Not implemented"),QApplication::translate("MainWindow","Sorry, not yet done !"));
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_TransitionBackgroundDoubleClicked()));
+        return;
+    }
+
+//    QMessageBox::critical(this,QApplication::translate("MainWindow","Not implemented"),QApplication::translate("MainWindow","Sorry, not yet done !"));
 /*
     if (DlgTransitionProperties(&(Diaporama->List[Diaporama->CurrentCol]),true,this).exec()==0) {
         SetModifyFlag(true);
@@ -677,8 +724,13 @@ void MainWindow::s_TransitionBackgroundDoubleClicked() {
 //====================================================================================================================
 
 void MainWindow::s_MusicDoubleClicked() {
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_MusicDoubleClicked()));
+        return;
+    }
+
     if (DlgMusicProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0) {
         SetModifyFlag(true);
         (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
@@ -701,6 +753,10 @@ void MainWindow::s_DragMoveItem() {
 //====================================================================================================================
 
 void MainWindow::s_ItemSelectionChanged() {
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_ItemSelectionChanged()));
+        return;
+    }
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     if (!FLAGSTOPITEMSELECTION) {
         int Selected=ui->timeline->CurrentSelected();
@@ -723,8 +779,7 @@ void MainWindow::s_ItemSelectionChanged() {
             //************************************************************
             // We are here only if user has click on the timeline
             //************************************************************
-            ui->preview->SetPlayerToPause(); // Ensure player is stop
-            ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
             if (Diaporama->List.count()>0) {
                 Diaporama->CurrentCol=Selected;
                 Diaporama->CurrentPosition=Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol);
@@ -784,37 +839,57 @@ void MainWindow::s_ToolbarChanged(int MenuIndex) {
 //====================================================================================================================
 
 void MainWindow::s_RenderVideo() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_RenderVideo()));
+        return;
+    }
     ui->ActionRender_BT->setDown(false);
     ui->ActionRender_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     DlgRenderVideo(*Diaporama,EXPORTMODE_ADVANCED,this).exec();
     AdjustRuller();
 }
 
 void MainWindow::s_RenderSmartphone() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_RenderSmartphone()));
+        return;
+    }
     ui->ActionSmartphone_BT->setDown(false);
     ui->ActionSmartphone_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     DlgRenderVideo(*Diaporama,EXPORTMODE_SMARTPHONE,this).exec();
     AdjustRuller();
 }
 
 void MainWindow::s_RenderMultimedia() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_RenderMultimedia()));
+        return;
+    }
     ui->ActionMultimedia_BT->setDown(false);
     ui->ActionMultimedia_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     DlgRenderVideo(*Diaporama,EXPORTMODE_MULTIMEDIASYS,this).exec();
     AdjustRuller();
 }
 
 void MainWindow::s_RenderForTheWEB() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_RenderForTheWEB()));
+        return;
+    }
     ui->ActionForTheWEB_BT->setDown(false);
     ui->ActionForTheWEB_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     DlgRenderVideo(*Diaporama,EXPORTMODE_FORTHEWEB,this).exec();
     AdjustRuller();
 }
@@ -824,10 +899,15 @@ void MainWindow::s_RenderForTheWEB() {
 //====================================================================================================================
 
 void MainWindow::s_ChangeApplicationSettings() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_ChangeApplicationSettings()));
+        return;
+    }
     ui->ActionConfiguration_BT->setDown(false);
     ui->ActionConfiguration_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause();                            // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     DlgApplicationSettings(*ApplicationConfig,this).exec();
     ui->preview->WantedFPS=ApplicationConfig->PreviewFPS;
     ui->preview2->WantedFPS=ApplicationConfig->PreviewFPS;
@@ -839,10 +919,15 @@ void MainWindow::s_ChangeApplicationSettings() {
 //====================================================================================================================
 
 void MainWindow::s_action_New() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_action_New()));
+        return;
+    }
     ui->Action_New_BT->setDown(false);
     ui->Action_New_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","New project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
 
@@ -878,6 +963,12 @@ void MainWindow::s_action_New() {
 //====================================================================================================================
 
 void MainWindow::s_action_OpenRecent() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_action_OpenRecent()));
+        return;
+    }
     QMenu *ContextMenu=new QMenu(this);
     for (int i=ApplicationConfig->RecentFile.count()-1;i>=0;i--) ContextMenu->addAction(AdjustDirForOS(ApplicationConfig->RecentFile.at(i)));
     QAction *Action=ContextMenu->exec(QCursor::pos());
@@ -886,14 +977,20 @@ void MainWindow::s_action_OpenRecent() {
     delete ContextMenu;
     ui->Action_OpenRecent_BT->setDown(false);
     ui->Action_OpenRecent_BT_2->setDown(false);
+
     if (Selected!="") OpenFile(Selected);
 }
 
 void MainWindow::s_action_Open() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_action_Open()));
+        return;
+    }
     ui->Action_Open_BT->setDown(false);
     ui->Action_Open_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
 
@@ -956,10 +1053,15 @@ void MainWindow::OpenFile(QString ProjectFileName) {
 //====================================================================================================================
 
 void MainWindow::s_action_Save() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_action_Save()));
+        return;
+    }
     ui->Action_Save_BT->setDown(false);
     ui->Action_Save_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     if (Diaporama->ProjectFileName=="") s_action_SaveAs(); else {
         if (Diaporama->SaveFile(this)) SetModifyFlag(false);
     }
@@ -970,10 +1072,15 @@ void MainWindow::s_action_Save() {
 //====================================================================================================================
 
 void MainWindow::s_action_SaveAs() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_action_SaveAs()));
+        return;
+    }
     ui->ActionSave_as_BT->setDown(false);
     ui->ActionSave_as_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Save project as"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
     if (Diaporama->ProjectFileName!="") {
         if (QFileInfo(Diaporama->ProjectFileName).suffix()!="ffd") Diaporama->ProjectFileName=Diaporama->ProjectFileName+".ffd";
@@ -994,10 +1101,15 @@ void MainWindow::s_action_SaveAs() {
 //====================================================================================================================
 
 void MainWindow::s_action_AddTitle() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_action_AddTitle()));
+        return;
+    }
     ui->ActionAddtitle_BT->setDown(false);
     ui->ActionAddtitle_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;
     int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
@@ -1035,10 +1147,14 @@ void MainWindow::s_action_AddTitle() {
 //====================================================================================================================
 
 void MainWindow::s_action_AddFile() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_action_AddFile()));
+        return;
+    }
     ui->ActionAdd_BT->setDown(false);
     ui->ActionAdd_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
 
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add files"),
                                                        ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
@@ -1230,10 +1346,15 @@ void MainWindow::AddFiles(QStringList &FileList,int SavedCurIndex,int CurIndex) 
 //====================================================================================================================
 
 void MainWindow::s_action_AddProject() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_action_AddProject()));
+        return;
+    }
     ui->ActionAddProject_BT->setDown(false);
     ui->ActionAddProject_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     QApplication::processEvents();
     QString ProjectFileName=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
     if (ProjectFileName!="") {
@@ -1264,10 +1385,15 @@ void MainWindow::s_action_Edit() {
 //====================================================================================================================
 
 void MainWindow::s_RemoveObject() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_RemoveObject()));
+        return;
+    }
     ui->ActionRemove_BT->setDown(false);
     ui->ActionRemove_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     int Current=ui->timeline->CurrentSelected();
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
 
@@ -1290,10 +1416,15 @@ void MainWindow::s_RemoveObject() {
 //====================================================================================================================
 
 void MainWindow::s_CutToClipboard() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_CutToClipboard()));
+        return;
+    }
     ui->ActionCut_BT->setDown(false);
     ui->ActionCut_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     int Current=ui->timeline->CurrentSelected();
     if ((Current<0)||(Current>Diaporama->List.count()-1)) return;
 
@@ -1313,10 +1444,15 @@ void MainWindow::s_CutToClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_CopyToClipboard() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_CopyToClipboard()));
+        return;
+    }
     ui->ActionCopy_BT->setDown(false);
     ui->ActionCopy_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     int Current=ui->timeline->CurrentSelected();
     if ((Current<0)||(Current>Diaporama->List.count()-1)) return;
 
@@ -1337,10 +1473,15 @@ void MainWindow::s_CopyToClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_PasteFromClipboard() {
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_PasteFromClipboard()));
+        return;
+    }
     ui->ActionPaste_BT->setDown(false);
     ui->ActionPaste_BT_2->setDown(false);
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
-    ui->preview2->SetPlayerToPause(); // Ensure player is stop
+
     // Calc position of new object depending on ApplicationConfig->AppendObject
     int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;
     int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;

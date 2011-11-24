@@ -30,12 +30,12 @@
 // Base object for image cache manipulation
 //*********************************************************************************************************************************************
 
-cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName) {
-    FileName        =TheFileName;   // Full filename
-    CacheFullImage  =NULL;
-    CacheImage      =NULL;
-    UnfilteredImage =NULL;
-    ImageOrientation=0;             // Image orientation (EXIF)
+cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName,QString TheFilterString) {
+    FileName            =TheFileName;       // Full filename
+    FilterString        =TheFilterString;
+    CacheRenderImage    =NULL;
+    CachePreviewImage   =NULL;
+    ImageOrientation    =0;                 // Image orientation (EXIF)
 }
 
 //===============================================================================
@@ -47,128 +47,136 @@ cLuLoImageCacheObject::~cLuLoImageCacheObject() {
 //===============================================================================
 
 void cLuLoImageCacheObject::ClearAll() {
-    if (CacheFullImage!=NULL) {
-        if (CacheFullImage!=CacheImage) delete CacheFullImage;
-        CacheFullImage=NULL;
+    if (CacheRenderImage!=NULL) {
+        delete CacheRenderImage;
+        CacheRenderImage=NULL;
     }
-    if (CacheImage!=NULL) {
-        delete CacheImage;
-        CacheImage=NULL;
-    }
-    if (UnfilteredImage!=NULL) {
-        delete UnfilteredImage;
-        UnfilteredImage=NULL;
+    if (CachePreviewImage!=NULL) {
+        delete CachePreviewImage;
+        CachePreviewImage=NULL;
     }
 }
 
 //===============================================================================
 
-void cLuLoImageCacheObject::ClearCacheAndCacheFull() {
-    if (CacheFullImage!=NULL) {
-        if (CacheFullImage!=CacheImage) delete CacheFullImage;
-        CacheFullImage=NULL;
-    }
-    if (CacheImage!=NULL) {
-        delete CacheImage;
-        CacheImage=NULL;
-    }
-}
-
-//===============================================================================
-
-QImage *cLuLoImageCacheObject::ValidateCacheFullImage(cFilterTransformObject *Filter) {
-    if (CacheFullImage==NULL) {
+QImage *cLuLoImageCacheObject::ValidateCacheRenderImage(cFilterTransformObject *Filter) {
+    if (CacheRenderImage==NULL) {
         GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
 
         // Load image from disk
-        CacheFullImage=new QImage(FileName);
+        CacheRenderImage=new QImage(FileName);
 
         // If image is ok then apply exif orientation (if needed)
-        if ((CacheFullImage)&&(!CacheFullImage->isNull())) {
+        if ((CacheRenderImage)&&(!CacheRenderImage->isNull())) {
             if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
                 QMatrix matrix;
                 matrix.rotate(-90);
-                QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
-                delete UnfilteredImage;
-                UnfilteredImage=NewImage;
+                QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix));
+                delete CacheRenderImage;
+                CacheRenderImage=NewImage;
             } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
                 QMatrix matrix;
                 matrix.rotate(180);
-                QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
-                delete UnfilteredImage;
-                UnfilteredImage=NewImage;
+                QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix));
+                delete CacheRenderImage;
+                CacheRenderImage=NewImage;
             } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
                 QMatrix matrix;
                 matrix.rotate(90);
-                QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
-                delete UnfilteredImage;
-                UnfilteredImage=NewImage;
+                QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix));
+                delete CacheRenderImage;
+                CacheRenderImage=NewImage;
             }
+
+            // if Filter then apply filter
+            if (Filter) Filter->ApplyFilter(CacheRenderImage);
         }
 
-        // if Filter then apply filter
-        if (Filter) Filter->ApplyFilter(CacheFullImage);
-
     }
-    return CacheFullImage;
+    return CacheRenderImage;
 }
 
 //===============================================================================
 
-QImage *cLuLoImageCacheObject::ValidateCacheImage(cFilterTransformObject *Filter) {
-    if (CacheImage==NULL) {
+QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(cFilterTransformObject *Filter) {
+    if (CachePreviewImage==NULL) {
 
-        // Validate CacheFullImage
-        if (!CacheFullImage) ValidateCacheFullImage(Filter);
+        GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
 
-        // If image size>PreviewMaxHeight, reduce Cache Image
-        if (CacheFullImage->height()<=GlobalMainWindow->ApplicationConfig->PreviewMaxHeight*2)  CacheImage=CacheFullImage;
-            else CacheImage=new QImage(CacheFullImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
+        // Load image from disk
+        CachePreviewImage=new QImage(FileName);
 
-        // if Filter then apply filter
-        if (Filter) Filter->ApplyFilter(CacheImage);
+        // If image is ok then apply exif orientation (if needed)
+        if ((CachePreviewImage)&&(!CachePreviewImage->isNull())) {
+            if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+                QMatrix matrix;
+                matrix.rotate(-90);
+                QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix));
+                delete CachePreviewImage;
+                CachePreviewImage=NewImage;
+            } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+                QMatrix matrix;
+                matrix.rotate(180);
+                QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix));
+                delete CachePreviewImage;
+                CachePreviewImage=NewImage;
+            } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+                QMatrix matrix;
+                matrix.rotate(90);
+                QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix));
+                delete CachePreviewImage;
+                CachePreviewImage=NewImage;
+            }
+            // If image size>PreviewMaxHeight, reduce Cache Image
+            if (CachePreviewImage->height()>GlobalMainWindow->ApplicationConfig->PreviewMaxHeight*2)  {
+                QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
+                delete CachePreviewImage;
+                CachePreviewImage=NewImage;
+            }
+
+            // if Filter then apply filter
+            if (Filter) Filter->ApplyFilter(CachePreviewImage);
+        }
+
     }
-    return CacheImage;
+
+    return CachePreviewImage;
 }
 
 //===============================================================================
 
 QImage *cLuLoImageCacheObject::ValidateUnfilteredImage() {
-    if (UnfilteredImage==NULL) {
-        // Load image from disk
-        UnfilteredImage=new QImage(FileName);
+    // Load image from disk
+    QImage *UnfilteredImage=new QImage(FileName);
 
-        // If image is ok then apply exif orientation (if needed)
-        if ((UnfilteredImage)&&(!UnfilteredImage->isNull())) {
-            if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
-                QMatrix matrix;
-                matrix.rotate(-90);
-                QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
-                delete UnfilteredImage;
-                UnfilteredImage=NewImage;
-            } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
-                QMatrix matrix;
-                matrix.rotate(180);
-                QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
-                delete UnfilteredImage;
-                UnfilteredImage=NewImage;
-            } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
-                QMatrix matrix;
-                matrix.rotate(90);
-                QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
-                delete UnfilteredImage;
-                UnfilteredImage=NewImage;
-            }
-        }
-
-        // Ensure image is at correct height (to speed correction image dialog !)
-        if ((UnfilteredImage)&&(!UnfilteredImage->isNull())&&(UnfilteredImage->height()!=GlobalMainWindow->ApplicationConfig->PreviewMaxHeight)) {
-            QImage *NewImage=new QImage(UnfilteredImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
-            delete UnfilteredImage;
-            UnfilteredImage=NewImage;
-        }
-
+    // If image is ok then apply exif orientation (if needed)
+    if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+        QMatrix matrix;
+        matrix.rotate(-90);
+        QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
+        delete UnfilteredImage;
+        UnfilteredImage=NewImage;
+    } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+        QMatrix matrix;
+        matrix.rotate(180);
+        QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
+        delete UnfilteredImage;
+        UnfilteredImage=NewImage;
+    } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+        QMatrix matrix;
+        matrix.rotate(90);
+        QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
+        delete UnfilteredImage;
+        UnfilteredImage=NewImage;
     }
+
+    // Ensure image is at correct height (to speed correction image dialog !)
+    if ((UnfilteredImage)&&(!UnfilteredImage->isNull())&&(UnfilteredImage->height()!=GlobalMainWindow->ApplicationConfig->PreviewMaxHeight)) {
+        QImage *NewImage=new QImage(UnfilteredImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
+        delete UnfilteredImage;
+        UnfilteredImage=NewImage;
+    }
+
     return UnfilteredImage;
 }
 
@@ -181,11 +189,12 @@ cLuLoImageCache::cLuLoImageCache() {
 
 //===============================================================================
 // Find object corresponding to FileName - if object not found then create one
-cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,bool SetAtTop) {
+cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,cFilterTransformObject *Filter,bool SetAtTop) {
+    QString FilterString=(Filter!=NULL)?Filter->FilterToString():"";
     int i=0;
-    while ((i<List.count())&&(List[i]->FileName!=FileName)) i++;
+    while ((i<List.count())&&((List[i]->FileName!=FileName)||(List[i]->FilterString!=FilterString))) i++;
 
-    if ((i<List.count())&&(List[i]->FileName==FileName)) {
+    if ((i<List.count())&&(List[i]->FileName==FileName)&&(List[i]->FilterString==FilterString)) {
         // if wanted and image found then set it to the top of the list
         if ((SetAtTop)&&(i>0)) { // If item is not the first
             cLuLoImageCacheObject *Object=List.takeAt(i);   // Detach item from the list
@@ -194,7 +203,7 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,bool SetAtTo
         }
     } else {
         // Image not found then create it at top of the list
-        List.insert(0,new cLuLoImageCacheObject(FileName));     // Append a new object at first position
+        List.insert(0,new cLuLoImageCacheObject(FileName,FilterString));     // Append a new object at first position
         i=0;
     }
     return List[i]; // return first object
@@ -205,9 +214,8 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,bool SetAtTo
 int cLuLoImageCache::MemoryUsed() {
     int MemUsed=0;
     for (int i=0;i<List.count();i++) {
-        if (List[i]->CacheFullImage)    MemUsed=MemUsed+List[i]->CacheFullImage->byteCount();
-        if (List[i]->CacheImage)        MemUsed=MemUsed+List[i]->CacheImage->byteCount();
-        if (List[i]->UnfilteredImage)   MemUsed=MemUsed+List[i]->UnfilteredImage->byteCount();
+        if (List[i]->CacheRenderImage)    MemUsed=MemUsed+List[i]->CacheRenderImage->byteCount();
+        if (List[i]->CachePreviewImage)   MemUsed=MemUsed+List[i]->CachePreviewImage->byteCount();
     }
     return MemUsed;
 }
@@ -218,31 +226,9 @@ void cLuLoImageCache::FreeMemoryToMaxValue(int MaxValue) {
     int ToFree=MemoryUsed()-MaxValue;
     int i=List.count()-1;
     while ((ToFree>0)&&(i>0)) {
-        if (List[i]->UnfilteredImage)   ToFree=ToFree-List[i]->UnfilteredImage->byteCount();
-        if (List[i]->CacheFullImage)    ToFree=ToFree-List[i]->CacheFullImage->byteCount();
-        if (List[i]->CacheImage)        ToFree=ToFree-List[i]->CacheImage->byteCount();
+        if (List[i]->CacheRenderImage) ToFree=ToFree-List[i]->CacheRenderImage->byteCount();
+        if ((ToFree>0)&&(List[i]->CachePreviewImage)) ToFree=ToFree-List[i]->CachePreviewImage->byteCount();
         List[i]->ClearAll();
         i--;
     }
-}
-
-//===============================================================================
-// Cache image (Preview mode)
-QImage *cLuLoImageCache::GetCacheImage(QString FileName) {
-    cLuLoImageCacheObject *Object=FindObject(FileName);
-    return Object->ValidateCacheImage();
-}
-
-//===============================================================================
-// Cache image (Full image mode)
-QImage *cLuLoImageCache::GetCacheFullImage(QString FileName) {
-    cLuLoImageCacheObject *Object=FindObject(FileName);
-    return Object->ValidateCacheFullImage();
-}
-
-//===============================================================================
-// Cache image (Preview image with no filter)
-QImage *cLuLoImageCache::GetUnfilteredImage(QString FileName) {
-    cLuLoImageCacheObject *Object=FindObject(FileName);
-    return Object->ValidateUnfilteredImage();
 }

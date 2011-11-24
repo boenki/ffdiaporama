@@ -257,7 +257,7 @@ void DlgSlideProperties::SetSavedWindowGeometry() {
 void DlgSlideProperties::showEvent(QShowEvent *ev) {
     QDialog::showEvent(ev);
     if (IsFirstInitDone) return;
-    QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
+    QTimer::singleShot(100,this,SLOT(SetSavedWindowGeometry()));
     IsFirstInitDone=true;                                   // Set this flag to true to indicate that now we can prepeare display
     RefreshShotTable(0);                                    // Fill the ShotTable and select 1st shot
 }
@@ -364,10 +364,7 @@ void DlgSlideProperties::RefreshStyleControls() {
 
     if (CurrentTextItem) ui->BlockShapeStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.GetStyleName(CurrentTextItem->GetBlockShapeStyle())); else ui->BlockShapeStyleED->setText("");
 
-    if ((CurrentTextItem==NULL)||
-        ((CurrentTextItem->BackgroundBrush.Image==NULL)&&(CurrentTextItem->BackgroundBrush.Video==NULL))||
-        ((CurrentTextItem->BackgroundBrush.Image!=NULL)&&(CurrentTextItem->BackgroundBrush.Image->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))||
-        ((CurrentTextItem->BackgroundBrush.Video!=NULL)&&(CurrentTextItem->BackgroundBrush.Video->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))) {
+    if ((CurrentTextItem==NULL)||((CurrentTextItem->BackgroundBrush.Image==NULL)&&(CurrentTextItem->BackgroundBrush.Video==NULL))) {
 
         if ((CurrentTextItem!=NULL)&&(CurrentTextItem->BackgroundBrush.Image==NULL)&&(CurrentTextItem->BackgroundBrush.Video==NULL)) {
 
@@ -712,11 +709,157 @@ void DlgSlideProperties::RefreshSceneImage() {
 }
 
 //====================================================================================================================
+// Refresh the ShotTable
+
+void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
+    int CellHeight=ui->ShotTable->rowHeight(0);
+    int CellWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(CellHeight);
+
+    StopMAJSpinbox=true;
+    ui->ShotTable->setUpdatesEnabled(false);
+    while (ui->ShotTable->columnCount()>0) ui->ShotTable->removeColumn(0);    // Clear all
+    for (int i=0;i<DiaporamaObject->List.count();i++) {
+        ui->ShotTable->insertColumn(i);
+        wgt_QCustomThumbnails *Object=new wgt_QCustomThumbnails(ui->ShotTable,THUMBNAILTYPE_SHOT);
+        Object->DiaporamaObject=DiaporamaObject;
+        ui->ShotTable->setCellWidget(0,i,Object);
+        ui->ShotTable->setColumnWidth(i,CellWidth);
+    }
+    ui->ShotTable->setUpdatesEnabled(true);
+    StopMAJSpinbox=false;
+
+    ui->ShotTable->setCurrentCell(0,SetCurrentIndex);
+}
+
+//====================================================================================================================
+// Refresh the BlockTable
+
+void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
+    // Calculate scene size
+    GetForDisplayUnit(xmax,ymax);
+    StopMAJSpinbox          =true;
+
+    // Delete scene and all of it's content, if exist
+    if (scene) while (scene->items().count()>0) {
+        QGraphicsItem *Item=scene->items().at(0);
+        QString       data =Item->data(0).toString();
+        scene->removeItem(Item);
+        if (data=="CustomGraphicsRectItem")         delete (cCustomGraphicsRectItem *)Item;
+        else if (data=="image")                     delete (QGraphicsPixmapItem *)Item;
+        else if (data!="ResizeGraphicsRectItem")    ExitApplicationWithFatalError("Unkwnon item type in DlgSlideProperties::Clean");
+    }
+
+    // Ensure scene is created. If not : create it
+    if (!scene) {
+        // Create the scene and setup scene to control
+        scene = new QGraphicsScene();
+        ui->GraphicsView->setScene(scene);
+        ui->GraphicsView->setInteractive(true);
+        ui->GraphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
+        connect(scene,SIGNAL(selectionChanged()),this,SLOT(s_Scene_SelectionChanged()));
+    }
+    ui->GraphicsView->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
+
+    // Check if BackgroundImage have correct size
+    if ((BackgroundImage)&&((xmax!=BackgroundImage->width())||(ymax!=BackgroundImage->height()))) {
+        delete BackgroundImage;
+        BackgroundImage=NULL;
+    }
+
+    // Prepare BackgroundImage if not exist
+    if (!BackgroundImage) {
+        QPainter Painter;
+        BackgroundImage=new QImage(xmax,ymax,QImage::Format_ARGB32_Premultiplied);
+        Painter.begin(BackgroundImage);
+        DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),xmax,ymax,&Painter,0,0,false);
+        Painter.end();
+
+        // Ensure scene size if correct
+        scene->setSceneRect(QRectF(0,0,xmax,ymax));
+    }
+
+    // define 5% TV Margins
+    MagneticRuler.MagnetX1=xmax*0.05;
+    MagneticRuler.MagnetY1=ymax*0.05;
+    MagneticRuler.MagnetX2=xmax-xmax*0.05;
+    MagneticRuler.MagnetY2=ymax-ymax*0.05;
+
+    // define centering ruller
+    MagneticRuler.MagnetX3=xmax*0.5;
+    MagneticRuler.MagnetY3=ymax*0.5;
+
+    // Fill the scene with block item by creating cCustomGraphicsRectItem associate to existing cCompositionObject
+    NextZValue=500;
+    for (int i=0;i<CompositionList->List.count();i++) if (!CompositionList->List[i].IsVisible) { // First loop for invisible items
+        // Create and add to scene a cCustomGraphicsRectItem
+        new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
+                    NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,
+                    ((!CompositionList->List[i].BackgroundBrush.BrushFileCorrect.LockGeometry)&&
+                    (CompositionList->List[i].BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
+                    CompositionList->List[i].BackgroundBrush.BrushFileCorrect.AspectRatio,
+                    &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i].IndexKey,false);
+
+        NextZValue+=10;  // 10 by 10 step for ZValue
+    }
+    for (int i=0;i<CompositionList->List.count();i++) if (CompositionList->List[i].IsVisible) { // Second loop for visible items
+        // Create and add to scene a cCustomGraphicsRectItem
+        new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
+                    NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,
+                    ((!CompositionList->List[i].BackgroundBrush.BrushFileCorrect.LockGeometry)&&
+                    (CompositionList->List[i].BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
+                    CompositionList->List[i].BackgroundBrush.BrushFileCorrect.AspectRatio,
+                    &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i].IndexKey,true);
+
+        NextZValue+=10;  // 10 by 10 step for ZValue
+    }
+
+    ui->BlockTable->setUpdatesEnabled(false);
+    while (ui->BlockTable->rowCount()>0) ui->BlockTable->removeRow(0);    // Clear all
+    for (int i=0;i<CompositionList->List.count();i++) {
+        ui->BlockTable->insertRow(i);
+        cCompositionObject  *CompoObject=&CompositionList->List[i];
+        QTableWidgetItem    *ItemC0,*ItemC1,*ItemC2;
+        // Image block
+        if ((CompoObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush.Image)) {
+            ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_IMAGE:ICON_OBJECT_IMAGEHIDE),"");
+            ItemC1=new QTableWidgetItem("");
+            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.Image?CompoObject->BackgroundBrush.Image->FileName:CompoObject->BackgroundBrush.Video?CompoObject->BackgroundBrush.Video->FileName:"").fileName());
+        // Video block
+        } else if ((CompoObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush.Video)) {
+            ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_MOVIE:ICON_OBJECT_MOVIEHIDE),"");
+            ItemC1=CompoObject->BackgroundBrush.SoundVolume!=0?new QTableWidgetItem(QIcon(ICON_SOUND_OK),""):new QTableWidgetItem("");
+            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.Image?CompoObject->BackgroundBrush.Image->FileName:CompoObject->BackgroundBrush.Video?CompoObject->BackgroundBrush.Video->FileName:"").fileName());
+        // Text block
+        } else {
+            ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_TEXT:ICON_OBJECT_TEXTHIDE),"");
+            ItemC1=new QTableWidgetItem("");
+            ItemC2=new QTableWidgetItem(CompoObject->Text);
+        }
+        if (!CompoObject->IsVisible) {
+            QFont  font=QFont("Sans serif",9,QFont::Normal,QFont::StyleItalic);
+            ItemC2->setFont(font);
+        }
+        ui->BlockTable->setItem(i,0,ItemC0);
+        ui->BlockTable->setItem(i,1,ItemC1);
+        ui->BlockTable->setItem(i,2,ItemC2);
+    }
+    ui->BlockTable->setColumnWidth(0,24);
+    ui->BlockTable->setColumnWidth(1,24);
+    ui->BlockTable->resizeRowsToContents();
+    ui->BlockTable->setUpdatesEnabled(true);
+    ui->BlockTable->setCurrentCell(SetCurrentIndex,0);      // Changing current index make a call to RefreshControls();
+
+    StopMAJSpinbox          =false;
+
+    if (ui->BlockTable->rowCount()==0) RefreshControls();   // except if no block in the list
+}
+
+//====================================================================================================================
 
 void DlgSlideProperties::RefreshSceneImageAndCache(cCompositionObject *CurrentTextItem,cBrushDefinition *CurrentBrush) {
     if (CurrentBrush->Image) {
-        cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(CurrentBrush->Image->FileName);
-        ImageObject->ClearCacheAndCacheFull();
+        cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(CurrentBrush->Image->FileName,&CurrentBrush->Image->BrushFileTransform);
+        ImageObject->ClearAll();
     } else if (CurrentBrush->Video) {
         if (CurrentBrush->Video->CacheFirstImage) {
             delete CurrentBrush->Video->CacheFirstImage;
@@ -1211,29 +1354,6 @@ void DlgSlideProperties::VideoEdit() {
 // Shot table part
 //====================================================================================================================
 
-// Refresh the ShotTable
-
-void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
-    int CellHeight=ui->ShotTable->rowHeight(0);
-    int CellWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(CellHeight);
-
-    ui->ShotTable->setUpdatesEnabled(false);
-    StopMAJSpinbox=true;
-    while (ui->ShotTable->columnCount()>0) ui->ShotTable->removeColumn(0);    // Clear all
-    for (int i=0;i<DiaporamaObject->List.count();i++) {
-        ui->ShotTable->insertColumn(i);
-        wgt_QCustomThumbnails *Object=new wgt_QCustomThumbnails(ui->ShotTable,THUMBNAILTYPE_SHOT);
-        Object->DiaporamaObject=DiaporamaObject;
-        ui->ShotTable->setCellWidget(0,i,Object);
-        ui->ShotTable->setColumnWidth(i,CellWidth);
-    }
-    ui->ShotTable->setUpdatesEnabled(true);
-    StopMAJSpinbox=false;
-    ui->ShotTable->setCurrentCell(0,SetCurrentIndex);
-}
-
-//====================================================================================================================
-
 void DlgSlideProperties::s_ShotTableDragMoveItem() {
     if (GlobalMainWindow->DragItemSource<GlobalMainWindow->DragItemDest) GlobalMainWindow->DragItemDest--;
     DiaporamaObject->List.move(GlobalMainWindow->DragItemSource,GlobalMainWindow->DragItemDest);
@@ -1273,12 +1393,12 @@ void DlgSlideProperties::s_ShotTable_SelectionChanged() {
     int IndexKey=-1;
     if ((i>=0)&&(i<CompositionList->List.count())) IndexKey=CompositionList->List[i].IndexKey;
 
-    RefreshBlockTable(0);
+    int CurrentBlockTableIndex=0;
     if (IndexKey!=-1) {
-        int i=0;
-        while ((i<CompositionList->List.count())&&(CompositionList->List[i].IndexKey!=IndexKey)) i++;
-        if (i<CompositionList->List.count()) ui->BlockTable->setCurrentCell(i,0);
+        while ((CurrentBlockTableIndex<CompositionList->List.count())&&(CompositionList->List[CurrentBlockTableIndex].IndexKey!=IndexKey)) CurrentBlockTableIndex++;
+        if (CurrentBlockTableIndex>=CompositionList->List.count()) CurrentBlockTableIndex=0;
     }
+    RefreshBlockTable(CurrentBlockTableIndex);
 
     InShotTable_SelectionChanged=false;
 }
@@ -1317,171 +1437,87 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
 // Block table/scene part
 //====================================================================================================================
 
-// Refresh the BlockTable
-
-void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
-    // Delete scene and all of it's content, if exist
-    StopMAJSpinbox=true;
-    if (scene) {
-        // delete all items
-        while (scene->items().count()>0) {
-            QGraphicsItem *Item=scene->items().at(0);
-            QString       data =Item->data(0).toString();
-
-            scene->removeItem(Item);    // Remove item from the scene
-
-            if (data=="CustomGraphicsRectItem") {
-                delete (cCustomGraphicsRectItem *)Item;
-            } else if (data=="image") {
-                delete (QGraphicsPixmapItem *)Item;
-            } else if (data!="ResizeGraphicsRectItem") {
-                ExitApplicationWithFatalError("Unkwnon item type in DlgSlideProperties::Clean");
-            }
-        }
-    }
-
-    // Calculate scene size
-    GetForDisplayUnit(xmax,ymax);
-
-    // Ensure scene is created. If not : create it
-    if (!scene) {
-        // create the scene
-        scene = new QGraphicsScene();
-        connect(scene,SIGNAL(selectionChanged()),this,SLOT(s_Scene_SelectionChanged()));
-
-        // Setup scene to control
-        ui->GraphicsView->setScene(scene);
-        ui->GraphicsView->setInteractive(true);
-        ui->GraphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
-    }
-    ui->GraphicsView->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
-
-    // Check if BackgroundImage have correct size
-    if ((BackgroundImage)&&((xmax!=BackgroundImage->width())||(ymax!=BackgroundImage->height()))) {
-        delete BackgroundImage;
-        BackgroundImage=NULL;
-    }
-
-    // Prepare BackgroundImage if not exist
-    if (!BackgroundImage) {
-        QPainter Painter;
-        BackgroundImage=new QImage(xmax,ymax,QImage::Format_ARGB32_Premultiplied);
-        Painter.begin(BackgroundImage);
-        DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),xmax,ymax,&Painter,0,0,false);
-        Painter.end();
-
-        // Ensure scene size if correct
-        scene->setSceneRect(QRectF(0,0,xmax,ymax));
-        ui->GraphicsView->fitInView(QRectF(0,0,xmax,ymax),Qt::KeepAspectRatio);
-    }
-
-    // define 5% TV Margins
-    MagneticRuler.MagnetX1=xmax*0.05;
-    MagneticRuler.MagnetY1=ymax*0.05;
-    MagneticRuler.MagnetX2=xmax-xmax*0.05;
-    MagneticRuler.MagnetY2=ymax-ymax*0.05;
-
-    // define centering ruller
-    MagneticRuler.MagnetX3=xmax*0.5;
-    MagneticRuler.MagnetY3=ymax*0.5;
-
-    // Fill the scene with block item by creating cCustomGraphicsRectItem associate to existing cCompositionObject
-    NextZValue=500;
-    for (int i=0;i<CompositionList->List.count();i++) if (!CompositionList->List[i].IsVisible) { // First loop for invisible items
-        // Create and add to scene a cCustomGraphicsRectItem
-        new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
-                    NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,
-                    ((!CompositionList->List[i].BackgroundBrush.BrushFileCorrect.LockGeometry)&&
-                    (CompositionList->List[i].BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
-                    CompositionList->List[i].BackgroundBrush.BrushFileCorrect.AspectRatio,
-                    &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i].IndexKey,false);
-
-        NextZValue+=10;  // 10 by 10 step for ZValue
-    }
-    for (int i=0;i<CompositionList->List.count();i++) if (CompositionList->List[i].IsVisible) { // Second loop for visible items
-        // Create and add to scene a cCustomGraphicsRectItem
-        new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
-                    NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,
-                    ((!CompositionList->List[i].BackgroundBrush.BrushFileCorrect.LockGeometry)&&
-                    (CompositionList->List[i].BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
-                    CompositionList->List[i].BackgroundBrush.BrushFileCorrect.AspectRatio,
-                    &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i].IndexKey,true);
-
-        NextZValue+=10;  // 10 by 10 step for ZValue
-    }
-    StopMAJSpinbox=false;
-
-    ui->BlockTable->setUpdatesEnabled(false);
-    while (ui->BlockTable->rowCount()>0) ui->BlockTable->removeRow(0);    // Clear all
-    for (int i=0;i<CompositionList->List.count();i++) {
-        ui->BlockTable->insertRow(i);
-        cCompositionObject  *CompoObject=&CompositionList->List[i];
-        QTableWidgetItem    *ItemC0,*ItemC1,*ItemC2;
-        // Image block
-        if ((CompoObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush.Image)) {
-            ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_IMAGE:ICON_OBJECT_IMAGEHIDE),"");
-            ItemC1=new QTableWidgetItem("");
-            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.Image?CompoObject->BackgroundBrush.Image->FileName:CompoObject->BackgroundBrush.Video?CompoObject->BackgroundBrush.Video->FileName:"").fileName());
-        // Video block
-        } else if ((CompoObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush.Video)) {
-            ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_MOVIE:ICON_OBJECT_MOVIEHIDE),"");
-            ItemC1=CompoObject->BackgroundBrush.SoundVolume!=0?new QTableWidgetItem(QIcon(ICON_SOUND_OK),""):new QTableWidgetItem("");
-            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.Image?CompoObject->BackgroundBrush.Image->FileName:CompoObject->BackgroundBrush.Video?CompoObject->BackgroundBrush.Video->FileName:"").fileName());
-        // Text block
-        } else {
-            ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_TEXT:ICON_OBJECT_TEXTHIDE),"");
-            ItemC1=new QTableWidgetItem("");
-            ItemC2=new QTableWidgetItem(CompoObject->Text);
-        }
-        if (!CompoObject->IsVisible) {
-            QFont  font=QFont("Sans serif",9,QFont::Normal,QFont::StyleItalic);
-            ItemC2->setFont(font);
-        }
-        ui->BlockTable->setItem(i,0,ItemC0);
-        ui->BlockTable->setItem(i,1,ItemC1);
-        ui->BlockTable->setItem(i,2,ItemC2);
-    }
-    ui->BlockTable->setColumnWidth(0,24);
-    ui->BlockTable->setColumnWidth(1,24);
-    ui->BlockTable->resizeRowsToContents();
-    ui->BlockTable->setUpdatesEnabled(true);
-    ui->BlockTable->setCurrentCell(SetCurrentIndex,0);      // Changing current index make a call to RefreshControls();
-    if (ui->BlockTable->rowCount()==0) RefreshControls();   // except if no block in the list
-}
-
 //====================================================================================================================
 // User select a block in the BlockTable widget
 
 void DlgSlideProperties::s_BlockTable_SelectionChanged() {
     if (InBlockTable_SelectionChanged) return;
-    int CurrentBlock=ui->BlockTable->currentRow();
-    if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return;
-
-    cCustomGraphicsRectItem *CurrentItemInScene=GetSelectItem();
-    cCompositionObject      *CurrentItemInTable=GetSelectedCompositionObject();
-
-    // If Item already selected then exit
-    if (CurrentItemInScene && CurrentItemInTable &&(CurrentItemInScene->IndexKey==CurrentItemInTable->IndexKey)) return;
     InBlockTable_SelectionChanged=true;
 
-    // Check if the scene current item must be change
-    // Select item
-    InScene_SelectionChanged=true;  // Neutralise s_Scene_SelectionChanged
-    for (int i=0;i<scene->items().count();i++) {
-        cCustomGraphicsRectItem *Item=(cCustomGraphicsRectItem *)scene->items().at(i);
-        QString                 data =Item->data(0).toString();
-        if ((data=="CustomGraphicsRectItem")&&(Item->IsVisible)) {
-            if ((Item)&&(Item->IndexKey==CompositionList->List[CurrentBlock].IndexKey)) {
-                if (!Item->isSelected()) Item->setSelected(true);
-            } else {
-                if (Item->isSelected()) Item->setSelected(false);
+    int CurrentBlock=ui->BlockTable->currentRow();
+
+    // If nothing selected then ensure no visible item is selected in the scene
+    if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) {
+
+        for (int i=0;i<scene->items().count();i++) {
+            QString data =((QGraphicsItem *)scene->items()[i])->data(0).toString();
+            // Unselect item if it's a cCustomGraphicsRectItem or a cResizeGraphicsRectItem
+            if ((data=="CustomGraphicsRectItem")&&(((cCustomGraphicsRectItem *)scene->items()[i])->IsVisible)) ((cCustomGraphicsRectItem *)scene->items()[i])->setSelected(false);
+            if ((data=="ResizeGraphicsRectItem")&&(((cResizeGraphicsRectItem *)scene->items()[i])->RectItem->IsVisible)) ((cResizeGraphicsRectItem *)scene->items()[i])->setSelected(false);
+        }
+
+    } else {
+
+        // Parse item to select corresponding item
+        for (int i=0;i<scene->items().count();i++) {
+            QString data =((QGraphicsItem *)scene->items()[i])->data(0).toString();
+            if (data=="CustomGraphicsRectItem") {
+                if (((cCustomGraphicsRectItem *)scene->items()[i])->IndexKey==CompositionList->List[CurrentBlock].IndexKey) {
+                    // If item is not selected then select it
+                    if (!((cCustomGraphicsRectItem *)scene->items()[i])->isSelected()) ((cCustomGraphicsRectItem *)scene->items()[i])->setSelected(true);
+                } else {
+                    // If item is selected then deselect it
+                    if (((cCustomGraphicsRectItem *)scene->items()[i])->isSelected()) ((cCustomGraphicsRectItem *)scene->items()[i])->setSelected(false);
+                }
+            } else if (data=="ResizeGraphicsRectItem") {
+                // If item is selected then deselect it
+                if (((cResizeGraphicsRectItem *)scene->items()[i])->isSelected()) ((cResizeGraphicsRectItem *)scene->items()[i])->setSelected(false);
             }
         }
     }
-    InScene_SelectionChanged=false;
 
     RefreshControls();
     InBlockTable_SelectionChanged=false;
+}
+
+//====================================================================================================================
+// User select a block in the scene widget
+
+void DlgSlideProperties::s_Scene_SelectionChanged() {
+    if ((scene==NULL)||(InScene_SelectionChanged)) return;
+
+    // Nothing is selected
+    if (scene->selectedItems().count()==0) {
+        if (ui->BlockTable->currentRow()!=-1) ui->BlockTable->setCurrentCell(-1,0);  // Remove selection from block table
+        return;
+    }
+    cCustomGraphicsRectItem *CurrentSceneItem=(cCustomGraphicsRectItem *)scene->selectedItems()[0];    // Only the first item
+    QString                 data =CurrentSceneItem->data(0).toString();
+
+    // Check if item is of correct type
+    if (data!="CustomGraphicsRectItem") {
+        // if it's a resize box then give it's parent
+        if (data=="ResizeGraphicsRectItem") CurrentSceneItem=((cResizeGraphicsRectItem *)CurrentSceneItem)->RectItem; else {
+            // Else, there is an error !
+            CurrentSceneItem->setSelected(false);   // Unselect it
+            if (ui->BlockTable->currentRow()!=-1) ui->BlockTable->setCurrentCell(-1,0);  // Remove selection from block table
+            return;
+        }
+    }
+
+    // Search corresponding item index in the block table
+    int BlockTableItemIndex=0;
+    while ((BlockTableItemIndex<CompositionList->List.count())&&(CompositionList->List[BlockTableItemIndex].IndexKey!=CurrentSceneItem->IndexKey)) BlockTableItemIndex++;
+    if ((BlockTableItemIndex<CompositionList->List.count())&&(CompositionList->List[BlockTableItemIndex].IndexKey==CurrentSceneItem->IndexKey)) {
+        // if corresponding item is found in the block table
+        if (ui->BlockTable->currentRow()!=BlockTableItemIndex) ui->BlockTable->setCurrentCell(BlockTableItemIndex,0);
+    } else {
+        // Else, there is an error : then remove all selection
+        CurrentSceneItem->setSelected(false);   // Unselect it
+        if (ui->BlockTable->currentRow()!=-1) ui->BlockTable->setCurrentCell(-1,0);  // Remove selection from block table
+    }
+
+    //RefreshControls();
 }
 
 //====================================================================================================================
@@ -1489,26 +1525,6 @@ void DlgSlideProperties::s_BlockTable_SelectionChanged() {
 
 void DlgSlideProperties::s_BlockTable_ItemDoubleClicked(QTableWidgetItem *) {
     s_Scene_DoubleClick();
-}
-
-//====================================================================================================================
-// User select a block in the scene widget
-
-void DlgSlideProperties::s_Scene_SelectionChanged() {
-    if (InScene_SelectionChanged) return;
-    cCustomGraphicsRectItem  *CurrentTextItem=GetSelectItem();
-    InScene_SelectionChanged=true;
-    if (CurrentTextItem==NULL) {
-        ui->BlockTable->setCurrentCell(-1,-1);
-    } else {
-        ui->BlockTable->setUpdatesEnabled(false);
-        for (int i=0;i<ui->BlockTable->rowCount();i++) {
-            if (CompositionList->List[i].IndexKey==CurrentTextItem->IndexKey) ui->BlockTable->setCurrentCell(i,0);
-        }
-        ui->BlockTable->setUpdatesEnabled(true);
-    }
-    RefreshControls();
-    InScene_SelectionChanged=false;
 }
 
 //====================================================================================================================
