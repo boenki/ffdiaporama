@@ -47,7 +47,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -499,7 +499,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>555</width>
+            <width>659</width>
             <height>1999</height>
            </rect>
           </property>
@@ -2756,8 +2756,8 @@ image</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>307</width>
-            <height>341</height>
+            <width>676</width>
+            <height>416</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -2767,7 +2767,7 @@ image</string>
            <property name="spacing">
             <number>4</number>
            </property>
-           <item row="31" column="0">
+           <item row="32" column="0">
             <spacer name="verticalSpacer">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -2806,20 +2806,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="22" column="0">
-            <widget class="QLabel" name="label_20">
-             <property name="text">
-              <string>Video standard :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>StandardCombo</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="26" column="0">
+           <item row="27" column="0">
             <widget class="QLabel" name="label_9">
              <property name="text">
               <string>Video codec :</string>
@@ -2845,79 +2832,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="23" column="0">
-            <widget class="QLabel" name="label_19">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Format :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>SizeCombo</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="23" column="1" colspan="2">
-            <widget class="QComboBox" name="SizeCombo">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>Select the default image format to use for the rendering among the proposed list. </string>
-             </property>
-             <property name="currentIndex">
-              <number>0</number>
-             </property>
-             <item>
-              <property name="text">
-               <string notr="true">VGA</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">DVD</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">720p</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">1080p</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="22" column="1" colspan="2">
-            <widget class="QComboBox" name="StandardCombo">
-             <property name="toolTip">
-              <string>Select the default video standard to use, PAL or NTSC.</string>
-             </property>
-             <item>
-              <property name="text">
-               <string>PAL</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>NTSC</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="27" column="0">
+           <item row="28" column="0">
             <widget class="QLabel" name="label_21">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -2936,7 +2851,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="27" column="1">
+           <item row="28" column="1">
             <widget class="QComboBox" name="VideoBitRateCB">
              <property name="minimumSize">
               <size>
@@ -2955,21 +2870,27 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="26" column="1" colspan="2">
+           <item row="27" column="1" colspan="2">
             <widget class="QComboBox" name="VideoFormatCB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="toolTip">
               <string>Select the default video codec to use for the rendering among the proposed list. </string>
              </property>
             </widget>
            </item>
-           <item row="28" column="1" colspan="2">
+           <item row="29" column="1" colspan="2">
             <widget class="QComboBox" name="AudioFormatCB">
              <property name="toolTip">
               <string>Select the default audio codec to use for the rendering among the proposed list. </string>
              </property>
             </widget>
            </item>
-           <item row="28" column="0">
+           <item row="29" column="0">
             <widget class="QLabel" name="label_22">
              <property name="text">
               <string>Audio codec :</string>
@@ -2982,7 +2903,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="30" column="0">
+           <item row="31" column="0">
             <widget class="QLabel" name="label_23">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3001,7 +2922,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="30" column="1">
+           <item row="31" column="1">
             <widget class="QComboBox" name="AudioBitRateCB">
              <property name="minimumSize">
               <size>
@@ -3085,19 +3006,6 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="21" column="1" colspan="2">
-            <widget class="QComboBox" name="FileFormatCB">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>Select the default file type to use for the rendering among the proposed list.</string>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="2">
             <widget class="QComboBox" name="SmartphoneModelCB">
              <property name="toolTip">
@@ -3117,6 +3025,127 @@ image</string>
              <property name="toolTip">
               <string>Select the model of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</string>
              </property>
+            </widget>
+           </item>
+           <item row="21" column="1" colspan="2">
+            <widget class="QComboBox" name="FileFormatCB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Select the default file type to use for the rendering among the proposed list.</string>
+             </property>
+            </widget>
+           </item>
+           <item row="23" column="0">
+            <widget class="QLabel" name="label_20">
+             <property name="text">
+              <string>Video standard :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>StandardCombo</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="23" column="1" colspan="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_17">
+             <item>
+              <widget class="QComboBox" name="StandardCombo">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Select the default video standard to use, PAL or NTSC.</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>PAL</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>NTSC</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_43">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="26" column="0">
+            <widget class="QLabel" name="label_19">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Format :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>SizeCombo</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="26" column="1">
+            <widget class="QComboBox" name="SizeCombo">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Select the default image format to use for the rendering among the proposed list. </string>
+             </property>
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <item>
+              <property name="text">
+               <string notr="true">VGA</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">DVD</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">720p</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">1080p</string>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>

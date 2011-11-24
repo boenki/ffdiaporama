@@ -28,21 +28,20 @@
 
 class cLuLoImageCacheObject {
 public:
-    QString FileName;                               // filename
-    QImage  *CacheImage;                            // Cache image (Preview mode)
-    QImage  *CacheFullImage;                        // Cache image (Full image mode)
-    QImage  *UnfilteredImage;                       // Cache image (Preview image with no filter)
+    QString FileName;                               // Filename
+    QString FilterString;                           // Filter string
+    QImage  *CachePreviewImage;                     // Cache image (Preview mode)
+    QImage  *CacheRenderImage;                      // Cache image (Full image mode)
     int     ImageOrientation;                       // Image orientation (EXIF)
 
-    cLuLoImageCacheObject(QString FileName);
+    cLuLoImageCacheObject(QString FileName,QString FilterString);
     ~cLuLoImageCacheObject();
 
     void    ClearAll();
-    void    ClearCacheAndCacheFull();
 
     QImage *ValidateUnfilteredImage();
-    QImage *ValidateCacheFullImage(cFilterTransformObject *Filter=NULL);
-    QImage *ValidateCacheImage(cFilterTransformObject *Filter=NULL);
+    QImage *ValidateCacheRenderImage(cFilterTransformObject *Filter=NULL);
+    QImage *ValidateCachePreviewImage(cFilterTransformObject *Filter=NULL);
 };
 
 //===================================================
@@ -55,10 +54,7 @@ public:
 
     void                    FreeMemoryToMaxValue(int MaxValue);
     int                     MemoryUsed();
-    cLuLoImageCacheObject   *FindObject(QString FileName,bool SetAtTop=true);   // Find object corresponding to FileName
-    QImage                  *GetCacheImage(QString FileName);                   // Cache image (Preview mode)
-    QImage                  *GetCacheFullImage(QString FileName);               // Cache image (Full image mode)
-    QImage                  *GetUnfilteredImage(QString FileName);              // Cache image (Preview image with no filter)
+    cLuLoImageCacheObject   *FindObject(QString FileName,cFilterTransformObject *Filter,bool SetAtTop=true);   // Find object corresponding to FileName
 };
 
 #endif // _cLuLoImageCACHE_H

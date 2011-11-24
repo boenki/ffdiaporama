@@ -35,36 +35,17 @@ cimagefilewrapper::cimagefilewrapper() {
     FileName            = "";                       // filename
     ImageWidth          = 0;                        // Widht of normal image
     ImageHeight         = 0;                        // Height of normal image
-/*
-    CacheImage          = NULL;                     // Cache image for preview mode
-    CacheFullImage      = NULL;                     // Cache image for Full image mode
-    UnfilteredImage     = NULL;                     // Cache image (Preview image with no filter)
-*/
 }
 
 //====================================================================================================================
 
 cimagefilewrapper::~cimagefilewrapper() {
-/*
-    if (CacheFullImage!=NULL) {
-        if (CacheFullImage!=CacheImage) delete CacheFullImage;
-        CacheFullImage=NULL;
-    }
-    if (CacheImage!=NULL) {
-        delete CacheImage;
-        CacheImage=NULL;
-    }
-    if (UnfilteredImage!=NULL) {
-        delete UnfilteredImage;
-        UnfilteredImage=NULL;
-    }
-*/
 }
 
 //====================================================================================================================
 
 bool cimagefilewrapper::CallEXIF() {
-    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName);
+    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName,&BrushFileTransform);
     if (!ImageObject) return false;
 
     ImageObject->ImageOrientation=1; // Set default image orientation
@@ -200,7 +181,7 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName,QStringList
     ModifDateTime   =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
     IsValide        =true;
 
-    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName);
+    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName,&BrushFileTransform);
     if (ImageObject) {
         ImageObject->ClearAll();    // Clear all cached images
         if (ImageObject->ImageOrientation==0) CallEXIF();
@@ -213,7 +194,7 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName,QStringList
 QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter) {
     if (!IsValide) return NULL;
 
-    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName);
+    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName,&BrushFileTransform);
     if (!ImageObject) {
         qDebug()<<"ImagesCache.FindObject return NULL !";
         return NULL;  // There is an error !!!!!
@@ -234,27 +215,36 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
             else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
             else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
             else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
-            return new QImage(UnfilteredImage->copy());
+            return UnfilteredImage;
         }
-        return NULL;    // Image is not correct !
+        // Image is not correct !
+        if (UnfilteredImage && UnfilteredImage->isNull()) {
+            delete UnfilteredImage;
+            UnfilteredImage=NULL;
+        }
+        return NULL;
     }
 
     // Ensure ImageObject is at correct state
     if ((ForceLoadDisk)||                                                                           // If full refresh asked
-        ((!PreviewMode)&&(ImageObject->CacheFullImage==NULL)&&(ImageObject->CacheImage!=NULL))||    // if not preview mode and CacheImage not null but CacheFullImage is null
-        ((PreviewMode)&&(ImageObject->CacheImage==NULL)&&(ImageObject->CacheFullImage!=NULL)))      // if preview mode and CacheFullImage not null but CacheImage is null       ??????????????
-            ImageObject->ClearCacheAndCacheFull();
+        ((!PreviewMode)&&(ImageObject->CacheRenderImage==NULL)&&(ImageObject->CachePreviewImage!=NULL))||    // if not preview mode and CachePreviewImage not null but CacheRenderImage is null
+        ((PreviewMode)&&(ImageObject->CachePreviewImage==NULL)&&(ImageObject->CacheRenderImage!=NULL)))      // if preview mode and CacheRenderImage not null but CachePreviewImage is null       ??????????????
+            ImageObject->ClearAll();
 
-    // Stop here if we have wanted image
-    if ((PreviewMode)&&(ImageObject->CacheImage)) return new QImage(ImageObject->CacheImage->copy());
+    if (PreviewMode) {
 
+        // Stop here if we have wanted image
+        if (ImageObject->CachePreviewImage) return new QImage(ImageObject->CachePreviewImage->copy());
 
-    // Ensure CacheFullImage is valide
-    QImage *CacheFullImage=ImageObject->ValidateCacheFullImage((Filter && !PreviewMode)?Filter:NULL);
-    if (CacheFullImage && !CacheFullImage->isNull()) {
+        QImage *CachePreviewImage=ImageObject->ValidateCachePreviewImage(Filter);
+
+        // Get preview image size
+        ImageHeight=CachePreviewImage->height();
+        ImageWidth =CachePreviewImage->width();
+
         // Compute image geometry
         ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
-        double RatioHW=double(CacheFullImage->width())/double(CacheFullImage->height());
+        double RatioHW=double(CachePreviewImage->width())/double(CachePreviewImage->height());
         if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
         else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
         else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
@@ -263,25 +253,31 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
         else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
         else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
         else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+
+    } else {
+
+        // Stop here if we have wanted image
+        if (ImageObject->CacheRenderImage) return new QImage(ImageObject->CacheRenderImage->copy());
+
+        // Ensure CacheRenderImage is valide
+        QImage *CacheRenderImage=ImageObject->ValidateCacheRenderImage((Filter && !PreviewMode)?Filter:NULL);
+        if (CacheRenderImage && !CacheRenderImage->isNull()) {
+            // Compute image geometry
+            ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+            double RatioHW=double(CacheRenderImage->width())/double(CacheRenderImage->height());
+            if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+            else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+            else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+            else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+            else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+            else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+            else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+            else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+        }
+
     }
-
-    // if PreviewMode then ensure CacheImage is valide
-    if (PreviewMode) {
-        QImage *CacheImage=ImageObject->ValidateCacheImage(Filter);
-
-        // Get preview image size
-        ImageHeight=CacheImage->height();
-        ImageWidth =CacheImage->width();
-    }
-
-    // For memory usage reduction : free CacheFullImage if preview mode
-    if ((PreviewMode)&&(ImageObject->CacheFullImage!=NULL)&&(ImageObject->CacheFullImage!=ImageObject->CacheImage)) {
-        delete ImageObject->CacheFullImage;
-        ImageObject->CacheFullImage=NULL;
-    }
-
     // return wanted image
-    if ((PreviewMode)&&(ImageObject->CacheImage))      return new QImage(ImageObject->CacheImage->copy());
-    if ((!PreviewMode)&&(ImageObject->CacheFullImage)) return new QImage(ImageObject->CacheFullImage->copy());
+    if ((PreviewMode)&&(ImageObject->CachePreviewImage)) return new QImage(ImageObject->CachePreviewImage->copy());
+    if ((!PreviewMode)&&(ImageObject->CacheRenderImage)) return new QImage(ImageObject->CacheRenderImage->copy());
     return NULL; // if image is not valide
 }

@@ -65,8 +65,14 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Fin des corrections pour la barre de status : Maintenant elle fonctionne correctement sous Linux et sous Windows
+-Corrige un gros bug qui empêchait l'application des filtres de transformation sur les images (suite aux modifications sur le gestionnaire de mémoire)
+-Corrige un bug qui passait l'affichage en blanc dans la boite slide
 
 English version / Bug fix :
+-End of bug fix for status bar : Now it working correctly for Linux and for Windows
+-Correct a big bug which prevented the application of the transformation filters on the images (further to the modifications on the memory manager)
+-Correct a bug which display image as white in the slide dialog
 
 French version / Nouvelles fonctionnalités :
 

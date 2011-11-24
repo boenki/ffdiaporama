@@ -2735,7 +2735,7 @@ and help</string>
        </widget>
       </item>
       <item>
-       <widget class="cCustomLabel" name="StatusBar">
+       <widget class="QLabel" name="StatusBar">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -2996,11 +2996,6 @@ and help</string>
    <class>cCustomTableWidget</class>
    <extends>QTableWidget</extends>
    <header>cCustomTableWidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cCustomLabel</class>
-   <extends>QLabel</extends>
-   <header>cCustomComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

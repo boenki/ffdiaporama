@@ -313,12 +313,8 @@ void DlgImageCorrection::reject() {
             else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(UndoBrushFileName,false,AliasList);
         delete CachedImage;
         CachedImage=NULL;
-        if (CurrentBrush->Image) {
-            cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(CurrentBrush->Image->FileName);
-            delete ImageObject->UnfilteredImage;
-            ImageObject->UnfilteredImage=NULL;
-            CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
-        } else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
+        if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
+            else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
     }
 
     done(1);
@@ -567,12 +563,8 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
 
     delete CachedImage;
     CachedImage=NULL;
-    if (CurrentBrush->Image) {
-        cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(CurrentBrush->Image->FileName);
-        delete ImageObject->UnfilteredImage;
-        ImageObject->UnfilteredImage=NULL;
-        CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
-    } else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
+    if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
+        else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
 
     UndoReloadImage=true;
 

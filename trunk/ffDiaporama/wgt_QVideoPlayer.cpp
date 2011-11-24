@@ -275,7 +275,7 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
 
     // Start timer
     TimerTick=true;
-    Timer.start(int((double((uint64_t)AV_TIME_BASE)/WantedFPS)/1000));   // Start Timer
+    Timer.start(int((double((uint64_t)AV_TIME_BASE)/WantedFPS)/1000)/2);   // Start Timer
 }
 
 //============================================================================================
@@ -332,6 +332,8 @@ void wgt_QVideoPlayer::s_SliderReleased() {
 //============================================================================================
 
 void wgt_QVideoPlayer::s_SliderMoved(int Value) {
+    if (GlobalMainWindow->InPlayerUpdate) return;
+    GlobalMainWindow->InPlayerUpdate=true;
 
     // Update display in controls
     ui->CustomRuller->Slider->setValue(Value);
@@ -431,6 +433,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             delete Frame;
         }
     }
+    GlobalMainWindow->InPlayerUpdate=false;
 }
 
 //============================================================================================
