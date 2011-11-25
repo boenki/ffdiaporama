@@ -49,12 +49,22 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     ui->ProcessWidget->setEnabled(false);       ui->ProcessWidget->setVisible(false);
 
     // Output file
-    if (Diaporama->OutputFileName=="")
-        Diaporama->OutputFileName=Diaporama->ApplicationConfig->LastRenderVideoPath+
+    OutputFileName=Diaporama->ApplicationConfig->LastRenderVideoPath+
         (Diaporama->ApplicationConfig->LastRenderVideoPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
-        (Diaporama->ProjectFileName!=""?QFileInfo(Diaporama->ProjectFileName).baseName():"movie");
+            (Diaporama->ProjectFileName!=""?QFileInfo(Diaporama->ProjectFileName).baseName():QApplication::translate("DlgRenderVideo","movie","Default name for rendering"));
+
+    OutputFileFormat    = Diaporama->ApplicationConfig->DefaultFormat;
+    VideoCodec          = Diaporama->ApplicationConfig->DefaultVideoCodec;
+    VideoFrameRate      = 25;
+    VideoBitRate        = Diaporama->ApplicationConfig->DefaultVideoBitRate;
+    AudioCodec          = Diaporama->ApplicationConfig->DefaultAudioCodec;
+    AudioFrequency      = 48000;
+    AudioBitRate        = Diaporama->ApplicationConfig->DefaultAudioBitRate;
+    ImageSize           = Diaporama->ApplicationConfig->DefaultImageSize;
+    Standard            = Diaporama->ApplicationConfig->DefaultStandard;
 
     if (ExportMode==EXPORTMODE_ADVANCED) {
+
         ui->DeviceTypeLabel->setVisible(false);
         ui->DeviceTypeCB->setVisible(false);
         ui->DeviceModelCB->setVisible(false);
@@ -66,8 +76,8 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
         // Init format container combo
         for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
             ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
-            if (i==Diaporama->OutputFileFormat) {
-                ui->FileFormatCB->setCurrentIndex(i);
+            if (i==OutputFileFormat) {
+                ui->FileFormatCB->setCurrentIndex(ui->FileFormatCB->count()-1);
                 FileFormatCombo(i);
             }
         }
@@ -77,13 +87,13 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
         // Video standard & geometry
         ui->GeometryCombo->setEnabled(false);
         ui->GeometryCombo->setCurrentIndex(Diaporama->ImageGeometry);
-        ui->StandardCombo->setCurrentIndex(Diaporama->LastStandard);
+        ui->StandardCombo->setCurrentIndex(Diaporama->ApplicationConfig->DefaultStandard);
         connect(ui->GeometryCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
         connect(ui->StandardCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
 
         // Image size
         InitImageSizeCombo(0);
-        ui->ImageSizeCombo->setCurrentIndex(Diaporama->LastImageSize);
+        ui->ImageSizeCombo->setCurrentIndex(Diaporama->ApplicationConfig->DefaultImageSize);
         connect(ui->ImageSizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
 
         // codec(s) & bitrate(s)
@@ -137,7 +147,7 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     connect(ui->RenderZoneAllBt,SIGNAL(clicked()),this,SLOT(SetZoneToAll()));
     connect(ui->RenderZoneFromBt,SIGNAL(clicked()),this,SLOT(SetZoneToPartial()));
 
-    ui->DestinationFilePath->setText(QDir::cleanPath(QDir(QFileInfo(Diaporama->ProjectFileName).dir().absolutePath()).absoluteFilePath(Diaporama->OutputFileName)));
+    ui->DestinationFilePath->setText(OutputFileName);
     AdjustDestinationFile();
     connect(ui->DestinationFilePathBT,SIGNAL(clicked()),this,SLOT(SelectDestinationFile()));
     connect(ui->DestinationFilePath,SIGNAL(editingFinished()),this,SLOT(AdjustDestinationFile()));
@@ -152,6 +162,13 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
 
 DlgRenderVideo::~DlgRenderVideo() {
     delete ui;
+}
+
+//====================================================================================================================
+
+void DlgRenderVideo::DisplayInformations(QString Text) {
+    ui->CurrentActionLabel->setText(Text);
+    QApplication::processEvents();
 }
 
 //====================================================================================================================
@@ -265,7 +282,7 @@ void DlgRenderVideo::FileFormatCombo(int) {
         while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
         if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) {
             ui->VideoFormatCB->addItem(VIDEOCODECDEF[Index].LongName,QVariant(Index));
-            if (Codec==QString(Diaporama->VideoCodec)) {
+            if (Codec==QString(VideoCodec)) {
                 ui->VideoFormatCB->setCurrentIndex(ui->VideoFormatCB->count()-1);
                 IsFindCodec=true;
             }
@@ -293,7 +310,7 @@ void DlgRenderVideo::FileFormatCombo(int) {
         while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
         if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) {
             ui->AudioFormatCB->addItem(AUDIOCODECDEF[Index].LongName,QVariant(Index));
-            if (Codec==QString(Diaporama->AudioCodec)) {
+            if (Codec==QString(AudioCodec)) {
                 ui->AudioFormatCB->setCurrentIndex(ui->AudioFormatCB->count()-1);
                 IsFindCodec=true;
             }
@@ -341,7 +358,7 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
         }
         for (int i=0;i<List.count();i++) {
             ui->VideoBitRateCB->addItem(List[i]);
-            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(Diaporama->VideoBitRate))) {
+            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(VideoBitRate))) {
                 ui->VideoBitRateCB->setCurrentIndex(ui->VideoBitRateCB->count()-1);
                 IsFindBitRate=true;
             }
@@ -388,7 +405,7 @@ void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
         }
         for (int i=0;i<List.count();i++) {
             ui->AudioBitRateCB->addItem(List[i]);
-            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(Diaporama->AudioBitRate))) {
+            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(AudioBitRate))) {
                 ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->count()-1);
                 IsFindBitRate=true;
             }
@@ -479,7 +496,6 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::accept() {
-    bool                    IsModify        =false;
     cDiaporamaObjectInfo    *PreviousFrame  =NULL;
     cDiaporamaObjectInfo    *Frame          =NULL;
     QString                 TempWAVFileName;
@@ -490,6 +506,8 @@ void DlgRenderVideo::accept() {
     bool                    RefreshDisplay;
     int                     DurationProcess;        // Display informations
     QString                 DisplayText;            // Display informations
+
+    int                     UpdateWidth=0;
 
     if (IsDestFileOpen) {
         StopProcessWanted=true;
@@ -504,12 +522,9 @@ void DlgRenderVideo::accept() {
             return;
         }
 
-        if (Diaporama->OutputFileName !=ui->DestinationFilePath->text()) {
-            Diaporama->OutputFileName=ui->DestinationFilePath->text();
-            IsModify=true;
-        }
+        if (OutputFileName !=ui->DestinationFilePath->text()) OutputFileName=ui->DestinationFilePath->text();
 
-        if ((QFileInfo(Diaporama->OutputFileName).exists())&&(QMessageBox::question(this,QApplication::translate("DlgRenderVideo","Overwrite file ?"),
+        if ((QFileInfo(OutputFileName).exists())&&(QMessageBox::question(this,QApplication::translate("DlgRenderVideo","Overwrite file ?"),
             QApplication::translate("DlgRenderVideo","The file you selected already exist.\nDo you want to overwrite it ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)) return;
 
@@ -526,23 +541,16 @@ void DlgRenderVideo::accept() {
         StopProcessWanted   =false;
 
         // Get values from controls
-        double      VideoFrameRate=0;
-        int         OutputFileFormat=0;
-        int         AudioFrequency=48000;
-        QString     VideoCodec="";
-        QString     AudioCodec="";
         QString     Preset="";
-        int         VideoBitRate=Diaporama->VideoBitRate;
-        int         AudioBitRate=Diaporama->AudioBitRate;
         int         ExtendH=0;
         int         ExtendV=0;
         int         Channels=2;
 
         if (ExportMode==EXPORTMODE_ADVANCED) {
-            if (Diaporama->LastStandard !=ui->StandardCombo->currentIndex())   { Diaporama->LastStandard =ui->StandardCombo->currentIndex();   IsModify=true; }
-            if (Diaporama->LastImageSize!=ui->ImageSizeCombo->currentIndex())  { Diaporama->LastImageSize=ui->ImageSizeCombo->currentIndex();  IsModify=true; }
+            Standard =ui->StandardCombo->currentIndex();
+            ImageSize=ui->ImageSizeCombo->currentIndex();
 
-            OutputFileFormat=ui->FileFormatCB->currentIndex();
+            OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
             VideoFrameRate  =DefImageFormat[ui->StandardCombo->currentIndex()][ui->GeometryCombo->currentIndex()][ui->ImageSizeCombo->currentIndex()].dFPS;
             // Video codec
             VideoCodecIndex=ui->VideoFormatCB->currentIndex();
@@ -567,61 +575,46 @@ void DlgRenderVideo::accept() {
             BitRate=ui->AudioBitRateCB->currentText();
             if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1)+"000";
             AudioBitRate=BitRate.toInt();
-            ExtendV =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Extend*2;
+            ExtendV =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Extend*2;
 
         } else {
 
+            OutputFileFormat=0;
             QString Device=ui->DeviceModelCB->currentText();
             int i=0;
             while ((i<Diaporama->ApplicationConfig->RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->RenderDeviceModel[i].DeviceName!=Device)) i++;
             if (i<Diaporama->ApplicationConfig->RenderDeviceModel.count()) {
-                Diaporama->LastStandard=Diaporama->ApplicationConfig->RenderDeviceModel[i].Standard;
+                Standard=Diaporama->ApplicationConfig->RenderDeviceModel[i].Standard;
                 OutputFileFormat=Diaporama->ApplicationConfig->RenderDeviceModel[i].FileFormat;
 
                 VideoCodecIndex =Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoCodec;
                 AudioCodecIndex =Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec;
 
                 int ImgSize=Diaporama->ApplicationConfig->RenderDeviceModel[i].ImageSize;
-                VideoFrameRate=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][ImgSize].dFPS;
-                Diaporama->LastImageSize=ImgSize;
+                VideoFrameRate=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].dFPS;
+                ImageSize=ImgSize;
                 VideoBitRate=Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate;
                 AudioBitRate=Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioBitrate;
             }
         }
 
-        if (OutputFileFormat>=0) {
-            if (Diaporama->OutputFileFormat!=ui->FileFormatCB->itemData(Diaporama->OutputFileFormat).toInt()) {
-                Diaporama->OutputFileFormat=ui->FileFormatCB->itemData(Diaporama->OutputFileFormat).toInt();
-                IsModify=true;
-            }
-        }
-
-        FileFormat  =FORMATDEF[Diaporama->OutputFileFormat].FileExtension;
-        VideoCodec  =VIDEOCODECDEF[VideoCodecIndex].FFD_VCODECST;
-        AudioCodec  =AUDIOCODECDEF[AudioCodecIndex].ShortName;
+        //QString FileFormat  =FORMATDEF[OutputFileFormat].FileExtension;
+        VideoCodec=VIDEOCODECDEF[VideoCodecIndex].FFD_VCODECST;
+        AudioCodec=AUDIOCODECDEF[AudioCodecIndex].ShortName;
 
         // Special case adjustment
         if (AUDIOCODECDEF[AudioCodecIndex].Codec_id==CODEC_ID_PCM_S16LE)    AudioBitRate=1536;      // Special case for WAV
         if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("flv")) AudioFrequency=44100;   // Special case for FLV
         if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("3gp")) AudioFrequency=8000;    // Special case for AMRNB
 
-        if (Diaporama->VideoFrameRate !=VideoFrameRate)                  { Diaporama->VideoFrameRate   =VideoFrameRate;                     IsModify=true; }
-        if (Diaporama->AudioFrequency !=AudioFrequency)                  { Diaporama->AudioFrequency   =AudioFrequency;                     IsModify=true; }
-        if (Diaporama->VideoCodec     !=VideoCodec)                      { Diaporama->VideoCodec       =VideoCodec;                         IsModify=true; }
-        if (Diaporama->AudioCodec     !=AudioCodec)                      { Diaporama->AudioCodec       =AudioCodec;                         IsModify=true; }
-        if (Diaporama->VideoBitRate   !=VideoBitRate)                    { Diaporama->VideoBitRate     =VideoBitRate;                       IsModify=true; }
-        if (Diaporama->AudioBitRate   !=AudioBitRate)                    { Diaporama->AudioBitRate     =AudioBitRate;                       IsModify=true; }
-
-        if (IsModify) GlobalMainWindow->SetModifyFlag(true);
-
         //*****************
         QString VideoBitRateStr=QString("%1").arg(VideoBitRate); if (VideoBitRateStr.endsWith("000")) VideoBitRateStr=VideoBitRateStr.left(VideoBitRateStr.length()-3)+"k";
         QString AudioBitRateStr=QString("%1").arg(AudioBitRate); if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
 
-        ui->InformationLabel1->setText(Diaporama->OutputFileName);
-        ui->InformationLabel2->setText(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Name);
+        ui->InformationLabel1->setText(OutputFileName);
+        ui->InformationLabel2->setText(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Name);
         ui->InformationLabel3->setText(QString(VIDEOCODECDEF[VideoCodecIndex].LongName)+" - "+VideoBitRateStr+"b/s");
-        ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+QString(" - %1 Hz - ").arg(Diaporama->AudioFrequency)+AudioBitRateStr+"b/s");
+        ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+QString(" - %1 Hz - ").arg(AudioFrequency)+AudioBitRateStr+"b/s");
 
         //**********************************************************************************************************************************
 
@@ -638,11 +631,15 @@ void DlgRenderVideo::accept() {
         ui->FrameNumberLabel->setText("");
 
         //**********************************************************************************************************************************
+
+        GlobalMainWindow->CurrentRenderingDialog=this;
+
+        //**********************************************************************************************************************************
         // 1st step encoding : produce WAV file with sound
         //**********************************************************************************************************************************
 
         // Create tempwavefile in the same directory as destination file
-        TempWAVFileName=AdjustDirForOS(QFileInfo(Diaporama->OutputFileName).absolutePath());
+        TempWAVFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
         if (!TempWAVFileName.endsWith(QDir::separator())) TempWAVFileName=TempWAVFileName+QDir::separator();
         TempWAVFileName=TempWAVFileName+"temp.wav";
 
@@ -653,7 +650,7 @@ void DlgRenderVideo::accept() {
         // 2nd step encoding : produce final file using temporary WAV file with sound
         //**********************************************************************************************************************************
         StartTime=QTime::currentTime();                                                             // Display control : time the process start
-        FPS     =double((uint64_t)AV_TIME_BASE)/double(Diaporama->VideoFrameRate);                  // Time duration of a frame
+        FPS     =double((uint64_t)AV_TIME_BASE)/double(VideoFrameRate);                             // Time duration of a frame
         NbrFrame=int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/double(FPS));    // Number of frame to generate
 
         ui->SlideProgressBar->setValue(0);
@@ -664,51 +661,53 @@ void DlgRenderVideo::accept() {
 
         // Construct ffmpeg command line
         if (Continue) {
-            W       =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Width;
-            H       =DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Height;
+            W=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width;
+            H=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height;
+
+            UpdateWidth=W;
 
             // Video codec part
             switch (VIDEOCODECDEF[VideoCodecIndex].FFD_VCODEC) {
                 case VCODEC_MPEG    :   vCodec=QString("-vcodec mpeg2video -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
-                                           .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
-                                           .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
-                                           .arg(Diaporama->VideoBitRate*2)
-                                           .arg(Diaporama->VideoBitRate);
+                                           .arg(VideoBitRate-VideoBitRate/10)
+                                           .arg(VideoBitRate+VideoBitRate/10)
+                                           .arg(VideoBitRate*2)
+                                           .arg(VideoBitRate);
                                         break;
                 case VCODEC_MPEG4   :   if (AudioCodec=="libopencore_amrnb") {
-                                                vCodec=QString("-f 3gp -vcodec mpeg4 -b %1").arg(Diaporama->VideoBitRate);
+                                                vCodec=QString("-f 3gp -vcodec mpeg4 -b %1").arg(VideoBitRate);
                                         } else {
                                             if (QString(VIDEOCODECDEF[VideoCodecIndex].ShortName)==QString("mpeg4"))
-                                                vCodec=QString("-vcodec mpeg4 -vtag xvid -b %1").arg(Diaporama->VideoBitRate);
-                                                else vCodec=QString("-vcodec libxvid -b %1").arg(Diaporama->VideoBitRate);
+                                                vCodec=QString("-vcodec mpeg4 -vtag xvid -b %1").arg(VideoBitRate);
+                                                else vCodec=QString("-vcodec libxvid -b %1").arg(VideoBitRate);
                                         }
                                         break;
                 case VCODEC_H264HQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
                                         Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
                                         vCodec=QString("-vcodec libx264 ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b %4")
-                                            .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
-                                            .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
-                                            .arg(Diaporama->VideoBitRate*2)
-                                            .arg(Diaporama->VideoBitRate);
+                                            .arg(VideoBitRate-VideoBitRate/10)
+                                            .arg(VideoBitRate+VideoBitRate/10)
+                                            .arg(VideoBitRate*2)
+                                            .arg(VideoBitRate);
                                         break;
                 case VCODEC_H264PQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
                                         Preset="-fpre \""+Preset+"libx264-pq.ffpreset\"";
                                         vCodec=QString("-vcodec libx264 ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b %4")
-                                            .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
-                                            .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
-                                            .arg(Diaporama->VideoBitRate*2)
-                                            .arg(Diaporama->VideoBitRate);
+                                            .arg(VideoBitRate-VideoBitRate/10)
+                                            .arg(VideoBitRate+VideoBitRate/10)
+                                            .arg(VideoBitRate*2)
+                                            .arg(VideoBitRate);
                                         break;
                 case VCODEC_MJPEG   :   vCodec="-vcodec mjpeg -qscale 2 -qmin 2 -qmax 2";   break;
                 case VCODEC_VP8     :   vCodec=QString("-vcodec libvpx -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
-                                            .arg(Diaporama->VideoBitRate-Diaporama->VideoBitRate/10)
-                                            .arg(Diaporama->VideoBitRate+Diaporama->VideoBitRate/10)
-                                            .arg(Diaporama->VideoBitRate*2)
-                                            .arg(Diaporama->VideoBitRate);
+                                            .arg(VideoBitRate-VideoBitRate/10)
+                                            .arg(VideoBitRate+VideoBitRate/10)
+                                            .arg(VideoBitRate*2)
+                                            .arg(VideoBitRate);
                                         break;
-                case VCODEC_H263    :   vCodec=QString("-vcodec flv -b %1").arg(Diaporama->VideoBitRate);
+                case VCODEC_H263    :   vCodec=QString("-vcodec flv -b %1").arg(VideoBitRate);
                                         break;
-                case VCODEC_THEORA  :   vCodec=QString("-vcodec libtheora -b %1").arg(Diaporama->VideoBitRate);
+                case VCODEC_THEORA  :   vCodec=QString("-vcodec libtheora -b %1").arg(VideoBitRate);
                                         break;
                 default:
                     QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Unknown video codec");
@@ -718,16 +717,16 @@ void DlgRenderVideo::accept() {
 
             // Audio codec part
             switch (AUDIOCODECDEF[AudioCodecIndex].Codec_id) {
-                case CODEC_ID_PCM_S16LE:    aCodec=QString("-acodec pcm_s16le -ab %1").arg(Diaporama->AudioBitRate); break;
-                case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1").arg(Diaporama->AudioBitRate); break;
-                case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(Diaporama->AudioBitRate); break;
+                case CODEC_ID_PCM_S16LE:    aCodec=QString("-acodec pcm_s16le -ab %1").arg(AudioBitRate); break;
+                case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1").arg(AudioBitRate); break;
+                case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(AudioBitRate); break;
                 case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))
-                                                aCodec=QString("-acodec aac -strict experimental -ab %1").arg(Diaporama->AudioBitRate);
-                                                else aCodec=QString("-acodec libfaac -ab %1").arg(Diaporama->AudioBitRate);
+                                                aCodec=QString("-acodec aac -strict experimental -ab %1").arg(AudioBitRate);
+                                                else aCodec=QString("-acodec libfaac -ab %1").arg(AudioBitRate);
                                             break;
-                case CODEC_ID_AC3:          aCodec=QString("-acodec ac3 -ab %1").arg(Diaporama->AudioBitRate); break;
-                case CODEC_ID_VORBIS:       aCodec=QString("-acodec libvorbis -ab %1").arg(Diaporama->AudioBitRate); break;
-                case CODEC_ID_AMR_NB:       aCodec=QString("-acodec libopencore_amrnb -ab %1").arg(Diaporama->AudioBitRate); Channels=1; break;
+                case CODEC_ID_AC3:          aCodec=QString("-acodec ac3 -ab %1").arg(AudioBitRate); break;
+                case CODEC_ID_VORBIS:       aCodec=QString("-acodec libvorbis -ab %1").arg(AudioBitRate); break;
+                case CODEC_ID_AMR_NB:       aCodec=QString("-acodec libopencore_amrnb -ab %1").arg(AudioBitRate); Channels=1; break;
 
                 default:
                     QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Unknown audio codec");
@@ -736,8 +735,8 @@ void DlgRenderVideo::accept() {
             }
 
             if (Continue) {
-                int GeoW=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARNUM;
-                int GeoH=DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].PARDEN;
+                int GeoW=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARNUM;
+                int GeoH=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARDEN;
                 #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
                 ffmpegCommand="\""+Diaporama->ApplicationConfig->PathFFMPEG+"\"";
                 #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
@@ -745,9 +744,9 @@ void DlgRenderVideo::accept() {
                 #endif
                 QString AddSizestr="";
                 if (W==720) {
-                    AddSizestr=QString(" -s %1x%2").
-                            arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Width).
-                            arg(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].Height);
+                    /*AddSizestr=QString(" -s %1x%2").
+                            arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width).
+                            arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height);*/
 
                     switch (Diaporama->ImageGeometry) {
                         case GEOMETRY_4_3:      W=(double(H)/3)*4;      GeoW=4;     GeoH=3; break;
@@ -756,11 +755,11 @@ void DlgRenderVideo::accept() {
                     }
 
                 }
-                ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r "+QString(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].FPS)+" -i -"+
+                ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r "+QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+" -i -"+
                       " -i \"")+TempWAVFileName+"\" -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+AddSizestr+" -r "+
-                      QString(DefImageFormat[Diaporama->LastStandard][Diaporama->ImageGeometry][Diaporama->LastImageSize].FPS)+                        
+                      QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
                       " "+aCodec+QString(" -ar %1 -ac %2 -aspect %3:%4")
-                      .arg(Diaporama->AudioFrequency)
+                      .arg(AudioFrequency)
                       .arg(Channels)
                       .arg(GeoW)
                       .arg(GeoH);
@@ -773,7 +772,7 @@ void DlgRenderVideo::accept() {
                         (VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_VP8)
                         )) ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount());
 
-                ffmpegCommand=ffmpegCommand+" \""+Diaporama->OutputFileName+"\"";
+                ffmpegCommand=ffmpegCommand+" \""+OutputFileName+"\"";
                 qDebug()<<ffmpegCommand;
 
                 ffmpegCommand=AdjustDirForOS(ffmpegCommand);
@@ -782,7 +781,7 @@ void DlgRenderVideo::accept() {
 
         // Start ffmpegCommand
         if (Continue) {
-            Process.setProcessChannelMode(QProcess::SeparateChannels/*ForwardedChannels*/);      // Forward standard and error message to the ffdiaporama console
+            Process.setProcessChannelMode(QProcess::/*SeparateChannels*/ForwardedChannels);      // Forward standard and error message to the ffdiaporama console
             //Process.setWorkingDirectory(Diaporama->ApplicationConfig->UserConfigPath);         // Set working directory to user folder (for log generation)
             Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);                 // Start command
             if (!Process.waitForStarted()) {
@@ -842,6 +841,13 @@ void DlgRenderVideo::accept() {
 
                 // Give time to interface!
                 QApplication::processEvents();
+
+                // Apply anamorphous
+                if ((UpdateWidth!=W)&&(Frame->RenderedImage->width()!=UpdateWidth)) {
+                    QImage *NewImage=new QImage(Frame->RenderedImage->scaled(QSize(UpdateWidth,Frame->RenderedImage->height()),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                    delete Frame->RenderedImage;
+                    Frame->RenderedImage=NewImage;
+                }
 
                 // Save image to the pipe
                 if (!Frame->RenderedImage->save(&Process,"PPM",100)) {

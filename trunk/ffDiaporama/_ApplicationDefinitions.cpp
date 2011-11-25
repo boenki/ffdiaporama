@@ -817,19 +817,19 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     }
     if ((root.elementsByTagName("RenderDefault").length()>0)&&(root.elementsByTagName("RenderDefault").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("RenderDefault").item(0).toElement();
-        if (Element.hasAttribute("DefaultFormat"))              DefaultFormat           =Element.attribute("Format").toInt();
-        if (Element.hasAttribute("DefaultVideoCodec"))          DefaultVideoCodec       =Element.attribute("VideoCodec");
-        if (Element.hasAttribute("DefaultVideoBitRate"))        DefaultVideoBitRate     =Element.attribute("VideoBitRate").toInt();
-        if (Element.hasAttribute("DefaultAudioCodec"))          DefaultAudioCodec       =Element.attribute("AudioCodec");
-        if (Element.hasAttribute("DefaultAudioBitRate"))        DefaultAudioBitRate     =Element.attribute("AudioBitRate").toInt();
-        if (Element.hasAttribute("DefaultImageSize"))           DefaultImageSize        =Element.attribute("ImageSize").toInt();
-        if (Element.hasAttribute("DefaultStandard"))            DefaultStandard         =Element.attribute("Standard").toInt();
-        if (Element.hasAttribute("DefaultSmartphoneType"))      DefaultSmartphoneType   =Element.attribute("DefaultSmartphoneType").toInt();
-        if (Element.hasAttribute("DefaultSmartphoneModel"))     DefaultSmartphoneModel  =Element.attribute("DefaultSmartphoneModel").toInt();
-        if (Element.hasAttribute("DefaultMultimediaType"))      DefaultMultimediaType   =Element.attribute("DefaultMultimediaType").toInt();
-        if (Element.hasAttribute("DefaultMultimediaModel"))     DefaultMultimediaModel  =Element.attribute("DefaultMultimediaModel").toInt();
-        if (Element.hasAttribute("DefaultForTheWEBType"))       DefaultForTheWEBType    =Element.attribute("DefaultForTheWEBType").toInt();
-        if (Element.hasAttribute("DefaultForTheWEBModel"))      DefaultForTheWEBModel   =Element.attribute("DefaultForTheWEBModel").toInt();
+        if (Element.hasAttribute("Format"))                 DefaultFormat           =Element.attribute("Format").toInt();
+        if (Element.hasAttribute("VideoCodec"))             DefaultVideoCodec       =Element.attribute("VideoCodec");
+        if (Element.hasAttribute("VideoBitRate"))           DefaultVideoBitRate     =Element.attribute("VideoBitRate").toInt();
+        if (Element.hasAttribute("AudioCodec"))             DefaultAudioCodec       =Element.attribute("AudioCodec");
+        if (Element.hasAttribute("AudioBitRate"))           DefaultAudioBitRate     =Element.attribute("AudioBitRate").toInt();
+        if (Element.hasAttribute("ImageSize"))              DefaultImageSize        =Element.attribute("ImageSize").toInt();
+        if (Element.hasAttribute("Standard"))               DefaultStandard         =Element.attribute("Standard").toInt();
+        if (Element.hasAttribute("DefaultSmartphoneType"))  DefaultSmartphoneType   =Element.attribute("DefaultSmartphoneType").toInt();
+        if (Element.hasAttribute("DefaultSmartphoneModel")) DefaultSmartphoneModel  =Element.attribute("DefaultSmartphoneModel").toInt();
+        if (Element.hasAttribute("DefaultMultimediaType"))  DefaultMultimediaType   =Element.attribute("DefaultMultimediaType").toInt();
+        if (Element.hasAttribute("DefaultMultimediaModel")) DefaultMultimediaModel  =Element.attribute("DefaultMultimediaModel").toInt();
+        if (Element.hasAttribute("DefaultForTheWEBType"))   DefaultForTheWEBType    =Element.attribute("DefaultForTheWEBType").toInt();
+        if (Element.hasAttribute("DefaultForTheWEBModel"))  DefaultForTheWEBModel   =Element.attribute("DefaultForTheWEBModel").toInt();
     }
 
     if ((root.elementsByTagName("RecentFiles").length()>0)&&(root.elementsByTagName("RecentFiles").item(0).isElement()==true)) {
