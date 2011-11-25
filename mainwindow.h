@@ -31,6 +31,8 @@ namespace Ui {
     class MainWindow;
 }
 
+class DlgRenderVideo;
+
 class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
@@ -54,6 +56,7 @@ public:
     Qt::HANDLE              CurrentThreadId;
     bool                    InPlayerUpdate;
 
+    DlgRenderVideo          *CurrentRenderingDialog;
 
     explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
     ~MainWindow();

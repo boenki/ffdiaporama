@@ -1123,18 +1123,6 @@ cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
     CurrentPosition     = -1;                                                               // Current position (msec)
     IsModify            = false;                                                            // true if project was modify
     ProjectFileName     = "";                                                               // Path and name of current file project
-
-    // Init dest file values (TODO : Make and use values from application configurations values !)
-    OutputFileFormat    = ApplicationConfig->DefaultFormat;
-    VideoCodec          = ApplicationConfig->DefaultVideoCodec;
-    VideoFrameRate      = 25;
-    VideoBitRate        = ApplicationConfig->DefaultVideoBitRate;
-    AudioCodec          = ApplicationConfig->DefaultAudioCodec;
-    AudioFrequency      = 48000;
-    AudioBitRate        = ApplicationConfig->DefaultAudioBitRate;
-    LastImageSize       = ApplicationConfig->DefaultImageSize;
-    LastStandard        = ApplicationConfig->DefaultStandard;
-
     // Set default value
     DefineSizeAndGeometry(ApplicationConfig->ImageGeometry);                                // Default to 16:9
 }
@@ -1304,7 +1292,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
     // Create xml document and root
     root=domDocument.createElement(APPLICATION_ROOTNAME);
     domDocument.appendChild(root);
-
+/*
     // Save rendering informations on project
     Element=domDocument.createElement("Render");
     Element.setAttribute("OutputFileFormat",OutputFileFormat);
@@ -1318,7 +1306,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
     Element.setAttribute("LastImageSize",   LastImageSize);
     Element.setAttribute("LastStandard",    LastStandard);
     root.appendChild(Element);
-
+*/
     // Save basic information on project
     Element=domDocument.createElement("Project");
     Element.setAttribute("ImageGeometry",   ImageGeometry);
@@ -1391,7 +1379,7 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
     }
 
     this->ProjectFileName =ProjectFileName;
-
+/*
     // Load rendering informations on project
     if ((root.elementsByTagName("Render").length()>0)&&(root.elementsByTagName("Render").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("Render").item(0).toElement();
@@ -1406,7 +1394,7 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
         LastImageSize   =Element.attribute("LastImageSize").toInt();
         LastStandard    =Element.attribute("LastStandard").toInt();
     }
-
+*/
     // Load basic information on project
     bool IsOk=true;
     if ((root.elementsByTagName("Project").length()>0)&&(root.elementsByTagName("Project").item(0).isElement()==true)) {

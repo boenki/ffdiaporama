@@ -289,18 +289,8 @@ public:
 
     // Output rendering values
     int                     ImageGeometry;          // Project image geometry for image rendering
-    int                     LastImageSize;          // Last image size use for rendering
-    int                     LastStandard;           // Last standard use for rendering
     int                     InternalWidth;          // Real width for image rendering
     int                     InternalHeight;         // Real height for image rendering
-    int                     OutputFileFormat;       // Container format
-    QString                 OutputFileName;         // filename with path for the last rendering file
-    QString                 VideoCodec;             // Last video codec used
-    double                  VideoFrameRate;         // Last video frame rate used
-    int                     VideoBitRate;           // Last video bit rate used
-    QString                 AudioCodec;             // Last audio codec used
-    int                     AudioFrequency;         // Last audio frequency used
-    int                     AudioBitRate;           // Last audio bit rate used
 
     // slides objects
     QList<cDiaporamaObject> List;                   // list of all media object

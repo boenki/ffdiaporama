@@ -89,10 +89,14 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage(cFilterTransformObject *
             }
 
             // if Filter then apply filter
-            if (Filter) Filter->ApplyFilter(CacheRenderImage);
+            if (Filter) {
+                GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Applying transformation filter"));
+                Filter->ApplyFilter(CacheRenderImage);
+            }
         }
 
     }
+    GlobalMainWindow->SetTempStatusText("");
     return CacheRenderImage;
 }
 
@@ -135,11 +139,15 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(cFilterTransformObject 
             }
 
             // if Filter then apply filter
-            if (Filter) Filter->ApplyFilter(CachePreviewImage);
+            if (Filter) {
+                GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Applying transformation filter"));
+                Filter->ApplyFilter(CachePreviewImage);
+            }
         }
 
     }
 
+    GlobalMainWindow->SetTempStatusText("");
     return CachePreviewImage;
 }
 

@@ -46,11 +46,22 @@ public:
     QTime           StartTime;                      // Time the process start
     QTime           LastCheckTime;                  // Last time the loop start
     bool            IsDestFileOpen;                 // true if encoding is started
-    QString         FileFormat;                     // Select dest file values
+
+    QString         OutputFileName;                 // filename with path for the last rendering file
+    int             OutputFileFormat;               // Container format
+    QString         VideoCodec;                     // Last video codec used
+    double          VideoFrameRate;                 // Last video frame rate used
+    int             VideoBitRate;                   // Last video bit rate used
+    QString         AudioCodec;                     // Last audio codec used
+    int             AudioFrequency;                 // Last audio frequency used
+    int             AudioBitRate;                   // Last audio bit rate used
+    int             ImageSize;                      // Last image size use for rendering
+    int             Standard;                       // Last standard use for rendering
 
     explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,QWidget *parent = 0);
     ~DlgRenderVideo();
 
+    void            DisplayInformations(QString Text);
     bool            WriteTempAudioFile(QString TempWAVFileName,int FromSlide);
 
 protected:

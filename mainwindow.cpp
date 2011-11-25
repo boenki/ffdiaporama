@@ -49,6 +49,8 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     DragItemDest            =-1;
     IsDragOn                =0;
     InPlayerUpdate          =false;
+    CurrentRenderingDialog  =NULL;
+
     ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
     ui->preview2->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
 
@@ -337,7 +339,9 @@ void MainWindow::s_TimerEvent() {
 }
 
 void MainWindow::SetTempStatusText(QString Text) {
-    if (CurrentThreadId==this->thread()->currentThreadId()) {
+    if (CurrentRenderingDialog) {
+        CurrentRenderingDialog->DisplayInformations(Text);
+    } else if (CurrentThreadId==this->thread()->currentThreadId()) {
         /*
         ui->StatusBar->DisplayCustomText(Text);
         ui->StatusBar->repaint();
@@ -348,6 +352,7 @@ void MainWindow::SetTempStatusText(QString Text) {
         ui->StatusBar->setText(Text);
         //StatusBarList.append(Text);
     }
+
 }
 
 //====================================================================================================================
@@ -849,6 +854,7 @@ void MainWindow::s_RenderVideo() {
     ui->ActionRender_BT_2->setDown(false);
 
     DlgRenderVideo(*Diaporama,EXPORTMODE_ADVANCED,this).exec();
+    CurrentRenderingDialog=NULL;
     AdjustRuller();
 }
 
@@ -863,6 +869,7 @@ void MainWindow::s_RenderSmartphone() {
     ui->ActionSmartphone_BT_2->setDown(false);
 
     DlgRenderVideo(*Diaporama,EXPORTMODE_SMARTPHONE,this).exec();
+    CurrentRenderingDialog=NULL;
     AdjustRuller();
 }
 
@@ -877,6 +884,7 @@ void MainWindow::s_RenderMultimedia() {
     ui->ActionMultimedia_BT_2->setDown(false);
 
     DlgRenderVideo(*Diaporama,EXPORTMODE_MULTIMEDIASYS,this).exec();
+    CurrentRenderingDialog=NULL;
     AdjustRuller();
 }
 
@@ -891,6 +899,7 @@ void MainWindow::s_RenderForTheWEB() {
     ui->ActionForTheWEB_BT_2->setDown(false);
 
     DlgRenderVideo(*Diaporama,EXPORTMODE_FORTHEWEB,this).exec();
+    CurrentRenderingDialog=NULL;
     AdjustRuller();
 }
 
@@ -912,6 +921,11 @@ void MainWindow::s_ChangeApplicationSettings() {
     ui->preview->WantedFPS=ApplicationConfig->PreviewFPS;
     ui->preview2->WantedFPS=ApplicationConfig->PreviewFPS;
     SDLSetFPS(ApplicationConfig->PreviewFPS,ApplicationConfig->SDLAudioOldMode);  // Reinit SDL if Preview FPS has changed
+    // Save configuration
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    ApplicationConfig->MainWinWSP->SaveWindowState(this);
+    ApplicationConfig->SaveConfigurationFile();
+    QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================

@@ -1,8 +1,7 @@
-Buggs/TODO (Dernier SVN le 22/11/2011) :
+Buggs/TODO (Dernier SVN le 24/11/2011) :
 ----------------------------------------
 BUGG:
 -Le mixage de 2 pistes audio à fort volume donne un résultat saturé
--Dans Fichier/Options/Options de génération/Options par défaut en mode avancé, quel que soit le format de fichier choisi, c'est toujours AVI qui est proposé au moment de la génération du film
 
 TODO
 ----
@@ -45,6 +44,7 @@ Various
 -Add a "mass modifications" feature to all slide or a group of slide. First shot duration - Transition - Random Ken Burns effect - etc...
 -Add a tools to convert video
 -Add the possibility to render a video without audio track
+-Add the possibility to load a text file containing a list of image and add these image in the order of the text file
 
 Text
 -To add animations of text (scrolling, zoom in / out), animations for entering blocks (1st shot or invisible block in the previous shot) and of animations for outgoing block (the Last one shot or invisible block in the following shot)
@@ -65,18 +65,20 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Fin des corrections pour la barre de status : Maintenant elle fonctionne correctement sous Linux et sous Windows
--Corrige un gros bug qui empêchait l'application des filtres de transformation sur les images (suite aux modifications sur le gestionnaire de mémoire)
--Corrige un bug qui passait l'affichage en blanc dans la boite slide
+-Les options proposées dans la boite de génération vidéo en mode avancée sont maintenant toujours celles définies dans la boite de configuration
+-Les options de génération vidéo définies dans la boite de configuration sont maintenant correctement rechargées
 
 English version / Bug fix :
--End of bug fix for status bar : Now it working correctly for Linux and for Windows
--Correct a big bug which prevented the application of the transformation filters on the images (further to the modifications on the memory manager)
--Correct a bug which display image as white in the slide dialog
+-Settings proposed in avanced render dialog are now always them defined in option dialog
+-The options for rendering defined in the option dialog are now correctly reloaded
 
 French version / Nouvelles fonctionnalités :
+-La configuration est maintenant sauvegardée lorsqu'on quitte la boite de configuration
+-Fait en sorte à ce que ce soit ffDiaporama qui réalise l'anamorphisme plutôt que ffmpeg lors de génération de vidéo en mode SD-DVD
 
 English version / New features :
+-Application options are now save when exit of option dialog
+-Do what needed for it is ffDiaporama which compute anamorphous rather than ffmpeg during generation of video in SD-DVD mode
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -119,6 +121,9 @@ Bug fix French version
 -Corrige un bug pour retrouver un style custom définit dans la boite de configuration à appliquer
 -Corrige le bug d'affichage qui empêchait l'information du chargement de fichier d'apparaître lors des sélections de slide par l'utilisateur
 -Modifie la correction du bug de changement de luminosité lors des transitions en fondu (cross fade) par l'ajout d'une 2eme transition en fondu sans disparition
+-Fin des corrections pour la barre de status : Maintenant elle fonctionne correctement sous Linux et sous Windows
+-Corrige un gros bug qui empêchait l'application des filtres de transformation sur les images (suite aux modifications sur le gestionnaire de mémoire)
+-Corrige un bug qui passait l'affichage en blanc dans la boite slide
 
 Bug fix English version
 -Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -154,6 +159,9 @@ Bug fix English version
 -Fix MainWindow and slide dialog for they use option "Ask user for removing objects"
 -Fix play of sound for some Linux release by the addition of a new option in the option dialog
 -Buf fix of style affectation when nothing is selected in the style popup menu
+-End of bug fix for status bar : Now it working correctly for Linux and for Windows
+-Correct a big bug which prevented the application of the transformation filters on the images (further to the modifications on the memory manager)
+-Correct a bug which display image as white in the slide dialog
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
