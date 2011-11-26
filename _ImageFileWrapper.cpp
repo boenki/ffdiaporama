@@ -45,7 +45,7 @@ cimagefilewrapper::~cimagefilewrapper() {
 //====================================================================================================================
 
 bool cimagefilewrapper::CallEXIF() {
-    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName,&BrushFileTransform);
+    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName,&BrushFileTransform,true,false);
     if (!ImageObject) return false;
 
     ImageObject->ImageOrientation=1; // Set default image orientation
@@ -98,6 +98,7 @@ bool cimagefilewrapper::CallEXIF() {
                 ExivValue.append(Part+"##"+Value);
             }
         }
+        ExivValue.append("Exif status##ok");
     }
     // Restart same job with -pv option to know binary value of orientation
 //    Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pva -g Exif.Image.Orientation \""+FileName+"\"";
@@ -181,7 +182,7 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName,QStringList
     ModifDateTime   =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
     IsValide        =true;
 
-    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName,&BrushFileTransform);
+    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName,&BrushFileTransform,true,false);
     if (ImageObject) {
         ImageObject->ClearAll();    // Clear all cached images
         if (ImageObject->ImageOrientation==0) CallEXIF();
@@ -191,10 +192,10 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName,QStringList
 
 //====================================================================================================================
 
-QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter) {
+QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter,bool Smoothing) {
     if (!IsValide) return NULL;
 
-    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName,&BrushFileTransform);
+    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName,&BrushFileTransform,Smoothing,true);
     if (!ImageObject) {
         qDebug()<<"ImagesCache.FindObject return NULL !";
         return NULL;  // There is an error !!!!!

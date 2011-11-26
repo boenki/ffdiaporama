@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT          += core gui xml network
+CONFIG      += console
 QMAKE_STRIP = echo
 PREFIX      = /usr
 

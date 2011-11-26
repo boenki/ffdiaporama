@@ -85,11 +85,26 @@ cFilterTransformObject::cFilterTransformObject() {
 void cFilterTransformObject::ApplyFilter(QImage *Image) {
     if (Image==NULL) return;
     fmt_filters::image img(Image->bits(),Image->width(),Image->height());
-    if ((OnOffFilter & FilterDespeckle)==FilterDespeckle)   fmt_filters::despeckle(img);
-    if ((OnOffFilter & FilterEqualize)==FilterEqualize)     fmt_filters::equalize(img);
-    if ((OnOffFilter & FilterGray)==FilterGray)             fmt_filters::gray(img);
-    if (BlurSigma<0)                                        fmt_filters::blur(img,BlurRadius,-BlurSigma);
-    if (BlurSigma>0)                                        fmt_filters::sharpen(img,BlurRadius,BlurSigma);
+    if ((OnOffFilter & FilterDespeckle)==FilterDespeckle)   {
+        GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Applying transformation filter"));
+        fmt_filters::despeckle(img);
+    }
+    if ((OnOffFilter & FilterEqualize)==FilterEqualize) {
+        GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Applying transformation filter"));
+        fmt_filters::equalize(img);
+    }
+    if ((OnOffFilter & FilterGray)==FilterGray) {
+        GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Applying transformation filter"));
+        fmt_filters::gray(img);
+    }
+    if (BlurSigma<0) {
+        GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Applying transformation filter"));
+        fmt_filters::blur(img,BlurRadius,-BlurSigma);
+    }
+    if (BlurSigma>0) {
+        GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Applying transformation filter"));
+        fmt_filters::sharpen(img,BlurRadius,BlurSigma);
+    }
 }
 
 //====================================================================================================================
@@ -143,6 +158,7 @@ cFilterCorrectObject::cFilterCorrectObject() {
     Green                   = 0;
     Blue                    = 0;
     LockGeometry            = false;
+    Smoothing               = true;
 }
 
 QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Height,double PctDone,cFilterCorrectObject *PreviousFilter) {
@@ -183,7 +199,7 @@ QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Hei
     if (TheRotateFactor!=0) {
         QTransform matrix;
         matrix.rotate(TheRotateFactor,Qt::ZAxis);
-        SourceImage=new QImage(LastLoadedImage->transformed(matrix));
+        SourceImage=new QImage(LastLoadedImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
         // update real image size
         RealImageW=double(SourceImage->width());
         RealImageH=double(SourceImage->height());
@@ -209,8 +225,10 @@ QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Hei
     PB.fillRect(QRect(0,0,Width+1,Height+1),Qt::transparent);
     PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
-    PB.drawImage(QRectF(DstX,DstY,DstW,DstH),*SourceImage,QRectF(int((RealImageW/2)-(Hyp/2)+SrcX),int((RealImageH/2)-(Hyp/2)+SrcY),SrcW,SrcH));
+    if (Smoothing) PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+        else       PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
+    PB.drawImage(QRectF(DstX,DstY,DstW,DstH),*SourceImage,QRectF(int((RealImageW/2)-(Hyp/2)+SrcX),int((RealImageH/2)-(Hyp/2)+SrcY),SrcW,SrcH));
     PB.end();
 
     // Delete SourceImage if we have created it
@@ -256,6 +274,7 @@ void cFilterCorrectObject::SaveToXML(QDomElement &domDocument,QString ElementNam
     Element.setAttribute("Blue",            Blue);
     Element.setAttribute("LockGeometry",    LockGeometry?1:0);
     Element.setAttribute("AspectRatio",     AspectRatio);
+    Element.setAttribute("Smoothing",       Smoothing?1:0);
 
     domDocument.appendChild(Element);
 }
@@ -282,6 +301,8 @@ bool cFilterCorrectObject::LoadFromXML(QDomElement domDocument,QString ElementNa
         if (Element.hasAttribute("ImageGeometry")) LockGeometry=(Element.attribute("ImageGeometry").toInt()!=2);
             // Else load saved value
             else LockGeometry=Element.attribute("LockGeometry").toInt()==1;
+
+        if (Element.hasAttribute("Smoothing")) Smoothing=Element.attribute("Smoothing").toInt()==1;
 
         return true;
     }
@@ -446,7 +467,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
     bool    SoundOnly=((Rect.width()==0)&&(Rect.height()==0));
 
     if (!SoundOnly) {
-        QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&Image->BrushFileTransform):
+        QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&Image->BrushFileTransform,BrushFileCorrect.Smoothing):
                             Video?Video->ImageAt(PreviewMode,Position,StartPosToAdd,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform):
                             NULL);
         // Create brush image with ken burns effect !
@@ -575,7 +596,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
                     Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
                     Image->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
-                    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(BrushFileName,&Image->BrushFileTransform); // Get image object
+                    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(BrushFileName,&Image->BrushFileTransform,BrushFileCorrect.Smoothing,true); // Get image object
                     if (ImageObject) Element.setAttribute("ImageOrientation",ImageObject->ImageOrientation);
                 }
             }
@@ -627,7 +648,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                             delete Image;
                             Image=NULL;
                         } else {
-                            cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(BrushFileName,&Image->BrushFileTransform); // Get image object
+                            cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(BrushFileName,&Image->BrushFileTransform,BrushFileCorrect.Smoothing,true); // Get image object
                             if ((ImageObject)&&(Element.hasAttribute("ImageOrientation"))) ImageObject->ImageOrientation=Element.attribute("ImageOrientation").toInt();
                         }
                         break;

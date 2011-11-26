@@ -2735,24 +2735,12 @@ and help</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="StatusBar">
+       <widget class="cCustomLabel" name="StatusBar">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>21</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>21</height>
-         </size>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -2760,11 +2748,8 @@ and help</string>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <property name="lineWidth">
-         <number>2</number>
-        </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
        </widget>
       </item>
@@ -2996,6 +2981,11 @@ and help</string>
    <class>cCustomTableWidget</class>
    <extends>QTableWidget</extends>
    <header>cCustomTableWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCustomLabel</class>
+   <extends>QLabel</extends>
+   <header>cCustomComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

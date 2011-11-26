@@ -64,6 +64,7 @@ public:
     int         Blue;                   // Blue adjustment
     bool        LockGeometry;           // True if geometry is locked
     double      AspectRatio;            // Aspect Ratio of image
+    bool        Smoothing;
 
     cFilterCorrectObject();
 

@@ -749,6 +749,7 @@ void cCustomLabel::paintEvent(QPaintEvent *) {
 }
 
 void cCustomLabel::DisplayCustomText(QString Text) {
+    setText(Text);
     QPainter Painter(this);
     Painter.save();
     Painter.setBrush(QBrush(Qt::lightGray));

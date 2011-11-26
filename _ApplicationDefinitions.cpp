@@ -41,7 +41,8 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,768,4,3,25,"25","XGA - 1024x768 - 25 FPS",0},                                                 // SIZE_XGA
             {960,720,4,3,25,"25","720p - 960x720 - 25 FPS",0},                                                  // SIZE_720P
             {1440,1080,4,3,25,"25","1080p - 1440x1080 - 25 FPS",0},                                             // SIZE_1080p
-            {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0}                                                // SIZE_RIM240
+            {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0},                                               // SIZE_RIM240
+            {768,576,4,3,25,"25","576p - 768x576 - 25 FPS",0}                                                   // SIZE_576P
         },{ // GEOMETRY_16_9
             {320,180,16,9,25,"25","QVGA - 320x180 - 25 FPS",0},                                                 // SIZE_QVGA
             {480,270,16,9,25,"25","HVGA - 480x270 - 25 FPS",0},                                                 // SIZE_HVGA
@@ -51,7 +52,8 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,576,16,9,25,"25","XGA - 1024x576 - 25 FPS",0},                                                // SIZE_XGA
             {1280,720,16,9,25,"25","720p - 1280x720 - 25 FPS",0},                                               // SIZE_720P
             {1920,1080,16,9,25,"25","1080p - 1920x1080 - 25 FPS",0},                                            // SIZE_1080p
-            {240,135,16,9,24,"24","RIM 240 - 240x135 - 24 FPS",0}                                               // SIZE_RIM240
+            {240,135,16,9,24,"24","RIM 240 - 240x135 - 24 FPS",0},                                              // SIZE_RIM240
+            {1024,576,16,9,25,"25","576p - 1024x576 - 25 FPS",0}                                                // SIZE_576P
         },{ // GEOMETRY_40_17
             {320,136,16,9,25,"25","QVGA - 320x136 - 25 FPS",0},                                                 // SIZE_QVGA
             {480,204,40,17,25,"25","HVGA - 480x204 - 25 FPS",0},                                                // SIZE_HVGA
@@ -61,7 +63,8 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,436,40,17,25,"25","XGA - 1024x436 - 25 FPS",0},                                               // SIZE_XGA
             {1280,544,40,17,25,"25","720p - 1280x544 - 25 FPS",0},                                              // SIZE_720P
             {1920,816,40,17,25,"25","1080p - 1920x816 - 25 FPS",0},                                             // SIZE_1080p
-            {240,135,16,9,24,"24","RIM 240 - 240x135+PAD - 24 FPS",16}                                          // SIZE_RIM240
+            {240,135,16,9,24,"24","RIM 240 - 240x135+PAD - 24 FPS",16},                                         // SIZE_RIM240
+            {1024,436,40,17,25,"25","576p - 1024x436 - 25 FPS",0}                                               // SIZE_576P
     }},{// STANDARD_NTSC
         {   // GEOMETRY_4_3
             {320,240,1,1,double(30000)/double(1001),"30000/1001",   "SMALL - 320x240 - 29.97 FPS",0},           // SIZE_QVGA
@@ -72,7 +75,8 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,768,1,1,double(30000)/double(1001),"30000/1001",  "XGA - 1024x768 - 29.97 FPS",0},            // SIZE_XGA
             {960,720,1,1,double(24000)/double(1001),"24000/1001",   "720p - 960x720 - 23.976 FPS",0},           // SIZE_720P
             {1440,1080,1,1,double(24000)/double(1001),"24000/1001", "1080p - 1440x1080 - 23.976 FPS",0},        // SIZE_1080p
-            {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0}                                                // SIZE_RIM240
+            {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0},                                               // SIZE_RIM240
+            {768,576,1,1,double(24000)/double(1001),"24000/1001","576p - 768x576 - 23.976 FPS",0}               // SIZE_576P
         },{ // GEOMETRY_16_9
             {320,180,1,1,double(30000)/double(1001),"30000/1001",   "SMALL - 320x180 - 29.97 FPS",0},           // SIZE_QVGA
             {480,270,1,1,double(30000)/double(1001),"30000/1001",   "HVGA - 480x270 - 29.97 FPS",0},            // SIZE_HVGA
@@ -82,7 +86,8 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,576,1,1,double(30000)/double(1001),"30000/1001",  "XGA - 1024x576 - 29.97 FPS",0},            // SIZE_XGA
             {1280,720,1,1,double(24000)/double(1001),"24000/1001",  "720p - 1280x720 - 23.976 FPS",0},          // SIZE_720P
             {1920,1080,1,1,double(24000)/double(1001),"24000/1001", "1080p - 1920x1080 - 23.976 FPS",0},        // SIZE_1080p
-            {240,135,16,9,24,"24","RIM 240 - 240x135 - 24 FPS",0}                                               // SIZE_RIM240
+            {240,135,16,9,24,"24","RIM 240 - 240x135 - 24 FPS",0},                                              // SIZE_RIM240
+            {1024,576,1,1,double(24000)/double(1001),"24000/1001","576p - 1024x576 - 23.976 FPS",0}             // SIZE_576P
         },{ // GEOMETRY_40_17
             {320,136,1,1,double(30000)/double(1001),"30000/1001",   "SMALL - 320x136 - 29.97 FPS",0},           // SIZE_QVGA
             {480,204,1,1,double(30000)/double(1001),"30000/1001",   "HVGA - 480x204 - 29.97 FPS",0},            // SIZE_HVGA
@@ -92,7 +97,8 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,436,1,1,double(30000)/double(1001),"30000/1001",  "XGA - 1024x436 - 29.97 FPS",0},            // SIZE_XGA
             {1280,544,1,1,double(24000)/double(1001),"24000/1001",  "720p - 1280x544 - 23.976 FPS",0},          // SIZE_720P
             {1920,816,1,1,double(24000)/double(1001),"24000/1001",  "1080p - 1920x816 - 23.976 FPS",0},         // SIZE_1080p
-            {240,135,16,9,24,"24","RIM 240 - 240x135+PAD - 24 FPS",16}                                          // SIZE_RIM240
+            {240,135,16,9,24,"24","RIM 240 - 240x135+PAD - 24 FPS",16},                                         // SIZE_RIM240
+            {1024,436,1,1,double(24000)/double(1001),"24000/1001","576p - 1024x436 - 23.976 FPS",0}             // SIZE_576P
     }}
 };
 
@@ -106,7 +112,8 @@ QString IMAGEDEFGENNAME[2][NBR_SIZEDEF]={
         "XGA (25 FPS-4:3=1024x768-16:9=1024x576-40:17=1024x436)",                                               // SIZE_XGA
         "720p (25 FPS-4:3=960x720-16:9=1280x720-40:17=1280x544)",                                               // SIZE_720P
         "1080p (25 FPS-4:3=1440x1080-16:9=1920x1080-40:17=1920x816)",                                           // SIZE_1080p
-        "RIM 240 (24 FPS-4:3=240x180-16:9=240x135-40:17=240x135P)"                                              // SIZE_RIM240
+        "RIM 240 (24 FPS-4:3=240x180-16:9=240x135-40:17=240x135P)",                                             // SIZE_RIM240
+        "576p (25 FPS-4:3=768x576-16:9=1024x576-40:17=1024x436)"                                                // SIZE_576p
     },{ // NTSC
         "QVGA (29.97 FPS-4:3=320x240-16:9=320x180-40:17=320x136)",                                              // SIZE_QVGA
         "HVGA (29.97 FPS-4:3=426x320-16:9=480x270-40:17=480x204)",                                              // SIZE_HVGA
@@ -116,7 +123,8 @@ QString IMAGEDEFGENNAME[2][NBR_SIZEDEF]={
         "XGA (29.97 FPS-4:3=1024x768-16:9=1024x576-40:17=1024x436)",                                            // SIZE_XGA
         "720p (23.976 FPS-4:3=960x720-16:9=1280x720-40:17=1280x544)",                                           // SIZE_720P
         "1080p (23.976 FPS-4:3=1440x1080-16:9=1920x1080-40:17=1920x816)",                                       // SIZE_1080p
-        "RIM 240 (24 FPS-4:3=240x180-16:9=240x135-40:17=240x135P)"                                              // SIZE_RIM240
+        "RIM 240 (24 FPS-4:3=240x180-16:9=240x135-40:17=240x135P)",                                             // SIZE_RIM240
+        "576p (23.976 FPS-4:3=768x576-16:9=1024x576-40:17=1024x436)"                                            // SIZE_576p
     }
 };
 
@@ -143,12 +151,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "10000k",   // XGA-1024x768
         "12000k",   // 720p
         "20000k",   // 1080p
-        "400k"      // RIM 240
+        "400k",     // RIM 240
+        "8000k"     // 576p
         }
     },{
         false,CODEC_ID_MPEG4,VCODEC_MPEG4,VCODECST_MPEG4,                                   // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libxvid","DivX/XVid/MPEG-4",                                                       // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k",            // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#4500k",            // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
@@ -158,12 +167,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "5000k",    // XGA-1024x768
         "6000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
+        "400k",     // RIM 240
+        "4500k"     // 576p
         }
     },{
         false,CODEC_ID_H264,VCODEC_H264HQ,VCODECST_H264HQ,                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libx264","High Quality H.264 AVC/MPEG-4 AVC",                                      // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#12000k#400k",   // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#12000k#400k#3500k",   // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
@@ -173,12 +183,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
+        "400k",     // RIM 240
+        "3500k"     // 576p
         }
     },{
         false,CODEC_ID_H264,VCODEC_H264PQ,VCODECST_H264PQ,                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libx264","Phone Quality H.264 AVC/MPEG-4 AVC",                                     // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#400k",          // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#400k#3500k",          // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
         "1200k",    // HVGA-480x320
@@ -188,12 +199,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
+        "400k",     // RIM 240
+        "3500k"     // 576p
         }
     },{
         false,CODEC_ID_VP8,VCODEC_VP8,VCODECST_VP8,                                         // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libvpx","WebM-VP8",                                                                // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k",                 // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                 // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
@@ -203,12 +215,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
+        "400k",     // RIM 240
+        "3500k"     // 576p
         }
     },{
         false, 22,VCODEC_H263,VCODECST_H263,                                                // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "flv","Flash Video / Sorenson H.263",                                               // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k",                 // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                 // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
@@ -218,12 +231,13 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
+        "400k",     // RIM 240
+        "3500k"     // 576p
         }
     },{
         false, CODEC_ID_THEORA,VCODEC_THEORA,VCODECST_THEORA,                               // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libtheora","Theora VP3",                                                           // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k",                 // PossibleBitrate
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                 // PossibleBitrate
         // QVGA-320x240/HVGA-480x320/VGA-640x480/DVD-720x576/WVGA-800x480/XGA-1024x768/720p/1080p
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
@@ -234,7 +248,8 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
+        "400k",     // RIM 240
+        "3500k"     // 576p
         }
     }
 };
@@ -283,7 +298,7 @@ void AddSeparatorToSystemProperties() {
 void ExitApplicationWithFatalError(QString StringToAdd) {
     AddSeparatorToSystemProperties();
     AddToSystemProperties(StringToAdd);
-    puts(SystemProperties.toLocal8Bit());     // Print out SystemProperties
+    fprintf(stderr,"%s\n",SystemProperties.toLocal8Bit().data());     // Print out SystemProperties
     exit(1);
 }
 

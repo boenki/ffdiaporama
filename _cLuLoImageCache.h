@@ -30,11 +30,12 @@ class cLuLoImageCacheObject {
 public:
     QString FileName;                               // Filename
     QString FilterString;                           // Filter string
+    bool    Smoothing;                              // Smoothing
     QImage  *CachePreviewImage;                     // Cache image (Preview mode)
     QImage  *CacheRenderImage;                      // Cache image (Full image mode)
     int     ImageOrientation;                       // Image orientation (EXIF)
 
-    cLuLoImageCacheObject(QString FileName,QString FilterString);
+    cLuLoImageCacheObject(QString FileName,QString FilterString,bool Smoothing);
     ~cLuLoImageCacheObject();
 
     void    ClearAll();
@@ -54,7 +55,7 @@ public:
 
     void                    FreeMemoryToMaxValue(int MaxValue);
     int                     MemoryUsed();
-    cLuLoImageCacheObject   *FindObject(QString FileName,cFilterTransformObject *Filter,bool SetAtTop=true);   // Find object corresponding to FileName
+    cLuLoImageCacheObject   *FindObject(QString FileName,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop);   // Find object corresponding to FileName
 };
 
 #endif // _cLuLoImageCACHE_H

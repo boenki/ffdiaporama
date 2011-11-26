@@ -339,20 +339,26 @@ void MainWindow::s_TimerEvent() {
 }
 
 void MainWindow::SetTempStatusText(QString Text) {
+    // La statusbar pose trop de problème => pour le moment on repasse les info en mode console
+    fprintf(stderr,"%s\n",Text.toLocal8Bit().data());
+
+/*
     if (CurrentRenderingDialog) {
         CurrentRenderingDialog->DisplayInformations(Text);
-    } else if (CurrentThreadId==this->thread()->currentThreadId()) {
-        /*
-        ui->StatusBar->DisplayCustomText(Text);
-        ui->StatusBar->repaint();
-        */
-        ui->StatusBar->setText(Text);
-        QApplication::processEvents();
     } else {
-        ui->StatusBar->setText(Text);
-        //StatusBarList.append(Text);
+        #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
+        StatusBarList.append(Text);
+        if (CurrentThreadId==this->thread()->currentThreadId()) QApplication::processEvents();
+        #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+        if (CurrentThreadId==this->thread()->currentThreadId()) {
+            ui->StatusBar->DisplayCustomText(Text);
+            ui->StatusBar->repaint();
+        } else {
+            StatusBarList.append(Text);
+        }
+        #endif
     }
-
+*/
 }
 
 //====================================================================================================================
@@ -425,7 +431,7 @@ void MainWindow::showEvent(QShowEvent *) {
         ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
         SetTimelineHeight();                                    // setup initial size
         RefreshControls();
-        Timer.start(100);
+        Timer.start(1000);
         IsFirstRefresh=false;
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
@@ -1019,7 +1025,9 @@ void MainWindow::OpenFile(QString ProjectFileName) {
 
     ImagesCache.List.clear();
 
-    GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Open file :")+QFileInfo(ProjectFileName).fileName());
+    StatusBarList.append(QApplication::translate("MainWindow","Open file :")+QFileInfo(ProjectFileName).fileName());
+    s_TimerEvent();
+    QApplication::processEvents();
 
     // Manage Recent files list
     for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (AdjustDirForOS(ApplicationConfig->RecentFile.at(i))==ProjectFileName) {
@@ -1060,6 +1068,9 @@ void MainWindow::OpenFile(QString ProjectFileName) {
     while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
     ui->timeline->SetCurrentCell(0);
     RefreshControls();
+    StatusBarList.append("");
+    s_TimerEvent();
+    QApplication::processEvents();
 }
 
 //====================================================================================================================
@@ -1077,7 +1088,13 @@ void MainWindow::s_action_Save() {
     ui->Action_Save_BT_2->setDown(false);
 
     if (Diaporama->ProjectFileName=="") s_action_SaveAs(); else {
+        StatusBarList.append(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
+        s_TimerEvent();
+        QApplication::processEvents();
         if (Diaporama->SaveFile(this)) SetModifyFlag(false);
+        StatusBarList.append("");
+        s_TimerEvent();
+        QApplication::processEvents();
     }
 }
 
@@ -1106,7 +1123,13 @@ void MainWindow::s_action_SaveAs() {
         }
         ApplicationConfig->RecentFile.append(Diaporama->ProjectFileName);
         while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
+        StatusBarList.append(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
+        s_TimerEvent();
+        QApplication::processEvents();
         if (Diaporama->SaveFile(this)) SetModifyFlag(false);
+        StatusBarList.append("");
+        s_TimerEvent();
+        QApplication::processEvents();
     }
 }
 
@@ -1278,7 +1301,7 @@ void MainWindow::AddFiles(QStringList &FileList,int SavedCurIndex,int CurIndex) 
             break;
         }
         if (IsValide) {
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
+            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform,CurrentBrush->BrushFileCorrect.Smoothing):
                            CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
                            NULL);
             if (Image) {

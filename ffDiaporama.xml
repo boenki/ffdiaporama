@@ -86,6 +86,7 @@
         <Device_53 ImageSize="7" DeviceIndex="53" DeviceName="XBox360" FileFormat="4" Standard="0" DeviceType="2" VideoBitrate="8000000" VideoCodec="3" DeviceSubtype="3" AudioBitrate="160000" AudioCodec="2"/>
         <Device_54 ImageSize="6" DeviceIndex="54" DeviceName="Daily Motion" FileFormat="4" Standard="0" DeviceType="3" VideoBitrate="4000000" VideoCodec="3" DeviceSubtype="1" AudioBitrate="128000" AudioCodec="2"/>
         <Device_55 ImageSize="6" DeviceIndex="55" DeviceName="Youtube" FileFormat="4" Standard="0" DeviceType="3" VideoBitrate="5000000" VideoCodec="2" DeviceSubtype="1" AudioBitrate="128000" AudioCodec="1"/>
+        <Device_56 ImageSize="9" DeviceIndex="56" DeviceName="Generic Portable LED/LCD TV" FileFormat="4" Standard="0" DeviceType="1" VideoBitrate="3500000" VideoCodec="3" DeviceSubtype="1" AudioBitrate="128000" AudioCodec="2"/>
     </RenderingDeviceModel>
     <TextStyleCollection>
         <TextStyleCollectionItem_0          BckStyleName="" StyleName="Big black text with white outlines"               StyleDefinition="FontSize:28###HAlign:1###VAlign:1###StyleText:1###FontColor:#000000###FontShadowColor:#f2f2f2###Bold:0###Italic:0###Underline:0###FontName:Serif" StyleIndex="1"/>

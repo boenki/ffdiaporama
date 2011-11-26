@@ -40,7 +40,7 @@ public:
     ~cimagefilewrapper();
 
     bool    GetInformationFromFile(QString GivenFileName,QStringList &AliasList);
-    QImage  *ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter);
+    QImage  *ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter,bool Smoothing);
     bool    CallEXIF();
 };
 

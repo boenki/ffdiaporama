@@ -90,6 +90,7 @@ void wgt_QCustomThumbnails::mouseDoubleClickEvent(QMouseEvent *Event) {
 void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QPainter Painter(this);
+    Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
     //===========================================================================================================================
     if (Type==THUMBNAILTYPE_SHOT) { // Thumnails of the slide dialog timeline
