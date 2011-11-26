@@ -563,6 +563,12 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             delete BR;
         }
     } else {
+
+        if (!DestPainter) return;
+
+        if (BackgroundBrush.BrushFileCorrect.Smoothing) DestPainter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+            else                                        DestPainter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+
         // Define values depending on PctDone and PrevCompoObject
         double TheX=x;
         double TheY=y;
@@ -596,7 +602,8 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         Painter.setCompositionMode(QPainter::CompositionMode_Source);
         Painter.fillRect(QRect(0,0,Wb,Hb),Qt::transparent);
         Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+        if (BackgroundBrush.BrushFileCorrect.Smoothing) Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+            else                                        Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
         Pen.setCapStyle(Qt::RoundCap);
         Pen.setJoinStyle(Qt::RoundJoin);
         Pen.setCosmetic(false);
@@ -627,6 +634,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             // Create brush with Ken Burns effect !
             QBrush *BR              =NULL;
             bool UpdateCachedBrush  =true;
+
             if (PreviewMode && UseBrushCache && (CachedBrushBrush!=NULL)&&(BackgroundBrush.BrushFileCorrect.AspectRatio==CachedBrushAspect)&&
                     (W<=CachedBrushW)&&(H<=CachedBrushH)&&(Position==CachedBrushPosition)&&(StartPosToAdd==CachedBrushStartPosToAdd)) {
                 if ((W!=CachedBrushW)||(H!=CachedBrushH)||(BackgroundBrush.BrushFileCorrect.AspectRatio!=CachedBrushAspect)) {
@@ -634,12 +642,15 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                     QPainter NewP;
                     QImage   NewImage(CachedBrushW,CachedBrushH,QImage::Format_ARGB32);
                     NewP.begin(&NewImage);
+                    if (BackgroundBrush.BrushFileCorrect.Smoothing) NewP.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+                        else                                        NewP.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
                     NewP.setBrush(*CachedBrushBrush);
                     NewP.setCompositionMode(QPainter::CompositionMode_Source);
                     NewP.fillRect(QRect(0,0,CachedBrushW,CachedBrushH),Qt::transparent);
                     NewP.setCompositionMode(QPainter::CompositionMode_SourceOver);
                     NewP.drawRect(0,0,CachedBrushW,CachedBrushH);
                     NewP.end();
+
                     BR=new QBrush(NewImage.scaled(W,H,Qt::KeepAspectRatio,Qt::SmoothTransformation));
                     UpdateCachedBrush=false;
                 } else BR=CachedBrushBrush;
@@ -663,6 +674,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
 
             Painter.setBrush(*BR);
             if (BR!=CachedBrushBrush) delete BR;
+
         }
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
         DrawShape(Painter,BackgroundForm,-W/2,-H/2,W,H,0,0);
@@ -731,7 +743,6 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         Painter.drawText(QRectF(MarginX-W/2,MarginY-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
         Painter.end();
 
-        //DestPainter.save();
         if ((FormShadow)&&(Img)&&(!Img->isNull())) {
             double  Distance =double(FormShadowDistance)*ADJUST_RATIO;
             QImage  ImgShadow=Img->copy();
@@ -1287,8 +1298,6 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
     QDomElement     Element;
     QDomElement     root;
 
-    GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Saving project file ..."));
-
     // Create xml document and root
     root=domDocument.createElement(APPLICATION_ROOTNAME);
     domDocument.appendChild(root);
@@ -1633,6 +1642,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     // Prepare a transparent image
     QPainter P;
     P.begin(Image);
+    P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
     P.setCompositionMode(QPainter::CompositionMode_Source);
     P.fillRect(0,0,W,H,Qt::transparent);
     P.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -1691,6 +1701,7 @@ void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
         QImage  *Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
         QPainter P;
         P.begin(Image);
+        P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
         P.fillRect(0,0,W,H,Qt::black);  // Always start with a black frame
         // Draw background
         if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
@@ -2093,6 +2104,7 @@ QImage cDiaporama::RotateImage(double TheRotateXAxis,double TheRotateYAxis,doubl
     QImage   Img(hyp,hyp,QImage::Format_ARGB32_Premultiplied);
     QPainter Painter;
     Painter.begin(&Img);
+    Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
     Painter.setCompositionMode(QPainter::CompositionMode_Source);
     Painter.fillRect(QRect(0,0,hyp,hyp),Qt::transparent);
     Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -2135,7 +2147,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
 
     } else {
 
-        // if not PreviewMode then no need of music of sound
+        // if not PreviewMode then no need of music or sound
 
         // Load music bloc
         if ((PreviewMode || SoundOnly)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)) {

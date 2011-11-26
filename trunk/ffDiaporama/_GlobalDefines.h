@@ -220,7 +220,7 @@ extern "C" {
 #define STANDARD_NTSC                       1
 
 // Image size definition
-#define NBR_SIZEDEF                         9
+#define NBR_SIZEDEF                         10
 #define SIZE_QVGA                           0
 #define SIZE_HVGA                           1
 #define SIZE_VGA                            2
@@ -230,6 +230,7 @@ extern "C" {
 #define SIZE_720P                           6
 #define SIZE_1080p                          7
 #define SIZE_RIM240                         8
+#define SIZE_576P                           9
 
 // Object type definition
 #define DIAPORAMAOBJECTTYPE_EMPTY           0

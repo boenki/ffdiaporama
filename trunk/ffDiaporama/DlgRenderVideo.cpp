@@ -166,13 +166,6 @@ DlgRenderVideo::~DlgRenderVideo() {
 
 //====================================================================================================================
 
-void DlgRenderVideo::DisplayInformations(QString Text) {
-    ui->CurrentActionLabel->setText(Text);
-    QApplication::processEvents();
-}
-
-//====================================================================================================================
-
 void DlgRenderVideo::Help() {
     GlobalMainWindow->OpenHelp(HELPFILE_DlgRenderVideo);
 }
@@ -246,7 +239,7 @@ void DlgRenderVideo::SelectDestinationFile() {
         }
     }
     QString Path=QFileInfo(ui->DestinationFilePath->text()).absolutePath();
-    QString OutputFileName  =QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),Path,FileFormat);
+    QString OutputFileName  =QFileDialog::getSaveFileName(this,QApplication::translate("DlgRenderVideo","Select destination file"),Path,FileFormat);
     if (OutputFileName!="") {
         Diaporama->ApplicationConfig->LastRenderVideoPath=QFileInfo(OutputFileName).dir().absolutePath();
         ui->DestinationFilePath->setText(OutputFileName);
@@ -457,6 +450,7 @@ void DlgRenderVideo::showEvent(QShowEvent *ev) {
 void DlgRenderVideo::reject() {
     if (IsDestFileOpen) {
         StopProcessWanted=true;
+        GlobalMainWindow->SetTempStatusText(QApplication::translate("DlgRenderVideo","Stop rendering"));
     } else {
         // Save Window size and position
         Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);
@@ -511,7 +505,9 @@ void DlgRenderVideo::accept() {
 
     if (IsDestFileOpen) {
         StopProcessWanted=true;
+        GlobalMainWindow->SetTempStatusText(QApplication::translate("DlgRenderVideo","Stop rendering"));
     } else {
+        RenderedFrame=0;
         int FromSlide=(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneFromED->value()-1:0;
         int ToSlide  =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneToED->value()-1:Diaporama->List.count()-1;
 
@@ -644,6 +640,7 @@ void DlgRenderVideo::accept() {
         TempWAVFileName=TempWAVFileName+"temp.wav";
 
         StartTime=QTime::currentTime();                                  // Display control : time the process start
+        GlobalMainWindow->SetTempStatusText(QApplication::translate("DlgRenderVideo","Encoding sound"));
         Continue=WriteTempAudioFile(TempWAVFileName,FromSlide);
 
         //**********************************************************************************************************************************
@@ -735,6 +732,7 @@ void DlgRenderVideo::accept() {
             }
 
             if (Continue) {
+                GlobalMainWindow->SetTempStatusText(QApplication::translate("DlgRenderVideo","Start ffmpeg encoder"));
                 int GeoW=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARNUM;
                 int GeoH=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARDEN;
                 #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
@@ -799,7 +797,7 @@ void DlgRenderVideo::accept() {
             int ColumnStart =-1;                                            // Render start position of current object
             int Column      =-1;                                            // Render current object
 
-            for (int RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
+            for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
                 int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
                 if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
 
@@ -879,6 +877,8 @@ void DlgRenderVideo::accept() {
             }
             // Clean PreviousFrame
             if (PreviousFrame!=NULL) delete PreviousFrame;
+
+            GlobalMainWindow->SetTempStatusText(QApplication::translate("DlgRenderVideo","Closing encoder"));
 
             // Close the pipe to stop ffmpeg process
             Process.closeWriteChannel();

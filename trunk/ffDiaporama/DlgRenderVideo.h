@@ -45,6 +45,7 @@ public:
     int             NbrFrame;                       // Number of frame to generate
     QTime           StartTime;                      // Time the process start
     QTime           LastCheckTime;                  // Last time the loop start
+    int             RenderedFrame;
     bool            IsDestFileOpen;                 // true if encoding is started
 
     QString         OutputFileName;                 // filename with path for the last rendering file
@@ -61,7 +62,6 @@ public:
     explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,QWidget *parent = 0);
     ~DlgRenderVideo();
 
-    void            DisplayInformations(QString Text);
     bool            WriteTempAudioFile(QString TempWAVFileName,int FromSlide);
 
 protected:

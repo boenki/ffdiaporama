@@ -298,7 +298,7 @@ void DlgBackgroundProperties::s_SelectFile() {
         delete DiaporamaObject->BackgroundBrush.Image;
         DiaporamaObject->BackgroundBrush.Image=NULL;
     } else {
-        QImage *Image=DiaporamaObject->BackgroundBrush.Image->ImageAt(true,true,&DiaporamaObject->BackgroundBrush.Image->BrushFileTransform);
+        QImage *Image=DiaporamaObject->BackgroundBrush.Image->ImageAt(true,true,&DiaporamaObject->BackgroundBrush.Image->BrushFileTransform,DiaporamaObject->BackgroundBrush.BrushFileCorrect.Smoothing);
         if (Image) {
             DiaporamaObject->BackgroundBrush.InitDefaultFramingStyle(true,double(DiaporamaObject->Parent->InternalHeight)/double(DiaporamaObject->Parent->InternalWidth));
             DiaporamaObject->BackgroundBrush.ApplyStyle(true,DiaporamaObject->BackgroundBrush.DefaultFramingF); // Adjust to Full

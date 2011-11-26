@@ -30,9 +30,10 @@
 // Base object for image cache manipulation
 //*********************************************************************************************************************************************
 
-cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName,QString TheFilterString) {
+cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName,QString TheFilterString,bool TheSmoothing) {
     FileName            =TheFileName;       // Full filename
     FilterString        =TheFilterString;
+    Smoothing           =TheSmoothing;
     CacheRenderImage    =NULL;
     CachePreviewImage   =NULL;
     ImageOrientation    =0;                 // Image orientation (EXIF)
@@ -71,28 +72,25 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage(cFilterTransformObject *
             if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
                 QMatrix matrix;
                 matrix.rotate(-90);
-                QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix));
+                QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
                 delete CacheRenderImage;
                 CacheRenderImage=NewImage;
             } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
                 QMatrix matrix;
                 matrix.rotate(180);
-                QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix));
+                QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
                 delete CacheRenderImage;
                 CacheRenderImage=NewImage;
             } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
                 QMatrix matrix;
                 matrix.rotate(90);
-                QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix));
+                QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
                 delete CacheRenderImage;
                 CacheRenderImage=NewImage;
             }
 
             // if Filter then apply filter
-            if (Filter) {
-                GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Applying transformation filter"));
-                Filter->ApplyFilter(CacheRenderImage);
-            }
+            if (Filter) Filter->ApplyFilter(CacheRenderImage);
         }
 
     }
@@ -115,34 +113,31 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(cFilterTransformObject 
             if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
                 QMatrix matrix;
                 matrix.rotate(-90);
-                QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix));
+                QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
                 delete CachePreviewImage;
                 CachePreviewImage=NewImage;
             } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
                 QMatrix matrix;
                 matrix.rotate(180);
-                QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix));
+                QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
                 delete CachePreviewImage;
                 CachePreviewImage=NewImage;
             } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
                 QMatrix matrix;
                 matrix.rotate(90);
-                QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix));
+                QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
                 delete CachePreviewImage;
                 CachePreviewImage=NewImage;
             }
             // If image size>PreviewMaxHeight, reduce Cache Image
             if (CachePreviewImage->height()>GlobalMainWindow->ApplicationConfig->PreviewMaxHeight*2)  {
-                QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
+                QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
                 delete CachePreviewImage;
                 CachePreviewImage=NewImage;
             }
 
             // if Filter then apply filter
-            if (Filter) {
-                GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Applying transformation filter"));
-                Filter->ApplyFilter(CachePreviewImage);
-            }
+            if (Filter) Filter->ApplyFilter(CachePreviewImage);
         }
 
     }
@@ -161,26 +156,26 @@ QImage *cLuLoImageCacheObject::ValidateUnfilteredImage() {
     if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
         QMatrix matrix;
         matrix.rotate(-90);
-        QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
+        QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
         delete UnfilteredImage;
         UnfilteredImage=NewImage;
     } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
         QMatrix matrix;
         matrix.rotate(180);
-        QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
+        QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
         delete UnfilteredImage;
         UnfilteredImage=NewImage;
     } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
         QMatrix matrix;
         matrix.rotate(90);
-        QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix));
+        QImage *NewImage=new QImage(UnfilteredImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
         delete UnfilteredImage;
         UnfilteredImage=NewImage;
     }
 
     // Ensure image is at correct height (to speed correction image dialog !)
     if ((UnfilteredImage)&&(!UnfilteredImage->isNull())&&(UnfilteredImage->height()!=GlobalMainWindow->ApplicationConfig->PreviewMaxHeight)) {
-        QImage *NewImage=new QImage(UnfilteredImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Qt::SmoothTransformation));
+        QImage *NewImage=new QImage(UnfilteredImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
         delete UnfilteredImage;
         UnfilteredImage=NewImage;
     }
@@ -197,12 +192,12 @@ cLuLoImageCache::cLuLoImageCache() {
 
 //===============================================================================
 // Find object corresponding to FileName - if object not found then create one
-cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,cFilterTransformObject *Filter,bool SetAtTop) {
+cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop) {
     QString FilterString=(Filter!=NULL)?Filter->FilterToString():"";
     int i=0;
-    while ((i<List.count())&&((List[i]->FileName!=FileName)||(List[i]->FilterString!=FilterString))) i++;
+    while ((i<List.count())&&((List[i]->FileName!=FileName)||(List[i]->FilterString!=FilterString)||(List[i]->Smoothing!=Smoothing))) i++;
 
-    if ((i<List.count())&&(List[i]->FileName==FileName)&&(List[i]->FilterString==FilterString)) {
+    if ((i<List.count())&&(List[i]->FileName==FileName)&&(List[i]->FilterString==FilterString)&&(List[i]->Smoothing==Smoothing)) {
         // if wanted and image found then set it to the top of the list
         if ((SetAtTop)&&(i>0)) { // If item is not the first
             cLuLoImageCacheObject *Object=List.takeAt(i);   // Detach item from the list
@@ -211,7 +206,7 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,cFilterTrans
         }
     } else {
         // Image not found then create it at top of the list
-        List.insert(0,new cLuLoImageCacheObject(FileName,FilterString));     // Append a new object at first position
+        List.insert(0,new cLuLoImageCacheObject(FileName,FilterString,Smoothing));     // Append a new object at first position
         i=0;
     }
     return List[i]; // return first object

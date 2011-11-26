@@ -65,12 +65,20 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Ajoute du lissage d'image qui avait été oublié à différents endroits dans le code source ce qui améliore grandement la qualité de l'image
+-Retire "pour le moment" la status bar car elle pose trop de problèmes
 
 English version / Bug fix :
+-Add image smoothing which had been forgotten in various places in the source code improving image quality
+-Remove "temporarely" the status because of too many trouble with it
 
 French version / Nouvelles fonctionnalités :
+-Ajout de la résolution de génération de vidéo 576p
+-Ajout du type d'équipement "Generic Portable LED/LCD TV"
 
 English version / New features :
+-Add rendering resolution 576p
+-Add device "Generic Portable LED/LCD TV"
 
 -------------------------------------
 Changelog depuis la version 20110926
