@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 26/11/2011) :
+Buggs/TODO (Dernier SVN le 28/11/2011) :
 ----------------------------------------
 BUGG:
 -Le mixage de 2 pistes audio à fort volume donne un résultat saturé
@@ -23,9 +23,7 @@ Editor
 -Add a duplicate slide button to the main toolbar
 -Manage block groups
 -Transform some properties to not global (shape => Example : Progressive transformation of square to circle, Border => Progressive transformation of the color and the thickness (what about style ?), Shadow => Progressive transformation of the color and the distance)
--[Work in progress] Style sheet for text, background text, blocks shape and blocks size & positionning
-    -> Functionnality is OK now
-    -> Documentation to be written
+-Style sheet for text, background text, blocks shape and blocks size & positionning
 
 Background
 -Put back compositions for the background
@@ -65,20 +63,14 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Trouve et corrige le dernier endroit dans le code source ou le lissage ne s'appliquait pas !
--La selection d'une diapo arrete à nouveau de lecteur [bug depuis 20111126]
--Quand ffDiaporama n'arrive pas à lire la derniere image d'une video, il lit celle 100 ms plutot au lieu de planter
+-Ajoute de nouvelles options dans la boite de configuration pour les images non standard pour définir la contrainte géométrique en plus du style de coordonnées
 
 English version / Bug fix :
--Find and fix the latest place in the source code where smoothing was not applied !
--Select a slide stop the play [bug since 20111126]
--When ffDiaporama can't read latest image of a video, now it read image at 100 ms before instead of crash
+-Add new options in option dialog for non standard image to define geometrical constraint in addition to coordinate style
 
 French version / Nouvelles fonctionnalités :
--Ajoute une option dans la boite Background pour déformer l'image et lui faire emplir tout l'écran
 
 English version / New features :
--Add an option in the Background dialog to deform the image and make it fill all the screen
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -128,6 +120,9 @@ Bug fix French version
 -Les options de génération vidéo définies dans la boite de configuration sont maintenant correctement rechargées
 -Ajoute du lissage d'image qui avait été oublié à différents endroits dans le code source ce qui améliore grandement la qualité de l'image
 -Retire "pour le moment" la status bar car elle pose trop de problèmes
+-Trouve et corrige le dernier endroit dans le code source ou le lissage ne s'appliquait pas !
+-La selection d'une diapo arrete à nouveau de lecteur [bug depuis 20111126]
+-Quand ffDiaporama n'arrive pas à lire la derniere image d'une video, il lit celle 100 ms plutot au lieu de planter
 
 Bug fix English version
 -Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -170,6 +165,9 @@ Bug fix English version
 -The options for rendering defined in the option dialog are now correctly reloaded
 -Add image smoothing which had been forgotten in various places in the source code improving image quality
 -Remove "temporarely" the status because of too many trouble with it
+-Find and fix the latest place in the source code where smoothing was not applied !
+-Select a slide stop the play [bug since 20111126]
+-When ffDiaporama can't read latest image of a video, now it read image at 100 ms before instead of crash
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
@@ -241,6 +239,7 @@ French version
 -Fait en sorte à ce que ce soit ffDiaporama qui réalise l'anamorphisme plutôt que ffmpeg lors de génération de vidéo en mode SD-DVD
 -Ajout de la résolution de génération de vidéo 576p
 -Ajout du type d'équipement "Generic Portable LED/LCD TV"
+-Ajoute une option dans la boite Background pour déformer l'image et lui faire remplir tout l'écran
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -302,3 +301,4 @@ English version
 -Modify the option in option dialog to select how many slides are keep in cache to memory profil (more simple)
 -Add rendering resolution 576p
 -Add device "Generic Portable LED/LCD TV"
+-Add an option in the Background dialog to deform the image and make it fill all the screen

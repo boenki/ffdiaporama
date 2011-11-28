@@ -116,6 +116,9 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     CB_BA[7][0]=ui->STBlockBA_IMG7_Coord43CB;    CB_BA[7][1]=ui->STBlockBA_IMG7_Coord169CB;    CB_BA[7][2]=ui->STBlockBA_IMG7_CoordCineCB;
     CB_BA[8][0]=ui->STBlockBA_IMG8_Coord43CB;    CB_BA[8][1]=ui->STBlockBA_IMG8_Coord169CB;    CB_BA[8][2]=ui->STBlockBA_IMG8_CoordCineCB;
 
+    CB_SL_CLIPARTST[0]=ui->STBlockSL_IMG0_Coord43CB2;   CB_SL_CLIPARTST[1]=ui->STBlockSL_IMG0_Coord169CB2;  CB_SL_CLIPARTST[2]=ui->STBlockSL_IMG0_CoordCineCB2;
+    CB_BA_CLIPARTST[0]=ui->STBlockBA_IMG0_Coord43CB2;   CB_BA_CLIPARTST[1]=ui->STBlockBA_IMG0_Coord169CB2;  CB_BA_CLIPARTST[2]=ui->STBlockBA_IMG0_CoordCineCB2;
+
     // New image block options (when slide creation)
     ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->STBlockSL_IMG_TextCB,  ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST),false);
     ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->STBlockSL_IMG_ShapeCB, ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST),false);
@@ -128,6 +131,22 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
         ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(j,i);
         ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(CB_SL[i][j],ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_CoordST[i][j]),false);
         ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(CB_BA[i][j],ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_CoordST[i][j]),false);
+    }
+
+    for (int i=0;i<3;i++) {
+        CB_SL_CLIPARTST[i]->addItem(QIcon(ICON_GEOMETRY_IMAGE),  QApplication::translate("DlgApplicationSettings","Lock to image geometry"));
+        CB_SL_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_FULL),    QApplication::translate("DlgApplicationSettings","Lock to project geometry-to full image"));
+        CB_SL_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_WIDTH),   QApplication::translate("DlgApplicationSettings","Lock to project geometry-to width"));
+        CB_SL_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_HEIGHT),  QApplication::translate("DlgApplicationSettings","Lock to project geometry-to height"));
+        CB_SL_CLIPARTST[i]->view()->setFixedWidth(500);
+        CB_SL_CLIPARTST[i]->setCurrentIndex(ApplicationConfig->DefaultBlockSL_CLIPARTLOCK[i]);
+
+        CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_GEOMETRY_IMAGE),  QApplication::translate("DlgApplicationSettings","Lock to image geometry"));
+        CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_FULL),    QApplication::translate("DlgApplicationSettings","Lock to project geometry-to full image"));
+        CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_WIDTH),   QApplication::translate("DlgApplicationSettings","Lock to project geometry-to width"));
+        CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_HEIGHT),  QApplication::translate("DlgApplicationSettings","Lock to project geometry-to height"));
+        CB_BA_CLIPARTST[i]->view()->setFixedWidth(500);
+        CB_BA_CLIPARTST[i]->setCurrentIndex(ApplicationConfig->DefaultBlockBA_CLIPARTLOCK[i]);
     }
 
     //********************************
@@ -341,6 +360,10 @@ void DlgApplicationSettings::accept() {
         ApplicationConfig->DefaultBlockBA_IMG_CoordST[i][j]=ApplicationConfig->StyleCoordinateCollection.EncodeString(CB_BA[i][j],j,i);
     }
 
+    for (int i=0;i<3;i++) {
+        ApplicationConfig->DefaultBlockBA_CLIPARTLOCK[i]=CB_BA_CLIPARTST[i]->currentIndex();
+        ApplicationConfig->DefaultBlockSL_CLIPARTLOCK[i]=CB_SL_CLIPARTST[i]->currentIndex();
+    }
 
     // RenderDefault part
     ApplicationConfig->DefaultStandard          =ui->StandardCombo->currentIndex();

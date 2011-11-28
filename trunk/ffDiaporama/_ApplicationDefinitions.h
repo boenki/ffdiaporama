@@ -139,11 +139,13 @@ public:
     QString                 DefaultBlockSL_IMG_TextST;
     QString                 DefaultBlockSL_IMG_ShapeST;
     QString                 DefaultBlockSL_IMG_CoordST[9][3];
+    int                     DefaultBlockSL_CLIPARTLOCK[3];
 
     // Default new image block option (when block add in slide dialog)
     QString                 DefaultBlockBA_IMG_TextST;
     QString                 DefaultBlockBA_IMG_ShapeST;
     QString                 DefaultBlockBA_IMG_CoordST[9][3];
+    int                     DefaultBlockBA_CLIPARTLOCK[3];
 
     // User contexte
     QString                 UserConfigPath;                             // Path and filename to user profil path

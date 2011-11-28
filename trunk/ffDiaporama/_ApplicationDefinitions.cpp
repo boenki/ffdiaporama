@@ -723,6 +723,10 @@ bool cApplicationConfig::InitConfigurationValues() {
     DefaultBlockBA_IMG_TextST   ="###GLOBALSTYLE###:0";
     DefaultBlockBA_IMG_ShapeST  ="###GLOBALSTYLE###:0";
     for (int i=0;i<9;i++) for (int j=0;j<3;j++) DefaultBlockBA_IMG_CoordST[i][j]="###GLOBALSTYLE###:0";
+    for (int i=0;i<3;i++) {
+        DefaultBlockSL_CLIPARTLOCK[i]=0;
+        DefaultBlockBA_CLIPARTLOCK[i]=0;
+    }
 
     return true;
 }
@@ -818,6 +822,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
                 QDomElement SubSubElement=SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).toElement();
                 for (int j=0;j<3;j++) if (SubSubElement.hasAttribute(QString("CoordST_%1").arg(j))) DefaultBlockSL_IMG_CoordST[i][j]=SubSubElement.attribute(QString("CoordST_%1").arg(j));
             }
+            for (int j=0;j<3;j++) if (SubElement.hasAttribute(QString("LockLS_%1").arg(j))) DefaultBlockSL_CLIPARTLOCK[j]=SubElement.attribute(QString("LockSL_%1").arg(j)).toInt();
         }
 
         if ((Element.elementsByTagName("DefaultBlockBA_IMG").length()>0)&&(Element.elementsByTagName("DefaultBlockBA_IMG").item(0).isElement()==true)) {
@@ -828,6 +833,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
                 QDomElement SubSubElement=SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).toElement();
                 for (int j=0;j<3;j++) if (SubSubElement.hasAttribute(QString("CoordST_%1").arg(j))) DefaultBlockBA_IMG_CoordST[i][j]=SubSubElement.attribute(QString("CoordST_%1").arg(j));
             }
+            for (int j=0;j<3;j++) if (SubElement.hasAttribute(QString("LockBA_%1").arg(j))) DefaultBlockBA_CLIPARTLOCK[j]=SubElement.attribute(QString("LockBA_%1").arg(j)).toInt();
         }
     }
     if ((root.elementsByTagName("RenderDefault").length()>0)&&(root.elementsByTagName("RenderDefault").item(0).isElement()==true)) {
@@ -992,6 +998,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
         SubSubElement=domDocument.createElement(QString("IMG_GEO_%1").arg(i));
         for (int j=0;j<3;j++) SubSubElement.setAttribute(QString("CoordST_%1").arg(j),DefaultBlockSL_IMG_CoordST[i][j]);
         SubElement.appendChild(SubSubElement);
+        for (int j=0;j<3;j++) SubElement.setAttribute(QString("LockLS_%1").arg(j),DefaultBlockSL_CLIPARTLOCK[j]);
     }
     Element.appendChild(SubElement);
 
@@ -1003,6 +1010,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
         for (int j=0;j<3;j++) SubSubElement.setAttribute(QString("CoordST_%1").arg(j),DefaultBlockBA_IMG_CoordST[i][j]);
         SubElement.appendChild(SubSubElement);
     }
+    for (int j=0;j<3;j++) SubElement.setAttribute(QString("LockBA_%1").arg(j),DefaultBlockBA_CLIPARTLOCK[j]);
     Element.appendChild(SubElement);
     root.appendChild(Element);
 
