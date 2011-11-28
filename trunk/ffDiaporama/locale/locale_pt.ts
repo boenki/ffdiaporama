@@ -933,22 +933,32 @@ image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="653"/>
+        <location filename="../DlgBackgroundProperties.ui" line="618"/>
+        <source>Keep aspect ratio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgBackgroundProperties.ui" line="645"/>
+        <source>Full filling (deform image)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgBackgroundProperties.ui" line="684"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="664"/>
+        <location filename="../DlgBackgroundProperties.ui" line="695"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="675"/>
+        <location filename="../DlgBackgroundProperties.ui" line="706"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="682"/>
+        <location filename="../DlgBackgroundProperties.ui" line="713"/>
         <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -978,7 +988,7 @@ image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.cpp" line="283"/>
+        <location filename="../DlgBackgroundProperties.cpp" line="296"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2002,19 +2012,19 @@ Do you want to overwrite it ?</source>
         <location filename="../DlgRenderVideo.cpp" line="566"/>
         <location filename="../DlgRenderVideo.cpp" line="710"/>
         <location filename="../DlgRenderVideo.cpp" line="729"/>
-        <location filename="../DlgRenderVideo.cpp" line="908"/>
-        <location filename="../DlgRenderVideo.cpp" line="945"/>
-        <location filename="../DlgRenderVideo.cpp" line="954"/>
-        <location filename="../DlgRenderVideo.cpp" line="965"/>
-        <location filename="../DlgRenderVideo.cpp" line="976"/>
-        <location filename="../DlgRenderVideo.cpp" line="988"/>
-        <location filename="../DlgRenderVideo.cpp" line="1010"/>
-        <location filename="../DlgRenderVideo.cpp" line="1035"/>
-        <location filename="../DlgRenderVideo.cpp" line="1044"/>
-        <location filename="../DlgRenderVideo.cpp" line="1057"/>
-        <location filename="../DlgRenderVideo.cpp" line="1163"/>
-        <location filename="../DlgRenderVideo.cpp" line="1167"/>
-        <location filename="../DlgRenderVideo.cpp" line="1191"/>
+        <location filename="../DlgRenderVideo.cpp" line="903"/>
+        <location filename="../DlgRenderVideo.cpp" line="940"/>
+        <location filename="../DlgRenderVideo.cpp" line="949"/>
+        <location filename="../DlgRenderVideo.cpp" line="960"/>
+        <location filename="../DlgRenderVideo.cpp" line="971"/>
+        <location filename="../DlgRenderVideo.cpp" line="983"/>
+        <location filename="../DlgRenderVideo.cpp" line="1005"/>
+        <location filename="../DlgRenderVideo.cpp" line="1030"/>
+        <location filename="../DlgRenderVideo.cpp" line="1039"/>
+        <location filename="../DlgRenderVideo.cpp" line="1052"/>
+        <location filename="../DlgRenderVideo.cpp" line="1158"/>
+        <location filename="../DlgRenderVideo.cpp" line="1162"/>
+        <location filename="../DlgRenderVideo.cpp" line="1186"/>
         <source>Render video</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2029,57 +2039,57 @@ Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="786"/>
-        <location filename="../DlgRenderVideo.cpp" line="852"/>
-        <location filename="../DlgRenderVideo.cpp" line="859"/>
-        <location filename="../DlgRenderVideo.cpp" line="896"/>
-        <location filename="../DlgRenderVideo.cpp" line="900"/>
+        <location filename="../DlgRenderVideo.cpp" line="781"/>
+        <location filename="../DlgRenderVideo.cpp" line="847"/>
+        <location filename="../DlgRenderVideo.cpp" line="854"/>
+        <location filename="../DlgRenderVideo.cpp" line="891"/>
+        <location filename="../DlgRenderVideo.cpp" line="895"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="787"/>
+        <location filename="../DlgRenderVideo.cpp" line="782"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="822"/>
+        <location filename="../DlgRenderVideo.cpp" line="817"/>
         <source> - Estimated time left : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="852"/>
+        <location filename="../DlgRenderVideo.cpp" line="847"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="859"/>
+        <location filename="../DlgRenderVideo.cpp" line="854"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="881"/>
+        <location filename="../DlgRenderVideo.cpp" line="876"/>
         <source>Closing encoder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="896"/>
+        <location filename="../DlgRenderVideo.cpp" line="891"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="900"/>
+        <location filename="../DlgRenderVideo.cpp" line="895"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="908"/>
+        <location filename="../DlgRenderVideo.cpp" line="903"/>
         <source>Job completed succesfully!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3638,15 +3648,15 @@ and help</source>
         <location filename="../_ApplicationDefinitions.cpp" line="744"/>
         <location filename="../_ApplicationDefinitions.cpp" line="749"/>
         <location filename="../_ApplicationDefinitions.cpp" line="755"/>
-        <location filename="../_Diaporama.cpp" line="1329"/>
-        <location filename="../_Diaporama.cpp" line="1373"/>
-        <location filename="../_Diaporama.cpp" line="1378"/>
-        <location filename="../_Diaporama.cpp" line="1385"/>
-        <location filename="../_Diaporama.cpp" line="1443"/>
-        <location filename="../_Diaporama.cpp" line="1449"/>
-        <location filename="../_Diaporama.cpp" line="1456"/>
-        <location filename="../_Diaporama.cpp" line="1465"/>
-        <location filename="../mainwindow.cpp" line="1368"/>
+        <location filename="../_Diaporama.cpp" line="1326"/>
+        <location filename="../_Diaporama.cpp" line="1370"/>
+        <location filename="../_Diaporama.cpp" line="1375"/>
+        <location filename="../_Diaporama.cpp" line="1382"/>
+        <location filename="../_Diaporama.cpp" line="1440"/>
+        <location filename="../_Diaporama.cpp" line="1446"/>
+        <location filename="../_Diaporama.cpp" line="1453"/>
+        <location filename="../_Diaporama.cpp" line="1462"/>
+        <location filename="../mainwindow.cpp" line="1370"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
@@ -3682,73 +3692,73 @@ and help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1091"/>
-        <location filename="../mainwindow.cpp" line="1126"/>
+        <location filename="../mainwindow.cpp" line="1093"/>
+        <location filename="../mainwindow.cpp" line="1128"/>
         <source>Saving project file ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1329"/>
-        <location filename="../_Diaporama.cpp" line="1330"/>
+        <location filename="../_Diaporama.cpp" line="1326"/>
+        <location filename="../_Diaporama.cpp" line="1327"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1349"/>
+        <location filename="../_Diaporama.cpp" line="1346"/>
         <source>Open project file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1350"/>
+        <location filename="../_Diaporama.cpp" line="1347"/>
         <location filename="../_ImageFileWrapper.cpp" line="161"/>
         <location filename="../_VideoFileWrapper.cpp" line="683"/>
         <source>Impossible to open file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1350"/>
+        <location filename="../_Diaporama.cpp" line="1347"/>
         <location filename="../_ImageFileWrapper.cpp" line="161"/>
         <location filename="../_VideoFileWrapper.cpp" line="683"/>
         <source>Do you want to select another file ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1353"/>
+        <location filename="../_Diaporama.cpp" line="1350"/>
         <location filename="../_ImageFileWrapper.cpp" line="165"/>
         <location filename="../_VideoFileWrapper.cpp" line="688"/>
         <source>Select another file for </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1372"/>
-        <location filename="../_Diaporama.cpp" line="1443"/>
-        <location filename="../_Diaporama.cpp" line="1444"/>
+        <location filename="../_Diaporama.cpp" line="1369"/>
+        <location filename="../_Diaporama.cpp" line="1440"/>
+        <location filename="../_Diaporama.cpp" line="1441"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1378"/>
-        <location filename="../_Diaporama.cpp" line="1379"/>
-        <location filename="../_Diaporama.cpp" line="1449"/>
-        <location filename="../_Diaporama.cpp" line="1450"/>
+        <location filename="../_Diaporama.cpp" line="1375"/>
+        <location filename="../_Diaporama.cpp" line="1376"/>
+        <location filename="../_Diaporama.cpp" line="1446"/>
+        <location filename="../_Diaporama.cpp" line="1447"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1385"/>
-        <location filename="../_Diaporama.cpp" line="1386"/>
-        <location filename="../_Diaporama.cpp" line="1456"/>
-        <location filename="../_Diaporama.cpp" line="1457"/>
+        <location filename="../_Diaporama.cpp" line="1382"/>
+        <location filename="../_Diaporama.cpp" line="1383"/>
+        <location filename="../_Diaporama.cpp" line="1453"/>
+        <location filename="../_Diaporama.cpp" line="1454"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1465"/>
-        <location filename="../_Diaporama.cpp" line="1466"/>
+        <location filename="../_Diaporama.cpp" line="1462"/>
+        <location filename="../_Diaporama.cpp" line="1463"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -3886,28 +3896,28 @@ Image geometry in this file is not the same than the current project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="830"/>
+        <location filename="../mainwindow.cpp" line="832"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;1567&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="833"/>
+        <location filename="../mainwindow.cpp" line="835"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;1306&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="836"/>
+        <location filename="../mainwindow.cpp" line="838"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;1322&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="839"/>
+        <location filename="../mainwindow.cpp" line="841"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="951"/>
-        <location filename="../mainwindow.cpp" line="1014"/>
+        <location filename="../mainwindow.cpp" line="953"/>
+        <location filename="../mainwindow.cpp" line="1016"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation type="unfinished"></translation>
@@ -3919,49 +3929,49 @@ Do you want to save-it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="951"/>
+        <location filename="../mainwindow.cpp" line="953"/>
         <source>New project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1014"/>
-        <location filename="../mainwindow.cpp" line="1018"/>
+        <location filename="../mainwindow.cpp" line="1016"/>
+        <location filename="../mainwindow.cpp" line="1020"/>
         <source>Open project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1028"/>
+        <location filename="../mainwindow.cpp" line="1030"/>
         <source>Open file :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1115"/>
+        <location filename="../mainwindow.cpp" line="1117"/>
         <source>Save project as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1196"/>
+        <location filename="../mainwindow.cpp" line="1198"/>
         <source>Add files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1368"/>
+        <location filename="../mainwindow.cpp" line="1370"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1396"/>
+        <location filename="../mainwindow.cpp" line="1398"/>
         <source>Add a sub project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1437"/>
+        <location filename="../mainwindow.cpp" line="1439"/>
         <source>Remove slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1437"/>
+        <location filename="../mainwindow.cpp" line="1439"/>
         <source>Are you sure to want to delete this slide?</source>
         <translation type="unfinished"></translation>
     </message>

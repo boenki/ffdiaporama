@@ -72,6 +72,8 @@ private slots:
     void        s_ChIndexBackgroundCombo(int);
     void        s_SelectFile();
     void        s_ImageEditCorrect();
+    void        s_FullFill();
+    void        s_KeepRatio();
 
 private:
     Ui::DlgBackgroundProperties *ui;

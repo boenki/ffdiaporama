@@ -742,16 +742,11 @@ void DlgRenderVideo::accept() {
                 #endif
                 QString AddSizestr="";
                 if (W==720) {
-                    /*AddSizestr=QString(" -s %1x%2").
-                            arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width).
-                            arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height);*/
-
                     switch (Diaporama->ImageGeometry) {
                         case GEOMETRY_4_3:      W=(double(H)/3)*4;      GeoW=4;     GeoH=3; break;
                         case GEOMETRY_16_9:     W=(double(H)/9)*16;     GeoW=16;    GeoH=9; break;
                         case GEOMETRY_40_17:    W=(double(H)/17)*40;    GeoW=16;    GeoH=9; break;
                     }
-
                 }
                 ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r "+QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+" -i -"+
                       " -i \"")+TempWAVFileName+"\" -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+AddSizestr+" -r "+

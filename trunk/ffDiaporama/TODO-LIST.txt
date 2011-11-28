@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 25/11/2011) :
+Buggs/TODO (Dernier SVN le 26/11/2011) :
 ----------------------------------------
 BUGG:
 -Le mixage de 2 pistes audio à fort volume donne un résultat saturé
@@ -65,20 +65,20 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Ajoute du lissage d'image qui avait été oublié à différents endroits dans le code source ce qui améliore grandement la qualité de l'image
--Retire "pour le moment" la status bar car elle pose trop de problèmes
+-Trouve et corrige le dernier endroit dans le code source ou le lissage ne s'appliquait pas !
+-La selection d'une diapo arrete à nouveau de lecteur [bug depuis 20111126]
+-Quand ffDiaporama n'arrive pas à lire la derniere image d'une video, il lit celle 100 ms plutot au lieu de planter
 
 English version / Bug fix :
--Add image smoothing which had been forgotten in various places in the source code improving image quality
--Remove "temporarely" the status because of too many trouble with it
+-Find and fix the latest place in the source code where smoothing was not applied !
+-Select a slide stop the play [bug since 20111126]
+-When ffDiaporama can't read latest image of a video, now it read image at 100 ms before instead of crash
 
 French version / Nouvelles fonctionnalités :
--Ajout de la résolution de génération de vidéo 576p
--Ajout du type d'équipement "Generic Portable LED/LCD TV"
+-Ajoute une option dans la boite Background pour déformer l'image et lui faire emplir tout l'écran
 
 English version / New features :
--Add rendering resolution 576p
--Add device "Generic Portable LED/LCD TV"
+-Add an option in the Background dialog to deform the image and make it fill all the screen
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -126,6 +126,8 @@ Bug fix French version
 -Corrige un bug qui passait l'affichage en blanc dans la boite slide
 -Les options proposées dans la boite de génération vidéo en mode avancée sont maintenant toujours celles définies dans la boite de configuration
 -Les options de génération vidéo définies dans la boite de configuration sont maintenant correctement rechargées
+-Ajoute du lissage d'image qui avait été oublié à différents endroits dans le code source ce qui améliore grandement la qualité de l'image
+-Retire "pour le moment" la status bar car elle pose trop de problèmes
 
 Bug fix English version
 -Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -166,6 +168,8 @@ Bug fix English version
 -Correct a bug which display image as white in the slide dialog
 -Settings proposed in avanced render dialog are now always them defined in option dialog
 -The options for rendering defined in the option dialog are now correctly reloaded
+-Add image smoothing which had been forgotten in various places in the source code improving image quality
+-Remove "temporarely" the status because of too many trouble with it
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
@@ -235,6 +239,8 @@ French version
 -Modifie l'option dans la boite de configuration de nombre de slide conservés en profil mémoire (plus simple)
 -La configuration est maintenant sauvegardée lorsqu'on quitte la boite de configuration
 -Fait en sorte à ce que ce soit ffDiaporama qui réalise l'anamorphisme plutôt que ffmpeg lors de génération de vidéo en mode SD-DVD
+-Ajout de la résolution de génération de vidéo 576p
+-Ajout du type d'équipement "Generic Portable LED/LCD TV"
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -294,3 +300,5 @@ English version
 -Still improve the cache memory manager with the implementation of LuLo cache (Last Used is Last Out)
 -Add a "Go to black" transition in Basic familly
 -Modify the option in option dialog to select how many slides are keep in cache to memory profil (more simple)
+-Add rendering resolution 576p
+-Add device "Generic Portable LED/LCD TV"

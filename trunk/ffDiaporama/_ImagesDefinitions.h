@@ -64,7 +64,8 @@ public:
     int         Blue;                   // Blue adjustment
     bool        LockGeometry;           // True if geometry is locked
     double      AspectRatio;            // Aspect Ratio of image
-    bool        Smoothing;
+    bool        Smoothing;              // Use Qt::Smooth instead of Qt::Fast
+    bool        FullFilling;            // Background image disk only : If true aspect ratio is not keep and image is deformed to fill the frame
 
     cFilterCorrectObject();
 
@@ -93,9 +94,9 @@ public:
     QString                 ColorIntermed;          // Intermediate Color
     double                  Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
     QString                 BrushImage;             // Image name if image from library
+    double                  SoundVolume;            // Volume of soundtrack
     cFilterCorrectObject    BrushFileCorrect;       // Image correction if image from disk
     cimagefilewrapper       *Image;                 // Embeded Object for title and image type
-    double                  SoundVolume;            // Volume of soundtrack
     cvideofilewrapper       *Video;                 // Embeded Object for video type
     QString                 DefaultFramingW;        // Default Framing when ADJUST_WITH
     QString                 DefaultFramingH;        // Default Framing when ADJUST_HEIGHT
