@@ -658,11 +658,11 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 BR=BackgroundBrush.GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?&PrevCompoObject->BackgroundBrush:NULL);
                 QTransform  MatrixBR;
                 MatrixBR.translate(-W/2,-H/2);
-                BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
+                if (BR) BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
             }
 
             // if PreviewMode && UseBrushCache then Keep value for next use
-            if (UpdateCachedBrush && PreviewMode && UseBrushCache && (BR!=CachedBrushBrush)) {
+            if (BR && UpdateCachedBrush && PreviewMode && UseBrushCache && (BR!=CachedBrushBrush)) {
                 if (CachedBrushBrush!=NULL) delete CachedBrushBrush;
                 CachedBrushBrush        =BR;
                 CachedBrushW            =W;
@@ -673,7 +673,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             }
 
             Painter.setBrush(*BR);
-            if (BR!=CachedBrushBrush) delete BR;
+            if (BR && (BR!=CachedBrushBrush)) delete BR;
 
         }
         if (BackgroundBrush.BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
@@ -1232,7 +1232,7 @@ int cDiaporama::GetObjectIndex(cDiaporamaObject *ObjectToFind) {
 
 //====================================================================================================================
 
-void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Painter,int AddX,int AddY,bool ApplyComposition) {
+void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Painter,int AddX,int AddY) {
     // Background type : false=same as precedent - true=new background definition
     while ((Index>0)&&(!List[Index].BackgroundType)) Index--;
     // Make painter translation to ensure QBrush image will start at AddX AddY position
@@ -1244,9 +1244,6 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
         Painter->fillRect(QRect(0,0,Width,Height),*BR);
         delete BR;
     }
-    //
-    if (ApplyComposition) for (int j=0;j<List[Index].BackgroundComposition.List.count();j++)
-        List[Index].BackgroundComposition.List[j].DrawCompositionObject(Painter,double(Height)/1080,0,0,Width,Height,true,0,0,NULL,1,NULL,true);
     Painter->restore();
 }
 
@@ -2158,6 +2155,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
         }
         // Transition Object if a previous was not keep !
         if (Info->TransitObject) LoadTransitVideoImage(Info,PreviewMode,W,H,AddStartPos);
+
+        // Load Source image
         LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
 
         //==============> Background part

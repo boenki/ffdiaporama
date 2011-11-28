@@ -159,9 +159,13 @@ cFilterCorrectObject::cFilterCorrectObject() {
     Blue                    = 0;
     LockGeometry            = false;
     Smoothing               = true;
+    FullFilling             = false;
+
 }
 
 QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Height,double PctDone,cFilterCorrectObject *PreviousFilter) {
+    if (!LastLoadedImage) return NULL;
+
     QImage  *SourceImage    =NULL;
     double  TheXFactor      =X;
     double  TheYFactor      =Y;
@@ -228,7 +232,11 @@ QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Hei
     if (Smoothing) PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
         else       PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
-    PB.drawImage(QRectF(DstX,DstY,DstW,DstH),*SourceImage,QRectF(int((RealImageW/2)-(Hyp/2)+SrcX),int((RealImageH/2)-(Hyp/2)+SrcY),SrcW,SrcH));
+    // Smoothing is not correctly used here !
+    // Then force smoothing by reduce source image before drawmage
+
+    QImage NewSourceImage=(SourceImage->copy(int((RealImageW/2)-(Hyp/2)+SrcX),int((RealImageH/2)-(Hyp/2)+SrcY),SrcW,SrcH)).scaled(int(DstW),int(DstH),Qt::IgnoreAspectRatio,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
+    PB.drawImage(QRectF(DstX,DstY,DstW,DstH),NewSourceImage);
     PB.end();
 
     // Delete SourceImage if we have created it
@@ -275,6 +283,7 @@ void cFilterCorrectObject::SaveToXML(QDomElement &domDocument,QString ElementNam
     Element.setAttribute("LockGeometry",    LockGeometry?1:0);
     Element.setAttribute("AspectRatio",     AspectRatio);
     Element.setAttribute("Smoothing",       Smoothing?1:0);
+    Element.setAttribute("FullFilling",     FullFilling?1:0);
 
     domDocument.appendChild(Element);
 }
@@ -302,7 +311,8 @@ bool cFilterCorrectObject::LoadFromXML(QDomElement domDocument,QString ElementNa
             // Else load saved value
             else LockGeometry=Element.attribute("LockGeometry").toInt()==1;
 
-        if (Element.hasAttribute("Smoothing")) Smoothing=Element.attribute("Smoothing").toInt()==1;
+        if (Element.hasAttribute("Smoothing"))      Smoothing  =Element.attribute("Smoothing").toInt()==1;
+        if (Element.hasAttribute("FullFilling"))    FullFilling=Element.attribute("FullFilling").toInt()==1;
 
         return true;
     }
@@ -470,11 +480,23 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
         QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&Image->BrushFileTransform,BrushFileCorrect.Smoothing):
                             Video?Video->ImageAt(PreviewMode,Position,StartPosToAdd,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform):
                             NULL);
-        // Create brush image with ken burns effect !
-        QImage *Img=BrushFileCorrect.GetImage(RenderImage,Rect.width(),Rect.height(),PctDone,PreviousBrush?&PreviousBrush->BrushFileCorrect:NULL);
-        QBrush *Ret=new QBrush(*Img);
-        delete Img;
-        delete RenderImage;
+
+        QBrush *Ret=NULL;
+        QImage *Img=NULL;
+        if (RenderImage) {
+            if (BrushFileCorrect.FullFilling) {
+                // Create brush image with distortion
+                Img=new QImage(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,BrushFileCorrect.Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+            } else {
+                // Create brush image with ken burns effect !
+                Img=BrushFileCorrect.GetImage(RenderImage,Rect.width(),Rect.height(),PctDone,PreviousBrush?&PreviousBrush->BrushFileCorrect:NULL);
+            }
+            if (Img) {
+                Ret=new QBrush(*Img);
+                delete Img;
+            }
+            delete RenderImage;
+        }
         return Ret;
     } else {
         // Force loading of sound of video
@@ -551,6 +573,9 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
     Video               =BrushToCopy->Video;
     SoundVolume         =BrushToCopy->SoundVolume;
     BrushFileCorrect    =BrushToCopy->BrushFileCorrect;
+    DefaultFramingW     =BrushToCopy->DefaultFramingW;
+    DefaultFramingH     =BrushToCopy->DefaultFramingH;
+    DefaultFramingF     =BrushToCopy->DefaultFramingF;
 }
 
 //====================================================================================================================
@@ -566,23 +591,23 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     }
     // Attribut of the object
     Element.setAttribute("TypeComposition",TypeComposition);
-    Element.setAttribute("BrushType",BrushType);                                                    // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
+    Element.setAttribute("BrushType",BrushType);                                                            // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
     switch (BrushType) {
         case BRUSHTYPE_PATTERN      :
-            Element.setAttribute("PatternType",PatternType);                                        // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-            Element.setAttribute("ColorD",ColorD);                                                  // First Color
+            Element.setAttribute("PatternType",PatternType);                                                // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
+            Element.setAttribute("ColorD",ColorD);                                                          // First Color
             break;
         case BRUSHTYPE_GRADIENT3    :
-            Element.setAttribute("ColorIntermed",ColorIntermed);                                    // Intermediate Color
-            Element.setAttribute("Intermediate",Intermediate);                                      // Intermediate position of 2nd color (in %)
+            Element.setAttribute("ColorIntermed",ColorIntermed);                                            // Intermediate Color
+            Element.setAttribute("Intermediate",Intermediate);                                              // Intermediate position of 2nd color (in %)
         case BRUSHTYPE_GRADIENT2    :
-            Element.setAttribute("ColorF",ColorF);                                                  // Last Color
-            Element.setAttribute("GradientOrientation",GradientOrientation);                        // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
+            Element.setAttribute("ColorF",ColorF);                                                          // Last Color
+            Element.setAttribute("GradientOrientation",GradientOrientation);                                // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
         case BRUSHTYPE_SOLID        :
-            Element.setAttribute("ColorD",ColorD);                                                  // First Color
+            Element.setAttribute("ColorD",ColorD);                                                          // First Color
             break;
         case BRUSHTYPE_IMAGELIBRARY :
-            Element.setAttribute("BrushImage",BrushImage);           // Image name if image from library
+            Element.setAttribute("BrushImage",BrushImage);                                                  // Image name if image from library
             break;
         case BRUSHTYPE_IMAGEDISK :
             if (Video!=NULL) {

@@ -79,8 +79,14 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
     connect(ui->IntermPosSlider,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosSliderMoved(int)));
     connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
 
+    // Image file
     connect(ui->ImageFileBT,SIGNAL(pressed()),this,SLOT(s_SelectFile()));
     connect(ui->ImageEditCorrectBT,SIGNAL(pressed()),this,SLOT(s_ImageEditCorrect()));
+    ui->KeepRatioRB->setChecked(!DiaporamaObject->BackgroundBrush.BrushFileCorrect.FullFilling);
+    ui->FullFillRB->setChecked(DiaporamaObject->BackgroundBrush.BrushFileCorrect.FullFilling);
+    connect(ui->FullFillRB,SIGNAL(clicked()),this,SLOT(s_FullFill()));
+    connect(ui->KeepRatioRB,SIGNAL(clicked()),this,SLOT(s_KeepRatio()));
+
 }
 
 //====================================================================================================================
@@ -224,7 +230,11 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
         ui->ImageFileED->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK));
         ui->ImageFileBT->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK));
         ui->ImageEditCorrectBT->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->ImageEditCorrectBT->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(DiaporamaObject->BackgroundBrush.Image!=NULL));
+        ui->KeepRatioRB->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK));
+
+        ui->ImageEditCorrectBT->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(DiaporamaObject->BackgroundBrush.Image!=NULL)&&(!DiaporamaObject->BackgroundBrush.BrushFileCorrect.FullFilling));
+
+        ui->FullFillRB->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK));
         ui->ImageFileED->setText(DiaporamaObject->BackgroundBrush.Image?DiaporamaObject->BackgroundBrush.Image->FileName:"");
 
         ui->Preview->setVisible(true);
@@ -242,7 +252,7 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
         QPainter Painter;
         Painter.begin(&Background);
         Painter.fillRect(0,0,Background.width(),Background.height(),Qt::black);
-        DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),W,H,&Painter,(Background.width()-W)/2,(Background.height()-H)/2,false);
+        DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),W,H,&Painter,(Background.width()-W)/2,(Background.height()-H)/2);
         Painter.end();
         ui->Preview->setPixmap(QPixmap::fromImage(Background));
 
@@ -263,6 +273,9 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
         ui->BackgroundCombo->setVisible(false);     ui->BackgroundComboSpacer->setVisible(false);
         ui->ImageFileLabel->setVisible(false);      ui->ImageFileED->setVisible(false);         ui->ImageFileBT->setVisible(false);
         ui->ImageEditCorrectBT->setVisible(false);
+        ui->KeepRatioRB->setVisible(false);
+        ui->FullFillRB->setVisible(false);
+
         ui->Preview->setVisible(false);
         ui->scrollArea->setVisible(false);
     }
@@ -377,6 +390,24 @@ void DlgBackgroundProperties::s_ChIndexBackgroundCombo(int) {
 void DlgBackgroundProperties::s_ImageEditCorrect() {
     if (DiaporamaObject->BackgroundBrush.Image) {
         DlgImageCorrection(NULL,1,&DiaporamaObject->BackgroundBrush,&DiaporamaObject->BackgroundBrush.BrushFileCorrect,0,this).exec();
+        RefreshControls(ui->NewBackgroundRD->isChecked());
+    }
+}
+
+//====================================================================================================================
+
+void DlgBackgroundProperties::s_FullFill() {
+    if (DiaporamaObject->BackgroundBrush.Image) {
+        DiaporamaObject->BackgroundBrush.BrushFileCorrect.FullFilling=true;
+        RefreshControls(ui->NewBackgroundRD->isChecked());
+    }
+}
+
+//====================================================================================================================
+
+void DlgBackgroundProperties::s_KeepRatio() {
+    if (DiaporamaObject->BackgroundBrush.Image) {
+        DiaporamaObject->BackgroundBrush.BrushFileCorrect.FullFilling=false;
         RefreshControls(ui->NewBackgroundRD->isChecked());
     }
 }

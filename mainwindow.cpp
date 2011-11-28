@@ -792,6 +792,8 @@ void MainWindow::s_ItemSelectionChanged() {
             //************************************************************
 
             if (Diaporama->List.count()>0) {
+                ui->preview->SetPlayerToPause();    // Ensure player is stop
+                ui->preview2->SetPlayerToPause();   // Ensure player is stop
                 Diaporama->CurrentCol=Selected;
                 Diaporama->CurrentPosition=Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol);
                 if (Diaporama->List[Diaporama->CurrentCol].GetTransitDuration()>0) Diaporama->CurrentPosition--;

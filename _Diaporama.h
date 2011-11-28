@@ -304,7 +304,7 @@ public:
     int                 GetPartialDuration(int from,int to);
     int                 GetObjectStartPosition(int index);
     int                 GetTransitionDuration(int index);
-    void                PrepareBackground(int ObjectIndex,int Width,int Height,QPainter *Painter,int AddX,int AddY,bool ApplyComposition);
+    void                PrepareBackground(int ObjectIndex,int Width,int Height,QPainter *Painter,int AddX,int AddY);
     cMusicObject        *GetMusicObject(int ObjectIndex,int &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
     void                DefineSizeAndGeometry(int Geometry);                        // Init size and geometry
     bool                SaveFile(QWidget *ParentWindow);

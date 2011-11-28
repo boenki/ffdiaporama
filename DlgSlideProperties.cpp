@@ -771,7 +771,7 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
         QPainter Painter;
         BackgroundImage=new QImage(xmax,ymax,QImage::Format_ARGB32_Premultiplied);
         Painter.begin(BackgroundImage);
-        DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),xmax,ymax,&Painter,0,0,false);
+        DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),xmax,ymax,&Painter,0,0);
         Painter.end();
 
         // Ensure scene size if correct

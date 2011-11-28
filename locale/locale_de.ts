@@ -6,7 +6,7 @@
     <message>
         <location filename="../DlgAbout.ui" line="26"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Info</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="93"/>
@@ -521,95 +521,6 @@ Crossfade transition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="1251"/>
-        <location filename="../DlgApplicationSettings.ui" line="1945"/>
-        <source>Coordinates
-for 3:2
-image in 
-landscape
-mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="1274"/>
-        <location filename="../DlgApplicationSettings.ui" line="1968"/>
-        <source>Coordinates
-for 3:2
-image in 
-portrait
-mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="1297"/>
-        <location filename="../DlgApplicationSettings.ui" line="1991"/>
-        <source>Coordinates
-for 4:3
-image in 
-landscape
-mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="1320"/>
-        <location filename="../DlgApplicationSettings.ui" line="2014"/>
-        <source>Coordinates
-for 4:3
-image in 
-portrait
-mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="1343"/>
-        <location filename="../DlgApplicationSettings.ui" line="2037"/>
-        <source>Coordinates
-for 16:9
-image in 
-landscape
-mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="1366"/>
-        <location filename="../DlgApplicationSettings.ui" line="2060"/>
-        <source>Coordinates
-for 16:9
-image in 
-portrait
-mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="1694"/>
-        <location filename="../DlgApplicationSettings.ui" line="2083"/>
-        <source>Coordinates
-for cinema
-image in 
-landscape
-mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="1717"/>
-        <location filename="../DlgApplicationSettings.ui" line="2106"/>
-        <source>Coordinates
-for cinema
-image in 
-portrait
-mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../DlgApplicationSettings.ui" line="1740"/>
-        <location filename="../DlgApplicationSettings.ui" line="2129"/>
-        <source>Coordinates
-for 
-nonstandard
-image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../DlgApplicationSettings.ui" line="2737"/>
         <source>Rendering Options</source>
         <translation type="unfinished"></translation>
@@ -741,6 +652,95 @@ image</source>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3012"/>
         <source>Select the model of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1251"/>
+        <location filename="../DlgApplicationSettings.ui" line="1945"/>
+        <source>Coordinates
+for 3:2
+image in 
+landscape
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1274"/>
+        <location filename="../DlgApplicationSettings.ui" line="1968"/>
+        <source>Coordinates
+for 3:2
+image in 
+portrait
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1297"/>
+        <location filename="../DlgApplicationSettings.ui" line="1991"/>
+        <source>Coordinates
+for 4:3
+image in 
+landscape
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1320"/>
+        <location filename="../DlgApplicationSettings.ui" line="2014"/>
+        <source>Coordinates
+for 4:3
+image in 
+portrait
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1343"/>
+        <location filename="../DlgApplicationSettings.ui" line="2037"/>
+        <source>Coordinates
+for 16:9
+image in 
+landscape
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1366"/>
+        <location filename="../DlgApplicationSettings.ui" line="2060"/>
+        <source>Coordinates
+for 16:9
+image in 
+portrait
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1694"/>
+        <location filename="../DlgApplicationSettings.ui" line="2083"/>
+        <source>Coordinates
+for cinema
+image in 
+landscape
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1717"/>
+        <location filename="../DlgApplicationSettings.ui" line="2106"/>
+        <source>Coordinates
+for cinema
+image in 
+portrait
+mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgApplicationSettings.ui" line="1740"/>
+        <location filename="../DlgApplicationSettings.ui" line="2129"/>
+        <source>Coordinates
+for 
+nonstandard
+image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -887,7 +887,7 @@ image</source>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3656"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3667"/>
@@ -897,7 +897,7 @@ image</source>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3670"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3677"/>
@@ -933,22 +933,32 @@ image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="653"/>
+        <location filename="../DlgBackgroundProperties.ui" line="618"/>
+        <source>Keep aspect ratio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgBackgroundProperties.ui" line="645"/>
+        <source>Full filling (deform image)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgBackgroundProperties.ui" line="684"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="664"/>
+        <location filename="../DlgBackgroundProperties.ui" line="695"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="675"/>
+        <location filename="../DlgBackgroundProperties.ui" line="706"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="682"/>
+        <location filename="../DlgBackgroundProperties.ui" line="713"/>
         <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -978,7 +988,7 @@ image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.cpp" line="283"/>
+        <location filename="../DlgBackgroundProperties.cpp" line="296"/>
         <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1157,7 +1167,7 @@ image</source>
     <message>
         <location filename="../DlgImageCorrection.ui" line="1884"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="1895"/>
@@ -1167,7 +1177,7 @@ image</source>
     <message>
         <location filename="../DlgImageCorrection.ui" line="1898"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="1905"/>
@@ -1227,7 +1237,7 @@ image</source>
     <message>
         <location filename="../DlgManageStyle.ui" line="87"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Entfernen</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="98"/>
@@ -1257,7 +1267,7 @@ image</source>
     <message>
         <location filename="../DlgManageStyle.ui" line="156"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="167"/>
@@ -1267,7 +1277,7 @@ image</source>
     <message>
         <location filename="../DlgManageStyle.ui" line="170"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="177"/>
@@ -1635,7 +1645,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgMusicProperties.ui" line="324"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="334"/>
@@ -1670,7 +1680,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgMusicProperties.ui" line="409"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="420"/>
@@ -1680,7 +1690,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgMusicProperties.ui" line="423"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../DlgMusicProperties.ui" line="430"/>
@@ -1702,7 +1712,7 @@ Move the current selected file of a notch downward.</source>
         <location filename="../DlgMusicProperties.cpp" line="258"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Format nicht unterstützt</translation>
     </message>
 </context>
 <context>
@@ -1922,7 +1932,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgRenderVideo.ui" line="895"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="906"/>
@@ -1932,7 +1942,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../DlgRenderVideo.ui" line="909"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="916"/>
@@ -2002,21 +2012,21 @@ Do you want to overwrite it ?</source>
         <location filename="../DlgRenderVideo.cpp" line="566"/>
         <location filename="../DlgRenderVideo.cpp" line="710"/>
         <location filename="../DlgRenderVideo.cpp" line="729"/>
-        <location filename="../DlgRenderVideo.cpp" line="908"/>
-        <location filename="../DlgRenderVideo.cpp" line="945"/>
-        <location filename="../DlgRenderVideo.cpp" line="954"/>
-        <location filename="../DlgRenderVideo.cpp" line="965"/>
-        <location filename="../DlgRenderVideo.cpp" line="976"/>
-        <location filename="../DlgRenderVideo.cpp" line="988"/>
-        <location filename="../DlgRenderVideo.cpp" line="1010"/>
-        <location filename="../DlgRenderVideo.cpp" line="1035"/>
-        <location filename="../DlgRenderVideo.cpp" line="1044"/>
-        <location filename="../DlgRenderVideo.cpp" line="1057"/>
-        <location filename="../DlgRenderVideo.cpp" line="1163"/>
-        <location filename="../DlgRenderVideo.cpp" line="1167"/>
-        <location filename="../DlgRenderVideo.cpp" line="1191"/>
+        <location filename="../DlgRenderVideo.cpp" line="903"/>
+        <location filename="../DlgRenderVideo.cpp" line="940"/>
+        <location filename="../DlgRenderVideo.cpp" line="949"/>
+        <location filename="../DlgRenderVideo.cpp" line="960"/>
+        <location filename="../DlgRenderVideo.cpp" line="971"/>
+        <location filename="../DlgRenderVideo.cpp" line="983"/>
+        <location filename="../DlgRenderVideo.cpp" line="1005"/>
+        <location filename="../DlgRenderVideo.cpp" line="1030"/>
+        <location filename="../DlgRenderVideo.cpp" line="1039"/>
+        <location filename="../DlgRenderVideo.cpp" line="1052"/>
+        <location filename="../DlgRenderVideo.cpp" line="1158"/>
+        <location filename="../DlgRenderVideo.cpp" line="1162"/>
+        <location filename="../DlgRenderVideo.cpp" line="1186"/>
         <source>Render video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video erzeugen</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="643"/>
@@ -2029,57 +2039,57 @@ Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="786"/>
-        <location filename="../DlgRenderVideo.cpp" line="852"/>
-        <location filename="../DlgRenderVideo.cpp" line="859"/>
-        <location filename="../DlgRenderVideo.cpp" line="896"/>
-        <location filename="../DlgRenderVideo.cpp" line="900"/>
+        <location filename="../DlgRenderVideo.cpp" line="781"/>
+        <location filename="../DlgRenderVideo.cpp" line="847"/>
+        <location filename="../DlgRenderVideo.cpp" line="854"/>
+        <location filename="../DlgRenderVideo.cpp" line="891"/>
+        <location filename="../DlgRenderVideo.cpp" line="895"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="787"/>
+        <location filename="../DlgRenderVideo.cpp" line="782"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="822"/>
+        <location filename="../DlgRenderVideo.cpp" line="817"/>
         <source> - Estimated time left : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="852"/>
+        <location filename="../DlgRenderVideo.cpp" line="847"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="859"/>
+        <location filename="../DlgRenderVideo.cpp" line="854"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="881"/>
+        <location filename="../DlgRenderVideo.cpp" line="876"/>
         <source>Closing encoder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="896"/>
+        <location filename="../DlgRenderVideo.cpp" line="891"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="900"/>
+        <location filename="../DlgRenderVideo.cpp" line="895"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="908"/>
+        <location filename="../DlgRenderVideo.cpp" line="903"/>
         <source>Job completed succesfully!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2087,7 +2097,7 @@ Do you want to overwrite it ?</source>
         <location filename="../_ApplicationDefinitions.cpp" line="693"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erweitert</translation>
     </message>
     <message>
         <location filename="../_ApplicationDefinitions.cpp" line="694"/>
@@ -2180,7 +2190,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="29"/>
         <source>Slide properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dia Eigenschaften</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="139"/>
@@ -2200,7 +2210,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="183"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Entfernen</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="221"/>
@@ -2290,7 +2300,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="867"/>
         <source>Ins</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Einf</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="895"/>
@@ -2300,7 +2310,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="905"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Entf</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="933"/>
@@ -2310,7 +2320,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="943"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+C</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="971"/>
@@ -2320,7 +2330,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="981"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+X</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1009"/>
@@ -2330,7 +2340,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1019"/>
         <source>Ctrl+V</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+V</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="1054"/>
@@ -2538,7 +2548,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="2754"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Weiter</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="2790"/>
@@ -2548,7 +2558,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="2793"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="2804"/>
@@ -2558,7 +2568,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.ui" line="2807"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.ui" line="2814"/>
@@ -2568,7 +2578,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="49"/>
         <source>Slide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dia</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="91"/>
@@ -2608,7 +2618,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="903"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Titel</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="904"/>
@@ -2706,7 +2716,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="1583"/>
         <source>Add files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dateien hinzufügen</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="1739"/>
@@ -2724,7 +2734,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTextEdit.ui" line="26"/>
         <source>Edit text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Text bearbeiten</translation>
     </message>
     <message>
         <location filename="../DlgTextEdit.ui" line="187"/>
@@ -2875,7 +2885,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTextEdit.ui" line="1374"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../DlgTextEdit.ui" line="1385"/>
@@ -2885,7 +2895,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTextEdit.ui" line="1388"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../DlgTextEdit.ui" line="1395"/>
@@ -2958,12 +2968,12 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="20"/>
         <source>Transition properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Überblendungseigenschaften</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="40"/>
         <source>Transition type :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Überblendung: </translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="53"/>
@@ -2973,7 +2983,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="57"/>
         <source>None and basic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keine oder Einfach</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="62"/>
@@ -2983,7 +2993,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="67"/>
         <source>Slide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dia</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="72"/>
@@ -3023,7 +3033,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="116"/>
         <source>Duration :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Länge: </translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="144"/>
@@ -3033,7 +3043,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="176"/>
         <source>seconde(s)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sekunde(n)</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="270"/>
@@ -3053,7 +3063,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="287"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="298"/>
@@ -3063,7 +3073,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="301"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../DlgTransitionProperties.ui" line="308"/>
@@ -3076,7 +3086,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgVideoEdit.ui" line="26"/>
         <source>Cut video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video schneiden</translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="52"/>
@@ -3086,7 +3096,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgVideoEdit.ui" line="110"/>
         <source>Start :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Start: </translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="117"/>
@@ -3109,7 +3119,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgVideoEdit.ui" line="179"/>
         <source>End :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ende: </translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="201"/>
@@ -3132,12 +3142,12 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgVideoEdit.ui" line="254"/>
         <source>Duration :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Länge: </translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="286"/>
         <source>Volume :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lautstärke: </translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="314"/>
@@ -3162,7 +3172,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgVideoEdit.ui" line="372"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="383"/>
@@ -3172,7 +3182,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgVideoEdit.ui" line="386"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../DlgVideoEdit.ui" line="393"/>
@@ -3185,291 +3195,299 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../mainwindow.ui" line="120"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="156"/>
         <location filename="../mainwindow.ui" line="1311"/>
         <source>Create a new empty project (Ctrl+N)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neues Projekt (Strg+N)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="159"/>
         <location filename="../mainwindow.ui" line="1314"/>
         <source>New
 project</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neues
+Projekt</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="173"/>
         <location filename="../mainwindow.ui" line="1328"/>
         <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+N</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="207"/>
         <location filename="../mainwindow.ui" line="1362"/>
         <source>Open a previously saved project (Ctrl+O)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt Öffnen (Strg+O)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="210"/>
         <location filename="../mainwindow.ui" line="1365"/>
         <source>Open
 project</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Öffne
+Projekt</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="224"/>
         <location filename="../mainwindow.ui" line="1379"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+O</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="258"/>
         <location filename="../mainwindow.ui" line="1413"/>
         <source>Open a recently used project file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Öffne zuletzt verwendetes Projekt</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="261"/>
         <location filename="../mainwindow.ui" line="1416"/>
         <source>Open
 recent</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Öffne
+letzte Projekte</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="306"/>
         <location filename="../mainwindow.ui" line="1461"/>
         <source>Save current project (Ctrl+S)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt sichern (Strg+S)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="309"/>
         <location filename="../mainwindow.ui" line="1464"/>
         <source>Save
 project</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt
+sichern</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="323"/>
         <location filename="../mainwindow.ui" line="1478"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+S</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="357"/>
         <location filename="../mainwindow.ui" line="1512"/>
         <source>Save current project to a new project file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt sichern als</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="360"/>
         <location filename="../mainwindow.ui" line="1515"/>
         <source>Save
 project as</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt
+sichern als</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="406"/>
         <location filename="../mainwindow.ui" line="1561"/>
         <source>Change application and project settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Einstellungen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="409"/>
         <location filename="../mainwindow.ui" line="1564"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="447"/>
         <location filename="../mainwindow.ui" line="1602"/>
         <source>Exit application (Ctrl+W)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anwendung beenden (Strg+W)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="450"/>
         <location filename="../mainwindow.ui" line="1605"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Beenden</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="463"/>
         <location filename="../mainwindow.ui" line="1618"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+W</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="487"/>
         <source>Project</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="523"/>
         <location filename="../mainwindow.ui" line="1676"/>
         <source>Add an empty slide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Leeres Dia hinzufügen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="526"/>
         <location filename="../mainwindow.ui" line="1679"/>
         <source>Add
 title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Titel
+hinzufügen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="571"/>
         <location filename="../mainwindow.ui" line="1724"/>
         <source>Add image or video as slide (INS)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bild oder Video hinzufügen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="574"/>
         <location filename="../mainwindow.ui" line="1727"/>
         <source>Add
 files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dateien
+hinzufügen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="588"/>
         <location filename="../mainwindow.ui" line="1741"/>
         <source>Ins</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Einf</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="616"/>
         <location filename="../mainwindow.ui" line="1769"/>
         <source>Add a previously saved project at the end of this project</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt anfügen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="619"/>
         <location filename="../mainwindow.ui" line="1772"/>
         <source>Add
 project</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt
+hinzufügen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="665"/>
         <location filename="../mainwindow.ui" line="1818"/>
         <source>Copy current slide to clipboard and remove it (Ctrl+X)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ausscheiden (Strg+X)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="668"/>
         <location filename="../mainwindow.ui" line="1821"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausschneiden</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="681"/>
         <location filename="../mainwindow.ui" line="1834"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+X</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="709"/>
         <location filename="../mainwindow.ui" line="1862"/>
         <source>Copy current slide to clipboard (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopieren (Strg+C)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="712"/>
         <location filename="../mainwindow.ui" line="1865"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="725"/>
         <location filename="../mainwindow.ui" line="1878"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+C</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="753"/>
         <location filename="../mainwindow.ui" line="1906"/>
         <source>Paste current slide from clipboard (Ctrl+V)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Einfügen (Strg+V)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="756"/>
         <location filename="../mainwindow.ui" line="1909"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfügen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="769"/>
         <location filename="../mainwindow.ui" line="1922"/>
         <source>Ctrl+V</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strg+V</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="810"/>
         <location filename="../mainwindow.ui" line="1963"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="848"/>
         <location filename="../mainwindow.ui" line="2001"/>
         <source>Remove current slide (DEL)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Entferne aktuelles Dia (Entf)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="851"/>
         <location filename="../mainwindow.ui" line="2004"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Entfernen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="864"/>
         <location filename="../mainwindow.ui" line="2017"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Entf</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="882"/>
         <source>Render video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video erzeugen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="918"/>
         <location filename="../mainwindow.ui" line="2075"/>
         <source>Player and
 smartphone</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mobil</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="963"/>
         <location filename="../mainwindow.ui" line="2120"/>
         <source>Multimedia
 system</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bildschirm</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1002"/>
         <location filename="../mainwindow.ui" line="2159"/>
         <source>For the
 WEB</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Internet</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1047"/>
         <location filename="../mainwindow.ui" line="2204"/>
         <source>Render project as a video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video erzeugen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1050"/>
         <location filename="../mainwindow.ui" line="2207"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erweitert</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1078"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>?</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1114"/>
@@ -3481,7 +3499,7 @@ WEB</source>
         <location filename="../mainwindow.ui" line="1117"/>
         <location filename="../mainwindow.ui" line="2261"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Info</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1161"/>
@@ -3517,7 +3535,7 @@ and help</source>
     <message>
         <location filename="../mainwindow.ui" line="2733"/>
         <source>Slide : xx/xxx</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dia: xx/xxx</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2771"/>
@@ -3537,22 +3555,22 @@ and help</source>
     <message>
         <location filename="../mainwindow.ui" line="2851"/>
         <source>Enlarge thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vorschaubilder vergrößern</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2891"/>
         <source>Reduce thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vorschaubilder verkleinern</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2922"/>
         <source>Edit background</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hintergrund bearbeiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2925"/>
         <source>Edit the background image for the slide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hintergrund bearbeiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2928"/>
@@ -3562,12 +3580,12 @@ and help</source>
     <message>
         <location filename="../mainwindow.ui" line="2933"/>
         <source>Edit slide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dia bearbeiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2936"/>
         <source>Edit the slide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dia bearbeiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2939"/>
@@ -3577,12 +3595,12 @@ and help</source>
     <message>
         <location filename="../mainwindow.ui" line="2944"/>
         <source>Edit music</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio bearbeiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2947"/>
         <source>Edit the slide musical playlist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio bearbeiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2950"/>
@@ -3592,12 +3610,12 @@ and help</source>
     <message>
         <location filename="../mainwindow.ui" line="2955"/>
         <source>Edit object transition</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Transformation bearbeiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2958"/>
         <source>Edit entering transition for the slide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Transformation bearbeiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2961"/>
@@ -3638,15 +3656,15 @@ and help</source>
         <location filename="../_ApplicationDefinitions.cpp" line="744"/>
         <location filename="../_ApplicationDefinitions.cpp" line="749"/>
         <location filename="../_ApplicationDefinitions.cpp" line="755"/>
-        <location filename="../_Diaporama.cpp" line="1329"/>
-        <location filename="../_Diaporama.cpp" line="1373"/>
-        <location filename="../_Diaporama.cpp" line="1378"/>
-        <location filename="../_Diaporama.cpp" line="1385"/>
-        <location filename="../_Diaporama.cpp" line="1443"/>
-        <location filename="../_Diaporama.cpp" line="1449"/>
-        <location filename="../_Diaporama.cpp" line="1456"/>
-        <location filename="../_Diaporama.cpp" line="1465"/>
-        <location filename="../mainwindow.cpp" line="1368"/>
+        <location filename="../_Diaporama.cpp" line="1326"/>
+        <location filename="../_Diaporama.cpp" line="1370"/>
+        <location filename="../_Diaporama.cpp" line="1375"/>
+        <location filename="../_Diaporama.cpp" line="1382"/>
+        <location filename="../_Diaporama.cpp" line="1440"/>
+        <location filename="../_Diaporama.cpp" line="1446"/>
+        <location filename="../_Diaporama.cpp" line="1453"/>
+        <location filename="../_Diaporama.cpp" line="1462"/>
+        <location filename="../mainwindow.cpp" line="1370"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
@@ -3679,76 +3697,76 @@ and help</source>
         <location filename="../_Diaporama.cpp" line="895"/>
         <source>Title</source>
         <comment>Default slide name when no file</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Titel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1091"/>
-        <location filename="../mainwindow.cpp" line="1126"/>
+        <location filename="../mainwindow.cpp" line="1093"/>
+        <location filename="../mainwindow.cpp" line="1128"/>
         <source>Saving project file ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1329"/>
-        <location filename="../_Diaporama.cpp" line="1330"/>
+        <location filename="../_Diaporama.cpp" line="1326"/>
+        <location filename="../_Diaporama.cpp" line="1327"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1349"/>
+        <location filename="../_Diaporama.cpp" line="1346"/>
         <source>Open project file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt öffnen</translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1350"/>
+        <location filename="../_Diaporama.cpp" line="1347"/>
         <location filename="../_ImageFileWrapper.cpp" line="161"/>
         <location filename="../_VideoFileWrapper.cpp" line="683"/>
         <source>Impossible to open file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1350"/>
+        <location filename="../_Diaporama.cpp" line="1347"/>
         <location filename="../_ImageFileWrapper.cpp" line="161"/>
         <location filename="../_VideoFileWrapper.cpp" line="683"/>
         <source>Do you want to select another file ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1353"/>
+        <location filename="../_Diaporama.cpp" line="1350"/>
         <location filename="../_ImageFileWrapper.cpp" line="165"/>
         <location filename="../_VideoFileWrapper.cpp" line="688"/>
         <source>Select another file for </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1372"/>
-        <location filename="../_Diaporama.cpp" line="1443"/>
-        <location filename="../_Diaporama.cpp" line="1444"/>
+        <location filename="../_Diaporama.cpp" line="1369"/>
+        <location filename="../_Diaporama.cpp" line="1440"/>
+        <location filename="../_Diaporama.cpp" line="1441"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1378"/>
-        <location filename="../_Diaporama.cpp" line="1379"/>
-        <location filename="../_Diaporama.cpp" line="1449"/>
-        <location filename="../_Diaporama.cpp" line="1450"/>
+        <location filename="../_Diaporama.cpp" line="1375"/>
+        <location filename="../_Diaporama.cpp" line="1376"/>
+        <location filename="../_Diaporama.cpp" line="1446"/>
+        <location filename="../_Diaporama.cpp" line="1447"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1385"/>
-        <location filename="../_Diaporama.cpp" line="1386"/>
-        <location filename="../_Diaporama.cpp" line="1456"/>
-        <location filename="../_Diaporama.cpp" line="1457"/>
+        <location filename="../_Diaporama.cpp" line="1382"/>
+        <location filename="../_Diaporama.cpp" line="1383"/>
+        <location filename="../_Diaporama.cpp" line="1453"/>
+        <location filename="../_Diaporama.cpp" line="1454"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../_Diaporama.cpp" line="1465"/>
-        <location filename="../_Diaporama.cpp" line="1466"/>
+        <location filename="../_Diaporama.cpp" line="1462"/>
+        <location filename="../_Diaporama.cpp" line="1463"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -3868,12 +3886,12 @@ Image geometry in this file is not the same than the current project</source>
         <location filename="../mainwindow.cpp" line="260"/>
         <location filename="../mainwindow.cpp" line="516"/>
         <source>Slide : </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dia: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="404"/>
         <source>Close application</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Beenden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="404"/>
@@ -3886,28 +3904,28 @@ Image geometry in this file is not the same than the current project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="830"/>
+        <location filename="../mainwindow.cpp" line="832"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;1567&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="833"/>
+        <location filename="../mainwindow.cpp" line="835"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;1306&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="836"/>
+        <location filename="../mainwindow.cpp" line="838"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;1322&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="839"/>
+        <location filename="../mainwindow.cpp" line="841"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="951"/>
-        <location filename="../mainwindow.cpp" line="1014"/>
+        <location filename="../mainwindow.cpp" line="953"/>
+        <location filename="../mainwindow.cpp" line="1016"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation type="unfinished"></translation>
@@ -3916,52 +3934,52 @@ Do you want to save-it ?</source>
         <location filename="../mainwindow.cpp" line="524"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;Neues Projekt&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="951"/>
+        <location filename="../mainwindow.cpp" line="953"/>
         <source>New project</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt neu anlegen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1014"/>
-        <location filename="../mainwindow.cpp" line="1018"/>
+        <location filename="../mainwindow.cpp" line="1016"/>
+        <location filename="../mainwindow.cpp" line="1020"/>
         <source>Open project</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt öffnen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1028"/>
+        <location filename="../mainwindow.cpp" line="1030"/>
         <source>Open file :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Datei öfnnen: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1115"/>
+        <location filename="../mainwindow.cpp" line="1117"/>
         <source>Save project as</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projekt sichern als</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1196"/>
+        <location filename="../mainwindow.cpp" line="1198"/>
         <source>Add files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dateien hinzufügen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1368"/>
+        <location filename="../mainwindow.cpp" line="1370"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Format nicht unterstützt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1396"/>
+        <location filename="../mainwindow.cpp" line="1398"/>
         <source>Add a sub project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1437"/>
+        <location filename="../mainwindow.cpp" line="1439"/>
         <source>Remove slide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dia hinzufügen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1437"/>
+        <location filename="../mainwindow.cpp" line="1439"/>
         <source>Are you sure to want to delete this slide?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3974,7 +3992,7 @@ Do you want to save-it ?</source>
         <location filename="../cCustomComboBox.cpp" line="585"/>
         <location filename="../cCustomComboBox.cpp" line="605"/>
         <source>Gray</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Grau</translation>
     </message>
     <message>
         <location filename="../cCustomComboBox.cpp" line="517"/>
@@ -3998,7 +4016,7 @@ Do you want to save-it ?</source>
         <location filename="../cCustomComboBox.cpp" line="588"/>
         <location filename="../cCustomComboBox.cpp" line="608"/>
         <source>No transformation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keine Transformation</translation>
     </message>
 </context>
 <context>

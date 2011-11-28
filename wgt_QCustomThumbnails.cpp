@@ -243,7 +243,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 
             int BackThumbHeight = TimelineHeight/2-6;
             int BackThumbWidth  = GlobalMainWindow->Diaporama->GetWidthForHeight(BackThumbHeight);
-            Object->Parent->PrepareBackground(Col,BackThumbWidth,BackThumbHeight,&Painter,TransitionSize+3,2,true);  // Draw Thumb
+            Object->Parent->PrepareBackground(Col,BackThumbWidth,BackThumbHeight,&Painter,TransitionSize+3,2);  // Draw Thumb
             DrawThumbnailsBox(TransitionSize+3,2,BackThumbWidth,BackThumbHeight,Painter,NULL);
             BackgroundRect=QRect(TransitionSize+3,2,BackThumbWidth,BackThumbHeight);
 

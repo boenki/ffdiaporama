@@ -583,7 +583,7 @@ QImage *cvideofilewrapper::ReadVideoFrame(int64_t Position,bool DontUseEndPos) {
     }
 
     if (!IsVideoFind) {
-        qDebug()<<"No video image return !";
+        qDebug()<<"No video image return for position "<<Position;
     }
 
     // Check if it's the last image and if we need to  cache it
@@ -852,7 +852,10 @@ QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int64_t Position,int StartPo
     QImage *LoadedImage=NULL;
 
     if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)) ReadAudioFrame(PreviewMode,Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
-    if ((!MusicOnly)&&(!ForceSoundOnly)) LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
+    if ((!MusicOnly)&&(!ForceSoundOnly)) {
+        LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
+        if (!LoadedImage) LoadedImage=ReadVideoFrame(Position+StartPosToAdd-100,DontUseEndPos);  // Retry 1/10 sec before
+    }
 
     if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
         // Scale image if anamorphous codec
