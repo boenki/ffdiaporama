@@ -87,6 +87,9 @@ int main(int argc, char *argv[]) {
     MainWindow w(ApplicationConfig);
 
     if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
-    if (AutoLoad!="") w.OpenFile(AutoLoad);
+    if (AutoLoad!="") {
+        w.FileForIO=AutoLoad;
+        w.s_DoOpenFileParam();
+    }
     return app.exec();
 }

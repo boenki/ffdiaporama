@@ -182,6 +182,7 @@ public:
     double                  PreviewFPS;                                 // Preview FrameRate
     int                     PreviewMaxHeight;                           // Specific for preview : Maximum height of image
     bool                    ApplyTransfoPreview;                        // True if image transformation are apply during preview
+    bool                    Smoothing;                                  // True do smoothing in preview
 
     // Default project settings
     int                     ImageGeometry;                              // Project image geometry for image rendering

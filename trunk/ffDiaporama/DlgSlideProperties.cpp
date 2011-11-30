@@ -858,7 +858,7 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
 
 void DlgSlideProperties::RefreshSceneImageAndCache(cCompositionObject *CurrentTextItem,cBrushDefinition *CurrentBrush) {
     if (CurrentBrush->Image) {
-        cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(CurrentBrush->Image->FileName,&CurrentBrush->Image->BrushFileTransform,CurrentBrush->BrushFileCorrect.Smoothing,true);
+        cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(CurrentBrush->Image->FileName,&CurrentBrush->Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing,true);
         ImageObject->ClearAll();
     } else if (CurrentBrush->Video) {
         if (CurrentBrush->Video->CacheFirstImage) {
@@ -1658,7 +1658,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
         }
         if (IsValide) {
 
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform,CurrentBrush->BrushFileCorrect.Smoothing):
+            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing):
                            CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
                            NULL);
             if (Image) {

@@ -253,10 +253,6 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     connect(ui->Partition2BT,SIGNAL(pressed()),this,SLOT(s_ChPartitionMode()));
     connect(ui->TABTooltip,SIGNAL(linkActivated(const QString)),this,SLOT(s_TABTooltipLink(const QString)));
 
-    // Timer
-    LastCount=0;
-    connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
-
     ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+"0 / 0");
     s_ToolbarChanged(0);
 }
@@ -264,7 +260,6 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
 //====================================================================================================================
 
 MainWindow::~MainWindow() {
-    Timer.stop();
     delete ui;
     delete Diaporama;
     delete ApplicationConfig;
@@ -323,42 +318,12 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 
 //====================================================================================================================
 
-void MainWindow::s_TimerEvent() {
-    if (StatusBarList.count()>0) {
-        while (StatusBarList.count()>1) StatusBarList.takeFirst();
-        ui->StatusBar->setText(StatusBarList.takeFirst());
-        LastCount=0;
+void MainWindow::ToStatusBar(QString Text) {
+    if (Text=="") {
+        if (InternetBUILDVERSION!="") ui->StatusBar_General->setText(InternetBUILDVERSION); else ui->StatusBar_General->setText("");
     } else {
-        LastCount++;
-        if (LastCount>=10) ui->StatusBar->setText(InternetBUILDVERSION);
+        ui->StatusBar_General->setText(Text);
     }
-    if (!IsFirstRefresh) {
-        IsFirstRefresh=true;
-        repaint();
-    }
-}
-
-void MainWindow::SetTempStatusText(QString Text) {
-    // La statusbar pose trop de problème => pour le moment on repasse les info en mode console
-    fprintf(stderr,"%s\n",Text.toLocal8Bit().data());
-
-/*
-    if (CurrentRenderingDialog) {
-        CurrentRenderingDialog->DisplayInformations(Text);
-    } else {
-        #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
-        StatusBarList.append(Text);
-        if (CurrentThreadId==this->thread()->currentThreadId()) QApplication::processEvents();
-        #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        if (CurrentThreadId==this->thread()->currentThreadId()) {
-            ui->StatusBar->DisplayCustomText(Text);
-            ui->StatusBar->repaint();
-        } else {
-            StatusBarList.append(Text);
-        }
-        #endif
-    }
-*/
 }
 
 //====================================================================================================================
@@ -431,7 +396,6 @@ void MainWindow::showEvent(QShowEvent *) {
         ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
         SetTimelineHeight();                                    // setup initial size
         RefreshControls();
-        Timer.start(1000);
         IsFirstRefresh=false;
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
@@ -439,6 +403,7 @@ void MainWindow::showEvent(QShowEvent *) {
         QUrl            url(BUILDVERSION_WEBURL);
         QNetworkReply   *reply  = mNetworkManager->get(QNetworkRequest(url));
         reply->deleteLater();
+        ToStatusBar("");
     }
 }
 
@@ -450,7 +415,6 @@ void MainWindow::onNetworkReply(QNetworkReply* reply) {
     if (reply->error()==QNetworkReply::NoError) {
         int httpstatuscode=reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
         if ((httpstatuscode>=200)&&(httpstatuscode<300)&&(reply->isReadable())) {
-            QString Line;
             InternetBUILDVERSION=QString::fromUtf8(reply->readAll().data());
             if (InternetBUILDVERSION.endsWith("\n"))   InternetBUILDVERSION=InternetBUILDVERSION.left(InternetBUILDVERSION.length()-QString("\n").length());
             while (InternetBUILDVERSION.endsWith(" ")) InternetBUILDVERSION=InternetBUILDVERSION.left(InternetBUILDVERSION.length()-1);
@@ -461,7 +425,7 @@ void MainWindow::onNetworkReply(QNetworkReply* reply) {
                 else InternetBUILDVERSION="";
         } else InternetBUILDVERSION="";
     } else InternetBUILDVERSION="";
-    ui->StatusBar->setText(InternetBUILDVERSION);
+    ToStatusBar(InternetBUILDVERSION);
 }
 
 //====================================================================================================================
@@ -925,15 +889,22 @@ void MainWindow::s_ChangeApplicationSettings() {
     ui->ActionConfiguration_BT->setDown(false);
     ui->ActionConfiguration_BT_2->setDown(false);
 
-    DlgApplicationSettings(*ApplicationConfig,this).exec();
+    if (DlgApplicationSettings(*ApplicationConfig,this).exec()==0) {
+        ToStatusBar(QApplication::translate("MainWindow","Saving configuration file and applying new configuration ..."));
+        QTimer::singleShot(500,this,SLOT(s_DoChangeApplicationSettings()));
+    }
+}
+
+void MainWindow::s_DoChangeApplicationSettings() {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->preview->WantedFPS=ApplicationConfig->PreviewFPS;
     ui->preview2->WantedFPS=ApplicationConfig->PreviewFPS;
     SDLSetFPS(ApplicationConfig->PreviewFPS,ApplicationConfig->SDLAudioOldMode);  // Reinit SDL if Preview FPS has changed
     // Save configuration
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ApplicationConfig->MainWinWSP->SaveWindowState(this);
     ApplicationConfig->SaveConfigurationFile();
     QApplication::restoreOverrideCursor();
+    ToStatusBar("");
 }
 
 //====================================================================================================================
@@ -1000,7 +971,11 @@ void MainWindow::s_action_OpenRecent() {
     ui->Action_OpenRecent_BT->setDown(false);
     ui->Action_OpenRecent_BT_2->setDown(false);
 
-    if (Selected!="") OpenFile(Selected);
+    if (Selected!="") {
+        ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(Selected).fileName());
+        FileForIO=Selected;
+        QTimer::singleShot(500,this,SLOT(s_DoOpenFile()));
+    }
 }
 
 void MainWindow::s_action_Open() {
@@ -1016,20 +991,25 @@ void MainWindow::s_action_Open() {
     if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
 
-    QApplication::processEvents();
     QString ProjectFileName=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Open project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
-    if (ProjectFileName!="") OpenFile(ProjectFileName);
+    if (ProjectFileName!="") {
+        ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(ProjectFileName).fileName());
+        FileForIO=ProjectFileName;
+        QTimer::singleShot(500,this,SLOT(s_DoOpenFile()));
+    }
 }
 
-void MainWindow::OpenFile(QString ProjectFileName) {
+void MainWindow::s_DoOpenFileParam() {
+    ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileForIO).fileName());
+    QTimer::singleShot(500,this,SLOT(s_DoOpenFile()));
+}
+
+void MainWindow::s_DoOpenFile() {
+    QString ProjectFileName=FileForIO;
     ProjectFileName=AdjustDirForOS(ProjectFileName);
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     ImagesCache.List.clear();
-
-    StatusBarList.append(QApplication::translate("MainWindow","Open file :")+QFileInfo(ProjectFileName).fileName());
-    s_TimerEvent();
-    QApplication::processEvents();
 
     // Manage Recent files list
     for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (AdjustDirForOS(ApplicationConfig->RecentFile.at(i))==ProjectFileName) {
@@ -1062,7 +1042,6 @@ void MainWindow::OpenFile(QString ProjectFileName) {
     for (int i=0;i<Diaporama->List.count();i++) AddObjectToTimeLine(i);
     AdjustRuller();
     SetModifyFlag(Diaporama->IsModify);
-    QApplication::restoreOverrideCursor();
     if (Diaporama->List.count()>0) (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetTransitionDuration(0));
         else (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(0);
 
@@ -1070,9 +1049,8 @@ void MainWindow::OpenFile(QString ProjectFileName) {
     while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
     ui->timeline->SetCurrentCell(0);
     RefreshControls();
-    StatusBarList.append("");
-    s_TimerEvent();
-    QApplication::processEvents();
+    QApplication::restoreOverrideCursor();
+    ToStatusBar("");
 }
 
 //====================================================================================================================
@@ -1090,14 +1068,15 @@ void MainWindow::s_action_Save() {
     ui->Action_Save_BT_2->setDown(false);
 
     if (Diaporama->ProjectFileName=="") s_action_SaveAs(); else {
-        StatusBarList.append(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
-        s_TimerEvent();
-        QApplication::processEvents();
-        if (Diaporama->SaveFile(this)) SetModifyFlag(false);
-        StatusBarList.append("");
-        s_TimerEvent();
-        QApplication::processEvents();
+        ToStatusBar(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
+        QTimer::singleShot(500,this,SLOT(s_DoSaveFile()));
     }
+}
+
+//====================================================================================================================
+void MainWindow::s_DoSaveFile() {
+    if (Diaporama->SaveFile(this)) SetModifyFlag(false);
+    ToStatusBar("");
 }
 
 //====================================================================================================================
@@ -1125,13 +1104,8 @@ void MainWindow::s_action_SaveAs() {
         }
         ApplicationConfig->RecentFile.append(Diaporama->ProjectFileName);
         while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
-        StatusBarList.append(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
-        s_TimerEvent();
-        QApplication::processEvents();
-        if (Diaporama->SaveFile(this)) SetModifyFlag(false);
-        StatusBarList.append("");
-        s_TimerEvent();
-        QApplication::processEvents();
+        ToStatusBar(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
+        QTimer::singleShot(500,this,SLOT(s_DoSaveFile()));
     }
 }
 
@@ -1195,210 +1169,212 @@ void MainWindow::s_action_AddFile() {
     ui->ActionAdd_BT->setDown(false);
     ui->ActionAdd_BT_2->setDown(false);
 
-    QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add files"),
+    FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add files"),
                                                        ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
                                                        ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
-    QApplication::processEvents();
-    if (FileList.count()==0) return;
+    if (FileList.count()>0) {
 
-    // Calc position of new object depending on ApplicationConfig->AppendObject
-    int SavedCurIndex=0;
-    int CurIndex     =0;
+        // Calc position of new object depending on ApplicationConfig->AppendObject
 
-    if (ApplicationConfig->AppendObject) {
-        SavedCurIndex   =Diaporama->List.count();
-        CurIndex        =Diaporama->List.count();
-    } else {
-        SavedCurIndex=Diaporama->CurrentCol;
-        CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
-        if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
+        if (ApplicationConfig->AppendObject) {
+            SavedCurIndex   =Diaporama->List.count();
+            CurIndex        =Diaporama->List.count();
+        } else {
+            SavedCurIndex=Diaporama->CurrentCol;
+            CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
+            if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
+        }
+
+        // Sort files in the fileList
+        if (Diaporama->ApplicationConfig->SortFile) {
+            // Sort by last number
+            for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
+                QString NameA=QFileInfo(FileList[j]).completeBaseName();
+                int NumA=NameA.length()-1;
+                while ((NumA>0)&&(NameA[NumA]>='0')&&(NameA[NumA]<='9')) NumA--;
+                if (NumA>=0) NumA=NameA.mid(NumA+1).toInt();
+
+                QString NameB=QFileInfo(FileList[j+1]).completeBaseName();
+                int NumB=NameB.length()-1;
+                while ((NumB>0)&&(NameB[NumB]>='0')&&(NameB[NumB]<='9')) NumB--;
+                if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
+
+                if (NumA>NumB) FileList.swap(j,j+1);
+            }
+        } else {
+            // Sort by alphabetical order
+            for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
+                if (QFileInfo(FileList[j]).completeBaseName()>QFileInfo(FileList[j+1]).completeBaseName()) FileList.swap(j,j+1);
+            }
+        }
+
+        ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
+        QTimer::singleShot(500,this,SLOT(s_action_DoAddFile()));
     }
-    AddFiles(FileList,SavedCurIndex,CurIndex);
 }
 
-void MainWindow::AddFiles(QStringList &FileList,int SavedCurIndex,int CurIndex) {
+void MainWindow::s_action_DoAddDragAndDropFile() {
+    QTimer::singleShot(500,this,SLOT(s_action_DoAddFile()));
+}
+
+void MainWindow::s_action_DoAddFile() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    // Sort files in the fileList
-    if (Diaporama->ApplicationConfig->SortFile) {
-        // Sort by last number
-        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
-            QString NameA=QFileInfo(FileList[j]).completeBaseName();
-            int NumA=NameA.length()-1;
-            while ((NumA>0)&&(NameA[NumA]>='0')&&(NameA[NumA]<='9')) NumA--;
-            if (NumA>=0) NumA=NameA.mid(NumA+1).toInt();
-
-            QString NameB=QFileInfo(FileList[j+1]).completeBaseName();
-            int NumB=NameB.length()-1;
-            while ((NumB>0)&&(NameB[NumB]>='0')&&(NameB[NumB]<='9')) NumB--;
-            if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
-
-            if (NumA>NumB) FileList.swap(j,j+1);
-        }
-    } else {
-        // Sort by alphabetical order
-        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
-            if (QFileInfo(FileList[j]).completeBaseName()>QFileInfo(FileList[j+1]).completeBaseName()) FileList.swap(j,j+1);
-        }
-    }
-
     // Add files
-    for (int i=0;i<FileList.count();i++) {
-        QString NewFile=FileList[i];
-        if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
+    QString NewFile=FileList.takeFirst();
+    if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
-        Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
-        cDiaporamaObject *DiaporamaObject=&Diaporama->List[CurIndex];
-        DiaporamaObject->List[0].Parent        =DiaporamaObject;
-        DiaporamaObject->List[0].StaticDuration=GlobalMainWindow->ApplicationConfig->NoShotDuration;
-        DiaporamaObject->Parent                =Diaporama;
-        DiaporamaObject->TypeObject            =DIAPORAMAOBJECTTYPE_EMPTY;
+    Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
+    cDiaporamaObject *DiaporamaObject=&Diaporama->List[CurIndex];
+    DiaporamaObject->List[0].Parent        =DiaporamaObject;
+    DiaporamaObject->List[0].StaticDuration=GlobalMainWindow->ApplicationConfig->NoShotDuration;
+    DiaporamaObject->Parent                =Diaporama;
+    DiaporamaObject->TypeObject            =DIAPORAMAOBJECTTYPE_EMPTY;
 
-        // Create and append a composition block to the object list
-        DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
-        cCompositionObject *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-        cBrushDefinition   *CurrentBrush=&CompositionObject->BackgroundBrush;
+    // Create and append a composition block to the object list
+    DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
+    cCompositionObject *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+    cBrushDefinition   *CurrentBrush=&CompositionObject->BackgroundBrush;
 
-        // Set CompositionObject to full screen
-        CompositionObject->x=0;
-        CompositionObject->y=0;
-        CompositionObject->w=1;
-        CompositionObject->h=1;
+    // Set CompositionObject to full screen
+    CompositionObject->x=0;
+    CompositionObject->y=0;
+    CompositionObject->w=1;
+    CompositionObject->h=1;
 
-        // Set other values
-        CompositionObject->Text     ="";
-        CompositionObject->PenSize  =0;
-        CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
-        DiaporamaObject->SlideName  =QFileInfo(NewFile).fileName();
+    // Set other values
+    CompositionObject->Text     ="";
+    CompositionObject->PenSize  =0;
+    CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
+    DiaporamaObject->SlideName  =QFileInfo(NewFile).fileName();
 
-        QString BrushFileName =QFileInfo(NewFile).absoluteFilePath();
+    QString BrushFileName =QFileInfo(NewFile).absoluteFilePath();
 
-        bool    IsValide =false;
-        QString Extension=QFileInfo(BrushFileName).suffix().toLower();
+    bool    IsValide =false;
+    QString Extension=QFileInfo(BrushFileName).suffix().toLower();
 
-        // Search if file is an image
-        QStringList AliasList;
-        for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
-            // Create an image wrapper
-            CurrentBrush->Image=new cimagefilewrapper();
-            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,AliasList);
-            if (!IsValide) {
-                delete CurrentBrush->Image;
-                CurrentBrush->Image=NULL;
-            }
-            break;
+    // Search if file is an image
+    QStringList AliasList;
+    for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
+        // Create an image wrapper
+        CurrentBrush->Image=new cimagefilewrapper();
+        IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,AliasList);
+        if (!IsValide) {
+            delete CurrentBrush->Image;
+            CurrentBrush->Image=NULL;
         }
-        // If it's not an image : search if file is a video
-        if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
-            // Create a video wrapper
-            CurrentBrush->Video=new cvideofilewrapper();
-            IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false,AliasList);
-            if (!IsValide) {
-                delete CurrentBrush->Video;
-                CurrentBrush->Video=NULL;
-            } else {
-                CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
-                DiaporamaObject->List[0].StaticDuration=1000;
-            }
-            break;
+        break;
+    }
+    // If it's not an image : search if file is a video
+    if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
+        // Create a video wrapper
+        CurrentBrush->Video=new cvideofilewrapper();
+        IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false,AliasList);
+        if (!IsValide) {
+            delete CurrentBrush->Video;
+            CurrentBrush->Video=NULL;
+        } else {
+            CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
+            DiaporamaObject->List[0].StaticDuration=1000;
         }
-        if (IsValide) {
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform,CurrentBrush->BrushFileCorrect.Smoothing):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
-                           NULL);
-            if (Image) {
+        break;
+    }
+    if (IsValide) {
+        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing):
+                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
+                       NULL);
+        if (Image) {
 
-                // Apply Styles
-                CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST)));
-                CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST)));
-                // Force filtering for CoordinateStyle
-                ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(Diaporama->ImageGeometry,CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry);
-                CompositionObject->ApplyCoordinateStyle(ApplicationConfig->StyleCoordinateCollection.GetStyleDef(ApplicationConfig->StyleCoordinateCollection.DecodeString(
-                    ApplicationConfig->DefaultBlockSL_IMG_CoordST[CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry][Diaporama->ImageGeometry])));
+            // Apply Styles
+            CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST)));
+            CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST)));
+            // Force filtering for CoordinateStyle
+            ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(Diaporama->ImageGeometry,CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry);
+            CompositionObject->ApplyCoordinateStyle(ApplicationConfig->StyleCoordinateCollection.GetStyleDef(ApplicationConfig->StyleCoordinateCollection.DecodeString(
+                ApplicationConfig->DefaultBlockSL_IMG_CoordST[CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry][Diaporama->ImageGeometry])));
 
-                // Special case for nonstandard image => force to image geometry constraint and adapt frame coordinates
-                if ((CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry)==IMAGE_GEOMETRY_UNKNOWN) {
-                    double ImageGeometry=1;
-                    double ProjectGeometry=1;
-                    double NewW,NewH;
+            // Special case for nonstandard image => force to image geometry constraint and adapt frame coordinates
+            if ((CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry)==IMAGE_GEOMETRY_UNKNOWN) {
+                double ImageGeometry=1;
+                double ProjectGeometry=1;
+                double NewW,NewH;
 
-                    switch (GlobalMainWindow->Diaporama->ImageGeometry) {
-                        case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
-                        case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
-                        case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
+                switch (GlobalMainWindow->Diaporama->ImageGeometry) {
+                    case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
+                    case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
+                    case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
 
-                    }
-                    ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
-                    switch (DiaporamaObject->Parent->ApplicationConfig->DefaultBlockBA_CLIPARTLOCK[DiaporamaObject->Parent->ImageGeometry]) {
-                        case 0 :    // Adjust to Full in lock to image geometry mode
-                            ImageGeometry=1;
-                            if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
-                                else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
-                            CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                            CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
-                            NewW=CompositionObject->w*GlobalMainWindow->Diaporama->InternalWidth;
-                            NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
+                }
+                ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+                switch (DiaporamaObject->Parent->ApplicationConfig->DefaultBlockSL_CLIPARTLOCK[DiaporamaObject->Parent->ImageGeometry]) {
+                    case 0 :    // Adjust to Full in lock to image geometry mode
+                        ImageGeometry=1;
+                        if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
+                            else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
+                        CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
+                        CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
+                        NewW=CompositionObject->w*GlobalMainWindow->Diaporama->InternalWidth;
+                        NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
+                        NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
+                        NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+                        if (NewH>1) {
+                            NewH=CompositionObject->h*GlobalMainWindow->Diaporama->InternalHeight;
+                            NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
                             NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
                             NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
-                            if (NewH>1) {
-                                NewH=CompositionObject->h*GlobalMainWindow->Diaporama->InternalHeight;
-                                NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
-                                NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
-                                NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
-                            }
-                            CompositionObject->w=NewW;
-                            CompositionObject->h=NewH;
-                            break;
-                        case 1 :    // Lock to project geometry - To full
-                            ImageGeometry=ProjectGeometry;
-                            CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                            CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
-                            break;
-                        case 2 :    // Lock to project geometry - To width
-                            ImageGeometry=ProjectGeometry;
-                            CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                            CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingW);
-                            break;
-                        case 3 :    // Lock to project geometry - To height
-                            ImageGeometry=ProjectGeometry;
-                            CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                            CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingH);
-                            break;
-                    }
+                        }
+                        CompositionObject->w=NewW;
+                        CompositionObject->h=NewH;
+                        break;
+                    case 1 :    // Lock to project geometry - To full
+                        ImageGeometry=ProjectGeometry;
+                        CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
+                        CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
+                        break;
+                    case 2 :    // Lock to project geometry - To width
+                        ImageGeometry=ProjectGeometry;
+                        CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
+                        CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingW);
+                        break;
+                    case 3 :    // Lock to project geometry - To height
+                        ImageGeometry=ProjectGeometry;
+                        CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
+                        CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingH);
+                        break;
                 }
-                delete Image;
             }
-
-            // Now create and append a shot composition block to all shot
-            for (int i=0;i<DiaporamaObject->List.count();i++) {
-                DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
-                DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(CompositionObject);
-            }
-
-            // Inc NextIndexKey
-            DiaporamaObject->NextIndexKey++;
-
-            if (Diaporama->ApplicationConfig->RandomTransition) {
-                qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
-                int Random=qrand();
-                Random=int(double(IconList.List.count())*(double(Random)/double(RAND_MAX)));
-                if (Random<IconList.List.count()) {
-                    Diaporama->List[CurIndex].TransitionFamilly=IconList.List[Random].TransitionFamilly;
-                    Diaporama->List[CurIndex].TransitionSubType=IconList.List[Random].TransitionSubType;
-                }
-            } else {
-                Diaporama->List[CurIndex].TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
-                Diaporama->List[CurIndex].TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
-            }
-            Diaporama->List[CurIndex].TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
-            AddObjectToTimeLine(CurIndex);
-            CurIndex++;
-            SetModifyFlag(true);
-
-        } else {
-            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+QApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
-            Diaporama->List.removeAt(CurIndex);
+            delete Image;
         }
+
+        // Now create and append a shot composition block to all shot
+        for (int i=0;i<DiaporamaObject->List.count();i++) {
+            DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
+            DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(CompositionObject);
+        }
+
+        // Inc NextIndexKey
+        DiaporamaObject->NextIndexKey++;
+
+        if (Diaporama->ApplicationConfig->RandomTransition) {
+            qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
+            int Random=qrand();
+            Random=int(double(IconList.List.count())*(double(Random)/double(RAND_MAX)));
+            if (Random<IconList.List.count()) {
+                Diaporama->List[CurIndex].TransitionFamilly=IconList.List[Random].TransitionFamilly;
+                Diaporama->List[CurIndex].TransitionSubType=IconList.List[Random].TransitionSubType;
+            }
+        } else {
+            Diaporama->List[CurIndex].TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
+            Diaporama->List[CurIndex].TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
+        }
+        Diaporama->List[CurIndex].TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
+        AddObjectToTimeLine(CurIndex);
+        CurIndex++;
+        SetModifyFlag(true);
+
+    } else {
+        QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+QApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
+        Diaporama->List.removeAt(CurIndex);
     }
 
     // Set current selection to first new object
@@ -1407,6 +1383,11 @@ void MainWindow::AddFiles(QStringList &FileList,int SavedCurIndex,int CurIndex) 
     // Set title flag
     AdjustRuller();
     QApplication::restoreOverrideCursor();
+
+    if (FileList.count()>0) {
+        ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
+        QTimer::singleShot(500,this,SLOT(s_action_DoAddFile()));
+    } else ToStatusBar("");
 }
 
 //====================================================================================================================
@@ -1423,16 +1404,21 @@ void MainWindow::s_action_AddProject() {
     ui->ActionAddProject_BT->setDown(false);
     ui->ActionAddProject_BT_2->setDown(false);
 
-    QApplication::processEvents();
     QString ProjectFileName=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
     if (ProjectFileName!="") {
-        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-        ApplicationConfig->LastProjectPath=QFileInfo(ProjectFileName).dir().absolutePath();
-        Diaporama->AppendFile(this,ProjectFileName);  // Append file
-        SetModifyFlag(true);
-        AdjustRuller();
-        QApplication::restoreOverrideCursor();
+        ToStatusBar(QApplication::translate("MainWindow","Add project file :")+QFileInfo(ProjectFileName).fileName());
+        FileForIO=ProjectFileName;
+        QTimer::singleShot(500,this,SLOT(s_action_DoAddProject()));
     }
+}
+
+void MainWindow::s_action_DoAddProject() {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    ApplicationConfig->LastProjectPath=QFileInfo(FileForIO).dir().absolutePath();
+    Diaporama->AppendFile(this,FileForIO);  // Append file
+    SetModifyFlag(true);
+    AdjustRuller();
+    QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================

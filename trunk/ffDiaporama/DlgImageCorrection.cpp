@@ -38,7 +38,7 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,in
 #endif
 
     if (CurrentBrush->Image) {
-        CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL,CurrentBrush->BrushFileCorrect.Smoothing);
+        CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL,GlobalMainWindow->ApplicationConfig->Smoothing);
         GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentBrush->Image->ObjectGeometry);
      } else if (CurrentBrush->Video) {
         CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
@@ -313,7 +313,7 @@ void DlgImageCorrection::reject() {
             else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(UndoBrushFileName,false,AliasList);
         delete CachedImage;
         CachedImage=NULL;
-        if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL,CurrentBrush->BrushFileCorrect.Smoothing);
+        if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL,GlobalMainWindow->ApplicationConfig->Smoothing);
             else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
     }
 
@@ -563,7 +563,7 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
 
     delete CachedImage;
     CachedImage=NULL;
-    if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL,CurrentBrush->BrushFileCorrect.Smoothing);
+    if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL,GlobalMainWindow->ApplicationConfig->Smoothing);
         else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
 
     UndoReloadImage=true;
@@ -664,7 +664,7 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     if (BrushFileCorrect->ImageRotation!=0) {
         QTransform matrix;
         matrix.rotate(BrushFileCorrect->ImageRotation,Qt::ZAxis);
-        SourceImage=new QImage(CachedImage->transformed(matrix,BrushFileCorrect->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+        SourceImage=new QImage(CachedImage->transformed(matrix,GlobalMainWindow->ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
 
     // If no rotation then SourceImage=CachedImage
     } else SourceImage=CachedImage;

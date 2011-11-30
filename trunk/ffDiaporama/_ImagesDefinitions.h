@@ -64,7 +64,6 @@ public:
     int         Blue;                   // Blue adjustment
     bool        LockGeometry;           // True if geometry is locked
     double      AspectRatio;            // Aspect Ratio of image
-    bool        Smoothing;              // Use Qt::Smooth instead of Qt::Fast
     bool        FullFilling;            // Background image disk only : If true aspect ratio is not keep and image is deformed to fill the frame
 
     cFilterCorrectObject();
@@ -73,7 +72,7 @@ public:
     void        SaveToXML(QDomElement &domDocument,QString ElementName);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName);
 
-    QImage      *GetImage(QImage *SourceImage,int Width,int Height,double PCTDone,cFilterCorrectObject *PreviousFilter);
+    QImage      *GetImage(QImage *SourceImage,int Width,int Height,double PCTDone,cFilterCorrectObject *PreviousFilter,bool Smoothing);
 };
 
 //*********************************************************************************************************************************************

@@ -55,8 +55,7 @@ bool cimagefilewrapper::CallEXIF() {
     bool      ExifOK=true;
 
     // start exiv2
-    //GlobalMainWindow->StatusBarList.append(QApplication::translate("MainWindow","Analyse file with EXIV2 :")+QFileInfo(FileName).fileName());
-    GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Analyse file with EXIV2 :")+QFileInfo(FileName).fileName());
+    qDebug()<<QApplication::translate("MainWindow","Analyse file with EXIV2 :")+QFileInfo(FileName).fileName();
 
     Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pa \""+FileName+"\"";
     Commande = AdjustDirForOS(Commande);
@@ -185,7 +184,7 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName,QStringList
     cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName,&BrushFileTransform,true,false);
     if (ImageObject) {
         ImageObject->ClearAll();    // Clear all cached images
-        if (ImageObject->ImageOrientation==0) CallEXIF();
+        if (ImageObject->ImageOrientation==-1) CallEXIF();
     }
     return IsValide;
 }

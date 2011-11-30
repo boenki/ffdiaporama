@@ -93,7 +93,7 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
 
         // Image size
         InitImageSizeCombo(0);
-        ui->ImageSizeCombo->setCurrentIndex(Diaporama->ApplicationConfig->DefaultImageSize);
+        ui->ImageSizeCombo->setCurrentIndex(ui->ImageSizeCombo->findText(DefImageFormat[Diaporama->ApplicationConfig->DefaultStandard][Diaporama->ImageGeometry][Diaporama->ApplicationConfig->DefaultImageSize].Name));
         connect(ui->ImageSizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
 
         // codec(s) & bitrate(s)
@@ -218,7 +218,20 @@ void DlgRenderVideo::InitImageSizeCombo(int) {
     int Standard=ui->StandardCombo->currentIndex();
     int ImageSize=ui->ImageSizeCombo->currentIndex();
     ui->ImageSizeCombo->clear();
-    for (int i=0;i<NBR_SIZEDEF;i++) ui->ImageSizeCombo->addItem(DefImageFormat[Standard][Geometry][i].Name);
+    QStringList List;
+    for (int i=0;i<NBR_SIZEDEF;i++) List.append(QString("%1:%2#####%3").arg(DefImageFormat[Standard][Geometry][i].Name).arg(ORDERIMAGENAME[i]).arg(i));
+    // Sort List
+    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
+        QString StrA=List[j].mid(List[j].lastIndexOf(":")+1);       StrA=StrA.left(StrA.indexOf("#"));
+        QString StrB=List[j+1].mid(List[j+1].lastIndexOf(":")+1);   StrB=StrB.left(StrB.indexOf("#"));
+        if (StrA.toInt()>StrB.toInt()) List.swap(j,j+1);
+    }
+    // Fill combo
+    for (int i=0;i<List.count();i++) {
+        QString Codec=List[i].left(List[i].indexOf("#####")); Codec=Codec.left(Codec.lastIndexOf(":"));
+        int Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
+        ui->ImageSizeCombo->addItem(Codec,QVariant(Index));
+    }
     ui->ImageSizeCombo->setCurrentIndex(ImageSize);
 }
 
@@ -259,8 +272,9 @@ void DlgRenderVideo::FileFormatCombo(int) {
     int         CurrentFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
     QString     AllowedCodec=FORMATDEF[CurrentFormat].PossibleVideoCodec;
     QString     Codec="";
+    QString     ToSelect="";
+    QStringList List;
     int         Index=0;
-    bool        IsFindCodec=false;
     while (AllowedCodec.length()>0) {
         Index=AllowedCodec.indexOf("#");
         if (Index>0) {
@@ -274,21 +288,29 @@ void DlgRenderVideo::FileFormatCombo(int) {
         Index=0;
         while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
         if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) {
-            ui->VideoFormatCB->addItem(VIDEOCODECDEF[Index].LongName,QVariant(Index));
-            if (Codec==QString(VideoCodec)) {
-                ui->VideoFormatCB->setCurrentIndex(ui->VideoFormatCB->count()-1);
-                IsFindCodec=true;
-            }
+            List.append(QString("%1#####%2").arg(VIDEOCODECDEF[Index].LongName).arg(Index));
+            if (Codec==QString(VideoCodec)) ToSelect=QString(VIDEOCODECDEF[Index].LongName);
         }
     }
-    if (!IsFindCodec) ui->VideoFormatCB->setCurrentIndex(0);
+    // Sort List
+    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j]>List[j+1]) List.swap(j,j+1);
+    // Fill combo
+    for (int i=0;i<List.count();i++) {
+        Codec=List[i].left(List[i].indexOf("#####"));
+        Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
+        ui->VideoFormatCB->addItem(Codec,QVariant(Index));
+    }
+    // Set current selection
+    if (ui->VideoFormatCB->findText(ToSelect)!=-1) ui->VideoFormatCB->setCurrentIndex(ui->VideoFormatCB->findText(ToSelect));
+        else ui->VideoFormatCB->setCurrentIndex(0);
     ui->VideoFormatCB->setEnabled(ui->VideoFormatCB->count()>0);
 
     //********* Audio codec part
     AllowedCodec=FORMATDEF[CurrentFormat].PossibleAudioCodec;
     Codec="";
     Index=0;
-    IsFindCodec=false;
+    ToSelect="";
+    List.clear();
     while (AllowedCodec.length()>0) {
         Index=AllowedCodec.indexOf("#");
         if (Index>0) {
@@ -302,14 +324,21 @@ void DlgRenderVideo::FileFormatCombo(int) {
         Index=0;
         while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
         if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) {
-            ui->AudioFormatCB->addItem(AUDIOCODECDEF[Index].LongName,QVariant(Index));
-            if (Codec==QString(AudioCodec)) {
-                ui->AudioFormatCB->setCurrentIndex(ui->AudioFormatCB->count()-1);
-                IsFindCodec=true;
-            }
+            List.append(QString("%1#####%2").arg(AUDIOCODECDEF[Index].LongName).arg(Index));
+            if (Codec==QString(AudioCodec)) ToSelect=QString(AUDIOCODECDEF[Index].LongName);
         }
     }
-    if (!IsFindCodec) ui->AudioFormatCB->setCurrentIndex(0);
+    // Sort List
+    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j]>List[j+1]) List.swap(j,j+1);
+    // Fill combo
+    for (int i=0;i<List.count();i++) {
+        Codec=List[i].left(List[i].indexOf("#####"));
+        Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
+        ui->AudioFormatCB->addItem(Codec,QVariant(Index));
+    }
+    // Set current selection
+    if (ui->AudioFormatCB->findText(ToSelect)!=-1) ui->AudioFormatCB->setCurrentIndex(ui->AudioFormatCB->findText(ToSelect));
+        else ui->AudioFormatCB->setCurrentIndex(0);
     ui->AudioFormatCB->setEnabled(ui->AudioFormatCB->count()>0);
 }
 
@@ -318,7 +347,7 @@ void DlgRenderVideo::FileFormatCombo(int) {
 void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
     ui->VideoBitRateCB->clear();
     int CurrentCodec=ui->VideoFormatCB->currentIndex();
-    int CurrentSize =ui->ImageSizeCombo->currentIndex();
+    int CurrentSize =ui->ImageSizeCombo->itemData(ui->ImageSizeCombo->currentIndex()).toInt();
     if (CurrentCodec>=0) {
         CurrentCodec=ui->VideoFormatCB->itemData(CurrentCodec).toInt();
 
@@ -450,7 +479,7 @@ void DlgRenderVideo::showEvent(QShowEvent *ev) {
 void DlgRenderVideo::reject() {
     if (IsDestFileOpen) {
         StopProcessWanted=true;
-        GlobalMainWindow->SetTempStatusText(QApplication::translate("DlgRenderVideo","Stop rendering"));
+        qDebug()<<QApplication::translate("DlgRenderVideo","Stop rendering");
     } else {
         // Save Window size and position
         Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);
@@ -505,7 +534,7 @@ void DlgRenderVideo::accept() {
 
     if (IsDestFileOpen) {
         StopProcessWanted=true;
-        GlobalMainWindow->SetTempStatusText(QApplication::translate("DlgRenderVideo","Stop rendering"));
+        qDebug()<<QApplication::translate("DlgRenderVideo","Stop rendering");
     } else {
         RenderedFrame=0;
         int FromSlide=(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneFromED->value()-1:0;
@@ -544,10 +573,10 @@ void DlgRenderVideo::accept() {
 
         if (ExportMode==EXPORTMODE_ADVANCED) {
             Standard =ui->StandardCombo->currentIndex();
-            ImageSize=ui->ImageSizeCombo->currentIndex();
+            ImageSize=ui->ImageSizeCombo->itemData(ui->ImageSizeCombo->currentIndex()).toInt();
 
             OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
-            VideoFrameRate  =DefImageFormat[ui->StandardCombo->currentIndex()][ui->GeometryCombo->currentIndex()][ui->ImageSizeCombo->currentIndex()].dFPS;
+            VideoFrameRate  =DefImageFormat[ui->StandardCombo->currentIndex()][ui->GeometryCombo->currentIndex()][ImageSize].dFPS;
             // Video codec
             VideoCodecIndex=ui->VideoFormatCB->currentIndex();
             if (VideoCodecIndex<0) {
@@ -640,7 +669,7 @@ void DlgRenderVideo::accept() {
         TempWAVFileName=TempWAVFileName+"temp.wav";
 
         StartTime=QTime::currentTime();                                  // Display control : time the process start
-        GlobalMainWindow->SetTempStatusText(QApplication::translate("DlgRenderVideo","Encoding sound"));
+        qDebug()<<QApplication::translate("DlgRenderVideo","Encoding sound");
         Continue=WriteTempAudioFile(TempWAVFileName,FromSlide);
 
         //**********************************************************************************************************************************
@@ -732,7 +761,7 @@ void DlgRenderVideo::accept() {
             }
 
             if (Continue) {
-                GlobalMainWindow->SetTempStatusText(QApplication::translate("DlgRenderVideo","Start ffmpeg encoder"));
+                qDebug()<<QApplication::translate("DlgRenderVideo","Start ffmpeg encoder");
                 int GeoW=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARNUM;
                 int GeoH=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARDEN;
                 #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
@@ -873,7 +902,7 @@ void DlgRenderVideo::accept() {
             // Clean PreviousFrame
             if (PreviousFrame!=NULL) delete PreviousFrame;
 
-            GlobalMainWindow->SetTempStatusText(QApplication::translate("DlgRenderVideo","Closing encoder"));
+            qDebug()<<QApplication::translate("DlgRenderVideo","Closing encoder");
 
             // Close the pipe to stop ffmpeg process
             Process.closeWriteChannel();
