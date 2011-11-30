@@ -2735,7 +2735,7 @@ and help</string>
        </widget>
       </item>
       <item>
-       <widget class="cCustomLabel" name="StatusBar">
+       <widget class="QLabel" name="StatusBar_General">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -2748,8 +2748,11 @@ and help</string>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
+        <property name="lineWidth">
+         <number>2</number>
+        </property>
         <property name="text">
-         <string notr="true"/>
+         <string notr="true">Statusbar</string>
         </property>
        </widget>
       </item>
@@ -2981,11 +2984,6 @@ and help</string>
    <class>cCustomTableWidget</class>
    <extends>QTableWidget</extends>
    <header>cCustomTableWidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cCustomLabel</class>
-   <extends>QLabel</extends>
-   <header>cCustomComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

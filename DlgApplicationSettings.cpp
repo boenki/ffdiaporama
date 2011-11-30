@@ -58,6 +58,7 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     if (FPS.endsWith('.')) FPS=FPS.left(FPS.length()-1);
     ui->PreviewFrameRateCB->setCurrentIndex(ui->PreviewFrameRateCB->findText(FPS));
     ui->ApplyTransfoDuringPreviewCB->setChecked(ApplicationConfig->ApplyTransfoPreview);
+    ui->SmoothImageDuringPreviewCB->setChecked(ApplicationConfig->Smoothing);
 
     // Editor options
     ui->UnitCB->setCurrentIndex(ApplicationConfig->DisplayUnit);
@@ -169,7 +170,7 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     if (ui->FileFormatCB->currentIndex()<0) ui->FileFormatCB->setCurrentIndex(0);
     // Image size & standard
     ui->StandardCombo->setCurrentIndex(ApplicationConfig->DefaultStandard);
-    ui->SizeCombo->setCurrentIndex(ApplicationConfig->DefaultImageSize);
+    ui->SizeCombo->setCurrentIndex(ui->SizeCombo->findText(DefImageFormat[ApplicationConfig->DefaultStandard][ApplicationConfig->ImageGeometry][ApplicationConfig->DefaultImageSize].Name));
     // codec(s) & bitrate(s)
     FileFormatCombo(-1);     // For first initialisation : ChangeIndex=-1
     connect(ui->StandardCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
@@ -309,6 +310,7 @@ void DlgApplicationSettings::accept() {
 
     // Preview Options part
     ApplicationConfig->ApplyTransfoPreview      =ui->ApplyTransfoDuringPreviewCB->isChecked();
+    ApplicationConfig->Smoothing                =ui->SmoothImageDuringPreviewCB->isChecked();
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
 
     switch (ui->MemCacheProfilCB->currentIndex()) {
@@ -367,7 +369,7 @@ void DlgApplicationSettings::accept() {
 
     // RenderDefault part
     ApplicationConfig->DefaultStandard          =ui->StandardCombo->currentIndex();
-    ApplicationConfig->DefaultImageSize         =ui->SizeCombo->currentIndex();
+    ApplicationConfig->DefaultImageSize         =ui->SizeCombo->itemData(ui->SizeCombo->currentIndex()).toInt();
     ApplicationConfig->DefaultFormat            =ui->FileFormatCB->currentIndex();
     if (ApplicationConfig->DefaultFormat>=0) ApplicationConfig->DefaultFormat=ui->FileFormatCB->itemData(ApplicationConfig->DefaultFormat).toInt(); else ApplicationConfig->DefaultFormat=0;
     int Codec=ui->VideoFormatCB->currentIndex();
@@ -429,7 +431,20 @@ void DlgApplicationSettings::InitImageSizeCombo(int) {
     int Standard=ui->StandardCombo->currentIndex();
     int ImageSize=ui->SizeCombo->currentIndex();
     ui->SizeCombo->clear();
-    for (int i=0;i<NBR_SIZEDEF;i++) ui->SizeCombo->addItem(DefImageFormat[Standard][Geometry][i].Name);
+    QStringList List;
+    for (int i=0;i<NBR_SIZEDEF;i++) List.append(QString("%1:%2#####%3").arg(DefImageFormat[Standard][Geometry][i].Name).arg(ORDERIMAGENAME[i]).arg(i));
+    // Sort List
+    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
+        QString StrA=List[j].mid(List[j].lastIndexOf(":")+1);       StrA=StrA.left(StrA.indexOf("#"));
+        QString StrB=List[j+1].mid(List[j+1].lastIndexOf(":")+1);   StrB=StrB.left(StrB.indexOf("#"));
+        if (StrA.toInt()>StrB.toInt()) List.swap(j,j+1);
+    }
+    // Fill combo
+    for (int i=0;i<List.count();i++) {
+        QString Codec=List[i].left(List[i].indexOf("#####")); Codec=Codec.left(Codec.lastIndexOf(":"));
+        int Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
+        ui->SizeCombo->addItem(Codec,QVariant(Index));
+    }
     ui->SizeCombo->setCurrentIndex(ImageSize);
 }
 
@@ -443,8 +458,9 @@ void DlgApplicationSettings::FileFormatCombo(int ChangeIndex) {
     int         CurrentFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
     QString     AllowedCodec=FORMATDEF[CurrentFormat].PossibleVideoCodec;
     QString     Codec="";
+    QString     ToSelect="";
+    QStringList List;
     int         Index=0;
-    bool        IsFindCodec=false;
     while (AllowedCodec.length()>0) {
         Index=AllowedCodec.indexOf("#");
         if (Index>0) {
@@ -458,21 +474,29 @@ void DlgApplicationSettings::FileFormatCombo(int ChangeIndex) {
         Index=0;
         while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
         if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) {
-            ui->VideoFormatCB->addItem(VIDEOCODECDEF[Index].LongName,QVariant(Index));
-            if (Codec==QString(ApplicationConfig->DefaultVideoCodec)) {
-                ui->VideoFormatCB->setCurrentIndex(ui->VideoFormatCB->count()-1);
-                IsFindCodec=true;
-            }
+            List.append(QString("%1#####%2").arg(VIDEOCODECDEF[Index].LongName).arg(Index));
+            if (Codec==QString(ApplicationConfig->DefaultVideoCodec)) ToSelect=QString(VIDEOCODECDEF[Index].LongName);
         }
     }
-    if (!IsFindCodec) ui->VideoFormatCB->setCurrentIndex(0);
+    // Sort List
+    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j]>List[j+1]) List.swap(j,j+1);
+    // Fill combo
+    for (int i=0;i<List.count();i++) {
+        Codec=List[i].left(List[i].indexOf("#####"));
+        Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
+        ui->VideoFormatCB->addItem(Codec,QVariant(Index));
+    }
+    // Set current selection
+    if (ui->VideoFormatCB->findText(ToSelect)!=-1) ui->VideoFormatCB->setCurrentIndex(ui->VideoFormatCB->findText(ToSelect));
+        else ui->VideoFormatCB->setCurrentIndex(0);
     ui->VideoFormatCB->setEnabled(ui->VideoFormatCB->count()>0);
 
     //********* Audio codec part
     AllowedCodec=FORMATDEF[CurrentFormat].PossibleAudioCodec;
     Codec="";
     Index=0;
-    IsFindCodec=false;
+    ToSelect="";
+    List.clear();
     while (AllowedCodec.length()>0) {
         Index=AllowedCodec.indexOf("#");
         if (Index>0) {
@@ -486,112 +510,24 @@ void DlgApplicationSettings::FileFormatCombo(int ChangeIndex) {
         Index=0;
         while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
         if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) {
-            ui->AudioFormatCB->addItem(AUDIOCODECDEF[Index].LongName,QVariant(Index));
-            if (Codec==QString(ApplicationConfig->DefaultAudioCodec)) {
-                ui->AudioFormatCB->setCurrentIndex(ui->AudioFormatCB->count()-1);
-                IsFindCodec=true;
-            }
+            List.append(QString("%1#####%2").arg(AUDIOCODECDEF[Index].LongName).arg(Index));
+            if (Codec==QString(ApplicationConfig->DefaultAudioCodec)) ToSelect=QString(AUDIOCODECDEF[Index].LongName);
         }
     }
-    if (!IsFindCodec) ui->AudioFormatCB->setCurrentIndex(0);
+    // Sort List
+    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j]>List[j+1]) List.swap(j,j+1);
+    // Fill combo
+    for (int i=0;i<List.count();i++) {
+        Codec=List[i].left(List[i].indexOf("#####"));
+        Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
+        ui->AudioFormatCB->addItem(Codec,QVariant(Index));
+    }
+    // Set current selection
+    if (ui->AudioFormatCB->findText(ToSelect)!=-1) ui->AudioFormatCB->setCurrentIndex(ui->AudioFormatCB->findText(ToSelect));
+        else ui->AudioFormatCB->setCurrentIndex(0);
     ui->AudioFormatCB->setEnabled(ui->AudioFormatCB->count()>0);
     InitVideoBitRateCB(ChangeIndex);
     InitAudioBitRateCB(ChangeIndex);
-}
-
-//====================================================================================================================
-
-void DlgApplicationSettings::InitVideoBitRateCB(int ChangeIndex) {
-    ui->VideoBitRateCB->clear();
-    int CurrentCodec=ui->VideoFormatCB->currentIndex();
-    int CurrentSize =ui->SizeCombo->currentIndex();
-    if (CurrentCodec>=0) {
-        CurrentCodec=ui->VideoFormatCB->itemData(CurrentCodec).toInt();
-
-        QString     AllowedBitRate=FORMATDEF[ui->FileFormatCB->currentIndex()].PossibleVideoCodec;
-        QString     BitRate="";
-        int         Index=0;
-        bool        IsFindBitRate=false;
-        AllowedBitRate=VIDEOCODECDEF[CurrentCodec].PossibleBitrate;
-        BitRate="";
-        Index=0;
-        IsFindBitRate=false;
-        QStringList List;
-        while (AllowedBitRate.length()>0) {
-            Index=AllowedBitRate.indexOf("#");
-            if (Index>0) {
-                BitRate=AllowedBitRate.left(Index);
-                AllowedBitRate=AllowedBitRate.right(AllowedBitRate.length()-Index-1);
-            } else {
-                BitRate=AllowedBitRate;
-                AllowedBitRate="";
-            }
-            List.append(BitRate);
-        }
-        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
-            QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
-            int     NumA=NameA.toInt();
-            QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
-            int     NumB=NameB.toInt();
-            if (NumA>NumB) List.swap(j,j+1);
-        }
-        for (int i=0;i<List.count();i++) {
-            ui->VideoBitRateCB->addItem(List[i]);
-            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(ApplicationConfig->DefaultVideoBitRate))) {
-                ui->VideoBitRateCB->setCurrentIndex(ui->VideoBitRateCB->count()-1);
-                IsFindBitRate=true;
-            }
-        }
-        if (!IsFindBitRate) ui->VideoBitRateCB->setCurrentIndex(ui->VideoBitRateCB->findText(VIDEOCODECDEF[CurrentCodec].DefaultBitrate[CurrentSize]));
-        ui->VideoBitRateCB->setEnabled(ui->VideoBitRateCB->count()>1);
-    } else ui->VideoBitRateCB->setEnabled(false);
-}
-
-//====================================================================================================================
-
-void DlgApplicationSettings::InitAudioBitRateCB(int ChangeIndex) {
-    ui->AudioBitRateCB->clear();
-    int CurrentCodec=ui->AudioFormatCB->currentIndex();
-    if (CurrentCodec>=0) {
-        CurrentCodec=ui->AudioFormatCB->itemData(CurrentCodec).toInt();
-
-        QString     AllowedBitRate=FORMATDEF[ui->FileFormatCB->currentIndex()].PossibleVideoCodec;
-        QString     BitRate="";
-        int         Index=0;
-        bool        IsFindBitRate=false;
-        AllowedBitRate=AUDIOCODECDEF[CurrentCodec].PossibleBitrate2CH;
-        BitRate="";
-        Index=0;
-        IsFindBitRate=false;
-        QStringList List;
-        while (AllowedBitRate.length()>0) {
-            Index=AllowedBitRate.indexOf("#");
-            if (Index>0) {
-                BitRate=AllowedBitRate.left(Index);
-                AllowedBitRate=AllowedBitRate.right(AllowedBitRate.length()-Index-1);
-            } else {
-                BitRate=AllowedBitRate;
-                AllowedBitRate="";
-            }
-            List.append(BitRate);
-        }
-        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
-            QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
-            int     NumA=NameA.toInt();
-            QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
-            int     NumB=NameB.toInt();
-            if (NumA>NumB) List.swap(j,j+1);
-        }
-        for (int i=0;i<List.count();i++) {
-            ui->AudioBitRateCB->addItem(List[i]);
-            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(ApplicationConfig->DefaultAudioBitRate))) {
-                ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->count()-1);
-                IsFindBitRate=true;
-            }
-        }
-        if (!IsFindBitRate) ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->findText(AUDIOCODECDEF[CurrentCodec].Default));
-        ui->AudioBitRateCB->setEnabled(ui->AudioBitRateCB->count()>1);
-    } else ui->AudioBitRateCB->setEnabled(false);
 }
 
 //====================================================================================================================
@@ -729,7 +665,7 @@ void DlgApplicationSettings::DBSelectionChanged() {
         ui->DBDeviceModelED->setText(Device->DeviceName);
         ui->DBStandardCB->setCurrentIndex(Device->Standard);
         ui->DBFileFormatCB->setCurrentIndex(ui->DBFileFormatCB->findText(FORMATDEF[Device->FileFormat].LongName));
-        ui->DBImageSizeCombo->setCurrentIndex(Device->ImageSize);
+        ui->DBImageSizeCombo->setCurrentIndex(ui->DBImageSizeCombo->findText(IMAGEDEFGENNAME[Device->Standard][Device->ImageSize]));
         ui->DBVideoFormatCB->setCurrentIndex(ui->DBVideoFormatCB->findText(VIDEOCODECDEF[Device->VideoCodec].LongName));
         ui->DBAudioFormatCB->setCurrentIndex(ui->DBAudioFormatCB->findText(AUDIOCODECDEF[Device->AudioCodec].LongName));
         QString VideoBitRateStr=QString("%1").arg(Device->VideoBitrate); if (VideoBitRateStr.endsWith("000")) VideoBitRateStr=VideoBitRateStr.left(VideoBitRateStr.length()-3)+"k";
@@ -748,7 +684,20 @@ void DlgApplicationSettings::DBImageSizeCombo(int) {
     ui->DBImageSizeCombo->clear();
     int Standard=ui->DBStandardCB->currentIndex();
     if (Standard==-1) return;
-    for (int i=0;i<NBR_SIZEDEF;i++) ui->DBImageSizeCombo->addItem(IMAGEDEFGENNAME[Standard][i]);
+    QStringList List;
+    for (int i=0;i<NBR_SIZEDEF;i++) List.append(QString("%1:%2#####%3").arg(IMAGEDEFGENNAME[Standard][i]).arg(ORDERIMAGENAME[i]).arg(i));
+    // Sort List
+    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
+        QString StrA=List[j].mid(List[j].lastIndexOf(":")+1);       StrA=StrA.left(StrA.indexOf("#"));
+        QString StrB=List[j+1].mid(List[j+1].lastIndexOf(":")+1);   StrB=StrB.left(StrB.indexOf("#"));
+        if (StrA.toInt()>StrB.toInt()) List.swap(j,j+1);
+    }
+    // Fill combo
+    for (int i=0;i<List.count();i++) {
+        QString Codec=List[i].left(List[i].indexOf("#####")); Codec=Codec.left(Codec.lastIndexOf(":"));
+        int Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
+        ui->DBImageSizeCombo->addItem(Codec,QVariant(Index));
+    }
     ui->DBImageSizeCombo->setCurrentIndex(SaveIndex);
     IsDeviceChanged=true;
     ui->DBApplyBT->setEnabled(IsDeviceChanged);
@@ -766,6 +715,7 @@ void DlgApplicationSettings::DBFileFormatCombo(int /*ChangeIndex*/) {
     //********* Video codec part
     QString     AllowedCodec=FORMATDEF[CurrentFormat].PossibleVideoCodec;
     QString     Codec="";
+    QStringList List;
     int         Index=0;
     while (AllowedCodec.length()>0) {
         Index=AllowedCodec.indexOf("#");
@@ -779,7 +729,15 @@ void DlgApplicationSettings::DBFileFormatCombo(int /*ChangeIndex*/) {
         // Now find index of this codec in the VIDEOCODECDEF
         Index=0;
         while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
-        if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) ui->DBVideoFormatCB->addItem(VIDEOCODECDEF[Index].LongName,QVariant(Index));
+        if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) List.append(QString("%1#####%2").arg(VIDEOCODECDEF[Index].LongName).arg(Index));
+    }
+    // Sort List
+    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j]>List[j+1]) List.swap(j,j+1);
+    // Fill combo
+    for (int i=0;i<List.count();i++) {
+        Codec=List[i].left(List[i].indexOf("#####"));
+        Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
+        ui->DBVideoFormatCB->addItem(Codec,QVariant(Index));
     }
     ui->DBVideoFormatCB->setEnabled(ui->VideoFormatCB->count()>0);
 
@@ -787,6 +745,7 @@ void DlgApplicationSettings::DBFileFormatCombo(int /*ChangeIndex*/) {
     AllowedCodec=FORMATDEF[CurrentFormat].PossibleAudioCodec;
     Codec="";
     Index=0;
+    List.clear();
     while (AllowedCodec.length()>0) {
         Index=AllowedCodec.indexOf("#");
         if (Index>0) {
@@ -799,7 +758,15 @@ void DlgApplicationSettings::DBFileFormatCombo(int /*ChangeIndex*/) {
         // Now find index of this codec in the AUDIOCODECDEF
         Index=0;
         while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
-        if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) ui->DBAudioFormatCB->addItem(AUDIOCODECDEF[Index].LongName,QVariant(Index));
+        if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) List.append(QString("%1#####%2").arg(AUDIOCODECDEF[Index].LongName).arg(Index));
+    }
+    // Sort List
+    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j]>List[j+1]) List.swap(j,j+1);
+    // Fill combo
+    for (int i=0;i<List.count();i++) {
+        Codec=List[i].left(List[i].indexOf("#####"));
+        Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
+        ui->DBAudioFormatCB->addItem(Codec,QVariant(Index));
     }
     ui->AudioFormatCB->setEnabled(ui->DBAudioFormatCB->count()>0);
     IsDeviceChanged=true;
@@ -853,10 +820,13 @@ void DlgApplicationSettings::DBVideoBitRateCB(int) {
 
         QString     AllowedBitRate;
         QString     BitRate="";
+        QStringList List;
         int         Index=0;
         AllowedBitRate=VIDEOCODECDEF[CurrentCodec].PossibleBitrate;
         BitRate="";
         Index=0;
+
+        // Fill list
         while (AllowedBitRate.length()>0) {
             Index=AllowedBitRate.indexOf("#");
             if (Index>0) {
@@ -866,12 +836,118 @@ void DlgApplicationSettings::DBVideoBitRateCB(int) {
                 BitRate=AllowedBitRate;
                 AllowedBitRate="";
             }
-            ui->DBVideoBitRateCB->addItem(BitRate);
+            List.append(BitRate);
         }
+        // Sort list
+        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
+            QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
+            int     NumA=NameA.toInt();
+            QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
+            int     NumB=NameB.toInt();
+            if (NumA>NumB) List.swap(j,j+1);
+        }
+        // Fill Combo box
+        ui->DBVideoBitRateCB->addItems(List);
+
         ui->DBVideoBitRateCB->setEnabled(ui->DBVideoBitRateCB->count()>1);
     } else ui->DBVideoBitRateCB->setEnabled(false);
     IsDeviceChanged=true;
     ui->DBApplyBT->setEnabled(IsDeviceChanged);
+}
+
+//====================================================================================================================
+
+void DlgApplicationSettings::InitVideoBitRateCB(int ChangeIndex) {
+    ui->VideoBitRateCB->clear();
+    int CurrentCodec=ui->VideoFormatCB->currentIndex();
+    int CurrentSize =ui->SizeCombo->itemData(ui->SizeCombo->currentIndex()).toInt();
+    if (CurrentCodec>=0) {
+        CurrentCodec=ui->VideoFormatCB->itemData(CurrentCodec).toInt();
+
+        QString     AllowedBitRate=FORMATDEF[ui->FileFormatCB->currentIndex()].PossibleVideoCodec;
+        QString     BitRate="";
+        int         Index=0;
+        bool        IsFindBitRate=false;
+        AllowedBitRate=VIDEOCODECDEF[CurrentCodec].PossibleBitrate;
+        BitRate="";
+        Index=0;
+        IsFindBitRate=false;
+        QStringList List;
+        while (AllowedBitRate.length()>0) {
+            Index=AllowedBitRate.indexOf("#");
+            if (Index>0) {
+                BitRate=AllowedBitRate.left(Index);
+                AllowedBitRate=AllowedBitRate.right(AllowedBitRate.length()-Index-1);
+            } else {
+                BitRate=AllowedBitRate;
+                AllowedBitRate="";
+            }
+            List.append(BitRate);
+        }
+        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
+            QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
+            int     NumA=NameA.toInt();
+            QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
+            int     NumB=NameB.toInt();
+            if (NumA>NumB) List.swap(j,j+1);
+        }
+        for (int i=0;i<List.count();i++) {
+            ui->VideoBitRateCB->addItem(List[i]);
+            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(ApplicationConfig->DefaultVideoBitRate))) {
+                ui->VideoBitRateCB->setCurrentIndex(ui->VideoBitRateCB->count()-1);
+                IsFindBitRate=true;
+            }
+        }
+        if (!IsFindBitRate) ui->VideoBitRateCB->setCurrentIndex(ui->VideoBitRateCB->findText(VIDEOCODECDEF[CurrentCodec].DefaultBitrate[CurrentSize]));
+        ui->VideoBitRateCB->setEnabled(ui->VideoBitRateCB->count()>1);
+    } else ui->VideoBitRateCB->setEnabled(false);
+}
+
+//====================================================================================================================
+
+void DlgApplicationSettings::InitAudioBitRateCB(int ChangeIndex) {
+    ui->AudioBitRateCB->clear();
+    int CurrentCodec=ui->AudioFormatCB->currentIndex();
+    if (CurrentCodec>=0) {
+        CurrentCodec=ui->AudioFormatCB->itemData(CurrentCodec).toInt();
+
+        QString     AllowedBitRate=FORMATDEF[ui->FileFormatCB->currentIndex()].PossibleVideoCodec;
+        QString     BitRate="";
+        int         Index=0;
+        bool        IsFindBitRate=false;
+        AllowedBitRate=AUDIOCODECDEF[CurrentCodec].PossibleBitrate2CH;
+        BitRate="";
+        Index=0;
+        IsFindBitRate=false;
+        QStringList List;
+        while (AllowedBitRate.length()>0) {
+            Index=AllowedBitRate.indexOf("#");
+            if (Index>0) {
+                BitRate=AllowedBitRate.left(Index);
+                AllowedBitRate=AllowedBitRate.right(AllowedBitRate.length()-Index-1);
+            } else {
+                BitRate=AllowedBitRate;
+                AllowedBitRate="";
+            }
+            List.append(BitRate);
+        }
+        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
+            QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
+            int     NumA=NameA.toInt();
+            QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
+            int     NumB=NameB.toInt();
+            if (NumA>NumB) List.swap(j,j+1);
+        }
+        for (int i=0;i<List.count();i++) {
+            ui->AudioBitRateCB->addItem(List[i]);
+            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(ApplicationConfig->DefaultAudioBitRate))) {
+                ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->count()-1);
+                IsFindBitRate=true;
+            }
+        }
+        if (!IsFindBitRate) ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->findText(AUDIOCODECDEF[CurrentCodec].Default));
+        ui->AudioBitRateCB->setEnabled(ui->AudioBitRateCB->count()>1);
+    } else ui->AudioBitRateCB->setEnabled(false);
 }
 
 //====================================================================================================================
@@ -884,10 +960,12 @@ void DlgApplicationSettings::DBAudioBitRateCB(int) {
 
         QString     AllowedBitRate;;
         QString     BitRate="";
+        QStringList List;
         int         Index=0;
         AllowedBitRate=AUDIOCODECDEF[CurrentCodec].PossibleBitrate2CH;
         BitRate="";
         Index=0;
+        // Fill list
         while (AllowedBitRate.length()>0) {
             Index=AllowedBitRate.indexOf("#");
             if (Index>0) {
@@ -897,8 +975,20 @@ void DlgApplicationSettings::DBAudioBitRateCB(int) {
                 BitRate=AllowedBitRate;
                 AllowedBitRate="";
             }
-            ui->DBAudioBitRateCB->addItem(BitRate);
+            List.append(BitRate);
         }
+
+        // Sort list
+        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
+            QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
+            int     NumA=NameA.toInt();
+            QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
+            int     NumB=NameB.toInt();
+            if (NumA>NumB) List.swap(j,j+1);
+        }
+        // Fill Combo box
+        ui->DBAudioBitRateCB->addItems(List);
+
         ui->DBAudioBitRateCB->setEnabled(ui->DBAudioBitRateCB->count()>1);
     } else ui->DBAudioBitRateCB->setEnabled(false);
     IsDeviceChanged=true;
@@ -947,7 +1037,7 @@ void DlgApplicationSettings::DBApplyChange() {
         Device->DeviceName   =ui->DBDeviceModelED->text();
         Device->Standard     =ui->DBStandardCB->currentIndex();
         Device->FileFormat   =ui->DBFileFormatCB->itemData(ui->DBFileFormatCB->currentIndex()).toInt();
-        Device->ImageSize    =ui->DBImageSizeCombo->currentIndex();
+        Device->ImageSize    =ui->DBImageSizeCombo->itemData(ui->DBImageSizeCombo->currentIndex()).toInt();
         Device->VideoCodec   =ui->DBVideoFormatCB->itemData(ui->DBVideoFormatCB->currentIndex()).toInt();
         Device->AudioCodec   =ui->DBAudioFormatCB->itemData(ui->DBAudioFormatCB->currentIndex()).toInt();
 

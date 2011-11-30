@@ -4,8 +4,8 @@
     <EditorOptions DisableSSE2="0" DefaultTransitionFamilly="0" TimelineHeight="80" RandomTransition="1" ApplyTransfoPreview="1" DefaultTransitionDuration="1000" AppendObject="0" DefaultFraming="2" DefaultTransitionSubType="1" SortFile="1" PreviewFPS="12.500000"/>
     <ProjectDefault FixedDuration="3000" SpeedWave="0" ImageGeometry="1" NoShotDuration="6000">
         <DefaultBlock_Text Coord0ST="###GLOBALSTYLE###:120" Coord2ST="###GLOBALSTYLE###:122" Coord1ST="###GLOBALSTYLE###:121" ShapeST="###GLOBALSTYLE###:1" BackGST="###GLOBALSTYLE###:6" TextST="###GLOBALSTYLE###:1"/>
-        <DefaultBlockSL_IMG ShapeST="###GLOBALSTYLE###:1" TextST="###GLOBALSTYLE###:4">
-            <IMG_GEO_0 CoordST_0="###GLOBALSTYLE###:120" CoordST_1="###GLOBALSTYLE###:121" CoordST_2="###GLOBALSTYLE###:122"/>
+        <DefaultBlockSL_IMG ShapeST="###GLOBALSTYLE###:1" LockLS_0="1" LockLS_1="1" LockLS_2="1" TextST="###GLOBALSTYLE###:4">
+            <IMG_GEO_0 CoordST_0="###GLOBALSTYLE###:70" CoordST_1="###GLOBALSTYLE###:0" CoordST_2="###GLOBALSTYLE###:110"/>
             <IMG_GEO_1 CoordST_0="###GLOBALSTYLE###:52" CoordST_1="###GLOBALSTYLE###:20" CoordST_2="###GLOBALSTYLE###:92"/>
             <IMG_GEO_2 CoordST_0="###GLOBALSTYLE###:49" CoordST_1="###GLOBALSTYLE###:17" CoordST_2="###GLOBALSTYLE###:89"/>
             <IMG_GEO_3 CoordST_0="###GLOBALSTYLE###:64" CoordST_1="###GLOBALSTYLE###:32" CoordST_2="###GLOBALSTYLE###:102"/>
@@ -15,7 +15,7 @@
             <IMG_GEO_7 CoordST_0="###GLOBALSTYLE###:60" CoordST_1="###GLOBALSTYLE###:28" CoordST_2="###GLOBALSTYLE###:100"/>
             <IMG_GEO_8 CoordST_0="###GLOBALSTYLE###:45" CoordST_1="###GLOBALSTYLE###:13" CoordST_2="###GLOBALSTYLE###:85"/>
         </DefaultBlockSL_IMG>
-        <DefaultBlockBA_IMG ShapeST="###GLOBALSTYLE###:1" TextST="###GLOBALSTYLE###:4">
+        <DefaultBlockBA_IMG ShapeST="###GLOBALSTYLE###:1" TextST="###GLOBALSTYLE###:4" LockBA_0="0" LockBA_1="0" LockBA_2="0">
             <IMG_GEO_0 CoordST_0="###GLOBALSTYLE###:120" CoordST_1="###GLOBALSTYLE###:121" CoordST_2="###GLOBALSTYLE###:122"/>
             <IMG_GEO_1 CoordST_0="###GLOBALSTYLE###:54" CoordST_1="###GLOBALSTYLE###:22" CoordST_2="###GLOBALSTYLE###:94"/>
             <IMG_GEO_2 CoordST_0="###GLOBALSTYLE###:50" CoordST_1="###GLOBALSTYLE###:18" CoordST_2="###GLOBALSTYLE###:90"/>
@@ -86,7 +86,7 @@
         <Device_53 ImageSize="7" DeviceIndex="53" DeviceName="XBox360" FileFormat="4" Standard="0" DeviceType="2" VideoBitrate="8000000" VideoCodec="3" DeviceSubtype="3" AudioBitrate="160000" AudioCodec="2"/>
         <Device_54 ImageSize="6" DeviceIndex="54" DeviceName="Daily Motion" FileFormat="4" Standard="0" DeviceType="3" VideoBitrate="4000000" VideoCodec="3" DeviceSubtype="1" AudioBitrate="128000" AudioCodec="2"/>
         <Device_55 ImageSize="6" DeviceIndex="55" DeviceName="Youtube" FileFormat="4" Standard="0" DeviceType="3" VideoBitrate="5000000" VideoCodec="2" DeviceSubtype="1" AudioBitrate="128000" AudioCodec="1"/>
-        <Device_56 ImageSize="9" DeviceIndex="56" DeviceName="Generic Portable LED/LCD TV" FileFormat="4" Standard="0" DeviceType="1" VideoBitrate="3500000" VideoCodec="3" DeviceSubtype="1" AudioBitrate="128000" AudioCodec="2"/>
+        <Device_56 ImageSize="5" DeviceIndex="56" DeviceName="Generic Portable LED/LCD TV" FileFormat="4" Standard="0" DeviceType="1" VideoBitrate="3500000" VideoCodec="3" DeviceSubtype="1" AudioBitrate="128000" AudioCodec="2"/>
     </RenderingDeviceModel>
     <TextStyleCollection>
         <TextStyleCollectionItem_0          BckStyleName="" StyleName="Big black text with white outlines"               StyleDefinition="FontSize:28###HAlign:1###VAlign:1###StyleText:1###FontColor:#000000###FontShadowColor:#f2f2f2###Bold:0###Italic:0###Underline:0###FontName:Serif" StyleIndex="1"/>

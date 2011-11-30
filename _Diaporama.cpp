@@ -566,8 +566,8 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
 
         if (!DestPainter) return;
 
-        if (BackgroundBrush.BrushFileCorrect.Smoothing) DestPainter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-            else                                        DestPainter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+        if (!PreviewMode || GlobalMainWindow->ApplicationConfig->Smoothing) DestPainter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+            else DestPainter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
         // Define values depending on PctDone and PrevCompoObject
         double TheX=x;
@@ -602,8 +602,8 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         Painter.setCompositionMode(QPainter::CompositionMode_Source);
         Painter.fillRect(QRect(0,0,Wb,Hb),Qt::transparent);
         Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        if (BackgroundBrush.BrushFileCorrect.Smoothing) Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-            else                                        Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+        if (!PreviewMode || GlobalMainWindow->ApplicationConfig->Smoothing)  Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+            else Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
         Pen.setCapStyle(Qt::RoundCap);
         Pen.setJoinStyle(Qt::RoundJoin);
         Pen.setCosmetic(false);
@@ -642,8 +642,8 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                     QPainter NewP;
                     QImage   NewImage(CachedBrushW,CachedBrushH,QImage::Format_ARGB32);
                     NewP.begin(&NewImage);
-                    if (BackgroundBrush.BrushFileCorrect.Smoothing) NewP.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-                        else                                        NewP.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+                    if (!PreviewMode || GlobalMainWindow->ApplicationConfig->Smoothing)  NewP.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+                        else NewP.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
                     NewP.setBrush(*CachedBrushBrush);
                     NewP.setCompositionMode(QPainter::CompositionMode_Source);
                     NewP.fillRect(QRect(0,0,CachedBrushW,CachedBrushH),Qt::transparent);
@@ -1785,7 +1785,7 @@ void cDiaporama::DoLuma(cLumaList *LumaList,cDiaporamaObjectInfo *Info,QPainter 
     if (Info->TransitionSubType<LumaList->List.count()) {
         // Get a copy of luma image scaled to correct size
         QImage  Luma=((W==LUMADLG_WIDTH)&&(H==LUMADLG_HEIGHT))?LumaList->List[Info->TransitionSubType].DlgLumaImage:
-                        LumaList->List[Info->TransitionSubType].OriginalLuma.scaled(Info->CurrentObject_PreparedImage->size(),Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/).convertToFormat(QImage::Format_ARGB32_Premultiplied);
+                        LumaList->List[Info->TransitionSubType].OriginalLuma.scaled(Info->CurrentObject_PreparedImage->size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation).convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
         // Apply PCTDone to luma mask
         uint8_t limit    =uint8_t(Info->TransitionPCTDone*double(0xff))+1;
@@ -1846,7 +1846,7 @@ void cDiaporama::DoZoom(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
         //P->setOpacity(1);
     }
-    P->drawImage(box,(Reverse?Info->TransitObject_PreparedImage:Info->CurrentObject_PreparedImage)->scaled(QSize(wt,ht)));
+    P->drawImage(box,(Reverse?Info->TransitObject_PreparedImage:Info->CurrentObject_PreparedImage)->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
 }
 
 //============================================================================================
@@ -1932,41 +1932,41 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
         wt=int(double(W)*(1-Info->TransitionPCTDone));
         ht=int(double(H)*(1-Info->TransitionPCTDone));
         box=QPoint(W-wt,(H-ht)/2);
-        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht)));
+        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         wt=int(double(W)*Info->TransitionPCTDone);
         ht=int(double(H)*Info->TransitionPCTDone);
         box=QPoint(0,(H-ht)/2);
-        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht)));
+        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         break;
     case 5 :    // Enterring : zoom in from border Right Center - Previous image : zoom out to border Left Center
         wt=int(double(W)*(1-Info->TransitionPCTDone));
         ht=int(double(H)*(1-Info->TransitionPCTDone));
         box=QPoint(0,(H-ht)/2);
-        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht)));
+        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         wt=int(double(W)*Info->TransitionPCTDone);
         ht=int(double(H)*Info->TransitionPCTDone);
         box=QPoint(W-wt,(H-ht)/2);
-        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht)));
+        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         break;
     case 6 :    // Enterring : zoom in from border Top Center - Previous image : zoom out to border bottom Center
         wt=int(double(W)*(1-Info->TransitionPCTDone));
         ht=int(double(H)*(1-Info->TransitionPCTDone));
         box=QPoint((W-wt)/2,H-ht);
-        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht)));
+        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         wt=int(double(W)*Info->TransitionPCTDone);
         ht=int(double(H)*Info->TransitionPCTDone);
         box=QPoint((W-wt)/2,0);
-        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht)));
+        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         break;
     case 7 :    // Enterring : zoom in from border bottom Center - Previous image : zoom out to border Top Center
         wt=int(double(W)*(1-Info->TransitionPCTDone));
         ht=int(double(H)*(1-Info->TransitionPCTDone));
         box=QPoint((W-wt)/2,0);
-        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht)));
+        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         wt=int(double(W)*Info->TransitionPCTDone);
         ht=int(double(H)*Info->TransitionPCTDone);
         box=QPoint((W-wt)/2,H-ht);
-        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht)));
+        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         break;
     case 8 :    // Rotating from y axis
         if (Info->TransitionPCTDone<0.5) {

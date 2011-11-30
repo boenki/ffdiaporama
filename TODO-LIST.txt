@@ -7,11 +7,6 @@ TODO
 ----
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
 
--Gérer les changements géométrique sur les changements de fichier dans la boite image + passage en mode style
-    => ChangeBrushDiskFile
-    + vérifier l'undo sur le rechargement du fichier
-    + tester les framing custom dans les styles de coordonnées
-
 TODO-List
 ---------
 Editor
@@ -36,7 +31,6 @@ Various
 -To add the possibility to export its project
     -an export function to combine all the files of the project in a zip file
     -an export function to libre office impress, canvas effects, DTD or RelaxNG
--Finalize sorting of codec and size in render dialog
 -Finish the internationalization of the Ubuntu package
 -Add a management of route: A line object with multiple points being outlined during the animation with a PNG attached to the point being drawn
 -Add a "mass modifications" feature to all slide or a group of slide. First shot duration - Transition - Random Ken Burns effect - etc...
@@ -63,14 +57,24 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Ajoute de nouvelles options dans la boite de configuration pour les images non standard pour définir la contrainte géométrique en plus du style de coordonnées
+-Ajout du lissage d'image dans les transitions
+-Force la barre de status à afficher les messages de base
+-Corrige le BUG sur les ajouts de blocs non standard en mode slide
+-Supprime des appels inutiles à Exiv2 lors des chargements de projet
 
 English version / Bug fix :
--Add new options in option dialog for non standard image to define geometrical constraint in addition to coordinate style
+-Add image smoothing for transition
+-Force status bar to display basic messages
+-Fix bug for adding non standard image when new slide
+-Delete useless calls to Exiv2 during the project loads
 
 French version / Nouvelles fonctionnalités :
+-Fini de trier les tailles d'image, codecs et bitrates dans les boites de configuration et de génération
+-Supprime l'ouverture d'une console lors de l'ouverture par double click sur un fichier [Windows-ffDiaporamaStart]
 
 English version / New features :
+-Finalize sorting of image sizes, codecs and bitrates in option dialog and render dialog
+-Remove the opening of a console during the opening by click double on a file [Windows-ffDiaporamaStart]
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -240,6 +244,7 @@ French version
 -Ajout de la résolution de génération de vidéo 576p
 -Ajout du type d'équipement "Generic Portable LED/LCD TV"
 -Ajoute une option dans la boite Background pour déformer l'image et lui faire remplir tout l'écran
+-Ajoute de nouvelles options dans la boite de configuration pour les images non standard pour définir la contrainte géométrique en plus du style de coordonnées
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -302,3 +307,4 @@ English version
 -Add rendering resolution 576p
 -Add device "Generic Portable LED/LCD TV"
 -Add an option in the Background dialog to deform the image and make it fill all the screen
+-Add new options in option dialog for non standard image to define geometrical constraint in addition to coordinate style

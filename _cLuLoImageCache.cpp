@@ -36,7 +36,7 @@ cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName,QString TheFilt
     Smoothing           =TheSmoothing;
     CacheRenderImage    =NULL;
     CachePreviewImage   =NULL;
-    ImageOrientation    =0;                 // Image orientation (EXIF)
+    ImageOrientation    =-1;                 // Image orientation (EXIF)
 }
 
 //===============================================================================
@@ -62,7 +62,7 @@ void cLuLoImageCacheObject::ClearAll() {
 
 QImage *cLuLoImageCacheObject::ValidateCacheRenderImage(cFilterTransformObject *Filter) {
     if (CacheRenderImage==NULL) {
-        GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
+        qDebug()<<QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName();
 
         // Load image from disk
         CacheRenderImage=new QImage(FileName);
@@ -94,7 +94,6 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage(cFilterTransformObject *
         }
 
     }
-    GlobalMainWindow->SetTempStatusText("");
     return CacheRenderImage;
 }
 
@@ -103,7 +102,7 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage(cFilterTransformObject *
 QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(cFilterTransformObject *Filter) {
     if (CachePreviewImage==NULL) {
 
-        GlobalMainWindow->SetTempStatusText(QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
+        qDebug()<<QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName();
 
         // Load image from disk
         CachePreviewImage=new QImage(FileName);
@@ -142,7 +141,6 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(cFilterTransformObject 
 
     }
 
-    GlobalMainWindow->SetTempStatusText("");
     return CachePreviewImage;
 }
 

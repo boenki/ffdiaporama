@@ -43,11 +43,15 @@ public:
     cDiaporama              *Diaporama;
     QDomDocument            *Clipboard_Object;
     QDomDocument            *Clipboard_Block;
-    QStringList             StatusBarList;
-    QTimer                  Timer;
     int                     LastCount;
     QString                 InternetBUILDVERSION;
     QString                 TitleBar;
+
+    // Variables use for actions
+    QString                 FileForIO;
+    int                     SavedCurIndex,CurIndex;
+    QStringList             FileList;
+
     // Drag & drop operation
     int                     DragItemSource;
     int                     DragItemDest;
@@ -62,16 +66,15 @@ public:
     ~MainWindow();
 
     void    OpenHelp(QString HelpFile);
-    void    SetTempStatusText(QString Text);
-
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);
     void    AddObjectToTimeLine(int CurIndex);
     void    AdjustRuller();
     void    SetTimelineHeight();
-    void    OpenFile(QString ProjectFileName);
     void    CheckVersion();
-    void    AddFiles(QStringList &FileList,int SavedCurIndex,int CurIndex);
+    void    ToStatusBar(QString Text);
+    void    s_action_DoAddDragAndDropFile();
+    void    s_DoOpenFileParam();
 
 protected:
     virtual void resizeEvent(QResizeEvent *);
@@ -79,9 +82,9 @@ protected:
     virtual void showEvent(QShowEvent *);
     virtual void keyReleaseEvent(QKeyEvent *event);
 
+
 private slots:
     void    s_ToolbarChanged(int MenuIndex);
-    void    s_TimerEvent();
     void    onNetworkReply(QNetworkReply*);
 
     // Timeline
@@ -100,17 +103,28 @@ private slots:
 
     // File menu
     void    s_action_New();
+
     void    s_action_Open();
     void    s_action_OpenRecent();
+    void    s_DoOpenFile();
+
     void    s_action_Save();
     void    s_action_SaveAs();
+    void    s_DoSaveFile();
+
     void    s_action_Exit();
+
     void    s_ChangeApplicationSettings();
+    void    s_DoChangeApplicationSettings();
 
     // Project menu
     void    s_action_AddFile();
+    void    s_action_DoAddFile();
+
     void    s_action_AddTitle();
     void    s_action_AddProject();
+    void    s_action_DoAddProject();
+
     void    s_RemoveObject();
     void    s_CutToClipboard();
     void    s_CopyToClipboard();

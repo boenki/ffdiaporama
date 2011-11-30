@@ -947,25 +947,25 @@ no estándar</translation>
         <location filename="../DlgApplicationSettings.cpp" line="137"/>
         <location filename="../DlgApplicationSettings.cpp" line="144"/>
         <source>Lock to image geometry</source>
-        <translation type="unfinished">Bloquear esta geometría de la imagen</translation>
+        <translation>Bloquear esta geometría de la imagen</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.cpp" line="138"/>
         <location filename="../DlgApplicationSettings.cpp" line="145"/>
         <source>Lock to project geometry-to full image</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquear esta geometría de proyecto a imagen completa</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.cpp" line="139"/>
         <location filename="../DlgApplicationSettings.cpp" line="146"/>
         <source>Lock to project geometry-to width</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquear esta geometría de proyecto a la anchura</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.cpp" line="140"/>
         <location filename="../DlgApplicationSettings.cpp" line="147"/>
         <source>Lock to project geometry-to height</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquear esta geometría de proyecto a la altura</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.cpp" line="420"/>
@@ -998,12 +998,12 @@ no estándar</translation>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="618"/>
         <source>Keep aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Mantener relación de aspecto</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="645"/>
         <source>Full filling (deform image)</source>
-        <translation type="unfinished"></translation>
+        <translation>Llenado completo (deforma la imagen)</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="684"/>
@@ -2048,13 +2048,13 @@ Desplazar el archivo actual desde la señal hasta abajo.</translation>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="242"/>
         <source>Select destination file</source>
-        <translation type="unfinished">Seleccione el archivo de destino</translation>
+        <translation>Seleccione el archivo de destino</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="453"/>
         <location filename="../DlgRenderVideo.cpp" line="508"/>
         <source>Stop rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Parar generación</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="515"/>
@@ -2102,12 +2102,12 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="643"/>
         <source>Encoding sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Codificar sonido</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="735"/>
         <source>Start ffmpeg encoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciar ffmpeg</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="781"/>
@@ -2148,7 +2148,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="876"/>
         <source>Closing encoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerrar codificador</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="891"/>

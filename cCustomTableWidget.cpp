@@ -53,7 +53,6 @@ void cCustomTableWidget::dropEvent(QDropEvent *event) {
 
     QList<QUrl> urlList;
     QString     fName;
-    QStringList fList;
     QFileInfo   info;
 
     if (event->mimeData()->hasUrls()) {
@@ -61,11 +60,16 @@ void cCustomTableWidget::dropEvent(QDropEvent *event) {
         for (int i=0;i<urlList.count();i++) {
             fName = urlList[i].toLocalFile();           // convert first QUrl to local path
             info.setFile(fName);                        // information about file
-            if (info.isFile()) fList.append(fName);     // append file
+            if (info.isFile()) GlobalMainWindow->FileList.append(fName);     // append file
         }
     }
-    GlobalMainWindow->AddFiles(fList,GlobalMainWindow->DragItemDest>0?GlobalMainWindow->DragItemDest-1:0,GlobalMainWindow->DragItemDest);
     event->acceptProposedAction();
+    if (GlobalMainWindow->FileList.count()>0) {
+        GlobalMainWindow->SavedCurIndex =GlobalMainWindow->DragItemDest>0?GlobalMainWindow->DragItemDest-1:0;
+        GlobalMainWindow->CurIndex      =GlobalMainWindow->DragItemDest;
+        GlobalMainWindow->ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(GlobalMainWindow->FileList[0]).fileName());
+        GlobalMainWindow->s_action_DoAddDragAndDropFile();
+    }
 }
 
 void cCustomTableWidget::dragMoveEvent(QDragMoveEvent *event) {
@@ -225,8 +229,6 @@ void cCustomTableWidget::mouseReleaseEvent(QMouseEvent *event) {
 //====================================================================================================================
 
 void cCustomTableWidget::AddObjectToTimeLine(int CurIndex) {
-    QApplication::processEvents();  // Ensure message queue is empty !
-
     int ThumbWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
     int ThumbHeight=GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
     int NbrX       =width()/ThumbWidth;
@@ -270,7 +272,6 @@ void cCustomTableWidget::AddObjectToTimeLine(int CurIndex) {
         GlobalMainWindow->Diaporama->CurrentCol=CurIndex;
         GlobalMainWindow->AdjustRuller();
     }
-    QApplication::processEvents();
 }
 
 //====================================================================================================================
