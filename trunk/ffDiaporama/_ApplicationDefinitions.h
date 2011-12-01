@@ -167,6 +167,7 @@ public:
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
     bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide
     bool                    PartitionMode;                              // If true, partition mode is on
+    bool                    CheckConfigAtStartup;                       // If true, check config at startup
 
     // Editor options
     bool                    AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
@@ -230,6 +231,7 @@ public:
     cSaveWindowPosition     *DlgVideoEditWSP;                           // Dialog box "Edit video" - Window size and position
     cSaveWindowPosition     *DlgTextEditWSP;                            // Dialog box "Text editor" - Window size and position
     cSaveWindowPosition     *DlgManageStyleWSP;                         // Dialog box "Manage style" - Window size and position
+    cSaveWindowPosition     *DlgCheckConfigWSP;                         // Dialog box "Check configuration" - Window size and position
 
     cApplicationConfig();
     ~cApplicationConfig();

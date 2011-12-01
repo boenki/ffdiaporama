@@ -566,6 +566,7 @@ cApplicationConfig::cApplicationConfig() {
     DlgVideoEditWSP             =new cSaveWindowPosition("DlgVideoEditWSP",RestoreWindow,false);            // Dialog box "Edit video" - Window size and position
     DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
     DlgManageStyleWSP           =new cSaveWindowPosition("DlgManageStyleWSP",RestoreWindow,false);          // Dialog box "Manage style" - Window size and position
+    DlgCheckConfigWSP           =new cSaveWindowPosition("DlgCheckConfigWSP",RestoreWindow,false);          // Dialog box "Check configuration" - Window size and position
 }
 
 //====================================================================================================================
@@ -582,6 +583,7 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgVideoEditWSP;
     delete DlgTextEditWSP;
     delete DlgManageStyleWSP;
+    delete DlgCheckConfigWSP;
 }
 
 //====================================================================================================================
@@ -627,7 +629,6 @@ bool cApplicationConfig::InitConfigurationValues() {
     RasterMode                  = true;                     // Enable or disable raster mode [Linux only]
     NbrSlideInCache             = 5;                        // Number of slide in cache (Real compute is NbrSlideInCache*2+1)
     MemCacheMaxValue            = 256*1024*1024;            // 256 Mb for image cache
-    SDLAudioOldMode             = false;                    // If true SDL audio use old mode sample instead byte
     RememberLastDirectories     = true;                     // If true, Remember all directories for future use
     RestoreWindow               = true;                     // If true, restore window state and position at startup
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
@@ -671,12 +672,16 @@ bool cApplicationConfig::InitConfigurationValues() {
     LastMusicPath           = WINDOWS_MUSIC;                // Last folder use for music
     LastRenderVideoPath     = WINDOWS_VIDEO;                // Last folder use for render video
     if (LastRenderVideoPath=="") LastRenderVideoPath=WINDOWS_DOCUMENTS;
+    SDLAudioOldMode         = false;                        // If true SDL audio use old mode sample instead byte
+    CheckConfigAtStartup    = false;
 #endif
 #ifdef Q_WS_X11
     LastMediaPath           = QDir::home().absolutePath();  // Last folder use for image/video
     LastProjectPath         = QDir::home().absolutePath();  // Last folder use for project
     LastMusicPath           = QDir::home().absolutePath();  // Last folder use for music
     LastRenderVideoPath     = QDir::home().absolutePath();  // Last folder use for render video
+    SDLAudioOldMode         = true;                         // If true SDL audio use old mode sample instead byte
+    CheckConfigAtStartup    = true;
 #endif
 
     TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","Advanced","Device database type"));           // EXPORTMODE_ADVANCED
@@ -765,6 +770,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
 
     if ((root.elementsByTagName("EditorOptions").length()>0)&&(root.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("EditorOptions").item(0).toElement();
+        if (Element.hasAttribute("CheckConfigAtStartup"))       CheckConfigAtStartup        =Element.attribute("CheckConfigAtStartup")=="1";
         if (Element.hasAttribute("RasterMode"))                 RasterMode                  =Element.attribute("RasterMode")=="1";
         if (Element.hasAttribute("NbrSlideInCache"))            NbrSlideInCache             =Element.attribute("NbrSlideInCache").toInt();
         if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue            =Element.attribute("MemCacheMaxValue").toLongLong();
@@ -911,6 +917,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     DlgVideoEditWSP->LoadFromXML(root);
     DlgTextEditWSP->LoadFromXML(root);
     DlgManageStyleWSP->LoadFromXML(root);
+    DlgCheckConfigWSP->LoadFromXML(root);
     return true;
 }
 
@@ -944,6 +951,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     root.appendChild(Element);
 
     Element=domDocument.createElement("EditorOptions");
+    Element.setAttribute("CheckConfigAtStartup",        CheckConfigAtStartup?"1":"0");
     Element.setAttribute("RasterMode",                  RasterMode?"1":"0");
     Element.setAttribute("NbrSlideInCache",             NbrSlideInCache);
     Element.setAttribute("MemCacheMaxValue",            MemCacheMaxValue);
@@ -1064,6 +1072,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     DlgVideoEditWSP->SaveToXML(root);
     DlgTextEditWSP->SaveToXML(root);
     DlgManageStyleWSP->SaveToXML(root);
+    DlgCheckConfigWSP->SaveToXML(root);
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {

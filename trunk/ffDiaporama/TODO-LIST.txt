@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 28/11/2011) :
+Buggs/TODO (Dernier SVN le 30/11/2011) :
 ----------------------------------------
 BUGG:
 -Le mixage de 2 pistes audio à fort volume donne un résultat saturé
@@ -57,24 +57,16 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Ajout du lissage d'image dans les transitions
--Force la barre de status à afficher les messages de base
--Corrige le BUG sur les ajouts de blocs non standard en mode slide
--Supprime des appels inutiles à Exiv2 lors des chargements de projet
 
 English version / Bug fix :
--Add image smoothing for transition
--Force status bar to display basic messages
--Fix bug for adding non standard image when new slide
--Delete useless calls to Exiv2 during the project loads
 
 French version / Nouvelles fonctionnalités :
--Fini de trier les tailles d'image, codecs et bitrates dans les boites de configuration et de génération
--Supprime l'ouverture d'une console lors de l'ouverture par double click sur un fichier [Windows-ffDiaporamaStart]
+-Ajoute une boite de dialog de vérification de la configuration
+-Vérifie au démarrage si exiv2 et ffmpeg sont présent - à défaut : quit le programme
 
 English version / New features :
--Finalize sorting of image sizes, codecs and bitrates in option dialog and render dialog
--Remove the opening of a console during the opening by click double on a file [Windows-ffDiaporamaStart]
+-Add Check configuration dialog
+-Check at startup if exiv2 and ffmpeg are available - if not : exit application
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -127,6 +119,10 @@ Bug fix French version
 -Trouve et corrige le dernier endroit dans le code source ou le lissage ne s'appliquait pas !
 -La selection d'une diapo arrete à nouveau de lecteur [bug depuis 20111126]
 -Quand ffDiaporama n'arrive pas à lire la derniere image d'une video, il lit celle 100 ms plutot au lieu de planter
+-Ajout du lissage d'image dans les transitions
+-Force la barre de status à afficher les messages de base
+-Corrige le BUG sur les ajouts de blocs non standard en mode slide
+-Supprime des appels inutiles à Exiv2 lors des chargements de projet
 
 Bug fix English version
 -Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -172,6 +168,10 @@ Bug fix English version
 -Find and fix the latest place in the source code where smoothing was not applied !
 -Select a slide stop the play [bug since 20111126]
 -When ffDiaporama can't read latest image of a video, now it read image at 100 ms before instead of crash
+-Add image smoothing for transition
+-Force status bar to display basic messages
+-Fix bug for adding non standard image when new slide
+-Delete useless calls to Exiv2 during the project loads
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
@@ -245,6 +245,8 @@ French version
 -Ajout du type d'équipement "Generic Portable LED/LCD TV"
 -Ajoute une option dans la boite Background pour déformer l'image et lui faire remplir tout l'écran
 -Ajoute de nouvelles options dans la boite de configuration pour les images non standard pour définir la contrainte géométrique en plus du style de coordonnées
+-Fini de trier les tailles d'image, codecs et bitrates dans les boites de configuration et de génération
+-Supprime l'ouverture d'une console lors de l'ouverture par double click sur un fichier [Windows-ffDiaporamaStart]
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -308,3 +310,5 @@ English version
 -Add device "Generic Portable LED/LCD TV"
 -Add an option in the Background dialog to deform the image and make it fill all the screen
 -Add new options in option dialog for non standard image to define geometrical constraint in addition to coordinate style
+-Finalize sorting of image sizes, codecs and bitrates in option dialog and render dialog
+-Remove the opening of a console during the opening by click double on a file [Windows-ffDiaporamaStart]
