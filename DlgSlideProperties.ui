@@ -2539,7 +2539,7 @@ color: #000000;
                    <string/>
                   </property>
                   <property name="pixmap">
-                   <pixmap>../../../../../../../home/dominique/Public/Dev/ffDiaporama/trunk/ffDiaporama/img/EditImage.png</pixmap>
+                   <pixmap>img/EditImage.png</pixmap>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

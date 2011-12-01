@@ -516,7 +516,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>659</width>
+            <width>555</width>
             <height>1999</height>
            </rect>
           </property>
@@ -2833,8 +2833,8 @@ image</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>676</width>
-            <height>416</height>
+            <width>307</width>
+            <height>343</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -3698,6 +3698,17 @@ image</string>
      <property name="spacing">
       <number>4</number>
      </property>
+     <item>
+      <widget class="QPushButton" name="CheckConfigBT">
+       <property name="text">
+        <string>Check Configuration</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/config.png</normaloff>img/config.png</iconset>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QPushButton" name="DBApplyBT">
        <property name="text">

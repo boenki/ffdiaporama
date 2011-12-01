@@ -30,6 +30,7 @@
 #include "DlgTransitionProperties.h"
 #include "DlgApplicationSettings.h"
 #include "DlgRenderVideo.h"
+#include "DlgCheckConfig.h"
 
 MainWindow  *GlobalMainWindow=NULL;
 
@@ -255,6 +256,10 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
 
     ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+"0 / 0");
     s_ToolbarChanged(0);
+    if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig())); else {
+        QString Status;
+        if ((!CheckExiv2(Status))||(!Checkffmpeg(Status))) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig()));
+    }
 }
 
 //====================================================================================================================
@@ -496,6 +501,17 @@ void MainWindow::s_About() {
     ui->Action_About_BT->setDown(false);
     ui->Action_About_BT_2->setDown(false);
     DlgAbout(this).exec();
+}
+
+//====================================================================================================================
+
+void MainWindow::s_DlgCheckConfig() {
+    DlgCheckConfig(this).exec();
+    QString Status;
+    if ((!CheckExiv2(Status))||(!Checkffmpeg(Status))) {
+        QMessageBox::critical(this,"ffDiaporama",QApplication::translate("MainWindow","Configuration not correct!"));
+        close();
+    }
 }
 
 //====================================================================================================================

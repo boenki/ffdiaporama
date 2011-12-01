@@ -65,7 +65,8 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     DlgManageStyle.cpp \
     _StyleDefinitions.cpp \
     fmt_filters/fmt_filters.cpp \
-    _cLuLoImageCache.cpp
+    _cLuLoImageCache.cpp \
+    DlgCheckConfig.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
@@ -94,7 +95,8 @@ HEADERS  += _GlobalDefines.h \
     DlgManageStyle.h \
     _StyleDefinitions.h \
     fmt_filters/fmt_filters.h \
-    _cLuLoImageCache.h
+    _cLuLoImageCache.h \
+    DlgCheckConfig.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \
@@ -108,7 +110,8 @@ FORMS    += mainwindow.ui \
     DlgImageCorrection.ui \
     DlgVideoEdit.ui \
     DlgTextEdit.ui \
-    DlgManageStyle.ui
+    DlgManageStyle.ui \
+    DlgCheckConfig.ui
 
 OTHER_FILES += \
     ffDiaporama.xml \

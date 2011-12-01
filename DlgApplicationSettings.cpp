@@ -21,6 +21,7 @@
 #include "DlgApplicationSettings.h"
 #include "mainwindow.h"
 #include "ui_DlgApplicationSettings.h"
+#include "DlgCheckConfig.h"
 
 DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicationConfig,QWidget *parent) : QDialog(parent),ui(new Ui::DlgApplicationSettings) {
     ui->setupUi(this);
@@ -260,6 +261,7 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OkBt,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
+    connect(ui->CheckConfigBT,SIGNAL(clicked()),this,SLOT(CheckConfig()));
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(TabChanged(int)));
 
     ui->tabWidget->setCurrentIndex(0);
@@ -281,6 +283,12 @@ void DlgApplicationSettings::Help() {
 
 void DlgApplicationSettings::SetSavedWindowGeometry() {
     ApplicationConfig->DlgApplicationSettingsWSP->ApplyToWindow(this);
+}
+
+//====================================================================================================================
+
+void DlgApplicationSettings::CheckConfig() {
+    DlgCheckConfig(this).exec();
 }
 
 //====================================================================================================================

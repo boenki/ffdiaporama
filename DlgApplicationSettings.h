@@ -56,6 +56,7 @@ protected:
 
 private slots:
     void        Help();
+    void        CheckConfig();
     void        TabChanged(int);
 
     void        SetSavedWindowGeometry();

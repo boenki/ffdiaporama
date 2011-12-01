@@ -142,7 +142,7 @@ extern "C" {
 // Global defines
 //============================================
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "1.1 devel version"
+#define APPLICATION_VERSION                 "1.1 beta 1-"
 //#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Stable/BUILDVERSION.txt"
 #define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Devel/BUILDVERSION.txt"
 
@@ -182,6 +182,8 @@ extern "C" {
 #define ICON_FRAMING_HEIGHT                 "img/AdjustH.png"
 #define ICON_FRAMING_FULL                   "img/AdjustWH.png"
 #define ICON_FRAMING_CUSTOM                 "img/action_cancel.png"
+#define ICON_GREEN                          "img/Green.png"
+#define ICON_RED                            "img/Red.png"
 
 #define STYLENAME_TEXTSTYLE                 "TextStyleCollection"
 #define STYLENAME_BACKGROUNDSTYLE           "TextBackgroundStyleCollection"
@@ -331,6 +333,7 @@ extern "C" {
 #define HELPFILE_DlgRenderVideo             "1298"                                                              //dlg_008"
 #define HELPFILE_DlgTransitionProperties    "1300"                                                              //dlg_009"
 #define HELPFILE_DlgVideoEdit               "1302"                                                              //dlg_010"
+#define HELPFILE_DlgCheckConfig             "3086"
 
 //============================================
 // Default values
