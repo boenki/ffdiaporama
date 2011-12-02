@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 30/11/2011) :
+Buggs/TODO (Dernier SVN le 01/12/2011) :
 ----------------------------------------
 BUGG:
 -Le mixage de 2 pistes audio à fort volume donne un résultat saturé
@@ -35,7 +35,6 @@ Various
 -Add a management of route: A line object with multiple points being outlined during the animation with a PNG attached to the point being drawn
 -Add a "mass modifications" feature to all slide or a group of slide. First shot duration - Transition - Random Ken Burns effect - etc...
 -Add a tools to convert video
--Add the possibility to render a video without audio track
 -Add the possibility to load a text file containing a list of image and add these image in the order of the text file
 
 Text
@@ -61,12 +60,10 @@ French version / Correction de bug :
 English version / Bug fix :
 
 French version / Nouvelles fonctionnalités :
--Ajoute une boite de dialog de vérification de la configuration
--Vérifie au démarrage si exiv2 et ffmpeg sont présent - à défaut : quit le programme
+-Ajoute la possibilité de générer vidéos sans son
 
 English version / New features :
--Add Check configuration dialog
--Check at startup if exiv2 and ffmpeg are available - if not : exit application
+-Add the possibility to render a video without audio track
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -247,6 +244,8 @@ French version
 -Ajoute de nouvelles options dans la boite de configuration pour les images non standard pour définir la contrainte géométrique en plus du style de coordonnées
 -Fini de trier les tailles d'image, codecs et bitrates dans les boites de configuration et de génération
 -Supprime l'ouverture d'une console lors de l'ouverture par double click sur un fichier [Windows-ffDiaporamaStart]
+-Ajoute une boite de dialog de vérification de la configuration
+-Vérifie au démarrage si exiv2 et ffmpeg sont présent - à défaut : quit le programme
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -312,3 +311,5 @@ English version
 -Add new options in option dialog for non standard image to define geometrical constraint in addition to coordinate style
 -Finalize sorting of image sizes, codecs and bitrates in option dialog and render dialog
 -Remove the opening of a console during the opening by click double on a file [Windows-ffDiaporamaStart]
+-Add Check configuration dialog
+-Check at startup if exiv2 and ffmpeg are available - if not : exit application
