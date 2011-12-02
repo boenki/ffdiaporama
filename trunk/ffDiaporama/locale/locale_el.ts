@@ -1882,7 +1882,7 @@ Move the current selected file of a notch downward.</source>
     <name>DlgRenderVideo</name>
     <message>
         <location filename="../DlgRenderVideo.ui" line="62"/>
-        <location filename="../DlgRenderVideo.ui" line="509"/>
+        <location filename="../DlgRenderVideo.ui" line="526"/>
         <source>Image format :</source>
         <translation>Μορφή εικόνας:</translation>
     </message>
@@ -2033,82 +2033,92 @@ Move the current selected file of a notch downward.</source>
         <translation>Προς δημιουργία:</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="499"/>
+        <location filename="../DlgRenderVideo.ui" line="478"/>
+        <source>Sound :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.ui" line="488"/>
+        <source>Include sound in the video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.ui" line="516"/>
         <source>Rendering to :</source>
         <translation>Δημιουργία του αρχείου:</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="519"/>
+        <location filename="../DlgRenderVideo.ui" line="536"/>
         <source>Video format :</source>
         <translation>Μορφή βίντεο:</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="529"/>
+        <location filename="../DlgRenderVideo.ui" line="546"/>
         <source>Audio format :</source>
         <translation>Μορφή ήχου:</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="632"/>
+        <location filename="../DlgRenderVideo.ui" line="649"/>
         <source>Audio track - Total progression</source>
         <translation>Κομμάτι ήχου - Συνολική πρόοδος</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="665"/>
+        <location filename="../DlgRenderVideo.ui" line="682"/>
         <source>Video track - Current slide progression</source>
         <translation>Κομμάτι βίντεο - Πρόοδος της τρέχουσας διαφάνειας</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="726"/>
+        <location filename="../DlgRenderVideo.ui" line="743"/>
         <source>Video track - Total progression</source>
         <translation>Κομμάτι βίντεο - Συνολική πρόοδος</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="782"/>
+        <location filename="../DlgRenderVideo.ui" line="799"/>
         <source>Elapsed time :</source>
         <translation>Χρόνος που πέρασε:</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="792"/>
+        <location filename="../DlgRenderVideo.ui" line="809"/>
         <source>Average render speed :</source>
         <translation>Μέση ταχύτητα δημιουργίας:</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="828"/>
+        <location filename="../DlgRenderVideo.ui" line="845"/>
         <source>fps</source>
         <translation>fps</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="878"/>
+        <location filename="../DlgRenderVideo.ui" line="895"/>
         <source>Accept modification and start rendering process</source>
         <translation>Αποδοχή των τροποποιήσεων και έναρξη της διεργασίας αποτύπωσης</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="881"/>
+        <location filename="../DlgRenderVideo.ui" line="898"/>
         <source>&amp;Ok</source>
         <translation>&amp;Εντάξει</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="892"/>
+        <location filename="../DlgRenderVideo.ui" line="909"/>
         <source>Cancel modification or rendering process and exit dialog box</source>
         <translation>Ακύρωση των τροποποιήσεων ή της διεργασίας αποτύπωσης και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="895"/>
+        <location filename="../DlgRenderVideo.ui" line="912"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="906"/>
+        <location filename="../DlgRenderVideo.ui" line="923"/>
         <source>Open help page describing this dialog box</source>
         <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="909"/>
+        <location filename="../DlgRenderVideo.ui" line="926"/>
         <source>&amp;Help</source>
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="916"/>
+        <location filename="../DlgRenderVideo.ui" line="933"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
@@ -2139,121 +2149,121 @@ Move the current selected file of a notch downward.</source>
         <translation>ταινία</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="255"/>
+        <location filename="../DlgRenderVideo.cpp" line="267"/>
         <source>Select destination file</source>
         <translation type="unfinished">Επιλέξτε αρχείο προορισμού</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="482"/>
-        <location filename="../DlgRenderVideo.cpp" line="537"/>
+        <location filename="../DlgRenderVideo.cpp" line="494"/>
+        <location filename="../DlgRenderVideo.cpp" line="558"/>
         <source>Stop rendering</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="544"/>
+        <location filename="../DlgRenderVideo.cpp" line="565"/>
         <source>Range selection</source>
         <translation>Εύρος επιλογής</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="545"/>
+        <location filename="../DlgRenderVideo.cpp" line="566"/>
         <source>Slide range is defined to incorrect values</source>
         <translation>Το εύρος έχει καθοριστεί σε μη έγκυρες τιμές</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="552"/>
+        <location filename="../DlgRenderVideo.cpp" line="573"/>
         <source>Overwrite file ?</source>
         <translation>Αντικατάσταση του αρχείου;</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="553"/>
+        <location filename="../DlgRenderVideo.cpp" line="574"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
         <translation>Το αρχείο που επιλέξατε υπάρχει ήδη.
 Επιθυμείτε την αντικατάστασή του;</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="583"/>
-        <location filename="../DlgRenderVideo.cpp" line="595"/>
-        <location filename="../DlgRenderVideo.cpp" line="739"/>
-        <location filename="../DlgRenderVideo.cpp" line="758"/>
-        <location filename="../DlgRenderVideo.cpp" line="932"/>
-        <location filename="../DlgRenderVideo.cpp" line="969"/>
-        <location filename="../DlgRenderVideo.cpp" line="978"/>
-        <location filename="../DlgRenderVideo.cpp" line="989"/>
-        <location filename="../DlgRenderVideo.cpp" line="1000"/>
-        <location filename="../DlgRenderVideo.cpp" line="1012"/>
-        <location filename="../DlgRenderVideo.cpp" line="1034"/>
-        <location filename="../DlgRenderVideo.cpp" line="1059"/>
-        <location filename="../DlgRenderVideo.cpp" line="1068"/>
-        <location filename="../DlgRenderVideo.cpp" line="1081"/>
-        <location filename="../DlgRenderVideo.cpp" line="1187"/>
-        <location filename="../DlgRenderVideo.cpp" line="1191"/>
+        <location filename="../DlgRenderVideo.cpp" line="604"/>
+        <location filename="../DlgRenderVideo.cpp" line="616"/>
+        <location filename="../DlgRenderVideo.cpp" line="762"/>
+        <location filename="../DlgRenderVideo.cpp" line="781"/>
+        <location filename="../DlgRenderVideo.cpp" line="956"/>
+        <location filename="../DlgRenderVideo.cpp" line="993"/>
+        <location filename="../DlgRenderVideo.cpp" line="1002"/>
+        <location filename="../DlgRenderVideo.cpp" line="1013"/>
+        <location filename="../DlgRenderVideo.cpp" line="1024"/>
+        <location filename="../DlgRenderVideo.cpp" line="1036"/>
+        <location filename="../DlgRenderVideo.cpp" line="1058"/>
+        <location filename="../DlgRenderVideo.cpp" line="1083"/>
+        <location filename="../DlgRenderVideo.cpp" line="1092"/>
+        <location filename="../DlgRenderVideo.cpp" line="1105"/>
+        <location filename="../DlgRenderVideo.cpp" line="1211"/>
         <location filename="../DlgRenderVideo.cpp" line="1215"/>
+        <location filename="../DlgRenderVideo.cpp" line="1239"/>
         <source>Render video</source>
         <translation>Δημιουργία του βίντεο</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="672"/>
+        <location filename="../DlgRenderVideo.cpp" line="694"/>
         <source>Encoding sound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="764"/>
+        <location filename="../DlgRenderVideo.cpp" line="787"/>
         <source>Start ffmpeg encoder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="810"/>
-        <location filename="../DlgRenderVideo.cpp" line="876"/>
-        <location filename="../DlgRenderVideo.cpp" line="883"/>
-        <location filename="../DlgRenderVideo.cpp" line="920"/>
-        <location filename="../DlgRenderVideo.cpp" line="924"/>
+        <location filename="../DlgRenderVideo.cpp" line="834"/>
+        <location filename="../DlgRenderVideo.cpp" line="900"/>
+        <location filename="../DlgRenderVideo.cpp" line="907"/>
+        <location filename="../DlgRenderVideo.cpp" line="944"/>
+        <location filename="../DlgRenderVideo.cpp" line="948"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Σφάλμα</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="811"/>
+        <location filename="../DlgRenderVideo.cpp" line="835"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Σφάλμα εκκίνησης του ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="846"/>
+        <location filename="../DlgRenderVideo.cpp" line="870"/>
         <source> - Estimated time left : </source>
         <translation> - Εκτίμηση εναπομένοντος χρόνου: </translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="876"/>
+        <location filename="../DlgRenderVideo.cpp" line="900"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την αποστολή της εικόνας στο ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="883"/>
+        <location filename="../DlgRenderVideo.cpp" line="907"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation>Σφάλμα ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="905"/>
+        <location filename="../DlgRenderVideo.cpp" line="929"/>
         <source>Closing encoder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="920"/>
+        <location filename="../DlgRenderVideo.cpp" line="944"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την διεργασία του ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="924"/>
+        <location filename="../DlgRenderVideo.cpp" line="948"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την έξοδο του ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="932"/>
+        <location filename="../DlgRenderVideo.cpp" line="956"/>
         <source>Job completed succesfully!</source>
         <translation>Η εργασία ολοκληρώθηκε με επιτυχία!</translation>
     </message>

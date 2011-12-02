@@ -82,6 +82,7 @@ private slots:
     void            s_DeviceModelCB(int);
     void            SetZoneToAll();
     void            SetZoneToPartial();
+    void            s_IncludeSound();
 
 private:
     Ui::DlgRenderVideo *ui;

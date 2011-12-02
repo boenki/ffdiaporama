@@ -1840,7 +1840,7 @@ Move the current selected file of a notch downward.</source>
     <name>DlgRenderVideo</name>
     <message>
         <location filename="../DlgRenderVideo.ui" line="62"/>
-        <location filename="../DlgRenderVideo.ui" line="509"/>
+        <location filename="../DlgRenderVideo.ui" line="526"/>
         <source>Image format :</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1991,82 +1991,92 @@ Move the current selected file of a notch downward.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="499"/>
+        <location filename="../DlgRenderVideo.ui" line="478"/>
+        <source>Sound :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.ui" line="488"/>
+        <source>Include sound in the video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DlgRenderVideo.ui" line="516"/>
         <source>Rendering to :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="519"/>
+        <location filename="../DlgRenderVideo.ui" line="536"/>
         <source>Video format :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="529"/>
+        <location filename="../DlgRenderVideo.ui" line="546"/>
         <source>Audio format :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="632"/>
+        <location filename="../DlgRenderVideo.ui" line="649"/>
         <source>Audio track - Total progression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="665"/>
+        <location filename="../DlgRenderVideo.ui" line="682"/>
         <source>Video track - Current slide progression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="726"/>
+        <location filename="../DlgRenderVideo.ui" line="743"/>
         <source>Video track - Total progression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="782"/>
+        <location filename="../DlgRenderVideo.ui" line="799"/>
         <source>Elapsed time :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="792"/>
+        <location filename="../DlgRenderVideo.ui" line="809"/>
         <source>Average render speed :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="828"/>
+        <location filename="../DlgRenderVideo.ui" line="845"/>
         <source>fps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="878"/>
+        <location filename="../DlgRenderVideo.ui" line="895"/>
         <source>Accept modification and start rendering process</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="881"/>
+        <location filename="../DlgRenderVideo.ui" line="898"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="892"/>
+        <location filename="../DlgRenderVideo.ui" line="909"/>
         <source>Cancel modification or rendering process and exit dialog box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="895"/>
+        <location filename="../DlgRenderVideo.ui" line="912"/>
         <source>&amp;Cancel</source>
         <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="906"/>
+        <location filename="../DlgRenderVideo.ui" line="923"/>
         <source>Open help page describing this dialog box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="909"/>
+        <location filename="../DlgRenderVideo.ui" line="926"/>
         <source>&amp;Help</source>
         <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="916"/>
+        <location filename="../DlgRenderVideo.ui" line="933"/>
         <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2097,120 +2107,120 @@ Move the current selected file of a notch downward.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="255"/>
+        <location filename="../DlgRenderVideo.cpp" line="267"/>
         <source>Select destination file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="482"/>
-        <location filename="../DlgRenderVideo.cpp" line="537"/>
+        <location filename="../DlgRenderVideo.cpp" line="494"/>
+        <location filename="../DlgRenderVideo.cpp" line="558"/>
         <source>Stop rendering</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="544"/>
+        <location filename="../DlgRenderVideo.cpp" line="565"/>
         <source>Range selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="545"/>
+        <location filename="../DlgRenderVideo.cpp" line="566"/>
         <source>Slide range is defined to incorrect values</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="552"/>
+        <location filename="../DlgRenderVideo.cpp" line="573"/>
         <source>Overwrite file ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="553"/>
+        <location filename="../DlgRenderVideo.cpp" line="574"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="583"/>
-        <location filename="../DlgRenderVideo.cpp" line="595"/>
-        <location filename="../DlgRenderVideo.cpp" line="739"/>
-        <location filename="../DlgRenderVideo.cpp" line="758"/>
-        <location filename="../DlgRenderVideo.cpp" line="932"/>
-        <location filename="../DlgRenderVideo.cpp" line="969"/>
-        <location filename="../DlgRenderVideo.cpp" line="978"/>
-        <location filename="../DlgRenderVideo.cpp" line="989"/>
-        <location filename="../DlgRenderVideo.cpp" line="1000"/>
-        <location filename="../DlgRenderVideo.cpp" line="1012"/>
-        <location filename="../DlgRenderVideo.cpp" line="1034"/>
-        <location filename="../DlgRenderVideo.cpp" line="1059"/>
-        <location filename="../DlgRenderVideo.cpp" line="1068"/>
-        <location filename="../DlgRenderVideo.cpp" line="1081"/>
-        <location filename="../DlgRenderVideo.cpp" line="1187"/>
-        <location filename="../DlgRenderVideo.cpp" line="1191"/>
+        <location filename="../DlgRenderVideo.cpp" line="604"/>
+        <location filename="../DlgRenderVideo.cpp" line="616"/>
+        <location filename="../DlgRenderVideo.cpp" line="762"/>
+        <location filename="../DlgRenderVideo.cpp" line="781"/>
+        <location filename="../DlgRenderVideo.cpp" line="956"/>
+        <location filename="../DlgRenderVideo.cpp" line="993"/>
+        <location filename="../DlgRenderVideo.cpp" line="1002"/>
+        <location filename="../DlgRenderVideo.cpp" line="1013"/>
+        <location filename="../DlgRenderVideo.cpp" line="1024"/>
+        <location filename="../DlgRenderVideo.cpp" line="1036"/>
+        <location filename="../DlgRenderVideo.cpp" line="1058"/>
+        <location filename="../DlgRenderVideo.cpp" line="1083"/>
+        <location filename="../DlgRenderVideo.cpp" line="1092"/>
+        <location filename="../DlgRenderVideo.cpp" line="1105"/>
+        <location filename="../DlgRenderVideo.cpp" line="1211"/>
         <location filename="../DlgRenderVideo.cpp" line="1215"/>
+        <location filename="../DlgRenderVideo.cpp" line="1239"/>
         <source>Render video</source>
         <translation type="unfinished">Video erzeugen</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="672"/>
+        <location filename="../DlgRenderVideo.cpp" line="694"/>
         <source>Encoding sound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="764"/>
+        <location filename="../DlgRenderVideo.cpp" line="787"/>
         <source>Start ffmpeg encoder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="810"/>
-        <location filename="../DlgRenderVideo.cpp" line="876"/>
-        <location filename="../DlgRenderVideo.cpp" line="883"/>
-        <location filename="../DlgRenderVideo.cpp" line="920"/>
-        <location filename="../DlgRenderVideo.cpp" line="924"/>
+        <location filename="../DlgRenderVideo.cpp" line="834"/>
+        <location filename="../DlgRenderVideo.cpp" line="900"/>
+        <location filename="../DlgRenderVideo.cpp" line="907"/>
+        <location filename="../DlgRenderVideo.cpp" line="944"/>
+        <location filename="../DlgRenderVideo.cpp" line="948"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="811"/>
+        <location filename="../DlgRenderVideo.cpp" line="835"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="846"/>
+        <location filename="../DlgRenderVideo.cpp" line="870"/>
         <source> - Estimated time left : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="876"/>
+        <location filename="../DlgRenderVideo.cpp" line="900"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="883"/>
+        <location filename="../DlgRenderVideo.cpp" line="907"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="905"/>
+        <location filename="../DlgRenderVideo.cpp" line="929"/>
         <source>Closing encoder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="920"/>
+        <location filename="../DlgRenderVideo.cpp" line="944"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="924"/>
+        <location filename="../DlgRenderVideo.cpp" line="948"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="932"/>
+        <location filename="../DlgRenderVideo.cpp" line="956"/>
         <source>Job completed succesfully!</source>
         <translation type="unfinished"></translation>
     </message>

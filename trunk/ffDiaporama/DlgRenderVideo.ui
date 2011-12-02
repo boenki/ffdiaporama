@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>420</height>
+    <height>414</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -46,7 +46,7 @@
         <x>0</x>
         <y>0</y>
         <width>467</width>
-        <height>313</height>
+        <height>338</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
@@ -257,7 +257,7 @@
          </item>
         </layout>
        </item>
-       <item row="16" column="1">
+       <item row="15" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <property name="spacing">
           <number>2</number>
@@ -335,7 +335,7 @@
          </property>
         </widget>
        </item>
-       <item row="16" column="0">
+       <item row="15" column="0">
         <widget class="QLabel" name="AudioFormatLabel">
          <property name="text">
           <string>Audio codec :</string>
@@ -402,16 +402,6 @@
          </property>
         </spacer>
        </item>
-       <item row="8" column="0" colspan="2">
-        <widget class="QLabel" name="RenderFormatText">
-         <property name="text">
-          <string notr="true"/>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="7" column="1">
         <layout class="QGridLayout" name="gridLayout_4">
          <property name="horizontalSpacing">
@@ -469,6 +459,33 @@
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Sound :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="1">
+        <widget class="QCheckBox" name="IncludeSoundCB">
+         <property name="text">
+          <string>Include sound in the video</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="0" colspan="2">
+        <widget class="QLabel" name="RenderFormatText">
+         <property name="text">
+          <string notr="true"/>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -627,7 +644,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QLabel" name="label_14">
+         <widget class="QLabel" name="SoundProgressLabel">
           <property name="text">
            <string>Audio track - Total progression</string>
           </property>

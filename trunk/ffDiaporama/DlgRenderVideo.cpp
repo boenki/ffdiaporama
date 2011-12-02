@@ -63,6 +63,9 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     ImageSize           = Diaporama->ApplicationConfig->DefaultImageSize;
     Standard            = Diaporama->ApplicationConfig->DefaultStandard;
 
+    ui->IncludeSoundCB->setChecked(true);
+    connect(ui->IncludeSoundCB,SIGNAL(clicked()),this,SLOT(s_IncludeSound()));
+
     if (ExportMode==EXPORTMODE_ADVANCED) {
 
         ui->DeviceTypeLabel->setVisible(false);
@@ -100,6 +103,12 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
         FileFormatCombo(0);
         InitVideoBitRateCB(-1);
         InitAudioBitRateCB(-1);
+
+        ui->AudioFormatLabel->setEnabled(ui->IncludeSoundCB->isChecked());
+        ui->AudioFormatCB->setEnabled(ui->IncludeSoundCB->isChecked());
+        ui->AudioBitRateLabel->setEnabled(ui->IncludeSoundCB->isChecked());
+        ui->AudioBitRateCB->setEnabled(ui->IncludeSoundCB->isChecked());
+
         connect(ui->VideoFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
         connect(ui->AudioFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitAudioBitRateCB(int)));
 
@@ -110,8 +119,11 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
         ui->ImageSizeLabel->setVisible(false);          ui->ImageSizeCombo->setVisible(false);
         ui->VideoFormatLabel->setVisible(false);        ui->VideoFormatCB->setVisible(false);
         ui->VideoBitRateLabel->setVisible(false);       ui->VideoBitRateCB->setVisible(false);
-        ui->AudioFormatLabel->setVisible(false);        ui->AudioFormatCB->setVisible(false);
-        ui->AudioBitRateLabel->setVisible(false);       ui->AudioBitRateCB->setVisible(false);
+
+        ui->AudioFormatLabel->setVisible(false);        ui->AudioFormatLabel->setEnabled(false);
+        ui->AudioFormatCB->setVisible(false);           ui->AudioFormatCB->setEnabled(false);
+        ui->AudioBitRateLabel->setVisible(false);       ui->AudioBitRateLabel->setEnabled(false);
+        ui->AudioBitRateCB->setVisible(false);          ui->AudioBitRateCB->setEnabled(false);
 
         QStringList List;
         int         Default=ExportMode==EXPORTMODE_SMARTPHONE?Diaporama->ApplicationConfig->DefaultSmartphoneType:
@@ -489,6 +501,16 @@ void DlgRenderVideo::reject() {
 
 //====================================================================================================================
 
+void DlgRenderVideo::s_IncludeSound() {
+    ui->AudioFormatLabel->setEnabled(ui->IncludeSoundCB->isChecked());
+    ui->AudioFormatCB->setEnabled(ui->IncludeSoundCB->isChecked());
+    ui->AudioBitRateLabel->setEnabled(ui->IncludeSoundCB->isChecked());
+    ui->AudioBitRateCB->setEnabled(ui->IncludeSoundCB->isChecked());
+    if (ExportMode!=EXPORTMODE_ADVANCED) s_DeviceModelCB(ui->DeviceModelCB->currentIndex());
+}
+
+//====================================================================================================================
+
 void DlgRenderVideo::s_DeviceModelCB(int) {
     QString Device=ui->DeviceModelCB->currentText();
     int i=0;
@@ -509,7 +531,8 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
         QString VideoBitRateStr=QString("%1").arg(Diaporama->ApplicationConfig->RenderDeviceModel[i].VideoBitrate); if (VideoBitRateStr.endsWith("000")) VideoBitRateStr=VideoBitRateStr.left(VideoBitRateStr.length()-3)+"k";
         QString AudioBitRateStr=QString("%1").arg(Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioBitrate); if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
 
-        Text=Text+"-"+VideoBitRateStr+"b/s\nAudio=\t"+AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].LongName+"-"+AudioBitRateStr+"b/s";
+        Text=Text+"-"+VideoBitRateStr+"b/s";
+        if (ui->IncludeSoundCB->isChecked()) Text=Text+"\nAudio=\t"+AUDIOCODECDEF[Diaporama->ApplicationConfig->RenderDeviceModel[i].AudioCodec].LongName+"-"+AudioBitRateStr+"b/s";
         ui->RenderFormatText->setText(Text);
 
     } else ui->RenderFormatText->setText("");
@@ -663,14 +686,19 @@ void DlgRenderVideo::accept() {
         // 1st step encoding : produce WAV file with sound
         //**********************************************************************************************************************************
 
-        // Create tempwavefile in the same directory as destination file
-        TempWAVFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
-        if (!TempWAVFileName.endsWith(QDir::separator())) TempWAVFileName=TempWAVFileName+QDir::separator();
-        TempWAVFileName=TempWAVFileName+"temp.wav";
+        if (ui->IncludeSoundCB->isChecked()) {
+            // Create tempwavefile in the same directory as destination file
+            TempWAVFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
+            if (!TempWAVFileName.endsWith(QDir::separator())) TempWAVFileName=TempWAVFileName+QDir::separator();
+            TempWAVFileName=TempWAVFileName+"temp.wav";
 
-        StartTime=QTime::currentTime();                                  // Display control : time the process start
-        qDebug()<<QApplication::translate("DlgRenderVideo","Encoding sound");
-        Continue=WriteTempAudioFile(TempWAVFileName,FromSlide);
+            StartTime=QTime::currentTime();                                  // Display control : time the process start
+            qDebug()<<QApplication::translate("DlgRenderVideo","Encoding sound");
+            Continue=WriteTempAudioFile(TempWAVFileName,FromSlide);
+        } else {
+            ui->SoundProgressLabel->setEnabled(false);
+            ui->SoundProgressBar->setEnabled(false);
+        }
 
         //**********************************************************************************************************************************
         // 2nd step encoding : produce final file using temporary WAV file with sound
@@ -742,7 +770,7 @@ void DlgRenderVideo::accept() {
             }
 
             // Audio codec part
-            switch (AUDIOCODECDEF[AudioCodecIndex].Codec_id) {
+            if (ui->IncludeSoundCB->isChecked()) switch (AUDIOCODECDEF[AudioCodecIndex].Codec_id) {
                 case CODEC_ID_PCM_S16LE:    aCodec=QString("-acodec pcm_s16le -ab %1").arg(AudioBitRate); break;
                 case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1").arg(AudioBitRate); break;
                 case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(AudioBitRate); break;
@@ -777,14 +805,15 @@ void DlgRenderVideo::accept() {
                         case GEOMETRY_40_17:    W=(double(H)/17)*40;    GeoW=16;    GeoH=9; break;
                     }
                 }
-                ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r "+QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+" -i -"+
-                      " -i \"")+TempWAVFileName+"\" -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+AddSizestr+" -r "+
-                      QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
-                      " "+aCodec+QString(" -ar %1 -ac %2 -aspect %3:%4")
-                      .arg(AudioFrequency)
-                      .arg(Channels)
-                      .arg(GeoW)
-                      .arg(GeoH);
+                ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r ")+QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+" -i -"+
+                        (ui->IncludeSoundCB->isChecked()?" -i \""+TempWAVFileName+"\"":"")+
+                        " -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+AddSizestr+" -r "+
+                        QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
+                        " "+aCodec+QString(" -ar %1 -ac %2 -aspect %3:%4")
+                        .arg(AudioFrequency)
+                        .arg(Channels)
+                        .arg(GeoW)
+                        .arg(GeoH);
                 if (ExtendV>0) ffmpegCommand=ffmpegCommand+QString(" -padtop %1 -padbottom %2").arg(ExtendV/2).arg(ExtendV-ExtendV/2);
                 if (ExtendH>0) ffmpegCommand=ffmpegCommand+QString(" -padleft %1 -padright %2").arg(ExtendH/2).arg(ExtendH-ExtendH/2);
 
