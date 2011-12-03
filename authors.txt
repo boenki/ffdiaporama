@@ -4,13 +4,14 @@ Logo & icons :
     Zouly <http://www.customxp.net/PngFactory/galerie-png-24105-Zouly.html>
 
 English help files correction :
-    Hazel <http://www.linuxforums.org/forum/members/hazel.html>
+  ffDiaporama 1.0 WIKI : Hazel <http://www.linuxforums.org/forum/members/hazel.html>
+  ffDiaporama 1.1 WIKI : Dominique LEVRAY <levray.dominique@bbox.fr>
 
-Spanish interface translation :
+Spanish interface and WIKI translation :
     Pepe Baeza <http://www.quesepuedehacerenlinux.net/search/label/ffdiaporama>
 
-Italian interface translation :
+Italian interface and WIKI translation :
     Lino Fantasia <http://www.anxurweb.com/fine-dello-sviluppo-di-videoporama-benvenuto-ffdiaporama.html>
 
-Greec interface translation :
+Greec interface and WIKI translation :
     Dimitrios Glentadakis <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=34>

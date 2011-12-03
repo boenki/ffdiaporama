@@ -354,12 +354,12 @@ Transizione dissolvenza incrociata</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="475"/>
         <source>Image smoothing :</source>
-        <translation type="unfinished"></translation>
+        <translation>Levigatura immagine :</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="485"/>
         <source>Smooth image during preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Levigatura immagine durante l&apos;anteprima</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="497"/>
@@ -906,7 +906,7 @@ non predefinita</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3704"/>
         <source>Check Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlla configurazione</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3715"/>
@@ -953,25 +953,25 @@ non predefinita</translation>
         <location filename="../DlgApplicationSettings.cpp" line="139"/>
         <location filename="../DlgApplicationSettings.cpp" line="146"/>
         <source>Lock to image geometry</source>
-        <translation type="unfinished">Blocca alla geometrica immagine</translation>
+        <translation>Blocca alla geometria immagine</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.cpp" line="140"/>
         <location filename="../DlgApplicationSettings.cpp" line="147"/>
         <source>Lock to project geometry-to full image</source>
-        <translation type="unfinished"></translation>
+        <translation>Blocca la geometria progetto a tutta immagine</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.cpp" line="141"/>
         <location filename="../DlgApplicationSettings.cpp" line="148"/>
         <source>Lock to project geometry-to width</source>
-        <translation type="unfinished"></translation>
+        <translation>Blocca la geometria progetto alla larghezza</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.cpp" line="142"/>
         <location filename="../DlgApplicationSettings.cpp" line="149"/>
         <source>Lock to project geometry-to height</source>
-        <translation type="unfinished"></translation>
+        <translation>Blocca la geometria progetto all&apos;altezza</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.cpp" line="430"/>
@@ -1004,12 +1004,12 @@ non predefinita</translation>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="618"/>
         <source>Keep aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Mantieni proporzioni</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="645"/>
         <source>Full filling (deform image)</source>
-        <translation type="unfinished"></translation>
+        <translation>Riempimento completo (deforma l&apos;immagine)</translation>
     </message>
     <message>
         <location filename="../DlgBackgroundProperties.ui" line="684"/>
@@ -1067,81 +1067,81 @@ non predefinita</translation>
     <message>
         <location filename="../DlgCheckConfig.ui" line="22"/>
         <source>Check configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlla configurazione</translation>
     </message>
     <message>
         <location filename="../DlgCheckConfig.ui" line="46"/>
         <source>Check configuration at startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlla configurazione all&apos;avvio</translation>
     </message>
     <message>
         <location filename="../DlgCheckConfig.ui" line="66"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <location filename="../DlgCheckConfig.ui" line="69"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../DlgCheckConfig.ui" line="80"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Apre la pagina di aiuto che descrive questa finestra di dialogo</translation>
     </message>
     <message>
         <location filename="../DlgCheckConfig.ui" line="83"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Aiuto(&amp;H)</translation>
     </message>
     <message>
         <location filename="../DlgCheckConfig.ui" line="90"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="50"/>
+        <location filename="../DlgCheckConfig.cpp" line="56"/>
         <source>Exiv2 not found - critical - application will stop !</source>
-        <translation type="unfinished"></translation>
+        <translation>Exiv2 non trovato - critico - l&apos;applicazione sarà fermata !</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="79"/>
+        <location filename="../DlgCheckConfig.cpp" line="90"/>
         <source>ffmpeg not found - critical - application will stop !</source>
-        <translation type="unfinished"></translation>
+        <translation>ffmpeg non trovato - critico - l&apos;applicazione sarà fermata !</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="101"/>
+        <location filename="../DlgCheckConfig.cpp" line="112"/>
         <source>External dependencies</source>
-        <translation type="unfinished"></translation>
+        <translation>Dipendenze esterne</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="106"/>
+        <location filename="../DlgCheckConfig.cpp" line="117"/>
         <source>ffmpeg Audio Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>ffmpeg Codec Audio</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="107"/>
-        <location filename="../DlgCheckConfig.cpp" line="111"/>
-        <location filename="../DlgCheckConfig.cpp" line="115"/>
+        <location filename="../DlgCheckConfig.cpp" line="118"/>
+        <location filename="../DlgCheckConfig.cpp" line="122"/>
+        <location filename="../DlgCheckConfig.cpp" line="126"/>
         <source>available</source>
-        <translation type="unfinished"></translation>
+        <translation>disponibile</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="107"/>
-        <location filename="../DlgCheckConfig.cpp" line="111"/>
-        <location filename="../DlgCheckConfig.cpp" line="115"/>
+        <location filename="../DlgCheckConfig.cpp" line="118"/>
+        <location filename="../DlgCheckConfig.cpp" line="122"/>
+        <location filename="../DlgCheckConfig.cpp" line="126"/>
         <source>not available</source>
-        <translation type="unfinished"></translation>
+        <translation>non disponibile</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="110"/>
-        <source>ffmpeg Videc Codecs</source>
-        <translation type="unfinished"></translation>
+        <location filename="../DlgCheckConfig.cpp" line="121"/>
+        <source>ffmpeg Video Codecs</source>
+        <translation>ffmpeg Codec Video</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="114"/>
+        <location filename="../DlgCheckConfig.cpp" line="125"/>
         <source>ffmpeg Container Formats</source>
-        <translation type="unfinished"></translation>
+        <translation>ffmpeg Formati Contenitore</translation>
     </message>
 </context>
 <context>
@@ -2005,34 +2005,34 @@ Spostare il file corrente selezionato di una tacca verso il basso.</translation>
         <translation>Seleziona il tipo di dispositivo.</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="426"/>
+        <location filename="../DlgRenderVideo.ui" line="416"/>
         <source>All slides</source>
         <translation>Tutte le diapositive</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="433"/>
+        <location filename="../DlgRenderVideo.ui" line="423"/>
         <source>From</source>
         <translation>Da</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="443"/>
+        <location filename="../DlgRenderVideo.ui" line="433"/>
         <source>To</source>
         <translation>A</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="468"/>
+        <location filename="../DlgRenderVideo.ui" line="458"/>
         <source>To render :</source>
         <translation>Da renderizzare :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="478"/>
+        <location filename="../DlgRenderVideo.ui" line="468"/>
         <source>Sound :</source>
-        <translation type="unfinished"></translation>
+        <translation>Suono :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.ui" line="488"/>
+        <location filename="../DlgRenderVideo.ui" line="478"/>
         <source>Include sound in the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Include il suono nel video</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.ui" line="516"/>
@@ -2143,228 +2143,228 @@ Spostare il file corrente selezionato di una tacca verso il basso.</translation>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="267"/>
         <source>Select destination file</source>
-        <translation type="unfinished">Seleziona file destinazione</translation>
+        <translation>Seleziona file destinazione</translation>
     </message>
     <message>
         <location filename="../DlgRenderVideo.cpp" line="494"/>
-        <location filename="../DlgRenderVideo.cpp" line="558"/>
+        <location filename="../DlgRenderVideo.cpp" line="560"/>
         <source>Stop rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Ferma rendering</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="565"/>
+        <location filename="../DlgRenderVideo.cpp" line="567"/>
         <source>Range selection</source>
         <translation>Intervallo di selezione</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="566"/>
+        <location filename="../DlgRenderVideo.cpp" line="568"/>
         <source>Slide range is defined to incorrect values</source>
         <translation>Intervallo diapositiva è definito con valori incorretti</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="573"/>
+        <location filename="../DlgRenderVideo.cpp" line="575"/>
         <source>Overwrite file ?</source>
         <translation>Sovrascrivi file ?</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="574"/>
+        <location filename="../DlgRenderVideo.cpp" line="576"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
         <translation>Il file selezionato già esiste. 
 Vuoi sovrascriverlo?</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="604"/>
-        <location filename="../DlgRenderVideo.cpp" line="616"/>
-        <location filename="../DlgRenderVideo.cpp" line="762"/>
-        <location filename="../DlgRenderVideo.cpp" line="781"/>
-        <location filename="../DlgRenderVideo.cpp" line="956"/>
-        <location filename="../DlgRenderVideo.cpp" line="993"/>
-        <location filename="../DlgRenderVideo.cpp" line="1002"/>
-        <location filename="../DlgRenderVideo.cpp" line="1013"/>
-        <location filename="../DlgRenderVideo.cpp" line="1024"/>
-        <location filename="../DlgRenderVideo.cpp" line="1036"/>
-        <location filename="../DlgRenderVideo.cpp" line="1058"/>
-        <location filename="../DlgRenderVideo.cpp" line="1083"/>
-        <location filename="../DlgRenderVideo.cpp" line="1092"/>
-        <location filename="../DlgRenderVideo.cpp" line="1105"/>
-        <location filename="../DlgRenderVideo.cpp" line="1211"/>
-        <location filename="../DlgRenderVideo.cpp" line="1215"/>
-        <location filename="../DlgRenderVideo.cpp" line="1239"/>
+        <location filename="../DlgRenderVideo.cpp" line="606"/>
+        <location filename="../DlgRenderVideo.cpp" line="618"/>
+        <location filename="../DlgRenderVideo.cpp" line="767"/>
+        <location filename="../DlgRenderVideo.cpp" line="786"/>
+        <location filename="../DlgRenderVideo.cpp" line="961"/>
+        <location filename="../DlgRenderVideo.cpp" line="998"/>
+        <location filename="../DlgRenderVideo.cpp" line="1007"/>
+        <location filename="../DlgRenderVideo.cpp" line="1018"/>
+        <location filename="../DlgRenderVideo.cpp" line="1029"/>
+        <location filename="../DlgRenderVideo.cpp" line="1041"/>
+        <location filename="../DlgRenderVideo.cpp" line="1063"/>
+        <location filename="../DlgRenderVideo.cpp" line="1088"/>
+        <location filename="../DlgRenderVideo.cpp" line="1097"/>
+        <location filename="../DlgRenderVideo.cpp" line="1110"/>
+        <location filename="../DlgRenderVideo.cpp" line="1216"/>
+        <location filename="../DlgRenderVideo.cpp" line="1220"/>
+        <location filename="../DlgRenderVideo.cpp" line="1244"/>
         <source>Render video</source>
         <translation>Interpretazione video</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="694"/>
+        <location filename="../DlgRenderVideo.cpp" line="696"/>
         <source>Encoding sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Codifica suono</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="787"/>
+        <location filename="../DlgRenderVideo.cpp" line="792"/>
         <source>Start ffmpeg encoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvia codifica ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="834"/>
-        <location filename="../DlgRenderVideo.cpp" line="900"/>
-        <location filename="../DlgRenderVideo.cpp" line="907"/>
-        <location filename="../DlgRenderVideo.cpp" line="944"/>
-        <location filename="../DlgRenderVideo.cpp" line="948"/>
+        <location filename="../DlgRenderVideo.cpp" line="839"/>
+        <location filename="../DlgRenderVideo.cpp" line="905"/>
+        <location filename="../DlgRenderVideo.cpp" line="912"/>
+        <location filename="../DlgRenderVideo.cpp" line="949"/>
+        <location filename="../DlgRenderVideo.cpp" line="953"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translatorcomment>Messaggio di errore</translatorcomment>
         <translation>Errore</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="835"/>
+        <location filename="../DlgRenderVideo.cpp" line="840"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translatorcomment>Messaggio di errore</translatorcomment>
         <translation>Errore avvio ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="870"/>
+        <location filename="../DlgRenderVideo.cpp" line="875"/>
         <source> - Estimated time left : </source>
         <translation> - Tempo stimato rimanente :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="900"/>
+        <location filename="../DlgRenderVideo.cpp" line="905"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translatorcomment>Messaggio di errore</translatorcomment>
         <translation>Errore durante l&apos;invio d&apos;immagini per ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="907"/>
+        <location filename="../DlgRenderVideo.cpp" line="912"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translatorcomment>Messaggio di errore</translatorcomment>
         <translation>Errore ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="929"/>
+        <location filename="../DlgRenderVideo.cpp" line="934"/>
         <source>Closing encoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiusura codifica</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="944"/>
+        <location filename="../DlgRenderVideo.cpp" line="949"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation>Errore durante il processo di ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="948"/>
+        <location filename="../DlgRenderVideo.cpp" line="953"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translatorcomment>Messaggio di errore</translatorcomment>
         <translation>Errore in uscita da ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="956"/>
+        <location filename="../DlgRenderVideo.cpp" line="961"/>
         <source>Job completed succesfully!</source>
         <translation>Lavoro completato con successo!</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="687"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="686"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Avanzate</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="688"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="692"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="687"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="691"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Smartphone</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="689"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="688"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Sistema multimediale</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="690"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="689"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Per il WEB</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="693"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="692"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Riproduttore portatili</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="694"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="693"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Netbook/NetPC</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="695"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="694"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Console di gioco portatile</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="696"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="695"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Tablet computer</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="697"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="696"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Disco multimediale e gateway</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="698"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="697"/>
         <source>Player</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Riproduttore</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="699"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="698"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Dispositivo ADSL</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="700"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="699"/>
         <source>Game console</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>console di gioco</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="701"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="700"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>SWF Flash Palyer</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="702"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="701"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Video-sharing e WebSite sociali</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="703"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="702"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
@@ -3826,29 +3826,26 @@ e aiuto</translation>
         <translation>Modifica le transizioni di sfondo in entrata per la diapositiva</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="595"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="594"/>
         <source>All suported file (</source>
         <translation>Tutti i file supportati (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="602"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="601"/>
         <source>Image file (</source>
         <translation>File immagine (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="608"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="607"/>
         <source>Video file (</source>
         <translation>File video (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="614"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="613"/>
         <source>Music file (</source>
         <translation>File musicali (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="742"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="747"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="753"/>
         <location filename="../_Diaporama.cpp" line="1326"/>
         <location filename="../_Diaporama.cpp" line="1370"/>
         <location filename="../_Diaporama.cpp" line="1375"/>
@@ -3863,25 +3860,25 @@ e aiuto</translation>
         <translation>Errore</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="742"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="741"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Errore lettura file di configurazione</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="747"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="746"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Errore lettura contenuto del file di configurazione</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="753"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="752"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Il file non è un valido file di configurazione</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="1079"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="1078"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translation>Errore nella creazione del file di configurazione</translation>
@@ -3912,21 +3909,21 @@ e aiuto</translation>
     </message>
     <message>
         <location filename="../_Diaporama.cpp" line="1347"/>
-        <location filename="../_ImageFileWrapper.cpp" line="160"/>
+        <location filename="../_ImageFileWrapper.cpp" line="167"/>
         <location filename="../_VideoFileWrapper.cpp" line="683"/>
         <source>Impossible to open file </source>
         <translation>Impossibile aprire il file </translation>
     </message>
     <message>
         <location filename="../_Diaporama.cpp" line="1347"/>
-        <location filename="../_ImageFileWrapper.cpp" line="160"/>
+        <location filename="../_ImageFileWrapper.cpp" line="167"/>
         <location filename="../_VideoFileWrapper.cpp" line="683"/>
         <source>Do you want to select another file ?</source>
         <translation>Vuoi selezionare un altro file ?</translation>
     </message>
     <message>
         <location filename="../_Diaporama.cpp" line="1350"/>
-        <location filename="../_ImageFileWrapper.cpp" line="164"/>
+        <location filename="../_ImageFileWrapper.cpp" line="171"/>
         <location filename="../_VideoFileWrapper.cpp" line="688"/>
         <source>Select another file for </source>
         <translation>Seleziona un altro file per </translation>
@@ -3967,7 +3964,7 @@ Image geometry in this file is not the same than the current project</source>
 la geometria dell&apos;immagine nel file non è uguale a quella del progetto corrente</translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="159"/>
+        <location filename="../_ImageFileWrapper.cpp" line="166"/>
         <source>Open image file</source>
         <translation>Apri file immagine</translation>
     </message>
@@ -4100,7 +4097,7 @@ la geometria dell&apos;immagine nel file non è uguale a quella del progetto cor
     <message>
         <location filename="../mainwindow.cpp" line="512"/>
         <source>Configuration not correct!</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurazione non corretta!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="812"/>
@@ -4125,7 +4122,7 @@ la geometria dell&apos;immagine nel file non è uguale a quella del progetto cor
     <message>
         <location filename="../mainwindow.cpp" line="909"/>
         <source>Saving configuration file and applying new configuration ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Salvataggio del file di configurazione e applicazione nuova configurazione ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="940"/>
@@ -4183,7 +4180,7 @@ Vuoi salvarlo?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1425"/>
         <source>Add project file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi file progetto :</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1470"/>
@@ -4200,7 +4197,7 @@ Vuoi salvarlo?</translation>
         <location filename="../mainwindow.cpp" line="1227"/>
         <location filename="../mainwindow.cpp" line="1404"/>
         <source>Add file to project :</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi file al progetto :</translation>
     </message>
 </context>
 <context>

@@ -498,7 +498,7 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
     }
     // if not set by style then compute Aspect Ratio
     if (RecalcAspectRatio) {
-        double DisplayW,DisplayH;
+        double DisplayW=1920,DisplayH=1080;
         if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_4_3)        { DisplayW=1440; DisplayH=1080; }
         else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
         else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
