@@ -57,7 +57,11 @@ bool cimagefilewrapper::CallEXIF() {
     // start exiv2
     qDebug()<<QApplication::translate("MainWindow","Analyse file with EXIV2 :")+QFileInfo(FileName).fileName();
 
+#ifdef Q_OS_WIN
+    Commande = "\""+GlobalMainWindow->ApplicationConfig->PathEXIV2+"\" print -pa \""+FileName+"\"";
+#elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pa \""+FileName+"\"";
+#endif
     Commande = AdjustDirForOS(Commande);
     QProcess Process;
     Process.setProcessChannelMode(QProcess::MergedChannels);
@@ -67,6 +71,7 @@ bool cimagefilewrapper::CallEXIF() {
         ExifOK=false;
     }
     if (ExifOK && !Process.waitForFinished()) {
+        Process.kill();
         qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<FileName;
         ExifOK=false;
     }
@@ -100,8 +105,11 @@ bool cimagefilewrapper::CallEXIF() {
         ExivValue.append("Exif status##ok");
     }
     // Restart same job with -pv option to know binary value of orientation
-//    Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pva -g Exif.Image.Orientation \""+FileName+"\"";
+#ifdef Q_OS_WIN
+    Commande = "\""+GlobalMainWindow->ApplicationConfig->PathEXIV2+"\" print -pva \""+FileName+"\"";
+#elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     Commande = GlobalMainWindow->ApplicationConfig->PathEXIV2+" print -pva \""+FileName+"\"";
+#endif
     Commande = AdjustDirForOS(Commande);
     Process.start(Commande);
     if (!Process.waitForStarted()) {
@@ -109,6 +117,7 @@ bool cimagefilewrapper::CallEXIF() {
         ExifOK=false;
     }
     if (ExifOK && !Process.waitForFinished()) {
+        Process.kill();
         qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<FileName;
         ExifOK=false;
     }

@@ -182,7 +182,7 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     QFile file("BUILDVERSION.txt");
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         CurrentAppVersion=QString(file.readLine());
-        if (CurrentAppVersion.endsWith("\n")) CurrentAppVersion=CurrentAppVersion.left(CurrentAppVersion.length()-QString("\n").length());
+        if (CurrentAppVersion.endsWith("\n"))   CurrentAppVersion=CurrentAppVersion.left(CurrentAppVersion.length()-QString("\n").length());
         while (CurrentAppVersion.endsWith(" ")) CurrentAppVersion=CurrentAppVersion.left(CurrentAppVersion.length()-1);
         if (CurrentAppVersion.lastIndexOf(" ")) CurrentAppVersion=CurrentAppVersion.mid(CurrentAppVersion.lastIndexOf(" ")+1);
         file.close();

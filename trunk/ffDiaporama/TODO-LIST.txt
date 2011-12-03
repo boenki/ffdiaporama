@@ -1,8 +1,5 @@
-Buggs/TODO (Dernier SVN le 01/12/2011) :
+Buggs/TODO (Dernier SVN le 02/12/2011) :
 ----------------------------------------
-BUGG:
--Le mixage de 2 pistes audio à fort volume donne un résultat saturé
-
 TODO
 ----
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
@@ -60,10 +57,8 @@ French version / Correction de bug :
 English version / Bug fix :
 
 French version / Nouvelles fonctionnalités :
--Ajoute la possibilité de générer vidéos sans son
 
 English version / New features :
--Add the possibility to render a video without audio track
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -246,6 +241,7 @@ French version
 -Supprime l'ouverture d'une console lors de l'ouverture par double click sur un fichier [Windows-ffDiaporamaStart]
 -Ajoute une boite de dialog de vérification de la configuration
 -Vérifie au démarrage si exiv2 et ffmpeg sont présent - à défaut : quit le programme
+-Ajoute la possibilité de générer vidéos sans son
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -313,3 +309,4 @@ English version
 -Remove the opening of a console during the opening by click double on a file [Windows-ffDiaporamaStart]
 -Add Check configuration dialog
 -Check at startup if exiv2 and ffmpeg are available - if not : exit application
+-Add the possibility to render a video without audio track

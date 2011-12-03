@@ -535,18 +535,17 @@ cApplicationConfig::cApplicationConfig() {
 
     // set UserConfigFile value (depending on operating system)
     #ifdef Q_OS_WIN
-    UserConfigPath=WINDOWS_APPDATA;
-    if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
-    UserConfigPath  = UserConfigPath+APPLICATION_NAME+QDir::separator();
-    PathEXIV2       = "exiv2\\exiv2.exe";                                       // FileName of exiv2 (with path) : Windows version
-    PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg\\bin\\ffmpeg.exe");    // FileName of ffmpeg (with path) : Windows version
-    #endif
-    #ifdef Q_WS_X11
-    UserConfigPath=QDir::homePath();
-    if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
-    UserConfigPath  = UserConfigPath+"."+APPLICATION_NAME+QDir::separator();
-    PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
-    PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
+        UserConfigPath=WINDOWS_APPDATA;
+        if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
+        UserConfigPath  = UserConfigPath+APPLICATION_NAME+QDir::separator();
+        PathEXIV2       = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"exiv2\\exiv2.exe");           // FileName of exiv2 (with path) : Windows version
+        PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg\\bin\\ffmpeg.exe");    // FileName of ffmpeg (with path) : Windows version
+    #else
+        UserConfigPath=QDir::homePath();
+        if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
+        UserConfigPath  = UserConfigPath+"."+APPLICATION_NAME+QDir::separator();
+        PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
+        PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
     #endif
     UserConfigFile=UserConfigPath+APPLICATION_NAME+CONFIGFILEEXT;
     if (UserConfigPath.endsWith("/")||UserConfigPath.endsWith("\\")) UserConfigPath=UserConfigPath.left(UserConfigPath.length()-QString("/").length());
@@ -739,18 +738,18 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     int             errorLine,errorColumn;
 
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        qDebug()<<QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading configuration file","Error message");
+        qDebug()<<QApplication::translate("MainWindow","Error reading configuration file","Error message");
         return false;
     }
 
     if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
-        qDebug()<<QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of configuration file","Error message");
+        qDebug()<<QApplication::translate("MainWindow","Error reading content of configuration file","Error message");
         return false;
     }
 
     root = domDocument.documentElement();
     if (root.tagName()!=CONFIGFILE_ROOTNAME) {
-        qDebug()<<QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","The file is not a valid configuration file","Error message");
+        qDebug()<<QApplication::translate("MainWindow","The file is not a valid configuration file","Error message");
         return false;
     }
 

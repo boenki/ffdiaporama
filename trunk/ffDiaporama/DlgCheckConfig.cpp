@@ -27,26 +27,32 @@
 
 bool CheckExiv2(QString &StatusStr) {
     bool        ExifOK  =true;
+    #ifdef Q_OS_WIN
+    QString     Commande= AdjustDirForOS(QString("\""+GlobalMainWindow->ApplicationConfig->PathEXIV2+"\" -V"));
+    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     QString     Commande= AdjustDirForOS(QString(GlobalMainWindow->ApplicationConfig->PathEXIV2+" -V"));
+    #endif
     QProcess    Process;
 
     Process.setProcessChannelMode(QProcess::MergedChannels);
     Process.start(Commande);
     if (!Process.waitForStarted()) {
-        qDebug()<<"Impossible to start exiv2 - no exif informations will be decode";
+        qDebug()<<Commande;
+        qDebug()<<"Impossible to start exiv2";
         ExifOK=false;
     }
     if (ExifOK && !Process.waitForFinished()) {
-        qDebug()<<"Error during exiv2 process - no exif informations will be decode";
+        qDebug()<<"Error during exiv2 process";
         ExifOK=false;
     }
     if (ExifOK && (Process.exitStatus()<0)) {
-        qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode";
+        qDebug()<<"Exiv2 return error"<<Process.exitStatus();
         ExifOK=false;
     }
     if (ExifOK) {
         QString Info=QString().fromLocal8Bit(Process.readAllStandardOutput());
         StatusStr=Info.left(Info.indexOf("\n"));
+        if (StatusStr.indexOf("\a")>0) StatusStr=StatusStr.left(StatusStr.indexOf("\a"));
     } else StatusStr=QApplication::translate("DlgCheckConfig","Exiv2 not found - critical - application will stop !");
 
     return ExifOK;
@@ -56,21 +62,27 @@ bool CheckExiv2(QString &StatusStr) {
 
 bool Checkffmpeg(QString &StatusStr) {
     bool        ffmpegOK=true;
+    #ifdef Q_OS_WIN
+    QString     Commande= AdjustDirForOS(QString("\""+GlobalMainWindow->ApplicationConfig->PathFFMPEG+"\" -version"));
+    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     QString     Commande= AdjustDirForOS(QString(GlobalMainWindow->ApplicationConfig->PathFFMPEG+" -version"));
+    #endif
     QProcess    Process;
 
     Process.setProcessChannelMode(QProcess::MergedChannels);
     Process.start(Commande);
     if (!Process.waitForStarted()) {
-        qDebug()<<"Impossible to start exiv2 - no exif informations will be decode";
+        qDebug()<<Commande;
+        qDebug()<<"Impossible to start ffmpeg";
         ffmpegOK=false;
     }
     if (ffmpegOK && !Process.waitForFinished()) {
-        qDebug()<<"Error during exiv2 process - no exif informations will be decode";
+        Process.kill();
+        qDebug()<<"Error during ffmpeg process";
         ffmpegOK=false;
     }
     if (ffmpegOK && (Process.exitStatus()<0)) {
-        qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode";
+        qDebug()<<"ffmpeg return error"<<Process.exitStatus();
         ffmpegOK=false;
     }
     if (ffmpegOK) {
@@ -107,7 +119,7 @@ DlgCheckConfig::DlgCheckConfig(QWidget *parent):QDialog(parent),ui(new Ui::DlgCh
     for (int i=0;i<NBR_AUDIOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(AUDIOCODECDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(AUDIOCODECDEF[i].LongName)+" "+(AUDIOCODECDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
 
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","")));
-    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","ffmpeg Videc Codecs")));
+    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","ffmpeg Video Codecs")));
     for (int i=0;i<NBR_VIDEOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(VIDEOCODECDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(VIDEOCODECDEF[i].LongName)+" "+(VIDEOCODECDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
 
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","")));

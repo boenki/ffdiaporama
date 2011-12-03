@@ -140,7 +140,8 @@ OTHER_FILES += \
     licences.txt \
     licences.rtf \
     authors.txt \
-    ffDiaporama
+    ffDiaporama \
+    ffDiaporama.url
 
 TRANSLATIONS += locale/locale_fr.ts \
     locale/locale_it.ts \
