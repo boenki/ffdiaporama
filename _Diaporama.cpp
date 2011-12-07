@@ -549,7 +549,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 //====================================================================================================================
 
 // ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
-void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,int StartPosToAdd,
+void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
                                                cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache) {
     // W and H = 0 when producing sound track in render process
     if (!IsVisible) return;
@@ -955,34 +955,34 @@ void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Pa
 
 //===============================================================
 
-int cDiaporamaObject::GetTransitDuration() {
+qlonglong cDiaporamaObject::GetTransitDuration() {
     if ((TransitionFamilly==0)&&(TransitionSubType==0)) return 0; else return TransitionDuration;
 }
 
-int cDiaporamaObject::GetCumulTransitDuration() {
+qlonglong cDiaporamaObject::GetCumulTransitDuration() {
     // Adjust duration to ensure transition will be full !
-    int ObjectIndex=Parent->GetObjectIndex(this);
-    int TransitDuration=GetTransitDuration();
+    int       ObjectIndex    =Parent->GetObjectIndex(this);
+    qlonglong TransitDuration=GetTransitDuration();
     if (ObjectIndex<(Parent->List.count()-1)) TransitDuration+=Parent->List[ObjectIndex+1].GetTransitDuration();
     return TransitDuration;
 }
 
 //===============================================================
 
-int cDiaporamaObject::GetDuration() {
-    int Duration=0;
+qlonglong cDiaporamaObject::GetDuration() {
+    qlonglong Duration=0;
     for (int i=0;i<List.count();i++) Duration=Duration+List[i].StaticDuration;
 
     // Adjust duration to ensure transition will be full !
-    int TransitDuration=GetCumulTransitDuration();
+    qlonglong TransitDuration=GetCumulTransitDuration();
     if (Duration<TransitDuration) Duration=TransitDuration;
 
     // Calc minimum duration to ensure all video will be full !
     int MaxMovieDuration=0;
     for (int Block=0;Block<ObjectComposition.List.count();Block++) if ((ObjectComposition.List[Block].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(ObjectComposition.List[Block].BackgroundBrush.Video)) {
-        int IndexKey        =ObjectComposition.List[Block].IndexKey;
-        int WantedDuration  =ObjectComposition.List[Block].BackgroundBrush.Video->StartPos.msecsTo(ObjectComposition.List[Block].BackgroundBrush.Video->EndPos);
-        int CurrentDuration =0;
+        int IndexKey              =ObjectComposition.List[Block].IndexKey;
+        qlonglong WantedDuration  =ObjectComposition.List[Block].BackgroundBrush.Video->StartPos.msecsTo(ObjectComposition.List[Block].BackgroundBrush.Video->EndPos);
+        qlonglong CurrentDuration =0;
         for (int i=0;i<List.count();i++) {
             for (int j=0;j<List[i].ShotComposition.List.count();j++) if (List[i].ShotComposition.List[j].IndexKey==IndexKey) {
                 if (List[i].ShotComposition.List[j].IsVisible) {
@@ -1188,36 +1188,36 @@ int cDiaporama::GetWidthForHeight(int WantedHeight) {
 
 //====================================================================================================================
 
-int cDiaporama::GetTransitionDuration(int index) {
-    int Duration=0;
+qlonglong cDiaporama::GetTransitionDuration(int index) {
+    qlonglong Duration=0;
     if ((index>=0)&&(List.count()>0)&&((index<List.count())&&(!((List[index].TransitionFamilly==0)&&(List[index].TransitionSubType==0))))) Duration=List[index].TransitionDuration;
     return Duration;
 }
 
 //====================================================================================================================
 
-int cDiaporama::GetDuration() {
-    int Duration=0;
+qlonglong cDiaporama::GetDuration() {
+    qlonglong Duration=0;
     for (int i=0;i<List.count();i++) Duration=Duration+((List[i].GetDuration()-GetTransitionDuration(i+1)>=33)?List[i].GetDuration()-GetTransitionDuration(i+1):33);
     return Duration;
 }
 
 //====================================================================================================================
 
-int cDiaporama::GetPartialDuration(int from,int to) {
+qlonglong cDiaporama::GetPartialDuration(int from,int to) {
     if (from<0)             from=0;
     if (from>=List.count()) from=List.count()-1;
     if (to<0)               to=0;
     if (to>=List.count())   to=List.count()-1;
-    int Duration=0;
+    qlonglong Duration=0;
     for (int i=from;i<=to;i++) Duration=Duration+((List[i].GetDuration()-GetTransitionDuration(i+1)>=33)?List[i].GetDuration()-GetTransitionDuration(i+1):33);
     return Duration;
 }
 
 //====================================================================================================================
 
-int cDiaporama::GetObjectStartPosition(int index) {
-    int Duration=0;
+qlonglong cDiaporama::GetObjectStartPosition(int index) {
+    qlonglong Duration=0;
     for (int i=0;i<index;i++) Duration=Duration+((List[i].GetDuration()-GetTransitionDuration(i+1))>=33?List[i].GetDuration()-GetTransitionDuration(i+1):33);
     return Duration;
 }
@@ -1249,7 +1249,7 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
 
 //====================================================================================================================
 
-cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int &StartPosition,int *CountObject,int *IndexObject) {
+cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,qlonglong &StartPosition,int *CountObject,int *IndexObject) {
     if (ObjectIndex>=List.count()) return NULL;
 
     cMusicObject *Ret =NULL;
@@ -1298,21 +1298,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
     // Create xml document and root
     root=domDocument.createElement(APPLICATION_ROOTNAME);
     domDocument.appendChild(root);
-/*
-    // Save rendering informations on project
-    Element=domDocument.createElement("Render");
-    Element.setAttribute("OutputFileFormat",OutputFileFormat);
-    Element.setAttribute("OutputFileName",  QDir::cleanPath(QDir(QFileInfo(ProjectFileName).absolutePath()).relativeFilePath(OutputFileName)));
-    Element.setAttribute("VideoCodec",      VideoCodec);
-    Element.setAttribute("VideoFrameRate",  VideoFrameRate);
-    Element.setAttribute("VideoBitRate",    VideoBitRate);
-    Element.setAttribute("AudioCodec",      AudioCodec);
-    Element.setAttribute("AudioFrequency",  AudioFrequency);
-    Element.setAttribute("AudioBitRate",    AudioBitRate);
-    Element.setAttribute("LastImageSize",   LastImageSize);
-    Element.setAttribute("LastStandard",    LastStandard);
-    root.appendChild(Element);
-*/
+
     // Save basic information on project
     Element=domDocument.createElement("Project");
     Element.setAttribute("ImageGeometry",   ImageGeometry);
@@ -1385,22 +1371,7 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
     }
 
     this->ProjectFileName =ProjectFileName;
-/*
-    // Load rendering informations on project
-    if ((root.elementsByTagName("Render").length()>0)&&(root.elementsByTagName("Render").item(0).isElement()==true)) {
-        QDomElement Element=root.elementsByTagName("Render").item(0).toElement();
-        OutputFileFormat=Element.attribute("OutputFileFormat").toInt();
-        OutputFileName  =Element.attribute("OutputFileName");
-        VideoCodec      =Element.attribute("VideoCodec");
-        VideoFrameRate  =Element.attribute("VideoFrameRate").toDouble();
-        VideoBitRate    =Element.attribute("VideoBitRate").toInt();
-        AudioCodec      =Element.attribute("AudioCodec");
-        AudioFrequency  =Element.attribute("AudioFrequency").toInt();
-        AudioBitRate    =Element.attribute("AudioBitRate").toInt();
-        LastImageSize   =Element.attribute("LastImageSize").toInt();
-        LastStandard    =Element.attribute("LastStandard").toInt();
-    }
-*/
+
     // Load basic information on project
     bool IsOk=true;
     if ((root.elementsByTagName("Project").length()>0)&&(root.elementsByTagName("Project").item(0).isElement()==true)) {
@@ -1510,14 +1481,14 @@ void cDiaporama::FreeUnusedMemory(int ObjectNum,int NbrSlideInCache) {
 // Function use directly or with thread to prepare an image number Column at given position
 // Note : Position is relative to the start of the Column object !
 //============================================================================================
-void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int Position,cSoundBlockList *MusicTrack) {
+void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack) {
     if (Column>=List.count()) {
         for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
         return;
     }
 
-    int             StartPosition=0;
-    cMusicObject    *CurMusic=GetMusicObject(Column,StartPosition); // Get current music file from column and position
+    qlonglong     StartPosition=0;
+    cMusicObject  *CurMusic=GetMusicObject(Column,StartPosition); // Get current music file from column and position
     if (CurMusic==NULL) {
         for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
         return;
@@ -1590,11 +1561,11 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
             if ((CurShot->ShotComposition.List[j].BackgroundBrush.Video)&&(CurShot->ShotComposition.List[j].BackgroundBrush.SoundVolume!=0)) {
 
                 // Calc StartPosToAdd depending on AddStartPos
-                int StartPosToAdd=(AddStartPos?QTime(0,0,0,0).msecsTo(CurShot->ShotComposition.List[j].BackgroundBrush.Video->StartPos):0);
+                qlonglong StartPosToAdd=(AddStartPos?QTime(0,0,0,0).msecsTo(CurShot->ShotComposition.List[j].BackgroundBrush.Video->StartPos):0);
 
                 // Calc VideoPosition depending on video set to pause (visible=off) in previous shot
-                int VideoPosition=0;
-                int ThePosition=0;
+                qlonglong VideoPosition=0;
+                qlonglong ThePosition=0;
                 int TheShot=0;
                 while ((TheShot<CurObject->List.count())&&(ThePosition+CurObject->List[TheShot].StaticDuration<CurTimePosition)) {
                     for (int w=0;w<CurObject->List[TheShot].ShotComposition.List.count();w++) if (CurObject->List[TheShot].ShotComposition.List[w].IndexKey==CurShot->ShotComposition.List[j].IndexKey) {
@@ -1658,8 +1629,8 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
             }
         }
         // Calc StartPosToAdd for video depending on AddStartPos
-        int StartPosToAdd=((AddStartPos&&CurShot->ShotComposition.List[j].BackgroundBrush.Video)?QTime(0,0,0,0).msecsTo(CurShot->ShotComposition.List[j].BackgroundBrush.Video->StartPos):0);
-        int VideoPosition=0;
+        qlonglong StartPosToAdd=((AddStartPos&&CurShot->ShotComposition.List[j].BackgroundBrush.Video)?QTime(0,0,0,0).msecsTo(CurShot->ShotComposition.List[j].BackgroundBrush.Video->StartPos):0);
+        qlonglong VideoPosition=0;
 
         if (CurShot->ShotComposition.List[j].BackgroundBrush.Video) {
             // Calc VideoPosition depending on video set to pause (visible=off) in previous shot
@@ -2603,7 +2574,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
         }
 
         // Search music objects
-        int StartPosition;
+        qlonglong StartPosition;
         if (CurrentObject!=NULL) CurrentObject_MusicObject=Diaporama->GetMusicObject(CurrentObject_Number,StartPosition);
         if (TransitObject!=NULL) TransitObject_MusicObject=Diaporama->GetMusicObject(TransitObject_Number,StartPosition);
 

@@ -42,10 +42,10 @@ public:
     int             VideoCodecIndex;                // Index of video codec
     int             AudioCodecIndex;                // Index of audio codec
     double          FPS;
-    int             NbrFrame;                       // Number of frame to generate
+    qlonglong       NbrFrame;                       // Number of frame to generate
     QTime           StartTime;                      // Time the process start
     QTime           LastCheckTime;                  // Last time the loop start
-    int             RenderedFrame;
+    qlonglong       RenderedFrame;
     bool            IsDestFileOpen;                 // true if encoding is started
 
     QString         OutputFileName;                 // filename with path for the last rendering file

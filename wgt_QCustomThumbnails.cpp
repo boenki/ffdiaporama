@@ -100,10 +100,10 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             // Draw a standard thumbnail (just the image) at position of the current row
             Painter.save();
 
-            int     Col     =0;
-            int     Position=0;
-            int     Duration=0;
-            bool    RedColor=false;
+            int         Col     =0;
+            qlonglong   Position=0;
+            qlonglong   Duration=0;
+            bool        RedColor=false;
 
             if ((Col<Timeline->columnCount()-1)&&(Col<DiaporamaObject->List.count()-1)) Duration=DiaporamaObject->List[Col].StaticDuration; else {
                 Duration=DiaporamaObject->GetDuration()-Position;  // Last shot
@@ -267,9 +267,8 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             //==========================================================================================================================
             // Track OBJECTSEQUENCE
             //==========================================================================================================================
-            int ThumbHeight = Height-TimelineHeight/2-TIMELINESOUNDHEIGHT*2-5;
-            int ThumbWidth  = GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
-
+            int     ThumbHeight         = Height-TimelineHeight/2-TIMELINESOUNDHEIGHT*2-5;
+            int     ThumbWidth          = GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
             int     NewThumbHeight      = ThumbHeight-TIMELINESOUNDHEIGHT-2;
             int     NewThumbWidth       = GlobalMainWindow->Diaporama->GetWidthForHeight(NewThumbHeight);
             int     BarWidth            = (ThumbWidth-NewThumbWidth)/2;
@@ -463,22 +462,23 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             MusicTrackRect=QRect(-1,Height-TIMELINESOUNDHEIGHT*2,Width+2,TIMELINESOUNDHEIGHT*2);
             HasSoundTrack =true;
 
-            int     CurrentCountObjet   =0;
-            int     StartPosition       =0;
-            int     NextStartPosition   =0;
-            double  CurrentFactor       =Object->MusicPause?0:Object->MusicReduceVolume?Object->MusicReduceFactor:1;
-            double  PreviousFactor      =0;
+            int         CurrentCountObjet   =0;
+            qlonglong   StartPosition       =0;
+            qlonglong   NextStartPosition   =0;
+            double      CurrentFactor       =Object->MusicPause?0:Object->MusicReduceVolume?Object->MusicReduceFactor:1;
+            double      PreviousFactor      =0;
+
             if ((Col>0)&&(Object->Parent->GetMusicObject(Col-1,StartPosition)!=NULL))
                 PreviousFactor=(Object->Parent->List[Col-1].MusicPause)?0:(Object->Parent->List[Col-1].MusicReduceVolume)?Object->Parent->List[Col-1].MusicReduceFactor:1;
 
-            bool    EndMusic            =true;
-            bool    DrawVolumeTransition=(PreviousFactor!=CurrentFactor);
-            bool    DrawInTransition    =false;
-            bool    DrawOutTransition   =false;
-            bool    DrawOutCut          =false;
-            bool    DrawPause           =false;
-            int     RHeight             =int(TIMELINESOUNDHEIGHT*2*(CurrentFactor/1.5));
-            int     PHeight             =int(TIMELINESOUNDHEIGHT*2*(PreviousFactor/1.5));
+            bool        EndMusic            =true;
+            bool        DrawVolumeTransition=(PreviousFactor!=CurrentFactor);
+            bool        DrawInTransition    =false;
+            bool        DrawOutTransition   =false;
+            bool        DrawOutCut          =false;
+            bool        DrawPause           =false;
+            int         RHeight             =int(TIMELINESOUNDHEIGHT*2*(CurrentFactor/1.5));
+            int         PHeight             =int(TIMELINESOUNDHEIGHT*2*(PreviousFactor/1.5));
 
             if (Col>0) {
                 cMusicObject *PrevMusique=Object->Parent->GetMusicObject(Col-1,StartPosition);

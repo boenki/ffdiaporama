@@ -47,7 +47,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -74,7 +74,7 @@
             <x>0</x>
             <y>0</y>
             <width>659</width>
-            <height>470</height>
+            <height>495</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -232,7 +232,7 @@
              </property>
             </widget>
            </item>
-           <item row="10" column="0" colspan="2">
+           <item row="12" column="0" colspan="2">
             <widget class="QLabel" name="label">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -261,7 +261,7 @@
              </property>
             </widget>
            </item>
-           <item row="12" column="0">
+           <item row="14" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
               <string>Object position :</string>
@@ -274,7 +274,7 @@
              </property>
             </widget>
            </item>
-           <item row="12" column="1">
+           <item row="14" column="1">
             <widget class="QComboBox" name="AppendObjectCB">
              <property name="toolTip">
               <string>Define the position which occupy the new objects in the timeline during the insertions</string>
@@ -291,7 +291,7 @@
              </item>
             </widget>
            </item>
-           <item row="13" column="0">
+           <item row="15" column="0">
             <widget class="QLabel" name="label_26">
              <property name="text">
               <string>Multiple file insertion :</string>
@@ -301,7 +301,7 @@
              </property>
             </widget>
            </item>
-           <item row="13" column="1">
+           <item row="15" column="1">
             <widget class="QCheckBox" name="SortFileCB">
              <property name="toolTip">
               <string>Adjust the way will be sorted out files when you select several files in Add file.</string>
@@ -311,7 +311,7 @@
              </property>
             </widget>
            </item>
-           <item row="20" column="0">
+           <item row="22" column="0">
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -324,7 +324,7 @@
              </property>
             </spacer>
            </item>
-           <item row="14" column="1">
+           <item row="16" column="1">
             <widget class="QCheckBox" name="AskUserToRemove">
              <property name="toolTip">
               <string>If this box is checked, a confirmation will display every time you remove an object</string>
@@ -334,7 +334,7 @@
              </property>
             </widget>
            </item>
-           <item row="14" column="0">
+           <item row="16" column="0">
             <widget class="QLabel" name="label_33">
              <property name="text">
               <string>Object deletion :</string>
@@ -344,7 +344,7 @@
              </property>
             </widget>
            </item>
-           <item row="11" column="0">
+           <item row="13" column="0">
             <widget class="QLabel" name="label_34">
              <property name="text">
               <string>Coordinates unit :</string>
@@ -354,7 +354,7 @@
              </property>
             </widget>
            </item>
-           <item row="11" column="1">
+           <item row="13" column="1">
             <widget class="QComboBox" name="UnitCB">
              <property name="toolTip">
               <string>Select the unit of the coordinates which will be used in properties dialog box</string>
@@ -378,7 +378,7 @@
              </property>
             </widget>
            </item>
-           <item row="17" column="0" colspan="2">
+           <item row="19" column="0" colspan="2">
             <widget class="QLabel" name="label_35">
              <property name="minimumSize">
               <size>
@@ -404,7 +404,7 @@
              </property>
             </widget>
            </item>
-           <item row="19" column="1">
+           <item row="21" column="1">
             <widget class="QCheckBox" name="Crop1088To1080CB">
              <property name="text">
               <string>Automatically crop 1920x1088 video to 1920x1080</string>
@@ -418,7 +418,7 @@
              </property>
             </widget>
            </item>
-           <item row="9" column="1">
+           <item row="11" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_16">
              <item>
               <widget class="QComboBox" name="MemCacheProfilCB">
@@ -459,7 +459,7 @@
              </item>
             </layout>
            </item>
-           <item row="9" column="0">
+           <item row="11" column="0">
             <widget class="QLabel" name="label_7">
              <property name="text">
               <string>Memory profil :</string>
@@ -483,6 +483,23 @@
             <widget class="QCheckBox" name="SmoothImageDuringPreviewCB">
              <property name="text">
               <string>Smooth image during preview</string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="1">
+            <widget class="QCheckBox" name="QuickResamplingPreviewCB">
+             <property name="text">
+              <string>Use quick resampler during preview</string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="0">
+            <widget class="QLabel" name="label_90">
+             <property name="text">
+              <string>Audio resampling :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
@@ -516,7 +533,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>555</width>
+            <width>659</width>
             <height>1999</height>
            </rect>
           </property>
@@ -2820,7 +2837,7 @@ image</string>
        <property name="spacing">
         <number>0</number>
        </property>
-       <item row="0" column="0">
+       <item row="2" column="0">
         <widget class="QScrollArea" name="scrollArea">
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
@@ -2833,8 +2850,8 @@ image</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>307</width>
-            <height>343</height>
+            <width>676</width>
+            <height>416</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -2844,7 +2861,7 @@ image</string>
            <property name="spacing">
             <number>4</number>
            </property>
-           <item row="32" column="0">
+           <item row="34" column="0">
             <spacer name="verticalSpacer">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -2857,7 +2874,7 @@ image</string>
              </property>
             </spacer>
            </item>
-           <item row="20" column="0" colspan="3">
+           <item row="22" column="0" colspan="3">
             <widget class="QLabel" name="label_10">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2883,7 +2900,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="27" column="0">
+           <item row="29" column="0">
             <widget class="QLabel" name="label_9">
              <property name="text">
               <string>Video codec :</string>
@@ -2896,7 +2913,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="21" column="0">
+           <item row="23" column="0">
             <widget class="QLabel" name="label_24">
              <property name="text">
               <string>File format :</string>
@@ -2909,7 +2926,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="28" column="0">
+           <item row="30" column="0">
             <widget class="QLabel" name="label_21">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -2928,7 +2945,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="28" column="1">
+           <item row="30" column="1">
             <widget class="QComboBox" name="VideoBitRateCB">
              <property name="minimumSize">
               <size>
@@ -2947,7 +2964,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="27" column="1" colspan="2">
+           <item row="29" column="1" colspan="2">
             <widget class="QComboBox" name="VideoFormatCB">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -2960,14 +2977,14 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="29" column="1" colspan="2">
+           <item row="31" column="1" colspan="2">
             <widget class="QComboBox" name="AudioFormatCB">
              <property name="toolTip">
               <string>Select the default audio codec to use for the rendering among the proposed list. </string>
              </property>
             </widget>
            </item>
-           <item row="29" column="0">
+           <item row="31" column="0">
             <widget class="QLabel" name="label_22">
              <property name="text">
               <string>Audio codec :</string>
@@ -2980,7 +2997,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="31" column="0">
+           <item row="33" column="0">
             <widget class="QLabel" name="label_23">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -2999,7 +3016,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="31" column="1">
+           <item row="33" column="1">
             <widget class="QComboBox" name="AudioBitRateCB">
              <property name="minimumSize">
               <size>
@@ -3018,21 +3035,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="0" colspan="3">
-            <widget class="QLabel" name="label_28">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-               <underline>true</underline>
-              </font>
-             </property>
-             <property name="text">
-              <string>Default device mode rendering options</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
+           <item row="3" column="0">
             <widget class="QLabel" name="label_29">
              <property name="text">
               <string>Smartphone :</string>
@@ -3042,7 +3045,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item row="4" column="0">
             <widget class="QLabel" name="label_30">
              <property name="text">
               <string>Multimedia system :</string>
@@ -3052,7 +3055,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0">
+           <item row="5" column="0">
             <widget class="QLabel" name="label_31">
              <property name="text">
               <string>For the WEB :</string>
@@ -3062,49 +3065,49 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
+           <item row="3" column="1">
             <widget class="QComboBox" name="SmartphoneTypeCB">
              <property name="toolTip">
               <string>Select the type of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="5" column="1">
             <widget class="QComboBox" name="ForTheWTypeCB">
              <property name="toolTip">
               <string>Select the type of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
+           <item row="4" column="1">
             <widget class="QComboBox" name="MMSystemTypeCB">
              <property name="toolTip">
               <string>Select the type of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="2">
+           <item row="3" column="2">
             <widget class="QComboBox" name="SmartphoneModelCB">
              <property name="toolTip">
               <string>Select the model of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="2">
+           <item row="4" column="2">
             <widget class="QComboBox" name="MMSystemModelCB">
              <property name="toolTip">
               <string>Select the model of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="2">
+           <item row="5" column="2">
             <widget class="QComboBox" name="ForTheWModelCB">
              <property name="toolTip">
               <string>Select the model of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
-           <item row="21" column="1" colspan="2">
+           <item row="23" column="1" colspan="2">
             <widget class="QComboBox" name="FileFormatCB">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -3117,7 +3120,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="23" column="0">
+           <item row="25" column="0">
             <widget class="QLabel" name="label_20">
              <property name="text">
               <string>Video standard :</string>
@@ -3130,7 +3133,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="23" column="1" colspan="2">
+           <item row="25" column="1" colspan="2">
             <layout class="QHBoxLayout" name="horizontalLayout_17">
              <item>
               <widget class="QComboBox" name="StandardCombo">
@@ -3170,7 +3173,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="26" column="0">
+           <item row="28" column="0">
             <widget class="QLabel" name="label_19">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -3189,7 +3192,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="26" column="1" colspan="2">
+           <item row="28" column="1" colspan="2">
             <widget class="QComboBox" name="SizeCombo">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -3221,6 +3224,44 @@ image</string>
              <item>
               <property name="text">
                <string notr="true">1080p</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_91">
+             <property name="text">
+              <string>Default video name :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_28">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
+             <property name="text">
+              <string>Default device mode rendering options</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" colspan="2">
+            <widget class="QComboBox" name="DefaultNameProjectNameCB">
+             <item>
+              <property name="text">
+               <string>Use project name as video name</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Use project folder's name as video name</string>
               </property>
              </item>
             </widget>

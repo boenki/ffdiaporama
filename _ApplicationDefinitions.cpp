@@ -640,6 +640,7 @@ bool cApplicationConfig::InitConfigurationValues() {
     TimelineHeight              = 120;                      // Initial height of the timeline
     PreviewFPS                  = 12.5;                     // Preview FrameRate
     ApplyTransfoPreview         = true;                     // True if image transformation are apply during preview
+    QuickResamplingPreview      = false;                    // If true then use quick resampling during preview
     Smoothing                   = true;                     // True do smoothing in preview
     NoShotDuration              = 6000;                     // Default duration for fixed image when is alone (no shot)
     FixedDuration               = 3000;                     // Default duration for fixed image (msec)
@@ -650,6 +651,7 @@ bool cApplicationConfig::InitConfigurationValues() {
     Crop1088To1080              = true;                     // Automaticaly crop video from 1088 lines to 1080 (CANON)
 
     DefaultFormat               = 1;                        // Default format = avi
+    DefaultNameProjectName      =true;                      // Use project name as default name for rendering
     DefaultImageSize            = SIZE_720P;                // Default image size
     DefaultStandard             = STANDARD_PAL;             // Default standard (PAL/NTSC)
 
@@ -781,6 +783,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         if (Element.hasAttribute("TimelineHeight"))             TimelineHeight              =Element.attribute("TimelineHeight").toInt();
         if (Element.hasAttribute("DefaultFraming"))             DefaultFraming              =Element.attribute("DefaultFraming").toInt();
         if (Element.hasAttribute("ApplyTransfoPreview"))        ApplyTransfoPreview         =Element.attribute("ApplyTransfoPreview")=="1";
+        if (Element.hasAttribute("QuickResamplingPreview"))     QuickResamplingPreview      =Element.attribute("QuickResamplingPreview")=="1";
         if (Element.hasAttribute("Smoothing"))                  Smoothing                   =Element.attribute("Smoothing")=="1";
         if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS                  =Element.attribute("PreviewFPS").toDouble();
         if (Element.hasAttribute("RandomTransition"))           RandomTransition            =Element.attribute("RandomTransition")=="1";
@@ -833,6 +836,7 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     }
     if ((root.elementsByTagName("RenderDefault").length()>0)&&(root.elementsByTagName("RenderDefault").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("RenderDefault").item(0).toElement();
+        if (Element.hasAttribute("DefaultNameProjectName")) DefaultNameProjectName  =Element.attribute("DefaultNameProjectName")=="1";
         if (Element.hasAttribute("Format"))                 DefaultFormat           =Element.attribute("Format").toInt();
         if (Element.hasAttribute("VideoCodec"))             DefaultVideoCodec       =Element.attribute("VideoCodec");
         if (Element.hasAttribute("VideoBitRate"))           DefaultVideoBitRate     =Element.attribute("VideoBitRate").toInt();
@@ -963,6 +967,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("DefaultFraming",              DefaultFraming);
     Element.setAttribute("PreviewFPS",                  (QString("%1").arg(PreviewFPS,0,'f')));
     Element.setAttribute("ApplyTransfoPreview",         ApplyTransfoPreview?"1":0);
+    Element.setAttribute("QuickResamplingPreview",      QuickResamplingPreview?"1":0);
     Element.setAttribute("Smoothing",                   Smoothing?"1":0);
     Element.setAttribute("RandomTransition",            RandomTransition?"1":"0");
     Element.setAttribute("DefaultTransitionFamilly",    DefaultTransitionFamilly);
@@ -1013,6 +1018,7 @@ bool cApplicationConfig::SaveConfigurationFile() {
     root.appendChild(Element);
 
     Element=domDocument.createElement("RenderDefault");
+    Element.setAttribute("DefaultNameProjectName",      DefaultNameProjectName?"1":"0");
     Element.setAttribute("Format",                      DefaultFormat);
     Element.setAttribute("VideoCodec",                  DefaultVideoCodec);
     Element.setAttribute("VideoBitRate",                DefaultVideoBitRate);

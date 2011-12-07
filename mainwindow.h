@@ -84,6 +84,8 @@ protected:
 
 
 private slots:
+    void    SetSavedWindowGeometry();
+
     void    s_DlgCheckConfig();
     void    s_ToolbarChanged(int MenuIndex);
     void    onNetworkReply(QNetworkReply*);

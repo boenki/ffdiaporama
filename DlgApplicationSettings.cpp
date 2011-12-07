@@ -60,6 +60,7 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     ui->PreviewFrameRateCB->setCurrentIndex(ui->PreviewFrameRateCB->findText(FPS));
     ui->ApplyTransfoDuringPreviewCB->setChecked(ApplicationConfig->ApplyTransfoPreview);
     ui->SmoothImageDuringPreviewCB->setChecked(ApplicationConfig->Smoothing);
+    ui->QuickResamplingPreviewCB->setChecked(ApplicationConfig->QuickResamplingPreview);
 
     // Editor options
     ui->UnitCB->setCurrentIndex(ApplicationConfig->DisplayUnit);
@@ -164,6 +165,7 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     ui->ForTheWModelCB->view()->setFixedWidth(400);
 
     // Init format container combo
+    ui->DefaultNameProjectNameCB->setCurrentIndex(ApplicationConfig->DefaultNameProjectName?0:1);
     for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
         ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
         if (i==ApplicationConfig->DefaultFormat) ui->FileFormatCB->setCurrentIndex(ui->FileFormatCB->count()-1);
@@ -319,6 +321,7 @@ void DlgApplicationSettings::accept() {
     // Preview Options part
     ApplicationConfig->ApplyTransfoPreview      =ui->ApplyTransfoDuringPreviewCB->isChecked();
     ApplicationConfig->Smoothing                =ui->SmoothImageDuringPreviewCB->isChecked();
+    ApplicationConfig->QuickResamplingPreview   =ui->QuickResamplingPreviewCB->isChecked();
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
 
     switch (ui->MemCacheProfilCB->currentIndex()) {
@@ -376,6 +379,7 @@ void DlgApplicationSettings::accept() {
     }
 
     // RenderDefault part
+    ApplicationConfig->DefaultNameProjectName   =ui->DefaultNameProjectNameCB->currentIndex()==0;
     ApplicationConfig->DefaultStandard          =ui->StandardCombo->currentIndex();
     ApplicationConfig->DefaultImageSize         =ui->SizeCombo->itemData(ui->SizeCombo->currentIndex()).toInt();
     ApplicationConfig->DefaultFormat            =ui->FileFormatCB->currentIndex();

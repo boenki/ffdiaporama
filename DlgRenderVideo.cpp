@@ -48,10 +48,20 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     ui->SelectDestScroll->setEnabled(true);     ui->SelectDestScroll->setVisible(true);
     ui->ProcessWidget->setEnabled(false);       ui->ProcessWidget->setVisible(false);
 
+    QString FolderProject=Diaporama->ProjectFileName;
+    if (FolderProject!="") {
+        FolderProject=QFileInfo(FolderProject).absolutePath();
+        if (FolderProject.endsWith(QDir::separator())) {
+            FolderProject=QFileInfo(Diaporama->ProjectFileName).baseName();
+        } else if (FolderProject.lastIndexOf(QDir::separator())>0) FolderProject=FolderProject.mid(FolderProject.lastIndexOf(QDir::separator())+1);
+    }
+
     // Output file
     OutputFileName=Diaporama->ApplicationConfig->LastRenderVideoPath+
         (Diaporama->ApplicationConfig->LastRenderVideoPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
-            (Diaporama->ProjectFileName!=""?QFileInfo(Diaporama->ProjectFileName).baseName():QApplication::translate("DlgRenderVideo","movie","Default name for rendering"));
+        (Diaporama->ProjectFileName!=""?
+             (Diaporama->ApplicationConfig->DefaultNameProjectName?QFileInfo(Diaporama->ProjectFileName).baseName():FolderProject):
+             QApplication::translate("DlgRenderVideo","movie","Default name for rendering"));
 
     OutputFileFormat    = Diaporama->ApplicationConfig->DefaultFormat;
     VideoCodec          = Diaporama->ApplicationConfig->DefaultVideoCodec;
@@ -1113,11 +1123,11 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
     // Encode the file
     if (Continue) {
-        LastCheckTime   =StartTime;                                     // Display control : last time the loop start
-        int Position    =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
-        int ColumnStart =-1;                                            // Render start position of current object
-        int Column      =-1;                                            // Render current object
-        for (int RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
+        LastCheckTime       =StartTime;                                     // Display control : last time the loop start
+        qlonglong Position  =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
+        int ColumnStart     =-1;                                            // Render start position of current object
+        int Column          =-1;                                            // Render current object
+        for (qlonglong RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
             // Calculate position & column
             int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column].GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
             if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec

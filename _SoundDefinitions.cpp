@@ -260,6 +260,7 @@ void cSoundBlockList::MixAppendPacket(int16_t *PacketA,int16_t *PacketB) {
 // Change volume of a packet
 //====================================================================================================================
 void cSoundBlockList::ApplyVolume(int PacketNumber,double VolumeFactor) {
+    if (PacketNumber>=List.count()) return;
     int16_t *Buf1=List[PacketNumber];
     if (Buf1==NULL) return;
     int32_t mix;

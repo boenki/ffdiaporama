@@ -592,7 +592,7 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
 void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
-    QString BrushFileName=(Image?Image->FileName:Video?Video->FileName:"");
+    QString         BrushFileName=(Image?Image->FileName:Video?Video->FileName:"");
 
     if ((PathForRelativPath!="")&&((Image?Image->FileName:Video?Video->FileName:"")!="")) {
         if (ForceAbsolutPath) BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
@@ -630,7 +630,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
                     Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
                     Image->BrushFileTransform.SaveToXML(Element,"ImageTransformation",PathForRelativPath);  // Image transformation
-                    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(BrushFileName,&Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing,true); // Get image object
+                    cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(QFileInfo((Image?Image->FileName:Video?Video->FileName:"")).absoluteFilePath(),&Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing,true); // Get image object
                     if (ImageObject) Element.setAttribute("ImageOrientation",ImageObject->ImageOrientation);
                 }
             }

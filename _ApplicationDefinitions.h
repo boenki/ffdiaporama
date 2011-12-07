@@ -183,6 +183,7 @@ public:
     double                  PreviewFPS;                                 // Preview FrameRate
     int                     PreviewMaxHeight;                           // Specific for preview : Maximum height of image
     bool                    ApplyTransfoPreview;                        // True if image transformation are apply during preview
+    bool                    QuickResamplingPreview;                     // If true then use quick resampling during preview
     bool                    Smoothing;                                  // True do smoothing in preview
 
     // Default project settings
@@ -198,6 +199,7 @@ public:
     int                     DefaultTransitionDuration;                  // Transition duration (in msec)
 
     // Default rendering options
+    bool                    DefaultNameProjectName;                     // Use project name as default name for rendering
     int                     DefaultFormat;                              // Default output format container
     QString                 DefaultVideoCodec;                          // Default video codec
     int                     DefaultVideoBitRate;                        // Default video bit rate
