@@ -111,7 +111,7 @@ void cvideofilewrapper::CloseCodecAndFile() {
 //====================================================================================================================
 // Read an audio frame from current stream
 //====================================================================================================================
-void cvideofilewrapper::ReadAudioFrame(bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
+void cvideofilewrapper::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
     // Ensure file was previously open and all is ok
     if ((SoundTrackBloc==NULL)||(AudioStreamNumber==-1)||(ffmpegAudioFile->streams[AudioStreamNumber]==NULL)||(ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
 
@@ -291,7 +291,7 @@ void cvideofilewrapper::ReadAudioFrame(bool PreviewMode,int64_t Position,cSoundB
                 int16_t *PtrDst=NewBuf;
                 int     RealNewSize=0;
 
-                if (PreviewMode) {
+                if (PreviewMode && GlobalMainWindow->ApplicationConfig->QuickResamplingPreview) {
                     // For Preview Mode use a quick resampling linear method without interpolation
                     int16_t Left,Right;
 
@@ -427,7 +427,7 @@ void cvideofilewrapper::ReadAudioFrame(bool PreviewMode,int64_t Position,cSoundB
 
 #define MAXELEMENTSINOBJECTLIST 500
 
-QImage *cvideofilewrapper::ReadVideoFrame(int64_t Position,bool DontUseEndPos) {
+QImage *cvideofilewrapper::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
     int64_t AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
 
     // Ensure file was previously open
@@ -470,7 +470,7 @@ QImage *cvideofilewrapper::ReadVideoFrame(int64_t Position,bool DontUseEndPos) {
     }
 
     // Cac difftime between asked position and previous end decoded position
-    int64_t DiffTimePosition=-1;
+    qlonglong DiffTimePosition=-1;
     if (FrameBufferYUVReady) DiffTimePosition=Position-FrameBufferYUVPosition;
 
 
@@ -835,7 +835,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
 
 //====================================================================================================================
 
-QImage *cvideofilewrapper::ImageAt(bool PreviewMode,int64_t Position,int StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,
+QImage *cvideofilewrapper::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,
                                    bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos) {
     if (!IsValide)
         return NULL;

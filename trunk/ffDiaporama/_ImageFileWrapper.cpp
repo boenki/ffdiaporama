@@ -48,7 +48,7 @@ bool cimagefilewrapper::CallEXIF() {
     cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(FileName,&BrushFileTransform,true,false);
     if (!ImageObject) return false;
 
-    ImageObject->ImageOrientation=1; // Set default image orientation
+    //ImageObject->ImageOrientation=1; // Set default image orientation
 
     QString   Commande;
     QString   Info,Part;
@@ -147,6 +147,7 @@ bool cimagefilewrapper::CallEXIF() {
             }
         }
     }
+    if (ImageObject->ImageOrientation==-1) ImageObject->ImageOrientation=1;
     return ExifOK;
 }
 
@@ -208,6 +209,7 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
         qDebug()<<"ImagesCache.FindObject return NULL !";
         return NULL;  // There is an error !!!!!
     }
+    if (ImageObject->ImageOrientation==-1) CallEXIF();
 
     // Unfiltered image
     if (PreviewMode && ForceLoadDisk && (!Filter)) {

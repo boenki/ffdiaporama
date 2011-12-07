@@ -94,14 +94,14 @@ public:
     QBrush              *CachedBrushBrush;              // Cached brush brush
     double              CachedBrushW,CachedBrushH;      // With and height used to make CachedBrush
     double              CachedBrushAspect;              // Aspect ratio used to make CachedBrush
-    int                 CachedBrushPosition;            // Position used to make CachedBrush
-    int                 CachedBrushStartPosToAdd;       // StartPosToAdd used to make CachedBrush
+    qlonglong           CachedBrushPosition;            // Position used to make CachedBrush
+    qlonglong           CachedBrushStartPosToAdd;       // StartPosToAdd used to make CachedBrush
 
     cCompositionObject(int TypeComposition,int IndexKey);
     ~cCompositionObject();
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
-    void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,int Position,int StartPosToAdd,
+    void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
                                       cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList &AliasList);
@@ -144,7 +144,7 @@ public:
 class cDiaporamaShot {
 public:
     cDiaporamaObject        *Parent;
-    int                     StaticDuration;         // Duration (in msec) of the static part animation
+    qlonglong               StaticDuration;         // Duration (in msec) of the static part animation
     cCompositionList        ShotComposition;        // Shot Composition object list
 
     cDiaporamaShot(cDiaporamaObject *Parent);
@@ -183,7 +183,7 @@ public:
     // Transition
     int                     TransitionFamilly;          // Transition familly
     int                     TransitionSubType;          // Transition type in the familly
-    int                     TransitionDuration;         // Transition duration (in msec)
+    qlonglong               TransitionDuration;         // Transition duration (in msec)
 
     QImage                  *Thumbnail;                 // Thumbnail cached image
     QList<cMusicObject>     MusicList;                  // List of music definition
@@ -192,12 +192,12 @@ public:
     ~cDiaporamaObject();
 
     QString                 GetDisplayName();
-    int                     GetCumulTransitDuration();
-    int                     GetDuration();
+    qlonglong               GetCumulTransitDuration();
+    qlonglong               GetDuration();
     void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY);   // Draw Thumb @ position 0
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList &AliasList);
-    int                     GetTransitDuration();
+    qlonglong               GetTransitDuration();
 };
 
 //*********************************************************************************************************************************************
@@ -212,13 +212,13 @@ public:
 
     //=====> Current object
     int                 CurrentObject_Number;                   // Object number
-    int                 CurrentObject_StartTime;                // Position (in msec) of the first frame relative to the diaporama
-    int                 CurrentObject_InObjectTime;             // Position (in msec) in the object
+    qlonglong           CurrentObject_StartTime;                // Position (in msec) of the first frame relative to the diaporama
+    qlonglong           CurrentObject_InObjectTime;             // Position (in msec) in the object
     cDiaporamaObject    *CurrentObject;                         // Link to the current object
     int                 CurrentObject_ShotSequenceNumber;       // Number of the shot sequence in the current object
     cDiaporamaShot      *CurrentObject_CurrentShot;             // Link to the current shot in the current object
     int                 CurrentObject_CurrentShotType;          // Type of the current shot : Static/Mobil/Video
-    int                 CurrentObject_ShotDuration;             // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
+    qlonglong           CurrentObject_ShotDuration;             // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     double              CurrentObject_PCTDone;                  // PCT achevement for static shot
     QImage              *CurrentObject_SourceImage;             // Current image loaded for image or video or created for title
     bool                CurrentObject_FreeSourceImage;          // True if allow to delete CurrentObject_SourceImage during destructor
@@ -241,15 +241,15 @@ public:
     double              TransitionPCTEnd;                       // PCT achevement @ end of this frame for fade in/out
     int                 TransitionFamilly;                      // Transition familly
     int                 TransitionSubType;                      // Transition type in the familly
-    int                 TransitionDuration;                     // Transition duration (in msec)
+    qlonglong           TransitionDuration;                     // Transition duration (in msec)
     int                 TransitObject_Number;                   // Object number
-    int                 TransitObject_StartTime;                // Position (in msec) of the first frame relative to the diaporama
-    int                 TransitObject_InObjectTime;             // Position (in msec) in the object
+    qlonglong           TransitObject_StartTime;                // Position (in msec) of the first frame relative to the diaporama
+    qlonglong           TransitObject_InObjectTime;             // Position (in msec) in the object
     cDiaporamaObject    *TransitObject;                         // Link to the current object
     int                 TransitObject_ShotSequenceNumber;       // Number of the shot sequence in the current object
     cDiaporamaShot      *TransitObject_CurrentShot;             // Link to the current shot in the current object
     int                 TransitObject_CurrentShotType;          // Type of the current shot : Static/Mobil/Video
-    int                 TransitObject_ShotDuration;             // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
+    qlonglong           TransitObject_ShotDuration;             // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
     double              TransitObject_PCTDone;                  // PCT achevement for static shot
     QImage              *TransitObject_SourceImage;             // Current image loaded for image or video or created for title
     bool                TransitObject_FreeSourceImage;          // True if allow to delete TransitObject_SourceImage during destructor
@@ -282,7 +282,7 @@ public:
     cApplicationConfig      *ApplicationConfig;
     cCustomTableWidget      *Timeline;              // Link to timeline
     int                     CurrentCol;             // Current position in the timeline (column)
-    int                     CurrentPosition;        // Current position in the timeline (msec)
+    qlonglong               CurrentPosition;        // Current position in the timeline (msec)
 
     bool                    IsModify;               // true if project was modify
     QString                 ProjectFileName;        // Path and name of current file project
@@ -300,12 +300,12 @@ public:
     int                 GetHeightForWidth(int WantedWith);
     int                 GetWidthForHeight(int WantedHeight);
     int                 GetObjectIndex(cDiaporamaObject *ObjectToFind);
-    int                 GetDuration();
-    int                 GetPartialDuration(int from,int to);
-    int                 GetObjectStartPosition(int index);
-    int                 GetTransitionDuration(int index);
+    qlonglong           GetDuration();
+    qlonglong           GetPartialDuration(int from,int to);
+    qlonglong           GetObjectStartPosition(int index);
+    qlonglong           GetTransitionDuration(int index);
     void                PrepareBackground(int ObjectIndex,int Width,int Height,QPainter *Painter,int AddX,int AddY);
-    cMusicObject        *GetMusicObject(int ObjectIndex,int &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
+    cMusicObject        *GetMusicObject(int ObjectIndex,qlonglong &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
     void                DefineSizeAndGeometry(int Geometry);                        // Init size and geometry
     bool                SaveFile(QWidget *ParentWindow);
     bool                LoadFile(QWidget *ParentWindow,QString &ProjectFileName);
@@ -313,7 +313,7 @@ public:
     void                FreeUnusedMemory(int ObjectNum,int NbrSlideInCache);
 
     // Thread functions
-    void                PrepareMusicBloc(bool PreviewMode,int Column,int Position,cSoundBlockList *MusicTrack);
+    void                PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack);
     void                LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos);
     void                DoAssembly(cDiaporamaObjectInfo *Info,int W,int H);
 

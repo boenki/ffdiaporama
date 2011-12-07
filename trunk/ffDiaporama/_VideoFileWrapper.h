@@ -75,9 +75,9 @@ public:
     QString     GetMovieGeometryName(QString Geometry);
     QString     GetSizeName(QString Size,int X,int Y);
 
-    QImage      *ImageAt(bool PreviewMode,int64_t Position,int StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos=false);
-    QImage      *ReadVideoFrame(int64_t Position,bool DontUseEndPos);
-    void        ReadAudioFrame(bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
+    QImage      *ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos=false);
+    QImage      *ReadVideoFrame(qlonglong Position,bool DontUseEndPos);
+    void        ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
     QImage      *ConvertYUVToRGB();
 };
 

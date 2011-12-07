@@ -395,20 +395,26 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 
 //====================================================================================================================
 
+void MainWindow::SetSavedWindowGeometry() {
+    IsFirstInitDone=true;                                   // do this only one time
+    ToStatusBar("");
+    ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
+    SetTimelineHeight();                                    // setup initial size
+    RefreshControls();
+}
+
+//====================================================================================================================
+
 void MainWindow::showEvent(QShowEvent *) {
     if (!IsFirstInitDone) {
-        IsFirstInitDone=true;                                   // do this only one time
-        ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
-        SetTimelineHeight();                                    // setup initial size
-        RefreshControls();
         IsFirstRefresh=false;
+        QTimer::singleShot(500,this,SLOT(SetSavedWindowGeometry()));
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
         connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(onNetworkReply(QNetworkReply*)));
         QUrl            url(BUILDVERSION_WEBURL);
         QNetworkReply   *reply  = mNetworkManager->get(QNetworkRequest(url));
         reply->deleteLater();
-        ToStatusBar("");
     }
 }
 
