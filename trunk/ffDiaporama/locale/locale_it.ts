@@ -364,12 +364,12 @@ Transizione dissolvenza incrociata</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="492"/>
         <source>Use quick resampler during preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa ricampionamento veloce durante l&apos;anteprima</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="499"/>
         <source>Audio resampling :</source>
-        <translation type="unfinished"></translation>
+        <translation>Ricampionamento audio :</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="514"/>
@@ -806,17 +806,17 @@ non predefinita</translation>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3234"/>
         <source>Default video name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome video predefinito :</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3259"/>
         <source>Use project name as video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa nome progetto come nome video</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3264"/>
         <source>Use project folder&apos;s name as video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa nome cartella come nome video</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3277"/>

@@ -11,27 +11,28 @@
     <message>
         <location filename="../DlgAbout.ui" line="93"/>
         <source>Licence</source>
-        <translation type="unfinished"></translation>
+        <translation>Lizenz</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="105"/>
         <source>Copyright (C) 2011 Dominique LEVRAY</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyright (C) 2011 Dominique LEVRAY </translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="112"/>
         <source>This software is licensed under the GPL version 2 :</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Software unterliegt unter der GPL version 2 Lizenz :</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="214"/>
         <source>Credits</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>In this dialog are actually the used program packages and the links to there Homepages</translatorcomment>
+        <translation>Quellnachweise</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="258"/>
         <source>This application was developped using Open Source version of Qt 4.7 SDK</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieses Programm wurde mit der Open Source Variante von Qt 4.7 SDK entwickelt </translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="268"/>
@@ -41,52 +42,54 @@
         <location filename="../DlgAbout.ui" line="418"/>
         <location filename="../DlgAbout.ui" line="473"/>
         <source>WEB site &amp; licence :</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>is &quot;licence&quot; in this case the right used ? there are only links to the sites ....</translatorcomment>
+        <translation>Homepage &amp; Lizenz :</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="305"/>
         <source>Video decoding and encoding engines are based on ffmpeg</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Videoverarbeitung basiert auf ffmpeg</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="336"/>
         <source>Sound engine for preview is based on SDL - Simple DirectMedia Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Tonverarbeitung in der Vorschau basiert auf SDL - Simple DirectMedia Layer</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="367"/>
         <source>Image exif decoding is based on Exiv2 - Image metadata library and tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Die EXIF-Bildinformationen werden mittels Exiv2 (Image metadata library and tools) ausgewertet </translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="398"/>
         <source>Other images and graphical material are using Creative Common Licence  2</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>is &quot;other images&quot; mean, that &quot;all other Images&quot; are under CC ?</translatorcomment>
+        <translation>alle anderen Bilder und Graphische Elemente verwenden die Creative Common License 2</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="411"/>
         <source>C.C. WEB site :</source>
-        <translation type="unfinished"></translation>
+        <translation>C.C. Homepage :</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="436"/>
         <source>Many icons are from the Crystal Project</source>
-        <translation type="unfinished"></translation>
+        <translation>Viele der verwendeten Icons sind vom Crytal Project</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="460"/>
         <source>Image effects are based on fmt_filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildeffekte basieren auf fmt_filters </translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="617"/>
         <source>System informations</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeminformationen</translation>
     </message>
     <message>
         <location filename="../DlgAbout.ui" line="724"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
 </context>
 <context>
@@ -94,52 +97,52 @@
     <message>
         <location filename="../DlgApplicationSettings.ui" line="32"/>
         <source>Application settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwendungseinstellungen</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="563"/>
         <source>Project options (default values)</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekteinstellungen (vorgabewerte)</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="573"/>
         <source>Project geometry:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geometrie:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="638"/>
         <source>1st shot duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dauer Einstiegsbild:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="691"/>
         <source>Next shot duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dauer weitere Bilder:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="744"/>
         <source>Speed wave:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geschwindigkeit Übergänge:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3699"/>
         <source>Select the file type to use for the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen des Dateitypes für die Umwandlung.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="54"/>
         <source>Application Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwendungsoptionen</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="90"/>
         <source>If this box is checked, the sizes and the positions of all the windows and dialogue box of ffDiaporama will be saved to be reused the next time which you will use ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn diese Option aktiviert ist, werden die Größen und Positonen der Fenster/Dialoge von ffDiaporama gespeichert und beim nächsten Programmeinstieg wiederverwendet.</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="93"/>
         <source>Remember Windows size and positions</source>
-        <translation type="unfinished"></translation>
+        <translation>merken der Fesntergröße/-position</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="100"/>
