@@ -292,7 +292,9 @@ void ExitApplicationWithFatalError(QString StringToAdd) {
 QString AdjustDirForOS(QString Dir) {
     #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
     Dir.replace("/","\\");
+    bool DoubleSlashBegin=Dir.startsWith("\\\\");
     Dir.replace("\\\\","\\");
+    if (DoubleSlashBegin) Dir="\\"+Dir;
     #endif
     return Dir;
 }

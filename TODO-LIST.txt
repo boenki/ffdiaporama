@@ -56,11 +56,13 @@ French version / Correction de bug :
 -Corrige un dépassement de capacité dans la calcul de durée quand les vidéos à générer sont longues >30mn
 -Corrige une erreur de perte de l'orientation d'image lors de l'activation de filtre de transformation
 -Change le synchro d'affichage au demarrage de l'application (ajoute 500 ms)
+-Corrige un bug sous Windows qui supprimait le double slash des chemins réseaux \\SERVEUR
 
 English version / Bug fix :
 -Correct an overflow in calculation of duration when videos to be generated are long > 30mn
 -Correct an error of loss of the image orientation during the activation of transformation filter
 -Change display synchronization at application startup (add 500 ms)
+-Fix a bug for Windows release which remove double slash pour network path
 
 French version / Nouvelles fonctionnalités :
 -Ajoute une option dans la boite de dialog Option du programme pour activer le resampler rapide pendant la preview
