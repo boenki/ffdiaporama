@@ -53,12 +53,16 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Réorganisation du code
+-Modification du démarrage du programme
+-Corrige le plantage quand on pressait Ctrl+V mais que rien n'était présent dans le presse papier
+-Change l'alignement des controles dans l'onglet Options de génération de la boite de dialogue de configuration
 
 English version / Bug fix :
-
-French version / Nouvelles fonctionnalités :
-
-English version / New features :
+-Code cleaning and new organisation
+-Change of the software start
+-Bug fix when pressing Ctrl+V and nothing is present in the clipboard the application crashed
+-Change controls alignment in rendering options tab of the option dialog
 
 -------------------------------------
 Changelog depuis la version 20110926
