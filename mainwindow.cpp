@@ -1741,6 +1741,8 @@ void MainWindow::s_PasteFromClipboard() {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::s_PasteFromClipboard";
     #endif
+    if (Clipboard_Object==NULL) return;
+
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
