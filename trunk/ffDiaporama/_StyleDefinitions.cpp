@@ -214,9 +214,10 @@ void cStyleCollection::SetImageGeometryFilter(int ProjectGeometry,int ImageGeome
 
 //************************************************
 
-void cStyleCollection::SaveToXML(QDomDocument &domDocument,QDomElement &root) {
-    int         j=0;
-    QDomElement Element=domDocument.createElement(CollectionName);
+void cStyleCollection::SaveToXML(QDomElement &root) {
+    int             j=0;
+    QDomDocument    Document;
+    QDomElement     Element=Document.createElement(CollectionName);
 
     for (int i=0;i<Collection.count();i++) if (Collection[i].FromUserConf) {
         Collection[i].SaveToXML(Element,QString(CollectionName+QString("Item_%1").arg(j)));
@@ -227,7 +228,7 @@ void cStyleCollection::SaveToXML(QDomDocument &domDocument,QDomElement &root) {
 
 //************************************************
 
-void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,int TypeConfigFile) {
+void cStyleCollection::LoadFromXML(QDomElement root,LoadConfigFileType TypeConfigFile) {
     if ((root.elementsByTagName(CollectionName).length()>0)&&(root.elementsByTagName(CollectionName).item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName(CollectionName).item(0).toElement();
         int i=0;
@@ -295,8 +296,8 @@ void cStyleCollection::LoadFromXML(QDomDocument &domDocument,QDomElement root,in
             } else {
                 // Reading from user config file : search if Style already exist, then load it else append a new one
                 QString ElementName=QString(CollectionName+QString("Item_%1").arg(i));
-                if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
-                    QDomElement TheElement=domDocument.elementsByTagName(ElementName).item(0).toElement();
+                if ((root.elementsByTagName(ElementName).length()>0)&&(root.elementsByTagName(ElementName).item(0).isElement()==true)) {
+                    QDomElement TheElement=root.elementsByTagName(ElementName).item(0).toElement();
                     int IndexKey=TheElement.attribute("StyleIndex").toInt();
                     int j=0;
                     while ((j<Collection.count())&&(Collection[j].StyleIndex!=IndexKey)) j++;

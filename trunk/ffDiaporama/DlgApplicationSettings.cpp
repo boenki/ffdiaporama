@@ -317,6 +317,7 @@ void DlgApplicationSettings::accept() {
     ApplicationConfig->RememberLastDirectories  =ui->RememberLastDirectoriesCH->isChecked();
     ApplicationConfig->RestoreWindow            =ui->RestoreWindowCH->isChecked();
     ApplicationConfig->SDLAudioOldMode          =ui->SDLAudioModeCB->isChecked();
+    ApplicationConfig->RasterMode               =ui->RasterModeCB->isChecked();
 
     // Preview Options part
     ApplicationConfig->ApplyTransfoPreview      =ui->ApplyTransfoDuringPreviewCB->isChecked();

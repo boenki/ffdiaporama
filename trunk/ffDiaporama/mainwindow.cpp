@@ -18,6 +18,14 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
+#include "_StyleDefinitions.h"
+#include "_SoundDefinitions.h"
+#include "_ImagesDefinitions.h"
+#include "_ImageFileWrapper.h"
+#include "_VideoFileWrapper.h"
+#include "_ApplicationDefinitions.h"
+
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "wgt_QCustomThumbnails.h"
@@ -32,14 +40,19 @@
 #include "DlgRenderVideo.h"
 #include "DlgCheckConfig.h"
 
+#define DEBUGMODE
+
 MainWindow  *GlobalMainWindow=NULL;
 
 //====================================================================================================================
 
-MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
-    ui->setupUi(this);
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::MainWindow";
+    #endif
+
+    ApplicationConfig       =new cApplicationConfig();
     CurrentThreadId         =this->thread()->currentThreadId();
-    IsFirstRefresh          =true;
     InternetBUILDVERSION    ="";
     GlobalMainWindow        =this;
     IsFirstInitDone         =false;                 // true when first show window was done
@@ -51,21 +64,49 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     IsDragOn                =0;
     InPlayerUpdate          =false;
     CurrentRenderingDialog  =NULL;
-
-    ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
-    ui->preview2->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
-
     setAcceptDrops(true);
-
-    ApplicationConfig=TheCurrentApplicationConfig;
     ApplicationConfig->ParentWindow=this;
-    ui->ToolBoxNormal->setCurrentIndex(0);
+}
+
+void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::InitWindow";
+    #endif
+
+    AddToSystemProperties(QString(STARTINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
+    ApplicationConfig->InitConfigurationValues(ForceLanguage,App);
 
     QSplashScreen screen;
     screen.setPixmap(QPixmap("img/splash.png"));
     screen.show();
-    QApplication::processEvents();  // Give time to interface !
 
+    ApplicationConfig->TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","Advanced","Device database type"));           // EXPORTMODE_ADVANCED
+    ApplicationConfig->TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","Smartphone","Device database type"));         // EXPORTMODE_SMARTPHONE
+    ApplicationConfig->TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","Multimedia system","Device database type"));  // EXPORTMODE_MULTIMEDIASYS
+    ApplicationConfig->TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","For the WEB","Device database type"));        // EXPORTMODE_FORTHEWEB
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Smartphone","Device database type"));
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Portable Player","Device database type"));
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Netbook/NetPC","Device database type"));
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Handheld game console","Device database type"));
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Tablet computer","Device database type"));
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Multimedia hard drive and gateway","Device database type"));
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Player","Device database type"));
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","ADSL Box","Device database type"));
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Game console","Device database type"));
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","SWF Flash Player","Device database type"));
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","Video-sharing and social WebSite","Device database type"));
+    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","HTML 5","Device database type"));
+
+    ui->setupUi(this);
+    ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
+    ui->preview2->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
+    ui->ToolBoxNormal->setCurrentIndex(0);
+
+    AddToSystemProperties(QString(WORKINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
+    AddToSystemProperties(QString(SYSTEMLOCAL_STR)+ApplicationConfig->CurrentLanguage);
+    AddToSystemProperties(QString(LOADEDLOCAL_STR)+AdjustDirForOS(QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+ApplicationConfig->CurrentLanguage+".qm")));
+    AddSeparatorToSystemProperties();
+    Transparent.setTextureImage(QImage("img/transparent.png"));  // Load transparent brush
     AddToSystemProperties(QString(VERSIONQT_STR)+QString(qVersion()));
     AddToSystemProperties(QString(FMTFILTERVERSION_STR)+"0.6.4-Licence=LGPL");
 
@@ -163,7 +204,7 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Library :"));
     QString Path;
     screen.showMessage(QApplication::translate("MainWindow","Loading background library..."),Qt::AlignHCenter|Qt::AlignBottom);
-    Path="background";      BackgroundList.ScanDisk(Path,GEOMETRY_16_9); AddToSystemProperties(QString("  %1").arg(BackgroundList.List.count())+QApplication::translate("MainWindow"," images loaded into the background-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="background";      BackgroundList.ScanDisk(Path,GEOMETRY_16_9); AddToSystemProperties(QString("  %1").arg(BackgroundList.List.count())+QApplication::translate("MainWindow"," images loaded into the background-library from ")+QDir(Path).absolutePath());
     screen.showMessage(QApplication::translate("MainWindow","Loading no-luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
     for (int i=0;i<TRANSITIONMAXSUBTYPE_BASE;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_BASE,i));
     for (int i=0;i<TRANSITIONMAXSUBTYPE_ZOOMINOUT;i++)  IconList.List.append(cIconObject(TRANSITIONFAMILLY_ZOOMINOUT,i));
@@ -171,12 +212,12 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     for (int i=0;i<TRANSITIONMAXSUBTYPE_PUSH;i++)       IconList.List.append(cIconObject(TRANSITIONFAMILLY_PUSH,i));
     AddToSystemProperties(QString("  %1").arg(IconList.List.count())+QApplication::translate("MainWindow"," no-luma transitions loaded into the transition-library"));
     screen.showMessage(QApplication::translate("MainWindow","Loading luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
-    Path="luma/Bar";        LumaList_Bar.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BAR);         AddToSystemProperties(QString("  %1").arg(LumaList_Bar.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    Path="luma/Box";        LumaList_Box.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BOX);         AddToSystemProperties(QString("  %1").arg(LumaList_Box.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    Path="luma/Center";     LumaList_Center.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CENTER);   AddToSystemProperties(QString("  %1").arg(LumaList_Center.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    Path="luma/Checker";    LumaList_Checker.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CHECKER); AddToSystemProperties(QString("  %1").arg(LumaList_Checker.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    Path="luma/Clock";      LumaList_Clock.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CLOCK);     AddToSystemProperties(QString("  %1").arg(LumaList_Clock.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
-    Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("  %1").arg(LumaList_Snake.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+AdjustDirForOS(QDir(Path).absolutePath()));
+    Path="luma/Bar";        LumaList_Bar.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BAR);         AddToSystemProperties(QString("  %1").arg(LumaList_Bar.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+QDir(Path).absolutePath());
+    Path="luma/Box";        LumaList_Box.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_BOX);         AddToSystemProperties(QString("  %1").arg(LumaList_Box.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+QDir(Path).absolutePath());
+    Path="luma/Center";     LumaList_Center.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CENTER);   AddToSystemProperties(QString("  %1").arg(LumaList_Center.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+QDir(Path).absolutePath());
+    Path="luma/Checker";    LumaList_Checker.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CHECKER); AddToSystemProperties(QString("  %1").arg(LumaList_Checker.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+QDir(Path).absolutePath());
+    Path="luma/Clock";      LumaList_Clock.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_CLOCK);     AddToSystemProperties(QString("  %1").arg(LumaList_Clock.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+QDir(Path).absolutePath());
+    Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("  %1").arg(LumaList_Snake.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+QDir(Path).absolutePath());
     AddToSystemProperties(QApplication::translate("MainWindow","  Total:")+QString("%1").arg(IconList.List.count())+QApplication::translate("MainWindow"," transitions loaded into the transition-library"));
 
     QFile file("BUILDVERSION.txt");
@@ -187,8 +228,6 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
         if (CurrentAppVersion.lastIndexOf(" ")) CurrentAppVersion=CurrentAppVersion.mid(CurrentAppVersion.lastIndexOf(" ")+1);
         file.close();
     }
-    TitleBar=QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
-    if (TitleBar.indexOf("devel")!=-1) TitleBar=TitleBar+QString(" ")+CurrentAppVersion;
 
     Diaporama=new cDiaporama(ApplicationConfig);
     Diaporama->Timeline=ui->timeline;
@@ -197,10 +236,10 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     connect(ui->preview,SIGNAL(DoubleClick()),this,SLOT(s_ItemDoubleClicked()));
     connect(ui->preview2,SIGNAL(DoubleClick()),this,SLOT(s_ItemDoubleClicked()));
 
-    SetModifyFlag(false);
     ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
     ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
 
+    // We have finish with the SplashScreen
     screen.hide();
 
     connect(ui->ToolBoxNormal,SIGNAL(currentChanged(int)),this,SLOT(s_ToolbarChanged(int)));
@@ -254,8 +293,17 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
     connect(ui->Partition2BT,SIGNAL(pressed()),this,SLOT(s_ChPartitionMode()));
     connect(ui->TABTooltip,SIGNAL(linkActivated(const QString)),this,SLOT(s_TABTooltipLink(const QString)));
 
+    // Prepare title bar depending on running version
+    TitleBar=QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
+    if ((TitleBar.indexOf("devel")!=-1)||(TitleBar.indexOf("beta")!=-1)) TitleBar=TitleBar+QString(" - ")+CurrentAppVersion;
+
+    ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
+    SetTimelineHeight();                                    // setup initial size
     ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+"0 / 0");
     s_ToolbarChanged(0);
+    ToStatusBar("");
+    SetModifyFlag(false);                                   // Setup title window and do first RefreshControls();
+
     if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig())); else {
         QString Status;
         if ((!CheckExiv2(Status))||(!Checkffmpeg(Status))) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig()));
@@ -265,7 +313,9 @@ MainWindow::MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *
 //====================================================================================================================
 
 MainWindow::~MainWindow() {
-    delete ui;
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::~MainWindow";
+    #endif
     delete Diaporama;
     delete ApplicationConfig;
     SDLLastClose();
@@ -277,11 +327,15 @@ MainWindow::~MainWindow() {
         delete Clipboard_Object;
         Clipboard_Object=NULL;
     }
+    delete ui;
 }
 
 //====================================================================================================================
 // A REVOIR !!
 void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::keyReleaseEvent";
+    #endif
     bool Find=false;
 
     if ((!ApplicationConfig->PartitionMode)&&(ui->ToolBoxNormal->currentIndex()!=0)) {
@@ -324,6 +378,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 //====================================================================================================================
 
 void MainWindow::ToStatusBar(QString Text) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::ToStatusBar";
+    #endif
     if (Text=="") {
         if (InternetBUILDVERSION!="") ui->StatusBar_General->setText(InternetBUILDVERSION); else ui->StatusBar_General->setText("");
     } else {
@@ -334,6 +391,9 @@ void MainWindow::ToStatusBar(QString Text) {
 //====================================================================================================================
 
 void MainWindow::SetTimelineHeight() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::SetTimelineHeight";
+    #endif
     if (!ApplicationConfig->PartitionMode) {
         ui->scrollArea->setVisible(true);
         ui->ToolBoxPartition->setVisible(false);
@@ -368,6 +428,9 @@ void MainWindow::SetTimelineHeight() {
 //====================================================================================================================
 
 void MainWindow::closeEvent(QCloseEvent *Event) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::closeEvent";
+    #endif
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     ui->preview2->SetPlayerToPause(); // Ensure player is stop
     if (Diaporama->IsModify) {
@@ -388,6 +451,9 @@ void MainWindow::closeEvent(QCloseEvent *Event) {
 //====================================================================================================================
 
 void MainWindow::resizeEvent(QResizeEvent *) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::resizeEvent";
+    #endif
     ui->preview->SetPlayerToPause(); // Ensure player is stop
     ui->preview2->SetPlayerToPause(); // Ensure player is stop
     SetTimelineHeight();
@@ -395,20 +461,12 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 
 //====================================================================================================================
 
-void MainWindow::SetSavedWindowGeometry() {
-    IsFirstInitDone=true;                                   // do this only one time
-    ToStatusBar("");
-    ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
-    SetTimelineHeight();                                    // setup initial size
-    RefreshControls();
-}
-
-//====================================================================================================================
-
 void MainWindow::showEvent(QShowEvent *) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::showEvent";
+    #endif
     if (!IsFirstInitDone) {
-        IsFirstRefresh=false;
-        QTimer::singleShot(500,this,SLOT(SetSavedWindowGeometry()));
+        IsFirstInitDone=true;                                   // do this only one time
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
         connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(onNetworkReply(QNetworkReply*)));
@@ -423,6 +481,9 @@ void MainWindow::showEvent(QShowEvent *) {
 //====================================================================================================================
 
 void MainWindow::onNetworkReply(QNetworkReply* reply) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::onNetworkReply";
+    #endif
     if (reply->error()==QNetworkReply::NoError) {
         int httpstatuscode=reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
         if ((httpstatuscode>=200)&&(httpstatuscode<300)&&(reply->isReadable())) {
@@ -442,17 +503,20 @@ void MainWindow::onNetworkReply(QNetworkReply* reply) {
 //====================================================================================================================
 
 void MainWindow::OpenHelp(QString HelpFile) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::OpenHelp";
+    #endif
     if (HelpFile.startsWith(("file://"))) {
         QDesktopServices::openUrl(QUrl(HelpFile));
     } else if (HelpFile.startsWith(("http://"))) {
         QString HelpPath;
-        if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")) HelpPath=HelpFile.replace("<local>","en");
-            else HelpPath=HelpFile.replace("<local>",CurrentLanguage);
+        if ((ApplicationConfig->CurrentLanguage!="fr")&&(ApplicationConfig->CurrentLanguage!="es")&&(ApplicationConfig->CurrentLanguage!="it")&&(ApplicationConfig->CurrentLanguage!="en")) HelpPath=HelpFile.replace("<local>","en");
+            else HelpPath=HelpFile.replace("<local>",ApplicationConfig->CurrentLanguage);
         QDesktopServices::openUrl(QUrl(HelpPath));
     } else {
         QString HelpPath;
-        if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")) HelpPath=WIKI_CMS_PATH+HelpFile+"&lang=en";
-            else HelpPath=WIKI_CMS_PATH+HelpFile+"&lang="+CurrentLanguage;
+        if ((ApplicationConfig->CurrentLanguage!="fr")&&(ApplicationConfig->CurrentLanguage!="es")&&(ApplicationConfig->CurrentLanguage!="it")&&(ApplicationConfig->CurrentLanguage!="en")) HelpPath=WIKI_CMS_PATH+HelpFile+"&lang=en";
+            else HelpPath=WIKI_CMS_PATH+HelpFile+"&lang="+ApplicationConfig->CurrentLanguage;
         QDesktopServices::openUrl(QUrl(HelpPath));
     }
 }
@@ -460,6 +524,9 @@ void MainWindow::OpenHelp(QString HelpFile) {
 //====================================================================================================================
 
 void MainWindow::RefreshControls() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::RefreshControls";
+    #endif
     // Timeline actions
     ui->ActionRemove_BT->setEnabled(ui->timeline->NbrItem()>0);                                             ui->ActionRemove_BT_2->setEnabled(ui->timeline->NbrItem()>0);
     ui->ActionEdit_BT->setEnabled(ui->timeline->NbrItem()>0);                                               ui->ActionEdit_BT_2->setEnabled(ui->timeline->NbrItem()>0);
@@ -494,6 +561,9 @@ void MainWindow::RefreshControls() {
 //====================================================================================================================
 
 void MainWindow::SetModifyFlag(bool IsModify) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::SetModifyFlag";
+    #endif
     Diaporama->IsModify=IsModify;
     this->setWindowTitle(TitleBar+QString("-")+
                          (Diaporama->ProjectFileName!=""?Diaporama->ProjectFileName:QApplication::translate("MainWindow","<new project>","when project have no name define"))+
@@ -504,6 +574,9 @@ void MainWindow::SetModifyFlag(bool IsModify) {
 //====================================================================================================================
 
 void MainWindow::s_About() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_About";
+    #endif
     ui->Action_About_BT->setDown(false);
     ui->Action_About_BT_2->setDown(false);
     DlgAbout(this).exec();
@@ -512,6 +585,9 @@ void MainWindow::s_About() {
 //====================================================================================================================
 
 void MainWindow::s_DlgCheckConfig() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_DlgCheckConfig";
+    #endif
     DlgCheckConfig(this).exec();
     QString Status;
     if ((!CheckExiv2(Status))||(!Checkffmpeg(Status))) {
@@ -523,6 +599,9 @@ void MainWindow::s_DlgCheckConfig() {
 //====================================================================================================================
 
 void MainWindow::s_Documentation() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_Documentation";
+    #endif
     ui->ActionDocumentation_BT->setDown(false);
     ui->ActionDocumentation_BT_2->setDown(false);
     OpenHelp(HELPFILE_SUPPORT);
@@ -531,6 +610,9 @@ void MainWindow::s_Documentation() {
 //====================================================================================================================
 
 void MainWindow::s_NewFunctions() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_NewFunctions";
+    #endif
     ui->ActionNewFunctions_BT->setDown(false);
     ui->ActionNewFunctions_BT_2->setDown(false);
     OpenHelp(HELPFILE_NEWS);
@@ -539,6 +621,9 @@ void MainWindow::s_NewFunctions() {
 //====================================================================================================================
 
 void MainWindow::s_action_Exit() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_Exit";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -552,6 +637,9 @@ void MainWindow::s_action_Exit() {
 //====================================================================================================================
 
 void MainWindow::s_action_ZoomPlus() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_ZoomPlus";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -569,6 +657,9 @@ void MainWindow::s_action_ZoomPlus() {
 //====================================================================================================================
 
 void MainWindow::s_action_ZoomMinus() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_ZoomMinus";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -586,6 +677,9 @@ void MainWindow::s_action_ZoomMinus() {
 //====================================================================================================================
 
 void MainWindow::s_ChPartitionMode() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_ChPartitionMode";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -607,6 +701,9 @@ void MainWindow::s_ChPartitionMode() {
 //====================================================================================================================
 
 void MainWindow::s_ItemDoubleClicked() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_ItemDoubleClicked";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -652,6 +749,9 @@ void MainWindow::s_ItemDoubleClicked() {
 //====================================================================================================================
 
 void MainWindow::s_TransitionItemDoubleClicked() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_TransitionItemDoubleClicked";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -671,6 +771,9 @@ void MainWindow::s_TransitionItemDoubleClicked() {
 //====================================================================================================================
 
 void MainWindow::s_SoundItemDoubleClicked() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_SoundItemDoubleClicked";
+    #endif
     s_ItemDoubleClicked();  // No separated process at this time !
 }
 
@@ -679,6 +782,9 @@ void MainWindow::s_SoundItemDoubleClicked() {
 //====================================================================================================================
 
 void MainWindow::s_BackgroundDoubleClicked() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_BackgroundDoubleClicked";
+    #endif
     if (Diaporama->CurrentCol>=Diaporama->List.count()) return;
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
@@ -699,6 +805,9 @@ void MainWindow::s_BackgroundDoubleClicked() {
 //====================================================================================================================
 
 void MainWindow::s_TransitionBackgroundDoubleClicked() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_TransitionBackgroundDoubleClicked";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -721,6 +830,9 @@ void MainWindow::s_TransitionBackgroundDoubleClicked() {
 //====================================================================================================================
 
 void MainWindow::s_MusicDoubleClicked() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_MusicDoubleClicked";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -738,6 +850,9 @@ void MainWindow::s_MusicDoubleClicked() {
 //====================================================================================================================
 
 void MainWindow::s_DragMoveItem() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_DragMoveItem";
+    #endif
     if (DragItemSource<DragItemDest) DragItemDest--;
     Diaporama->List.move(DragItemSource,DragItemDest);
     ui->timeline->setUpdatesEnabled(false);
@@ -750,6 +865,9 @@ void MainWindow::s_DragMoveItem() {
 //====================================================================================================================
 
 void MainWindow::s_ItemSelectionChanged() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_ItemSelectionChanged";
+    #endif
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
         QTimer::singleShot(500,this,SLOT(s_ItemSelectionChanged()));
         return;
@@ -800,18 +918,17 @@ void MainWindow::s_ItemSelectionChanged() {
 //====================================================================================================================
 
 void MainWindow::s_TABTooltipLink(const QString Link) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_TABTooltipLink";
+    #endif
     OpenHelp(Link);
 }
 
 void MainWindow::s_ToolbarChanged(int MenuIndex) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_ToolbarChanged";
+    #endif
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-    QString BaseUrl=AdjustDirForOS(QDir::currentPath());
-
-    if (!BaseUrl.endsWith(QDir::separator())) BaseUrl=BaseUrl+QDir::separator();
-    BaseUrl="file://"+BaseUrl;
-    if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")) BaseUrl=BaseUrl+"WIKI"+QDir::separator()+"en"+QDir::separator();
-        else BaseUrl=BaseUrl+"WIKI"+QDir::separator()+CurrentLanguage+QDir::separator();
 
     QString Html;
     switch (MenuIndex) {
@@ -838,6 +955,9 @@ void MainWindow::s_ToolbarChanged(int MenuIndex) {
 //====================================================================================================================
 
 void MainWindow::s_RenderVideo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_RenderVideo";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -853,6 +973,9 @@ void MainWindow::s_RenderVideo() {
 }
 
 void MainWindow::s_RenderSmartphone() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_RenderSmartphone";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -868,6 +991,9 @@ void MainWindow::s_RenderSmartphone() {
 }
 
 void MainWindow::s_RenderMultimedia() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_RenderMultimedia";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -883,6 +1009,9 @@ void MainWindow::s_RenderMultimedia() {
 }
 
 void MainWindow::s_RenderForTheWEB() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_RenderForTheWEB";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -902,6 +1031,9 @@ void MainWindow::s_RenderForTheWEB() {
 //====================================================================================================================
 
 void MainWindow::s_ChangeApplicationSettings() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_ChangeApplicationSettings";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -918,6 +1050,9 @@ void MainWindow::s_ChangeApplicationSettings() {
 }
 
 void MainWindow::s_DoChangeApplicationSettings() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_DoChangeApplicationSettings";
+    #endif
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->preview->WantedFPS=ApplicationConfig->PreviewFPS;
     ui->preview2->WantedFPS=ApplicationConfig->PreviewFPS;
@@ -934,6 +1069,9 @@ void MainWindow::s_DoChangeApplicationSettings() {
 //====================================================================================================================
 
 void MainWindow::s_action_New() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_New";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -978,6 +1116,9 @@ void MainWindow::s_action_New() {
 //====================================================================================================================
 
 void MainWindow::s_action_OpenRecent() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_OpenRecent";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1001,6 +1142,9 @@ void MainWindow::s_action_OpenRecent() {
 }
 
 void MainWindow::s_action_Open() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_Open";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1022,11 +1166,17 @@ void MainWindow::s_action_Open() {
 }
 
 void MainWindow::s_DoOpenFileParam() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_DoOpenFileParam";
+    #endif
     ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileForIO).fileName());
     QTimer::singleShot(500,this,SLOT(s_DoOpenFile()));
 }
 
 void MainWindow::s_DoOpenFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_DoOpenFile";
+    #endif
     QString ProjectFileName=FileForIO;
     ProjectFileName=AdjustDirForOS(ProjectFileName);
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -1080,6 +1230,9 @@ void MainWindow::s_DoOpenFile() {
 //====================================================================================================================
 
 void MainWindow::s_action_Save() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_Save";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1097,6 +1250,9 @@ void MainWindow::s_action_Save() {
 
 //====================================================================================================================
 void MainWindow::s_DoSaveFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_DoSaveFile";
+    #endif
     if (Diaporama->SaveFile(this)) SetModifyFlag(false);
     ToStatusBar("");
 }
@@ -1106,6 +1262,9 @@ void MainWindow::s_DoSaveFile() {
 //====================================================================================================================
 
 void MainWindow::s_action_SaveAs() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_SaveAs";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1136,6 +1295,9 @@ void MainWindow::s_action_SaveAs() {
 //====================================================================================================================
 
 void MainWindow::s_action_AddTitle() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_AddTitle";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1182,6 +1344,9 @@ void MainWindow::s_action_AddTitle() {
 //====================================================================================================================
 
 void MainWindow::s_action_AddFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_AddFile";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1193,7 +1358,7 @@ void MainWindow::s_action_AddFile() {
 
     FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add files"),
                                                        ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-                                                       ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
+                                                       ApplicationConfig->GetFilterForMediaFile(ALLFILE));
     if (FileList.count()>0) {
 
         // Calc position of new object depending on ApplicationConfig->AppendObject
@@ -1236,10 +1401,16 @@ void MainWindow::s_action_AddFile() {
 }
 
 void MainWindow::s_action_DoAddDragAndDropFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_DoAddDragAndDropFile";
+    #endif
     QTimer::singleShot(500,this,SLOT(s_action_DoAddFile()));
 }
 
 void MainWindow::s_action_DoAddFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_DoAddFile";
+    #endif
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Add files
@@ -1417,6 +1588,9 @@ void MainWindow::s_action_DoAddFile() {
 //====================================================================================================================
 
 void MainWindow::s_action_AddProject() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_AddProject";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1435,6 +1609,9 @@ void MainWindow::s_action_AddProject() {
 }
 
 void MainWindow::s_action_DoAddProject() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_DoAddProject";
+    #endif
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ApplicationConfig->LastProjectPath=QFileInfo(FileForIO).dir().absolutePath();
     Diaporama->AppendFile(this,FileForIO);  // Append file
@@ -1446,6 +1623,9 @@ void MainWindow::s_action_DoAddProject() {
 //====================================================================================================================
 
 void MainWindow::s_action_Edit() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_Edit";
+    #endif
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionEdit_background);
     ContextMenu->addAction(ui->actionEdit_object);
@@ -1461,6 +1641,9 @@ void MainWindow::s_action_Edit() {
 //====================================================================================================================
 
 void MainWindow::s_RemoveObject() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_RemoveObject";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1492,6 +1675,9 @@ void MainWindow::s_RemoveObject() {
 //====================================================================================================================
 
 void MainWindow::s_CutToClipboard() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_CutToClipboard";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1520,6 +1706,9 @@ void MainWindow::s_CutToClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_CopyToClipboard() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_CopyToClipboard";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1549,6 +1738,9 @@ void MainWindow::s_CopyToClipboard() {
 //====================================================================================================================
 
 void MainWindow::s_PasteFromClipboard() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_PasteFromClipboard";
+    #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1585,6 +1777,9 @@ void MainWindow::s_PasteFromClipboard() {
 //====================================================================================================================
 
 void MainWindow::AddObjectToTimeLine(int CurIndex) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::AddObjectToTimeLine";
+    #endif
     ui->timeline->AddObjectToTimeLine(CurIndex);
 }
 
@@ -1593,6 +1788,9 @@ void MainWindow::AddObjectToTimeLine(int CurIndex) {
 //====================================================================================================================
 
 void MainWindow::AdjustRuller() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::AdjustRuller";
+    #endif
     ui->preview->SetActualDuration(Diaporama->GetDuration());
     ui->preview2->SetActualDuration(Diaporama->GetDuration());
     if (Diaporama->List.count()>0)  {

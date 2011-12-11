@@ -224,7 +224,7 @@ void DlgMusicProperties::SetupUi() {
 void DlgMusicProperties::s_AddMusic() {
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("DlgMusicProperties","Add music files"),
                                                        DiaporamaObject->Parent->ApplicationConfig->RememberLastDirectories?DiaporamaObject->Parent->ApplicationConfig->LastMusicPath:"",
-                                                       GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::MUSICFILE));
+                                                       GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(MUSICFILE));
     QApplication::processEvents();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int CurIndex=DiaporamaObject->MusicList.count();

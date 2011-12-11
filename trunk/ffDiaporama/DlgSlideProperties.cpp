@@ -1582,7 +1582,7 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
 void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("DlgSlideProperties","Add files"),
                                                        DiaporamaObject->Parent->ApplicationConfig->RememberLastDirectories?DiaporamaObject->Parent->ApplicationConfig->LastMediaPath:"",
-                                                       DiaporamaObject->Parent->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::ALLFILE));
+                                                       DiaporamaObject->Parent->ApplicationConfig->GetFilterForMediaFile(ALLFILE));
 
     // Sort files in the fileList
     if (DiaporamaObject->Parent->ApplicationConfig->SortFile) {

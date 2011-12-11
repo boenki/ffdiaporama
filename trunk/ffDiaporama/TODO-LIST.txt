@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 02/12/2011) :
+Buggs/TODO (Dernier SVN le 07/12/2011) :
 ----------------------------------------
 TODO
 ----
@@ -53,24 +53,12 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige un dépassement de capacité dans la calcul de durée quand les vidéos à générer sont longues >30mn
--Corrige une erreur de perte de l'orientation d'image lors de l'activation de filtre de transformation
--Change le synchro d'affichage au demarrage de l'application (ajoute 500 ms)
--Corrige un bug sous Windows qui supprimait le double slash des chemins réseaux \\SERVEUR
 
 English version / Bug fix :
--Correct an overflow in calculation of duration when videos to be generated are long > 30mn
--Correct an error of loss of the image orientation during the activation of transformation filter
--Change display synchronization at application startup (add 500 ms)
--Fix a bug for Windows release which remove double slash pour network path
 
 French version / Nouvelles fonctionnalités :
--Ajoute une option dans la boite de dialog Option du programme pour activer le resampler rapide pendant la preview
--Ajoute une option dans la boite de dialog Option du programme pour sélectionner le nom par defaut de la vidéo à générer
 
 English version / New features :
--Add an option in configuration dialog to activate quick resampler during preview
--Add an option in configuration dialog to default name for rendered video
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -127,6 +115,10 @@ Bug fix French version
 -Force la barre de status à afficher les messages de base
 -Corrige le BUG sur les ajouts de blocs non standard en mode slide
 -Supprime des appels inutiles à Exiv2 lors des chargements de projet
+-Corrige un dépassement de capacité dans la calcul de durée quand les vidéos à générer sont longues >30mn
+-Corrige une erreur de perte de l'orientation d'image lors de l'activation de filtre de transformation
+-Change le synchro d'affichage au démarrage de l'application (ajoute 500 ms)
+-Corrige un bug sous Windows qui supprimait le double slash des chemins réseaux \\SERVEUR
 
 Bug fix English version
 -Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -176,6 +168,10 @@ Bug fix English version
 -Force status bar to display basic messages
 -Fix bug for adding non standard image when new slide
 -Delete useless calls to Exiv2 during the project loads
+-Correct an overflow in calculation of duration when videos to be generated are long > 30mn
+-Correct an error of loss of the image orientation during the activation of transformation filter
+-Change display synchronization at application startup (add 500 ms)
+-Fix a bug for Windows release which remove double slash pour network path
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
@@ -254,6 +250,8 @@ French version
 -Ajoute une boite de dialog de vérification de la configuration
 -Vérifie au démarrage si exiv2 et ffmpeg sont présent - à défaut : quit le programme
 -Ajoute la possibilité de générer vidéos sans son
+-Ajoute une option dans la boite de dialog Option du programme pour activer le resampler rapide pendant la preview
+-Ajoute une option dans la boite de dialog Option du programme pour sélectionner le nom par defaut de la vidéo à générer
 
 English version
 - Makes possible the partial support of a language (Interface only or Interface+WIKI or Interface+WIKI+WEB)
@@ -322,3 +320,5 @@ English version
 -Add Check configuration dialog
 -Check at startup if exiv2 and ffmpeg are available - if not : exit application
 -Add the possibility to render a video without audio track
+-Add an option in configuration dialog to activate quick resampler during preview
+-Add an option in configuration dialog to default name for rendered video

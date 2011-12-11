@@ -21,8 +21,10 @@
 #ifndef _cLuLoImageCACHE_H
 #define _cLuLoImageCACHE_H
 
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include <QString>
+#include <QImage>
+#include <QList>
+#include "cFilterTransformObject.h"
 
 //===================================================
 
@@ -40,9 +42,9 @@ public:
 
     void    ClearAll();
 
-    QImage *ValidateUnfilteredImage();
+    QImage *ValidateUnfilteredImage(int PreviewMaxHeight);
     QImage *ValidateCacheRenderImage(cFilterTransformObject *Filter=NULL);
-    QImage *ValidateCachePreviewImage(cFilterTransformObject *Filter=NULL);
+    QImage *ValidateCachePreviewImage(int PreviewMaxHeight,cFilterTransformObject *Filter=NULL);
 };
 
 //===================================================

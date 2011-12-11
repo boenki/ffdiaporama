@@ -23,6 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
+#include "SubProjects/VariousClass/cBaseApplicationConfig.h"
 
 //============================================
 // Style collection item definition
@@ -65,8 +66,8 @@ public:
     cStyleCollection();
     ~cStyleCollection();
 
-    void    SaveToXML(QDomDocument &domDocument,QDomElement &root);
-    void    LoadFromXML(QDomDocument &domDocument,QDomElement root,int TypeConfigFile);
+    void    SaveToXML(QDomElement &root);
+    void    LoadFromXML(QDomElement root,LoadConfigFileType TypeConfigFile);
     void    SetProjectGeometryFilter(int Geometry);
     void    SetImageGeometryFilter(int ProjectGeometry,int ImageGeometry);
     void    SortList();

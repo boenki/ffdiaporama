@@ -687,7 +687,7 @@ bool cvideofilewrapper::GetInformationFromFile(QString GivenFileName,bool aMusic
 
             QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(FileName).fileName(),
                GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
-               GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(aMusicOnly?cApplicationConfig::MUSICFILE:cApplicationConfig::VIDEOFILE));
+               GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(aMusicOnly?MUSICFILE:VIDEOFILE));
             if (NewFileName!="") {
                 AliasList.append(FileName+"####"+NewFileName);
                 FileName=NewFileName;

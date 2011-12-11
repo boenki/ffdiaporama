@@ -36,7 +36,6 @@ class DlgRenderVideo;
 class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
-    bool                    IsFirstRefresh;
     bool                    IsFirstInitDone;                // true when first show window was done
     bool                    FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
     cApplicationConfig      *ApplicationConfig;
@@ -62,9 +61,9 @@ public:
 
     DlgRenderVideo          *CurrentRenderingDialog;
 
-    explicit MainWindow(cApplicationConfig *TheCurrentApplicationConfig,QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+    void    InitWindow(QString ForceLanguage,QApplication *App);
     void    OpenHelp(QString HelpFile);
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);
@@ -84,8 +83,6 @@ protected:
 
 
 private slots:
-    void    SetSavedWindowGeometry();
-
     void    s_DlgCheckConfig();
     void    s_ToolbarChanged(int MenuIndex);
     void    onNetworkReply(QNetworkReply*);

@@ -22,71 +22,23 @@
 #include <QTranslator>
 
 int main(int argc, char *argv[]) {
-    QString CurrentPath=QDir::currentPath();
-    AddToSystemProperties(QString(STARTINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
-    // Ensure correct path
-    #if defined(Q_OS_WIN)
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString(APPLICATION_NAME));
-    #endif
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("..")+QDir().separator()+QString(APPLICATION_NAME));
-    if (!QFileInfo("ffDiaporama.xml").exists()) QDir::setCurrent(QString("/usr/share/")+QString(APPLICATION_NAME));
-    #endif
-    AddToSystemProperties(QString(WORKINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
-    CurrentPath=QDir::currentPath();
-    if (!CurrentPath.endsWith(QDir::separator())) CurrentPath=CurrentPath+QDir::separator();
-
     QApplication app(argc, argv);
-    app.setApplicationName(QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION));
-
-    // Search system language
-    QTranslator translator;     // translator for the application
-    QTranslator QTtranslator;   // translator for QT default text
-    CurrentLanguage=QLocale::system().name().left(2);
-    AddToSystemProperties(QString(SYSTEMLOCAL_STR)+CurrentLanguage);
 
     QString AutoLoad="";
+    QString ForceLanguage="";
 
     // Parse parameters
     for (int i=1;i<argc;i++) {
         QString Param=QString(argv[i]).toLower();
-        if (Param.startsWith("-lang=")) CurrentLanguage=Param.mid(QString("-lang=").length());
+        if (Param.startsWith("-lang=")) ForceLanguage=Param.mid(QString("-lang=").length());
         else AutoLoad=QString().fromLocal8Bit(argv[i]);
     }
 
-    // Validate if system locale is supported and if not force use of "en"
-    if ((CurrentLanguage!="fr")&&(CurrentLanguage!="es")&&(CurrentLanguage!="it")&&(CurrentLanguage!="en")&&(CurrentLanguage!="ru")&&
-        (CurrentLanguage!="el")&&(CurrentLanguage!="de")&&(CurrentLanguage!="pt")&&(CurrentLanguage!="nl")) CurrentLanguage="en";
-
-    // Install translation (if needed)
-    if (CurrentLanguage!="en") {
-        if (!translator.load(AdjustDirForOS(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm")))
-            ExitApplicationWithFatalError("Error loading translation file ...");
-        if (!QTtranslator.load(AdjustDirForOS(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm")))
-            AddToSystemProperties("Error loading QT translation file ...");
-
-        app.installTranslator(&translator);
-        app.installTranslator(&QTtranslator);
-        AddToSystemProperties(QString(LOADEDLOCAL_STR)+AdjustDirForOS(QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+CurrentLanguage+".qm")));
-    }
-    AddSeparatorToSystemProperties();
-    Transparent.setTextureImage(QImage("img/transparent.png"));  // Load transparent brush
-
-    // Initialise configuration options
-    cApplicationConfig *ApplicationConfig=new cApplicationConfig();
-    ApplicationConfig->ParentWindow=NULL;
-    ApplicationConfig->InitConfigurationValues();                                                               // Init all values
-    ApplicationConfig->LoadConfigurationFile(GLOBALCONFIGFILE);                                                 // Get values from global configuration file (overwrite previously initialized values)
-    if (!ApplicationConfig->LoadConfigurationFile(USERCONFIGFILE)) ApplicationConfig->SaveConfigurationFile();  // Load values from user configuration file (overwrite previously initialized values)
-
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        if (ApplicationConfig->RasterMode) QApplication::setGraphicsSystem("raster");
-    #endif
-
-    MainWindow w(ApplicationConfig);
+    MainWindow w;
+    w.InitWindow(ForceLanguage,&app);
 
     if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
+
     if (AutoLoad!="") {
         w.FileForIO=AutoLoad;
         w.s_DoOpenFileParam();

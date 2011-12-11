@@ -18,13 +18,14 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include "_ApplicationDefinitions.h"
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
 #include <windows.h>
 #include <winbase.h>
 #endif
+
+//#define DEBUGMODE
 
 /****************************************************************************
   Definition of image format supported by the application
@@ -41,7 +42,7 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,768,4,3,25,"25","XGA - 1024x768 - 25 FPS",0},                                                 // SIZE_XGA
             {960,720,4,3,25,"25","720p - 960x720 - 25 FPS",0},                                                  // SIZE_720P
             {1440,1080,4,3,25,"25","1080p - 1440x1080 - 25 FPS",0},                                             // SIZE_1080p
-            {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0}                                               // SIZE_RIM240
+            {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0}                                                // SIZE_RIM240
         },{ // GEOMETRY_16_9
             {320,180,16,9,25,"25","QVGA - 320x180 - 25 FPS",0},                                                 // SIZE_QVGA
             {480,270,16,9,25,"25","HVGA - 480x270 - 25 FPS",0},                                                 // SIZE_HVGA
@@ -269,7 +270,6 @@ struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
 /****************************************************************************
   Other
 ****************************************************************************/
-QString CurrentLanguage;                                        // Current language code (en, fr, ...)
 QString SystemProperties="";                                    // System properties log
 QString CurrentAppVersion="";                                   // Application version read from BUILDVERSION.txt
 
@@ -287,106 +287,6 @@ void ExitApplicationWithFatalError(QString StringToAdd) {
     AddToSystemProperties(StringToAdd);
     fprintf(stderr,"%s\n",SystemProperties.toLocal8Bit().data());     // Print out SystemProperties
     exit(1);
-}
-
-QString AdjustDirForOS(QString Dir) {
-    #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
-    Dir.replace("/","\\");
-    bool DoubleSlashBegin=Dir.startsWith("\\\\");
-    Dir.replace("\\\\","\\");
-    if (DoubleSlashBegin) Dir="\\"+Dir;
-    #endif
-    return Dir;
-}
-
-/****************************************************************************
-functions used to retrieve number of processor
-Thanks to : Stuart Nixon
-See : http://lists.trolltech.com/qt-interest/2006-05/thread00922-0.html
-*****************************************************************************/
-
-int getCpuCount() {
-    //qDebug() << "IN:getCpuCount";
-    int cpuCount=1;
-
-#if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
-    SYSTEM_INFO    si;
-    GetSystemInfo(&si);
-    cpuCount = si.dwNumberOfProcessors;
-#elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    cpuCount = sysconf(_SC_NPROCESSORS_ONLN);
-#elif defined(Q_OS_MACX)
-   kern_return_t            kr;
-   struct host_basic_info   hostinfo;
-   unsigned int             count;
-
-   count=HOST_BASIC_INFO_COUNT;
-   kr   =host_info(mach_host_self(),HOST_BASIC_INFO,(host_info_t)&hostinfo,&count);
-
-   if (kr==KERN_SUCCESS) cpuCount=hostinfo.avail_cpus;
-#endif
-    if(cpuCount<1) cpuCount=1;
-    return cpuCount;
-}
-
-//====================================================================================================================
-
-cSaveWindowPosition::cSaveWindowPosition(QString TheWindowName,bool &TheRestoreWindow,bool TheIsMainWindow) {
-    RestoreWindow   =&TheRestoreWindow;
-    WindowName      =TheWindowName;
-    IsMainWindow    =TheIsMainWindow;
-    WindowGeo       ="";
-    MainWinSS       ="";
-
-}
-
-//***********************************************
-
-void cSaveWindowPosition::ApplyToWindow(QWidget *Window) {
-    if ((Window==NULL)||(*RestoreWindow==false)) return;
-
-    // Restore window size and position
-    if (WindowGeo!="") {
-        QByteArray WinBA=QByteArray::fromHex(WindowGeo.toUtf8());
-        Window->restoreGeometry(WinBA);
-        if (IsMainWindow) {
-            QByteArray MainWinBA=QByteArray::fromHex(MainWinSS.toUtf8());
-            ((QMainWindow *)Window)->restoreState(MainWinBA);
-        }
-    }
-}
-
-//***********************************************
-
-void cSaveWindowPosition::SaveWindowState(QWidget *Window) {
-    if ((Window==NULL)||(*RestoreWindow==false)) return;
-    // Save window size & position (if needed)
-    QByteArray WinBA=QByteArray(Window->saveGeometry());
-    WindowGeo=QString(WinBA.toHex());
-    if (IsMainWindow) {
-        QByteArray MainWinBA=QByteArray(((QMainWindow *)Window)->saveState());
-        MainWinSS=QString(MainWinBA.toHex());
-    }
-}
-
-//***********************************************
-
-void cSaveWindowPosition::SaveToXML(QDomElement &domDocument) {
-    QDomDocument    DomDocument;
-    QDomElement     Element=DomDocument.createElement(WindowName);
-    Element.setAttribute("saveGeometry",WindowGeo);
-    if (IsMainWindow) Element.setAttribute("saveState",MainWinSS);
-    domDocument.appendChild(Element);
-}
-
-//***********************************************
-
-void cSaveWindowPosition::LoadFromXML(QDomElement domDocument) {
-    if ((domDocument.elementsByTagName(WindowName).length()>0)&&(domDocument.elementsByTagName(WindowName).item(0).isElement()==true)) {
-        QDomElement Element=domDocument.elementsByTagName(WindowName).item(0).toElement();
-        WindowGeo=Element.attribute("saveGeometry");
-        if (IsMainWindow) MainWinSS=Element.attribute("saveState");
-    }
 }
 
 //====================================================================================================================
@@ -464,115 +364,17 @@ bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName,bo
 
 //====================================================================================================================
 
-cApplicationConfig::cApplicationConfig() {
-
-    //qDebug() << "IN:cApplicationConfig::cApplicationConfig";
-    ParentWindow=NULL;
-
-    // Init collections
-    StyleTextCollection.CollectionName          =QString(STYLENAME_TEXTSTYLE);
-    StyleTextBackgroundCollection.CollectionName=QString(STYLENAME_BACKGROUNDSTYLE);
-    StyleCoordinateCollection.CollectionName    =QString(STYLENAME_COORDINATESTYLE);
-    StyleBlockShapeCollection.CollectionName    =QString(STYLENAME_BLOCKSHAPESTYLE);
-    StyleImageFramingCollection.CollectionName  =QString(STYLENAME_FRAMINGSTYLE);
-
-    #ifdef Q_OS_WIN
-        // Search plateforme and define specific value depending on plateforme
-        switch (QSysInfo().WindowsVersion) {
-        case 0x0010 : Plateforme="Windows NT (operating system version 4.0)";   break;
-        case 0x0020 : Plateforme="Windows 2000 (operating system version 5.0)"; break;
-        case 0x0030 : Plateforme="Windows XP (operating system version 5.1)";   break;
-        case 0x0040 : Plateforme="Windows Server 2003, Windows Server 2003 R2, Windows Home Server, Windows XP Professional x64 Edition (operating system version 5.2)";    break;
-        case 0x0080 : Plateforme="Windows Vista, Windows Server 2008 (operating system version 6.0)";   break;
-        case 0x0090 : Plateforme="Windows 7, Windows Server 2008 R2 (operating system version 6.1)";    break;
-        default     : Plateforme="Unknown version"; break;
-        }
-
-        // Load registry value for specific Windows Folder
-        QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
-        WINDOWS_APPDATA  =Settings.value("AppData").toString();
-        WINDOWS_MUSIC    =Settings.value("My Music").toString();
-        WINDOWS_PICTURES =Settings.value("My Pictures").toString();
-        WINDOWS_VIDEO    =Settings.value("My Video").toString();
-        WINDOWS_DOCUMENTS=Settings.value("Personal").toString();
+cApplicationConfig::cApplicationConfig():cBaseApplicationConfig(APPLICATION_NAME,APPLICATION_NAME,APPLICATION_VERSION,CONFIGFILEEXT,CONFIGFILE_ROOTNAME) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cApplicationConfig::cApplicationConfig";
     #endif
-    #ifdef Q_WS_X11
-        Plateforme="Unix/Linux";
-    #endif
-
-    AddToSystemProperties(QString(OPERATINGSYSTEM_STR)+Plateforme+" - "+QString("%1").arg(getCpuCount())+" Core/CPU");
-
-    // Prepare lists of allowed extension
-    //************************************
-    // List of all file extension allowed for video
-    AllowVideoExtension.append("avi");     AllowVideoExtension.append("AVI");
-    AllowVideoExtension.append("mov");     AllowVideoExtension.append("MOV");
-    AllowVideoExtension.append("mpg");     AllowVideoExtension.append("MPG");
-    AllowVideoExtension.append("mpeg");    AllowVideoExtension.append("MPEG");
-    AllowVideoExtension.append("m4v");     AllowVideoExtension.append("M4V");
-    AllowVideoExtension.append("mkv");     AllowVideoExtension.append("MKV");
-    AllowVideoExtension.append("mp4");     AllowVideoExtension.append("MP4");
-    AllowVideoExtension.append("flv");     AllowVideoExtension.append("FLV");
-    AllowVideoExtension.append("3gp");     AllowVideoExtension.append("3GP");
-    // List of all file extension allowed for image
-    AllowImageExtension.append("bmp");     AllowImageExtension.append("BMP");
-    AllowImageExtension.append("gif");     AllowImageExtension.append("GIF");
-    AllowImageExtension.append("jpg");     AllowImageExtension.append("JPG");
-    AllowImageExtension.append("jpeg");    AllowImageExtension.append("JPEG");
-    AllowImageExtension.append("png");     AllowImageExtension.append("PNG");
-    AllowImageExtension.append("pbm");     AllowImageExtension.append("PBM");
-    AllowImageExtension.append("pgm");     AllowImageExtension.append("PGM");
-    AllowImageExtension.append("ppm");     AllowImageExtension.append("PPM");
-    AllowImageExtension.append("tiff");    AllowImageExtension.append("TIFF");
-    AllowImageExtension.append("xbm");     AllowImageExtension.append("XBM");
-    AllowImageExtension.append("xpm");     AllowImageExtension.append("XPM");
-    // List of all file extension allowed for musique
-    AllowMusicExtension.append("wav");     AllowMusicExtension.append("WAV");
-    AllowMusicExtension.append("mp3");     AllowMusicExtension.append("MP3");
-    AllowMusicExtension.append("mp4");     AllowMusicExtension.append("MP4");
-    AllowMusicExtension.append("mpa");     AllowMusicExtension.append("MPA");
-    AllowMusicExtension.append("ogg");     AllowMusicExtension.append("OGG");
-
-    GlobalConfigFile=QString(APPLICATION_NAME)+QString(CONFIGFILEEXT);
-
-    // set UserConfigFile value (depending on operating system)
-    #ifdef Q_OS_WIN
-        UserConfigPath=WINDOWS_APPDATA;
-        if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
-        UserConfigPath  = UserConfigPath+APPLICATION_NAME+QDir::separator();
-        PathEXIV2       = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"exiv2\\exiv2.exe");           // FileName of exiv2 (with path) : Windows version
-        PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg\\bin\\ffmpeg.exe");    // FileName of ffmpeg (with path) : Windows version
-    #else
-        UserConfigPath=QDir::homePath();
-        if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
-        UserConfigPath  = UserConfigPath+"."+APPLICATION_NAME+QDir::separator();
-        PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
-        PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
-    #endif
-    UserConfigFile=UserConfigPath+APPLICATION_NAME+CONFIGFILEEXT;
-    if (UserConfigPath.endsWith("/")||UserConfigPath.endsWith("\\")) UserConfigPath=UserConfigPath.left(UserConfigPath.length()-QString("/").length());
-    UserConfigPath=AdjustDirForOS(UserConfigPath);
-    AddToSystemProperties(QString(TEMPDIR_STR)+UserConfigPath);
-    AddToSystemProperties(QString(USERCONFIGFILE_STR)+UserConfigFile);
-
-    MainWinWSP                  =new cSaveWindowPosition("MainWindow",RestoreWindow,true);                  // MainWindow - Window size and position
-    DlgBackgroundPropertiesWSP  =new cSaveWindowPosition("DlgBackgroundProperties",RestoreWindow,false);    // Dialog box "Background properties" - Window size and position
-    DlgMusicPropertiesWSP       =new cSaveWindowPosition("DlgMusicProperties",RestoreWindow,false);         // Dialog box "Music properties" - Window size and position
-    DlgApplicationSettingsWSP   =new cSaveWindowPosition("DlgApplicationSettings",RestoreWindow,false);     // Dialog box "Application settings" - Window size and position
-    DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);          // Dialog box "Render Video" - Window size and position
-    DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false); // Dialog box "Transition properties" - Window size and position
-    DlgSlidePropertiesWSP       =new cSaveWindowPosition("DlgSlidePropertiesWSP",RestoreWindow,false);      // Dialog box "Slide properties" - Window size and position
-    DlgImageTransformationWSP   =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);  // Dialog box "Image transformation" - Window size and position
-    DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
-    DlgVideoEditWSP             =new cSaveWindowPosition("DlgVideoEditWSP",RestoreWindow,false);            // Dialog box "Edit video" - Window size and position
-    DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
-    DlgManageStyleWSP           =new cSaveWindowPosition("DlgManageStyleWSP",RestoreWindow,false);          // Dialog box "Manage style" - Window size and position
-    DlgCheckConfigWSP           =new cSaveWindowPosition("DlgCheckConfigWSP",RestoreWindow,false);          // Dialog box "Check configuration" - Window size and position
 }
 
 //====================================================================================================================
 cApplicationConfig::~cApplicationConfig() {
-    delete MainWinWSP;
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cApplicationConfig::~cApplicationConfig";
+    #endif
     delete DlgMusicPropertiesWSP;
     delete DlgBackgroundPropertiesWSP;
     delete DlgApplicationSettingsWSP;
@@ -589,56 +391,21 @@ cApplicationConfig::~cApplicationConfig() {
 
 //====================================================================================================================
 
-QString cApplicationConfig::GetFilterForMediaFile(FilterFile type) {
-    // enum FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
-    QString ReturnFile="";
-    if (type==ALLFILE) {
-        ReturnFile=ReturnFile+QApplication::translate("MainWindow","All suported file (");
-        for (int i=0;i<AllowImageExtension.count();i++) ReturnFile=ReturnFile+(i>0?" *":"*.")+AllowImageExtension[i];
-        for (int i=0;i<AllowVideoExtension.count();i++) ReturnFile=ReturnFile+(i>0?" *":"*.")+AllowVideoExtension[i];
-        ReturnFile=ReturnFile+")";
-    }
-    if ((type==ALLFILE)||(type==IMAGEFILE)) {
-        if (ReturnFile!="") ReturnFile=ReturnFile+";;";
-        ReturnFile=ReturnFile+QApplication::translate("MainWindow","Image file (");
-        for (int i=0;i<AllowImageExtension.count();i++) ReturnFile=ReturnFile+(i>0?" *":"*.")+AllowImageExtension[i];
-        ReturnFile=ReturnFile+")";
-    }
-    if ((type==ALLFILE)||(type==VIDEOFILE)) {
-        if (ReturnFile!="") ReturnFile=ReturnFile+";;";
-        ReturnFile=ReturnFile+QApplication::translate("MainWindow","Video file (");
-        for (int i=0;i<AllowVideoExtension.count();i++) ReturnFile=ReturnFile+(i>0?" *":"*.")+AllowVideoExtension[i];
-        ReturnFile=ReturnFile+")";
-    }
-    if (type==MUSICFILE) {
-        if (ReturnFile!="") ReturnFile=ReturnFile+";;";
-        ReturnFile=ReturnFile+QApplication::translate("MainWindow","Music file (");
-        for (int i=0;i<AllowMusicExtension.count();i++) ReturnFile=ReturnFile+(i>0?" *":"*.")+AllowMusicExtension[i];
-        ReturnFile=ReturnFile+")";
-    }
-    return ReturnFile;
-}
-
-//====================================================================================================================
-
-bool cApplicationConfig::InitConfigurationValues() {
-    //qDebug() << "IN:cApplicationConfig::InitConfigurationValues";
-
-    CurrentFolder   =QDir::currentPath();
+void cApplicationConfig::InitValues() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cApplicationConfig::InitValues";
+    #endif
 
     // Initialise all variables and set them default value
-    RasterMode                  = true;                     // Enable or disable raster mode [Linux only]
     NbrSlideInCache             = 5;                        // Number of slide in cache (Real compute is NbrSlideInCache*2+1)
     MemCacheMaxValue            = 256*1024*1024;            // 256 Mb for image cache
     RememberLastDirectories     = true;                     // If true, Remember all directories for future use
-    RestoreWindow               = true;                     // If true, restore window state and position at startup
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
     SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
     PartitionMode               = false;                    // If true, partition mode is on
     DisplayUnit                 = 1;                        // Display coordinates unit
     DefaultFraming              = 2;                        // 0=Width, 1=Height, 2=Full
-    MainWinState                = false;                    // Windows State
     TimelineHeight              = 120;                      // Initial height of the timeline
     PreviewFPS                  = 12.5;                     // Preview FrameRate
     ApplyTransfoPreview         = true;                     // True if image transformation are apply during preview
@@ -669,41 +436,56 @@ bool cApplicationConfig::InitConfigurationValues() {
     DefaultForTheWEBType        =0;                         // Default ForTheWEB Type
     DefaultForTheWEBModel       =0;                         // Default ForTheWEB Model
 
-#ifdef Q_OS_WIN
-    LastMediaPath           = WINDOWS_PICTURES;             // Last folder use for image/video
-    LastProjectPath         = WINDOWS_DOCUMENTS;            // Last folder use for project
-    LastMusicPath           = WINDOWS_MUSIC;                // Last folder use for music
-    LastRenderVideoPath     = WINDOWS_VIDEO;                // Last folder use for render video
-    if (LastRenderVideoPath=="") LastRenderVideoPath=WINDOWS_DOCUMENTS;
-    SDLAudioOldMode         = false;                        // If true SDL audio use old mode sample instead byte
-    CheckConfigAtStartup    = false;
-#endif
-#ifdef Q_WS_X11
-    LastMediaPath           = QDir::home().absolutePath();  // Last folder use for image/video
-    LastProjectPath         = QDir::home().absolutePath();  // Last folder use for project
-    LastMusicPath           = QDir::home().absolutePath();  // Last folder use for music
-    LastRenderVideoPath     = QDir::home().absolutePath();  // Last folder use for render video
-    SDLAudioOldMode         = true;                         // If true SDL audio use old mode sample instead byte
-    CheckConfigAtStartup    = true;
-#endif
+    #ifdef Q_OS_WIN
+        LastMediaPath           = WINDOWS_PICTURES;             // Last folder use for image/video
+        LastProjectPath         = WINDOWS_DOCUMENTS;            // Last folder use for project
+        LastMusicPath           = WINDOWS_MUSIC;                // Last folder use for music
+        LastRenderVideoPath     = WINDOWS_VIDEO;                // Last folder use for render video
+        if (LastRenderVideoPath=="") LastRenderVideoPath=WINDOWS_DOCUMENTS;
+        SDLAudioOldMode         = false;                        // If true SDL audio use old mode sample instead byte
+        CheckConfigAtStartup    = false;
+    #endif
+    #ifdef Q_WS_X11
+        LastMediaPath           = QDir::home().absolutePath();  // Last folder use for image/video
+        LastProjectPath         = QDir::home().absolutePath();  // Last folder use for project
+        LastMusicPath           = QDir::home().absolutePath();  // Last folder use for music
+        LastRenderVideoPath     = QDir::home().absolutePath();  // Last folder use for render video
+        SDLAudioOldMode         = true;                         // If true SDL audio use old mode sample instead byte
+        CheckConfigAtStartup    = true;
+    #endif
 
-    TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","Advanced","Device database type"));           // EXPORTMODE_ADVANCED
-    TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","Smartphone","Device database type"));         // EXPORTMODE_SMARTPHONE
-    TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","Multimedia system","Device database type"));  // EXPORTMODE_MULTIMEDIASYS
-    TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","For the WEB","Device database type"));        // EXPORTMODE_FORTHEWEB
+    AddToSystemProperties(QString(OPERATINGSYSTEM_STR)+Plateforme+" - "+QString("%1").arg(getCpuCount())+" Core/CPU");
+    AddToSystemProperties(QString(USERCONFIGFILE_STR)+UserConfigFile);
+    AddToSystemProperties(QString(GLOBALCONFIGFILE_STR)+GlobalConfigFile);
 
-    TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Smartphone","Device database type"));
-    TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Portable Player","Device database type"));
-    TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Netbook/NetPC","Device database type"));
-    TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Handheld game console","Device database type"));
-    TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Tablet computer","Device database type"));
-    TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Multimedia hard drive and gateway","Device database type"));
-    TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Player","Device database type"));
-    TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","ADSL Box","Device database type"));
-    TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Game console","Device database type"));
-    TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","SWF Flash Player","Device database type"));
-    TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","Video-sharing and social WebSite","Device database type"));
-    TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","HTML 5","Device database type"));
+    // Init collections
+    StyleTextCollection.CollectionName          =QString(STYLENAME_TEXTSTYLE);
+    StyleTextBackgroundCollection.CollectionName=QString(STYLENAME_BACKGROUNDSTYLE);
+    StyleCoordinateCollection.CollectionName    =QString(STYLENAME_COORDINATESTYLE);
+    StyleBlockShapeCollection.CollectionName    =QString(STYLENAME_BLOCKSHAPESTYLE);
+    StyleImageFramingCollection.CollectionName  =QString(STYLENAME_FRAMINGSTYLE);
+
+    // set UserConfigFile value (depending on operating system)
+    #ifdef Q_OS_WIN
+        PathEXIV2       = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"exiv2\\exiv2.exe");           // FileName of exiv2 (with path) : Windows version
+        PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg\\bin\\ffmpeg.exe");    // FileName of ffmpeg (with path) : Windows version
+    #else
+        PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
+        PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
+    #endif
+
+    DlgBackgroundPropertiesWSP  =new cSaveWindowPosition("DlgBackgroundProperties",RestoreWindow,false);    // Dialog box "Background properties" - Window size and position
+    DlgMusicPropertiesWSP       =new cSaveWindowPosition("DlgMusicProperties",RestoreWindow,false);         // Dialog box "Music properties" - Window size and position
+    DlgApplicationSettingsWSP   =new cSaveWindowPosition("DlgApplicationSettings",RestoreWindow,false);     // Dialog box "Application settings" - Window size and position
+    DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);          // Dialog box "Render Video" - Window size and position
+    DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false); // Dialog box "Transition properties" - Window size and position
+    DlgSlidePropertiesWSP       =new cSaveWindowPosition("DlgSlidePropertiesWSP",RestoreWindow,false);      // Dialog box "Slide properties" - Window size and position
+    DlgImageTransformationWSP   =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);  // Dialog box "Image transformation" - Window size and position
+    DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
+    DlgVideoEditWSP             =new cSaveWindowPosition("DlgVideoEditWSP",RestoreWindow,false);            // Dialog box "Edit video" - Window size and position
+    DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
+    DlgManageStyleWSP           =new cSaveWindowPosition("DlgManageStyleWSP",RestoreWindow,false);          // Dialog box "Manage style" - Window size and position
+    DlgCheckConfigWSP           =new cSaveWindowPosition("DlgCheckConfigWSP",RestoreWindow,false);          // Dialog box "Check configuration" - Window size and position
 
     // Default new text block options
     DefaultBlock_Text_TextST    ="###GLOBALSTYLE###:0";
@@ -724,46 +506,20 @@ bool cApplicationConfig::InitConfigurationValues() {
         DefaultBlockSL_CLIPARTLOCK[i]=0;
         DefaultBlockBA_CLIPARTLOCK[i]=0;
     }
-
-    return true;
 }
 
 //====================================================================================================================
 
-bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
-    //qDebug() << "IN:cApplicationConfig::LoadConfigurationValues";
-
-    //Load all option from configuration file except FFMPEGPart
-
-    QFile           file(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
-    QDomDocument    domDocument;
-    QDomElement     root;
-    QString         errorStr;
-    int             errorLine,errorColumn;
-
-    if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        qDebug()<<QApplication::translate("MainWindow","Error reading configuration file","Error message");
-        return false;
-    }
-
-    if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
-        qDebug()<<QApplication::translate("MainWindow","Error reading content of configuration file","Error message");
-        return false;
-    }
-
-    root = domDocument.documentElement();
-    if (root.tagName()!=CONFIGFILE_ROOTNAME) {
-        qDebug()<<QApplication::translate("MainWindow","The file is not a valid configuration file","Error message");
-        return false;
-    }
-
-    //if (TypeConfigFile!=USERCONFIGFILE) return true;    // It's finish for GlobalConfigFile
+bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cApplicationConfig::LoadValueFromXML";
+    #endif
 
     QDomNodeList    NodeList;
 
     // Load preferences
-    if ((root.elementsByTagName("LastDirectories").length()>0)&&(root.elementsByTagName("LastDirectories").item(0).isElement()==true)) {
-        QDomElement Element=root.elementsByTagName("LastDirectories").item(0).toElement();
+    if ((domDocument.elementsByTagName("LastDirectories").length()>0)&&(domDocument.elementsByTagName("LastDirectories").item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName("LastDirectories").item(0).toElement();
         if (Element.hasAttribute("RememberLastDirectories"))    RememberLastDirectories     =Element.attribute("RememberLastDirectories")=="1";
         if (Element.hasAttribute("LastMediaPath"))              LastMediaPath               =Element.attribute("LastMediaPath");
         if (Element.hasAttribute("LastProjectPath"))            LastProjectPath             =Element.attribute("LastProjectPath");
@@ -771,10 +527,9 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         if (Element.hasAttribute("LastRenderVideoPath"))        LastRenderVideoPath         =Element.attribute("LastRenderVideoPath");
     }
 
-    if ((root.elementsByTagName("EditorOptions").length()>0)&&(root.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
-        QDomElement Element=root.elementsByTagName("EditorOptions").item(0).toElement();
+    if ((domDocument.elementsByTagName("EditorOptions").length()>0)&&(domDocument.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName("EditorOptions").item(0).toElement();
         if (Element.hasAttribute("CheckConfigAtStartup"))       CheckConfigAtStartup        =Element.attribute("CheckConfigAtStartup")=="1";
-        if (Element.hasAttribute("RasterMode"))                 RasterMode                  =Element.attribute("RasterMode")=="1";
         if (Element.hasAttribute("NbrSlideInCache"))            NbrSlideInCache             =Element.attribute("NbrSlideInCache").toInt();
         if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue            =Element.attribute("MemCacheMaxValue").toLongLong();
         if (Element.hasAttribute("SDLAudioOldMode"))            SDLAudioOldMode             =Element.attribute("SDLAudioOldMode")=="1";
@@ -798,8 +553,8 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         if (Element.hasAttribute("Crop1088To1080"))             Crop1088To1080              =Element.attribute("Crop1088To1080")!="0";
     }
 
-    if ((root.elementsByTagName("ProjectDefault").length()>0)&&(root.elementsByTagName("ProjectDefault").item(0).isElement()==true)) {
-        QDomElement  Element=root.elementsByTagName("ProjectDefault").item(0).toElement();
+    if ((domDocument.elementsByTagName("ProjectDefault").length()>0)&&(domDocument.elementsByTagName("ProjectDefault").item(0).isElement()==true)) {
+        QDomElement  Element=domDocument.elementsByTagName("ProjectDefault").item(0).toElement();
         if (Element.hasAttribute("ImageGeometry"))              ImageGeometry               =Element.attribute("ImageGeometry").toInt();
         if (Element.hasAttribute("NoShotDuration"))             NoShotDuration              =Element.attribute("NoShotDuration").toInt();
         if (Element.hasAttribute("FixedDuration"))              FixedDuration               =Element.attribute("FixedDuration").toInt();
@@ -836,8 +591,8 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
             for (int j=0;j<3;j++) if (SubElement.hasAttribute(QString("LockBA_%1").arg(j))) DefaultBlockBA_CLIPARTLOCK[j]=SubElement.attribute(QString("LockBA_%1").arg(j)).toInt();
         }
     }
-    if ((root.elementsByTagName("RenderDefault").length()>0)&&(root.elementsByTagName("RenderDefault").item(0).isElement()==true)) {
-        QDomElement Element=root.elementsByTagName("RenderDefault").item(0).toElement();
+    if ((domDocument.elementsByTagName("RenderDefault").length()>0)&&(domDocument.elementsByTagName("RenderDefault").item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName("RenderDefault").item(0).toElement();
         if (Element.hasAttribute("DefaultNameProjectName")) DefaultNameProjectName  =Element.attribute("DefaultNameProjectName")=="1";
         if (Element.hasAttribute("Format"))                 DefaultFormat           =Element.attribute("Format").toInt();
         if (Element.hasAttribute("VideoCodec"))             DefaultVideoCodec       =Element.attribute("VideoCodec");
@@ -854,11 +609,11 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
         if (Element.hasAttribute("DefaultForTheWEBModel"))  DefaultForTheWEBModel   =Element.attribute("DefaultForTheWEBModel").toInt();
     }
 
-    if ((root.elementsByTagName("RecentFiles").length()>0)&&(root.elementsByTagName("RecentFiles").item(0).isElement()==true)) {
-        QDomElement Element=root.elementsByTagName("RecentFiles").item(0).toElement();
+    if ((domDocument.elementsByTagName("RecentFiles").length()>0)&&(domDocument.elementsByTagName("RecentFiles").item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName("RecentFiles").item(0).toElement();
         int i=0;
-        while ((Element.elementsByTagName("Recent-"+QString("%1").arg(i)).length()>0)&&(root.elementsByTagName("Recent-"+QString("%1").arg(i)).item(0).isElement()==true)) {
-            QDomElement SubElement=root.elementsByTagName("Recent-"+QString("%1").arg(i)).item(0).toElement();
+        while ((Element.elementsByTagName("Recent-"+QString("%1").arg(i)).length()>0)&&(domDocument.elementsByTagName("Recent-"+QString("%1").arg(i)).item(0).isElement()==true)) {
+            QDomElement SubElement=domDocument.elementsByTagName("Recent-"+QString("%1").arg(i)).item(0).toElement();
             QString     File=SubElement.attribute("File");
             RecentFile.append(File);
             i++;
@@ -868,10 +623,10 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     //***************************************
     // Load RenderDeviceModel collection
     //***************************************
-    if ((root.elementsByTagName("RenderingDeviceModel").length()>0)&&(root.elementsByTagName("RenderingDeviceModel").item(0).isElement()==true)) {
-        QDomElement Element=root.elementsByTagName("RenderingDeviceModel").item(0).toElement();
+    if ((domDocument.elementsByTagName("RenderingDeviceModel").length()>0)&&(domDocument.elementsByTagName("RenderingDeviceModel").item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName("RenderingDeviceModel").item(0).toElement();
         int i=0;
-        while ((Element.elementsByTagName("Device_"+QString("%1").arg(i)).length()>0)&&(root.elementsByTagName("Device_"+QString("%1").arg(i)).item(0).isElement()==true)) {
+        while ((Element.elementsByTagName("Device_"+QString("%1").arg(i)).length()>0)&&(domDocument.elementsByTagName("Device_"+QString("%1").arg(i)).item(0).isElement()==true)) {
             if (TypeConfigFile==GLOBALCONFIGFILE) {
                 // Reading from global config file : append device
                 RenderDeviceModel.append(cDeviceModelDef(TypeConfigFile==GLOBALCONFIGFILE,i));
@@ -896,68 +651,50 @@ bool cApplicationConfig::LoadConfigurationFile(int TypeConfigFile) {
     }
 
     // Load other collections
-    StyleTextCollection.LoadFromXML(domDocument,root,TypeConfigFile);
-    StyleTextBackgroundCollection.LoadFromXML(domDocument,root,TypeConfigFile);
-    StyleCoordinateCollection.LoadFromXML(domDocument,root,TypeConfigFile);
-    StyleBlockShapeCollection.LoadFromXML(domDocument,root,TypeConfigFile);
-    StyleImageFramingCollection.LoadFromXML(domDocument,root,TypeConfigFile);
-
-    //***************************************
-    // Windows size & position
-    //***************************************
-
-    NodeList=root.elementsByTagName("RestoreWindow");
-    if ((NodeList.length()>0)&&(NodeList.at(0).childNodes().length()>0)) RestoreWindow=NodeList.at(0).childNodes().at(0).nodeValue()=="1";
+    StyleTextCollection.LoadFromXML(domDocument,TypeConfigFile);
+    StyleTextBackgroundCollection.LoadFromXML(domDocument,TypeConfigFile);
+    StyleCoordinateCollection.LoadFromXML(domDocument,TypeConfigFile);
+    StyleBlockShapeCollection.LoadFromXML(domDocument,TypeConfigFile);
+    StyleImageFramingCollection.LoadFromXML(domDocument,TypeConfigFile);
 
     // Load windows size and position
-    MainWinWSP->LoadFromXML(root);                                  // MainWindow - Window size and position
-    DlgBackgroundPropertiesWSP->LoadFromXML(root);
-    DlgMusicPropertiesWSP->LoadFromXML(root);
-    DlgApplicationSettingsWSP->LoadFromXML(root);
-    DlgRenderVideoWSP->LoadFromXML(root);
-    DlgTransitionPropertiesWSP->LoadFromXML(root);
-    DlgSlidePropertiesWSP->LoadFromXML(root);
-    DlgImageTransformationWSP->LoadFromXML(root);
-    DlgImageCorrectionWSP->LoadFromXML(root);
-    DlgVideoEditWSP->LoadFromXML(root);
-    DlgTextEditWSP->LoadFromXML(root);
-    DlgManageStyleWSP->LoadFromXML(root);
-    DlgCheckConfigWSP->LoadFromXML(root);
+    DlgBackgroundPropertiesWSP->LoadFromXML(domDocument);
+    DlgMusicPropertiesWSP->LoadFromXML(domDocument);
+    DlgApplicationSettingsWSP->LoadFromXML(domDocument);
+    DlgRenderVideoWSP->LoadFromXML(domDocument);
+    DlgTransitionPropertiesWSP->LoadFromXML(domDocument);
+    DlgSlidePropertiesWSP->LoadFromXML(domDocument);
+    DlgImageTransformationWSP->LoadFromXML(domDocument);
+    DlgImageCorrectionWSP->LoadFromXML(domDocument);
+    DlgVideoEditWSP->LoadFromXML(domDocument);
+    DlgTextEditWSP->LoadFromXML(domDocument);
+    DlgManageStyleWSP->LoadFromXML(domDocument);
+    DlgCheckConfigWSP->LoadFromXML(domDocument);
+
     return true;
 }
 
 //====================================================================================================================
 
-bool cApplicationConfig::SaveConfigurationFile() {
-    //qDebug() << "IN:cApplicationConfig::SaveConfigurationValues";
+void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cApplicationConfig::SaveValueToXML";
+    #endif
 
-    // Save all option to the configuration file
-    QFile           file(UserConfigFile);
-    QDomDocument    domDocument(APPLICATION_NAME);
     QDomElement     Element,SubElement,SubSubElement;
-    QDomElement     root;
-
-    // Ensure destination exist
-    QFileInfo       ConfPath(UserConfigFile);
-    QDir            ConfDir;
-    ConfDir.mkdir(ConfPath.path());
-
-    // Create xml document and root
-    root=domDocument.createElement(CONFIGFILE_ROOTNAME);
-    domDocument.appendChild(root);
+    QDomDocument    Document;
 
     // Save preferences
-    Element=domDocument.createElement("LastDirectories");
+    Element=Document.createElement("LastDirectories");
     Element.setAttribute("RememberLastDirectories",     RememberLastDirectories?"1":"0");
     Element.setAttribute("LastMediaPath",               LastMediaPath);
     Element.setAttribute("LastProjectPath",             LastProjectPath);
     Element.setAttribute("LastMusicPath",               LastMusicPath);
     Element.setAttribute("LastRenderVideoPath",         LastRenderVideoPath);
-    root.appendChild(Element);
+    domDocument.appendChild(Element);
 
-    Element=domDocument.createElement("EditorOptions");
+    Element=Document.createElement("EditorOptions");
     Element.setAttribute("CheckConfigAtStartup",        CheckConfigAtStartup?"1":"0");
-    Element.setAttribute("RasterMode",                  RasterMode?"1":"0");
     Element.setAttribute("NbrSlideInCache",             NbrSlideInCache);
     Element.setAttribute("MemCacheMaxValue",            MemCacheMaxValue);
     Element.setAttribute("SDLAudioOldMode",             SDLAudioOldMode?"1":"0");
@@ -979,15 +716,15 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("SlideRuler",                  SlideRuler?"1":"0");
     Element.setAttribute("FramingRuler",                FramingRuler?"1":"0");
     Element.setAttribute("Crop1088To1080",              Crop1088To1080?"1":"0");
-    root.appendChild(Element);
+    domDocument.appendChild(Element);
 
-    Element=domDocument.createElement("ProjectDefault");
+    Element=Document.createElement("ProjectDefault");
     Element.setAttribute("ImageGeometry",               ImageGeometry);
     Element.setAttribute("NoShotDuration",              NoShotDuration);
     Element.setAttribute("FixedDuration",               FixedDuration);
     Element.setAttribute("SpeedWave",                   SpeedWave);
 
-    SubElement=domDocument.createElement("DefaultBlock_Text");
+    SubElement=Document.createElement("DefaultBlock_Text");
     SubElement.setAttribute("TextST",    DefaultBlock_Text_TextST);
     SubElement.setAttribute("BackGST",   DefaultBlock_Text_BackGST);
     SubElement.setAttribute("Coord0ST",  DefaultBlock_Text_CoordST[0]);
@@ -996,30 +733,30 @@ bool cApplicationConfig::SaveConfigurationFile() {
     SubElement.setAttribute("ShapeST",   DefaultBlock_Text_ShapeST);
     Element.appendChild(SubElement);
 
-    SubElement=domDocument.createElement("DefaultBlockSL_IMG");
+    SubElement=Document.createElement("DefaultBlockSL_IMG");
     SubElement.setAttribute("TextST",    DefaultBlockSL_IMG_TextST);
     SubElement.setAttribute("ShapeST",   DefaultBlockSL_IMG_ShapeST);
     for (int i=0;i<9;i++) {
-        SubSubElement=domDocument.createElement(QString("IMG_GEO_%1").arg(i));
+        SubSubElement=Document.createElement(QString("IMG_GEO_%1").arg(i));
         for (int j=0;j<3;j++) SubSubElement.setAttribute(QString("CoordST_%1").arg(j),DefaultBlockSL_IMG_CoordST[i][j]);
         SubElement.appendChild(SubSubElement);
         for (int j=0;j<3;j++) SubElement.setAttribute(QString("LockLS_%1").arg(j),DefaultBlockSL_CLIPARTLOCK[j]);
     }
     Element.appendChild(SubElement);
 
-    SubElement=domDocument.createElement("DefaultBlockBA_IMG");
+    SubElement=Document.createElement("DefaultBlockBA_IMG");
     SubElement.setAttribute("TextST",    DefaultBlockBA_IMG_TextST);
     SubElement.setAttribute("ShapeST",   DefaultBlockBA_IMG_ShapeST);
     for (int i=0;i<9;i++) {
-        SubSubElement=domDocument.createElement(QString("IMG_GEO_%1").arg(i));
+        SubSubElement=Document.createElement(QString("IMG_GEO_%1").arg(i));
         for (int j=0;j<3;j++) SubSubElement.setAttribute(QString("CoordST_%1").arg(j),DefaultBlockBA_IMG_CoordST[i][j]);
         SubElement.appendChild(SubSubElement);
     }
     for (int j=0;j<3;j++) SubElement.setAttribute(QString("LockBA_%1").arg(j),DefaultBlockBA_CLIPARTLOCK[j]);
     Element.appendChild(SubElement);
-    root.appendChild(Element);
+    domDocument.appendChild(Element);
 
-    Element=domDocument.createElement("RenderDefault");
+    Element=Document.createElement("RenderDefault");
     Element.setAttribute("DefaultNameProjectName",      DefaultNameProjectName?"1":"0");
     Element.setAttribute("Format",                      DefaultFormat);
     Element.setAttribute("VideoCodec",                  DefaultVideoCodec);
@@ -1034,60 +771,45 @@ bool cApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("DefaultMultimediaModel",      DefaultMultimediaModel);
     Element.setAttribute("DefaultForTheWEBType",        DefaultForTheWEBType);
     Element.setAttribute("DefaultForTheWEBModel",       DefaultForTheWEBModel);
-    root.appendChild(Element);
+    domDocument.appendChild(Element);
 
-    Element=domDocument.createElement("RecentFiles");
+    Element=Document.createElement("RecentFiles");
     for (int i=0;i<RecentFile.count();i++) {
-        SubElement=domDocument.createElement("Recent-"+QString("%1").arg(i));
+        SubElement=Document.createElement("Recent-"+QString("%1").arg(i));
         SubElement.setAttribute("File",RecentFile.at(i));
         Element.appendChild(SubElement);
     }
-    root.appendChild(Element);
-
-    Element=domDocument.createElement("RestoreWindow");
-    Element.appendChild(domDocument.createTextNode(RestoreWindow?"1":"0"));
-    root.appendChild(Element);
+    domDocument.appendChild(Element);
 
     int j;
 
     // Save RenderDeviceModel collection
     j=0;
-    Element=domDocument.createElement("RenderingDeviceModel");
+    Element=Document.createElement("RenderingDeviceModel");
     for (int i=0;i<RenderDeviceModel.count();i++) if (RenderDeviceModel[i].FromUserConf) {
         RenderDeviceModel[i].SaveToXML(Element,QString("Device_"+QString("%1").arg(j)));
         j++;
     }
-    if (j>0) root.appendChild(Element);
+    if (j>0) domDocument.appendChild(Element);
 
     // Save other collections
-    StyleTextCollection.SaveToXML(domDocument,root);
-    StyleTextBackgroundCollection.SaveToXML(domDocument,root);
-    StyleCoordinateCollection.SaveToXML(domDocument,root);
-    StyleBlockShapeCollection.SaveToXML(domDocument,root);
-    StyleImageFramingCollection.SaveToXML(domDocument,root);
+    StyleTextCollection.SaveToXML(domDocument);
+    StyleTextBackgroundCollection.SaveToXML(domDocument);
+    StyleCoordinateCollection.SaveToXML(domDocument);
+    StyleBlockShapeCollection.SaveToXML(domDocument);
+    StyleImageFramingCollection.SaveToXML(domDocument);
 
     // Save windows size and position
-    MainWinWSP->SaveToXML(root);                                // MainWindow - Window size and position
-    DlgBackgroundPropertiesWSP->SaveToXML(root);
-    DlgMusicPropertiesWSP->SaveToXML(root);
-    DlgApplicationSettingsWSP->SaveToXML(root);
-    DlgRenderVideoWSP->SaveToXML(root);
-    DlgTransitionPropertiesWSP->SaveToXML(root);
-    DlgSlidePropertiesWSP->SaveToXML(root);
-    DlgImageTransformationWSP->SaveToXML(root);
-    DlgImageCorrectionWSP->SaveToXML(root);
-    DlgVideoEditWSP->SaveToXML(root);
-    DlgTextEditWSP->SaveToXML(root);
-    DlgManageStyleWSP->SaveToXML(root);
-    DlgCheckConfigWSP->SaveToXML(root);
-
-    // Write file to disk
-    if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        ExitApplicationWithFatalError(QApplication::translate("MainWindow","Error creating configuration file","Error message"));
-        return false;
-    }
-    QTextStream out(&file);
-    domDocument.save(out,4);
-    file.close();
-    return true;
+    DlgBackgroundPropertiesWSP->SaveToXML(domDocument);
+    DlgMusicPropertiesWSP->SaveToXML(domDocument);
+    DlgApplicationSettingsWSP->SaveToXML(domDocument);
+    DlgRenderVideoWSP->SaveToXML(domDocument);
+    DlgTransitionPropertiesWSP->SaveToXML(domDocument);
+    DlgSlidePropertiesWSP->SaveToXML(domDocument);
+    DlgImageTransformationWSP->SaveToXML(domDocument);
+    DlgImageCorrectionWSP->SaveToXML(domDocument);
+    DlgVideoEditWSP->SaveToXML(domDocument);
+    DlgTextEditWSP->SaveToXML(domDocument);
+    DlgManageStyleWSP->SaveToXML(domDocument);
+    DlgCheckConfigWSP->SaveToXML(domDocument);
 }

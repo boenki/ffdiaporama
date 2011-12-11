@@ -19,6 +19,7 @@
    ====================================================================== */
 
 #include "cCustomComboBox.h"
+#include "SubProjects/fmt_filters/fmt_filters.h"
 
 //======================================
 // Specific defines for this dialog box
