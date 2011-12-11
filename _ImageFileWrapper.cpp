@@ -173,7 +173,7 @@ bool cimagefilewrapper::GetInformationFromFile(QString GivenFileName,QStringList
         else {
             QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(FileName).fileName(),
                GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
-               GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cApplicationConfig::IMAGEFILE));
+               GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(IMAGEFILE));
             if (NewFileName!="") {
                 AliasList.append(FileName+"####"+NewFileName);
                 FileName=NewFileName;
@@ -213,7 +213,7 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
 
     // Unfiltered image
     if (PreviewMode && ForceLoadDisk && (!Filter)) {
-        QImage *UnfilteredImage=ImageObject->ValidateUnfilteredImage();
+        QImage *UnfilteredImage=ImageObject->ValidateUnfilteredImage(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight);
         if (UnfilteredImage && !UnfilteredImage->isNull()) {
             // Compute image geometry
             ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
@@ -247,7 +247,7 @@ QImage *cimagefilewrapper::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTr
         // Stop here if we have wanted image
         if (ImageObject->CachePreviewImage) return new QImage(ImageObject->CachePreviewImage->copy());
 
-        QImage *CachePreviewImage=ImageObject->ValidateCachePreviewImage(Filter);
+        QImage *CachePreviewImage=ImageObject->ValidateCachePreviewImage(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Filter);
 
         // Get preview image size
         ImageHeight=CachePreviewImage->height();

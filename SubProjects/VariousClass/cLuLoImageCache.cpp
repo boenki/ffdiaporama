@@ -18,13 +18,10 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-
-// Specific inclusions
-#include "_cLuLoImageCache.h"
-#include "_ImageFileWrapper.h"
-#include "mainwindow.h"
+#include <QApplication>
+#include <QtDebug>
+#include <QFileInfo>
+#include "cLuLoImageCache.h"
 
 //*********************************************************************************************************************************************
 // Base object for image cache manipulation
@@ -99,7 +96,7 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage(cFilterTransformObject *
 
 //===============================================================================
 
-QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(cFilterTransformObject *Filter) {
+QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(int PreviewMaxHeight,cFilterTransformObject *Filter) {
     if (CachePreviewImage==NULL) {
 
         qDebug()<<QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName();
@@ -129,8 +126,8 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(cFilterTransformObject 
                 CachePreviewImage=NewImage;
             }
             // If image size>PreviewMaxHeight, reduce Cache Image
-            if (CachePreviewImage->height()>GlobalMainWindow->ApplicationConfig->PreviewMaxHeight*2)  {
-                QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+            if (CachePreviewImage->height()>PreviewMaxHeight*2)  {
+                QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(PreviewMaxHeight,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
                 delete CachePreviewImage;
                 CachePreviewImage=NewImage;
             }
@@ -146,7 +143,7 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(cFilterTransformObject 
 
 //===============================================================================
 
-QImage *cLuLoImageCacheObject::ValidateUnfilteredImage() {
+QImage *cLuLoImageCacheObject::ValidateUnfilteredImage(int PreviewMaxHeight) {
     // Load image from disk
     QImage *UnfilteredImage=new QImage(FileName);
 
@@ -172,8 +169,8 @@ QImage *cLuLoImageCacheObject::ValidateUnfilteredImage() {
     }
 
     // Ensure image is at correct height (to speed correction image dialog !)
-    if ((UnfilteredImage)&&(!UnfilteredImage->isNull())&&(UnfilteredImage->height()!=GlobalMainWindow->ApplicationConfig->PreviewMaxHeight)) {
-        QImage *NewImage=new QImage(UnfilteredImage->scaledToHeight(GlobalMainWindow->ApplicationConfig->PreviewMaxHeight,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+    if ((UnfilteredImage)&&(!UnfilteredImage->isNull())&&(UnfilteredImage->height()!=PreviewMaxHeight)) {
+        QImage *NewImage=new QImage(UnfilteredImage->scaledToHeight(PreviewMaxHeight,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
         delete UnfilteredImage;
         UnfilteredImage=NewImage;
     }

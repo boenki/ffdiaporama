@@ -24,63 +24,20 @@
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
+#include "_SoundDefinitions.h"
+#include "SubProjects/VariousClass/cFilterTransformObject.h"
+#include "SubProjects/VariousClass/cFilterCorrectObject.h"
+#include "SubProjects/VariousClass/cLuLoImageCache.h"
+
+#include "_ImageFileWrapper.h"
+#include "_VideoFileWrapper.h"
 
 // Utility function to create a gradient brush
 QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QString ColorD,QString ColorF,QString ColorIntermed,double Intermediate);
 
 //*********************************************************************************************************************************************
-// Base object for filters image = transform filters
-//*********************************************************************************************************************************************
-
-class   cFilterTransformObject {
-public:
-    double   BlurSigma;
-    double   BlurRadius;
-    int      OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
-
-    cFilterTransformObject();
-
-    void        ApplyFilter(QImage *Image);
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath);
-    QString     FilterToString();
-};
-
-//*********************************************************************************************************************************************
-// Base object for filters image = correction filters
-//*********************************************************************************************************************************************
-
-class   cFilterCorrectObject {
-public:
-    double      X;                      // X position (in %) relative to up/left corner
-    double      Y;                      // Y position (in %) relative to up/left corner
-    double      ZoomFactor;             // Zoom factor (in %)
-    double      ImageRotation;          // Image rotation (in °)
-    int         Brightness;             // Brightness adjustment
-    int         Contrast;               // Contrast adjustment
-    double      Gamma;                  // Gamma adjustment
-    int         Red;                    // Red adjustment
-    int         Green;                  // Green adjustment
-    int         Blue;                   // Blue adjustment
-    bool        LockGeometry;           // True if geometry is locked
-    double      AspectRatio;            // Aspect Ratio of image
-    bool        FullFilling;            // Background image disk only : If true aspect ratio is not keep and image is deformed to fill the frame
-
-    cFilterCorrectObject();
-
-    void        ApplyFilter(QImage *Image);
-    void        SaveToXML(QDomElement &domDocument,QString ElementName);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName);
-
-    QImage      *GetImage(QImage *SourceImage,int Width,int Height,double PCTDone,cFilterCorrectObject *PreviousFilter,bool Smoothing);
-};
-
-//*********************************************************************************************************************************************
 // Base object for brush object
 //*********************************************************************************************************************************************
-
-class cimagefilewrapper;
-class cvideofilewrapper;
 
 class cBrushDefinition {
 public:

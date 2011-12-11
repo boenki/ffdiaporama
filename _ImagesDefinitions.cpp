@@ -42,7 +42,6 @@ QString         LastLoadedBackgroundImageName   ="";
 // static local values use to work with luma images
 int  LUMADLG_WIDTH=0;
 
-
 //*********************************************************************************************************************************************
 // Utility function to create a gradient brush
 //*********************************************************************************************************************************************
@@ -68,264 +67,6 @@ QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QStri
     Gradient.setColorAt(1,QColor(ColorF));
     if (BrushType==BRUSHTYPE_GRADIENT3) Gradient.setColorAt(Intermediate,QColor(ColorIntermed));
     return new QBrush(Gradient);
-}
-
-//*********************************************************************************************************************************************
-// Base object for filters transformation image
-//*********************************************************************************************************************************************
-
-cFilterTransformObject::cFilterTransformObject() {
-    BlurSigma               = 0;
-    BlurRadius              = 5;
-    OnOffFilter             = 0;
-}
-
-//====================================================================================================================
-
-void cFilterTransformObject::ApplyFilter(QImage *Image) {
-    if (Image==NULL) return;
-    fmt_filters::image img(Image->bits(),Image->width(),Image->height());
-    if ((OnOffFilter & FilterDespeckle)==FilterDespeckle)   {
-        qDebug()<<QApplication::translate("MainWindow","Applying transformation filter");
-        fmt_filters::despeckle(img);
-    }
-    if ((OnOffFilter & FilterEqualize)==FilterEqualize) {
-        qDebug()<<QApplication::translate("MainWindow","Applying transformation filter");
-        fmt_filters::equalize(img);
-    }
-    if ((OnOffFilter & FilterGray)==FilterGray) {
-        qDebug()<<QApplication::translate("MainWindow","Applying transformation filter");
-        fmt_filters::gray(img);
-    }
-    if (BlurSigma<0) {
-        qDebug()<<QApplication::translate("MainWindow","Applying transformation filter");
-        fmt_filters::blur(img,BlurRadius,-BlurSigma);
-    }
-    if (BlurSigma>0) {
-        qDebug()<<QApplication::translate("MainWindow","Applying transformation filter");
-        fmt_filters::sharpen(img,BlurRadius,BlurSigma);
-    }
-}
-
-//====================================================================================================================
-
-void cFilterTransformObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString /*PathForRelativPath*/) {
-    QDomDocument    DomDocument;
-    QDomElement     Element=DomDocument.createElement(ElementName);
-
-    // Attribut of the object
-    Element.setAttribute("BlurSigma",    BlurSigma);
-    Element.setAttribute("BlurRadius",   BlurRadius);
-    Element.setAttribute("OnOffFilter",  OnOffFilter);
-
-    domDocument.appendChild(Element);
-}
-
-//====================================================================================================================
-
-bool cFilterTransformObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString /*PathForRelativPath*/) {
-    if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
-        QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
-
-        BlurSigma=  Element.attribute("BlurSigma").toDouble();
-        BlurRadius= Element.attribute("BlurRadius").toDouble();
-        OnOffFilter=Element.attribute("OnOffFilter").toInt();
-
-        return true;
-    }
-    return false;
-}
-
-//====================================================================================================================
-
-QString cFilterTransformObject::FilterToString() {
-    return QString("%1##%2##%3").arg(int(BlurSigma*100)).arg(int(BlurRadius*100)).arg(OnOffFilter);
-}
-
-//*********************************************************************************************************************************************
-// Base object for filters correction image
-//*********************************************************************************************************************************************
-
-cFilterCorrectObject::cFilterCorrectObject() {
-    ImageRotation           = 0;                // Image rotation
-    X                       = 0;                // X position (in %) relative to up/left corner
-    Y                       = 0;                // Y position (in %) relative to up/left corner
-    ZoomFactor              = 1;                // Zoom factor (in %)
-    Brightness              = 0;
-    Contrast                = 0;
-    Gamma                   = 1;
-    Red                     = 0;
-    Green                   = 0;
-    Blue                    = 0;
-    LockGeometry            = false;
-    FullFilling             = false;
-
-}
-
-QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Height,double PctDone,cFilterCorrectObject *PreviousFilter,bool Smoothing) {
-    if (!LastLoadedImage) return NULL;
-
-    QImage  *SourceImage    =NULL;
-    double  TheXFactor      =X;
-    double  TheYFactor      =Y;
-    double  TheZoomFactor   =ZoomFactor;
-    double  TheRotateFactor =ImageRotation;
-    double  TheBrightness   =Brightness;
-    double  TheContrast     =Contrast;
-    double  TheGamma        =Gamma;
-    double  TheRed          =Red;
-    double  TheGreen        =Green;
-    double  TheBlue         =Blue;
-    double  TheAspectRatio  =AspectRatio;
-
-    // Adjust values depending on PctDone and previous Filter (if exist)
-    if (PreviousFilter) {
-        if (PreviousFilter->X!=TheXFactor)                  TheXFactor      =PreviousFilter->X+(TheXFactor-PreviousFilter->X)*PctDone;
-        if (PreviousFilter->Y!=TheYFactor)                  TheYFactor      =PreviousFilter->Y+(TheYFactor-PreviousFilter->Y)*PctDone;
-        if (PreviousFilter->ZoomFactor!=TheZoomFactor)      TheZoomFactor   =PreviousFilter->ZoomFactor+(TheZoomFactor-PreviousFilter->ZoomFactor)*PctDone;
-        if (PreviousFilter->ImageRotation!=TheRotateFactor) TheRotateFactor =PreviousFilter->ImageRotation+(TheRotateFactor-PreviousFilter->ImageRotation)*PctDone;
-        if (PreviousFilter->Brightness!=TheBrightness)      TheBrightness   =PreviousFilter->Brightness+(TheBrightness-PreviousFilter->Brightness)*PctDone;
-        if (PreviousFilter->Contrast!=TheContrast)          TheContrast     =PreviousFilter->Contrast+(TheContrast-PreviousFilter->Contrast)*PctDone;
-        if (PreviousFilter->Gamma!=TheGamma)                TheGamma        =PreviousFilter->Gamma+(TheGamma-PreviousFilter->Gamma)*PctDone;
-        if (PreviousFilter->Red!=TheRed)                    TheRed          =PreviousFilter->Red+(TheRed-PreviousFilter->Red)*PctDone;
-        if (PreviousFilter->Green!=TheGreen)                TheGreen        =PreviousFilter->Green+(TheGreen-PreviousFilter->Green)*PctDone;
-        if (PreviousFilter->Blue!=TheBlue)                  TheBlue         =PreviousFilter->Blue+(TheBlue-PreviousFilter->Blue)*PctDone;
-        if (PreviousFilter->AspectRatio!=TheAspectRatio)    TheAspectRatio  =PreviousFilter->AspectRatio+(TheAspectRatio-PreviousFilter->AspectRatio)*PctDone;
-    }
-
-    // Prepare values from sourceimage size
-    double   RealImageW=double(LastLoadedImage->width());               // Get real image widht
-    double   RealImageH=double(LastLoadedImage->height());              // Get real image height
-    double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse of the image to define full canvas
-
-    // Rotate image if needed and create a SourceImage
-    if (TheRotateFactor!=0) {
-        QTransform matrix;
-        matrix.rotate(TheRotateFactor,Qt::ZAxis);
-        SourceImage=new QImage(LastLoadedImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-        // update real image size
-        RealImageW=double(SourceImage->width());
-        RealImageH=double(SourceImage->height());
-
-    // If no rotation then SourceImage=LastLoadedImage
-    } else SourceImage=LastLoadedImage;
-
-    // Calc coordinates of the part in the source image
-    double  SrcX            =Hyp*TheXFactor;
-    double  SrcY            =Hyp*TheYFactor;
-    double  SrcW            =Hyp*TheZoomFactor;
-    double  SrcH            =SrcW*TheAspectRatio;
-    double  DstX            =0;
-    double  DstY            =0;
-    double  DstW            =Width;
-    double  DstH            =DstW*TheAspectRatio;
-
-    // Prepare RetImage Composition with transparent background
-    QImage      *RetImage=new QImage(Width,Height,QImage::Format_ARGB32_Premultiplied);
-    QPainter    PB;
-    PB.begin(RetImage);
-    PB.setCompositionMode(QPainter::CompositionMode_Source);
-    PB.fillRect(QRect(0,0,Width+1,Height+1),Qt::transparent);
-    PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
-
-    if (Smoothing) PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-        else       PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-
-    // Expand Source Image to Canvas size (hyp)
-    QImage   *TempImage=new QImage(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
-    QPainter PC;
-    PC.begin(TempImage);
-    PC.setCompositionMode(QPainter::CompositionMode_Source);
-    PC.fillRect(QRect(0,0,Hyp,Hyp),Qt::transparent);
-    PC.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    PC.drawImage((Hyp-RealImageW)/2,(Hyp-RealImageH)/2,*SourceImage);
-    PC.end();
-
-    // Adjust TempImage to wanted size and pos
-    QImage NewSourceImage=(TempImage->copy(int(SrcX),int(SrcY),SrcW,SrcH)).scaled(int(DstW),int(DstH),Qt::IgnoreAspectRatio,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
-    delete TempImage;
-
-    // Smoothing is not correctly used here !
-    // Then force smoothing by reduce source image before draw image
-    PB.drawImage(QRectF(DstX,DstY,DstW,DstH),NewSourceImage);
-    PB.end();
-
-    // Delete SourceImage if we have created it
-    if (SourceImage!=LastLoadedImage) delete SourceImage;
-
-    // Apply correction filters to DestImage
-    fmt_filters::image img(RetImage->bits(),RetImage->width(),RetImage->height());
-    if (TheBrightness!=0)                           fmt_filters::brightness(img,TheBrightness);
-    if (TheContrast!=0)                             fmt_filters::contrast(img,TheContrast);
-    if (TheGamma!=1)                                fmt_filters::gamma(img,TheGamma);
-    if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))   fmt_filters::colorize(img,TheRed,TheGreen,TheBlue);
-
-    return RetImage;
-}
-
-//====================================================================================================================
-
-void cFilterCorrectObject::ApplyFilter(QImage *Image) {
-    if (Image==NULL) return;
-    fmt_filters::image img(Image->bits(),Image->width(),Image->height());
-    if (Brightness!=0)                      fmt_filters::brightness(img,Brightness);
-    if (Contrast!=0)                        fmt_filters::contrast(img,Contrast);
-    if (Gamma!=1)                           fmt_filters::gamma(img,Gamma);
-    if ((Red!=0)||(Green!=0)||(Blue!=0))    fmt_filters::colorize(img,Red,Green,Blue);
-}
-
-//====================================================================================================================
-
-void cFilterCorrectObject::SaveToXML(QDomElement &domDocument,QString ElementName) {
-    QDomDocument    DomDocument;
-    QDomElement     Element=DomDocument.createElement(ElementName);
-
-    // Attribut of the object
-    Element.setAttribute("X",               X);                 // X position (in %) relative to up/left corner
-    Element.setAttribute("Y",               Y);                 // Y position (in %) relative to up/left corner
-    Element.setAttribute("ZoomFactor",      ZoomFactor);        // Zoom factor (in %)
-    Element.setAttribute("ImageRotation",   ImageRotation);     // Image rotation (in °)
-    Element.setAttribute("Brightness",      Brightness);
-    Element.setAttribute("Contrast",        Contrast);
-    Element.setAttribute("Gamma",           Gamma);
-    Element.setAttribute("Red",             Red);
-    Element.setAttribute("Green",           Green);
-    Element.setAttribute("Blue",            Blue);
-    Element.setAttribute("LockGeometry",    LockGeometry?1:0);
-    Element.setAttribute("AspectRatio",     AspectRatio);
-    Element.setAttribute("FullFilling",     FullFilling?1:0);
-
-    domDocument.appendChild(Element);
-}
-
-//====================================================================================================================
-
-bool cFilterCorrectObject::LoadFromXML(QDomElement domDocument,QString ElementName) {
-    if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
-        QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
-
-        X                       =Element.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
-        Y                       =Element.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
-        ZoomFactor              =Element.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
-        ImageRotation           =Element.attribute("ImageRotation").toDouble();          // Image rotation (in °)
-        Brightness              =Element.attribute("Brightness").toInt();
-        Contrast                =Element.attribute("Contrast").toInt();
-        Gamma                   =Element.attribute("Gamma").toDouble();
-        Red                     =Element.attribute("Red").toInt();
-        Green                   =Element.attribute("Green").toInt();
-        Blue                    =Element.attribute("Blue").toInt();
-        AspectRatio             =Element.attribute("AspectRatio").toDouble();
-
-        // If old ImageGeometry value in project file then compute LockGeometry
-        if (Element.hasAttribute("ImageGeometry")) LockGeometry=(Element.attribute("ImageGeometry").toInt()!=2);
-            // Else load saved value
-            else LockGeometry=Element.attribute("LockGeometry").toInt()==1;
-
-        if (Element.hasAttribute("FullFilling"))    FullFilling=Element.attribute("FullFilling").toInt()==1;
-
-        return true;
-    }
-    return false;
 }
 
 //*********************************************************************************************************************************************
@@ -479,6 +220,7 @@ void cBrushDefinition::ApplyStyle(bool LockGeometry,QString Style) {
 }
 
 //====================================================================================================================
+
 QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
     if ((Image?Image->FileName:Video?Video->FileName:"")=="") return new QBrush(Qt::NoBrush);
 
@@ -728,7 +470,7 @@ cBackgroundObject::cBackgroundObject(QString FileName,int TheGeometry) {
     Name        = QFileInfo(FileName).baseName();
 
     // Load file
-    BackgroundImage.load(AdjustDirForOS(FilePath));
+    BackgroundImage.load(FilePath);
 
     // Make Icon
     QImage *BrushImage=new QImage(BackgroundImage.copy());
@@ -783,7 +525,7 @@ void cBackgroundList::ScanDisk(QString Path,int TheGeometry) {
 
     List.clear();
     for (int i=0;i<Files.count();i++) if (Files[i].isFile() && ((QString(Files[i].suffix()).toLower()=="jpg")||(QString(Files[i].suffix()).toLower()=="png"))) {
-        QString FileName=AdjustDirForOS(QFileInfo(Files[i]).absoluteFilePath());
+        QString FileName=QFileInfo(Files[i]).absoluteFilePath();
         if (QFileInfo(QString(FileName)).isFile()) List.append(cBackgroundObject(Files[i].absoluteFilePath(),Geometry));
     }
 }
@@ -807,11 +549,11 @@ cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType) {
     TransitionSubType=TheTransitionSubType;
     QString Familly=QString("%1").arg(TransitionFamilly);   if (Familly.length()<2) Familly="0"+Familly;
     QString SubType=QString("%1").arg(TransitionSubType);   if (SubType.length()<2) SubType="0"+SubType;
-    QString FileName="transitions-img/tr-"+Familly+"-"+SubType+".png";
-    Icon=QImage(AdjustDirForOS(FileName));
+    QString FileName=QString("transitions-img")+QDir().separator()+QString("tr-")+Familly+QString("-")+SubType+QString(".png");
+    Icon=QImage(FileName);
     if (Icon.isNull()) {
-        Icon=QImage(AdjustDirForOS("transitions-img/tr-icon-error.png"));
-        qDebug()<<"Icon not found:"<<AdjustDirForOS(QDir(FileName).absolutePath());
+        Icon=QImage(QString("transitions-img")+QDir().separator()+QString("tr-icon-error.png"));
+        qDebug()<<"Icon not found:"<<QDir(FileName).absolutePath();
     }
 }
 

@@ -18,48 +18,32 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef DLGMANAGESTYLE_H
-#define DLGMANAGESTYLE_H
+#ifndef CSAVEWINDOWPOSITION_H
+#define CSAVEWINDOWPOSITION_H
 
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-#include "_StyleDefinitions.h"
+//============================================
+// Class to handle window size & position
+//============================================
 
-//=====================
-// Manage style dialog
-//=====================
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
+#include <QWidget>
+#include <QString>
+#include <QMainWindow>
 
-namespace Ui {
-    class DlgManageStyle;
-}
-
-class DlgManageStyle : public QDialog {
-Q_OBJECT
+class cSaveWindowPosition {
 public:
-    cStyleCollection    *Collection;
-    cStyleCollection    *UndoCollection;
+    QString     WindowName;     // Name of the Window
+    bool        *RestoreWindow; // Link to RestoreWindow boolean variable
+    bool        IsMainWindow;   // true if window is a QDockWidget
+    QString     WindowGeo;      // Array for saveGeometry (All windows)
+    QString     MainWinSS;      // Array for saveState (QMainWindow only)
 
-    explicit DlgManageStyle(cStyleCollection *Collection,QWidget *parent=0);
-    ~DlgManageStyle();
-
-    void        PopulateList(QString StyleToActivate);
-
-protected:
-    virtual void showEvent(QShowEvent *);
-    virtual void reject();
-    virtual void accept();
-
-private slots:
-    void        Help();
-    void        SetSavedWindowGeometry();
-
-    void        s_currentRowChanged(int);
-    void        s_DBRename();
-    void        s_DBRemove();
-    void        s_DBReset();
-
-private:
-    Ui::DlgManageStyle *ui;
+    cSaveWindowPosition(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
+    void    ApplyToWindow(QWidget *Window);
+    void    SaveWindowState(QWidget *Window);
+    void    SaveToXML(QDomElement &domDocument);
+    void    LoadFromXML(QDomElement domDocument);
 };
 
-#endif // DLGMANAGESTYLE_H
+#endif  // CSAVEWINDOWPOSITION_H

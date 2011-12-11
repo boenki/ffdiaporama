@@ -2203,19 +2203,19 @@ Vuoi sovrascriverlo?</translation>
         <location filename="../DlgRenderVideo.cpp" line="628"/>
         <location filename="../DlgRenderVideo.cpp" line="777"/>
         <location filename="../DlgRenderVideo.cpp" line="796"/>
-        <location filename="../DlgRenderVideo.cpp" line="971"/>
-        <location filename="../DlgRenderVideo.cpp" line="1008"/>
-        <location filename="../DlgRenderVideo.cpp" line="1017"/>
-        <location filename="../DlgRenderVideo.cpp" line="1028"/>
-        <location filename="../DlgRenderVideo.cpp" line="1039"/>
-        <location filename="../DlgRenderVideo.cpp" line="1051"/>
-        <location filename="../DlgRenderVideo.cpp" line="1073"/>
-        <location filename="../DlgRenderVideo.cpp" line="1098"/>
-        <location filename="../DlgRenderVideo.cpp" line="1107"/>
-        <location filename="../DlgRenderVideo.cpp" line="1120"/>
-        <location filename="../DlgRenderVideo.cpp" line="1226"/>
-        <location filename="../DlgRenderVideo.cpp" line="1230"/>
-        <location filename="../DlgRenderVideo.cpp" line="1254"/>
+        <location filename="../DlgRenderVideo.cpp" line="978"/>
+        <location filename="../DlgRenderVideo.cpp" line="1015"/>
+        <location filename="../DlgRenderVideo.cpp" line="1024"/>
+        <location filename="../DlgRenderVideo.cpp" line="1035"/>
+        <location filename="../DlgRenderVideo.cpp" line="1046"/>
+        <location filename="../DlgRenderVideo.cpp" line="1058"/>
+        <location filename="../DlgRenderVideo.cpp" line="1080"/>
+        <location filename="../DlgRenderVideo.cpp" line="1105"/>
+        <location filename="../DlgRenderVideo.cpp" line="1114"/>
+        <location filename="../DlgRenderVideo.cpp" line="1127"/>
+        <location filename="../DlgRenderVideo.cpp" line="1233"/>
+        <location filename="../DlgRenderVideo.cpp" line="1237"/>
+        <location filename="../DlgRenderVideo.cpp" line="1261"/>
         <source>Render video</source>
         <translation>Interpretazione video</translation>
     </message>
@@ -2230,166 +2230,166 @@ Vuoi sovrascriverlo?</translation>
         <translation>Avvia codifica ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="849"/>
-        <location filename="../DlgRenderVideo.cpp" line="915"/>
+        <location filename="../DlgRenderVideo.cpp" line="856"/>
         <location filename="../DlgRenderVideo.cpp" line="922"/>
-        <location filename="../DlgRenderVideo.cpp" line="959"/>
-        <location filename="../DlgRenderVideo.cpp" line="963"/>
+        <location filename="../DlgRenderVideo.cpp" line="929"/>
+        <location filename="../DlgRenderVideo.cpp" line="966"/>
+        <location filename="../DlgRenderVideo.cpp" line="970"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translatorcomment>Messaggio di errore</translatorcomment>
         <translation>Errore</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="850"/>
+        <location filename="../DlgRenderVideo.cpp" line="857"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translatorcomment>Messaggio di errore</translatorcomment>
         <translation>Errore avvio ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="885"/>
+        <location filename="../DlgRenderVideo.cpp" line="892"/>
         <source> - Estimated time left : </source>
         <translation> - Tempo stimato rimanente :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="915"/>
+        <location filename="../DlgRenderVideo.cpp" line="922"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translatorcomment>Messaggio di errore</translatorcomment>
         <translation>Errore durante l&apos;invio d&apos;immagini per ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="922"/>
+        <location filename="../DlgRenderVideo.cpp" line="929"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translatorcomment>Messaggio di errore</translatorcomment>
         <translation>Errore ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="944"/>
+        <location filename="../DlgRenderVideo.cpp" line="951"/>
         <source>Closing encoder</source>
         <translation>Chiusura codifica</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="959"/>
+        <location filename="../DlgRenderVideo.cpp" line="966"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation>Errore durante il processo di ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="963"/>
+        <location filename="../DlgRenderVideo.cpp" line="970"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translatorcomment>Messaggio di errore</translatorcomment>
         <translation>Errore in uscita da ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="971"/>
+        <location filename="../DlgRenderVideo.cpp" line="978"/>
         <source>Job completed succesfully!</source>
         <translation>Lavoro completato con successo!</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="688"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="690"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Avanzate</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="689"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="693"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="691"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="695"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Smartphone</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="690"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="692"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Sistema multimediale</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="691"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="693"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Per il WEB</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="694"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="696"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Riproduttore portatili</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="695"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="697"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Netbook/NetPC</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="696"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="698"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Console di gioco portatile</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="697"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="699"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Tablet computer</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="698"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="700"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Disco multimediale e gateway</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="699"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="701"/>
         <source>Player</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Riproduttore</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="700"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="702"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Dispositivo ADSL</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="701"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="703"/>
         <source>Game console</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>console di gioco</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="702"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="704"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>SWF Flash Palyer</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="703"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="705"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
         <translation>Video-sharing e WebSite sociali</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="704"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="706"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translatorcomment>Database dei tipi di dispositivi</translatorcomment>
@@ -3851,22 +3851,22 @@ e aiuto</translation>
         <translation>Modifica le transizioni di sfondo in entrata per la diapositiva</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="594"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="596"/>
         <source>All suported file (</source>
         <translation>Tutti i file supportati (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="601"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="603"/>
         <source>Image file (</source>
         <translation>File immagine (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="607"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="609"/>
         <source>Video file (</source>
         <translation>File video (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="613"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="615"/>
         <source>Music file (</source>
         <translation>File musicali (</translation>
     </message>
@@ -3885,25 +3885,25 @@ e aiuto</translation>
         <translation>Errore</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="743"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="745"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Errore lettura file di configurazione</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="748"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="750"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Errore lettura contenuto del file di configurazione</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="754"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="756"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Il file non è un valido file di configurazione</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="1084"/>
+        <location filename="../_ApplicationDefinitions.cpp" line="1086"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translation>Errore nella creazione del file di configurazione</translation>

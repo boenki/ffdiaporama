@@ -64,9 +64,13 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     cCustomTableWidget.cpp \
     DlgManageStyle.cpp \
     _StyleDefinitions.cpp \
-    fmt_filters/fmt_filters.cpp \
-    _cLuLoImageCache.cpp \
-    DlgCheckConfig.cpp
+    DlgCheckConfig.cpp \
+    SubProjects/VariousClass/cSaveWindowPosition.cpp \
+    SubProjects/VariousClass/cBaseApplicationConfig.cpp \
+    SubProjects/VariousClass/cFilterTransformObject.cpp \
+    SubProjects/VariousClass/cFilterCorrectObject.cpp \
+    SubProjects/fmt_filters/fmt_filters.cpp \
+    SubProjects/VariousClass/cLuLoImageCache.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
@@ -94,9 +98,13 @@ HEADERS  += _GlobalDefines.h \
     cCustomTableWidget.h \
     DlgManageStyle.h \
     _StyleDefinitions.h \
-    fmt_filters/fmt_filters.h \
-    _cLuLoImageCache.h \
-    DlgCheckConfig.h
+    DlgCheckConfig.h \
+    SubProjects/VariousClass/cSaveWindowPosition.h \
+    SubProjects/VariousClass/cBaseApplicationConfig.h \
+    SubProjects/VariousClass/cFilterTransformObject.h \
+    SubProjects/VariousClass/cFilterCorrectObject.h \
+    SubProjects/fmt_filters/fmt_filters.h \
+    SubProjects/VariousClass/cLuLoImageCache.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \

@@ -135,9 +135,6 @@ extern "C" {
     #include <libswscale/swscale.h>
 }
 
-// FMT_FILTERS
-#include <fmt_filters.h>
-
 //============================================
 // Global defines
 //============================================
@@ -150,8 +147,8 @@ extern "C" {
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
 
-#define GLOBALCONFIGFILE                    2                                     // Type of config file : Global
-#define USERCONFIGFILE                      3                                     // Type of config file : USER
+//#define GLOBALCONFIGFILE                    2                                     // Type of config file : Global
+//#define USERCONFIGFILE                      3                                     // Type of config file : USER
 #define BUFFERING_NBR_FRAME                 5                                     // Number of frame wanted in the playing buffer
 
 #define ICON_PLAYERPLAY                     "img/player_play.png"                 // FileName of play icon
@@ -320,8 +317,7 @@ extern "C" {
 #define HELPFILE_INDEX                      "1567"                                                              //fct_001
 #define HELPFILE_PRINCIPLES                 "1306"                                                              //fct_002
 #define HELPFILE_DEVICES                    "1322"                                                              //fct_009
-#define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/<local>/News.php"
-#define HELPFILE_WEBSITEINDEX               "http://ffdiaporama.tuxfamily.org/<local>/index.php"
+#define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/ffdiaporama/?cat=5&lang=<local>"
 #define HELPFILE_SUPPORT                    "1567"                                                              //fct_001"
 #define HELPFILE_DlgTextEdit                "1282"                                                              //dlg_001"
 #define HELPFILE_DlgApplicationSettings     "1286"                                                              //dlg_002"
@@ -374,8 +370,8 @@ extern "C" {
 #define LIBAVCODECVERSION_STR               "LIBAVCODEC version\t: "
 #define LIBAVFORMATVERSION_STR              "LIBAVFORMAT version\t: "
 #define LIBSWSCALEVERSION_STR               "LIBSWSCALE version\t: "
-#define TEMPDIR_STR                         "Temp directory to be use\t: "
-#define USERCONFIGFILE_STR                  "User config file to be use\t: "
+#define USERCONFIGFILE_STR                  "User config file\t: "
+#define GLOBALCONFIGFILE_STR                "Global config file\t: "
 
 //============================================
 // Image format definition
@@ -460,12 +456,5 @@ extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];              // Real definiti
 //============================================
 // Basic class from this project
 //============================================
-#include "_StyleDefinitions.h"
-#include "_SoundDefinitions.h"
-#include "_ImagesDefinitions.h"
-#include "_cLuLoImageCache.h"
-#include "_ImageFileWrapper.h"
-#include "_VideoFileWrapper.h"
-#include "_ApplicationDefinitions.h"
 
 #endif // GLOBALDEFINES_H

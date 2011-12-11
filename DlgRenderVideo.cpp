@@ -833,6 +833,14 @@ void DlgRenderVideo::accept() {
                         (VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_VP8)
                         )) ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount());
 
+
+                if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("mp4")) {
+                    // Add METADATA
+                    QString NewStr=QFileInfo(OutputFileName).baseName();
+                    NewStr.replace("\"","'");
+                    ffmpegCommand=ffmpegCommand+" -metadata title=\""+NewStr+"\" -metadata comment=\""+APPLICATION_NAME+" "+APPLICATION_VERSION+"\"";
+                }
+
                 ffmpegCommand=ffmpegCommand+" \""+OutputFileName+"\"";
                 qDebug()<<ffmpegCommand;
 

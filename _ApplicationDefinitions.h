@@ -23,39 +23,19 @@
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
+#include "SubProjects/VariousClass/cBaseApplicationConfig.h"
+#include "_StyleDefinitions.h"
 
 // Global values
-extern QString CurrentLanguage;                                 // Current language code (en, fr, ...)
 extern QString SystemProperties;                                // System properties log
 extern QString CurrentAppVersion;                               // Application version read from BUILDVERSION.txt
 
 // Utility functions
-int     getCpuCount();                                          // Retrieve number of processor
-QString AdjustDirForOS(QString Dir);                            // Adjust separator in pathname depending on operating system
 void    AddToSystemProperties(QString StringToAdd);             // Add a string to the system properties log
 void    AddSeparatorToSystemProperties();                       // Add a separator line to the system properties log
 void    ExitApplicationWithFatalError(QString StringToAdd);     // Exit application with error code 1 if error adding a string to the system properties log and and display it
 
 //====================================================================================================================
-
-//============================================
-// Class to handle window size & position
-//============================================
-
-class cSaveWindowPosition {
-public:
-    QString     WindowName;     // Name of the Window
-    bool        *RestoreWindow; // Link to RestoreWindow boolean variable
-    bool        IsMainWindow;   // true if window is a QDockWidget
-    QString     WindowGeo;      // Array for saveGeometry (All windows)
-    QString     MainWinSS;      // Array for saveState (QMainWindow only)
-
-    cSaveWindowPosition(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
-    void    ApplyToWindow(QWidget *Window);
-    void    SaveWindowState(QWidget *Window);
-    void    SaveToXML(QDomElement &domDocument);
-    void    LoadFromXML(QDomElement domDocument);
-};
 
 //============================================
 // Device model definition
@@ -99,27 +79,10 @@ public:
 
 //====================================================================================================================
 
-class cApplicationConfig {
+class cApplicationConfig : public cBaseApplicationConfig {
 public:
     QString                 PathEXIV2;                                  // Filename with path to exiv2 binary
     QString                 PathFFMPEG;                                 // Filename with path to ffmpeg binary
-
-    QString                 Plateforme;                                 // Operating system in use
-    QWidget                 *ParentWindow;                              // Link to the top window
-    QString                 CurrentFolder;                              // Current folder
-
-    #if defined(Q_OS_WIN)
-        // registry value for specific Windows Folder
-        QString WINDOWS_APPDATA;                                        // specific Windows Folder : AppData
-        QString WINDOWS_MUSIC;                                          // specific Windows Folder : My Music
-        QString WINDOWS_PICTURES;                                       // specific Windows Folder : My Pictures
-        QString WINDOWS_VIDEO;                                          // specific Windows Folder : My Video
-        QString WINDOWS_DOCUMENTS;                                      // specific Windows Folder : Personal
-    #endif
-
-    QStringList             AllowVideoExtension;                        // List of all file extension allowed for video
-    QStringList             AllowImageExtension;                        // List of all file extension allowed for image
-    QStringList             AllowMusicExtension;                        // List of all file extension allowed for music
 
     // Collections
     QList<cDeviceModelDef>  RenderDeviceModel;                          // List of known rendering device model
@@ -147,11 +110,6 @@ public:
     QString                 DefaultBlockBA_IMG_CoordST[9][3];
     int                     DefaultBlockBA_CLIPARTLOCK[3];
 
-    // User contexte
-    QString                 UserConfigPath;                             // Path and filename to user profil path
-    QString                 UserConfigFile;                             // Path and filename to user configuration file
-    QString                 GlobalConfigFile;                           // Path and filename to global configuration file (in binary directory)
-
     // Last directories
     bool                    RememberLastDirectories;                    // If true, Remember all directories for future use
     QString                 LastMediaPath;                              // Last folder use for image/video
@@ -160,11 +118,9 @@ public:
     QString                 LastRenderVideoPath;                        // Last folder use for render video
 
     // Preferences
-    bool                    RasterMode;                                 // Enable or disable raster mode [Linux only]
     int                     NbrSlideInCache;                            // Number of slide in cache (memory)
     qlonglong               MemCacheMaxValue;                           // Maximum value for image cache
     bool                    SDLAudioOldMode;                            // If true SDL audio use old mode sample instead byte
-    bool                    RestoreWindow;                              // If true, restore window state and position at startup
     bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide
     bool                    PartitionMode;                              // If true, partition mode is on
     bool                    CheckConfigAtStartup;                       // If true, check config at startup
@@ -220,8 +176,6 @@ public:
     QStringList             TranslatedRenderSubtype[4];                 // Translated render device subtype
 
     // Main Window Size & Position
-    bool                    MainWinState;                               // WindowsSettings-ismaximized
-    cSaveWindowPosition     *MainWinWSP;                                // MainWindow - Window size and position
     cSaveWindowPosition     *DlgBackgroundPropertiesWSP;                // Dialog box "Background properties" - Window size and position
     cSaveWindowPosition     *DlgMusicPropertiesWSP;                     // Dialog box "Music properties" - Window size and position
     cSaveWindowPosition     *DlgApplicationSettingsWSP;                 // Dialog box "Application settings" - Window size and position
@@ -238,12 +192,10 @@ public:
     cApplicationConfig();
     ~cApplicationConfig();
 
-    bool        InitConfigurationValues();
-    bool        LoadConfigurationFile(int TypeConfigFile);
-    bool        SaveConfigurationFile();
-
-    enum FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
-    QString     GetFilterForMediaFile(FilterFile type);
+    // Abstract functions in cBaseApplicationConfig
+    void                    InitValues();
+    void                    SaveValueToXML(QDomElement &domDocument);
+    bool                    LoadValueFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile);
 };
 
 #endif // APPLICATIONDEFINITIONS_H

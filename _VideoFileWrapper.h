@@ -23,6 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
+#include "_ImagesDefinitions.h"
 
 //*********************************************************************************************************************************************
 // video file wrapper : encapsulate all stream type objects

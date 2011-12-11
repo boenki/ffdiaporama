@@ -364,12 +364,12 @@ Crossfade transition</source>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="492"/>
         <source>Use quick resampler during preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση γρήγορης αναδειγματοληψίας κατά την προεπικσόπηση</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="499"/>
         <source>Audio resampling :</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναδειγματοληψία ήχου:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="514"/>
@@ -814,17 +814,17 @@ image</source>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3234"/>
         <source>Default video name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένο όνομα βίντεο:</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3259"/>
         <source>Use project name as video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση του ονόματος του έργου για το όνομα του βίντεο</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3264"/>
         <source>Use project folder&apos;s name as video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση του ονόματος του φακέλου του έργου για το όνομα του βίντεο</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3277"/>
