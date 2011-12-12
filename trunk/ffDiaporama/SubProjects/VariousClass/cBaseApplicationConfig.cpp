@@ -354,7 +354,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
         QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
         if (Element.hasAttribute("RasterMode"))     RasterMode      =Element.attribute("RasterMode")=="1";
         if (Element.hasAttribute("RestoreWindow"))  RestoreWindow   =Element.attribute("RestoreWindow")=="1";
-        if (Element.hasAttribute("ForceLanguage"))  ForceLanguage   =Element.attribute("ForceLanguage");
+        if ((Element.hasAttribute("ForceLanguage"))&&(ForceLanguage==""))  ForceLanguage   =Element.attribute("ForceLanguage");
     }
 
     // Load windows size and position
@@ -364,6 +364,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
         // Search system language
 
         CurrentLanguage=QLocale::system().name().left(2);
+        if (ForceLanguage!="") CurrentLanguage=ForceLanguage;
 
         // Validate if system locale is supported and if not force use of "en"
         if ((CurrentLanguage!="en")&&(!QFileInfo(QString("locale")+QDir().separator()+QString("locale_")+CurrentLanguage+QString(".qm")).exists())) {
