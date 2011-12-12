@@ -53,16 +53,8 @@ Sound/Music
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Réorganisation du code
--Modification du démarrage du programme
--Corrige le plantage quand on pressait Ctrl+V mais que rien n'était présent dans le presse papier
--Change l'alignement des controles dans l'onglet Options de génération de la boite de dialogue de configuration
 
 English version / Bug fix :
--Code cleaning and new organisation
--Change of the software start
--Bug fix when pressing Ctrl+V and nothing is present in the clipboard the application crashed
--Change controls alignment in rendering options tab of the option dialog
 
 -------------------------------------
 Changelog depuis la version 20110926
@@ -123,6 +115,10 @@ Bug fix French version
 -Corrige une erreur de perte de l'orientation d'image lors de l'activation de filtre de transformation
 -Change le synchro d'affichage au démarrage de l'application (ajoute 500 ms)
 -Corrige un bug sous Windows qui supprimait le double slash des chemins réseaux \\SERVEUR
+-Réorganisation du code
+-Modification du démarrage du programme
+-Corrige le plantage quand on pressait Ctrl+V mais que rien n'était présent dans le presse papier
+-Change l'alignement des controles dans l'onglet Options de génération de la boite de dialogue de configuration
 
 Bug fix English version
 -Correction of the bug of display rullers and frames in dialog box slide and reframing (lines did not still appear when dialogs were small)
@@ -176,6 +172,10 @@ Bug fix English version
 -Correct an error of loss of the image orientation during the activation of transformation filter
 -Change display synchronization at application startup (add 500 ms)
 -Fix a bug for Windows release which remove double slash pour network path
+-Code cleaning and new organisation
+-Change of the software start
+-Bug fix when pressing Ctrl+V and nothing is present in the clipboard the application crashed
+-Change controls alignment in rendering options tab of the option dialog
 
 Documentations updates
 - fct_008 (Adding Russian & Greec)
