@@ -75,6 +75,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     AddToSystemProperties(QString(STARTINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
     ApplicationConfig->InitConfigurationValues(ForceLanguage,App);
+    ApplicationConfig->ForceLanguage="";
 
     QSplashScreen screen;
     screen.setPixmap(QPixmap("img/splash.png"));

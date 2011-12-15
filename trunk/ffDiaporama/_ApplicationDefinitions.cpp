@@ -515,8 +515,6 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     qDebug() << "IN:cApplicationConfig::LoadValueFromXML";
     #endif
 
-    QDomNodeList    NodeList;
-
     // Load preferences
     if ((domDocument.elementsByTagName("LastDirectories").length()>0)&&(domDocument.elementsByTagName("LastDirectories").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("LastDirectories").item(0).toElement();

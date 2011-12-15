@@ -27,6 +27,11 @@
 #include <QTranslator>
 #include "cBaseApplicationConfig.h"
 
+#if defined(Q_OS_WIN)
+    #include <windows.h>
+    #include <QSettings>
+#endif
+
 //#define DEBUGMODE
 
 //====================================================================================================================
@@ -158,7 +163,9 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     MainWinState        = false;                                                                // WindowsSettings-ismaximized
     RestoreWindow       = true;                                                                 // if true then restore windows size and position
     MainWinWSP          = new cSaveWindowPosition("MainWindow",RestoreWindow,true);             // MainWindow - Window size and position
-    RasterMode          = true;                                                                 // Enable or disable raster mode [Linux only]
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+        RasterMode      = true;                                                                 // Enable or disable raster mode [Linux only]
+    #endif
     ParentWindow        = NULL;
 
     //**************************************************
@@ -220,7 +227,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     #ifdef Q_OS_WIN
         UserConfigPath=WINDOWS_APPDATA;
         if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
-        UserConfigPath  = UserConfigPath+APPLICATION_GROUPNAME+QDir::separator();
+        UserConfigPath  = UserConfigPath+ApplicationGroupName+QDir::separator();
     #else
         UserConfigPath=QDir::homePath();
         if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
@@ -300,7 +307,9 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     // Save preferences
     QDomElement     Element;
     Element=domDocument.createElement("GlobalPreferences");
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     Element.setAttribute("RasterMode",      RasterMode?"1":"0");
+    #endif
     Element.setAttribute("RestoreWindow",   RestoreWindow?"1":"0");
     Element.setAttribute("ForceLanguage",   ForceLanguage);
     root.appendChild(Element);
@@ -352,7 +361,9 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
     // Load Global preferences
     if ((root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
+        #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
         if (Element.hasAttribute("RasterMode"))     RasterMode      =Element.attribute("RasterMode")=="1";
+        #endif
         if (Element.hasAttribute("RestoreWindow"))  RestoreWindow   =Element.attribute("RestoreWindow")=="1";
         if ((Element.hasAttribute("ForceLanguage"))&&(ForceLanguage==""))  ForceLanguage   =Element.attribute("ForceLanguage");
     }

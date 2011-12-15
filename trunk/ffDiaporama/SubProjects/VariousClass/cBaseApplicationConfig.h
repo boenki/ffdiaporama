@@ -25,6 +25,7 @@
 #include <QString>
 #include <QStringList>
 #include <QWidget>
+#include <QTranslator>
 
 // Include some various class
 #include "cSaveWindowPosition.h"
