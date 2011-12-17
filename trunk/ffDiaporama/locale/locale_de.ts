@@ -125,7 +125,7 @@
         <translation>Art der Übergänge:</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3699"/>
+        <location filename="../DlgApplicationSettings.ui" line="3712"/>
         <source>Select the file type to use for the rendering.</source>
         <translation>Wählen des Dateitypes für die Umwandlung.</translation>
     </message>
@@ -561,19 +561,19 @@ Crossfade transition</source>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3126"/>
-        <location filename="../DlgApplicationSettings.ui" line="3370"/>
+        <location filename="../DlgApplicationSettings.ui" line="3383"/>
         <source>Video standard :</source>
         <translation>Videonorm : </translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="2906"/>
-        <location filename="../DlgApplicationSettings.ui" line="3444"/>
+        <location filename="../DlgApplicationSettings.ui" line="3457"/>
         <source>Video codec :</source>
         <translation>Videocodec :</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="2919"/>
-        <location filename="../DlgApplicationSettings.ui" line="3683"/>
+        <location filename="../DlgApplicationSettings.ui" line="3696"/>
         <source>File format :</source>
         <translation>Dateiformat :</translation>
     </message>
@@ -594,21 +594,21 @@ Crossfade transition</source>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3151"/>
-        <location filename="../DlgApplicationSettings.ui" line="3389"/>
+        <location filename="../DlgApplicationSettings.ui" line="3402"/>
         <source>PAL</source>
         <translation>PAL</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="3156"/>
-        <location filename="../DlgApplicationSettings.ui" line="3394"/>
+        <location filename="../DlgApplicationSettings.ui" line="3407"/>
         <source>NTSC</source>
         <translation>NTSC</translation>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="2938"/>
         <location filename="../DlgApplicationSettings.ui" line="3009"/>
-        <location filename="../DlgApplicationSettings.ui" line="3484"/>
-        <location filename="../DlgApplicationSettings.ui" line="3549"/>
+        <location filename="../DlgApplicationSettings.ui" line="3497"/>
+        <location filename="../DlgApplicationSettings.ui" line="3562"/>
         <source>Bit rate :</source>
         <translation>Bitrate :</translation>
     </message>
@@ -629,7 +629,7 @@ Crossfade transition</source>
     </message>
     <message>
         <location filename="../DlgApplicationSettings.ui" line="2990"/>
-        <location filename="../DlgApplicationSettings.ui" line="3515"/>
+        <location filename="../DlgApplicationSettings.ui" line="3528"/>
         <source>Audio codec :</source>
         <translation>Audiocodec :</translation>
     </message>
@@ -824,192 +824,192 @@ Bilder</translation>
         <translation>Verwende Namen des Projektordners als Videoname </translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3277"/>
+        <location filename="../DlgApplicationSettings.ui" line="3290"/>
         <source>Manage Device Database</source>
         <translation>Verwaltung Gerätedatenbank</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3345"/>
+        <location filename="../DlgApplicationSettings.ui" line="3358"/>
         <source>Subtype</source>
         <translation>Untergruppe</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3356"/>
+        <location filename="../DlgApplicationSettings.ui" line="3369"/>
         <source>Model</source>
         <translation>Modell</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3385"/>
+        <location filename="../DlgApplicationSettings.ui" line="3398"/>
         <source>Select the video standard to use, PAL or NTSC.</source>
         <translation>wählen Sie den zu verwendenden Videostandard, PAL oder NTSC.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3417"/>
+        <location filename="../DlgApplicationSettings.ui" line="3430"/>
         <source>Image format :</source>
         <translation>Bildformat :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3432"/>
+        <location filename="../DlgApplicationSettings.ui" line="3445"/>
         <source>Select the image resolution to use for the rendering.</source>
         <translation>Bildauflösung die zur Videoerstellung verwendet werden soll.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3471"/>
+        <location filename="../DlgApplicationSettings.ui" line="3484"/>
         <source>Select the video codec to use for the rendering.</source>
         <translation>Videocodec der zur Videoerstellung verwendet werden soll.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3506"/>
+        <location filename="../DlgApplicationSettings.ui" line="3519"/>
         <source>Select the bit rate to use for video during the rendering.</source>
         <translation>Bitrate die für Video zur Erstellung verwendet werden soll.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3542"/>
+        <location filename="../DlgApplicationSettings.ui" line="3555"/>
         <source>Select the audio codec to use for the rendering.</source>
         <translation>Audiocodec der zur Videoerstellung verwendet werden soll.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3571"/>
+        <location filename="../DlgApplicationSettings.ui" line="3584"/>
         <source>Select the bit rate to use for audio during the rendering.</source>
         <translation>Bitrate die für Audio zur Erstellung verwendet werden soll.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3580"/>
+        <location filename="../DlgApplicationSettings.ui" line="3593"/>
         <source>Device model :</source>
         <translation>Gerätemodell :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3590"/>
+        <location filename="../DlgApplicationSettings.ui" line="3603"/>
         <source>Enter here the name of the equipment (free text field).</source>
         <translation>Bezeichnung des Gerätes (freie Texteingabe).</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3605"/>
+        <location filename="../DlgApplicationSettings.ui" line="3618"/>
         <source>Create a new equipment which comes to be added in the database.</source>
         <translation>Neues Gerät in die Datenbank eintragen.  </translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3608"/>
+        <location filename="../DlgApplicationSettings.ui" line="3621"/>
         <source>Add Device</source>
         <translation>Neues Gerät</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3619"/>
+        <location filename="../DlgApplicationSettings.ui" line="3632"/>
         <source>Delete current equipment.</source>
         <translation>Lösche aktuelles Gerät.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3622"/>
+        <location filename="../DlgApplicationSettings.ui" line="3635"/>
         <source>Remove Device</source>
         <translation>Lösche Gerät</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3633"/>
+        <location filename="../DlgApplicationSettings.ui" line="3646"/>
         <source>Cancel the modifications that you made on an equipment defined in the default ffDiaporama database</source>
         <translation>Verwerfen der Änderungen die am Gerät in der Datenbank von ffDiaporama vorgenommen wurden </translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3636"/>
+        <location filename="../DlgApplicationSettings.ui" line="3649"/>
         <source>Reset Device to Default</source>
         <translation>Zurücksetzen zu den Vorgabewerten des Gerätes</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3649"/>
+        <location filename="../DlgApplicationSettings.ui" line="3662"/>
         <source>Device type :</source>
         <translation>Gerätetype :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3659"/>
+        <location filename="../DlgApplicationSettings.ui" line="3672"/>
         <source>Select the type of equipment to be shown in the list.</source>
         <translation>Wählen Sie welche Gerätetypen angezeigt werden sollen.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3666"/>
+        <location filename="../DlgApplicationSettings.ui" line="3679"/>
         <source>Select the category in which is classified the equipment.</source>
         <translation>wählen Sie die Kategorie in die das Gerät passt.</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3673"/>
+        <location filename="../DlgApplicationSettings.ui" line="3686"/>
         <source>Device subtype :</source>
         <translation>Gerätekategorie :</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3745"/>
+        <location filename="../DlgApplicationSettings.ui" line="3758"/>
         <source>Check Configuration</source>
         <translation>Überprüfe Konfiguration</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3756"/>
-        <location filename="../DlgApplicationSettings.cpp" line="433"/>
+        <location filename="../DlgApplicationSettings.ui" line="3769"/>
+        <location filename="../DlgApplicationSettings.cpp" line="438"/>
         <source>Apply modification</source>
         <translation>Änderungen speichern</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3780"/>
+        <location filename="../DlgApplicationSettings.ui" line="3793"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Änderungen speichern und Fenster schliessen</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3783"/>
+        <location filename="../DlgApplicationSettings.ui" line="3796"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3794"/>
+        <location filename="../DlgApplicationSettings.ui" line="3807"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Änderungen verwerfen und Fenster schliessen</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3797"/>
+        <location filename="../DlgApplicationSettings.ui" line="3810"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Abbrechen</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3808"/>
+        <location filename="../DlgApplicationSettings.ui" line="3821"/>
         <source>Open help page describing this dialog box</source>
         <translation>Hilfe zum aktuellen Fenster anzeigen</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3811"/>
+        <location filename="../DlgApplicationSettings.ui" line="3824"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.ui" line="3818"/>
+        <location filename="../DlgApplicationSettings.ui" line="3831"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.cpp" line="140"/>
-        <location filename="../DlgApplicationSettings.cpp" line="147"/>
+        <location filename="../DlgApplicationSettings.cpp" line="142"/>
+        <location filename="../DlgApplicationSettings.cpp" line="149"/>
         <source>Lock to image geometry</source>
         <translation>verwende die Bildgeometrie</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.cpp" line="141"/>
-        <location filename="../DlgApplicationSettings.cpp" line="148"/>
+        <location filename="../DlgApplicationSettings.cpp" line="143"/>
+        <location filename="../DlgApplicationSettings.cpp" line="150"/>
         <source>Lock to project geometry-to full image</source>
         <translation>verwende die Werte für Vollbild aus der Projektgeometrie </translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.cpp" line="142"/>
-        <location filename="../DlgApplicationSettings.cpp" line="149"/>
+        <location filename="../DlgApplicationSettings.cpp" line="144"/>
+        <location filename="../DlgApplicationSettings.cpp" line="151"/>
         <source>Lock to project geometry-to width</source>
         <translation>verwende die Breite der Projektgeometrie</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.cpp" line="143"/>
-        <location filename="../DlgApplicationSettings.cpp" line="150"/>
+        <location filename="../DlgApplicationSettings.cpp" line="145"/>
+        <location filename="../DlgApplicationSettings.cpp" line="152"/>
         <source>Lock to project geometry-to height</source>
         <translation>verwende die Höhe der Projektgeometrie</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.cpp" line="434"/>
+        <location filename="../DlgApplicationSettings.cpp" line="439"/>
         <source>Do you whant to apply modification for this device?</source>
         <translation>Wollen Sie die Änderungen für das Gerät speichern ?</translation>
     </message>
     <message>
-        <location filename="../DlgApplicationSettings.cpp" line="1088"/>
+        <location filename="../DlgApplicationSettings.cpp" line="1093"/>
         <source>&lt;new device&gt;</source>
         <translation>&lt;neues Gerät&gt;</translation>
     </message>
@@ -1032,32 +1032,32 @@ Bilder</translation>
         <translation>neuer Hintergrund</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="618"/>
+        <location filename="../DlgBackgroundProperties.ui" line="261"/>
         <source>Keep aspect ratio</source>
         <translation>behalte Seitenverhältnis</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="645"/>
+        <location filename="../DlgBackgroundProperties.ui" line="224"/>
         <source>Full filling (deform image)</source>
         <translation>Bildfüllend (verzehrt ev. das Bild)</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="684"/>
+        <location filename="../DlgBackgroundProperties.ui" line="655"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="695"/>
+        <location filename="../DlgBackgroundProperties.ui" line="666"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Abbrechen</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="706"/>
+        <location filename="../DlgBackgroundProperties.ui" line="677"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../DlgBackgroundProperties.ui" line="713"/>
+        <location filename="../DlgBackgroundProperties.ui" line="684"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
@@ -1135,41 +1135,41 @@ Bilder</translation>
         <translation>Kritischer Fehler: Das Programm Exiv2 wurde nicht gefunden. Anwendung kann nicht fortgesetzt werden !</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="91"/>
+        <location filename="../DlgCheckConfig.cpp" line="94"/>
         <source>ffmpeg not found - critical - application will stop !</source>
         <translation>Kritischer Fehler: Das Programm ffmpeg wurde nicht gefunden. Anwendung kann nicht fortgesetzt werden !</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="113"/>
+        <location filename="../DlgCheckConfig.cpp" line="119"/>
         <source>External dependencies</source>
         <translation>externe Abhängigkeiten</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="118"/>
+        <location filename="../DlgCheckConfig.cpp" line="124"/>
         <source>ffmpeg Audio Codecs</source>
         <translation>ffmpeg Audio Codecs</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="119"/>
-        <location filename="../DlgCheckConfig.cpp" line="123"/>
-        <location filename="../DlgCheckConfig.cpp" line="127"/>
+        <location filename="../DlgCheckConfig.cpp" line="125"/>
+        <location filename="../DlgCheckConfig.cpp" line="129"/>
+        <location filename="../DlgCheckConfig.cpp" line="133"/>
         <source>available</source>
         <translation>verfügbar</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="119"/>
-        <location filename="../DlgCheckConfig.cpp" line="123"/>
-        <location filename="../DlgCheckConfig.cpp" line="127"/>
+        <location filename="../DlgCheckConfig.cpp" line="125"/>
+        <location filename="../DlgCheckConfig.cpp" line="129"/>
+        <location filename="../DlgCheckConfig.cpp" line="133"/>
         <source>not available</source>
         <translation>nicht verfügbar</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="122"/>
+        <location filename="../DlgCheckConfig.cpp" line="128"/>
         <source>ffmpeg Video Codecs</source>
         <translation>ffmpeg Video Codecs</translation>
     </message>
     <message>
-        <location filename="../DlgCheckConfig.cpp" line="126"/>
+        <location filename="../DlgCheckConfig.cpp" line="132"/>
         <source>ffmpeg Container Formats</source>
         <translation>ffmpeg Containerformate</translation>
     </message>
@@ -1397,18 +1397,18 @@ Bilder</translation>
         <location filename="../DlgManageStyle.cpp" line="163"/>
         <location filename="../DlgManageStyle.cpp" line="169"/>
         <source>Rename style</source>
-        <translation>Style umbenennen</translation>
+        <translation>Stil umbenennen</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="84"/>
         <source>Remove style</source>
-        <translation>Style löschen</translation>
+        <translation>Stil löschen</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="20"/>
         <source>Manage style</source>
         <comment>Dialog title</comment>
-        <translation>Style bearbeiten</translation>
+        <translation>Stil bearbeiten</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="73"/>
@@ -1423,7 +1423,7 @@ Bilder</translation>
     <message>
         <location filename="../DlgManageStyle.ui" line="98"/>
         <source>Cancel the modifications that you made on a standard style</source>
-        <translation>Änderungen am Standardstyle verwerfen</translation>
+        <translation>Änderungen am Standardstil verwerfen</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.ui" line="101"/>
@@ -1468,248 +1468,248 @@ Bilder</translation>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="166"/>
         <source>Custom style</source>
-        <translation>eigener Style</translation>
+        <translation>eigener Stil</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="256"/>
+        <location filename="../_StyleDefinitions.cpp" line="257"/>
         <source>Big black text with white outlines</source>
         <translation>Großer schwarzer Text mit weißem/dünnem Rand</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="257"/>
+        <location filename="../_StyleDefinitions.cpp" line="258"/>
         <source>Big light yellow text with dark brown shadow</source>
         <translation>Großer hellgelber Text mit dunkelbraunem Schatten</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="258"/>
+        <location filename="../_StyleDefinitions.cpp" line="259"/>
         <source>Medium black text with white outlines</source>
         <translation>Mittlerer schwarzer Text mit weißen/dünnem Rand</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="259"/>
+        <location filename="../_StyleDefinitions.cpp" line="260"/>
         <source>Medium light yellow text with dark brown shadow</source>
         <translation>Mittlerer hellgelber Text mit dunkelbraunem Schatten</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="260"/>
+        <location filename="../_StyleDefinitions.cpp" line="261"/>
         <source>Small white text with black outlines</source>
         <translation>Kleiner weißer Text mit schwarzem/dünnem Rand</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="261"/>
+        <location filename="../_StyleDefinitions.cpp" line="262"/>
         <source>Centered Blue Gradient</source>
         <translation>zentrischer blauer Farbverlauf</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="262"/>
+        <location filename="../_StyleDefinitions.cpp" line="263"/>
         <source>Centered Brown Gradient</source>
         <translation>zentrischer brauner Farbverlauf</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="263"/>
+        <location filename="../_StyleDefinitions.cpp" line="264"/>
         <source>Centered Dark-Gray Gradient</source>
         <translation>zentrischer dunkelgrauer Farbverlauf</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="264"/>
+        <location filename="../_StyleDefinitions.cpp" line="265"/>
         <source>Centered Green Gradient</source>
         <translation>zentrischer grüner Farbverlauf</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="265"/>
+        <location filename="../_StyleDefinitions.cpp" line="266"/>
         <source>Centered Light-Gray Gradient</source>
         <translation>zentrischer hellgrauer Farbverlauf</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="266"/>
+        <location filename="../_StyleDefinitions.cpp" line="267"/>
         <source>Centered Red Gradient</source>
         <translation>zentrischer roter Farbverlauf</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="267"/>
+        <location filename="../_StyleDefinitions.cpp" line="268"/>
         <source>Transparent block (no brush)</source>
         <translation>durchsichtiger Block (ohne Farbe)</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="268"/>
+        <location filename="../_StyleDefinitions.cpp" line="269"/>
         <source>Rounded rectangle with small brown border</source>
         <translation>abgerundetes Viereck mit schmalem braunem Rand</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="269"/>
+        <location filename="../_StyleDefinitions.cpp" line="270"/>
         <source>Rectangle with no effect</source>
         <translation>Viereck ohne Effekte</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="272"/>
+        <location filename="../_StyleDefinitions.cpp" line="273"/>
         <source>Image geometry-Full image</source>
         <translation>Bildgeometrie - Vollbild</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="273"/>
+        <location filename="../_StyleDefinitions.cpp" line="274"/>
         <source>Project geometry-Adjust on the width-Bottom</source>
         <translation>Projektgeometrie - ausgerichtet auf die untere Breite</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="274"/>
+        <location filename="../_StyleDefinitions.cpp" line="275"/>
         <source>Project geometry-Adjust on the width-Middle</source>
         <translation>Projektgeometrie - ausgerichtet auf die mittlere Breite</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="275"/>
+        <location filename="../_StyleDefinitions.cpp" line="276"/>
         <source>Project geometry-Adjust on the width-Top</source>
         <translation>Projektgeometrie - ausgerichtet auf die obere Breite</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="276"/>
+        <location filename="../_StyleDefinitions.cpp" line="277"/>
         <source>Project geometry-Adjust on the height-Left</source>
         <translation>Projektgeometrie - ausgerichtet auf die linke Höhe</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="277"/>
+        <location filename="../_StyleDefinitions.cpp" line="278"/>
         <source>Project geometry-Adjust on the height-Center</source>
         <translation>Projektgeometrie - ausgerichtet auf die mittlere Höhe</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="278"/>
+        <location filename="../_StyleDefinitions.cpp" line="279"/>
         <source>Project geometry-Adjust on the height-Right</source>
         <translation>Projektgeometrie - ausgerichtet auf die rechte Höhe</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="279"/>
+        <location filename="../_StyleDefinitions.cpp" line="280"/>
         <source>Full screen</source>
         <translation>Vollbild</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="280"/>
+        <location filename="../_StyleDefinitions.cpp" line="281"/>
         <source>TV margins size</source>
         <translation>anpassen an TV Seitenränder</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="281"/>
+        <location filename="../_StyleDefinitions.cpp" line="282"/>
         <source>Maximum size for image geometry mode</source>
         <translation>Maximale Größe für den Modus Bildgeometrie</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="282"/>
+        <location filename="../_StyleDefinitions.cpp" line="283"/>
         <source>TV margins maximum size for image geometry mode</source>
         <translation>Maximale Größe der TV Seitenränder für den Modus Bildgeometrie</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="283"/>
+        <location filename="../_StyleDefinitions.cpp" line="284"/>
         <source>High half of the screen</source>
         <translation>Ausrichten auf obere Hälfte des Schirmes</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="284"/>
+        <location filename="../_StyleDefinitions.cpp" line="285"/>
         <source>Left half of the screen</source>
         <translation>Ausrichten auf linke Hälfte des Schirmes</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="285"/>
+        <location filename="../_StyleDefinitions.cpp" line="286"/>
         <source>Left high quarter of the screen</source>
         <translation>Linkes/Oberes Viertel des Schirmes</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="286"/>
+        <location filename="../_StyleDefinitions.cpp" line="287"/>
         <source>Left low quarter of the screen</source>
         <translation>Linkes/Unteres Viertel des Schirmes</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="287"/>
+        <location filename="../_StyleDefinitions.cpp" line="288"/>
         <source>Low half of the screen</source>
         <translation>Ausrichten auf untere Hälfte des Schirmes</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="288"/>
+        <location filename="../_StyleDefinitions.cpp" line="289"/>
         <source>Right half of the screen</source>
         <translation>Ausrichten auf die rechte Hälfte des Schirmes</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="289"/>
+        <location filename="../_StyleDefinitions.cpp" line="290"/>
         <source>Right high quarter of the screen</source>
         <translation>Rechtes/Oberes Viertel des Schirmes</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="290"/>
+        <location filename="../_StyleDefinitions.cpp" line="291"/>
         <source>Right low quarter of the screen</source>
         <translation>Rechtes/Unteres Viertel des Schirmes</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="291"/>
+        <location filename="../_StyleDefinitions.cpp" line="292"/>
         <source>TV margins</source>
         <translation>TV Seitenränder</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="292"/>
+        <location filename="../_StyleDefinitions.cpp" line="293"/>
         <source>50% screen size-Centered</source>
         <translation>50% der Größe des Schirmes - Zentriert</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="378"/>
-        <location filename="../_StyleDefinitions.cpp" line="444"/>
-        <location filename="../_StyleDefinitions.cpp" line="450"/>
-        <source>Create new style</source>
-        <translation>Neuer Style</translation>
-    </message>
-    <message>
         <location filename="../_StyleDefinitions.cpp" line="379"/>
-        <source>Manage existing style</source>
-        <translation>Verwalten vorhandener Styles</translation>
+        <location filename="../_StyleDefinitions.cpp" line="445"/>
+        <location filename="../_StyleDefinitions.cpp" line="451"/>
+        <source>Create new style</source>
+        <translation>Neuer Stil</translation>
     </message>
     <message>
         <location filename="../_StyleDefinitions.cpp" line="380"/>
+        <source>Manage existing style</source>
+        <translation>Verwalten vorhandener Stiles</translation>
+    </message>
+    <message>
+        <location filename="../_StyleDefinitions.cpp" line="381"/>
         <source>Update existing style</source>
-        <translation>Aktualisieren vorhandener Styles</translation>
+        <translation>Aktualisieren vorhandener Stiles</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="397"/>
-        <location filename="../_StyleDefinitions.cpp" line="415"/>
+        <location filename="../_StyleDefinitions.cpp" line="398"/>
+        <location filename="../_StyleDefinitions.cpp" line="416"/>
         <source>Update style</source>
-        <translation>Aktualisieren des Style</translation>
+        <translation>Aktualisieren des Stiles</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="444"/>
+        <location filename="../_StyleDefinitions.cpp" line="445"/>
         <source>Style name:</source>
-        <translation>Name des Style:</translation>
+        <translation>Name des Stiles:</translation>
     </message>
     <message>
-        <location filename="../_StyleDefinitions.cpp" line="451"/>
+        <location filename="../_StyleDefinitions.cpp" line="452"/>
         <source>A style with this name already exist.
 Do you want to overwrite-it ?</source>
-        <translation>Ein Style mit diesem Namen ist schon vorhanden.
+        <translation>Ein Stil mit diesem Namen ist schon vorhanden.
 Möchten Sie diesen überschreiben ?</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.cpp" line="163"/>
         <source>New style name:</source>
-        <translation>Neuer Name des Style:</translation>
+        <translation>Neuer Name des Stil:</translation>
     </message>
     <message>
         <location filename="../DlgManageStyle.cpp" line="170"/>
         <source>A style with this name already exist.
 Please select another name!</source>
-        <translation>Ein Style mit diesem Namen ist schon vorhanden.
+        <translation>Ein Stil mit diesem Namen ist schon vorhanden.
 Bitte wählen Sie einen anderen Namen!</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="420"/>
-        <location filename="../_StyleDefinitions.cpp" line="324"/>
-        <location filename="../_StyleDefinitions.cpp" line="345"/>
+        <location filename="../_StyleDefinitions.cpp" line="325"/>
+        <location filename="../_StyleDefinitions.cpp" line="346"/>
         <source>Adjust to image width</source>
         <translation>Ausrichten auf Bildbreite</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="421"/>
-        <location filename="../_StyleDefinitions.cpp" line="325"/>
-        <location filename="../_StyleDefinitions.cpp" line="346"/>
+        <location filename="../_StyleDefinitions.cpp" line="326"/>
+        <location filename="../_StyleDefinitions.cpp" line="347"/>
         <source>Adjust to image height</source>
         <translation>Ausrichten auf Bildhöhe</translation>
     </message>
     <message>
         <location filename="../DlgSlideProperties.cpp" line="422"/>
-        <location filename="../_StyleDefinitions.cpp" line="326"/>
-        <location filename="../_StyleDefinitions.cpp" line="347"/>
+        <location filename="../_StyleDefinitions.cpp" line="327"/>
+        <location filename="../_StyleDefinitions.cpp" line="348"/>
         <source>Adjust to full image</source>
         <translation>Ausrichten auf Vollbild</translation>
     </message>
@@ -1717,8 +1717,8 @@ Bitte wählen Sie einen anderen Namen!</translation>
         <location filename="../DlgSlideProperties.cpp" line="401"/>
         <location filename="../DlgSlideProperties.cpp" line="403"/>
         <location filename="../DlgSlideProperties.cpp" line="423"/>
-        <location filename="../_StyleDefinitions.cpp" line="327"/>
-        <location filename="../_StyleDefinitions.cpp" line="348"/>
+        <location filename="../_StyleDefinitions.cpp" line="328"/>
+        <location filename="../_StyleDefinitions.cpp" line="349"/>
         <source>Custom</source>
         <translation>Eigener</translation>
     </message>
@@ -2208,19 +2208,19 @@ Möchten Sie diese überschreiben ?</translation>
         <location filename="../DlgRenderVideo.cpp" line="628"/>
         <location filename="../DlgRenderVideo.cpp" line="777"/>
         <location filename="../DlgRenderVideo.cpp" line="796"/>
-        <location filename="../DlgRenderVideo.cpp" line="971"/>
-        <location filename="../DlgRenderVideo.cpp" line="1008"/>
-        <location filename="../DlgRenderVideo.cpp" line="1017"/>
+        <location filename="../DlgRenderVideo.cpp" line="982"/>
+        <location filename="../DlgRenderVideo.cpp" line="1019"/>
         <location filename="../DlgRenderVideo.cpp" line="1028"/>
         <location filename="../DlgRenderVideo.cpp" line="1039"/>
-        <location filename="../DlgRenderVideo.cpp" line="1051"/>
-        <location filename="../DlgRenderVideo.cpp" line="1073"/>
-        <location filename="../DlgRenderVideo.cpp" line="1098"/>
-        <location filename="../DlgRenderVideo.cpp" line="1107"/>
-        <location filename="../DlgRenderVideo.cpp" line="1120"/>
-        <location filename="../DlgRenderVideo.cpp" line="1226"/>
-        <location filename="../DlgRenderVideo.cpp" line="1230"/>
-        <location filename="../DlgRenderVideo.cpp" line="1254"/>
+        <location filename="../DlgRenderVideo.cpp" line="1050"/>
+        <location filename="../DlgRenderVideo.cpp" line="1062"/>
+        <location filename="../DlgRenderVideo.cpp" line="1084"/>
+        <location filename="../DlgRenderVideo.cpp" line="1109"/>
+        <location filename="../DlgRenderVideo.cpp" line="1118"/>
+        <location filename="../DlgRenderVideo.cpp" line="1131"/>
+        <location filename="../DlgRenderVideo.cpp" line="1237"/>
+        <location filename="../DlgRenderVideo.cpp" line="1241"/>
+        <location filename="../DlgRenderVideo.cpp" line="1265"/>
         <source>Render video</source>
         <translation>Video erzeugen</translation>
     </message>
@@ -2235,147 +2235,147 @@ Möchten Sie diese überschreiben ?</translation>
         <translation>starten des ffmpeg Encoders</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="849"/>
-        <location filename="../DlgRenderVideo.cpp" line="915"/>
-        <location filename="../DlgRenderVideo.cpp" line="922"/>
-        <location filename="../DlgRenderVideo.cpp" line="959"/>
-        <location filename="../DlgRenderVideo.cpp" line="963"/>
+        <location filename="../DlgRenderVideo.cpp" line="857"/>
+        <location filename="../DlgRenderVideo.cpp" line="923"/>
+        <location filename="../DlgRenderVideo.cpp" line="930"/>
+        <location filename="../DlgRenderVideo.cpp" line="967"/>
+        <location filename="../DlgRenderVideo.cpp" line="971"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="850"/>
+        <location filename="../DlgRenderVideo.cpp" line="858"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Fehler beim starten von ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="885"/>
+        <location filename="../DlgRenderVideo.cpp" line="893"/>
         <source> - Estimated time left : </source>
         <translation> - noch benötigte Zeit :</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="915"/>
+        <location filename="../DlgRenderVideo.cpp" line="923"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation>Fehler beim senden des Bildes zu ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="922"/>
+        <location filename="../DlgRenderVideo.cpp" line="930"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation>ffmpeg Fehler</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="944"/>
+        <location filename="../DlgRenderVideo.cpp" line="952"/>
         <source>Closing encoder</source>
         <translation>Encoder schliessen</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="959"/>
+        <location filename="../DlgRenderVideo.cpp" line="967"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation>Fehler während des ffmpeg Prozesses</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="963"/>
+        <location filename="../DlgRenderVideo.cpp" line="971"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Fehler beim beenden von ffmpeg</translation>
     </message>
     <message>
-        <location filename="../DlgRenderVideo.cpp" line="971"/>
+        <location filename="../DlgRenderVideo.cpp" line="982"/>
         <source>Job completed succesfully!</source>
         <translation>Auftrag vollständig ausgeführt!</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="688"/>
+        <location filename="../mainwindow.cpp" line="84"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
         <translation>Erweitert</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="689"/>
-        <location filename="../_ApplicationDefinitions.cpp" line="693"/>
+        <location filename="../mainwindow.cpp" line="85"/>
+        <location filename="../mainwindow.cpp" line="88"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
         <translation>Smartphone</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="690"/>
+        <location filename="../mainwindow.cpp" line="86"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
         <translation>Multimediasystem</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="691"/>
+        <location filename="../mainwindow.cpp" line="87"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
         <translation>Für das Web</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="694"/>
+        <location filename="../mainwindow.cpp" line="89"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
         <translation>Portable Player</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="695"/>
+        <location filename="../mainwindow.cpp" line="90"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
         <translation>Netbook/NetPC</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="696"/>
+        <location filename="../mainwindow.cpp" line="91"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
         <translation>Handheld Spielkonsole</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="697"/>
+        <location filename="../mainwindow.cpp" line="92"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
         <translation>Tablet Computer</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="698"/>
+        <location filename="../mainwindow.cpp" line="93"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
         <translation>Multimediaharddisk</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="699"/>
+        <location filename="../mainwindow.cpp" line="94"/>
         <source>Player</source>
         <comment>Device database type</comment>
         <translation>Player</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="700"/>
+        <location filename="../mainwindow.cpp" line="95"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
         <translation>ADSL Box</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="701"/>
+        <location filename="../mainwindow.cpp" line="96"/>
         <source>Game console</source>
         <comment>Device database type</comment>
         <translation>Spielkonsole</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="702"/>
+        <location filename="../mainwindow.cpp" line="97"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
         <translation>SWF Flash Player</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="703"/>
+        <location filename="../mainwindow.cpp" line="98"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
         <translation>Videosharing und soziale Plattformen</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="704"/>
+        <location filename="../mainwindow.cpp" line="99"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>
@@ -2886,7 +2886,7 @@ Möchten Sie diese überschreiben ?</translation>
     <message>
         <location filename="../DlgImageCorrection.cpp" line="488"/>
         <source>No style for nonstandard geometry image</source>
-        <translation>Keinen Style für standardabweichende Bilder</translation>
+        <translation>Keinen Stil für standardabweichende Bilder</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.cpp" line="552"/>
@@ -3830,22 +3830,22 @@ und Hilfe</translation>
         <translation>Ändern des Einstiegsüberganges für diesen Slide</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="594"/>
+        <location filename="../SubProjects/VariousClass/cBaseApplicationConfig.cpp" line="128"/>
         <source>All suported file (</source>
         <translation>Unterstützte Dateien (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="601"/>
+        <location filename="../SubProjects/VariousClass/cBaseApplicationConfig.cpp" line="135"/>
         <source>Image file (</source>
         <translation>Bilddateien (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="607"/>
+        <location filename="../SubProjects/VariousClass/cBaseApplicationConfig.cpp" line="141"/>
         <source>Video file (</source>
         <translation>Videodateien (</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="613"/>
+        <location filename="../SubProjects/VariousClass/cBaseApplicationConfig.cpp" line="147"/>
         <source>Music file (</source>
         <translation>Musikdateien (</translation>
     </message>
@@ -3858,31 +3858,31 @@ und Hilfe</translation>
         <location filename="../_Diaporama.cpp" line="1417"/>
         <location filename="../_Diaporama.cpp" line="1424"/>
         <location filename="../_Diaporama.cpp" line="1433"/>
-        <location filename="../mainwindow.cpp" line="1398"/>
+        <location filename="../mainwindow.cpp" line="1570"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Fehlermeldung</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="743"/>
+        <location filename="../SubProjects/VariousClass/cBaseApplicationConfig.cpp" line="346"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Fehler beim lesen der Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="748"/>
+        <location filename="../SubProjects/VariousClass/cBaseApplicationConfig.cpp" line="351"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Fehler beim lesen des Inhaltes der Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="754"/>
+        <location filename="../SubProjects/VariousClass/cBaseApplicationConfig.cpp" line="357"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Diese Datei ist keine gültige Konfigurationsdatei </translation>
     </message>
     <message>
-        <location filename="../_ApplicationDefinitions.cpp" line="1084"/>
+        <location filename="../SubProjects/VariousClass/cBaseApplicationConfig.cpp" line="324"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translation>Fehler beim erstellen der Konfigurationsdatei</translation>
@@ -3894,8 +3894,8 @@ und Hilfe</translation>
         <translation>Titel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1093"/>
-        <location filename="../mainwindow.cpp" line="1129"/>
+        <location filename="../mainwindow.cpp" line="1247"/>
+        <location filename="../mainwindow.cpp" line="1289"/>
         <source>Saving project file ...</source>
         <translation>Speichern Projektdatei ...</translation>
     </message>
@@ -3913,21 +3913,21 @@ und Hilfe</translation>
     </message>
     <message>
         <location filename="../_Diaporama.cpp" line="1333"/>
-        <location filename="../_ImageFileWrapper.cpp" line="170"/>
+        <location filename="../_ImageFileWrapper.cpp" line="177"/>
         <location filename="../_VideoFileWrapper.cpp" line="683"/>
         <source>Impossible to open file </source>
         <translation>Öffnen der Datei nicht möglich </translation>
     </message>
     <message>
         <location filename="../_Diaporama.cpp" line="1333"/>
-        <location filename="../_ImageFileWrapper.cpp" line="170"/>
+        <location filename="../_ImageFileWrapper.cpp" line="177"/>
         <location filename="../_VideoFileWrapper.cpp" line="683"/>
         <source>Do you want to select another file ?</source>
         <translation>Möchten Sie eine andere Datei auswählen ?</translation>
     </message>
     <message>
         <location filename="../_Diaporama.cpp" line="1336"/>
-        <location filename="../_ImageFileWrapper.cpp" line="174"/>
+        <location filename="../_ImageFileWrapper.cpp" line="181"/>
         <location filename="../_VideoFileWrapper.cpp" line="688"/>
         <source>Select another file for </source>
         <translation>Andere Datei wählen für</translation>
@@ -3968,7 +3968,7 @@ Image geometry in this file is not the same than the current project</source>
 Bildgeometrie des Bildes entspricht nicht der des aktuellen Projektes</translation>
     </message>
     <message>
-        <location filename="../_ImageFileWrapper.cpp" line="169"/>
+        <location filename="../_ImageFileWrapper.cpp" line="176"/>
         <source>Open image file</source>
         <translation>Öffnen Bilddatei</translation>
     </message>
@@ -3978,17 +3978,17 @@ Bildgeometrie des Bildes entspricht nicht der des aktuellen Projektes</translati
         <translation>Analysieren der Datei mit EXIV2 :</translation>
     </message>
     <message>
-        <location filename="../_cLuLoImageCache.cpp" line="65"/>
-        <location filename="../_cLuLoImageCache.cpp" line="105"/>
+        <location filename="../SubProjects/VariousClass/cLuLoImageCache.cpp" line="62"/>
+        <location filename="../SubProjects/VariousClass/cLuLoImageCache.cpp" line="102"/>
         <source>Loading file :</source>
         <translation>Laden der Datei :</translation>
     </message>
     <message>
-        <location filename="../_ImagesDefinitions.cpp" line="89"/>
-        <location filename="../_ImagesDefinitions.cpp" line="93"/>
-        <location filename="../_ImagesDefinitions.cpp" line="97"/>
-        <location filename="../_ImagesDefinitions.cpp" line="101"/>
-        <location filename="../_ImagesDefinitions.cpp" line="105"/>
+        <location filename="../SubProjects/VariousClass/cFilterTransformObject.cpp" line="48"/>
+        <location filename="../SubProjects/VariousClass/cFilterTransformObject.cpp" line="52"/>
+        <location filename="../SubProjects/VariousClass/cFilterTransformObject.cpp" line="56"/>
+        <location filename="../SubProjects/VariousClass/cFilterTransformObject.cpp" line="60"/>
+        <location filename="../SubProjects/VariousClass/cFilterTransformObject.cpp" line="64"/>
         <source>Applying transformation filter</source>
         <translation>Anwenden des Transformationsfilters </translation>
     </message>
@@ -3998,208 +3998,208 @@ Bildgeometrie des Bildes entspricht nicht der des aktuellen Projektes</translati
         <translation>Öffnen Videodatei</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="73"/>
+        <location filename="../mainwindow.cpp" line="115"/>
         <source>Starting SDL...</source>
         <translation>Starten SDL...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="78"/>
+        <location filename="../mainwindow.cpp" line="120"/>
         <source>Starting ffmpeg...</source>
         <translation>Starten ffmpeg...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="155"/>
+        <location filename="../mainwindow.cpp" line="197"/>
         <source>Registered video codecs for encoding :</source>
         <translation>Registrieren der Videocodes :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="157"/>
+        <location filename="../mainwindow.cpp" line="199"/>
         <source>Registered audio codecs for encoding :</source>
         <translation>Registrieren der Audiocodecs :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="159"/>
+        <location filename="../mainwindow.cpp" line="201"/>
         <source>Registered container formats for encoding :</source>
         <translation>Registrieren Containerformate :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="161"/>
+        <location filename="../mainwindow.cpp" line="203"/>
         <source> Device registered for rendering</source>
         <translation>Gerät für Umwandlung registriert</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="163"/>
+        <location filename="../mainwindow.cpp" line="205"/>
         <source>Library :</source>
         <translation>Bibliothek :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="165"/>
+        <location filename="../mainwindow.cpp" line="207"/>
         <source>Loading background library...</source>
         <translation>Laden der Bibliothek für die Hintergründe...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="166"/>
+        <location filename="../mainwindow.cpp" line="208"/>
         <source> images loaded into the background-library from </source>
         <translation>Bilder in die Hintergrundbibliothek geladen von </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="167"/>
+        <location filename="../mainwindow.cpp" line="209"/>
         <source>Loading no-luma transitions...</source>
         <translation>Laden der einfachen Überblendungen... </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="172"/>
+        <location filename="../mainwindow.cpp" line="214"/>
         <source> no-luma transitions loaded into the transition-library</source>
         <translation>Einfache Überblendungen sind geladen in die Bibliothek der Überblendungen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="173"/>
+        <location filename="../mainwindow.cpp" line="215"/>
         <source>Loading luma transitions...</source>
         <translation>Laden der Luma-Überblendungen...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="174"/>
-        <location filename="../mainwindow.cpp" line="175"/>
-        <location filename="../mainwindow.cpp" line="176"/>
-        <location filename="../mainwindow.cpp" line="177"/>
-        <location filename="../mainwindow.cpp" line="178"/>
-        <location filename="../mainwindow.cpp" line="179"/>
+        <location filename="../mainwindow.cpp" line="216"/>
+        <location filename="../mainwindow.cpp" line="217"/>
+        <location filename="../mainwindow.cpp" line="218"/>
+        <location filename="../mainwindow.cpp" line="219"/>
+        <location filename="../mainwindow.cpp" line="220"/>
+        <location filename="../mainwindow.cpp" line="221"/>
         <source> luma transitions loaded into the transition-library from </source>
         <translation>Luma-Überblendungen wurden in die Bibliothek der Überblendungen geladen von</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="180"/>
+        <location filename="../mainwindow.cpp" line="222"/>
         <source>  Total:</source>
         <translation>  Total:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="180"/>
+        <location filename="../mainwindow.cpp" line="222"/>
         <source> transitions loaded into the transition-library</source>
         <translation>Überblendungen in die Bibliothek geladen </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="257"/>
-        <location filename="../mainwindow.cpp" line="491"/>
+        <location filename="../mainwindow.cpp" line="303"/>
+        <location filename="../mainwindow.cpp" line="559"/>
         <source>Slide : </source>
         <translation>Dia: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="374"/>
+        <location filename="../mainwindow.cpp" line="438"/>
         <source>Close application</source>
         <translation>Beenden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="374"/>
+        <location filename="../mainwindow.cpp" line="438"/>
         <source>Want to save the project before closing?</source>
         <translation>Möchten Sie die Änderungen des Projekt vorher speichern?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="435"/>
+        <location filename="../mainwindow.cpp" line="497"/>
         <source>A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
         <translation>Eine neue Version von ffDiaporama ist auf der Homepage verfügbar. Bitte das Update von http://ffdiaporama.tuxfamily.org einspielen !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="518"/>
+        <location filename="../mainwindow.cpp" line="595"/>
         <source>Configuration not correct!</source>
         <translation>Konfiguration ist nicht korrekt!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="818"/>
+        <location filename="../mainwindow.cpp" line="936"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;1567&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Öffnen Sie ein bestehendes Projekt oder erstellen Sie ein neues Projekt&lt;br&gt;Um mehr über ffDiaporama zu erfahren:&lt;br&gt;&lt;a href=&quot;1567&quot;&gt;Besuchen Sie die WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="821"/>
+        <location filename="../mainwindow.cpp" line="939"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;1306&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Fügen Sie leere Slides bzw. Slides basierend auf Fotos oder Videos&lt;br&gt;Um herauszufinden wie Sie Ihre Diashow gestalten/animieren können:&lt;br&gt;&lt;a href=&quot;1306&quot;&gt;Hier erfahren Sie mehr über die Grundfunktionen von ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="824"/>
+        <location filename="../mainwindow.cpp" line="942"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;1322&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Wählen Sie das Zielgerät für das Sie Ihre Diashow erstellen wollen&lt;br&gt;Um zu erfahren wie Sie Ihre Diashow erstellen könnten:&lt;br&gt;&lt;a href=&quot;1322&quot;&gt;Besuchen Sie das Thema &quot;rendering videos&quot; der WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="827"/>
+        <location filename="../mainwindow.cpp" line="945"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Besuchen Sie das Forum von ffDiaporama auf unserer Webseite.&lt;br&gt;Dort finden Sie weitere Informationen und Neuigkeiten rund um ffDiaporama:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="915"/>
+        <location filename="../mainwindow.cpp" line="1048"/>
         <source>Saving configuration file and applying new configuration ...</source>
         <translation>Speichern und Anwenden der neuen Konfiguration ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="946"/>
-        <location filename="../mainwindow.cpp" line="1013"/>
+        <location filename="../mainwindow.cpp" line="1085"/>
+        <location filename="../mainwindow.cpp" line="1158"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>Aktuelles Projekt wurde geändert
 Möchten Sie es speichern ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="499"/>
+        <location filename="../mainwindow.cpp" line="570"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation>&lt;Neues Projekt&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="946"/>
+        <location filename="../mainwindow.cpp" line="1085"/>
         <source>New project</source>
         <translation>Projekt neu anlegen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1013"/>
-        <location filename="../mainwindow.cpp" line="1016"/>
+        <location filename="../mainwindow.cpp" line="1158"/>
+        <location filename="../mainwindow.cpp" line="1161"/>
         <source>Open project</source>
         <translation>Projekt öffnen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="997"/>
-        <location filename="../mainwindow.cpp" line="1018"/>
-        <location filename="../mainwindow.cpp" line="1025"/>
+        <location filename="../mainwindow.cpp" line="1139"/>
+        <location filename="../mainwindow.cpp" line="1163"/>
+        <location filename="../mainwindow.cpp" line="1173"/>
         <source>Open file :</source>
         <translation>Datei öffnen: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1118"/>
+        <location filename="../mainwindow.cpp" line="1278"/>
         <source>Save project as</source>
         <translation>Projekt sichern als</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1194"/>
+        <location filename="../mainwindow.cpp" line="1360"/>
         <source>Add files</source>
         <translation>Dateien hinzufügen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1398"/>
+        <location filename="../mainwindow.cpp" line="1570"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Format nicht unterstützt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1429"/>
+        <location filename="../mainwindow.cpp" line="1604"/>
         <source>Add a sub project</source>
         <translation>Hinzufügen eines Unterprojektes</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1431"/>
+        <location filename="../mainwindow.cpp" line="1606"/>
         <source>Add project file :</source>
         <translation>Hinzufügen Projektdatei :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1476"/>
+        <location filename="../mainwindow.cpp" line="1660"/>
         <source>Remove slide</source>
         <translation>Dia löschen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1476"/>
+        <location filename="../mainwindow.cpp" line="1660"/>
         <source>Are you sure to want to delete this slide?</source>
         <translation>Sicher dass Sie dieses Dia löschen wollen ?</translation>
     </message>
     <message>
         <location filename="../cCustomTableWidget.cpp" line="70"/>
-        <location filename="../mainwindow.cpp" line="1233"/>
-        <location filename="../mainwindow.cpp" line="1410"/>
+        <location filename="../mainwindow.cpp" line="1399"/>
+        <location filename="../mainwindow.cpp" line="1582"/>
         <source>Add file to project :</source>
         <translation>Datei zum Projekt hinzufügen:</translation>
     </message>
@@ -4207,34 +4207,34 @@ Möchten Sie es speichern ?</translation>
 <context>
     <name>wgt_QImageFilterTransform</name>
     <message>
-        <location filename="../cCustomComboBox.cpp" line="516"/>
-        <location filename="../cCustomComboBox.cpp" line="564"/>
-        <location filename="../cCustomComboBox.cpp" line="585"/>
-        <location filename="../cCustomComboBox.cpp" line="605"/>
-        <source>Gray</source>
-        <translation>Grau</translation>
-    </message>
-    <message>
         <location filename="../cCustomComboBox.cpp" line="517"/>
         <location filename="../cCustomComboBox.cpp" line="565"/>
         <location filename="../cCustomComboBox.cpp" line="586"/>
         <location filename="../cCustomComboBox.cpp" line="606"/>
-        <source>Equalize</source>
-        <translation>Angleichen</translation>
+        <source>Gray</source>
+        <translation>Grau</translation>
     </message>
     <message>
         <location filename="../cCustomComboBox.cpp" line="518"/>
         <location filename="../cCustomComboBox.cpp" line="566"/>
         <location filename="../cCustomComboBox.cpp" line="587"/>
         <location filename="../cCustomComboBox.cpp" line="607"/>
-        <source>Despeckle</source>
-        <translation>Flecken entfernen</translation>
+        <source>Equalize</source>
+        <translation>Angleichen</translation>
     </message>
     <message>
         <location filename="../cCustomComboBox.cpp" line="519"/>
         <location filename="../cCustomComboBox.cpp" line="567"/>
         <location filename="../cCustomComboBox.cpp" line="588"/>
         <location filename="../cCustomComboBox.cpp" line="608"/>
+        <source>Despeckle</source>
+        <translation>Flecken entfernen</translation>
+    </message>
+    <message>
+        <location filename="../cCustomComboBox.cpp" line="520"/>
+        <location filename="../cCustomComboBox.cpp" line="568"/>
+        <location filename="../cCustomComboBox.cpp" line="589"/>
+        <location filename="../cCustomComboBox.cpp" line="609"/>
         <source>No transformation</source>
         <translation>Keine Transformation</translation>
     </message>

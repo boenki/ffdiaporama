@@ -45,7 +45,9 @@ DlgApplicationSettings::DlgApplicationSettings(cApplicationConfig &TheApplicatio
     // Application options
     ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
     ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
+    #endif
     ui->SDLAudioModeCB->setChecked(ApplicationConfig->SDLAudioOldMode);
 
     if (ApplicationConfig->MemCacheMaxValue<=qlonglong(128*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(0);
@@ -317,7 +319,9 @@ void DlgApplicationSettings::accept() {
     ApplicationConfig->RememberLastDirectories  =ui->RememberLastDirectoriesCH->isChecked();
     ApplicationConfig->RestoreWindow            =ui->RestoreWindowCH->isChecked();
     ApplicationConfig->SDLAudioOldMode          =ui->SDLAudioModeCB->isChecked();
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     ApplicationConfig->RasterMode               =ui->RasterModeCB->isChecked();
+    #endif
 
     // Preview Options part
     ApplicationConfig->ApplyTransfoPreview      =ui->ApplyTransfoDuringPreviewCB->isChecked();

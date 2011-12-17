@@ -52,8 +52,11 @@ bool CheckExiv2(QString &StatusStr) {
     if (ExifOK) {
         QString Info=QString().fromLocal8Bit(Process.readAllStandardOutput());
         StatusStr=Info.left(Info.indexOf("\n"));
-        if (StatusStr.indexOf("\a")>0) StatusStr=StatusStr.left(StatusStr.indexOf("\a"));
+        if (StatusStr.indexOf(QString(char(13)))>0) StatusStr=StatusStr.left(StatusStr.indexOf(QString(char(13))));
     } else StatusStr=QApplication::translate("DlgCheckConfig","Exiv2 not found - critical - application will stop !");
+
+    Process.terminate();
+    Process.close();
 
     return ExifOK;
 }
@@ -88,7 +91,11 @@ bool Checkffmpeg(QString &StatusStr) {
     if (ffmpegOK) {
         QString Info=QString().fromLocal8Bit(Process.readAllStandardOutput());
         StatusStr=Info.left(Info.indexOf("\n"));
+        if (StatusStr.indexOf(QString(char(13)))>0) StatusStr=StatusStr.left(StatusStr.indexOf(QString(char(13))));
     } else StatusStr=QApplication::translate("DlgCheckConfig","ffmpeg not found - critical - application will stop !");
+
+    Process.terminate();
+    Process.close();
 
     return ffmpegOK;
 }
