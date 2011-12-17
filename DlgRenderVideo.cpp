@@ -975,6 +975,9 @@ void DlgRenderVideo::accept() {
 
         QFile::remove(TempWAVFileName);
 
+        Process.terminate();
+        Process.close();
+
         // Inform user of success
         if (Continue) QMessageBox::information(this,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed succesfully!"));
 
@@ -1027,7 +1030,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
         } else {
             memcpy(OutputFormatContext->filename,TempWAVFileName.toUtf8(),strlen(TempWAVFileName.toUtf8())+1);
             OutputFormatContext->oformat  =Fmt;
-            OutputFormatContext->timestamp=0;
+            //OutputFormatContext->timestamp=0;
             OutputFormatContext->bit_rate =1536;
             #if FF_API_FORMAT_PARAMETERS
             #else
@@ -1077,7 +1080,11 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             AudioCodecContext->flags               |= CODEC_FLAG_GLOBAL_HEADER;
 
             // open the codec
+            #ifndef FF_API_AVCODEC_OPEN
             if (avcodec_open(AudioCodecContext,AudioCodec)<0) {
+            #else
+            if (avcodec_open2(AudioCodecContext,AudioCodec,NULL)<0) {
+            #endif
                 QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"could not open audio codec!");
                 av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
                 Continue=false;
