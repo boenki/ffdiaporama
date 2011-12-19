@@ -139,9 +139,9 @@ extern "C" {
 // Global defines
 //============================================
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "1.1"
-#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Stable/BUILDVERSION.txt"
-//#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Devel/BUILDVERSION.txt"
+#define APPLICATION_VERSION                 "1.2 devel"
+//#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Stable/BUILDVERSION.txt"
+#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Devel/BUILDVERSION.txt"
 
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file

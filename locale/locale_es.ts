@@ -1183,7 +1183,7 @@ no estándar</translation>
     <message>
         <location filename="../DlgImageCorrection.ui" line="26"/>
         <source>Image framing and correction</source>
-        <translation>Enmarcar y corregir  imagen</translation>
+        <translation>Encuadrar y corregir  imagen</translation>
     </message>
     <message>
         <location filename="../DlgImageCorrection.ui" line="107"/>

@@ -364,6 +364,36 @@ bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName,bo
 
 //====================================================================================================================
 
+cSaveDlgSlideProperties::cSaveDlgSlideProperties(QString WindowName,bool &RestoreWindow,bool IsMainWindow):cSaveWindowPosition(WindowName,RestoreWindow,IsMainWindow) {
+    SplitterTop="";
+    SplitterBottom="";
+}
+
+void cSaveDlgSlideProperties::ApplyToWindow(QWidget *Window,QSplitter *Top,QSplitter *Bottom) {
+    cSaveWindowPosition::ApplyToWindow(Window);
+    if (SplitterTop!="")    Top->restoreState(QByteArray::fromHex(SplitterTop.toUtf8()));
+    if (SplitterBottom!="") Bottom->restoreState(QByteArray::fromHex(SplitterBottom.toUtf8()));
+}
+
+void cSaveDlgSlideProperties::SaveWindowState(QWidget *Window,QSplitter *Top,QSplitter *Bottom) {
+    cSaveWindowPosition::SaveWindowState(Window);
+    SplitterTop   =QString(QByteArray(Top->saveState()).toHex());
+    SplitterBottom=QString(QByteArray(Bottom->saveState()).toHex());
+}
+
+void cSaveDlgSlideProperties::OverloadedSaveToXML(QDomElement &Element) {
+    Element.setAttribute("SplitterTop",SplitterTop);
+    Element.setAttribute("SplitterBottom",SplitterBottom);
+}
+
+void cSaveDlgSlideProperties::OverloadedLoadFromXML(QDomElement Element) {
+    if (Element.hasAttribute("SplitterTop"))    SplitterTop=Element.attribute("SplitterTop");
+    if (Element.hasAttribute("SplitterBottom")) SplitterBottom=Element.attribute("SplitterBottom");
+}
+
+
+//====================================================================================================================
+
 cApplicationConfig::cApplicationConfig():cBaseApplicationConfig(APPLICATION_NAME,APPLICATION_NAME,APPLICATION_VERSION,CONFIGFILEEXT,CONFIGFILE_ROOTNAME) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cApplicationConfig::cApplicationConfig";
@@ -474,18 +504,19 @@ void cApplicationConfig::InitValues() {
         PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
     #endif
 
-    DlgBackgroundPropertiesWSP  =new cSaveWindowPosition("DlgBackgroundProperties",RestoreWindow,false);    // Dialog box "Background properties" - Window size and position
-    DlgMusicPropertiesWSP       =new cSaveWindowPosition("DlgMusicProperties",RestoreWindow,false);         // Dialog box "Music properties" - Window size and position
-    DlgApplicationSettingsWSP   =new cSaveWindowPosition("DlgApplicationSettings",RestoreWindow,false);     // Dialog box "Application settings" - Window size and position
-    DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);          // Dialog box "Render Video" - Window size and position
-    DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false); // Dialog box "Transition properties" - Window size and position
-    DlgSlidePropertiesWSP       =new cSaveWindowPosition("DlgSlidePropertiesWSP",RestoreWindow,false);      // Dialog box "Slide properties" - Window size and position
-    DlgImageTransformationWSP   =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);  // Dialog box "Image transformation" - Window size and position
-    DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
-    DlgVideoEditWSP             =new cSaveWindowPosition("DlgVideoEditWSP",RestoreWindow,false);            // Dialog box "Edit video" - Window size and position
-    DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
-    DlgManageStyleWSP           =new cSaveWindowPosition("DlgManageStyleWSP",RestoreWindow,false);          // Dialog box "Manage style" - Window size and position
-    DlgCheckConfigWSP           =new cSaveWindowPosition("DlgCheckConfigWSP",RestoreWindow,false);          // Dialog box "Check configuration" - Window size and position
+    DlgBackgroundPropertiesWSP      =new cSaveWindowPosition("DlgBackgroundProperties",RestoreWindow,false);    // Dialog box "Background properties" - Window size and position
+    DlgMusicPropertiesWSP           =new cSaveWindowPosition("DlgMusicProperties",RestoreWindow,false);         // Dialog box "Music properties" - Window size and position
+    DlgApplicationSettingsWSP       =new cSaveWindowPosition("DlgApplicationSettings",RestoreWindow,false);     // Dialog box "Application settings" - Window size and position
+    DlgRenderVideoWSP               =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);          // Dialog box "Render Video" - Window size and position
+    DlgTransitionPropertiesWSP      =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false); // Dialog box "Transition properties" - Window size and position
+    DlgSlidePropertiesWSP           =new cSaveDlgSlideProperties("DlgSlidePropertiesWSP",RestoreWindow,false);  // Dialog box "Slide properties" - Window size and position
+    DlgImageTransformationWSP       =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);  // Dialog box "Image transformation" - Window size and position
+    DlgImageCorrectionWSP           =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
+    DlgVideoEditWSP                 =new cSaveWindowPosition("DlgVideoEditWSP",RestoreWindow,false);            // Dialog box "Edit video" - Window size and position
+    DlgTextEditWSP                  =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
+    DlgManageStyleWSP               =new cSaveWindowPosition("DlgManageStyleWSP",RestoreWindow,false);          // Dialog box "Manage style" - Window size and position
+    DlgCheckConfigWSP               =new cSaveWindowPosition("DlgCheckConfigWSP",RestoreWindow,false);          // Dialog box "Check configuration" - Window size and position
+
 
     // Default new text block options
     DefaultBlock_Text_TextST    ="###GLOBALSTYLE###:0";

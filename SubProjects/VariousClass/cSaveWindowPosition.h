@@ -40,10 +40,12 @@ public:
     QString     MainWinSS;      // Array for saveState (QMainWindow only)
 
     cSaveWindowPosition(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
-    void    ApplyToWindow(QWidget *Window);
-    void    SaveWindowState(QWidget *Window);
-    void    SaveToXML(QDomElement &domDocument);
-    void    LoadFromXML(QDomElement domDocument);
+    virtual void    ApplyToWindow(QWidget *Window);
+    virtual void    SaveWindowState(QWidget *Window);
+    virtual void    SaveToXML(QDomElement &domDocument);
+    virtual void    OverloadedSaveToXML(QDomElement &domDocument);
+    virtual void    LoadFromXML(QDomElement domDocument);
+    virtual void    OverloadedLoadFromXML(QDomElement domDocument);
 };
 
 #endif  // CSAVEWINDOWPOSITION_H
