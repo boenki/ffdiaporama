@@ -40,6 +40,11 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
 #endif
 
+    ui->SplitterTop->setCollapsible(0,false);
+    ui->SplitterTop->setCollapsible(1,false);
+    ui->SplitterBottom->setCollapsible(0,false);
+    ui->SplitterBottom->setCollapsible(1,true);
+
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
@@ -128,8 +133,6 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
         ui->WidthEd->setDecimals(0);            ui->WidthEd->setSingleStep(1);      ui->WidthEd->setSuffix("");
         ui->HeightEd->setDecimals(0);           ui->HeightEd->setSingleStep(1);     ui->HeightEd->setSuffix("");
     }
-
-    ui->BlockTabWidget->setCurrentIndex(0); // Ensure page 0
 
     // Define handler
     connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
@@ -249,7 +252,7 @@ void DlgSlideProperties::resizeEvent(QResizeEvent *) {
 //====================================================================================================================
 
 void DlgSlideProperties::SetSavedWindowGeometry() {
-    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->ApplyToWindow(this);
+    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->ApplyToWindow(this,ui->SplitterTop,ui->SplitterBottom);
 }
 
 //====================================================================================================================
@@ -265,8 +268,8 @@ void DlgSlideProperties::showEvent(QShowEvent *ev) {
 //====================================================================================================================
 
 void DlgSlideProperties::GetForDisplayUnit(double &DisplayW,double &DisplayH) {
-    if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_4_3)            { DisplayW=1440; DisplayH=1080; }
-    else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_16_9)      { DisplayW=1920; DisplayH=1080; }
+    if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_4_3)        { DisplayW=1440; DisplayH=1080; }
+    else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
     else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
 }
 
@@ -289,7 +292,7 @@ void DlgSlideProperties::s_ShotDurationChange(QTime NewValue) {
 
 void DlgSlideProperties::reject() {
     // Save Window size and position
-    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this);
+    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") {
         QStringList AliasList;
@@ -302,21 +305,21 @@ void DlgSlideProperties::reject() {
 
 void DlgSlideProperties::accept() {
     // Save Window size and position
-    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this);
+    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
     // Close the box
     done(0);
 }
 
 void DlgSlideProperties::OKPrevious() {
     // Save Window size and position
-    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this);
+    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
     // Close the box
     done(2);
 }
 
 void DlgSlideProperties::OKNext() {
     // Save Window size and position
-    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this);
+    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
     // Close the box
     done(3);
 }
@@ -956,9 +959,9 @@ void DlgSlideProperties::UpdateDockInfo() {
                     ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->AudioStreamNumber]->codec->channels)));
                 }
             }
-            ui->TableInfo->resizeColumnsToContents();
-            ui->TableInfo->resizeRowsToContents();
         }
+        ui->TableInfo->resizeColumnsToContents();
+        ui->TableInfo->resizeRowsToContents();
     }
 }
 

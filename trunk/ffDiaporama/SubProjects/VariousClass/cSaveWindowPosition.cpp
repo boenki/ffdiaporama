@@ -67,7 +67,14 @@ void cSaveWindowPosition::SaveToXML(QDomElement &domDocument) {
     QDomElement     Element=DomDocument.createElement(WindowName);
     Element.setAttribute("saveGeometry",WindowGeo);
     if (IsMainWindow) Element.setAttribute("saveState",MainWinSS);
+    OverloadedSaveToXML(Element);
     domDocument.appendChild(Element);
+}
+
+//***********************************************
+
+void cSaveWindowPosition::OverloadedSaveToXML(QDomElement &) {
+    // To be overloaded
 }
 
 //***********************************************
@@ -77,7 +84,13 @@ void cSaveWindowPosition::LoadFromXML(QDomElement domDocument) {
         QDomElement Element=domDocument.elementsByTagName(WindowName).item(0).toElement();
         if (Element.hasAttribute("saveGeometry"))               WindowGeo=Element.attribute("saveGeometry");
         if (IsMainWindow &&(Element.hasAttribute("saveState"))) MainWinSS=Element.attribute("saveState");
+        OverloadedLoadFromXML(Element);
     }
 }
 
+//***********************************************
+
+void cSaveWindowPosition::OverloadedLoadFromXML(QDomElement) {
+    // To be overloaded
+}
 

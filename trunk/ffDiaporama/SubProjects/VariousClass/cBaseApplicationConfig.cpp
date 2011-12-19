@@ -45,7 +45,7 @@ int getCpuCount() {
     #endif
     int cpuCount=1;
 
-#if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
+#if defined(Q_OS_WIN)
     SYSTEM_INFO    si;
     GetSystemInfo(&si);
     cpuCount = si.dwNumberOfProcessors;
@@ -77,6 +77,8 @@ QString AdjustDirForOS(QString Dir) {
     bool DoubleSlashBegin=Dir.startsWith("\\\\");
     Dir.replace("\\\\","\\");
     if (DoubleSlashBegin) Dir="\\"+Dir;
+    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    Dir.replace("\\","/");
     #endif
     return Dir;
 }

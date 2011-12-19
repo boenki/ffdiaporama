@@ -1238,16 +1238,12 @@ void MainWindow::s_action_Save() {
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_action_Save()));
-        return;
-    }
     ui->Action_Save_BT->setDown(false);
     ui->Action_Save_BT_2->setDown(false);
 
     if (Diaporama->ProjectFileName=="") s_action_SaveAs(); else {
         ToStatusBar(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
-        QTimer::singleShot(500,this,SLOT(s_DoSaveFile()));
+        s_DoSaveFile();
     }
 }
 
@@ -1270,10 +1266,6 @@ void MainWindow::s_action_SaveAs() {
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_action_SaveAs()));
-        return;
-    }
     ui->ActionSave_as_BT->setDown(false);
     ui->ActionSave_as_BT_2->setDown(false);
 
@@ -1289,7 +1281,7 @@ void MainWindow::s_action_SaveAs() {
         ApplicationConfig->RecentFile.append(Diaporama->ProjectFileName);
         while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
         ToStatusBar(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
-        QTimer::singleShot(500,this,SLOT(s_DoSaveFile()));
+        s_DoSaveFile();
     }
 }
 
