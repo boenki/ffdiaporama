@@ -27,6 +27,11 @@
 #include <QString>
 #include <QIcon>
 
+extern QString IconsPath;
+
+// Utility function
+QString GetTextSize(qlonglong Size);
+
 class cHardDriveDescriptor {
 public:
     QString     Path;
@@ -36,6 +41,7 @@ public:
     qlonglong   Avail;
     QIcon       IconDrive;
     QString     Device;         // Linux only : associated device path (/dev/...)
+    bool        IsReadOnly;
 
     cHardDriveDescriptor(QString Path,QString Alias);
 };
@@ -44,21 +50,25 @@ class QCustomFolderTree : public QTreeWidget {
 Q_OBJECT
 public:
     bool                            ShowHidden;                         // If true, hidden files will be show
+    bool                            ShowMntDrive;                       // Show drives under /mnt/ [Linux only]
     QList<cHardDriveDescriptor>     HardDrive;                          // Table of alias for drives
 
     explicit        QCustomFolderTree(QWidget *parent=0);
 
     // Public utility functions
-    virtual QString GetFolderPath(const QTreeWidgetItem *current,bool TreeMode);
-    virtual QString GetCurrentFolderPath();
-    virtual void    SetSelectItemByPath(QString Path);
-    virtual void    RefreshItemByPath(QString Path);
-    virtual void    CreateHardDriveList();
+    virtual QString                 GetFolderPath(const QTreeWidgetItem *current,bool TreeMode);
+    virtual QString                 GetCurrentFolderPath();
+    virtual void                    SetSelectItemByPath(QString Path);
+    virtual void                    RefreshItemByPath(QString Path,int Level=0);
+    virtual void                    CreateHardDriveList();
+    virtual QIcon                   GetIcon(QString FilePath);
+    virtual QString                 RealPathToTreePath(QString Path);
+    virtual cHardDriveDescriptor    *SearchRealDrive(QString Path);
 
 private:
     QTreeWidgetItem *CreateItem(QString Text,QString FilePath,QIcon Icon);
     bool            IsFolderHaveChild(QString Folder);
-    QIcon           GetIcon(QString FilePath,bool IsDrive);
+    bool            IsReadOnlyDrive(QString Folder);
 
 signals:
 

@@ -18,23 +18,22 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "_GlobalDefines.h"
+#include <QtGui/QApplication>
 #include "mainwindow.h"
-#include <QTranslator>
+#include <QString>
+#include <QDir>
 
 int main(int argc, char *argv[]) {
-    QApplication app(argc,argv);
+    QApplication app(argc, argv);
 
-    SetWorkingPath(argv,APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT);
+    SetWorkingPath(argv,APPLICATION_GROUPNAME,APPLICATION_NAME,CONFIGFILEEXT);
 
-    QString AutoLoad="";
     QString ForceLanguage="";
 
-    // Parse parameters to find ForceLanguage and AutoLoad
+    // Parse parameters
     for (int i=1;i<argc;i++) {
         QString Param=QString(argv[i]).toLower();
         if (Param.startsWith("-lang=")) ForceLanguage=Param.mid(QString("-lang=").length());
-        else AutoLoad=QString().fromLocal8Bit(argv[i]);
     }
 
     MainWindow w;
@@ -42,9 +41,5 @@ int main(int argc, char *argv[]) {
 
     if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
 
-    if (AutoLoad!="") {
-        w.FileForIO=AutoLoad;
-        w.s_DoOpenFileParam();
-    }
     return app.exec();
 }
