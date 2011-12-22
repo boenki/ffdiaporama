@@ -1,39 +1,50 @@
-#-------------------------------------------------
+#-------------------------------------------------------------
+# SYNTAXE IS :
+#   QMAKE INSTALL_ROOT=xxx ffDiaporama.pro
 #
-# Project created by QtCreator 2010-12-30T08:14:00
-#
-#-------------------------------------------------
+#   REMARKS :
+#       - On some systems, use QMAKE-QT4 instead of QMAKE
+#       - INSTALL_ROOT could only be one of this 3 values:
+#            /usr
+#            /usr/local
+#            /opt
+#       - if INSTALL_ROOT not defined, then use /usr
+#--------------------------------------------------------------
 
-QT          += core gui xml network
-CONFIG      += console
-QMAKE_STRIP = echo
-PREFIX      = /usr
+QT           += core gui xml network
+CONFIG       += console
+QMAKE_STRIP  = echo
+APPFOLDER    = ffDiaporama
+TARGET       = ffDiaporama
+TEMPLATE     = app
 
-TARGETAPP   = ffDiaporama
-TARGET      = $$TARGETAPP
-TEMPLATE    = app
 unix {
-    LIBS        += -lavformat -lavcodec -lavutil -lswscale -lSDL
-    DESTDIR     += ../build/
-    OBJECTS_DIR += ../build/
-    MOC_DIR     += ../build/
-    UI_DIR      += ../build/
+    DESTDIR     += ../build
+    OBJECTS_DIR += ../build$$TARGET
+    MOC_DIR     += ../build$$TARGET
     ICON        = img/logo.png
-    INCLUDEPATH += /usr/include/ffmpeg/  # Specific for Fedora
-    INCLUDEPATH += ./fmt_filters/
+
+    INCLUDEPATH += /usr/include/ffmpeg/    \             # Specific for Fedora
+                   ./SubProjects/VariousClass  \
+                   ./SubProjects/fmt_filters
+
+    LIBS        += -lavformat -lavcodec -lavutil -lswscale -lSDL
 }
+
 win32 {
-    DESTDIR     += ../winbuild/
-    OBJECTS_DIR += ../winbuild/
-    MOC_DIR     += ../winbuild/
-    UI_DIR      += ../winbuild/
+    DESTDIR     += ..\\winbuild
+    OBJECTS_DIR += ..\\winbuild$$TARGET
+    MOC_DIR     += ..\\winbuild$$TARGET
+
     RC_FILE     = ffDiaporama.rc
+
     INCLUDEPATH += . \
                    C:\\Qt\\ffmpeg-win32-dev\\include \                  #------ ffmpeg library path
                    C:\\Qt\\SDL-1.2.14\\include \                        #------ SDL library path
-                   .\\fmt_filters
+                   .\\SubProjects\\VariousClass \
+                   .\\SubProjects\\fmt_filters
 
-    LIBS        += -L"C:\\Qt\\ffmpeg-win32-dev\\lib" \                  #------ ffmpeg library path
+    LIBS        +=  -L"C:\\Qt\\ffmpeg-win32-dev\\lib" \                  #------ ffmpeg library path
                    -L"C:\\Qt\\SDL-1.2.14\\lib" \                        #------ SDL library path
                    -lavformat -lavcodec -lavutil -lswscale -lSDL
 }
@@ -149,7 +160,10 @@ OTHER_FILES += \
     licences.rtf \
     authors.txt \
     ffDiaporama \
-    ffDiaporama.url
+    ffDiaporama.url \
+    ffDiaporamaopt.desktop \
+    ffDiaporamalocal.desktop \
+    ffDiaporama-mime.xml
 
 TRANSLATIONS += locale/locale_fr.ts \
     locale/locale_it.ts \
@@ -162,39 +176,67 @@ TRANSLATIONS += locale/locale_fr.ts \
 
 #install
 unix {
-    TARGET.path         = $$PREFIX/bin
-    TARGET.files        = ../build/$$TARGET
-    translation.path    = $$PREFIX/share/$$TARGETAPP/locale
-    translation.files   = locale/*.qm
-    background.path     = $$PREFIX/share/$$TARGETAPP/background
-    background.files    = background/*.*
-    img.path            = $$PREFIX/share/$$TARGETAPP/img
-    img.files           = img/*.*
-    tr_img.path         = $$PREFIX/share/$$TARGETAPP/transitions-img
-    tr_img.files        = transitions-img/*.*
-    luma.path           = $$PREFIX/share/$$TARGETAPP/luma
-    luma.files          = luma/*.*
-    luma_Bar.path       = $$PREFIX/share/$$TARGETAPP/luma/Bar
-    luma_Bar.files      = luma/Bar/*.*
-    luma_Box.path       = $$PREFIX/share/$$TARGETAPP/luma/Box
-    luma_Box.files      = luma/Box/*.*
-    luma_Center.path    = $$PREFIX/share/$$TARGETAPP/luma/Center
-    luma_Center.files   = luma/Center/*.*
-    luma_Checker.path   = $$PREFIX/share/$$TARGETAPP/luma/Checker
-    luma_Checker.files  = luma/Checker/*.*
-    luma_Clock.path     = $$PREFIX/share/$$TARGETAPP/luma/Clock
-    luma_Clock.files    = luma/Clock/*.*
-    luma_Snake.path     = $$PREFIX/share/$$TARGETAPP/luma/Snake
-    luma_Snake.files    = luma/Snake/*.*
-    General.path        = $$PREFIX/share/$$TARGETAPP
-    General.files       = ffDiaporama.xml BUILDVERSION.txt licence.rtf licences.txt authors.txt libx264-hq.ffpreset libx264-pq.ffpreset
-    desktop.path        = $$PREFIX/share/applications
-    desktop.files       = ffDiaporama.desktop
-    mimefile.path       = $$PREFIX/share/mime/packages
-    mimefile.files      = ffDiaporama-mime.xml
-    iconfile.path       = $$PREFIX/share/icons/gnome/32x32/mimetypes
-    iconfile.files      = application-ffDiaporama.png
+    !exists($$INSTALL_ROOT$$DEST_DIR) {
+        DEST_DIR = /usr
+    }
 
-    INSTALLS += TARGET desktop translation background img tr_img luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake luma \
-            General mimefile iconfile
+    message("Install to : $$INSTALL_ROOT$$DEST_DIR")
+
+    TARGET.path         = $$INSTALL_ROOT$$DEST_DIR/bin
+    TARGET.files        = ../build/$$TARGET
+    translation.path    = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/locale
+    translation.files   = locale/*.qm
+    background.path     = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/background
+    background.files    = background/*.*
+    img.path            = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/img
+    img.files           = img/*.*
+    tr_img.path         = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/transitions-img
+    tr_img.files        = transitions-img/*.*
+    luma.path           = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma
+    luma.files          = luma/*.*
+    luma_Bar.path       = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Bar
+    luma_Bar.files      = luma/Bar/*.*
+    luma_Box.path       = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Box
+    luma_Box.files      = luma/Box/*.*
+    luma_Center.path    = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Center
+    luma_Center.files   = luma/Center/*.*
+    luma_Checker.path   = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Checker
+    luma_Checker.files  = luma/Checker/*.*
+    luma_Clock.path     = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Clock
+    luma_Clock.files    = luma/Clock/*.*
+    luma_Snake.path     = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Snake
+    luma_Snake.files    = luma/Snake/*.*
+    General.path        = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER
+    General.files       = ffDiaporama.xml BUILDVERSION.txt licence.rtf licences.txt authors.txt libx264-hq.ffpreset libx264-pq.ffpreset
+
+    mimefile.path       = /usr/share/mime/packages
+    mimefile.files      = ffDiaporama-mime.xml
+
+    exists(/usr/share/icons/gnome/32x32/mimetypes) {
+        iconfile.path       = /usr/share/icons/gnome/32x32/mimetypes
+        iconfile.files      = img/application-ffDiaporama.png
+    }
+
+    exists(/usr/share/icons/default.kde4/32x32/mimetypes) {
+        iconfile.path       = /usr/share/icons/default.kde4/32x32/mimetypes
+        iconfile.files      = img/application-ffDiaporama.png
+    }
+
+    contains(INSTALL_ROOT,/opt) {
+        desktop.path    = /usr/share/applications
+        desktop.files   = ffDiaporamaopt.desktop
+    }
+
+    contains(INSTALL_ROOT,/usr/local) {
+        desktop.path    = /usr/share/applications
+        desktop.files   = ffDiaporamalocal.desktop
+    }
+
+    !contains(INSTALL_ROOT,/usr/local) : !contains(INSTALL_ROOT,/opt) {
+
+        desktop.path    = /usr/share/applications
+        desktop.files   = ffDiaporama.desktop
+    }
+
+    INSTALLS 		+= TARGET translation background img tr_img luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake luma General desktop mimefile iconfile
 }

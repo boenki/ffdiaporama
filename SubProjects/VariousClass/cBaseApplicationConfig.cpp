@@ -36,6 +36,54 @@
 
 //====================================================================================================================
 
+bool CheckFolder(QString FileToTest,QString PathToTest) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:CheckFolder";
+    #endif
+    QString Path=QDir(PathToTest).absolutePath();
+    if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
+    bool IsFound=QFileInfo(Path+FileToTest).exists();
+    if (IsFound) QDir::setCurrent(Path);
+    qDebug()<<"Try to find datas in "<<Path+FileToTest<<IsFound;
+    return IsFound;
+}
+
+
+//**************************************************
+// First thing to do : ensure correct current path
+// At program startup : CurrentPath is in exe/binarie folder
+//      GlobalConfig must be in current path [for Windows only]
+//      or in ../ApplicationGroupName path [Qt Creator or Linux console build mode]
+//      or in ../ApplicationName path [Qt Creator only or Linux console build mode]
+//      or in ../ApplicationGroupName/SubProjects/ApplicationName [Linux console build mode]
+
+//      or in /usr/share/ApplicationGroupName [for Linux]
+//      or in /usr/local/share/ApplicationGroupName [for Linux]
+//      or in /opt/share/ApplicationGroupName [for Linux]
+
+//**************************************************
+bool SetWorkingPath(char *argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt) {
+    QString StartupDir=QFileInfo(argv[0]).absolutePath();
+    qDebug()<<"StartupDir"<<StartupDir;
+    QDir::setCurrent(StartupDir);
+
+    QString FileToTest  =QString("%1%2").arg(ApplicationName).arg(ConfigFileExt);
+
+    if (!CheckFolder(FileToTest,QDir::currentPath())
+         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationGroupName))
+         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationGroupName+QDir().separator()+QString("SubProjects")+QDir().separator()+ApplicationName))
+         &&(!CheckFolder(FileToTest,QString("../share/")+ApplicationGroupName))
+       ) {
+        qDebug()<<"Critical error : Impossible to find global configuration file ("<<QString("%1%2").arg(ApplicationName).arg(ConfigFileExt)<<")";
+        exit(1);
+    }
+    qDebug()<<"Set working path to"<<QDir::currentPath();
+
+    return true;
+}
+
+//====================================================================================================================
+
 //functions used to retrieve number of processor
 //Thanks to : Stuart Nixon
 //See : http://lists.trolltech.com/qt-interest/2006-05/thread00922-0.html
@@ -109,17 +157,6 @@ cBaseApplicationConfig::~cBaseApplicationConfig() {
 
 //====================================================================================================================
 
-bool cBaseApplicationConfig::CheckFolder(QString FileToTest,QString PathToTest) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseApplicationConfig::CheckFolder";
-    #endif
-    if (!PathToTest.endsWith(QDir().separator())) PathToTest=PathToTest+QDir().separator();
-    if (QFileInfo(PathToTest+FileToTest).exists()) QDir::setCurrent(PathToTest);
-    return QFileInfo(FileToTest).exists();
-}
-
-//====================================================================================================================
-
 QString cBaseApplicationConfig::GetFilterForMediaFile(FilterFile type) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cBaseApplicationConfig::GetFilterForMediaFile";
@@ -169,33 +206,6 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
         RasterMode      = true;                                                                 // Enable or disable raster mode [Linux only]
     #endif
     ParentWindow        = NULL;
-
-    //**************************************************
-    // First thing to do : ensure correct current path
-    // At program startup : CurrentPath is in exe/binarie folder
-    // if debug mode then   :
-    //      GlobalConfig  must be in ../ApplicationGroupName path
-    //      or in ../../ApplicationGroupName/SubProjects/ApplicationName if start from console build mode
-    //      or in ../ApplicationName if start from QtCreator debug mode
-    // if release mode then :
-    //      GlobalConfig must be in current path for windows
-    //      GlobalConfig must be in /usr/share/ApplicationGroupName for Linux
-    //      GlobalConfig must be in /usr/share/ApplicationGroupName/SubProjects/ApplicationName for Linux and SubProjects
-
-    //**************************************************
-    QString FileToTest=QString("%1%2").arg(ApplicationName).arg(ConfigFileExt);
-    if ((!CheckFolder(FileToTest,""))
-        &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationGroupName))
-        &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+QString("..")+QDir().separator()+ApplicationGroupName+QDir().separator()+QString("SubProjects")+QDir().separator()+ApplicationGroupName+ApplicationName))
-        #ifdef Q_WS_X11
-        &&(!CheckFolder(FileToTest,QString("/usr/share/")+ApplicationGroupName))
-        &&(!CheckFolder(FileToTest,QString("/usr/share/")+ApplicationGroupName+QString("/SubProjects/")+ApplicationGroupName+ApplicationName))
-        #endif
-       ) {
-        qDebug()<<"Critical error : Impossible to find global configuration file ("<<QString("%1%2").arg(ApplicationName).arg(ConfigFileExt)<<")";
-        exit(1);
-    }
-    qDebug()<<"Set working path to"<<QDir::currentPath();
 
     //*********************************************************************
     // Search plateforme and define specific value depending on plateforme

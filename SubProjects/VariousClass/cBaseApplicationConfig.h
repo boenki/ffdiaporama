@@ -33,6 +33,8 @@
 // Utility functions
 int     getCpuCount();                                                  // Retrieve number of processor
 QString AdjustDirForOS(QString Dir);                                    // Adjust separator in pathname depending on operating system
+bool    CheckFolder(QString FileToTest,QString PathToTest);             // Check if FileToTest exist in PathToTest and if yes the change current folder to PathToTest
+bool    SetWorkingPath(char *argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt);                         // Adjust current folder
 
 // enum types definitions
 enum FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
@@ -80,7 +82,6 @@ public:
     cBaseApplicationConfig(QString ApplicationGroupName,QString ApplicationName,QString ApplicationVersion,QString ConfigFileExt,QString ConfigFileRootName);
     ~cBaseApplicationConfig();
 
-    virtual bool            CheckFolder(QString FileToTest,QString PathToTest);
     virtual QString         GetFilterForMediaFile(FilterFile type);
     virtual bool            InitConfigurationValues(QString ForceLanguage,QApplication *App);
     virtual bool            LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication *App);

@@ -13,14 +13,12 @@ TEMPLATE = app
 SOURCES += main.cpp
 
 unix {
-    DESTDIR     += ../../../build/ffDiaporamaStart
-    OBJECTS_DIR += ../../../build/ffDiaporamaStart
-    MOC_DIR     += ../../../build/ffDiaporamaStart
-    UI_DIR      += ../../../build/ffDiaporamaStart
+    DESTDIR     += ../build
+    OBJECTS_DIR += ../build$$TARGET
+    MOC_DIR     += ../build$$TARGET
 }
 win32 {
-    DESTDIR     += ../../../winbuild/ffDiaporamaStart
-    OBJECTS_DIR += ../../../winbuild/ffDiaporamaStart
-    MOC_DIR     += ../../../winbuild/ffDiaporamaStart
-    UI_DIR      += ../../../winbuild/ffDiaporamaStart
+    DESTDIR     += ..\\..\\..\\winbuild
+    OBJECTS_DIR += ..\\winbuild$$TARGET
+    MOC_DIR     += ..\\winbuild$$TARGET
 }

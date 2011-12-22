@@ -18,33 +18,34 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "_GlobalDefines.h"
-#include "mainwindow.h"
-#include <QTranslator>
+#ifndef QCUSTOMFOLDERTABLE_H
+#define QCUSTOMFOLDERTABLE_H
 
-int main(int argc, char *argv[]) {
-    QApplication app(argc,argv);
+#include <QWidget>
+#include <QTableWidget>
+#include <QString>
+#include "QCustomFolderTree.h"
 
-    SetWorkingPath(argv,APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT);
+#define DISPLAY_DATA    0
+#define DISPLAY_JUKEBOX 1
+#define DISPLAY_WEB     2
 
-    QString AutoLoad="";
-    QString ForceLanguage="";
+class QCustomFolderTable : public QTableWidget {
+Q_OBJECT
+public:
+    bool                ShowHidden;                         // If true, hidden files will be show
+    bool                ShowMntDrive;                       // Show drives under /mnt/ [Linux only]
+    QCustomFolderTree   *Tree;
 
-    // Parse parameters to find ForceLanguage and AutoLoad
-    for (int i=1;i<argc;i++) {
-        QString Param=QString(argv[i]).toLower();
-        if (Param.startsWith("-lang=")) ForceLanguage=Param.mid(QString("-lang=").length());
-        else AutoLoad=QString().fromLocal8Bit(argv[i]);
-    }
+    explicit        QCustomFolderTable(QWidget *parent = 0);
 
-    MainWindow w;
-    w.InitWindow(ForceLanguage,&app);
+    virtual void    SetMode(QCustomFolderTree *AssociatedTree,int Mode);
+    virtual int     FillListFolder(QString Path);
 
-    if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
+signals:
 
-    if (AutoLoad!="") {
-        w.FileForIO=AutoLoad;
-        w.s_DoOpenFileParam();
-    }
-    return app.exec();
-}
+public slots:
+
+};
+
+#endif // QCUSTOMFOLDERTABLE_H
