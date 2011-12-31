@@ -1366,7 +1366,7 @@ color: #000000;
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="CloseBT">
+      <widget class="QPushButton" name="CancelBt">
        <property name="toolTip">
         <string>Cancel modification and exit dialog box</string>
        </property>
@@ -1433,7 +1433,7 @@ color: #000000;
   <tabstop>textVCenter</tabstop>
   <tabstop>textBottom</tabstop>
   <tabstop>OKBT</tabstop>
-  <tabstop>CloseBT</tabstop>
+  <tabstop>CancelBt</tabstop>
   <tabstop>HelpBT</tabstop>
  </tabstops>
  <resources/>

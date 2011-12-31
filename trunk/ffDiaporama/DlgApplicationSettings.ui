@@ -520,7 +520,7 @@
        <property name="spacing">
         <number>0</number>
        </property>
-       <item row="0" column="0">
+       <item row="2" column="0">
         <widget class="QScrollArea" name="scrollArea_3">
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
@@ -534,7 +534,7 @@
             <x>0</x>
             <y>0</y>
             <width>659</width>
-            <height>1999</height>
+            <height>2073</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -560,14 +560,14 @@
               </font>
              </property>
              <property name="text">
-              <string>Project options (default values)</string>
+              <string>Project properties (default values)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
+           <item row="5" column="1">
             <widget class="QLabel" name="label_18">
              <property name="text">
               <string>Project geometry:</string>
@@ -580,7 +580,7 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="2">
+           <item row="5" column="2">
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <property name="spacing">
               <number>2</number>
@@ -632,7 +632,7 @@
              </item>
             </layout>
            </item>
-           <item row="2" column="1">
+           <item row="6" column="1">
             <widget class="QLabel" name="label_11">
              <property name="text">
               <string>1st shot duration:</string>
@@ -645,7 +645,7 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="2">
+           <item row="6" column="2">
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <property name="spacing">
               <number>2</number>
@@ -685,7 +685,7 @@
              </item>
             </layout>
            </item>
-           <item row="3" column="1">
+           <item row="7" column="1">
             <widget class="QLabel" name="label_13">
              <property name="text">
               <string>Next shot duration:</string>
@@ -698,7 +698,7 @@
              </property>
             </widget>
            </item>
-           <item row="3" column="2">
+           <item row="7" column="2">
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <property name="spacing">
               <number>2</number>
@@ -738,7 +738,7 @@
              </item>
             </layout>
            </item>
-           <item row="4" column="1">
+           <item row="8" column="1">
             <widget class="QLabel" name="label_17">
              <property name="text">
               <string>Speed wave:</string>
@@ -751,7 +751,7 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="2">
+           <item row="8" column="2">
             <layout class="QHBoxLayout" name="horizontalLayout_10">
              <property name="spacing">
               <number>2</number>
@@ -791,7 +791,7 @@
              </item>
             </layout>
            </item>
-           <item row="5" column="1">
+           <item row="9" column="1">
             <widget class="QLabel" name="label_25">
              <property name="text">
               <string>Default transition:</string>
@@ -801,7 +801,7 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="2">
+           <item row="9" column="2">
             <layout class="QHBoxLayout" name="horizontalLayout_13">
              <property name="spacing">
               <number>2</number>
@@ -953,7 +953,7 @@ Crossfade transition</string>
              </item>
             </layout>
            </item>
-           <item row="6" column="1" colspan="3">
+           <item row="10" column="1" colspan="3">
             <widget class="QLabel" name="label_36">
              <property name="minimumSize">
               <size>
@@ -982,7 +982,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="7" column="1">
+           <item row="11" column="1">
             <widget class="QLabel" name="label_37">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -998,7 +998,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="1">
+           <item row="12" column="1">
             <widget class="QLabel" name="label_38">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1014,13 +1014,13 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="7" column="2">
+           <item row="11" column="2">
             <widget class="QComboBox" name="ST_Text_TextCB"/>
            </item>
-           <item row="8" column="2">
+           <item row="12" column="2">
             <widget class="QComboBox" name="ST_Text_BackgroundCB"/>
            </item>
-           <item row="26" column="1" colspan="3">
+           <item row="30" column="1" colspan="3">
             <widget class="QLabel" name="label_41">
              <property name="minimumSize">
               <size>
@@ -1049,7 +1049,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="10" column="2">
+           <item row="14" column="2">
             <layout class="QGridLayout" name="gridLayout_8">
              <property name="margin">
               <number>0</number>
@@ -1110,7 +1110,7 @@ Crossfade transition</string>
              </item>
             </layout>
            </item>
-           <item row="10" column="1">
+           <item row="14" column="1">
             <widget class="QLabel" name="label_40">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1126,7 +1126,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="13" column="1" colspan="2">
+           <item row="17" column="1" colspan="2">
             <widget class="QLabel" name="label_47">
              <property name="minimumSize">
               <size>
@@ -1155,7 +1155,7 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="14" column="1">
+           <item row="18" column="1">
             <widget class="QLabel" name="label_48">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1171,10 +1171,10 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="14" column="2">
+           <item row="18" column="2">
             <widget class="QComboBox" name="STBlockSL_IMG_TextCB"/>
            </item>
-           <item row="15" column="1">
+           <item row="19" column="1">
             <widget class="QLabel" name="label_49">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1190,10 +1190,10 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="15" column="2">
+           <item row="19" column="2">
             <widget class="QComboBox" name="STBlockSL_IMG_ShapeCB"/>
            </item>
-           <item row="16" column="2">
+           <item row="20" column="2">
             <layout class="QGridLayout" name="gridLayout_9">
              <property name="margin">
               <number>0</number>
@@ -1254,7 +1254,7 @@ Crossfade transition</string>
              </item>
             </layout>
            </item>
-           <item row="9" column="1">
+           <item row="13" column="1">
             <widget class="QLabel" name="label_39">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1270,10 +1270,10 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="9" column="2">
+           <item row="13" column="2">
             <widget class="QComboBox" name="ST_Text_ShapeCB"/>
            </item>
-           <item row="16" column="1">
+           <item row="20" column="1">
             <widget class="QLabel" name="label_50">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1296,7 +1296,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="17" column="1">
+           <item row="21" column="1">
             <widget class="QLabel" name="label_54">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1319,7 +1319,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="19" column="1">
+           <item row="23" column="1">
             <widget class="QLabel" name="label_56">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1342,7 +1342,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="20" column="1">
+           <item row="24" column="1">
             <widget class="QLabel" name="label_55">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1365,7 +1365,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="21" column="1">
+           <item row="25" column="1">
             <widget class="QLabel" name="label_57">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1388,7 +1388,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="22" column="1">
+           <item row="26" column="1">
             <widget class="QLabel" name="label_58">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1411,7 +1411,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="17" column="2">
+           <item row="21" column="2">
             <layout class="QGridLayout" name="gridLayout_10">
              <property name="margin">
               <number>0</number>
@@ -1472,7 +1472,7 @@ mode</string>
              </item>
             </layout>
            </item>
-           <item row="19" column="2">
+           <item row="23" column="2">
             <layout class="QGridLayout" name="gridLayout_11">
              <property name="margin">
               <number>0</number>
@@ -1533,7 +1533,7 @@ mode</string>
              </item>
             </layout>
            </item>
-           <item row="20" column="2">
+           <item row="24" column="2">
             <layout class="QGridLayout" name="gridLayout_12">
              <property name="margin">
               <number>0</number>
@@ -1594,7 +1594,7 @@ mode</string>
              </item>
             </layout>
            </item>
-           <item row="21" column="2">
+           <item row="25" column="2">
             <layout class="QGridLayout" name="gridLayout_13">
              <property name="margin">
               <number>0</number>
@@ -1655,7 +1655,7 @@ mode</string>
              </item>
             </layout>
            </item>
-           <item row="22" column="2">
+           <item row="26" column="2">
             <layout class="QGridLayout" name="gridLayout_14">
              <property name="margin">
               <number>0</number>
@@ -1716,7 +1716,7 @@ mode</string>
              </item>
             </layout>
            </item>
-           <item row="23" column="1">
+           <item row="27" column="1">
             <widget class="QLabel" name="label_74">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1739,7 +1739,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="24" column="1">
+           <item row="28" column="1">
             <widget class="QLabel" name="label_75">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1762,7 +1762,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="25" column="1">
+           <item row="29" column="1">
             <widget class="QLabel" name="label_76">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -1784,7 +1784,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="23" column="2">
+           <item row="27" column="2">
             <layout class="QGridLayout" name="gridLayout_15">
              <property name="margin">
               <number>0</number>
@@ -1845,7 +1845,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="24" column="2">
+           <item row="28" column="2">
             <layout class="QGridLayout" name="gridLayout_16">
              <property name="margin">
               <number>0</number>
@@ -1906,7 +1906,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="25" column="2">
+           <item row="29" column="2">
             <layout class="QGridLayout" name="gridLayout_17">
              <property name="margin">
               <number>0</number>
@@ -1997,7 +1997,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="29" column="1">
+           <item row="33" column="1">
             <widget class="QLabel" name="label_86">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2020,7 +2020,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="30" column="1">
+           <item row="34" column="1">
             <widget class="QLabel" name="label_87">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2043,7 +2043,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="31" column="1">
+           <item row="35" column="1">
             <widget class="QLabel" name="label_88">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2066,7 +2066,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="32" column="1">
+           <item row="36" column="1">
             <widget class="QLabel" name="label_98">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2089,7 +2089,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="33" column="1">
+           <item row="37" column="1">
             <widget class="QLabel" name="label_105">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2112,7 +2112,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="34" column="1">
+           <item row="38" column="1">
             <widget class="QLabel" name="label_112">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2135,7 +2135,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="35" column="1">
+           <item row="39" column="1">
             <widget class="QLabel" name="label_113">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2158,7 +2158,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="36" column="1">
+           <item row="40" column="1">
             <widget class="QLabel" name="label_114">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2181,7 +2181,7 @@ mode</string>
              </property>
             </widget>
            </item>
-           <item row="37" column="1">
+           <item row="41" column="1">
             <widget class="QLabel" name="label_115">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2203,7 +2203,7 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="29" column="2">
+           <item row="33" column="2">
             <layout class="QGridLayout" name="gridLayout_27">
              <property name="margin">
               <number>0</number>
@@ -2264,7 +2264,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="30" column="2">
+           <item row="34" column="2">
             <layout class="QGridLayout" name="gridLayout_28">
              <property name="margin">
               <number>0</number>
@@ -2325,7 +2325,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="31" column="2">
+           <item row="35" column="2">
             <layout class="QGridLayout" name="gridLayout_29">
              <property name="margin">
               <number>0</number>
@@ -2386,7 +2386,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="32" column="2">
+           <item row="36" column="2">
             <layout class="QGridLayout" name="gridLayout_30">
              <property name="margin">
               <number>0</number>
@@ -2447,7 +2447,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="33" column="2">
+           <item row="37" column="2">
             <layout class="QGridLayout" name="gridLayout_31">
              <property name="margin">
               <number>0</number>
@@ -2508,7 +2508,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="34" column="2">
+           <item row="38" column="2">
             <layout class="QGridLayout" name="gridLayout_32">
              <property name="margin">
               <number>0</number>
@@ -2569,7 +2569,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="35" column="2">
+           <item row="39" column="2">
             <layout class="QGridLayout" name="gridLayout_33">
              <property name="margin">
               <number>0</number>
@@ -2630,7 +2630,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="36" column="2">
+           <item row="40" column="2">
             <layout class="QGridLayout" name="gridLayout_34">
              <property name="margin">
               <number>0</number>
@@ -2691,7 +2691,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="37" column="2">
+           <item row="41" column="2">
             <layout class="QGridLayout" name="gridLayout_35">
              <property name="margin">
               <number>0</number>
@@ -2782,7 +2782,7 @@ image</string>
              </item>
             </layout>
            </item>
-           <item row="27" column="1">
+           <item row="31" column="1">
             <widget class="QLabel" name="label_149">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2798,10 +2798,10 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="27" column="2">
+           <item row="31" column="2">
             <widget class="QComboBox" name="STBlockBA_IMG_TextCB"/>
            </item>
-           <item row="28" column="1">
+           <item row="32" column="1">
             <widget class="QLabel" name="label_150">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -2817,8 +2817,77 @@ image</string>
              </property>
             </widget>
            </item>
-           <item row="28" column="2">
+           <item row="32" column="2">
             <widget class="QComboBox" name="STBlockBA_IMG_ShapeCB"/>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="label_92">
+             <property name="text">
+              <string>Title :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1" colspan="2">
+            <widget class="QLabel" name="label_32">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
+             <property name="text">
+              <string>Project options (default values)</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLabel" name="label_93">
+             <property name="text">
+              <string>Author :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLineEdit" name="DefaultAuthorED">
+             <property name="maxLength">
+              <number>30</number>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QComboBox" name="DefaultTitleCB">
+             <item>
+              <property name="text">
+               <string>No automatic filling</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Fill with project name when project save (if not yet defined)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Fill with project folder name when project save (if not yet defined)</string>
+              </property>
+             </item>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -3264,6 +3333,11 @@ image</string>
                <string>Use project folder's name as video name</string>
               </property>
              </item>
+             <item>
+              <property name="text">
+               <string>Use title project as video name</string>
+              </property>
+             </item>
             </widget>
            </item>
            <item row="1" column="3">
@@ -3282,459 +3356,6 @@ image</string>
           </layout>
          </widget>
         </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="TabManageDatabase">
-      <attribute name="title">
-       <string>Manage Device Database</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_7">
-       <property name="margin">
-        <number>4</number>
-       </property>
-       <property name="spacing">
-        <number>4</number>
-       </property>
-       <item row="2" column="0" colspan="2">
-        <widget class="QTableWidget" name="TableDevice">
-         <property name="font">
-          <font>
-           <pointsize>9</pointsize>
-          </font>
-         </property>
-         <property name="editTriggers">
-          <set>QAbstractItemView::NoEditTriggers</set>
-         </property>
-         <property name="showDropIndicator" stdset="0">
-          <bool>false</bool>
-         </property>
-         <property name="dragDropOverwriteMode">
-          <bool>false</bool>
-         </property>
-         <property name="selectionMode">
-          <enum>QAbstractItemView::SingleSelection</enum>
-         </property>
-         <property name="selectionBehavior">
-          <enum>QAbstractItemView::SelectRows</enum>
-         </property>
-         <property name="verticalScrollMode">
-          <enum>QAbstractItemView::ScrollPerItem</enum>
-         </property>
-         <property name="horizontalScrollMode">
-          <enum>QAbstractItemView::ScrollPerPixel</enum>
-         </property>
-         <property name="sortingEnabled">
-          <bool>true</bool>
-         </property>
-         <property name="wordWrap">
-          <bool>false</bool>
-         </property>
-         <property name="cornerButtonEnabled">
-          <bool>false</bool>
-         </property>
-         <attribute name="horizontalHeaderHighlightSections">
-          <bool>false</bool>
-         </attribute>
-         <attribute name="horizontalHeaderStretchLastSection">
-          <bool>true</bool>
-         </attribute>
-         <attribute name="verticalHeaderVisible">
-          <bool>false</bool>
-         </attribute>
-         <column>
-          <property name="text">
-           <string notr="true">#</string>
-          </property>
-          <property name="font">
-           <font>
-            <family>Sans Serif</family>
-            <pointsize>8</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Subtype</string>
-          </property>
-          <property name="font">
-           <font>
-            <family>Sans Serif</family>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Model</string>
-          </property>
-          <property name="font">
-           <font>
-            <family>Sans Serif</family>
-            <pointsize>9</pointsize>
-           </font>
-          </property>
-         </column>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="StandardLabel">
-         <property name="text">
-          <string>Video standard :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_11">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <item>
-          <widget class="QComboBox" name="DBStandardCB">
-           <property name="toolTip">
-            <string>Select the video standard to use, PAL or NTSC.</string>
-           </property>
-           <item>
-            <property name="text">
-             <string>PAL</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>NTSC</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_7">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="ImageSizeLabel">
-         <property name="text">
-          <string>Image format :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <item>
-          <widget class="QComboBox" name="DBImageSizeCombo">
-           <property name="toolTip">
-            <string>Select the image resolution to use for the rendering.</string>
-           </property>
-           <property name="currentIndex">
-            <number>-1</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="VideoFormatLabel">
-         <property name="text">
-          <string>Video codec :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_9">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <item>
-          <widget class="QComboBox" name="DBVideoFormatCB">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Select the video codec to use for the rendering.</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="VideoBitRateLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Bit rate :</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="DBVideoBitRateCB">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Select the bit rate to use for video during the rendering.</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="AudioFormatLabel">
-         <property name="text">
-          <string>Audio codec :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_12">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <item>
-          <widget class="QComboBox" name="DBAudioFormatCB">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Select the audio codec to use for the rendering.</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="AudioBitRateLabel">
-           <property name="text">
-            <string>Bit rate :</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="DBAudioBitRateCB">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Select the bit rate to use for audio during the rendering.</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="DeviceModelLabel">
-         <property name="text">
-          <string>Device model :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QLineEdit" name="DBDeviceModelED">
-         <property name="toolTip">
-          <string>Enter here the name of the equipment (free text field).</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="margin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QPushButton" name="DBAddDevice">
-           <property name="toolTip">
-            <string>Create a new equipment which comes to be added in the database.</string>
-           </property>
-           <property name="text">
-            <string>Add Device</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>img/db_add.png</normaloff>img/db_add.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="DBRemoveBT">
-           <property name="toolTip">
-            <string>Delete current equipment.</string>
-           </property>
-           <property name="text">
-            <string>Remove Device</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>img/db_remove.png</normaloff>img/db_remove.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="DBResetBT">
-           <property name="toolTip">
-            <string>Cancel the modifications that you made on an equipment defined in the default ffDiaporama database</string>
-           </property>
-           <property name="text">
-            <string>Reset Device to Default</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>img/db_status.png</normaloff>img/db_status.png</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="DeviceTypeLabel">
-         <property name="text">
-          <string>Device type :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="DBDeviceTypeCB">
-         <property name="toolTip">
-          <string>Select the type of equipment to be shown in the list.</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QComboBox" name="DBDeviceSubtypeCB">
-         <property name="toolTip">
-          <string>Select the category in which is classified the equipment.</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_32">
-         <property name="text">
-          <string>Device subtype :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="FileFormatLabel">
-         <property name="text">
-          <string>File format :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <widget class="QComboBox" name="DBFileFormatCB">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="toolTip">
-          <string>Select the file type to use for the rendering.</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_14">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="margin">
-          <number>0</number>
-         </property>
-         <item>
-          <spacer name="horizontalSpacer_9">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
        </item>
       </layout>
      </widget>
@@ -3764,13 +3385,13 @@ image</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="DBApplyBT">
+      <widget class="QPushButton" name="DBManageDevicesBT">
        <property name="text">
-        <string>Apply modification</string>
+        <string>Manage Devices</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
+         <normaloff>SubProjects/ffDiaporamaMMFiler/img/db.png</normaloff>SubProjects/ffDiaporamaMMFiler/img/db.png</iconset>
        </property>
       </widget>
      </item>

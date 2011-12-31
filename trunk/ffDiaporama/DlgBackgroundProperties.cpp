@@ -38,7 +38,7 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);  // Save object
+    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",DiaporamaObject->Parent->ProjectFileName,true);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 
     ui->SameBackgroundRD->setChecked(!DiaporamaObject->BackgroundType);
@@ -82,8 +82,8 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
     // Image file
     connect(ui->ImageFileBT,SIGNAL(pressed()),this,SLOT(s_SelectFile()));
     connect(ui->ImageEditCorrectBT,SIGNAL(pressed()),this,SLOT(s_ImageEditCorrect()));
-    ui->KeepRatioRB->setChecked(!DiaporamaObject->BackgroundBrush.BrushFileCorrect.FullFilling);
-    ui->FullFillRB->setChecked(DiaporamaObject->BackgroundBrush.BrushFileCorrect.FullFilling);
+    ui->KeepRatioRB->setChecked(!DiaporamaObject->BackgroundBrush->BrushFileCorrect.FullFilling);
+    ui->FullFillRB->setChecked(DiaporamaObject->BackgroundBrush->BrushFileCorrect.FullFilling);
     connect(ui->FullFillRB,SIGNAL(clicked()),this,SLOT(s_FullFill()));
     connect(ui->KeepRatioRB,SIGNAL(clicked()),this,SLOT(s_KeepRatio()));
 
@@ -130,10 +130,7 @@ void DlgBackgroundProperties::reject() {
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgBackgroundPropertiesWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") {
-        QStringList AliasList;
-        DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
-    }
+    if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
     done(1);
 }
 
@@ -175,67 +172,67 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
     if (Allowed) {
 
         // Ensure BrushImage is valide
-        if ((BackgroundList.SearchImage(DiaporamaObject->BackgroundBrush.BrushImage)==-1)&&(BackgroundList.List.count()>0)) DiaporamaObject->BackgroundBrush.BrushImage=BackgroundList.List[0].Name;
+        if ((BackgroundList.SearchImage(DiaporamaObject->BackgroundBrush->BrushImage)==-1)&&(BackgroundList.List.count()>0)) DiaporamaObject->BackgroundBrush->BrushImage=BackgroundList.List[0].Name;
 
         StopMAJSpinbox=true;    // Disable reintrence in this RefreshControls function
-        for (int i=0;i<ui->BrushTypeCombo->count();i++) if (ui->BrushTypeCombo->itemData(i).toInt()==DiaporamaObject->BackgroundBrush.BrushType) ui->BrushTypeCombo->setCurrentIndex(i);
-        ui->FirstColorCombo->SetCurrentColor(&DiaporamaObject->BackgroundBrush.ColorD);
-        ui->FinalColorCombo->SetCurrentColor(&DiaporamaObject->BackgroundBrush.ColorF);
-        ui->IntermColorCombo->SetCurrentColor(&DiaporamaObject->BackgroundBrush.ColorIntermed);
-        ui->PatternBrushCombo->SetCurrentBrush(&DiaporamaObject->BackgroundBrush);
-        ui->OrientationCombo->SetCurrentBrush(&DiaporamaObject->BackgroundBrush);
-        ui->BackgroundCombo->SetCurrentBackground(DiaporamaObject->BackgroundBrush.BrushImage);
-        ui->IntermPosSlider->setValue(DiaporamaObject->BackgroundBrush.Intermediate*100);
-        ui->IntermPosED->setValue(DiaporamaObject->BackgroundBrush.Intermediate*100);
+        for (int i=0;i<ui->BrushTypeCombo->count();i++) if (ui->BrushTypeCombo->itemData(i).toInt()==DiaporamaObject->BackgroundBrush->BrushType) ui->BrushTypeCombo->setCurrentIndex(i);
+        ui->FirstColorCombo->SetCurrentColor(&DiaporamaObject->BackgroundBrush->ColorD);
+        ui->FinalColorCombo->SetCurrentColor(&DiaporamaObject->BackgroundBrush->ColorF);
+        ui->IntermColorCombo->SetCurrentColor(&DiaporamaObject->BackgroundBrush->ColorIntermed);
+        ui->PatternBrushCombo->SetCurrentBrush(DiaporamaObject->BackgroundBrush);
+        ui->OrientationCombo->SetCurrentBrush(DiaporamaObject->BackgroundBrush);
+        ui->BackgroundCombo->SetCurrentBackground(DiaporamaObject->BackgroundBrush->BrushImage);
+        ui->IntermPosSlider->setValue(DiaporamaObject->BackgroundBrush->Intermediate*100);
+        ui->IntermPosED->setValue(DiaporamaObject->BackgroundBrush->Intermediate*100);
         StopMAJSpinbox=false;
 
         ui->BrushTypeLabel->setVisible(Allowed);
         ui->BrushTypeCombo->setVisible(Allowed);
         ui->BrushTypeCombo->setEnabled(Allowed);
 
-        bool FirstColorAllowed=(Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_SOLID)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_PATTERN)||
-                                           (DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
+        bool FirstColorAllowed=(Allowed)&&((DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_SOLID)||(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_PATTERN)||
+                                           (DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3));
         ui->FirstColorLabel->setVisible((Allowed)&&(FirstColorAllowed));
         ui->FirstColorSpacer->setVisible((Allowed)&&(FirstColorAllowed));
         ui->FirstColorCombo->setVisible((Allowed)&&(FirstColorAllowed));
         ui->FirstColorCombo->setEnabled((Allowed)&&(FirstColorAllowed));
 
-        ui->PatternSpacer->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_PATTERN));
-        ui->PatternLabel->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_PATTERN));
-        ui->PatternBrushCombo->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_PATTERN));
-        ui->PatternBrushCombo->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_PATTERN));
+        ui->PatternSpacer->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_PATTERN));
+        ui->PatternLabel->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_PATTERN));
+        ui->PatternBrushCombo->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_PATTERN));
+        ui->PatternBrushCombo->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_PATTERN));
 
-        ui->FinalColorCombo->setVisible((Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3)));
-        ui->FinalColorCombo->setEnabled((Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3)));
+        ui->FinalColorCombo->setVisible((Allowed)&&((DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3)));
+        ui->FinalColorCombo->setEnabled((Allowed)&&((DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3)));
 
-        ui->IntermColorCombo->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermColorCombo->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
+        ui->IntermColorCombo->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3));
+        ui->IntermColorCombo->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3));
 
-        ui->IntermPosSlider->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermPosSlider->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermPosED->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
-        ui->IntermPosED->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
+        ui->IntermPosSlider->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3));
+        ui->IntermPosSlider->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3));
+        ui->IntermPosED->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3));
+        ui->IntermPosED->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3));
 
-        ui->OrientationSpacer->setVisible((Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3)));
-        ui->OrientationLabel->setVisible((Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3)));
-        ui->OrientationCombo->setVisible((Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3)));
-        ui->OrientationCombo->setEnabled((Allowed)&&((DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3)));
+        ui->OrientationSpacer->setVisible((Allowed)&&((DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3)));
+        ui->OrientationLabel->setVisible((Allowed)&&((DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3)));
+        ui->OrientationCombo->setVisible((Allowed)&&((DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3)));
+        ui->OrientationCombo->setEnabled((Allowed)&&((DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT2)||(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3)));
 
-        ui->ImageLibraryLabel->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGELIBRARY));
-        ui->ImageLibraryLabel2->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGELIBRARY));
-        ui->BackgroundCombo->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGELIBRARY));
-        ui->BackgroundComboSpacer->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGELIBRARY));
+        ui->ImageLibraryLabel->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGELIBRARY));
+        ui->ImageLibraryLabel2->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGELIBRARY));
+        ui->BackgroundCombo->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGELIBRARY));
+        ui->BackgroundComboSpacer->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGELIBRARY));
 
-        ui->ImageFileLabel->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->ImageFileED->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->ImageFileBT->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->ImageEditCorrectBT->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->KeepRatioRB->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->ImageFileLabel->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->ImageFileED->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->ImageFileBT->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->ImageEditCorrectBT->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->KeepRatioRB->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
 
-        ui->ImageEditCorrectBT->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(DiaporamaObject->BackgroundBrush.Image!=NULL)&&(!DiaporamaObject->BackgroundBrush.BrushFileCorrect.FullFilling));
+        ui->ImageEditCorrectBT->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(DiaporamaObject->BackgroundBrush->Image!=NULL)&&(!DiaporamaObject->BackgroundBrush->BrushFileCorrect.FullFilling));
 
-        ui->FullFillRB->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK));
-        ui->ImageFileED->setText(DiaporamaObject->BackgroundBrush.Image?DiaporamaObject->BackgroundBrush.Image->FileName:"");
+        ui->FullFillRB->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+        ui->ImageFileED->setText(DiaporamaObject->BackgroundBrush->Image?DiaporamaObject->BackgroundBrush->Image->FileName:"");
 
         ui->Preview->setVisible(true);
         ui->scrollArea->setVisible(true);
@@ -285,7 +282,7 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
 
 void DlgBackgroundProperties::s_ChangeBrushTypeCombo(int Value) {
     if (StopMAJSpinbox) return;
-    DiaporamaObject->BackgroundBrush.BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
+    DiaporamaObject->BackgroundBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
     RefreshControls(ui->NewBackgroundRD->isChecked());
 }
 
@@ -300,25 +297,24 @@ void DlgBackgroundProperties::s_SelectFile() {
     if (NewFile=="") return;
     if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
     QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
-    if (DiaporamaObject->BackgroundBrush.Image) {
-        delete DiaporamaObject->BackgroundBrush.Image;
-        DiaporamaObject->BackgroundBrush.Image=NULL;
+    if (DiaporamaObject->BackgroundBrush->Image) {
+        delete DiaporamaObject->BackgroundBrush->Image;
+        DiaporamaObject->BackgroundBrush->Image=NULL;
     }
-    DiaporamaObject->BackgroundBrush.Image=new cimagefilewrapper();
-    QStringList AliasList;
-    bool IsValide=DiaporamaObject->BackgroundBrush.Image->GetInformationFromFile(BrushFileName,AliasList);
+    DiaporamaObject->BackgroundBrush->Image=new cImageFile(GlobalMainWindow->ApplicationConfig);
+    bool IsValide=DiaporamaObject->BackgroundBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL);
     if (!IsValide) {
-        delete DiaporamaObject->BackgroundBrush.Image;
-        DiaporamaObject->BackgroundBrush.Image=NULL;
+        delete DiaporamaObject->BackgroundBrush->Image;
+        DiaporamaObject->BackgroundBrush->Image=NULL;
     } else {
-        QImage *Image=DiaporamaObject->BackgroundBrush.Image->ImageAt(true,true,&DiaporamaObject->BackgroundBrush.Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing);
+        QImage *Image=DiaporamaObject->BackgroundBrush->Image->ImageAt(true,true,&DiaporamaObject->BackgroundBrush->Image->BrushFileTransform);
         if (Image) {
-            DiaporamaObject->BackgroundBrush.InitDefaultFramingStyle(true,double(DiaporamaObject->Parent->InternalHeight)/double(DiaporamaObject->Parent->InternalWidth));
-            DiaporamaObject->BackgroundBrush.ApplyStyle(true,DiaporamaObject->BackgroundBrush.DefaultFramingF); // Adjust to Full
+            DiaporamaObject->BackgroundBrush->InitDefaultFramingStyle(true,double(DiaporamaObject->Parent->InternalHeight)/double(DiaporamaObject->Parent->InternalWidth));
+            DiaporamaObject->BackgroundBrush->ApplyStyle(true,DiaporamaObject->BackgroundBrush->DefaultFramingF); // Adjust to Full
             delete Image;
         } else {
-            delete DiaporamaObject->BackgroundBrush.Image;
-            DiaporamaObject->BackgroundBrush.Image=NULL;
+            delete DiaporamaObject->BackgroundBrush->Image;
+            DiaporamaObject->BackgroundBrush->Image=NULL;
         }
     }
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -328,7 +324,7 @@ void DlgBackgroundProperties::s_SelectFile() {
 
 void DlgBackgroundProperties::s_IntermPosSliderMoved(int Value) {
     if (StopMAJSpinbox) return;
-    DiaporamaObject->BackgroundBrush.Intermediate=double(Value)/100;
+    DiaporamaObject->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls(ui->NewBackgroundRD->isChecked());
 }
 
@@ -336,7 +332,7 @@ void DlgBackgroundProperties::s_IntermPosSliderMoved(int Value) {
 
 void DlgBackgroundProperties::s_IntermPosED(int Value) {
     if (StopMAJSpinbox) return;
-    DiaporamaObject->BackgroundBrush.Intermediate=double(Value)/100;
+    DiaporamaObject->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls(ui->NewBackgroundRD->isChecked());
 }
 
@@ -347,49 +343,49 @@ void DlgBackgroundProperties::s_IntermPosED(int Value) {
 //========= Pattern shape combo
 void DlgBackgroundProperties::s_ChIndexPatternBrushCombo(int) {
     if (StopMAJSpinbox) return;
-    DiaporamaObject->BackgroundBrush.PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
+    DiaporamaObject->BackgroundBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
     RefreshControls(ui->NewBackgroundRD->isChecked());
 }
 
 //========= Gradient shape orientation
 void DlgBackgroundProperties::s_ChIndexGradientOrientationCombo(int) {
     if (StopMAJSpinbox) return;
-    DiaporamaObject->BackgroundBrush.GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
+    DiaporamaObject->BackgroundBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
     RefreshControls(ui->NewBackgroundRD->isChecked());
 }
 
 //========= Shape/Gradient shape first color
 void DlgBackgroundProperties::s_ChIndexGradientFirstColorCombo(int) {
     if (StopMAJSpinbox) return;
-    DiaporamaObject->BackgroundBrush.ColorD=ui->FirstColorCombo->GetCurrentColor();
+    DiaporamaObject->BackgroundBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
     RefreshControls(ui->NewBackgroundRD->isChecked());
 }
 
 //========= Gradient shape last color
 void DlgBackgroundProperties::s_ChIndexGradientFinalColorCombo(int) {
     if (StopMAJSpinbox) return;
-    DiaporamaObject->BackgroundBrush.ColorF=ui->FinalColorCombo->GetCurrentColor();
+    DiaporamaObject->BackgroundBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
     RefreshControls(ui->NewBackgroundRD->isChecked());
 }
 
 //========= Gradient shape intermediate color
 void DlgBackgroundProperties::s_ChIndexGradientIntermColorCombo(int) {
     if (StopMAJSpinbox) return;
-    DiaporamaObject->BackgroundBrush.ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
+    DiaporamaObject->BackgroundBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
     RefreshControls(ui->NewBackgroundRD->isChecked());
 }
 
 //========= Background image
 void DlgBackgroundProperties::s_ChIndexBackgroundCombo(int) {
     if (StopMAJSpinbox) return;
-    DiaporamaObject->BackgroundBrush.BrushImage=ui->BackgroundCombo->GetCurrentBackground();
+    DiaporamaObject->BackgroundBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
     RefreshControls(ui->NewBackgroundRD->isChecked());
 }
 
 //========= Image file correction
 void DlgBackgroundProperties::s_ImageEditCorrect() {
-    if (DiaporamaObject->BackgroundBrush.Image) {
-        DlgImageCorrection(NULL,1,&DiaporamaObject->BackgroundBrush,&DiaporamaObject->BackgroundBrush.BrushFileCorrect,0,this).exec();
+    if (DiaporamaObject->BackgroundBrush->Image) {
+        DlgImageCorrection(NULL,1,DiaporamaObject->BackgroundBrush,0,this).exec();
         RefreshControls(ui->NewBackgroundRD->isChecked());
     }
 }
@@ -397,8 +393,8 @@ void DlgBackgroundProperties::s_ImageEditCorrect() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::s_FullFill() {
-    if (DiaporamaObject->BackgroundBrush.Image) {
-        DiaporamaObject->BackgroundBrush.BrushFileCorrect.FullFilling=true;
+    if (DiaporamaObject->BackgroundBrush->Image) {
+        DiaporamaObject->BackgroundBrush->BrushFileCorrect.FullFilling=true;
         RefreshControls(ui->NewBackgroundRD->isChecked());
     }
 }
@@ -406,8 +402,8 @@ void DlgBackgroundProperties::s_FullFill() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::s_KeepRatio() {
-    if (DiaporamaObject->BackgroundBrush.Image) {
-        DiaporamaObject->BackgroundBrush.BrushFileCorrect.FullFilling=false;
+    if (DiaporamaObject->BackgroundBrush->Image) {
+        DiaporamaObject->BackgroundBrush->BrushFileCorrect.FullFilling=false;
         RefreshControls(ui->NewBackgroundRD->isChecked());
     }
 }

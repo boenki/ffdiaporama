@@ -18,30 +18,40 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "mainwindow.h"
 #include "DlgTextEdit.h"
 #include "ui_DlgTextEdit.h"
-#include "DlgTextEdit.h"
 
-DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QWidget *parent):QDialog(parent),ui(new Ui::DlgTextEdit) {
-    ui->setupUi(this);
-    CurrentTextItem =TheCurrentTextItem;
-    ParentWindow    =parent;
+//#define DEBUGMODE
 
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
-        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-    #else
-        setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
+DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTextEdit) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::DlgTextEdit";
     #endif
+    ui->setupUi(this);
+    OkBt            =ui->OKBT;
+    CancelBt        =ui->CancelBt;
+    HelpBt          =ui->HelpBT;
+    CurrentTextItem =TheCurrentTextItem;
+    StopMAJSpinbox  =false;
+}
 
-    // Save object before modification for cancel button
-    Undo=new QDomDocument(APPLICATION_NAME);
-    QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(GlobalMainWindow->Diaporama->ProjectFileName).absolutePath(),true);  // Save object
-    Undo->appendChild(root);                                // Add object to xml document
+//====================================================================================================================
 
-    StopMAJSpinbox =false;
-    IsFirstInitDone=false;
+DlgTextEdit::~DlgTextEdit() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::~DlgTextEdit";
+    #endif
+    delete ui;
+}
+
+//====================================================================================================================
+// Initialise dialog
+
+void DlgTextEdit::DoInitDialog() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::DoInitDialog";
+    #endif
 
     // Init check box
     ui->textLeft->setCheckable(true);
@@ -84,9 +94,6 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QWidget *parent)
     RefreshControls();
 
     // Define handler
-    connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
-    connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
-    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
     connect(ui->plainTextEdit,SIGNAL(textChanged()),this,SLOT(s_plainTextEditChange()));
     connect(ui->FontColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontColorCombo(int)));
     connect(ui->StyleShadowColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontShadowColorCombo(int)));
@@ -121,63 +128,37 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QWidget *parent)
 }
 
 //====================================================================================================================
+// Initiale Undo
 
-DlgTextEdit::~DlgTextEdit() {
-    delete ui;
-    delete Undo;
+void DlgTextEdit::PrepareGlobalUndo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::PrepareGlobalUndo";
+    #endif
+    // Save object before modification for cancel button
+    Undo=new QDomDocument(APPLICATION_NAME);
+    QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
+    CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT",GlobalMainWindow->Diaporama->ProjectFileName,true);  // Save object
+    Undo->appendChild(root);                                // Add object to xml document
 }
 
 //====================================================================================================================
+// Apply Undo : call when user click on Cancel button
 
-void DlgTextEdit::reject() {
-    // Save Window size and position
-    GlobalMainWindow->ApplicationConfig->DlgTextEditWSP->SaveWindowState(this);
+void DlgTextEdit::DoGlobalUndo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::DoGlobalUndo";
+    #endif
+    // Restore element
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") {
-        QStringList AliasList;
-        CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,AliasList);
-    }
-    done(1);
-}
-
-//====================================================================================================================
-
-void DlgTextEdit::accept() {
-    // Save Window size and position
-    GlobalMainWindow->ApplicationConfig->DlgTextEditWSP->SaveWindowState(this);
-    // Close the box
-    done(0);
-}
-
-//====================================================================================================================
-
-void DlgTextEdit::Help() {
-    GlobalMainWindow->OpenHelp(HELPFILE_DlgTextEdit);
-}
-
-//====================================================================================================================
-
-void DlgTextEdit::resizeEvent(QResizeEvent *) {
-}
-
-//====================================================================================================================
-
-void DlgTextEdit::SetSavedWindowGeometry() {
-    GlobalMainWindow->ApplicationConfig->DlgTextEditWSP->ApplyToWindow(this);
-}
-
-//====================================================================================================================
-
-void DlgTextEdit::showEvent(QShowEvent *ev) {
-    QDialog::showEvent(ev);
-    if (IsFirstInitDone) return;
-    QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
-    IsFirstInitDone=true;                                   // Set this flag to true to indicate that now we can prepeare display
+    if (root.tagName()=="UNDO-DLG") CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL);
 }
 
 //====================================================================================================================
 
 void DlgTextEdit::RefreshControls() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::RefreshControls";
+    #endif
     StopMAJSpinbox=true;
     // Update text controls
     ui->TextStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleTextCollection.GetStyleName(CurrentTextItem->GetTextStyle()));
@@ -201,12 +182,12 @@ void DlgTextEdit::RefreshControls() {
     ui->fontEffectCB->view()->setFixedWidth(250);
 
     // Brush TAB part
-    bool Allow_Brush  =(CurrentTextItem->BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK);
-    bool Allow_Color1 =(Allow_Brush)&&((CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_SOLID)||(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_PATTERN)||(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
-    bool Allow_Color2 =(Allow_Brush)&&((CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT2)||(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3));
-    bool Allow_Color3 =(Allow_Brush)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_GRADIENT3);
-    bool Allow_Pattern=(Allow_Brush)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_PATTERN);
-    bool Allow_Library=(Allow_Brush)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGELIBRARY);
+    bool Allow_Brush  =(CurrentTextItem->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK);
+    bool Allow_Color1 =(Allow_Brush)&&((CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_SOLID)||(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_PATTERN)||(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3));
+    bool Allow_Color2 =(Allow_Brush)&&((CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3));
+    bool Allow_Color3 =(Allow_Brush)&&(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3);
+    bool Allow_Pattern=(Allow_Brush)&&(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_PATTERN);
+    bool Allow_Library=(Allow_Brush)&&(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGELIBRARY);
 
     ui->BackgroundLabel->setVisible(Allow_Brush);
     ui->BackgroundStyleBT->setVisible(Allow_Brush);
@@ -231,16 +212,16 @@ void DlgTextEdit::RefreshControls() {
     ui->BackgroundCombo->setVisible(Allow_Library);
 
     // Set brush type combo index
-    for (int i=0;i<ui->BrushTypeCombo->count();i++) if (ui->BrushTypeCombo->itemData(i).toInt()==CurrentTextItem->BackgroundBrush.BrushType) ui->BrushTypeCombo->setCurrentIndex(i);
-    ui->PatternBrushCombo->SetCurrentBrush(&CurrentTextItem->BackgroundBrush);
-    ui->FirstColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush.ColorD);
-    ui->IntermColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush.ColorIntermed);
-    ui->FinalColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush.ColorF);
-    ui->OrientationCombo->SetCurrentBrush(&CurrentTextItem->BackgroundBrush);
-    ui->FirstColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush.ColorD);
+    for (int i=0;i<ui->BrushTypeCombo->count();i++) if (ui->BrushTypeCombo->itemData(i).toInt()==CurrentTextItem->BackgroundBrush->BrushType) ui->BrushTypeCombo->setCurrentIndex(i);
+    ui->PatternBrushCombo->SetCurrentBrush(CurrentTextItem->BackgroundBrush);
+    ui->FirstColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush->ColorD);
+    ui->IntermColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush->ColorIntermed);
+    ui->FinalColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush->ColorF);
+    ui->OrientationCombo->SetCurrentBrush(CurrentTextItem->BackgroundBrush);
+    ui->FirstColorCombo->SetCurrentColor(&CurrentTextItem->BackgroundBrush->ColorD);
 
     // Set controls depending on brush type
-    switch (CurrentTextItem->BackgroundBrush.BrushType) {
+    switch (CurrentTextItem->BackgroundBrush->BrushType) {
         case BRUSHTYPE_NOBRUSH :
             break;
         case BRUSHTYPE_PATTERN :
@@ -248,13 +229,13 @@ void DlgTextEdit::RefreshControls() {
             break;
         case BRUSHTYPE_GRADIENT3 :
         case BRUSHTYPE_GRADIENT2 :
-            ui->IntermPosSlider->setValue(CurrentTextItem->BackgroundBrush.Intermediate*100);
-            ui->IntermPosED->setValue(CurrentTextItem->BackgroundBrush.Intermediate*100);
+            ui->IntermPosSlider->setValue(CurrentTextItem->BackgroundBrush->Intermediate*100);
+            ui->IntermPosED->setValue(CurrentTextItem->BackgroundBrush->Intermediate*100);
             break;
         case BRUSHTYPE_IMAGELIBRARY :
             // Ensure BrushImage is valide
-            if ((BackgroundList.SearchImage(CurrentTextItem->BackgroundBrush.BrushImage)==-1)&&(BackgroundList.List.count()>0)) CurrentTextItem->BackgroundBrush.BrushImage=BackgroundList.List[0].Name;
-            ui->BackgroundCombo->SetCurrentBackground(CurrentTextItem->BackgroundBrush.BrushImage);
+            if ((BackgroundList.SearchImage(CurrentTextItem->BackgroundBrush->BrushImage)==-1)&&(BackgroundList.List.count()>0)) CurrentTextItem->BackgroundBrush->BrushImage=BackgroundList.List[0].Name;
+            ui->BackgroundCombo->SetCurrentBackground(CurrentTextItem->BackgroundBrush->BrushImage);
             break;
     }
 
@@ -263,8 +244,11 @@ void DlgTextEdit::RefreshControls() {
 }
 
 void DlgTextEdit::MakeTextStyleIcon(QComboBox *UICB) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::MakeTextStyleIcon";
+    #endif
     for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0);
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,BaseApplicationConfig);
         Object.Text="T";
         Object.x=0.15;
         Object.y=0.15;
@@ -296,6 +280,9 @@ void DlgTextEdit::MakeTextStyleIcon(QComboBox *UICB) {
 
 //========= Text style bold
 void DlgTextEdit::s_SetBold() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_SetBold";
+    #endif
     if (StopMAJSpinbox) return;
     if (CurrentTextItem->IsBold==true) CurrentTextItem->IsBold=false; else CurrentTextItem->IsBold=true;
     RefreshControls();
@@ -303,6 +290,9 @@ void DlgTextEdit::s_SetBold() {
 
 //========= Text style italic
 void DlgTextEdit::s_SetItalic() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_SetItalic";
+    #endif
     if (StopMAJSpinbox) return;
     if (CurrentTextItem->IsItalic==true) CurrentTextItem->IsItalic=false; else CurrentTextItem->IsItalic=true;
     RefreshControls();
@@ -310,6 +300,9 @@ void DlgTextEdit::s_SetItalic() {
 
 //========= Text style underline
 void DlgTextEdit::s_SetUnderline() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_SetUnderline";
+    #endif
     if (StopMAJSpinbox) return;
     if (CurrentTextItem->IsUnderline==true) CurrentTextItem->IsUnderline=false; else CurrentTextItem->IsUnderline=true;
     RefreshControls();
@@ -317,6 +310,9 @@ void DlgTextEdit::s_SetUnderline() {
 
 //========= Horizontal alignment left
 void DlgTextEdit::s_SetTextLeft() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_SetTextLeft";
+    #endif
     if (StopMAJSpinbox) return;
     CurrentTextItem->HAlign=0;
     RefreshControls();
@@ -324,6 +320,9 @@ void DlgTextEdit::s_SetTextLeft() {
 
 //========= Horizontal alignment center
 void DlgTextEdit::s_SetTextCenter() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_SetTextCenter";
+    #endif
     if (StopMAJSpinbox) return;
     CurrentTextItem->HAlign=1;
     RefreshControls();
@@ -331,6 +330,9 @@ void DlgTextEdit::s_SetTextCenter() {
 
 //========= Horizontal alignment right
 void DlgTextEdit::s_SetTextRight() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_SetTextRight";
+    #endif
     if (StopMAJSpinbox) return;
     CurrentTextItem->HAlign=2;
     RefreshControls();
@@ -338,6 +340,9 @@ void DlgTextEdit::s_SetTextRight() {
 
 //========= Horizontal alignment justify
 void DlgTextEdit::s_SetTextJustif() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_SetTextJustif";
+    #endif
     if (StopMAJSpinbox) return;
     CurrentTextItem->HAlign=3;
     RefreshControls();
@@ -345,6 +350,9 @@ void DlgTextEdit::s_SetTextJustif() {
 
 //========= Vertical alignment up
 void DlgTextEdit::s_SetTextUp() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_SetTextUp";
+    #endif
     if (StopMAJSpinbox) return;
     CurrentTextItem->VAlign=0;
     RefreshControls();
@@ -352,6 +360,9 @@ void DlgTextEdit::s_SetTextUp() {
 
 //========= Vertical alignment center
 void DlgTextEdit::s_SetTextVCenter() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_SetTextVCenter";
+    #endif
     if (StopMAJSpinbox) return;
     CurrentTextItem->VAlign=1;
     RefreshControls();
@@ -359,6 +370,9 @@ void DlgTextEdit::s_SetTextVCenter() {
 
 //========= Vertical alignment bottom
 void DlgTextEdit::s_SetTextBottom() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_SetTextBottom";
+    #endif
     if (StopMAJSpinbox) return;
     CurrentTextItem->VAlign=2;
     RefreshControls();
@@ -366,6 +380,9 @@ void DlgTextEdit::s_SetTextBottom() {
 
 //========= Font family
 void DlgTextEdit::s_ChangeFont(QFont font) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChangeFont";
+    #endif
     if (StopMAJSpinbox) return;
     if (font.family()!="") CurrentTextItem->FontName=font.family();
     RefreshControls();
@@ -373,6 +390,9 @@ void DlgTextEdit::s_ChangeFont(QFont font) {
 
 //========= Size font
 void DlgTextEdit::s_ChangeSizeFont(QString size) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChangeSizeFont";
+    #endif
     if (StopMAJSpinbox) return;
     if (size!="") CurrentTextItem->FontSize=size.toInt();
     RefreshControls();
@@ -380,6 +400,9 @@ void DlgTextEdit::s_ChangeSizeFont(QString size) {
 
 //========= Style font
 void DlgTextEdit::s_ChangeStyleFont(int Style) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChangeStyleFont";
+    #endif
     if (StopMAJSpinbox) return;
     CurrentTextItem->StyleText=Style;
     RefreshControls();
@@ -387,6 +410,9 @@ void DlgTextEdit::s_ChangeStyleFont(int Style) {
 
 //========= Plain text edit
 void DlgTextEdit::s_plainTextEditChange() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_plainTextEditChange";
+    #endif
     if (StopMAJSpinbox) return;
     CurrentTextItem->Text=ui->plainTextEdit->toPlainText();
     RefreshControls();
@@ -394,6 +420,9 @@ void DlgTextEdit::s_plainTextEditChange() {
 
 //========= Font color
 void DlgTextEdit::s_ChIndexFontColorCombo(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChIndexFontColorCombo";
+    #endif
     if (StopMAJSpinbox) return;
     CurrentTextItem->FontColor=ui->FontColorCombo->GetCurrentColor();
     RefreshControls();
@@ -401,6 +430,9 @@ void DlgTextEdit::s_ChIndexFontColorCombo(int) {
 
 //========= Text shadow color
 void DlgTextEdit::s_ChIndexFontShadowColorCombo(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChIndexFontShadowColorCombo";
+    #endif
     if (StopMAJSpinbox) return;
     CurrentTextItem->FontShadowColor=ui->StyleShadowColorCombo->GetCurrentColor();
     RefreshControls();
@@ -409,24 +441,33 @@ void DlgTextEdit::s_ChIndexFontShadowColorCombo(int) {
 //====================================================================================================================
 
 void DlgTextEdit::s_ChangeBrushTypeCombo(int Value) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChangeBrushTypeCombo";
+    #endif
     if (StopMAJSpinbox) return;
-    CurrentTextItem->BackgroundBrush.BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
+    CurrentTextItem->BackgroundBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgTextEdit::s_IntermPosSliderMoved(int Value) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_IntermPosSliderMoved";
+    #endif
     if (StopMAJSpinbox) return;
-    CurrentTextItem->BackgroundBrush.Intermediate=double(Value)/100;
+    CurrentTextItem->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgTextEdit::s_IntermPosED(int Value) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_IntermPosED";
+    #endif
     if (StopMAJSpinbox) return;
-    CurrentTextItem->BackgroundBrush.Intermediate=double(Value)/100;
+    CurrentTextItem->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls();
 }
 
@@ -436,43 +477,61 @@ void DlgTextEdit::s_IntermPosED(int Value) {
 
 //========= Pattern shape combo
 void DlgTextEdit::s_ChIndexPatternBrushCombo(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChIndexPatternBrushCombo";
+    #endif
     if (StopMAJSpinbox) return;
-    CurrentTextItem->BackgroundBrush.PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
+    CurrentTextItem->BackgroundBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
     RefreshControls();
 }
 
 //========= Gradient shape orientation
 void DlgTextEdit::s_ChIndexGradientOrientationCombo(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChIndexGradientOrientationCombo";
+    #endif
     if (StopMAJSpinbox) return;
-    CurrentTextItem->BackgroundBrush.GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
+    CurrentTextItem->BackgroundBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
     RefreshControls();
 }
 
 //========= Shape/Gradient shape first color
 void DlgTextEdit::s_ChIndexGradientFirstColorCombo(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChIndexGradientFirstColorCombo";
+    #endif
     if (StopMAJSpinbox) return;
-    CurrentTextItem->BackgroundBrush.ColorD=ui->FirstColorCombo->GetCurrentColor();
+    CurrentTextItem->BackgroundBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
     RefreshControls();
 }
 
 //========= Gradient shape last color
 void DlgTextEdit::s_ChIndexGradientFinalColorCombo(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChIndexGradientFinalColorCombo";
+    #endif
     if (StopMAJSpinbox) return;
-    CurrentTextItem->BackgroundBrush.ColorF=ui->FinalColorCombo->GetCurrentColor();
+    CurrentTextItem->BackgroundBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
     RefreshControls();
 }
 
 //========= Gradient shape intermediate color
 void DlgTextEdit::s_ChIndexGradientIntermColorCombo(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChIndexGradientIntermColorCombo";
+    #endif
     if (StopMAJSpinbox) return;
-    CurrentTextItem->BackgroundBrush.ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
+    CurrentTextItem->BackgroundBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
     RefreshControls();
 }
 
 //========= Background image
 void DlgTextEdit::s_ChIndexBackgroundCombo(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_ChIndexBackgroundCombo";
+    #endif
     if (StopMAJSpinbox) return;
-    CurrentTextItem->BackgroundBrush.BrushImage=ui->BackgroundCombo->GetCurrentBackground();
+    CurrentTextItem->BackgroundBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
     RefreshControls();
 }
 
@@ -481,6 +540,9 @@ void DlgTextEdit::s_ChIndexBackgroundCombo(int) {
 //====================================================================================================================
 
 void DlgTextEdit::s_TextStyleBT() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_TextStyleBT";
+    #endif
     QString ActualStyle=CurrentTextItem->GetTextStyle();
     QString Item=GlobalMainWindow->ApplicationConfig->StyleTextCollection.PopupCollectionMenu(this,ActualStyle);
     ui->TextStyleBT->setDown(false);
@@ -489,6 +551,9 @@ void DlgTextEdit::s_TextStyleBT() {
 }
 
 void DlgTextEdit::s_BackgroundStyleBT() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgTextEdit::s_BackgroundStyleBT";
+    #endif
     QString ActualStyle=CurrentTextItem->GetBackgroundStyle();
     QString Item=GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection.PopupCollectionMenu(this,ActualStyle);
     ui->BackgroundStyleBT->setDown(false);

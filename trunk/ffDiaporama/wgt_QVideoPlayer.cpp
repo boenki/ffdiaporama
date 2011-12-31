@@ -22,6 +22,8 @@
 #include "mainwindow.h"
 #include "ui_wgt_QVideoPlayer.h"
 
+//#define DEBUGMODE
+
 //*********************************************************************************************************************************************
 // Base object for Movie frame
 //*********************************************************************************************************************************************
@@ -107,7 +109,6 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     IsSliderProcess         = false;
     ActualPosition          = -1;
     tDuration               = QTime(0,0,0,0);
-    MixedMusic.NeedLockSDL  = true;
     ActualDisplay           = NULL;
 
     ui->Position->setFixedWidth(DisplayMSec?80:60); ui->Position->setText(QTime(0,0,0,0).toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
@@ -168,10 +169,17 @@ void wgt_QVideoPlayer::s_DoubleClick() {
 //============================================================================================
 
 void wgt_QVideoPlayer::resizeEvent(QResizeEvent *) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:wgt_QVideoPlayer::resizeEvent";
+    #endif
     Resize();
 }
 
 void wgt_QVideoPlayer::Resize() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:wgt_QVideoPlayer::Resize";
+    #endif
+
     if ((FileInfo==NULL)&&(Diaporama==NULL)) return;
     SetPlayerToPause();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -247,7 +255,7 @@ bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
 // Init a video show
 //============================================================================================
 
-bool wgt_QVideoPlayer::StartPlay(cvideofilewrapper *theFileInfo,double theWantedFPS) {
+bool wgt_QVideoPlayer::StartPlay(cVideoFile *theFileInfo,double theWantedFPS) {
     if (theFileInfo==NULL) return false;
     FileInfo =theFileInfo;
     WantedFPS=theWantedFPS;
@@ -370,11 +378,11 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
                     if (Diaporama->List.count()>0)
                         SetStartEndPos(
                                 Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                           // Current slide
-                                Diaporama->List[Diaporama->CurrentCol].GetDuration(),
+                                Diaporama->List[Diaporama->CurrentCol]->GetDuration(),
                                 (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1),                            // Previous slide
-                                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1].GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
+                                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
                                 Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,    // Next slide
-                                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1].GetDuration():0);
+                                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->GetDuration():0);
                     else SetStartEndPos(0,0,-1,0,-1,0);
                }
                Diaporama->CurrentPosition=Value;
@@ -396,7 +404,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
         if (FileInfo) {
 
-            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,0,false,NULL,1,false,NULL);
+            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,0,false,NULL,1,false,NULL,false);
             if (VideoImage) {
                 ui->MovieFrame->setPixmap(QPixmap().fromImage(VideoImage->scaledToHeight(ui->MovieFrame->height())));  // Display frame
                 delete VideoImage;
@@ -420,11 +428,11 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
                 if (Diaporama->List.count()>0)
                     SetStartEndPos(
                             Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                               // Current slide
-                            Diaporama->List[Diaporama->CurrentCol].GetDuration(),
+                            Diaporama->List[Diaporama->CurrentCol]->GetDuration(),
                             (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1), // Previous slide
-                            (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1].GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
+                            (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
                             Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,        // Next slide
-                            Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1].GetDuration():0);
+                            Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->GetDuration():0);
 
             }
             Diaporama->CurrentPosition=Value;
@@ -509,21 +517,21 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     if (SoundWanted) {
         // Ensure MusicTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
-            Frame->CurrentObject_MusicTrack=new cSoundBlockList();
+            Frame->CurrentObject_MusicTrack=new cSDLSoundBlockList();
             Frame->CurrentObject_MusicTrack->SetFPS(WantedFPS);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
-            Frame->TransitObject_MusicTrack=new cSoundBlockList();
+            Frame->TransitObject_MusicTrack=new cSDLSoundBlockList();
             Frame->TransitObject_MusicTrack->SetFPS(WantedFPS);
         }
 
         // Ensure SoundTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
-            Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
+            Frame->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
             Frame->CurrentObject_SoundTrackMontage->SetFPS(WantedFPS);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
-            Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
+            Frame->TransitObject_SoundTrackMontage=new cSDLSoundBlockList();
             Frame->TransitObject_SoundTrackMontage->SetFPS(WantedFPS);
         }
     }

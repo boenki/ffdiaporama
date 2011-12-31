@@ -21,10 +21,10 @@
 #include "_StyleDefinitions.h"
 #include "_SoundDefinitions.h"
 #include "_ImagesDefinitions.h"
-#include "_ImageFileWrapper.h"
-#include "_VideoFileWrapper.h"
 #include "_ApplicationDefinitions.h"
 
+#include "SubProjects/VariousWidgets/DlgCheckConfig.h"
+#include "SubProjects/VariousWidgets/DlgffDPjrProperties.h"
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -38,9 +38,8 @@
 #include "DlgTransitionProperties.h"
 #include "DlgApplicationSettings.h"
 #include "DlgRenderVideo.h"
-#include "DlgCheckConfig.h"
 
-#define DEBUGMODE
+//#define DEBUGMODE
 
 MainWindow  *GlobalMainWindow=NULL;
 
@@ -51,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     qDebug() << "IN:MainWindow::MainWindow";
     #endif
 
-    ApplicationConfig       =new cApplicationConfig();
+    ApplicationConfig       =new cApplicationConfig(this);
     CurrentThreadId         =this->thread()->currentThreadId();
     InternetBUILDVERSION    ="";
     GlobalMainWindow        =this;
@@ -75,28 +74,11 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     AddToSystemProperties(QString(STARTINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
     ApplicationConfig->InitConfigurationValues(ForceLanguage,App);
-    ApplicationConfig->ForceLanguage="";
+    PreloadSystemIcons();
 
     QSplashScreen screen;
     screen.setPixmap(QPixmap("img/splash.png"));
     screen.show();
-
-    ApplicationConfig->TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","Advanced","Device database type"));           // EXPORTMODE_ADVANCED
-    ApplicationConfig->TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","Smartphone","Device database type"));         // EXPORTMODE_SMARTPHONE
-    ApplicationConfig->TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","Multimedia system","Device database type"));  // EXPORTMODE_MULTIMEDIASYS
-    ApplicationConfig->TranslatedRenderType.append(QApplication::translate("DlgRenderVideo","For the WEB","Device database type"));        // EXPORTMODE_FORTHEWEB
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Smartphone","Device database type"));
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Portable Player","Device database type"));
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Netbook/NetPC","Device database type"));
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Handheld game console","Device database type"));
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_SMARTPHONE].append(QApplication::translate("DlgRenderVideo","Tablet computer","Device database type"));
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Multimedia hard drive and gateway","Device database type"));
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Player","Device database type"));
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","ADSL Box","Device database type"));
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_MULTIMEDIASYS].append(QApplication::translate("DlgRenderVideo","Game console","Device database type"));
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","SWF Flash Player","Device database type"));
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","Video-sharing and social WebSite","Device database type"));
-    ApplicationConfig->TranslatedRenderSubtype[EXPORTMODE_FORTHEWEB].append(QApplication::translate("DlgRenderVideo","HTML 5","Device database type"));
 
     ui->setupUi(this);
     ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
@@ -118,82 +100,12 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Register all formats and codecs for libavformat/libavcodec/etc ...
     screen.showMessage(QApplication::translate("MainWindow","Starting ffmpeg..."),Qt::AlignHCenter|Qt::AlignBottom);
-    #ifndef FF_API_AVCODEC_INIT
-    avcodec_init();
-    #endif
-    av_register_all();
-    //QString Conf;
+    ApplicationConfig->DeviceModelList.Initffmpeg();
 
+    // Display ffmpeg versions
     AddToSystemProperties(QString(LIBAVCODECVERSION_STR)+QString("%1").arg(LIBAVCODEC_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MINOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MICRO)+"."+QString("%1").arg(avcodec_version())+"-Licence="+QString(avcodec_license()));
-    //Conf=QString(avcodec_configuration());  Conf.replace(" --","\n  --"); AddToSystemProperties("  "+Conf+"\n");
-
     AddToSystemProperties(QString(LIBAVFORMATVERSION_STR)+QString("%1").arg(LIBAVFORMAT_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MINOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MICRO)+"."+QString("%1").arg(avformat_version())+"-Licence="+QString(avformat_license()));
-    //Conf=QString(avformat_configuration());  Conf.replace(" --","\n  --");  AddToSystemProperties("  "+Conf+"\n");
-
     AddToSystemProperties(QString(LIBSWSCALEVERSION_STR)+QString("%1").arg(LIBSWSCALE_VERSION_MAJOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MINOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MICRO)+"."+QString("%1").arg(swscale_version())+"-Licence="+QString(swscale_license()));
-    //Conf=QString(swscale_configuration());  Conf.replace(" --","\n  --");   AddToSystemProperties("  "+Conf+"\n");
-
-    // Check codec to know if they was finded
-    AVCodec *p=NULL;
-    while ((p=av_codec_next(p))) {
-        if (p->type==AVMEDIA_TYPE_AUDIO) {
-            for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(p->encode!=NULL)&&(!AUDIOCODECDEF[i].IsFind)) {
-                AUDIOCODECDEF[i].IsFind=true;
-                strcpy(AUDIOCODECDEF[i].ShortName,p->name);
-            }
-            if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
-        }
-        if (p->type==AVMEDIA_TYPE_VIDEO) for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(p->encode!=NULL)&&(!VIDEOCODECDEF[i].IsFind)) {
-            VIDEOCODECDEF[i].IsFind=true;
-            strcpy(VIDEOCODECDEF[i].ShortName,p->name);
-        }
-        if (QString(p->name)==QString("libxvid")) strcpy(VIDEOCODECDEF[2].ShortName,p->name);
-    }
-
-    // Check format to know if they was finded
-    AVOutputFormat *ofmt=NULL;
-    while ((ofmt=av_oformat_next(ofmt))) {
-        for (int i=0;i<NBR_FORMATDEF;i++) if (strcmp(ofmt->name,FORMATDEF[i].ShortName)==0) {
-            QString     AllowedCodec=FORMATDEF[i].PossibleVideoCodec;
-            QString     Codec="";
-            int         Index=0;
-            bool        IsFindVideoCodec=false;
-            bool        IsFindAudioCodec=false;
-
-            while (AllowedCodec.length()>0) {
-                Index=AllowedCodec.indexOf("#");
-                if (Index>0) {
-                    Codec=AllowedCodec.left(Index);
-                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
-                } else {
-                    Codec=AllowedCodec;
-                    AllowedCodec="";
-                }
-                // Now find index of this codec in the VIDEOCODECDEF
-                Index=0;
-                while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
-                if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) IsFindVideoCodec=true;
-            }
-            AllowedCodec=FORMATDEF[i].PossibleAudioCodec;
-            Codec="";
-            Index=0;
-            while (AllowedCodec.length()>0) {
-                Index=AllowedCodec.indexOf("#");
-                if (Index>0) {
-                    Codec=AllowedCodec.left(Index);
-                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
-                } else {
-                    Codec=AllowedCodec;
-                    AllowedCodec="";
-                }
-                // Now find index of this codec in the AUDIOCODECDEF
-                Index=0;
-                while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
-                if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
-            }
-            FORMATDEF[i].IsFind=IsFindAudioCodec && IsFindVideoCodec;
-        }
-    }
 
     // Display finding codecs & formats
     AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Registered video codecs for encoding :"));
@@ -202,7 +114,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     for (int i=0;i<NBR_AUDIOCODECDEF;i++) if (AUDIOCODECDEF[i].IsFind) AddToSystemProperties("  "+QString(AUDIOCODECDEF[i].LongName)+"-ffmpeg codec:"+QString(AUDIOCODECDEF[i].ShortName));
     AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Registered container formats for encoding :"));
     for (int i=0;i<NBR_FORMATDEF;i++)     if (FORMATDEF[i].IsFind) AddToSystemProperties("  "+QString(FORMATDEF[i].LongName));
-    AddSeparatorToSystemProperties();   AddToSystemProperties(QString("%1").arg(ApplicationConfig->RenderDeviceModel.count())+QApplication::translate("MainWindow"," Device registered for rendering"));
+    AddSeparatorToSystemProperties();   AddToSystemProperties(QString("%1").arg(ApplicationConfig->DeviceModelList.RenderDeviceModel.count())+QApplication::translate("MainWindow"," Device registered for rendering"));
 
     AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Library :"));
     QString Path;
@@ -258,8 +170,8 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->Action_OpenRecent_BT,SIGNAL(pressed()),this,SLOT(s_action_OpenRecent()));               connect(ui->Action_OpenRecent_BT_2,SIGNAL(pressed()),this,SLOT(s_action_OpenRecent()));
     connect(ui->Action_Save_BT,SIGNAL(pressed()),this,SLOT(s_action_Save()));                           connect(ui->Action_Save_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Save()));
     connect(ui->ActionSave_as_BT,SIGNAL(pressed()),this,SLOT(s_action_SaveAs()));                       connect(ui->ActionSave_as_BT_2,SIGNAL(pressed()),this,SLOT(s_action_SaveAs()));
+    connect(ui->Action_PrjProperties_BT,SIGNAL(pressed()),this,SLOT(s_ProjectProperties()));            connect(ui->Action_PrjProperties_BT_2,SIGNAL(pressed()),this,SLOT(s_ProjectProperties()));
     connect(ui->ActionConfiguration_BT,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));     connect(ui->ActionConfiguration_BT_2,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));
-
     connect(ui->Action_Exit_BT,SIGNAL(pressed()),this,SLOT(s_action_Exit()));                           connect(ui->Action_Exit_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Exit()));
 
     // Project menu
@@ -300,8 +212,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     TitleBar=QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
     if ((TitleBar.indexOf("devel")!=-1)||(TitleBar.indexOf("beta")!=-1)) TitleBar=TitleBar+QString(" - ")+CurrentAppVersion;
 
-    ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
-    SetTimelineHeight();                                    // setup initial size
+    // Some other init
     ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+"0 / 0");
     s_ToolbarChanged(0);
     ToStatusBar("");
@@ -309,7 +220,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig())); else {
         QString Status;
-        if ((!CheckExiv2(Status))||(!Checkffmpeg(Status))) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig()));
+        if ((!CheckExiv2(Status,ApplicationConfig))||(!Checkffmpeg(Status,ApplicationConfig))) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig()));
     }
 }
 
@@ -470,6 +381,7 @@ void MainWindow::showEvent(QShowEvent *) {
     #endif
     if (!IsFirstInitDone) {
         IsFirstInitDone=true;                                   // do this only one time
+        ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
         connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(onNetworkReply(QNetworkReply*)));
@@ -582,7 +494,9 @@ void MainWindow::s_About() {
     #endif
     ui->Action_About_BT->setDown(false);
     ui->Action_About_BT_2->setDown(false);
-    DlgAbout(this).exec();
+    DlgAbout Dlg("",ApplicationConfig,ApplicationConfig->DlgAboutWSP,this);
+    Dlg.InitDialog();
+    Dlg.exec();
 }
 
 //====================================================================================================================
@@ -591,10 +505,13 @@ void MainWindow::s_DlgCheckConfig() {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::s_DlgCheckConfig";
     #endif
-    DlgCheckConfig(this).exec();
+    DlgCheckConfig Dlg(HELPFILE_DlgCheckConfig,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
+    Dlg.InitDialog();
+    Dlg.exec();
+
     QString Status;
-    if ((!CheckExiv2(Status))||(!Checkffmpeg(Status))) {
-        QMessageBox::critical(this,"ffDiaporama",QApplication::translate("MainWindow","Configuration not correct!"));
+    if ((!CheckExiv2(Status,ApplicationConfig))||(!Checkffmpeg(Status,ApplicationConfig))) {
+        QMessageBox::critical(this,APPLICATION_NAME,QApplication::translate("MainWindow","Configuration not correct!"));
         close();
     }
 }
@@ -607,7 +524,7 @@ void MainWindow::s_Documentation() {
     #endif
     ui->ActionDocumentation_BT->setDown(false);
     ui->ActionDocumentation_BT_2->setDown(false);
-    OpenHelp(HELPFILE_SUPPORT);
+    QDesktopServices::openUrl(QUrl(QString(HELPFILE_SUPPORT).replace("<local>",ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
 }
 
 //====================================================================================================================
@@ -618,7 +535,7 @@ void MainWindow::s_NewFunctions() {
     #endif
     ui->ActionNewFunctions_BT->setDown(false);
     ui->ActionNewFunctions_BT_2->setDown(false);
-    OpenHelp(HELPFILE_NEWS);
+    QDesktopServices::openUrl(QUrl(QString(HELPFILE_NEWS).replace("<local>",ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
 }
 
 //====================================================================================================================
@@ -717,12 +634,12 @@ void MainWindow::s_ItemDoubleClicked() {
     bool DoneAgain=true;
     while (DoneAgain) {
         DoneAgain=false;
-        int Ret=DlgSlideProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec();
+        int Ret=DlgSlideProperties(Diaporama->List[Diaporama->CurrentCol],this).exec();
         if (Ret!=1) {
             SetModifyFlag(true);
-            if (Diaporama->List[Diaporama->CurrentCol].Thumbnail) {
-                delete Diaporama->List[Diaporama->CurrentCol].Thumbnail;
-                Diaporama->List[Diaporama->CurrentCol].Thumbnail=NULL;
+            if (Diaporama->List[Diaporama->CurrentCol]->Thumbnail) {
+                delete Diaporama->List[Diaporama->CurrentCol]->Thumbnail;
+                Diaporama->List[Diaporama->CurrentCol]->Thumbnail=NULL;
             }
             (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
             AdjustRuller();
@@ -735,11 +652,11 @@ void MainWindow::s_ItemDoubleClicked() {
             if (Diaporama->List.count()>0)
                 (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SetStartEndPos(
                         Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                               // Current slide
-                        Diaporama->List[Diaporama->CurrentCol].GetDuration(),
+                        Diaporama->List[Diaporama->CurrentCol]->GetDuration(),
                         (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1), // Previous slide
-                        (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1].GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
+                        (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
                         Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,        // Next slide
-                        Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1].GetDuration():0);
+                        Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->GetDuration():0);
             else (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SetStartEndPos(0,0,-1,0,-1,0);
             // open dialog again
             DoneAgain=true;
@@ -762,7 +679,7 @@ void MainWindow::s_TransitionItemDoubleClicked() {
         return;
     }
 
-    if (DlgTransitionProperties(&(Diaporama->List[Diaporama->CurrentCol]),false,this).exec()==0) {
+    if (DlgTransitionProperties(Diaporama->List[Diaporama->CurrentCol],false,this).exec()==0) {
         SetModifyFlag(true);
         (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
@@ -796,7 +713,7 @@ void MainWindow::s_BackgroundDoubleClicked() {
         return;
     }
 
-    if (DlgBackgroundProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0) {
+    if (DlgBackgroundProperties(Diaporama->List[Diaporama->CurrentCol],this).exec()==0) {
         SetModifyFlag(true);
         (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
@@ -843,7 +760,7 @@ void MainWindow::s_MusicDoubleClicked() {
         return;
     }
 
-    if (DlgMusicProperties(&(Diaporama->List[Diaporama->CurrentCol]),this).exec()==0) {
+    if (DlgMusicProperties(Diaporama->List[Diaporama->CurrentCol],this).exec()==0) {
         SetModifyFlag(true);
         (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
@@ -903,7 +820,7 @@ void MainWindow::s_ItemSelectionChanged() {
                 ui->preview2->SetPlayerToPause();   // Ensure player is stop
                 Diaporama->CurrentCol=Selected;
                 Diaporama->CurrentPosition=Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol);
-                if (Diaporama->List[Diaporama->CurrentCol].GetTransitDuration()>0) Diaporama->CurrentPosition--;
+                if (Diaporama->List[Diaporama->CurrentCol]->GetTransitDuration()>0) Diaporama->CurrentPosition--;
                 AdjustRuller();
             } else {
                 (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(0);
@@ -988,7 +905,7 @@ void MainWindow::s_RenderSmartphone() {
     ui->ActionSmartphone_BT->setDown(false);
     ui->ActionSmartphone_BT_2->setDown(false);
 
-    DlgRenderVideo(*Diaporama,EXPORTMODE_SMARTPHONE,this).exec();
+    DlgRenderVideo(*Diaporama,MODE_SMARTPHONE,this).exec();
     CurrentRenderingDialog=NULL;
     AdjustRuller();
 }
@@ -1006,7 +923,7 @@ void MainWindow::s_RenderMultimedia() {
     ui->ActionMultimedia_BT->setDown(false);
     ui->ActionMultimedia_BT_2->setDown(false);
 
-    DlgRenderVideo(*Diaporama,EXPORTMODE_MULTIMEDIASYS,this).exec();
+    DlgRenderVideo(*Diaporama,MODE_MULTIMEDIASYS,this).exec();
     CurrentRenderingDialog=NULL;
     AdjustRuller();
 }
@@ -1024,9 +941,31 @@ void MainWindow::s_RenderForTheWEB() {
     ui->ActionForTheWEB_BT->setDown(false);
     ui->ActionForTheWEB_BT_2->setDown(false);
 
-    DlgRenderVideo(*Diaporama,EXPORTMODE_FORTHEWEB,this).exec();
+    DlgRenderVideo(*Diaporama,MODE_FORTHEWEB,this).exec();
     CurrentRenderingDialog=NULL;
     AdjustRuller();
+}
+
+//====================================================================================================================
+// Project properties
+//====================================================================================================================
+
+void MainWindow::s_ProjectProperties() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_ProjectProperties";
+    #endif
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_ProjectProperties()));
+        return;
+    }
+    ui->Action_PrjProperties_BT->setDown(false);
+    ui->Action_PrjProperties_BT_2->setDown(false);
+
+    DlgffDPjrProperties Dlg(Diaporama->ProjectInfo,HELPFILE_DlgffDPjrProperties,ApplicationConfig,ApplicationConfig->DlgffDPjrPropertiesWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) SetModifyFlag(true);
 }
 
 //====================================================================================================================
@@ -1046,7 +985,9 @@ void MainWindow::s_ChangeApplicationSettings() {
     ui->ActionConfiguration_BT->setDown(false);
     ui->ActionConfiguration_BT_2->setDown(false);
 
-    if (DlgApplicationSettings(*ApplicationConfig,this).exec()==0) {
+    DlgApplicationSettings Dlg(HELPFILE_DlgApplicationSettings,ApplicationConfig,ApplicationConfig->DlgApplicationSettingsWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) {
         ToStatusBar(QApplication::translate("MainWindow","Saving configuration file and applying new configuration ..."));
         QTimer::singleShot(500,this,SLOT(s_DoChangeApplicationSettings()));
     }
@@ -1087,7 +1028,7 @@ void MainWindow::s_action_New() {
     if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","New project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
 
-    ImagesCache.List.clear();
+    ApplicationConfig->ImagesCache.List.clear();
     cDiaporama *NewDiaporama=new cDiaporama(ApplicationConfig);
 
     // Clean actual timeline and diaporama
@@ -1184,7 +1125,7 @@ void MainWindow::s_DoOpenFile() {
     ProjectFileName=AdjustDirForOS(ProjectFileName);
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    ImagesCache.List.clear();
+    ApplicationConfig->ImagesCache.List.clear();
 
     // Manage Recent files list
     for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (AdjustDirForOS(ApplicationConfig->RecentFile.at(i))==ProjectFileName) {
@@ -1269,6 +1210,7 @@ void MainWindow::s_action_SaveAs() {
     ui->ActionSave_as_BT->setDown(false);
     ui->ActionSave_as_BT_2->setDown(false);
 
+    // Save project
     Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Save project as"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
     if (Diaporama->ProjectFileName!="") {
         if (QFileInfo(Diaporama->ProjectFileName).suffix()!="ffd") Diaporama->ProjectFileName=Diaporama->ProjectFileName+".ffd";
@@ -1307,26 +1249,26 @@ void MainWindow::s_action_AddTitle() {
     int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
     if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
 
-    Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
-    cDiaporamaObject *DiaporamaObject=&Diaporama->List[CurIndex];
-    DiaporamaObject->List[0].Parent        =DiaporamaObject;
-    DiaporamaObject->List[0].StaticDuration=GlobalMainWindow->ApplicationConfig->NoShotDuration;
-    DiaporamaObject->Parent                =Diaporama;
-    DiaporamaObject->TypeObject            =DIAPORAMAOBJECTTYPE_EMPTY;
+    Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
+    cDiaporamaObject *DiaporamaObject       =Diaporama->List[CurIndex];
+    DiaporamaObject->List[0]->Parent        =DiaporamaObject;
+    DiaporamaObject->List[0]->StaticDuration=ApplicationConfig->NoShotDuration;
+    DiaporamaObject->Parent                 =Diaporama;
+    DiaporamaObject->TypeObject             =DIAPORAMAOBJECTTYPE_EMPTY;
 
     if (Diaporama->ApplicationConfig->RandomTransition) {
         qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
         int Random=qrand();
         Random=int(double(IconList.List.count())*(double(Random)/double(RAND_MAX)));
         if (Random<IconList.List.count()) {
-            Diaporama->List[CurIndex].TransitionFamilly=IconList.List[Random].TransitionFamilly;
-            Diaporama->List[CurIndex].TransitionSubType=IconList.List[Random].TransitionSubType;
+            Diaporama->List[CurIndex]->TransitionFamilly=IconList.List[Random].TransitionFamilly;
+            Diaporama->List[CurIndex]->TransitionSubType=IconList.List[Random].TransitionSubType;
         }
     } else {
-        Diaporama->List[CurIndex].TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
-        Diaporama->List[CurIndex].TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
+        Diaporama->List[CurIndex]->TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
+        Diaporama->List[CurIndex]->TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
     }
-    Diaporama->List[CurIndex].TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
+    Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
     AddObjectToTimeLine(CurIndex);
     ui->timeline->SetCurrentCell(SavedCurIndex+1);
     SetModifyFlag(true);
@@ -1412,17 +1354,17 @@ void MainWindow::s_action_DoAddFile() {
     QString NewFile=FileList.takeFirst();
     if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
-    Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
-    cDiaporamaObject *DiaporamaObject=&Diaporama->List[CurIndex];
-    DiaporamaObject->List[0].Parent        =DiaporamaObject;
-    DiaporamaObject->List[0].StaticDuration=GlobalMainWindow->ApplicationConfig->NoShotDuration;
+    Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
+    cDiaporamaObject *DiaporamaObject       =Diaporama->List[CurIndex];
+    DiaporamaObject->List[0]->Parent        =DiaporamaObject;
+    DiaporamaObject->List[0]->StaticDuration=ApplicationConfig->NoShotDuration;
     DiaporamaObject->Parent                =Diaporama;
     DiaporamaObject->TypeObject            =DIAPORAMAOBJECTTYPE_EMPTY;
 
     // Create and append a composition block to the object list
-    DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
-    cCompositionObject *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-    cBrushDefinition   *CurrentBrush=&CompositionObject->BackgroundBrush;
+    DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,ApplicationConfig));
+    cCompositionObject *CompositionObject   =DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+    cBrushDefinition   *CurrentBrush        =CompositionObject->BackgroundBrush;
 
     // Set CompositionObject to full screen
     CompositionObject->x=0;
@@ -1443,35 +1385,48 @@ void MainWindow::s_action_DoAddFile() {
 
     // Search if file is an image
     QStringList AliasList;
-    for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
+    for (int i=0;i<ApplicationConfig->AllowImageExtension.count();i++) if (ApplicationConfig->AllowImageExtension[i]==Extension) {
         // Create an image wrapper
-        CurrentBrush->Image=new cimagefilewrapper();
-        IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,AliasList);
+        CurrentBrush->Image=new cImageFile(ApplicationConfig);
+        bool ModifyFlag=false;
+        IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag);
         if (!IsValide) {
             delete CurrentBrush->Image;
             CurrentBrush->Image=NULL;
-        }
+        } else if (ModifyFlag) SetModifyFlag(true);
         break;
     }
     // If it's not an image : search if file is a video
-    if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
+    if (CurrentBrush->Image==NULL) for (int i=0;i<ApplicationConfig->AllowVideoExtension.count();i++) if (ApplicationConfig->AllowVideoExtension[i]==Extension) {
         // Create a video wrapper
-        CurrentBrush->Video=new cvideofilewrapper();
-        IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false,AliasList);
+        CurrentBrush->Video=new cVideoFile(false,ApplicationConfig);
+        bool ModifyFlag=false;
+        IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag);
         if (!IsValide) {
             delete CurrentBrush->Video;
             CurrentBrush->Video=NULL;
         } else {
+            if (ModifyFlag) SetModifyFlag(true);
             CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
-            DiaporamaObject->List[0].StaticDuration=1000;
+            DiaporamaObject->List[0]->StaticDuration=1000;
         }
         break;
     }
     if (IsValide) {
-        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing):
-                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
+        // Try to load an image to ensure all is ok
+        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
+                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,false):
                        NULL);
-        if (Image) {
+        if (!Image) {
+            IsValide=false;
+            if (CurrentBrush->Image) {
+                delete CurrentBrush->Image;
+                CurrentBrush->Image=NULL;
+            } else if (CurrentBrush->Video) {
+                delete CurrentBrush->Video;
+                CurrentBrush->Video=NULL;
+            }
+        } else {
 
             // Apply Styles
             CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST)));
@@ -1487,7 +1442,7 @@ void MainWindow::s_action_DoAddFile() {
                 double ProjectGeometry=1;
                 double NewW,NewH;
 
-                switch (GlobalMainWindow->Diaporama->ImageGeometry) {
+                switch (Diaporama->ImageGeometry) {
                     case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
                     case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
                     case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
@@ -1501,15 +1456,15 @@ void MainWindow::s_action_DoAddFile() {
                             else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
                         CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
                         CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
-                        NewW=CompositionObject->w*GlobalMainWindow->Diaporama->InternalWidth;
+                        NewW=CompositionObject->w*Diaporama->InternalWidth;
                         NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
-                        NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
-                        NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+                        NewW=NewW/Diaporama->InternalWidth;
+                        NewH=NewH/Diaporama->InternalHeight;
                         if (NewH>1) {
-                            NewH=CompositionObject->h*GlobalMainWindow->Diaporama->InternalHeight;
+                            NewH=CompositionObject->h*Diaporama->InternalHeight;
                             NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
-                            NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
-                            NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
+                            NewW=NewW/Diaporama->InternalWidth;
+                            NewH=NewH/Diaporama->InternalHeight;
                         }
                         CompositionObject->w=NewW;
                         CompositionObject->h=NewH;
@@ -1533,11 +1488,12 @@ void MainWindow::s_action_DoAddFile() {
             }
             delete Image;
         }
-
+    }
+    if (IsValide) {
         // Now create and append a shot composition block to all shot
         for (int i=0;i<DiaporamaObject->List.count();i++) {
-            DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
-            DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(CompositionObject);
+            DiaporamaObject->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
+            DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
         }
 
         // Inc NextIndexKey
@@ -1548,21 +1504,21 @@ void MainWindow::s_action_DoAddFile() {
             int Random=qrand();
             Random=int(double(IconList.List.count())*(double(Random)/double(RAND_MAX)));
             if (Random<IconList.List.count()) {
-                Diaporama->List[CurIndex].TransitionFamilly=IconList.List[Random].TransitionFamilly;
-                Diaporama->List[CurIndex].TransitionSubType=IconList.List[Random].TransitionSubType;
+                Diaporama->List[CurIndex]->TransitionFamilly=IconList.List[Random].TransitionFamilly;
+                Diaporama->List[CurIndex]->TransitionSubType=IconList.List[Random].TransitionSubType;
             }
         } else {
-            Diaporama->List[CurIndex].TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
-            Diaporama->List[CurIndex].TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
+            Diaporama->List[CurIndex]->TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
+            Diaporama->List[CurIndex]->TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
         }
-        Diaporama->List[CurIndex].TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
+        Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
         AddObjectToTimeLine(CurIndex);
         CurIndex++;
         SetModifyFlag(true);
 
     } else {
         QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+QApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
-        Diaporama->List.removeAt(CurIndex);
+        delete Diaporama->List.takeAt(CurIndex);
     }
 
     // Set current selection to first new object
@@ -1657,7 +1613,7 @@ void MainWindow::s_RemoveObject() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->timeline->setUpdatesEnabled(false);
     FLAGSTOPITEMSELECTION=true;
-    Diaporama->List.removeAt(Current);
+    delete Diaporama->List.takeAt(Current);
     if (Current>=Diaporama->List.count()) Current=Diaporama->List.count()-1;
     ui->timeline->ResetDisplay(Current);    // FLAGSTOPITEMSELECTION is set to false by ResetDisplay
     (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Current)+Diaporama->GetTransitionDuration(Current));
@@ -1693,7 +1649,7 @@ void MainWindow::s_CutToClipboard() {
     // Create xml document and root
     root=Clipboard_Object->createElement("CLIPBOARD");
     Clipboard_Object->appendChild(root);
-    Diaporama->List[Current].SaveToXML(root,"CLIPBOARD-OBJECT",QFileInfo(Diaporama->ProjectFileName).absolutePath(),true);
+    Diaporama->List[Current]->SaveToXML(root,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true);
     s_RemoveObject();
     QApplication::restoreOverrideCursor();
 }
@@ -1724,7 +1680,7 @@ void MainWindow::s_CopyToClipboard() {
     // Create xml document and root
     root=Clipboard_Object->createElement("CLIPBOARD");
     Clipboard_Object->appendChild(root);
-    Diaporama->List[Current].SaveToXML(root,"CLIPBOARD-OBJECT",QFileInfo(Diaporama->ProjectFileName).absolutePath(),true);
+    Diaporama->List[Current]->SaveToXML(root,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true);
 
     RefreshControls();
     QApplication::restoreOverrideCursor();
@@ -1752,15 +1708,14 @@ void MainWindow::s_PasteFromClipboard() {
     int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
     if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
 
-    Diaporama->List.insert(CurIndex,cDiaporamaObject(Diaporama));
+    Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
     //Diaporama->List[CurIndex].List[0].Parent=&Diaporama->List[CurIndex];
 
     QDomElement root=Clipboard_Object->documentElement();
     if (root.tagName()=="CLIPBOARD") {
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         ui->timeline->setUpdatesEnabled(false);
-        QStringList AliasList;
-        Diaporama->List[CurIndex].LoadFromXML(root,"CLIPBOARD-OBJECT","",AliasList);
+        Diaporama->List[CurIndex]->LoadFromXML(root,"CLIPBOARD-OBJECT","",NULL);
         AddObjectToTimeLine(CurIndex);
         SetModifyFlag(true);
         // Set current selection to first new object
@@ -1791,20 +1746,22 @@ void MainWindow::AdjustRuller() {
     ui->preview->SetActualDuration(Diaporama->GetDuration());
     ui->preview2->SetActualDuration(Diaporama->GetDuration());
     if (Diaporama->List.count()>0)  {
+        Diaporama->ProjectInfo->Duration=Diaporama->GetDuration();
+        Diaporama->ProjectInfo->NbrSlide=Diaporama->List.count();
         ui->preview->SetStartEndPos(
                 Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                           // Current slide
-                Diaporama->List[Diaporama->CurrentCol].GetDuration(),
+                Diaporama->List[Diaporama->CurrentCol]->GetDuration(),
                 (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1),                            // Previous slide
-                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1].GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
+                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
                 Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,    // Next slide
-                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1].GetDuration():0);
+                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->GetDuration():0);
         ui->preview2->SetStartEndPos(
                 Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                           // Current slide
-                Diaporama->List[Diaporama->CurrentCol].GetDuration(),
+                Diaporama->List[Diaporama->CurrentCol]->GetDuration(),
                 (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1),                            // Previous slide
-                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1].GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
+                (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
                 Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,    // Next slide
-                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1].GetDuration():0);
+                Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->GetDuration():0);
     } else {
         ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
         ui->preview2->SetStartEndPos(0,0,-1,0,-1,0);

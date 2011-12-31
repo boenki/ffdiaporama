@@ -22,19 +22,21 @@
 #define DLGAPPLICATIONSETTINGS_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include "SubProjects/VariousClass/_GlobalDefines.h"
+#include "SubProjects/VariousWidgets/_QCustomDialog.h"
 
-// Specific inclusions
-#include "_Diaporama.h"
+#include "_ApplicationDefinitions.h"
+
+#include <QComboBox>
 
 namespace Ui {
     class DlgApplicationSettings;
 }
 
-class DlgApplicationSettings : public QDialog {
+class DlgApplicationSettings : public QCustomDialog {
 Q_OBJECT
 public:
-    cApplicationConfig *ApplicationConfig;
+    cApplicationConfig  *ApplicationConfig;
     bool                IsDeviceChanged;
     int                 CurrentDevice;
     int                 CurrentDeviceIndex;
@@ -43,48 +45,29 @@ public:
     QComboBox           *CB_SL_CLIPARTST[3];
     QComboBox           *CB_BA_CLIPARTST[3];
 
-    explicit DlgApplicationSettings(cApplicationConfig &ApplicationConfig,QWidget *parent = 0);
+    explicit DlgApplicationSettings(QString HelpURL,cApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgApplicationSettings();
 
-
-protected:
-    virtual void showEvent(QShowEvent *);
-    virtual void reject();
-    virtual void accept();
-
-    void        AskApplyDBChange();
+    // function to be overloaded
+    virtual void    DoInitDialog();             // Initialise dialog
+    virtual void    DoAccept();                 // Call when user click on Ok button
+    virtual void    DoRejet();                  // Call when user click on Cancel button
+    virtual void    PrepareGlobalUndo();        // Initiale Undo
+    virtual void    DoGlobalUndo();             // Apply Undo : call when user click on Cancel button
 
 private slots:
-    void        Help();
-    void        CheckConfig();
-    void        TabChanged(int);
+    void            s_CheckConfig();
+    void            s_ManageDevices();
+    void            TabChanged(int);
 
-    void        SetSavedWindowGeometry();
-    void        FileFormatCombo(int);
-    void        InitVideoBitRateCB(int);
-    void        InitAudioBitRateCB(int);
-    void        InitImageSizeCombo(int);
+    void            FileFormatCombo(int);
+    void            InitVideoBitRateCB(int);
+    void            InitAudioBitRateCB(int);
+    void            InitImageSizeCombo(int);
 
-    void        ChangeSmartphoneTypeCB(int);
-    void        ChangeMMSystemTypeCB(int);
-    void        ChangeForTheWTypeCB(int);
-
-    // Device database tab
-    void        DBApplyChange();
-    void        DBAddDevice();
-    void        DBRemoveBT();
-    void        DBResetToDefaultBT();
-    void        DBFillTableDevice(int);
-    void        DBImageSizeCombo(int);
-    void        DBFileFormatCombo(int);
-    void        DBSelectionChanged();
-    void        DBChImageSizeCB(int);
-    void        DBVideoBitRateCB(int);
-    void        DBAudioBitRateCB(int);
-    void        DBChModel(QString);
-    void        DBDeviceSubtypeCB(int);
-    void        DBChVideoBitRateCB(int);
-    void        DBChAudioBitRateCB(int);
+    void            ChangeSmartphoneTypeCB(int);
+    void            ChangeMMSystemTypeCB(int);
+    void            ChangeForTheWTypeCB(int);
 
 private:
     Ui::DlgApplicationSettings *ui;

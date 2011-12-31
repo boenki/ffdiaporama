@@ -22,6 +22,11 @@
 #define WGT_QVIDEOPLAYER_H
 
 // Basic inclusions (common to all files)
+#include "SubProjects/VariousClass/_GlobalDefines.h"
+
+// Include some additional standard class
+
+// Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
 // Specific inclusions
@@ -64,7 +69,7 @@ Q_OBJECT
 public:
     bool                *FLAGSTOPITEMSELECTION; // Flag to stop Item Selection process in the timeline
 
-    cvideofilewrapper   *FileInfo;              // Link to the file wrapper object when DlgVideoDialogBox
+    cVideoFile   *FileInfo;              // Link to the file wrapper object when DlgVideoDialogBox
     cDiaporama          *Diaporama;             // Link to the Diaporama hierarchy when preview
 
     int                 ActualPosition;         // Current position (in msec)
@@ -98,7 +103,7 @@ public:
     explicit wgt_QVideoPlayer(QWidget *parent = 0);
     ~wgt_QVideoPlayer();
 
-    bool    StartPlay(cvideofilewrapper *FileInfo,double WantedFPS);         // Start player in DlgVideoDialogBox mode
+    bool    StartPlay(cVideoFile *FileInfo,double WantedFPS);         // Start player in DlgVideoDialogBox mode
     bool    InitDiaporamaPlay(cDiaporama *Diaporama);       // Start player in preview mode
 
     void    SetStartEndPos(int StartPos,int Duration,int PreviousStartPos,int PrevisousEndPos,int NextStartPos,int NextEndPos);

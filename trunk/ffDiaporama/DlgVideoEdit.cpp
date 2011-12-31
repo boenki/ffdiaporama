@@ -36,7 +36,7 @@ DlgVideoEdit::DlgVideoEdit(cBrushDefinition *TheCurrentBrush,QWidget *parent):QD
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(GlobalMainWindow->Diaporama->ProjectFileName).absolutePath(),true);  // Save object
+    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT",GlobalMainWindow->Diaporama->ProjectFileName,true);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 
     // Init embeded widgets
@@ -99,10 +99,7 @@ void DlgVideoEdit::reject() {
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgVideoEditWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") {
-        QStringList AliasList;
-        CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
-    }
+    if (root.tagName()=="UNDO-DLG") CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL);
     done(1);
 }
 

@@ -18,6 +18,13 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
+// Somethings needed by ffmpeg
+#ifdef _STDINT_H
+    #undef _STDINT_H            // Remove previous inclusion (if exist)
+#endif
+#define __STDC_CONSTANT_MACROS  // Activate macro for stdint
+#include <stdint.h>             // Include stdint with macro activated
+
 #include "_GlobalDefines.h"
 #include "mainwindow.h"
 #include <QTranslator>

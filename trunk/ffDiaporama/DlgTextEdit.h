@@ -22,7 +22,17 @@
 #define DLGTEXTEDIT_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include "SubProjects/VariousClass/_GlobalDefines.h"
+#include "SubProjects/VariousWidgets/_QCustomDialog.h"
+
+// Include some additional standard class
+#include <QDialog>
+#include <QComboBox>
+#include <QFont>
+#include <QString>
+
+// Include some common various class
+#include "SubProjects/VariousClass/cBaseApplicationConfig.h"
 
 // Specific inclusions
 #include "_Diaporama.h"
@@ -31,33 +41,28 @@ namespace Ui {
     class DlgTextEdit;
 }
 
-class DlgTextEdit : public QDialog {
+class DlgTextEdit : public QCustomDialog {
 Q_OBJECT
 public:
-    QDomDocument        *Undo;                      // Save object before modification for cancel button
     cCompositionObject  *CurrentTextItem;           // Text to modify
     cBrushDefinition    *CurrentBrush;              // Brush to modify
     bool                StopMAJSpinbox;
-    bool                IsFirstInitDone;
-    QWidget             *ParentWindow;
 
+    explicit        DlgTextEdit(cCompositionObject *CurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+                    ~DlgTextEdit();
 
-    explicit DlgTextEdit(cCompositionObject *CurrentTextItem,QWidget *parent = 0);
-    ~DlgTextEdit();
+    // function to be overloaded
+    virtual void    DoInitDialog();                             // Initialise dialog
+    virtual void    DoAccept() {/*Nothing to do*/}              // Call when user click on Ok button
+    virtual void    DoRejet()  {/*Nothing to do*/}              // Call when user click on Cancel button
+    virtual void    PrepareGlobalUndo();                        // Initiale Undo
+    virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
 
+    // Other
     void            RefreshControls();
     void            MakeTextStyleIcon(QComboBox *UICB);
 
-protected:
-    virtual void    resizeEvent(QResizeEvent *);
-    virtual void    showEvent(QShowEvent *);
-    virtual void    reject();
-    virtual void    accept();
-
 private slots:
-    void            Help();
-    void            SetSavedWindowGeometry();
-
     void            s_ChangeFont(QFont);
     void            s_ChangeSizeFont(QString);
     void            s_SetBold();
@@ -94,7 +99,7 @@ private slots:
     void            s_BackgroundStyleBT();
 
 signals:
-    void     RefreshDisplay();
+    void            RefreshDisplay();
 
 private:
     Ui::DlgTextEdit *ui;

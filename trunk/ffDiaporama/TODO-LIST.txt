@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 18/12/2011) :
+Buggs/TODO (Dernier SVN le 22/12/2011) :
 ----------------------------------------
 TODO
 ----
@@ -6,31 +6,60 @@ TODO
 -Erreur de lecture de vidéo dans certaines vidéo MPEG-2
 -Erreur de lecture du son dans certaines vidéo AVI
 -Erreur lors des changements de slide quand la durée des slides = la durées des transitions
+-Très grosses lenteurs quand plusieurs shots
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige le bug du 1er demarrage, l'appli est toujours en anglais (car pas de fichier de config perso.)
+-Corrige une erreur de positionnement lors de la lecture des fichiers video
+-Corrige une erreur de géométrie lors de la lecture de fichiers video SD/DVD
+-Corrige le timestamp dans les vidéos générés
+-Corrige l'erreur de taille/positionnement du player au démarrage
 
 English version / Bug fix :
+-Fix first start bug, the application is always using english (because no personnal config file)
+-Fix a seek error when reading video files
+-Fix a geometrical error when reading SD/DVD video files
+-Fix timestamp in rendered videos
+-Fix incorrect player size/positionning at startup
 
 French version / Nouvelles fonctionnalités
+-Déplace certaines proprietes de la section EditorOptions vers la section GlobalPreferences dans ffDiaporama.xml
+-Déplace la section base de device du fichier ffDiaporama.xml vers un nouveau fichier Devices.xml
+-Deplace l'onglet "Device Database" de la boite de configuration dans une boite de dialogue séparée
+-Ajoute la sauvegarde/restauration des tailles & positions pour la boite "A propos de"
+-Ajoute une boite de définition des propriétés du projet + un bouton dans la barre principal
+-Ajoute une option dans la boite de génération des vidéos pour inclure les propriétés du projet dans les TAG du fichier vidéo généré
+-Ajoute une troisième possibilité pour la pré-determination du nom du fichier vidéo à générer (utilise le titre des propriétés)
+-Ajoute une option pour pré-remplir la zone titre des propriétés
+-Quand on change le fichier qui a donné son nom au slide, change également le nom du slide
 
 English version / New features
+-Move some properties from EditorOptions section to GlobalPreferences in ffDiaporama.xml
+-Move device database section from ffDiaporama.xml file to a new file named Devices.xml
+-Move "Device Database" tab of the options dialog to a new separated dialog
+-Add save/restore of size & position for the "about" dialog
+-Add a project properties dialog + a button in main toolbar
+-Add an option in render dialog to include project properties as TAG in rendered video
+-Add a third option to compute render video filename (use properties title)
+-Add an option to automaticaly fill properties title
+-When changing file which give it name to a slide, change also the slide name
 
 -------------------------------------
 Changelog depuis la version 20111118
 -------------------------------------
 Bug fix French version
-- Quand on quitte l'application, même si on clique sur oui  les modification ne sont pas sauvegardées
+-Quand on quitte l'application, même si on clique sur oui  les modification ne sont pas sauvegardées
 
 Bug fix English version
-- When exit the application, even when answer yes, modifications are not saved
+-When exit the application, even when answer yes, modifications are not saved
 
 French version / Nouvelles fonctionnalités
-- Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
-- Permet d'installer ffDiaporama dans /opt et /usr/local
+-Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
+-Permet d'installer ffDiaporama dans /opt et /usr/local
 
 English version / New features
-- Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
-- Allow ffDiaporama to be install in /opt or /usr/local
+-Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
+-Allow ffDiaporama to be install in /opt or /usr/local

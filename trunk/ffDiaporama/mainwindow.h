@@ -22,7 +22,15 @@
 #define MAINWINDOW_H
 
 // Basic inclusions (common to all files)
+#include "SubProjects/VariousClass/_GlobalDefines.h"
+
+// Include some additional standard class
+
+// Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
+
+// Include some common various class
+#include "SubProjects/VariousClass/_SDL_Support.h"
 
 // Specific inclusions
 #include "_Diaporama.h"
@@ -55,7 +63,6 @@ public:
     int                     DragItemSource;
     int                     DragItemDest;
     int                     IsDragOn;                       // DragOff=0, DragInternal=0 or DragExternal=0
-    cLuLoImageCache         ImagesCache;                    // cLuLoImageCache List Object
     Qt::HANDLE              CurrentThreadId;
     bool                    InPlayerUpdate;
 
@@ -64,6 +71,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void    InitWindow(QString ForceLanguage,QApplication *App);
+
     void    OpenHelp(QString HelpFile);
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);
@@ -112,10 +120,10 @@ private slots:
     void    s_action_SaveAs();
     void    s_DoSaveFile();
 
-    void    s_action_Exit();
-
+    void    s_ProjectProperties();
     void    s_ChangeApplicationSettings();
     void    s_DoChangeApplicationSettings();
+    void    s_action_Exit();
 
     // Project menu
     void    s_action_AddFile();

@@ -21,14 +21,15 @@
 #ifndef CDIAPORAMA_H
 #define CDIAPORAMA_H
 
-//========================================
 // Basic inclusions (common to all files)
-//========================================
-#include "_GlobalDefines.h"
+#include "SubProjects/VariousClass/_GlobalDefines.h"
 
-//===============================
+// Include some additional standard class
+#include "SubProjects/VariousClass/cBaseMediaFile.h"
+
 // Specific inclusions
-//===============================
+
+
 class cDiaporama;
 class cDiaporamaObject;
 
@@ -37,17 +38,31 @@ class cDiaporamaObject;
 #include "_SoundDefinitions.h"
 #include "cCustomTableWidget.h"
 
+
+// Transition familly definition
+#define TRANSITIONFAMILLY_BASE              0
+#define TRANSITIONFAMILLY_ZOOMINOUT         1
+#define TRANSITIONFAMILLY_SLIDE             2
+#define TRANSITIONFAMILLY_PUSH              3
+#define TRANSITIONFAMILLY_LUMA_BAR          4
+#define TRANSITIONFAMILLY_LUMA_BOX          5
+#define TRANSITIONFAMILLY_LUMA_CENTER       6
+#define TRANSITIONFAMILLY_LUMA_CHECKER      7
+#define TRANSITIONFAMILLY_LUMA_CLOCK        8
+#define TRANSITIONFAMILLY_LUMA_SNAKE        9
+
+// No luma transition : number of sub type
+#define TRANSITIONMAXSUBTYPE_BASE           4
+#define TRANSITIONMAXSUBTYPE_ZOOMINOUT      18
+#define TRANSITIONMAXSUBTYPE_SLIDE          16
+#define TRANSITIONMAXSUBTYPE_PUSH           16
+
+
 //============================================
 // Global static
 //============================================
 
 extern  QBrush  Transparent;    // Transparent brush
-
-//============================================
-// Utility function
-//============================================
-void    DrawShape(QPainter &Painter,int BackgroundForm,double left,double top,double width,double height,double CenterX,double CenterY);
-void    DrawPolygonR(QPainter &Painter,double width,double height,double CenterX,double CenterY,int MaxPoint,double StartAngle);
 
 //*********************************************************************************************************************************************
 // Base object for composition definition
@@ -81,7 +96,7 @@ public:
 
     // Attribut of the shap part (Global values)
     int                 BackgroundForm;         // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
-    cBrushDefinition    BackgroundBrush;        // Brush of the background of the form
+    cBrushDefinition    *BackgroundBrush;       // Brush of the background of the form
     int                 PenSize;                // Width of the border of the form
     int                 PenStyle;               // Style of the pen border of the form
     QString             PenColor;               // Color of the border of the form
@@ -97,14 +112,16 @@ public:
     qlonglong           CachedBrushPosition;            // Position used to make CachedBrush
     qlonglong           CachedBrushStartPosToAdd;       // StartPosToAdd used to make CachedBrush
 
-    cCompositionObject(int TypeComposition,int IndexKey);
+    cBaseApplicationConfig *ApplicationConfig;
+
+    cCompositionObject(int TypeComposition,int IndexKey,cBaseApplicationConfig *TheApplicationConfig);
     ~cCompositionObject();
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
     void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
-                                      cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
+                                      cSDLSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList &AliasList);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList);
 
     // Style managment functions
     QString     GetCoordinateStyle();
@@ -129,13 +146,13 @@ public:
 class cCompositionList {
 public:
     int                         TypeComposition;            // Type of composition list
-    QList<cCompositionObject>   List;                       // list of cCompositionObject
+    QList<cCompositionObject*>  List;                       // list of cCompositionObject
 
     cCompositionList();
     ~cCompositionList();
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList &AliasList);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList);
 };
 
 //*********************************************************************************************************************************************
@@ -151,7 +168,7 @@ public:
     ~cDiaporamaShot();
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList &AliasList);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList);
 };
 
 //*********************************************************************************************************************************************
@@ -162,12 +179,12 @@ public:
     cDiaporama              *Parent;                    // Link to global object
     int                     TypeObject;                 // Type of object
     QString                 SlideName;                  // Display name of the slide
-    QList<cDiaporamaShot>   List;                       // list of scene definition
+    QList<cDiaporamaShot *> List;                       // list of scene definition
     cFilterTransformObject  FilterTransform;            // Filters tranformation value for source image
 
     // Background definition
     bool                    BackgroundType;             // Background type : false=same as precedent - true=new background definition
-    cBrushDefinition        BackgroundBrush;            // Background brush
+    cBrushDefinition        *BackgroundBrush;           // Background brush
     cCompositionList        BackgroundComposition;      // Background Composition object list
 
     // Object definition
@@ -196,7 +213,7 @@ public:
     qlonglong               GetDuration();
     void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY);   // Draw Thumb @ position 0
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList &AliasList);
+    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList);
     qlonglong               GetTransitDuration();
 };
 
@@ -227,11 +244,11 @@ public:
     bool                CurrentObject_FreeBackgroundBrush;      // True if allow to delete CurrentObject_BackgroundBrush during destructor
     QImage              *CurrentObject_PreparedBackground;      // Current image produce for background
     bool                CurrentObject_FreePreparedBackground;   // True if allow to delete CurrentObject_FreePreparedBackground during destructor
-    cSoundBlockList     *CurrentObject_SoundTrackMontage;       // Sound for playing sound from montage track
+    cSDLSoundBlockList  *CurrentObject_SoundTrackMontage;       // Sound for playing sound from montage track
     bool                CurrentObject_FreeSoundTrackMontage;    // True if allow to delete CurrentObject_SoundTrackMontage during destructor
     QImage              *CurrentObject_PreparedImage;           // Current image prepared
     bool                CurrentObject_FreePreparedImage;        // True if allow to delete CurrentObject_PreparedImage during destructor
-    cSoundBlockList     *CurrentObject_MusicTrack;              // Sound for playing music from music track
+    cSDLSoundBlockList  *CurrentObject_MusicTrack;              // Sound for playing music from music track
     bool                CurrentObject_FreeMusicTrack;           // True if allow to delete CurrentObject_MusicTrack during destructor
     cMusicObject        *CurrentObject_MusicObject;             // Ref to the current playing music
 
@@ -258,11 +275,11 @@ public:
     bool                TransitObject_FreeBackgroundBrush;      // True if allow to delete TransitObject_BackgroundBrush during destructor
     QImage              *TransitObject_PreparedBackground;      // Current image produce for background
     bool                TransitObject_FreePreparedBackground;   // True if allow to delete TransitObject_PreparedBackground during destructor
-    cSoundBlockList     *TransitObject_SoundTrackMontage;       // Sound for playing sound from montage track
+    cSDLSoundBlockList  *TransitObject_SoundTrackMontage;       // Sound for playing sound from montage track
     bool                TransitObject_FreeSoundTrackMontage;    // True if allow to delete TransitObject_SoundTrackMontage during destructor
     QImage              *TransitObject_PreparedImage;           // Current image prepared
     bool                TransitObject_FreePreparedImage;        // True if allow to delete TransitObject_PreparedImage during destructor
-    cSoundBlockList     *TransitObject_MusicTrack;              // Sound for playing music from music track
+    cSDLSoundBlockList  *TransitObject_MusicTrack;              // Sound for playing music from music track
     bool                TransitObject_FreeMusicTrack;           // True if allow to delete TransitObject_MusicTrack during destructor
     cMusicObject        *TransitObject_MusicObject;             // Ref to the current playing music
 
@@ -281,6 +298,7 @@ class cDiaporama {
 public:
     cApplicationConfig      *ApplicationConfig;
     cCustomTableWidget      *Timeline;              // Link to timeline
+    cffDProjectFile         *ProjectInfo;
     int                     CurrentCol;             // Current position in the timeline (column)
     qlonglong               CurrentPosition;        // Current position in the timeline (msec)
 
@@ -293,37 +311,37 @@ public:
     int                     InternalHeight;         // Real height for image rendering
 
     // slides objects
-    QList<cDiaporamaObject> List;                   // list of all media object
+    QList<cDiaporamaObject *> List;                   // list of all media object
 
     cDiaporama(cApplicationConfig *ApplicationConfig);
     ~cDiaporama();
-    int                 GetHeightForWidth(int WantedWith);
-    int                 GetWidthForHeight(int WantedHeight);
-    int                 GetObjectIndex(cDiaporamaObject *ObjectToFind);
-    qlonglong           GetDuration();
-    qlonglong           GetPartialDuration(int from,int to);
-    qlonglong           GetObjectStartPosition(int index);
-    qlonglong           GetTransitionDuration(int index);
-    void                PrepareBackground(int ObjectIndex,int Width,int Height,QPainter *Painter,int AddX,int AddY);
-    cMusicObject        *GetMusicObject(int ObjectIndex,qlonglong &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
-    void                DefineSizeAndGeometry(int Geometry);                        // Init size and geometry
-    bool                SaveFile(QWidget *ParentWindow);
-    bool                LoadFile(QWidget *ParentWindow,QString &ProjectFileName);
-    bool                AppendFile(QWidget *ParentWindow,QString ProjectFileName);
-    void                FreeUnusedMemory(int ObjectNum,int NbrSlideInCache);
+    int                     GetHeightForWidth(int WantedWith);
+    int                     GetWidthForHeight(int WantedHeight);
+    int                     GetObjectIndex(cDiaporamaObject *ObjectToFind);
+    qlonglong               GetDuration();
+    qlonglong               GetPartialDuration(int from,int to);
+    qlonglong               GetObjectStartPosition(int index);
+    qlonglong               GetTransitionDuration(int index);
+    void                    PrepareBackground(int ObjectIndex,int Width,int Height,QPainter *Painter,int AddX,int AddY);
+    cMusicObject            *GetMusicObject(int ObjectIndex,qlonglong &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
+    void                    DefineSizeAndGeometry(int Geometry);                        // Init size and geometry
+    bool                    SaveFile(QWidget *ParentWindow);
+    bool                    LoadFile(QWidget *ParentWindow,QString &ProjectFileName);
+    bool                    AppendFile(QWidget *ParentWindow,QString ProjectFileName);
+    void                    FreeUnusedMemory(int ObjectNum,int NbrSlideInCache);
 
     // Thread functions
-    void                PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack);
-    void                LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos);
-    void                DoAssembly(cDiaporamaObjectInfo *Info,int W,int H);
+    void                    PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSDLSoundBlockList *MusicTrack);
+    void                    LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos);
+    void                    DoAssembly(cDiaporamaObjectInfo *Info,int W,int H);
 
     // Transition
-    void                DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                DoZoom(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                DoLuma(cLumaList *List,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    QImage              RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg);
+    void                    DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    void                    DoZoom(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    void                    DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    void                    DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    void                    DoLuma(cLumaList *List,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    QImage                  RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg);
 
     // Threaded functions
     void LoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos);
