@@ -36,7 +36,7 @@ DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,QWid
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);  // Save object
+    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",DiaporamaObject->Parent->ProjectFileName,true);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 
     // Init embeded widgets
@@ -111,10 +111,7 @@ void DlgMusicProperties::reject() {
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgMusicPropertiesWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") {
-        QStringList AliasList;
-        DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
-    }
+    if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
     done(1);
 }
 
@@ -236,8 +233,9 @@ void DlgMusicProperties::s_AddMusic() {
             DiaporamaObject->Parent->ApplicationConfig->LastMusicPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
         DiaporamaObject->MusicList.insert(CurIndex,cMusicObject());
-        QStringList AliasList;
-        if (DiaporamaObject->MusicList[CurIndex].LoadMedia(NewFile,AliasList)) {
+        bool        ModifyFlag=false;
+        if (DiaporamaObject->MusicList[CurIndex].LoadMedia(NewFile,NULL,&ModifyFlag,GlobalMainWindow->ApplicationConfig)) {
+            if (ModifyFlag) GlobalMainWindow->SetModifyFlag(true);
 
             // Add music to PlayListTable
             int j=ui->PlayListTable->rowCount();     // Item will be add at end of the list

@@ -22,12 +22,11 @@
 #include "ui_DlgImageCorrection.h"
 #include "mainwindow.h"
 
-DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,cFilterCorrectObject *TheBrushFileCorrect,int TheVideoPosition,QWidget *parent):QDialog(parent),ui(new Ui::DlgImageCorrection) {
+DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition,QWidget *parent):QDialog(parent),ui(new Ui::DlgImageCorrection) {
     ui->setupUi(this);
     BackgroundForm  =TheBackgroundForm;
     CurrentTextItem =TheCurrentTextItem;
     CurrentBrush    =TheCurrentBrush;
-    BrushFileCorrect=TheBrushFileCorrect;
     VideoPosition   =TheVideoPosition;
     UndoReloadImage =false;
 
@@ -38,7 +37,7 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,in
 #endif
 
     if (CurrentBrush->Image) {
-        CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL,GlobalMainWindow->ApplicationConfig->Smoothing);
+        CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
         GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentBrush->Image->ObjectGeometry);
      } else if (CurrentBrush->Video) {
         CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
@@ -57,14 +56,14 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,in
 
     UndoSlide=new QDomDocument(APPLICATION_NAME);
     QDomElement root=UndoSlide->createElement("UNDO-DLG");  // Create xml document and root
-    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(GlobalMainWindow->Diaporama->ProjectFileName).absolutePath(),true);  // Save object
+    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT",GlobalMainWindow->Diaporama->ProjectFileName,true);  // Save object
     UndoSlide->appendChild(root);                           // Add object to xml document
 
     UndoShot=new QDomDocument(APPLICATION_NAME);
     root=UndoShot->createElement("UNDO-DLG");               // Create xml document and root
     cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
-    Filter->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(GlobalMainWindow->Diaporama->ProjectFileName).absolutePath());  // Save object
-    UndoShot->appendChild(root);                           // Add object to xml document
+    Filter->SaveToXML(root,"UNDO-DLG-OBJECT");              // Save object
+    UndoShot->appendChild(root);                            // Add object to xml document
 
     IsFirstInitDone = false;                                // true when first show window was done
     FLAGSTOPED      = false;
@@ -297,23 +296,19 @@ void DlgImageCorrection::reject() {
 
     // Restore objects
     QDomElement root=UndoSlide->documentElement();
-    if (root.tagName()=="UNDO-DLG") {
-        QStringList AliasList;
-        CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
-    }
+    if (root.tagName()=="UNDO-DLG") CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL);
 
     root=UndoShot->documentElement();
     if (root.tagName()=="UNDO-DLG") {
         cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
-        Filter->LoadFromXML(root,"UNDO-DLG-OBJECT","");
+        Filter->LoadFromXML(root,"UNDO-DLG-OBJECT");
     }
     if (UndoReloadImage) {
-        QStringList AliasList;
-        if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(UndoBrushFileName,AliasList);
-            else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(UndoBrushFileName,false,AliasList);
+        if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(UndoBrushFileName,NULL,NULL);
+            else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(UndoBrushFileName,NULL,NULL);
         delete CachedImage;
         CachedImage=NULL;
-        if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL,GlobalMainWindow->ApplicationConfig->Smoothing);
+        if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
             else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
     }
 
@@ -333,40 +328,40 @@ void DlgImageCorrection::accept() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_XValueEDChanged(double Value) {
-    if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
-    BrushFileCorrect->X=Value/100;
+    if (FLAGSTOPED) return;
+    CurrentBrush->BrushFileCorrect.X=Value/100;
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_YValueEDChanged(double Value) {
-    if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
-    BrushFileCorrect->Y=Value/100;
+    if (FLAGSTOPED) return;
+    CurrentBrush->BrushFileCorrect.Y=Value/100;
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_WValueEDChanged(double Value) {
-    if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
-    if (BrushFileCorrect->LockGeometry) {
-        BrushFileCorrect->ZoomFactor=Value/100;
+    if (FLAGSTOPED) return;
+    if (CurrentBrush->BrushFileCorrect.LockGeometry) {
+        CurrentBrush->BrushFileCorrect.ZoomFactor=Value/100;
     } else {
-        double newH=BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio*ymax;
-        BrushFileCorrect->ZoomFactor=Value/100;
-        double newW=BrushFileCorrect->ZoomFactor*xmax;
-        BrushFileCorrect->AspectRatio=newH/newW;
+        double newH=CurrentBrush->BrushFileCorrect.ZoomFactor*CurrentBrush->BrushFileCorrect.AspectRatio*ymax;
+        CurrentBrush->BrushFileCorrect.ZoomFactor=Value/100;
+        double newW=CurrentBrush->BrushFileCorrect.ZoomFactor*xmax;
+        CurrentBrush->BrushFileCorrect.AspectRatio=newH/newW;
     }
     // Resize and repos all item in the scene
     for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {
         cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
-        RectItem->AspectRatio=BrushFileCorrect->AspectRatio;
-        RectItem->setPos(BrushFileCorrect->X*xmax,BrushFileCorrect->Y*ymax);
-        QRectF Rect=RectItem->mapRectFromScene(QRectF(BrushFileCorrect->X*xmax,
-                                                      BrushFileCorrect->Y*ymax,
-                                                      xmax*BrushFileCorrect->ZoomFactor,
-                                                      xmax*BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio));
+        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+        RectItem->setPos(CurrentBrush->BrushFileCorrect.X*xmax,CurrentBrush->BrushFileCorrect.Y*ymax);
+        QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentBrush->BrushFileCorrect.X*xmax,
+                                                      CurrentBrush->BrushFileCorrect.Y*ymax,
+                                                      xmax*CurrentBrush->BrushFileCorrect.ZoomFactor,
+                                                      xmax*CurrentBrush->BrushFileCorrect.ZoomFactor*CurrentBrush->BrushFileCorrect.AspectRatio));
         RectItem->setRect(Rect);
         RectItem->RecalcEmbededResizeRectItem();
     }
@@ -376,24 +371,24 @@ void DlgImageCorrection::s_WValueEDChanged(double Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_HValueEDChanged(double Value) {
-    if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
+    if (FLAGSTOPED) return;
     double newH=(Value/100)*ymax;
-    if (BrushFileCorrect->LockGeometry) {
-        double newW=newH/BrushFileCorrect->AspectRatio;
-        BrushFileCorrect->ZoomFactor=newW/xmax;
+    if (CurrentBrush->BrushFileCorrect.LockGeometry) {
+        double newW=newH/CurrentBrush->BrushFileCorrect.AspectRatio;
+        CurrentBrush->BrushFileCorrect.ZoomFactor=newW/xmax;
     } else {
-        double newW=BrushFileCorrect->ZoomFactor*xmax;
-        BrushFileCorrect->AspectRatio=newH/newW;
+        double newW=CurrentBrush->BrushFileCorrect.ZoomFactor*xmax;
+        CurrentBrush->BrushFileCorrect.AspectRatio=newH/newW;
     }
     // Resize and repos all item in the scene
     for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {
         cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
-        RectItem->AspectRatio=BrushFileCorrect->AspectRatio;
-        RectItem->setPos(BrushFileCorrect->X*xmax,BrushFileCorrect->Y*ymax);
-        QRectF Rect=RectItem->mapRectFromScene(QRectF(BrushFileCorrect->X*xmax,
-                                                      BrushFileCorrect->Y*ymax,
-                                                      xmax*BrushFileCorrect->ZoomFactor,
-                                                      xmax*BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio));
+        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+        RectItem->setPos(CurrentBrush->BrushFileCorrect.X*xmax,CurrentBrush->BrushFileCorrect.Y*ymax);
+        QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentBrush->BrushFileCorrect.X*xmax,
+                                                      CurrentBrush->BrushFileCorrect.Y*ymax,
+                                                      xmax*CurrentBrush->BrushFileCorrect.ZoomFactor,
+                                                      xmax*CurrentBrush->BrushFileCorrect.ZoomFactor*CurrentBrush->BrushFileCorrect.AspectRatio));
         RectItem->setRect(Rect);
         RectItem->RecalcEmbededResizeRectItem();
     }
@@ -403,18 +398,17 @@ void DlgImageCorrection::s_HValueEDChanged(double Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_RotationEDChanged(double Value) {
-    if (FLAGSTOPED || (BrushFileCorrect==NULL)) return;
+    if (FLAGSTOPED) return;
     if (Value<-180) Value=360-Value;
     if (Value>180)  Value=-360-Value;
-    BrushFileCorrect->ImageRotation=Value;
+    CurrentBrush->BrushFileCorrect.ImageRotation=Value;
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_RotateLeft() {
-    if (BrushFileCorrect==NULL) return;
-    double Value=(int((BrushFileCorrect->ImageRotation-90)/90)*90);
+    double Value=(int((CurrentBrush->BrushFileCorrect.ImageRotation-90)/90)*90);
     if (Value<=-180) Value=360-Value;
     ui->RotateED->setValue(Value);
 }
@@ -422,8 +416,7 @@ void DlgImageCorrection::s_RotateLeft() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_RotateRight() {
-    if (BrushFileCorrect==NULL) return;
-    double Value=(int((BrushFileCorrect->ImageRotation+90)/90)*90);
+    double Value=(int((CurrentBrush->BrushFileCorrect.ImageRotation+90)/90)*90);
     if (Value>180) Value=-360+Value;
     ui->RotateED->setValue(Value);
 }
@@ -431,47 +424,44 @@ void DlgImageCorrection::s_RotateRight() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_AdjustW() {
-    if (BrushFileCorrect==NULL) return;
     double W=MagneticRuler.MagnetX2-MagneticRuler.MagnetX1;
-    double H=W*BrushFileCorrect->AspectRatio;
-    BrushFileCorrect->X=((xmax-W)/2)/xmax;
-    BrushFileCorrect->Y=((ymax-H)/2)/ymax;
-    BrushFileCorrect->ZoomFactor=W/xmax;
+    double H=W*CurrentBrush->BrushFileCorrect.AspectRatio;
+    CurrentBrush->BrushFileCorrect.X=((xmax-W)/2)/xmax;
+    CurrentBrush->BrushFileCorrect.Y=((ymax-H)/2)/ymax;
+    CurrentBrush->BrushFileCorrect.ZoomFactor=W/xmax;
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_AdjustH() {
-    if (BrushFileCorrect==NULL) return;
     double H=MagneticRuler.MagnetY2-MagneticRuler.MagnetY1;
-    double W=H/BrushFileCorrect->AspectRatio;
-    BrushFileCorrect->X=((xmax-W)/2)/xmax;
-    BrushFileCorrect->Y=((ymax-H)/2)/ymax;
-    BrushFileCorrect->ZoomFactor=W/xmax;
+    double W=H/CurrentBrush->BrushFileCorrect.AspectRatio;
+    CurrentBrush->BrushFileCorrect.X=((xmax-W)/2)/xmax;
+    CurrentBrush->BrushFileCorrect.Y=((ymax-H)/2)/ymax;
+    CurrentBrush->BrushFileCorrect.ZoomFactor=W/xmax;
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_AdjustWH() {
-    if (BrushFileCorrect==NULL) return;
     // Special case for custom geometry -> use all the image then change aspect ratio to image aspect ratio
-    if (!BrushFileCorrect->LockGeometry) {
+    if (!CurrentBrush->BrushFileCorrect.LockGeometry) {
         double W=MagneticRuler.MagnetX2-MagneticRuler.MagnetX1;
         double H=MagneticRuler.MagnetY2-MagneticRuler.MagnetY1;
-        BrushFileCorrect->AspectRatio=H/W;
-        BrushFileCorrect->X=((xmax-W)/2)/xmax;
-        BrushFileCorrect->Y=((ymax-H)/2)/ymax;
-        BrushFileCorrect->ZoomFactor=W/xmax;
+        CurrentBrush->BrushFileCorrect.AspectRatio=H/W;
+        CurrentBrush->BrushFileCorrect.X=((xmax-W)/2)/xmax;
+        CurrentBrush->BrushFileCorrect.Y=((ymax-H)/2)/ymax;
+        CurrentBrush->BrushFileCorrect.ZoomFactor=W/xmax;
         for (int i=0;i<scene->items().count();i++) if (scene->items()[i]->data(0).toString()=="CustomGraphicsRectItem") {
             cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
-            RectItem->AspectRatio=BrushFileCorrect->AspectRatio;
+            RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
         }
         RefreshControls();
     } else {
         double W=MagneticRuler.MagnetX2-MagneticRuler.MagnetX1;
-        double H=W*BrushFileCorrect->AspectRatio;
+        double H=W*CurrentBrush->BrushFileCorrect.AspectRatio;
         if (H<MagneticRuler.MagnetY2-MagneticRuler.MagnetY1) s_AdjustH(); else s_AdjustW();
     }
 }
@@ -479,7 +469,7 @@ void DlgImageCorrection::s_AdjustWH() {
 //====================================================================================================================
 
 void DlgImageCorrection::RefreshControls() {
-    if ((BrushFileCorrect==NULL)||(!scene)||(FLAGSTOPED)) return;
+    if ((!scene)||(FLAGSTOPED)) return;
     FLAGSTOPED=true;
 
     if (((CurrentBrush->Image==NULL)&&(CurrentBrush->Video==NULL))||
@@ -492,25 +482,25 @@ void DlgImageCorrection::RefreshControls() {
         ui->FramingStyleBT->setEnabled(true);
     }
 
-    ui->XValue->setValue(BrushFileCorrect->X*100);
-    ui->YValue->setValue(BrushFileCorrect->Y*100);
-    ui->WValue->setValue(BrushFileCorrect->ZoomFactor*100);
-    ui->HValue->setValue(BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio*100);
+    ui->XValue->setValue(CurrentBrush->BrushFileCorrect.X*100);
+    ui->YValue->setValue(CurrentBrush->BrushFileCorrect.Y*100);
+    ui->WValue->setValue(CurrentBrush->BrushFileCorrect.ZoomFactor*100);
+    ui->HValue->setValue(CurrentBrush->BrushFileCorrect.ZoomFactor*CurrentBrush->BrushFileCorrect.AspectRatio*100);
 
-    if (!BrushFileCorrect->LockGeometry)                        ui->LockGeometryCB->setCurrentIndex(0);
-    else if (BrushFileCorrect->AspectRatio==ProjectGeometry)    ui->LockGeometryCB->setCurrentIndex(2);
-    else if (BrushFileCorrect->AspectRatio==ImageGeometry)      ui->LockGeometryCB->setCurrentIndex(3);
+    if (!CurrentBrush->BrushFileCorrect.LockGeometry)                        ui->LockGeometryCB->setCurrentIndex(0);
+    else if (CurrentBrush->BrushFileCorrect.AspectRatio==ProjectGeometry)    ui->LockGeometryCB->setCurrentIndex(2);
+    else if (CurrentBrush->BrushFileCorrect.AspectRatio==ImageGeometry)      ui->LockGeometryCB->setCurrentIndex(3);
     else                                                        ui->LockGeometryCB->setCurrentIndex(1);
 
-    ui->RotateED->setValue(BrushFileCorrect->ImageRotation);
+    ui->RotateED->setValue(CurrentBrush->BrushFileCorrect.ImageRotation);
 
     // FilterCorrection
-    ui->BrightnessSlider->setValue(BrushFileCorrect->Brightness);     ui->BrightnessValue->setValue(BrushFileCorrect->Brightness);
-    ui->ContrastSlider->setValue(BrushFileCorrect->Contrast);         ui->ContrastValue->setValue(BrushFileCorrect->Contrast);
-    ui->GammaSlider->setValue(BrushFileCorrect->Gamma*100);           ui->GammaValue->setValue(BrushFileCorrect->Gamma);
-    ui->RedSlider->setValue(BrushFileCorrect->Red);                   ui->RedValue->setValue(BrushFileCorrect->Red);
-    ui->GreenSlider->setValue(BrushFileCorrect->Green);               ui->GreenValue->setValue(BrushFileCorrect->Green);
-    ui->BlueSlider->setValue(BrushFileCorrect->Blue);                 ui->BlueValue->setValue(BrushFileCorrect->Blue);
+    ui->BrightnessSlider->setValue(CurrentBrush->BrushFileCorrect.Brightness);     ui->BrightnessValue->setValue(CurrentBrush->BrushFileCorrect.Brightness);
+    ui->ContrastSlider->setValue(CurrentBrush->BrushFileCorrect.Contrast);         ui->ContrastValue->setValue(CurrentBrush->BrushFileCorrect.Contrast);
+    ui->GammaSlider->setValue(CurrentBrush->BrushFileCorrect.Gamma*100);           ui->GammaValue->setValue(CurrentBrush->BrushFileCorrect.Gamma);
+    ui->RedSlider->setValue(CurrentBrush->BrushFileCorrect.Red);                   ui->RedValue->setValue(CurrentBrush->BrushFileCorrect.Red);
+    ui->GreenSlider->setValue(CurrentBrush->BrushFileCorrect.Green);               ui->GreenValue->setValue(CurrentBrush->BrushFileCorrect.Green);
+    ui->BlueSlider->setValue(CurrentBrush->BrushFileCorrect.Blue);                 ui->BlueValue->setValue(CurrentBrush->BrushFileCorrect.Blue);
 
     ui->BlurSigmaSlider->setValue((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurSigma*10);
     ui->BlurSigmaSB->setValue((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurSigma);
@@ -522,15 +512,15 @@ void DlgImageCorrection::RefreshControls() {
         cCustomGraphicsRectItem *RectItem=(cCustomGraphicsRectItem *)scene->items()[i];
 
         // Set aspect ratio from Brush to Rect if geometrie is not custom or from rect to brush if geometrie is custom
-        if (BrushFileCorrect->LockGeometry)
-            RectItem->AspectRatio=BrushFileCorrect->AspectRatio;
-            else BrushFileCorrect->AspectRatio=RectItem->AspectRatio;
+        if (CurrentBrush->BrushFileCorrect.LockGeometry)
+            RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+            else CurrentBrush->BrushFileCorrect.AspectRatio=RectItem->AspectRatio;
 
-        RectItem->setPos(BrushFileCorrect->X*xmax,BrushFileCorrect->Y*ymax);
-        QRectF Rect=RectItem->mapRectFromScene(QRectF(BrushFileCorrect->X*xmax,
-                                                      BrushFileCorrect->Y*ymax,
-                                                      xmax*BrushFileCorrect->ZoomFactor,
-                                                      xmax*BrushFileCorrect->ZoomFactor*BrushFileCorrect->AspectRatio));
+        RectItem->setPos(CurrentBrush->BrushFileCorrect.X*xmax,CurrentBrush->BrushFileCorrect.Y*ymax);
+        QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentBrush->BrushFileCorrect.X*xmax,
+                                                      CurrentBrush->BrushFileCorrect.Y*ymax,
+                                                      xmax*CurrentBrush->BrushFileCorrect.ZoomFactor,
+                                                      xmax*CurrentBrush->BrushFileCorrect.ZoomFactor*CurrentBrush->BrushFileCorrect.AspectRatio));
         RectItem->setRect(Rect);
         RectItem->RecalcEmbededResizeRectItem();
     }
@@ -555,19 +545,29 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
     QApplication::processEvents();
     if (NewFile=="") return;
     if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
-    QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
 
-    QStringList AliasList;
-    if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(BrushFileName,AliasList);
-        else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(BrushFileName,false,AliasList);
+    QString NewBrushFileName=QFileInfo(NewFile).absoluteFilePath();
+    QString OldBrushFileName=CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
+    QImage  *NewCachedImage =NULL;
 
-    delete CachedImage;
-    CachedImage=NULL;
-    if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL,GlobalMainWindow->ApplicationConfig->Smoothing);
-        else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
+    if (CurrentBrush->Image) {
+        CurrentBrush->Image->GetInformationFromFile(NewBrushFileName,NULL,NULL);
+        if (CurrentBrush->Image->IsValide) NewCachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
+    } else if (CurrentBrush->Video) {
+        if (CurrentBrush->Video->GetInformationFromFile(NewBrushFileName,NULL,NULL)&&(CurrentBrush->Video->OpenCodecAndFile()))
+            NewCachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
 
-    UndoReloadImage=true;
-
+        if (!NewCachedImage) {
+            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+QApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
+            CurrentBrush->Video->GetInformationFromFile(OldBrushFileName,NULL,NULL);
+            CurrentBrush->Video->OpenCodecAndFile();
+        }
+    }
+    if (NewCachedImage) {
+        delete CachedImage;
+        CachedImage=NewCachedImage;
+        UndoReloadImage=true;
+    }
     RefreshControls();
 }
 
@@ -633,7 +633,7 @@ void DlgImageCorrection::s_MagneticEdgeBt() {
 //====================================================================================================================
 
 void DlgImageCorrection::RefreshBackgroundImage() {
-    if ((!BrushFileCorrect)||(!scene)) return;
+    if (!scene) return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
@@ -648,9 +648,9 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     scene->clearSelection();
 
     // Create selection box
-    if (cadre==NULL) cadre=new cCustomGraphicsRectItem(scene,300,&BrushFileCorrect->X,&BrushFileCorrect->Y,&BrushFileCorrect->ZoomFactor,
-                                                       NULL,NULL,xmax,ymax,BrushFileCorrect->LockGeometry,
-                                                       BrushFileCorrect->AspectRatio,&MagneticRuler,this,TYPE_DlgImageCorrection,0,true);
+    if (cadre==NULL) cadre=new cCustomGraphicsRectItem(scene,300,&CurrentBrush->BrushFileCorrect.X,&CurrentBrush->BrushFileCorrect.Y,&CurrentBrush->BrushFileCorrect.ZoomFactor,
+                                                       NULL,NULL,xmax,ymax,CurrentBrush->BrushFileCorrect.LockGeometry,
+                                                       CurrentBrush->BrushFileCorrect.AspectRatio,&MagneticRuler,this,TYPE_DlgImageCorrection,0,true);
 
     // Prepare CacheImage
     QImage   *NewImage=new QImage(xmax,ymax,QImage::Format_ARGB32_Premultiplied);
@@ -661,9 +661,9 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     int    WithPen  =int(SizeRatio); if (double(WithPen)<SizeRatio) WithPen++;
 
     // Rotate image if needed and create a SourceImage
-    if (BrushFileCorrect->ImageRotation!=0) {
+    if (CurrentBrush->BrushFileCorrect.ImageRotation!=0) {
         QTransform matrix;
-        matrix.rotate(BrushFileCorrect->ImageRotation,Qt::ZAxis);
+        matrix.rotate(CurrentBrush->BrushFileCorrect.ImageRotation,Qt::ZAxis);
         SourceImage=new QImage(CachedImage->transformed(matrix,GlobalMainWindow->ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
 
     // If no rotation then SourceImage=CachedImage
@@ -681,7 +681,7 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     QImage ToUseImage=SourceImage->scaled(DstW,DstH);
     if (CurrentBrush->Image) CurrentBrush->Image->BrushFileTransform.ApplyFilter(&ToUseImage);
         else if (CurrentBrush->Video) CurrentBrush->Video->BrushFileTransform.ApplyFilter(&ToUseImage);
-    BrushFileCorrect->ApplyFilter(&ToUseImage);
+    CurrentBrush->BrushFileCorrect.ApplyFilter(&ToUseImage);
 
     P.begin(NewImage);
     P.fillRect(QRectF(0,0,xmax,ymax),Transparent);
@@ -697,10 +697,10 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     MagneticRuler.MagnetY2=DstY+DstH;
 
     // Draw selection rectangle for cadre
-    double X=BrushFileCorrect->X*xmax;
-    double Y=BrushFileCorrect->Y*ymax;
-    double W=BrushFileCorrect->ZoomFactor*xmax;
-    double H=W*BrushFileCorrect->AspectRatio;
+    double X=CurrentBrush->BrushFileCorrect.X*xmax;
+    double Y=CurrentBrush->BrushFileCorrect.Y*ymax;
+    double W=CurrentBrush->BrushFileCorrect.ZoomFactor*xmax;
+    double H=W*CurrentBrush->BrushFileCorrect.AspectRatio;
 
     QImage      *FormImage=new QImage(xmax,ymax,QImage::Format_ARGB32_Premultiplied);
     QPainter    PB;
@@ -758,9 +758,9 @@ void DlgImageCorrection::RefreshBackgroundImage() {
 void DlgImageCorrection::s_BrightnessSliderMoved(int Value) {
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
-    BrushFileCorrect->Brightness=Value;
-    ui->BrightnessSlider->setValue(BrushFileCorrect->Brightness);
-    ui->BrightnessValue->setValue(BrushFileCorrect->Brightness);
+    CurrentBrush->BrushFileCorrect.Brightness=Value;
+    ui->BrightnessSlider->setValue(CurrentBrush->BrushFileCorrect.Brightness);
+    ui->BrightnessValue->setValue(CurrentBrush->BrushFileCorrect.Brightness);
     RefreshBackgroundImage();
     FLAGSTOPSPIN=false;
 }
@@ -770,9 +770,9 @@ void DlgImageCorrection::s_BrightnessSliderMoved(int Value) {
 void DlgImageCorrection::s_ContrastSliderMoved(int Value) {
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
-    BrushFileCorrect->Contrast=Value;
-    ui->ContrastSlider->setValue(BrushFileCorrect->Contrast);
-    ui->ContrastValue->setValue(BrushFileCorrect->Contrast);
+    CurrentBrush->BrushFileCorrect.Contrast=Value;
+    ui->ContrastSlider->setValue(CurrentBrush->BrushFileCorrect.Contrast);
+    ui->ContrastValue->setValue(CurrentBrush->BrushFileCorrect.Contrast);
     RefreshBackgroundImage();
     FLAGSTOPSPIN=false;
 }
@@ -782,9 +782,9 @@ void DlgImageCorrection::s_ContrastSliderMoved(int Value) {
 void DlgImageCorrection::s_GammaSliderMoved(int Value) {
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
-    BrushFileCorrect->Gamma=double(Value)/100;
-    ui->GammaSlider->setValue(BrushFileCorrect->Gamma*100);
-    ui->GammaValue->setValue(BrushFileCorrect->Gamma);
+    CurrentBrush->BrushFileCorrect.Gamma=double(Value)/100;
+    ui->GammaSlider->setValue(CurrentBrush->BrushFileCorrect.Gamma*100);
+    ui->GammaValue->setValue(CurrentBrush->BrushFileCorrect.Gamma);
     RefreshBackgroundImage();
     FLAGSTOPSPIN=false;
 }
@@ -794,9 +794,9 @@ void DlgImageCorrection::s_GammaSliderMoved(int Value) {
 void DlgImageCorrection::s_GammaValueED(double Value) {
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
-    BrushFileCorrect->Gamma=Value;
-    ui->GammaSlider->setValue(BrushFileCorrect->Gamma*100);
-    ui->GammaValue->setValue(BrushFileCorrect->Gamma);
+    CurrentBrush->BrushFileCorrect.Gamma=Value;
+    ui->GammaSlider->setValue(CurrentBrush->BrushFileCorrect.Gamma*100);
+    ui->GammaValue->setValue(CurrentBrush->BrushFileCorrect.Gamma);
     RefreshBackgroundImage();
     FLAGSTOPSPIN=false;
 }
@@ -804,27 +804,27 @@ void DlgImageCorrection::s_GammaValueED(double Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_RedSliderMoved(int Value) {
-    BrushFileCorrect->Red=Value;
-    ui->RedSlider->setValue(BrushFileCorrect->Red);
-    ui->RedValue->setValue(BrushFileCorrect->Red);
+    CurrentBrush->BrushFileCorrect.Red=Value;
+    ui->RedSlider->setValue(CurrentBrush->BrushFileCorrect.Red);
+    ui->RedValue->setValue(CurrentBrush->BrushFileCorrect.Red);
     RefreshBackgroundImage();
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_GreenSliderMoved(int Value) {
-    BrushFileCorrect->Green=Value;
-    ui->GreenSlider->setValue(BrushFileCorrect->Green);
-    ui->GreenValue->setValue(BrushFileCorrect->Green);
+    CurrentBrush->BrushFileCorrect.Green=Value;
+    ui->GreenSlider->setValue(CurrentBrush->BrushFileCorrect.Green);
+    ui->GreenValue->setValue(CurrentBrush->BrushFileCorrect.Green);
     RefreshBackgroundImage();
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_BlueSliderMoved(int Value) {
-    BrushFileCorrect->Blue=Value;
-    ui->BlueSlider->setValue(BrushFileCorrect->Blue);
-    ui->BlueValue->setValue(BrushFileCorrect->Blue);
+    CurrentBrush->BrushFileCorrect.Blue=Value;
+    ui->BlueSlider->setValue(CurrentBrush->BrushFileCorrect.Blue);
+    ui->BlueValue->setValue(CurrentBrush->BrushFileCorrect.Blue);
     RefreshBackgroundImage();
 }
 
@@ -833,22 +833,22 @@ void DlgImageCorrection::s_BlueSliderMoved(int Value) {
 void DlgImageCorrection::s_LockGeometryCB(int Value) {
     switch (Value) {
         case 0 :
-            BrushFileCorrect->LockGeometry=false;
+            CurrentBrush->BrushFileCorrect.LockGeometry=false;
             break;
         case 1 :
-            BrushFileCorrect->LockGeometry=true;
+            CurrentBrush->BrushFileCorrect.LockGeometry=true;
             break;
         case 2 :
-            BrushFileCorrect->LockGeometry=true;
-            BrushFileCorrect->AspectRatio =ProjectGeometry;
+            CurrentBrush->BrushFileCorrect.LockGeometry=true;
+            CurrentBrush->BrushFileCorrect.AspectRatio =ProjectGeometry;
             break;
         case 3 :
-            BrushFileCorrect->LockGeometry=true;
-            BrushFileCorrect->AspectRatio =ImageGeometry;
+            CurrentBrush->BrushFileCorrect.LockGeometry=true;
+            CurrentBrush->BrushFileCorrect.AspectRatio =ImageGeometry;
             break;
     }
     if (cadre!=NULL) {
-        cadre->KeepAspectRatio=BrushFileCorrect->LockGeometry;
+        cadre->KeepAspectRatio=CurrentBrush->BrushFileCorrect.LockGeometry;
         RefreshControls();
     }
 }
@@ -866,11 +866,11 @@ void DlgImageCorrection::s_FramingStyleBT() {
         QStringList List;
         GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringToStringList(Item,List);
         for (int i=0;i<List.count();i++) {
-            if      (List[i].startsWith("X:"))              BrushFileCorrect->X             =List[i].mid(QString("X:").length()).toDouble();
-            else if (List[i].startsWith("Y:"))              BrushFileCorrect->Y             =List[i].mid(QString("Y:").length()).toDouble();
-            else if (List[i].startsWith("ZoomFactor:"))     BrushFileCorrect->ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
-            else if (List[i].startsWith("LockGeometry:"))   BrushFileCorrect->LockGeometry  =List[i].mid(QString("LockGeometry:").length()).toInt()==1;
-            else if (List[i].startsWith("AspectRatio:"))    BrushFileCorrect->AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
+            if      (List[i].startsWith("X:"))              CurrentBrush->BrushFileCorrect.X             =List[i].mid(QString("X:").length()).toDouble();
+            else if (List[i].startsWith("Y:"))              CurrentBrush->BrushFileCorrect.Y             =List[i].mid(QString("Y:").length()).toDouble();
+            else if (List[i].startsWith("ZoomFactor:"))     CurrentBrush->BrushFileCorrect.ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
+            else if (List[i].startsWith("LockGeometry:"))   CurrentBrush->BrushFileCorrect.LockGeometry  =List[i].mid(QString("LockGeometry:").length()).toInt()==1;
+            else if (List[i].startsWith("AspectRatio:"))    CurrentBrush->BrushFileCorrect.AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
         }
     }
     RefreshControls();

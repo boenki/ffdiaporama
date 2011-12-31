@@ -22,9 +22,12 @@ unix {
     DESTDIR     += ../build
     OBJECTS_DIR += ../build$$TARGET
     MOC_DIR     += ../build$$TARGET
+    UI_DIR      += ../build$$TARGET
     ICON        = img/logo.png
 
-    INCLUDEPATH += /usr/include/ffmpeg/    \             # Specific for Fedora
+    INCLUDEPATH += . \
+                   ../build$$TARGET \
+                   /usr/include/ffmpeg/    \                            # Specific for Fedora
                    ./SubProjects/VariousClass  \
                    ./SubProjects/fmt_filters
 
@@ -35,10 +38,12 @@ win32 {
     DESTDIR     += ..\\winbuild
     OBJECTS_DIR += ..\\winbuild$$TARGET
     MOC_DIR     += ..\\winbuild$$TARGET
+    UI_DIR      += ..\\winbuild$$TARGET
 
     RC_FILE     = ffDiaporama.rc
 
     INCLUDEPATH += . \
+                   ..\\winbuild$$TARGET \
                    C:\\Qt\\ffmpeg-win32-dev\\include \                  #------ ffmpeg library path
                    C:\\Qt\\SDL-1.2.14\\include \                        #------ SDL library path
                    .\\SubProjects\\VariousClass \
@@ -52,8 +57,6 @@ win32 {
 SOURCES +=  _ApplicationDefinitions.cpp \
             _SoundDefinitions.cpp \
             _ImagesDefinitions.cpp \
-            _ImageFileWrapper.cpp \
-            _VideoFileWrapper.cpp \
             _Diaporama.cpp \
             wgt_QVideoPlayer.cpp \
             wgt_QCustomRuller.cpp \
@@ -75,20 +78,27 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     cCustomTableWidget.cpp \
     DlgManageStyle.cpp \
     _StyleDefinitions.cpp \
-    DlgCheckConfig.cpp \
+    SubProjects/VariousWidgets/DlgCheckConfig.cpp \
     SubProjects/VariousClass/cSaveWindowPosition.cpp \
     SubProjects/VariousClass/cBaseApplicationConfig.cpp \
     SubProjects/VariousClass/cFilterTransformObject.cpp \
     SubProjects/VariousClass/cFilterCorrectObject.cpp \
     SubProjects/fmt_filters/fmt_filters.cpp \
-    SubProjects/VariousClass/cLuLoImageCache.cpp
+    SubProjects/VariousClass/cLuLoImageCache.cpp \
+    SubProjects/VariousClass/cDeviceModelDef.cpp \
+    SubProjects/VariousClass/cSoundBlockList.cpp \
+    SubProjects/VariousClass/cBaseMediaFile.cpp \
+    SubProjects/VariousClass/_SDL_Support.cpp \
+    SubProjects/VariousWidgets/_QCustomDialog.cpp \
+    SubProjects/VariousWidgets/DlgManageDevices.cpp \
+    SubProjects/VariousClass/QCustomFileInfoLabel.cpp \
+    SubProjects/VariousWidgets/DlgffDPjrProperties.cpp \
+    SubProjects/VariousClass/cBrushDefinition.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
             _ImagesDefinitions.h \
             _ApplicationDefinitions.h \
-            _ImageFileWrapper.h \
-            _VideoFileWrapper.h \
             _Diaporama.h \
             wgt_QVideoPlayer.h \
             wgt_QCustomRuller.h \
@@ -109,13 +119,23 @@ HEADERS  += _GlobalDefines.h \
     cCustomTableWidget.h \
     DlgManageStyle.h \
     _StyleDefinitions.h \
-    DlgCheckConfig.h \
+    SubProjects/VariousWidgets/DlgCheckConfig.h \
     SubProjects/VariousClass/cSaveWindowPosition.h \
     SubProjects/VariousClass/cBaseApplicationConfig.h \
     SubProjects/VariousClass/cFilterTransformObject.h \
     SubProjects/VariousClass/cFilterCorrectObject.h \
     SubProjects/fmt_filters/fmt_filters.h \
-    SubProjects/VariousClass/cLuLoImageCache.h
+    SubProjects/VariousClass/cLuLoImageCache.h \
+    SubProjects/VariousClass/cDeviceModelDef.h \
+    SubProjects/VariousClass/_GlobalDefines.h \
+    SubProjects/VariousClass/cSoundBlockList.h \
+    SubProjects/VariousClass/cBaseMediaFile.h \
+    SubProjects/VariousClass/_SDL_Support.h \
+    SubProjects/VariousWidgets/_QCustomDialog.h \
+    SubProjects/VariousWidgets/DlgManageDevices.h \
+    SubProjects/VariousClass/QCustomFileInfoLabel.h \
+    SubProjects/VariousWidgets/DlgffDPjrProperties.h \
+    SubProjects/VariousClass/cBrushDefinition.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \
@@ -130,7 +150,9 @@ FORMS    += mainwindow.ui \
     DlgVideoEdit.ui \
     DlgTextEdit.ui \
     DlgManageStyle.ui \
-    DlgCheckConfig.ui
+    SubProjects/VariousWidgets/DlgCheckConfig.ui \
+    SubProjects/VariousWidgets/DlgManageDevices.ui \
+    SubProjects/VariousWidgets/DlgffDPjrProperties.ui
 
 OTHER_FILES += \
     ffDiaporama.xml \
@@ -163,16 +185,17 @@ OTHER_FILES += \
     ffDiaporama.url \
     ffDiaporamaopt.desktop \
     ffDiaporamalocal.desktop \
-    ffDiaporama-mime.xml
+    ffDiaporama-mime.xml \
+    Devices.xml
 
-TRANSLATIONS += locale/locale_fr.ts \
-    locale/locale_it.ts \
-    locale/locale_de.ts \
-    locale/locale_nl.ts \
-    locale/locale_es.ts \
-    locale/locale_pt.ts \
-    locale/locale_ru.ts \
-    locale/locale_el.ts
+TRANSLATIONS += locale/ffDiaporama_fr.ts \
+    locale/ffDiaporama_it.ts \
+    locale/ffDiaporama_de.ts \
+    locale/ffDiaporama_nl.ts \
+    locale/ffDiaporama_es.ts \
+    locale/ffDiaporama_pt.ts \
+    locale/ffDiaporama_ru.ts \
+    locale/ffDiaporama_el.ts
 
 #install
 unix {
@@ -207,7 +230,7 @@ unix {
     luma_Snake.path     = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Snake
     luma_Snake.files    = luma/Snake/*.*
     General.path        = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER
-    General.files       = ffDiaporama.xml BUILDVERSION.txt licence.rtf licences.txt authors.txt libx264-hq.ffpreset libx264-pq.ffpreset
+    General.files       = ffDiaporama.xml Devices.xml BUILDVERSION.txt licence.rtf licences.txt authors.txt libx264-hq.ffpreset libx264-pq.ffpreset
 
     mimefile.path       = /usr/share/mime/packages
     mimefile.files      = ffDiaporama-mime.xml

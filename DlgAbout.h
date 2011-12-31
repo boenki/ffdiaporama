@@ -22,19 +22,28 @@
 #define DLGABOUT_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-#include "_ApplicationDefinitions.h"
+#include "SubProjects/VariousClass/_GlobalDefines.h"
+#include "SubProjects/VariousWidgets/_QCustomDialog.h"
+
+// Include some additional standard class
+#include <QDialog>
 
 namespace Ui {
     class DlgAbout;
 }
 
-class DlgAbout : public QDialog {
-    Q_OBJECT
-
+class DlgAbout : public QCustomDialog {
+Q_OBJECT
 public:
-    explicit DlgAbout(QWidget *parent = 0);
+    explicit DlgAbout(QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgAbout();
+
+    // function to be overloaded
+    virtual void    DoInitDialog();                             // Initialise dialog
+    virtual void    DoAccept()          {/*Nothing to do*/}     // Call when user click on Ok button
+    virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
+    virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
+    virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
 
 private slots:
     void    WQtWebSite();

@@ -21,16 +21,77 @@
 #ifndef APPLICATIONDEFINITIONS_H
 #define APPLICATIONDEFINITIONS_H
 
-#include <QSplitter>
-
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include "SubProjects/VariousClass/_GlobalDefines.h"
+
+// Include some common various class
 #include "SubProjects/VariousClass/cBaseApplicationConfig.h"
+#include "SubProjects/VariousClass/cDeviceModelDef.h"
+
+// Specific inclusions
 #include "_StyleDefinitions.h"
+
+// Include some additional standard class
+#include <QSplitter>
+#include <QMainWindow>
+
+// Application definition
+#define APPLICATION_NAME                    "ffDiaporama"
+#define APPLICATION_VERSION                 "1.2 devel"
+#define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
+#define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
+
+// Dialogbox help file
+#define WIKI_CMS_PATH                       "http://ffdiaporama.tuxfamily.org/?page_id="
+#define HELPFILE_INDEX                      "1567"                                                              //fct_001
+#define HELPFILE_PRINCIPLES                 "1306"                                                              //fct_002
+#define HELPFILE_DEVICES                    "1322"                                                              //fct_009
+#define HELPFILE_DlgTextEdit                "1282"                                                              //dlg_001"
+#define HELPFILE_DlgSlideProperties         "1288"                                                              //dlg_003"
+#define HELPFILE_DlgBackgroundProperties    "1290"                                                              //dlg_004"
+#define HELPFILE_DlgImageCorrection         "1292"                                                              //dlg_005"
+#define HELPFILE_DlgManageStyle             "1762"                                                              //dlg_006"
+#define HELPFILE_DlgMusicProperties         "1296"                                                              //dlg_007"
+#define HELPFILE_DlgRenderVideo             "1298"                                                              //dlg_008"
+#define HELPFILE_DlgTransitionProperties    "1300"                                                              //dlg_009"
+#define HELPFILE_DlgVideoEdit               "1302"                                                              //dlg_010"
+
+#define HELPFILE_DlgCheckConfig             "http://ffdiaporama.tuxfamily.org/?page_id=3086&lang=<local>"
+#define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/?page_id=1567&lang=<local>"
+#define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/?cat=5&lang=<local>"
+#define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=1286&lang=<local>"
+#define HELPFILE_DlgManageDevices           ""
+#define HELPFILE_DlgffDPjrProperties        ""
+
+// Define styles name used in xml file
+#define STYLENAME_TEXTSTYLE                 "TextStyleCollection"
+#define STYLENAME_BACKGROUNDSTYLE           "TextBackgroundStyleCollection"
+#define STYLENAME_COORDINATESTYLE           "StyleCoordinateCollection"
+#define STYLENAME_BLOCKSHAPESTYLE           "StyleBlockShapeCollection"
+#define STYLENAME_FRAMINGSTYLE              "StyleImageFramingCollection"
+
+
+// String to include in the system properties
+#define OPERATINGSYSTEM_STR                 "Operating system version\t: "
+#define STARTINGPATH_STR                    "Starting path\t: "
+#define WORKINGPATH_STR                     "Working path set to\t: "
+#define SYSTEMLOCAL_STR                     "Detected system locale\t: "
+#define LOADEDLOCAL_STR                     "Translation file loaded\t: "
+#define COMMONPARTVERSION_STR               "Common part version\t: "
+#define VERSIONQT_STR                       "QT version\t\t: "
+#define FMTFILTERVERSION_STR                "fmt_filters version\t: "
+#define SDLVERSION_STR                      "SDL version\t\t: "
+#define LIBAVCODECVERSION_STR               "LIBAVCODEC version\t: "
+#define LIBAVFORMATVERSION_STR              "LIBAVFORMAT version\t: "
+#define LIBSWSCALEVERSION_STR               "LIBSWSCALE version\t: "
+#define USERCONFIGFILE_STR                  "User config file\t: "
+#define GLOBALCONFIGFILE_STR                "Global config file\t: "
 
 // Global values
 extern QString SystemProperties;                                // System properties log
 extern QString CurrentAppVersion;                               // Application version read from BUILDVERSION.txt
+
+#define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de"
 
 // Utility functions
 void    AddToSystemProperties(QString StringToAdd);             // Add a string to the system properties log
@@ -38,46 +99,6 @@ void    AddSeparatorToSystemProperties();                       // Add a separat
 void    ExitApplicationWithFatalError(QString StringToAdd);     // Exit application with error code 1 if error adding a string to the system properties log and and display it
 
 //====================================================================================================================
-
-//============================================
-// Device model definition
-//============================================
-
-class cDeviceModelDef {
-public:
-    bool    FromGlobalConf;                                     // true if device model is defined in global config file
-    bool    FromUserConf;                                       // true if device model is defined in user config file
-    bool    IsFind;                                             // true if device model format is supported by installed version of ffmpeg
-    int     DeviceIndex;                                        // Device number index key
-    QString DeviceName;                                         // long name for the device model
-    int     DeviceType;                                         // device type
-    int     DeviceSubtype;                                      // device Subtype
-    int     Standard;                                           // standard : PAL/NTSC
-    int     FileFormat;                                         // sFormatDef number
-    int     ImageSize;                                          // DefImageFormat number
-    int     VideoCodec;                                         // sVideoCodecDef number
-    int     VideoBitrate;                                       // Bitrate number in sVideoCodecDef
-    int     AudioCodec;                                         // sAudioCodecDef number
-    int     AudioBitrate;                                       // Bitrate number in sAudioCodecDef
-
-    // Save value to be able to reset to default
-    QString BckDeviceName;                                      // long name for the device model
-    int     BckDeviceType;                                      // device type
-    int     BckDeviceSubtype;                                   // device Subtype
-    int     BckStandard;                                        // standard : PAL/NTSC
-    int     BckFileFormat;                                      // sFormatDef number
-    int     BckImageSize;                                       // DefImageFormat number
-    int     BckVideoCodec;                                      // sVideoCodecDef number
-    int     BckVideoBitrate;                                    // Bitrate number in sVideoCodecDef
-    int     BckAudioCodec;                                      // sAudioCodecDef number
-    int     BckAudioBitrate;                                    // Bitrate number in sAudioCodecDef
-
-    cDeviceModelDef(bool IsGlobalConf,int IndexKey);
-    ~cDeviceModelDef();
-
-    void    SaveToXML(QDomElement &domDocument,QString ElementName);
-    bool    LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile);
-};
 
 class cSaveDlgSlideProperties : public cSaveWindowPosition {
 public:
@@ -95,11 +116,9 @@ public:
 
 class cApplicationConfig : public cBaseApplicationConfig {
 public:
-    QString                 PathEXIV2;                                  // Filename with path to exiv2 binary
-    QString                 PathFFMPEG;                                 // Filename with path to ffmpeg binary
+    // Device database
+    cDeviceModelList        DeviceModelList;                            // List of known rendering device model
 
-    // Collections
-    QList<cDeviceModelDef>  RenderDeviceModel;                          // List of known rendering device model
     cStyleCollection        StyleTextCollection;                        // List of known text style
     cStyleCollection        StyleTextBackgroundCollection;              // List of known background text style
     cStyleCollection        StyleCoordinateCollection;                  // List of known Coordinate style
@@ -125,10 +144,7 @@ public:
     int                     DefaultBlockBA_CLIPARTLOCK[3];
 
     // Last directories
-    bool                    RememberLastDirectories;                    // If true, Remember all directories for future use
-    QString                 LastMediaPath;                              // Last folder use for image/video
     QString                 LastProjectPath;                            // Last folder use for project
-    QString                 LastMusicPath;                              // Last folder use for music
     QString                 LastRenderVideoPath;                        // Last folder use for render video
 
     // Preferences
@@ -137,7 +153,6 @@ public:
     bool                    SDLAudioOldMode;                            // If true SDL audio use old mode sample instead byte
     bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide
     bool                    PartitionMode;                              // If true, partition mode is on
-    bool                    CheckConfigAtStartup;                       // If true, check config at startup
 
     // Editor options
     bool                    AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
@@ -147,20 +162,17 @@ public:
     int                     TimelineHeight;                             // Height of the timeline
     bool                    SlideRuler;                                 // if true, ruler is on in slide properties dialog box
     bool                    FramingRuler;                               // if true, ruler is on in framing/correction dialog box
-    bool                    Crop1088To1080;                             // Automaticaly crop video from 1088 lines to 1080 (CANON)
 
     // Preview setting
     double                  PreviewFPS;                                 // Preview FrameRate
-    int                     PreviewMaxHeight;                           // Specific for preview : Maximum height of image
-    bool                    ApplyTransfoPreview;                        // True if image transformation are apply during preview
-    bool                    QuickResamplingPreview;                     // If true then use quick resampling during preview
-    bool                    Smoothing;                                  // True do smoothing in preview
 
     // Default project settings
     int                     ImageGeometry;                              // Project image geometry for image rendering
     int                     NoShotDuration;                             // Default duration for fixed image when is alone (no shot)
     int                     FixedDuration;                              // Default duration for fixed image
     int                     SpeedWave;                                  // Default Speed wave methode
+    QString                 DefaultAuthor;                              // Default Author name
+    int                     DefaultTitleFilling;                        // Default Title filling mode
 
     // Default transition
     bool                    RandomTransition;                           // if true randomize a transition
@@ -169,7 +181,7 @@ public:
     int                     DefaultTransitionDuration;                  // Transition duration (in msec)
 
     // Default rendering options
-    bool                    DefaultNameProjectName;                     // Use project name as default name for rendering
+    int                     DefaultNameProjectName;                     // Use project name as default name for rendering
     int                     DefaultFormat;                              // Default output format container
     QString                 DefaultVideoCodec;                          // Default video codec
     int                     DefaultVideoBitRate;                        // Default video bit rate
@@ -186,8 +198,6 @@ public:
     int                     DefaultForTheWEBModel;                      // Default ForTheWEB Model
 
     QStringList             RecentFile;                                 // Recent project files
-    QStringList             TranslatedRenderType;                       // Translated render device type
-    QStringList             TranslatedRenderSubtype[4];                 // Translated render device subtype
 
     // Main Window Size & Position
     cSaveWindowPosition     *DlgBackgroundPropertiesWSP;                // Dialog box "Background properties" - Window size and position
@@ -202,14 +212,19 @@ public:
     cSaveWindowPosition     *DlgTextEditWSP;                            // Dialog box "Text editor" - Window size and position
     cSaveWindowPosition     *DlgManageStyleWSP;                         // Dialog box "Manage style" - Window size and position
     cSaveWindowPosition     *DlgCheckConfigWSP;                         // Dialog box "Check configuration" - Window size and position
+    cSaveWindowPosition     *DlgManageDevicesWSP;                       // Dialog box "Manage Devices" - Window size and position
+    cSaveWindowPosition     *DlgAboutWSP;                               // Dialog box "About" - Window size and position
+    cSaveWindowPosition     *DlgffDPjrPropertiesWSP;                    // Dialog box "Project properties" - Window size and position
 
-    cApplicationConfig();
-    ~cApplicationConfig();
+    explicit                cApplicationConfig(QMainWindow *TheTopLevelWindow);
+                            ~cApplicationConfig();
 
     // Abstract functions in cBaseApplicationConfig
-    void                    InitValues();
-    void                    SaveValueToXML(QDomElement &domDocument);
-    bool                    LoadValueFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile);
+    virtual bool            LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication *App);
+    virtual bool            SaveConfigurationFile();
+    virtual void            InitValues();
+    virtual void            SaveValueToXML(QDomElement &domDocument);
+    virtual bool            LoadValueFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile);
 };
 
 #endif // APPLICATIONDEFINITIONS_H

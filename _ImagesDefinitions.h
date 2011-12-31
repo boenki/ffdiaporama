@@ -18,100 +18,19 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-
 #ifndef IMAGESDEFINITIONS_H
 #define IMAGESDEFINITIONS_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-#include "_SoundDefinitions.h"
+#include "SubProjects/VariousClass/_GlobalDefines.h"
+
+// Include some common various class
 #include "SubProjects/VariousClass/cFilterTransformObject.h"
 #include "SubProjects/VariousClass/cFilterCorrectObject.h"
 #include "SubProjects/VariousClass/cLuLoImageCache.h"
-
-#include "_ImageFileWrapper.h"
-#include "_VideoFileWrapper.h"
-
-// Utility function to create a gradient brush
-QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QString ColorD,QString ColorF,QString ColorIntermed,double Intermediate);
-
-//*********************************************************************************************************************************************
-// Base object for brush object
-//*********************************************************************************************************************************************
-
-class cBrushDefinition {
-public:
-    int                     TypeComposition;        // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
-    int                     BrushType;              // 0=no brush, 1=Solid, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-    int                     PatternType;            // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    int                     GradientOrientation;    // 0=Radial, 1->4=Linear from a corner, 5->9=Linear from a border
-    QString                 ColorD;                 // First Color
-    QString                 ColorF;                 // Last Color
-    QString                 ColorIntermed;          // Intermediate Color
-    double                  Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
-    QString                 BrushImage;             // Image name if image from library
-    double                  SoundVolume;            // Volume of soundtrack
-    cFilterCorrectObject    BrushFileCorrect;       // Image correction if image from disk
-    cimagefilewrapper       *Image;                 // Embeded Object for title and image type
-    cvideofilewrapper       *Video;                 // Embeded Object for video type
-    QString                 DefaultFramingW;        // Default Framing when ADJUST_WITH
-    QString                 DefaultFramingH;        // Default Framing when ADJUST_HEIGHT
-    QString                 DefaultFramingF;        // Default Framing when ADJUST_FULL
-
-    cBrushDefinition();
-    ~cBrushDefinition();
-    void        CopyFromBrushDefinition(cBrushDefinition *BrushToCopy);
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList &AliasList);
-    QBrush      *GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
-
-    enum FramingType {ADJUST_WITH,ADJUST_HEIGHT,ADJUST_FULL};
-    void        GetDefaultFraming(FramingType TheFramingType,bool LockGeometry,double &X,double &Y,double &ZoomFactor,double &AspectRatio);
-    void        InitDefaultFramingStyle(bool LockGeometry,double AspectRatio);
-    QString     GetFramingStyle(double X,double Y,double ZoomFactor,double AspectRatio,double ImageRotation);
-    QString     GetFramingStyle();
-    void        ApplyStyle(bool LockGeometry,QString Style);
-
-private:
-    QBrush      *GetLibraryBrush(QRectF Rect);
-    QBrush      *GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
-    int         GetHeightForWidth(int WantedWith,QRectF Rect);
-    int         GetWidthForHeight(int WantedHeight,QRectF Rect);
-};
-
-//*********************************************************************************************************************************************
-// Base object for background library object
-//*********************************************************************************************************************************************
-
-class   cBackgroundObject {
-public:
-    bool        IsValide;
-    QString     FilePath;
-    QString     Name;
-    QPixmap     Icon;
-    int         Geometry;
-    QImage      BackgroundImage;
-
-    cBackgroundObject(QString FileName,int Geometry);
-
-    void    SetGeometry(int Geometry);
-};
-
-//*********************************************************************************************************************************************
-// Global class containing background library
-//*********************************************************************************************************************************************
-
-class   cBackgroundList {
-public:
-    int                         Geometry;
-    QList<cBackgroundObject>    List;                       // list of brush
-
-    cBackgroundList();
-    ~cBackgroundList();
-
-    void    ScanDisk(QString Path,int Geometry);
-    int     SearchImage(QString NameToFind);
-};
+#include "SubProjects/VariousClass/cBaseMediaFile.h"
+#include "SubProjects/VariousClass/cSoundBlockList.h"
+#include "SubProjects/VariousClass/cBrushDefinition.h"
 
 //*********************************************************************************************************************************************
 // Global class containing icons of transitions

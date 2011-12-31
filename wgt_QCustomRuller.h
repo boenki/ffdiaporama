@@ -22,6 +22,11 @@
 #define wgt_QCustomRuller_H
 
 // Basic inclusions (common to all files)
+#include "SubProjects/VariousClass/_GlobalDefines.h"
+
+// Include some additional standard class
+
+// Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
 // Specific inclusions

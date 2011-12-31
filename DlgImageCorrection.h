@@ -22,6 +22,11 @@
 #define DLGIMAGECORRECTION_H
 
 // Basic inclusions (common to all files)
+#include "SubProjects/VariousClass/_GlobalDefines.h"
+
+// Include some additional standard class
+
+// Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
 // Specific inclusions
@@ -37,7 +42,6 @@ Q_OBJECT
 public:
     cCompositionObject      *CurrentTextItem;               // Block to modify
     cBrushDefinition        *CurrentBrush;
-    cFilterCorrectObject    *BrushFileCorrect;
     QDomDocument            *UndoSlide,*UndoShot;           // Save objects before modification for cancel button
     bool                    UndoReloadImage;                // True if image change and undo must reload it
     QString                 UndoBrushFileName;              // Name of previous file is undo
@@ -54,7 +58,7 @@ public:
     double                  ImageGeometry;
     double                  ProjectGeometry;
 
-    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int BackgroundForm,cBrushDefinition *CurrentBrush,cFilterCorrectObject *BrushFileCorrect,int TheVideoPosition,QWidget *parent = 0);
+    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,QWidget *parent = 0);
     ~DlgImageCorrection();
 
     void            RefreshBackgroundImage();

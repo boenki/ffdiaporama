@@ -22,6 +22,11 @@
 #define DLGSLIDEPROPERTIES_H
 
 // Basic inclusions (common to all files)
+#include "SubProjects/VariousClass/_GlobalDefines.h"
+
+// Include some additional standard class
+
+// Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
 // Specific inclusions
@@ -74,13 +79,21 @@ public:
     void            s_Scene_DoubleClick();                      // User double click on a block in the scene widget
 
     // Utility functions
-    cCustomGraphicsRectItem *GetSelectItem();                       // Return selected item
     cCompositionObject      *GetSelectedCompositionObject();        // Return selected CompositionObject
     cCompositionObject      *GetSelectedGlobalCompositionObject();  // Return selected CompositionObject in the global composition list
-    cBrushDefinition        *GetCurrentBrush();                     // Return selected brush
-    cBrushDefinition        *GetCurrentGlobalBrush();               // Return brush of selected CompositionObject in the global composition list
     void                    ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock);
     void                    CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock);
+
+    // Context for modifing values to current composition object
+    cCompositionObject      *CompositionObject;
+    cCustomGraphicsRectItem *RectItem;
+    double                  DisplayW,DisplayH;
+
+    bool                    PrepContexte();
+    void                    ApplyToContexte(bool ReposRectItem,bool ApplyGlobal);
+
+    // *************************
+
 
 protected:
     virtual void    resizeEvent(QResizeEvent *);
@@ -89,6 +102,8 @@ protected:
     virtual void    accept();
 
 private slots:
+    void            s_RefreshSceneImage();
+
     void            OKPrevious();
     void            OKNext();
     void            Help();
@@ -107,7 +122,6 @@ private slots:
 
     // Buttons associated to a Dialog box
     void            TextEditor();
-    void            TextEditorRefreshDisplay();
     void            ImageEditCorrect();
     void            VideoEdit();
     void            GetSound();

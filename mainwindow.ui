@@ -107,7 +107,7 @@ QToolButton:pressed {
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="TabFile">
          <property name="font">
@@ -379,6 +379,42 @@ project as</string>
            <widget class="Line" name="line">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="Action_PrjProperties_BT">
+            <property name="minimumSize">
+             <size>
+              <width>64</width>
+              <height>58</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Sans Serif</family>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>Define project properties</string>
+            </property>
+            <property name="text">
+             <string>Project
+properties</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>img/PrjProperties.png</normaloff>img/PrjProperties.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextUnderIcon</enum>
             </property>
            </widget>
           </item>
@@ -1534,6 +1570,42 @@ project as</string>
             <widget class="Line" name="line_4">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="Action_PrjProperties_BT_2">
+             <property name="minimumSize">
+              <size>
+               <width>64</width>
+               <height>58</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Define project properties</string>
+             </property>
+             <property name="text">
+              <string>Project
+properties</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>img/PrjProperties.png</normaloff>img/PrjProperties.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextUnderIcon</enum>
              </property>
             </widget>
            </item>

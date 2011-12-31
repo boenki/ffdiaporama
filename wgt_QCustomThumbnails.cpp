@@ -105,17 +105,17 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             qlonglong   Duration=0;
             bool        RedColor=false;
 
-            if ((Col<Timeline->columnCount()-1)&&(Col<DiaporamaObject->List.count()-1)) Duration=DiaporamaObject->List[Col].StaticDuration; else {
+            if ((Col<Timeline->columnCount()-1)&&(Col<DiaporamaObject->List.count()-1)) Duration=DiaporamaObject->List[Col]->StaticDuration; else {
                 Duration=DiaporamaObject->GetDuration()-Position;  // Last shot
-                RedColor=(Col<Timeline->columnCount())&&(Duration!=DiaporamaObject->List[Col].StaticDuration);
+                RedColor=(Col<Timeline->columnCount())&&(Duration!=DiaporamaObject->List[Col]->StaticDuration);
             }
             while ((Col<Timeline->columnCount())&&(Col<DiaporamaObject->List.count())) {
                 if (Timeline->cellWidget(0,Col)!=this) {
                     Position=Position+Duration;
                     Col++;
-                    if ((Col<Timeline->columnCount()-1)&&(Col<DiaporamaObject->List.count()-1)) Duration=DiaporamaObject->List[Col].StaticDuration; else {
+                    if ((Col<Timeline->columnCount()-1)&&(Col<DiaporamaObject->List.count()-1)) Duration=DiaporamaObject->List[Col]->StaticDuration; else {
                         Duration=DiaporamaObject->GetDuration()-Position;  // Last shot
-                        RedColor=(Col<Timeline->columnCount())&&(Duration!=DiaporamaObject->List[Col].StaticDuration);
+                        RedColor=(Col<Timeline->columnCount())&&(Duration!=DiaporamaObject->List[Col]->StaticDuration);
                     }
                 } else if (Timeline->cellWidget(0,Col)==this) {
                     int Height=Timeline->rowHeight(0);
@@ -132,17 +132,17 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     //-------------------------
 
                     // Add static shot composition
-                    if (Col<DiaporamaObject->List.count()) for (int j=0;j<DiaporamaObject->List[Col].ShotComposition.List.count();j++) {
+                    if (Col<DiaporamaObject->List.count()) for (int j=0;j<DiaporamaObject->List[Col]->ShotComposition.List.count();j++) {
                         int StartPosToAdd=0;
-                        if (DiaporamaObject->List[Col].ShotComposition.List[j].BackgroundBrush.Video) {
+                        if (DiaporamaObject->List[Col]->ShotComposition.List[j]->BackgroundBrush->Video) {
                             for (int k=0;k<Col;k++) {
-                                for (int l=0;l<DiaporamaObject->List[k].ShotComposition.List.count();l++) if (DiaporamaObject->List[k].ShotComposition.List[l].IndexKey==DiaporamaObject->List[Col].ShotComposition.List[j].IndexKey) {
-                                    if (DiaporamaObject->List[k].ShotComposition.List[l].IsVisible) StartPosToAdd+=DiaporamaObject->List[k].StaticDuration;
-                                    l=DiaporamaObject->List[k].ShotComposition.List.count();    // Stop loop
+                                for (int l=0;l<DiaporamaObject->List[k]->ShotComposition.List.count();l++) if (DiaporamaObject->List[k]->ShotComposition.List[l]->IndexKey==DiaporamaObject->List[Col]->ShotComposition.List[j]->IndexKey) {
+                                    if (DiaporamaObject->List[k]->ShotComposition.List[l]->IsVisible) StartPosToAdd+=DiaporamaObject->List[k]->StaticDuration;
+                                    l=DiaporamaObject->List[k]->ShotComposition.List.count();    // Stop loop
                                 }
                             }
-                            DiaporamaObject->List[Col].ShotComposition.List[j].DrawCompositionObject(&Painter,double(Height)/double(1080),0,0,Width,Height,true,0,StartPosToAdd,NULL,0,NULL,true);
-                        } else DiaporamaObject->List[Col].ShotComposition.List[j].DrawCompositionObject(&Painter,double(Height)/double(1080),0,0,Width,Height,true,Position,0,NULL,0,NULL,true);
+                            DiaporamaObject->List[Col]->ShotComposition.List[j]->DrawCompositionObject(&Painter,double(Height)/double(1080),0,0,Width,Height,true,0,StartPosToAdd,NULL,0,NULL,true);
+                        } else DiaporamaObject->List[Col]->ShotComposition.List[j]->DrawCompositionObject(&Painter,double(Height)/double(1080),0,0,Width,Height,true,Position,0,NULL,0,NULL,true);
                     }
 
                     // -------------------------- Draw selected box (if needed)
@@ -212,7 +212,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             while ((Col<Max)&&(Timeline->cellWidget((Col/NbrCol),Col-(Col/NbrCol)*NbrCol)!=this)) Col++;
         } else while ((Col<Timeline->columnCount())&&(Timeline->cellWidget(0,Col)!=this)) Col++;
 
-        cDiaporamaObject    *Object         = (Col<GlobalMainWindow->Diaporama->List.count())?&GlobalMainWindow->Diaporama->List[Col]:NULL;
+        cDiaporamaObject    *Object         = (Col<GlobalMainWindow->Diaporama->List.count())?GlobalMainWindow->Diaporama->List[Col]:NULL;
 
         int                 TimelineHeight  = GlobalMainWindow->ApplicationConfig->TimelineHeight;
         bool                IsTransition    = (Object!=NULL)&&((Object->TransitionFamilly!=0)||(Object->TransitionSubType!=0));
@@ -261,7 +261,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             //==========================================================================================================================
             HasTransition =true;
             TransitionRect=QRect(0,TimelineHeight/2,TransitionSize,TransitionSize);
-            DrawThumbnailsBox(2,TimelineHeight/2+2-1,32,32,Painter,IsTransition?IconList.GetIcon(GlobalMainWindow->Diaporama->List[Col].TransitionFamilly,GlobalMainWindow->Diaporama->List[Col].TransitionSubType):IconList.GetIcon(0,0));
+            DrawThumbnailsBox(2,TimelineHeight/2+2-1,32,32,Painter,IsTransition?IconList.GetIcon(GlobalMainWindow->Diaporama->List[Col]->TransitionFamilly,GlobalMainWindow->Diaporama->List[Col]->TransitionSubType):IconList.GetIcon(0,0));
 
 
             //==========================================================================================================================
@@ -278,29 +278,29 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             double  PreviousSoundVolume = 0;
 
             // Parse current ObjectComposition table to determine if slide have sound
-            for (int i=0;i<Object->ObjectComposition.List.count();i++) if ((Object->ObjectComposition.List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
-                (Object->ObjectComposition.List[i].BackgroundBrush.Video)) {
+            for (int i=0;i<Object->ObjectComposition.List.count();i++) if ((Object->ObjectComposition.List[i]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&
+                (Object->ObjectComposition.List[i]->BackgroundBrush->Video)) {
                 HaveSound=true;
                 // Parse all object from all shot to determine max volume
-                for (int v=0;v<Object->List.count();v++) for (int w=0;w<Object->List[v].ShotComposition.List.count();w++)
-                    if ((Object->List[v].ShotComposition.List[w].IndexKey==Object->ObjectComposition.List[i].IndexKey)&&
-                        (Object->List[v].ShotComposition.List[w].BackgroundBrush.SoundVolume>SoundVolume))
-                            SoundVolume=Object->List[v].ShotComposition.List[w].BackgroundBrush.SoundVolume;
+                for (int v=0;v<Object->List.count();v++) for (int w=0;w<Object->List[v]->ShotComposition.List.count();w++)
+                    if ((Object->List[v]->ShotComposition.List[w]->IndexKey==Object->ObjectComposition.List[i]->IndexKey)&&
+                        (Object->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume>SoundVolume))
+                            SoundVolume=Object->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume;
             }
 
             // Parse previous object.ObjectComposition table to determine if previous slide have sound
             if (Col>0) {
-                for (int i=0;i<GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List.count();i++)
-                        if ((GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
-                            (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.Video)&&
-                            (GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].BackgroundBrush.SoundVolume!=0)) {
+                for (int i=0;i<GlobalMainWindow->Diaporama->List[Col-1]->ObjectComposition.List.count();i++)
+                        if ((GlobalMainWindow->Diaporama->List[Col-1]->ObjectComposition.List[i]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&
+                            (GlobalMainWindow->Diaporama->List[Col-1]->ObjectComposition.List[i]->BackgroundBrush->Video)&&
+                            (GlobalMainWindow->Diaporama->List[Col-1]->ObjectComposition.List[i]->BackgroundBrush->SoundVolume!=0)) {
 
                     PreviousHaveSound=true;
                     // Parse all object from all shot to determine max volume
-                    for (int v=0;v<GlobalMainWindow->Diaporama->List[Col-1].List.count();v++) for (int w=0;w<GlobalMainWindow->Diaporama->List[Col-1].List[v].ShotComposition.List.count();w++)
-                        if ((GlobalMainWindow->Diaporama->List[Col-1].List[v].ShotComposition.List[w].IndexKey==GlobalMainWindow->Diaporama->List[Col-1].ObjectComposition.List[i].IndexKey)&&
-                            (GlobalMainWindow->Diaporama->List[Col-1].List[v].ShotComposition.List[w].BackgroundBrush.SoundVolume>PreviousSoundVolume))
-                                PreviousSoundVolume=GlobalMainWindow->Diaporama->List[Col-1].List[v].ShotComposition.List[w].BackgroundBrush.SoundVolume;
+                    for (int v=0;v<GlobalMainWindow->Diaporama->List[Col-1]->List.count();v++) for (int w=0;w<GlobalMainWindow->Diaporama->List[Col-1]->List[v]->ShotComposition.List.count();w++)
+                        if ((GlobalMainWindow->Diaporama->List[Col-1]->List[v]->ShotComposition.List[w]->IndexKey==GlobalMainWindow->Diaporama->List[Col-1]->ObjectComposition.List[i]->IndexKey)&&
+                            (GlobalMainWindow->Diaporama->List[Col-1]->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume>PreviousSoundVolume))
+                                PreviousSoundVolume=GlobalMainWindow->Diaporama->List[Col-1]->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume;
                 }
             }
 
@@ -469,7 +469,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             double      PreviousFactor      =0;
 
             if ((Col>0)&&(Object->Parent->GetMusicObject(Col-1,StartPosition)!=NULL))
-                PreviousFactor=(Object->Parent->List[Col-1].MusicPause)?0:(Object->Parent->List[Col-1].MusicReduceVolume)?Object->Parent->List[Col-1].MusicReduceFactor:1;
+                PreviousFactor=(Object->Parent->List[Col-1]->MusicPause)?0:(Object->Parent->List[Col-1]->MusicReduceVolume)?Object->Parent->List[Col-1]->MusicReduceFactor:1;
 
             bool        EndMusic            =true;
             bool        DrawVolumeTransition=(PreviousFactor!=CurrentFactor);
@@ -482,7 +482,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 
             if (Col>0) {
                 cMusicObject *PrevMusique=Object->Parent->GetMusicObject(Col-1,StartPosition);
-                if ((PrevMusique)&&((QTime(0,0,0,0).msecsTo(PrevMusique->Duration)-StartPosition)>Object->Parent->List[Col-1].GetDuration())) DrawOutTransition=true;
+                if ((PrevMusique)&&((QTime(0,0,0,0).msecsTo(PrevMusique->Duration)-StartPosition)>Object->Parent->List[Col-1]->GetDuration())) DrawOutTransition=true;
             }
 
             // Calculate wich music will be use for this object and for the next object

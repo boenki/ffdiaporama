@@ -20,22 +20,45 @@
 
 #include "DlgAbout.h"
 #include "ui_DlgAbout.h"
-#include "mainwindow.h"
 
-DlgAbout::DlgAbout(QWidget *parent):QDialog(parent),ui(new Ui::DlgAbout) {
+#include "_ApplicationDefinitions.h"
+
+#define DEBUGMODE
+
+//====================================================================================================================
+
+DlgAbout::DlgAbout(QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgAbout) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgAbout::DlgAbout";
+    #endif
     ui->setupUi(this);
+    OkBt    =ui->OKBT;
+    //CancelBt=;
+    //HelpBt  =ui->HelpBT;
+}
 
-#if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
-    setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-#else
-    setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
-#endif
+//====================================================================================================================
 
-    ui->ApplicationNameLabel->setText(QString(APPLICATION_VERSION));
+DlgAbout::~DlgAbout() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgAbout::~DlgAbout";
+    #endif
+    delete ui;
+}
+
+//====================================================================================================================
+// Initialise dialog
+
+void DlgAbout::DoInitDialog() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgAbout::DoInitDialog";
+    #endif
+
     ui->ApplicationReleaseLabel->setText(CurrentAppVersion);
     ui->SystemInfoED->setText(SystemProperties);
+    ui->ApplicationNameLabel->setText(QString(APPLICATION_VERSION));
     ui->tabWidget->setCurrentIndex(0);
-    connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->QtWebSiteBT,SIGNAL(clicked()),this,SLOT(WQtWebSite()));
     connect(ui->ffMPEGWebSiteBT,SIGNAL(clicked()),this,SLOT(ffMPEGWebSite()));
     connect(ui->SDLWebSiteBT,SIGNAL(clicked()),this,SLOT(SDLWebSite()));
@@ -43,37 +66,66 @@ DlgAbout::DlgAbout(QWidget *parent):QDialog(parent),ui(new Ui::DlgAbout) {
     connect(ui->FMTFWebSiteBT,SIGNAL(clicked()),this,SLOT(FMTFWebSite()));
     connect(ui->CrystalWebSiteBT,SIGNAL(clicked()),this,SLOT(CrystalWebSite()));
     connect(ui->CC2WebSiteBT,SIGNAL(clicked()),this,SLOT(CC2WebSite()));
-
 }
 
-DlgAbout::~DlgAbout() {
-    delete ui;
-}
+//====================================================================================================================
 
 void DlgAbout::WQtWebSite() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgAbout::WQtWebSite";
+    #endif
     QDesktopServices::openUrl(QUrl("http://qt.nokia.com/products/"));
 }
 
+//====================================================================================================================
+
 void DlgAbout::ffMPEGWebSite() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgAbout::ffMPEGWebSite";
+    #endif
     QDesktopServices::openUrl(QUrl("http://www.ffmpeg.org/"));
 }
 
-void DlgAbout::SDLWebSite() {
-    QDesktopServices::openUrl(QUrl("http://www.libsdl.org/"));
-}
+//====================================================================================================================
 
 void DlgAbout::EXIV2WebSite() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgAbout::EXIV2WebSite";
+    #endif
     QDesktopServices::openUrl(QUrl("http://www.exiv2.org/"));
 }
 
+//====================================================================================================================
+
 void DlgAbout::FMTFWebSite() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgAbout::FMTFWebSite";
+    #endif
     QDesktopServices::openUrl(QUrl("http://ksquirrel.sourceforge.net/subprojects.php"));
 }
 
+//====================================================================================================================
+
 void DlgAbout::CrystalWebSite() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgAbout::CrystalWebSite";
+    #endif
     QDesktopServices::openUrl(QUrl("http://www.everaldo.com/crystal/"));
 }
 
+//====================================================================================================================
+
 void DlgAbout::CC2WebSite() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgAbout::CC2WebSite";
+    #endif
     QDesktopServices::openUrl(QUrl("http://creativecommons.org/"));
+}
+
+//====================================================================================================================
+void DlgAbout::SDLWebSite() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgAbout::SDLWebSite";
+    #endif
+    QDesktopServices::openUrl(QUrl("http://www.libsdl.org/"));
 }

@@ -27,7 +27,13 @@
 #include "DlgTextEdit.h"
 #include "mainwindow.h"
 
+#define DEBUGMODE
+
 DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgSlideProperties) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::DlgSlideProperties";
+    #endif
+
     ui->setupUi(this);
     this->DiaporamaObject           =DiaporamaObject;
     GlobalMainWindow->DragItemSource=-1;
@@ -48,7 +54,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);  // Save object
+    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",DiaporamaObject->Parent->ProjectFileName,true);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 
     setWindowTitle(windowTitle()+" - "+QApplication::translate("DlgSlideProperties","Slide")+QString(" %1/%2").arg(DiaporamaObject->Parent->CurrentCol+1).arg(DiaporamaObject->Parent->List.count()));
@@ -199,7 +205,65 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
 
 //====================================================================================================================
 
+void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::MakeFormIcon";
+    #endif
+
+    for (int i=0;i<UICB->count();i++) {
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,GlobalMainWindow->ApplicationConfig);
+        Object.Text                     ="";
+        Object.x                        =0;
+        Object.y                        =0;
+        Object.w                        =1;
+        Object.h                        =1;
+        Object.BackgroundForm           =i+1;
+        Object.Opacity                  =4;
+        Object.PenSize                  =1;
+        Object.PenStyle                 =Qt::SolidLine;
+        Object.PenColor                 ="#000000";
+        Object.BackgroundBrush->BrushType=BRUSHTYPE_NOBRUSH;
+        QPixmap  Image(UICB->iconSize());
+        QPainter Painter;
+        Painter.begin(&Image);
+        Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
+        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,NULL,false);
+        Painter.end();
+        UICB->setItemIcon(i,QIcon(Image));
+    }
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::MakeBorderStyleIcon";
+    #endif
+
+    for (int i=0;i<UICB->count();i++) {
+        QPixmap  Image(32,32);
+        QPainter Painter;
+        Painter.begin(&Image);
+        Painter.fillRect(QRect(0,0,32,32),"#ffffff");
+        QPen Pen;
+        Pen.setColor(Qt::black);
+        Pen.setStyle((Qt::PenStyle)UICB->itemData(i).toInt());
+        Pen.setWidth(2);
+        Painter.setPen(Pen);
+        Painter.setBrush(QBrush(QColor("#ffffff")));
+        Painter.drawLine(0,16,32,16);
+        Painter.end();
+        UICB->setItemIcon(i,QIcon(Image));
+    }
+}
+
+//====================================================================================================================
+
 DlgSlideProperties::~DlgSlideProperties() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::~DlgSlideProperties";
+    #endif
+
     Clean();
     StopMAJSpinbox=true;
     if (BackgroundImage!=NULL) {
@@ -213,6 +277,10 @@ DlgSlideProperties::~DlgSlideProperties() {
 //====================================================================================================================
 
 void DlgSlideProperties::Clean() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::Clean";
+    #endif
+
     StopMAJSpinbox=true;
     InScene_SelectionChanged=true;
     // Delete scene and all of it's content, if exist
@@ -240,24 +308,40 @@ void DlgSlideProperties::Clean() {
 //====================================================================================================================
 
 void DlgSlideProperties::Help() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::Help";
+    #endif
+
     GlobalMainWindow->OpenHelp(HELPFILE_DlgSlideProperties);
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::resizeEvent(QResizeEvent *) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::resizeEvent";
+    #endif
+
     if (IsFirstInitDone) RefreshShotTable(ui->ShotTable->currentColumn());      // Fill the ShotTable and select 1st shot
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::SetSavedWindowGeometry() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::SetSavedWindowGeometry";
+    #endif
+
     DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->ApplyToWindow(this,ui->SplitterTop,ui->SplitterBottom);
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::showEvent(QShowEvent *ev) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::showEvent";
+    #endif
+
     QDialog::showEvent(ev);
     if (IsFirstInitDone) return;
     QTimer::singleShot(100,this,SLOT(SetSavedWindowGeometry()));
@@ -268,42 +352,60 @@ void DlgSlideProperties::showEvent(QShowEvent *ev) {
 //====================================================================================================================
 
 void DlgSlideProperties::GetForDisplayUnit(double &DisplayW,double &DisplayH) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::GetForDisplayUnit";
+    #endif
+
     if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_4_3)        { DisplayW=1440; DisplayH=1080; }
     else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
     else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
+    else { DisplayW=0; DisplayH=0; }
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_SlideNameChange(QString NewText) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_SlideNameChange";
+    #endif
+
     DiaporamaObject->SlideName=NewText;
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotDurationChange(QTime NewValue) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ShotDurationChange";
+    #endif
+
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
-    DiaporamaObject->List[Current].StaticDuration=QTime(0,0,0,0).msecsTo(NewValue);
+    DiaporamaObject->List[Current]->StaticDuration=QTime(0,0,0,0).msecsTo(NewValue);
     if (!StopMAJSpinbox) RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::reject() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::reject";
+    #endif
+
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") {
-        QStringList AliasList;
-        DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",AliasList);
-    }
+    if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
     done(1);
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::accept() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::accept";
+    #endif
+
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
     // Close the box
@@ -311,6 +413,10 @@ void DlgSlideProperties::accept() {
 }
 
 void DlgSlideProperties::OKPrevious() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::OKPrevious";
+    #endif
+
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
     // Close the box
@@ -318,6 +424,10 @@ void DlgSlideProperties::OKPrevious() {
 }
 
 void DlgSlideProperties::OKNext() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::OKNext";
+    #endif
+
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
     // Close the box
@@ -327,22 +437,26 @@ void DlgSlideProperties::OKNext() {
 //====================================================================================================================
 
 void DlgSlideProperties::GetSound() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::GetSound";
+    #endif
+
     int CurrentShot=ui->ShotTable->currentColumn();
-    if ((CurrentShot>=0)&&(CurrentShot<DiaporamaObject->List.count())) CompositionList=&DiaporamaObject->List[CurrentShot].ShotComposition;
+    if ((CurrentShot>=0)&&(CurrentShot<DiaporamaObject->List.count())) CompositionList=&DiaporamaObject->List[CurrentShot]->ShotComposition;
     int CurrentBlock=ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=NULL;
-    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
+    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=CompositionList->List[CurrentBlock];
 
-    bool IsVideo  =(CurrentTextItem)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentTextItem->BackgroundBrush.Video!=NULL);
-    bool HaveSound=IsVideo && (CurrentTextItem->BackgroundBrush.SoundVolume!=0);
+    bool IsVideo  =(CurrentTextItem)&&(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentTextItem->BackgroundBrush->Video!=NULL);
+    bool HaveSound=IsVideo && (CurrentTextItem->BackgroundBrush->SoundVolume!=0);
 
     // Only if this block is a video and don't have sound yet
     if (IsVideo && !HaveSound) {
         for (int i=0;i<CompositionList->List.count();i++) {
-            if ((CurrentTextItem!=&CompositionList->List[i])&&(CompositionList->List[i].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompositionList->List[i].BackgroundBrush.Video))
-                CompositionList->List[i].BackgroundBrush.SoundVolume=0;
+            if ((CurrentTextItem!=CompositionList->List[i])&&(CompositionList->List[i]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(CompositionList->List[i]->BackgroundBrush->Video))
+                CompositionList->List[i]->BackgroundBrush->SoundVolume=0;
         }
-        CurrentTextItem->BackgroundBrush.SoundVolume=1;
+        CurrentTextItem->BackgroundBrush->SoundVolume=1;
         RefreshBlockTable(ui->BlockTable->currentRow());
     }
 }
@@ -350,12 +464,16 @@ void DlgSlideProperties::GetSound() {
 //====================================================================================================================
 
 void DlgSlideProperties::RefreshStyleControls() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::RefreshStyleControls";
+    #endif
+
     if (InRefreshStyleControls) return;
     InRefreshStyleControls=true;
 
     int CurrentBlock=ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=NULL;
-    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
+    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=CompositionList->List[CurrentBlock];
 
     bool IsVisible=(CurrentTextItem)&&(CurrentTextItem->IsVisible);
     if (ui->CoordinateStyleBT->isEnabled()!=IsVisible)  ui->CoordinateStyleBT->setEnabled(IsVisible);
@@ -367,9 +485,9 @@ void DlgSlideProperties::RefreshStyleControls() {
 
     if (CurrentTextItem) ui->BlockShapeStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.GetStyleName(CurrentTextItem->GetBlockShapeStyle())); else ui->BlockShapeStyleED->setText("");
 
-    if ((CurrentTextItem==NULL)||((CurrentTextItem->BackgroundBrush.Image==NULL)&&(CurrentTextItem->BackgroundBrush.Video==NULL))) {
+    if ((CurrentTextItem==NULL)||((CurrentTextItem->BackgroundBrush->Image==NULL)&&(CurrentTextItem->BackgroundBrush->Video==NULL))) {
 
-        if ((CurrentTextItem!=NULL)&&(CurrentTextItem->BackgroundBrush.Image==NULL)&&(CurrentTextItem->BackgroundBrush.Video==NULL)) {
+        if ((CurrentTextItem!=NULL)&&(CurrentTextItem->BackgroundBrush->Image==NULL)&&(CurrentTextItem->BackgroundBrush->Video==NULL)) {
 
             // It's a text block
             StopMajFramingStyle=true;
@@ -386,8 +504,8 @@ void DlgSlideProperties::RefreshStyleControls() {
                 ui->FramingStyleCB->addItem(QIcon(ICON_GEOMETRY_PROJECT), QApplication::translate("DlgImageCorrection","Lock to project geometry"));
             }
             int Index=1;
-            if (!CurrentTextItem->BackgroundBrush.BrushFileCorrect.LockGeometry)                         Index=0;
-                else if (CurrentTextItem->BackgroundBrush.BrushFileCorrect.AspectRatio==ProjectGeometry) Index=2;
+            if (!CurrentTextItem->BackgroundBrush->BrushFileCorrect.LockGeometry)                         Index=0;
+                else if (CurrentTextItem->BackgroundBrush->BrushFileCorrect.AspectRatio==ProjectGeometry) Index=2;
             if (ui->FramingStyleCB->currentIndex()!=Index) ui->FramingStyleCB->setCurrentIndex(Index);
             if (!ui->FramingStyleCB->updatesEnabled()) ui->FramingStyleCB->setUpdatesEnabled(true);
             StopMajFramingStyle=false;
@@ -414,15 +532,15 @@ void DlgSlideProperties::RefreshStyleControls() {
             FramingStyleLabelPixmap="EditImage.png";
             ui->FramingStyleLabel->setPixmap(QPixmap(QString("img")+QString(QDir::separator())+FramingStyleLabelPixmap));
         }
-        CurrentTextItem->BackgroundBrush.InitDefaultFramingStyle(CurrentTextItem->BackgroundBrush.BrushFileCorrect.LockGeometry,CurrentTextItem->BackgroundBrush.BrushFileCorrect.AspectRatio);
-        if (CurrentTextItem->BackgroundBrush.Image!=NULL) GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentTextItem->BackgroundBrush.Image->ObjectGeometry);
-            else if (CurrentTextItem->BackgroundBrush.Video!=NULL) GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentTextItem->BackgroundBrush.Video->ObjectGeometry);
+        CurrentTextItem->BackgroundBrush->InitDefaultFramingStyle(CurrentTextItem->BackgroundBrush->BrushFileCorrect.LockGeometry,CurrentTextItem->BackgroundBrush->BrushFileCorrect.AspectRatio);
+        if (CurrentTextItem->BackgroundBrush->Image!=NULL) GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentTextItem->BackgroundBrush->Image->ObjectGeometry);
+            else if (CurrentTextItem->BackgroundBrush->Video!=NULL) GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentTextItem->BackgroundBrush->Video->ObjectGeometry);
         QString StyleDef=CurrentTextItem->GetFramingStyle();
         QString StyleName=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.GetStyleName(StyleDef);
         if (StyleName=="") {
-            if (StyleDef==CurrentTextItem->BackgroundBrush.DefaultFramingW)      StyleName=QApplication::translate("DlgManageStyle","Adjust to image width");
-            else if (StyleDef==CurrentTextItem->BackgroundBrush.DefaultFramingH) StyleName=QApplication::translate("DlgManageStyle","Adjust to image height");
-            else if (StyleDef==CurrentTextItem->BackgroundBrush.DefaultFramingF) StyleName=QApplication::translate("DlgManageStyle","Adjust to full image");
+            if (StyleDef==CurrentTextItem->BackgroundBrush->DefaultFramingW)      StyleName=QApplication::translate("DlgManageStyle","Adjust to image width");
+            else if (StyleDef==CurrentTextItem->BackgroundBrush->DefaultFramingH) StyleName=QApplication::translate("DlgManageStyle","Adjust to image height");
+            else if (StyleDef==CurrentTextItem->BackgroundBrush->DefaultFramingF) StyleName=QApplication::translate("DlgManageStyle","Adjust to full image");
             else StyleName=QApplication::translate("DlgManageStyle","Custom");
         }
         StopMajFramingStyle=true;
@@ -437,6 +555,10 @@ void DlgSlideProperties::RefreshStyleControls() {
 //====================================================================================================================
 
 void DlgSlideProperties::RefreshControls() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::RefreshControls";
+    #endif
+
     if (InRefreshControls) return;
 
     // Ensure box is init and Current contain index of currented selected sequence
@@ -453,13 +575,13 @@ void DlgSlideProperties::RefreshControls() {
     //--------------------------------------------------------------------
     // Update controls
     //--------------------------------------------------------------------
-    CompositionList=&DiaporamaObject->List[CurrentShot].ShotComposition;
+    CompositionList=&DiaporamaObject->List[CurrentShot]->ShotComposition;
     ui->ShotTableMoveLeftBt->setEnabled(CurrentShot>0);
     ui->ShotTableMoveRightBt->setEnabled(CurrentShot<ui->ShotTable->columnCount()-1);
 
     int CurrentBlock=ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=NULL;
-    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
+    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=CompositionList->List[CurrentBlock];
     ui->BlockUpBT->setEnabled(CurrentBlock>0);
     ui->BlockDownBT->setEnabled(CurrentBlock<ui->BlockTable->rowCount()-1);
     ui->RemoveShot->setEnabled(DiaporamaObject->List.count()>1);
@@ -471,25 +593,25 @@ void DlgSlideProperties::RefreshControls() {
     // Slide name & duration and shot duration
     ui->SlideNameED->setText(DiaporamaObject->SlideName);
     ui->SlideDurationLabel->setText(QTime(0,0,0,0).addMSecs(DiaporamaObject->GetDuration()).toString("hh:mm:ss.zzz"));
-    ui->ShotDurationED->setTime(QTime(0,0,0,0).addMSecs(DiaporamaObject->List[CurrentShot].StaticDuration));
+    ui->ShotDurationED->setTime(QTime(0,0,0,0).addMSecs(DiaporamaObject->List[CurrentShot]->StaticDuration));
 
     // Minimum shot duration display
     int  AddingDuration=0;
     if (CurrentShot==(DiaporamaObject->List.count()-1)) {   // If it's the last shot
         int TotalDuration=DiaporamaObject->GetDuration();
         int Duration=0;
-        for (int i=0;i<DiaporamaObject->List.count();i++) Duration=Duration+DiaporamaObject->List[i].StaticDuration;
+        for (int i=0;i<DiaporamaObject->List.count();i++) Duration=Duration+DiaporamaObject->List[i]->StaticDuration;
         if (Duration<TotalDuration) AddingDuration=TotalDuration-Duration;
     }
     if (AddingDuration==0) ui->MinShotDurationLabel->setText("");
-        else ui->MinShotDurationLabel->setText(QString(QApplication::translate("DlgSlideProperties","Lengthened to %1 sec")).arg(double(DiaporamaObject->List[CurrentShot].StaticDuration+AddingDuration)/1000));
+        else ui->MinShotDurationLabel->setText(QString(QApplication::translate("DlgSlideProperties","Lengthened to %1 sec")).arg(double(DiaporamaObject->List[CurrentShot]->StaticDuration+AddingDuration)/1000));
 
     //====================================================================================================================
 
-    cBrushDefinition    *CurrentBrush   =(CurrentTextItem!=NULL)?&CurrentTextItem->BackgroundBrush:NULL;
+    cBrushDefinition    *CurrentBrush   =(CurrentTextItem!=NULL)?CurrentTextItem->BackgroundBrush:NULL;
     bool                IsVisible       =(CurrentTextItem)&&(CurrentTextItem->IsVisible);
-    bool                IsVideo         =(CurrentTextItem)&&(CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentTextItem->BackgroundBrush.Video!=NULL);
-    bool                HaveSound       =IsVideo && (CurrentTextItem->BackgroundBrush.SoundVolume!=0);
+    bool                IsVideo         =(CurrentTextItem)&&(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(CurrentTextItem->BackgroundBrush->Video!=NULL);
+    bool                HaveSound       =IsVideo && (CurrentTextItem->BackgroundBrush->SoundVolume!=0);
     bool                Allow_File      =(IsVisible)&&(CurrentBrush!=NULL)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK);
 
     ui->VisibleBT->setIcon(QIcon(QString(!IsVisible?ICON_VISIBLE_OK:ICON_VISIBLE_KO)));
@@ -552,7 +674,18 @@ void DlgSlideProperties::RefreshControls() {
 //====================================================================================================================
 // Refresh background image of the scene
 
+void DlgSlideProperties::s_RefreshSceneImage() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_RefreshSceneImage";
+    #endif
+    RefreshSceneImage();
+}
+
 void DlgSlideProperties::RefreshSceneImage() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::RefreshSceneImage";
+    #endif
+
     if (InRefreshSceneImage) return;
     InRefreshSceneImage=true;
 
@@ -561,12 +694,12 @@ void DlgSlideProperties::RefreshSceneImage() {
     // Get current shot object composition list
     int                 CurrentShot     =ui->ShotTable->currentColumn();
     cCompositionList    *CurrentList    =NULL;
-    if ((CurrentShot>=0)&&(CurrentShot<DiaporamaObject->List.count())) CurrentList=&DiaporamaObject->List[CurrentShot].ShotComposition;
+    if ((CurrentShot>=0)&&(CurrentShot<DiaporamaObject->List.count())) CurrentList=&DiaporamaObject->List[CurrentShot]->ShotComposition;
 
     // Get current block object in the current shot object composition list
     int                 CurrentBlock    =ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=NULL;
-    if ((CurrentList)&&(CurrentBlock>=0)&&(CurrentBlock<CurrentList->List.count())) CurrentTextItem=&CurrentList->List[CurrentBlock];
+    if ((CurrentList)&&(CurrentBlock>=0)&&(CurrentBlock<CurrentList->List.count())) CurrentTextItem=CurrentList->List[CurrentBlock];
 
     // Draw image of the scene under the background
     QPixmap NewImage=QPixmap::fromImage(*BackgroundImage);
@@ -578,26 +711,26 @@ void DlgSlideProperties::RefreshSceneImage() {
 
     for (int i=0;i<CurrentList->List.count();i++) {
         // Draw composition block
-        if (CurrentList->List[i].IsVisible) {
-            if (CurrentList->List[i].BackgroundBrush.Video) {
+        if (CurrentList->List[i]->IsVisible) {
+            if (CurrentList->List[i]->BackgroundBrush->Video) {
                 // If it's a video block, calc video position
-                int StartVideoPos=QTime(0,0,0,0).msecsTo(CurrentList->List[i].BackgroundBrush.Video->StartPos);
+                int StartVideoPos=QTime(0,0,0,0).msecsTo(CurrentList->List[i]->BackgroundBrush->Video->StartPos);
                 for (int k=0;k<CurrentShot;k++) {
-                    for (int l=0;l<DiaporamaObject->List[k].ShotComposition.List.count();l++) {
-                        if (DiaporamaObject->List[k].ShotComposition.List[l].IndexKey==CurrentList->List[i].IndexKey) {
-                            if (DiaporamaObject->List[k].ShotComposition.List[l].IsVisible) StartVideoPos+=DiaporamaObject->List[k].StaticDuration;
-                            l=DiaporamaObject->List[k].ShotComposition.List.count();    // stop loop
+                    for (int l=0;l<DiaporamaObject->List[k]->ShotComposition.List.count();l++) {
+                        if (DiaporamaObject->List[k]->ShotComposition.List[l]->IndexKey==CurrentList->List[i]->IndexKey) {
+                            if (DiaporamaObject->List[k]->ShotComposition.List[l]->IsVisible) StartVideoPos+=DiaporamaObject->List[k]->StaticDuration;
+                            l=DiaporamaObject->List[k]->ShotComposition.List.count();    // stop loop
                         }
                     }
                 }
-                CurrentList->List[i].DrawCompositionObject(&P,double(ymax)/double(1080),0,0,xmax,ymax,true,0,StartVideoPos,NULL,1,NULL,true);
-            } else CurrentList->List[i].DrawCompositionObject(&P,double(ymax)/double(1080),0,0,xmax,ymax,true,0,0,NULL,1,NULL,true);
+                CurrentList->List[i]->DrawCompositionObject(&P,double(ymax)/double(1080),0,0,xmax,ymax,true,0,StartVideoPos,NULL,1,NULL,true);
+            } else CurrentList->List[i]->DrawCompositionObject(&P,double(ymax)/double(1080),0,0,xmax,ymax,true,0,0,NULL,1,NULL,true);
         }
 
         // Draw frame border
-        if (CurrentTextItem==&CurrentList->List[i]) {
+        if (CurrentTextItem==CurrentList->List[i]) {
             // draw rect out of the rectangle
-            if (CurrentList->List[i].IsVisible) {
+            if (CurrentList->List[i]->IsVisible) {
                 P.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
                 QPen pen=QPen(Qt::red);
                 pen.setWidth(WithPen);
@@ -628,8 +761,8 @@ void DlgSlideProperties::RefreshSceneImage() {
             ui->RotateYED->setValue(CurrentTextItem->RotateYAxis);      ui->RotateYSLD->setValue(CurrentTextItem->RotateYAxis);
             ui->RotateZED->setValue(CurrentTextItem->RotateZAxis);      ui->RotateZSLD->setValue(CurrentTextItem->RotateZAxis);
 
-            if ((CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(!CurrentTextItem->BackgroundBrush.BrushFileCorrect.LockGeometry))
-                CurrentTextItem->BackgroundBrush.BrushFileCorrect.AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
+            if ((CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(!CurrentTextItem->BackgroundBrush->BrushFileCorrect.LockGeometry))
+                CurrentTextItem->BackgroundBrush->BrushFileCorrect.AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
 
             //***********************
             // Shape TAB
@@ -650,7 +783,7 @@ void DlgSlideProperties::RefreshSceneImage() {
             StopMAJSpinbox=false;    // Allow controls to send refreshcontrol
 
         } else {
-            if (CurrentList->List[i].IsVisible) {
+            if (CurrentList->List[i]->IsVisible) {
                 // draw rect out of the rectangle
                 P.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
                 QPen pen=QPen(Qt::lightGray);
@@ -658,7 +791,7 @@ void DlgSlideProperties::RefreshSceneImage() {
                 pen.setStyle(Qt::DotLine);
                 P.setPen(pen);
                 P.setBrush(Qt::NoBrush);
-                P.drawRect(QRectF(CurrentList->List[i].x*xmax,CurrentList->List[i].y*ymax,CurrentList->List[i].w*xmax,CurrentList->List[i].h*ymax));
+                P.drawRect(QRectF(CurrentList->List[i]->x*xmax,CurrentList->List[i]->y*ymax,CurrentList->List[i]->w*xmax,CurrentList->List[i]->h*ymax));
                 P.setCompositionMode(QPainter::CompositionMode_SourceOver);
             }
         }
@@ -715,6 +848,10 @@ void DlgSlideProperties::RefreshSceneImage() {
 // Refresh the ShotTable
 
 void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::RefreshShotTable";
+    #endif
+
     int CellHeight=ui->ShotTable->rowHeight(0);
     int CellWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(CellHeight);
 
@@ -738,6 +875,10 @@ void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
 // Refresh the BlockTable
 
 void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::RefreshBlockTable";
+    #endif
+
     // Calculate scene size
     GetForDisplayUnit(xmax,ymax);
     StopMAJSpinbox          =true;
@@ -793,25 +934,25 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
 
     // Fill the scene with block item by creating cCustomGraphicsRectItem associate to existing cCompositionObject
     NextZValue=500;
-    for (int i=0;i<CompositionList->List.count();i++) if (!CompositionList->List[i].IsVisible) { // First loop for invisible items
+    for (int i=0;i<CompositionList->List.count();i++) if (!CompositionList->List[i]->IsVisible) { // First loop for invisible items
         // Create and add to scene a cCustomGraphicsRectItem
-        new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
-                    NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,
-                    ((!CompositionList->List[i].BackgroundBrush.BrushFileCorrect.LockGeometry)&&
-                    (CompositionList->List[i].BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
-                    CompositionList->List[i].BackgroundBrush.BrushFileCorrect.AspectRatio,
-                    &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i].IndexKey,false);
+        new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i]->x,&CompositionList->List[i]->y,
+                    NULL,&CompositionList->List[i]->w,&CompositionList->List[i]->h,xmax,ymax,
+                    ((!CompositionList->List[i]->BackgroundBrush->BrushFileCorrect.LockGeometry)&&
+                    (CompositionList->List[i]->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
+                    CompositionList->List[i]->BackgroundBrush->BrushFileCorrect.AspectRatio,
+                    &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i]->IndexKey,false);
 
         NextZValue+=10;  // 10 by 10 step for ZValue
     }
-    for (int i=0;i<CompositionList->List.count();i++) if (CompositionList->List[i].IsVisible) { // Second loop for visible items
+    for (int i=0;i<CompositionList->List.count();i++) if (CompositionList->List[i]->IsVisible) { // Second loop for visible items
         // Create and add to scene a cCustomGraphicsRectItem
-        new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i].x,&CompositionList->List[i].y,
-                    NULL,&CompositionList->List[i].w,&CompositionList->List[i].h,xmax,ymax,
-                    ((!CompositionList->List[i].BackgroundBrush.BrushFileCorrect.LockGeometry)&&
-                    (CompositionList->List[i].BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
-                    CompositionList->List[i].BackgroundBrush.BrushFileCorrect.AspectRatio,
-                    &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i].IndexKey,true);
+        new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i]->x,&CompositionList->List[i]->y,
+                    NULL,&CompositionList->List[i]->w,&CompositionList->List[i]->h,xmax,ymax,
+                    ((!CompositionList->List[i]->BackgroundBrush->BrushFileCorrect.LockGeometry)&&
+                    (CompositionList->List[i]->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
+                    CompositionList->List[i]->BackgroundBrush->BrushFileCorrect.AspectRatio,
+                    &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i]->IndexKey,true);
 
         NextZValue+=10;  // 10 by 10 step for ZValue
     }
@@ -820,18 +961,18 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
     while (ui->BlockTable->rowCount()>0) ui->BlockTable->removeRow(0);    // Clear all
     for (int i=0;i<CompositionList->List.count();i++) {
         ui->BlockTable->insertRow(i);
-        cCompositionObject  *CompoObject=&CompositionList->List[i];
+        cCompositionObject  *CompoObject=CompositionList->List[i];
         QTableWidgetItem    *ItemC0,*ItemC1,*ItemC2;
         // Image block
-        if ((CompoObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush.Image)) {
+        if ((CompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush->Image)) {
             ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_IMAGE:ICON_OBJECT_IMAGEHIDE),"");
             ItemC1=new QTableWidgetItem("");
-            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.Image?CompoObject->BackgroundBrush.Image->FileName:CompoObject->BackgroundBrush.Video?CompoObject->BackgroundBrush.Video->FileName:"").fileName());
+            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush->Image?CompoObject->BackgroundBrush->Image->FileName:CompoObject->BackgroundBrush->Video?CompoObject->BackgroundBrush->Video->FileName:"").fileName());
         // Video block
-        } else if ((CompoObject->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush.Video)) {
+        } else if ((CompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(CompoObject->BackgroundBrush->Video)) {
             ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_MOVIE:ICON_OBJECT_MOVIEHIDE),"");
-            ItemC1=CompoObject->BackgroundBrush.SoundVolume!=0?new QTableWidgetItem(QIcon(ICON_SOUND_OK),""):new QTableWidgetItem("");
-            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush.Image?CompoObject->BackgroundBrush.Image->FileName:CompoObject->BackgroundBrush.Video?CompoObject->BackgroundBrush.Video->FileName:"").fileName());
+            ItemC1=CompoObject->BackgroundBrush->SoundVolume!=0?new QTableWidgetItem(QIcon(ICON_SOUND_OK),""):new QTableWidgetItem("");
+            ItemC2=new QTableWidgetItem(QFileInfo(CompoObject->BackgroundBrush->Image?CompoObject->BackgroundBrush->Image->FileName:CompoObject->BackgroundBrush->Video?CompoObject->BackgroundBrush->Video->FileName:"").fileName());
         // Text block
         } else {
             ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_TEXT:ICON_OBJECT_TEXTHIDE),"");
@@ -860,8 +1001,12 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
 //====================================================================================================================
 
 void DlgSlideProperties::RefreshSceneImageAndCache(cCompositionObject *CurrentTextItem,cBrushDefinition *CurrentBrush) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::RefreshSceneImageAndCache";
+    #endif
+
     if (CurrentBrush->Image) {
-        cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ImagesCache.FindObject(CurrentBrush->Image->FileName,&CurrentBrush->Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing,true);
+        cLuLoImageCacheObject *ImageObject=CurrentBrush->Image->ApplicationConfig->ImagesCache.FindObject(CurrentBrush->Image->FileName,&CurrentBrush->Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing,true);
         ImageObject->ClearAll();
     } else if (CurrentBrush->Video) {
         if (CurrentBrush->Video->CacheFirstImage) {
@@ -872,10 +1017,10 @@ void DlgSlideProperties::RefreshSceneImageAndCache(cCompositionObject *CurrentTe
             delete CurrentBrush->Video->CacheLastImage;
             CurrentBrush->Video->CacheLastImage=NULL;
         }
-        for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i].ShotComposition.List.count();j++)
-            if ((DiaporamaObject->List[i].ShotComposition.List[j].IndexKey==CurrentTextItem->IndexKey)&&(DiaporamaObject->List[i].ShotComposition.List[j].CachedBrushBrush)) {
-            delete DiaporamaObject->List[i].ShotComposition.List[j].CachedBrushBrush;
-            DiaporamaObject->List[i].ShotComposition.List[j].CachedBrushBrush=NULL;
+        for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i]->ShotComposition.List.count();j++)
+            if ((DiaporamaObject->List[i]->ShotComposition.List[j]->IndexKey==CurrentTextItem->IndexKey)&&(DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush)) {
+            delete DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush;
+            DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush=NULL;
         }
     }
     RefreshSceneImage();
@@ -886,6 +1031,10 @@ void DlgSlideProperties::RefreshSceneImageAndCache(cCompositionObject *CurrentTe
 //====================================================================================================================
 
 void DlgSlideProperties::s_TVMarginsBt() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_TVMarginsBt";
+    #endif
+
     if (MagneticRuler.MagneticRuler==true) MagneticRuler.MagneticRuler=false; else MagneticRuler.MagneticRuler=true;
     DiaporamaObject->Parent->ApplicationConfig->SlideRuler=MagneticRuler.MagneticRuler;
     RefreshControls();
@@ -896,68 +1045,49 @@ void DlgSlideProperties::s_TVMarginsBt() {
 //====================================================================================================================
 
 void DlgSlideProperties::UpdateDockInfo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::UpdateDockInfo";
+    #endif
+
     while (ui->TableInfo->rowCount()>0) ui->TableInfo->removeRow(0);
     int CurrentBlock=ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=NULL;
-    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=&CompositionList->List[CurrentBlock];
+    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=CompositionList->List[CurrentBlock];
     if (CurrentTextItem) {
         ui->TableInfo->insertRow(ui->TableInfo->rowCount());
         ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Object type")));
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK?QApplication::translate("DlgSlideProperties","Title"):
-                                                                                  CurrentTextItem->BackgroundBrush.Image!=NULL?QApplication::translate("DlgSlideProperties","Image"):
+        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK?QApplication::translate("DlgSlideProperties","Title"):
+                                                                                  CurrentTextItem->BackgroundBrush->Image!=NULL?QApplication::translate("DlgSlideProperties","Image"):
                                                                                   QApplication::translate("DlgSlideProperties","Video")));
 
-        if (CurrentTextItem->BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK) {
+        if (CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK) {
             ui->TableInfo->insertRow(ui->TableInfo->rowCount());
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Filename")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Image!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush.Image->FileName).fileName():
-                                                                                      CurrentTextItem->BackgroundBrush.Video!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush.Video->FileName).fileName():""));
-            if (CurrentTextItem->BackgroundBrush.Image!=NULL) {
+            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush->Image!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush->Image->FileName).fileName():
+                                                                                      CurrentTextItem->BackgroundBrush->Video!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush->Video->FileName).fileName():""));
+            if (CurrentTextItem->BackgroundBrush->Image!=NULL) {
                 // If exiv value not loaded then call exiv2 now !
-                if (CurrentTextItem->BackgroundBrush.Image->ExivValue.count()==0) CurrentTextItem->BackgroundBrush.Image->CallEXIF();
-                for (int i=0;i<CurrentTextItem->BackgroundBrush.Image->ExivValue.count();i++) {
-                    ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                    QString Value=CurrentTextItem->BackgroundBrush.Image->ExivValue[i];
-                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(Value.left(Value.indexOf("##"))));
-                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value.right(Value.length()-Value.indexOf("##")-QString("##").length())));
+                if (CurrentTextItem->BackgroundBrush->Image->InformationList.count()==0) {
+                    int ImageOrientation=1;
+                    CurrentTextItem->BackgroundBrush->Image->CallEXIF(ImageOrientation);
                 }
-            } else if (CurrentTextItem->BackgroundBrush.Video!=NULL) {
+            } else if (CurrentTextItem->BackgroundBrush->Video!=NULL) {
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Image size")));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1x%2").arg(CurrentTextItem->BackgroundBrush.Video->ImageWidth).arg(CurrentTextItem->BackgroundBrush.Video->ImageHeight)));
-
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1x%2").arg(CurrentTextItem->BackgroundBrush->Video->ImageWidth).arg(CurrentTextItem->BackgroundBrush->Video->ImageHeight)));
+////////////////// On peut en rajouter ICI!
+            }
+            if (CurrentTextItem->BackgroundBrush->Image) for (int i=0;i<CurrentTextItem->BackgroundBrush->Image->InformationList.count();i++) {
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Video format")));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Video->VideoDecoderCodec->name));
-
+                QString Value=CurrentTextItem->BackgroundBrush->Image->InformationList[i];
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(Value.left(Value.indexOf("##"))));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value.right(Value.length()-Value.indexOf("##")-QString("##").length())));
+            }
+            if (CurrentTextItem->BackgroundBrush->Video) for (int i=0;i<CurrentTextItem->BackgroundBrush->Video->InformationList.count();i++) {
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Bitrate")));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(int(double(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->bit_rate)/1024))+" k/s"));
-
-                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Frame rate")));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(
-                        int(double(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->VideoStreamNumber]->r_frame_rate.num)/
-                            double(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->VideoStreamNumber]->r_frame_rate.den)))
-                        +" "+QApplication::translate("DlgSlideProperties","fps","frame per second")));
-
-                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Aspect ratio")));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg((double(CurrentTextItem->BackgroundBrush.Video->ImageWidth)*CurrentTextItem->BackgroundBrush.Video->AspectRatio)/double(CurrentTextItem->BackgroundBrush.Video->ImageHeight),0,'f',3)));
-
-                if (CurrentTextItem->BackgroundBrush.Video->AudioDecoderCodec) {
-                    ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Audio format")));
-                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush.Video->AudioDecoderCodec->name));
-
-                    ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Frequency")));
-                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->AudioStreamNumber]->codec->sample_rate)
-                            +" "+QApplication::translate("DlgSlideProperties","hz","audio frequency")));
-                    ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Channels")));
-                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1").arg(CurrentTextItem->BackgroundBrush.Video->ffmpegVideoFile->streams[CurrentTextItem->BackgroundBrush.Video->AudioStreamNumber]->codec->channels)));
-                }
+                QString Value=CurrentTextItem->BackgroundBrush->Video->InformationList[i];
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(Value.left(Value.indexOf("##"))));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value.right(Value.length()-Value.indexOf("##")-QString("##").length())));
             }
         }
         ui->TableInfo->resizeColumnsToContents();
@@ -967,292 +1097,358 @@ void DlgSlideProperties::UpdateDockInfo() {
 
 //====================================================================================================================
 
-cCustomGraphicsRectItem *DlgSlideProperties::GetSelectItem() {
-    if (scene==NULL) return NULL;
-    cCustomGraphicsRectItem *CurrentTextItem=NULL;
-    for (int i=0;i<scene->selectedItems().count();i++) {
-        QGraphicsItem   *Item=scene->selectedItems()[i];
-        QString         data =Item->data(0).toString();
-        if (data=="CustomGraphicsRectItem")      CurrentTextItem=(cCustomGraphicsRectItem *)Item;
-        else if (data=="ResizeGraphicsRectItem") CurrentTextItem=((cResizeGraphicsRectItem *)Item)->RectItem;
-    }
-    return CurrentTextItem;
+cCompositionObject *DlgSlideProperties::GetSelectedGlobalCompositionObject() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::GetSelectedGlobalCompositionObject";
+    #endif
+
+    int CurrentBlock=ui->BlockTable->currentRow();
+    if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return NULL;
+    int i=0;
+    while ((i<DiaporamaObject->ObjectComposition.List.count())&&(DiaporamaObject->ObjectComposition.List[i]->IndexKey!=CompositionList->List[CurrentBlock]->IndexKey)) i++;
+    if (i<DiaporamaObject->ObjectComposition.List.count()) return DiaporamaObject->ObjectComposition.List[i]; else return NULL;
 }
 
 //====================================================================================================================
 
-cCompositionObject *DlgSlideProperties::GetSelectedGlobalCompositionObject() {
-    int CurrentBlock=ui->BlockTable->currentRow();
-    if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return NULL;
-    int i=0;
-    while ((i<DiaporamaObject->ObjectComposition.List.count())&&(DiaporamaObject->ObjectComposition.List[i].IndexKey!=CompositionList->List[CurrentBlock].IndexKey)) i++;
-    if (i<DiaporamaObject->ObjectComposition.List.count()) return &DiaporamaObject->ObjectComposition.List[i]; else return NULL;
-}
-
 cCompositionObject *DlgSlideProperties::GetSelectedCompositionObject() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::GetSelectedCompositionObject";
+    #endif
+
     int CurrentBlock=ui->BlockTable->currentRow();
-    if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return NULL; else return &CompositionList->List[CurrentBlock];
-}
-
-cBrushDefinition *DlgSlideProperties::GetCurrentGlobalBrush() {
-    cCompositionObject  *CurrentTextItem=GetSelectedGlobalCompositionObject();
-    if ((CurrentTextItem)&&(CurrentTextItem->Opacity<4)) return &CurrentTextItem->BackgroundBrush;
-        else return NULL;
-}
-
-cBrushDefinition *DlgSlideProperties::GetCurrentBrush() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((CurrentTextItem)&&(CurrentTextItem->Opacity<4)) return &CurrentTextItem->BackgroundBrush;
-        else return NULL;
+    if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return NULL; else return CompositionList->List[CurrentBlock];
 }
 
 //====================================================================================================================
 // Handler for position, size & rotation controls
 //====================================================================================================================
 
+//========= Ensure current context is ok for modifing properties
+bool DlgSlideProperties::PrepContexte() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::PrepContexte";
+    #endif
+    if (StopMAJSpinbox) return false;
+
+    // Get current block object
+    int CurrentBlock=ui->BlockTable->currentRow();
+    if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) CompositionObject=NULL; else CompositionObject=CompositionList->List[CurrentBlock];
+    if ((!CompositionObject)||(!CompositionObject->IsVisible)) return false;
+
+    // Get current Item selected in the scene
+    if (scene==NULL) return NULL;
+    RectItem=NULL;
+    for (int i=0;i<scene->selectedItems().count();i++) {
+        QGraphicsItem   *Item=scene->selectedItems()[i];
+        QString         data =Item->data(0).toString();
+        if (data=="CustomGraphicsRectItem")      RectItem=(cCustomGraphicsRectItem *)Item;
+        else if (data=="ResizeGraphicsRectItem") RectItem=((cResizeGraphicsRectItem *)Item)->RectItem;
+    }
+    if (RectItem==NULL) return false;
+    // Ensure we have correcte value for DisplayW and DisplayH
+    GetForDisplayUnit(DisplayW,DisplayH);
+    return true;
+}
+
+//========= Apply modification
+void DlgSlideProperties::ApplyToContexte(bool ReposRectItem,bool ApplyGlobal) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::ApplyToContexte";
+    #endif
+    if (ApplyGlobal) ApplyGlobalPropertiesToAllShots(CompositionObject);
+    if (ReposRectItem) {
+        RectItem->setPos(CompositionObject->x*xmax,CompositionObject->y*ymax);
+        QRectF Rect=RectItem->mapRectFromScene(QRectF(CompositionObject->x*xmax,CompositionObject->y*ymax,xmax*CompositionObject->w,ymax*CompositionObject->h));
+        RectItem->setRect(Rect);
+        RectItem->RecalcEmbededResizeRectItem();
+    }
+    RefreshSceneImage();
+}
+
 //========= X position
 void DlgSlideProperties::s_ChgPosXValue(double Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
-
-    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
-        CurrentTextItem->x=Value/100;
-    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-        double DisplayW=0,DisplayH=0;
-        GetForDisplayUnit(DisplayW,DisplayH);
-        CurrentTextItem->x=(Value/DisplayW);
-    }
-    RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
-    QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
-    RectItem->setRect(Rect);
-    RectItem->RecalcEmbededResizeRectItem();
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChgPosXValue";
+    #endif
+    if (!PrepContexte()) return;
+    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CompositionObject->x=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
+        else                                                                          CompositionObject->x=(Value/DisplayW);    // DisplayUnit==DISPLAYUNIT_PIXELS
+    ApplyToContexte(true,false);
 }
 
 //========= Y position
 void DlgSlideProperties::s_ChgPosYValue(double Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
-    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
-        CurrentTextItem->y=Value/100;
-    } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-        double DisplayW=0,DisplayH=0;
-        GetForDisplayUnit(DisplayW,DisplayH);
-        CurrentTextItem->y=(Value/DisplayH);
-    }
-    RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
-    QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
-    RectItem->setRect(Rect);
-    RectItem->RecalcEmbededResizeRectItem();
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChgPosYValue";
+    #endif
+    if (!PrepContexte()) return;
+    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CompositionObject->y=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
+        else                                                                          CompositionObject->y=(Value/DisplayH);    // DisplayUnit==DISPLAYUNIT_PIXELS
+    ApplyToContexte(true,false);
 }
 
 //========= Width
 void DlgSlideProperties::s_ChgWidthValue(double Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
-
-    double DisplayW=0,DisplayH=0;
-    GetForDisplayUnit(DisplayW,DisplayH);
-
-    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentTextItem->w=Value/100;     // DisplayUnit==DISPLAYUNIT_PERCENT
-        else CurrentTextItem->w=(Value/DisplayW);                                                                       // DisplayUnit==DISPLAYUNIT_PIXELS
-
-    if (RectItem->KeepAspectRatio) CurrentTextItem->h=((CurrentTextItem->w*DisplayW)*RectItem->AspectRatio)/DisplayH;
-    RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
-    QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
-    RectItem->setRect(Rect);
-    RectItem->RecalcEmbededResizeRectItem();
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChgWidthValue";
+    #endif
+    if (!PrepContexte()) return;
+    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CompositionObject->w=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
+        else CompositionObject->w=(Value/DisplayW);                                                                             // DisplayUnit==DISPLAYUNIT_PIXELS
+    if (RectItem->KeepAspectRatio) CompositionObject->h=((CompositionObject->w*DisplayW)*RectItem->AspectRatio)/DisplayH;
+    ApplyToContexte(true,false);
 }
 
 //========= Height
 void DlgSlideProperties::s_ChgHeightValue(double Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();     if (RectItem==NULL)     return;
-    double DisplayW=0,DisplayH=0;
-    GetForDisplayUnit(DisplayW,DisplayH);
-
-    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentTextItem->h=Value/100;     // DisplayUnit==DISPLAYUNIT_PERCENT
-        else CurrentTextItem->h=(Value/DisplayH);                                                                       // DisplayUnit==DISPLAYUNIT_PIXELS
-
-    if (RectItem->KeepAspectRatio) CurrentTextItem->w=((CurrentTextItem->h*DisplayH)/RectItem->AspectRatio)/DisplayW;
-
-    RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
-    QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
-    RectItem->setRect(Rect);
-    RectItem->RecalcEmbededResizeRectItem();
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChgHeightValue";
+    #endif
+    if (!PrepContexte()) return;
+    if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CompositionObject->h=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
+        else CompositionObject->h=(Value/DisplayH);                                                                             // DisplayUnit==DISPLAYUNIT_PIXELS
+    if (RectItem->KeepAspectRatio) CompositionObject->w=((CompositionObject->h*DisplayH)/RectItem->AspectRatio)/DisplayW;
+    ApplyToContexte(true,false);
 }
 
 //========= X Rotation value
 void DlgSlideProperties::s_ChgRotateXValue(int Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-
-    CurrentTextItem->RotateXAxis=Value;
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChgRotateXValue";
+    #endif
+    if (!PrepContexte()) return;
+    CompositionObject->RotateXAxis=Value;
+    ApplyToContexte(false,false);
 }
 
 //========= Y Rotation value
 void DlgSlideProperties::s_ChgRotateYValue(int Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-
-    CurrentTextItem->RotateYAxis=Value;
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChgRotateYValue";
+    #endif
+    if (!PrepContexte()) return;
+    CompositionObject->RotateYAxis=Value;
+    ApplyToContexte(false,false);
 }
 
 //========= Z Rotation value
 void DlgSlideProperties::s_ChgRotateZValue(int Value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-
-    CurrentTextItem->RotateZAxis=Value;
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChgRotateZValue";
+    #endif
+    if (!PrepContexte()) return;
+    CompositionObject->RotateZAxis=Value;
+    ApplyToContexte(false,false);
 }
-
-//***********************
-// Shape part
-//***********************
 
 //========= Background forme
 void DlgSlideProperties::s_ChangeBackgroundForm(int Style) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->BackgroundForm=Style+1;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChangeBackgroundForm";
+    #endif
+    if (!PrepContexte()) return;
+    CompositionObject->BackgroundForm=Style+1;
+    ApplyToContexte(false,true);
 }
 
 //========= Opacity
 void DlgSlideProperties::s_ChangeOpacity(int Style) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->Opacity=Style;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChangeOpacity";
+    #endif
+    if (!PrepContexte()) return;
+    CompositionObject->Opacity=Style;
+    ApplyToContexte(false,true);
 }
 
 //========= Border pen size
 void DlgSlideProperties::s_ChgPenSize(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->PenSize=ui->PenSizeEd->value();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    ui->PenColorCB->setEnabled(CurrentTextItem->PenSize!=0);
-    ui->PenStyleCB->setEnabled(CurrentTextItem->PenSize!=0);
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChgPenSize";
+    #endif
+    if (!PrepContexte()) return;
+    CompositionObject->PenSize=ui->PenSizeEd->value();
+    ui->PenColorCB->setEnabled(CompositionObject->PenSize!=0);
+    ui->PenStyleCB->setEnabled(CompositionObject->PenSize!=0);
+    ApplyToContexte(false,true);
 }
 
 //========= Border pen style
 void DlgSlideProperties::s_ChangePenStyle(int index) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->PenStyle=ui->PenStyleCB->itemData(index).toInt();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChangePenStyle";
+    #endif
+    if (!PrepContexte()) return;
+    CompositionObject->PenStyle=ui->PenStyleCB->itemData(index).toInt();
+    ApplyToContexte(false,true);
 }
 
 //========= Border pen color
 void DlgSlideProperties::s_ChPenColorCB(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->PenColor=ui->PenColorCB->GetCurrentColor();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChPenColorCB";
+    #endif
+    if (!PrepContexte()) return;
+    CompositionObject->PenColor=ui->PenColorCB->GetCurrentColor();
+    ApplyToContexte(false,true);
 }
 
 //========= Shape shadow style
 void DlgSlideProperties::s_ChgShadowFormValue(int value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->FormShadow=value;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    ui->ShadowEffectED->setEnabled(CurrentTextItem->FormShadow!=0);
-    ui->ShadowColorCB->setEnabled(CurrentTextItem->FormShadow!=0);
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChgShadowFormValue";
+    #endif
+    if (!PrepContexte()) return;
+    CompositionObject->FormShadow=value;
+    ui->ShadowEffectED->setEnabled(CompositionObject->FormShadow!=0);
+    ui->ShadowColorCB->setEnabled(CompositionObject->FormShadow!=0);
+    ApplyToContexte(false,true);
 }
 
 //========= Shape shadow distance
 void DlgSlideProperties::s_ChgShadowDistanceValue(int value) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->FormShadowDistance =value;
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChgShadowDistanceValue";
+    #endif
+    if (!PrepContexte()) return;
+    CompositionObject->FormShadowDistance =value;
+    ApplyToContexte(false,true);
 }
 
 //========= shadow color
 void DlgSlideProperties::s_ChgShadowColorCB(int) {
-    if (StopMAJSpinbox) return;
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    CurrentTextItem->FormShadowColor=ui->ShadowColorCB->GetCurrentColor();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-    RefreshSceneImage();
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChgShadowColorCB";
+    #endif
+    if (!PrepContexte()) return;
+    CompositionObject->FormShadowColor=ui->ShadowColorCB->GetCurrentColor();
+    ApplyToContexte(false,true);
+}
+
+//====================================================================================================================
+// Handler for style sheet management
+//====================================================================================================================
+
+void DlgSlideProperties::s_CoordinateStyleBT() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_CoordinateStyleBT";
+    #endif
+    if (!PrepContexte()) return;
+    // Define StyleCoordinateCollection filter
+    if (CompositionObject->BackgroundBrush->Image!=NULL)         GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CompositionObject->BackgroundBrush->Image->ObjectGeometry);
+    else if (CompositionObject->BackgroundBrush->Video!=NULL)    GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CompositionObject->BackgroundBrush->Video->ObjectGeometry);
+    else                                                        GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry);
+
+    // Get Actual style definition
+    QString ActualStyle=CompositionObject->GetCoordinateStyle();
+
+    // Open popup menu
+    QString Item=GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.PopupCollectionMenu(this,ActualStyle);
+    ui->CoordinateStyleBT->setDown(false);
+    if (Item!="") {
+        CompositionObject->ApplyCoordinateStyle(GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.GetStyleDef(Item));
+
+        // Report new shot framing to RectItem
+        RectItem->AspectRatio=CompositionObject->BackgroundBrush->BrushFileCorrect.AspectRatio;
+        if (CompositionObject->h>(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax) CompositionObject->h=(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax;
+            else CompositionObject->w=(CompositionObject->h*ymax/RectItem->AspectRatio)/xmax;
+
+        // Refresh block table
+        int CurrentRow=ui->BlockTable->currentRow();
+        RefreshBlockTable(CurrentRow>0?CurrentRow:0);
+    }
+    RefreshStyleControls();
 }
 
 //====================================================================================================================
 
-void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
-    for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0);
-        Object.Text                     ="";
-        Object.x                        =0;
-        Object.y                        =0;
-        Object.w                        =1;
-        Object.h                        =1;
-        Object.BackgroundForm           =i+1;
-        Object.Opacity                  =4;
-        Object.PenSize                  =1;
-        Object.PenStyle                 =Qt::SolidLine;
-        Object.PenColor                 ="#000000";
-        Object.BackgroundBrush.BrushType=BRUSHTYPE_NOBRUSH;
-        QPixmap  Image(UICB->iconSize());
-        QPainter Painter;
-        Painter.begin(&Image);
-        Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,NULL,false);
-        Painter.end();
-        UICB->setItemIcon(i,QIcon(Image));
+void DlgSlideProperties::s_BlockShapeStyleBT() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_BlockShapeStyleBT";
+    #endif
+    if (!PrepContexte()) return;
+    QString ActualStyle =CompositionObject->GetBlockShapeStyle();
+    QString Item        =GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.PopupCollectionMenu(this,ActualStyle);
+    ui->BlockShapeStyleBT->setDown(false);
+    if (Item!="") {
+        CompositionObject->ApplyBlockShapeStyle(GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(Item));
+        int CurrentRow=ui->BlockTable->currentRow();
+        RefreshBlockTable(CurrentRow>0?CurrentRow:0);
     }
+    RefreshStyleControls();
 }
 
-void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
-    for (int i=0;i<UICB->count();i++) {
-        QPixmap  Image(32,32);
-        QPainter Painter;
-        Painter.begin(&Image);
-        Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        QPen Pen;
-        Pen.setColor(Qt::black);
-        Pen.setStyle((Qt::PenStyle)UICB->itemData(i).toInt());
-        Pen.setWidth(2);
-        Painter.setPen(Pen);
-        Painter.setBrush(QBrush(QColor("#ffffff")));
-        Painter.drawLine(0,16,32,16);
-        Painter.end();
-        UICB->setItemIcon(i,QIcon(Image));
+//====================================================================================================================
+
+void DlgSlideProperties::s_ChangeFramingStyle(int Value) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ChangeFramingStyle";
+    #endif
+
+    if (StopMajFramingStyle) return;
+    if (!PrepContexte()) return;
+
+    cBrushDefinition *CurrentBrush=CompositionObject->BackgroundBrush;
+
+    if ((CurrentBrush->Image==NULL)&&(CurrentBrush->Video==NULL)) {
+        // It's a text block
+        switch (Value) {
+            case 0: // Unlock
+                CurrentBrush->BrushFileCorrect.LockGeometry=false;
+                break;
+            case 1: // Lock to this geometry
+                CurrentBrush->BrushFileCorrect.LockGeometry=true;
+                CurrentBrush->BrushFileCorrect.AspectRatio =RectItem->AspectRatio;
+                break;
+            case 2: // Lock to project geometry
+                CurrentBrush->BrushFileCorrect.LockGeometry=true;
+                CurrentBrush->BrushFileCorrect.AspectRatio=ProjectGeometry;
+                break;
+            default:
+                return;
+        }
+        RectItem->KeepAspectRatio=CurrentBrush->BrushFileCorrect.LockGeometry;
+        RectItem->AspectRatio    =CurrentBrush->BrushFileCorrect.AspectRatio;
+        if (CompositionObject->h>(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax) CompositionObject->h=(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax;
+            else CompositionObject->w=(CompositionObject->h*ymax/RectItem->AspectRatio)/xmax;
+    } else {
+        // It's an image or video block
+        int         i;
+        QStringList List;
+
+        switch (Value) {
+            case 0: // Adjust to width
+                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingW,List);
+                break;
+            case 1: // Adjust to heigth
+                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingH,List);
+                break;
+            case 2: // Adjust to full
+                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingF,List);
+                break;
+            case 3: // None
+                break;
+            default:
+                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringToStringList(ui->FramingStyleCB->itemText(Value),List);
+                break;
+        }
+        if (List.count()>0) {
+            for (i=0;i<List.count();i++) {
+                if      (List[i].startsWith("X:"))              CurrentBrush->BrushFileCorrect.X             =List[i].mid(QString("X:").length()).toDouble();
+                else if (List[i].startsWith("Y:"))              CurrentBrush->BrushFileCorrect.Y             =List[i].mid(QString("Y:").length()).toDouble();
+                else if (List[i].startsWith("ZoomFactor:"))     CurrentBrush->BrushFileCorrect.ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
+                else if (List[i].startsWith("LockGeometry:"))   CurrentBrush->BrushFileCorrect.LockGeometry  =List[i].mid(QString("LockGeometry:").length()).toInt()==1;
+                else if (List[i].startsWith("AspectRatio:"))    CurrentBrush->BrushFileCorrect.AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
+            }
+            RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+            if (CompositionObject->h>(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax) CompositionObject->h=(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax;
+                else CompositionObject->w=(CompositionObject->h*ymax/RectItem->AspectRatio)/xmax;
+        }
+
     }
+    int CurrentRow=ui->BlockTable->currentRow();
+    RefreshBlockTable(CurrentRow>0?CurrentRow:0);
 }
 
 //====================================================================================================================
@@ -1261,96 +1457,91 @@ void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
 
 //========= Open text editor
 void DlgSlideProperties::TextEditor() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    DlgTextEdit         *Dlg=new DlgTextEdit(CurrentTextItem,this);
-    connect(Dlg,SIGNAL(RefreshDisplay()),this,SLOT(TextEditorRefreshDisplay()));
-    if (Dlg->exec()==0) {
-        ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-        ui->BlockTable->item(ui->BlockTable->currentRow(),2)->setText(CurrentTextItem->Text);
-        RefreshControls();
-    }
-    delete Dlg;
-}
-
-void DlgSlideProperties::TextEditorRefreshDisplay() {
-    RefreshSceneImage();
-}
-
-//========= Open image correction editor
-void DlgSlideProperties::ImageEditCorrect() {
-    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cBrushDefinition        *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (!RectItem) return;
-
-    int RetDlg=1;
-
-    if (CurrentBrush->Image) {
-        RetDlg=DlgImageCorrection(CurrentTextItem,CurrentTextItem->BackgroundForm,CurrentBrush,&CurrentBrush->BrushFileCorrect,0,this).exec();
-    } else if (CurrentBrush->Video) {
-        // Compute position of video
-        int Position=0;
-        for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<DiaporamaObject->List[i].ShotComposition.List.count();j++)
-            if (DiaporamaObject->List[i].ShotComposition.List[j].IndexKey==CurrentTextItem->IndexKey) {
-                if (DiaporamaObject->List[i].ShotComposition.List[j].IsVisible) Position+=DiaporamaObject->List[i].StaticDuration;
-        }
-        RetDlg=DlgImageCorrection(CurrentTextItem,CurrentTextItem->BackgroundForm,CurrentBrush,&CurrentBrush->BrushFileCorrect,Position,this).exec();
-    }
-
-    if (RetDlg==0) {
-        // free CachedBrushBrush
-        for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
-            if (DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush) {
-                delete DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush;
-                DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
-            }
-        }
-
-        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
-        CurrentTextItem->h=(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax;
-
-        // Adjust height and width to image stay in screen
-        if (((CurrentTextItem->y+CurrentTextItem->h)*ymax)>ymax) {
-            CurrentTextItem->h=1-CurrentTextItem->y;
-            CurrentTextItem->w=((CurrentTextItem->h*ymax)/RectItem->AspectRatio)/xmax;
-        }
-
-        // Update RectItem
-        RectItem->setPos(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax);
-        QRectF Rect=RectItem->mapRectFromScene(QRectF(CurrentTextItem->x*xmax,CurrentTextItem->y*ymax,xmax*CurrentTextItem->w,ymax*CurrentTextItem->h));
-        RectItem->setRect(Rect);
-        RectItem->RecalcEmbededResizeRectItem();
-
-        // free CachedBrushBrush
-        for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
-            if (DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush) {
-                delete DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush;
-                DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
-            }
-        }
-        // Apply global part
-        ApplyGlobalPropertiesToAllShots(CurrentTextItem);
-        // Refresh display
-        RefreshSceneImageAndCache(CurrentTextItem,CurrentBrush);
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::TextEditor";
+    #endif
+    if (!PrepContexte()) return;
+    DlgTextEdit Dlg(CompositionObject,HELPFILE_DlgTextEdit,GlobalMainWindow->ApplicationConfig,GlobalMainWindow->ApplicationConfig->DlgTextEditWSP,this);
+    Dlg.InitDialog();
+    connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
+    if (Dlg.exec()==0) {
+        ui->BlockTable->item(ui->BlockTable->currentRow(),2)->setText(CompositionObject->Text);
+        ApplyToContexte(false,true);
     }
 }
 
 //========= Open video editor
 void DlgSlideProperties::VideoEdit() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();        if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cBrushDefinition    *CurrentBrush=&CurrentTextItem->BackgroundBrush;        if (!CurrentBrush) return;
-    if (!CurrentBrush->Video) return;
-    DlgVideoEdit(CurrentBrush,this).exec();
-    ApplyGlobalPropertiesToAllShots(CurrentTextItem);
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::VideoEdit";
+    #endif
+    if ((!PrepContexte())||(!CompositionObject->BackgroundBrush->Video)) return;
+    DlgVideoEdit(CompositionObject->BackgroundBrush,this).exec();
 
-    // free CachedBrushBrush
-    for (int j=0;j<DiaporamaObject->List.count();j++) for (int k=0;k<DiaporamaObject->List[j].ShotComposition.List.count();k++) {
-        if (DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush) {
-            delete DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush;
-            DiaporamaObject->List[j].ShotComposition.List[k].CachedBrushBrush=NULL;
+    // free CachedBrushBrush (for this object only)
+    for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i]->ShotComposition.List.count();j++) {
+        if ((DiaporamaObject->List[i]->ShotComposition.List[j]->IndexKey==CompositionObject->IndexKey)&&(DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush)) {
+            delete DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush;
+            DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush=NULL;
         }
     }
 
-    RefreshControls();
+    ApplyToContexte(false,true);
+}
+
+//========= Open image correction editor
+void DlgSlideProperties::ImageEditCorrect() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::ImageEditCorrect";
+    #endif
+    if (!PrepContexte()) return;
+
+    cBrushDefinition *CurrentBrush=CompositionObject->BackgroundBrush;
+
+    int Position=0;
+    // Compute position of video
+    if (CurrentBrush->Video) for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<DiaporamaObject->List[i]->ShotComposition.List.count();j++)
+        if (DiaporamaObject->List[i]->ShotComposition.List[j]->IndexKey==CompositionObject->IndexKey) {
+            if (DiaporamaObject->List[i]->ShotComposition.List[j]->IsVisible) Position+=DiaporamaObject->List[i]->StaticDuration;
+    }
+
+    QString FileName    =QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).fileName();
+    bool UpdateSlideName=(DiaporamaObject->SlideName==FileName);
+    if (DlgImageCorrection(CompositionObject,CompositionObject->BackgroundForm,CompositionObject->BackgroundBrush,Position,this).exec()==0) {
+
+        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+        CompositionObject->h =(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax;
+
+        // Adjust height and width to image stay in screen
+        if (((CompositionObject->y+CompositionObject->h)*ymax)>ymax) {
+            CompositionObject->h=1-CompositionObject->y;
+            CompositionObject->w=((CompositionObject->h*ymax)/RectItem->AspectRatio)/xmax;
+        }
+
+        // free CachedBrushBrush (for this object only)
+        for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i]->ShotComposition.List.count();j++) {
+            if ((DiaporamaObject->List[i]->ShotComposition.List[j]->IndexKey==CompositionObject->IndexKey)&&(DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush)) {
+                delete DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush;
+                DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush=NULL;
+            }
+        }
+
+        if (CurrentBrush->Image) {
+            // free Image CacheObject in lulo
+            cLuLoImageCacheObject *ImageObject=CurrentBrush->Image->ApplicationConfig->ImagesCache.FindObject(CurrentBrush->Image->FileName,&CurrentBrush->Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing,true);
+            ImageObject->ClearAll();
+        }
+
+        // if Slide name is name of this file
+        if (UpdateSlideName) {
+            DiaporamaObject->SlideName=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).fileName();
+            ui->SlideNameED->setText(DiaporamaObject->SlideName);
+        }
+
+        ApplyToContexte(true,true);
+        RefreshBlockTable(ui->BlockTable->currentRow());
+        //UpdateDockInfo();
+    }
 }
 
 //====================================================================================================================
@@ -1358,6 +1549,10 @@ void DlgSlideProperties::VideoEdit() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotTableDragMoveItem() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ShotTableDragMoveItem";
+    #endif
+
     if (GlobalMainWindow->DragItemSource<GlobalMainWindow->DragItemDest) GlobalMainWindow->DragItemDest--;
     DiaporamaObject->List.move(GlobalMainWindow->DragItemSource,GlobalMainWindow->DragItemDest);
     ui->ShotTable->setUpdatesEnabled(false);
@@ -1368,6 +1563,10 @@ void DlgSlideProperties::s_ShotTableDragMoveItem() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotTableMoveLeft() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ShotTableMoveLeft";
+    #endif
+
     int CurrentShot=ui->ShotTable->currentColumn();
     DiaporamaObject->List.swap(CurrentShot,CurrentShot-1);
     RefreshShotTable(CurrentShot-1);
@@ -1376,6 +1575,10 @@ void DlgSlideProperties::s_ShotTableMoveLeft() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotTableMoveRight() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ShotTableMoveRight";
+    #endif
+
     int CurrentShot=ui->ShotTable->currentColumn();
     DiaporamaObject->List.swap(CurrentShot+1,CurrentShot);
     RefreshShotTable(CurrentShot+1);
@@ -1385,20 +1588,24 @@ void DlgSlideProperties::s_ShotTableMoveRight() {
 // User select a shot in the ShotTable widget
 
 void DlgSlideProperties::s_ShotTable_SelectionChanged() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ShotTable_SelectionChanged";
+    #endif
+
     if (InShotTable_SelectionChanged) return;
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
 
     InShotTable_SelectionChanged=true;
-    CompositionList=&DiaporamaObject->List[Current].ShotComposition;
+    CompositionList=&DiaporamaObject->List[Current]->ShotComposition;
 
     int i       =ui->BlockTable->currentRow();
     int IndexKey=-1;
-    if ((i>=0)&&(i<CompositionList->List.count())) IndexKey=CompositionList->List[i].IndexKey;
+    if ((i>=0)&&(i<CompositionList->List.count())) IndexKey=CompositionList->List[i]->IndexKey;
 
     int CurrentBlockTableIndex=0;
     if (IndexKey!=-1) {
-        while ((CurrentBlockTableIndex<CompositionList->List.count())&&(CompositionList->List[CurrentBlockTableIndex].IndexKey!=IndexKey)) CurrentBlockTableIndex++;
+        while ((CurrentBlockTableIndex<CompositionList->List.count())&&(CompositionList->List[CurrentBlockTableIndex]->IndexKey!=IndexKey)) CurrentBlockTableIndex++;
         if (CurrentBlockTableIndex>=CompositionList->List.count()) CurrentBlockTableIndex=0;
     }
     RefreshBlockTable(CurrentBlockTableIndex);
@@ -1409,14 +1616,18 @@ void DlgSlideProperties::s_ShotTable_SelectionChanged() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotTable_AddShot() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ShotTable_AddShot";
+    #endif
+
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
 
-    DiaporamaObject->List.insert(Current+1,cDiaporamaShot(DiaporamaObject));
-    cDiaporamaShot *imagesequence=&DiaporamaObject->List[Current+1];
+    DiaporamaObject->List.insert(Current+1,new cDiaporamaShot(DiaporamaObject));
+    cDiaporamaShot *imagesequence=DiaporamaObject->List[Current+1];
     for (int i=0;i<CompositionList->List.count();i++) {
-        imagesequence->ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionList->List[i].IndexKey));
-        imagesequence->ShotComposition.List[i].CopyFromCompositionObject(&CompositionList->List[i]);
+        imagesequence->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionList->List[i]->IndexKey,GlobalMainWindow->ApplicationConfig));
+        imagesequence->ShotComposition.List[i]->CopyFromCompositionObject(CompositionList->List[i]);
     }
     RefreshShotTable(Current+1);
 }
@@ -1424,12 +1635,16 @@ void DlgSlideProperties::s_ShotTable_AddShot() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotTable_RemoveShot() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_ShotTable_RemoveShot";
+    #endif
+
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
     if (DiaporamaObject->List.count()<2) return;
     if ((GlobalMainWindow->ApplicationConfig->AskUserToRemove)&&(QMessageBox::question(this,QApplication::translate("DlgSlideProperties","Remove shot"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this shot?"),
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
-    DiaporamaObject->List.removeAt(Current);
+    delete DiaporamaObject->List.takeAt(Current);
     ui->ShotTable->setUpdatesEnabled(false);
     ui->ShotTable->removeColumn(Current);
     ui->ShotTable->setUpdatesEnabled(true);
@@ -1444,6 +1659,10 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
 // User select a block in the BlockTable widget
 
 void DlgSlideProperties::s_BlockTable_SelectionChanged() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_BlockTable_SelectionChanged";
+    #endif
+
     if (InBlockTable_SelectionChanged) return;
     InBlockTable_SelectionChanged=true;
 
@@ -1465,7 +1684,7 @@ void DlgSlideProperties::s_BlockTable_SelectionChanged() {
         for (int i=0;i<scene->items().count();i++) {
             QString data =((QGraphicsItem *)scene->items()[i])->data(0).toString();
             if (data=="CustomGraphicsRectItem") {
-                if (((cCustomGraphicsRectItem *)scene->items()[i])->IndexKey==CompositionList->List[CurrentBlock].IndexKey) {
+                if (((cCustomGraphicsRectItem *)scene->items()[i])->IndexKey==CompositionList->List[CurrentBlock]->IndexKey) {
                     // If item is not selected then select it
                     if (!((cCustomGraphicsRectItem *)scene->items()[i])->isSelected()) ((cCustomGraphicsRectItem *)scene->items()[i])->setSelected(true);
                 } else {
@@ -1487,6 +1706,10 @@ void DlgSlideProperties::s_BlockTable_SelectionChanged() {
 // User select a block in the scene widget
 
 void DlgSlideProperties::s_Scene_SelectionChanged() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_Scene_SelectionChanged";
+    #endif
+
     if ((scene==NULL)||(InScene_SelectionChanged)) return;
 
     // Nothing is selected
@@ -1510,8 +1733,8 @@ void DlgSlideProperties::s_Scene_SelectionChanged() {
 
     // Search corresponding item index in the block table
     int BlockTableItemIndex=0;
-    while ((BlockTableItemIndex<CompositionList->List.count())&&(CompositionList->List[BlockTableItemIndex].IndexKey!=CurrentSceneItem->IndexKey)) BlockTableItemIndex++;
-    if ((BlockTableItemIndex<CompositionList->List.count())&&(CompositionList->List[BlockTableItemIndex].IndexKey==CurrentSceneItem->IndexKey)) {
+    while ((BlockTableItemIndex<CompositionList->List.count())&&(CompositionList->List[BlockTableItemIndex]->IndexKey!=CurrentSceneItem->IndexKey)) BlockTableItemIndex++;
+    if ((BlockTableItemIndex<CompositionList->List.count())&&(CompositionList->List[BlockTableItemIndex]->IndexKey==CurrentSceneItem->IndexKey)) {
         // if corresponding item is found in the block table
         if (ui->BlockTable->currentRow()!=BlockTableItemIndex) ui->BlockTable->setCurrentCell(BlockTableItemIndex,0);
     } else {
@@ -1527,6 +1750,10 @@ void DlgSlideProperties::s_Scene_SelectionChanged() {
 // User double click on a block in the BlockTable widget
 
 void DlgSlideProperties::s_BlockTable_ItemDoubleClicked(QTableWidgetItem *) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_BlockTable_ItemDoubleClicked";
+    #endif
+
     s_Scene_DoubleClick();
 }
 
@@ -1534,23 +1761,31 @@ void DlgSlideProperties::s_BlockTable_ItemDoubleClicked(QTableWidgetItem *) {
 // User double click on a block in the scene widget
 
 void DlgSlideProperties::s_Scene_DoubleClick() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_Scene_DoubleClick";
+    #endif
+
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
-    if (CurrentTextItem->BackgroundBrush.BrushType!=BRUSHTYPE_IMAGEDISK)    TextEditor();
-    else if (CurrentTextItem->BackgroundBrush.Image!=NULL)                  ImageEditCorrect();
-    else if (CurrentTextItem->BackgroundBrush.Video!=NULL)                  VideoEdit();
+    if (CurrentTextItem->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK)    TextEditor();
+    else if (CurrentTextItem->BackgroundBrush->Image!=NULL)                  ImageEditCorrect();
+    else if (CurrentTextItem->BackgroundBrush->Video!=NULL)                  VideoEdit();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_BlockTable_AddNewTextBlock";
+    #endif
+
     int CurrentShot=ui->ShotTable->currentColumn();
 
     // Create and append a composition block to the object list
-    DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
-    cCompositionObject *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-    CompositionObject->BackgroundBrush.BrushFileCorrect.LockGeometry=false;
-    CompositionObject->BackgroundBrush.BrushFileCorrect.AspectRatio=1;
+    DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig));
+    cCompositionObject *CompositionObject=DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+    CompositionObject->BackgroundBrush->BrushFileCorrect.LockGeometry=false;
+    CompositionObject->BackgroundBrush->BrushFileCorrect.AspectRatio=1;
 
     // Apply Styles
     CompositionObject->ApplyTextStyle(DiaporamaObject->Parent->ApplicationConfig->StyleTextCollection.GetStyleDef(DiaporamaObject->Parent->ApplicationConfig->StyleTextCollection.DecodeString(DiaporamaObject->Parent->ApplicationConfig->DefaultBlock_Text_TextST)));
@@ -1564,10 +1799,10 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
 
     // Now create and append a shot composition block to all shot
     for (int i=0;i<DiaporamaObject->List.count();i++) {
-        DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
-        DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(CompositionObject);
+        DiaporamaObject->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,GlobalMainWindow->ApplicationConfig));
+        DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
         // Ensure new object is not visible in previous shot
-        if (i<CurrentShot) DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].IsVisible=false;
+        if (i<CurrentShot) DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->IsVisible=false;
     }
 
     // Inc NextIndexKey
@@ -1583,6 +1818,10 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_BlockTable_AddNewFileBlock";
+    #endif
+
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("DlgSlideProperties","Add files"),
                                                        DiaporamaObject->Parent->ApplicationConfig->RememberLastDirectories?DiaporamaObject->Parent->ApplicationConfig->LastMediaPath:"",
                                                        DiaporamaObject->Parent->ApplicationConfig->GetFilterForMediaFile(ALLFILE));
@@ -1620,10 +1859,9 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
         if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
         // Create and append a composition block to the object list
-        DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
-        cCompositionObject  *CompositionObject=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-        cBrushDefinition    *CurrentBrush=&CompositionObject->BackgroundBrush;
-        int                 CurrentShot=ui->ShotTable->currentColumn();
+        DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig));
+        cCompositionObject  *CompositionObject  =DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+        cBrushDefinition    *CurrentBrush       =CompositionObject->BackgroundBrush;
 
         CompositionObject->Text     ="";
         CompositionObject->PenSize  =0;
@@ -1637,23 +1875,26 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
         // Search if file is an image
         for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowImageExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowImageExtension[i]==Extension) {
             // Create an image wrapper
-            CurrentBrush->Image=new cimagefilewrapper();
-            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,AliasList);
+            CurrentBrush->Image=new cImageFile(GlobalMainWindow->ApplicationConfig);
+            bool ModifyFlag=false;
+            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag);
             if (!IsValide) {
                 delete CurrentBrush->Image;
                 CurrentBrush->Image=NULL;
-            }
+            } else if (ModifyFlag) GlobalMainWindow->SetModifyFlag(true);
             break;
         }
         // If it's not an image : search if file is a video
         if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
             // Create a video wrapper
-            CurrentBrush->Video=new cvideofilewrapper();
-            IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,false,AliasList);
+            CurrentBrush->Video=new cVideoFile(false,GlobalMainWindow->ApplicationConfig);
+            bool ModifyFlag=false;
+            IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag);
             if (!IsValide) {
                 delete CurrentBrush->Video;
                 CurrentBrush->Video=NULL;
             } else {
+                if (ModifyFlag) GlobalMainWindow->SetModifyFlag(true);
                 CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
                 //DiaporamaObject->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
             }
@@ -1661,10 +1902,19 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
         }
         if (IsValide) {
 
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform):
+            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,false):
                            NULL);
-            if (Image) {
+            if (!Image) {
+                IsValide=false;
+                if (CurrentBrush->Image) {
+                    delete CurrentBrush->Image;
+                    CurrentBrush->Image=NULL;
+                } else if (CurrentBrush->Video) {
+                    delete CurrentBrush->Video;
+                    CurrentBrush->Video=NULL;
+                }
+            } else {
 
                 // Apply Styles
                 CompositionObject->ApplyTextStyle(DiaporamaObject->Parent->ApplicationConfig->StyleTextCollection.GetStyleDef(DiaporamaObject->Parent->ApplicationConfig->StyleTextCollection.DecodeString(DiaporamaObject->Parent->ApplicationConfig->DefaultBlockBA_IMG_TextST)));
@@ -1726,37 +1976,42 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
                 delete Image;
             }
         }
+        if (IsValide) {
+            int CurrentShot=ui->ShotTable->currentColumn();
 
-        // Now create and append a shot composition block to all shot
-        for (int i=0;i<DiaporamaObject->List.count();i++) {
-            DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey));
-            DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(CompositionObject);
-            // Ensure new object is not visible in previous shot
-            if (i<CurrentShot) DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].IsVisible=false;
+            // Now create and append a shot composition block to all shot
+            for (int i=0;i<DiaporamaObject->List.count();i++) {
+                DiaporamaObject->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,GlobalMainWindow->ApplicationConfig));
+                DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
+                // Ensure new object is not visible in previous shot
+                if (i<CurrentShot) DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->IsVisible=false;
+            }
+
+            // If this object is a video will gain sound from this shots !
+            if (CurrentBrush->Video!=NULL) for (int k=0;k<DiaporamaObject->List.count();k++) for (int l=0;l<DiaporamaObject->List[k]->ShotComposition.List.count();l++)
+                if ((DiaporamaObject->List[k]->ShotComposition.List[l]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&
+                    (DiaporamaObject->List[k]->ShotComposition.List[l]->BackgroundBrush->Video)) {
+                    if (k<CurrentShot) {
+                        // Set this new block to SoundVolume=0
+                        if (CurrentBrush->Video==DiaporamaObject->List[k]->ShotComposition.List[l]->BackgroundBrush->Video)
+                            DiaporamaObject->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=0;
+                    } else {
+                        // Set all other block to SoundVolume=0 and this block to SoundVolume=1
+                        if (CurrentBrush->Video!=DiaporamaObject->List[k]->ShotComposition.List[l]->BackgroundBrush->Video)
+                            DiaporamaObject->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=0;
+                        else DiaporamaObject->List[k]->ShotComposition.List[l]->BackgroundBrush->SoundVolume=1;
+                    }
+            }
+
+            // Inc NextIndexKey
+            DiaporamaObject->NextIndexKey++;
+
+            // 10 by 10 step for ZValue
+            NextZValue+=10;
+
+        } else {
+            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+QApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
         }
-
-        // If this object is a video will gain sound from this shots !
-        if (CurrentBrush->Video!=NULL) for (int k=0;k<DiaporamaObject->List.count();k++) for (int l=0;l<DiaporamaObject->List[k].ShotComposition.List.count();l++)
-            if ((DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.BrushType==BRUSHTYPE_IMAGEDISK)&&
-                (DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)) {
-                if (k<CurrentShot) {
-                    // Set this new block to SoundVolume=0
-                    if (CurrentBrush->Video==DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)
-                        DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=0;
-                } else {
-                    // Set all other block to SoundVolume=0 and this block to SoundVolume=1
-                    if (CurrentBrush->Video!=DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.Video)
-                        DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=0;
-                    else DiaporamaObject->List[k].ShotComposition.List[l].BackgroundBrush.SoundVolume=1;
-                }
-        }
-
-        // Inc NextIndexKey
-        DiaporamaObject->NextIndexKey++;
-
-        // 10 by 10 step for ZValue
-        NextZValue+=10;
-
     }
     RefreshBlockTable(CompositionList->List.count()-1);
 }
@@ -1764,27 +2019,31 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_RemoveBlock() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_BlockTable_RemoveBlock";
+    #endif
+
     int                 CurrentRow=ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
     if ((GlobalMainWindow->ApplicationConfig->AskUserToRemove)&&(QMessageBox::question(this,QApplication::translate("DlgSlideProperties","Remove bloc"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this bloc?"),
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
     int i=0;
-    while ((i<CompositionList->List.count())&&(CompositionList->List[i].IndexKey!=CurrentTextItem->IndexKey)) i++;
+    while ((i<CompositionList->List.count())&&(CompositionList->List[i]->IndexKey!=CurrentTextItem->IndexKey)) i++;
 
     if ((i<CompositionList->List.count())) {
-        int KeyToDelete=CompositionList->List[i].IndexKey;
+        int KeyToDelete=CompositionList->List[i]->IndexKey;
         StopMAJSpinbox=true;
         for (int j=0;j<DiaporamaObject->List.count();j++) {
             int k=0;
-            while (k<DiaporamaObject->List[j].ShotComposition.List.count()) {
-                if (DiaporamaObject->List[j].ShotComposition.List[k].IndexKey==KeyToDelete) DiaporamaObject->List[j].ShotComposition.List.removeAt(k);
+            while (k<DiaporamaObject->List[j]->ShotComposition.List.count()) {
+                if (DiaporamaObject->List[j]->ShotComposition.List[k]->IndexKey==KeyToDelete) delete DiaporamaObject->List[j]->ShotComposition.List.takeAt(k);
                     else k++;
             }
         }
         int k=0;
         while (k<DiaporamaObject->ObjectComposition.List.count()) {
-            if (DiaporamaObject->ObjectComposition.List[k].IndexKey==KeyToDelete) DiaporamaObject->ObjectComposition.List.removeAt(k);
+            if (DiaporamaObject->ObjectComposition.List[k]->IndexKey==KeyToDelete) delete DiaporamaObject->ObjectComposition.List.takeAt(k);
                 else k++;
         }
 
@@ -1796,6 +2055,10 @@ void DlgSlideProperties::s_BlockTable_RemoveBlock() {
 //====================================================================================================================
 
 void DlgSlideProperties::CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::CopyBlockProperties";
+    #endif
+
     if (SourceBlock==DestBlock) return;
 
     // Attribut of the text part
@@ -1822,44 +2085,52 @@ void DlgSlideProperties::CopyBlockProperties(cCompositionObject *SourceBlock,cCo
     DestBlock->Opacity              =SourceBlock->Opacity;                  // Opacity of the form
 
     // Attribut of the BackgroundBrush of the shap part
-    DestBlock->BackgroundBrush.BrushType           =SourceBlock->BackgroundBrush.BrushType;
-    DestBlock->BackgroundBrush.PatternType         =SourceBlock->BackgroundBrush.PatternType;
-    DestBlock->BackgroundBrush.GradientOrientation =SourceBlock->BackgroundBrush.GradientOrientation;
-    DestBlock->BackgroundBrush.ColorD              =SourceBlock->BackgroundBrush.ColorD;
-    DestBlock->BackgroundBrush.ColorF              =SourceBlock->BackgroundBrush.ColorF;
-    DestBlock->BackgroundBrush.ColorIntermed       =SourceBlock->BackgroundBrush.ColorIntermed;
-    DestBlock->BackgroundBrush.Intermediate        =SourceBlock->BackgroundBrush.Intermediate;
-    DestBlock->BackgroundBrush.BrushImage          =SourceBlock->BackgroundBrush.BrushImage;
+    DestBlock->BackgroundBrush->BrushType           =SourceBlock->BackgroundBrush->BrushType;
+    DestBlock->BackgroundBrush->PatternType         =SourceBlock->BackgroundBrush->PatternType;
+    DestBlock->BackgroundBrush->GradientOrientation =SourceBlock->BackgroundBrush->GradientOrientation;
+    DestBlock->BackgroundBrush->ColorD              =SourceBlock->BackgroundBrush->ColorD;
+    DestBlock->BackgroundBrush->ColorF              =SourceBlock->BackgroundBrush->ColorF;
+    DestBlock->BackgroundBrush->ColorIntermed       =SourceBlock->BackgroundBrush->ColorIntermed;
+    DestBlock->BackgroundBrush->Intermediate        =SourceBlock->BackgroundBrush->Intermediate;
+    DestBlock->BackgroundBrush->BrushImage          =SourceBlock->BackgroundBrush->BrushImage;
 }
 
 void DlgSlideProperties::ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::ApplyGlobalPropertiesToAllShots";
+    #endif
+
     // Apply to GlobalComposition objects
-    for (int j=0;j<DiaporamaObject->ObjectComposition.List.count();j++) if (GlobalBlock->IndexKey==DiaporamaObject->ObjectComposition.List[j].IndexKey)
-        CopyBlockProperties(GlobalBlock,&DiaporamaObject->ObjectComposition.List[j]);
+    for (int j=0;j<DiaporamaObject->ObjectComposition.List.count();j++) if (GlobalBlock->IndexKey==DiaporamaObject->ObjectComposition.List[j]->IndexKey)
+        CopyBlockProperties(GlobalBlock,DiaporamaObject->ObjectComposition.List[j]);
 
     // Apply to Shots Composition objects
-    for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i].ShotComposition.List.count();j++) if (GlobalBlock->IndexKey==DiaporamaObject->List[i].ShotComposition.List[j].IndexKey)
-        CopyBlockProperties(GlobalBlock,&DiaporamaObject->List[i].ShotComposition.List[j]);
+    for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i]->ShotComposition.List.count();j++) if (GlobalBlock->IndexKey==DiaporamaObject->List[i]->ShotComposition.List[j]->IndexKey)
+        CopyBlockProperties(GlobalBlock,DiaporamaObject->List[i]->ShotComposition.List[j]);
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::ChangeVisibleState() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::ChangeVisibleState";
+    #endif
+
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
     if (!CurrentTextItem)   return;
     CurrentTextItem->IsVisible=!CurrentTextItem->IsVisible;
-    if (CurrentTextItem->BackgroundBrush.Video!=NULL) {
+    if (CurrentTextItem->BackgroundBrush->Video!=NULL) {
         if (!CurrentTextItem->IsVisible) {
-            CurrentTextItem->BackgroundBrush.SoundVolume=0;
+            CurrentTextItem->BackgroundBrush->SoundVolume=0;
         } else {
             int CurrentShot=ui->ShotTable->currentColumn();
             bool SomeOneHaveSound=false;
             // Parse table to know if a block have sound for this shot
-            for (int i=0;i<DiaporamaObject->List[CurrentShot].ShotComposition.List.count();i++)
-                if ((DiaporamaObject->List[CurrentShot].ShotComposition.List[i].BackgroundBrush.Video!=NULL)&&
-                    (DiaporamaObject->List[CurrentShot].ShotComposition.List[i].BackgroundBrush.SoundVolume!=0)) SomeOneHaveSound=true;
+            for (int i=0;i<DiaporamaObject->List[CurrentShot]->ShotComposition.List.count();i++)
+                if ((DiaporamaObject->List[CurrentShot]->ShotComposition.List[i]->BackgroundBrush->Video!=NULL)&&
+                    (DiaporamaObject->List[CurrentShot]->ShotComposition.List[i]->BackgroundBrush->SoundVolume!=0)) SomeOneHaveSound=true;
             // If no block have sound => get sound to this video
-            if (!SomeOneHaveSound) CurrentTextItem->BackgroundBrush.SoundVolume=1;
+            if (!SomeOneHaveSound) CurrentTextItem->BackgroundBrush->SoundVolume=1;
         }
     }
     RefreshBlockTable(ui->BlockTable->currentRow());
@@ -1868,6 +2139,10 @@ void DlgSlideProperties::ChangeVisibleState() {
 //====================================================================================================================
 
 void DlgSlideProperties::BlockUp() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::BlockUp";
+    #endif
+
     int CurrentBlock=ui->BlockTable->currentRow();
     CompositionList->List.swap(CurrentBlock,CurrentBlock-1);
     RefreshBlockTable(CurrentBlock-1);
@@ -1876,6 +2151,10 @@ void DlgSlideProperties::BlockUp() {
 //====================================================================================================================
 
 void DlgSlideProperties::BlockDown() {
+#ifdef DEBUGMODE
+qDebug() << "IN:DlgSlideProperties::BlockDown";
+#endif
+
     int CurrentBlock=ui->BlockTable->currentRow();
     CompositionList->List.swap(CurrentBlock+1,CurrentBlock);
     RefreshBlockTable(CurrentBlock+1);
@@ -1884,6 +2163,10 @@ void DlgSlideProperties::BlockDown() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_CopyBlockBT() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_CopyBlockBT";
+    #endif
+
     cCompositionObject      *GlobalBlock=GetSelectedGlobalCompositionObject();
     cCompositionObject      *ShotBlock  =GetSelectedCompositionObject();
     if ((!GlobalBlock)||(!ShotBlock))   return;
@@ -1892,14 +2175,18 @@ void DlgSlideProperties::s_CopyBlockBT() {
     GlobalMainWindow->Clipboard_Block=new QDomDocument(APPLICATION_NAME);
     QDomElement root=GlobalMainWindow->Clipboard_Block->createElement("CLIPBOARD");
     GlobalMainWindow->Clipboard_Block->appendChild(root);
-    GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);  // Save global object
-    ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);      // Save shot object
+    GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL",DiaporamaObject->Parent->ProjectFileName,true);  // Save global object
+    ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT",DiaporamaObject->Parent->ProjectFileName,true);      // Save shot object
     RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_CutBlockBT() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_CutBlockBT";
+    #endif
+
     cCompositionObject      *GlobalBlock=GetSelectedGlobalCompositionObject();
     cCompositionObject      *ShotBlock  =GetSelectedCompositionObject();
     if ((!GlobalBlock)||(!ShotBlock))   return;
@@ -1908,32 +2195,35 @@ void DlgSlideProperties::s_CutBlockBT() {
     GlobalMainWindow->Clipboard_Block=new QDomDocument(APPLICATION_NAME);
     QDomElement root=GlobalMainWindow->Clipboard_Block->createElement("CLIPBOARD");
     GlobalMainWindow->Clipboard_Block->appendChild(root);
-    GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);  // Save global object
-    ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT",QFileInfo(DiaporamaObject->Parent->ProjectFileName).absolutePath(),true);      // Save shot object
+    GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL",DiaporamaObject->Parent->ProjectFileName,true);  // Save global object
+    ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT",DiaporamaObject->Parent->ProjectFileName,true);      // Save shot object
     s_BlockTable_RemoveBlock();
 }
 
 //====================================================================================================================
 
 void DlgSlideProperties::s_PasteBlockBT() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_PasteBlockBT";
+    #endif
+
     if (!GlobalMainWindow->Clipboard_Block) return;
 
-    QStringList AliasList;
     QDomElement root=GlobalMainWindow->Clipboard_Block->documentElement();
     if (root.tagName()=="CLIPBOARD") {
         int CurrentShot=ui->ShotTable->currentColumn();
 
         // Create and append a composition block to the object list
-        DiaporamaObject->ObjectComposition.List.append(cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey));
-        cCompositionObject *GlobalBlock=&DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-        GlobalBlock->LoadFromXML(root,"CLIPBOARD-BLOCK-GLOBAL","",NULL,AliasList);
+        DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig));
+        cCompositionObject *GlobalBlock=DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+        GlobalBlock->LoadFromXML(root,"CLIPBOARD-BLOCK-GLOBAL","",NULL,NULL);
         GlobalBlock->IndexKey=DiaporamaObject->NextIndexKey;
 
-        cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey);
-        ShotBlock.LoadFromXML(root,"CLIPBOARD-BLOCK-SHOT","",NULL,AliasList);
+        cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig);
+        ShotBlock.LoadFromXML(root,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL);
         ShotBlock.IndexKey=DiaporamaObject->NextIndexKey;
-        ShotBlock.BackgroundBrush.Image=GlobalBlock->BackgroundBrush.Image;
-        ShotBlock.BackgroundBrush.Video=GlobalBlock->BackgroundBrush.Video;
+        ShotBlock.BackgroundBrush->Image=GlobalBlock->BackgroundBrush->Image;
+        ShotBlock.BackgroundBrush->Video=GlobalBlock->BackgroundBrush->Video;
         ShotBlock.Text=GlobalBlock->Text;
         if (ShotBlock.Text!="") {
             ShotBlock.FontName        =GlobalBlock->FontName;
@@ -1950,14 +2240,14 @@ void DlgSlideProperties::s_PasteBlockBT() {
 
         // Now create and append a shot composition block to all shot
         for (int i=0;i<DiaporamaObject->List.count();i++) {
-            DiaporamaObject->List[i].ShotComposition.List.append(cCompositionObject(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey));
-            DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].CopyFromCompositionObject(&ShotBlock);
+            DiaporamaObject->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig));
+            DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(&ShotBlock);
             // Ensure new object is not visible in previous shot
             if (i<CurrentShot) {
-                DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].IsVisible=false;
+                DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->IsVisible=false;
                 // Ensure unvisible video have no sound !
-                if (DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].BackgroundBrush.Video!=NULL)
-                    DiaporamaObject->List[i].ShotComposition.List[DiaporamaObject->List[i].ShotComposition.List.count()-1].BackgroundBrush.SoundVolume=0;
+                if (DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->Video!=NULL)
+                    DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->SoundVolume=0;
             }
         }
 
@@ -1969,124 +2259,4 @@ void DlgSlideProperties::s_PasteBlockBT() {
 
         RefreshBlockTable(CompositionList->List.count()-1);
     }
-}
-
-//====================================================================================================================
-// Handler for style sheet management
-//====================================================================================================================
-
-void DlgSlideProperties::s_CoordinateStyleBT() {
-    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cBrushDefinition        *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (!RectItem) return;
-
-    // Define StyleCoordinateCollection filter
-    if (CurrentTextItem->BackgroundBrush.Image!=NULL) GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentTextItem->BackgroundBrush.Image->ObjectGeometry);
-    else if (CurrentTextItem->BackgroundBrush.Video!=NULL) GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentTextItem->BackgroundBrush.Video->ObjectGeometry);
-    else GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry);
-
-    // Get Actual style definition
-    QString ActualStyle=CurrentTextItem->GetCoordinateStyle();
-
-    // Open popup menu
-    QString Item=GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.PopupCollectionMenu(this,ActualStyle);
-    ui->CoordinateStyleBT->setDown(false);
-    if (Item!="") {
-        CurrentTextItem->ApplyCoordinateStyle(GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.GetStyleDef(Item));
-
-        // Report new shot framing to RectItem
-        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
-        if (CurrentTextItem->h>(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax) CurrentTextItem->h=(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax;
-            else CurrentTextItem->w=(CurrentTextItem->h*ymax/RectItem->AspectRatio)/xmax;
-
-        // Refresh block table
-        int CurrentRow=ui->BlockTable->currentRow();
-        RefreshBlockTable(CurrentRow>0?CurrentRow:0);
-    }
-    RefreshStyleControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_BlockShapeStyleBT() {
-    cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
-    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-
-    QString ActualStyle=CurrentTextItem->GetBlockShapeStyle();
-    QString Item=GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.PopupCollectionMenu(this,ActualStyle);
-    ui->BlockShapeStyleBT->setDown(false);
-    if (Item!="") {
-        CurrentTextItem->ApplyBlockShapeStyle(GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(Item));
-        int CurrentRow=ui->BlockTable->currentRow();
-        RefreshBlockTable(CurrentRow>0?CurrentRow:0);
-    }
-    RefreshStyleControls();
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::s_ChangeFramingStyle(int Value) {
-    if (StopMajFramingStyle) return;
-    cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();    if ((!CurrentTextItem)||(!CurrentTextItem->IsVisible)) return;
-    cBrushDefinition        *CurrentBrush=GetCurrentBrush();                    if (!CurrentBrush) return;
-    cCustomGraphicsRectItem *RectItem=GetSelectItem();                          if (!RectItem) return;
-
-    if ((CurrentBrush->Image==NULL)&&(CurrentBrush->Video==NULL)) {
-        // It's a text block
-        switch (Value) {
-            case 0: // Unlock
-                CurrentBrush->BrushFileCorrect.LockGeometry=false;
-                break;
-            case 1: // Lock to this geometry
-                CurrentBrush->BrushFileCorrect.LockGeometry=true;
-                CurrentBrush->BrushFileCorrect.AspectRatio =RectItem->AspectRatio;
-                break;
-            case 2: // Lock to project geometry
-                CurrentBrush->BrushFileCorrect.LockGeometry=true;
-                CurrentBrush->BrushFileCorrect.AspectRatio=ProjectGeometry;
-                break;
-            default:
-                return;
-        }
-        RectItem->KeepAspectRatio=CurrentBrush->BrushFileCorrect.LockGeometry;
-        RectItem->AspectRatio    =CurrentBrush->BrushFileCorrect.AspectRatio;
-        if (CurrentTextItem->h>(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax) CurrentTextItem->h=(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax;
-            else CurrentTextItem->w=(CurrentTextItem->h*ymax/RectItem->AspectRatio)/xmax;
-    } else {
-        // It's an image or video block
-        int         i;
-        QStringList List;
-
-        switch (Value) {
-            case 0: // Adjust to width
-                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingW,List);
-                break;
-            case 1: // Adjust to heigth
-                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingH,List);
-                break;
-            case 2: // Adjust to full
-                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingF,List);
-                break;
-            case 3: // None
-                break;
-            default:
-                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringToStringList(ui->FramingStyleCB->itemText(Value),List);
-                break;
-        }
-        if (List.count()>0) {
-            for (i=0;i<List.count();i++) {
-                if      (List[i].startsWith("X:"))              CurrentBrush->BrushFileCorrect.X             =List[i].mid(QString("X:").length()).toDouble();
-                else if (List[i].startsWith("Y:"))              CurrentBrush->BrushFileCorrect.Y             =List[i].mid(QString("Y:").length()).toDouble();
-                else if (List[i].startsWith("ZoomFactor:"))     CurrentBrush->BrushFileCorrect.ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
-                else if (List[i].startsWith("LockGeometry:"))   CurrentBrush->BrushFileCorrect.LockGeometry  =List[i].mid(QString("LockGeometry:").length()).toInt()==1;
-                else if (List[i].startsWith("AspectRatio:"))    CurrentBrush->BrushFileCorrect.AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
-            }
-            RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
-            if (CurrentTextItem->h>(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax) CurrentTextItem->h=(CurrentTextItem->w*xmax*RectItem->AspectRatio)/ymax;
-                else CurrentTextItem->w=(CurrentTextItem->h*ymax/RectItem->AspectRatio)/xmax;
-        }
-
-    }
-    int CurrentRow=ui->BlockTable->currentRow();
-    RefreshBlockTable(CurrentRow>0?CurrentRow:0);
 }
