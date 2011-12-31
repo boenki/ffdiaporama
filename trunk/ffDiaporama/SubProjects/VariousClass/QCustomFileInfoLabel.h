@@ -18,37 +18,34 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CSAVEWINDOWPOSITION_H
-#define CSAVEWINDOWPOSITION_H
-
-//============================================
-// Class to handle window size & position
-//============================================
+#ifndef QCUSTOMFILEINFOLABEL_H
+#define QCUSTOMFILEINFOLABEL_H
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
 // Include some additional standard class
-#include <QtXml/QDomElement>
+#include <QLabel>
 #include <QWidget>
+#include <QPaintEvent>
 #include <QString>
+#include <QIcon>
 
-class cSaveWindowPosition {
+class QCustomFileInfoLabel : public QLabel {
+Q_OBJECT
 public:
-    QString     WindowName;     // Name of the Window
-    bool        *RestoreWindow; // Link to RestoreWindow boolean variable
-    bool        IsMainWindow;   // true if window is a QDockWidget
-    QString     WindowGeo;      // Array for saveGeometry (All windows)
-    QString     MainWinSS;      // Array for saveState (QMainWindow only)
-    bool        IsInit;         // True if data are ready
+    QString TextLeftUpper;
+    QString TextLeftBottom;
+    QString TextRightUpper;
+    QIcon   IconLeft;
 
-    cSaveWindowPosition(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
-    virtual void    ApplyToWindow(QWidget *Window);
-    virtual void    SaveWindowState(QWidget *Window);
-    virtual void    SaveToXML(QDomElement &domDocument);
-    virtual void    OverloadedSaveToXML(QDomElement &domDocument);
-    virtual void    LoadFromXML(QDomElement domDocument);
-    virtual void    OverloadedLoadFromXML(QDomElement domDocument);
+    explicit        QCustomFileInfoLabel(QWidget *parent = 0);
+    virtual void    paintEvent(QPaintEvent *event);
+
+signals:
+
+public slots:
+
 };
 
-#endif  // CSAVEWINDOWPOSITION_H
+#endif // QCUSTOMFILEINFOLABEL_H

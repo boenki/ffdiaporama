@@ -18,36 +18,45 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CFILTERTRANSFORMOBJECT_H
-#define CFILTERTRANSFORMOBJECT_H
+#ifndef _SDL_SUPPORT_H
+#define _SDL_SUPPORT_H
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
-// Include some additional standard class
-#include <QImage>
-#include <QString>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
+// SDL Library
+extern "C" {
+    #include <SDL/SDL.h>
+}
 
-// OnOffFilter mask definition
-#define FilterEqualize                      0x01
-#define FilterDespeckle                     0x02
-#define FilterGray                          0x04
+// Include some common various class
+#include "cSoundBlockList.h"
 
-// Base object for filters image = transform filters
-class   cFilterTransformObject {
+// Functions to manage SDL library
+void SDLAudioCallback(void *,Uint8 *stream,int len);
+void SDLFirstInit(double WantedFPS,bool SDLAncMode);
+void SDLLastClose();
+void SDLSetFPS(double WantedFPS,bool SDLAncMode);
+
+/*
+#ifdef __MINGW32__
+    #undef main // We don't want SDL to override our main()   // No need of this : remove main directly from SDL.h for Windows
+#endif
+*/
+
+// SDL Version of the
+class cSDLSoundBlockList : public cSoundBlockList {
 public:
-    double   BlurSigma;
-    double   BlurRadius;
-    int      OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
+    explicit cSDLSoundBlockList();
 
-    cFilterTransformObject();
-
-    void        ApplyFilter(QImage *Image);
-    void        SaveToXML(QDomElement &domDocument,QString ElementName);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName);
-    QString     FilterToString();
+    virtual int16_t *DetachFirstPacket();
+    virtual void    AppendPacket(int16_t *PacketToAdd);
 };
 
-#endif  // CFILTERTRANSFORMOBJECT_H
+// SDL global define values
+extern bool                SDLIsAudioOpen;          // true if SDL work at least one time
+extern double              SDLCurrentFPS;           // Current FPS setting for SDL
+extern SDL_AudioSpec       AudioSpec;               // SDL param bloc
+extern cSDLSoundBlockList  MixedMusic;              // Sound to play
+
+#endif // _SDL_SUPPORT_H

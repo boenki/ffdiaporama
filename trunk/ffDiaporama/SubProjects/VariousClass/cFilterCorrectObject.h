@@ -21,6 +21,10 @@
 #ifndef CFILTERTCORRECTOBJECT_H
 #define CFILTERTCORRECTOBJECT_H
 
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Include some additional standard class
 #include <QImage>
 #include <QString>
 #include <QtXml/QDomDocument>

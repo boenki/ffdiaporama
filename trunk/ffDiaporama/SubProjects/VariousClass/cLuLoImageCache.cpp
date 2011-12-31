@@ -18,16 +18,22 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QApplication>
-#include <QtDebug>
-#include <QFileInfo>
+// Include some common various class
 #include "cLuLoImageCache.h"
+
+// Include some additional standard class
+#include <QFileInfo>
+
+//#define DEBUGMODE
 
 //*********************************************************************************************************************************************
 // Base object for image cache manipulation
 //*********************************************************************************************************************************************
 
 cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName,QString TheFilterString,bool TheSmoothing) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cLuLoImageCacheObject::cLuLoImageCacheObject";
+    #endif
     FileName            =TheFileName;       // Full filename
     FilterString        =TheFilterString;
     Smoothing           =TheSmoothing;
@@ -39,12 +45,18 @@ cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName,QString TheFilt
 //===============================================================================
 
 cLuLoImageCacheObject::~cLuLoImageCacheObject() {
+#ifdef DEBUGMODE
+qDebug() << "IN:cLuLoImageCacheObject::~cLuLoImageCacheObject";
+#endif
     ClearAll();
 }
 
 //===============================================================================
 
 void cLuLoImageCacheObject::ClearAll() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cLuLoImageCacheObject::ClearAll";
+    #endif
     if (CacheRenderImage!=NULL) {
         delete CacheRenderImage;
         CacheRenderImage=NULL;
@@ -58,6 +70,9 @@ void cLuLoImageCacheObject::ClearAll() {
 //===============================================================================
 
 QImage *cLuLoImageCacheObject::ValidateCacheRenderImage(cFilterTransformObject *Filter) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cLuLoImageCacheObject::ValidateCacheRenderImage";
+    #endif
     if (CacheRenderImage==NULL) {
         qDebug()<<QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName();
 
@@ -96,7 +111,10 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage(cFilterTransformObject *
 
 //===============================================================================
 
-QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(int PreviewMaxHeight,cFilterTransformObject *Filter) {
+QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(cFilterTransformObject *Filter) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cLuLoImageCacheObject::ValidateCachePreviewImage";
+    #endif
     if (CachePreviewImage==NULL) {
 
         qDebug()<<QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName();
@@ -125,9 +143,9 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(int PreviewMaxHeight,cF
                 delete CachePreviewImage;
                 CachePreviewImage=NewImage;
             }
-            // If image size>PreviewMaxHeight, reduce Cache Image
-            if (CachePreviewImage->height()>PreviewMaxHeight*2)  {
-                QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(PreviewMaxHeight,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+            // If image size>PREVIEWMAXHEIGHT, reduce Cache Image
+            if (CachePreviewImage->height()>PREVIEWMAXHEIGHT*2)  {
+                QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
                 delete CachePreviewImage;
                 CachePreviewImage=NewImage;
             }
@@ -143,7 +161,10 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage(int PreviewMaxHeight,cF
 
 //===============================================================================
 
-QImage *cLuLoImageCacheObject::ValidateUnfilteredImage(int PreviewMaxHeight) {
+QImage *cLuLoImageCacheObject::ValidateUnfilteredImage() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cLuLoImageCacheObject::ValidateUnfilteredImage";
+    #endif
     // Load image from disk
     QImage *UnfilteredImage=new QImage(FileName);
 
@@ -169,8 +190,8 @@ QImage *cLuLoImageCacheObject::ValidateUnfilteredImage(int PreviewMaxHeight) {
     }
 
     // Ensure image is at correct height (to speed correction image dialog !)
-    if ((UnfilteredImage)&&(!UnfilteredImage->isNull())&&(UnfilteredImage->height()!=PreviewMaxHeight)) {
-        QImage *NewImage=new QImage(UnfilteredImage->scaledToHeight(PreviewMaxHeight,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+    if ((UnfilteredImage)&&(!UnfilteredImage->isNull())&&(UnfilteredImage->height()!=PREVIEWMAXHEIGHT)) {
+        QImage *NewImage=new QImage(UnfilteredImage->scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
         delete UnfilteredImage;
         UnfilteredImage=NewImage;
     }
@@ -183,11 +204,17 @@ QImage *cLuLoImageCacheObject::ValidateUnfilteredImage(int PreviewMaxHeight) {
 //*********************************************************************************************************************************************
 
 cLuLoImageCache::cLuLoImageCache() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cLuLoImageCache::cLuLoImageCache";
+    #endif
 }
 
 //===============================================================================
 // Find object corresponding to FileName - if object not found then create one
 cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cLuLoImageCache::FindObject";
+    #endif
     QString FilterString=(Filter!=NULL)?Filter->FilterToString():"";
     int i=0;
     while ((i<List.count())&&((List[i]->FileName!=FileName)||(List[i]->FilterString!=FilterString)||(List[i]->Smoothing!=Smoothing))) i++;
@@ -210,6 +237,9 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,cFilterTrans
 //===============================================================================
 
 int cLuLoImageCache::MemoryUsed() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cLuLoImageCache::MemoryUsed";
+    #endif
     int MemUsed=0;
     for (int i=0;i<List.count();i++) {
         if (List[i]->CacheRenderImage)    MemUsed=MemUsed+List[i]->CacheRenderImage->byteCount();
@@ -221,6 +251,9 @@ int cLuLoImageCache::MemoryUsed() {
 //===============================================================================
 
 void cLuLoImageCache::FreeMemoryToMaxValue(int MaxValue) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cLuLoImageCache::FreeMemoryToMaxValue";
+    #endif
     int ToFree=MemoryUsed()-MaxValue;
     int i=List.count()-1;
     while ((ToFree>0)&&(i>0)) {
