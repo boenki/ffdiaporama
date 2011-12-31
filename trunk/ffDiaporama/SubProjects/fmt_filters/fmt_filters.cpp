@@ -70,11 +70,6 @@ whether in an action of contract, tort or otherwise, arising from, out of or
 in connection with ImageMagick or the use or other dealings in ImageMagick.
 */
 
-//========================================
-// Basic inclusions (common to all files)
-//========================================
-#include "_GlobalDefines.h"
-
 //===============================
 // Specific inclusions
 //===============================
