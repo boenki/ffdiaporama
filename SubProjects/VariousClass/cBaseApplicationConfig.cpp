@@ -18,21 +18,99 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QApplication>
-#include <QtDebug>
+// Include some common various class
+#include "cBaseApplicationConfig.h"
+
+// Include some additional standard class
 #include <QFile>
 #include <QDir>
 #include <QFileInfo>
 #include <QTextStream>
 #include <QTranslator>
-#include "cBaseApplicationConfig.h"
-
-#if defined(Q_OS_WIN)
-    #include <windows.h>
-    #include <QSettings>
-#endif
 
 //#define DEBUGMODE
+
+QString IconsPath;                      // Linux path where system icons where found (/usr/share/icons/gnome or /usr/share/icons/default.kde4
+QIcon   DefaultCDROMIcon;
+QIcon   DefaultHDDIcon;
+QIcon   DefaultUSBIcon;
+QIcon   DefaultREMOTEIcon;
+QIcon   DefaultUSERIcon;
+QIcon   DefaultFOLDERIcon;
+QIcon   DefaultFILEIcon;
+QIcon   DefaultIMAGEIcon;
+QIcon   DefaultVIDEOIcon;
+QIcon   DefaultMUSICIcon;
+QIcon   DefaultFFDIcon;
+
+// Preload system icon images
+void PreloadSystemIcons() {
+    qDebug()<<QApplication::translate("MainWindow","Load system icons");
+
+    #if defined(Q_OS_WIN)
+        DefaultCDROMIcon =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-12);
+        DefaultHDDIcon   =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-8);
+        DefaultUSBIcon   =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),121);
+        DefaultREMOTEIcon=GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-10);
+        DefaultUSERIcon  =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),126);
+        DefaultFOLDERIcon=GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-4);
+        DefaultFILEIcon  =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-67);
+        DefaultIMAGEIcon;
+        DefaultVIDEOIcon;
+        DefaultMUSICIcon;
+        DefaultFFDIcon   =QIcon("img/logo.png");
+    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+        #define DEV_CDROM       "/devices/drive-optical.png"
+        #define DEV_HDD         "/devices/drive-harddisk.png"
+        #define DEV_USB         "/devices/drive-removable-media.png"
+        #define DEV_USER        "/places/user-home.png"
+        #define FOLDER_STD      "/places/folder.png"
+        #define FILE_STD        "/mimetypes/unknown.png"
+        #define IMAGEFILE_STD   "/mimetypes/image-x-generic.png"
+        #define VIDEOFILE_STD   "/mimetypes/video-x-generic.png"
+        #define MUSICFILE_STD   "/mimetypes/audio-x-generic.png"
+        if (QFileInfo("/usr/share/icons/gnome/16x16"+QString(DEV_CDROM)).exists()) IconsPath="/usr/share/icons/gnome/";
+            else if (QFileInfo("/usr/share/icons/default.kde4/16x16"+QString(DEV_CDROM)).exists()) IconsPath="/usr/share/icons/default.kde4/";
+            else IconsPath="";
+        if (IconsPath!="") {
+            DefaultCDROMIcon =QIcon(IconsPath+"16x16"+DEV_CDROM);       DefaultUSERIcon.addFile(IconsPath+"48x48"+DEV_CDROM);       DefaultUSERIcon.addFile(IconsPath+"128x128"+DEV_CDROM);
+            DefaultHDDIcon   =QIcon(IconsPath+"16x16"+DEV_HDD);         DefaultUSERIcon.addFile(IconsPath+"48x48"+DEV_HDD);         DefaultUSERIcon.addFile(IconsPath+"128x128"+DEV_HDD);
+            DefaultUSBIcon   =QIcon(IconsPath+"16x16"+DEV_USB);         DefaultUSERIcon.addFile(IconsPath+"48x48"+DEV_USB);         DefaultUSERIcon.addFile(IconsPath+"128x128"+DEV_USER);
+            DefaultREMOTEIcon=DefaultUSBIcon;
+            DefaultUSERIcon  =QIcon(IconsPath+"16x16"+DEV_USER);        DefaultUSERIcon.addFile(IconsPath+"48x48"+DEV_USER);        DefaultUSERIcon.addFile(IconsPath+"128x128"+DEV_USER);
+            DefaultFOLDERIcon=QIcon(IconsPath+"16x16"+FOLDER_STD);      DefaultFOLDERIcon.addFile(IconsPath+"48x48"+FOLDER_STD);    DefaultFOLDERIcon.addFile(IconsPath+"128x128"+FOLDER_STD);
+            DefaultFILEIcon  =QIcon(IconsPath+"16x16"+FILE_STD);        DefaultFILEIcon.addFile(IconsPath+"48x48"+FILE_STD);        DefaultFILEIcon.addFile(IconsPath+"128x128"+FILE_STD);
+            DefaultIMAGEIcon =QIcon(IconsPath+"16x16"+IMAGEFILE_STD);   DefaultIMAGEIcon.addFile(IconsPath+"48x48"+IMAGEFILE_STD);  DefaultIMAGEIcon.addFile(IconsPath+"128x128"+IMAGEFILE_STD);
+            DefaultVIDEOIcon =QIcon(IconsPath+"16x16"+VIDEOFILE_STD);   DefaultVIDEOIcon.addFile(IconsPath+"48x48"+VIDEOFILE_STD);  DefaultVIDEOIcon.addFile(IconsPath+"128x128"+VIDEOFILE_STD);
+            DefaultMUSICIcon =QIcon(IconsPath+"16x16"+MUSICFILE_STD);   DefaultMUSICIcon.addFile(IconsPath+"48x48"+MUSICFILE_STD);  DefaultMUSICIcon.addFile(IconsPath+"128x128"+MUSICFILE_STD);
+            DefaultFFDIcon   =QIcon("img/logo.png");
+        }
+    #endif
+}
+
+//====================================================================================================================
+
+QString GetTextSize(qlonglong Size) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:GetTextSize";
+    #endif
+
+    QString UnitStr="";
+    int     Unit   =0;
+
+    while ((Size>1024*1024)&&(Unit<2)) {
+        Unit++;
+        Size=Size/1024;
+    }
+    switch (Unit) {
+        case 0 : UnitStr=QApplication::translate("QCustomFolderTree","Kb","Unit Kb");   break;
+        case 1 : UnitStr=QApplication::translate("QCustomFolderTree","Mb","Unit Mb");   break;
+        case 2 : UnitStr=QApplication::translate("QCustomFolderTree","Gb","Unit Gb");   break;
+        case 3 : UnitStr=QApplication::translate("QCustomFolderTree","Tb","Unit Tb");   break;
+    }
+    if (double(Size)/double(1024)>0.1) return QString("%1").arg(double(Size)/double(1024),8,'f',1).trimmed()+UnitStr;
+    else return "<0.1"+UnitStr;
+}
 
 //====================================================================================================================
 
@@ -44,7 +122,7 @@ bool CheckFolder(QString FileToTest,QString PathToTest) {
     if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
     bool IsFound=QFileInfo(Path+FileToTest).exists();
     if (IsFound) QDir::setCurrent(Path);
-    qDebug()<<"Try to find datas in "<<Path+FileToTest<<IsFound;
+    qDebug()<<"Try to find datas in"<<Path+FileToTest<<IsFound;
     return IsFound;
 }
 
@@ -133,10 +211,12 @@ QString AdjustDirForOS(QString Dir) {
 
 //====================================================================================================================
 
-cBaseApplicationConfig::cBaseApplicationConfig(QString TheApplicationGroupName,QString TheApplicationName,QString TheApplicationVersion,QString TheConfigFileExt,QString TheConfigFileRootName) {
+cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QString TheAllowedWEBLanguage,QString TheApplicationGroupName,QString TheApplicationName,QString TheApplicationVersion,QString TheConfigFileExt,QString TheConfigFileRootName) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cBaseApplicationConfig::cBaseApplicationConfig";
     #endif
+    AllowedWEBLanguage      =TheAllowedWEBLanguage;
+    TopLevelWindow          =TheTopLevelWindow;            // Link to MainWindow of the application
     ApplicationGroupName    =TheApplicationGroupName;      // Private folder name to save user configuration file
     ApplicationName         =TheApplicationName;           // Application name
     ApplicationVersion      =TheApplicationVersion;        // Application version
@@ -153,6 +233,13 @@ cBaseApplicationConfig::~cBaseApplicationConfig() {
     qDebug() << "IN:cBaseApplicationConfig::~cBaseApplicationConfig";
     #endif
     if (MainWinWSP) delete MainWinWSP;      MainWinWSP=NULL;
+}
+
+//====================================================================================================================
+
+QString cBaseApplicationConfig::GetValideWEBLanguage(QString Language) {
+    if (!AllowedWEBLanguage.contains(Language)) Language="en";
+    return Language;
 }
 
 //====================================================================================================================
@@ -198,14 +285,22 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     #endif
 
     // Initialise all variables and set them default value
-    this->ForceLanguage = ForceLanguage;
-    MainWinState        = false;                                                                // WindowsSettings-ismaximized
-    RestoreWindow       = true;                                                                 // if true then restore windows size and position
-    MainWinWSP          = new cSaveWindowPosition("MainWindow",RestoreWindow,true);             // MainWindow - Window size and position
+    ParentWindow            = NULL;
+    this->ForceLanguage     = ForceLanguage;
+    MainWinState            = false;                                                        // WindowsSettings-ismaximized
+    RestoreWindow           = true;                                                         // if true then restore windows size and position
+    MainWinWSP              = new cSaveWindowPosition("MainWindow",RestoreWindow,true);     // MainWindow - Window size and position
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        RasterMode      = true;                                                                 // Enable or disable raster mode [Linux only]
+        RasterMode          = true;                                                         // Enable or disable raster mode [Linux only]
+        CheckConfigAtStartup= true;
     #endif
-    ParentWindow        = NULL;
+    #ifdef Q_OS_WIN
+        CheckConfigAtStartup= false;
+    #endif
+    Crop1088To1080          = true;                                                         // Automaticaly crop video from 1088 lines to 1080 (CANON)
+    ApplyTransfoPreview     = true;                                                         // True if image transformation are apply during preview
+    QuickResamplingPreview  = false;                                                        // If true then use quick resampling during preview
+    Smoothing               = true;                                                         // True do smoothing in preview
 
     //*********************************************************************
     // Search plateforme and define specific value depending on plateforme
@@ -287,6 +382,25 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowMusicExtension.append("mpa");     AllowMusicExtension.append("MPA");
     AllowMusicExtension.append("ogg");     AllowMusicExtension.append("OGG");
 
+    // set value of external tools path (depending on operating system)
+    #ifdef Q_OS_WIN
+        PathEXIV2       = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"exiv2\\exiv2.exe");           // FileName of exiv2 (with path) : Windows version
+        PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg\\bin\\ffmpeg.exe");    // FileName of ffmpeg (with path) : Windows version
+    #else
+        PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
+        PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
+    #endif
+
+    RememberLastDirectories     = true;                     // If true, Remember all directories for future use
+    #ifdef Q_OS_WIN
+        LastMediaPath           = WINDOWS_PICTURES;             // Last folder use for image/video
+        LastMusicPath           = WINDOWS_MUSIC;                // Last folder use for music
+    #endif
+    #ifdef Q_WS_X11
+        LastMediaPath           = QDir::home().absolutePath();  // Last folder use for image/video
+        LastMusicPath           = QDir::home().absolutePath();  // Last folder use for music
+    #endif
+
     // Init all others values by call subclassing function
     InitValues();
 
@@ -294,6 +408,109 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     if (!LoadConfigurationFile(USERCONFIGFILE,App)) SaveConfigurationFile();                     // Load values from user configuration file (overwrite previously initialized values)
 
     return true;
+}
+
+//====================================================================================================================
+
+bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication *App) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cBaseApplicationConfig::LoadConfigurationValues"<<(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
+    #endif
+    QFile           file(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
+    QDomDocument    domDocument;
+    QDomElement     root;
+    QString         errorStr;
+    int             errorLine,errorColumn;
+    bool            IsOk=true;
+
+    qDebug()<<QApplication::translate("MainWindow","Read configuration file")<<(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        qDebug()<<QApplication::translate("MainWindow","Error reading configuration file","Error message")<<(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
+        IsOk=false;
+    }
+
+    if (IsOk && (!domDocument.setContent(&file,true,&errorStr,&errorLine,&errorColumn))) {
+        qDebug()<<QApplication::translate("MainWindow","Error reading content of configuration file","Error message")<<(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
+        IsOk=false;
+    }
+
+    if (IsOk) {
+        root = domDocument.documentElement();
+        if (root.tagName()!=ConfigFileRootName) {
+            qDebug()<<QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")<<(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
+            IsOk=false;
+        }
+    }
+
+    if (IsOk) {
+        // Load Global preferences
+        if ((root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
+            QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
+            #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+            if (Element.hasAttribute("RasterMode"))                             RasterMode              =Element.attribute("RasterMode")=="1";
+            #endif
+            if (Element.hasAttribute("RestoreWindow"))                          RestoreWindow           =Element.attribute("RestoreWindow")=="1";
+            if ((Element.hasAttribute("ForceLanguage"))&&(ForceLanguage==""))   ForceLanguage           =Element.attribute("ForceLanguage");
+            if (Element.hasAttribute("Crop1088To1080"))                         Crop1088To1080          =Element.attribute("Crop1088To1080")!="0";
+            if (Element.hasAttribute("ApplyTransfoPreview"))                    ApplyTransfoPreview     =Element.attribute("ApplyTransfoPreview")=="1";
+            if (Element.hasAttribute("QuickResamplingPreview"))                 QuickResamplingPreview  =Element.attribute("QuickResamplingPreview")=="1";
+            if (Element.hasAttribute("Smoothing"))                              Smoothing               =Element.attribute("Smoothing")=="1";
+            if (Element.hasAttribute("CheckConfigAtStartup"))                   CheckConfigAtStartup    =Element.attribute("CheckConfigAtStartup")=="1";
+        }
+
+        if ((domDocument.elementsByTagName("LastDirectories").length()>0)&&(domDocument.elementsByTagName("LastDirectories").item(0).isElement()==true)) {
+            QDomElement Element=domDocument.elementsByTagName("LastDirectories").item(0).toElement();
+            if (Element.hasAttribute("RememberLastDirectories"))    RememberLastDirectories=Element.attribute("RememberLastDirectories")=="1";
+            if (Element.hasAttribute("LastMediaPath"))              LastMediaPath          =Element.attribute("LastMediaPath");
+            if (Element.hasAttribute("LastMusicPath"))              LastMusicPath          =Element.attribute("LastMusicPath");
+        }
+
+        // Load windows size and position
+        MainWinWSP->LoadFromXML(root);                                  // MainWindow - Window size and position
+    }
+
+    if (TypeConfigFile==USERCONFIGFILE) {
+        // Search system language
+
+        CurrentLanguage=QLocale::system().name().left(2);
+        if (ForceLanguage!="") CurrentLanguage=ForceLanguage;
+
+        // Validate if system locale is supported and if not force use of "en"
+        if ((CurrentLanguage!="en")&&(!QFileInfo(QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm")).exists())) {
+            qDebug()<<QString("Language \"")+CurrentLanguage+QString("\" not found : switch to english");
+            CurrentLanguage="en";
+        }
+
+        // Install translation (if needed)
+        if (CurrentLanguage!="en") {
+            // Load translation
+            if (!translator.load(QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm"))) {
+                qDebug()<<"Error loading application translation file ..."<<QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm");
+                exit(1);
+            } else qDebug()<<"Loading application translation file ..."<<QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm");
+
+            // Try to load QT system translation file in current project local folder
+            if (QFileInfo(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm")).exists()) {
+                if (!QTtranslator.load(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"))) {
+                    qDebug()<<"Error loading QT system translation file ..."<<QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm";
+                } else {
+                    qDebug()<<"Loading QT system translation file ..."<<QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm";
+                }
+            } else if (QFileInfo(QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm")).exists()) {
+                // If not then try to load QT system translation file in parrent project local folder
+                if (!QTtranslator.load(QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"))) {
+                    qDebug()<<"Error loading QT system translation file ..."<<QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm");
+                } else {
+                    qDebug()<<"Loading QT system translation file ..."<<QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm");
+                }
+            }
+            App->installTranslator(&translator);
+            App->installTranslator(&QTtranslator);
+        }
+
+    }
+
+    return IsOk && LoadValueFromXML(root,TypeConfigFile);
 }
 
 //====================================================================================================================
@@ -320,10 +537,21 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     QDomElement     Element;
     Element=domDocument.createElement("GlobalPreferences");
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    Element.setAttribute("RasterMode",      RasterMode?"1":"0");
+    Element.setAttribute("RasterMode",              RasterMode?"1":"0");
     #endif
-    Element.setAttribute("RestoreWindow",   RestoreWindow?"1":"0");
-    Element.setAttribute("ForceLanguage",   ForceLanguage);
+    Element.setAttribute("RestoreWindow",           RestoreWindow?"1":"0");
+    Element.setAttribute("ForceLanguage",           ForceLanguage);
+    Element.setAttribute("Crop1088To1080",          Crop1088To1080?"1":"0");
+    Element.setAttribute("ApplyTransfoPreview",     ApplyTransfoPreview?"1":0);
+    Element.setAttribute("QuickResamplingPreview",  QuickResamplingPreview?"1":0);
+    Element.setAttribute("Smoothing",               Smoothing?"1":0);
+    Element.setAttribute("CheckConfigAtStartup",    CheckConfigAtStartup?"1":"0");
+    root.appendChild(Element);
+
+    Element=domDocument.createElement("LastDirectories");
+    Element.setAttribute("RememberLastDirectories", RememberLastDirectories?"1":"0");
+    Element.setAttribute("LastMediaPath",           LastMediaPath);
+    Element.setAttribute("LastMusicPath",           LastMusicPath);
     root.appendChild(Element);
 
     // Save windows size and position
@@ -333,96 +561,11 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        qDebug()<<QApplication::translate("MainWindow","Error creating configuration file","Error message");
+        qDebug()<<QApplication::translate("MainWindow","Error creating configuration file","Error message")<<UserConfigFile;
         return false;
     }
     QTextStream out(&file);
     domDocument.save(out,4);
     file.close();
     return true;
-}
-
-//====================================================================================================================
-
-bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication *App) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseApplicationConfig::LoadConfigurationValues"<<(TypeConfigFile==GLOBALCONFIGFILE?"from GLOBALCONFIGFILE":"from USERCONFIGFILE");
-    #endif
-    QFile           file(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
-    QDomDocument    domDocument;
-    QDomElement     root;
-    QString         errorStr;
-    int             errorLine,errorColumn;
-
-    if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        qDebug()<<QApplication::translate("MainWindow","Error reading configuration file","Error message");
-        return false;
-    }
-
-    if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
-        qDebug()<<QApplication::translate("MainWindow","Error reading content of configuration file","Error message");
-        return false;
-    }
-
-    root = domDocument.documentElement();
-    if (root.tagName()!=ConfigFileRootName) {
-        qDebug()<<QApplication::translate("MainWindow","The file is not a valid configuration file","Error message");
-        return false;
-    }
-
-    // Load Global preferences
-    if ((root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
-        QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
-        #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        if (Element.hasAttribute("RasterMode"))     RasterMode      =Element.attribute("RasterMode")=="1";
-        #endif
-        if (Element.hasAttribute("RestoreWindow"))  RestoreWindow   =Element.attribute("RestoreWindow")=="1";
-        if ((Element.hasAttribute("ForceLanguage"))&&(ForceLanguage==""))  ForceLanguage   =Element.attribute("ForceLanguage");
-    }
-
-    // Load windows size and position
-    MainWinWSP->LoadFromXML(root);                                  // MainWindow - Window size and position
-
-    if (TypeConfigFile==USERCONFIGFILE) {
-        // Search system language
-
-        CurrentLanguage=QLocale::system().name().left(2);
-        if (ForceLanguage!="") CurrentLanguage=ForceLanguage;
-
-        // Validate if system locale is supported and if not force use of "en"
-        if ((CurrentLanguage!="en")&&(!QFileInfo(QString("locale")+QDir().separator()+QString("locale_")+CurrentLanguage+QString(".qm")).exists())) {
-            qDebug()<<QString("Language \"")+CurrentLanguage+QString("\" not found : switch to english");
-            CurrentLanguage="en";
-        }
-
-        // Install translation (if needed)
-        if (CurrentLanguage!="en") {
-            // Load translation
-            if (!translator.load(QString("locale")+QDir().separator()+QString("locale_")+CurrentLanguage+QString(".qm"))) {
-                qDebug()<<"Error loading application translation file ..."<<QString("locale")+QDir().separator()+QString("locale_")+CurrentLanguage+QString(".qm");
-                exit(1);
-            } else qDebug()<<"Loading application translation file ..."<<QString("locale")+QDir().separator()+QString("locale_")+CurrentLanguage+QString(".qm");
-
-            // Try to load QT system translation file in current project local folder
-            if (QFileInfo(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm")).exists()) {
-                if (!QTtranslator.load(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"))) {
-                    qDebug()<<"Error loading QT system translation file ..."<<QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm";
-                } else {
-                    qDebug()<<"Loading QT system translation file ..."<<QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm";
-                }
-            } else if (QFileInfo(QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm")).exists()) {
-                // If not then try to load QT system translation file in parrent project local folder
-                if (!QTtranslator.load(QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"))) {
-                    qDebug()<<"Error loading QT system translation file ..."<<QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm");
-                } else {
-                    qDebug()<<"Loading QT system translation file ..."<<QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm");
-                }
-            }
-            App->installTranslator(&translator);
-            App->installTranslator(&QTtranslator);
-        }
-
-    }
-
-    return LoadValueFromXML(root,TypeConfigFile);
 }

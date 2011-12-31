@@ -18,8 +18,13 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "cFilterCorrectObject.h"
+// Include some common various class
 #include "../fmt_filters/fmt_filters.h"
+
+// Include some additional standard class
+#include <QPainter>
+
+#include "cFilterCorrectObject.h"
 
 //#define DEBUGMODE
 

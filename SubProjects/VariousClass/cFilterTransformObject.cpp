@@ -18,8 +18,11 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "cFilterTransformObject.h"
+// Include some common various class
 #include "../fmt_filters/fmt_filters.h"
+
+
+#include "cFilterTransformObject.h"
 
 //#define DEBUGMODE
 
@@ -68,7 +71,7 @@ void cFilterTransformObject::ApplyFilter(QImage *Image) {
 
 //====================================================================================================================
 
-void cFilterTransformObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString /*PathForRelativPath*/) {
+void cFilterTransformObject::SaveToXML(QDomElement &domDocument,QString ElementName) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cFilterTransformObject::SaveToXML";
     #endif
@@ -85,7 +88,7 @@ void cFilterTransformObject::SaveToXML(QDomElement &domDocument,QString ElementN
 
 //====================================================================================================================
 
-bool cFilterTransformObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString /*PathForRelativPath*/) {
+bool cFilterTransformObject::LoadFromXML(QDomElement domDocument,QString ElementName) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cFilterTransformObject::LoadFromXML";
     #endif

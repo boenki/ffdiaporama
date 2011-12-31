@@ -18,37 +18,48 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CSAVEWINDOWPOSITION_H
-#define CSAVEWINDOWPOSITION_H
-
-//============================================
-// Class to handle window size & position
-//============================================
+#ifndef cDriveList_H
+#define cDriveList_H
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
 // Include some additional standard class
-#include <QtXml/QDomElement>
-#include <QWidget>
 #include <QString>
+#include <QIcon>
+#include <QList>
 
-class cSaveWindowPosition {
+// Include some common various class
+#include "cBaseApplicationConfig.h"
+
+// class to handle one drive
+class cDriveDesc {
 public:
-    QString     WindowName;     // Name of the Window
-    bool        *RestoreWindow; // Link to RestoreWindow boolean variable
-    bool        IsMainWindow;   // true if window is a QDockWidget
-    QString     WindowGeo;      // Array for saveGeometry (All windows)
-    QString     MainWinSS;      // Array for saveState (QMainWindow only)
-    bool        IsInit;         // True if data are ready
+    QString     Path;
+    QString     Label;
+    qlonglong   Size;
+    qlonglong   Used;
+    qlonglong   Avail;
+    QIcon       IconDrive;
+    QString     Device;         // Linux only : associated device path (/dev/...)
+    bool        IsReadOnly;
+    int         Flag;           // Use by cDriveList::UpdateDriveList = 0=No longer exist, 1=Already, 2=New drive
 
-    cSaveWindowPosition(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
-    virtual void    ApplyToWindow(QWidget *Window);
-    virtual void    SaveWindowState(QWidget *Window);
-    virtual void    SaveToXML(QDomElement &domDocument);
-    virtual void    OverloadedSaveToXML(QDomElement &domDocument);
-    virtual void    LoadFromXML(QDomElement domDocument);
-    virtual void    OverloadedLoadFromXML(QDomElement domDocument);
+    cDriveDesc(QString Path,QString Alias);
 };
 
-#endif  // CSAVEWINDOWPOSITION_H
+// class to handle drive list
+class cDriveList {
+public:
+    QList<cDriveDesc>   List;                      // Table of alias for drives
+
+    cDriveList();
+
+    virtual void        UpdateDriveList();
+    virtual QIcon       GetFolderIcon(QString FilePath);
+
+private:
+    bool                SearchDrive(QString Path);
+};
+
+#endif // cDriveList_H

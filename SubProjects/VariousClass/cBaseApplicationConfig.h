@@ -18,36 +18,82 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CAPPLICATIONCONFIG_H
-#define CAPPLICATIONCONFIG_H
+#ifndef CBASEAPPLICATIONCONFIG_H
+#define CBASEAPPLICATIONCONFIG_H
 
-// Include some standard class
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Include some additional standard class
 #include <QString>
 #include <QStringList>
 #include <QWidget>
 #include <QTranslator>
+#include <QDomElement>
+#include <QDomDocument>
+#include <QMainWindow>
 
-// Include some various class
+// Include some common various class
 #include "cSaveWindowPosition.h"
+#include "cLuLoImageCache.h"
+
+// Standard geometry definition
+#define GEOMETRY_4_3                        0
+#define GEOMETRY_16_9                       1
+#define GEOMETRY_40_17                      2
+#define NBR_GEOMETRY_DEF                    3
+
+// Default Icon
+extern QString IconsPath;                      // Linux path where system icons where found (/usr/share/icons/gnome or /usr/share/icons/default.kde4
+extern QIcon   DefaultCDROMIcon;
+extern QIcon   DefaultHDDIcon;
+extern QIcon   DefaultUSBIcon;
+extern QIcon   DefaultREMOTEIcon;
+extern QIcon   DefaultUSERIcon;
+extern QIcon   DefaultFOLDERIcon;
+extern QIcon   DefaultFILEIcon;
+extern QIcon   DefaultIMAGEIcon;
+extern QIcon   DefaultVIDEOIcon;
+extern QIcon   DefaultMUSICIcon;
+extern QIcon   DefaultFFDIcon;
 
 // Utility functions
-int     getCpuCount();                                                  // Retrieve number of processor
-QString AdjustDirForOS(QString Dir);                                    // Adjust separator in pathname depending on operating system
-bool    CheckFolder(QString FileToTest,QString PathToTest);             // Check if FileToTest exist in PathToTest and if yes the change current folder to PathToTest
-bool    SetWorkingPath(char *argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt);                         // Adjust current folder
+void    PreloadSystemIcons();
+int     getCpuCount();                                                                                              // Retrieve number of processor
+QString AdjustDirForOS(QString Dir);                                                                                // Adjust separator in pathname depending on operating system
+QString GetTextSize(qlonglong Size);                                                                                // transform a size (_int64) in a string with apropriate unit (Gb/Tb...)
+bool    CheckFolder(QString FileToTest,QString PathToTest);                                                         // Check if FileToTest exist in PathToTest and if yes the change current folder to PathToTest
+bool    SetWorkingPath(char *argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt);    // Adjust current folder
 
 // enum types definitions
-enum FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
-enum LoadConfigFileType {USERCONFIGFILE,GLOBALCONFIGFILE};
+enum    FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
+enum    LoadConfigFileType {USERCONFIGFILE,GLOBALCONFIGFILE};
 
 // Application config class
 class cBaseApplicationConfig {
 public:
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        // Options for linux only
         bool                RasterMode;                                 // Enable or disable raster mode [Linux only]
     #endif
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
+    QMainWindow             *TopLevelWindow;                            // Link to MainWindow of the application
+    QString                 AllowedWEBLanguage;
+
+    // Image cache
+    cLuLoImageCache         ImagesCache;                                // cLuLoImageCache List Object
+
+    // Last directories
+    bool                    RememberLastDirectories;                    // If true, Remember all directories for future use
+    QString                 LastMediaPath;                              // Last folder use for image/video
+    QString                 LastMusicPath;                              // Last folder use for music
+
+    // Other
+    bool                    Smoothing;                                  // True do smoothing in preview
+    bool                    Crop1088To1080;                             // Automaticaly crop video from 1088 lines to 1080 (CANON)
+    bool                    QuickResamplingPreview;                     // If true then use quick resampling during preview
+    bool                    ApplyTransfoPreview;                        // True if image transformation are apply during preview
+    bool                    CheckConfigAtStartup;                       // If true, check config at startup
+
     #if defined(Q_OS_WIN)
         // Options for windows only
         // registry value for specific Windows Folder
@@ -74,12 +120,14 @@ public:
     QString                 CurrentFolder;                              // Current Path
     QString                 CurrentLanguage;                            // Current Language translation
     QString                 ForceLanguage;                              // Empty or forced language
+    QString                 PathEXIV2;                                  // Filename with path to exiv2 binary
+    QString                 PathFFMPEG;                                 // Filename with path to ffmpeg binary
     bool                    MainWinState;                               // WindowsSettings-ismaximized
     cSaveWindowPosition     *MainWinWSP;                                // MainWindow - Window size and position
     QTranslator             translator;                                 // translator for the application
     QTranslator             QTtranslator;                               // translator for QT default text
 
-    cBaseApplicationConfig(QString ApplicationGroupName,QString ApplicationName,QString ApplicationVersion,QString ConfigFileExt,QString ConfigFileRootName);
+    cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage,QString ApplicationGroupName,QString ApplicationName,QString ApplicationVersion,QString ConfigFileExt,QString ConfigFileRootName);
     ~cBaseApplicationConfig();
 
     virtual QString         GetFilterForMediaFile(FilterFile type);
@@ -87,10 +135,12 @@ public:
     virtual bool            LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication *App);
     virtual bool            SaveConfigurationFile();
 
+    virtual QString         GetValideWEBLanguage(QString Language);
+
     // Abstract functions
     virtual void            InitValues()                                                                =0;
     virtual void            SaveValueToXML(QDomElement &domDocument)                                    =0;
     virtual bool            LoadValueFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile) =0;
 };
 
-#endif // CAPPLICATIONCONFIG_H
+#endif // CBASEAPPLICATIONCONFIG_H

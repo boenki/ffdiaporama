@@ -21,59 +21,47 @@
 #ifndef QCUSTOMFOLDERTREE_H
 #define QCUSTOMFOLDERTREE_H
 
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Include some additional standard class
 #include <QWidget>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QString>
 #include <QIcon>
 
-extern QString IconsPath;
-
-// Utility function
-QString GetTextSize(qlonglong Size);
-
-class cHardDriveDescriptor {
-public:
-    QString     Path;
-    QString     Label;
-    qlonglong   Size;
-    qlonglong   Used;
-    qlonglong   Avail;
-    QIcon       IconDrive;
-    QString     Device;         // Linux only : associated device path (/dev/...)
-    bool        IsReadOnly;
-
-    cHardDriveDescriptor(QString Path,QString Alias);
-};
+// Include some common various class
+#include "cDriveList.h"
 
 class QCustomFolderTree : public QTreeWidget {
 Q_OBJECT
 public:
-    bool                            ShowHidden;                         // If true, hidden files will be show
-    bool                            ShowMntDrive;                       // Show drives under /mnt/ [Linux only]
-    QList<cHardDriveDescriptor>     HardDrive;                          // Table of alias for drives
-
-    explicit        QCustomFolderTree(QWidget *parent=0);
+    bool                ShowHidden;                         // If true, hidden files will be show
+    bool                ShowMntDrive;                       // Show drives under /mnt/ [Linux only]
+    cDriveList          *DriveList;
+    explicit            QCustomFolderTree(QWidget *parent=0);
 
     // Public utility functions
-    virtual QString                 GetFolderPath(const QTreeWidgetItem *current,bool TreeMode);
-    virtual QString                 GetCurrentFolderPath();
-    virtual void                    SetSelectItemByPath(QString Path);
-    virtual void                    RefreshItemByPath(QString Path,int Level=0);
-    virtual void                    CreateHardDriveList();
-    virtual QIcon                   GetIcon(QString FilePath);
-    virtual QString                 RealPathToTreePath(QString Path);
-    virtual cHardDriveDescriptor    *SearchRealDrive(QString Path);
+    virtual void        InitDrives(cDriveList *TheDriveList);
+    virtual QString     GetFolderPath(const QTreeWidgetItem *current,bool TreeMode);
+    virtual QString     GetCurrentFolderPath();
+    virtual void        SetSelectItemByPath(QString Path);
+    virtual void        RefreshItemByPath(QString Path,bool RefreshAll,int Level=0);
+    virtual QString     RealPathToTreePath(QString Path);
+    virtual cDriveDesc  *SearchRealDrive(QString Path);
+    virtual void        RefreshDriveList();
 
 private:
-    QTreeWidgetItem *CreateItem(QString Text,QString FilePath,QIcon Icon);
-    bool            IsFolderHaveChild(QString Folder);
-    bool            IsReadOnlyDrive(QString Folder);
+    QTreeWidgetItem     *CreateItem(QString Text,QString FilePath,QIcon Icon);
+    bool                IsFolderHaveChild(QString Folder);
+    bool                IsReadOnlyDrive(QString Folder);
+    void                DeleteChildItem(QTreeWidgetItem *Item);
+
+private slots:
+    void                s_itemExpanded(QTreeWidgetItem *item);
 
 signals:
-
-public slots:
-    void    s_itemExpanded(QTreeWidgetItem *item);
 
 };
 

@@ -18,36 +18,18 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CFILTERTRANSFORMOBJECT_H
-#define CFILTERTRANSFORMOBJECT_H
+// This class handle a standard horizontal QSplitter with 2 children. Only second child is expanding when splitter is resizing
 
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include "QCustomHorizSplitter.h"
 
-// Include some additional standard class
-#include <QImage>
-#include <QString>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
+#include <QList>
+#include <QSize>
 
-// OnOffFilter mask definition
-#define FilterEqualize                      0x01
-#define FilterDespeckle                     0x02
-#define FilterGray                          0x04
+QCustomHorizSplitter::QCustomHorizSplitter(QWidget *parent):QSplitter(parent) {
+}
 
-// Base object for filters image = transform filters
-class   cFilterTransformObject {
-public:
-    double   BlurSigma;
-    double   BlurRadius;
-    int      OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
-
-    cFilterTransformObject();
-
-    void        ApplyFilter(QImage *Image);
-    void        SaveToXML(QDomElement &domDocument,QString ElementName);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName);
-    QString     FilterToString();
-};
-
-#endif  // CFILTERTRANSFORMOBJECT_H
+void QCustomHorizSplitter::resizeEvent(QResizeEvent *event) {
+    QList<int> List=sizes();
+    List[1]+=(event->size().width()-event->oldSize().width());
+    setSizes(List);
+}

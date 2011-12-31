@@ -21,10 +21,18 @@
 #ifndef _cLuLoImageCACHE_H
 #define _cLuLoImageCACHE_H
 
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Include some additional standard class
 #include <QString>
 #include <QImage>
 #include <QList>
+
+// Include some common various class
 #include "cFilterTransformObject.h"
+
+#define PREVIEWMAXHEIGHT    720         // Max height for preview image
 
 //===================================================
 
@@ -42,9 +50,9 @@ public:
 
     void    ClearAll();
 
-    QImage *ValidateUnfilteredImage(int PreviewMaxHeight);
+    QImage *ValidateUnfilteredImage();
     QImage *ValidateCacheRenderImage(cFilterTransformObject *Filter=NULL);
-    QImage *ValidateCachePreviewImage(int PreviewMaxHeight,cFilterTransformObject *Filter=NULL);
+    QImage *ValidateCachePreviewImage(cFilterTransformObject *Filter=NULL);
 };
 
 //===================================================

@@ -21,31 +21,48 @@
 #ifndef QCUSTOMFOLDERTABLE_H
 #define QCUSTOMFOLDERTABLE_H
 
+// Basic inclusions (common to all files)
+#include "_GlobalDefines.h"
+
+// Include some additional standard class
 #include <QWidget>
 #include <QTableWidget>
 #include <QString>
-#include "QCustomFolderTree.h"
 
-#define DISPLAY_DATA    0
-#define DISPLAY_JUKEBOX 1
-#define DISPLAY_WEB     2
+// Include some common various class
+#include "cBaseApplicationConfig.h"
+#include "cDriveList.h"
+#include "cBaseMediaFile.h"
+
+#define DISPLAY_DATA        0
+#define DISPLAY_JUKEBOX     1
+#define DISPLAY_WEB         2
 
 class QCustomFolderTable : public QTableWidget {
 Q_OBJECT
 public:
-    bool                ShowHidden;                         // If true, hidden files will be show
-    bool                ShowMntDrive;                       // Show drives under /mnt/ [Linux only]
-    QCustomFolderTree   *Tree;
+    bool                    ShowHidden;                         // If true, hidden files will be show
+    bool                    ShowMntDrive;                       // Show drives under /mnt/ [Linux only]
+    bool                    ShowFoldersFirst;                   // If true, display folders at first in table list
+    int                     CurrentMode;                        // Current display mode
+    int                     CurrentFilter;                      // Current display mode
+    cDriveList              *DriveList;
+    QList<cBaseMediaFile*>  MediaList;
 
     explicit        QCustomFolderTable(QWidget *parent = 0);
+                    ~QCustomFolderTable();
 
-    virtual void    SetMode(QCustomFolderTree *AssociatedTree,int Mode);
-    virtual int     FillListFolder(QString Path);
+    virtual void    SetMode(cDriveList *DriveList,int Mode,int Filter);
+    virtual int     FillListFolder(QString Path,cBaseApplicationConfig *ApplicationConfig,int Filter);
+    virtual void    AppendToMedialList(cBaseMediaFile *MediaObject);
+    virtual int     NbrFilesDisplayed();
 
 signals:
 
 public slots:
 
+private:
+    QTableWidgetItem *CreateItem(QString ItemText,int Alignment,QBrush Background);
 };
 
 #endif // QCUSTOMFOLDERTABLE_H

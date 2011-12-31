@@ -18,37 +18,30 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CSAVEWINDOWPOSITION_H
-#define CSAVEWINDOWPOSITION_H
+#ifndef QCUSTOMHORIZSPLITTER_H
+#define QCUSTOMHORIZSPLITTER_H
 
-//============================================
-// Class to handle window size & position
-//============================================
+// This class handle a standard horizontal QSplitter with 2 children. Only second child is expanding when splitter is resizing
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
 
 // Include some additional standard class
-#include <QtXml/QDomElement>
+#include <QSplitter>
+#include <QResizeEvent>
 #include <QWidget>
-#include <QString>
 
-class cSaveWindowPosition {
+class QCustomHorizSplitter : public QSplitter {
+Q_OBJECT
 public:
-    QString     WindowName;     // Name of the Window
-    bool        *RestoreWindow; // Link to RestoreWindow boolean variable
-    bool        IsMainWindow;   // true if window is a QDockWidget
-    QString     WindowGeo;      // Array for saveGeometry (All windows)
-    QString     MainWinSS;      // Array for saveState (QMainWindow only)
-    bool        IsInit;         // True if data are ready
+    explicit QCustomHorizSplitter(QWidget *parent = 0);
 
-    cSaveWindowPosition(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
-    virtual void    ApplyToWindow(QWidget *Window);
-    virtual void    SaveWindowState(QWidget *Window);
-    virtual void    SaveToXML(QDomElement &domDocument);
-    virtual void    OverloadedSaveToXML(QDomElement &domDocument);
-    virtual void    LoadFromXML(QDomElement domDocument);
-    virtual void    OverloadedLoadFromXML(QDomElement domDocument);
+    virtual void        resizeEvent(QResizeEvent *);
+
+signals:
+
+public slots:
+
 };
 
-#endif  // CSAVEWINDOWPOSITION_H
+#endif // QCUSTOMHORIZSPLITTER_H
