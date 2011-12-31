@@ -4,46 +4,98 @@ CONFIG      += thread
 QMAKE_STRIP  = echo
 APPFOLDER    = ffDiaporama
 TARGET       = ffDiaporamaMMFiler
+TEMPLATE     = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
+    DlgApplicationSettings.cpp \
+    cApplicationConfig.cpp \
+    DlgAbout.cpp \
     ../VariousClass/cSaveWindowPosition.cpp \
     ../VariousClass/cBaseApplicationConfig.cpp \
     ../VariousClass/QCustomFolderTree.cpp \
-    ../VariousClass/QCustomFolderTable.cpp
+    ../VariousClass/QCustomFolderTable.cpp \
+    ../VariousClass/cDriveList.cpp \
+    ../VariousClass/cDeviceModelDef.cpp \
+    ../VariousClass/cBaseMediaFile.cpp \
+    ../VariousClass/cLuLoImageCache.cpp \
+    ../VariousClass/cFilterTransformObject.cpp \
+    ../VariousClass/QCustomHorizSplitter.cpp \
+    ../VariousClass/QCustomFileInfoLabel.cpp \
+    ../VariousClass/cSoundBlockList.cpp \
+    ../fmt_filters/fmt_filters.cpp \
+    ../VariousWidgets/DlgCheckConfig.cpp \
+    ../VariousWidgets/_QCustomDialog.cpp \
+    ../VariousWidgets/DlgManageDevices.cpp
 
 HEADERS  += mainwindow.h \
+    DlgApplicationSettings.h \
+    cApplicationConfig.h \
+    DlgAbout.h \
     ../VariousClass/cSaveWindowPosition.h \
     ../VariousClass/cBaseApplicationConfig.h \
     ../VariousClass/QCustomFolderTree.h \
-    ../VariousClass/QCustomFolderTable.h
+    ../VariousClass/QCustomFolderTable.h \
+    ../VariousClass/cDriveList.h \
+    ../VariousClass/cDeviceModelDef.h \
+    ../VariousClass/cBaseMediaFile.h \
+    ../VariousClass/cLuLoImageCache.h \
+    ../VariousClass/cFilterTransformObject.h \
+    ../VariousClass/cSoundBlockList.h \
+    ../VariousClass/_GlobalDefines.h \
+    ../VariousClass/QCustomHorizSplitter.h \
+    ../VariousClass/QCustomFileInfoLabel.h \
+    ../fmt_filters/fmt_filters.h \
+    ../VariousWidgets/DlgCheckConfig.h \
+    ../VariousWidgets/_QCustomDialog.h \
+    ../VariousWidgets/DlgManageDevices.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    DlgApplicationSettings.ui \
+    DlgAbout.ui \
+    ../VariousWidgets/DlgCheckConfig.ui \
+    ../VariousWidgets/DlgManageDevices.ui
 
 unix {
     DESTDIR     += ../../../build
     OBJECTS_DIR += ../build$$TARGET
     MOC_DIR     += ../build$$TARGET
+    #UI_DIR      += ../build$$TARGET
     INCLUDEPATH += . \
-                   ../VariousClass \
+                   ../build$$TARGET \
+                   /usr/include/ffmpeg/    \                            # Specific for Fedora
+                   ../VariousClass  \
+                   ../fmt_filters
+
+    LIBS        += -lavformat -lavcodec -lavutil -lswscale
 }
 win32 {
     DESTDIR     += ..\..\..\winbuild
     OBJECTS_DIR += ..\winbuild$$TARGET
     MOC_DIR     += ..\winbuild$$TARGET
-    LIBS        += -lgdi32
+    UI_DIR      += ..\winbuild$$TARGET
+
+    RC_FILE     = ffDiaporamaMMFiler.rc
+
     INCLUDEPATH += . \
+                   ..\\winbuild$$TARGET \
+                   C:\\Qt\\ffmpeg-win32-dev\\include \                  #------ ffmpeg library path
+                   C:\\Qt\\SDL-1.2.14\\include \                        #------ SDL library path
                    ..\\VariousClass \
+                   ..\\fmt_filters
+
+    LIBS        +=  -L"C:\\Qt\\ffmpeg-win32-dev\\lib" \                  #------ ffmpeg library path
+                   -lavformat -lavcodec -lavutil -lswscale -lgdi32
 }
 
-TRANSLATIONS += locale/locale_fr.ts #\
-    #locale/locale_it.ts \
-    #locale/locale_de.ts \
-    #locale/locale_nl.ts \
-    #locale/locale_es.ts \
-    #locale/locale_pt.ts \
-    #locale/locale_ru.ts \
-    #locale/locale_el.ts
+TRANSLATIONS += locale/ffDiaporamaMMFiler_fr.ts #\
+    #locale/ffDiaporamaMMFiler_it.ts \
+    #locale/ffDiaporamaMMFiler_de.ts \
+    #locale/ffDiaporamaMMFiler_nl.ts \
+    #locale/ffDiaporamaMMFiler_es.ts \
+    #locale/ffDiaporamaMMFiler_pt.ts \
+    #locale/ffDiaporamaMMFiler_ru.ts \
+    #locale/ffDiaporamaMMFiler_el.ts
 
 OTHER_FILES += ffDiaporamaMMFiler.xml \
     authors-ffDiaporamaMMFiler.txt \
@@ -51,7 +103,9 @@ OTHER_FILES += ffDiaporamaMMFiler.xml \
     ffDiaporamaMMFileropt.desktop \
     ffDiaporamaMMFilerlocal.desktop \
     licence.rtf \
-    licences.txt
+    licences.txt \
+    ffDiaporamaMMFiler.rc \
+    Devices.xml
 
 #install
 unix {
@@ -65,8 +119,8 @@ unix {
     TARGET.files        = ../../../build/$$TARGET
     translation.path    = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/locale
     translation.files   = locale/*.qm
-    img.path            = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/img
-    img.files           = img/*.*
+    img.path            = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/MMFiler_img
+    img.files           = MMFiler_img/*.*
     General.path        = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER
     General.files       = ffDiaporamaMMFiler.xml licence.rtf licences.txt authors-ffDiaporamaMMFiler.txt
 

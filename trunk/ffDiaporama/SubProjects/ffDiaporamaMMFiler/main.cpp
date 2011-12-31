@@ -19,9 +19,11 @@
    ====================================================================== */
 
 #include <QtGui/QApplication>
-#include "mainwindow.h"
 #include <QString>
 #include <QDir>
+
+#include "../VariousClass/cBaseApplicationConfig.h"
+#include "mainwindow.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
