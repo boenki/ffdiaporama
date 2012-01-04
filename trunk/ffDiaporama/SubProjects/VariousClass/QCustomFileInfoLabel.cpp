@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,15 +34,23 @@ QCustomFileInfoLabel::QCustomFileInfoLabel(QWidget *parent):QLabel(parent) {
     #endif
 }
 
+//====================================================================================================================
+
+void QCustomFileInfoLabel::mouseDoubleClickEvent(QMouseEvent *) {
+    emit DoubleClickEvent();
+}
+
+//====================================================================================================================
+
 void QCustomFileInfoLabel::paintEvent(QPaintEvent *) {
     #ifdef DEBUGMODE
     qDebug() << "IN:QCustomFileInfoLabel::paintEvent";
     #endif
     QPainter    Painter(this);
-    if (!IconLeft.isNull()) {
-        QPixmap     Image=IconLeft.pixmap(48,48);
-        int         addX=48-Image.width();
-        Painter.drawPixmap(1+addX/2,1,Image.width(),48,Image);
+    if (!Icon48.isNull()) {
+        int addX=48-Icon48.width();
+        int addY=48-Icon48.height();
+        Painter.drawImage(QRect(1+addX/2,1+addY/2,Icon48.width(),Icon48.height()),Icon48);
     }
     if (TextLeftUpper!="") {
 

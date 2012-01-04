@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,25 +43,24 @@
 
 // Dialogbox help file
 #define WIKI_CMS_PATH                       "http://ffdiaporama.tuxfamily.org/?page_id="
-#define HELPFILE_INDEX                      "1567"                                                              //fct_001
-#define HELPFILE_PRINCIPLES                 "1306"                                                              //fct_002
-#define HELPFILE_DEVICES                    "1322"                                                              //fct_009
-#define HELPFILE_DlgTextEdit                "1282"                                                              //dlg_001"
-#define HELPFILE_DlgSlideProperties         "1288"                                                              //dlg_003"
-#define HELPFILE_DlgBackgroundProperties    "1290"                                                              //dlg_004"
-#define HELPFILE_DlgImageCorrection         "1292"                                                              //dlg_005"
-#define HELPFILE_DlgManageStyle             "1762"                                                              //dlg_006"
-#define HELPFILE_DlgMusicProperties         "1296"                                                              //dlg_007"
-#define HELPFILE_DlgRenderVideo             "1298"                                                              //dlg_008"
-#define HELPFILE_DlgTransitionProperties    "1300"                                                              //dlg_009"
-#define HELPFILE_DlgVideoEdit               "1302"                                                              //dlg_010"
-
-#define HELPFILE_DlgCheckConfig             "http://ffdiaporama.tuxfamily.org/?page_id=3086&lang=<local>"
+#define HELPFILE_INDEX                      "http://ffdiaporama.tuxfamily.org/?page_id=3854&lang=<local>"
+#define HELPFILE_PRINCIPLES                 "http://ffdiaporama.tuxfamily.org/?page_id=3870&lang=<local>"
+#define HELPFILE_DEVICES                    "http://ffdiaporama.tuxfamily.org/?page_id=3909&lang=<local>"
+#define HELPFILE_DlgTextEdit                "http://ffdiaporama.tuxfamily.org/?page_id=3883&lang=<local>"
+#define HELPFILE_DlgSlideProperties         "http://ffdiaporama.tuxfamily.org/?page_id=3919&lang=<local>"
+#define HELPFILE_DlgBackgroundProperties    "http://ffdiaporama.tuxfamily.org/?page_id=3924&lang=<local>"
+#define HELPFILE_DlgImageCorrection         "http://ffdiaporama.tuxfamily.org/?page_id=3927&lang=<local>"
+#define HELPFILE_DlgManageStyle             "http://ffdiaporama.tuxfamily.org/?page_id=3880&lang=<local>"
+#define HELPFILE_DlgMusicProperties         "http://ffdiaporama.tuxfamily.org/?page_id=3931&lang=<local>"
+#define HELPFILE_DlgRenderVideo             "http://ffdiaporama.tuxfamily.org/?page_id=3935&lang=<local>"
+#define HELPFILE_DlgTransitionProperties    "http://ffdiaporama.tuxfamily.org/?page_id=3941&lang=<local>"
+#define HELPFILE_DlgVideoEdit               "http://ffdiaporama.tuxfamily.org/?page_id=3945&lang=<local>"
+#define HELPFILE_DlgCheckConfig             "http://ffdiaporama.tuxfamily.org/?page_id=3968&lang=<local>"
 #define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/?page_id=1567&lang=<local>"
 #define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/?cat=5&lang=<local>"
-#define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=1286&lang=<local>"
-#define HELPFILE_DlgManageDevices           ""
-#define HELPFILE_DlgffDPjrProperties        ""
+#define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=3915&lang=<local>"
+#define HELPFILE_DlgManageDevices           "http://ffdiaporama.tuxfamily.org/?page_id=4023&lang=<local>"
+#define HELPFILE_DlgffDPjrProperties        "http://ffdiaporama.tuxfamily.org/?page_id=4021&lang=<local>"
 
 // Define styles name used in xml file
 #define STYLENAME_TEXTSTYLE                 "TextStyleCollection"
@@ -189,6 +188,7 @@ public:
     int                     DefaultAudioBitRate;                        // Default audio bit rate
     int                     DefaultImageSize;                           // Default image size
     int                     DefaultStandard;                            // Default standard (PAL/NTSC)
+    QString                 DefaultLanguage;                            // Default Language (ISO 639 language code)
 
     int                     DefaultSmartphoneType;                      // Default Smartphone Type
     int                     DefaultSmartphoneModel;                     // Default Smartphone Model

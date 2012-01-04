@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,10 @@
 
 // Specific inclusions
 #include "_SoundDefinitions.h"
+
+
+//TODO:revoir cMusicObject::LoadMedia pour les cas de piste son incompatible !
+
 
 //*********************************************************************************************************************************************
 // Base object for music definition
@@ -96,8 +100,19 @@ bool cMusicObject::LoadMedia(QString &filename,QStringList *AliasList,bool *Modi
         Music=NULL;
     }
 
-    Music=new cVideoFile(true,ApplicationConfig);
+    Music=new cVideoFile(cVideoFile::MUSICFILE,ApplicationConfig);
     IsValide=(Music->GetInformationFromFile(filename,AliasList,ModifyFlag))&&(Music->OpenCodecAndFile());
+    /*if (IsValide) {
+        // Check if file have at least one sound track compatible
+        if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)) {
+            ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with signed 16 bits sample format","Error message");
+            IsValide=false;
+        }
+        if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
+            ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
+            IsValide=false;
+        }
+    }*/
     FilePath=QFileInfo(Music->FileName).absoluteFilePath();
     StartPos=QTime(0,0,0,0);                // Start position
     EndPos  =Music->Duration;

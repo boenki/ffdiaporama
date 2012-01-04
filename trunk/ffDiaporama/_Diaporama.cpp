@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -1099,15 +1099,16 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 //*********************************************************************************************************************************************
 
 cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
-    Timeline             = NULL;
-    ApplicationConfig    = TheApplicationConfig;
-    ProjectInfo          = new cffDProjectFile(ApplicationConfig);
-    CurrentCol           = -1;                                                               // Current selected item
-    CurrentPosition      = -1;                                                               // Current position (msec)
-    IsModify             = false;                                                            // true if project was modify
-    ProjectFileName      = "";                                                               // Path and name of current file project
-    ProjectInfo->Composer= QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
-    ProjectInfo->Author  = ApplicationConfig->DefaultAuthor;
+    Timeline                    = NULL;
+    ApplicationConfig           = TheApplicationConfig;
+    ProjectInfo                 = new cffDProjectFile(ApplicationConfig);
+    CurrentCol                  = -1;                                                               // Current selected item
+    CurrentPosition             = -1;                                                               // Current position (msec)
+    IsModify                    = false;                                                            // true if project was modify
+    ProjectFileName             = "";                                                               // Path and name of current file project
+    ProjectInfo->Composer       = QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
+    ProjectInfo->Author         = ApplicationConfig->DefaultAuthor;
+    ProjectInfo->DefaultLanguage= ApplicationConfig->DefaultLanguage;
     // Set default value
     DefineSizeAndGeometry(ApplicationConfig->ImageGeometry);                                // Default to 16:9
 }
@@ -1136,6 +1137,12 @@ void cDiaporama::DefineSizeAndGeometry(int Geometry) {
     LumaList_Box.SetGeometry(ImageGeometry);
     LumaList_Snake.SetGeometry(ImageGeometry);
     ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(ImageGeometry);
+    switch (Geometry) {
+        case GEOMETRY_16_9:  ProjectInfo->ObjectGeometry=IMAGE_GEOMETRY_16_9;   break;
+        case GEOMETRY_40_17: ProjectInfo->ObjectGeometry=IMAGE_GEOMETRY_40_17;  break;
+        case GEOMETRY_4_3:
+        default:             ProjectInfo->ObjectGeometry=IMAGE_GEOMETRY_4_3;    break;
+    }
 }
 
 //=======================================================
@@ -1287,8 +1294,10 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
                 } else if (ProjectInfo->Title.lastIndexOf(QDir::separator())>0) ProjectInfo->Title=ProjectInfo->Title.mid(ProjectInfo->Title.lastIndexOf(QDir::separator())+1);
             }
         }
+        if (ProjectInfo->Title.length()>30) ProjectInfo->Title=ProjectInfo->Title.left(30);
     }
     if (ProjectInfo->Author=="") ProjectInfo->Author=ApplicationConfig->DefaultAuthor;
+    ProjectInfo->ffDRevision=CurrentAppVersion;
 
     // Create xml document and root
     root=domDocument.createElement(APPLICATION_ROOTNAME);

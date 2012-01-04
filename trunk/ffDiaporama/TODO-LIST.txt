@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 22/12/2011) :
+Buggs/TODO (Dernier SVN le 31/12/2011) :
 ----------------------------------------
 TODO
 ----
@@ -6,19 +6,48 @@ TODO
 -Erreur de lecture de vidéo dans certaines vidéo MPEG-2
 -Erreur de lecture du son dans certaines vidéo AVI
 -Erreur lors des changements de slide quand la durée des slides = la durées des transitions
--Très grosses lenteurs quand plusieurs shots
+-Grosses lenteurs quand plusieurs shots
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige la sauvegarde des positions de début et fin des vidéos (ajoute les ms)
+-Corrige la liste des extentions autorisées pour les vidéos à intégrer (autorise toutes celles que ffDiaporama peut produire)
+-Corrige les géométries des vidéos générées en NTSC
+
+English version / Bug fix :
+-Fix save of start and stop position for video (add ms)
+-Fix list of allowed extention for video (allow all format ffDiaporama can produce)
+-Fix geometry for rendered videos in NTSC mode
+
+French version / Nouvelles fonctionnalités
+-Améliore la lecture d'information des vidéos ajoutés au projet
+-Améliore la détection des formats de vidéo non supportés
+-Ajoute le support du code de language (ISO 639) pour la production des vidéos (option supplémentaire dans les boites de configuration, de propriétés et de génération)
+-Améliore l'affichage des informations dans la zone information de la boite slide
+-Ajoute une demande de confirmation pour ouvrir des projets créés avec une version plus récente de ffDiaporama
+
+English version / New features
+-Improve information reading of the videos added to the project
+-Improve unsupported format detection for the videos added to the project
+-Add support for language code (ISO 639) for the video rendering (Add options in option, project properties and render dialogs)
+-Improve information display in slide dialog information zone
+-Add a confirmation ask to open project created with a newer ffDiaporama version
+
+-------------------------------------
+Changelog depuis la version 20111118
+-------------------------------------
+Bug fix French version
+-Quand on quitte l'application, même si on clique sur oui  les modification ne sont pas sauvegardées
 -Corrige le bug du 1er demarrage, l'appli est toujours en anglais (car pas de fichier de config perso.)
 -Corrige une erreur de positionnement lors de la lecture des fichiers video
 -Corrige une erreur de géométrie lors de la lecture de fichiers video SD/DVD
 -Corrige le timestamp dans les vidéos générés
 -Corrige l'erreur de taille/positionnement du player au démarrage
 
-English version / Bug fix :
+Bug fix English version
+-When exit the application, even when answer yes, modifications are not saved
 -Fix first start bug, the application is always using english (because no personnal config file)
 -Fix a seek error when reading video files
 -Fix a geometrical error when reading SD/DVD video files
@@ -26,6 +55,8 @@ English version / Bug fix :
 -Fix incorrect player size/positionning at startup
 
 French version / Nouvelles fonctionnalités
+-Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
+-Permet d'installer ffDiaporama dans /opt et /usr/local
 -Déplace certaines proprietes de la section EditorOptions vers la section GlobalPreferences dans ffDiaporama.xml
 -Déplace la section base de device du fichier ffDiaporama.xml vers un nouveau fichier Devices.xml
 -Deplace l'onglet "Device Database" de la boite de configuration dans une boite de dialogue séparée
@@ -37,6 +68,8 @@ French version / Nouvelles fonctionnalités
 -Quand on change le fichier qui a donné son nom au slide, change également le nom du slide
 
 English version / New features
+-Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
+-Allow ffDiaporama to be install in /opt or /usr/local
 -Move some properties from EditorOptions section to GlobalPreferences in ffDiaporama.xml
 -Move device database section from ffDiaporama.xml file to a new file named Devices.xml
 -Move "Device Database" tab of the options dialog to a new separated dialog
@@ -46,20 +79,3 @@ English version / New features
 -Add a third option to compute render video filename (use properties title)
 -Add an option to automaticaly fill properties title
 -When changing file which give it name to a slide, change also the slide name
-
--------------------------------------
-Changelog depuis la version 20111118
--------------------------------------
-Bug fix French version
--Quand on quitte l'application, même si on clique sur oui  les modification ne sont pas sauvegardées
-
-Bug fix English version
--When exit the application, even when answer yes, modifications are not saved
-
-French version / Nouvelles fonctionnalités
--Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
--Permet d'installer ffDiaporama dans /opt et /usr/local
-
-English version / New features
--Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
--Allow ffDiaporama to be install in /opt or /usr/local

@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -51,20 +51,30 @@ public:
     explicit            MainWindow(QWidget *parent = 0);
                         ~MainWindow();
     void                InitWindow(QString ForceLanguage,QApplication *App);
+    void                RefreshControls();
 
 protected:
     virtual void        resizeEvent(QResizeEvent *);
     virtual void        closeEvent(QCloseEvent *);
 
 private slots:
+    void                DoRefreshFolderInfo();
+
     void                s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *);
-    void                s_currentTableItemChanged(QTableWidgetItem *,QTableWidgetItem *);
+    void                s_currentTableItemChanged();
 
     void                s_DlgCheckConfig();
     void                s_Refresh();
+    void                s_OpenFile();
+    void                s_InfoFile();
+    void                s_ActionFile();
+    void                s_itemDoubleClicked(QTableWidgetItem *);
+    void                s_itemDoubleClicked();
+
     void                s_Config();
     void                s_action_Exit();
 
+    void                s_action_Mode();
     void                s_action_Filter();
 
     // Help menu

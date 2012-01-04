@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -66,13 +66,15 @@ extern "C" {
 #define OBJECTTYPE_VIDEOFILE    5
 #define OBJECTTYPE_MUSICFILE    6
 #define OBJECTTYPE_THUMBNAIL    7
+#define OBJECTTYPE_MUSICORVIDEO 100
 
 class cBaseMediaFile {
 public:
     int                     ObjectType;
-    bool                    IsValide;               // if true then object if fuly initialise
+    bool                    IsValide;               // if true then object if initialise
+    bool                    IsInformationValide;    // if true then information list if fuly initialise
     int                     ObjectGeometry;         // Image geometry of the embeded image or video
-    QIcon                   Icon;                   // Icon associated to file
+    QImage                  Icon16,Icon32,Icon48;   // Icons associated to file
     QString                 FileName;               // filename
     QString                 ShortName;              // filename without path
     qlonglong               FileSize;               // filesize
@@ -87,8 +89,6 @@ public:
     QStringList             InformationList;
     QString                 WEBInfo;
     double                  AspectRatio;            // Aspect ratio
-    int                     Duration;
-    int                     NbrSlide;
 
     cBaseMediaFile(cBaseApplicationConfig *ApplicationConfig);
     ~cBaseMediaFile();
@@ -98,10 +98,15 @@ public:
     virtual bool            IsFilteredFile(int RequireObjectType)=0;
     virtual void            GetFullInformationFromFile()=0;
     virtual QString         GetInformationValue(QString ValueToSearch);
-    virtual QString         GetImageGeometryStr();
+    virtual QString         GetCumulInfoStr(QString Key1,QString Key2);
 
     enum    ImageSizeFmt {FULLWEB,SIZEONLY,FMTONLY,GEOONLY};
     virtual QString         GetImageSizeStr(ImageSizeFmt Fmt=FULLWEB);
+    virtual QString         GetImageGeometryStr();
+
+    virtual void            AddIcons(QString FileName);
+    virtual void            AddIcons(QImage *Image96);
+    virtual void            AddIcons(QIcon Icon);
 };
 
 //*********************************************************************************************************************************************
@@ -113,7 +118,7 @@ public:
 
     virtual QString         GetTypeText();
     virtual bool            IsFilteredFile(int RequireObjectType);
-    virtual void            GetFullInformationFromFile();
+    virtual void            GetFullInformationFromFile() {/*Nothing to do*/}
 };
 
 //*********************************************************************************************************************************************
@@ -126,7 +131,7 @@ public:
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual QString         GetTypeText();
     virtual bool            IsFilteredFile(int RequireObjectType);
-    virtual void            GetFullInformationFromFile();
+    virtual void            GetFullInformationFromFile() {/*Nothing to do*/}
 };
 
 //*********************************************************************************************************************************************
@@ -135,12 +140,16 @@ public:
 class cffDProjectFile : public cBaseMediaFile {
 public:
     // TAG values
-    QString     Title;      // 30 char
-    QString     Author;     // 30 char
-    QString     Album;      // 30 char
-    int         Year;       // Year - 4 digits
-    QString     Comment;    // Free text - free size
-    QString     Composer;   // ffDiaporama version
+    QString     Title;              // 30 char
+    QString     Author;             // 30 char
+    QString     Album;              // 30 char
+    int         Year;               // Year - 4 digits
+    QString     Comment;            // Free text - free size
+    QString     Composer;           // ffDiaporama version
+    qlonglong   Duration;           // (Duration in msec)
+    int         NbrSlide;           // (Number of slide in project)
+    QString     ffDRevision;        // ffD Application version (in reverse date format)
+    QString     DefaultLanguage;    // Default Language (ISO 639 language code)
 
     explicit cffDProjectFile(cBaseApplicationConfig *ApplicationConfig);
 
@@ -173,8 +182,11 @@ public:
 
 class cVideoFile : public cBaseMediaFile {
 public:
+    enum WantedObjectTypeFmt {MUSICORVIDEO,VIDEOFILE,MUSICFILE};
+
     bool                    IsOpen;                     // True if ffmpeg open on this file
     bool                    MusicOnly;                  // True if object is a music only file
+    WantedObjectTypeFmt     WantedObjectType;
     bool                    IsVorbis;                   // True if vorbis version must be use instead of MP3/WAV version
     QTime                   StartPos;                   // Start position
     QTime                   EndPos;                     // End position
@@ -191,6 +203,7 @@ public:
     AVFormatContext         *ffmpegVideoFile;           // LibAVFormat context
     AVCodec                 *VideoDecoderCodec;         // Associated LibAVCodec for video stream
     int                     VideoStreamNumber;          // Number of the video stream
+    int                     VideoTrackNbr;              // Number of video stream in file
     AVFrame                 *FrameBufferYUV;
     bool                    FrameBufferYUVReady;        // true if FrameBufferYUV is ready to convert
     int64_t                 FrameBufferYUVPosition;     // If FrameBufferYUV is ready to convert then keep FrameBufferYUV position
@@ -199,10 +212,13 @@ public:
     AVFormatContext         *ffmpegAudioFile;           // LibAVFormat context
     AVCodec                 *AudioDecoderCodec;         // Associated LibAVCodec for audio stream
     int                     AudioStreamNumber;          // Number of the audio stream
+    int                     AudioTrackNbr;              // Number of audio stream in file
     int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
 
-    explicit    cVideoFile(bool MusicOnly,cBaseApplicationConfig *ApplicationConfig);
+    explicit    cVideoFile(WantedObjectTypeFmt WantedObjectType,cBaseApplicationConfig *ApplicationConfig);
     ~cVideoFile();
+
+    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
 
     virtual QString         GetTypeText();
     virtual bool            IsFilteredFile(int RequireObjectType);
@@ -210,17 +226,11 @@ public:
 
     virtual bool            OpenCodecAndFile();
     virtual void            CloseCodecAndFile();
-/*
-    virtual QString         GetVideoCodecName(QString Codec);
-    virtual QString         GetContainerName(QString Codec);
-    virtual QString         GetMovieGeometryName(QString Geometry);
-    virtual QString         GetSizeName(QString Size,int X,int Y);
-*/
+
     virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos);
     virtual QImage          *ReadVideoFrame(qlonglong Position,bool DontUseEndPos);
     virtual void            ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
     virtual QImage          *ConvertYUVToRGB();
-
 };
 
 #endif // CBASEMEDIAFILE_H

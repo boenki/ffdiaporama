@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -137,6 +137,7 @@ void cApplicationConfig::InitValues() {
     DefaultNameProjectName      =true;                      // Use project name as default name for rendering
     DefaultImageSize            = SIZE_720P;                // Default image size
     DefaultStandard             = STANDARD_PAL;             // Default standard (PAL/NTSC)
+    DefaultLanguage             ="und";                     // Default Language (ISO 639 language code)
 
     RandomTransition            =true;                      // if true randomize a transition
     DefaultTransitionFamilly    =TRANSITIONFAMILLY_BASE;    // Transition familly
@@ -313,6 +314,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("AudioCodec",                  DefaultAudioCodec);
     Element.setAttribute("AudioBitRate",                DefaultAudioBitRate);
     Element.setAttribute("Standard",                    DefaultStandard);
+    Element.setAttribute("Language",                    DefaultLanguage);
     Element.setAttribute("ImageSize",                   DefaultImageSize);
     Element.setAttribute("DefaultSmartphoneType",       DefaultSmartphoneType);
     Element.setAttribute("DefaultSmartphoneModel",      DefaultSmartphoneModel);
@@ -440,6 +442,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         if (Element.hasAttribute("AudioBitRate"))           DefaultAudioBitRate     =Element.attribute("AudioBitRate").toInt();
         if (Element.hasAttribute("ImageSize"))              DefaultImageSize        =Element.attribute("ImageSize").toInt();
         if (Element.hasAttribute("Standard"))               DefaultStandard         =Element.attribute("Standard").toInt();
+        if (Element.hasAttribute("Language"))               DefaultLanguage         =Element.attribute("Language");
         if (Element.hasAttribute("DefaultSmartphoneType"))  DefaultSmartphoneType   =Element.attribute("DefaultSmartphoneType").toInt();
         if (Element.hasAttribute("DefaultSmartphoneModel")) DefaultSmartphoneModel  =Element.attribute("DefaultSmartphoneModel").toInt();
         if (Element.hasAttribute("DefaultMultimediaType"))  DefaultMultimediaType   =Element.attribute("DefaultMultimediaType").toInt();

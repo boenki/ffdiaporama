@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -63,6 +63,8 @@ public:
     int             AudioBitRate;                   // Last audio bit rate used
     int             ImageSize;                      // Last image size use for rendering
     int             Standard;                       // Last standard use for rendering
+
+    QString         Language;
 
     explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,QWidget *parent = 0);
     ~DlgRenderVideo();

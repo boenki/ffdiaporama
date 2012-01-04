@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -52,6 +52,7 @@ void DlgffDPjrProperties::DoInitDialog() {
     ui->AlbumED->setText(ffdProject->Album);
     ui->YearED->setValue(ffdProject->Year);
     ui->CommentED->setPlainText(ffdProject->Comment);
+    ui->LanguageED->setText(ffdProject->DefaultLanguage);
 }
 
 //====================================================================================================================
@@ -70,9 +71,10 @@ void DlgffDPjrProperties::DoAccept() {
     #ifdef DEBUGMODE
     qDebug() << "IN:DlgffDPjrProperties::DoAccept";
     #endif
-    ffdProject->Title   =ui->TitleED->text();
-    ffdProject->Author  =ui->AuthorED->text();
-    ffdProject->Album   =ui->AlbumED->text();
-    ffdProject->Year    =ui->YearED->value();
-    ffdProject->Comment =ui->CommentED->toPlainText();
+    ffdProject->Title           =ui->TitleED->text();
+    ffdProject->Author          =ui->AuthorED->text();
+    ffdProject->Album           =ui->AlbumED->text();
+    ffdProject->Year            =ui->YearED->value();
+    ffdProject->Comment         =ui->CommentED->toPlainText();
+    ffdProject->DefaultLanguage =ui->LanguageED->text();
 }

@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,11 +32,13 @@
 #include <QDesktopServices>
 #include <QMenu>
 
-#include "../VariousWidgets/DlgCheckConfig.h"
 #include "../VariousClass/cBaseMediaFile.h"
 #include "../VariousClass/QCustomFolderTable.h"
 #include "../VariousClass/QCustomFolderTree.h"
 #include "../VariousClass/QCustomHorizSplitter.h"
+
+#include "../VariousWidgets/DlgCheckConfig.h"
+#include "../VariousWidgets/DlgInfoFile.h"
 
 #include "DlgApplicationSettings.h"
 #include "DlgAbout.h"
@@ -45,14 +47,27 @@
 
 //#define DEBUGMODE
 
+QIcon   Icon_DISPLAY_DATA_S;
+QIcon   Icon_DISPLAY_DATA;
+QIcon   Icon_DISPLAY_WEB_S;
+QIcon   Icon_DISPLAY_WEB;
+QIcon   Icon_DISPLAY_JUKEBOX_S;
+QIcon   Icon_DISPLAY_JUKEBOX;
+
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow) {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::MainWindow";
     #endif
 
-    ApplicationConfig   =new cApplicationConfig(this);
-    DriveList           =new cDriveList();
-    IsFirstInitDone     =false;
+    ApplicationConfig     =new cApplicationConfig(this);
+    DriveList             =new cDriveList();
+    IsFirstInitDone       =false;
+    Icon_DISPLAY_DATA_S   =QIcon("MMFiler_img/DISPLAY_DATA_S");
+    Icon_DISPLAY_DATA     =QIcon("MMFiler_img/DISPLAY_DATA");
+    Icon_DISPLAY_WEB_S    =QIcon("MMFiler_img/DISPLAY_WEB_S");
+    Icon_DISPLAY_WEB      =QIcon("MMFiler_img/DISPLAY_WEB_S");
+    Icon_DISPLAY_JUKEBOX_S=QIcon("MMFiler_img/DISPLAY_JUKEBOX_S");
+    Icon_DISPLAY_JUKEBOX  =QIcon("MMFiler_img/DISPLAY_JUKEBOX");
 }
 
 //====================================================================================================================
@@ -90,9 +105,10 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->FolderTable->ShowHidden         =ApplicationConfig->ShowHiddenFilesAndDir;
     ui->FolderTable->ShowMntDrive       =ApplicationConfig->ShowMntDrive;
     ui->FolderTable->ShowFoldersFirst   =ApplicationConfig->ShowFoldersFirst;
-    ui->FolderTable->CurrentFilter      =ApplicationConfig->CurrentFilter;
 
     // do some init ...
+    ui->Action_Mode_BT->setIcon(ApplicationConfig->CurrentMode==DISPLAY_DATA?Icon_DISPLAY_DATA_S:ApplicationConfig->CurrentMode==DISPLAY_JUKEBOX?Icon_DISPLAY_JUKEBOX_S:Icon_DISPLAY_WEB_S);
+    ui->FileInfoLabel->setVisible(ApplicationConfig->CurrentMode!=DISPLAY_WEB);
 
     ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
     if (ApplicationConfig->SplitterSizeAndPos!="") ui->Splitter->restoreState(QByteArray::fromHex(ApplicationConfig->SplitterSizeAndPos.toUtf8()));
@@ -100,12 +116,22 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     // Initialise integrated controls and list
     DriveList->UpdateDriveList();
     ui->FolderTree->InitDrives(DriveList);
-    ui->FolderTable->SetMode(DriveList,DISPLAY_DATA,ApplicationConfig->CurrentFilter);
+    ui->FolderTable->SetMode(DriveList,ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
+
+    RefreshControls();
 
     connect(ui->FolderTree,SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),this,SLOT(s_currentTreeItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
-    connect(ui->FolderTable,SIGNAL(currentItemChanged(QTableWidgetItem *,QTableWidgetItem *)),this,SLOT(s_currentTableItemChanged(QTableWidgetItem *,QTableWidgetItem *)));
+
+    connect(ui->FolderTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_currentTableItemChanged()));
+    connect(ui->FolderTable,SIGNAL(itemDoubleClicked(QTableWidgetItem *)),this,SLOT(s_itemDoubleClicked(QTableWidgetItem *)));
+    connect(ui->FolderTable,SIGNAL(DoubleClickEvent()),this,SLOT(s_itemDoubleClicked()));
+    connect(ui->FolderTable,SIGNAL(RefreshFolderInfo()),this,SLOT(DoRefreshFolderInfo()));
 
     connect(ui->RefreshBt,SIGNAL(pressed()),this,SLOT(s_Refresh()));
+    connect(ui->PlayBt,SIGNAL(pressed()),this,SLOT(s_OpenFile()));
+    connect(ui->InfoBt,SIGNAL(pressed()),this,SLOT(s_InfoFile()));
+    connect(ui->WizardBt,SIGNAL(pressed()),this,SLOT(s_ActionFile()));
+
     connect(ui->ActionConfiguration_BT,SIGNAL(pressed()),this,SLOT(s_Config()));
 
     connect(ui->Action_About_BT,SIGNAL(pressed()),this,SLOT(s_About()));
@@ -113,6 +139,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->ActionNewFunctions_BT,SIGNAL(pressed()),this,SLOT(s_NewFunctions()));
     connect(ui->Action_Exit_BT,SIGNAL(pressed()),this,SLOT(s_action_Exit()));
 
+    connect(ui->Action_Mode_BT,SIGNAL(pressed()),this,SLOT(s_action_Mode()));
     connect(ui->Action_Filter_BT,SIGNAL(pressed()),this,SLOT(s_action_Filter()));
 
     ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(ApplicationConfig->CurrentPath));
@@ -148,6 +175,20 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 
 //====================================================================================================================
 
+void MainWindow::RefreshControls() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::RefreshControls";
+    #endif
+
+    cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
+
+    ui->PlayBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE)));
+    ui->InfoBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE)));
+    ui->WizardBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)));
+}
+
+//====================================================================================================================
+
 void MainWindow::s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *) {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::s_currentTreeItemChanged";
@@ -157,8 +198,18 @@ void MainWindow::s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetIt
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
     ui->CurrentPathED->setText(ApplicationConfig->CurrentPath);
     ui->FolderIcon->setPixmap(DriveList->GetFolderIcon(ApplicationConfig->CurrentPath).pixmap(48,48));
+    ui->FolderTable->FillListFolder(ApplicationConfig->CurrentPath,ApplicationConfig);
+    DoRefreshFolderInfo();
+}
+
+//====================================================================================================================
+
+void MainWindow::DoRefreshFolderInfo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_currentTreeItemChanged";
+    #endif
+
     cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(ApplicationConfig->CurrentPath);
-    int NbrFiles=ui->FolderTable->FillListFolder(ApplicationConfig->CurrentPath,ApplicationConfig,ApplicationConfig->CurrentFilter);
     if (HDD) {
         // Ensure Used and Size fit in an _int32 value for QProgressBar
         qlonglong Used=HDD->Used,Size=HDD->Size;
@@ -166,7 +217,10 @@ void MainWindow::s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetIt
         ui->HDDSizePgr->setMaximum(Size);
         ui->HDDSizePgr->setValue(Used);
         ui->HDDSizePgr->setFormat(GetTextSize(HDD->Used)+"/"+GetTextSize(HDD->Size));
-        ui->FolderInfoLabel->setText(QString("%1/%2").arg(ui->FolderTable->NbrFilesDisplayed()).arg(NbrFiles).trimmed()+QApplication::translate("QCustomFolderTree"," items"));
+        ui->FolderInfoLabel->setText(QString("%1/%2").arg(ui->FolderTable->CurrentShowFilesNumber).arg(ui->FolderTable->CurrentTotalFilesNumber)+" "+QApplication::translate("MainWindow","files")+" - "+
+                                     QString("%1").arg(ui->FolderTable->CurrentShowFolderNumber)+" "+QApplication::translate("MainWindow","folders")+" - "+
+                                     QApplication::translate("MainWindow","Total size:")+QString("%1/%2").arg(GetTextSize(ui->FolderTable->CurrentShowFolderSize)).arg(GetTextSize(ui->FolderTable->CurrentTotalFolderSize))+" - "+
+                                     QApplication::translate("MainWindow","Total duration:")+ui->FolderTable->CurrentShowDuration.toString("HH:mm:ss"));
     } else {
         ui->HDDSizePgr->setMaximum(0);
         ui->HDDSizePgr->setValue(0);
@@ -177,31 +231,29 @@ void MainWindow::s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetIt
 
 //====================================================================================================================
 
-void MainWindow::s_currentTableItemChanged(QTableWidgetItem *,QTableWidgetItem *) {
+void MainWindow::s_currentTableItemChanged() {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::s_currentTableItemChanged";
     #endif
 
-    cBaseMediaFile  *Media=NULL;
-    if (ui->FolderTable->currentRow()>=0) {
-        QString ShortName="";
-        ShortName=ui->FolderTable->item(ui->FolderTable->currentRow(),0)->text();
-        int     i=0;
-        while ((i<ui->FolderTable->MediaList.count())&&(ui->FolderTable->MediaList[i]->ShortName!=ShortName)) i++;
-        if ((i<ui->FolderTable->MediaList.count())&&(ui->FolderTable->MediaList[i]->ShortName==ShortName)) Media=ui->FolderTable->MediaList[i];
+    cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
+    if (ui->FileInfoLabel->isVisible()) {
+        if (!Media) {
+            ui->FileInfoLabel->Icon32           =QImage();
+            ui->FileInfoLabel->Icon48           =QImage();
+            ui->FileInfoLabel->TextLeftUpper    ="";
+            ui->FileInfoLabel->TextLeftBottom   ="";
+            ui->FileInfoLabel->TextRightUpper   ="";
+        } else {
+            ui->FileInfoLabel->Icon32           =Media->Icon32;
+            ui->FileInfoLabel->Icon48           =Media->Icon48;
+            ui->FileInfoLabel->TextLeftUpper    =Media->ShortName;
+            ui->FileInfoLabel->TextLeftBottom   =Media->WEBInfo;
+            ui->FileInfoLabel->TextRightUpper   =Media->GetTypeText()+" ("+Media->FileSizeText+")";
+        }
+        ui->FileInfoLabel->repaint();
     }
-    if (!Media) {
-        ui->FileInfoLabel->IconLeft         =QIcon();
-        ui->FileInfoLabel->TextLeftUpper    ="";
-        ui->FileInfoLabel->TextLeftBottom   ="";
-        ui->FileInfoLabel->TextRightUpper   ="";
-    } else {
-        ui->FileInfoLabel->IconLeft         =Media->Icon;
-        ui->FileInfoLabel->TextLeftUpper    =Media->ShortName;
-        ui->FileInfoLabel->TextLeftBottom   =Media->WEBInfo;
-        ui->FileInfoLabel->TextRightUpper   =Media->GetTypeText()+" ("+Media->FileSizeText+")";
-    }
-    ui->FileInfoLabel->repaint();
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -240,6 +292,8 @@ void MainWindow::s_Config() {
         ui->FolderTable->ShowHidden         =ApplicationConfig->ShowHiddenFilesAndDir;
         ui->FolderTable->ShowMntDrive       =ApplicationConfig->ShowMntDrive;
         ui->FolderTable->ShowFoldersFirst   =ApplicationConfig->ShowFoldersFirst;
+        ui->FolderTable->CurrentMode        =ApplicationConfig->CurrentMode;
+        ui->FolderTable->CurrentFilter      =ApplicationConfig->CurrentFilter;
 
         // Refresh all
         s_Refresh();
@@ -318,6 +372,37 @@ QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Chec
 
 //====================================================================================================================
 
+void MainWindow::s_action_Mode() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_action_Mode";
+    #endif
+
+    // Create menu
+    QMenu *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_DATA,   QApplication::translate("MainWindow","Data view"),   DISPLAY_DATA,   true,ApplicationConfig->CurrentMode==DISPLAY_DATA));
+    ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_WEB,    QApplication::translate("MainWindow","WEB view"),    DISPLAY_WEB,    true,ApplicationConfig->CurrentMode==DISPLAY_WEB));
+    ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_JUKEBOX,QApplication::translate("MainWindow","Jukebox view"),DISPLAY_JUKEBOX,true,ApplicationConfig->CurrentMode==DISPLAY_JUKEBOX));
+
+    // Exec menu
+    QAction *Action=ContextMenu->exec(QCursor::pos());
+    if ((Action)&&(ApplicationConfig->CurrentMode!=Action->data().toInt())) {
+        ApplicationConfig->CurrentMode=Action->data().toInt();
+        ui->Action_Mode_BT->setIcon(ApplicationConfig->CurrentMode==DISPLAY_DATA?Icon_DISPLAY_DATA_S:ApplicationConfig->CurrentMode==DISPLAY_JUKEBOX?Icon_DISPLAY_JUKEBOX_S:Icon_DISPLAY_WEB_S);
+        ui->FileInfoLabel->setVisible(ApplicationConfig->CurrentMode!=DISPLAY_WEB);
+        ui->FolderTable->SetMode(this->DriveList,ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
+        s_currentTreeItemChanged(ui->FolderTree->currentItem(),NULL);
+    }
+
+    // delete menu
+    while (ContextMenu->actions().count()) delete ContextMenu->actions().takeLast();
+    delete ContextMenu;
+
+    // set up button
+    ui->Action_Mode_BT->setDown(false);
+}
+
+//====================================================================================================================
+
 void MainWindow::s_action_Filter() {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::s_action_Filter";
@@ -348,3 +433,64 @@ void MainWindow::s_action_Filter() {
     ui->Action_Filter_BT->setDown(false);
 }
 
+//====================================================================================================================
+
+void MainWindow::s_OpenFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_OpenFile";
+    #endif
+
+    ui->PlayBt->setDown(false);
+    cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
+    if (Media) {
+        if ((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE))
+            QDesktopServices::openUrl(QUrl().fromLocalFile(Media->FileName));
+        else if (Media->ObjectType==OBJECTTYPE_FOLDER) {
+            QString Path=ui->FolderTree->GetCurrentFolderPath();
+            if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
+            Path=Path+Media->ShortName;
+            ui->FolderTree->SetSelectItemByPath(Path);
+        }
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_InfoFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_InfoFile";
+    #endif
+
+    ui->InfoBt->setDown(false);
+    cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
+    if (Media) {
+        if ((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE)) {
+            DlgInfoFile Dlg(Media,HELPFILE_DlgInfoFile,ApplicationConfig,ApplicationConfig->DlgInfoFileWSP,this);
+            Dlg.InitDialog();
+            Dlg.exec();
+        }
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_ActionFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_ActionFile";
+    #endif
+
+    ui->WizardBt->setDown(false);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_itemDoubleClicked() {
+    s_itemDoubleClicked(NULL);
+}
+
+void MainWindow::s_itemDoubleClicked(QTableWidgetItem *) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_itemDoubleClicked";
+    #endif
+    s_OpenFile();
+}

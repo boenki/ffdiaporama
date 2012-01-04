@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,11 +25,30 @@
 #include <QList>
 #include <QSize>
 
+//#define DEBUGMODE
+
 QCustomHorizSplitter::QCustomHorizSplitter(QWidget *parent):QSplitter(parent) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomHorizSplitter::QCustomHorizSplitter";
+    #endif
+    IsFirstInitDone=false;
 }
 
 void QCustomHorizSplitter::resizeEvent(QResizeEvent *event) {
-    QList<int> List=sizes();
-    List[1]+=(event->size().width()-event->oldSize().width());
-    setSizes(List);
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomFolderTree::resizeEvent";
+    #endif
+    if (!IsFirstInitDone) QSplitter::resizeEvent(event); else {
+        QList<int> List=sizes();
+        List[1]+=(event->size().width()-event->oldSize().width());
+        setSizes(List);
+    }
+}
+
+void QCustomHorizSplitter::showEvent(QShowEvent *event) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomFolderTree::showEvent";
+    #endif
+    QSplitter::showEvent(event);
+    IsFirstInitDone=true;
 }

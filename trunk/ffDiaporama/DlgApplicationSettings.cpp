@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -207,6 +207,7 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->SizeCombo->setCurrentIndex(ui->SizeCombo->findText(DefImageFormat[ApplicationConfig->DefaultStandard][ApplicationConfig->ImageGeometry][ApplicationConfig->DefaultImageSize].Name));
     // codec(s) & bitrate(s)
     FileFormatCombo(-1);     // For first initialisation : ChangeIndex=-1
+    ui->LanguageED->setText(ApplicationConfig->DefaultLanguage);
     connect(ui->StandardCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
     connect(ui->SizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
     connect(ui->FileFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
@@ -362,6 +363,14 @@ void DlgApplicationSettings::DoAccept() {
     }
 
     // RenderDefault part
+    ApplicationConfig->DefaultLanguage =ui->LanguageED->text();
+    if (ApplicationConfig->DefaultLanguage=="") ApplicationConfig->DefaultLanguage="und";
+    if (ApplicationConfig->DefaultLanguage.length()!=3) {
+        QMessageBox::critical(this,QApplication::translate("DlgApplicationSettings","Language selection"),
+            QApplication::translate("DlgApplicationSettings","Language must be empty or an ISO 639 language code (3 characters)\nSee help for more details!"));
+        ui->LanguageED->setFocus();
+        return;
+    }
     ApplicationConfig->DefaultNameProjectName   =ui->DefaultNameProjectNameCB->currentIndex();
     ApplicationConfig->DefaultStandard          =ui->StandardCombo->currentIndex();
     ApplicationConfig->DefaultImageSize         =ui->SizeCombo->itemData(ui->SizeCombo->currentIndex()).toInt();

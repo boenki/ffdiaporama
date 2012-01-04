@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include <QApplication>
 #include <QtDebug>
 
+#include "../VariousClass/QCustomFolderTable.h"
 #include "cApplicationConfig.h"
 
 //#define DEBUGMODE
@@ -43,6 +44,7 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgApplicationSettingsWSP;
     delete DlgCheckConfigWSP;
     delete DlgManageDevicesWSP;
+    delete DlgInfoFileWSP;
     delete DlgAboutWSP;
 }
 
@@ -76,6 +78,7 @@ void cApplicationConfig::InitValues() {
     ShowMntDrive            =false;
     ShowFoldersFirst        =true;
     CurrentFilter           =OBJECTTYPE_UNMANAGED;
+    CurrentMode             =DISPLAY_DATA;
     #if defined(Q_OS_WIN)
     QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
     CurrentPath=Settings.value("Personal").toString();
@@ -87,6 +90,7 @@ void cApplicationConfig::InitValues() {
     DlgCheckConfigWSP        =new cSaveWindowPosition("DlgCheckConfigWSP",RestoreWindow,false);         // Dialog box "Check configuration" - Window size and position
     DlgManageDevicesWSP      =new cSaveWindowPosition("DlgManageDevicesWSP",RestoreWindow,false);       // Dialog box "Manage Devices" - Window size and position
     DlgAboutWSP              =new cSaveWindowPosition("DlgAboutWSP",RestoreWindow,false);               // Dialog box "About" - Window size and position
+    DlgInfoFileWSP           =new cSaveWindowPosition("DlgInfoFileWSP",RestoreWindow,false);            // Dialog box "File Information" - Window size and position
 }
 
 //====================================================================================================================
@@ -106,12 +110,14 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("ShowFoldersFirst",        ShowFoldersFirst?"1":"0");
     Element.setAttribute("CurrentPath",             CurrentPath);
     Element.setAttribute("CurrentFilter",           CurrentFilter);
+    Element.setAttribute("CurrentMode",             CurrentMode);
 
     domDocument.appendChild(Element);
     DlgApplicationSettingsWSP->SaveToXML(domDocument);
     DlgCheckConfigWSP->SaveToXML(domDocument);
     DlgAboutWSP->SaveToXML(domDocument);
     DlgManageDevicesWSP->SaveToXML(domDocument);
+    DlgInfoFileWSP->SaveToXML(domDocument);
 }
 
 //====================================================================================================================
@@ -129,11 +135,13 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         if (Element.hasAttribute("ShowFoldersFirst"))       ShowFoldersFirst=Element.attribute("ShowFoldersFirst")=="1";
         if (Element.hasAttribute("CurrentPath"))            CurrentPath=Element.attribute("CurrentPath");
         if (Element.hasAttribute("CurrentFilter"))          CurrentFilter=Element.attribute("CurrentFilter").toInt();
+        if (Element.hasAttribute("CurrentMode"))            CurrentMode=Element.attribute("CurrentMode").toInt();
     }
     DlgApplicationSettingsWSP->LoadFromXML(domDocument);
     DlgCheckConfigWSP->LoadFromXML(domDocument);
     DlgAboutWSP->LoadFromXML(domDocument);
     DlgManageDevicesWSP->LoadFromXML(domDocument);
+    DlgInfoFileWSP->LoadFromXML(domDocument);
     return true;
 }
 

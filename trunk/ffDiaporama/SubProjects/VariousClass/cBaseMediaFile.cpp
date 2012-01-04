@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 // Include some additional standard class
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QPainter>
 
 // Include some additional standard class
 #include "cDeviceModelDef.h"
@@ -46,7 +47,8 @@ cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig) {
     qDebug() << "IN:cBaseMediaFile::cBaseMediaFile";
     #endif
     ObjectType          = OBJECTTYPE_UNMANAGED;
-    IsValide            = false;                                    // if true then object if fuly initialise
+    IsValide            = false;                                    // if true then object if initialise
+    IsInformationValide = false;                                    // if true then information list if fuly initialise
     ObjectGeometry      = IMAGE_GEOMETRY_UNKNOWN;                   // Image geometry
     FileName            = "";                                       // filename
     ShortName           = "";
@@ -77,8 +79,8 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
     qDebug() << "IN:cBaseMediaFile::GetInformationFromFile";
     #endif
     FileName            =QFileInfo(GivenFileName).absoluteFilePath();
-    ShortName           =QFileInfo(GivenFileName).fileName();
-    FileSize            =QFileInfo(GivenFileName).size();
+    ShortName           =QFileInfo(FileName).fileName();
+    FileSize            =QFileInfo(FileName).size();
     FileSizeText        =GetTextSize(FileSize);
     CreatDateTime       =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
     ModifDateTime       =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
@@ -98,7 +100,7 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
 
     bool Continue=true;
     while ((Continue)&&(!QFileInfo(FileName).exists())) {
-        if (QMessageBox::question(ApplicationConfig->TopLevelWindow,QApplication::translate("cBaseMediaFile","Open image file"),
+        if (QMessageBox::question(ApplicationConfig->TopLevelWindow,QApplication::translate("cBaseMediaFile","Open file"),
             QApplication::translate("cBaseMediaFile","Impossible to open file ")+FileName+"\n"+QApplication::translate("cBaseMediaFile","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)
             Continue=false;
@@ -141,6 +143,45 @@ QString cBaseMediaFile::GetInformationValue(QString ValueToSearch) {
 
 //====================================================================================================================
 
+void cBaseMediaFile::AddIcons(QString FileName) {
+    QImage Img(FileName);
+    if (Img.width()>Img.height()) {
+        Img=Img.scaledToWidth(96,Qt::SmoothTransformation);
+        Icon16=Img.scaledToWidth(16);
+        Icon32=Img.scaledToWidth(32);
+        Icon48=Img.scaledToWidth(48);
+    } else {
+        Img=Img.scaledToHeight(96,Qt::SmoothTransformation);
+        Icon16=Img.scaledToHeight(16);
+        Icon32=Img.scaledToHeight(32);
+        Icon48=Img.scaledToHeight(48);
+    }
+}
+
+//====================================================================================================================
+
+void cBaseMediaFile::AddIcons(QImage *Image96) {
+    if (Image96->width()>Image96->height()) {
+        Icon16=Image96->scaledToWidth(16);
+        Icon32=Image96->scaledToWidth(32);
+        Icon48=Image96->scaledToWidth(48);
+    } else {
+        Icon16=Image96->scaledToHeight(16);
+        Icon32=Image96->scaledToHeight(32);
+        Icon48=Image96->scaledToHeight(48);
+    }
+}
+
+//====================================================================================================================
+
+void cBaseMediaFile::AddIcons(QIcon Icon) {
+    Icon16=Icon.pixmap(16,16).toImage();
+    Icon32=Icon.pixmap(32,32).toImage();
+    Icon48=Icon.pixmap(48,48).toImage();
+}
+
+//====================================================================================================================
+
 QString cBaseMediaFile::GetImageGeometryStr() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cBaseMediaFile::GetImageGeometryStr";
@@ -171,41 +212,44 @@ QString cBaseMediaFile::GetImageSizeStr(ImageSizeFmt Fmt) {
     if ((ImageWidth>0)&&(ImageHeight>0)) {
         // Compute MPix
         double MPix=double(double(ImageWidth)*double(ImageHeight))/double(1000000);
-        // Compute image geometry
-        ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
-
-        int RealImageWidth=ImageWidth;
-
+        int    RealImageWidth=ImageWidth;
         if (AspectRatio!=1) RealImageWidth=int(double(ImageWidth)/AspectRatio);
-
         SizeInfo=QString("%1x%2").arg(RealImageWidth).arg(ImageHeight);
-
-        double RatioHW=double(ImageWidth)/double(ImageHeight);
-        if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
-        else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
-        else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
-        else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
-        else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
-        else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
-        else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
-        else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
 
         // now search if size is referenced in DefImageFormat
         for (int i=0;i<2;i++) for (int j=0;j<3;j++) for (int k=0;k<NBR_SIZEDEF;k++) if ((DefImageFormat[i][j][k].Width==RealImageWidth)&&(DefImageFormat[i][j][k].Height==ImageHeight)) {
             FmtInfo=QString(DefImageFormat[i][j][k].Name).left(QString(DefImageFormat[i][j][k].Name).indexOf(" -"));
             break;
         }
-        GeoInfo=GetImageGeometryStr();
         if ((FmtInfo=="")&&(MPix>=1)) FmtInfo=QString("%1").arg(MPix,8,'f',1).trimmed()+QApplication::translate("cBaseMediaFile","MPix");
-        switch (Fmt) {
-            case FULLWEB  : return SizeInfo+" ("+FmtInfo+(FmtInfo!=""?"-":"")+GeoInfo+")";
-            case SIZEONLY : return SizeInfo;
-            case FMTONLY  : return FmtInfo;
-            case GEOONLY  : return GeoInfo;
-        }
     }
+    GeoInfo=GetImageGeometryStr();
+    switch (Fmt) {
+        case FULLWEB  : return SizeInfo+" ("+FmtInfo+(FmtInfo!=""?"-":"")+GeoInfo+")";
+        case SIZEONLY : return SizeInfo;
+        case FMTONLY  : return FmtInfo;
+        case GEOONLY  : return GeoInfo;
+        default       : return "";
+    }
+}
 
-    return "";
+//====================================================================================================================
+
+QString cBaseMediaFile::GetCumulInfoStr(QString Key1,QString Key2) {
+    int     Num     =0;
+    QString TrackNum="";
+    QString Value   ="";
+    QString Info    ="";
+    do {
+        TrackNum=QString("%1").arg(Num);
+        while (TrackNum.length()<3) TrackNum="0"+TrackNum;
+        TrackNum=Key1+"_"+TrackNum+":";
+        Value=GetInformationValue(TrackNum+Key2);
+        if (Value!="") Info=Info+((Num>0)?",":"")+Value;
+        // Next
+        Num++;
+    } while (Value!="");
+    return Info;
 }
 
 //*********************************************************************************************************************************************
@@ -216,8 +260,9 @@ cUnmanagedFile::cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig):cBaseM
     #ifdef DEBUGMODE
     qDebug() << "IN:cUnmanagedFile::cUnmanagedFile";
     #endif
-    Icon        =DefaultFILEIcon;
+    AddIcons(DefaultFILEIcon);
     ObjectType  =OBJECTTYPE_UNMANAGED;
+    IsInformationValide=true;
 }
 
 //====================================================================================================================
@@ -238,15 +283,6 @@ bool cUnmanagedFile::IsFilteredFile(int RequireObjectType) {
     return RequireObjectType==OBJECTTYPE_UNMANAGED;
 }
 
-//====================================================================================================================
-
-void cUnmanagedFile::GetFullInformationFromFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cUnmanagedFile::GetFullInformationFromFile";
-    #endif
-    // Nothing to do
-}
-
 //*********************************************************************************************************************************************
 // Folder
 //*********************************************************************************************************************************************
@@ -255,8 +291,9 @@ cFolder::cFolder(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(Appli
     #ifdef DEBUGMODE
     qDebug() << "IN:cFolder::cFolder";
     #endif
-    Icon        =DefaultFOLDERIcon;
+    AddIcons(DefaultFOLDERIcon);
     ObjectType  =OBJECTTYPE_FOLDER;
+    IsInformationValide=true;
 }
 
 //====================================================================================================================
@@ -271,15 +308,6 @@ bool cFolder::GetInformationFromFile(QString GivenFileName,QStringList */*AliasL
     ModifDateTime       =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
     ModifDateTimeText   =ModifDateTime.toString();
     return true;
-}
-
-//====================================================================================================================
-
-void cFolder::GetFullInformationFromFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cFolder::GetFullInformationFromFile";
-    #endif
-    // Nothing to do
 }
 
 //====================================================================================================================
@@ -308,14 +336,18 @@ cffDProjectFile::cffDProjectFile(cBaseApplicationConfig *ApplicationConfig):cBas
     #ifdef DEBUGMODE
     qDebug() << "IN:cffDProjectFile::cffDProjectFile";
     #endif
-    Icon        =DefaultFFDIcon;
-    ObjectType  =OBJECTTYPE_FFDFILE;
-    Title       ="";
-    Author      ="";
-    Album       ="";
-    Year        =QDate::currentDate().year();
-    Comment     ="";
-    Composer    ="";
+    AddIcons(DefaultFFDIcon);
+    ObjectType      =OBJECTTYPE_FFDFILE;
+    Title           ="";
+    Author          ="";
+    Album           ="";
+    Year            =QDate::currentDate().year();
+    Comment         ="";
+    Composer        ="";
+    Duration        =0;
+    NbrSlide        =0;
+    ffDRevision     ="";
+    DefaultLanguage ="und";
 }
 
 //====================================================================================================================
@@ -349,6 +381,9 @@ void cffDProjectFile::SaveToXML(QDomElement &domDocument) {
     Element.setAttribute("Year",Year);
     Element.setAttribute("Comment",Comment);
     Element.setAttribute("Composer",Composer);
+    Element.setAttribute("Duration",Duration);
+    Element.setAttribute("ffDRevision",ffDRevision);
+    Element.setAttribute("DefaultLanguage",DefaultLanguage);
     domDocument.appendChild(Element);
 }
 
@@ -362,13 +397,66 @@ bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
     bool IsOk=false;
     if ((domDocument.elementsByTagName("ffDiaporamaProjectProperties").length()>0)&&(domDocument.elementsByTagName("ffDiaporamaProjectProperties").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("ffDiaporamaProjectProperties").item(0).toElement();
-        if (Element.hasAttribute("Title"))      Title   =Element.attribute("Title");
-        if (Element.hasAttribute("Author"))     Author  =Element.attribute("Author");
-        if (Element.hasAttribute("Album"))      Album   =Element.attribute("Album");
-        if (Element.hasAttribute("Year"))       Year    =Element.attribute("Year").toInt();
-        if (Element.hasAttribute("Comment"))    Comment =Element.attribute("Comment");
-        if (Element.hasAttribute("Composer"))   Composer=Element.attribute("Composer");
+        if (Element.hasAttribute("Title")) {
+            Title   =Element.attribute("Title");
+            InformationList.append(QString("title")+QString("##")+QString(Title));
+        }
+        if (Element.hasAttribute("Author")) {
+            Author  =Element.attribute("Author");
+            InformationList.append(QString("artist")+QString("##")+QString(Author));
+        }
+        if (Element.hasAttribute("Album")) {
+            Album   =Element.attribute("Album");
+            InformationList.append(QString("album")+QString("##")+QString(Album));
+        }
+        if (Element.hasAttribute("Year")) {
+            Year    =Element.attribute("Year").toInt();
+            InformationList.append(QString("date")+QString("##")+QString("%1").arg(Year));
+        }
+        if (Element.hasAttribute("Comment")) {
+            Comment =Element.attribute("Comment");
+            InformationList.append(QString("comment")+QString("##")+QString(Comment));
+        }
+        if (Element.hasAttribute("ffDRevision")) {
+            ffDRevision=Element.attribute("ffDRevision");
+            InformationList.append(QString("ffDRevision")+QString("##")+QString(ffDRevision));
+        }
+        if (Element.hasAttribute("Composer")) {
+            Composer=Element.attribute("Composer");
+            InformationList.append(QString("composer")+QString("##")+QString(Composer));
+        }
+        if (Element.hasAttribute("DefaultLanguage")) {
+            DefaultLanguage=Element.attribute("DefaultLanguage");
+            InformationList.append(QString("Audio_000:language")+QString("##")+QString(DefaultLanguage));
+        }
+        if (Element.hasAttribute("Duration")) {
+            Duration=Element.attribute("Duration").toLongLong();
+            if (Duration!=0) {
+                int     TimeMSec    =Duration-(Duration/1000)*1000;
+                int     TimeSec     =int(Duration/1000);
+                int     TimeHour    =TimeSec/(60*60);
+                int     TimeMinute  =(TimeSec%(60*60))/60;
+                QTime   tDuration;
+                tDuration.setHMS(TimeHour,TimeMinute,TimeSec%60,TimeMSec);
+                InformationList.append(QString("Duration")+QString("##")+tDuration.toString("HH:mm:ss"));
+            }
+        }
         IsOk=true;
+    }
+    if ((domDocument.elementsByTagName("Project").length()>0)&&(domDocument.elementsByTagName("Project").item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName("Project").item(0).toElement();
+        if (Element.hasAttribute("ImageGeometry")) {
+            switch (Element.attribute("ImageGeometry").toInt()) {
+                case GEOMETRY_16_9:  ObjectGeometry=IMAGE_GEOMETRY_16_9;   break;
+                case GEOMETRY_40_17: ObjectGeometry=IMAGE_GEOMETRY_40_17;  break;
+                case GEOMETRY_4_3:
+                default:             ObjectGeometry=IMAGE_GEOMETRY_4_3;    break;
+            }
+        }
+        if (Element.hasAttribute("ObjectNumber")) {
+            NbrSlide=Element.attribute("ObjectNumber").toInt();
+            InformationList.append(QApplication::translate("cBaseMediaFile","Slide number")+QString("##%1").arg(NbrSlide));
+        }
     }
     return IsOk;
 }
@@ -400,13 +488,7 @@ void cffDProjectFile::GetFullInformationFromFile() {
     if (WEBInfo!="")    WEBInfo=WEBInfo+(WEBInfo!=""?" - ":"")+QString("%1").arg(Year);
     if (Author!="")     WEBInfo=WEBInfo+(WEBInfo!=""?" - ":"")+Author;
     if (Composer!="")   WEBInfo=WEBInfo+(WEBInfo!=""?" - ":"")+Composer;
-
-    InformationList.append(QString("title")+QString("##")+QString(Title));
-    InformationList.append(QString("artist")+QString("##")+QString(Author));
-    InformationList.append(QString("album")+QString("##")+QString(Album));
-    InformationList.append(QString("date")+QString("##")+QString("%1").arg(Year));
-    InformationList.append(QString("comment")+QString("##")+QString(Comment));
-    InformationList.append(QString("composer")+QString("##")+QString(Composer));
+    IsInformationValide=true;
 }
 
 //====================================================================================================================
@@ -435,7 +517,7 @@ cImageFile::cImageFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile
     #ifdef DEBUGMODE
     qDebug() << "IN:cImageFile::cImageFile";
     #endif
-    Icon        =DefaultIMAGEIcon;
+    AddIcons(DefaultIMAGEIcon);
     ObjectType  =OBJECTTYPE_IMAGEFILE;  // coul be turn later to OBJECTTYPE_THUMBNAIL
 }
 
@@ -475,7 +557,6 @@ void cImageFile::GetFullInformationFromFile() {
     QString GeneralInfo;
     Info=GetInformationValue("Image.Model");            if (Info!="") GeneralInfo=Info;
     Info=GetInformationValue("Image.Orientation");      if (Info!="") GeneralInfo=GeneralInfo+" ("+Info+")";
-    //Info=GetInformationValue("Image.Artist");           if (Info!="") WEBInfo=WEBInfo+"/"+Info;
     if (GeneralInfo!="") {
         if (WEBInfo!="") WEBInfo=WEBInfo+" - ";
         WEBInfo=WEBInfo+GeneralInfo;
@@ -496,6 +577,23 @@ void cImageFile::GetFullInformationFromFile() {
         Info=GetInformationValue("Nikon3.FlashMode");   if (Info!="") CameraInfo=CameraInfo+" ("+Info+")";       // Nikon version
     }
     if (CameraInfo!="") WEBInfo=WEBInfo+" - "+CameraInfo;
+
+    // Append InformationList
+    if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
+    if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
+
+    // Compute image geometry
+    ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+    double RatioHW=double(ImageWidth)/double(ImageHeight);
+    if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+    else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+    else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+    else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+    else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+    else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+    else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+    else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+    IsInformationValide=true;
 }
 
 //====================================================================================================================
@@ -715,11 +813,14 @@ QImage *cImageFile::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransform
     CLASS cVideoFile
 *************************************************************************************************************************************/
 
-cVideoFile::cVideoFile(bool IsMusicOnly,cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
+cVideoFile::cVideoFile(WantedObjectTypeFmt TheWantedObjectType,cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::cVideoFile";
     #endif
-    ObjectType              = OBJECTTYPE_VIDEOFILE;
+
+    WantedObjectType        = TheWantedObjectType;
+    MusicOnly               = (WantedObjectType==MUSICFILE);
+    ObjectType              = OBJECTTYPE_MUSICORVIDEO;                  // Not yet determined
     IsOpen                  = false;
     StartPos                = QTime(0,0,0,0);   // Start position
     EndPos                  = QTime(0,0,0,0);   // End position
@@ -735,14 +836,17 @@ cVideoFile::cVideoFile(bool IsMusicOnly,cBaseApplicationConfig *ApplicationConfi
     CacheLastImage          = NULL;                     // Cache image of last image of the video (Preview mode only)
     dEndFileCachePos        = 0;                        // Position of the cache image of last image of the video
     VideoCodecInfo          = "";
+    VideoTrackNbr           = 0;
+    VideoStreamNumber       =-1;
 
     // Audio part
     ffmpegAudioFile         = NULL;
     AudioDecoderCodec       = NULL;
     LastAudioReadedPosition = -1;
     IsVorbis                = false;
-    MusicOnly               = IsMusicOnly;
     AudioCodecInfo          = "";
+    AudioTrackNbr           = 0;
+    AudioStreamNumber       =-1;
 }
 
 //====================================================================================================================
@@ -766,11 +870,183 @@ cVideoFile::~cVideoFile() {
 
 //====================================================================================================================
 
+// Overloaded function use to dertermine if media file correspond to WantedObjectType
+//      WantedObjectType could be OBJECTTYPE_VIDEOFILE or OBJECTTYPE_MUSICFILE
+//      if AudioOnly was set to true in constructor then ignore all video track and set WantedObjectType to OBJECTTYPE_MUSICFILE else set it to OBJECTTYPE_VIDEOFILE
+//      return true if WantedObjectType=OBJECTTYPE_VIDEOFILE and at least one video track is present
+//      return true if WantedObjectType=OBJECTTYPE_MUSICFILE and at least one audio track is present
+
+bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cVideoFile::RealGetInformationFromFile";
+    #endif
+    if (!cBaseMediaFile::GetInformationFromFile(GivenFileName,AliasList,ModifyFlag)) return false;
+
+    AVFormatContext *ffmpegFile=NULL;;
+    // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
+    #if defined(FF_API_FORMAT_PARAMETERS)
+        if (avformat_open_input(&ffmpegFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
+    #else
+        if (av_open_input_file(&ffmpegFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
+    #endif
+
+    // Setup AVFormatContext options
+    ffmpegFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
+    if (av_find_stream_info(ffmpegFile)<0) {    // deprecated : use avformat_find_stream_info instead
+        av_close_input_file(ffmpegFile);
+        return false;
+    }
+
+    // Get metadata
+    AVDictionaryEntry *tag=NULL;
+    while ((tag=av_dict_get(ffmpegFile->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) InformationList.append(QString().fromUtf8(tag->key).toLower()+QString("##")+QString().fromUtf8(tag->value));
+
+    // Get informations about duration
+    int hh,mm,ss,ms;
+    ms=ffmpegFile->duration/1000;
+    ss=ms/1000;
+    mm=ss/60;
+    hh=mm/60;
+    mm=mm-(hh*60);
+    ss=ss-(ss/60)*60;
+    ms=ms-(ms/1000)*1000;
+    Duration=QTime(hh,mm,ss,ms);
+    EndPos  =Duration;    // By default : EndPos is set to the end of file
+    InformationList.append(QString("Duration")+QString("##")+Duration.toString("HH:mm:ss"));
+
+    // Get information from track
+    for (int Track=0;Track<(int)ffmpegFile->nb_streams;Track++) {
+
+        // Find codec
+        AVCodec *Codec=avcodec_find_decoder(ffmpegFile->streams[Track]->codec->codec_id);
+
+        if (ffmpegFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_AUDIO) {
+            // Keep this as default track
+            if (AudioStreamNumber==-1) AudioStreamNumber=Track;
+
+            // Compute TrackNum
+            QString TrackNum=QString("%1").arg(AudioTrackNbr);
+            while (TrackNum.length()<3) TrackNum="0"+TrackNum;
+            TrackNum="Audio_"+TrackNum+":";
+
+            // General
+            InformationList.append(TrackNum+QString("Track")+QString("##")+QString("%1").arg(Track));
+            if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
+
+            // Channels
+            if (ffmpegFile->streams[Track]->codec->channels==1)        InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Mono","Audio channels mode"));
+            else if (ffmpegFile->streams[Track]->codec->channels==2)   InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Stereo","Audio channels mode"));
+            else                                                            InformationList.append(TrackNum+QString("Channels")+QString("##")+QString("%1").arg(ffmpegFile->streams[Track]->codec->channels));
+
+            // Frequency
+            if (int(ffmpegFile->streams[Track]->codec->sample_rate/1000)*1000>0) {
+                if (int(ffmpegFile->streams[Track]->codec->sample_rate/1000)*1000==ffmpegFile->streams[Track]->codec->sample_rate)
+                     InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(int(ffmpegFile->streams[Track]->codec->sample_rate/1000))+"Khz");
+                else InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(double(ffmpegFile->streams[Track]->codec->sample_rate)/1000,8,'f',1).trimmed()+"Khz");
+            }
+
+            // Bitrate
+            if (int(ffmpegFile->streams[Track]->codec->bit_rate/1000)>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(ffmpegFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
+
+            // Sample format
+            switch (ffmpegFile->streams[Track]->codec->sample_fmt) {
+                case AV_SAMPLE_FMT_U8: 	 InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits"); break;
+                case AV_SAMPLE_FMT_S16:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits"); break;
+                case AV_SAMPLE_FMT_S32:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits"); break;
+                case AV_SAMPLE_FMT_FLT:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float"); break;
+                case AV_SAMPLE_FMT_DBL:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double"); break;
+                #ifdef AV_SAMPLE_FMT_U8P
+                case AV_SAMPLE_FMT_U8P:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits, planar"); break;
+                case AV_SAMPLE_FMT_S16P: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits, planar"); break;
+                case AV_SAMPLE_FMT_S32P: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits, planar"); break;
+                case AV_SAMPLE_FMT_FLTP: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float, planar"); break;
+                case AV_SAMPLE_FMT_DBLP: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double, planar"); break;
+                #endif
+                default:                 InformationList.append(TrackNum+QString("Sample format")+QString("##")+"Unknown"); break;
+            }
+
+            // Stream metadata
+            while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
+                // OGV container affect TAG to audio stream !
+                QString Key=QString().fromUtf8(tag->key).toLower();
+                if ((FileName.toLower().endsWith(".ogv"))&&((Key=="title")||(Key=="artist")||(Key=="album")||(Key=="comment")||(Key=="date")||(Key=="composer")||(Key=="encoder")))
+                         InformationList.append(Key+QString("##")+QString().fromUtf8(tag->value));
+                    else InformationList.append(TrackNum+Key+QString("##")+QString().fromUtf8(tag->value));
+            }
+
+            // Ensure language exist (Note : AVI and FLV container own language at container level instead of track level)
+            if (GetInformationValue(TrackNum+"language")=="") {
+                QString Lng=GetInformationValue("language");
+                InformationList.append(TrackNum+QString("language##")+(Lng==""?"und":Lng));
+            }
+
+            // Next
+            AudioTrackNbr++;
+
+        } else if (!MusicOnly && (ffmpegFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_VIDEO)) {
+
+            // Keep this as default track
+            if (VideoStreamNumber==-1) VideoStreamNumber=Track;
+
+            // Compute TrackNum
+            QString TrackNum=QString("%1").arg(VideoTrackNbr);
+            while (TrackNum.length()<3) TrackNum="0"+TrackNum;
+            TrackNum="Video_"+TrackNum+":";
+
+            // General
+            InformationList.append(TrackNum+QString("Track")+QString("##")+QString("%1").arg(Track));
+            if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
+
+            // Bitrate
+            if (ffmpegFile->streams[Track]->codec->bit_rate>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(ffmpegFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
+
+            // Frame rate
+            if (int(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den))>0) {
+                if (int(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den))==double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den))
+                     InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(int(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den)))+" FPS");
+                else InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(double(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den)),8,'f',3).trimmed()+" FPS");
+            }
+
+            // Stream metadata
+            while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) InformationList.append(TrackNum+QString(tag->key)+QString("##")+QString().fromUtf8(tag->value));
+
+            // Ensure language exist (Note : AVI and FLV container own language at container level instead of track level)
+            if (GetInformationValue(TrackNum+"language")=="") {
+                QString Lng=GetInformationValue("language");
+                InformationList.append(TrackNum+QString("language##")+(Lng==""?"und":Lng));
+            }
+
+            // Next
+            VideoTrackNbr++;
+        }
+    }
+    // Close file
+    av_close_input_file(ffmpegFile);
+
+    // Do file qualification
+
+    if (VideoTrackNbr>0)      ObjectType=OBJECTTYPE_VIDEOFILE;
+    else if (AudioTrackNbr>0) ObjectType=OBJECTTYPE_MUSICFILE;
+    else                      ObjectType=OBJECTTYPE_MUSICORVIDEO;                    // Error !
+
+    // Load correct icon depending on type
+    if (Icon16.isNull()) {
+        if (ObjectType==OBJECTTYPE_MUSICFILE) AddIcons(DefaultMUSICIcon);
+            else                              AddIcons(DefaultVIDEOIcon);
+    }
+    // Return value depending on type ask
+    return ((WantedObjectType==MUSICORVIDEO)&&(VideoTrackNbr+AudioTrackNbr>0))||
+            ((WantedObjectType==VIDEOFILE)&&(VideoTrackNbr>0))||
+            ((WantedObjectType==MUSICFILE)&&(AudioTrackNbr>0));
+}
+
+//====================================================================================================================
+
 bool cVideoFile::IsFilteredFile(int RequireObjectType) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::IsFilteredFile";
     #endif
-    return (RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(!MusicOnly && (RequireObjectType==OBJECTTYPE_VIDEOFILE))||(MusicOnly && (RequireObjectType==OBJECTTYPE_MUSICFILE));
+    return (RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(ObjectType==RequireObjectType);
 }
 
 //====================================================================================================================
@@ -779,8 +1055,8 @@ QString cVideoFile::GetTypeText() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::GetTypeText";
     #endif
-    if (!MusicOnly) return QApplication::translate("cBaseMediaFile","Video","File type");
-        else        return QApplication::translate("cBaseMediaFile","Music","File type");
+    if (ObjectType==OBJECTTYPE_VIDEOFILE)   return QApplication::translate("cBaseMediaFile","Video","File type");
+        else                                return QApplication::translate("cBaseMediaFile","Music","File type");
 }
 
 //====================================================================================================================
@@ -789,12 +1065,24 @@ void cVideoFile::GetFullInformationFromFile() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::GetFullInformationFromFile";
     #endif
+
+    // If it's a video then search if an image (jpg) with same name exist
+    if (ObjectType==OBJECTTYPE_VIDEOFILE) {
+        // Reset Icons to ensure it will be reloaded
+        Icon16=QImage();
+        Icon32=QImage();
+        Icon48=QImage();
+
+        // Search if a jukebox mode thumbnail exist
+        QFileInfo   File(FileName);
+        QString     JPegFile=File.absolutePath()+(File.absolutePath().endsWith(QDir::separator())?"":QString(QDir::separator()))+File.completeBaseName()+".jpg";
+        if (QFileInfo(JPegFile).exists()) AddIcons(JPegFile);
+    }
+
     OpenCodecAndFile();
     WEBInfo=GetImageSizeStr();
     CloseCodecAndFile();
-    if (Icon.isNull()) {
-        if (MusicOnly) Icon=DefaultMUSICIcon; else Icon=DefaultVIDEOIcon;
-    }
+    IsInformationValide=true;
 }
 
 //====================================================================================================================
@@ -1331,6 +1619,8 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
     return RetImage;
 }
 
+//====================================================================================================================
+
 QImage *cVideoFile::ConvertYUVToRGB() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::ConvertYUVToRGB";
@@ -1445,6 +1735,9 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
 //====================================================================================================================
 
 bool cVideoFile::OpenCodecAndFile() {
+    // Ensure file was previously checked
+    if (!IsValide) return false;
+
     // Clean memory if a previous file was loaded
     CloseCodecAndFile();
     if (CacheFirstImage!=NULL) {
@@ -1456,53 +1749,23 @@ bool cVideoFile::OpenCodecAndFile() {
         CacheLastImage=NULL;
     }
 
-    // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
-    #if defined(FF_API_FORMAT_PARAMETERS)
-        if (avformat_open_input(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
-    #else
-        if (av_open_input_file(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
-    #endif
+    //**********************************
 
+    // Open audio stream
+    if (AudioStreamNumber!=-1) {
+        // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
+        #if defined(FF_API_FORMAT_PARAMETERS)
+            if (avformat_open_input(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
+        #else
+            if (av_open_input_file(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
+        #endif
 
-    //Reset SourceFile values
-    Duration    =QTime(0,0,0,0);
-    CodecUsePTS =false;
+        // Setup AVFormatContext options
+        ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;                  // Generate missing pts even if it requires parsing future frames.
+        if (av_find_stream_info(ffmpegAudioFile)<0) return false;   // deprecated : use avformat_find_stream_info instead
 
-    // Setup AVFormatContext options
-    ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
-
-//      Correct define not yet define
-//      #if defined(FF_API_FORMAT_PARAMETERS)
-//    if (avformat_find_stream_info(ffmpegAudioFile,NULL)<0) return false;
-//    #else
-    if (av_find_stream_info(ffmpegAudioFile)<0) return false;
-//    #endif
-
-    // Get informations about duration
-    int hh,mm,ss,ms;
-    ms=ffmpegAudioFile->duration/1000;
-    ss=ms/1000;
-    mm=ss/60;
-    hh=mm/60;
-
-    mm=mm-(hh*60);
-    ss=ss-(ss/60)*60;
-    ms=ms-(ms/1000)*1000;
-    Duration=QTime(hh,mm,ss,ms);
-    EndPos  =Duration;    // By default : EndPos is set to the end of file
-
-    InformationList.append(QString("Duration")+QString("##")+Duration.toString("HH:mm:ss"));
-
-    // Find the first audio stream
-    AudioStreamNumber=0;
-    while ((AudioStreamNumber<(int)ffmpegAudioFile->nb_streams)&&(ffmpegAudioFile->streams[AudioStreamNumber]->codec->codec_type!=AVMEDIA_TYPE_AUDIO)) AudioStreamNumber++;
-    if (AudioStreamNumber>=(int)ffmpegAudioFile->nb_streams) {
-        //return false;
-        AudioStreamNumber=-1;
-    } else {
         // Setup STREAM options
         ffmpegAudioFile->streams[AudioStreamNumber]->discard=AVDISCARD_DEFAULT;
-        ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
 
         // Find the decoder for the audio stream and open it
         AudioDecoderCodec=avcodec_find_decoder(ffmpegAudioFile->streams[AudioStreamNumber]->codec->codec_id);
@@ -1525,62 +1788,19 @@ bool cVideoFile::OpenCodecAndFile() {
         #else
         if ((AudioDecoderCodec==NULL)||(avcodec_open(ffmpegAudioFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec)<0)) return false;
         #endif
-
-        // Check if audio format is AV_SAMPLE_FMT_S16 (the only format supported by ffDiaporama !)
-        /*if (ffmpegAudioFile->streams[AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16) {
-            CloseCodecAndFile();
-            return false;
-        } else IsOpen=true;*/
-
-        InformationList.append(QString("Audio codec")+QString("##")+QString(AudioDecoderCodec->name));
-
-        if (ffmpegAudioFile->streams[AudioStreamNumber]->codec->channels==1)        InformationList.append(QString("Audio channels")+QString("##")+QApplication::translate("cBaseMediaFile","Mono","Audio channels mode"));
-        else if (ffmpegAudioFile->streams[AudioStreamNumber]->codec->channels==2)   InformationList.append(QString("Audio channels")+QString("##")+QApplication::translate("cBaseMediaFile","Stereo","Audio channels mode"));
-        else                                                                        InformationList.append(QString("Audio channels")+QString("##")+QString("%1").arg(ffmpegAudioFile->streams[AudioStreamNumber]->codec->channels));
-
-        if (int(ffmpegAudioFile->streams[AudioStreamNumber]->codec->sample_rate/1000)*1000>0) {
-            if (int(ffmpegAudioFile->streams[AudioStreamNumber]->codec->sample_rate/1000)*1000==ffmpegAudioFile->streams[AudioStreamNumber]->codec->sample_rate)
-                InformationList.append(QString("Audio frequency")+QString("##")+QString("%1").arg(int(ffmpegAudioFile->streams[AudioStreamNumber]->codec->sample_rate/1000))+"Khz");
-                else InformationList.append(QString("Audio frequency")+QString("##")+QString("%1").arg(double(ffmpegAudioFile->streams[AudioStreamNumber]->codec->sample_rate)/1000,8,'f',1).trimmed()+"Khz");
-        }
-        if (int(ffmpegAudioFile->streams[AudioStreamNumber]->codec->bit_rate/1000)>0)
-            InformationList.append(QString("Audio bitrate")+QString("##")+QString("%1").arg(int(ffmpegAudioFile->streams[AudioStreamNumber]->codec->bit_rate/1000))+"Kb/s");
     }
 
-    // Find the first video stream
-    VideoStreamNumber=0;
-    VideoDecoderCodec=NULL;
-    if (!MusicOnly) {
-        // Reopen file for video
+    // Open video stream
+    if ((VideoStreamNumber!=-1)&&(!MusicOnly)) {
+
         #if defined(FF_API_FORMAT_PARAMETERS)
         avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL);
         #else
         av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL);
         #endif
-        ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
 
-//      Correct define not yet define
-//      #if defined(FF_API_FORMAT_PARAMETERS)
-//        if (avformat_find_stream_info(ffmpegVideoFile,NULL)<0) return false;
-//        #else
-        if (av_find_stream_info(ffmpegVideoFile)<0) return false;
-//        #endif
-
-        // Get informations about duration
-        int hh,mm,ss,ms;
-        ms=ffmpegVideoFile->duration/1000;
-        ss=ms/1000;
-        mm=ss/60;
-        hh=mm/60;
-
-        mm=mm-(hh*60);
-        ss=ss-(ss/60)*60;
-        ms=ms-(ms/1000)*1000;
-        Duration=QTime(hh,mm,ss,ms);
-        EndPos  =Duration;    // By default : EndPos is set to the end of file
-
-        while ((VideoStreamNumber<(int)ffmpegVideoFile->nb_streams)&&(ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_type!=AVMEDIA_TYPE_VIDEO)) VideoStreamNumber++;
-        if (VideoStreamNumber>=(int)ffmpegVideoFile->nb_streams) return false;
+        ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;                      // Generate missing pts even if it requires parsing future frames.
+        if (av_find_stream_info(ffmpegVideoFile)<0) return false;       // deprecated : use avformat_find_stream_info instead
 
         // Setup STREAM options
         ffmpegVideoFile->streams[VideoStreamNumber]->discard=AVDISCARD_DEFAULT;
@@ -1637,27 +1857,37 @@ bool cVideoFile::OpenCodecAndFile() {
             // Get informations about size image
             ImageWidth=Img->width();
             ImageHeight=Img->height();
-            if (Icon.isNull()) Icon.addPixmap(QPixmap::fromImage(Img->scaledToHeight(96)));
+            // Compute image geometry
+            ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+            double RatioHW=double(ImageWidth)/double(ImageHeight);
+            if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+            else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+            else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+            else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+            else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+            else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+            else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+            else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+            // Icon
+            if (Icon16.isNull()) {
+                QImage Final=VideoMask.copy();
+                QImage ImgF;
+                if (Img->width()>Img->height()) {
+                    if (double(Img->width())/double(Img->height())<1.5) ImgF=Img->scaledToWidth(84,Qt::SmoothTransformation);
+                    else ImgF=Img->scaledToWidth(88,Qt::SmoothTransformation);
+                } else ImgF=Img->scaledToHeight(88,Qt::SmoothTransformation);
+                QPainter Painter;
+                Painter.begin(&Final);
+                Painter.drawImage(QRect((96-ImgF.width())/2,(96-ImgF.height())/2,ImgF.width(),ImgF.height()),ImgF);
+                Painter.end();
+                AddIcons(&Final);
+            }
             delete Img;
         } else {
             CloseCodecAndFile();
             return false;
         }
-        InformationList.append(QString("Video codec")+QString("##")+QString(VideoDecoderCodec->name));
-        if (ffmpegVideoFile->streams[VideoStreamNumber]->codec->bit_rate>0)
-            InformationList.append(QString("Video bitrate")+QString("##")+QString("%1").arg(int(ffmpegVideoFile->streams[VideoStreamNumber]->codec->bit_rate/1000))+"Kb/s");
-        if (int(double(ffmpegVideoFile->streams[VideoStreamNumber]->avg_frame_rate.num)/double(ffmpegVideoFile->streams[VideoStreamNumber]->avg_frame_rate.den))>0) {
-            if (int(double(ffmpegVideoFile->streams[VideoStreamNumber]->avg_frame_rate.num)/double(ffmpegVideoFile->streams[VideoStreamNumber]->avg_frame_rate.den))==double(ffmpegVideoFile->streams[VideoStreamNumber]->avg_frame_rate.num)/double(ffmpegVideoFile->streams[VideoStreamNumber]->avg_frame_rate.den))
-                InformationList.append(QString("Frame rate")+QString("##")+QString("%1").arg(int(double(ffmpegVideoFile->streams[VideoStreamNumber]->avg_frame_rate.num)/double(ffmpegVideoFile->streams[VideoStreamNumber]->avg_frame_rate.den)))+" FPS");
-                else InformationList.append(QString("Frame rate")+QString("##")+QString("%1").arg(double(double(ffmpegVideoFile->streams[VideoStreamNumber]->avg_frame_rate.num)/double(ffmpegVideoFile->streams[VideoStreamNumber]->avg_frame_rate.den)),8,'f',3).trimmed()+" FPS");
-        }
     }
-
-    // Get metadata
-    AVDictionaryEntry *tag     = NULL;
-    AVFormatContext   *fmt_ctx = NULL;
-    if (ffmpegVideoFile) fmt_ctx=ffmpegVideoFile; else if (ffmpegAudioFile) fmt_ctx=ffmpegAudioFile;
-    if (fmt_ctx) while ((tag=av_dict_get(fmt_ctx->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) InformationList.append(QString(tag->key)+QString("##")+QString(tag->value));
 
     return IsOpen;
 }

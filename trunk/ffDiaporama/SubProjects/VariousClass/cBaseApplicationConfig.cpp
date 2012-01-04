@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@ QIcon   DefaultIMAGEIcon;
 QIcon   DefaultVIDEOIcon;
 QIcon   DefaultMUSICIcon;
 QIcon   DefaultFFDIcon;
+QImage  VideoMask;
 
 // Preload system icon images
 void PreloadSystemIcons() {
@@ -86,6 +87,7 @@ void PreloadSystemIcons() {
             DefaultFFDIcon   =QIcon("img/logo.png");
         }
     #endif
+    VideoMask=QImage("img/VideoMask.png");
 }
 
 //====================================================================================================================
@@ -108,7 +110,8 @@ QString GetTextSize(qlonglong Size) {
         case 2 : UnitStr=QApplication::translate("QCustomFolderTree","Gb","Unit Gb");   break;
         case 3 : UnitStr=QApplication::translate("QCustomFolderTree","Tb","Unit Tb");   break;
     }
-    if (double(Size)/double(1024)>0.1) return QString("%1").arg(double(Size)/double(1024),8,'f',1).trimmed()+UnitStr;
+    if (Size==0) return "0";
+    else if (double(Size)/double(1024)>0.1) return QString("%1").arg(double(Size)/double(1024),8,'f',1).trimmed()+UnitStr;
     else return "<0.1"+UnitStr;
 }
 
@@ -363,6 +366,8 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowVideoExtension.append("mp4");     AllowVideoExtension.append("MP4");
     AllowVideoExtension.append("flv");     AllowVideoExtension.append("FLV");
     AllowVideoExtension.append("3gp");     AllowVideoExtension.append("3GP");
+    AllowVideoExtension.append("ogv");     AllowVideoExtension.append("OGV");
+    AllowVideoExtension.append("webm");    AllowVideoExtension.append("WEBM");
     // List of all file extension allowed for image
     AllowImageExtension.append("bmp");     AllowImageExtension.append("BMP");
     AllowImageExtension.append("gif");     AllowImageExtension.append("GIF");
@@ -379,8 +384,11 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowMusicExtension.append("wav");     AllowMusicExtension.append("WAV");
     AllowMusicExtension.append("mp3");     AllowMusicExtension.append("MP3");
     AllowMusicExtension.append("mp4");     AllowMusicExtension.append("MP4");
-    AllowMusicExtension.append("mpa");     AllowMusicExtension.append("MPA");
+    AllowMusicExtension.append("m4a");     AllowMusicExtension.append("M4A");
     AllowMusicExtension.append("ogg");     AllowMusicExtension.append("OGG");
+    AllowMusicExtension.append("oga");     AllowMusicExtension.append("OGA");
+    AllowMusicExtension.append("spx");     AllowMusicExtension.append("SPX");
+    //AllowMusicExtension.append("flac");    AllowMusicExtension.append("FLAC");
 
     // set value of external tools path (depending on operating system)
     #ifdef Q_OS_WIN

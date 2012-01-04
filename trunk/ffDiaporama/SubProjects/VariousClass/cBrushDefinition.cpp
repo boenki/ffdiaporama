@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -532,8 +532,8 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
             if (Video!=NULL) {
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
                     Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
-                    Element.setAttribute("StartPos",Video->StartPos.toString());                            // Start position (video only)
-                    Element.setAttribute("EndPos",Video->EndPos.toString());                                // End position (video only)
+                    Element.setAttribute("StartPos",Video->StartPos.toString("HH:mm:ss.zzz"));              // Start position (video only)
+                    Element.setAttribute("EndPos",Video->EndPos.toString("HH:mm:ss.zzz"));                  // End position (video only)
                     Video->BrushFileTransform.SaveToXML(Element,"ImageTransformation");                     // Image transformation
                 } else Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));            // Volume of soundtrack (for video only)
             } else if (Image!=NULL) {
@@ -606,7 +606,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                         break;
                     }
                     if (Image==NULL) for (int i=0;i<ApplicationConfig->AllowVideoExtension.count();i++) if (ApplicationConfig->AllowVideoExtension[i]==Extension) {
-                        Video=new cVideoFile(false,ApplicationConfig);
+                        Video=new cVideoFile(cVideoFile::VIDEOFILE,ApplicationConfig);
                         IsValide=Video->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag);
                         if (!IsValide) {
                             delete Video;

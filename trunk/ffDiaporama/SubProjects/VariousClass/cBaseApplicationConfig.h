@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@ extern QIcon   DefaultIMAGEIcon;
 extern QIcon   DefaultVIDEOIcon;
 extern QIcon   DefaultMUSICIcon;
 extern QIcon   DefaultFFDIcon;
+extern QImage  VideoMask;
 
 // Utility functions
 void    PreloadSystemIcons();

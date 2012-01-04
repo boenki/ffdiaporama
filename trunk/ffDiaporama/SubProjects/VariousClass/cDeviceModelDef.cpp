@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -61,34 +61,34 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {240,135,16,9,24,"24","RIM 240 - 240x135+PAD - 24 FPS",16}                                          // SIZE_RIM240
     }},{// STANDARD_NTSC
         {   // GEOMETRY_4_3
-            {320,240,1,1,double(30000)/double(1001),"30000/1001",   "SMALL - 320x240 - 29.97 FPS",0},           // SIZE_QVGA
-            {426,320,1,1,double(30000)/double(1001),"30000/1001",   "HVGA - 426x320 - 29.97 FPS",0},            // SIZE_HVGA
-            {640,480,1,1,double(30000)/double(1001),"30000/1001",   "VGA - 640x480 - 29.97 FPS",0},             // SIZE_VGA
+            {320,240,4,3,double(30000)/double(1001),"30000/1001",   "SMALL - 320x240 - 29.97 FPS",0},           // SIZE_QVGA
+            {426,320,4,3,double(30000)/double(1001),"30000/1001",   "HVGA - 426x320 - 29.97 FPS",0},            // SIZE_HVGA
+            {640,480,4,3,double(30000)/double(1001),"30000/1001",   "VGA - 640x480 - 29.97 FPS",0},             // SIZE_VGA
             {720,480,8,9,double(30000)/double(1001),"30000/1001",   "SD/DVD - 720x480 - 29.97 FPS",0},          // SIZE_DVD
-            {640,480,1,1,double(30000)/double(1001),"30000/1001",   "WVGA - 640x480 - 29.97 FPS",0},            // SIZE_WVGA
-            {1024,768,1,1,double(30000)/double(1001),"30000/1001",  "XGA - 1024x768 - 29.97 FPS",0},            // SIZE_XGA
-            {960,720,1,1,double(24000)/double(1001),"24000/1001",   "720p - 960x720 - 23.976 FPS",0},           // SIZE_720P
-            {1440,1080,1,1,double(24000)/double(1001),"24000/1001", "1080p - 1440x1080 - 23.976 FPS",0},        // SIZE_1080p
+            {640,480,4,3,double(30000)/double(1001),"30000/1001",   "WVGA - 640x480 - 29.97 FPS",0},            // SIZE_WVGA
+            {1024,768,4,3,double(30000)/double(1001),"30000/1001",  "XGA - 1024x768 - 29.97 FPS",0},            // SIZE_XGA
+            {960,720,4,3,double(24000)/double(1001),"24000/1001",   "720p - 960x720 - 23.976 FPS",0},           // SIZE_720P
+            {1440,1080,4,3,double(24000)/double(1001),"24000/1001", "1080p - 1440x1080 - 23.976 FPS",0},        // SIZE_1080p
             {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0}                                                // SIZE_RIM240
         },{ // GEOMETRY_16_9
-            {320,180,1,1,double(30000)/double(1001),"30000/1001",   "SMALL - 320x180 - 29.97 FPS",0},           // SIZE_QVGA
-            {480,270,1,1,double(30000)/double(1001),"30000/1001",   "HVGA - 480x270 - 29.97 FPS",0},            // SIZE_HVGA
-            {640,360,1,1,double(30000)/double(1001),"30000/1001",   "VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
+            {320,180,16,9,double(30000)/double(1001),"30000/1001",   "SMALL - 320x180 - 29.97 FPS",0},           // SIZE_QVGA
+            {480,270,16,9,double(30000)/double(1001),"30000/1001",   "HVGA - 480x270 - 29.97 FPS",0},            // SIZE_HVGA
+            {640,360,16,9,double(30000)/double(1001),"30000/1001",   "VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
             {720,480,32,27,double(30000)/double(1001),"30000/1001", "SD/DVD - 720x480 WIDE - 29.97 FPS",0},     // SIZE_DVD
-            {800,450,1,1,double(30000)/double(1001),"30000/1001",   "WVGA - 800x450 - 29.97 FPS",0},            // SIZE_WVGA
-            {1024,576,1,1,double(30000)/double(1001),"30000/1001",  "XGA - 1024x576 - 29.97 FPS",0},            // SIZE_XGA
-            {1280,720,1,1,double(24000)/double(1001),"24000/1001",  "720p - 1280x720 - 23.976 FPS",0},          // SIZE_720P
-            {1920,1080,1,1,double(24000)/double(1001),"24000/1001", "1080p - 1920x1080 - 23.976 FPS",0},        // SIZE_1080p
+            {800,450,16,9,double(30000)/double(1001),"30000/1001",   "WVGA - 800x450 - 29.97 FPS",0},            // SIZE_WVGA
+            {1024,576,16,9,double(30000)/double(1001),"30000/1001",  "XGA - 1024x576 - 29.97 FPS",0},            // SIZE_XGA
+            {1280,720,16,9,double(24000)/double(1001),"24000/1001",  "720p - 1280x720 - 23.976 FPS",0},          // SIZE_720P
+            {1920,1080,16,9,double(24000)/double(1001),"24000/1001", "1080p - 1920x1080 - 23.976 FPS",0},        // SIZE_1080p
             {240,135,16,9,24,"24","RIM 240 - 240x135 - 24 FPS",0}                                               // SIZE_RIM240
         },{ // GEOMETRY_40_17
-            {320,136,1,1,double(30000)/double(1001),"30000/1001",   "SMALL - 320x136 - 29.97 FPS",0},           // SIZE_QVGA
-            {480,204,1,1,double(30000)/double(1001),"30000/1001",   "HVGA - 480x204 - 29.97 FPS",0},            // SIZE_HVGA
-            {640,272,1,1,double(30000)/double(1001),"30000/1001",   "VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
+            {320,136,40,17,double(30000)/double(1001),"30000/1001",   "SMALL - 320x136 - 29.97 FPS",0},           // SIZE_QVGA
+            {480,204,40,17,double(30000)/double(1001),"30000/1001",   "HVGA - 480x204 - 29.97 FPS",0},            // SIZE_HVGA
+            {640,272,40,17,double(30000)/double(1001),"30000/1001",   "VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
             {720,362,32,27,double(30000)/double(1001),"30000/1001", "SD/DVD - 720x362 WIDE+PAD - 29.97 FPS",59},// SIZE_DVD
-            {800,340,1,1,double(30000)/double(1001),"30000/1001",   "WVGA - 800x340 - 29.97 FPS",0},            // SIZE_WVGA
-            {1024,436,1,1,double(30000)/double(1001),"30000/1001",  "XGA - 1024x436 - 29.97 FPS",0},            // SIZE_XGA
-            {1280,544,1,1,double(24000)/double(1001),"24000/1001",  "720p - 1280x544 - 23.976 FPS",0},          // SIZE_720P
-            {1920,816,1,1,double(24000)/double(1001),"24000/1001",  "1080p - 1920x816 - 23.976 FPS",0},         // SIZE_1080p
+            {800,340,40,17,double(30000)/double(1001),"30000/1001",   "WVGA - 800x340 - 29.97 FPS",0},            // SIZE_WVGA
+            {1024,436,40,17,double(30000)/double(1001),"30000/1001",  "XGA - 1024x436 - 29.97 FPS",0},            // SIZE_XGA
+            {1280,544,40,17,double(24000)/double(1001),"24000/1001",  "720p - 1280x544 - 23.976 FPS",0},          // SIZE_720P
+            {1920,816,40,17,double(24000)/double(1001),"24000/1001",  "1080p - 1920x816 - 23.976 FPS",0},         // SIZE_1080p
             {240,135,16,9,24,"24","RIM 240 - 240x135+PAD - 24 FPS",16}                                          // SIZE_RIM240
     }}
 };

@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     ../fmt_filters/fmt_filters.cpp \
     ../VariousWidgets/DlgCheckConfig.cpp \
     ../VariousWidgets/_QCustomDialog.cpp \
-    ../VariousWidgets/DlgManageDevices.cpp
+    ../VariousWidgets/DlgManageDevices.cpp \
+    ../VariousWidgets/DlgInfoFile.cpp
 
 HEADERS  += mainwindow.h \
     DlgApplicationSettings.h \
@@ -48,13 +49,15 @@ HEADERS  += mainwindow.h \
     ../fmt_filters/fmt_filters.h \
     ../VariousWidgets/DlgCheckConfig.h \
     ../VariousWidgets/_QCustomDialog.h \
-    ../VariousWidgets/DlgManageDevices.h
+    ../VariousWidgets/DlgManageDevices.h \
+    ../VariousWidgets/DlgInfoFile.h
 
 FORMS    += mainwindow.ui \
     DlgApplicationSettings.ui \
     DlgAbout.ui \
     ../VariousWidgets/DlgCheckConfig.ui \
-    ../VariousWidgets/DlgManageDevices.ui
+    ../VariousWidgets/DlgManageDevices.ui \
+    ../VariousWidgets/DlgInfoFile.ui
 
 unix {
     DESTDIR     += ../../../build
