@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,28 +41,52 @@
 class QCustomFolderTable : public QTableWidget {
 Q_OBJECT
 public:
+    cDriveList              *DriveList;
+    QList<cBaseMediaFile*>  MediaList;
+
     bool                    ShowHidden;                         // If true, hidden files will be show
     bool                    ShowMntDrive;                       // Show drives under /mnt/ [Linux only]
     bool                    ShowFoldersFirst;                   // If true, display folders at first in table list
     int                     CurrentMode;                        // Current display mode
     int                     CurrentFilter;                      // Current display mode
-    cDriveList              *DriveList;
-    QList<cBaseMediaFile*>  MediaList;
+    QString                 CurrentPath;
 
-    explicit        QCustomFolderTable(QWidget *parent = 0);
-                    ~QCustomFolderTable();
+    int                     CurrentShowFolderNumber;
+    int                     CurrentTotalFilesNumber;
+    int                     CurrentShowFilesNumber;
+    qlonglong               CurrentShowFolderSize;
+    qlonglong               CurrentTotalFolderSize;
+    QTime                   CurrentShowDuration;
 
-    virtual void    SetMode(cDriveList *DriveList,int Mode,int Filter);
-    virtual int     FillListFolder(QString Path,cBaseApplicationConfig *ApplicationConfig,int Filter);
-    virtual void    AppendToMedialList(cBaseMediaFile *MediaObject);
-    virtual int     NbrFilesDisplayed();
+    // Thread controls
+    QFutureWatcher<void>    ScanMediaList;
+    bool                    StopScanMediaList;
+
+    explicit                QCustomFolderTable(QWidget *parent = 0);
+                            ~QCustomFolderTable();
+
+    virtual void            SetMode(cDriveList *DriveList,int Mode,int Filter);
+    virtual void            FillListFolder(QString Path,cBaseApplicationConfig *ApplicationConfig);
+
+    virtual void            AppendMediaToTable(cBaseMediaFile *MediaObject);
+    virtual void            UpdateMediaToTable(int Row,cBaseMediaFile *MediaObject);
+
+    virtual cBaseMediaFile  *GetCurrentMediaFile();
 
 signals:
+    void    DoubleClickEvent();
+    void    RefreshFolderInfo();
+    void    NeedResizeColumns();
+    void    UpdateItemIcon(QTableWidgetItem *,cBaseMediaFile *);
 
 public slots:
+    void    s_itemDoubleClicked();
+    void    DoResizeColumns();
+    void    DoUpdateItemIcon(QTableWidgetItem *Item,cBaseMediaFile *Media);
 
 private:
-    QTableWidgetItem *CreateItem(QString ItemText,int Alignment,QBrush Background);
+    void                DoScanMediaList();
+    QTableWidgetItem    *CreateItem(QString ItemText,int Alignment,QBrush Background);
 };
 
 #endif // QCUSTOMFOLDERTABLE_H

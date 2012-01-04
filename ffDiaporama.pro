@@ -93,7 +93,8 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     SubProjects/VariousWidgets/DlgManageDevices.cpp \
     SubProjects/VariousClass/QCustomFileInfoLabel.cpp \
     SubProjects/VariousWidgets/DlgffDPjrProperties.cpp \
-    SubProjects/VariousClass/cBrushDefinition.cpp
+    SubProjects/VariousClass/cBrushDefinition.cpp \
+    SubProjects/VariousWidgets/DlgInfoFile.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
@@ -135,7 +136,8 @@ HEADERS  += _GlobalDefines.h \
     SubProjects/VariousWidgets/DlgManageDevices.h \
     SubProjects/VariousClass/QCustomFileInfoLabel.h \
     SubProjects/VariousWidgets/DlgffDPjrProperties.h \
-    SubProjects/VariousClass/cBrushDefinition.h
+    SubProjects/VariousClass/cBrushDefinition.h \
+    SubProjects/VariousWidgets/DlgInfoFile.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \
@@ -152,7 +154,8 @@ FORMS    += mainwindow.ui \
     DlgManageStyle.ui \
     SubProjects/VariousWidgets/DlgCheckConfig.ui \
     SubProjects/VariousWidgets/DlgManageDevices.ui \
-    SubProjects/VariousWidgets/DlgffDPjrProperties.ui
+    SubProjects/VariousWidgets/DlgffDPjrProperties.ui \
+    SubProjects/VariousWidgets/DlgInfoFile.ui
 
 OTHER_FILES += \
     ffDiaporama.xml \

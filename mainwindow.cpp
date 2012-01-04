@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -1121,10 +1121,19 @@ void MainWindow::s_DoOpenFile() {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::s_DoOpenFile";
     #endif
-    QString ProjectFileName=FileForIO;
-    ProjectFileName=AdjustDirForOS(ProjectFileName);
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
+    QString ProjectFileName=AdjustDirForOS(FileForIO);
+
+    // Check if ffDRevision is not > current ffDRevision
+    cffDProjectFile File(ApplicationConfig);
+    if (File.GetInformationFromFile(ProjectFileName,NULL,NULL)) {
+        File.GetFullInformationFromFile();
+        if ((File.ffDRevision.toInt()>CurrentAppVersion.toInt())&&(QMessageBox::question(this,QApplication::translate("MainWindow","Open project"),
+        QApplication::translate("MainWindow","This project was created with a newer version of ffDiaporama.\nIf you continue, you take the risk of losing data!\nDo you want to open it nevertheless?"),QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No))
+            return;
+    }
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ApplicationConfig->ImagesCache.List.clear();
 
     // Manage Recent files list
@@ -1350,6 +1359,8 @@ void MainWindow::s_action_DoAddFile() {
     #endif
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
+    QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
+
     // Add files
     QString NewFile=FileList.takeFirst();
     if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
@@ -1399,9 +1410,20 @@ void MainWindow::s_action_DoAddFile() {
     // If it's not an image : search if file is a video
     if (CurrentBrush->Image==NULL) for (int i=0;i<ApplicationConfig->AllowVideoExtension.count();i++) if (ApplicationConfig->AllowVideoExtension[i]==Extension) {
         // Create a video wrapper
-        CurrentBrush->Video=new cVideoFile(false,ApplicationConfig);
+        CurrentBrush->Video=new cVideoFile(cVideoFile::VIDEOFILE,ApplicationConfig);
         bool ModifyFlag=false;
-        IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag);
+        IsValide=(CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag))&&(CurrentBrush->Video->OpenCodecAndFile());
+        if (IsValide) {
+            // Check if file have at least one sound track compatible
+            if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)) {
+                ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with signed 16 bits sample format","Error message");
+                IsValide=false;
+            }
+            if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
+                ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
+                IsValide=false;
+            }
+        }
         if (!IsValide) {
             delete CurrentBrush->Video;
             CurrentBrush->Video=NULL;
@@ -1517,8 +1539,10 @@ void MainWindow::s_action_DoAddFile() {
         SetModifyFlag(true);
 
     } else {
-        QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+QApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
+
+        QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
         delete Diaporama->List.takeAt(CurIndex);
+
     }
 
     // Set current selection to first new object

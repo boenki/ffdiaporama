@@ -102,7 +102,7 @@
            <item>
             <widget class="QLabel" name="label_18">
              <property name="text">
-              <string>Copyright (C) 2011 Dominique LEVRAY</string>
+              <string>Copyright (C) 2011-2012 Dominique Levray</string>
              </property>
             </widget>
            </item>

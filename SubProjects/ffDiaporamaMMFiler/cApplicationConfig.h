@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@
 #define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/?cat=5&lang=<local>"
 #define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=1286&lang=<local>"
 #define HELPFILE_DlgManageDevices           ""
+#define HELPFILE_DlgInfoFile                ""
 
 #define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de"
 
@@ -53,10 +54,12 @@ public:
     bool                    ShowFoldersFirst;                           // If true, display folders at first in table list
     QString                 CurrentPath;                                // Currently shown path
     int                     CurrentFilter;                              // Currently selected filter
+    int                     CurrentMode;                                // Currently selected display mode
     cSaveWindowPosition     *DlgApplicationSettingsWSP;                 // Dialog box "Application settings" - Window size and position
     cSaveWindowPosition     *DlgCheckConfigWSP;                         // Dialog box "Check configuration" - Window size and position
     cSaveWindowPosition     *DlgAboutWSP;                               // Dialog box "About" - Window size and position
     cSaveWindowPosition     *DlgManageDevicesWSP;                       // Dialog box "Manage Devices" - Window size and position
+    cSaveWindowPosition     *DlgInfoFileWSP;                            // Dialog box "File Information" - Window size and position
 
     explicit cApplicationConfig(QMainWindow *TopLevelWindow);
     ~cApplicationConfig();

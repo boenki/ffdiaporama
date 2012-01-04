@@ -122,6 +122,99 @@ QToolButton:pressed {
          </widget>
         </item>
         <item>
+         <widget class="Line" name="line_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="PlayBt">
+          <property name="minimumSize">
+           <size>
+            <width>64</width>
+            <height>58</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Open file with default application defined on computer</string>
+          </property>
+          <property name="text">
+           <string>Open
+File</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>MMFiler_img/Actin_Open.png</normaloff>MMFiler_img/Actin_Open.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextUnderIcon</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="InfoBt">
+          <property name="minimumSize">
+           <size>
+            <width>64</width>
+            <height>58</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Display detailled information on file</string>
+          </property>
+          <property name="text">
+           <string>Display
+Information</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>MMFiler_img/Action_Info.png</normaloff>MMFiler_img/Action_Info.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextUnderIcon</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="WizardBt">
+          <property name="minimumSize">
+           <size>
+            <width>64</width>
+            <height>58</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Action</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>MMFiler_img/Action_Wizard.png</normaloff>MMFiler_img/Action_Wizard.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextUnderIcon</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="Line" name="line_2">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -215,8 +308,46 @@ QToolButton:pressed {
         </item>
         <item>
          <widget class="QLabel" name="label">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="Action_Mode_BT">
+          <property name="minimumSize">
+           <size>
+            <width>64</width>
+            <height>58</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Sans Serif</family>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Mode</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>MMFiler_img/DISPLAY_DATA_S.png</normaloff>MMFiler_img/DISPLAY_DATA_S.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextUnderIcon</enum>
           </property>
          </widget>
         </item>

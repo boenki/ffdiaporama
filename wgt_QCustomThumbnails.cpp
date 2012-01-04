@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffGlobalMainWindow->Diaporama
     ffGlobalMainWindow->Diaporama is a tools to make GlobalMainWindow->Diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -50,6 +50,26 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     ui->SplitterTop->setCollapsible(1,false);
     ui->SplitterBottom->setCollapsible(0,false);
     ui->SplitterBottom->setCollapsible(1,true);
+
+    ui->TableInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->TableInfo->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    ui->TableInfo->horizontalHeader()->show();
+    ui->TableInfo->horizontalHeader()->setStretchLastSection(false);
+    ui->TableInfo->horizontalHeader()->setSortIndicatorShown(false);
+    ui->TableInfo->horizontalHeader()->setCascadingSectionResizes(false);
+    ui->TableInfo->horizontalHeader()->setClickable(false);
+    ui->TableInfo->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
+    ui->TableInfo->horizontalHeader()->setMovable(false);
+    ui->TableInfo->horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
+    ui->TableInfo->verticalHeader()->hide();
+    ui->TableInfo->verticalHeader()->setStretchLastSection(false);
+    ui->TableInfo->verticalHeader()->setSortIndicatorShown(false);
+    ui->TableInfo->verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
+    ui->TableInfo->setShowGrid(true);                  // Ensure grid display
+    ui->TableInfo->setWordWrap(false);                 // Ensure no word wrap
+    ui->TableInfo->setTextElideMode(Qt::ElideNone);    // Ensure no line ellipsis (...)
+    //ui->tableWidget->setColumnCount(2);
+    //ui->tableWidget->setHorizontalHeaderLabels(QString("Propertie;Value").split(";"));
 
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
@@ -1049,6 +1069,7 @@ void DlgSlideProperties::UpdateDockInfo() {
     qDebug() << "IN:DlgSlideProperties::UpdateDockInfo";
     #endif
 
+    ui->TableInfo->setUpdatesEnabled(false);               // To allow and force a general update
     while (ui->TableInfo->rowCount()>0) ui->TableInfo->removeRow(0);
     int CurrentBlock=ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=NULL;
@@ -1065,34 +1086,41 @@ void DlgSlideProperties::UpdateDockInfo() {
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Filename")));
             ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush->Image!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush->Image->FileName).fileName():
                                                                                       CurrentTextItem->BackgroundBrush->Video!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush->Video->FileName).fileName():""));
+            QStringList *Info=NULL;
             if (CurrentTextItem->BackgroundBrush->Image!=NULL) {
                 // If exiv value not loaded then call exiv2 now !
                 if (CurrentTextItem->BackgroundBrush->Image->InformationList.count()==0) {
                     int ImageOrientation=1;
                     CurrentTextItem->BackgroundBrush->Image->CallEXIF(ImageOrientation);
                 }
+                Info=&CurrentTextItem->BackgroundBrush->Image->InformationList;
             } else if (CurrentTextItem->BackgroundBrush->Video!=NULL) {
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Image size")));
                 ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1x%2").arg(CurrentTextItem->BackgroundBrush->Video->ImageWidth).arg(CurrentTextItem->BackgroundBrush->Video->ImageHeight)));
-////////////////// On peut en rajouter ICI!
+                ////////////////// On peut en rajouter ICI!
+                Info=&CurrentTextItem->BackgroundBrush->Video->InformationList;
             }
-            if (CurrentTextItem->BackgroundBrush->Image) for (int i=0;i<CurrentTextItem->BackgroundBrush->Image->InformationList.count();i++) {
+            // Fill table with Information List
+            if (Info) for (int i=0;i<Info->count();i++) {
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                QString Value=CurrentTextItem->BackgroundBrush->Image->InformationList[i];
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(Value.left(Value.indexOf("##"))));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value.right(Value.length()-Value.indexOf("##")-QString("##").length())));
-            }
-            if (CurrentTextItem->BackgroundBrush->Video) for (int i=0;i<CurrentTextItem->BackgroundBrush->Video->InformationList.count();i++) {
-                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                QString Value=CurrentTextItem->BackgroundBrush->Video->InformationList[i];
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(Value.left(Value.indexOf("##"))));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value.right(Value.length()-Value.indexOf("##")-QString("##").length())));
+                QStringList Value=((QString)Info->at(i)).split("##");
+                if (((QString)Value[0]).indexOf(".")!=-1) {
+                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(((QString)Value[0]).mid(((QString)Value[0]).lastIndexOf(".")+1)));
+                    ui->TableInfo->item(ui->TableInfo->rowCount()-1,0)->setToolTip(Value[0]);
+                } else ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(Value[0]));
+                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value[1]));
+                ui->TableInfo->item(ui->TableInfo->rowCount()-1,1)->setToolTip(Value[0]);
             }
         }
-        ui->TableInfo->resizeColumnsToContents();
-        ui->TableInfo->resizeRowsToContents();
+        ui->TableInfo->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
+        ui->TableInfo->setVisible(false);                      // To ensure all items of all columns are used to compute size
+        ui->TableInfo->resizeColumnsToContents();              // Resize column widht
+        ui->TableInfo->resizeRowsToContents();                 // Resize row height
+        ui->TableInfo->setVisible(true);                       // To allow display
+        ui->TableInfo->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
     }
+    ui->TableInfo->setUpdatesEnabled(true);                // To allow and force a general update
 }
 
 //====================================================================================================================
@@ -1855,6 +1883,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     QStringList AliasList;
     for (int i=0;i<FileList.count();i++) {
         QString NewFile=FileList[i];
+        QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
 
         if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
@@ -1887,9 +1916,20 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
         // If it's not an image : search if file is a video
         if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
             // Create a video wrapper
-            CurrentBrush->Video=new cVideoFile(false,GlobalMainWindow->ApplicationConfig);
+            CurrentBrush->Video=new cVideoFile(cVideoFile::VIDEOFILE,GlobalMainWindow->ApplicationConfig);
             bool ModifyFlag=false;
-            IsValide=CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag);
+            IsValide=(CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag))&&(CurrentBrush->Video->OpenCodecAndFile());
+            if (IsValide) {
+                // Check if file have at least one sound track compatible
+                if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)) {
+                    ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with signed 16 bits sample format","Error message");
+                    IsValide=false;
+                }
+                if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
+                    ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
+                    IsValide=false;
+                }
+            }
             if (!IsValide) {
                 delete CurrentBrush->Video;
                 CurrentBrush->Video=NULL;
@@ -2010,7 +2050,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
             NextZValue+=10;
 
         } else {
-            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+QApplication::translate("MainWindow","Format not supported","Error message"),QMessageBox::Close);
+            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
         }
     }
     RefreshBlockTable(CompositionList->List.count()-1);

@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     ExportMode          =TheExportMode;
     IsDestFileOpen      =false;
     StopSpinboxRecursion=false;
+    Language            =Diaporama->ProjectInfo->DefaultLanguage;
 
     #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
@@ -159,6 +160,7 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     }
 
     ui->IncludeTAGCB->setChecked(true);
+    ui->LanguageED->setText(Language);
     ui->RenderZoneAllBt->setChecked(true);
     ui->RenderZoneFromBt->setChecked(false);
     ui->RenderZoneFromED->setEnabled(ui->RenderZoneFromBt->isChecked());
@@ -578,9 +580,18 @@ void DlgRenderVideo::accept() {
         int ToSlide  =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneToED->value()-1:Diaporama->List.count()-1;
 
         if (FromSlide>ToSlide) {
-            QMessageBox::critical(GlobalMainWindow,QApplication::translate("DlgRenderVideo","Range selection"),
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Range selection"),
                 QApplication::translate("DlgRenderVideo","Slide range is defined to incorrect values"));
             ui->RenderZoneToED->setFocus();
+            return;
+        }
+
+        Language=ui->LanguageED->text();
+        if (Language=="") Language="und";
+        if (Language.length()!=3) {
+            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Language selection"),
+                QApplication::translate("DlgRenderVideo","Language must be empty or an ISO 639 language code (3 characters)\nSee help for more details!"));
+            ui->LanguageED->setFocus();
             return;
         }
 
@@ -782,24 +793,28 @@ void DlgRenderVideo::accept() {
                     Continue=false;
                     break;
             }
+            vCodec=vCodec+" -vlang "+Language;
 
             // Audio codec part
-            if (ui->IncludeSoundCB->isChecked()) switch (AUDIOCODECDEF[AudioCodecIndex].Codec_id) {
-                case CODEC_ID_PCM_S16LE:    aCodec=QString("-acodec pcm_s16le -ab %1").arg(AudioBitRate); break;
-                case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1").arg(AudioBitRate); break;
-                case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(AudioBitRate); break;
-                case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))
-                                                aCodec=QString("-acodec aac -strict experimental -ab %1").arg(AudioBitRate);
-                                                else aCodec=QString("-acodec libfaac -ab %1").arg(AudioBitRate);
-                                            break;
-                case CODEC_ID_AC3:          aCodec=QString("-acodec ac3 -ab %1").arg(AudioBitRate); break;
-                case CODEC_ID_VORBIS:       aCodec=QString("-acodec libvorbis -ab %1").arg(AudioBitRate); break;
-                case CODEC_ID_AMR_NB:       aCodec=QString("-acodec libopencore_amrnb -ab %1").arg(AudioBitRate); Channels=1; break;
+            if (ui->IncludeSoundCB->isChecked()) {
+                switch (AUDIOCODECDEF[AudioCodecIndex].Codec_id) {
+                    case CODEC_ID_PCM_S16LE:    aCodec=QString("-acodec pcm_s16le -ab %1").arg(AudioBitRate); break;
+                    case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1").arg(AudioBitRate); break;
+                    case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(AudioBitRate); break;
+                    case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))
+                                                    aCodec=QString("-acodec aac -strict experimental -ab %1").arg(AudioBitRate);
+                                                    else aCodec=QString("-acodec libfaac -ab %1").arg(AudioBitRate);
+                                                break;
+                    case CODEC_ID_AC3:          aCodec=QString("-acodec ac3 -ab %1").arg(AudioBitRate); break;
+                    case CODEC_ID_VORBIS:       aCodec=QString("-acodec libvorbis -ab %1").arg(AudioBitRate); break;
+                    case CODEC_ID_AMR_NB:       aCodec=QString("-acodec libopencore_amrnb -ab %1").arg(AudioBitRate); Channels=1; break;
 
-                default:
-                    QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Unknown audio codec");
-                    Continue=false;
-                    break;
+                    default:
+                        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Unknown audio codec");
+                        Continue=false;
+                        break;
+                }
+                aCodec=aCodec+" -alang "+Language;
             }
 
             if (Continue && ui->IncludeTAGCB->isChecked()) {
@@ -808,34 +823,27 @@ void DlgRenderVideo::accept() {
                 if (!TempMETAFileName.endsWith(QDir::separator())) TempMETAFileName=TempMETAFileName+QDir::separator();
                 TempMETAFileName=TempMETAFileName+"TAG.txt";
 
-                QString Fmt=QString(FORMATDEF[OutputFileFormat].ShortName);
                 QFile   File(TempMETAFileName);
                 if (File.open(QFile::WriteOnly|QFile::Truncate|QFile::Text)) {
                     QTextStream out(&File);
-                    /*              MP4/MOV/FLV     AVI                 MKV
-                        title       title           Title->INAM         title
-                        author      author          Author->IART
-                        album       album           Album->IPRD
-                        year        year
-                        comment     comment         Comment->ICMT       description
-                        composer    composer
+                    /*              M4V/MKV/MP4/MOV/FLV/OGV     AVI     WEBM    MPG/3GP
+                        title               X                   X       X          -
+                        author              X                   X       -          -
+                        album               X                   X       -          -
+                        year                X                   X       -          -
+                        comment             X                   X       -          -
+                        composer            X                   -       -          -
+
+
+                        language    Ok=3GP/MKV/MP4/M4V/MOV/OGV/WEBM/AVI/FLV         Ko=MPG
                     */
                     out<<";FFMETADATA1\n";    // Write header
-                    if ((Fmt=="mp4")||(Fmt=="flv")||(Fmt=="avi")||(Fmt=="mkv")) {
-                        out<<"title="+AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title);
-                        if ((Fmt=="mp4")||(Fmt=="flv")||(Fmt=="avi")) {
-                            out<<"artist="+AdjustMETA(Diaporama->ProjectInfo->Author);
-                            out<<"album="+AdjustMETA(Diaporama->ProjectInfo->Album);
-                            out<<"comment="+AdjustMETA(Diaporama->ProjectInfo->Comment);
-                            if ((Fmt=="mp4")||(Fmt=="flv")) {
-                                out<<"date="+QString("%1").arg(Diaporama->ProjectInfo->Year)+"\n";
-                                out<<"composer="+AdjustMETA(Diaporama->ProjectInfo->Composer);
-                            }
-                        }
-                    }
-                    if (Fmt=="mkv") {
-                        out<<"description="+AdjustMETA(Diaporama->ProjectInfo->Comment);
-                    }
+                    out<<"title="+AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title);
+                    out<<"artist="+AdjustMETA(Diaporama->ProjectInfo->Author);
+                    out<<"album="+AdjustMETA(Diaporama->ProjectInfo->Album);
+                    out<<"comment="+AdjustMETA(Diaporama->ProjectInfo->Comment);
+                    out<<"date="+QString("%1").arg(Diaporama->ProjectInfo->Year)+"\n";
+                    out<<"composer="+AdjustMETA(Diaporama->ProjectInfo->Composer);
                     File.close();
                     TAG=" -i \""+TempMETAFileName+"\"";
                 }
@@ -870,6 +878,7 @@ void DlgRenderVideo::accept() {
                         .arg(GeoH);
                 if (ExtendV>0) ffmpegCommand=ffmpegCommand+QString(" -padtop %1 -padbottom %2").arg(ExtendV/2).arg(ExtendV-ExtendV/2);
                 if (ExtendH>0) ffmpegCommand=ffmpegCommand+QString(" -padleft %1 -padright %2").arg(ExtendH/2).arg(ExtendH-ExtendH/2);
+                 ffmpegCommand=ffmpegCommand+" -metadata language="+Language;
 
                 // Activate multithreading support if getCpuCount()>1 and codec is h264 or VP8
                 if ((getCpuCount()>1)&&(
@@ -1035,7 +1044,8 @@ QString DlgRenderVideo::AdjustMETA(QString Text) {
     Text.replace("#","\\#");
     Text.replace("\\","\\\\");
     Text.replace("\n","\\\n");
-    return Text+"\n";
+    Text=Text+"\n";
+    return Text;
 }
 
 //============================================================================================

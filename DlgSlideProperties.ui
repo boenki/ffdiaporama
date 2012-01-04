@@ -2547,6 +2547,11 @@ color: #000000;
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
             <property name="frameShape">
              <enum>QFrame::Box</enum>
             </property>
