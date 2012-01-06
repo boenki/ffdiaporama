@@ -53,6 +53,7 @@ private slots:
     void    FMTFWebSite();
     void    CrystalWebSite();
     void    CC2WebSite();
+    void    TAGLibWebSite();
 
 private:
     Ui::DlgAbout *ui;

@@ -27,7 +27,59 @@ SOURCES += main.cpp\
     ../VariousWidgets/DlgCheckConfig.cpp \
     ../VariousWidgets/_QCustomDialog.cpp \
     ../VariousWidgets/DlgManageDevices.cpp \
-    ../VariousWidgets/DlgInfoFile.cpp
+    ../VariousWidgets/DlgInfoFile.cpp \
+    ../TAGLib/tstringlist.cpp \
+    ../TAGLib/tstring.cpp \
+    ../TAGLib/tmap.tcc \
+    ../TAGLib/tlist.tcc \
+    ../TAGLib/tfile.cpp \
+    ../TAGLib/tbytevectorlist.cpp \
+    ../TAGLib/tbytevector.cpp \
+    ../TAGLib/tag.cpp \
+    ../TAGLib/mpegproperties.cpp \
+    ../TAGLib/mpegheader.cpp \
+    ../TAGLib/mpegfile.cpp \
+    ../TAGLib/id3v2tag.cpp \
+    ../TAGLib/id3v2header.cpp \
+    ../TAGLib/id3v2framefactory.cpp \
+    ../TAGLib/id3v2frame.cpp \
+    ../TAGLib/flacproperties.cpp \
+    ../TAGLib/flacpicture.cpp \
+    ../TAGLib/flacmetadatablock.cpp \
+    ../TAGLib/flacfile.cpp \
+    ../TAGLib/fileref.cpp \
+    ../TAGLib/audioproperties.cpp \
+    ../TAGLib/unicode.cpp \
+    ../TAGLib/tdebug.cpp \
+    ../TAGLib/xingheader.cpp \
+    ../TAGLib/tagunion.cpp \
+    ../TAGLib/id3v1tag.cpp \
+    ../TAGLib/apefooter.cpp \
+    ../TAGLib/apetag.cpp \
+    ../TAGLib/apeitem.cpp \
+    ../TAGLib/id3v2extendedheader.cpp \
+    ../TAGLib/id3v2footer.cpp \
+    ../TAGLib/id3v2synchdata.cpp \
+    ../TAGLib/id3v1genres.cpp \
+    ../TAGLib/frames/textidentificationframe.cpp \
+    ../TAGLib/frames/commentsframe.cpp \
+    ../TAGLib/attachedpictureframe.cpp \
+    ../TAGLib/frames/relativevolumeframe.cpp \
+    ../TAGLib/frames/uniquefileidentifierframe.cpp \
+    ../TAGLib/frames/unknownframe.cpp \
+    ../TAGLib/frames/generalencapsulatedobjectframe.cpp \
+    ../TAGLib/frames/urllinkframe.cpp \
+    ../TAGLib/frames/unsynchronizedlyricsframe.cpp \
+    ../TAGLib/frames/popularimeterframe.cpp \
+    ../TAGLib/frames/privateframe.cpp \
+    ../TAGLib/xiphcomment.cpp \
+    ../TAGLib/flacunknownmetadatablock.cpp \
+    ../TAGLib/vorbisfile.cpp \
+    ../TAGLib/oggflacfile.cpp \
+    ../TAGLib/oggfile.cpp \
+    ../TAGLib/vorbisproperties.cpp \
+    ../TAGLib/oggpageheader.cpp \
+    ../TAGLib/oggpage.cpp
 
 HEADERS  += mainwindow.h \
     DlgApplicationSettings.h \
@@ -50,7 +102,62 @@ HEADERS  += mainwindow.h \
     ../VariousWidgets/DlgCheckConfig.h \
     ../VariousWidgets/_QCustomDialog.h \
     ../VariousWidgets/DlgManageDevices.h \
-    ../VariousWidgets/DlgInfoFile.h
+    ../VariousWidgets/DlgInfoFile.h \
+    ../TAGLib/tstringlist.h \
+    ../TAGLib/tstring.h \
+    ../TAGLib/tmap.h \
+    ../TAGLib/tlist.h \
+    ../TAGLib/tfile.h \
+    ../TAGLib/tbytevectorlist.h \
+    ../TAGLib/tbytevector.h \
+    ../TAGLib/taglib_export.h \
+    ../TAGLib/taglib_config.h \
+    ../TAGLib/taglib.h \
+    ../TAGLib/tag.h \
+    ../TAGLib/mpegproperties.h \
+    ../TAGLib/mpegheader.h \
+    ../TAGLib/mpegfile.h \
+    ../TAGLib/id3v2tag.h \
+    ../TAGLib/id3v2header.h \
+    ../TAGLib/id3v2framefactory.h \
+    ../TAGLib/id3v2frame.h \
+    ../TAGLib/flacproperties.h \
+    ../TAGLib/flacpicture.h \
+    ../TAGLib/flacmetadatablock.h \
+    ../TAGLib/flacfile.h \
+    ../TAGLib/fileref.h \
+    ../TAGLib/audioproperties.h \
+    ../TAGLib/attachedpictureframe.h \
+    ../TAGLib/unicode.h \
+    ../TAGLib/tdebug.h \
+    ../TAGLib/xingheader.h \
+    ../TAGLib/tagunion.h \
+    ../TAGLib/id3v1tag.h \
+    ../TAGLib/apefooter.h \
+    ../TAGLib/apetag.h \
+    ../TAGLib/apeitem.h \
+    ../TAGLib/id3v2extendedheader.h \
+    ../TAGLib/id3v2footer.h \
+    ../TAGLib/id3v2synchdata.h \
+    ../TAGLib/id3v1genres.h \
+    ../TAGLib/frames/textidentificationframe.h \
+    ../TAGLib/frames/commentsframe.h \
+    ../TAGLib/frames/relativevolumeframe.h \
+    ../TAGLib/frames/uniquefileidentifierframe.h \
+    ../TAGLib/frames/unknownframe.h \
+    ../TAGLib/frames/generalencapsulatedobjectframe.h \
+    ../TAGLib/frames/urllinkframe.h \
+    ../TAGLib/frames/unsynchronizedlyricsframe.h \
+    ../TAGLib/frames/popularimeterframe.h \
+    ../TAGLib/frames/privateframe.h \
+    ../TAGLib/xiphcomment.h \
+    ../TAGLib/flacunknownmetadatablock.h \
+    ../TAGLib/vorbisfile.h \
+    ../TAGLib/oggflacfile.h \
+    ../TAGLib/oggfile.h \
+    ../TAGLib/vorbisproperties.h \
+    ../TAGLib/oggpageheader.h \
+    ../TAGLib/oggpage.h
 
 FORMS    += mainwindow.ui \
     DlgApplicationSettings.ui \
@@ -66,17 +173,15 @@ unix {
     #UI_DIR      += ../build$$TARGET
     INCLUDEPATH += . \
                    ../build$$TARGET \
-                   /usr/include/ffmpeg/    \                            # Specific for Fedora
-                   ../VariousClass  \
-                   ../fmt_filters
+                   /usr/include/ffmpeg/                                 # Specific for Fedora
 
     LIBS        += -lavformat -lavcodec -lavutil -lswscale
 }
 win32 {
-    DESTDIR     += ..\..\..\winbuild
-    OBJECTS_DIR += ..\winbuild$$TARGET
-    MOC_DIR     += ..\winbuild$$TARGET
-    UI_DIR      += ..\winbuild$$TARGET
+    DESTDIR     += ..\\..\\..\\winbuild
+    OBJECTS_DIR += ..\\winbuild$$TARGET
+    MOC_DIR     += ..\\winbuild$$TARGET
+    #UI_DIR      += ..\\winbuild$$TARGET
 
     RC_FILE     = ffDiaporamaMMFiler.rc
 
@@ -84,10 +189,8 @@ win32 {
                    ..\\winbuild$$TARGET \
                    C:\\Qt\\ffmpeg-win32-dev\\include \                  #------ ffmpeg library path
                    C:\\Qt\\SDL-1.2.14\\include \                        #------ SDL library path
-                   ..\\VariousClass \
-                   ..\\fmt_filters
 
-    LIBS        +=  -L"C:\\Qt\\ffmpeg-win32-dev\\lib" \                  #------ ffmpeg library path
+    LIBS        +=  -L"C:\\Qt\\ffmpeg-win32-dev\\lib"    \              #------ ffmpeg library path
                    -lavformat -lavcodec -lavutil -lswscale -lgdi32
 }
 

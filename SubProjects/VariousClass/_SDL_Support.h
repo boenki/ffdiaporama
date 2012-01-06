@@ -28,6 +28,10 @@
 extern "C" {
     #include <SDL/SDL.h>
 }
+// We don't want SDL to override our main()
+#ifdef __MINGW32__
+    #undef main
+#endif
 
 // Include some common various class
 #include "cSoundBlockList.h"

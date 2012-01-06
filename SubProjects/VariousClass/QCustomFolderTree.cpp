@@ -138,10 +138,12 @@ QString QCustomFolderTree::GetFolderPath(const QTreeWidgetItem *Item,bool TreeMo
             if (!TreeMode) {
                 // Search if text is a registered alias, then replace text with path
                 for (int i=0;i<DriveList->List.count();i++) if (DriveList->List[i].Label==RootStr) {
-                    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-                    if (RootStr==QApplication::translate("QCustomFolderTree","Personal folder")) RootStr="~"; else
-                    #endif
-                    RootStr=DriveList->List[i].Path;
+                    if (RootStr!=QApplication::translate("QCustomFolderTree","Personal folder")) RootStr=DriveList->List[i].Path; else
+                        #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+                            RootStr="~";
+                        #else
+                            RootStr="%HOMEDRIVE%%HOMEPATH%";
+                        #endif
                 }
             }
             if (!RootStr.endsWith(QDir::separator())) RootStr=RootStr+QDir::separator();
@@ -222,11 +224,16 @@ cDriveDesc *QCustomFolderTree::SearchRealDrive(QString Path) {
     #endif
 
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    if (Path.startsWith("~")) Path=QDir::homePath()+Path.mid(1);
+        if (Path.startsWith("~")) Path=QDir::homePath()+Path.mid(1);
+    #elif defined(Q_OS_WIN)
+        Path.replace("%HOMEDRIVE%%HOMEPATH%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path.replace("%USERPROFILE%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path=AdjustDirForOS(Path);
     #endif
-    // QDir::canonicalPath() need to never have separator at end of path name
+
     if (Path.endsWith(QDir::separator()))  Path=Path=Path.left(Path.length()-1);    // Remove endest separator
     if (QDir(Path).canonicalPath()!="")    Path=QDir(Path).canonicalPath();         // Convert path to physical path
+    Path=AdjustDirForOS(Path);
     if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();             // Add separtor to find drive in our list
     for (int i=0;i<DriveList->List.count();i++)
         if ((DriveList->List[i].Path!=QString("/"))&&(Path.startsWith(DriveList->List[i].Path)))
@@ -251,6 +258,12 @@ QString QCustomFolderTree::RealPathToTreePath(QString Path) {
 }
 
 //====================================================================================================================
+QString RemoveLabel(QString Path) {
+    #if defined(Q_OS_WIN)
+        if (Path.indexOf("[")>0) Path=Path.left(Path.indexOf("["));
+    #endif
+    return Path;
+}
 
 void QCustomFolderTree::SetSelectItemByPath(QString Path) {
     #ifdef DEBUGMODE
@@ -267,7 +280,10 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
     QTreeWidgetItem     *Current=NULL;
 
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    if (Path.startsWith("~")) Path=QApplication::translate("QCustomFolderTree","Personal folder")+Path.mid(1);
+        if (Path.startsWith("~")) Path=QApplication::translate("QCustomFolderTree","Personal folder")+Path.mid(1);
+    #elif defined(Q_OS_WIN)
+        Path.replace("%HOMEDRIVE%%HOMEPATH%",QApplication::translate("QCustomFolderTree","Personal folder"),Qt::CaseInsensitive);
+        Path.replace("%USERPROFILE%",QApplication::translate("QCustomFolderTree","Personal folder"),Qt::CaseInsensitive);
     #endif
 
     // Create a list with each part of the wanted Path
@@ -289,9 +305,9 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
         if (i==0) {
             // Search in topitemlist : Note : Search in reverse order to give preference to drive instead of /mnt/drive or /media/drive
             j=topLevelItemCount()-1;
-            while ((j>=0)&&(topLevelItem(j)->text(0)!=Folders[i])) j--;
-            if ((j>=0)&&(topLevelItem(j)->text(0)==Folders[i])) Current=topLevelItem(j);
-                else Current=NULL;
+            while ((j>=0)&&(RemoveLabel(topLevelItem(j)->text(0))!=Folders[i])&&(RemoveLabel(topLevelItem(j)->text(0))!=Folders[i]+QDir::separator())) j--;
+            if ((j>=0)&&((RemoveLabel(topLevelItem(j)->text(0))==Folders[i])||(RemoveLabel(topLevelItem(j)->text(0))==Folders[i]+QDir::separator())))
+                Current=topLevelItem(j); else Current=NULL;
         } else {
             j=0;
             // Search in current item child list

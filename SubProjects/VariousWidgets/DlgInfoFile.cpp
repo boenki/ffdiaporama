@@ -52,7 +52,7 @@ void DlgInfoFile::DoInitDialog() {
     ui->tableWidget->verticalHeader()->setSortIndicatorShown(false);
     ui->tableWidget->verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
     ui->tableWidget->setShowGrid(true);                  // Ensure grid display
-    ui->tableWidget->setWordWrap(false);                 // Ensure no word wrap
+    //ui->tableWidget->setWordWrap(false);                 // Ensure no word wrap
     ui->tableWidget->setTextElideMode(Qt::ElideNone);    // Ensure no line ellipsis (...)
     ui->tableWidget->setColumnCount(2);
     ui->tableWidget->setHorizontalHeaderLabels(QString("Propertie;Value").split(";"));

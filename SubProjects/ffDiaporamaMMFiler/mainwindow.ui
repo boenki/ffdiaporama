@@ -76,7 +76,7 @@ QToolButton:pressed {
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="TabFile">
        <property name="font">
@@ -249,7 +249,7 @@ Information</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../img/config.png</normaloff>../../img/config.png</iconset>
+            <normaloff>img/config.png</normaloff>img/config.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -290,7 +290,7 @@ Information</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../img/exit.png</normaloff>../../img/exit.png</iconset>
+            <normaloff>img/exit.png</normaloff>img/exit.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -430,7 +430,7 @@ Information</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../img/logo.png</normaloff>../../img/logo.png</iconset>
+            <normaloff>MMFiler_img/application-ffDiaporamaMMFiler.png</normaloff>MMFiler_img/application-ffDiaporamaMMFiler.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -478,7 +478,7 @@ and help</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../img/help.png</normaloff>../../img/help.png</iconset>
+            <normaloff>img/help.png</normaloff>img/help.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -528,7 +528,7 @@ and help</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../img/contents.png</normaloff>../../img/contents.png</iconset>
+            <normaloff>img/contents.png</normaloff>img/contents.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -748,6 +748,9 @@ and help</string>
                 <property name="value">
                  <number>24</number>
                 </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
                 <property name="format">
                  <string notr="true">%p%</string>
                 </property>
@@ -822,7 +825,7 @@ and help</string>
   <customwidget>
    <class>QCustomHorizSplitter</class>
    <extends>QSplitter</extends>
-   <header>QCustomHorizSplitter.h</header>
+   <header>../VariousClass/QCustomHorizSplitter.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

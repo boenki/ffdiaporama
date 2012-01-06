@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>426</height>
+    <height>425</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -46,7 +46,7 @@
         <x>0</x>
         <y>0</y>
         <width>467</width>
-        <height>392</height>
+        <height>336</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
@@ -389,7 +389,7 @@
          </property>
         </widget>
        </item>
-       <item row="19" column="1">
+       <item row="18" column="1">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -479,7 +479,7 @@
          </property>
         </widget>
        </item>
-       <item row="18" column="0" colspan="2">
+       <item row="17" column="0" colspan="2">
         <widget class="QLabel" name="RenderFormatText">
          <property name="text">
           <string notr="true"/>
@@ -489,24 +489,7 @@
          </property>
         </widget>
        </item>
-       <item row="16" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>TAG :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
        <item row="16" column="1">
-        <widget class="QCheckBox" name="IncludeTAGCB">
-         <property name="text">
-          <string>Include project properties as TAG in the video</string>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_10">
          <property name="margin">
           <number>0</number>
@@ -548,7 +531,7 @@
          </item>
         </layout>
        </item>
-       <item row="17" column="0">
+       <item row="16" column="0">
         <widget class="QLabel" name="label_7">
          <property name="text">
           <string>Language :</string>

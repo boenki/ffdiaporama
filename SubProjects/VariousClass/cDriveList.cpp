@@ -29,215 +29,12 @@
 #if defined(Q_OS_WIN)
     #include <windows.h>
     #include <QSettings>
-    #include <QPixmapCache>
-#endif
-#ifndef SHGFI_ADDOVERLAYS
-    #define SHGFI_ADDOVERLAYS 0x000000020
 #endif
 
 #include "cBaseApplicationConfig.h"
 #include "cDriveList.h"
 
 //#define DEBUGMODE
-
-//====================================================================================================================
-
-#if defined(Q_OS_WIN)
-
-    // qt_fromWinHBITMAP From Qmmander Filemanager / Copyright (C) Alex Skoruppa 2009 (See:http://qmmander.googlecode.com/svn-history/r93/trunk/winfileinfo.cpp)
-    QImage qt_fromWinHBITMAP(HDC hdc, HBITMAP bitmap, int w, int h) {
-        #ifdef DEBUGMODE
-        qDebug() << "IN:qt_fromWinHBITMAP";
-        #endif
-        BITMAPINFO bmi;
-        memset(&bmi, 0, sizeof(bmi));
-        bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
-        bmi.bmiHeader.biWidth       = w;
-        bmi.bmiHeader.biHeight      = -h;
-        bmi.bmiHeader.biPlanes      = 1;
-        bmi.bmiHeader.biBitCount    = 32;
-        bmi.bmiHeader.biCompression = BI_RGB;
-        bmi.bmiHeader.biSizeImage   = w * h * 4;
-
-        QImage image(w, h, QImage::Format_ARGB32_Premultiplied);
-        if (image.isNull())
-            return image;
-
-        // Get bitmap bits
-        uchar *data = (uchar *) qMalloc(bmi.bmiHeader.biSizeImage);
-
-        if (GetDIBits(hdc, bitmap, 0, h, data, &bmi, DIB_RGB_COLORS)) {
-            // Create image and copy data into image.
-            for (int y=0; y<h; ++y) {
-                void *dest = (void *) image.scanLine(y);
-                void *src = data + y * image.bytesPerLine();
-                memcpy(dest, src, image.bytesPerLine());
-            }
-        } else {
-            qDebug()<<"qt_fromWinHBITMAP(), failed to get bitmap bits";
-        }
-        qFree(data);
-
-        return image;
-    }
-
-    //====================================================================================================================
-    // convertHIconToPixmap From Qmmander Filemanager / Copyright (C) Alex Skoruppa 2009 (See:http://qmmander.googlecode.com/svn-history/r93/trunk/winfileinfo.cpp)
-    QPixmap convertHIconToPixmap( const HICON icon) {
-        #ifdef DEBUGMODE
-        qDebug() << "IN:convertHIconToPixmap";
-        #endif
-
-        bool foundAlpha = false;
-        HDC screenDevice = GetDC(0);
-        HDC hdc = CreateCompatibleDC(screenDevice);
-        ReleaseDC(0, screenDevice);
-
-        ICONINFO iconinfo;
-        bool result = GetIconInfo(icon, &iconinfo); //x and y Hotspot describes the icon center
-        if (!result)
-            qDebug()<<"convertHIconToPixmap(), failed to GetIconInfo()";
-
-        int w = iconinfo.xHotspot * 2;
-        int h = iconinfo.yHotspot * 2;
-
-        BITMAPINFOHEADER bitmapInfo;
-        bitmapInfo.biSize        = sizeof(BITMAPINFOHEADER);
-        bitmapInfo.biWidth       = w;
-        bitmapInfo.biHeight      = h;
-        bitmapInfo.biPlanes      = 1;
-        bitmapInfo.biBitCount    = 32;
-        bitmapInfo.biCompression = BI_RGB;
-        bitmapInfo.biSizeImage   = 0;
-        bitmapInfo.biXPelsPerMeter = 0;
-        bitmapInfo.biYPelsPerMeter = 0;
-        bitmapInfo.biClrUsed       = 0;
-        bitmapInfo.biClrImportant  = 0;
-        DWORD* bits;
-
-        HBITMAP winBitmap = CreateDIBSection(hdc, (BITMAPINFO*)&bitmapInfo, DIB_RGB_COLORS, (VOID**)&bits, NULL, 0);
-        HGDIOBJ oldhdc = (HBITMAP)SelectObject(hdc, winBitmap);
-        DrawIconEx( hdc, 0, 0, icon, iconinfo.xHotspot * 2, iconinfo.yHotspot * 2, 0, 0, DI_NORMAL);
-        QImage image = qt_fromWinHBITMAP(hdc, winBitmap, w, h);
-
-        for (int y = 0 ; y < h && !foundAlpha ; y++) {
-            QRgb *scanLine= reinterpret_cast<QRgb *>(image.scanLine(y));
-            for (int x = 0; x < w ; x++) {
-                if (qAlpha(scanLine[x]) != 0) {
-                    foundAlpha = true;
-                    break;
-                }
-            }
-        }
-        if (!foundAlpha) {
-            //If no alpha was found, we use the mask to set alpha values
-            DrawIconEx( hdc, 0, 0, icon, w, h, 0, 0, DI_MASK);
-            QImage mask = qt_fromWinHBITMAP(hdc, winBitmap, w, h);
-
-            for (int y = 0 ; y < h ; y++){
-                QRgb *scanlineImage = reinterpret_cast<QRgb *>(image.scanLine(y));
-                QRgb *scanlineMask = mask.isNull() ? 0 : reinterpret_cast<QRgb *>(mask.scanLine(y));
-                for (int x = 0; x < w ; x++){
-                    if (scanlineMask && qRed(scanlineMask[x]) != 0)
-                        scanlineImage[x] = 0; //mask out this pixel
-                    else
-                        scanlineImage[x] |= 0xff000000; // set the alpha channel to 255
-                }
-            }
-        }
-        //dispose resources created by iconinfo call
-        DeleteObject(iconinfo.hbmMask);
-        DeleteObject(iconinfo.hbmColor);
-
-        SelectObject(hdc, oldhdc); //restore state
-        DeleteObject(winBitmap);
-        DeleteDC(hdc);
-        return QPixmap::fromImage(image);
-    }
-
-    //====================================================================================================================
-    // GetIconForFileOrDir adapted by domledom From Qmmander Filemanager / Copyright (C) Alex Skoruppa 2009 (See:http://qmmander.googlecode.com/svn-history/r93/trunk/winfileinfo.cpp)
-    QIcon GetIconForFileOrDir(QString FileName,int IconIndex) {
-        #ifdef DEBUGMODE
-        qDebug() << "IN:GetIconForFileOrDir";
-        #endif
-
-        QIcon RetIcon;
-        WCHAR WinFileName[256+1];
-
-        MultiByteToWideChar(CP_ACP,0,FileName.toLocal8Bit(),-1,WinFileName,256+1);
-
-        if (IconIndex!=0) {
-            HICON Icon;
-            if (ExtractIconEx(WinFileName,IconIndex,&Icon,NULL,1)>0) {
-                RetIcon=convertHIconToPixmap(Icon);
-                DeleteObject(Icon);
-                return RetIcon;
-            } else if (ExtractIconEx(WinFileName,IconIndex,NULL,&Icon,1)>0) {
-                RetIcon=convertHIconToPixmap(Icon);
-                DeleteObject(Icon);
-                return RetIcon;
-            }
-        }
-
-        SHFILEINFO  info;
-        QString     key;
-        QPixmap     pixmap;
-        QString     fileExtension=QFileInfo(FileName).suffix().toUpper();
-        fileExtension.prepend(QLatin1String("."));
-
-        if (QFileInfo(FileName).isFile() && !QFileInfo(FileName).isExecutable() && !QFileInfo(FileName).isSymLink()) key=QLatin1String("qt_")+fileExtension;
-        if (!key.isEmpty()) QPixmapCache::find(key, pixmap);
-
-        if (!pixmap.isNull()) {
-            RetIcon.addPixmap(pixmap);
-            if (QPixmapCache::find(key+QLatin1Char('l'),pixmap)) RetIcon.addPixmap(pixmap);
-            return RetIcon;
-        }
-
-        //Get the small icon
-        if (SHGetFileInfo(WinFileName,0,&info,sizeof(SHFILEINFO),SHGFI_ICON|SHGFI_SMALLICON|SHGFI_SYSICONINDEX|SHGFI_ADDOVERLAYS)) {
-            if (QFileInfo(FileName).isDir() && !QDir(FileName).isRoot()) {
-                //using the unique icon index provided by windows save us from duplicate keys
-                key = QString::fromLatin1("qt_dir_%1").arg(info.iIcon);
-                QPixmapCache::find(key,pixmap);
-                if (!pixmap.isNull()) {
-                    RetIcon.addPixmap(pixmap);
-                    if (QPixmapCache::find(key + QLatin1Char('l'), pixmap)) RetIcon.addPixmap(pixmap);
-                    DestroyIcon(info.hIcon);
-                    return RetIcon;
-                }
-            }
-            if (pixmap.isNull()) {
-                pixmap = convertHIconToPixmap(info.hIcon);
-                if (!pixmap.isNull()) {
-                    RetIcon.addPixmap(pixmap);
-                    if (!key.isEmpty()) QPixmapCache::insert(key,pixmap);
-                } else {
-                    qDebug()<<"QCustomFolderTree::getWinIcon() no small icon found";
-                }
-            }
-            DestroyIcon(info.hIcon);
-        }
-        //Get the big icon
-        if (SHGetFileInfo(WinFileName,0,&info,sizeof(SHFILEINFO),SHGFI_ICON|SHGFI_LARGEICON|SHGFI_SYSICONINDEX|SHGFI_ADDOVERLAYS)) {
-            if (QFileInfo(FileName).isDir() && !QFileInfo(FileName).isRoot()) {
-                //using the unique icon index provided by windows save us from duplicate keys
-                key=QString::fromLatin1("qt_dir_%1").arg(info.iIcon);
-            }
-            pixmap=convertHIconToPixmap(info.hIcon);
-            if (!pixmap.isNull()) {
-                RetIcon.addPixmap(pixmap);
-                if (!key.isEmpty()) QPixmapCache::insert(key+QLatin1Char('l'),pixmap);
-            } else {
-                qDebug()<<"QCustomFolderTree::getWinIcon() no large icon found";
-            }
-            DestroyIcon(info.hIcon);
-        }
-        return RetIcon;
-    }
-
-#endif
 
 //*******************************************************************************************************************************************************
 
@@ -275,12 +72,14 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias) {
         DWORD       MaxComponent;
         DWORD       FileSysFlag;
 
-        MultiByteToWideChar(CP_ACP,0,Path.toLocal8Bit(),-1,Drive,256+1);
+        QString PhysicalPath=Path;
+        if ((PhysicalPath[1]==':')&&(PhysicalPath[2]=='\\')) PhysicalPath=PhysicalPath.left(3);
+        MultiByteToWideChar(CP_ACP,0,PhysicalPath.toLocal8Bit(),-1,Drive,256+1);
         switch (GetDriveType(Drive)) {
-            case DRIVE_CDROM     :  IconDrive=ParentList->DefaultCDROMIcon;  IsReadOnly=true;       break;
-            case DRIVE_REMOTE    :  IconDrive=ParentList->DefaultREMOTEIcon;                        break;
-            case DRIVE_REMOVABLE :  IconDrive=ParentList->DefaultREMOTEIcon;                        break;
-            default              :  if (IconDrive.isNull()) IconDrive=ParentList->DefaultHDDIcon;   break;
+            case DRIVE_CDROM     :  IconDrive=DefaultCDROMIcon;  IsReadOnly=true;       break;
+            case DRIVE_REMOTE    :  IconDrive=DefaultREMOTEIcon;                        break;
+            case DRIVE_REMOVABLE :  IconDrive=DefaultREMOTEIcon;                        break;
+            default              :  if (IconDrive.isNull()) IconDrive=DefaultHDDIcon;   break;
         }
         if (GetVolumeInformation(Drive,VolumeName,sizeof(WCHAR)*(256+1),&SerialNumber,&MaxComponent,&FileSysFlag,SysName,sizeof(WCHAR)*(256+1))) {
             if (Label=="") {
@@ -518,8 +317,8 @@ cDriveList::cDriveList() {
 bool cDriveList::SearchDrive(QString Path) {
     if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
     int i=0;
-    while ((i<List.count())&&(List[i].Path!=Path)) i++;
-    if ((i<List.count())&&(List[i].Path==Path)) {
+    while ((i<List.count())&&((List[i].Path!=Path)&&(List[i].Path+QDir::separator()!=Path))) i++;
+    if ((i<List.count())&&((List[i].Path==Path)||(List[i].Path+QDir::separator()==Path))) {
         List[i].Flag=1;
         return true;
     } else return false;
@@ -538,8 +337,10 @@ void cDriveList::UpdateDriveList() {
     #if defined(Q_OS_WIN)
 
         QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
-        if (!SearchDrive(Settings.value("Personal"))) List.append(cDriveDesc(Settings.value("Personal").toString(),QApplication::translate("QCustomFolderTree","Personal folder")));
-        foreach(QFileInfo drive,QDir::drives()) if (!SearchDrive(drive.filePath())) List.append(cDriveDesc(drive.filePath(),""));
+        if (!SearchDrive(Settings.value("Personal").toString()))
+            if (!SearchDrive(AdjustDirForOS(Settings.value("Personal").toString())))
+                List.append(cDriveDesc(Settings.value("Personal").toString(),QApplication::translate("QCustomFolderTree","Personal folder")));
+        foreach(QFileInfo drive,QDir::drives()) if (!SearchDrive(AdjustDirForOS(drive.filePath()))) List.append(cDriveDesc(drive.filePath(),""));
 
     #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
 

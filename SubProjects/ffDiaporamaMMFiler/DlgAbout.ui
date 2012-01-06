@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>743</width>
+    <height>468</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -236,8 +236,8 @@ This General Public License does not permit incorporating your program into prop
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>495</width>
-                <height>411</height>
+                <width>557</width>
+                <height>474</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_2">
@@ -350,7 +350,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="11" column="0" colspan="3">
+               <item row="13" column="0" colspan="3">
                 <widget class="QLabel" name="label_12">
                  <property name="minimumSize">
                   <size>
@@ -374,21 +374,21 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="13" column="1">
+               <item row="15" column="1">
                 <widget class="QLabel" name="label_13">
                  <property name="text">
                   <string>C.C. WEB site :</string>
                  </property>
                 </widget>
                </item>
-               <item row="9" column="1">
+               <item row="11" column="1">
                 <widget class="QLabel" name="label_15">
                  <property name="text">
                   <string>WEB site &amp; licence :</string>
                  </property>
                 </widget>
                </item>
-               <item row="8" column="0" colspan="3">
+               <item row="10" column="0" colspan="3">
                 <widget class="QLabel" name="label_14">
                  <property name="minimumSize">
                   <size>
@@ -412,30 +412,6 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="6" column="0" colspan="3">
-                <widget class="QLabel" name="label_16">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <underline>true</underline>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Image effects are based on fmt_filters</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                 </property>
-                 <property name="wordWrap">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
                <item row="7" column="1">
                 <widget class="QLabel" name="label_17">
                  <property name="text">
@@ -443,7 +419,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="14" column="2">
+               <item row="16" column="2">
                 <spacer name="verticalSpacer_2">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
@@ -524,7 +500,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="9" column="2">
+               <item row="11" column="2">
                 <widget class="QPushButton" name="CrystalWebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -541,7 +517,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="13" column="2">
+               <item row="15" column="2">
                 <widget class="QPushButton" name="CC2WebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -551,6 +527,78 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                  <property name="text">
                   <string notr="true">http://creativecommons.org/</string>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0" colspan="3">
+                <widget class="QLabel" name="label_16">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <underline>true</underline>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Image effects are based on fmt_filters</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="0" colspan="3">
+                <widget class="QLabel" name="label_20">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <underline>true</underline>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>TAG managment based on TAGLib</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="1">
+                <widget class="QLabel" name="label_21">
+                 <property name="text">
+                  <string>WEB site &amp; licence :</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="2">
+                <widget class="QPushButton" name="TAGLibWebSiteBT">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true">http://developer.kde.org/~wheeler/taglib.html</string>
                  </property>
                  <property name="icon">
                   <iconset>

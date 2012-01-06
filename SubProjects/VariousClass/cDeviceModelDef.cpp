@@ -531,7 +531,11 @@ void cDeviceModelList::Initffmpeg() {
     #ifndef FF_API_AVCODEC_INIT
     avcodec_init();
     #endif
+
     av_register_all();
+#if (LIBAVFORMAT_VERSION_MAJOR>=53) && (LIBAVFORMAT_VERSION_MINOR>=28)
+    avformat_network_init();
+#endif
 
     // Check codec to know if they was finded
     AVCodec *p=NULL;
