@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 31/12/2011) :
+Buggs/TODO (Dernier SVN le 04/01/2011) :
 ----------------------------------------
 TODO
 ----
@@ -6,34 +6,24 @@ TODO
 -Erreur de lecture de vidéo dans certaines vidéo MPEG-2
 -Erreur de lecture du son dans certaines vidéo AVI
 -Erreur lors des changements de slide quand la durée des slides = la durées des transitions
--Grosses lenteurs quand plusieurs shots
+-Grosses lenteurs dans la boite slide quand plusieurs shots
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige la sauvegarde des positions de début et fin des vidéos (ajoute les ms)
--Corrige la liste des extentions autorisées pour les vidéos à intégrer (autorise toutes celles que ffDiaporama peut produire)
--Corrige les géométries des vidéos générées en NTSC
 
 English version / Bug fix :
--Fix save of start and stop position for video (add ms)
--Fix list of allowed extention for video (allow all format ffDiaporama can produce)
--Fix geometry for rendered videos in NTSC mode
 
 French version / Nouvelles fonctionnalités
--Améliore la lecture d'information des vidéos ajoutés au projet
--Améliore la détection des formats de vidéo non supportés
--Ajoute le support du code de language (ISO 639) pour la production des vidéos (option supplémentaire dans les boites de configuration, de propriétés et de génération)
--Améliore l'affichage des informations dans la zone information de la boite slide
--Ajoute une demande de confirmation pour ouvrir des projets créés avec une version plus récente de ffDiaporama
+-Ajoute le WMA et le FLAC dans la liste des fichiers audio supportés
+-Ajout partiel de la librairie TAGlib pour la gestion des TAGs
+-Prise en charge de la nouvelle version de ffmpeg 0.9
 
 English version / New features
--Improve information reading of the videos added to the project
--Improve unsupported format detection for the videos added to the project
--Add support for language code (ISO 639) for the video rendering (Add options in option, project properties and render dialogs)
--Improve information display in slide dialog information zone
--Add a confirmation ask to open project created with a newer ffDiaporama version
+-Add WMA and FLAC in supported audio file list
+-Partial addition of the TAGlib library for TAG managment
+-Support for new ffmpeg 0.9 version
 
 -------------------------------------
 Changelog depuis la version 20111118
@@ -45,6 +35,9 @@ Bug fix French version
 -Corrige une erreur de géométrie lors de la lecture de fichiers video SD/DVD
 -Corrige le timestamp dans les vidéos générés
 -Corrige l'erreur de taille/positionnement du player au démarrage
+-Corrige la sauvegarde des positions de début et fin des vidéos (ajoute les ms)
+-Corrige la liste des extentions autorisées pour les vidéos à intégrer (autorise toutes celles que ffDiaporama peut produire)
+-Corrige les géométries des vidéos générées en NTSC
 
 Bug fix English version
 -When exit the application, even when answer yes, modifications are not saved
@@ -53,6 +46,9 @@ Bug fix English version
 -Fix a geometrical error when reading SD/DVD video files
 -Fix timestamp in rendered videos
 -Fix incorrect player size/positionning at startup
+-Fix save of start and stop position for video (add ms)
+-Fix list of allowed extention for video (allow all format ffDiaporama can produce)
+-Fix geometry for rendered videos in NTSC mode
 
 French version / Nouvelles fonctionnalités
 -Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
@@ -66,6 +62,11 @@ French version / Nouvelles fonctionnalités
 -Ajoute une troisième possibilité pour la pré-determination du nom du fichier vidéo à générer (utilise le titre des propriétés)
 -Ajoute une option pour pré-remplir la zone titre des propriétés
 -Quand on change le fichier qui a donné son nom au slide, change également le nom du slide
+-Améliore la lecture d'information des vidéos ajoutés au projet
+-Améliore la détection des formats de vidéo non supportés
+-Ajoute le support du code de language (ISO 639) pour la production des vidéos (option supplémentaire dans les boites de configuration, de propriétés et de génération)
+-Améliore l'affichage des informations dans la zone information de la boite slide
+-Ajoute une demande de confirmation pour ouvrir des projets créés avec une version plus récente de ffDiaporama
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -79,3 +80,8 @@ English version / New features
 -Add a third option to compute render video filename (use properties title)
 -Add an option to automaticaly fill properties title
 -When changing file which give it name to a slide, change also the slide name
+-Improve information reading of the videos added to the project
+-Improve unsupported format detection for the videos added to the project
+-Add support for language code (ISO 639) for the video rendering (Add options in option, project properties and render dialogs)
+-Improve information display in slide dialog information zone
+-Add a confirmation ask to open project created with a newer ffDiaporama version

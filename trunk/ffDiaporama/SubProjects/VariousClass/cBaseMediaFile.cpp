@@ -31,12 +31,105 @@
 #include "cBaseMediaFile.h"
 
 extern "C" {
-    #include <libavutil/opt.h>
+    //#include <libavutil/opt.h>
     #include <libavutil/pixdesc.h>
     #include <libavutil/avutil.h>
 }
 
 //#define DEBUGMODE
+
+//****************************************************************************************************************************************************************
+
+#include "../TAGLib/fileref.h"
+#include "../TAGLib/tbytevector.h"
+
+//---- MP3 Files
+#include "../TAGLib/id3v2tag.h"
+#include "../TAGLib/id3v2frame.h"
+#include "../TAGLib/id3v2header.h"
+#include "../TAGLib/id3v2framefactory.h"
+#include "../TAGLib/attachedpictureframe.h"
+#include "../TAGLib/mpegfile.h"
+
+#include "../TAGLib/flacfile.h"
+
+//#include <mp4file.h>
+//#include <vorbisfile.h>
+
+//#include <id3v1tag.h>
+
+//#include <mp4tag.h>
+//#include <mp4coverart.h>
+
+
+QImage *GetEmbededImage(QString FileName) {
+
+    // Try to get embeded image
+    QImage *Image=new QImage();
+
+    //*********** MP3
+    if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="mp3")) {
+        TagLib::MPEG::File MP3File(TagLib::FileName(FileName.toLocal8Bit()));
+        if (MP3File.ID3v2Tag()) {
+            TagLib::ID3v2::FrameList l=MP3File.ID3v2Tag()->frameListMap()["APIC"];
+            if (!l.isEmpty()) {
+                TagLib::ID3v2::AttachedPictureFrame *pic=static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+                if (pic) Image->loadFromData((const uchar *)pic->picture().data(),pic->picture().size());
+            }
+        }
+    }
+    //*********** FLAC
+    if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="flac")) {
+        TagLib::FLAC::File                      FLACFile(TagLib::FileName(FileName.toLocal8Bit()));
+        TagLib::List<TagLib::FLAC::Picture *>   PictList=FLACFile.pictureList();
+
+        // Search PreferedPic : the one with the type lesser
+        TagLib::FLAC::Picture *PreferedPic=NULL;
+        if (!PictList.isEmpty()) for (uint i=0;i<PictList.size();i++) {
+            TagLib::FLAC::Picture *Pic=PictList[i];
+            if ((Pic!=NULL)&&((PreferedPic==NULL)||(PreferedPic->type()>Pic->type()))) PreferedPic=Pic;
+        }
+        if (PreferedPic) Image->loadFromData((const uchar *)PreferedPic->data().data(),PreferedPic->data().size());
+    }
+    /*if (Image->isNull()) {
+        TagLib::Vorbis::File OggFile(FileName.toLocal8Bit());
+        if (OggFile.ID3v2Tag()) {
+            TagLib::ID3v2::FrameList l=OggFile.ID3v2Tag()->frameListMap()["APIC"];
+            if (!l.isEmpty()) {
+                TagLib::ID3v2::AttachedPictureFrame *pic=static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+                if (pic) Image->loadFromData((const uchar *)pic->picture().data(),pic->picture().size());
+            }
+        }
+    }*/
+    /*if (Image->isNull()) {
+        TagLib::ASF::File WMAFile(FileName.toLocal8Bit());
+        if (WMAFile.ID3v2Tag()) {
+            TagLib::ID3v2::FrameList l=WMAFile.ID3v2Tag()->frameListMap()["APIC"];
+            if (!l.isEmpty()) {
+                TagLib::ID3v2::AttachedPictureFrame *pic=static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+                if (pic) Image->loadFromData((const uchar *)pic->picture().data(),pic->picture().size());
+            }
+        }
+    }*/
+    /*
+    if (Image->isNull()) {
+        TagLib::MP4::File MP4File(FileName.toLocal8Bit());
+        if (MP4File.tag()) {
+            TagLib::MP4::ItemListMap  itemsListMap=MP4File.tag()->itemListMap();
+            TagLib::MP4::Item         coverItem   =itemsListMap["covr"];
+            TagLib::MP4::CoverArtList coverArtList=coverItem.toCoverArtList();
+            if (!coverArtList.isEmpty()) {
+                TagLib::MP4::CoverArt coverArt=coverArtList.front();
+                Image->loadFromData((const uchar *) coverArt.data().data(),coverArt.data().size());
+                //if (mp4tag->cover().size()) ;//images->push_back(EmbeddedImage(mp4tag->cover(),""));
+            }
+        }
+    }*/
+    if (!Image->isNull()) return Image; else {
+        delete Image;
+        return NULL;
+    }
+}
 
 //*********************************************************************************************************************************************
 // Base class object
@@ -883,23 +976,42 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
     if (!cBaseMediaFile::GetInformationFromFile(GivenFileName,AliasList,ModifyFlag)) return false;
 
     AVFormatContext *ffmpegFile=NULL;;
+
     // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
-    #if defined(FF_API_FORMAT_PARAMETERS)
+    #if (LIBAVFORMAT_VERSION_MAJOR>=53)
         if (avformat_open_input(&ffmpegFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
     #else
         if (av_open_input_file(&ffmpegFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
     #endif
 
-    // Setup AVFormatContext options
-    ffmpegFile->flags|=AVFMT_FLAG_GENPTS;      // Generate missing pts even if it requires parsing future frames.
-    if (av_find_stream_info(ffmpegFile)<0) {    // deprecated : use avformat_find_stream_info instead
-        av_close_input_file(ffmpegFile);
+    ffmpegFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
+
+    #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+        if (avformat_find_stream_info(ffmpegFile,NULL)<0) {
+            avformat_close_input(&ffmpegFile);
+    #else
+        if (av_find_stream_info(ffmpegFile)<0) {    // deprecated : use avformat_find_stream_info instead
+            av_close_input_file(ffmpegFile);
+    #endif
+
         return false;
     }
 
     // Get metadata
+    #if (LIBAVFORMAT_VERSION_MAJOR<53)
+    AVMetadataTag *tag=NULL;
+    while ((tag=av_metadata_get(ffmpegFile->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX))) {
+    #else
     AVDictionaryEntry *tag=NULL;
-    while ((tag=av_dict_get(ffmpegFile->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) InformationList.append(QString().fromUtf8(tag->key).toLower()+QString("##")+QString().fromUtf8(tag->value));
+    while ((tag=av_dict_get(ffmpegFile->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
+    #endif
+        QString Value=QString().fromUtf8(tag->value);
+        #if defined(Q_OS_WIN)
+        Value.replace(char(13),"\n");
+        #endif
+        if (Value.endsWith("\n")) Value=Value.left(Value.lastIndexOf("\n"));
+        InformationList.append(QString().fromUtf8(tag->key).toLower()+QString("##")+Value);
+    }
 
     // Get informations about duration
     int hh,mm,ss,ms;
@@ -966,7 +1078,11 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
             }
 
             // Stream metadata
+            #if (LIBAVFORMAT_VERSION_MAJOR<53)
+            while ((tag=av_metadata_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX))) {
+            #else
             while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
+            #endif
                 // OGV container affect TAG to audio stream !
                 QString Key=QString().fromUtf8(tag->key).toLower();
                 if ((FileName.toLower().endsWith(".ogv"))&&((Key=="title")||(Key=="artist")||(Key=="album")||(Key=="comment")||(Key=="date")||(Key=="composer")||(Key=="encoder")))
@@ -1008,9 +1124,14 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
             }
 
             // Stream metadata
-            while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) InformationList.append(TrackNum+QString(tag->key)+QString("##")+QString().fromUtf8(tag->value));
+            #if (LIBAVFORMAT_VERSION_MAJOR<53)
+            while ((tag=av_metadata_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX)))
+            #else
+            while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
+            #endif
+                InformationList.append(TrackNum+QString(tag->key)+QString("##")+QString().fromUtf8(tag->value));
 
-            // Ensure language exist (Note : AVI and FLV container own language at container level instead of track level)
+            // Ensure language exist (Note : AVI ‘AttachedPictureFrame’and FLV container own language at container level instead of track level)
             if (GetInformationValue(TrackNum+"language")=="") {
                 QString Lng=GetInformationValue("language");
                 InformationList.append(TrackNum+QString("language##")+(Lng==""?"und":Lng));
@@ -1021,7 +1142,11 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
         }
     }
     // Close file
-    av_close_input_file(ffmpegFile);
+    #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+        avformat_close_input(&ffmpegFile);
+    #else
+        av_close_input_file(ffmpegFile);
+    #endif
 
     // Do file qualification
 
@@ -1035,9 +1160,10 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
             else                              AddIcons(DefaultVIDEOIcon);
     }
     // Return value depending on type ask
-    return ((WantedObjectType==MUSICORVIDEO)&&(VideoTrackNbr+AudioTrackNbr>0))||
+    IsValide=((WantedObjectType==MUSICORVIDEO)&&(VideoTrackNbr+AudioTrackNbr>0))||
             ((WantedObjectType==VIDEOFILE)&&(VideoTrackNbr>0))||
             ((WantedObjectType==MUSICFILE)&&(AudioTrackNbr>0));
+    return IsValide;
 }
 
 //====================================================================================================================
@@ -1065,6 +1191,15 @@ void cVideoFile::GetFullInformationFromFile() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::GetFullInformationFromFile";
     #endif
+
+    QImage *Img=GetEmbededImage(FileName);
+    if (Img) {
+        Icon16=QImage();
+        Icon32=QImage();
+        Icon48=QImage();
+        AddIcons(Img);
+        delete Img;
+    }
 
     // If it's a video then search if an image (jpg) with same name exist
     if (ObjectType==OBJECTTYPE_VIDEOFILE) {
@@ -1101,7 +1236,11 @@ qDebug() << "IN:cVideoFile::CloseCodecAndFile";
 
     // Close the video file
     if (ffmpegVideoFile!=NULL) {
-        av_close_input_file(ffmpegVideoFile);
+        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+            avformat_close_input(&ffmpegVideoFile);
+        #else
+            av_close_input_file(ffmpegVideoFile);
+        #endif
         ffmpegVideoFile=NULL;
     }
 
@@ -1112,7 +1251,11 @@ qDebug() << "IN:cVideoFile::CloseCodecAndFile";
     }
     // Close the audio file
     if (ffmpegAudioFile!=NULL) {
-        av_close_input_file(ffmpegAudioFile);
+        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+            avformat_close_input(&ffmpegAudioFile);
+        #else
+            av_close_input_file(ffmpegAudioFile);
+        #endif
         ffmpegAudioFile=NULL;
     }
 
@@ -1208,7 +1351,11 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 
                     // Decode audio data
                     int SizeDecoded=(AVCODEC_MAX_AUDIO_FRAME_SIZE*3)/2;
-                    int Len=avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
+                    #if defined (FF_API_OLD_DECODE_AUDIO)
+                        int Len=avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
+                    #else
+                        int Len=avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
+                    #endif
                     if (Len<0) {
                         // if decode error then data are not good : replace them with null sound
                         //SizeDecoded=int64_t(LastAudioFrameDuration*double(SoundTrackBloc->SamplingRate))*DstSampleSize;
@@ -1754,15 +1901,24 @@ bool cVideoFile::OpenCodecAndFile() {
     // Open audio stream
     if (AudioStreamNumber!=-1) {
         // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
-        #if defined(FF_API_FORMAT_PARAMETERS)
+        #if (LIBAVFORMAT_VERSION_MAJOR>=53)
             if (avformat_open_input(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
         #else
             if (av_open_input_file(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
         #endif
 
-        // Setup AVFormatContext options
-        ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;                  // Generate missing pts even if it requires parsing future frames.
-        if (av_find_stream_info(ffmpegAudioFile)<0) return false;   // deprecated : use avformat_find_stream_info instead
+        ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
+
+        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+            if (avformat_find_stream_info(ffmpegAudioFile,NULL)<0) {
+                avformat_close_input(&ffmpegAudioFile);
+        #else
+            if (av_find_stream_info(ffmpegAudioFile)<0) {    // deprecated : use avformat_find_stream_info instead
+                av_close_input_file(ffmpegAudioFile);
+        #endif
+
+            return false;
+        }
 
         // Setup STREAM options
         ffmpegAudioFile->streams[AudioStreamNumber]->discard=AVDISCARD_DEFAULT;
@@ -1780,7 +1936,11 @@ bool cVideoFile::OpenCodecAndFile() {
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-        ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
+        #if defined(FF_API_ER)
+            //ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
+        #else
+            ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
+        #endif
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_concealment=3;
 
         #if defined(FF_API_AVCODEC_OPEN)
@@ -1788,19 +1948,31 @@ bool cVideoFile::OpenCodecAndFile() {
         #else
         if ((AudioDecoderCodec==NULL)||(avcodec_open(ffmpegAudioFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec)<0)) return false;
         #endif
+        IsOpen=true;
     }
 
     // Open video stream
     if ((VideoStreamNumber!=-1)&&(!MusicOnly)) {
 
-        #if defined(FF_API_FORMAT_PARAMETERS)
-        avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL);
+        // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
+        #if (LIBAVFORMAT_VERSION_MAJOR>=53)
+            if (avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
         #else
-        av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL);
+            if (av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
         #endif
 
-        ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;                      // Generate missing pts even if it requires parsing future frames.
-        if (av_find_stream_info(ffmpegVideoFile)<0) return false;       // deprecated : use avformat_find_stream_info instead
+        ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
+
+        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+            if (avformat_find_stream_info(ffmpegVideoFile,NULL)<0) {
+                avformat_close_input(&ffmpegVideoFile);
+        #else
+            if (av_find_stream_info(ffmpegVideoFile)<0) {    // deprecated : use avformat_find_stream_info instead
+                av_close_input_file(ffmpegVideoFile);
+        #endif
+
+            return false;
+        }
 
         // Setup STREAM options
         ffmpegVideoFile->streams[VideoStreamNumber]->discard=AVDISCARD_DEFAULT;
@@ -1817,7 +1989,11 @@ bool cVideoFile::OpenCodecAndFile() {
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
+        #if defined(FF_API_ER)
+            //ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
+        #else
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
+        #endif
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
 
         // h264 specific

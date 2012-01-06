@@ -275,6 +275,13 @@ void QCustomFolderTable::FillListFolder(QString Path,cBaseApplicationConfig *App
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
+    #if defined(Q_OS_WIN)
+        Path.replace("%HOMEDRIVE%%HOMEPATH%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path.replace("%USERPROFILE%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path=AdjustDirForOS(Path);
+        if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
+    #endif
+
     // Ensure scan thread is stoped
     if (ScanMediaList.isRunning()) {
         StopScanMediaList=true;
@@ -444,6 +451,7 @@ void QCustomFolderTable::DoResizeColumns() {
         setVisible(true);                       // To allow display
         setUpdatesEnabled(true);
     }
+    emit RefreshFolderInfo();
 }
 //====================================================================================================================
 
@@ -569,11 +577,11 @@ void QCustomFolderTable::DoScanMediaList() {
 
             // If Row found, then work ...
             if (Row!=-1) {
-                QTime OldFolderDuration=CurrentShowDuration;
+                //QTime OldFolderDuration=CurrentShowDuration;
                 UpdateMediaToTable(Row,MediaObject);
                 if ((MediaObject->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE))   CurrentShowDuration=CurrentShowDuration.addMSecs(QTime(0,0,0,0).msecsTo(((cVideoFile *)MediaObject)->Duration));
                 if (MediaObject->ObjectType==OBJECTTYPE_FFDFILE)                                                        CurrentShowDuration=CurrentShowDuration.addMSecs(((cffDProjectFile *)MediaObject)->Duration);
-                if (OldFolderDuration!=CurrentShowDuration) emit RefreshFolderInfo();
+                //if (OldFolderDuration!=CurrentShowDuration) emit RefreshFolderInfo();
             }
         }
     }

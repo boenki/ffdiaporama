@@ -159,7 +159,6 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
         connect(ui->DeviceModelCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_DeviceModelCB(int)));
     }
 
-    ui->IncludeTAGCB->setChecked(true);
     ui->LanguageED->setText(Language);
     ui->RenderZoneAllBt->setChecked(true);
     ui->RenderZoneFromBt->setChecked(false);
@@ -747,23 +746,23 @@ void DlgRenderVideo::accept() {
 
             // Video codec part
             switch (VIDEOCODECDEF[VideoCodecIndex].FFD_VCODEC) {
-                case VCODEC_MPEG    :   vCodec=QString("-vcodec mpeg2video -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
+                case VCODEC_MPEG    :   vCodec=QString("-vcodec mpeg2video -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4 -bf 3")
                                            .arg(VideoBitRate-VideoBitRate/10)
                                            .arg(VideoBitRate+VideoBitRate/10)
                                            .arg(VideoBitRate*2)
                                            .arg(VideoBitRate);
                                         break;
                 case VCODEC_MPEG4   :   if (AudioCodec=="libopencore_amrnb") {
-                                                vCodec=QString("-f 3gp -vcodec mpeg4 -b %1").arg(VideoBitRate);
+                                                vCodec=QString("-f 3gp -vcodec mpeg4 -b:0 %1").arg(VideoBitRate);
                                         } else {
                                             if (QString(VIDEOCODECDEF[VideoCodecIndex].ShortName)==QString("mpeg4"))
-                                                vCodec=QString("-vcodec mpeg4 -vtag xvid -b %1").arg(VideoBitRate);
-                                                else vCodec=QString("-vcodec libxvid -b %1").arg(VideoBitRate);
+                                                vCodec=QString("-vcodec mpeg4 -vtag xvid -b:0 %1").arg(VideoBitRate);
+                                                else vCodec=QString("-vcodec libxvid -b:0 %1").arg(VideoBitRate);
                                         }
                                         break;
                 case VCODEC_H264HQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
                                         Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
-                                        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b %4")
+                                        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
                                             .arg(VideoBitRate-VideoBitRate/10)
                                             .arg(VideoBitRate+VideoBitRate/10)
                                             .arg(VideoBitRate*2)
@@ -771,29 +770,31 @@ void DlgRenderVideo::accept() {
                                         break;
                 case VCODEC_H264PQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
                                         Preset="-fpre \""+Preset+"libx264-pq.ffpreset\"";
-                                        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b %4")
+                                        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
                                             .arg(VideoBitRate-VideoBitRate/10)
                                             .arg(VideoBitRate+VideoBitRate/10)
                                             .arg(VideoBitRate*2)
                                             .arg(VideoBitRate);
                                         break;
                 case VCODEC_MJPEG   :   vCodec="-vcodec mjpeg -qscale 2 -qmin 2 -qmax 2";   break;
-                case VCODEC_VP8     :   vCodec=QString("-vcodec libvpx -minrate %1 -maxrate %2 -bufsize %3 -b %4 -bf 3")
+                case VCODEC_VP8     :   vCodec=QString("-vcodec libvpx -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4 -bf 3")
                                             .arg(VideoBitRate-VideoBitRate/10)
                                             .arg(VideoBitRate+VideoBitRate/10)
                                             .arg(VideoBitRate*2)
                                             .arg(VideoBitRate);
                                         break;
-                case VCODEC_H263    :   vCodec=QString("-vcodec flv -b %1").arg(VideoBitRate);
+                case VCODEC_H263    :   vCodec=QString("-vcodec flv -b:0 %1").arg(VideoBitRate);
                                         break;
-                case VCODEC_THEORA  :   vCodec=QString("-vcodec libtheora -b %1").arg(VideoBitRate);
+                case VCODEC_THEORA  :   vCodec=QString("-vcodec libtheora -b:0 %1").arg(VideoBitRate);
                                         break;
                 default:
                     QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Unknown video codec");
                     Continue=false;
                     break;
             }
-            vCodec=vCodec+" -vlang "+Language;
+            #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<28))
+            vCodec.replace(" -b:0 "," -b "); // switch to old syntax
+            #endif
 
             // Audio codec part
             if (ui->IncludeSoundCB->isChecked()) {
@@ -802,7 +803,8 @@ void DlgRenderVideo::accept() {
                     case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))
-                                                    aCodec=QString("-acodec aac -strict experimental -ab %1").arg(AudioBitRate);
+                                                    //aCodec=QString("-acodec aac -strict experimental -ab %1 -absf aac_adtstoasc").arg(AudioBitRate);
+                                                    aCodec=QString("-acodec libvo_aacenc -ab %1").arg(AudioBitRate);
                                                     else aCodec=QString("-acodec libfaac -ab %1").arg(AudioBitRate);
                                                 break;
                     case CODEC_ID_AC3:          aCodec=QString("-acodec ac3 -ab %1").arg(AudioBitRate); break;
@@ -814,10 +816,14 @@ void DlgRenderVideo::accept() {
                         Continue=false;
                         break;
                 }
+                #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<28))
                 aCodec=aCodec+" -alang "+Language;
+                #else
+                aCodec=aCodec+" -metadata:s:1 language="+Language;
+                #endif
             }
 
-            if (Continue && ui->IncludeTAGCB->isChecked()) {
+            if (Continue) {
                 // Create metadata temp file
                 TempMETAFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
                 if (!TempMETAFileName.endsWith(QDir::separator())) TempMETAFileName=TempMETAFileName+QDir::separator();
@@ -838,14 +844,21 @@ void DlgRenderVideo::accept() {
                         language    Ok=3GP/MKV/MP4/M4V/MOV/OGV/WEBM/AVI/FLV         Ko=MPG
                     */
                     out<<";FFMETADATA1\n";    // Write header
-                    out<<"title="+AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title);
-                    out<<"artist="+AdjustMETA(Diaporama->ProjectInfo->Author);
-                    out<<"album="+AdjustMETA(Diaporama->ProjectInfo->Album);
-                    out<<"comment="+AdjustMETA(Diaporama->ProjectInfo->Comment);
-                    out<<"date="+QString("%1").arg(Diaporama->ProjectInfo->Year)+"\n";
-                    out<<"composer="+AdjustMETA(Diaporama->ProjectInfo->Composer);
+                    out<<QString("title="+AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title)).toUtf8();
+                    out<<QString("artist="+AdjustMETA(Diaporama->ProjectInfo->Author)).toUtf8();;
+                    out<<QString("album="+AdjustMETA(Diaporama->ProjectInfo->Album)).toUtf8();;
+                    out<<QString("comment="+AdjustMETA(Diaporama->ProjectInfo->Comment)).toUtf8();;
+                    out<<QString("date="+QString("%1").arg(Diaporama->ProjectInfo->Year)+"\n").toUtf8();;
+                    out<<QString("composer="+AdjustMETA(Diaporama->ProjectInfo->Composer)).toUtf8();;
+                    out<<QString("language="+Language+"\n").toUtf8();;
+                    out<<QString("creation_time="+QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")+"\n").toUtf8();;   // ISO 8601 format
+
                     File.close();
-                    TAG=" -i \""+TempMETAFileName+"\"";
+                    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<28))
+                    TAG=" -i \""+TempMETAFileName+"\"  -map_metadata 0:"+(ui->IncludeSoundCB->isChecked()?"2":"1");
+                    #else
+                    TAG=" -i \""+TempMETAFileName+"\"  -map_metadata "+(ui->IncludeSoundCB->isChecked()?"2":"1");
+                    #endif
                 }
             }
             if (Continue) {
@@ -867,8 +880,10 @@ void DlgRenderVideo::accept() {
                 }
                 ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r ")+QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+" -i -"+
                         (ui->IncludeSoundCB->isChecked()?" -i \""+TempWAVFileName+"\"":"")+
-                        (ui->IncludeTAGCB->isChecked()?TAG+" -map_metadata 0:"+(ui->IncludeSoundCB->isChecked()?"2":"1"):"")+
+                        TAG+
+                        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
                         " -timestamp now"+
+                        #endif
                         " -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+AddSizestr+" -r "+
                         QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
                         " "+aCodec+QString(" -ar %1 -ac %2 -aspect %3:%4")
@@ -878,7 +893,6 @@ void DlgRenderVideo::accept() {
                         .arg(GeoH);
                 if (ExtendV>0) ffmpegCommand=ffmpegCommand+QString(" -padtop %1 -padbottom %2").arg(ExtendV/2).arg(ExtendV-ExtendV/2);
                 if (ExtendH>0) ffmpegCommand=ffmpegCommand+QString(" -padleft %1 -padright %2").arg(ExtendH/2).arg(ExtendH-ExtendH/2);
-                 ffmpegCommand=ffmpegCommand+" -metadata language="+Language;
 
                 // Activate multithreading support if getCpuCount()>1 and codec is h264 or VP8
                 if ((getCpuCount()>1)&&(
@@ -1045,6 +1059,7 @@ QString DlgRenderVideo::AdjustMETA(QString Text) {
     Text.replace("\\","\\\\");
     Text.replace("\n","\\\n");
     Text=Text+"\n";
+
     return Text;
 }
 
@@ -1124,7 +1139,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
         } else {
             AudioCodecContext->codec_id             = CODEC_ID_PCM_S16LE;
             AudioCodecContext->codec_type           = AVMEDIA_TYPE_AUDIO;
-            AudioCodecContext->sample_fmt           = SAMPLE_FMT_S16;
+            AudioCodecContext->sample_fmt           = AV_SAMPLE_FMT_S16;
             AudioCodecContext->sample_rate          = 48000;
             AudioCodecContext->bit_rate             = 48000;
             AudioCodecContext->rc_max_rate          = 0;
@@ -1159,16 +1174,15 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
     // open the file for writing
     if (Continue) {
+        int Err=0;
         #if FF_API_OLD_AVIO
-            #if AVIO_WRONLY
-            if (avio_open(&OutputFormatContext->pb,TempWAVFileName.toUtf8(),AVIO_WRONLY)<0) {
-            #else
-                if (avio_open(&OutputFormatContext->pb,TempWAVFileName.toUtf8(),URL_WRONLY)<0) {
-            #endif
+            if ((Err=avio_open(&OutputFormatContext->pb,TempWAVFileName.toUtf8(),AVIO_FLAG_WRITE))<0) {
         #else
             if (url_fopen(&OutputFormatContext->pb,TempWAVFileName.toUtf8(),URL_WRONLY)<0) {
         #endif
-            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+            char Buf[500];
+            av_strerror(Err,Buf,500);
+            qDebug()<<Buf;
             QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary audio file!");
             Continue=false;
         }

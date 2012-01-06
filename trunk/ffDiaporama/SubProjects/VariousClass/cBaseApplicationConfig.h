@@ -70,6 +70,12 @@ bool    SetWorkingPath(char *argv[],QString ApplicationGroupName,QString Applica
 enum    FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
 enum    LoadConfigFileType {USERCONFIGFILE,GLOBALCONFIGFILE};
 
+#if defined(Q_OS_WIN)
+    QImage  qt_fromWinHBITMAP(HDC hdc, HBITMAP bitmap, int w, int h);
+    QPixmap convertHIconToPixmap( const HICON icon);
+    QIcon   GetIconForFileOrDir(QString FileName,int IconIndex);
+#endif
+
 // Application config class
 class cBaseApplicationConfig {
 public:

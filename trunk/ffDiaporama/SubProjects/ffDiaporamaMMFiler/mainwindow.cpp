@@ -62,12 +62,12 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ApplicationConfig     =new cApplicationConfig(this);
     DriveList             =new cDriveList();
     IsFirstInitDone       =false;
-    Icon_DISPLAY_DATA_S   =QIcon("MMFiler_img/DISPLAY_DATA_S");
-    Icon_DISPLAY_DATA     =QIcon("MMFiler_img/DISPLAY_DATA");
-    Icon_DISPLAY_WEB_S    =QIcon("MMFiler_img/DISPLAY_WEB_S");
-    Icon_DISPLAY_WEB      =QIcon("MMFiler_img/DISPLAY_WEB_S");
-    Icon_DISPLAY_JUKEBOX_S=QIcon("MMFiler_img/DISPLAY_JUKEBOX_S");
-    Icon_DISPLAY_JUKEBOX  =QIcon("MMFiler_img/DISPLAY_JUKEBOX");
+    Icon_DISPLAY_DATA_S   =QIcon("MMFiler_img/DISPLAY_DATA_S.png");
+    Icon_DISPLAY_DATA     =QIcon("MMFiler_img/DISPLAY_DATA.png");
+    Icon_DISPLAY_WEB_S    =QIcon("MMFiler_img/DISPLAY_WEB_S.png");
+    Icon_DISPLAY_WEB      =QIcon("MMFiler_img/DISPLAY_WEB_S.png");
+    Icon_DISPLAY_JUKEBOX_S=QIcon("MMFiler_img/DISPLAY_JUKEBOX_S.png");
+    Icon_DISPLAY_JUKEBOX  =QIcon("MMFiler_img/DISPLAY_JUKEBOX.png");
 }
 
 //====================================================================================================================
@@ -118,6 +118,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->FolderTree->InitDrives(DriveList);
     ui->FolderTable->SetMode(DriveList,ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
 
+    ui->ToolBoxNormal->setCurrentIndex(0);
     RefreshControls();
 
     connect(ui->FolderTree,SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),this,SLOT(s_currentTreeItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
@@ -208,15 +209,24 @@ void MainWindow::DoRefreshFolderInfo() {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::s_currentTreeItemChanged";
     #endif
-
+    DriveList->UpdateDriveList();   // To update free space on drive
     cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(ApplicationConfig->CurrentPath);
     if (HDD) {
-        // Ensure Used and Size fit in an _int32 value for QProgressBar
-        qlonglong Used=HDD->Used,Size=HDD->Size;
-        while (Used>1024*1024) { Used=Used/1024; Size=Size/1024; }
-        ui->HDDSizePgr->setMaximum(Size);
-        ui->HDDSizePgr->setValue(Used);
-        ui->HDDSizePgr->setFormat(GetTextSize(HDD->Used)+"/"+GetTextSize(HDD->Size));
+        if (ui->FolderTable->ScanMediaList.isRunning()) {
+            ui->HDDSizePgr->setMaximum(0);
+            ui->HDDSizePgr->setValue(0);
+            ui->HDDSizePgr->setFormat("%P%");
+            ui->HDDSizePgr->setAlignment(Qt::AlignHCenter);
+            ui->FolderInfoLabel->setText("");
+        } else {
+            // Ensure Used and Size fit in an _int32 value for QProgressBar
+            qlonglong Used=HDD->Used,Size=HDD->Size;
+            while (Used>1024*1024) { Used=Used/1024; Size=Size/1024; }
+            ui->HDDSizePgr->setMaximum(Size);
+            ui->HDDSizePgr->setValue(Used);
+            ui->HDDSizePgr->setFormat(GetTextSize(HDD->Used)+"/"+GetTextSize(HDD->Size));
+            ui->HDDSizePgr->setAlignment(Qt::AlignHCenter);
+        }
         ui->FolderInfoLabel->setText(QString("%1/%2").arg(ui->FolderTable->CurrentShowFilesNumber).arg(ui->FolderTable->CurrentTotalFilesNumber)+" "+QApplication::translate("MainWindow","files")+" - "+
                                      QString("%1").arg(ui->FolderTable->CurrentShowFolderNumber)+" "+QApplication::translate("MainWindow","folders")+" - "+
                                      QApplication::translate("MainWindow","Total size:")+QString("%1/%2").arg(GetTextSize(ui->FolderTable->CurrentShowFolderSize)).arg(GetTextSize(ui->FolderTable->CurrentTotalFolderSize))+" - "+
@@ -225,6 +235,7 @@ void MainWindow::DoRefreshFolderInfo() {
         ui->HDDSizePgr->setMaximum(0);
         ui->HDDSizePgr->setValue(0);
         ui->HDDSizePgr->setFormat("%P%");
+        ui->HDDSizePgr->setAlignment(Qt::AlignHCenter);
         ui->FolderInfoLabel->setText("");
     }
 }

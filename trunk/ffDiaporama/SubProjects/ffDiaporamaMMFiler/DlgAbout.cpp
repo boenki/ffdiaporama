@@ -63,6 +63,7 @@ void DlgAbout::DoInitDialog() {
     connect(ui->FMTFWebSiteBT,SIGNAL(clicked()),this,SLOT(FMTFWebSite()));
     connect(ui->CrystalWebSiteBT,SIGNAL(clicked()),this,SLOT(CrystalWebSite()));
     connect(ui->CC2WebSiteBT,SIGNAL(clicked()),this,SLOT(CC2WebSite()));
+    connect(ui->TAGLibWebSiteBT,SIGNAL(clicked()),this,SLOT(TAGLibWebSite()));
 }
 
 //====================================================================================================================
@@ -72,6 +73,15 @@ void DlgAbout::WQtWebSite() {
     qDebug() << "IN:DlgAbout::WQtWebSite";
     #endif
     QDesktopServices::openUrl(QUrl("http://qt.nokia.com/products/"));
+}
+
+//====================================================================================================================
+
+void DlgAbout::TAGLibWebSite() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgAbout::TAGLibWebSite";
+    #endif
+    QDesktopServices::openUrl(QUrl("http://developer.kde.org/~wheeler/taglib.html"));
 }
 
 //====================================================================================================================

@@ -31,6 +31,7 @@
 
 // Include some common various class
 #include "cBaseApplicationConfig.h"
+#include "cDriveList.h"
 
 // class to handle one drive
 class cDriveDesc {
