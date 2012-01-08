@@ -423,6 +423,9 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             QString FileName=Object->SlideName;
             QString TransitionDuration=QTime(0,0,0,0).addMSecs(Object->GetTransitDuration()).toString("ss.zzz");
             QString SlideNumber=QString("%1").arg(Col+1);
+            // Chapter TAG
+            if (Col==0) Painter.drawImage(2,2,QImage("img/Chapter.png"));
+                else if (Object->StartNewChapter) Painter.drawImage(TransitionSize+3,2,QImage("img/Chapter.png"));
             TransitionDuration=TransitionDuration.right(TransitionDuration.length()-1);   // Cut first 0
 
             if (Object->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO) {

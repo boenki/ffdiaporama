@@ -46,7 +46,7 @@
         <x>0</x>
         <y>0</y>
         <width>467</width>
-        <height>336</height>
+        <height>367</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
@@ -928,6 +928,20 @@
      <property name="spacing">
       <number>4</number>
      </property>
+     <item>
+      <widget class="QPushButton" name="ProjectPropertiesBt">
+       <property name="toolTip">
+        <string>Accept modification and start rendering process</string>
+       </property>
+       <property name="text">
+        <string>&amp;Properties</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/PrjProperties.png</normaloff>img/PrjProperties.png</iconset>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">

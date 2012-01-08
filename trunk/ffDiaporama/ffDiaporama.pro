@@ -17,6 +17,8 @@ QMAKE_STRIP  = echo
 APPFOLDER    = ffDiaporama
 TARGET       = ffDiaporama
 TEMPLATE     = app
+DEFINES      += HAVE_CONFIG_H               # specific for TAGLib
+DEFINES      += TAGLIB_STATIC               # specific for TAGLib
 
 unix {
     DESTDIR     += ../build
@@ -142,7 +144,18 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     SubProjects/TAGLib/attachedpictureframe.cpp \
     SubProjects/TAGLib/apetag.cpp \
     SubProjects/TAGLib/apeitem.cpp \
-    SubProjects/TAGLib/apefooter.cpp
+    SubProjects/TAGLib/apefooter.cpp \
+    SubProjects/TAGLib/mp4tag.cpp \
+    SubProjects/TAGLib/mp4properties.cpp \
+    SubProjects/TAGLib/mp4item.cpp \
+    SubProjects/TAGLib/mp4file.cpp \
+    SubProjects/TAGLib/mp4coverart.cpp \
+    SubProjects/TAGLib/mp4atom.cpp \
+    SubProjects/TAGLib/asftag.cpp \
+    SubProjects/TAGLib/asfproperties.cpp \
+    SubProjects/TAGLib/asfpicture.cpp \
+    SubProjects/TAGLib/asffile.cpp \
+    SubProjects/TAGLib/asfattribute.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
@@ -241,7 +254,18 @@ HEADERS  += _GlobalDefines.h \
     SubProjects/TAGLib/attachedpictureframe.h \
     SubProjects/TAGLib/apetag.h \
     SubProjects/TAGLib/apeitem.h \
-    SubProjects/TAGLib/apefooter.h
+    SubProjects/TAGLib/apefooter.h \
+    SubProjects/TAGLib/mp4tag.h \
+    SubProjects/TAGLib/mp4properties.h \
+    SubProjects/TAGLib/mp4item.h \
+    SubProjects/TAGLib/mp4file.h \
+    SubProjects/TAGLib/mp4coverart.h \
+    SubProjects/TAGLib/mp4atom.h \
+    SubProjects/TAGLib/asftag.h \
+    SubProjects/TAGLib/asfproperties.h \
+    SubProjects/TAGLib/asfpicture.h \
+    SubProjects/TAGLib/asffile.h \
+    SubProjects/TAGLib/asfattribute.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \

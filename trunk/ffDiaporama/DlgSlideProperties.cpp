@@ -27,7 +27,7 @@
 #include "DlgTextEdit.h"
 #include "mainwindow.h"
 
-#define DEBUGMODE
+//#define DEBUGMODE
 
 DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgSlideProperties) {
     #ifdef DEBUGMODE
@@ -78,6 +78,9 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     Undo->appendChild(root);                                // Add object to xml document
 
     setWindowTitle(windowTitle()+" - "+QApplication::translate("DlgSlideProperties","Slide")+QString(" %1/%2").arg(DiaporamaObject->Parent->CurrentCol+1).arg(DiaporamaObject->Parent->List.count()));
+    ui->NewChapterCB->setChecked(DiaporamaObject->StartNewChapter);
+    ui->NewChapterCB->setEnabled(DiaporamaObject->Parent->CurrentCol!=0);
+    ui->ChapterLabel->setEnabled(DiaporamaObject->Parent->CurrentCol!=0);
     ui->OKPreviousBT->setEnabled(DiaporamaObject->Parent->CurrentCol>0);
     ui->OKNextBT->setEnabled(DiaporamaObject->Parent->CurrentCol<DiaporamaObject->Parent->List.count()-1);
 
@@ -179,6 +182,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->BlockDownBT,SIGNAL(clicked()),this,SLOT(BlockDown()));
 
     connect(ui->SlideNameED,SIGNAL(textEdited(QString)),this,SLOT(s_SlideNameChange(QString)));
+    connect(ui->NewChapterCB,SIGNAL(stateChanged(int)),this,SLOT(s_NewChapter(int)));
     connect(ui->ShotDurationED,SIGNAL(timeChanged(QTime)),this,SLOT(s_ShotDurationChange(QTime)));
 
     connect(ui->TextEditBT,SIGNAL(clicked()),this,SLOT(TextEditor()));
@@ -380,6 +384,16 @@ void DlgSlideProperties::GetForDisplayUnit(double &DisplayW,double &DisplayH) {
     else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
     else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
     else { DisplayW=0; DisplayH=0; }
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_NewChapter(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_SlideNameChange";
+    #endif
+
+    DiaporamaObject->StartNewChapter=ui->NewChapterCB->isChecked();
 }
 
 //====================================================================================================================

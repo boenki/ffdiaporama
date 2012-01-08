@@ -1,7 +1,7 @@
-/***************************************************************************
-    copyright            : (C) 2002 - 2008 by Scott Wheeler
-    email                : wheeler@kde.org
- ***************************************************************************/
+/**************************************************************************
+    copyright            : (C) 2009 by Lukáš Lalinský
+    email                : lalinsky@gmail.com
+ **************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
@@ -23,25 +23,67 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#ifndef TAGLIB_EXPORT_H
-#define TAGLIB_EXPORT_H
-
-#if defined(TAGLIB_STATIC)
-    #define TAGLIB_EXPORT
-#elif (defined(_WIN32) || defined(_WIN64))
-    #ifdef MAKE_TAGLIB_LIB
-        #define TAGLIB_EXPORT __declspec(dllexport)
-    #else
-        #define TAGLIB_EXPORT __declspec(dllimport)
-    #endif
-#elif defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ >= 1)
-    #define TAGLIB_EXPORT __attribute__ ((visibility("default")))
-#else
-    #define TAGLIB_EXPORT
+#ifdef HAVE_CONFIG_H
+#include "config.h"         // Change by Dominique Levray : "config.h" instead of <config.h>
 #endif
 
-#ifndef TAGLIB_NO_CONFIG
-#include "taglib_config.h"
-#endif
+#ifdef WITH_MP4
+
+#include "taglib.h"         // Change by Dominique Levray : "taglib.h" instead of <taglib.h>
+#include "tdebug.h"         // Change by Dominique Levray : "tdebug.h" instead of <tdebug.h>
+#include "mp4coverart.h"
+
+using namespace TagLib;
+
+class MP4::CoverArt::CoverArtPrivate : public RefCounter
+{
+public:
+  CoverArtPrivate() : RefCounter(), format(MP4::CoverArt::JPEG) {}
+
+  Format format;
+  ByteVector data;
+};
+
+MP4::CoverArt::CoverArt(Format format, const ByteVector &data)
+{
+  d = new CoverArtPrivate;
+  d->format = format;
+  d->data = data;
+}
+
+MP4::CoverArt::CoverArt(const CoverArt &item) : d(item.d)
+{
+  d->ref();
+}
+
+MP4::CoverArt &
+MP4::CoverArt::operator=(const CoverArt &item)
+{
+  if(d->deref()) {
+    delete d;
+  }
+  d = item.d;
+  d->ref();
+  return *this;
+}
+
+MP4::CoverArt::~CoverArt()
+{
+  if(d->deref()) {
+    delete d;
+  }
+}
+
+MP4::CoverArt::Format
+MP4::CoverArt::format() const
+{
+  return d->format;
+}
+
+ByteVector
+MP4::CoverArt::data() const
+{
+  return d->data;
+}
 
 #endif

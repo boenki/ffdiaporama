@@ -50,17 +50,66 @@ extern "C" {
 #include "../TAGLib/id3v2framefactory.h"
 #include "../TAGLib/attachedpictureframe.h"
 #include "../TAGLib/mpegfile.h"
-
 #include "../TAGLib/flacfile.h"
+#include "../TAGLib/mp4file.h"
+#include "../TAGLib/vorbisfile.h"
+#include "../TAGLib/oggflacfile.h"
+#include "../TAGLib/asffile.h"
+#include "../TAGLib/mp4tag.h"
+#include "../TAGLib/mp4item.h"
+#include "../TAGLib/mp4coverart.h"
 
-//#include <mp4file.h>
-//#include <vorbisfile.h>
+// from Google music manager (see:http://code.google.com/p/gogglesmm/source/browse/src/gmutils.cpp?spec=svn6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13&r=6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13)
+bool gm_decode_base64(uchar *buffer,uint &len) {
+    static const char base64[256]={
+    0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x3e,0x80,0x80,0x80,0x3f,
+    0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x80,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a,0x0b,0x0c,0x0d,0x0e,
+    0x0f,0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,0x18,0x19,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x1a,0x1b,0x1c,0x1d,0x1e,0x1f,0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,0x28,
+    0x29,0x2a,0x2b,0x2c,0x2d,0x2e,0x2f,0x30,0x31,0x32,0x33,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
+    0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80};
 
-//#include <id3v1tag.h>
-
-//#include <mp4tag.h>
-//#include <mp4coverart.h>
-
+    uint  pos=0;
+    uchar v;
+    for (uint i=0,b=0;i<len;i++) {
+        v=base64[buffer[i]];
+        if (v!=0x80) {
+          switch(b) {
+            case 0: buffer[pos]=(v<<2);
+                    b++;
+                    break;
+            case 1: buffer[pos++]|=(v>>4);
+                    buffer[pos]=(v<<4);
+                    b++;
+                    break;
+            case 2: buffer[pos++]|=(v>>2);
+                    buffer[pos]=(v<<6);
+                    b++;
+                    break;
+            case 3: buffer[pos++]|=v;
+                    b=0;
+                    break;
+            }
+        } else {
+            if (buffer[i]=='=' && b>1) {
+                len=pos;
+                return true;
+            } else return false;
+        }
+    }
+    len=pos;
+    return true;
+}
 
 QImage *GetEmbededImage(QString FileName) {
 
@@ -91,40 +140,53 @@ QImage *GetEmbededImage(QString FileName) {
         }
         if (PreferedPic) Image->loadFromData((const uchar *)PreferedPic->data().data(),PreferedPic->data().size());
     }
-    /*if (Image->isNull()) {
-        TagLib::Vorbis::File OggFile(FileName.toLocal8Bit());
-        if (OggFile.ID3v2Tag()) {
-            TagLib::ID3v2::FrameList l=OggFile.ID3v2Tag()->frameListMap()["APIC"];
-            if (!l.isEmpty()) {
-                TagLib::ID3v2::AttachedPictureFrame *pic=static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
-                if (pic) Image->loadFromData((const uchar *)pic->picture().data(),pic->picture().size());
+    //*********** OGG
+    if ((Image->isNull())&&((QFileInfo(FileName).suffix().toLower()=="ogg")||(QFileInfo(FileName).suffix().toLower()=="oga"))) {
+        TagLib::Vorbis::File        OggFile(TagLib::FileName(FileName.toLocal8Bit()));
+        if ((OggFile.tag())&&(OggFile.tag()->contains(TagLib::String("COVERART")))) {
+            const TagLib::StringList &CoverList=OggFile.tag()->fieldListMap()["COVERART"];
+            for (TagLib::StringList::ConstIterator it=CoverList.begin();it!=CoverList.end();it++) {
+                const TagLib::ByteVector &Vector=(*it).data(TagLib::String::UTF8);
+                if ((Image->isNull())&&(Vector.size())) {
+                    uint  len    =Vector.size();
+                    uchar *buffer=(uchar *)malloc(len);
+                    memcpy(buffer,Vector.data(),len);
+                    if (gm_decode_base64(buffer,len))
+                        Image->loadFromData((const uchar *)buffer,len);
+                    free(buffer);
+                }
+
             }
         }
-    }*/
-    /*if (Image->isNull()) {
-        TagLib::ASF::File WMAFile(FileName.toLocal8Bit());
-        if (WMAFile.ID3v2Tag()) {
-            TagLib::ID3v2::FrameList l=WMAFile.ID3v2Tag()->frameListMap()["APIC"];
-            if (!l.isEmpty()) {
-                TagLib::ID3v2::AttachedPictureFrame *pic=static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
-                if (pic) Image->loadFromData((const uchar *)pic->picture().data(),pic->picture().size());
-            }
-        }
-    }*/
-    /*
-    if (Image->isNull()) {
-        TagLib::MP4::File MP4File(FileName.toLocal8Bit());
+    }
+    //*********** MP4/M4A => don't work with M4V or MP4 video
+    if ((Image->isNull())&&(/*(QFileInfo(FileName).suffix().toLower()=="mp4")||*/(QFileInfo(FileName).suffix().toLower()=="m4a")||(QFileInfo(FileName).suffix().toLower()=="m4v"))) {
+        TagLib::MP4::File MP4File(TagLib::FileName(FileName.toLocal8Bit()));
+
         if (MP4File.tag()) {
-            TagLib::MP4::ItemListMap  itemsListMap=MP4File.tag()->itemListMap();
-            TagLib::MP4::Item         coverItem   =itemsListMap["covr"];
-            TagLib::MP4::CoverArtList coverArtList=coverItem.toCoverArtList();
-            if (!coverArtList.isEmpty()) {
-                TagLib::MP4::CoverArt coverArt=coverArtList.front();
-                Image->loadFromData((const uchar *) coverArt.data().data(),coverArt.data().size());
-                //if (mp4tag->cover().size()) ;//images->push_back(EmbeddedImage(mp4tag->cover(),""));
+            if (MP4File.tag()->itemListMap().contains("covr")) {
+                TagLib::MP4::CoverArtList coverArtList = MP4File.tag()->itemListMap()["covr"].toCoverArtList();
+                if (coverArtList.size()!= 0) {
+                    TagLib::MP4::CoverArt ca = coverArtList.front();
+                    Image->loadFromData((const uchar *) ca.data().data(),ca.data().size());
+                }
             }
         }
+    }
+    //*********** ASF/WMA //////////////////// A FINIR !
+    /*
+    if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="wma")) {
+        TagLib::ASF::File ASFFile(TagLib::FileName(TagLib::FileName(FileName.toLocal8Bit())));
+        if ((ASFFile.tag())&&(!ASFFile.tag()->attributeListMap()["WM/Picture"].isEmpty())) {
+            TagLib::ID3v2::FrameList l=ASFFile.tag()->attributeListMap()["WM/Picture"];
+            if (!l.isEmpty()) {
+                TagLib::ID3v2::AttachedPictureFrame *pic=static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+                if (pic) Image->loadFromData((const uchar *)pic->picture().data(),pic->picture().size());
+            }
+            qDebug()<<"ICI";
+        }
     }*/
+    //***********
     if (!Image->isNull()) return Image; else {
         delete Image;
         return NULL;
@@ -151,7 +213,6 @@ cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig) {
     ImageHeight         = 0;                                        // Height of normal image
     CreatDateTime       = QDateTime(QDate(0,0,0),QTime(0,0,0));     // Original date/time
     ModifDateTime       = QDateTime(QDate(0,0,0),QTime(0,0,0));     // Last modified date/time
-    ModifDateTimeText   = "";
     ApplicationConfig   = TheApplicationConfig;
     WEBInfo             = "";
     AspectRatio         = 1;
@@ -177,7 +238,6 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
     FileSizeText        =GetTextSize(FileSize);
     CreatDateTime       =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
     ModifDateTime       =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
-    ModifDateTimeText   =ModifDateTime.toString();
 
     if (ModifyFlag) *ModifyFlag=false;
 
@@ -229,7 +289,7 @@ QString cBaseMediaFile::GetInformationValue(QString ValueToSearch) {
     while ((i<InformationList.count())&&(!((QString )InformationList[i]).startsWith(ValueToSearch+"##"))) i++;
     if ((i<InformationList.count())&&(((QString )InformationList[i]).startsWith(ValueToSearch))) {
         QStringList Values=((QString)InformationList[i]).split("##");
-        if (Values.count()==2) return Values[1];
+        if (Values.count()==2) return ((QString)Values[1]).trimmed();
     }
     return "";
 }
@@ -239,38 +299,41 @@ QString cBaseMediaFile::GetInformationValue(QString ValueToSearch) {
 void cBaseMediaFile::AddIcons(QString FileName) {
     QImage Img(FileName);
     if (Img.width()>Img.height()) {
-        Img=Img.scaledToWidth(96,Qt::SmoothTransformation);
-        Icon16=Img.scaledToWidth(16);
-        Icon32=Img.scaledToWidth(32);
-        Icon48=Img.scaledToWidth(48);
+        Icon16 =Img.scaledToWidth(16,Qt::SmoothTransformation);
+        Icon32 =Img.scaledToWidth(32,Qt::SmoothTransformation);
+        Icon48 =Img.scaledToWidth(48,Qt::SmoothTransformation);
+        Icon100=Img.scaledToWidth(100,Qt::SmoothTransformation);
     } else {
-        Img=Img.scaledToHeight(96,Qt::SmoothTransformation);
-        Icon16=Img.scaledToHeight(16);
-        Icon32=Img.scaledToHeight(32);
-        Icon48=Img.scaledToHeight(48);
+        Icon16 =Img.scaledToHeight(16,Qt::SmoothTransformation);
+        Icon32 =Img.scaledToHeight(32,Qt::SmoothTransformation);
+        Icon48 =Img.scaledToHeight(48,Qt::SmoothTransformation);
+        Icon100=Img.scaledToHeight(100,Qt::SmoothTransformation);
     }
 }
 
 //====================================================================================================================
 
-void cBaseMediaFile::AddIcons(QImage *Image96) {
-    if (Image96->width()>Image96->height()) {
-        Icon16=Image96->scaledToWidth(16);
-        Icon32=Image96->scaledToWidth(32);
-        Icon48=Image96->scaledToWidth(48);
+void cBaseMediaFile::AddIcons(QImage *Image) {
+    if (Image->width()>Image->height()) {
+        Icon16 =Image->scaledToWidth(16,Qt::SmoothTransformation);
+        Icon32 =Image->scaledToWidth(32,Qt::SmoothTransformation);
+        Icon48 =Image->scaledToWidth(48,Qt::SmoothTransformation);
+        Icon100=Image->scaledToWidth(100,Qt::SmoothTransformation);
     } else {
-        Icon16=Image96->scaledToHeight(16);
-        Icon32=Image96->scaledToHeight(32);
-        Icon48=Image96->scaledToHeight(48);
+        Icon16 =Image->scaledToHeight(16,Qt::SmoothTransformation);
+        Icon32 =Image->scaledToHeight(32,Qt::SmoothTransformation);
+        Icon48 =Image->scaledToHeight(48,Qt::SmoothTransformation);
+        Icon100=Image->scaledToHeight(100,Qt::SmoothTransformation);
     }
 }
 
 //====================================================================================================================
 
 void cBaseMediaFile::AddIcons(QIcon Icon) {
-    Icon16=Icon.pixmap(16,16).toImage();
-    Icon32=Icon.pixmap(32,32).toImage();
-    Icon48=Icon.pixmap(48,48).toImage();
+    Icon16 =Icon.pixmap(16,16).toImage();
+    Icon32 =Icon.pixmap(32,32).toImage();
+    Icon48 =Icon.pixmap(48,48).toImage();
+    Icon100=Icon.pixmap(100,100).toImage();
 }
 
 //====================================================================================================================
@@ -290,6 +353,25 @@ QString cBaseMediaFile::GetImageGeometryStr() {
         case IMAGE_GEOMETRY_17_40   : return "17:40";
         default                     : return "";        //QApplication::translate("cBaseMediaFile","ns","Non standard image geometry");
     }
+}
+
+//====================================================================================================================
+
+QString cBaseMediaFile::GetFileSizeStr() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cBaseMediaFile::GetFileSizeStr";
+    #endif
+    return FileSizeText;
+}
+
+//====================================================================================================================
+
+QString cBaseMediaFile::GetFileDateTimeStr(bool Created) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cBaseMediaFile::GetFileDateTimeStr";
+    #endif
+    if (Created) return CreatDateTime.toString();
+        else return ModifDateTime.toString();
 }
 
 //====================================================================================================================
@@ -360,9 +442,9 @@ cUnmanagedFile::cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig):cBaseM
 
 //====================================================================================================================
 
-QString cUnmanagedFile::GetTypeText() {
+QString cUnmanagedFile::GetFileTypeStr() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:cUnmanagedFile::GetTypeText";
+    qDebug() << "IN:cUnmanagedFile::GetFileTypeStr";
     #endif
     return QApplication::translate("cBaseMediaFile","Unmanaged","File type");
 }
@@ -399,7 +481,6 @@ bool cFolder::GetInformationFromFile(QString GivenFileName,QStringList */*AliasL
     ShortName           =QFileInfo(GivenFileName).fileName();
     CreatDateTime       =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
     ModifDateTime       =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
-    ModifDateTimeText   =ModifDateTime.toString();
     return true;
 }
 
@@ -414,9 +495,9 @@ bool cFolder::IsFilteredFile(int) {
 
 //====================================================================================================================
 
-QString cFolder::GetTypeText() {
+QString cFolder::GetFileTypeStr() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:cFolder::GetTypeText";
+    qDebug() << "IN:cFolder::GetFileTypeStr";
     #endif
     return QApplication::translate("cBaseMediaFile","Folder","File type");
 }
@@ -441,6 +522,7 @@ cffDProjectFile::cffDProjectFile(cBaseApplicationConfig *ApplicationConfig):cBas
     NbrSlide        =0;
     ffDRevision     ="";
     DefaultLanguage ="und";
+    NbrChapters     =0;
 }
 
 //====================================================================================================================
@@ -455,7 +537,6 @@ bool cffDProjectFile::GetInformationFromFile(QString GivenFileName,QStringList *
     FileSizeText        =GetTextSize(FileSize);
     CreatDateTime       =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
     ModifDateTime       =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
-    ModifDateTimeText   =ModifDateTime.toString();
     return true;
 }
 
@@ -477,6 +558,17 @@ void cffDProjectFile::SaveToXML(QDomElement &domDocument) {
     Element.setAttribute("Duration",Duration);
     Element.setAttribute("ffDRevision",ffDRevision);
     Element.setAttribute("DefaultLanguage",DefaultLanguage);
+    Element.setAttribute("ChaptersNumber",NbrChapters);
+    for (int i=0;i<NbrChapters;i++) {
+        QString     ChapterNum=QString("%1").arg(i); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
+        QDomElement SubElement=DomDocument.createElement("Chapter_"+ChapterNum);
+        SubElement.setAttribute("Start",GetInformationValue("Chapter_"+ChapterNum+":Start"));
+        SubElement.setAttribute("End",GetInformationValue("Chapter_"+ChapterNum+":End"));
+        SubElement.setAttribute("Duration",GetInformationValue("Chapter_"+ChapterNum+":Duration"));
+        SubElement.setAttribute("title",GetInformationValue("Chapter_"+ChapterNum+":title"));
+        SubElement.setAttribute("InSlide",GetInformationValue("Chapter_"+ChapterNum+":InSlide"));
+        Element.appendChild(SubElement);
+    }
     domDocument.appendChild(Element);
 }
 
@@ -531,7 +623,32 @@ bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
                 int     TimeMinute  =(TimeSec%(60*60))/60;
                 QTime   tDuration;
                 tDuration.setHMS(TimeHour,TimeMinute,TimeSec%60,TimeMSec);
-                InformationList.append(QString("Duration")+QString("##")+tDuration.toString("HH:mm:ss"));
+                InformationList.append(QString("Duration")+QString("##")+tDuration.toString("HH:mm:ss.zzz"));
+            }
+        }
+        if (Element.hasAttribute("ChaptersNumber")) {
+            NbrChapters=Element.attribute("ChaptersNumber").toInt();
+            for (int i=0;i<NbrChapters;i++) {
+                QString     ChapterNum=QString("%1").arg(i); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
+                if ((domDocument.elementsByTagName("Chapter_"+ChapterNum).length()>0)&&(domDocument.elementsByTagName("Chapter_"+ChapterNum).item(0).isElement()==true)) {
+                    QDomElement SubElement=domDocument.elementsByTagName("Chapter_"+ChapterNum).item(0).toElement();
+                    QString     Start="";
+                    QString     End="";
+                    QString     Duration="";
+                    QString     Title="";
+                    QString     InSlide="";
+                    if (SubElement.hasAttribute("Start"))       Start=SubElement.attribute("Start");
+                    if (SubElement.hasAttribute("End"))         End=SubElement.attribute("End");
+                    if (SubElement.hasAttribute("Duration"))    Duration=SubElement.attribute("Duration");
+                    if (SubElement.hasAttribute("title"))       Title=SubElement.attribute("title");
+                    if (SubElement.hasAttribute("InSlide"))     InSlide=SubElement.attribute("InSlide");
+
+                    InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+Start);
+                    InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+End);
+                    InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+Duration);
+                    InformationList.append("Chapter_"+ChapterNum+":title"   +QString("##")+Title);
+                    InformationList.append("Chapter_"+ChapterNum+":InSlide" +QString("##")+InSlide);
+                }
             }
         }
         IsOk=true;
@@ -595,11 +712,11 @@ bool cffDProjectFile::IsFilteredFile(int RequireObjectType) {
 
 //====================================================================================================================
 
-QString cffDProjectFile::GetTypeText() {
+QString cffDProjectFile::GetFileTypeStr() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:cffDProjectFile::GetTypeText";
+    qDebug() << "IN:cffDProjectFile::GetFileTypeStr";
     #endif
-    return QApplication::translate("cBaseMediaFile","ffDiaporama project","File type");
+    return QApplication::translate("cBaseMediaFile","ffDiaporama","File type");
 }
 
 //*********************************************************************************************************************************************
@@ -626,9 +743,9 @@ bool cImageFile::IsFilteredFile(int RequireObjectType) {
 
 //====================================================================================================================
 
-QString cImageFile::GetTypeText() {
+QString cImageFile::GetFileTypeStr() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:cImageFile::GetTypeText";
+    qDebug() << "IN:cImageFile::GetFileTypeStr";
     #endif
     if (ObjectType==OBJECTTYPE_IMAGEFILE) return QApplication::translate("cBaseMediaFile","Image","File type");
         else return QApplication::translate("cBaseMediaFile","Thumbnail","File type");
@@ -1013,6 +1130,25 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
         InformationList.append(QString().fromUtf8(tag->key).toLower()+QString("##")+Value);
     }
 
+    // Get chapters
+    NbrChapters=ffmpegFile->nb_chapters;
+    for (uint i=0;i<ffmpegFile->nb_chapters;i++) {
+        AVChapter   *ch=ffmpegFile->chapters[i];
+        QString     ChapterNum=QString("%1").arg(i);
+        while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
+        qlonglong Start=double(ch->start)*(double(av_q2d(ch->time_base))*1000);    // Lib AV use 1/1 000 000 000 sec and we want msec !
+        qlonglong End  =double(ch->end)*(double(av_q2d(ch->time_base))*1000);    // Lib AV use 1/1 000 000 000 sec and we want msec !
+        InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
+        InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(End).toString("hh:mm:ss.zzz"));
+        InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(End-Start).toString("hh:mm:ss.zzz"));
+            // Chapter metadata
+            #if (LIBAVFORMAT_VERSION_MAJOR<53)
+            while ((tag=av_metadata_get(ch->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX)))
+            #else
+            while ((tag=av_dict_get(ch->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
+            #endif
+                InformationList.append("Chapter_"+ChapterNum+":"+QString().fromUtf8(tag->key).toLower()+QString("##")+QString().fromUtf8(tag->value));
+    }
     // Get informations about duration
     int hh,mm,ss,ms;
     ms=ffmpegFile->duration/1000;
@@ -1024,7 +1160,7 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
     ms=ms-(ms/1000)*1000;
     Duration=QTime(hh,mm,ss,ms);
     EndPos  =Duration;    // By default : EndPos is set to the end of file
-    InformationList.append(QString("Duration")+QString("##")+Duration.toString("HH:mm:ss"));
+    InformationList.append(QString("Duration")+QString("##")+Duration.toString("HH:mm:ss.zzz"));
 
     // Get information from track
     for (int Track=0;Track<(int)ffmpegFile->nb_streams;Track++) {
@@ -1177,9 +1313,9 @@ bool cVideoFile::IsFilteredFile(int RequireObjectType) {
 
 //====================================================================================================================
 
-QString cVideoFile::GetTypeText() {
+QString cVideoFile::GetFileTypeStr() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::GetTypeText";
+    qDebug() << "IN:cVideoFile::GetFileTypeStr";
     #endif
     if (ObjectType==OBJECTTYPE_VIDEOFILE)   return QApplication::translate("cBaseMediaFile","Video","File type");
         else                                return QApplication::translate("cBaseMediaFile","Music","File type");

@@ -37,47 +37,119 @@ void DlgInfoFile::DoInitDialog() {
     qDebug() << "IN:DlgInfoFile::DoInitDialog";
     #endif
 
-    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->tableWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    ui->tableWidget->horizontalHeader()->hide();
-    ui->tableWidget->horizontalHeader()->setStretchLastSection(false);
-    ui->tableWidget->horizontalHeader()->setSortIndicatorShown(false);
-    ui->tableWidget->horizontalHeader()->setCascadingSectionResizes(false);
-    ui->tableWidget->horizontalHeader()->setClickable(false);
-    ui->tableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
-    ui->tableWidget->horizontalHeader()->setMovable(false);
-    ui->tableWidget->horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
-    ui->tableWidget->verticalHeader()->hide();
-    ui->tableWidget->verticalHeader()->setStretchLastSection(false);
-    ui->tableWidget->verticalHeader()->setSortIndicatorShown(false);
-    ui->tableWidget->verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
-    ui->tableWidget->setShowGrid(true);                  // Ensure grid display
-    //ui->tableWidget->setWordWrap(false);                 // Ensure no word wrap
-    ui->tableWidget->setTextElideMode(Qt::ElideNone);    // Ensure no line ellipsis (...)
-    ui->tableWidget->setColumnCount(2);
-    ui->tableWidget->setHorizontalHeaderLabels(QString("Propertie;Value").split(";"));
+    DoInitTableWidget(ui->tableWidget,"Propertie;Value");
 
     if (MediaFile) {
-        /*
-        ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgInfoFile","Object type")));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK?QApplication::translate("DlgInfoFile","Title"):
-                                                                                  CurrentTextItem->BackgroundBrush->Image!=NULL?QApplication::translate("DlgInfoFile","Image"):
-                                                                                  QApplication::translate("DlgInfoFile","Video")));
-        */
-        ui->tableWidget->setUpdatesEnabled(false);               // To allow and force a general update
-        for (int i=0;i<MediaFile->InformationList.count();i++) {
+        // General file information
+        ui->FileIconLabel->setPixmap(QPixmap().fromImage(MediaFile->Icon100));
+        ui->FileNameValue->setText(MediaFile->ShortName);
+        ui->FileTypeValue->setText(MediaFile->GetFileTypeStr());
+        ui->FileSizeValue->setText(MediaFile->GetFileSizeStr());
+        ui->FileCreatedValue->setText(MediaFile->GetFileDateTimeStr(true));
+        ui->FileModifyValue->setText(MediaFile->GetFileDateTimeStr(false));
+
+        //**************** Video
+        if ((MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->VideoTrackNbr>0)) {
+            ui->VideoTable->setUpdatesEnabled(false);
+            ui->VideoTitleLabel->setVisible(true);
+            ui->VideoTable->setVisible(true);
+            DoInitTableWidget(ui->VideoTable,"#;Image Size;Image Format;Image Geometry;Codec;Frame Rate;Bitrate");
+            for (int i=0;i<((cVideoFile *)MediaFile)->VideoTrackNbr;i++) {
+                QString TrackNum=QString("%1").arg(i); while (TrackNum.length()<3) TrackNum="0"+TrackNum;
+                TrackNum="Video_"+TrackNum+":";
+                QColor Background=((i & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
+                ui->VideoTable->insertRow(ui->VideoTable->rowCount());
+                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,0,CreateItem(QString("%1").arg(i+1),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,1,CreateItem(MediaFile->GetImageSizeStr(cBaseMediaFile::SIZEONLY),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,2,CreateItem(MediaFile->GetImageSizeStr(cBaseMediaFile::FMTONLY),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,3,CreateItem(MediaFile->GetImageSizeStr(cBaseMediaFile::GEOONLY),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,4,CreateItem(MediaFile->GetInformationValue(TrackNum+"Codec"),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,5,CreateItem(MediaFile->GetInformationValue(TrackNum+"Frame rate"),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->VideoTable->setItem(ui->VideoTable->rowCount()-1,6,CreateItem(MediaFile->GetInformationValue(TrackNum+"Bitrate"),Qt::AlignCenter|Qt::AlignVCenter,Background));
+            }
+            DoResizeColumnsTableWidget(ui->VideoTable);
+            ui->VideoTable->setUpdatesEnabled(true);
+        } else {
+            ui->VideoTitleLabel->setVisible(false);
+            ui->VideoTable->setVisible(false);
+        }
+
+        //**************** Chapters
+        if (((MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->NbrChapters>0))||((MediaFile->ObjectType==OBJECTTYPE_FFDFILE)&&(((cffDProjectFile *)MediaFile)->NbrChapters>0))) {
+            ui->ChapterTable->setUpdatesEnabled(false);
+            ui->ChapterTitleLabel->setVisible(true);
+            ui->ChapterTable->setVisible(true);
+            int NbrChapter=(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)?((cVideoFile *)MediaFile)->NbrChapters:((MediaFile->ObjectType==OBJECTTYPE_FFDFILE)?((cffDProjectFile *)MediaFile)->NbrChapters:0);
+            if (MediaFile->ObjectType==OBJECTTYPE_FFDFILE) DoInitTableWidget(ui->ChapterTable,"#;Slide;Title;Start;End;Duration");
+                else DoInitTableWidget(ui->ChapterTable,"#;Title;Start;End;Duration");
+            for (int i=0;i<NbrChapter;i++) {
+                int     Col=0;
+                QString ChapterNum=QString("%1").arg(i); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
+                ChapterNum="Chapter_"+ChapterNum+":";
+                QColor Background=((i & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
+                ui->ChapterTable->insertRow(ui->ChapterTable->rowCount());
+                ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(QString("%1").arg(i+1),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                if (MediaFile->ObjectType==OBJECTTYPE_FFDFILE) ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(MediaFile->GetInformationValue(ChapterNum+"InSlide"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(MediaFile->GetInformationValue(ChapterNum+"title"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(MediaFile->GetInformationValue(ChapterNum+"Start"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(MediaFile->GetInformationValue(ChapterNum+"End"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,Col++,CreateItem(MediaFile->GetInformationValue(ChapterNum+"Duration"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+            }
+            DoResizeColumnsTableWidget(ui->ChapterTable);
+            ui->ChapterTable->setUpdatesEnabled(true);
+        } else {
+            ui->ChapterTitleLabel->setVisible(false);
+            ui->ChapterTable->setVisible(false);
+        }
+
+        //**************** Audio
+        if (((MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)||(MediaFile->ObjectType==OBJECTTYPE_MUSICFILE))&&(((cVideoFile *)MediaFile)->AudioTrackNbr>0)) {
+            ui->AudioTable->setUpdatesEnabled(false);
+            ui->AudioTitleLabel->setVisible(true);
+            ui->AudioTable->setVisible(true);
+            if (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE) DoInitTableWidget(ui->AudioTable,"#;Language;Codec;Channels;Bitrate;Frequency;Title");
+                else DoInitTableWidget(ui->AudioTable,"#;Language;Codec;Channels;Bitrate;Frequency");
+            for (int i=0;i<((cVideoFile *)MediaFile)->AudioTrackNbr;i++) {
+                QString TrackNum=QString("%1").arg(i); while (TrackNum.length()<3) TrackNum="0"+TrackNum;
+                TrackNum="Audio_"+TrackNum+":";
+                QColor Background=((i & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
+                ui->AudioTable->insertRow(ui->AudioTable->rowCount());
+                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,0,CreateItem(QString("%1").arg(i+1),Qt::AlignLeft|Qt::AlignVCenter,Background));
+                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,1,CreateItem(MediaFile->GetInformationValue(TrackNum+"language"),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,2,CreateItem(MediaFile->GetInformationValue(TrackNum+"Codec"),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,3,CreateItem(MediaFile->GetInformationValue(TrackNum+"Channels"),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,4,CreateItem(MediaFile->GetInformationValue(TrackNum+"Bitrate"),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,5,CreateItem(MediaFile->GetInformationValue(TrackNum+"Frequency"),Qt::AlignCenter|Qt::AlignVCenter,Background));
+                if (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)
+                    ui->AudioTable->setItem(ui->AudioTable->rowCount()-1,6,CreateItem(MediaFile->GetInformationValue(TrackNum+"title"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+            }
+            DoResizeColumnsTableWidget(ui->AudioTable);
+            ui->AudioTable->setUpdatesEnabled(true);
+        } else {
+            ui->AudioTitleLabel->setVisible(false);
+            ui->AudioTable->setVisible(false);
+        }
+
+        //**************** Additionnals
+        ui->tableWidget->setUpdatesEnabled(false);
+        for (int i=0;i<MediaFile->InformationList.count();i++)
+          if ((!((QString)MediaFile->InformationList[i]).startsWith("Chapter_"))
+              &&(!((QString)MediaFile->InformationList[i]).startsWith("Video_"))
+              &&(!((QString)MediaFile->InformationList[i]).startsWith("Audio_"))
+          ) {
             ui->tableWidget->insertRow(ui->tableWidget->rowCount());
             QStringList Value=MediaFile->InformationList[i].split("##");
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(Value[0]));
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(Value[1]));
         }
-        ui->tableWidget->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
-        ui->tableWidget->setVisible(false);                      // To ensure all items of all columns are used to compute size
-        ui->tableWidget->resizeColumnsToContents();              // Resize column widht
-        ui->tableWidget->resizeRowsToContents();                 // Resize row height
-        ui->tableWidget->setVisible(true);                       // To allow display
-        ui->tableWidget->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
-        ui->tableWidget->setUpdatesEnabled(true);                // To allow and force a general update
+        DoResizeColumnsTableWidget(ui->tableWidget);
+        ui->tableWidget->setUpdatesEnabled(true);
+    } else {
+        ui->VideoTitleLabel->setVisible(false);
+        ui->VideoTable->setVisible(false);
+        ui->ChapterTitleLabel->setVisible(false);
+        ui->ChapterTable->setVisible(false);
+        ui->AudioTitleLabel->setVisible(false);
+        ui->AudioTable->setVisible(false);
     }
 }

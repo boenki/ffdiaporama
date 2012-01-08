@@ -260,7 +260,7 @@ void MainWindow::s_currentTableItemChanged() {
             ui->FileInfoLabel->Icon48           =Media->Icon48;
             ui->FileInfoLabel->TextLeftUpper    =Media->ShortName;
             ui->FileInfoLabel->TextLeftBottom   =Media->WEBInfo;
-            ui->FileInfoLabel->TextRightUpper   =Media->GetTypeText()+" ("+Media->FileSizeText+")";
+            ui->FileInfoLabel->TextRightUpper   =Media->GetFileTypeStr()+" ("+Media->FileSizeText+")";
         }
         ui->FileInfoLabel->repaint();
     }

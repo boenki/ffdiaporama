@@ -19,6 +19,7 @@
    ====================================================================== */
 
 #include "_QCustomDialog.h"
+#include <QHeaderView>
 
 //#define DEBUGMODE
 
@@ -124,4 +125,60 @@ void QCustomDialog::reject() {
 
     // Close dialog
     done(1);
+}
+
+//====================================================================================================================
+// utility function to init a table widget
+
+void QCustomDialog::DoInitTableWidget(QTableWidget *Table,QString TableColumns) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomDialog::DoInitTableWidget";
+    #endif
+    Table->setSelectionBehavior(QAbstractItemView::SelectRows);
+    Table->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    Table->horizontalHeader()->show();
+    Table->horizontalHeader()->setStretchLastSection(false);
+    Table->horizontalHeader()->setSortIndicatorShown(false);
+    Table->horizontalHeader()->setCascadingSectionResizes(false);
+    Table->horizontalHeader()->setClickable(false);
+    Table->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
+    Table->horizontalHeader()->setMovable(false);
+    Table->horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
+    Table->verticalHeader()->hide();
+    Table->verticalHeader()->setStretchLastSection(false);
+    Table->verticalHeader()->setSortIndicatorShown(false);
+    Table->verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
+    Table->setShowGrid(true);                  // Ensure grid display
+    Table->setWordWrap(false);                 // Ensure no word wrap
+    Table->setTextElideMode(Qt::ElideNone);    // Ensure no line ellipsis (...)
+    Table->setColumnCount(TableColumns.split(";").count());
+    Table->setHorizontalHeaderLabels(TableColumns.split(";"));
+}
+
+//====================================================================================================================
+// utility function to create a QTableWidgetItem
+
+QTableWidgetItem *QCustomDialog::CreateItem(QString ItemText,int Alignment,QBrush Background) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomDialog::CreateItem";
+    #endif
+    QTableWidgetItem *Item=new QTableWidgetItem(ItemText);
+    Item->setTextAlignment(Alignment);
+    Item->setBackground(Background);
+    return Item;
+}
+
+//====================================================================================================================
+// utility function to resize columns in a table widget
+
+void QCustomDialog::DoResizeColumnsTableWidget(QTableWidget *Table) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomDialog::DoResizeColumnsTableWidget";
+    #endif
+    Table->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
+    Table->setVisible(false);                      // To ensure all items of all columns are used to compute size
+    Table->resizeColumnsToContents();              // Resize column widht
+    Table->resizeRowsToContents();                 // Resize row height
+    Table->setVisible(true);                       // To allow display
+    Table->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
 }

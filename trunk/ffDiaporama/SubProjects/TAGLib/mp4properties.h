@@ -1,7 +1,7 @@
-/***************************************************************************
-    copyright            : (C) 2002 - 2008 by Scott Wheeler
-    email                : wheeler@kde.org
- ***************************************************************************/
+/**************************************************************************
+    copyright            : (C) 2007 by Lukáš Lalinský
+    email                : lalinsky@gmail.com
+ **************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
@@ -23,25 +23,39 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#ifndef TAGLIB_EXPORT_H
-#define TAGLIB_EXPORT_H
+#ifndef TAGLIB_MP4PROPERTIES_H
+#define TAGLIB_MP4PROPERTIES_H
 
-#if defined(TAGLIB_STATIC)
-    #define TAGLIB_EXPORT
-#elif (defined(_WIN32) || defined(_WIN64))
-    #ifdef MAKE_TAGLIB_LIB
-        #define TAGLIB_EXPORT __declspec(dllexport)
-    #else
-        #define TAGLIB_EXPORT __declspec(dllimport)
-    #endif
-#elif defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ >= 1)
-    #define TAGLIB_EXPORT __attribute__ ((visibility("default")))
-#else
-    #define TAGLIB_EXPORT
-#endif
+#include "taglib_export.h"
+#include "audioproperties.h"
 
-#ifndef TAGLIB_NO_CONFIG
-#include "taglib_config.h"
-#endif
+namespace TagLib {
+
+  namespace MP4 {
+
+    class Atoms;
+    class File;
+
+    //! An implementation of MP4 audio properties
+    class TAGLIB_EXPORT Properties : public AudioProperties
+    {
+    public:
+      Properties(File *file, Atoms *atoms, ReadStyle style = Average);
+      virtual ~Properties();
+
+      virtual int length() const;
+      virtual int bitrate() const;
+      virtual int sampleRate() const;
+      virtual int channels() const;
+      virtual int bitsPerSample() const;
+
+    private:
+      class PropertiesPrivate;
+      PropertiesPrivate *d;
+    };
+
+  }
+
+}
 
 #endif

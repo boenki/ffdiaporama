@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 04/01/2011) :
+Buggs/TODO (Dernier SVN le 06/01/2011) :
 ----------------------------------------
 TODO
 ----
@@ -12,18 +12,26 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige une erreur d'affichage lors des ajouts de projet dans le projet
 
 English version / Bug fix :
+-Fix a display error when add project in project
 
 French version / Nouvelles fonctionnalités
--Ajoute le WMA et le FLAC dans la liste des fichiers audio supportés
--Ajout partiel de la librairie TAGlib pour la gestion des TAGs
--Prise en charge de la nouvelle version de ffmpeg 0.9
+-Ajoute la gestion des chapitres
+    -Ajoute une option dans la boite slide pour définir un slide comme marquant le début d'un chapitre (Le nom du chapitre est le nom du slide)
+    -Ajoute une icône dans la timeline pour symboliser les démarrages de chapitres
+    -Ajoute la liste des chapitres dans la boite propriété (pour consultation)
+-Ajoute un bouton dans la boite de génération pour consulter/ajuster les propriétés du projet avant génération
+-Quand une vidéo contenant plus d'un chapitre est ajoutée au projet, propose de créer un slide par chapitre
 
 English version / New features
--Add WMA and FLAC in supported audio file list
--Partial addition of the TAGlib library for TAG managment
--Support for new ffmpeg 0.9 version
+-Add chapter managment
+    -Add an option in slide dialog to define if a slide start a new chapter (chapter name is slide name)
+    -Add icons in timeline to symbolise chapter start
+    -Add chapter list in properties dialog (for consulting)
+-Add a button in render dialog to adjust project proprerties before rendering
+-When a video wich contains more than on chapter is added to the project, propose to create on slide for each chapter
 
 -------------------------------------
 Changelog depuis la version 20111118
@@ -67,6 +75,9 @@ French version / Nouvelles fonctionnalités
 -Ajoute le support du code de language (ISO 639) pour la production des vidéos (option supplémentaire dans les boites de configuration, de propriétés et de génération)
 -Améliore l'affichage des informations dans la zone information de la boite slide
 -Ajoute une demande de confirmation pour ouvrir des projets créés avec une version plus récente de ffDiaporama
+-Ajoute le WMA et le FLAC dans la liste des fichiers audio supportés
+-Ajout partiel de la librairie TAGlib pour la gestion des TAGs
+-Prise en charge de la nouvelle version de ffmpeg 0.9
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -85,3 +96,6 @@ English version / New features
 -Add support for language code (ISO 639) for the video rendering (Add options in option, project properties and render dialogs)
 -Improve information display in slide dialog information zone
 -Add a confirmation ask to open project created with a newer ffDiaporama version
+-Add WMA and FLAC in supported audio file list
+-Partial addition of the TAGlib library for TAG managment
+-Support for new ffmpeg 0.9 version

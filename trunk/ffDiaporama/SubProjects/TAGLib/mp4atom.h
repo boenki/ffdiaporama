@@ -1,7 +1,7 @@
-/***************************************************************************
-    copyright            : (C) 2002 - 2008 by Scott Wheeler
-    email                : wheeler@kde.org
- ***************************************************************************/
+/**************************************************************************
+    copyright            : (C) 2007 by Lukáš Lalinský
+    email                : lalinsky@gmail.com
+ **************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
@@ -23,25 +23,55 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#ifndef TAGLIB_EXPORT_H
-#define TAGLIB_EXPORT_H
+// This file is not part of the public API!
 
-#if defined(TAGLIB_STATIC)
-    #define TAGLIB_EXPORT
-#elif (defined(_WIN32) || defined(_WIN64))
-    #ifdef MAKE_TAGLIB_LIB
-        #define TAGLIB_EXPORT __declspec(dllexport)
-    #else
-        #define TAGLIB_EXPORT __declspec(dllimport)
-    #endif
-#elif defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ >= 1)
-    #define TAGLIB_EXPORT __attribute__ ((visibility("default")))
-#else
-    #define TAGLIB_EXPORT
-#endif
+#ifndef DO_NOT_DOCUMENT
 
-#ifndef TAGLIB_NO_CONFIG
-#include "taglib_config.h"
+#ifndef TAGLIB_MP4ATOM_H
+#define TAGLIB_MP4ATOM_H
+
+#include "tfile.h"
+#include "tlist.h"
+
+namespace TagLib {
+
+  namespace MP4 {
+
+    class Atom;
+    typedef TagLib::List<Atom *> AtomList;
+
+    class Atom
+    {
+    public:
+        Atom(File *file);
+        ~Atom();
+        Atom *find(const char *name1, const char *name2 = 0, const char *name3 = 0, const char *name4 = 0);
+        bool path(AtomList &path, const char *name1, const char *name2 = 0, const char *name3 = 0);
+        AtomList findall(const char *name, bool recursive = false);
+        long offset;
+        long length;
+        TagLib::ByteVector name;
+        AtomList children;
+    private:
+        static const int numContainers = 10;
+        static const char *containers[10];
+    };
+
+    //! Root-level atoms
+    class Atoms
+    {
+    public:
+        Atoms(File *file);
+        ~Atoms();
+        Atom *find(const char *name1, const char *name2 = 0, const char *name3 = 0, const char *name4 = 0);
+        AtomList path(const char *name1, const char *name2 = 0, const char *name3 = 0, const char *name4 = 0);
+        AtomList atoms;
+    };
+
+  }
+
+}
+
 #endif
 
 #endif

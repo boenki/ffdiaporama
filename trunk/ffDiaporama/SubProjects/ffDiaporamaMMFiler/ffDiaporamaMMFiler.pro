@@ -6,6 +6,9 @@ APPFOLDER    = ffDiaporama
 TARGET       = ffDiaporamaMMFiler
 TEMPLATE     = app
 
+DEFINES      += HAVE_CONFIG_H               # specific for TAGLib
+DEFINES      += TAGLIB_STATIC               # specific for TAGLib
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     DlgApplicationSettings.cpp \
@@ -79,7 +82,18 @@ SOURCES += main.cpp\
     ../TAGLib/oggfile.cpp \
     ../TAGLib/vorbisproperties.cpp \
     ../TAGLib/oggpageheader.cpp \
-    ../TAGLib/oggpage.cpp
+    ../TAGLib/oggpage.cpp \
+    ../TAGLib/mp4file.cpp \
+    ../TAGLib/mp4atom.cpp \
+    ../TAGLib/mp4tag.cpp \
+    ../TAGLib/mp4properties.cpp \
+    ../TAGLib/mp4item.cpp \
+    ../TAGLib/mp4coverart.cpp \
+    ../TAGLib/asffile.cpp \
+    ../TAGLib/asftag.cpp \
+    ../TAGLib/asfproperties.cpp \
+    ../TAGLib/asfpicture.cpp \
+    ../TAGLib/asfattribute.cpp
 
 HEADERS  += mainwindow.h \
     DlgApplicationSettings.h \
@@ -157,7 +171,19 @@ HEADERS  += mainwindow.h \
     ../TAGLib/oggfile.h \
     ../TAGLib/vorbisproperties.h \
     ../TAGLib/oggpageheader.h \
-    ../TAGLib/oggpage.h
+    ../TAGLib/oggpage.h \
+    ../TAGLib/mp4file.h \
+    ../TAGLib/mp4atom.h \
+    ../TAGLib/mp4tag.h \
+    ../TAGLib/mp4properties.h \
+    ../TAGLib/mp4item.h \
+    ../TAGLib/mp4coverart.h \
+    ../TAGLib/config.h \
+    ../TAGLib/asffile.h \
+    ../TAGLib/asftag.h \
+    ../TAGLib/asfproperties.h \
+    ../TAGLib/asfpicture.h \
+    ../TAGLib/asfattribute.h
 
 FORMS    += mainwindow.ui \
     DlgApplicationSettings.ui \

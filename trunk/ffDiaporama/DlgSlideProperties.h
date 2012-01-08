@@ -109,6 +109,7 @@ private slots:
     void            Help();
     void            SetSavedWindowGeometry();
     void            s_SlideNameChange(QString NewText);
+    void            s_NewChapter(int state);
     void            s_ShotDurationChange(QTime NewValue);
     void            ChangeVisibleState();
     void            s_TVMarginsBt();
