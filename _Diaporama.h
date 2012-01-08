@@ -172,11 +172,12 @@ public:
 };
 
 //*********************************************************************************************************************************************
-// Base object for all media type
+// class containing one slide
 //*********************************************************************************************************************************************
 class cDiaporamaObject {
 public:
     cDiaporama              *Parent;                    // Link to global object
+    bool                    StartNewChapter;            // if true then start a new chapter from this slide
     int                     TypeObject;                 // Type of object
     QString                 SlideName;                  // Display name of the slide
     QList<cDiaporamaShot *> List;                       // list of scene definition
@@ -218,7 +219,7 @@ public:
 };
 
 //*********************************************************************************************************************************************
-// Class object for rendering
+// Technical class object for rendering
 //*********************************************************************************************************************************************
 class cDiaporamaObjectInfo {
 public:
@@ -290,7 +291,7 @@ public:
 };
 
 //*********************************************************************************************************************************************
-// Global class containing media objects
+// Global class containing the project
 //*********************************************************************************************************************************************
 class cCustomTableWidget;
 
@@ -329,6 +330,7 @@ public:
     bool                    LoadFile(QWidget *ParentWindow,QString &ProjectFileName);
     bool                    AppendFile(QWidget *ParentWindow,QString ProjectFileName);
     void                    FreeUnusedMemory(int ObjectNum,int NbrSlideInCache);
+    void                    UpdateChapterInformation();
 
     // Thread functions
     void                    PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSDLSoundBlockList *MusicTrack);

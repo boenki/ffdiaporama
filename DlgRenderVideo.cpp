@@ -18,13 +18,20 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
+#include "SubProjects/VariousWidgets/DlgffDPjrProperties.h"
 #include "DlgRenderVideo.h"
 #include "ui_DlgRenderVideo.h"
 #include "mainwindow.h"
 
+//#define DEBUGMODE
+
 //====================================================================================================================
 
 DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidget *parent):QDialog(parent),ui(new Ui::DlgRenderVideo) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::DlgRenderVideo";
+    #endif
+
     ui->setupUi(this);
     Diaporama           =&TheDiaporama;
     ExportMode          =TheExportMode;
@@ -181,23 +188,48 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OkBt,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
+    connect(ui->ProjectPropertiesBt,SIGNAL(clicked()),this,SLOT(ProjectProperties()));
 }
 
 //====================================================================================================================
 
 DlgRenderVideo::~DlgRenderVideo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::~DlgRenderVideo";
+    #endif
+
     delete ui;
 }
 
 //====================================================================================================================
 
 void DlgRenderVideo::Help() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::Help";
+    #endif
+
     GlobalMainWindow->OpenHelp(HELPFILE_DlgRenderVideo);
 }
 
 //====================================================================================================================
 
+void DlgRenderVideo::ProjectProperties() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::ProjectProperties";
+    #endif
+
+    DlgffDPjrProperties Dlg(Diaporama->ProjectInfo,HELPFILE_DlgffDPjrProperties,GlobalMainWindow->ApplicationConfig,GlobalMainWindow->ApplicationConfig->DlgffDPjrPropertiesWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) GlobalMainWindow->SetModifyFlag(true);
+}
+
+//====================================================================================================================
+
 void DlgRenderVideo::SetZoneToAll() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::SetZoneToAll";
+    #endif
+
     ui->RenderZoneAllBt->setChecked(true);
     ui->RenderZoneFromBt->setChecked(false);
     ui->RenderZoneFromED->setEnabled(ui->RenderZoneFromBt->isChecked());
@@ -208,6 +240,10 @@ void DlgRenderVideo::SetZoneToAll() {
 //====================================================================================================================
 
 void DlgRenderVideo::SetZoneToPartial() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::SetZoneToPartial";
+    #endif
+
     ui->RenderZoneAllBt->setChecked(false);
     ui->RenderZoneFromBt->setChecked(true);
     ui->RenderZoneFromED->setEnabled(ui->RenderZoneFromBt->isChecked());
@@ -218,6 +254,10 @@ void DlgRenderVideo::SetZoneToPartial() {
 //====================================================================================================================
 
 void DlgRenderVideo::s_DeviceTypeCB(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::s_DeviceTypeCB";
+    #endif
+
     ui->DeviceModelCB->clear();
     int ItemData=ui->DeviceTypeCB->currentIndex();
     if (ItemData>=0) ItemData=ui->DeviceTypeCB->itemData(ItemData).toInt();
@@ -239,6 +279,10 @@ void DlgRenderVideo::s_DeviceTypeCB(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::InitImageSizeCombo(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::InitImageSizeCombo";
+    #endif
+
     int Geometry=ui->GeometryCombo->currentIndex();
     int Standard=ui->StandardCombo->currentIndex();
     int ImageSize=ui->ImageSizeCombo->currentIndex();
@@ -263,6 +307,10 @@ void DlgRenderVideo::InitImageSizeCombo(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::SelectDestinationFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::SelectDestinationFile";
+    #endif
+
     QString FileFormat;
     if (ExportMode==EXPORTMODE_ADVANCED) {
         int OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
@@ -288,6 +336,10 @@ void DlgRenderVideo::SelectDestinationFile() {
 //====================================================================================================================
 
 void DlgRenderVideo::FileFormatCombo(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::FileFormatCombo";
+    #endif
+
     AdjustDestinationFile();
 
     ui->VideoFormatCB->clear();
@@ -370,6 +422,10 @@ void DlgRenderVideo::FileFormatCombo(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::InitVideoBitRateCB";
+    #endif
+
     ui->VideoBitRateCB->clear();
     int CurrentCodec=ui->VideoFormatCB->currentIndex();
     int CurrentSize =ui->ImageSizeCombo->itemData(ui->ImageSizeCombo->currentIndex()).toInt();
@@ -418,6 +474,10 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
 //====================================================================================================================
 
 void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::InitAudioBitRateCB";
+    #endif
+
     ui->AudioBitRateCB->clear();
     int CurrentCodec=ui->AudioFormatCB->currentIndex();
     if (CurrentCodec>=0) {
@@ -465,6 +525,10 @@ void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
 //====================================================================================================================
 
 void DlgRenderVideo::AdjustDestinationFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::AdjustDestinationFile";
+    #endif
+
     QString FileFormat;
     if (ExportMode==EXPORTMODE_ADVANCED) {
         int OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
@@ -489,12 +553,20 @@ void DlgRenderVideo::AdjustDestinationFile() {
 //====================================================================================================================
 
 void DlgRenderVideo::SetSavedWindowGeometry() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::SetSavedWindowGeometry";
+    #endif
+
     Diaporama->ApplicationConfig->DlgRenderVideoWSP->ApplyToWindow(this);
 }
 
 //====================================================================================================================
 
 void DlgRenderVideo::showEvent(QShowEvent *ev) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::showEvent";
+    #endif
+
     QDialog::showEvent(ev);
     QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
 }
@@ -502,6 +574,10 @@ void DlgRenderVideo::showEvent(QShowEvent *ev) {
 //====================================================================================================================
 
 void DlgRenderVideo::reject() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::reject";
+    #endif
+
     if (IsDestFileOpen) {
         StopProcessWanted=true;
         qDebug()<<QApplication::translate("DlgRenderVideo","Stop rendering");
@@ -515,6 +591,10 @@ void DlgRenderVideo::reject() {
 //====================================================================================================================
 
 void DlgRenderVideo::s_IncludeSound() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::s_IncludeSound";
+    #endif
+
     ui->AudioFormatLabel->setEnabled(ui->IncludeSoundCB->isChecked());
     ui->AudioFormatCB->setEnabled(ui->IncludeSoundCB->isChecked());
     ui->AudioBitRateLabel->setEnabled(ui->IncludeSoundCB->isChecked());
@@ -525,6 +605,10 @@ void DlgRenderVideo::s_IncludeSound() {
 //====================================================================================================================
 
 void DlgRenderVideo::s_DeviceModelCB(int) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::s_DeviceModelCB";
+    #endif
+
     QString Device=ui->DeviceModelCB->currentText();
     int i=0;
     while ((i<Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceName!=Device)) i++;
@@ -555,6 +639,10 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::accept() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::accept";
+    #endif
+
     cDiaporamaObjectInfo    *PreviousFrame  =NULL;
     cDiaporamaObjectInfo    *Frame          =NULL;
     QString                 TempWAVFileName="",TempMETAFileName="";
@@ -607,7 +695,12 @@ void DlgRenderVideo::accept() {
         // Only ProcessWidget must be display and enable
         ui->SelectDestScroll->setEnabled(false);    ui->SelectDestScroll->setVisible(false);
         ui->ProcessWidget->setEnabled(true);        ui->ProcessWidget->setVisible(true);
-        ui->OkBt->setEnabled(false);                ui->SelectDestScroll->setVisible(false);
+        ui->SelectDestScroll->setVisible(false);
+
+        // Disable unwanted buttons
+        ui->OkBt->setEnabled(false);
+        ui->ProjectPropertiesBt->setEnabled(false);
+        ui->HelpBT->setEnabled(false);
 
         IsDestFileOpen      =true;
         StopProcessWanted   =false;
@@ -803,8 +896,11 @@ void DlgRenderVideo::accept() {
                     case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))
-                                                    //aCodec=QString("-acodec aac -strict experimental -ab %1 -absf aac_adtstoasc").arg(AudioBitRate);
+                                                    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<28))
+                                                    aCodec=QString("-acodec aac -strict experimental -ab %1 -absf aac_adtstoasc").arg(AudioBitRate);
+                                                    #else
                                                     aCodec=QString("-acodec libvo_aacenc -ab %1").arg(AudioBitRate);
+                                                    #endif
                                                     else aCodec=QString("-acodec libfaac -ab %1").arg(AudioBitRate);
                                                 break;
                     case CODEC_ID_AC3:          aCodec=QString("-acodec ac3 -ab %1").arg(AudioBitRate); break;
@@ -823,6 +919,7 @@ void DlgRenderVideo::accept() {
                 #endif
             }
 
+            #if (LIBAVFORMAT_VERSION_MAJOR>52)
             if (Continue) {
                 // Create metadata temp file
                 TempMETAFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
@@ -844,23 +941,43 @@ void DlgRenderVideo::accept() {
                         language    Ok=3GP/MKV/MP4/M4V/MOV/OGV/WEBM/AVI/FLV         Ko=MPG
                     */
                     out<<";FFMETADATA1\n";    // Write header
-                    out<<QString("title="+AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title)).toUtf8();
-                    out<<QString("artist="+AdjustMETA(Diaporama->ProjectInfo->Author)).toUtf8();;
-                    out<<QString("album="+AdjustMETA(Diaporama->ProjectInfo->Album)).toUtf8();;
-                    out<<QString("comment="+AdjustMETA(Diaporama->ProjectInfo->Comment)).toUtf8();;
-                    out<<QString("date="+QString("%1").arg(Diaporama->ProjectInfo->Year)+"\n").toUtf8();;
-                    out<<QString("composer="+AdjustMETA(Diaporama->ProjectInfo->Composer)).toUtf8();;
-                    out<<QString("language="+Language+"\n").toUtf8();;
-                    out<<QString("creation_time="+QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")+"\n").toUtf8();;   // ISO 8601 format
+                    out<<QString("title="+AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title));
+                    out<<QString("artist="+AdjustMETA(Diaporama->ProjectInfo->Author));
+                    out<<QString("album="+AdjustMETA(Diaporama->ProjectInfo->Album));
+                    out<<QString("comment="+AdjustMETA(Diaporama->ProjectInfo->Comment));
+                    out<<QString("date="+QString("%1").arg(Diaporama->ProjectInfo->Year)+"\n");
+                    out<<QString("composer="+AdjustMETA(Diaporama->ProjectInfo->Composer));
+                    out<<QString("language="+Language+"\n");
+                    #if (LIBAVFORMAT_VERSION_MAJOR>=53)
+                    out<<QString("creation_time="+QDateTime::currentDateTime().toString("yyyy-MM-dd Thh:mm:ss")+"\n");   // ISO 8601 format
+                    #endif
+
+                    for (int i=FromSlide;i<=ToSlide;i++) if ((i==FromSlide)||(Diaporama->List[i]->StartNewChapter)) {
+                        int NextChapter=i+1;
+                        qlonglong Start   =Diaporama->GetObjectStartPosition(i)+(i>FromSlide?Diaporama->List[i]->GetTransitDuration():0)-Diaporama->GetObjectStartPosition(FromSlide);
+                        qlonglong Duration=Diaporama->List[i]->GetDuration()-(i>FromSlide?Diaporama->List[i]->GetTransitDuration():0);
+                        while ((NextChapter<ToSlide)&&(!Diaporama->List[NextChapter]->StartNewChapter)) {
+                            Duration=Duration+Diaporama->List[NextChapter]->GetDuration();
+                            NextChapter++;
+                            if (NextChapter<ToSlide) Duration=Duration-Diaporama->List[NextChapter]->GetTransitDuration();
+                        }
+                        out<<"\n[CHAPTER]\n";                                       // Write Chapter header
+                        out<<"TIMEBASE=1/1000\n";                                   // Timebase
+                        out<<"START="+QString("%1").arg(Start)+"\n";                // Start position in ms
+                        out<<"END="+QString("%1").arg(Start+Duration)+"\n";         // End position in ms
+                        out<<"TITLE="+Diaporama->List[i]->SlideName+"\n";           // Title
+                    }
 
                     File.close();
+
                     #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<28))
-                    TAG=" -i \""+TempMETAFileName+"\"  -map_metadata 0:"+(ui->IncludeSoundCB->isChecked()?"2":"1");
+                    TAG=" -i \""+TempMETAFileName+"\"  -map_metadata 0:"+(ui->IncludeSoundCB->isChecked()?"2":"1")+" -map_chapters 0:"+(ui->IncludeSoundCB->isChecked()?"2":"1");
                     #else
-                    TAG=" -i \""+TempMETAFileName+"\"  -map_metadata "+(ui->IncludeSoundCB->isChecked()?"2":"1");
+                    TAG=" -i \""+TempMETAFileName+"\"  -map_metadata "+(ui->IncludeSoundCB->isChecked()?"2":"1")+" -map_chapters "+(ui->IncludeSoundCB->isChecked()?"2":"1");;
                     #endif
                 }
             }
+            #endif
             if (Continue) {
                 qDebug()<<QApplication::translate("DlgRenderVideo","Start ffmpeg encoder");
                 int GeoW=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARNUM;
@@ -1052,6 +1169,10 @@ void DlgRenderVideo::accept() {
 //============================================================================================
 
 QString DlgRenderVideo::AdjustMETA(QString Text) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::AdjustMETA";
+    #endif
+
     //Metadata keys or values containing special characters (’=’, ’;’, ’#’, ’\’ and a newline) must be escaped with a backslash ’\’.
     Text.replace("=","\\=");
     Text.replace(";","\\;");
@@ -1059,8 +1180,11 @@ QString DlgRenderVideo::AdjustMETA(QString Text) {
     Text.replace("\\","\\\\");
     Text.replace("\n","\\\n");
     Text=Text+"\n";
-
-    return Text;
+    #if defined(Q_OS_WIN)
+        return Text.toUtf8();
+    #else
+        return Text;
+    #endif
 }
 
 //============================================================================================
@@ -1068,6 +1192,10 @@ QString DlgRenderVideo::AdjustMETA(QString Text) {
 //============================================================================================
 
 bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::WriteTempAudioFile";
+    #endif
+
     bool                    Continue            =true;      // true if no error occur
     cDiaporamaObjectInfo    *PreviousFrame      =NULL;
     cDiaporamaObjectInfo    *Frame              =NULL;

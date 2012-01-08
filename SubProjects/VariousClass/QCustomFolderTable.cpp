@@ -131,6 +131,7 @@ void QCustomFolderTable::SetMode(cDriveList *TheDriveList,int Mode,int Filter) {
                                 QApplication::translate("QCustomFolderTable","File Size","Column header")+";"+
                                 QApplication::translate("QCustomFolderTable","File Date","Column header")+";"+
                                 QApplication::translate("QCustomFolderTable","Duration","Column header")+";"+
+                                QApplication::translate("QCustomFolderTable","Chapters","Column header")+";"+
                                 QApplication::translate("QCustomFolderTable","Image Size","Column header")+";"+
                                 QApplication::translate("QCustomFolderTable","Image Format","Column header")+";"+
                                 QApplication::translate("QCustomFolderTable","Image Geometry","Column header")+";"+
@@ -176,6 +177,7 @@ void QCustomFolderTable::SetMode(cDriveList *TheDriveList,int Mode,int Filter) {
                                 QApplication::translate("QCustomFolderTable","File Size","Column header")+";"+
                                 QApplication::translate("QCustomFolderTable","File Date","Column header")+";"+
                                 QApplication::translate("QCustomFolderTable","Duration","Column header")+";"+
+                                QApplication::translate("QCustomFolderTable","Chapters","Column header")+";"+
                                 QApplication::translate("QCustomFolderTable","Image Size","Column header")+";"+
                                 QApplication::translate("QCustomFolderTable","Image Format","Column header")+";"+
                                 QApplication::translate("QCustomFolderTable","Image Geometry","Column header")+";"+
@@ -480,10 +482,9 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
         item(Row,0)->setIcon(QIcon(QPixmap::fromImage(MediaObject->Icon16)));
         for (int Col=1;Col<columnCount();Col++) {
             QString ColName=horizontalHeaderItem(Col)->text();
-            if      (ColName==QApplication::translate("QCustomFolderTable","File Type","Column header"))        setItem(Row,Col,CreateItem(MediaObject->GetTypeText(),Qt::AlignLeft|Qt::AlignVCenter,Background));
+            if      (ColName==QApplication::translate("QCustomFolderTable","File Type","Column header"))        setItem(Row,Col,CreateItem(MediaObject->GetFileTypeStr(),Qt::AlignLeft|Qt::AlignVCenter,Background));
             else if (ColName==QApplication::translate("QCustomFolderTable","File Size","Column header"))        setItem(Row,Col,CreateItem(MediaObject->FileSizeText,Qt::AlignRight|Qt::AlignVCenter,Background));
-            else if (ColName==QApplication::translate("QCustomFolderTable","File Date","Column header"))        setItem(Row,Col,CreateItem(MediaObject->ModifDateTimeText,Qt::AlignLeft|Qt::AlignVCenter,Background));
-            else if (ColName==QApplication::translate("QCustomFolderTable","Duration","Column header"))         setItem(Row,Col,CreateItem(MediaObject->GetInformationValue("Duration"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+            else if (ColName==QApplication::translate("QCustomFolderTable","File Date","Column header"))        setItem(Row,Col,CreateItem(MediaObject->GetFileDateTimeStr(),Qt::AlignLeft|Qt::AlignVCenter,Background));
         }
     } else if (CurrentMode==DISPLAY_WEB) {
         QCustomFileInfoLabel *ItemWEB=new QCustomFileInfoLabel(this);
@@ -510,8 +511,14 @@ void QCustomFolderTable::UpdateMediaToTable(int Row,cBaseMediaFile *MediaObject)
     QColor Background=((Row & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
     if (CurrentMode==DISPLAY_DATA) {
         for (int Col=1;Col<columnCount();Col++) {
+            int NbrChapter=0;
+            if (MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) NbrChapter=((cVideoFile *)MediaObject)->NbrChapters;
+            if (MediaObject->ObjectType==OBJECTTYPE_FFDFILE)   NbrChapter=((cffDProjectFile *)MediaObject)->NbrChapters;
+
             QString ColName=horizontalHeaderItem(Col)->text();
-            if      (ColName==QApplication::translate("QCustomFolderTable","Image Size","Column header"))       setItem(Row,Col,CreateItem(MediaObject->GetImageSizeStr(cBaseMediaFile::SIZEONLY),Qt::AlignCenter|Qt::AlignVCenter,Background));
+            if      (ColName==QApplication::translate("QCustomFolderTable","Chapters","Column header"))         setItem(Row,Col,CreateItem(NbrChapter>0?QString("%1").arg(NbrChapter):"",Qt::AlignCenter|Qt::AlignVCenter,Background));
+            else if (ColName==QApplication::translate("QCustomFolderTable","Duration","Column header"))         setItem(Row,Col,CreateItem(MediaObject->GetInformationValue("Duration"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+            else if (ColName==QApplication::translate("QCustomFolderTable","Image Size","Column header"))       setItem(Row,Col,CreateItem(MediaObject->GetImageSizeStr(cBaseMediaFile::SIZEONLY),Qt::AlignCenter|Qt::AlignVCenter,Background));
             else if (ColName==QApplication::translate("QCustomFolderTable","Image Format","Column header"))     setItem(Row,Col,CreateItem(MediaObject->GetImageSizeStr(cBaseMediaFile::FMTONLY),Qt::AlignCenter|Qt::AlignVCenter,Background));
             else if (ColName==QApplication::translate("QCustomFolderTable","Image Geometry","Column header"))   setItem(Row,Col,CreateItem(MediaObject->GetImageSizeStr(cBaseMediaFile::GEOONLY),Qt::AlignCenter|Qt::AlignVCenter,Background));
             else if (ColName==QApplication::translate("QCustomFolderTable","Video Codec","Column header"))      setItem(Row,Col,CreateItem(MediaObject->GetCumulInfoStr("Video","Codec"),Qt::AlignCenter|Qt::AlignVCenter,Background));
@@ -540,7 +547,7 @@ void QCustomFolderTable::UpdateMediaToTable(int Row,cBaseMediaFile *MediaObject)
         ItemWEB->Icon32         =MediaObject->Icon32;
         ItemWEB->Icon48         =MediaObject->Icon48;
         ItemWEB->TextLeftBottom =MediaObject->WEBInfo;
-        ItemWEB->TextRightUpper =MediaObject->GetTypeText()+" ("+MediaObject->FileSizeText+")";
+        ItemWEB->TextRightUpper =MediaObject->GetFileTypeStr()+" ("+MediaObject->FileSizeText+")";
         ItemWEB->update();
     }
 }

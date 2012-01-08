@@ -856,6 +856,7 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
     NextIndexKey                            = 1;
 
     // Set default/initial value
+    StartNewChapter                         = false;                        // if true then start a new chapter from this slide
     BackgroundType                          = false;                        // Background type : false=same as precedent - true=new background definition
     BackgroundBrush->BrushType               = BRUSHTYPE_SOLID;
     BackgroundBrush->ColorD                  = "#000000";                    // Background color
@@ -974,6 +975,7 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
     // Slide properties
     Element.setAttribute("SlideName", SlideName);
+    Element.setAttribute("StartNewChapter", StartNewChapter?"1":"0");
     Element.setAttribute("NextIndexKey",    NextIndexKey);
 
     // Background properties
@@ -1033,6 +1035,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         // Slide properties
         SlideName=Element.attribute("SlideName");
         NextIndexKey=Element.attribute("NextIndexKey").toInt();
+        if (Element.hasAttribute("StartNewChapter")) StartNewChapter=Element.attribute("StartNewChapter")=="1";
 
         // Background properties
         if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
@@ -1125,6 +1128,35 @@ cDiaporama::~cDiaporama() {
 
 //====================================================================================================================
 
+void cDiaporama::UpdateChapterInformation() {
+    // Remove all chapters information
+    int i=0;
+    while (i<ProjectInfo->InformationList.count()) {
+        if (((QString)ProjectInfo->InformationList[i]).startsWith("Chapter_")) ProjectInfo->InformationList.removeAt(i);
+            else i++;
+    }
+    ProjectInfo->NbrChapters=0;
+    // Create new
+    for (int i=0;i<List.count();i++) if ((i==0)||(List[i]->StartNewChapter)) {
+        QString ChapterNum=QString("%1").arg(ProjectInfo->NbrChapters++); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
+        int     NextChapter=i+1;
+        qlonglong Start   =GetObjectStartPosition(i)+(i>0?List[i]->GetTransitDuration():0)-GetObjectStartPosition(0);
+        qlonglong Duration=List[i]->GetDuration()-(i>0?List[i]->GetTransitDuration():0);
+        while ((NextChapter<List.count())&&(!List[NextChapter]->StartNewChapter)) {
+            Duration=Duration+List[NextChapter]->GetDuration();
+            NextChapter++;
+            if (NextChapter<List.count()) Duration=Duration-List[NextChapter]->GetTransitDuration();
+        }
+        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":InSlide" +QString("##")+QString("%1").arg(i+1));
+        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
+        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(Start+Duration).toString("hh:mm:ss.zzz"));
+        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(Duration).toString("hh:mm:ss.zzz"));
+        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":title"+QString("##")+List[i]->SlideName);
+    }
+}
+
+//====================================================================================================================
+
 void cDiaporama::DefineSizeAndGeometry(int Geometry) {
     ImageGeometry   =Geometry;
     InternalHeight  =PREVIEWMAXHEIGHT;
@@ -1203,6 +1235,10 @@ qlonglong cDiaporama::GetPartialDuration(int from,int to) {
 
 qlonglong cDiaporama::GetObjectStartPosition(int index) {
     qlonglong Duration=0;
+    if (index>=List.count()) {
+        index=List.count()-1;
+        Duration=List[index]->GetDuration();
+    }
     for (int i=0;i<index;i++) Duration=Duration+((List[i]->GetDuration()-GetTransitionDuration(i+1))>=33?List[i]->GetDuration()-GetTransitionDuration(i+1):33);
     return Duration;
 }
@@ -1279,6 +1315,8 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
     QDomDocument    domDocument(APPLICATION_NAME);
     QDomElement     Element;
     QDomElement     root;
+
+    UpdateChapterInformation();
 
     if ((ProjectInfo->Title=="")&&(ApplicationConfig->DefaultTitleFilling!=0)) {
         if (ApplicationConfig->DefaultTitleFilling==1) {
@@ -1460,7 +1498,8 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName) {
                                              (root.elementsByTagName("Object-"+QString("%1").arg(i)).item(0).isElement()==true)) {
             List.append(new cDiaporamaObject(this));
             if (List[List.count()-1]->LoadFromXML(root,"Object-"+QString("%1").arg(i).trimmed(),QFileInfo(ProjectFileName).absolutePath(),&AliasList)) {
-                if (ParentWindow!=NULL) ((MainWindow *)ParentWindow)->AddObjectToTimeLine(i);
+                if (i==0) List[List.count()-1]->StartNewChapter=true;
+                if (ParentWindow!=NULL) ((MainWindow *)ParentWindow)->AddObjectToTimeLine(List.count()-1);
             } else {
                 delete List.takeLast();
                 IsOk=false;

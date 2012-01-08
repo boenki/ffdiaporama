@@ -28,7 +28,7 @@
  ***************************************************************************/
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "config.h"         // Change by Dominique Levray : "config.h" instead of <config.h>
 #endif
 
 #include "tfile.h"         // Change by Dominique Levray : "tfile.h" instead of <tfile.h>
@@ -36,13 +36,13 @@
 #include "tdebug.h"        // Change by Dominique Levray : "tdebug.h" instead of <tdebug.h>
 
 #include "fileref.h"
-//#include "asffile.h"          // Remove by Dominique Levray ----------- A revoir : WMA + lignes 240
+#include "asffile.h"
 #include "mpegfile.h"
 #include "vorbisfile.h"
 #include "flacfile.h"
 #include "oggflacfile.h"
 //#include "mpcfile.h"          // Remove by Dominique Levray
-//#include "mp4file.h"          // Remove by Dominique Levray       ------ A revoir MPA/MP4 + lignes 240
+#include "mp4file.h"
 //#include "wavpackfile.h"      // Remove by Dominique Levray
 //#include "speexfile.h"        // Remove by Dominique Levray
 //#include "trueaudiofile.h"    // Remove by Dominique Levray
@@ -247,12 +247,12 @@ File *FileRef::create(FileName fileName, bool readAudioProperties,
 //    if(ext == "TTA")
 //      return new TrueAudio::File(fileName, readAudioProperties, audioPropertiesStyle);
 #ifdef TAGLIB_WITH_MP4
-//    if(ext == "M4A" || ext == "M4B" || ext == "M4P" || ext == "MP4" || ext == "3G2")
-//      return new MP4::File(fileName, readAudioProperties, audioPropertiesStyle);
+    if(ext == "M4A" || ext == "M4B" || ext == "M4P" || ext == "MP4" || ext == "3G2")
+      return new MP4::File(fileName, readAudioProperties, audioPropertiesStyle);
 #endif
 #ifdef TAGLIB_WITH_ASF
-//    if(ext == "WMA" || ext == "ASF")
-//      return new ASF::File(fileName, readAudioProperties, audioPropertiesStyle);
+    if(ext == "WMA" || ext == "ASF")
+      return new ASF::File(fileName, readAudioProperties, audioPropertiesStyle);
 #endif
 //    if(ext == "AIF" || ext == "AIFF")
 //      return new RIFF::AIFF::File(fileName, readAudioProperties, audioPropertiesStyle);

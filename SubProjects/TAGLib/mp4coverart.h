@@ -1,7 +1,7 @@
-/***************************************************************************
-    copyright            : (C) 2002 - 2008 by Scott Wheeler
-    email                : wheeler@kde.org
- ***************************************************************************/
+/**************************************************************************
+    copyright            : (C) 2009 by Lukáš Lalinský
+    email                : lalinsky@gmail.com
+ **************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
@@ -23,25 +23,49 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#ifndef TAGLIB_EXPORT_H
-#define TAGLIB_EXPORT_H
+#ifndef TAGLIB_MP4COVERART_H
+#define TAGLIB_MP4COVERART_H
 
-#if defined(TAGLIB_STATIC)
-    #define TAGLIB_EXPORT
-#elif (defined(_WIN32) || defined(_WIN64))
-    #ifdef MAKE_TAGLIB_LIB
-        #define TAGLIB_EXPORT __declspec(dllexport)
-    #else
-        #define TAGLIB_EXPORT __declspec(dllimport)
-    #endif
-#elif defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ >= 1)
-    #define TAGLIB_EXPORT __attribute__ ((visibility("default")))
-#else
-    #define TAGLIB_EXPORT
-#endif
+#include "tlist.h"
+#include "tbytevector.h"
+#include "taglib_export.h"
 
-#ifndef TAGLIB_NO_CONFIG
-#include "taglib_config.h"
-#endif
+namespace TagLib {
+
+  namespace MP4 {
+
+    class TAGLIB_EXPORT CoverArt
+    {
+    public:
+      /*!
+       * This describes the image type.
+       */
+      enum Format {
+        JPEG = 0x0D,
+        PNG  = 0x0E
+      };
+
+      CoverArt(Format format, const ByteVector &data);
+      ~CoverArt();
+
+      CoverArt(const CoverArt &item);
+      CoverArt &operator=(const CoverArt &item);
+
+      //! Format of the image
+      Format format() const;
+
+      //! The image data
+      ByteVector data() const;
+
+    private:
+      class CoverArtPrivate;
+      CoverArtPrivate *d;
+    };
+
+    typedef List<CoverArt> CoverArtList;
+
+  }
+
+}
 
 #endif

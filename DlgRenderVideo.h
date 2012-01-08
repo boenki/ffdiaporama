@@ -79,6 +79,7 @@ protected:
 
 private slots:
     void            Help();
+    void            ProjectProperties();
     void            SetSavedWindowGeometry();
     void            InitImageSizeCombo(int);
     void            SelectDestinationFile();

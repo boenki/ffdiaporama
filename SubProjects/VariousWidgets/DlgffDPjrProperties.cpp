@@ -53,6 +53,21 @@ void DlgffDPjrProperties::DoInitDialog() {
     ui->YearED->setValue(ffdProject->Year);
     ui->CommentED->setPlainText(ffdProject->Comment);
     ui->LanguageED->setText(ffdProject->DefaultLanguage);
+
+    DoInitTableWidget(ui->ChapterTable,"#;Slide;Title;Start;End;Duration");
+    for (int i=0;i<ffdProject->NbrChapters;i++) {
+        QString ChapterNum=QString("%1").arg(i); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
+        ChapterNum="Chapter_"+ChapterNum+":";
+        QColor Background=((i & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
+        ui->ChapterTable->insertRow(ui->ChapterTable->rowCount());
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,0,CreateItem(QString("%1").arg(i+1),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,1,CreateItem(ffdProject->GetInformationValue(ChapterNum+"InSlide"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,2,CreateItem(ffdProject->GetInformationValue(ChapterNum+"title"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,3,CreateItem(ffdProject->GetInformationValue(ChapterNum+"Start"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,4,CreateItem(ffdProject->GetInformationValue(ChapterNum+"End"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,5,CreateItem(ffdProject->GetInformationValue(ChapterNum+"Duration"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+    }
+    DoResizeColumnsTableWidget(ui->ChapterTable);
 }
 
 //====================================================================================================================

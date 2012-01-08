@@ -80,38 +80,40 @@ extern "C" {
 class cBaseMediaFile {
 public:
     int                     ObjectType;
-    bool                    IsValide;               // if true then object if initialise
-    bool                    IsInformationValide;    // if true then information list if fuly initialise
-    int                     ObjectGeometry;         // Image geometry of the embeded image or video
-    QImage                  Icon16,Icon32,Icon48;   // Icons associated to file
-    QString                 FileName;               // filename
-    QString                 ShortName;              // filename without path
-    qlonglong               FileSize;               // filesize
-    QString                 FileSizeText;           // filesize in text mode
-    QDateTime               CreatDateTime;          // Original date/time
-    QDateTime               ModifDateTime;          // Last modified date/time
-    QString                 ModifDateTimeText;      // Last modified date/time in text mode
-    int                     ImageWidth;             // Widht of normal image
-    int                     ImageHeight;            // Height of normal image
-    cFilterTransformObject  BrushFileTransform;     // Image transformation if image from disk
+    bool                    IsValide;                       // if true then object if initialise
+    bool                    IsInformationValide;            // if true then information list if fuly initialise
+    int                     ObjectGeometry;                 // Image geometry of the embeded image or video
+    QImage                  Icon16,Icon32,Icon48,Icon100;   // Icons associated to file
+    QString                 FileName;                       // filename
+    QString                 ShortName;                      // filename without path
+    qlonglong               FileSize;                       // filesize
+    QString                 FileSizeText;                   // filesize in text mode
+    QDateTime               CreatDateTime;                  // Original date/time
+    QDateTime               ModifDateTime;                  // Last modified date/time
+    int                     ImageWidth;                     // Widht of normal image
+    int                     ImageHeight;                    // Height of normal image
+    double                  AspectRatio;                    // Aspect ratio
+    cFilterTransformObject  BrushFileTransform;             // Image transformation if image from disk
     cBaseApplicationConfig *ApplicationConfig;
     QStringList             InformationList;
+
     QString                 WEBInfo;
-    double                  AspectRatio;            // Aspect ratio
 
     cBaseMediaFile(cBaseApplicationConfig *ApplicationConfig);
     ~cBaseMediaFile();
 
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
-    virtual QString         GetTypeText()=0;
     virtual bool            IsFilteredFile(int RequireObjectType)=0;
     virtual void            GetFullInformationFromFile()=0;
     virtual QString         GetInformationValue(QString ValueToSearch);
     virtual QString         GetCumulInfoStr(QString Key1,QString Key2);
 
     enum    ImageSizeFmt {FULLWEB,SIZEONLY,FMTONLY,GEOONLY};
-    virtual QString         GetImageSizeStr(ImageSizeFmt Fmt=FULLWEB);
-    virtual QString         GetImageGeometryStr();
+    virtual QString         GetImageSizeStr(ImageSizeFmt Fmt=FULLWEB);      // Return image size as formated string
+    virtual QString         GetImageGeometryStr();                          // Return image geometry as formated string
+    virtual QString         GetFileTypeStr()=0;
+    virtual QString         GetFileDateTimeStr(bool Created=false);         // Return file date/time as formated string
+    virtual QString         GetFileSizeStr();                               // Return file size as formated string
 
     virtual void            AddIcons(QString FileName);
     virtual void            AddIcons(QImage *Image96);
@@ -125,7 +127,7 @@ class cUnmanagedFile : public cBaseMediaFile {
 public:
     explicit cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig);
 
-    virtual QString         GetTypeText();
+    virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile() {/*Nothing to do*/}
 };
@@ -138,7 +140,7 @@ public:
     explicit cFolder(cBaseApplicationConfig *ApplicationConfig);
 
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
-    virtual QString         GetTypeText();
+    virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile() {/*Nothing to do*/}
 };
@@ -159,11 +161,12 @@ public:
     int         NbrSlide;           // (Number of slide in project)
     QString     ffDRevision;        // ffD Application version (in reverse date format)
     QString     DefaultLanguage;    // Default Language (ISO 639 language code)
+    int         NbrChapters;        // Number of chapters in the file
 
     explicit cffDProjectFile(cBaseApplicationConfig *ApplicationConfig);
 
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
-    virtual QString         GetTypeText();
+    virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
 
@@ -180,7 +183,7 @@ public:
 
     virtual QImage          *ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter);
     virtual bool            CallEXIF(int &ImageOrientation);
-    virtual QString         GetTypeText();
+    virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
 };
@@ -224,12 +227,14 @@ public:
     int                     AudioTrackNbr;              // Number of audio stream in file
     int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
 
+    int                     NbrChapters;                // Number of chapters in the file
+
     explicit    cVideoFile(WantedObjectTypeFmt WantedObjectType,cBaseApplicationConfig *ApplicationConfig);
     ~cVideoFile();
 
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
 
-    virtual QString         GetTypeText();
+    virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
 

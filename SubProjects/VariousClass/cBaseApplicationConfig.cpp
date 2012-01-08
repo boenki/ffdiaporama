@@ -591,6 +591,9 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowMusicExtension.append("mp3");     AllowMusicExtension.append("MP3");
     AllowMusicExtension.append("mp4");     AllowMusicExtension.append("MP4");
     AllowMusicExtension.append("m4a");     AllowMusicExtension.append("M4A");
+    AllowMusicExtension.append("m4b");     AllowMusicExtension.append("M4B");
+    AllowMusicExtension.append("m4p");     AllowMusicExtension.append("M4P");
+    AllowMusicExtension.append("3g2");     AllowMusicExtension.append("3G2");
     AllowMusicExtension.append("ogg");     AllowMusicExtension.append("OGG");
     AllowMusicExtension.append("oga");     AllowMusicExtension.append("OGA");
     AllowMusicExtension.append("spx");     AllowMusicExtension.append("SPX");

@@ -269,6 +269,12 @@ QToolButton:pressed {
           </item>
           <item>
            <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
              <string notr="true"/>
             </property>
@@ -363,7 +369,7 @@ QToolButton:pressed {
          <property name="spacing">
           <number>2</number>
          </property>
-         <item row="2" column="1">
+         <item row="3" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout_9">
            <item>
             <widget class="QTimeEdit" name="ShotDurationED">
@@ -432,7 +438,7 @@ QToolButton:pressed {
            </item>
           </layout>
          </item>
-         <item row="2" column="0">
+         <item row="3" column="0">
           <widget class="QLabel" name="label_15">
            <property name="text">
             <string>Shot duration :</string>
@@ -442,7 +448,7 @@ QToolButton:pressed {
            </property>
           </widget>
          </item>
-         <item row="8" column="0">
+         <item row="9" column="0">
           <widget class="QLabel" name="label_29">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -461,7 +467,7 @@ QToolButton:pressed {
            </property>
           </widget>
          </item>
-         <item row="8" column="1">
+         <item row="9" column="1">
           <widget class="QLabel" name="SlideDurationLabel">
            <property name="text">
             <string notr="true">00:00:00.000</string>
@@ -524,6 +530,30 @@ QToolButton:pressed {
            </property>
            <property name="toolTip">
             <string>Indicate a name for the slide. It is this name which will appear on the thumbnail in the main window timeline.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QCheckBox" name="NewChapterCB">
+           <property name="text">
+            <string>Start a new chapter from here</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="ChapterLabel">
+           <property name="text">
+            <string>Chapter :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="2">
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>

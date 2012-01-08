@@ -31,6 +31,7 @@
 #include <QDomDocument>
 #include <QPushButton>
 #include <QDesktopServices>
+#include <QTableWidgetItem>
 
 // Include some common various class
 #include "../VariousClass/cBaseApplicationConfig.h"
@@ -61,6 +62,11 @@ public:
 protected:
     virtual void    accept();
     virtual void    reject();
+
+    // Utility functions
+    virtual void                DoInitTableWidget(QTableWidget *Table,QString TableColumns);
+    virtual QTableWidgetItem    *CreateItem(QString ItemText,int Alignment,QBrush Background);
+    virtual void                DoResizeColumnsTableWidget(QTableWidget *Table);
 
 private slots:
     void            doHelp();

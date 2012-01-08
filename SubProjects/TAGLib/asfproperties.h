@@ -1,7 +1,7 @@
-/***************************************************************************
-    copyright            : (C) 2002 - 2008 by Scott Wheeler
-    email                : wheeler@kde.org
- ***************************************************************************/
+/**************************************************************************
+    copyright            : (C) 2005-2007 by Lukáš Lalinský
+    email                : lalinsky@gmail.com
+ **************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
@@ -23,25 +23,52 @@
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#ifndef TAGLIB_EXPORT_H
-#define TAGLIB_EXPORT_H
+#ifndef TAGLIB_ASFPROPERTIES_H
+#define TAGLIB_ASFPROPERTIES_H
 
-#if defined(TAGLIB_STATIC)
-    #define TAGLIB_EXPORT
-#elif (defined(_WIN32) || defined(_WIN64))
-    #ifdef MAKE_TAGLIB_LIB
-        #define TAGLIB_EXPORT __declspec(dllexport)
-    #else
-        #define TAGLIB_EXPORT __declspec(dllimport)
-    #endif
-#elif defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ >= 1)
-    #define TAGLIB_EXPORT __attribute__ ((visibility("default")))
-#else
-    #define TAGLIB_EXPORT
+#include "audioproperties.h"
+#include "tstring.h"
+#include "taglib_export.h"
+
+namespace TagLib {
+
+  namespace ASF {
+
+    //! An implementation of ASF audio properties
+    class TAGLIB_EXPORT Properties : public AudioProperties
+    {
+    public:
+
+      /*!
+       * Create an instance of ASF::Properties.
+       */
+      Properties();
+
+      /*!
+       * Destroys this ASF::Properties instance.
+       */
+      virtual ~Properties();
+
+      // Reimplementations.
+      virtual int length() const;
+      virtual int bitrate() const;
+      virtual int sampleRate() const;
+      virtual int channels() const;
+
+#ifndef DO_NOT_DOCUMENT
+      void setLength(int value);
+      void setBitrate(int value);
+      void setSampleRate(int value);
+      void setChannels(int value);
 #endif
 
-#ifndef TAGLIB_NO_CONFIG
-#include "taglib_config.h"
-#endif
+    private:
+      class PropertiesPrivate;
+      PropertiesPrivate *d;
+    };
 
-#endif
+  }
+
+}
+
+#endif 
