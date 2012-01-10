@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
 
     if (AutoLoad!="") {
         w.FileForIO=AutoLoad;
-        w.s_DoOpenFileParam();
+        w.DoOpenFileParam();
     }
     return app.exec();
 }

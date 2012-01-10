@@ -1450,7 +1450,7 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
 
 //====================================================================================================================
 
-bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName) {
+bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName,int CurIndex) {
     QFile           file(ProjectFileName);
     QDomDocument    domDocument;
     QDomElement     root;
@@ -1496,12 +1496,13 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName) {
         int ObjectNumber=Element.attribute("ObjectNumber").toInt();
         for (int i=0;i<ObjectNumber;i++) if ((root.elementsByTagName("Object-"+QString("%1").arg(i)).length()>0)&&
                                              (root.elementsByTagName("Object-"+QString("%1").arg(i)).item(0).isElement()==true)) {
-            List.append(new cDiaporamaObject(this));
-            if (List[List.count()-1]->LoadFromXML(root,"Object-"+QString("%1").arg(i).trimmed(),QFileInfo(ProjectFileName).absolutePath(),&AliasList)) {
-                if (i==0) List[List.count()-1]->StartNewChapter=true;
-                if (ParentWindow!=NULL) ((MainWindow *)ParentWindow)->AddObjectToTimeLine(List.count()-1);
+            List.insert(CurIndex,new cDiaporamaObject(this));
+            if (List[CurIndex]->LoadFromXML(root,"Object-"+QString("%1").arg(i).trimmed(),QFileInfo(ProjectFileName).absolutePath(),&AliasList)) {
+                if (i==0) List[CurIndex]->StartNewChapter=true;
+                if (ParentWindow!=NULL) ((MainWindow *)ParentWindow)->AddObjectToTimeLine(CurIndex);
+                CurIndex++;
             } else {
-                delete List.takeLast();
+                delete List.takeAt(CurIndex);
                 IsOk=false;
             }
         }
@@ -2251,13 +2252,23 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
             int32_t mix;
             int16_t *Buf1=Info->CurrentObject_SoundTrackMontage->List[i];
             int     Max=Info->CurrentObject_SoundTrackMontage->SoundPacketSize/(Info->CurrentObject_SoundTrackMontage->SampleBytes*Info->CurrentObject_SoundTrackMontage->Channels);
-            double  FadeDelta=(double(i)/double(MaxPacket))*(Info->TransitionPCTEnd-Info->TransitionPCTDone);
-            double  FadeAdjust   =(Info->TransitionPCTDone+FadeDelta);;
-            double  FadeAdjust2  =(1-Info->TransitionPCTDone-FadeDelta);
+
+            double  FadeAdjust   =sin(1.5708*double(Info->CurrentObject_InObjectTime+(double(i)/double(MaxPacket))*double(Info->FrameDuration))/double(Info->TransitionDuration));
+            double  FadeAdjust2  =1-FadeAdjust;
 
             int16_t *Buf2=(Paquet!=NULL)?Paquet:NULL;
             if ((Buf1!=NULL)&&(Buf2==NULL)) {
-                // Nothing to do !
+                // Apply Fade in to Buf1
+                for (int j=0;j<Max;j++) {
+                    // Left channel : Adjust if necessary (16 bits)
+                    mix=int32_t(double(*(Buf1))*FadeAdjust);
+                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                    *(Buf1++)=int16_t(mix);
+                    // Right channel : Adjust if necessary (16 bits)
+                    mix=int32_t(double(*(Buf1))*FadeAdjust);
+                    if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;
+                    *(Buf1++)=int16_t(mix);
+                }
             } else if ((Buf1!=NULL)&&(Buf2!=NULL)) {
                 // do mixing
                 for (int j=0;j<Max;j++) {
@@ -2274,7 +2285,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
             } else if ((Buf1==NULL)&&(Buf2!=NULL)) {
                 // swap buf1 and buf2
                 Info->CurrentObject_SoundTrackMontage->List[i]=Buf2;
-                // Apply Fade to Buf2
+                // Apply Fade out to Buf2
                 for (int j=0;j<Max;j++) {
                     // Left channel : Adjust if necessary (16 bits)
                     mix=int32_t(double(*(Buf2))*FadeAdjust2);
@@ -2306,8 +2317,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
             int32_t mix;
             int16_t *Buf1=Info->CurrentObject_MusicTrack->List[i];
             int     Max=Info->CurrentObject_MusicTrack->SoundPacketSize/(Info->CurrentObject_MusicTrack->SampleBytes*Info->CurrentObject_MusicTrack->Channels);
-            double  FadeDelta=(double(i)/double(MaxPacket))*(Info->TransitionPCTEnd-Info->TransitionPCTDone);
-            double  FadeAdjust2  =(1-Info->TransitionPCTDone-FadeDelta);
+            double  FadeAdjust   =sin(1.5708*double(Info->CurrentObject_InObjectTime+(double(i)/double(MaxPacket))*double(Info->FrameDuration))/double(Info->TransitionDuration));
+            double  FadeAdjust2  =1-FadeAdjust;
 
             int16_t *Buf2=(Paquet!=NULL)?Paquet:NULL;
             if ((Buf1!=NULL)&&(Buf2==NULL)) {
@@ -2343,6 +2354,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
     }
 }
 
+//============================================================================================
+
 void cDiaporama::LoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos) {
     // W and H = 0 when producing sound track in render process
     if ((W!=0)&&(H!=0)) {
@@ -2362,6 +2375,8 @@ void cDiaporama::LoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMod
     PrepareImage(Info,W,H,true,PreviewMode,AddStartPos);
 
 }
+
+//============================================================================================
 
 void cDiaporama::LoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos) {
     // W and H = 0 when producing sound track in render process

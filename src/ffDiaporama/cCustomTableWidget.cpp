@@ -68,7 +68,7 @@ void cCustomTableWidget::dropEvent(QDropEvent *event) {
         GlobalMainWindow->SavedCurIndex =GlobalMainWindow->DragItemDest>0?GlobalMainWindow->DragItemDest-1:0;
         GlobalMainWindow->CurIndex      =GlobalMainWindow->DragItemDest;
         GlobalMainWindow->ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(GlobalMainWindow->FileList[0]).fileName());
-        GlobalMainWindow->s_action_DoAddDragAndDropFile();
+        GlobalMainWindow->DoAddDragAndDropFile();
     }
 }
 
@@ -234,12 +234,12 @@ void cCustomTableWidget::AddObjectToTimeLine(int CurIndex) {
     int NbrX       =width()/ThumbWidth;
 
     wgt_QCustomThumbnails *ObjectBackground=new wgt_QCustomThumbnails(this,THUMBNAILTYPE_OBJECT);
-    connect(ObjectBackground,SIGNAL(EditBackground()),      GlobalMainWindow,SLOT(s_BackgroundDoubleClicked()));
-    connect(ObjectBackground,SIGNAL(EditBackGTransition()), GlobalMainWindow,SLOT(s_TransitionBackgroundDoubleClicked()));
-    connect(ObjectBackground,SIGNAL(EditMediaObject()),     GlobalMainWindow,SLOT(s_ItemDoubleClicked()));
-    connect(ObjectBackground,SIGNAL(EditTransition()),      GlobalMainWindow,SLOT(s_TransitionItemDoubleClicked()));
-    connect(ObjectBackground,SIGNAL(EditSoundTrack()),      GlobalMainWindow,SLOT(s_SoundItemDoubleClicked()));
-    connect(ObjectBackground,SIGNAL(EditMusicTrack()),      GlobalMainWindow,SLOT(s_MusicDoubleClicked()));
+    connect(ObjectBackground,SIGNAL(EditBackground()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnBackground()));
+    connect(ObjectBackground,SIGNAL(EditBackGTransition()), GlobalMainWindow,SLOT(s_Event_DoubleClickedOnTransitionBackground()));
+    connect(ObjectBackground,SIGNAL(EditMediaObject()),     GlobalMainWindow,SLOT(s_Event_DoubleClickedOnObject()));
+    connect(ObjectBackground,SIGNAL(EditTransition()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnTransition()));
+    connect(ObjectBackground,SIGNAL(EditSoundTrack()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnVideoSound()));
+    connect(ObjectBackground,SIGNAL(EditMusicTrack()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnMusic()));
 
     if (PartitionMode) {
         // Partition mode

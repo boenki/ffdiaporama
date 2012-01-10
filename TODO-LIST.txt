@@ -1,31 +1,38 @@
-Buggs/TODO (Dernier SVN le 08/01/2011) :
+Buggs/TODO (Dernier SVN le 10/01/2011) :
 ----------------------------------------
 TODO
 ----
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
 -Erreur de lecture du son dans certaines vidéo AVI
 -Grosses lenteurs dans la boite slide quand plusieurs shots
+-Pas de chapitre 0 dans les MKV
+-Les commentaires sur plusieurs lignes ne passent pas dans les TAG
+-Remonté de thumb à finir pour les WMA
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige un bug sur le calcul des durées de certains fichiers vidéo qui générait des crash
--Corrige un plantage si pas de modèle choisi dans la boite de génération en mode device
--Corrige l'erreur de positionnement lors des changements de slide dans la boite slide (précédent/suivant) quand la durée des slides = la durées des transitions
+-Corrige l'erreur de calcul qui générait des chevrotements dans le son lors des transitions
 
 English version / Bug fix :
--Fix a bug of compute duration for some video files which generate crash
--Fix a crash if no device model was selected in render dialog when device mode
--Fix positionning error when moving to next/previous slide in slide dialog when slide duration is equal to transitions duration
+-Correct the mistake in calculation which generated quaverings in the sound during the transitions
 
 French version / Nouvelles fonctionnalités
--Ajout des fichiers de traduction pour le Tchèque
--Intègre le nouvelle icône pour MMFiler (merci à Pepe pour cette icône)
+-Lors du découpage en plusieurs slide d'une vidéo contenant des chapitres, utilise les nom des chapitres comme nom des slides
+-Les projets ajoutés dans le projet en cours se positionne maintenant soit après le slide en cours, soit à la fin du projet en fonction de l'option dans la boite de configuration. Avant, ils s'inséraient toujours à la fin.
+-Il est maintenant possible de sélectionner plusieurs projet à insérer d'un coup
+-Il est maintenant possible d'insérer un ou pusieurs fichiers projet par Drag & Drop
+-Il est maintenant possible de copier/couper/coller des slides et des blocks entre plusieurs instance de ffDiaporama
+-[Package Windows] Bascule ffmpeg sur la version shared au lieu de static pour réduire la taille du package
 
 English version / New features
--Add translation files for Czech
--Integrate new MMFiler icon (thanks to Pepe for it)
+-When cutting a video owning multple chapters into multiple slide, use chapter name as slide name
+-When adding existing project to current project, now it insert after current slide or at the end depending on option in configuration dialog. Before they always been inserted at the end
+-It's now possible to select more than one project file to add to the current project
+-It's now possible to add one ore more project files using Drag & Drop
+-It's now possible to copy/cut/paste slide and block between several ffDiaporama instance
+-[Package Windows] Switch ffmpeg to shared version  instead of static version to reduce package size
 
 -------------------------------------
 Changelog depuis la version 20111118
@@ -41,6 +48,9 @@ Bug fix French version
 -Corrige la liste des extentions autorisées pour les vidéos à intégrer (autorise toutes celles que ffDiaporama peut produire)
 -Corrige les géométries des vidéos générées en NTSC
 -Corrige une erreur d'affichage lors des ajouts de projet dans le projet
+-Corrige un bug sur le calcul des durées de certains fichiers vidéo qui générait des crash
+-Corrige un plantage si pas de modèle choisi dans la boite de génération en mode device
+-Corrige l'erreur de positionnement lors des changements de slide dans la boite slide (précédent/suivant) quand la durée des slides = la durées des transitions
 
 Bug fix English version
 -When exit the application, even when answer yes, modifications are not saved
@@ -80,6 +90,8 @@ French version / Nouvelles fonctionnalités
     -Ajoute la liste des chapitres dans la boite propriété (pour consultation)
 -Ajoute un bouton dans la boite de génération pour consulter/ajuster les propriétés du projet avant génération
 -Quand une vidéo contenant plus d'un chapitre est ajoutée au projet, propose de créer un slide par chapitre
+-Ajout des fichiers de traduction pour le Tchèque
+-Intègre le nouvelle icône pour MMFiler (merci à Pepe pour cette icône)
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -107,3 +119,5 @@ English version / New features
     -Add chapter list in properties dialog (for consulting)
 -Add a button in render dialog to adjust project proprerties before rendering
 -When a video wich contains more than on chapter is added to the project, propose to create on slide for each chapter
+-Add translation files for Czech
+-Integrate new MMFiler icon (thanks to Pepe for it)

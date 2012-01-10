@@ -601,7 +601,8 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     // set value of external tools path (depending on operating system)
     #ifdef Q_OS_WIN
         PathEXIV2       = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"exiv2\\exiv2.exe");           // FileName of exiv2 (with path) : Windows version
-        PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg\\bin\\ffmpeg.exe");    // FileName of ffmpeg (with path) : Windows version
+        //PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg\\bin\\ffmpeg.exe");  // FileName of ffmpeg (with path) : Windows version
+        PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg.exe");                 // FileName of ffmpeg (with path) : Windows version
     #else
         PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
         PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version

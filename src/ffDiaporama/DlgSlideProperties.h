@@ -102,6 +102,7 @@ protected:
     virtual void    accept();
 
 private slots:
+    void            s_Event_ClipboardChanged();
     void            s_RefreshSceneImage();
 
     void            OKPrevious();

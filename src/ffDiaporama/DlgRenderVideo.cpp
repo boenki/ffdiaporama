@@ -956,7 +956,7 @@ void DlgRenderVideo::accept() {
                     out<<QString("composer="+AdjustMETA(Diaporama->ProjectInfo->Composer));
                     out<<QString("language="+Language+"\n");
                     #if (LIBAVFORMAT_VERSION_MAJOR>=53)
-                    out<<QString("creation_time="+QDateTime::currentDateTime().toString("yyyy-MM-dd Thh:mm:ss")+"\n");   // ISO 8601 format
+                    out<<QString("creation_time="+QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")+"\n");   // ISO 8601 format
                     #endif
 
                     for (int i=FromSlide;i<=ToSlide;i++) if ((i==FromSlide)||(Diaporama->List[i]->StartNewChapter)) {
