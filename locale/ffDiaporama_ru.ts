@@ -4004,27 +4004,27 @@ and help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="463"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="461"/>
         <source>All suported file (</source>
         <translation>Все поддерживаемые файлы (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="470"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="468"/>
         <source>Image file (</source>
         <translation>Изображения(</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="476"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="474"/>
         <source>Video file (</source>
         <translation>Видео файлы(</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="482"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="480"/>
         <source>Music file (</source>
         <translation>Музыкальны файлы (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="644"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="642"/>
         <source>Read configuration file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4064,28 +4064,28 @@ and help</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="646"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="644"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="395"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения файла конфигуранции</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="651"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="649"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="400"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения содержимого файла конфигуранции</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="658"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="656"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="407"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Этот файл не является файлом конфигуранции</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="782"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="780"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="456"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>

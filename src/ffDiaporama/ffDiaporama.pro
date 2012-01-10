@@ -30,8 +30,7 @@ win32:RC_FILE = ffDiaporama.rc
 
 LIBS		+=-lSDL                                                     # specific for SDL
 
-OTHER_FILES += \
-    ffDiaporama.rc
+OTHER_FILES += ffDiaporama.rc
 
 TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_it.ts \
@@ -40,7 +39,8 @@ TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_es.ts \
     ../../locale/ffDiaporama_pt.ts \
     ../../locale/ffDiaporama_ru.ts \
-    ../../locale/ffDiaporama_el.ts
+    ../../locale/ffDiaporama_el.ts \
+    ../../locale/ffDiaporama_cz.ts
 
 SOURCES +=  _ApplicationDefinitions.cpp \
             _SoundDefinitions.cpp \
