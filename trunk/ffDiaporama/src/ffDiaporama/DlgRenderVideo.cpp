@@ -688,23 +688,6 @@ void DlgRenderVideo::accept() {
             QApplication::translate("DlgRenderVideo","The file you selected already exist.\nDo you want to overwrite it ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)) return;
 
-        bool Continue=true;                                  // Loop control
-
-        // if process encoding was not started then start it
-
-        // Only ProcessWidget must be display and enable
-        ui->SelectDestScroll->setEnabled(false);    ui->SelectDestScroll->setVisible(false);
-        ui->ProcessWidget->setEnabled(true);        ui->ProcessWidget->setVisible(true);
-        ui->SelectDestScroll->setVisible(false);
-
-        // Disable unwanted buttons
-        ui->OkBt->setEnabled(false);
-        ui->ProjectPropertiesBt->setEnabled(false);
-        ui->HelpBT->setEnabled(false);
-
-        IsDestFileOpen      =true;
-        StopProcessWanted   =false;
-
         // Get values from controls
         QString     Preset="";
         int         ExtendH=0;
@@ -746,6 +729,12 @@ void DlgRenderVideo::accept() {
 
             OutputFileFormat=0;
             QString Device=ui->DeviceModelCB->currentText();
+            if (Device=="") {
+                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Device model selection"),
+                    QApplication::translate("DlgRenderVideo","A device model is require!"));
+                ui->DeviceModelCB->setFocus();
+                return;
+            }
             int i=0;
             while ((i<Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceName!=Device)) i++;
             if (i<Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel.count()) {
@@ -796,6 +785,24 @@ void DlgRenderVideo::accept() {
         ui->FrameNumberLabel->setText("");
 
         //**********************************************************************************************************************************
+        // Switch dialog to rendering mode
+        //**********************************************************************************************************************************
+
+        bool Continue=true;                                  // Loop control
+        IsDestFileOpen      =true;
+        StopProcessWanted   =false;
+
+        // if process encoding was not started then start it
+
+        // Only ProcessWidget must be display and enable
+        ui->SelectDestScroll->setEnabled(false);    ui->SelectDestScroll->setVisible(false);
+        ui->ProcessWidget->setEnabled(true);        ui->ProcessWidget->setVisible(true);
+        ui->SelectDestScroll->setVisible(false);
+
+        // Disable unwanted buttons
+        ui->OkBt->setEnabled(false);
+        ui->ProjectPropertiesBt->setEnabled(false);
+        ui->HelpBT->setEnabled(false);
 
         GlobalMainWindow->CurrentRenderingDialog=this;
 

@@ -3,23 +3,29 @@ Buggs/TODO (Dernier SVN le 08/01/2011) :
 TODO
 ----
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
--Erreur de lecture de vidéo dans certaines vidéo MPEG-2
 -Erreur de lecture du son dans certaines vidéo AVI
--Erreur lors des changements de slide quand la durée des slides = la durées des transitions
 -Grosses lenteurs dans la boite slide quand plusieurs shots
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige un bug sur le calcul des durées de certains fichiers vidéo qui générait des crash
+-Corrige un plantage si pas de modèle choisi dans la boite de génération en mode device
+-Corrige l'erreur de positionnement lors des changements de slide dans la boite slide (précédent/suivant) quand la durée des slides = la durées des transitions
 
 English version / Bug fix :
+-Fix a bug of compute duration for some video files which generate crash
+-Fix a crash if no device model was selected in render dialog when device mode
+-Fix positionning error when moving to next/previous slide in slide dialog when slide duration is equal to transitions duration
 
 French version / Nouvelles fonctionnalités
 -Ajout des fichiers de traduction pour le Tchèque
+-Intègre le nouvelle icône pour MMFiler (merci à Pepe pour cette icône)
 
 English version / New features
 -Add translation files for Czech
+-Integrate new MMFiler icon (thanks to Pepe for it)
 
 -------------------------------------
 Changelog depuis la version 20111118

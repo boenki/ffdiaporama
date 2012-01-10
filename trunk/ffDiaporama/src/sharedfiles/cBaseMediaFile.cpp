@@ -1090,6 +1090,9 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::RealGetInformationFromFile";
     #endif
+
+    int64_t AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
+
     if (!cBaseMediaFile::GetInformationFromFile(GivenFileName,AliasList,ModifyFlag)) return false;
 
     AVFormatContext *ffmpegFile=NULL;;
@@ -1150,8 +1153,13 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
                 InformationList.append("Chapter_"+ChapterNum+":"+QString().fromUtf8(tag->key).toLower()+QString("##")+QString().fromUtf8(tag->value));
     }
     // Get informations about duration
-    int hh,mm,ss,ms;
-    ms=ffmpegFile->duration/1000;
+    int         hh,mm,ss;
+    qlonglong   ms;
+
+    ms=ffmpegFile->duration;
+    if (ffmpegFile->start_time!=AVNOPTSVALUE)  ms-=ffmpegFile->start_time;
+    ms=ms/1000;
+
     ss=ms/1000;
     mm=ss/60;
     hh=mm/60;
@@ -1159,6 +1167,7 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
     ss=ss-(ss/60)*60;
     ms=ms-(ms/1000)*1000;
     Duration=QTime(hh,mm,ss,ms);
+
     EndPos  =Duration;    // By default : EndPos is set to the end of file
     InformationList.append(QString("Duration")+QString("##")+Duration.toString("HH:mm:ss.zzz"));
 
@@ -1438,7 +1447,8 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     if (DiffTimePosition<0) DiffTimePosition=-DiffTimePosition;
 
     // Adjust position if input file have a start_time value
-    if (ffmpegAudioFile->start_time!=AVNOPTSVALUE)  dPosition+=double(ffmpegAudioFile->start_time)/double(AV_TIME_BASE);
+    if (ffmpegAudioFile->start_time!=AVNOPTSVALUE)
+        dPosition+=double(ffmpegAudioFile->start_time)/double(AV_TIME_BASE);
 
     // Prepare a buffer for sound decoding
     BufferToDecode      =(uint8_t *)av_malloc(48000*4*2);   // 2 sec buffer
@@ -1740,6 +1750,11 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
     double dEndFile =double(QTime(0,0,0,0).msecsTo(DontUseEndPos?Duration:EndPos))/1000;    // End File Position in double format
     double dPosition=double(Position)/1000;                                                 // Position in double format
 
+    if (dEndFile==0) {
+        qDebug()<<"dEndFile=0 ?????";
+        return NULL;
+    }
+
     // Ensure Position is not > EndPosition, in that case, change Position to lastposition
     if ((dPosition>0)&&(dPosition>=dEndFile)) {
         Position=QTime(0,0,0,0).msecsTo(EndPos);
@@ -1835,7 +1850,7 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
             }
 
             // Check if we need to continue loop
-            Continue=(IsVideoFind==false)&&((dEndFile==0)||(FramePosition<dEndFile));
+            Continue=(IsVideoFind==false)&&(FramePosition<dEndFile);
 
             if ((IsVideoFind)&&(ApplicationConfig->Crop1088To1080)&&(RetImage->height()==1088)&&(RetImage->width()==1920)) {
                 QImage *newRetImage=new QImage(RetImage->copy(0,4,1920,1080));
@@ -1889,12 +1904,17 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
         }
     }
 
+    if ((!IsVideoFind)&&(FramePosition>=dEndFile)&&(CacheLastImage)&&(!CacheLastImage->isNull())) {
+        IsVideoFind=true;
+        RetImage=new QImage(CacheLastImage->copy());
+    }
+
     if (!IsVideoFind) {
         qDebug()<<"No video image return for position "<<Position;
     }
 
     // Check if it's the last image and if we need to  cache it
-    if ((FramePosition>=dEndFile)&&(RetImage)) {
+    if ((FramePosition>=dEndFile)&&(RetImage)&&(!CacheLastImage)) {
         CacheLastImage  =new QImage(RetImage->copy());
         dEndFileCachePos=dEndFile;  // keep position for future use
     }
