@@ -31,6 +31,11 @@
 #include "wgt_QCustomThumbnails.h"
 #include "cCustomTableWidget.h"
 
+#include <QClipboard>
+#include <QMimeData>
+#include <QDomElement>
+#include <QDomDocument>
+
 #include "DlgAbout.h"
 #include "DlgBackgroundProperties.h"
 #include "DlgMusicProperties.h"
@@ -56,8 +61,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     GlobalMainWindow        =this;
     IsFirstInitDone         =false;                 // true when first show window was done
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
-    Clipboard_Object        =NULL;
-    Clipboard_Block         =NULL;
     DragItemSource          =-1;
     DragItemDest            =-1;
     IsDragOn                =0;
@@ -148,8 +151,8 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     Diaporama->Timeline=ui->timeline;
     ui->preview->InitDiaporamaPlay(Diaporama);
     ui->preview2->InitDiaporamaPlay(Diaporama);
-    connect(ui->preview,SIGNAL(DoubleClick()),this,SLOT(s_ItemDoubleClicked()));
-    connect(ui->preview2,SIGNAL(DoubleClick()),this,SLOT(s_ItemDoubleClicked()));
+    connect(ui->preview,SIGNAL(DoubleClick()),this,SLOT(s_Event_DoubleClickedOnObject()));
+    connect(ui->preview2,SIGNAL(DoubleClick()),this,SLOT(s_Event_DoubleClickedOnObject()));
 
     ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
     ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
@@ -157,56 +160,57 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     // We have finish with the SplashScreen
     screen.hide();
 
-    connect(ui->ToolBoxNormal,SIGNAL(currentChanged(int)),this,SLOT(s_ToolbarChanged(int)));
+    connect(ui->ToolBoxNormal,SIGNAL(currentChanged(int)),this,SLOT(s_Event_ToolbarChanged(int)));
 
     // Help menu
-    connect(ui->Action_About_BT,SIGNAL(pressed()),this,SLOT(s_About()));                                connect(ui->Action_About_BT_2,SIGNAL(pressed()),this,SLOT(s_About()));
-    connect(ui->ActionDocumentation_BT,SIGNAL(pressed()),this,SLOT(s_Documentation()));                 connect(ui->ActionDocumentation_BT_2,SIGNAL(pressed()),this,SLOT(s_Documentation()));
-    connect(ui->ActionNewFunctions_BT,SIGNAL(pressed()),this,SLOT(s_NewFunctions()));                   connect(ui->ActionNewFunctions_BT_2,SIGNAL(pressed()),this,SLOT(s_NewFunctions()));
+    connect(ui->Action_About_BT,SIGNAL(pressed()),this,SLOT(s_Action_About()));                                connect(ui->Action_About_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_About()));
+    connect(ui->ActionDocumentation_BT,SIGNAL(pressed()),this,SLOT(s_Action_Documentation()));                 connect(ui->ActionDocumentation_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_Documentation()));
+    connect(ui->ActionNewFunctions_BT,SIGNAL(pressed()),this,SLOT(s_Action_NewFunctions()));                   connect(ui->ActionNewFunctions_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_NewFunctions()));
 
     // File menu
-    connect(ui->Action_New_BT,SIGNAL(pressed()),this,SLOT(s_action_New()));                             connect(ui->Action_New_BT_2,SIGNAL(pressed()),this,SLOT(s_action_New()));
-    connect(ui->Action_Open_BT,SIGNAL(pressed()),this,SLOT(s_action_Open()));                           connect(ui->Action_Open_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Open()));
-    connect(ui->Action_OpenRecent_BT,SIGNAL(pressed()),this,SLOT(s_action_OpenRecent()));               connect(ui->Action_OpenRecent_BT_2,SIGNAL(pressed()),this,SLOT(s_action_OpenRecent()));
-    connect(ui->Action_Save_BT,SIGNAL(pressed()),this,SLOT(s_action_Save()));                           connect(ui->Action_Save_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Save()));
-    connect(ui->ActionSave_as_BT,SIGNAL(pressed()),this,SLOT(s_action_SaveAs()));                       connect(ui->ActionSave_as_BT_2,SIGNAL(pressed()),this,SLOT(s_action_SaveAs()));
-    connect(ui->Action_PrjProperties_BT,SIGNAL(pressed()),this,SLOT(s_ProjectProperties()));            connect(ui->Action_PrjProperties_BT_2,SIGNAL(pressed()),this,SLOT(s_ProjectProperties()));
-    connect(ui->ActionConfiguration_BT,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));     connect(ui->ActionConfiguration_BT_2,SIGNAL(pressed()),this,SLOT(s_ChangeApplicationSettings()));
-    connect(ui->Action_Exit_BT,SIGNAL(pressed()),this,SLOT(s_action_Exit()));                           connect(ui->Action_Exit_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Exit()));
+    connect(ui->Action_New_BT,SIGNAL(pressed()),this,SLOT(s_Action_New()));                             connect(ui->Action_New_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_New()));
+    connect(ui->Action_Open_BT,SIGNAL(pressed()),this,SLOT(s_Action_Open()));                           connect(ui->Action_Open_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_Open()));
+    connect(ui->Action_OpenRecent_BT,SIGNAL(pressed()),this,SLOT(s_Action_OpenRecent()));               connect(ui->Action_OpenRecent_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_OpenRecent()));
+    connect(ui->Action_Save_BT,SIGNAL(pressed()),this,SLOT(s_Action_Save()));                           connect(ui->Action_Save_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_Save()));
+    connect(ui->ActionSave_as_BT,SIGNAL(pressed()),this,SLOT(s_Action_SaveAs()));                       connect(ui->ActionSave_as_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_SaveAs()));
+    connect(ui->Action_PrjProperties_BT,SIGNAL(pressed()),this,SLOT(s_Action_ProjectProperties()));            connect(ui->Action_PrjProperties_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_ProjectProperties()));
+    connect(ui->ActionConfiguration_BT,SIGNAL(pressed()),this,SLOT(s_Action_ChangeApplicationSettings()));     connect(ui->ActionConfiguration_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_ChangeApplicationSettings()));
+    connect(ui->Action_Exit_BT,SIGNAL(pressed()),this,SLOT(s_Action_Exit()));                           connect(ui->Action_Exit_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_Exit()));
 
     // Project menu
-    connect(ui->ActionAdd_BT,SIGNAL(pressed()),this,SLOT(s_action_AddFile()));                          connect(ui->ActionAdd_BT_2,SIGNAL(pressed()),this,SLOT(s_action_AddFile()));
-    connect(ui->ActionAddtitle_BT,SIGNAL(pressed()),this,SLOT(s_action_AddTitle()));                    connect(ui->ActionAddtitle_BT_2,SIGNAL(pressed()),this,SLOT(s_action_AddTitle()));
-    connect(ui->ActionAddProject_BT,SIGNAL(pressed()),this,SLOT(s_action_AddProject()));                connect(ui->ActionAddProject_BT_2,SIGNAL(pressed()),this,SLOT(s_action_AddProject()));
-    connect(ui->ActionRemove_BT,SIGNAL(pressed()),this,SLOT(s_RemoveObject()));                         connect(ui->ActionRemove_BT_2,SIGNAL(pressed()),this,SLOT(s_RemoveObject()));
-    connect(ui->ActionCut_BT,SIGNAL(pressed()),this,SLOT(s_CutToClipboard()));                          connect(ui->ActionCut_BT_2,SIGNAL(pressed()),this,SLOT(s_CutToClipboard()));
-    connect(ui->ActionCopy_BT,SIGNAL(pressed()),this,SLOT(s_CopyToClipboard()));                        connect(ui->ActionCopy_BT_2,SIGNAL(pressed()),this,SLOT(s_CopyToClipboard()));
-    connect(ui->ActionPaste_BT,SIGNAL(pressed()),this,SLOT(s_PasteFromClipboard()));                    connect(ui->ActionPaste_BT_2,SIGNAL(pressed()),this,SLOT(s_PasteFromClipboard()));
-    connect(ui->ActionEdit_BT,SIGNAL(pressed()),this,SLOT(s_action_Edit()));                            connect(ui->ActionEdit_BT_2,SIGNAL(pressed()),this,SLOT(s_action_Edit()));
+    connect(ui->ActionAdd_BT,SIGNAL(pressed()),this,SLOT(s_Action_AddFile()));                          connect(ui->ActionAdd_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_AddFile()));
+    connect(ui->ActionAddtitle_BT,SIGNAL(pressed()),this,SLOT(s_Action_AddTitle()));                    connect(ui->ActionAddtitle_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_AddTitle()));
+    connect(ui->ActionAddProject_BT,SIGNAL(pressed()),this,SLOT(s_Action_AddProject()));                connect(ui->ActionAddProject_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_AddProject()));
+    connect(ui->ActionRemove_BT,SIGNAL(pressed()),this,SLOT(s_Action_RemoveObject()));                         connect(ui->ActionRemove_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_RemoveObject()));
+    connect(ui->ActionCut_BT,SIGNAL(pressed()),this,SLOT(s_Action_CutToClipboard()));                          connect(ui->ActionCut_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_CutToClipboard()));
+    connect(ui->ActionCopy_BT,SIGNAL(pressed()),this,SLOT(s_Action_CopyToClipboard()));                        connect(ui->ActionCopy_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_CopyToClipboard()));
+    connect(ui->ActionPaste_BT,SIGNAL(pressed()),this,SLOT(s_Action_PasteFromClipboard()));                    connect(ui->ActionPaste_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_PasteFromClipboard()));
+    connect(ui->ActionEdit_BT,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));                            connect(ui->ActionEdit_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));
+    connect(QApplication::clipboard(),SIGNAL(dataChanged()),this,SLOT(s_Event_ClipboardChanged()));
 
-    connect(ui->actionEdit_background,SIGNAL(triggered()),this,SLOT(s_BackgroundDoubleClicked()));
-    connect(ui->actionEdit_background_transition,SIGNAL(triggered()),this,SLOT(s_TransitionBackgroundDoubleClicked()));
+    connect(ui->actionEdit_background,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnBackground()));
+    connect(ui->actionEdit_background_transition,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnTransitionBackground()));
 
-    connect(ui->actionEdit_object,SIGNAL(triggered()),this,SLOT(s_ItemDoubleClicked()));
+    connect(ui->actionEdit_object,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnObject()));
 
-    connect(ui->actionEdit_object_in_transition,SIGNAL(triggered()),this,SLOT(s_TransitionItemDoubleClicked()));
-    connect(ui->actionEdit_music,SIGNAL(triggered()),this,SLOT(s_MusicDoubleClicked()));
+    connect(ui->actionEdit_object_in_transition,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnTransition()));
+    connect(ui->actionEdit_music,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnMusic()));
 
     // Render menu
-    connect(ui->ActionRender_BT,SIGNAL(pressed()),this,SLOT(s_RenderVideo()));                          connect(ui->ActionRender_BT_2,SIGNAL(pressed()),this,SLOT(s_RenderVideo()));
-    connect(ui->ActionSmartphone_BT,SIGNAL(pressed()),this,SLOT(s_RenderSmartphone()));                 connect(ui->ActionSmartphone_BT_2,SIGNAL(pressed()),this,SLOT(s_RenderSmartphone()));
-    connect(ui->ActionMultimedia_BT,SIGNAL(pressed()),this,SLOT(s_RenderMultimedia()));                 connect(ui->ActionMultimedia_BT_2,SIGNAL(pressed()),this,SLOT(s_RenderMultimedia()));
-    connect(ui->ActionForTheWEB_BT,SIGNAL(pressed()),this,SLOT(s_RenderForTheWEB()));                   connect(ui->ActionForTheWEB_BT_2,SIGNAL(pressed()),this,SLOT(s_RenderForTheWEB()));
+    connect(ui->ActionRender_BT,SIGNAL(pressed()),this,SLOT(s_Action_RenderVideo()));                          connect(ui->ActionRender_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_RenderVideo()));
+    connect(ui->ActionSmartphone_BT,SIGNAL(pressed()),this,SLOT(s_Action_RenderSmartphone()));                 connect(ui->ActionSmartphone_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_RenderSmartphone()));
+    connect(ui->ActionMultimedia_BT,SIGNAL(pressed()),this,SLOT(s_Action_RenderMultimedia()));                 connect(ui->ActionMultimedia_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_RenderMultimedia()));
+    connect(ui->ActionForTheWEB_BT,SIGNAL(pressed()),this,SLOT(s_Action_RenderForTheWEB()));                   connect(ui->ActionForTheWEB_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_RenderForTheWEB()));
 
     // Timeline
-    connect(ui->ZoomPlusBT,SIGNAL(pressed()),this,SLOT(s_action_ZoomPlus()));
-    connect(ui->ZoomMinusBT,SIGNAL(pressed()),this,SLOT(s_action_ZoomMinus()));
-    connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
-    connect(ui->timeline,SIGNAL(DragMoveItem()),this,SLOT(s_DragMoveItem()));
+    connect(ui->ZoomPlusBT,SIGNAL(pressed()),this,SLOT(s_Action_ZoomPlus()));
+    connect(ui->ZoomMinusBT,SIGNAL(pressed()),this,SLOT(s_Action_ZoomMinus()));
+    connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_Event_TimelineSelectionChanged()));
+    connect(ui->timeline,SIGNAL(DragMoveItem()),this,SLOT(s_Event_TimelineDragMoveItem()));
 
-    connect(ui->PartitionBT,SIGNAL(pressed()),this,SLOT(s_ChPartitionMode()));
-    connect(ui->Partition2BT,SIGNAL(pressed()),this,SLOT(s_ChPartitionMode()));
-    connect(ui->TABTooltip,SIGNAL(linkActivated(const QString)),this,SLOT(s_TABTooltipLink(const QString)));
+    connect(ui->PartitionBT,SIGNAL(pressed()),this,SLOT(s_Action_ChPartitionMode()));
+    connect(ui->Partition2BT,SIGNAL(pressed()),this,SLOT(s_Action_ChPartitionMode()));
+    connect(ui->TABTooltip,SIGNAL(linkActivated(const QString)),this,SLOT(s_Action_OpenTABHelpLink(const QString)));
 
     // Prepare title bar depending on running version
     TitleBar=QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
@@ -214,13 +218,14 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Some other init
     ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+"0 / 0");
-    s_ToolbarChanged(0);
+    s_Event_ToolbarChanged(0);
     ToStatusBar("");
-    SetModifyFlag(false);                                   // Setup title window and do first RefreshControls();
+    SetModifyFlag(false);           // Setup title window and do first RefreshControls();
+    s_Event_ClipboardChanged();           // Setup clipboard button state
 
-    if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig())); else {
+    if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(500,this,SLOT(s_Action_DlgCheckConfig())); else {
         QString Status;
-        if ((!CheckExiv2(Status,ApplicationConfig))||(!Checkffmpeg(Status,ApplicationConfig))) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig()));
+        if ((!CheckExiv2(Status,ApplicationConfig))||(!Checkffmpeg(Status,ApplicationConfig))) QTimer::singleShot(500,this,SLOT(s_Action_DlgCheckConfig()));
     }
 }
 
@@ -233,14 +238,6 @@ MainWindow::~MainWindow() {
     delete Diaporama;
     delete ApplicationConfig;
     SDLLastClose();
-    if (Clipboard_Block) {
-        delete Clipboard_Block;
-        Clipboard_Block=NULL;
-    }
-    if (Clipboard_Object) {
-        delete Clipboard_Object;
-        Clipboard_Object=NULL;
-    }
     delete ui;
 }
 
@@ -254,35 +251,35 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 
     if ((!ApplicationConfig->PartitionMode)&&(ui->ToolBoxNormal->currentIndex()!=0)) {
         Find=true;
-        if (event->matches(QKeySequence::Quit))         s_action_Exit();
-        else if (event->matches(QKeySequence::New))     s_action_New();
-        else if (event->matches(QKeySequence::Open))    s_action_Open();
-        else if (event->matches(QKeySequence::Save))    s_action_Save();
-        else if (event->matches(QKeySequence::SaveAs))  s_action_SaveAs();
+        if (event->matches(QKeySequence::Quit))         s_Action_Exit();
+        else if (event->matches(QKeySequence::New))     s_Action_New();
+        else if (event->matches(QKeySequence::Open))    s_Action_Open();
+        else if (event->matches(QKeySequence::Save))    s_Action_Save();
+        else if (event->matches(QKeySequence::SaveAs))  s_Action_SaveAs();
         else Find=false;
     }
     if ((!Find)&&(!ApplicationConfig->PartitionMode)&&(ui->ToolBoxNormal->currentIndex()!=1)) {
         Find=true;
-        if (event->matches(QKeySequence::Copy))         s_CopyToClipboard();
-        else if (event->matches(QKeySequence::Cut))     s_CutToClipboard();
-        else if (event->matches(QKeySequence::Paste))   s_PasteFromClipboard();
-        else if (event->matches(QKeySequence::Delete))  s_RemoveObject();
-        //else if (event->matches(QKeySequence::ZoomIn))  s_action_ZoomPlus();
-        //else if (event->matches(QKeySequence::ZoomOut)) s_action_ZoomMinus();
-        else if (event->key()==Qt::Key_Insert)          s_action_AddFile();
+        if (event->matches(QKeySequence::Copy))         s_Action_CopyToClipboard();
+        else if (event->matches(QKeySequence::Cut))     s_Action_CutToClipboard();
+        else if (event->matches(QKeySequence::Paste))   s_Action_PasteFromClipboard();
+        else if (event->matches(QKeySequence::Delete))  s_Action_RemoveObject();
+        //else if (event->matches(QKeySequence::ZoomIn))  s_Action_ZoomPlus();
+        //else if (event->matches(QKeySequence::ZoomOut)) s_Action_ZoomMinus();
+        else if (event->key()==Qt::Key_Insert)          s_Action_AddFile();
         else Find=false;
     }
     if ((!Find)&&(!ApplicationConfig->PartitionMode)&&(ui->ToolBoxNormal->currentIndex()!=3)) {
         Find=true;
-        if (event->key()==Qt::Key_F1)                   s_Documentation();
+        if (event->key()==Qt::Key_F1)                   s_Action_Documentation();
         else Find=false;
     }
     if (!Find) {
         Find=true;
-        if (event->key()==Qt::Key_F5)                   s_BackgroundDoubleClicked();
-        else if (event->key()==Qt::Key_F6)              s_ItemDoubleClicked();
-        else if (event->key()==Qt::Key_F7)              s_MusicDoubleClicked();
-        else if (event->key()==Qt::Key_F8)              s_TransitionItemDoubleClicked();
+        if (event->key()==Qt::Key_F5)                   s_Event_DoubleClickedOnBackground();
+        else if (event->key()==Qt::Key_F6)              s_Event_DoubleClickedOnObject();
+        else if (event->key()==Qt::Key_F7)              s_Event_DoubleClickedOnMusic();
+        else if (event->key()==Qt::Key_F8)              s_Event_DoubleClickedOnTransition();
         else Find=false;
     }
 
@@ -350,7 +347,7 @@ void MainWindow::closeEvent(QCloseEvent *Event) {
     if (Diaporama->IsModify) {
         int Bt=QMessageBox::question(this,QApplication::translate("MainWindow","Close application"),QApplication::translate("MainWindow","Want to save the project before closing?"),
         QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes);
-        if (Bt==QMessageBox::Yes) s_action_Save();
+        if (Bt==QMessageBox::Yes) s_Action_Save();
         if (Bt==QMessageBox::Cancel) {
             Event->setAccepted(false);
             return;
@@ -384,7 +381,7 @@ void MainWindow::showEvent(QShowEvent *) {
         ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
-        connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(onNetworkReply(QNetworkReply*)));
+        connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(s_Event_NetworkReply(QNetworkReply*)));
         QUrl            url(BUILDVERSION_WEBURL);
         QNetworkReply   *reply  = mNetworkManager->get(QNetworkRequest(url));
         reply->deleteLater();
@@ -395,9 +392,9 @@ void MainWindow::showEvent(QShowEvent *) {
 // Function use when reading BUILDVERSION from WEB Site
 //====================================================================================================================
 
-void MainWindow::onNetworkReply(QNetworkReply* reply) {
+void MainWindow::s_Event_NetworkReply(QNetworkReply* reply) {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::onNetworkReply";
+    qDebug() << "IN:MainWindow::s_Event_NetworkReply";
     #endif
     if (reply->error()==QNetworkReply::NoError) {
         int httpstatuscode=reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
@@ -461,9 +458,10 @@ void MainWindow::RefreshControls() {
     ui->actionEdit_music->setEnabled(ui->timeline->NbrItem()>0);
 
     // Clipboard_Object
-    ui->ActionPaste_BT->setEnabled(Clipboard_Object!=NULL);                                                 ui->ActionPaste_BT_2->setEnabled(Clipboard_Object!=NULL);
-    ui->ActionCopy_BT->setEnabled(ui->timeline->CurrentSelected()>=0);                                      ui->ActionCopy_BT_2->setEnabled(ui->timeline->CurrentSelected()>=0);
-    ui->ActionCut_BT->setEnabled(ui->timeline->CurrentSelected()>=0);                                       ui->ActionCut_BT_2->setEnabled(ui->timeline->CurrentSelected()>=0);
+    ui->ActionCopy_BT->setEnabled(ui->timeline->CurrentSelected()>=0);
+    ui->ActionCopy_BT_2->setEnabled(ui->timeline->CurrentSelected()>=0);
+    ui->ActionCut_BT->setEnabled(ui->timeline->CurrentSelected()>=0);
+    ui->ActionCut_BT_2->setEnabled(ui->timeline->CurrentSelected()>=0);
 
     ui->ActionRender_BT->setEnabled(ui->timeline->NbrItem()>0);                                             ui->ActionRender_BT_2->setEnabled(ui->timeline->NbrItem()>0);
     ui->ActionSmartphone_BT->setEnabled(ui->timeline->NbrItem()>0);                                         ui->ActionSmartphone_BT_2->setEnabled(ui->timeline->NbrItem()>0);
@@ -488,9 +486,9 @@ void MainWindow::SetModifyFlag(bool IsModify) {
 
 //====================================================================================================================
 
-void MainWindow::s_About() {
+void MainWindow::s_Action_About() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_About";
+    qDebug() << "IN:MainWindow::s_Action_About";
     #endif
     ui->Action_About_BT->setDown(false);
     ui->Action_About_BT_2->setDown(false);
@@ -501,9 +499,9 @@ void MainWindow::s_About() {
 
 //====================================================================================================================
 
-void MainWindow::s_DlgCheckConfig() {
+void MainWindow::s_Action_DlgCheckConfig() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_DlgCheckConfig";
+    qDebug() << "IN:MainWindow::s_Action_DlgCheckConfig";
     #endif
     DlgCheckConfig Dlg(HELPFILE_DlgCheckConfig,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
     Dlg.InitDialog();
@@ -518,9 +516,9 @@ void MainWindow::s_DlgCheckConfig() {
 
 //====================================================================================================================
 
-void MainWindow::s_Documentation() {
+void MainWindow::s_Action_Documentation() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_Documentation";
+    qDebug() << "IN:MainWindow::s_Action_Documentation";
     #endif
     ui->ActionDocumentation_BT->setDown(false);
     ui->ActionDocumentation_BT_2->setDown(false);
@@ -529,9 +527,9 @@ void MainWindow::s_Documentation() {
 
 //====================================================================================================================
 
-void MainWindow::s_NewFunctions() {
+void MainWindow::s_Action_NewFunctions() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_NewFunctions";
+    qDebug() << "IN:MainWindow::s_Action_NewFunctions";
     #endif
     ui->ActionNewFunctions_BT->setDown(false);
     ui->ActionNewFunctions_BT_2->setDown(false);
@@ -540,14 +538,14 @@ void MainWindow::s_NewFunctions() {
 
 //====================================================================================================================
 
-void MainWindow::s_action_Exit() {
+void MainWindow::s_Action_Exit() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_Exit";
+    qDebug() << "IN:MainWindow::s_Action_Exit";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_action_Exit()));
+        QTimer::singleShot(500,this,SLOT(s_Action_Exit()));
         return;
     }
 
@@ -556,14 +554,14 @@ void MainWindow::s_action_Exit() {
 
 //====================================================================================================================
 
-void MainWindow::s_action_ZoomPlus() {
+void MainWindow::s_Action_ZoomPlus() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_ZoomPlus";
+    qDebug() << "IN:MainWindow::s_Action_ZoomPlus";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_action_ZoomPlus()));
+        QTimer::singleShot(500,this,SLOT(s_Action_ZoomPlus()));
         return;
     }
 
@@ -576,14 +574,14 @@ void MainWindow::s_action_ZoomPlus() {
 
 //====================================================================================================================
 
-void MainWindow::s_action_ZoomMinus() {
+void MainWindow::s_Action_ZoomMinus() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_ZoomMinus";
+    qDebug() << "IN:MainWindow::s_Action_ZoomMinus";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_action_ZoomMinus()));
+        QTimer::singleShot(500,this,SLOT(s_Action_ZoomMinus()));
         return;
     }
 
@@ -596,14 +594,14 @@ void MainWindow::s_action_ZoomMinus() {
 
 //====================================================================================================================
 
-void MainWindow::s_ChPartitionMode() {
+void MainWindow::s_Action_ChPartitionMode() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_ChPartitionMode";
+    qDebug() << "IN:MainWindow::s_Action_ChPartitionMode";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_ChPartitionMode()));
+        QTimer::singleShot(500,this,SLOT(s_Action_ChPartitionMode()));
         return;
     }
 
@@ -620,14 +618,14 @@ void MainWindow::s_ChPartitionMode() {
 // Double click on widget in the object track
 //====================================================================================================================
 
-void MainWindow::s_ItemDoubleClicked() {
+void MainWindow::s_Event_DoubleClickedOnObject() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_ItemDoubleClicked";
+    qDebug() << "IN:MainWindow::s_Event_DoubleClickedOnObject";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_ItemDoubleClicked()));
+        QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnObject()));
         return;
     }
 
@@ -668,14 +666,14 @@ void MainWindow::s_ItemDoubleClicked() {
 // Double click on transition part of widget in the object track
 //====================================================================================================================
 
-void MainWindow::s_TransitionItemDoubleClicked() {
+void MainWindow::s_Event_DoubleClickedOnTransition() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_TransitionItemDoubleClicked";
+    qDebug() << "IN:MainWindow::s_Event_DoubleClickedOnTransition";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_TransitionItemDoubleClicked()));
+        QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnTransition()));
         return;
     }
 
@@ -690,26 +688,26 @@ void MainWindow::s_TransitionItemDoubleClicked() {
 // Double click on sound part of widget in the object track
 //====================================================================================================================
 
-void MainWindow::s_SoundItemDoubleClicked() {
+void MainWindow::s_Event_DoubleClickedOnVideoSound() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_SoundItemDoubleClicked";
+    qDebug() << "IN:MainWindow::s_Event_DoubleClickedOnVideoSound";
     #endif
-    s_ItemDoubleClicked();  // No separated process at this time !
+    s_Event_DoubleClickedOnObject();  // No separated process at this time !
 }
 
 //====================================================================================================================
 // // Double click on widget in the background track
 //====================================================================================================================
 
-void MainWindow::s_BackgroundDoubleClicked() {
+void MainWindow::s_Event_DoubleClickedOnBackground() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_BackgroundDoubleClicked";
+    qDebug() << "IN:MainWindow::s_Event_DoubleClickedOnBackground";
     #endif
     if (Diaporama->CurrentCol>=Diaporama->List.count()) return;
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_BackgroundDoubleClicked()));
+        QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnBackground()));
         return;
     }
 
@@ -724,14 +722,14 @@ void MainWindow::s_BackgroundDoubleClicked() {
 // Double click on transition part of widget in the background track
 //====================================================================================================================
 
-void MainWindow::s_TransitionBackgroundDoubleClicked() {
+void MainWindow::s_Event_DoubleClickedOnTransitionBackground() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_TransitionBackgroundDoubleClicked";
+    qDebug() << "IN:MainWindow::s_Event_DoubleClickedOnTransitionBackground";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_TransitionBackgroundDoubleClicked()));
+        QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnTransitionBackground()));
         return;
     }
 
@@ -749,14 +747,14 @@ void MainWindow::s_TransitionBackgroundDoubleClicked() {
 // // Double click on widget in the music track
 //====================================================================================================================
 
-void MainWindow::s_MusicDoubleClicked() {
+void MainWindow::s_Event_DoubleClickedOnMusic() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_MusicDoubleClicked";
+    qDebug() << "IN:MainWindow::s_Event_DoubleClickedOnMusic";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_MusicDoubleClicked()));
+        QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnMusic()));
         return;
     }
 
@@ -769,9 +767,9 @@ void MainWindow::s_MusicDoubleClicked() {
 
 //====================================================================================================================
 
-void MainWindow::s_DragMoveItem() {
+void MainWindow::s_Event_TimelineDragMoveItem() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_DragMoveItem";
+    qDebug() << "IN:MainWindow::s_Event_TimelineDragMoveItem";
     #endif
     if (DragItemSource<DragItemDest) DragItemDest--;
     Diaporama->List.move(DragItemSource,DragItemDest);
@@ -784,12 +782,12 @@ void MainWindow::s_DragMoveItem() {
 // Current diaporama object selection changed
 //====================================================================================================================
 
-void MainWindow::s_ItemSelectionChanged() {
+void MainWindow::s_Event_TimelineSelectionChanged() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_ItemSelectionChanged";
+    qDebug() << "IN:MainWindow::s_Event_TimelineSelectionChanged";
     #endif
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_ItemSelectionChanged()));
+        QTimer::singleShot(500,this,SLOT(s_Event_TimelineSelectionChanged()));
         return;
     }
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -837,16 +835,16 @@ void MainWindow::s_ItemSelectionChanged() {
 // Update dock informations
 //====================================================================================================================
 
-void MainWindow::s_TABTooltipLink(const QString Link) {
+void MainWindow::s_Action_OpenTABHelpLink(const QString Link) {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_TABTooltipLink";
+    qDebug() << "IN:MainWindow::s_Action_OpenTABHelpLink";
     #endif
     OpenHelp(Link);
 }
 
-void MainWindow::s_ToolbarChanged(int MenuIndex) {
+void MainWindow::s_Event_ToolbarChanged(int MenuIndex) {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_ToolbarChanged";
+    qDebug() << "IN:MainWindow::s_Event_ToolbarChanged";
     #endif
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
@@ -874,14 +872,14 @@ void MainWindow::s_ToolbarChanged(int MenuIndex) {
 // Render project
 //====================================================================================================================
 
-void MainWindow::s_RenderVideo() {
+void MainWindow::s_Action_RenderVideo() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_RenderVideo";
+    qDebug() << "IN:MainWindow::s_Action_RenderVideo";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_RenderVideo()));
+        QTimer::singleShot(500,this,SLOT(s_Action_RenderVideo()));
         return;
     }
     ui->ActionRender_BT->setDown(false);
@@ -893,14 +891,14 @@ void MainWindow::s_RenderVideo() {
     AdjustRuller();
 }
 
-void MainWindow::s_RenderSmartphone() {
+void MainWindow::s_Action_RenderSmartphone() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_RenderSmartphone";
+    qDebug() << "IN:MainWindow::s_Action_RenderSmartphone";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_RenderSmartphone()));
+        QTimer::singleShot(500,this,SLOT(s_Action_RenderSmartphone()));
         return;
     }
     ui->ActionSmartphone_BT->setDown(false);
@@ -912,14 +910,14 @@ void MainWindow::s_RenderSmartphone() {
     AdjustRuller();
 }
 
-void MainWindow::s_RenderMultimedia() {
+void MainWindow::s_Action_RenderMultimedia() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_RenderMultimedia";
+    qDebug() << "IN:MainWindow::s_Action_RenderMultimedia";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_RenderMultimedia()));
+        QTimer::singleShot(500,this,SLOT(s_Action_RenderMultimedia()));
         return;
     }
     ui->ActionMultimedia_BT->setDown(false);
@@ -931,14 +929,14 @@ void MainWindow::s_RenderMultimedia() {
     AdjustRuller();
 }
 
-void MainWindow::s_RenderForTheWEB() {
+void MainWindow::s_Action_RenderForTheWEB() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_RenderForTheWEB";
+    qDebug() << "IN:MainWindow::s_Action_RenderForTheWEB";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_RenderForTheWEB()));
+        QTimer::singleShot(500,this,SLOT(s_Action_RenderForTheWEB()));
         return;
     }
     ui->ActionForTheWEB_BT->setDown(false);
@@ -954,14 +952,14 @@ void MainWindow::s_RenderForTheWEB() {
 // Project properties
 //====================================================================================================================
 
-void MainWindow::s_ProjectProperties() {
+void MainWindow::s_Action_ProjectProperties() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_ProjectProperties";
+    qDebug() << "IN:MainWindow::s_Action_ProjectProperties";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_ProjectProperties()));
+        QTimer::singleShot(500,this,SLOT(s_Action_ProjectProperties()));
         return;
     }
     ui->Action_PrjProperties_BT->setDown(false);
@@ -977,14 +975,14 @@ void MainWindow::s_ProjectProperties() {
 // Change application settings
 //====================================================================================================================
 
-void MainWindow::s_ChangeApplicationSettings() {
+void MainWindow::s_Action_ChangeApplicationSettings() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_ChangeApplicationSettings";
+    qDebug() << "IN:MainWindow::s_Action_ChangeApplicationSettings";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_ChangeApplicationSettings()));
+        QTimer::singleShot(500,this,SLOT(s_Action_ChangeApplicationSettings()));
         return;
     }
     ui->ActionConfiguration_BT->setDown(false);
@@ -994,13 +992,13 @@ void MainWindow::s_ChangeApplicationSettings() {
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         ToStatusBar(QApplication::translate("MainWindow","Saving configuration file and applying new configuration ..."));
-        QTimer::singleShot(500,this,SLOT(s_DoChangeApplicationSettings()));
+        QTimer::singleShot(500,this,SLOT(DoChangeApplicationSettings()));
     }
 }
 
-void MainWindow::s_DoChangeApplicationSettings() {
+void MainWindow::DoChangeApplicationSettings() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_DoChangeApplicationSettings";
+    qDebug() << "IN:MainWindow::DoChangeApplicationSettings";
     #endif
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->preview->WantedFPS=ApplicationConfig->PreviewFPS;
@@ -1017,21 +1015,21 @@ void MainWindow::s_DoChangeApplicationSettings() {
 // New project
 //====================================================================================================================
 
-void MainWindow::s_action_New() {
+void MainWindow::s_Action_New() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_New";
+    qDebug() << "IN:MainWindow::s_Action_New";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_action_New()));
+        QTimer::singleShot(500,this,SLOT(s_Action_New()));
         return;
     }
     ui->Action_New_BT->setDown(false);
     ui->Action_New_BT_2->setDown(false);
 
     if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","New project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
-        QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
 
     ApplicationConfig->ImagesCache.List.clear();
     cDiaporama *NewDiaporama=new cDiaporama(ApplicationConfig);
@@ -1064,14 +1062,14 @@ void MainWindow::s_action_New() {
 // Open an existing project
 //====================================================================================================================
 
-void MainWindow::s_action_OpenRecent() {
+void MainWindow::s_Action_OpenRecent() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_OpenRecent";
+    qDebug() << "IN:MainWindow::s_Action_OpenRecent";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_action_OpenRecent()));
+        QTimer::singleShot(500,this,SLOT(s_Action_OpenRecent()));
         return;
     }
     QMenu *ContextMenu=new QMenu(this);
@@ -1086,45 +1084,45 @@ void MainWindow::s_action_OpenRecent() {
     if (Selected!="") {
         ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(Selected).fileName());
         FileForIO=Selected;
-        QTimer::singleShot(500,this,SLOT(s_DoOpenFile()));
+        QTimer::singleShot(500,this,SLOT(DoOpenFile()));
     }
 }
 
-void MainWindow::s_action_Open() {
+void MainWindow::s_Action_Open() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_Open";
+    qDebug() << "IN:MainWindow::s_Action_Open";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_action_Open()));
+        QTimer::singleShot(500,this,SLOT(s_Action_Open()));
         return;
     }
     ui->Action_Open_BT->setDown(false);
     ui->Action_Open_BT_2->setDown(false);
 
     if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
-        QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_action_Save();
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
 
     QString ProjectFileName=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Open project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
     if (ProjectFileName!="") {
         ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(ProjectFileName).fileName());
         FileForIO=ProjectFileName;
-        QTimer::singleShot(500,this,SLOT(s_DoOpenFile()));
+        QTimer::singleShot(500,this,SLOT(DoOpenFile()));
     }
 }
 
-void MainWindow::s_DoOpenFileParam() {
+void MainWindow::DoOpenFileParam() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_DoOpenFileParam";
+    qDebug() << "IN:MainWindow::DoOpenFileParam";
     #endif
     ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileForIO).fileName());
-    QTimer::singleShot(500,this,SLOT(s_DoOpenFile()));
+    QTimer::singleShot(500,this,SLOT(DoOpenFile()));
 }
 
-void MainWindow::s_DoOpenFile() {
+void MainWindow::DoOpenFile() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_DoOpenFile";
+    qDebug() << "IN:MainWindow::DoOpenFile";
     #endif
 
     QString ProjectFileName=AdjustDirForOS(FileForIO);
@@ -1187,25 +1185,25 @@ void MainWindow::s_DoOpenFile() {
 // Save current project
 //====================================================================================================================
 
-void MainWindow::s_action_Save() {
+void MainWindow::s_Action_Save() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_Save";
+    qDebug() << "IN:MainWindow::s_Action_Save";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     ui->Action_Save_BT->setDown(false);
     ui->Action_Save_BT_2->setDown(false);
 
-    if (Diaporama->ProjectFileName=="") s_action_SaveAs(); else {
+    if (Diaporama->ProjectFileName=="") s_Action_SaveAs(); else {
         ToStatusBar(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
-        s_DoSaveFile();
+        DoSaveFile();
     }
 }
 
 //====================================================================================================================
-void MainWindow::s_DoSaveFile() {
+void MainWindow::DoSaveFile() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_DoSaveFile";
+    qDebug() << "IN:MainWindow::DoSaveFile";
     #endif
     if (Diaporama->SaveFile(this)) SetModifyFlag(false);
     ToStatusBar("");
@@ -1215,9 +1213,9 @@ void MainWindow::s_DoSaveFile() {
 // Save current project as
 //====================================================================================================================
 
-void MainWindow::s_action_SaveAs() {
+void MainWindow::s_Action_SaveAs() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_SaveAs";
+    qDebug() << "IN:MainWindow::s_Action_SaveAs";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
@@ -1237,7 +1235,7 @@ void MainWindow::s_action_SaveAs() {
         ApplicationConfig->RecentFile.append(Diaporama->ProjectFileName);
         while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
         ToStatusBar(QApplication::translate("MainWindow","Saving project file ...")+QFileInfo(Diaporama->ProjectFileName).fileName());
-        s_DoSaveFile();
+        DoSaveFile();
     }
 }
 
@@ -1245,14 +1243,14 @@ void MainWindow::s_action_SaveAs() {
 // Add a title object
 //====================================================================================================================
 
-void MainWindow::s_action_AddTitle() {
+void MainWindow::s_Action_AddTitle() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_AddTitle";
+    qDebug() << "IN:MainWindow::s_Action_AddTitle";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_action_AddTitle()));
+        QTimer::singleShot(500,this,SLOT(s_Action_AddTitle()));
         return;
     }
     ui->ActionAddtitle_BT->setDown(false);
@@ -1294,14 +1292,14 @@ void MainWindow::s_action_AddTitle() {
 // Add an object (image or video)
 //====================================================================================================================
 
-void MainWindow::s_action_AddFile() {
+void MainWindow::s_Action_AddFile() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_AddFile";
+    qDebug() << "IN:MainWindow::s_Action_AddFile";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_action_AddFile()));
+        QTimer::singleShot(500,this,SLOT(s_Action_AddFile()));
         return;
     }
     ui->ActionAdd_BT->setDown(false);
@@ -1347,272 +1345,287 @@ void MainWindow::s_action_AddFile() {
         }
 
         ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
-        QTimer::singleShot(500,this,SLOT(s_action_DoAddFile()));
+        QTimer::singleShot(500,this,SLOT(s_Action_DoAddFile()));
     }
 }
 
-void MainWindow::s_action_DoAddDragAndDropFile() {
+//====================================================================================================================
+
+void MainWindow::DoAddDragAndDropFile() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_DoAddDragAndDropFile";
+    qDebug() << "IN:MainWindow::s_Action_DoAddDragAndDropFile";
     #endif
-    QTimer::singleShot(500,this,SLOT(s_action_DoAddFile()));
+    QTimer::singleShot(500,this,SLOT(s_Action_DoAddFile()));
 }
 
-void MainWindow::s_action_DoAddFile() {
+//====================================================================================================================
+
+void MainWindow::s_Action_DoAddFile() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_DoAddFile";
+    qDebug() << "IN:MainWindow::s_Action_DoAddFile";
     #endif
 
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    if (FileList.count()==0) return;
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QString NewFile      =FileList.takeFirst();
     int     ChapterNum   =-1;
 
-    // Chapter adjustement
-    if (NewFile.contains("#CHAP_")) {
-        ChapterNum=NewFile.mid(NewFile.indexOf("#CHAP_")+QString("#CHAP_").length()).toInt();
-        NewFile   =NewFile.left(NewFile.indexOf("#CHAP_"));
-    }
+    // if it's a ffDiaporama project file
+    if ((QFileInfo(NewFile).suffix()!="")&&(QFileInfo(NewFile).suffix().toLower()=="ffd")) {
 
-    QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
-    QString         Extension=QFileInfo(BrushFileName).suffix().toLower();
-    QString         ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
-    cBaseMediaFile  *MediaFile=NULL;
+        ApplicationConfig->LastProjectPath=QFileInfo(NewFile).dir().absolutePath();
+        Diaporama->AppendFile(this,NewFile,CurIndex);  // Append file
 
-    if (ApplicationConfig->AllowImageExtension.contains(Extension))          MediaFile=new cImageFile(ApplicationConfig);
-        else if (ApplicationConfig->AllowVideoExtension.contains(Extension)) MediaFile=new cVideoFile(cVideoFile::VIDEOFILE,ApplicationConfig);
+    } else {
+        // Image or video file
 
-    bool IsValide=((MediaFile)&&(MediaFile->GetInformationFromFile(BrushFileName,NULL,NULL)));
-    if ((IsValide)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)) IsValide=((cVideoFile *)MediaFile)->OpenCodecAndFile();
-    if (!IsValide) {
-        QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile,QMessageBox::Close);
-        if (MediaFile) delete MediaFile;
-        QApplication::restoreOverrideCursor();
-        return;
-    }
-
-    // if file is a video then check if file have at least one sound track compatible
-    if ((IsValide)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(((cVideoFile *)MediaFile)->ffmpegAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)) {
-        ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with signed 16 bits sample format","Error message");
-        QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
-        if (MediaFile) delete MediaFile;
-        QApplication::restoreOverrideCursor();
-        return;
-    }
-
-    if ((IsValide)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(((cVideoFile *)MediaFile)->ffmpegAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->channels>2)) {
-        ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
-        QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
-        if (MediaFile) delete MediaFile;
-        QApplication::restoreOverrideCursor();
-        return;
-    }
-
-    if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
-
-    //**********************************************
-    // Chapter management
-    //**********************************************
-
-    if ((ChapterNum==-1)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->NbrChapters>1)&&(QMessageBox::question(this,QApplication::translate("cBaseMediaFile","Add video file"),
-        QApplication::translate("MainWindow","This video files contains more than one chapter.\nDo you want to create one slide for each chapters ?"),QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) {
-
-        // Define Chapter index for this file
-        ChapterNum=0;
-
-        // Insert this file again at top for each chapters
-        for (int i=((cVideoFile *)MediaFile)->NbrChapters-1;i>0;i--) FileList.insert(0,NewFile+"#CHAP_"+QString("%1").arg(i));
-    }
-
-    //**********************************************
-    // Create Diaporama Object and load first image
-    //**********************************************
-
-    Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
-    cDiaporamaObject *DiaporamaObject       =Diaporama->List[CurIndex];
-    DiaporamaObject->List[0]->Parent        =DiaporamaObject;
-    DiaporamaObject->List[0]->StaticDuration=ApplicationConfig->NoShotDuration;
-    DiaporamaObject->Parent                 =Diaporama;
-    DiaporamaObject->TypeObject             =DIAPORAMAOBJECTTYPE_EMPTY;
-
-    // Create and append a composition block to the object list
-    DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,ApplicationConfig));
-    cCompositionObject *CompositionObject   =DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-    cBrushDefinition   *CurrentBrush        =CompositionObject->BackgroundBrush;
-
-    // Set CompositionObject to full screen
-    CompositionObject->x=0;
-    CompositionObject->y=0;
-    CompositionObject->w=1;
-    CompositionObject->h=1;
-
-    // Set other values
-    CompositionObject->Text     ="";
-    CompositionObject->PenSize  =0;
-    CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
-    DiaporamaObject->SlideName  =QFileInfo(NewFile).fileName();
-
-    //*****************************************************
-    // Transfert mediafile to brush and chapter management
-    //*****************************************************
-
-    if (MediaFile->ObjectType==OBJECTTYPE_IMAGEFILE) {
-        CurrentBrush->Image=(cImageFile *)MediaFile;
-    } else if (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE) {
-        CurrentBrush->Video=(cVideoFile *)MediaFile;
-        DiaporamaObject->List[0]->StaticDuration=1000;
-        if (ChapterNum>=0) {
-            QString ChapterStr=QString("%1").arg(ChapterNum);
-            while (ChapterStr.length()<3) ChapterStr="0"+ChapterStr;
-            ChapterStr="Chapter_"+ChapterStr+":";
-            QString Start=MediaFile->GetInformationValue(ChapterStr+"Start");
-            QString End  =MediaFile->GetInformationValue(ChapterStr+"End");
-            CurrentBrush->Video->StartPos=QTime().fromString(Start);
-            CurrentBrush->Video->EndPos  =QTime().fromString(End);
-        } else CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
-    }
-
-    //*****************************************************
-    // Try to load an image to ensure all is ok
-    //*****************************************************
-    QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
-                   CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,false):
-                   NULL);
-
-    if (!Image) {
-        QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile,QMessageBox::Close);
-        delete MediaFile;
-        delete Diaporama->List.takeAt(CurIndex);
-        QApplication::restoreOverrideCursor();
-        return;
-    }
-
-    // No future need of this
-    delete Image;
-
-    //**********************************************
-    // Apply default style to media file
-    //**********************************************
-
-    // Apply Styles for texte
-    CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST)));
-
-    // Apply Styles for shape
-    CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST)));
-
-    // Apply styles for coordinates
-    // Force filtering for CoordinateStyle
-    ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(Diaporama->ImageGeometry,CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry);
-    CompositionObject->ApplyCoordinateStyle(ApplicationConfig->StyleCoordinateCollection.GetStyleDef(ApplicationConfig->StyleCoordinateCollection.DecodeString(
-        ApplicationConfig->DefaultBlockSL_IMG_CoordST[CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry][Diaporama->ImageGeometry])));
-
-    // Special case for nonstandard image => force to image geometry constraint and adapt frame coordinates
-    if ((CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry)==IMAGE_GEOMETRY_UNKNOWN) {
-        double ImageGeometry=1;
-        double ProjectGeometry=1;
-        double NewW,NewH;
-
-        switch (Diaporama->ImageGeometry) {
-            case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
-            case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
-            case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
-
+        // Chapter adjustement
+        if (NewFile.contains("#CHAP_")) {
+            ChapterNum=NewFile.mid(NewFile.indexOf("#CHAP_")+QString("#CHAP_").length()).toInt();
+            NewFile   =NewFile.left(NewFile.indexOf("#CHAP_"));
         }
-        ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
-        switch (DiaporamaObject->Parent->ApplicationConfig->DefaultBlockSL_CLIPARTLOCK[DiaporamaObject->Parent->ImageGeometry]) {
-            case 0 :    // Adjust to Full in lock to image geometry mode
-                ImageGeometry=1;
-                if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
-                    else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
-                CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
-                NewW=CompositionObject->w*Diaporama->InternalWidth;
-                NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
-                NewW=NewW/Diaporama->InternalWidth;
-                NewH=NewH/Diaporama->InternalHeight;
-                if (NewH>1) {
-                    NewH=CompositionObject->h*Diaporama->InternalHeight;
-                    NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
+
+        QString         BrushFileName=QFileInfo(NewFile).absoluteFilePath();
+        QString         Extension=QFileInfo(BrushFileName).suffix().toLower();
+        QString         ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
+        cBaseMediaFile  *MediaFile=NULL;
+
+        if (ApplicationConfig->AllowImageExtension.contains(Extension))          MediaFile=new cImageFile(ApplicationConfig);
+            else if (ApplicationConfig->AllowVideoExtension.contains(Extension)) MediaFile=new cVideoFile(cVideoFile::VIDEOFILE,ApplicationConfig);
+
+        bool IsValide=((MediaFile)&&(MediaFile->GetInformationFromFile(BrushFileName,NULL,NULL)));
+        if ((IsValide)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)) IsValide=((cVideoFile *)MediaFile)->OpenCodecAndFile();
+        if (!IsValide) {
+            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile,QMessageBox::Close);
+            if (MediaFile) delete MediaFile;
+            QApplication::restoreOverrideCursor();
+            return;
+        }
+
+        // if file is a video then check if file have at least one sound track compatible
+        if ((IsValide)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(((cVideoFile *)MediaFile)->ffmpegAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)) {
+            ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with signed 16 bits sample format","Error message");
+            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
+            if (MediaFile) delete MediaFile;
+            QApplication::restoreOverrideCursor();
+            return;
+        }
+
+        if ((IsValide)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(((cVideoFile *)MediaFile)->ffmpegAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->channels>2)) {
+            ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
+            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
+            if (MediaFile) delete MediaFile;
+            QApplication::restoreOverrideCursor();
+            return;
+        }
+
+        if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
+
+        //**********************************************
+        // Chapter management
+        //**********************************************
+
+        if ((ChapterNum==-1)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->NbrChapters>1)&&(QMessageBox::question(this,QApplication::translate("cBaseMediaFile","Add video file"),
+            QApplication::translate("MainWindow","This video files contains more than one chapter.\nDo you want to create one slide for each chapters ?"),QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) {
+
+            // Define Chapter index for this file
+            ChapterNum=0;
+
+            // Insert this file again at top for each chapters
+            for (int i=((cVideoFile *)MediaFile)->NbrChapters-1;i>0;i--) FileList.insert(0,NewFile+"#CHAP_"+QString("%1").arg(i));
+        }
+
+        //**********************************************
+        // Create Diaporama Object and load first image
+        //**********************************************
+
+        Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
+        cDiaporamaObject *DiaporamaObject       =Diaporama->List[CurIndex];
+        DiaporamaObject->List[0]->Parent        =DiaporamaObject;
+        DiaporamaObject->List[0]->StaticDuration=ApplicationConfig->NoShotDuration;
+        DiaporamaObject->Parent                 =Diaporama;
+        DiaporamaObject->TypeObject             =DIAPORAMAOBJECTTYPE_EMPTY;
+
+        // Create and append a composition block to the object list
+        DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,ApplicationConfig));
+        cCompositionObject *CompositionObject   =DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+        cBrushDefinition   *CurrentBrush        =CompositionObject->BackgroundBrush;
+
+        // Set CompositionObject to full screen
+        CompositionObject->x=0;
+        CompositionObject->y=0;
+        CompositionObject->w=1;
+        CompositionObject->h=1;
+
+        // Set other values
+        CompositionObject->Text     ="";
+        CompositionObject->PenSize  =0;
+        CurrentBrush->BrushType     =BRUSHTYPE_IMAGEDISK;
+        DiaporamaObject->SlideName  =QFileInfo(NewFile).fileName();
+
+        //*****************************************************
+        // Transfert mediafile to brush and chapter management
+        //*****************************************************
+
+        if (MediaFile->ObjectType==OBJECTTYPE_IMAGEFILE) {
+            CurrentBrush->Image=(cImageFile *)MediaFile;
+        } else if (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE) {
+            CurrentBrush->Video=(cVideoFile *)MediaFile;
+            DiaporamaObject->List[0]->StaticDuration=1000;
+            if (ChapterNum>=0) {
+                QString ChapterStr=QString("%1").arg(ChapterNum);
+                while (ChapterStr.length()<3) ChapterStr="0"+ChapterStr;
+                ChapterStr="Chapter_"+ChapterStr+":";
+                QString Start=MediaFile->GetInformationValue(ChapterStr+"Start");
+                QString End  =MediaFile->GetInformationValue(ChapterStr+"End");
+                CurrentBrush->Video->StartPos=QTime().fromString(Start);
+                CurrentBrush->Video->EndPos  =QTime().fromString(End);
+                DiaporamaObject->SlideName   =MediaFile->GetInformationValue(ChapterStr+"title");
+            } else CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
+        }
+
+        //*****************************************************
+        // Try to load an image to ensure all is ok
+        //*****************************************************
+        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
+                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,false):
+                       NULL);
+
+        if (!Image) {
+            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile,QMessageBox::Close);
+            delete MediaFile;
+            delete Diaporama->List.takeAt(CurIndex);
+            QApplication::restoreOverrideCursor();
+            return;
+        }
+
+        // No future need of this
+        delete Image;
+
+        //**********************************************
+        // Apply default style to media file
+        //**********************************************
+
+        // Apply Styles for texte
+        CompositionObject->ApplyTextStyle(ApplicationConfig->StyleTextCollection.GetStyleDef(ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST)));
+
+        // Apply Styles for shape
+        CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST)));
+
+        // Apply styles for coordinates
+        // Force filtering for CoordinateStyle
+        ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(Diaporama->ImageGeometry,CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry);
+        CompositionObject->ApplyCoordinateStyle(ApplicationConfig->StyleCoordinateCollection.GetStyleDef(ApplicationConfig->StyleCoordinateCollection.DecodeString(
+            ApplicationConfig->DefaultBlockSL_IMG_CoordST[CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry][Diaporama->ImageGeometry])));
+
+        // Special case for nonstandard image => force to image geometry constraint and adapt frame coordinates
+        if ((CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry)==IMAGE_GEOMETRY_UNKNOWN) {
+            double ImageGeometry=1;
+            double ProjectGeometry=1;
+            double NewW,NewH;
+
+            switch (Diaporama->ImageGeometry) {
+                case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
+                case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
+                case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
+
+            }
+            ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+            switch (DiaporamaObject->Parent->ApplicationConfig->DefaultBlockSL_CLIPARTLOCK[DiaporamaObject->Parent->ImageGeometry]) {
+                case 0 :    // Adjust to Full in lock to image geometry mode
+                    ImageGeometry=1;
+                    if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
+                        else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
+                    CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
+                    CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
+                    NewW=CompositionObject->w*Diaporama->InternalWidth;
+                    NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
                     NewW=NewW/Diaporama->InternalWidth;
                     NewH=NewH/Diaporama->InternalHeight;
-                }
-                CompositionObject->w=NewW;
-                CompositionObject->h=NewH;
-                break;
-            case 1 :    // Lock to project geometry - To full
-                ImageGeometry=ProjectGeometry;
-                CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
-                break;
-            case 2 :    // Lock to project geometry - To width
-                ImageGeometry=ProjectGeometry;
-                CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingW);
-                break;
-            case 3 :    // Lock to project geometry - To height
-                ImageGeometry=ProjectGeometry;
-                CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingH);
-                break;
-        }
-    }
-
-    //*************************************************************
-    // Now create and append a shot composition block to all shot
-    //*************************************************************
-    for (int i=0;i<DiaporamaObject->List.count();i++) {
-        DiaporamaObject->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
-        DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
-    }
-
-    //*************************************************************
-    // Now setup transition
-    //*************************************************************
-    if (ChapterNum<1) {
-        if (Diaporama->ApplicationConfig->RandomTransition) {
-            qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
-            int Random=qrand();
-            Random=int(double(IconList.List.count())*(double(Random)/double(RAND_MAX)));
-            if (Random<IconList.List.count()) {
-                Diaporama->List[CurIndex]->TransitionFamilly=IconList.List[Random].TransitionFamilly;
-                Diaporama->List[CurIndex]->TransitionSubType=IconList.List[Random].TransitionSubType;
+                    if (NewH>1) {
+                        NewH=CompositionObject->h*Diaporama->InternalHeight;
+                        NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
+                        NewW=NewW/Diaporama->InternalWidth;
+                        NewH=NewH/Diaporama->InternalHeight;
+                    }
+                    CompositionObject->w=NewW;
+                    CompositionObject->h=NewH;
+                    break;
+                case 1 :    // Lock to project geometry - To full
+                    ImageGeometry=ProjectGeometry;
+                    CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
+                    CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
+                    break;
+                case 2 :    // Lock to project geometry - To width
+                    ImageGeometry=ProjectGeometry;
+                    CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
+                    CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingW);
+                    break;
+                case 3 :    // Lock to project geometry - To height
+                    ImageGeometry=ProjectGeometry;
+                    CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
+                    CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingH);
+                    break;
             }
-        } else {
-            Diaporama->List[CurIndex]->TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
-            Diaporama->List[CurIndex]->TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
         }
-        Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
-    } else {
-        // No transition for chapter > 1
-        Diaporama->List[CurIndex]->TransitionFamilly =0;
-        Diaporama->List[CurIndex]->TransitionSubType =0;
-        Diaporama->List[CurIndex]->TransitionDuration=0;
+
+        //*************************************************************
+        // Now create and append a shot composition block to all shot
+        //*************************************************************
+        for (int i=0;i<DiaporamaObject->List.count();i++) {
+            DiaporamaObject->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,ApplicationConfig));
+            DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
+        }
+
+        //*************************************************************
+        // Now setup transition
+        //*************************************************************
+        if (ChapterNum<1) {
+            if (Diaporama->ApplicationConfig->RandomTransition) {
+                qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
+                int Random=qrand();
+                Random=int(double(IconList.List.count())*(double(Random)/double(RAND_MAX)));
+                if (Random<IconList.List.count()) {
+                    Diaporama->List[CurIndex]->TransitionFamilly=IconList.List[Random].TransitionFamilly;
+                    Diaporama->List[CurIndex]->TransitionSubType=IconList.List[Random].TransitionSubType;
+                }
+            } else {
+                Diaporama->List[CurIndex]->TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
+                Diaporama->List[CurIndex]->TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
+            }
+            Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
+        } else {
+            // No transition for chapter > 1
+            Diaporama->List[CurIndex]->TransitionFamilly =0;
+            Diaporama->List[CurIndex]->TransitionSubType =0;
+            Diaporama->List[CurIndex]->TransitionDuration=0;
+        }
+        if (ChapterNum>=0) {
+            // But keep chapter information
+            Diaporama->List[CurIndex]->StartNewChapter   =true;
+        }
+
+        //*************************************************************
+        // Adjust project and display
+        //*************************************************************
+
+        // Inc NextIndexKey
+        DiaporamaObject->NextIndexKey++;
+        AddObjectToTimeLine(CurIndex++);
     }
-    if (ChapterNum>=0) {
-        // But keep chapter information
-        Diaporama->List[CurIndex]->StartNewChapter   =true;
-    }
-
-    //*************************************************************
-    // Adjust project and display
-    //*************************************************************
-
-    // Inc NextIndexKey
-    DiaporamaObject->NextIndexKey++;
-    AddObjectToTimeLine(CurIndex++);
-    SetModifyFlag(true);
-
     // Set current selection to first new object
     ui->timeline->SetCurrentCell(SavedCurIndex+1);
 
     // Set title flag
     AdjustRuller();
+    SetModifyFlag(true);
     QApplication::restoreOverrideCursor();
 
     // If file list contains other file then send a newer signal message to proceed the next one
     if (FileList.count()>0) {
         ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
-        QTimer::singleShot(500,this,SLOT(s_action_DoAddFile()));
+        QTimer::singleShot(500,this,SLOT(s_Action_DoAddFile()));
     } else ToStatusBar("");
 }
 
@@ -1620,44 +1633,40 @@ void MainWindow::s_action_DoAddFile() {
 // Add an (sub) project
 //====================================================================================================================
 
-void MainWindow::s_action_AddProject() {
+void MainWindow::s_Action_AddProject() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_AddProject";
+    qDebug() << "IN:MainWindow::s_Action_AddProject";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_action_AddProject()));
+        QTimer::singleShot(500,this,SLOT(s_Action_AddProject()));
         return;
     }
     ui->ActionAddProject_BT->setDown(false);
     ui->ActionAddProject_BT_2->setDown(false);
 
-    QString ProjectFileName=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
-    if (ProjectFileName!="") {
-        ToStatusBar(QApplication::translate("MainWindow","Add project file :")+QFileInfo(ProjectFileName).fileName());
-        FileForIO=ProjectFileName;
-        QTimer::singleShot(500,this,SLOT(s_action_DoAddProject()));
+    FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
+    if (FileList.count()>0) {
+        // Calc position of new object depending on ApplicationConfig->AppendObject
+        if (ApplicationConfig->AppendObject) {
+            SavedCurIndex   =Diaporama->List.count();
+            CurIndex        =Diaporama->List.count();
+        } else {
+            SavedCurIndex=Diaporama->CurrentCol;
+            CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
+            if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
+        }
+        ToStatusBar(QApplication::translate("MainWindow","Add project file :")+QFileInfo(FileList[0]).fileName());
+        QTimer::singleShot(500,this,SLOT(s_Action_DoAddFile()));
     }
-}
-
-void MainWindow::s_action_DoAddProject() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_DoAddProject";
-    #endif
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    ApplicationConfig->LastProjectPath=QFileInfo(FileForIO).dir().absolutePath();
-    Diaporama->AppendFile(this,FileForIO);  // Append file
-    SetModifyFlag(true);
-    AdjustRuller();
-    QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================
 
-void MainWindow::s_action_Edit() {
+void MainWindow::s_Action_EditObject() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_Edit";
+    qDebug() << "IN:MainWindow::s_Action_EditObject";
     #endif
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionEdit_background);
@@ -1673,14 +1682,14 @@ void MainWindow::s_action_Edit() {
 
 //====================================================================================================================
 
-void MainWindow::s_RemoveObject() {
+void MainWindow::s_Action_RemoveObject() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_RemoveObject";
+    qDebug() << "IN:MainWindow::s_Action_RemoveObject";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_RemoveObject()));
+        QTimer::singleShot(500,this,SLOT(s_Action_RemoveObject()));
         return;
     }
     ui->ActionRemove_BT->setDown(false);
@@ -1707,14 +1716,14 @@ void MainWindow::s_RemoveObject() {
 
 //====================================================================================================================
 
-void MainWindow::s_CutToClipboard() {
+void MainWindow::s_Action_CutToClipboard() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_CutToClipboard";
+    qDebug() << "IN:MainWindow::s_Action_CutToClipboard";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_CutToClipboard()));
+        QTimer::singleShot(500,this,SLOT(s_Action_CutToClipboard()));
         return;
     }
     ui->ActionCut_BT->setDown(false);
@@ -1723,29 +1732,33 @@ void MainWindow::s_CutToClipboard() {
     int Current=ui->timeline->CurrentSelected();
     if ((Current<0)||(Current>Diaporama->List.count()-1)) return;
 
-    QDomElement root;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    if (Clipboard_Object!=NULL) delete Clipboard_Object;
-    Clipboard_Object=new QDomDocument(APPLICATION_NAME);
 
     // Create xml document and root
-    root=Clipboard_Object->createElement("CLIPBOARD");
-    Clipboard_Object->appendChild(root);
+    QDomDocument Object=QDomDocument(APPLICATION_NAME);
+    QDomElement  root  =Object.createElement("CLIPBOARD");
     Diaporama->List[Current]->SaveToXML(root,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true);
-    s_RemoveObject();
+    Object.appendChild(root);
+
+    // Transfert xml document to clipboard
+    QMimeData *SlideData=new QMimeData();
+    SlideData->setData("ffDiaporama/slide",Object.toByteArray());
+    QApplication::clipboard()->setMimeData(SlideData);
+
+    s_Action_RemoveObject();   // RefreshControls() done by s_Action_RemoveObject()
     QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================
 
-void MainWindow::s_CopyToClipboard() {
+void MainWindow::s_Action_CopyToClipboard() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_CopyToClipboard";
+    qDebug() << "IN:MainWindow::s_Action_CopyToClipboard";
     #endif
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_CopyToClipboard()));
+        QTimer::singleShot(500,this,SLOT(s_Action_CopyToClipboard()));
         return;
     }
     ui->ActionCopy_BT->setDown(false);
@@ -1754,15 +1767,18 @@ void MainWindow::s_CopyToClipboard() {
     int Current=ui->timeline->CurrentSelected();
     if ((Current<0)||(Current>Diaporama->List.count()-1)) return;
 
-    QDomElement root;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    if (Clipboard_Object!=NULL) delete Clipboard_Object;
-    Clipboard_Object=new QDomDocument(APPLICATION_NAME);
 
     // Create xml document and root
-    root=Clipboard_Object->createElement("CLIPBOARD");
-    Clipboard_Object->appendChild(root);
+    QDomDocument Object=QDomDocument(APPLICATION_NAME);
+    QDomElement  root  =Object.createElement("CLIPBOARD");
     Diaporama->List[Current]->SaveToXML(root,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true);
+    Object.appendChild(root);
+
+    // Transfert xml document to clipboard
+    QMimeData *SlideData=new QMimeData();
+    SlideData->setData("ffDiaporama/slide",Object.toByteArray());
+    QApplication::clipboard()->setMimeData(SlideData);
 
     RefreshControls();
     QApplication::restoreOverrideCursor();
@@ -1770,16 +1786,15 @@ void MainWindow::s_CopyToClipboard() {
 
 //====================================================================================================================
 
-void MainWindow::s_PasteFromClipboard() {
+void MainWindow::s_Action_PasteFromClipboard() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_PasteFromClipboard";
+    qDebug() << "IN:MainWindow::s_Action_PasteFromClipboard";
     #endif
-    if (Clipboard_Object==NULL) return;
 
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_PasteFromClipboard()));
+        QTimer::singleShot(500,this,SLOT(s_Action_PasteFromClipboard()));
         return;
     }
     ui->ActionPaste_BT->setDown(false);
@@ -1791,21 +1806,36 @@ void MainWindow::s_PasteFromClipboard() {
     if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
 
     Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
-    //Diaporama->List[CurIndex].List[0].Parent=&Diaporama->List[CurIndex];
 
-    QDomElement root=Clipboard_Object->documentElement();
-    if (root.tagName()=="CLIPBOARD") {
-        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-        ui->timeline->setUpdatesEnabled(false);
-        Diaporama->List[CurIndex]->LoadFromXML(root,"CLIPBOARD-OBJECT","",NULL);
-        AddObjectToTimeLine(CurIndex);
-        SetModifyFlag(true);
-        // Set current selection to first new object
-        ui->timeline->SetCurrentCell(SavedCurIndex+1);
-        AdjustRuller();
-        ui->timeline->setUpdatesEnabled(true);
-        QApplication::restoreOverrideCursor();
+    const QMimeData *SlideData=QApplication::clipboard()->mimeData();
+    if (SlideData->hasFormat("ffDiaporama/slide")) {
+        QDomDocument Object=QDomDocument(APPLICATION_NAME);
+        Object.setContent(SlideData->data("ffDiaporama/slide"));
+        if ((Object.elementsByTagName("CLIPBOARD").length()>0)&&(Object.elementsByTagName("CLIPBOARD").item(0).isElement()==true)) {
+            QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+            QDomElement root=Object.elementsByTagName("CLIPBOARD").item(0).toElement();
+            ui->timeline->setUpdatesEnabled(false);
+            Diaporama->List[CurIndex]->LoadFromXML(root,"CLIPBOARD-OBJECT","",NULL);
+            AddObjectToTimeLine(CurIndex);
+            SetModifyFlag(true);
+            // Set current selection to first new object
+            ui->timeline->SetCurrentCell(SavedCurIndex+1);
+            AdjustRuller();
+            ui->timeline->setUpdatesEnabled(true);
+            QApplication::restoreOverrideCursor();
+        }
     }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Event_ClipboardChanged() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_Event_ClipboardChanged";
+    #endif
+
+    ui->ActionPaste_BT->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/slide")));
+    ui->ActionPaste_BT_2->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/slide")));
 }
 
 //====================================================================================================================

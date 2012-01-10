@@ -797,40 +797,9 @@ QToolButton:pressed {
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="RemoveBlock">
-                 <property name="minimumSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>7</pointsize>
-                  </font>
-                 </property>
-                 <property name="toolTip">
-                  <string>Remove the current block</string>
-                 </property>
+                <widget class="QLabel" name="label_10">
                  <property name="text">
-                  <string notr="true">Remove</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
-                 </property>
-                 <property name="shortcut">
-                  <string>Del</string>
-                 </property>
-                 <property name="toolButtonStyle">
-                  <enum>Qt::ToolButtonIconOnly</enum>
+                  <string notr="true"/>
                  </property>
                 </widget>
                </item>
@@ -942,6 +911,44 @@ QToolButton:pressed {
                  </property>
                  <property name="shortcut">
                   <string>Ctrl+V</string>
+                 </property>
+                 <property name="toolButtonStyle">
+                  <enum>Qt::ToolButtonIconOnly</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="RemoveBlock">
+                 <property name="minimumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>7</pointsize>
+                  </font>
+                 </property>
+                 <property name="toolTip">
+                  <string>Remove the current block</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true">Remove</string>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
+                 </property>
+                 <property name="shortcut">
+                  <string>Del</string>
                  </property>
                  <property name="toolButtonStyle">
                   <enum>Qt::ToolButtonIconOnly</enum>
@@ -2838,7 +2845,6 @@ color: #000000;
   <tabstop>TVMarginsBT</tabstop>
   <tabstop>AddTextBlock</tabstop>
   <tabstop>AddFileBlock</tabstop>
-  <tabstop>RemoveBlock</tabstop>
   <tabstop>CopyBlockBT</tabstop>
   <tabstop>CutBlockBT</tabstop>
   <tabstop>PasteBlockBT</tabstop>

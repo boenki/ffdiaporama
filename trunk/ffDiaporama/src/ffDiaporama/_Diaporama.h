@@ -328,7 +328,7 @@ public:
     void                    DefineSizeAndGeometry(int Geometry);                        // Init size and geometry
     bool                    SaveFile(QWidget *ParentWindow);
     bool                    LoadFile(QWidget *ParentWindow,QString &ProjectFileName);
-    bool                    AppendFile(QWidget *ParentWindow,QString ProjectFileName);
+    bool                    AppendFile(QWidget *ParentWindow,QString ProjectFileName,int CurIndex);
     void                    FreeUnusedMemory(int ObjectNum,int NbrSlideInCache);
     void                    UpdateChapterInformation();
 

@@ -48,8 +48,6 @@ public:
     bool                    FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
     cApplicationConfig      *ApplicationConfig;
     cDiaporama              *Diaporama;
-    QDomDocument            *Clipboard_Object;
-    QDomDocument            *Clipboard_Block;
     int                     LastCount;
     QString                 InternetBUILDVERSION;
     QString                 TitleBar;
@@ -80,8 +78,9 @@ public:
     void    SetTimelineHeight();
     void    CheckVersion();
     void    ToStatusBar(QString Text);
-    void    s_action_DoAddDragAndDropFile();
-    void    s_DoOpenFileParam();
+
+    void    DoAddDragAndDropFile();                         // Must be in public part because it was called by cCustomTableWidget
+    void    DoOpenFileParam();                              // Must be in public part because it was called by main
 
 protected:
     virtual void resizeEvent(QResizeEvent *);
@@ -91,67 +90,67 @@ protected:
 
 
 private slots:
-    void    s_DlgCheckConfig();
-    void    s_ToolbarChanged(int MenuIndex);
-    void    onNetworkReply(QNetworkReply*);
+    // Event functions
+    void    s_Event_ClipboardChanged();                     // Something have changed in the clipboard
+    void    s_Event_ToolbarChanged(int MenuIndex);          // User change current toolbar TAB
+    void    s_Event_NetworkReply(QNetworkReply*);           // Build version was downloaded from internet
 
     // Timeline
-    void    s_DragMoveItem();                           // Drag & drop operation
-    void    s_ItemSelectionChanged();
-    void    s_ItemDoubleClicked();                      // Double click on widget in the object track
-    void    s_TransitionItemDoubleClicked();            // Double click on transition part of widget in the object track
-    void    s_SoundItemDoubleClicked();                 // Double click on sound part of widget in the object track
-    void    s_BackgroundDoubleClicked();                // Double click on widget in the background track
-    void    s_TransitionBackgroundDoubleClicked();      // Double click on transition part of widget in the background track
-    void    s_MusicDoubleClicked();                     // Double click on widget in the music track
+    void    s_Event_TimelineDragMoveItem();                 // Drag & drop operation in timeline
+    void    s_Event_TimelineSelectionChanged();             // Timeline current item changed
+    void    s_Event_DoubleClickedOnObject();                // Double click on widget in the object track
+    void    s_Event_DoubleClickedOnTransition();            // Double click on transition part of widget in the object track
+    void    s_Event_DoubleClickedOnVideoSound();            // Double click on video sound part of widget in the object track
+    void    s_Event_DoubleClickedOnBackground();            // Double click on widget in the background track
+    void    s_Event_DoubleClickedOnTransitionBackground();  // Double click on transition part of widget in the background track
+    void    s_Event_DoubleClickedOnMusic();                 // Double click on widget in the music track
 
-    void    s_action_ZoomPlus();
-    void    s_action_ZoomMinus();
-    void    s_ChPartitionMode();
+    // Actions small bottom right toolbar menu
+    void    s_Action_ZoomPlus();
+    void    s_Action_ZoomMinus();
+    void    s_Action_ChPartitionMode();
 
-    // File menu
-    void    s_action_New();
+    // Actions File menu
+    void    s_Action_New();
+    void    s_Action_Open();
+    void    s_Action_OpenRecent();
+    void    s_Action_Save();
+    void    s_Action_SaveAs();
+    void    s_Action_ProjectProperties();
+    void    s_Action_ChangeApplicationSettings();
+    void    s_Action_DlgCheckConfig();
+    void    s_Action_Exit();
 
-    void    s_action_Open();
-    void    s_action_OpenRecent();
-    void    s_DoOpenFile();
+    // Actions Project menu
+    void    s_Action_AddFile();
+    void    s_Action_AddTitle();
+    void    s_Action_AddProject();
+    void    s_Action_DoAddFile();
+    void    s_Action_RemoveObject();
+    void    s_Action_EditObject();
+    void    s_Action_CutToClipboard();
+    void    s_Action_CopyToClipboard();
+    void    s_Action_PasteFromClipboard();
 
-    void    s_action_Save();
-    void    s_action_SaveAs();
-    void    s_DoSaveFile();
+    // Actions Render menu
+    void    s_Action_RenderVideo();
+    void    s_Action_RenderSmartphone();
+    void    s_Action_RenderMultimedia();
+    void    s_Action_RenderForTheWEB();
 
-    void    s_ProjectProperties();
-    void    s_ChangeApplicationSettings();
-    void    s_DoChangeApplicationSettings();
-    void    s_action_Exit();
+    // Actions Help menu
+    void    s_Action_About();
+    void    s_Action_Documentation();
+    void    s_Action_NewFunctions();
+    void    s_Action_OpenTABHelpLink(const QString);
 
-    // Project menu
-    void    s_action_AddFile();
-    void    s_action_DoAddFile();
-
-    void    s_action_AddTitle();
-    void    s_action_AddProject();
-    void    s_action_DoAddProject();
-
-    void    s_RemoveObject();
-    void    s_CutToClipboard();
-    void    s_CopyToClipboard();
-    void    s_PasteFromClipboard();
-    void    s_action_Edit();
-
-    // Render menu
-    void    s_RenderVideo();
-    void    s_RenderSmartphone();
-    void    s_RenderMultimedia();
-    void    s_RenderForTheWEB();
-
-    // Help menu
-    void    s_About();
-    void    s_Documentation();
-    void    s_NewFunctions();
-    void    s_TABTooltipLink(const QString);
+    // Do function (call by action or event function)
+    void    DoChangeApplicationSettings();
+    void    DoOpenFile();
+    void    DoSaveFile();
 
 private:
+
     Ui::MainWindow *ui;
 };
 

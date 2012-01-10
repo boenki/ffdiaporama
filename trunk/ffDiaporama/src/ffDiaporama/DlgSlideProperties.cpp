@@ -27,6 +27,9 @@
 #include "DlgTextEdit.h"
 #include "mainwindow.h"
 
+#include <QClipboard>
+#include <QMimeData>
+
 //#define DEBUGMODE
 
 DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgSlideProperties) {
@@ -225,6 +228,9 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->FramingStyleCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeFramingStyle(int)));
     connect(ui->CoordinateStyleBT,SIGNAL(pressed()),this,SLOT(s_CoordinateStyleBT()));
     connect(ui->BlockShapeStyleBT,SIGNAL(pressed()),this,SLOT(s_BlockShapeStyleBT()));
+
+    s_Event_ClipboardChanged();           // Setup clipboard button state
+    connect(QApplication::clipboard(),SIGNAL(dataChanged()),this,SLOT(s_Event_ClipboardChanged()));
 }
 
 //====================================================================================================================
@@ -622,7 +628,6 @@ void DlgSlideProperties::RefreshControls() {
 
     ui->CopyBlockBT->setEnabled(CurrentTextItem!=NULL);
     ui->CutBlockBT->setEnabled(CurrentTextItem!=NULL);
-    ui->PasteBlockBT->setEnabled(GlobalMainWindow->Clipboard_Block!=NULL);
 
     // Slide name & duration and shot duration
     ui->SlideNameED->setText(DiaporamaObject->SlideName);
@@ -2205,9 +2210,9 @@ void DlgSlideProperties::BlockUp() {
 //====================================================================================================================
 
 void DlgSlideProperties::BlockDown() {
-#ifdef DEBUGMODE
-qDebug() << "IN:DlgSlideProperties::BlockDown";
-#endif
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::BlockDown";
+    #endif
 
     int CurrentBlock=ui->BlockTable->currentRow();
     CompositionList->List.swap(CurrentBlock+1,CurrentBlock);
@@ -2225,13 +2230,22 @@ void DlgSlideProperties::s_CopyBlockBT() {
     cCompositionObject      *ShotBlock  =GetSelectedCompositionObject();
     if ((!GlobalBlock)||(!ShotBlock))   return;
 
-    if (GlobalMainWindow->Clipboard_Block) delete GlobalMainWindow->Clipboard_Block;
-    GlobalMainWindow->Clipboard_Block=new QDomDocument(APPLICATION_NAME);
-    QDomElement root=GlobalMainWindow->Clipboard_Block->createElement("CLIPBOARD");
-    GlobalMainWindow->Clipboard_Block->appendChild(root);
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    // Create xml document and root
+    QDomDocument Object=QDomDocument(APPLICATION_NAME);
+    QDomElement  root  =Object.createElement("CLIPBOARD");
     GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL",DiaporamaObject->Parent->ProjectFileName,true);  // Save global object
     ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT",DiaporamaObject->Parent->ProjectFileName,true);      // Save shot object
+    Object.appendChild(root);
+
+    // Transfert xml document to clipboard
+    QMimeData *SlideData=new QMimeData();
+    SlideData->setData("ffDiaporama/block",Object.toByteArray());
+    QApplication::clipboard()->setMimeData(SlideData);
+
     RefreshControls();
+    QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================
@@ -2245,13 +2259,22 @@ void DlgSlideProperties::s_CutBlockBT() {
     cCompositionObject      *ShotBlock  =GetSelectedCompositionObject();
     if ((!GlobalBlock)||(!ShotBlock))   return;
 
-    if (GlobalMainWindow->Clipboard_Block) delete GlobalMainWindow->Clipboard_Block;
-    GlobalMainWindow->Clipboard_Block=new QDomDocument(APPLICATION_NAME);
-    QDomElement root=GlobalMainWindow->Clipboard_Block->createElement("CLIPBOARD");
-    GlobalMainWindow->Clipboard_Block->appendChild(root);
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    // Create xml document and root
+    QDomDocument Object=QDomDocument(APPLICATION_NAME);
+    QDomElement  root  =Object.createElement("CLIPBOARD");
     GlobalBlock->SaveToXML(root,"CLIPBOARD-BLOCK-GLOBAL",DiaporamaObject->Parent->ProjectFileName,true);  // Save global object
     ShotBlock->SaveToXML(root,"CLIPBOARD-BLOCK-SHOT",DiaporamaObject->Parent->ProjectFileName,true);      // Save shot object
-    s_BlockTable_RemoveBlock();
+    Object.appendChild(root);
+
+    // Transfert xml document to clipboard
+    QMimeData *SlideData=new QMimeData();
+    SlideData->setData("ffDiaporama/block",Object.toByteArray());
+    QApplication::clipboard()->setMimeData(SlideData);
+
+    s_BlockTable_RemoveBlock();                 // RefreshControls() is done by s_BlockTable_RemoveBlock()
+    QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================
@@ -2261,56 +2284,72 @@ void DlgSlideProperties::s_PasteBlockBT() {
     qDebug() << "IN:DlgSlideProperties::s_PasteBlockBT";
     #endif
 
-    if (!GlobalMainWindow->Clipboard_Block) return;
+    const QMimeData *SlideData=QApplication::clipboard()->mimeData();
+    if (SlideData->hasFormat("ffDiaporama/block")) {
+        QDomDocument Object=QDomDocument(APPLICATION_NAME);
+        Object.setContent(SlideData->data("ffDiaporama/block"));
+        if ((Object.elementsByTagName("CLIPBOARD").length()>0)&&(Object.elementsByTagName("CLIPBOARD").item(0).isElement()==true)) {
+            QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+            QDomElement root=Object.elementsByTagName("CLIPBOARD").item(0).toElement();
 
-    QDomElement root=GlobalMainWindow->Clipboard_Block->documentElement();
-    if (root.tagName()=="CLIPBOARD") {
-        int CurrentShot=ui->ShotTable->currentColumn();
+            int CurrentShot=ui->ShotTable->currentColumn();
 
-        // Create and append a composition block to the object list
-        DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig));
-        cCompositionObject *GlobalBlock=DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-        GlobalBlock->LoadFromXML(root,"CLIPBOARD-BLOCK-GLOBAL","",NULL,NULL);
-        GlobalBlock->IndexKey=DiaporamaObject->NextIndexKey;
+            // Create and append a composition block to the object list
+            DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig));
+            cCompositionObject *GlobalBlock=DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
+            GlobalBlock->LoadFromXML(root,"CLIPBOARD-BLOCK-GLOBAL","",NULL,NULL);
+            GlobalBlock->IndexKey=DiaporamaObject->NextIndexKey;
 
-        cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig);
-        ShotBlock.LoadFromXML(root,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL);
-        ShotBlock.IndexKey=DiaporamaObject->NextIndexKey;
-        ShotBlock.BackgroundBrush->Image=GlobalBlock->BackgroundBrush->Image;
-        ShotBlock.BackgroundBrush->Video=GlobalBlock->BackgroundBrush->Video;
-        ShotBlock.Text=GlobalBlock->Text;
-        if (ShotBlock.Text!="") {
-            ShotBlock.FontName        =GlobalBlock->FontName;
-            ShotBlock.FontSize        =GlobalBlock->FontSize;
-            ShotBlock.FontColor       =GlobalBlock->FontColor;
-            ShotBlock.FontShadowColor =GlobalBlock->FontShadowColor;
-            ShotBlock.IsBold          =GlobalBlock->IsBold;
-            ShotBlock.IsItalic        =GlobalBlock->IsItalic;
-            ShotBlock.IsUnderline     =GlobalBlock->IsUnderline;
-            ShotBlock.HAlign          =GlobalBlock->HAlign;
-            ShotBlock.VAlign          =GlobalBlock->VAlign;
-            ShotBlock.StyleText       =GlobalBlock->StyleText;
-        }
-
-        // Now create and append a shot composition block to all shot
-        for (int i=0;i<DiaporamaObject->List.count();i++) {
-            DiaporamaObject->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig));
-            DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(&ShotBlock);
-            // Ensure new object is not visible in previous shot
-            if (i<CurrentShot) {
-                DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->IsVisible=false;
-                // Ensure unvisible video have no sound !
-                if (DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->Video!=NULL)
-                    DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->SoundVolume=0;
+            cCompositionObject ShotBlock(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig);
+            ShotBlock.LoadFromXML(root,"CLIPBOARD-BLOCK-SHOT","",NULL,NULL);
+            ShotBlock.IndexKey=DiaporamaObject->NextIndexKey;
+            ShotBlock.BackgroundBrush->Image=GlobalBlock->BackgroundBrush->Image;
+            ShotBlock.BackgroundBrush->Video=GlobalBlock->BackgroundBrush->Video;
+            ShotBlock.Text=GlobalBlock->Text;
+            if (ShotBlock.Text!="") {
+                ShotBlock.FontName        =GlobalBlock->FontName;
+                ShotBlock.FontSize        =GlobalBlock->FontSize;
+                ShotBlock.FontColor       =GlobalBlock->FontColor;
+                ShotBlock.FontShadowColor =GlobalBlock->FontShadowColor;
+                ShotBlock.IsBold          =GlobalBlock->IsBold;
+                ShotBlock.IsItalic        =GlobalBlock->IsItalic;
+                ShotBlock.IsUnderline     =GlobalBlock->IsUnderline;
+                ShotBlock.HAlign          =GlobalBlock->HAlign;
+                ShotBlock.VAlign          =GlobalBlock->VAlign;
+                ShotBlock.StyleText       =GlobalBlock->StyleText;
             }
+
+            // Now create and append a shot composition block to all shot
+            for (int i=0;i<DiaporamaObject->List.count();i++) {
+                DiaporamaObject->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig));
+                DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(&ShotBlock);
+                // Ensure new object is not visible in previous shot
+                if (i<CurrentShot) {
+                    DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->IsVisible=false;
+                    // Ensure unvisible video have no sound !
+                    if (DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->Video!=NULL)
+                        DiaporamaObject->List[i]->ShotComposition.List[DiaporamaObject->List[i]->ShotComposition.List.count()-1]->BackgroundBrush->SoundVolume=0;
+                }
+            }
+
+            // Inc NextIndexKey
+            DiaporamaObject->NextIndexKey++;
+
+            // 10 by 10 step for ZValue
+            NextZValue+=10;
+
+            RefreshBlockTable(CompositionList->List.count()-1);
+            QApplication::restoreOverrideCursor();
         }
-
-        // Inc NextIndexKey
-        DiaporamaObject->NextIndexKey++;
-
-        // 10 by 10 step for ZValue
-        NextZValue+=10;
-
-        RefreshBlockTable(CompositionList->List.count()-1);
     }
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_Event_ClipboardChanged() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:DlgSlideProperties::s_Event_ClipboardChanged";
+    #endif
+
+    ui->PasteBlockBT->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/block")));
 }
