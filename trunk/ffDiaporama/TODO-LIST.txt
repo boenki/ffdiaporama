@@ -16,8 +16,10 @@ French version / Correction de bug :
 English version / Bug fix :
 
 French version / Nouvelles fonctionnalités
+-Ajout des fichiers de traduction pour le Tchèque
 
 English version / New features
+-Add translation files for Czech
 
 -------------------------------------
 Changelog depuis la version 20111118

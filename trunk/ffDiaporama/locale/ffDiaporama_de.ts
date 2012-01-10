@@ -4050,27 +4050,27 @@ und Hilfe</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="463"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="461"/>
         <source>All suported file (</source>
         <translation>Unterstützte Dateien (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="470"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="468"/>
         <source>Image file (</source>
         <translation>Bilddateien (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="476"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="474"/>
         <source>Video file (</source>
         <translation>Videodateien (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="482"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="480"/>
         <source>Music file (</source>
         <translation>Musikdateien (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="644"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="642"/>
         <source>Read configuration file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4110,28 +4110,28 @@ und Hilfe</translation>
         <translation>Fehlermeldung</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="646"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="644"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="395"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Fehler beim lesen der Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="651"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="649"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="400"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Fehler beim lesen des Inhaltes der Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="658"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="656"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="407"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Diese Datei ist keine gültige Konfigurationsdatei </translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="782"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="780"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="456"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>

@@ -27,7 +27,8 @@ TRANSLATIONS += ../../locale/ffDiaporamaMMFiler_fr.ts \
     ../../locale/ffDiaporamaMMFiler_es.ts \
     ../../locale/ffDiaporamaMMFiler_pt.ts \
     ../../locale/ffDiaporamaMMFiler_ru.ts \
-    ../../locale/ffDiaporamaMMFiler_el.ts
+    ../../locale/ffDiaporamaMMFiler_el.ts \
+    ../../locale/ffDiaporamaMMFiler_cz.ts
 
 SOURCES += main.cpp\
         mainwindow.cpp \

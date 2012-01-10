@@ -342,8 +342,7 @@ bool CheckFolder(QString FileToTest,QString PathToTest) {
 //      GlobalConfig must be in current path [for Windows only]
 //      or in ../ApplicationGroupName path [Qt Creator or Linux console build mode]
 //      or in ../ApplicationName path [Qt Creator only or Linux console build mode]
-//      or in ../ApplicationGroupName/SubProjects/ApplicationName [Linux console build mode]
-
+// it could be
 //      or in /usr/share/ApplicationGroupName [for Linux]
 //      or in /usr/local/share/ApplicationGroupName [for Linux]
 //      or in /opt/share/ApplicationGroupName [for Linux]
@@ -358,7 +357,6 @@ bool SetWorkingPath(char *argv[],QString ApplicationGroupName,QString Applicatio
 
     if (!CheckFolder(FileToTest,QDir::currentPath())
          &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationGroupName))
-         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationGroupName+QDir().separator()+QString("SubProjects")+QDir().separator()+ApplicationName))
          &&(!CheckFolder(FileToTest,QString("../share/")+ApplicationGroupName))
        ) {
         qDebug()<<"Critical error : Impossible to find global configuration file ("<<QString("%1%2").arg(ApplicationName).arg(ConfigFileExt)<<")";
