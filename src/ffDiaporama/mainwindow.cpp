@@ -641,7 +641,7 @@ void MainWindow::s_ItemDoubleClicked() {
                 delete Diaporama->List[Diaporama->CurrentCol]->Thumbnail;
                 Diaporama->List[Diaporama->CurrentCol]->Thumbnail=NULL;
             }
-            (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+            (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol)-1);
             AdjustRuller();
         }
         if ((Ret==2)||(Ret==3)) {
