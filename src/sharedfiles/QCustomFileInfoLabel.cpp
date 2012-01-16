@@ -32,6 +32,8 @@ QCustomFileInfoLabel::QCustomFileInfoLabel(QWidget *parent):QLabel(parent) {
     #ifdef DEBUGMODE
     qDebug() << "IN:QCustomFileInfoLabel::QCustomFileInfoLabel";
     #endif
+    DisplayMode =DISPLAY_WEBLONG;
+    SetupFileInfoLabel(NULL);
 }
 
 //====================================================================================================================
@@ -46,51 +48,109 @@ void QCustomFileInfoLabel::paintEvent(QPaintEvent *) {
     #ifdef DEBUGMODE
     qDebug() << "IN:QCustomFileInfoLabel::paintEvent";
     #endif
+
     QPainter    Painter(this);
-    if (!Icon48.isNull()) {
-        int addX=48-Icon48.width();
-        int addY=48-Icon48.height();
-        Painter.drawImage(QRect(1+addX/2,1+addY/2,Icon48.width(),Icon48.height()),Icon48);
+    QFont       font;
+    QTextOption OptionText;
+    QPen        Pen;
+    int         LinesToDisplay=0;
+    int         IconHeight=0;
+    QImage      *Icon=NULL;
+    int         RightWidth=0;
+
+    switch (DisplayMode) {
+        case DISPLAY_DATA    :  LinesToDisplay=0;       IconHeight=16;       Icon=Icon16;   break;
+        case DISPLAY_WEBSHORT:  LinesToDisplay=2;       IconHeight=32;       Icon=Icon32;   break;
+        case DISPLAY_WEBLONG :  LinesToDisplay=3;       IconHeight=48;       Icon=Icon48;   break;
+        case DISPLAY_ICON48  :  LinesToDisplay=0;       IconHeight=48;       Icon=Icon48;   break;
+        case DISPLAY_ICON100 :  LinesToDisplay=0;       IconHeight=100;      Icon=Icon100;  break;
     }
-    if (TextLeftUpper!="") {
 
-        int INFO_RIGHT_WIDTH=0;
+    if ((Icon)&&(!Icon->isNull())) {
+        int addX=IconHeight-Icon->width();
+        int addY=IconHeight-Icon->height();
+        Painter.drawImage(QRect(1+addX/2,1+addY/2,Icon->width(),Icon->height()),*Icon);
+    }
 
+    if (LinesToDisplay) {
+        // Setup default brush
         Painter.setBrush(Qt::NoBrush);
 
-        QTextOption OptionText;
-        OptionText=QTextOption(Qt::AlignRight|Qt::AlignVCenter);                             // Setup vertical alignement
-        OptionText.setWrapMode(QTextOption::NoWrap);                                        // Setup word wrap text option
-
-        QPen Pen;
+        // Setup default pen
         Pen.setColor(Qt::black);
         Pen.setWidth(1);
         Pen.setStyle(Qt::SolidLine);
         Painter.setPen(Pen);
 
-        if (TextRightUpper!="") {
-            OptionText.setWrapMode(QTextOption::NoWrap);                                        // Setup word wrap text option
-            QFont font=QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);                 // FontSize is always 10 and size if given with setPointSizeF !
-            font.setUnderline(false);                                                           // Set underline
+        for (int i=0;i<LinesToDisplay;i++) for (int j=1;j>=0;j--) { // for each LinesToDisplay, start with right part
+
+            // Setup text options
+            if (j==0) {                 // To the left
+                OptionText=QTextOption(Qt::AlignLeft|Qt::AlignVCenter);                     // Setup alignement
+                OptionText.setWrapMode(QTextOption::NoWrap);                                // Setup word wrap text option
+            } else if (j==1) {          // To the right
+                OptionText=QTextOption(Qt::AlignRight|Qt::AlignVCenter);                    // Setup alignement
+                OptionText.setWrapMode(QTextOption::NoWrap);                                // Setup word wrap text option
+            }
+
+            // Setup font
+            if (i==0)   font=QFont("Sans serif",9,QFont::Bold,QFont::StyleNormal);          // First line use bold
+                else    font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);        // other lines use small font
+            font.setUnderline(false);
             Painter.setFont(font);
-            QFontMetrics fm = Painter.fontMetrics();
-            INFO_RIGHT_WIDTH=fm.width(TextRightUpper)+2;
-            Painter.drawText(QRectF(this->width()-INFO_RIGHT_WIDTH,1,INFO_RIGHT_WIDTH-2,14),TextRightUpper,OptionText);
+
+            if (j==1) {
+                // Right part
+                if (Text[i][j]!="") {
+                    // calculate with
+                    QFontMetrics fm = Painter.fontMetrics();
+                    RightWidth=fm.width(Text[i][j])+2;
+                    // draw text
+                    Painter.drawText(QRectF(this->width()-RightWidth,1+i*(14+2),RightWidth-2,14),Text[i][j],OptionText);
+                } else RightWidth=0;
+            } else {
+                // Left part
+                if (Text[i][j]!="") {
+                    if (i==0) {
+                        Painter.drawText(QRectF(IconHeight+2+18,1+i*(14+2),this->width()-IconHeight-3-RightWidth-18,14),Text[i][j],OptionText);
+                        QImage IconF=IconType->pixmap(16,16).toImage();
+                        int addX=16-IconF.width();
+                        int addY=16-IconF.height();
+                        Painter.drawImage(QRect(IconHeight+2+1+addX/2,1+addY/2,IconF.width(),IconF.height()),IconF);
+                    } else Painter.drawText(QRectF(IconHeight+2,1+i*(14+2),this->width()-IconHeight-3-RightWidth,14),Text[i][j],OptionText);
+                }
+            }
         }
+    }
+}
 
-        OptionText=QTextOption(Qt::AlignLeft|Qt::AlignVCenter);                             // Setup vertical alignement
-        QFont font=QFont("Sans serif",9,QFont::Bold,QFont::StyleNormal);                 // FontSize is always 10 and size if given with setPointSizeF !
-        font.setUnderline(false);                                                           // Set underline
-        Painter.setFont(font);
-        Painter.drawText(QRectF(50,1,this->width()-51-INFO_RIGHT_WIDTH,16),TextLeftUpper,OptionText);
+//====================================================================================================================
 
+void QCustomFileInfoLabel::SetupFileInfoLabel(cBaseMediaFile *MediaObject) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomFileInfoLabel::AppendMediaToTable";
+    #endif
+    if (MediaObject) {
+        IconType    =MediaObject->GetDefaultTypeIcon();
+        Icon16      =&MediaObject->Icon16;
+        Icon32      =&MediaObject->Icon32;
+        Icon48      =&MediaObject->Icon48;
+        Icon100     =&MediaObject->Icon100;
+        ShortName   =MediaObject->ShortName;
 
-        if (TextLeftBottom!="") {
-            OptionText.setWrapMode(QTextOption::WordWrap);                                        // Setup word wrap text option
-            QFont font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);                 // FontSize is always 10 and size if given with setPointSizeF !
-            font.setUnderline(false);                                                           // Set underline
-            Painter.setFont(font);
-            Painter.drawText(QRectF(50,17,this->width()-51,32),TextLeftBottom,OptionText);
-        }
+        Text[0][0]  =MediaObject->ShortName;
+        Text[0][1]  =MediaObject->GetFileSizeStr();
+        Text[1][0]  =MediaObject->GetTechInfo();
+        Text[1][1]  =MediaObject->GetInformationValue("Duration");
+        Text[2][0]  =MediaObject->GetTAGInfo();
+        Text[2][1]  ="";
+
+    } else {
+        IconType    =NULL;
+        Icon16      =NULL;
+        Icon32      =NULL;
+        Icon48      =NULL;
+        Icon100     =NULL;
+        for (int i=0;i<3;i++) for (int j=0;j<2;j++) Text[i][j]="";
     }
 }

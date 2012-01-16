@@ -27,7 +27,7 @@
 #define ICON_RED        "img/Red.png"
 
 //====================================================================================================================
-
+/*
 bool CheckExiv2(QString &StatusStr,cBaseApplicationConfig *ApplicationConfig) {
     #ifdef DEBUGMODE
     qDebug() << "IN:CheckExiv2";
@@ -66,7 +66,7 @@ bool CheckExiv2(QString &StatusStr,cBaseApplicationConfig *ApplicationConfig) {
 
     return ExifOK;
 }
-
+*/
 //====================================================================================================================
 
 bool Checkffmpeg(QString &StatusStr,cBaseApplicationConfig *ApplicationConfig) {
@@ -145,7 +145,7 @@ void DlgCheckConfig::DoInitDialog() {
     bool    Status;
 
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","External dependencies")));
-    Status=CheckExiv2(StatusStr,BaseApplicationConfig);   ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
+    //Status=CheckExiv2(StatusStr,BaseApplicationConfig);   ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
     Status=Checkffmpeg(StatusStr,BaseApplicationConfig);  ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
 
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","")));

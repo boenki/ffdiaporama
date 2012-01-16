@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 10/01/2011) :
+Buggs/TODO (Dernier SVN le 12/01/2011) :
 ----------------------------------------
 TODO
 ----
@@ -8,31 +8,18 @@ TODO
 -Pas de chapitre 0 dans les MKV
 -Les commentaires sur plusieurs lignes ne passent pas dans les TAG
 -Remonté de thumb à finir pour les WMA
+-Chaines de caractères Exif ne sont plus traduites dans la version Windows
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige l'erreur de calcul qui générait des chevrotements dans le son lors des transitions
 
 English version / Bug fix :
--Correct the mistake in calculation which generated quaverings in the sound during the transitions
 
 French version / Nouvelles fonctionnalités
--Lors du découpage en plusieurs slide d'une vidéo contenant des chapitres, utilise les nom des chapitres comme nom des slides
--Les projets ajoutés dans le projet en cours se positionne maintenant soit après le slide en cours, soit à la fin du projet en fonction de l'option dans la boite de configuration. Avant, ils s'inséraient toujours à la fin.
--Il est maintenant possible de sélectionner plusieurs projet à insérer d'un coup
--Il est maintenant possible d'insérer un ou pusieurs fichiers projet par Drag & Drop
--Il est maintenant possible de copier/couper/coller des slides et des blocks entre plusieurs instance de ffDiaporama
--[Package Windows] Bascule ffmpeg sur la version shared au lieu de static pour réduire la taille du package
 
 English version / New features
--When cutting a video owning multple chapters into multiple slide, use chapter name as slide name
--When adding existing project to current project, now it insert after current slide or at the end depending on option in configuration dialog. Before they always been inserted at the end
--It's now possible to select more than one project file to add to the current project
--It's now possible to add one ore more project files using Drag & Drop
--It's now possible to copy/cut/paste slide and block between several ffDiaporama instance
--[Package Windows] Switch ffmpeg to shared version  instead of static version to reduce package size
 
 -------------------------------------
 Changelog depuis la version 20111118
@@ -51,6 +38,7 @@ Bug fix French version
 -Corrige un bug sur le calcul des durées de certains fichiers vidéo qui générait des crash
 -Corrige un plantage si pas de modèle choisi dans la boite de génération en mode device
 -Corrige l'erreur de positionnement lors des changements de slide dans la boite slide (précédent/suivant) quand la durée des slides = la durées des transitions
+-Corrige l'erreur de calcul qui générait des chevrotements dans le son lors des transitions
 
 Bug fix English version
 -When exit the application, even when answer yes, modifications are not saved
@@ -63,6 +51,7 @@ Bug fix English version
 -Fix list of allowed extention for video (allow all format ffDiaporama can produce)
 -Fix geometry for rendered videos in NTSC mode
 -Fix a display error when add project in project
+-Correct the mistake in calculation which generated quaverings in the sound during the transitions
 
 French version / Nouvelles fonctionnalités
 -Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable

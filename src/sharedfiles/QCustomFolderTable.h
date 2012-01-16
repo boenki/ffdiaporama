@@ -33,10 +33,7 @@
 #include "cBaseApplicationConfig.h"
 #include "cDriveList.h"
 #include "cBaseMediaFile.h"
-
-#define DISPLAY_DATA        0
-#define DISPLAY_JUKEBOX     1
-#define DISPLAY_WEB         2
+#include "QCustomFileInfoLabel.h"
 
 class QCustomFolderTable : public QTableWidget {
 Q_OBJECT
@@ -69,7 +66,7 @@ public:
     virtual void            FillListFolder(QString Path,cBaseApplicationConfig *ApplicationConfig);
 
     virtual void            AppendMediaToTable(cBaseMediaFile *MediaObject);
-    virtual void            UpdateMediaToTable(int Row,cBaseMediaFile *MediaObject);
+    virtual void            UpdateMediaToTable(int Row,int Col,cBaseMediaFile *MediaObject);
 
     virtual cBaseMediaFile  *GetCurrentMediaFile();
 

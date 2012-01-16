@@ -26,6 +26,9 @@
 #include <QFileDialog>
 #include <QPainter>
 
+#include <exiv2/exiv2.hpp>
+#include <exiv2/exif.hpp>
+
 // Include some additional standard class
 #include "cDeviceModelDef.h"
 #include "cBaseMediaFile.h"
@@ -42,8 +45,6 @@ extern "C" {
 
 #include "../TAGLib/fileref.h"
 #include "../TAGLib/tbytevector.h"
-
-//---- MP3 Files
 #include "../TAGLib/id3v2tag.h"
 #include "../TAGLib/id3v2frame.h"
 #include "../TAGLib/id3v2header.h"
@@ -214,7 +215,6 @@ cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig) {
     CreatDateTime       = QDateTime(QDate(0,0,0),QTime(0,0,0));     // Original date/time
     ModifDateTime       = QDateTime(QDate(0,0,0),QTime(0,0,0));     // Last modified date/time
     ApplicationConfig   = TheApplicationConfig;
-    WEBInfo             = "";
     AspectRatio         = 1;
 }
 
@@ -334,6 +334,10 @@ void cBaseMediaFile::AddIcons(QIcon Icon) {
     Icon32 =Icon.pixmap(32,32).toImage();
     Icon48 =Icon.pixmap(48,48).toImage();
     Icon100=Icon.pixmap(100,100).toImage();
+    if ((Icon100.height()<100)&&(Icon100.width()<100)) {
+        if (Icon100.height()>Icon100.width()) Icon100=Icon100.scaledToHeight(100,Qt::SmoothTransformation);
+            else Icon100=Icon100.scaledToWidth(100,Qt::SmoothTransformation);
+    }
 }
 
 //====================================================================================================================
@@ -400,7 +404,7 @@ QString cBaseMediaFile::GetImageSizeStr(ImageSizeFmt Fmt) {
     }
     GeoInfo=GetImageGeometryStr();
     switch (Fmt) {
-        case FULLWEB  : return SizeInfo+" ("+FmtInfo+(FmtInfo!=""?"-":"")+GeoInfo+")";
+        case FULLWEB  : return SizeInfo+((FmtInfo+GeoInfo)!=""?"("+FmtInfo+(FmtInfo!=""?"-":"")+GeoInfo+")":"");
         case SIZEONLY : return SizeInfo;
         case FMTONLY  : return FmtInfo;
         case GEOONLY  : return GeoInfo;
@@ -693,12 +697,34 @@ void cffDProjectFile::GetFullInformationFromFile() {
         }
         file.close();
     }
-    WEBInfo=Title;
-    if (Album!="")      WEBInfo=WEBInfo+(WEBInfo!=""?" - ":"")+Album;
-    if (WEBInfo!="")    WEBInfo=WEBInfo+(WEBInfo!=""?" - ":"")+QString("%1").arg(Year);
-    if (Author!="")     WEBInfo=WEBInfo+(WEBInfo!=""?" - ":"")+Author;
-    if (Composer!="")   WEBInfo=WEBInfo+(WEBInfo!=""?" - ":"")+Composer;
     IsInformationValide=true;
+}
+
+//====================================================================================================================
+
+QString cffDProjectFile::GetTechInfo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cffDProjectFile::GetTechInfo";
+    #endif
+    QString Info="";
+    if (Composer!="")   Info=Info+(Info!=""?" - ":"")+Composer+" ("+ffDRevision+")";
+    if (GetImageSizeStr(cBaseMediaFile::GEOONLY)!="")   Info=Info+(Info!=""?" - ":"")+GetImageSizeStr(cBaseMediaFile::GEOONLY);
+    if (NbrSlide>0)                                     Info=Info+(Info!=""?" - ":"")+QString("%1").arg(NbrSlide)   +" "+QApplication::translate("cBaseMediaFile","Slides");
+    if (NbrChapters>0)                                  Info=Info+(Info!=""?" - ":"")+QString("%1").arg(NbrChapters)+" "+QApplication::translate("cBaseMediaFile","Chapters");
+    return Info;
+}
+
+//====================================================================================================================
+
+QString cffDProjectFile::GetTAGInfo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cffDProjectFile::GetTechInfo";
+    #endif
+    QString Info=Title;
+    if (Album!="")      Info=Info+(Info!=""?" - ":"")+Album;
+    if (Info!="")       Info=Info+(Info!=""?" - ":"")+QString("%1").arg(Year);
+    if (Author!="")     Info=Info+(Info!=""?" - ":"")+Author;
+    return Info;
 }
 
 //====================================================================================================================
@@ -761,36 +787,6 @@ void cImageFile::GetFullInformationFromFile() {
     CallEXIF(ImageOrientation);
     ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
     ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
-    WEBInfo    =GetImageSizeStr();
-
-    QString Info;
-    QString GeneralInfo;
-    Info=GetInformationValue("Image.Model");            if (Info!="") GeneralInfo=Info;
-    Info=GetInformationValue("Image.Orientation");      if (Info!="") GeneralInfo=GeneralInfo+" ("+Info+")";
-    if (GeneralInfo!="") {
-        if (WEBInfo!="") WEBInfo=WEBInfo+" - ";
-        WEBInfo=WEBInfo+GeneralInfo;
-    }
-
-    QString CameraInfo;
-    Info=GetInformationValue("Photo.ExposureTime");     if (Info!="") CameraInfo=CameraInfo+((CameraInfo!="")?"-":"")+Info;
-    Info=GetInformationValue("Photo.ApertureValue");    if (Info=="") Info=GetInformationValue("Image.ApertureValue");    if (Info!="") CameraInfo=CameraInfo+((CameraInfo!="")?"-":"")+Info;
-    Info=GetInformationValue("Photo.ISOSpeedRatings");  if (Info!="") CameraInfo=CameraInfo+"-"+Info+" ISO";
-
-    Info=GetInformationValue("CanonCs.LensType");       if (Info!="") CameraInfo=CameraInfo+"-"+Info;           // Canon version
-    Info=GetInformationValue("NikonLd3.LensIDNumber");  if (Info!="") CameraInfo=CameraInfo+"-"+Info;           // Nikon version
-
-    Info=GetInformationValue("Photo.Flash");            if (Info!="") {
-        CameraInfo=CameraInfo+((CameraInfo!="")?"-":"")+Info;
-        //Info=GetInformationValue("Fujifilm.FlashMode"); if (Info!="") CameraInfo=CameraInfo+" ("+Info+")";       // Fujifilm version
-        Info=GetInformationValue("CanonCs.FlashMode");  if (Info!="") CameraInfo=CameraInfo+" ("+Info+")";       // Canon version
-        Info=GetInformationValue("Nikon3.FlashMode");   if (Info!="") CameraInfo=CameraInfo+" ("+Info+")";       // Nikon version
-    }
-    if (CameraInfo!="") WEBInfo=WEBInfo+" - "+CameraInfo;
-
-    // Append InformationList
-    if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
-    if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
 
     // Compute image geometry
     ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
@@ -803,7 +799,37 @@ void cImageFile::GetFullInformationFromFile() {
     else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
     else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
     else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
-    IsInformationValide=true;
+}
+
+//====================================================================================================================
+
+QString cImageFile::GetTechInfo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cImageFile::GetTechInfo";
+    #endif
+    QString Info=GetImageSizeStr(FULLWEB);
+    if (GetInformationValue("artist")!="")              Info=Info+(Info!=""?"-":"")+GetInformationValue("artist");
+    if (GetInformationValue("composer")!="")            Info=Info+(Info!=""?"-":"")+GetInformationValue("composer");
+    if (GetInformationValue("Image.Orientation")!="")   Info=Info+(Info!=""?"-":"")+GetInformationValue("Image.Orientation");
+    return Info;
+}
+
+//====================================================================================================================
+
+QString cImageFile::GetTAGInfo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cImageFile::GetTAGInfo";
+    #endif
+
+    QString Info=GetInformationValue("Photo.ExposureTime");
+    if (GetInformationValue("Photo.ApertureValue")!="")    Info=Info+(Info!=""?"-":"")+GetInformationValue("Photo.ApertureValue");
+    if (GetInformationValue("Photo.ISOSpeedRatings")!="")  Info=Info+(Info!=""?"-":"")+GetInformationValue("Photo.ISOSpeedRatings")+" ISO";
+    if (GetInformationValue("CanonCs.LensType")!="")       Info=Info+(Info!=""?"-":"")+GetInformationValue("CanonCs.LensType");                // Canon version
+    if (GetInformationValue("NikonLd3.LensIDNumber")!="")  Info=Info+(Info!=""?"-":"")+GetInformationValue("NikonLd3.LensIDNumber");           // Nikon version
+    if (GetInformationValue("Photo.Flash")!="")            Info=Info+(Info!=""?"-":"")+GetInformationValue("Photo.Flash");
+    if (GetInformationValue("CanonCs.FlashMode")!="")      Info=Info+(Info!=""?"-":"")+GetInformationValue("CanonCs.FlashMode");               // Canon version
+    if (GetInformationValue("Nikon3.FlashMode")!="")       Info=Info+(Info!=""?"-":"")+GetInformationValue("Nikon3.FlashMode");                // Nikon version
+    return Info;
 }
 
 //====================================================================================================================
@@ -812,112 +838,82 @@ bool cImageFile::CallEXIF(int &ImageOrientation) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cImageFile::CallEXIF";
     #endif
-    QString   Commande;
-    QString   Info,Part;
     bool      ExifOK=true;
-
-    // start exiv2
-    qDebug()<<QApplication::translate("cBaseMediaFile","Analyse file with EXIV2 :")+QFileInfo(FileName).fileName();
-
-    #ifdef Q_OS_WIN
-    Commande = "\""+ApplicationConfig->PathEXIV2+"\" print -pa \""+FileName+"\"";
-    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    Commande = ApplicationConfig->PathEXIV2+" print -pa \""+FileName+"\"";
-    #endif
-    Commande = AdjustDirForOS(Commande);
-    QProcess Process;
-    Process.setProcessChannelMode(QProcess::MergedChannels);
-    Process.start(Commande);
-    if (!Process.waitForStarted()) {
-        qDebug()<<"Impossible to start exiv2 - no exif informations will be decode for"<<FileName;
-        ExifOK=false;
-    }
-    if (ExifOK && !Process.waitForFinished()) {
-        Process.kill();
-        qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<FileName;
-        ExifOK=false;
-    }
-    if (ExifOK && (Process.exitStatus()<0)) {
-        qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode for"<<FileName;
-        ExifOK=false;
-    }
-    if (ExifOK) {
-        Info=QString().fromLocal8Bit(Process.readAllStandardOutput());
-
-        while (Info.length()>0) {
-            if (Info.contains("\n")) {
-                Part=Info.left(Info.indexOf("\n"));
-                Info=Info.mid(Info.indexOf("\n")+QString("\n").length());
-            } else {
-                Part=Info;
-                Info="";
-            }
-            QString Designation,Value;
-            if (Part.contains(" ")) {
-                Designation=Part.left(Part.indexOf(" "));
-                while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
-                Value=(Part.mid(Part.indexOf(" ")+QString(" ").length())).trimmed();
-                if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
-                if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
-                if (Part.contains(" ")) Part=Part.left(Part.indexOf(" "));
-                if (Part.startsWith("Exif.")) Part=Part.mid(QString("Exif.").length());
-                InformationList.append(Part+"##"+Value);
-            }
-        }
-        InformationList.append("Exif status##ok");
-    }
-    Process.terminate();
-    Process.close();
-
-    // Restart same job with -pv option to know binary value of orientation if (ImageOrientation==-1)
-    if (ImageOrientation==-1) {
-        #ifdef Q_OS_WIN
-        Commande = "\""+ApplicationConfig->PathEXIV2+"\" print -pva \""+FileName+"\"";
-        #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        Commande = ApplicationConfig->PathEXIV2+" print -pva \""+FileName+"\"";
+    //************************************************************************************
+    Exiv2::Image::AutoPtr ImageFile;
+    try {
+        #if defined(Q_OS_WIN)
+            ImageFile=Exiv2::ImageFactory::open(FileName.toLocal8Bit().data());
+        #else
+            ImageFile=Exiv2::ImageFactory::open(FileName.toUtf8().data());
         #endif
-        Commande = AdjustDirForOS(Commande);
-        Process.start(Commande);
-        if (!Process.waitForStarted()) {
-            qDebug()<<"Impossible to start exiv2 - no exif informations will be decode for"<<FileName;
-            ExifOK=false;
-        }
-        if (ExifOK && !Process.waitForFinished()) {
-            Process.kill();
-            qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<FileName;
-            ExifOK=false;
-        }
-        if (ExifOK && (Process.exitStatus()<0)) {
-            qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode for"<<FileName;
-            ExifOK=false;
-        }
-        if (ExifOK) {
-            Info=QString(Process.readAllStandardOutput());
+        IsInformationValide=true;
+    }
+    catch( Exiv2::Error& e ) {
+        qDebug()<<"Cannot load metadata using Exiv2 for file"<<FileName;
+        IsInformationValide=false;
+    }
+    if (IsInformationValide) {
+        ImageFile->readMetadata();
+        // Read data
+        Exiv2::ExifData &exifData = ImageFile->exifData();
+        if (!exifData.empty()) {
+            Exiv2::ExifData::const_iterator end = exifData.end();
+            for (Exiv2::ExifData::const_iterator CurrentData=exifData.begin();CurrentData!=end;++CurrentData) {
 
-            while (Info.length()>0) {
-                if (Info.contains("\n")) {
-                    Part=Info.left(Info.indexOf("\n"));
-                    Info=Info.mid(Info.indexOf("\n")+QString("\n").length());
-                } else {
-                    Part=Info;
-                    Info="";
+                if ((QString().fromStdString(CurrentData->key())=="Exif.Image.Orientation")&&(CurrentData->tag()==274))
+                    ImageOrientation=QString().fromStdString(CurrentData->value().toString()).toInt();
+
+                if ((CurrentData->typeId()!=Exiv2::undefined)&&
+                    (!(((CurrentData->typeId()==Exiv2::unsignedByte)||(CurrentData->typeId()==Exiv2::signedByte))&&(CurrentData->size()>64)))) {
+                    QString Key  =QString().fromStdString(CurrentData->key());
+                    QString Value=QString().fromUtf8(CurrentData->print(&exifData).c_str());
+
+                    if (Key.startsWith("Exif.")) Key=Key.mid(QString("Exif.").length());
+                    InformationList.append(Key+QString("##")+Value);
                 }
-                QString Designation,Value;
-                if (Part.contains(" ")) {
-                    Designation=Part.left(Part.indexOf(" "));
-                    while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
-                    if (Designation=="0x0112") {
-                        Value=(Part.mid(Part.lastIndexOf(" ")+QString(" ").length())).trimmed();
-                        ImageOrientation=Value.toInt();
+            }
+            InformationList.sort();
+        }
+        // Read preview image
+        Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
+        if (Manager) {
+            Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
+            if (!Properties.empty()) {
+                Exiv2::PreviewImage Image=Manager->getPreviewImage(Properties[Properties.size()-1]);      // Get the latest image (biggest)
+                QImage *Icon=new QImage();
+                if (Icon->loadFromData(QByteArray((const char*)Image.pData(),Image.size()))) {
+                    if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+                        QMatrix matrix;
+                        matrix.rotate(-90);
+                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                        delete Icon;
+                        Icon=NewImage;
+                    } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+                        QMatrix matrix;
+                        matrix.rotate(180);
+                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                        delete Icon;
+                        Icon=NewImage;
+                    } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+                        QMatrix matrix;
+                        matrix.rotate(90);
+                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                        delete Icon;
+                        Icon=NewImage;
                     }
+                    AddIcons(Icon);
+                    delete Icon;
                 }
             }
         }
-        if (ImageOrientation==-1) ImageOrientation=1;
-
-        Process.terminate();
-        Process.close();
     }
+    //************************************************************************************
+    if (ImageOrientation==-1) ImageOrientation=1;
+    // Append InformationList
+    if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
+    if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
+
     return ExifOK;
 }
 
@@ -1360,9 +1356,65 @@ void cVideoFile::GetFullInformationFromFile() {
     }
 
     OpenCodecAndFile();
-    WEBInfo=GetImageSizeStr();
     CloseCodecAndFile();
     IsInformationValide=true;
+}
+
+//====================================================================================================================
+
+QString cVideoFile::GetTechInfo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cVideoFile::GetTechInfo";
+    #endif
+    QString Info="";
+    if (ObjectType==OBJECTTYPE_MUSICFILE) {
+        Info=GetCumulInfoStr("Audio","Codec");
+        if (GetCumulInfoStr("Audio","Channels")!="")       Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Audio","Channels");
+        if (GetCumulInfoStr("Audio","Bitrate")!="")        Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Audio","Bitrate");
+        if (GetCumulInfoStr("Audio","Frequency")!="")      Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Audio","Frequency");
+    } else {
+        Info=GetImageSizeStr();
+        if (GetCumulInfoStr("Video","Codec")!="")          Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Video","Codec");
+        if (GetCumulInfoStr("Video","Frame rate")!="")     Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Video","Frame rate");
+        if (GetCumulInfoStr("Video","Bitrate")!="")        Info=Info+(Info!=""?"-":"")+GetCumulInfoStr("Video","Bitrate");
+
+        int     Num     =0;
+        QString TrackNum="";
+        QString Value   ="";
+        QString SubInfo ="";
+        do {
+            TrackNum=QString("%1").arg(Num);
+            while (TrackNum.length()<3) TrackNum="0"+TrackNum;
+            TrackNum="Audio_"+TrackNum+":";
+            Value=GetInformationValue(TrackNum+"language");
+            if (Value!="") {
+                if (Num==0) Info=Info+"-"; else Info=Info+"/";
+                SubInfo=GetInformationValue(TrackNum+"Codec");
+                if (GetInformationValue(TrackNum+"Channels")!="")  SubInfo=SubInfo+(Info!=""?"-":"")+GetInformationValue(TrackNum+"Channels");
+                if (GetInformationValue(TrackNum+"Bitrate")!="")   SubInfo=SubInfo+(Info!=""?"-":"")+GetInformationValue(TrackNum+"Bitrate");
+                if (GetInformationValue(TrackNum+"Frequency")!="") SubInfo=SubInfo+(Info!=""?"-":"")+GetInformationValue(TrackNum+"Frequency");
+                Info=Info+Value+"("+SubInfo+")";
+            }
+            // Next
+            Num++;
+        } while (Value!="");
+    }
+    return Info;
+}
+
+//====================================================================================================================
+
+QString cVideoFile::GetTAGInfo() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cVideoFile::GetTAGInfo";
+    #endif
+    QString Info=GetInformationValue("track");
+    if (GetInformationValue("title")!="")          Info=Info+(Info!=""?"-":"")+GetInformationValue("title");
+    if (GetInformationValue("artist")!="")         Info=Info+(Info!=""?"-":"")+GetInformationValue("artist");
+    if (GetInformationValue("album")!="")          Info=Info+(Info!=""?"-":"")+GetInformationValue("album");
+    if (GetInformationValue("date")!="")           Info=Info+(Info!=""?"-":"")+GetInformationValue("date");
+    if (GetInformationValue("genre")!="")          Info=Info+(Info!=""?"-":"")+GetInformationValue("genre");
+    return Info;
 }
 
 //====================================================================================================================

@@ -33,10 +33,10 @@
 #include <QMenu>
 
 #include "../sharedfiles/cBaseMediaFile.h"
+#include "../sharedfiles/QCustomFileInfoLabel.h"
 #include "../sharedfiles/QCustomFolderTable.h"
 #include "../sharedfiles/QCustomFolderTree.h"
 #include "../sharedfiles/QCustomHorizSplitter.h"
-
 #include "../sharedfiles/DlgCheckConfig.h"
 #include "../sharedfiles/DlgInfoFile.h"
 
@@ -107,8 +107,9 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->FolderTable->ShowFoldersFirst   =ApplicationConfig->ShowFoldersFirst;
 
     // do some init ...
-    ui->Action_Mode_BT->setIcon(ApplicationConfig->CurrentMode==DISPLAY_DATA?Icon_DISPLAY_DATA_S:ApplicationConfig->CurrentMode==DISPLAY_JUKEBOX?Icon_DISPLAY_JUKEBOX_S:Icon_DISPLAY_WEB_S);
-    ui->FileInfoLabel->setVisible(ApplicationConfig->CurrentMode!=DISPLAY_WEB);
+    ui->Action_Mode_BT->setIcon(*GetIconMode());
+    ui->FileInfoLabel->DisplayMode=DISPLAY_WEBLONG;
+    ui->FileInfoLabel->setVisible((ApplicationConfig->CurrentMode!=DISPLAY_WEBSHORT)&&(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG));
 
     ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
     if (ApplicationConfig->SplitterSizeAndPos!="") ui->Splitter->restoreState(QByteArray::fromHex(ApplicationConfig->SplitterSizeAndPos.toUtf8()));
@@ -148,7 +149,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig())); else {
         QString Status;
-        if ((!CheckExiv2(Status,ApplicationConfig))||(!Checkffmpeg(Status,ApplicationConfig))) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig()));
+        if (!Checkffmpeg(Status,ApplicationConfig)) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig()));
     }
 }
 
@@ -186,6 +187,22 @@ void MainWindow::RefreshControls() {
     ui->PlayBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE)));
     ui->InfoBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE)));
     ui->WizardBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)));
+}
+
+//====================================================================================================================
+
+QIcon *MainWindow::GetIconMode() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::GetIconMode";
+    #endif
+    switch (ApplicationConfig->CurrentMode) {
+        case DISPLAY_DATA:      return &Icon_DISPLAY_DATA_S;
+        case DISPLAY_WEBSHORT:
+        case DISPLAY_WEBLONG:   return &Icon_DISPLAY_WEB_S;
+        case DISPLAY_ICON48:
+        case DISPLAY_ICON100:   return &Icon_DISPLAY_JUKEBOX_S;
+    }
+    return NULL;
 }
 
 //====================================================================================================================
@@ -249,19 +266,7 @@ void MainWindow::s_currentTableItemChanged() {
 
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
     if (ui->FileInfoLabel->isVisible()) {
-        if (!Media) {
-            ui->FileInfoLabel->Icon32           =QImage();
-            ui->FileInfoLabel->Icon48           =QImage();
-            ui->FileInfoLabel->TextLeftUpper    ="";
-            ui->FileInfoLabel->TextLeftBottom   ="";
-            ui->FileInfoLabel->TextRightUpper   ="";
-        } else {
-            ui->FileInfoLabel->Icon32           =Media->Icon32;
-            ui->FileInfoLabel->Icon48           =Media->Icon48;
-            ui->FileInfoLabel->TextLeftUpper    =Media->ShortName;
-            ui->FileInfoLabel->TextLeftBottom   =Media->WEBInfo;
-            ui->FileInfoLabel->TextRightUpper   =Media->GetFileTypeStr()+" ("+Media->FileSizeText+")";
-        }
+        ui->FileInfoLabel->SetupFileInfoLabel(Media);
         ui->FileInfoLabel->repaint();
     }
     RefreshControls();
@@ -323,7 +328,7 @@ void MainWindow::s_DlgCheckConfig() {
     Dlg.exec();
 
     QString Status;
-    if ((!CheckExiv2(Status,ApplicationConfig))||(!Checkffmpeg(Status,ApplicationConfig))) {
+    if (!Checkffmpeg(Status,ApplicationConfig)) {
         QMessageBox::critical(this,APPLICATION_NAME,QApplication::translate("MainWindow","Configuration not correct!"));
         close();
     }
@@ -390,16 +395,18 @@ void MainWindow::s_action_Mode() {
 
     // Create menu
     QMenu *ContextMenu=new QMenu(this);
-    ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_DATA,   QApplication::translate("MainWindow","Data view"),   DISPLAY_DATA,   true,ApplicationConfig->CurrentMode==DISPLAY_DATA));
-    ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_WEB,    QApplication::translate("MainWindow","WEB view"),    DISPLAY_WEB,    true,ApplicationConfig->CurrentMode==DISPLAY_WEB));
-    ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_JUKEBOX,QApplication::translate("MainWindow","Jukebox view"),DISPLAY_JUKEBOX,true,ApplicationConfig->CurrentMode==DISPLAY_JUKEBOX));
+    ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_DATA,   QApplication::translate("MainWindow","Details view"),      DISPLAY_DATA,    true,ApplicationConfig->CurrentMode==DISPLAY_DATA));
+    ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_WEB,    QApplication::translate("MainWindow","Short summary view"),DISPLAY_WEBSHORT,true,ApplicationConfig->CurrentMode==DISPLAY_WEBSHORT));
+    ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_WEB,    QApplication::translate("MainWindow","Long summary view"), DISPLAY_WEBLONG, true,ApplicationConfig->CurrentMode==DISPLAY_WEBLONG));
+    ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_JUKEBOX,QApplication::translate("MainWindow","Small icon view"),   DISPLAY_ICON48,  true,ApplicationConfig->CurrentMode==DISPLAY_ICON48));
+    ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_JUKEBOX,QApplication::translate("MainWindow","Medium icon view"),  DISPLAY_ICON100, true,ApplicationConfig->CurrentMode==DISPLAY_ICON100));
 
     // Exec menu
     QAction *Action=ContextMenu->exec(QCursor::pos());
     if ((Action)&&(ApplicationConfig->CurrentMode!=Action->data().toInt())) {
         ApplicationConfig->CurrentMode=Action->data().toInt();
-        ui->Action_Mode_BT->setIcon(ApplicationConfig->CurrentMode==DISPLAY_DATA?Icon_DISPLAY_DATA_S:ApplicationConfig->CurrentMode==DISPLAY_JUKEBOX?Icon_DISPLAY_JUKEBOX_S:Icon_DISPLAY_WEB_S);
-        ui->FileInfoLabel->setVisible(ApplicationConfig->CurrentMode!=DISPLAY_WEB);
+        ui->Action_Mode_BT->setIcon(*GetIconMode());
+        ui->FileInfoLabel->setVisible((ApplicationConfig->CurrentMode!=DISPLAY_WEBSHORT)&&(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG));
         ui->FolderTable->SetMode(this->DriveList,ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
         s_currentTreeItemChanged(ui->FolderTree->currentItem(),NULL);
     }

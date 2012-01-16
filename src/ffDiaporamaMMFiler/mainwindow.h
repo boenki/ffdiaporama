@@ -84,6 +84,7 @@ private slots:
 
 private:
     QAction             *CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck);
+    QIcon               *GetIconMode();
 
     Ui::MainWindow *ui;
 };

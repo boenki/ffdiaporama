@@ -225,7 +225,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(500,this,SLOT(s_Action_DlgCheckConfig())); else {
         QString Status;
-        if ((!CheckExiv2(Status,ApplicationConfig))||(!Checkffmpeg(Status,ApplicationConfig))) QTimer::singleShot(500,this,SLOT(s_Action_DlgCheckConfig()));
+        if (!Checkffmpeg(Status,ApplicationConfig)) QTimer::singleShot(500,this,SLOT(s_Action_DlgCheckConfig()));
     }
 }
 
@@ -508,7 +508,7 @@ void MainWindow::s_Action_DlgCheckConfig() {
     Dlg.exec();
 
     QString Status;
-    if ((!CheckExiv2(Status,ApplicationConfig))||(!Checkffmpeg(Status,ApplicationConfig))) {
+    if (!Checkffmpeg(Status,ApplicationConfig)) {
         QMessageBox::critical(this,APPLICATION_NAME,QApplication::translate("MainWindow","Configuration not correct!"));
         close();
     }
