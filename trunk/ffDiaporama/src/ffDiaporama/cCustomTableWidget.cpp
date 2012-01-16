@@ -231,7 +231,7 @@ void cCustomTableWidget::mouseReleaseEvent(QMouseEvent *event) {
 void cCustomTableWidget::AddObjectToTimeLine(int CurIndex) {
     int ThumbWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
     int ThumbHeight=GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
-    int NbrX       =width()/ThumbWidth;
+    int NbrX       =viewport()->width()/ThumbWidth;
 
     wgt_QCustomThumbnails *ObjectBackground=new wgt_QCustomThumbnails(this,THUMBNAILTYPE_OBJECT);
     connect(ObjectBackground,SIGNAL(EditBackground()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnBackground()));

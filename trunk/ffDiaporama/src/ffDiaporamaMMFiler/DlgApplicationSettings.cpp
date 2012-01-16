@@ -25,7 +25,7 @@
 #include "DlgApplicationSettings.h"
 #include "ui_DlgApplicationSettings.h"
 
-#define DEBUGMODE
+//#define DEBUGMODE
 
 //====================================================================================================================
 

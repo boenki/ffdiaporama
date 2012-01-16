@@ -26,7 +26,7 @@
 
 #include <QMessageBox>
 
-#define DEBUGMODE
+//#define DEBUGMODE
 
 #define ICON_GEOMETRY_IMAGE                 "img/Geometry_ImageLock.png"
 #define ICON_FRAMING_FULL                   "img/AdjustWH.png"
