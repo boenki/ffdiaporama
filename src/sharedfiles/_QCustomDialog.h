@@ -32,6 +32,8 @@
 #include <QPushButton>
 #include <QDesktopServices>
 #include <QTableWidgetItem>
+#include <QTableWidgetItem>
+#include <QIcon>
 
 // Include some common various class
 #include "cBaseApplicationConfig.h"
@@ -70,6 +72,16 @@ protected:
 
 private slots:
     void            doHelp();
+};
+
+//*********************************************************
+
+class QNullTableWidgetItem : public QTableWidgetItem {
+public:
+    explicit QNullTableWidgetItem(const QIcon &icon, const QString &text, int type):QTableWidgetItem(icon,text,type=Type)   {setFlags(Qt::NoItemFlags);}
+    explicit QNullTableWidgetItem(const QTableWidgetItem &other):QTableWidgetItem(other)                                    {setFlags(Qt::NoItemFlags);}
+    explicit QNullTableWidgetItem(int type):QTableWidgetItem(type=Type)                                                     {setFlags(Qt::NoItemFlags);}
+    explicit QNullTableWidgetItem(const QString &text,int type=Type):QTableWidgetItem(text,type=Type)                       {setFlags(Qt::NoItemFlags);}
 };
 
 #endif // _QCUSTOMDIALOG_H

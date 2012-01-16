@@ -1,25 +1,42 @@
-Buggs/TODO (Dernier SVN le 12/01/2011) :
+Buggs/TODO (Dernier SVN le 16/01/2011) :
 ----------------------------------------
 TODO
 ----
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
--Erreur de lecture du son dans certaines vidéo AVI
 -Grosses lenteurs dans la boite slide quand plusieurs shots
 -Pas de chapitre 0 dans les MKV
--Les commentaires sur plusieurs lignes ne passent pas dans les TAG
 -Remonté de thumb à finir pour les WMA
 -Chaines de caractères Exif ne sont plus traduites dans la version Windows
+
+
+-Ajuster la géométrie des thumb à l'affichage en cours :
+    Défaut : 1/1
+    Images : 3/2
+    Musique: 1/1
+    Vidéo  : 2/3
+    + ajouter les noms de fichier en dessous
+    + mode icon 200
+
+-Trouver un moyen d'empécher le mouse over sur le QNullTableWidgetITem
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Ajoute une demande de sauvegarde lors des chargements de projet recent
+-Permet des commentaires sur plusieurs lignes dans les TAG
+-Corrige une erreur de lecture du son dans certaines vidéo AVI (pcm_s16) - seek error
 
 English version / Bug fix :
+-Add an ask to save when load recent project
+-Allow multiline comment in TAG
+-Fix a read sound error for some AVI video (pcm_s16) - seek error
 
 French version / Nouvelles fonctionnalités
+-Ajoute la prise en charge des vidéos contenant des pistes son au format UINT8 (mono et stéréo)
 
 English version / New features
+-Add possibility to include video with sound track using UINT8 sample format (mono and stereo)
 
 -------------------------------------
 Changelog depuis la version 20111118

@@ -1184,7 +1184,7 @@ QString DlgRenderVideo::AdjustMETA(QString Text) {
     Text.replace("=","\\=");
     Text.replace(";","\\;");
     Text.replace("#","\\#");
-    Text.replace("\\","\\\\");
+    //Text.replace("\\","\\\\");
     Text.replace("\n","\\\n");
     Text=Text+"\n";
     #if defined(Q_OS_WIN)

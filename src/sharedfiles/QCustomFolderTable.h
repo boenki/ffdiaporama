@@ -51,6 +51,7 @@ public:
     int                     CurrentShowFolderNumber;
     int                     CurrentTotalFilesNumber;
     int                     CurrentShowFilesNumber;
+    int                     CurrentDisplayItem;
     qlonglong               CurrentShowFolderSize;
     qlonglong               CurrentTotalFolderSize;
     QTime                   CurrentShowDuration;

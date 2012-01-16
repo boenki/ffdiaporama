@@ -25,6 +25,7 @@
 #include <QFont>
 #include <QPen>
 #include <QFontMetrics>
+#include <QTableWidget>
 
 //#define DEBUGMODE
 
@@ -48,6 +49,8 @@ void QCustomFileInfoLabel::paintEvent(QPaintEvent *) {
     #ifdef DEBUGMODE
     qDebug() << "IN:QCustomFileInfoLabel::paintEvent";
     #endif
+
+    if (!((QTableWidget *)parent())->updatesEnabled()) return;
 
     QPainter    Painter(this);
     QFont       font;

@@ -1081,6 +1081,9 @@ void MainWindow::s_Action_OpenRecent() {
     ui->Action_OpenRecent_BT->setDown(false);
     ui->Action_OpenRecent_BT_2->setDown(false);
 
+    if ((Diaporama->IsModify)&&(QMessageBox::question(this,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
+        QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
+
     if (Selected!="") {
         ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(Selected).fileName());
         FileForIO=Selected;
@@ -1404,8 +1407,11 @@ void MainWindow::s_Action_DoAddFile() {
         }
 
         // if file is a video then check if file have at least one sound track compatible
-        if ((IsValide)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(((cVideoFile *)MediaFile)->ffmpegAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)) {
-            ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with signed 16 bits sample format","Error message");
+        if ((IsValide)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(!(
+                (((cVideoFile *)MediaFile)->ffmpegAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
+                (((cVideoFile *)MediaFile)->ffmpegAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
+            ))) {
+            ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
             QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
             if (MediaFile) delete MediaFile;
             QApplication::restoreOverrideCursor();

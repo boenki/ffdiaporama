@@ -1187,9 +1187,16 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
             if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
 
             // Channels
-            if (ffmpegFile->streams[Track]->codec->channels==1)        InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Mono","Audio channels mode"));
-            else if (ffmpegFile->streams[Track]->codec->channels==2)   InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Stereo","Audio channels mode"));
-            else                                                            InformationList.append(TrackNum+QString("Channels")+QString("##")+QString("%1").arg(ffmpegFile->streams[Track]->codec->channels));
+            QString SampleFMT="";
+            switch (ffmpegFile->streams[Track]->codec->sample_fmt) {
+                case AV_SAMPLE_FMT_U8 : SampleFMT="-U8";    break;
+                case AV_SAMPLE_FMT_S16: SampleFMT="-S16";    break;
+                case AV_SAMPLE_FMT_S32: SampleFMT="-S32";    break;
+                default               : SampleFMT="-?";      break;
+            }
+            if (ffmpegFile->streams[Track]->codec->channels==1)        InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Mono","Audio channels mode")+SampleFMT);
+            else if (ffmpegFile->streams[Track]->codec->channels==2)   InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Stereo","Audio channels mode")+SampleFMT);
+            else                                                       InformationList.append(TrackNum+QString("Channels")+QString("##")+QString("%1").arg(ffmpegFile->streams[Track]->codec->channels)+SampleFMT);
 
             // Frequency
             if (int(ffmpegFile->streams[Track]->codec->sample_rate/1000)*1000>0) {
@@ -1478,8 +1485,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 
     int64_t         AVNOPTSVALUE        =INT64_C(0x8000000000000000); // to solve type error with Qt
     AVStream        *AudioStream        =ffmpegAudioFile->streams[AudioStreamNumber];
-    int64_t         SrcSampleSize       =2*int64_t(AudioStream->codec->channels);
-
+    int64_t         SrcSampleSize       =(AudioStream->codec->sample_fmt==AV_SAMPLE_FMT_S16?2:1)*int64_t(AudioStream->codec->channels);
     int64_t         DstSampleSize       =(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels);
     AVPacket        *StreamPacket       =NULL;
     uint8_t         *BufferToDecode     =NULL;
@@ -1519,7 +1525,10 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
         // Seek to nearest previous key frame
         int64_t seek_target=av_rescale_q(int64_t((dPosition/1000)*AV_TIME_BASE),AV_TIME_BASE_Q,ffmpegAudioFile->streams[AudioStreamNumber]->time_base);
         if (av_seek_frame(ffmpegAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
-            qDebug()<<"Seek error";
+            // Try in AVSEEK_FLAG_ANY mode
+            if (av_seek_frame(ffmpegAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
+                qDebug()<<"Seek error";
+            }
         }
         FramePosition=-1;
 
@@ -1532,9 +1541,13 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     while (Continue) {
         StreamPacket=new AVPacket();
         av_init_packet(StreamPacket);
-        //StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
 
-        if (av_read_frame(ffmpegAudioFile,StreamPacket)==0) {
+        int err=av_read_frame(ffmpegAudioFile,StreamPacket);
+        if (err<0) {
+            // if error in av_read_frame(...) then may be we have reach the end of file !
+            Continue=false;
+            qDebug()<<"error in av_read_frame"<<err;
+        } else {
             if ((StreamPacket->stream_index==AudioStreamNumber)&&(StreamPacket->size>0)) {
 
                 AVPacket PacketTemp;
@@ -1549,11 +1562,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 
                     // Decode audio data
                     int SizeDecoded=(AVCODEC_MAX_AUDIO_FRAME_SIZE*3)/2;
-                    #if defined (FF_API_OLD_DECODE_AUDIO)
-                        int Len=avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
-                    #else
-                        int Len=avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
-                    #endif
+                    int Len=avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
                     if (Len<0) {
                         // if decode error then data are not good : replace them with null sound
                         //SizeDecoded=int64_t(LastAudioFrameDuration*double(SoundTrackBloc->SamplingRate))*DstSampleSize;
@@ -1594,9 +1603,6 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 
             // Check if we need to continue loop
             Continue=(AudioLenDecoded<AudioDataWanted);
-        } else {
-            // if error in av_read_frame(...) then may be we have reach the end of file !
-            Continue=false;
         }
     }
     // Keep NextPacketPosition for determine next time if we need to seek
@@ -1606,6 +1612,17 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     // Transfert data from BufferForDecoded to Buffer using audio_resample
     //**********************************************************************
     if (AudioLenDecoded>0) {
+
+        // UINT8 TO INT16
+        if (AudioStream->codec->sample_fmt==AV_SAMPLE_FMT_U8) {
+            uint8_t *NewBuffer=(uint8_t *)av_malloc(MaxAudioLenDecoded);
+            uint8_t *Buf1=(uint8_t*)BufferForDecoded;
+            int16_t *Buf2=(int16_t*)NewBuffer;
+            for (int j=0;j<AudioLenDecoded;j++) *(Buf2++)=((double(*(Buf1++))-double(128))/double(128))*double(32768);
+            av_free(BufferForDecoded);
+            BufferForDecoded=NewBuffer;
+            AudioLenDecoded*=2;
+        }
 
         // Adjust volume
         if (Volume!=1) {

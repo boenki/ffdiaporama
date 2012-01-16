@@ -132,6 +132,7 @@ void DlgInfoFile::DoInitDialog() {
 
         //**************** Additionnals
         ui->tableWidget->setUpdatesEnabled(false);
+        ui->tableWidget->verticalHeader()->setResizeMode(QHeaderView::QHeaderView::ResizeToContents);
         for (int i=0;i<MediaFile->InformationList.count();i++)
           if ((!((QString)MediaFile->InformationList[i]).startsWith("Chapter_"))
               &&(!((QString)MediaFile->InformationList[i]).startsWith("Video_"))

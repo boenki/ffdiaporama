@@ -173,6 +173,13 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::resizeEvent";
     #endif
+
+    if ((ApplicationConfig->CurrentMode==DISPLAY_ICON48)||(ApplicationConfig->CurrentMode==DISPLAY_ICON100)) {
+        ui->FolderTable->setUpdatesEnabled(false);
+        ui->FolderTable->SetMode(this->DriveList,ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
+        s_currentTreeItemChanged(ui->FolderTree->currentItem(),NULL);
+        ui->FolderTable->setUpdatesEnabled(true);
+    }
 }
 
 //====================================================================================================================
@@ -213,11 +220,14 @@ void MainWindow::s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetIt
     #endif
 
     ApplicationConfig->CurrentPath=ui->FolderTree->GetFolderPath(current,false);
+    ui->FileInfoLabel->SetupFileInfoLabel(NULL);
+
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
+    DoRefreshFolderInfo();
+
     ui->CurrentPathED->setText(ApplicationConfig->CurrentPath);
     ui->FolderIcon->setPixmap(DriveList->GetFolderIcon(ApplicationConfig->CurrentPath).pixmap(48,48));
     ui->FolderTable->FillListFolder(ApplicationConfig->CurrentPath,ApplicationConfig);
-    DoRefreshFolderInfo();
 }
 
 //====================================================================================================================
