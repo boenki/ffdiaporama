@@ -97,8 +97,6 @@ public:
     cBaseApplicationConfig *ApplicationConfig;
     QStringList             InformationList;
 
-    QString                 WEBInfo;
-
     cBaseMediaFile(cBaseApplicationConfig *ApplicationConfig);
     ~cBaseMediaFile();
 
@@ -115,9 +113,13 @@ public:
     virtual QString         GetFileDateTimeStr(bool Created=false);         // Return file date/time as formated string
     virtual QString         GetFileSizeStr();                               // Return file size as formated string
 
+    virtual QString         GetTechInfo()=0;                                // Return technical information as formated string
+    virtual QString         GetTAGInfo()=0;                                 // Return TAG information as formated string
+
     virtual void            AddIcons(QString FileName);
     virtual void            AddIcons(QImage *Image96);
     virtual void            AddIcons(QIcon Icon);
+    virtual QIcon           *GetDefaultTypeIcon()=0;
 };
 
 //*********************************************************************************************************************************************
@@ -129,7 +131,10 @@ public:
 
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
-    virtual void            GetFullInformationFromFile() {/*Nothing to do*/}
+    virtual void            GetFullInformationFromFile()            {/*Nothing to do*/}
+    virtual QIcon           *GetDefaultTypeIcon()                   { return &DefaultFILEIcon; }
+    virtual QString         GetTechInfo()                           { return ""; }
+    virtual QString         GetTAGInfo()                            { return ""; }
 };
 
 //*********************************************************************************************************************************************
@@ -142,7 +147,10 @@ public:
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
-    virtual void            GetFullInformationFromFile() {/*Nothing to do*/}
+    virtual void            GetFullInformationFromFile()            {/*Nothing to do*/}
+    virtual QIcon           *GetDefaultTypeIcon()                   { return &DefaultFOLDERIcon; }
+    virtual QString         GetTechInfo()                           { return ""; }
+    virtual QString         GetTAGInfo()                            { return ""; }
 };
 
 //*********************************************************************************************************************************************
@@ -169,6 +177,10 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
+    virtual QIcon           *GetDefaultTypeIcon()                   { return &DefaultFFDIcon; }
+
+    virtual QString         GetTechInfo();
+    virtual QString         GetTAGInfo();
 
     void                    SaveToXML(QDomElement &domDocument);
     bool                    LoadFromXML(QDomElement domDocument);
@@ -186,6 +198,9 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
+    virtual QIcon           *GetDefaultTypeIcon()                   { return &DefaultIMAGEIcon; }
+    virtual QString         GetTechInfo();
+    virtual QString         GetTAGInfo();
 };
 
 //*********************************************************************************************************************************************
@@ -237,6 +252,10 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
+    virtual QIcon           *GetDefaultTypeIcon()                   { return ObjectType==OBJECTTYPE_MUSICFILE?&DefaultMUSICIcon:&DefaultVIDEOIcon; }
+
+    virtual QString         GetTechInfo();
+    virtual QString         GetTAGInfo();
 
     virtual bool            OpenCodecAndFile();
     virtual void            CloseCodecAndFile();

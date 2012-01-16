@@ -80,10 +80,6 @@ void QCustomFolderTable::SetMode(cDriveList *TheDriveList,int Mode,int Filter) {
     qDebug() << "IN:QCustomFolderTable::SetMode";
     #endif
 
-    DriveList    =TheDriveList;
-    CurrentMode  =Mode;
-    CurrentFilter=Filter;
-
     // Ensure scan thread is stoped
     if (ScanMediaList.isRunning()) {
         StopScanMediaList=true;
@@ -91,6 +87,10 @@ void QCustomFolderTable::SetMode(cDriveList *TheDriveList,int Mode,int Filter) {
         QApplication::processEvents();
         StopScanMediaList=false;
     }
+
+    DriveList    =TheDriveList;
+    CurrentMode  =Mode;
+    CurrentFilter=Filter;
 
     // Reset content
     while (rowCount()>0)    removeRow(0);
@@ -100,26 +100,44 @@ void QCustomFolderTable::SetMode(cDriveList *TheDriveList,int Mode,int Filter) {
     QString ColumnDef="";
     int     SizeColumn=1;
 
+    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setWordWrap(false);                 // Ensure no word wrap
+    setTextElideMode(Qt::ElideNone);    // Ensure no line ellipsis (...)
+
+    horizontalHeader()->setSortIndicatorShown(false);
+    horizontalHeader()->setCascadingSectionResizes(false);
+    horizontalHeader()->setClickable(false);
+    horizontalHeader()->setMovable(false);
+    horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
+    horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
+
+    verticalHeader()->setStretchLastSection(false);
+    verticalHeader()->setSortIndicatorShown(false);
+    verticalHeader()->hide();
+    verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
+
     switch (CurrentMode) {
-        case DISPLAY_JUKEBOX :
+        case DISPLAY_ICON48 :
+        case DISPLAY_ICON100 :
+            setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            setSelectionBehavior(QAbstractItemView::SelectItems);
+            horizontalHeader()->hide();
+            horizontalHeader()->setStretchLastSection(false);
+            setShowGrid(true);
+            if (CurrentMode==DISPLAY_ICON48) {
+                if (width()/50==0) setColumnCount(1); else setColumnCount(width()/(48+2));
+            } else {
+                if (width()/100==0) setColumnCount(1); else setColumnCount(width()/(96+2));
+            }
+            break;
+
         case DISPLAY_DATA :
-            this->setSelectionBehavior(QAbstractItemView::SelectRows);
-            setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+            setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+            setSelectionBehavior(QAbstractItemView::SelectRows);
             horizontalHeader()->show();
             horizontalHeader()->setStretchLastSection(false);
-            horizontalHeader()->setSortIndicatorShown(false);
-            horizontalHeader()->setCascadingSectionResizes(false);
-            horizontalHeader()->setClickable(false);
-            horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
-            horizontalHeader()->setMovable(false);
-            horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
-            verticalHeader()->hide();
-            verticalHeader()->setStretchLastSection(false);
-            verticalHeader()->setSortIndicatorShown(false);
-            verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
-            setShowGrid(false);                 // Ensure no grid display
-            setWordWrap(false);                 // Ensure no word wrap
-            setTextElideMode(Qt::ElideNone);    // Ensure no line ellipsis (...)
+            setShowGrid(false);
             switch (CurrentFilter) {
                 //case OBJECTTYPE_FOLDER    :
                 //case OBJECTTYPE_THUMBNAIL :
@@ -220,26 +238,16 @@ void QCustomFolderTable::SetMode(cDriveList *TheDriveList,int Mode,int Filter) {
             setHorizontalHeaderLabels(ColumnDef.split(";"));
             horizontalHeaderItem(SizeColumn)->setTextAlignment(Qt::AlignRight);  // Size to the right
             break;
-        case DISPLAY_WEB :
-            this->setSelectionBehavior(QAbstractItemView::SelectRows);
-            setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
+        case DISPLAY_WEBSHORT :
+        case DISPLAY_WEBLONG :
+            setSelectionBehavior(QAbstractItemView::SelectRows);
+            setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             horizontalHeader()->hide();
             horizontalHeader()->setStretchLastSection(true);
-            horizontalHeader()->setSortIndicatorShown(false);
-            horizontalHeader()->setCascadingSectionResizes(false);
-            horizontalHeader()->setClickable(false);
-            horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
-            horizontalHeader()->setMovable(false);
-            horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
-            verticalHeader()->hide();
-            verticalHeader()->setStretchLastSection(false);
-            verticalHeader()->setSortIndicatorShown(false);
-            verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
-            setShowGrid(true);                  // Ensure grid is display
-            setWordWrap(false);                 // Ensure no word wrap
-            setTextElideMode(Qt::ElideNone);    // Ensure no line ellipsis (...)
-            setColumnCount(1);
             setHorizontalHeaderLabels(QString("WEB_VIEW").split(";"));
+            setShowGrid(true);
+            setColumnCount(1);
             break;
     }
 }
@@ -398,7 +406,8 @@ void QCustomFolderTable::FillListFolder(QString Path,cBaseApplicationConfig *App
     if (ShowFoldersFirst) foreach(MediaObject,MediaList) if (MediaObject->ObjectType==OBJECTTYPE_FOLDER) AppendMediaToTable(MediaObject);
 
     // Display all others
-    foreach(MediaObject,MediaList) if (((MediaObject->ObjectType==OBJECTTYPE_FOLDER)&&(!ShowFoldersFirst))||(MediaObject->ObjectType!=OBJECTTYPE_FOLDER)) AppendMediaToTable(MediaObject);
+    foreach(MediaObject,MediaList) if (((MediaObject->ObjectType==OBJECTTYPE_FOLDER)&&(!ShowFoldersFirst))||(MediaObject->ObjectType!=OBJECTTYPE_FOLDER))
+        AppendMediaToTable(MediaObject);
 
     // Adjust row & column size if needed
     if (CurrentMode==DISPLAY_DATA) {
@@ -428,8 +437,11 @@ cBaseMediaFile *QCustomFolderTable::GetCurrentMediaFile() {
     if (currentRow()>=0) {
         QString ShortName="";
         switch (CurrentMode) {
-            case DISPLAY_DATA: if (item(currentRow(),0))        ShortName=item(currentRow(),0)->text();                                      break;
-            case DISPLAY_WEB : if (cellWidget(currentRow(),0))  ShortName=((QCustomFileInfoLabel *)cellWidget(currentRow(),0))->ShortName;   break;
+            case DISPLAY_ICON48 :
+            case DISPLAY_ICON100 :
+            case DISPLAY_DATA :     if (item(currentRow(),0))        ShortName=item(currentRow(),0)->text();                                      break;
+            case DISPLAY_WEBSHORT :
+            case DISPLAY_WEBLONG :  if (cellWidget(currentRow(),0))  ShortName=((QCustomFileInfoLabel *)cellWidget(currentRow(),0))->ShortName;   break;
         }
         int     i=0;
         while ((i<MediaList.count())&&(MediaList[i]->ShortName!=ShortName)) i++;
@@ -455,6 +467,7 @@ void QCustomFolderTable::DoResizeColumns() {
     }
     emit RefreshFolderInfo();
 }
+
 //====================================================================================================================
 
 void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
@@ -463,11 +476,7 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
     #endif
 
     int Row=rowCount();
-    insertRow(Row);
-    verticalHeader()->setResizeMode(Row,QHeaderView::Fixed);
-    setRowHeight(Row,CurrentMode==DISPLAY_DATA?18:50);
-
-    QColor Background=((Row & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
+    int Col=0;
 
     if (MediaObject->ObjectType==OBJECTTYPE_FOLDER) {
         MediaObject->AddIcons(DriveList->GetFolderIcon(MediaObject->FileName));
@@ -478,38 +487,59 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
     }
 
     if (CurrentMode==DISPLAY_DATA) {
+        QColor Background=((Row & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
+        insertRow(Row);
+        verticalHeader()->setResizeMode(Row,QHeaderView::Fixed);
+        setRowHeight(Row,16+2);
         setItem(Row,0,CreateItem(MediaObject->ShortName,Qt::AlignLeft|Qt::AlignVCenter,Background));
         item(Row,0)->setIcon(QIcon(QPixmap::fromImage(MediaObject->Icon16)));
-        for (int Col=1;Col<columnCount();Col++) {
-            QString ColName=horizontalHeaderItem(Col)->text();
-            if      (ColName==QApplication::translate("QCustomFolderTable","File Type","Column header"))        setItem(Row,Col,CreateItem(MediaObject->GetFileTypeStr(),Qt::AlignLeft|Qt::AlignVCenter,Background));
-            else if (ColName==QApplication::translate("QCustomFolderTable","File Size","Column header"))        setItem(Row,Col,CreateItem(MediaObject->FileSizeText,Qt::AlignRight|Qt::AlignVCenter,Background));
-            else if (ColName==QApplication::translate("QCustomFolderTable","File Date","Column header"))        setItem(Row,Col,CreateItem(MediaObject->GetFileDateTimeStr(),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        for (int iCol=1;iCol<columnCount();iCol++) {
+            QString ColName=horizontalHeaderItem(iCol)->text();
+            if      (ColName==QApplication::translate("QCustomFolderTable","File Type","Column header")) setItem(Row,iCol,CreateItem(MediaObject->GetFileTypeStr(),Qt::AlignLeft|Qt::AlignVCenter,Background));
+            else if (ColName==QApplication::translate("QCustomFolderTable","File Size","Column header")) setItem(Row,iCol,CreateItem(MediaObject->FileSizeText,Qt::AlignRight|Qt::AlignVCenter,Background));
+            else if (ColName==QApplication::translate("QCustomFolderTable","File Date","Column header")) setItem(Row,iCol,CreateItem(MediaObject->GetFileDateTimeStr(),Qt::AlignLeft|Qt::AlignVCenter,Background));
         }
-    } else if (CurrentMode==DISPLAY_WEB) {
+    } else if ((CurrentMode==DISPLAY_WEBSHORT)||(CurrentMode==DISPLAY_WEBLONG)) {
+        insertRow(Row);
+        verticalHeader()->setResizeMode(Row,QHeaderView::Fixed);
+        if (CurrentMode==DISPLAY_WEBSHORT) setRowHeight(Row,32+2); else setRowHeight(Row,48+2);  // DISPLAY_WEBLONG
         QCustomFileInfoLabel *ItemWEB=new QCustomFileInfoLabel(this);
-        ItemWEB->Icon32         =MediaObject->Icon32;
-        ItemWEB->Icon48         =MediaObject->Icon48;
-        ItemWEB->ShortName      =MediaObject->ShortName;
-        ItemWEB->TextLeftUpper  =MediaObject->ShortName;
-        //ItemWEB->setBackground(Background);
+        ItemWEB->DisplayMode    =CurrentMode;
+        ItemWEB->SetupFileInfoLabel(MediaObject);
         setCellWidget(Row,0,ItemWEB);
         connect(ItemWEB,SIGNAL(DoubleClickEvent()),this,SLOT(s_itemDoubleClicked()));
+    } else if ((CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
+        int NbrCol=columnCount();
+
+        // Check if we need to create a new line
+        if (CurrentShowFilesNumber/NbrCol==rowCount()) {
+            insertRow(Row);
+            verticalHeader()->setResizeMode(Row,QHeaderView::Fixed);
+            if (CurrentMode==DISPLAY_ICON48) setRowHeight(Row,48+2); else setRowHeight(Row,96+2);  // DISPLAY_ICON100
+        } else {
+            Row--;
+        }
+        Col=CurrentShowFilesNumber-(Row*NbrCol);
+        QCustomFileInfoLabel *ItemWEB=new QCustomFileInfoLabel(this);
+        ItemWEB->DisplayMode    =CurrentMode;
+        ItemWEB->SetupFileInfoLabel(MediaObject);
+        setCellWidget(Row,Col,ItemWEB);
+        connect(ItemWEB,SIGNAL(DoubleClickEvent()),this,SLOT(s_itemDoubleClicked()));
     }
-    UpdateMediaToTable(Row,MediaObject);
+    UpdateMediaToTable(Row,Col,MediaObject);
 }
 
 //====================================================================================================================
 
-void QCustomFolderTable::UpdateMediaToTable(int Row,cBaseMediaFile *MediaObject) {
+void QCustomFolderTable::UpdateMediaToTable(int Row,int Col,cBaseMediaFile *MediaObject) {
     #ifdef DEBUGMODE
     qDebug() << "IN:QCustomFolderTable::UpdateMediaToTable";
     #endif
 
     if (!MediaObject->IsInformationValide) return;
 
-    QColor Background=((Row & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
-    if (CurrentMode==DISPLAY_DATA) {
+    if ((CurrentMode==DISPLAY_DATA)) {
+        QColor Background=((Row & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
         for (int Col=1;Col<columnCount();Col++) {
             int NbrChapter=0;
             if (MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE) NbrChapter=((cVideoFile *)MediaObject)->NbrChapters;
@@ -542,13 +572,13 @@ void QCustomFolderTable::UpdateMediaToTable(int Row,cBaseMediaFile *MediaObject)
         // Update Icon (use signal to be sure we are in GUI thread because of pixmap use)
         emit UpdateItemIcon(item(Row,0),MediaObject);
 
-    } else if (CurrentMode==DISPLAY_WEB) {
-        QCustomFileInfoLabel *ItemWEB=(QCustomFileInfoLabel *)cellWidget(Row,0);
-        ItemWEB->Icon32         =MediaObject->Icon32;
-        ItemWEB->Icon48         =MediaObject->Icon48;
-        ItemWEB->TextLeftBottom =MediaObject->WEBInfo;
-        ItemWEB->TextRightUpper =MediaObject->GetFileTypeStr()+" ("+MediaObject->FileSizeText+")";
-        ItemWEB->update();
+    } else if ((CurrentMode==DISPLAY_WEBSHORT)||(CurrentMode==DISPLAY_WEBLONG)||(CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
+        QCustomFileInfoLabel *ItemWEB=(QCustomFileInfoLabel *)cellWidget(Row,Col);
+        if (ItemWEB) {
+            ItemWEB->DisplayMode    =CurrentMode;
+            ItemWEB->SetupFileInfoLabel(MediaObject);
+            ItemWEB->update();
+        }
     }
 }
 
@@ -574,18 +604,27 @@ void QCustomFolderTable::DoScanMediaList() {
             MediaObject->GetFullInformationFromFile();
             // Search correspond row in table
             int Row=0;
+            int Col=0;
             if (CurrentMode==DISPLAY_DATA) {
                 while ((Row<rowCount())&&(MediaObject->ShortName!=item(Row,0)->text())) Row++;
                 if (!((Row<rowCount())&&(MediaObject->ShortName==item(Row,0)->text()))) Row=-1;
-            } else if (CurrentMode==DISPLAY_WEB) {
+            } else if ((CurrentMode==DISPLAY_WEBSHORT)||(CurrentMode==DISPLAY_WEBLONG)) {
                 while ((Row<rowCount())&&(MediaObject->ShortName!=((QCustomFileInfoLabel *)cellWidget(Row,0))->ShortName)) Row++;
-                while (!((Row<rowCount())&&(MediaObject->ShortName==((QCustomFileInfoLabel *)cellWidget(Row,0))->ShortName))) Row=-1;
-            } else Row=-1;
+                if (!((Row<rowCount())&&(MediaObject->ShortName==((QCustomFileInfoLabel *)cellWidget(Row,0))->ShortName))) Row=-1;
+            } else if ((CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
+                while ((Row<rowCount())&&(cellWidget(Row,Col)!=NULL)&&(MediaObject->ShortName!=((QCustomFileInfoLabel *)cellWidget(Row,Col))->ShortName)) {
+                    if (Col==columnCount()-1) {
+                        Col=0;
+                        Row++;
+                    } else Col++;
+                }
+                if (!((Row<rowCount())&&(cellWidget(Row,Col)!=NULL)&&(MediaObject->ShortName==((QCustomFileInfoLabel *)cellWidget(Row,Col))->ShortName))) Row=-1;
+            }
 
             // If Row found, then work ...
             if (Row!=-1) {
                 //QTime OldFolderDuration=CurrentShowDuration;
-                UpdateMediaToTable(Row,MediaObject);
+                UpdateMediaToTable(Row,Col,MediaObject);
                 if ((MediaObject->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaObject->ObjectType==OBJECTTYPE_VIDEOFILE))   CurrentShowDuration=CurrentShowDuration.addMSecs(QTime(0,0,0,0).msecsTo(((cVideoFile *)MediaObject)->Duration));
                 if (MediaObject->ObjectType==OBJECTTYPE_FFDFILE)                                                        CurrentShowDuration=CurrentShowDuration.addMSecs(((cffDProjectFile *)MediaObject)->Duration);
                 //if (OldFolderDuration!=CurrentShowDuration) emit RefreshFolderInfo();

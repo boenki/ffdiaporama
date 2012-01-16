@@ -31,19 +31,32 @@
 #include <QString>
 #include <QIcon>
 
+#include "cBaseMediaFile.h"
+
+// defines allowed display mode
+#define DISPLAY_DATA        0
+#define DISPLAY_WEBSHORT    1
+#define DISPLAY_WEBLONG     2
+#define DISPLAY_ICON48      3
+#define DISPLAY_ICON100     4
+
 class QCustomFileInfoLabel : public QLabel {
 Q_OBJECT
 public:
+    int             DisplayMode;
     QString         ShortName;
-    QString         TextLeftUpper;
-    QString         TextLeftBottom;
-    QString         TextRightUpper;
-    QImage          Icon32;
-    QImage          Icon48;
+    QString         Text[3][2];
+    QIcon           *IconType;
+    QImage          *Icon16;
+    QImage          *Icon32;
+    QImage          *Icon48;
+    QImage          *Icon100;
 
     explicit        QCustomFileInfoLabel(QWidget *parent = 0);
     virtual void    paintEvent(QPaintEvent *event);
     virtual void    mouseDoubleClickEvent(QMouseEvent *);
+
+    virtual void    SetupFileInfoLabel(cBaseMediaFile *MediaObject);
 
 signals:
     void    DoubleClickEvent();

@@ -4,8 +4,6 @@
 #--------------------------------------------------
 
 unix {
-    INCLUDEPATH += /usr/include/ffmpeg/                                 # Specific for Fedora
-    LIBS        += -lavformat -lavcodec -lavutil -lswscale
     CONFIG(release, debug|release) {
         DESTDIR     += ../../../build
         OBJECTS_DIR += ../../../build/src/$$TARGET
@@ -18,6 +16,10 @@ unix {
         MOC_DIR     += ../../../debugbuild/src/$$TARGET
         UI_DIR      += ../../../debugbuild/src/$$TARGET
     }
+
+    INCLUDEPATH += /usr/include/ffmpeg/                                 # Specific for Fedora
+
+    LIBS        += -lavformat -lavcodec -lavutil -lswscale -lexiv2
 }
 win32 {
     CONFIG(release, debug|release) {
@@ -35,9 +37,13 @@ win32 {
 
     INCLUDEPATH += C:\\Qt\\ffmpeg-win32-dev\\include                    #------ ffmpeg library path
     INCLUDEPATH += C:\\Qt\\SDL-1.2.14\\include                          #------ SDL library path
+    INCLUDEPATH += C:\\Qt\\exiv2\\include                               #------ Exiv2 library path
     INCLUDEPATH += .                                                    #------ I don't know why, but windows need this !
 
-    LIBS        +=  -L"C:\\Qt\\ffmpeg-win32-dev\\lib"    \              #------ ffmpeg library path
-                    -L"C:\\Qt\\SDL-1.2.14\\lib" \                       #------ SDL library path
-                   -lavformat -lavcodec -lavutil -lswscale -lgdi32
+    LIBS        += -L"C:\\Qt\\ffmpeg-win32-dev\\lib"                    #------ ffmpeg library path
+    LIBS        += -L"C:\\Qt\\SDL-1.2.14\\lib"                          #------ SDL library path
+    LIBS        += -L"C:\\Qt\\exiv2\\lib"                               #------ Exiv2 library path
+    LIBS        += -lavformat -lavcodec -lavutil -lswscale              #------ ffmpeg lib link
+    LIBS        += -lexiv2 -lexpat.dll -lz -liconv.dll -lintl.dll       #------ Exiv2 and dependencies lib link
+    LIBS        += -lgdi32                                              #------ Windows GDI lib link
 }

@@ -317,7 +317,7 @@ QString GetTextSize(qlonglong Size) {
         case 3 : UnitStr=QApplication::translate("QCustomFolderTree","Tb","Unit Tb");   break;
     }
     if (Size==0) return "0";
-    else if (double(Size)/double(1024)>0.1) return QString("%1").arg(double(Size)/double(1024),8,'f',1).trimmed()+UnitStr;
+    else if (double(Size)/double(1024)>0.1) return QString("%1").arg(double(Size)/double(1024),8,'f',1).trimmed()+" "+UnitStr;
     else return "<0.1"+UnitStr;
 }
 
@@ -599,14 +599,16 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowMusicExtension.append("flac");    AllowMusicExtension.append("FLAC");
 
     // set value of external tools path (depending on operating system)
+/*
     #ifdef Q_OS_WIN
         PathEXIV2       = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"exiv2\\exiv2.exe");           // FileName of exiv2 (with path) : Windows version
         //PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg\\bin\\ffmpeg.exe");  // FileName of ffmpeg (with path) : Windows version
         PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg.exe");                 // FileName of ffmpeg (with path) : Windows version
     #else
+*/
         PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
         PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
-    #endif
+//    #endif
 
     RememberLastDirectories     = true;                     // If true, Remember all directories for future use
     #ifdef Q_OS_WIN

@@ -37,7 +37,7 @@ namespace Ui {
     class DlgCheckConfig;
 }
 
-bool    CheckExiv2(QString &StatusStr,cBaseApplicationConfig *ApplicationConfig);
+//bool    CheckExiv2(QString &StatusStr,cBaseApplicationConfig *ApplicationConfig);
 bool    Checkffmpeg(QString &StatusStr,cBaseApplicationConfig *ApplicationConfig);
 
 

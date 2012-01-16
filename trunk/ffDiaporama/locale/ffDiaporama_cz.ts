@@ -6,32 +6,33 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="26"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>O programu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="93"/>
         <source>Licence</source>
-        <translation type="unfinished"></translation>
+        <translation>Licence</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="105"/>
         <source>Copyright (C) 2011-2012 Dominique Levray</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyright (C) 2011-2012 Dominique Levray
+překlad Miloš Janda (bagicz)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="112"/>
         <source>This software is licensed under the GPL version 2 :</source>
-        <translation type="unfinished"></translation>
+        <translation>Tento program je šířen pod licencí GPL veze 2.:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="214"/>
         <source>Credits</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdroje</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="258"/>
         <source>This application was developped using Open Source version of Qt 4.7 SDK</source>
-        <translation type="unfinished"></translation>
+        <translation>Tato aplikace byla vytvořena pomocí open-source verze Qt 4.7 SDK</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="268"/>
@@ -42,57 +43,57 @@
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="473"/>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="636"/>
         <source>WEB site &amp; licence :</source>
-        <translation type="unfinished"></translation>
+        <translation>Odkaz &amp; licence.:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="305"/>
         <source>Video decoding and encoding engines are based on ffmpeg</source>
-        <translation type="unfinished"></translation>
+        <translation>Video dekodování a enkódování je založeno na ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="336"/>
         <source>Sound engine for preview is based on SDL - Simple DirectMedia Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro náhled audia je použit engine SDL - Simple DirectMedia Layer</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="367"/>
         <source>Image exif decoding is based on Exiv2 - Image metadata library and tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Exif zpracování je založeno na Exiv2 - Image metadata library and tools</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="398"/>
         <source>Other images and graphical material are using Creative Common Licence  2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostatní obrazové a grafické materiály jsou šířeny pod licencí Creative Common Licence 2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="411"/>
         <source>C.C. WEB site :</source>
-        <translation type="unfinished"></translation>
+        <translation>Web stránky C.C. :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="436"/>
         <source>Many icons are from the Crystal Project</source>
-        <translation type="unfinished"></translation>
+        <translation>Většina ikon pochází z projektu Crystal</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="460"/>
         <source>Image effects are based on fmt_filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrazové efekty jsou založeny na fmt_filters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="623"/>
         <source>TAG managment based on TAGLib</source>
-        <translation type="unfinished"></translation>
+        <translation>Správa TAGů je založena na knihovně TAGLib</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="665"/>
         <source>System informations</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o systému</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="772"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
 </context>
 <context>
@@ -633,7 +634,7 @@ image</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2826"/>
         <source>Title :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Titul :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2849"/>
@@ -643,7 +644,7 @@ image</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2859"/>
         <source>Author :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Autor :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2877"/>
@@ -668,12 +669,12 @@ image</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2928"/>
         <source>und</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">a</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2938"/>
         <source>(ISO 639 language code)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(ISO 639 jazyková sada)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2952"/>
@@ -844,37 +845,37 @@ image</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3466"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3469"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3480"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zrušit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3483"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Storno</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3494"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3497"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3504"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="171"/>
@@ -942,22 +943,22 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgBackgroundProperties.ui" line="655"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgBackgroundProperties.ui" line="666"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Storno</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgBackgroundProperties.ui" line="677"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgBackgroundProperties.ui" line="684"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgBackgroundProperties.cpp" line="48"/>
@@ -1005,32 +1006,27 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.ui" line="66"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.ui" line="69"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.ui" line="80"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.ui" line="83"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.ui" line="90"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="62"/>
-        <source>Exiv2 not found - critical - application will stop !</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="104"/>
@@ -1231,54 +1227,54 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.ui" line="1867"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.ui" line="1870"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.ui" line="1881"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zrušit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.ui" line="1884"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Storno</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.ui" line="1895"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.ui" line="1898"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.ui" line="1905"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="49"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="533"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="536"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="539"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="542"/>
         <source>Unlock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="50"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="537"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="543"/>
         <source>Lock to this geometry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="51"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="538"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="544"/>
         <source>Lock to project geometry</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1293,77 +1289,77 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="25"/>
         <source>File information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o souboru</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="83"/>
         <source>File name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Název souboru :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="90"/>
         <source>File type :</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ souboru :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="123"/>
         <source>File size :</source>
-        <translation type="unfinished"></translation>
+        <translation>Velikost souboru :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="143"/>
         <source>File created :</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořeno :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="157"/>
         <source>File modify :</source>
-        <translation type="unfinished"></translation>
+        <translation>Změněno :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="200"/>
         <source>Video track information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o video stopách</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="269"/>
         <source>Chapter information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o kapitolách</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="313"/>
         <source>Audio track information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o audio stopách</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="348"/>
         <source>Additional information</source>
-        <translation type="unfinished"></translation>
+        <translation>Další informace</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="394"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="397"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="408"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="411"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="418"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -1527,37 +1523,37 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="489"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="492"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="503"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zrušit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="506"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Storno</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="517"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="520"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="527"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="121"/>
@@ -1603,7 +1599,7 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle.ui" line="87"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vymazat</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle.ui" line="98"/>
@@ -1618,37 +1614,37 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle.ui" line="139"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle.ui" line="142"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle.ui" line="153"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zrušit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle.ui" line="156"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Storno</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle.ui" line="167"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle.ui" line="170"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle.ui" line="177"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle.cpp" line="163"/>
@@ -1662,30 +1658,30 @@ Please select another name!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="556"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="558"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="578"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="562"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="564"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="584"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="328"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="349"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="575"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="581"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="325"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="346"/>
         <source>Adjust to image width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="576"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="582"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="326"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="347"/>
         <source>Adjust to image height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="577"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="583"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="327"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="348"/>
         <source>Adjust to full image</source>
@@ -2011,7 +2007,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgMusicProperties.ui" line="324"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Soubor</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusicProperties.ui" line="334"/>
@@ -2031,37 +2027,37 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgMusicProperties.ui" line="392"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusicProperties.ui" line="395"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusicProperties.ui" line="406"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zrušit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusicProperties.ui" line="409"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Storno</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusicProperties.ui" line="420"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusicProperties.ui" line="423"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusicProperties.ui" line="430"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusicProperties.cpp" line="222"/>
@@ -2072,13 +2068,13 @@ Move the current selected file of a notch downward.</source>
         <location filename="../src/ffDiaporama/DlgMusicProperties.cpp" line="255"/>
         <source>Error</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chyba</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusicProperties.cpp" line="256"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nepodporovaný formát</translation>
     </message>
 </context>
 <context>
@@ -2248,17 +2244,17 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="518"/>
         <source>und</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">a</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="528"/>
         <source>(ISO 639 language code)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(ISO 639 jazyková sada)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="537"/>
         <source>Language :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jazyk :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="568"/>
@@ -2319,7 +2315,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="964"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="975"/>
@@ -2329,22 +2325,22 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="978"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Storno</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="989"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="992"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="999"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="49"/>
@@ -2416,88 +2412,98 @@ Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="723"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="735"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="884"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="911"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1159"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1221"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1230"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1241"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1252"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1264"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1290"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1314"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1323"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1336"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1442"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1446"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1470"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="706"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="718"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="891"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="918"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1166"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1228"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1237"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1248"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1259"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1271"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1297"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1321"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1330"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1343"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1449"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1453"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1477"/>
         <source>Render video</source>
+        <translation type="unfinished">Exportovat video</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="733"/>
+        <source>Device model selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="813"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="734"/>
+        <source>A device model is require!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="820"/>
         <source>Encoding sound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="982"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="989"/>
         <source>Start ffmpeg encoder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1033"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1099"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1040"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1106"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1143"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1147"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1113"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1150"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1154"/>
         <source>Error</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chyba</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1034"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1041"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1069"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1076"/>
         <source> - Estimated time left : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1099"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1106"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1106"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1113"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1128"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1135"/>
         <source>Closing encoder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1143"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1150"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1147"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1154"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1159"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1166"/>
         <source>Job completed succesfully!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2527,7 +2533,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="183"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vymazat</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="221"/>
@@ -2607,290 +2613,290 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="792"/>
         <source>Ins</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Insert</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="820"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="941"/>
         <source>Remove the current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="830"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="951"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Delete</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="858"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="827"/>
         <source>Copy the current block to the ffDiaporama clipboard.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="868"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="837"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Crtl+C</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="896"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="865"/>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="906"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="875"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="934"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="903"/>
         <source>Paste block from the ffDiaporama clipboard and insert it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="944"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="913"/>
         <source>Ctrl+V</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Crtl+V</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="979"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="986"/>
         <source>Change the order of blocks by moving the active block upward (towards the background)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="995"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1002"/>
         <source>PgUp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1023"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1030"/>
         <source>Change the order of blocks by moving the active block downward (towards the foreground)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1039"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1046"/>
         <source>PgDown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1067"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1074"/>
         <source>Make visible or hidden the active block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1102"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1109"/>
         <source>Give the sound, during this shot, to the current video block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1144"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1151"/>
         <source>Define the properties of the text block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1154"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1161"/>
         <source>F5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F5</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1182"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1189"/>
         <source>Define framing and do correction of image or movie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1192"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1199"/>
         <source>F6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F6</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1220"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1227"/>
         <source>Cut the video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1230"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1237"/>
         <source>F7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F7</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1332"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1339"/>
         <source>Coordinates :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1519"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1526"/>
         <source>Define X position of current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1592"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1599"/>
         <source>Define Y position of current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1675"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1682"/>
         <source>Define width of current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1748"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1755"/>
         <source>Define height of current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1826"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1865"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1833"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1872"/>
         <source>Define rotation according to the Z axis (defined in degree).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1943"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1982"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1950"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1989"/>
         <source>Define rotation according to the Y axis (defined in degree).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2057"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2096"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2064"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2103"/>
         <source>Define rotation according to the X axis (defined in degree).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2128"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2135"/>
         <source>Block shape :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2218"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2225"/>
         <source>Shape :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2246"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2253"/>
         <source>Select a shape for current block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2268"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2275"/>
         <source>Opacity :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2296"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2303"/>
         <source>Defined the opaqueness of the block.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2303"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2310"/>
         <source>Border :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2338"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2345"/>
         <source>Defined the thickness of the border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2366"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2373"/>
         <source>Defined the color of the line to be used to draw the border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2397"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2404"/>
         <source>Defined the type of line (solid, dotted line, etc.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2450"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2457"/>
         <source>Shadow :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2472"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2479"/>
         <source>Defined in which corner the shadow will be positioned (or no shadow)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2510"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2517"/>
         <source>Defined the distance between the block and its shadow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2538"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2545"/>
         <source>Defined the color of the shadow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2638"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2645"/>
         <source>Propertie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2648"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2655"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2689"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2696"/>
         <source>Enable or disable rulers corresponding to the margins of television sets.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2692"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2699"/>
         <source>TV margins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2719"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2726"/>
         <source>Accept modification and go to previous slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2722"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2729"/>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2733"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2740"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2736"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2743"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2747"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2754"/>
         <source>Accept modification and go to next slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2750"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2757"/>
         <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2786"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2793"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zrušit změny a opustit nastavení</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2789"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2796"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Storno</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2800"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2807"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2803"/>
-        <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2810"/>
+        <source>&amp;Help</source>
+        <translation type="unfinished">&amp;Nápověda</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2817"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="478"/>
@@ -2903,98 +2909,98 @@ Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="80"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="83"/>
         <source>Slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="125"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="128"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="126"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="129"/>
         <source>Shadow upper left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="127"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="130"/>
         <source>Shadow upper right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="128"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="131"/>
         <source>Shadow bottom left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="129"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="132"/>
         <source>Shadow bottom right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="641"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="646"/>
         <source>Lengthened to %1 sec</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1093"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1098"/>
         <source>Object type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1094"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1099"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1095"/>
-        <source>Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1096"/>
-        <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Titul</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1100"/>
+        <source>Image</source>
+        <translation type="unfinished">Obrázek</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1101"/>
+        <source>Video</source>
+        <translation type="unfinished">Video</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1105"/>
         <source>Filename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1113"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1118"/>
         <source>Image size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1687"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1692"/>
         <source>Remove shot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1687"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1692"/>
         <source>Are you sure to want to delete this shot?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1840"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1845"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1867"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1872"/>
         <source>Add files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přidat soubory</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2083"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2088"/>
         <source>Remove bloc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2083"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2088"/>
         <source>Are you sure to want to delete this bloc?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3140,37 +3146,37 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgTextEdit.ui" line="1357"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTextEdit.ui" line="1360"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTextEdit.ui" line="1371"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zrušit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTextEdit.ui" line="1374"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Storno</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTextEdit.ui" line="1385"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTextEdit.ui" line="1388"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTextEdit.ui" line="1395"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTextEdit.cpp" line="76"/>
@@ -3318,37 +3324,37 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgTransitionProperties.ui" line="270"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransitionProperties.ui" line="273"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransitionProperties.ui" line="284"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zrušit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransitionProperties.ui" line="287"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Storno</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransitionProperties.ui" line="298"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransitionProperties.ui" line="301"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransitionProperties.ui" line="308"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
 </context>
 <context>
@@ -3427,37 +3433,37 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgVideoEdit.ui" line="355"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgVideoEdit.ui" line="358"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgVideoEdit.ui" line="369"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zrušit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgVideoEdit.ui" line="372"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Storno</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgVideoEdit.ui" line="383"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgVideoEdit.ui" line="386"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgVideoEdit.ui" line="393"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
 </context>
 <context>
@@ -3465,87 +3471,87 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="19"/>
         <source>Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlastnosti projektu</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="27"/>
         <source>Title :</source>
-        <translation type="unfinished"></translation>
+        <translation>Titul :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="44"/>
         <source>Author :</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="54"/>
         <source>Album :</source>
-        <translation type="unfinished"></translation>
+        <translation>Album :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="64"/>
         <source>Year :</source>
-        <translation type="unfinished"></translation>
+        <translation>Rok :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="114"/>
         <source>Language :</source>
-        <translation type="unfinished"></translation>
+        <translation>Jazyk :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="147"/>
         <source>und</source>
-        <translation type="unfinished"></translation>
+        <translation>a</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="157"/>
         <source>(ISO 639 language code)</source>
-        <translation type="unfinished"></translation>
+        <translation>(ISO 639 jazyková sada)</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="166"/>
         <source>Comment :</source>
-        <translation type="unfinished"></translation>
+        <translation>Komentář :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="176"/>
         <source>Chapters :</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapitoly :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="216"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Potvrdit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="219"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="230"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušit změny a opustit nastavení</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="233"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Storno</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="244"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít stránku nápovědy popisující tento formulář</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="247"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nápověda</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="254"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -3553,475 +3559,489 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="120"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="156"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1347"/>
         <source>Create a new empty project (Ctrl+N)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit nový prázdný projekt (Ctrl+N)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="159"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1350"/>
         <source>New
 project</source>
-        <translation type="unfinished"></translation>
+        <translation>Nový
+projekt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="173"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1364"/>
         <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+N</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="207"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1398"/>
         <source>Open a previously saved project (Ctrl+O)</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít existující projekt (Ctrl+O)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="210"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1401"/>
         <source>Open
 project</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít
+projekt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="224"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1415"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+O</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="258"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1449"/>
         <source>Open a recently used project file</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít posledně použitý projekt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="261"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1452"/>
         <source>Open
 recent</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít
+poslední</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="306"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1497"/>
         <source>Save current project (Ctrl+S)</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit aktuální projekt (Ctrl+S)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="309"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1500"/>
         <source>Save
 project</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit
+projekt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="323"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1514"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+S</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="357"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1548"/>
         <source>Save current project to a new project file</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit aktuální projekt do nového projektu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="360"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1551"/>
         <source>Save
 project as</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit
+projekt jako</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="400"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1591"/>
         <source>Define project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit vlastnosti projektu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="403"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1594"/>
         <source>Project
 properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlastnosti
+projektu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="442"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1633"/>
         <source>Change application and project settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Změnit nastavení programu a projektu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="445"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1636"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="483"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1674"/>
         <source>Exit application (Ctrl+W)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukončit aplikaci (Ctrl+W)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="486"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1677"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Konec</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="499"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1690"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="523"/>
         <source>Project</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="559"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1748"/>
         <source>Add an empty slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit prázdný snímek</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="562"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1751"/>
         <source>Add
 title</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit
+snímek</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="607"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1796"/>
         <source>Add image or video as slide (INS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit obrázek nebo video (INS)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="610"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1799"/>
         <source>Add
 files</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit
+soubor</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="624"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1813"/>
         <source>Ins</source>
-        <translation type="unfinished"></translation>
+        <translation>Insert</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="652"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1841"/>
         <source>Add a previously saved project at the end of this project</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit existující projekt na konec aktuálního projektu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="655"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1844"/>
         <source>Add
 project</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit
+projekt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="701"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1890"/>
         <source>Copy current slide to clipboard and remove it (Ctrl+X)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovat aktuální snímek do schránky a vymazat (Ctrl+X)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="704"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1893"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyjmout</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="717"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1906"/>
         <source>Ctrl+X</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+X</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="745"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1934"/>
         <source>Copy current slide to clipboard (Ctrl+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovat aktuální snímek do schránky (Ctrl+C)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="748"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1937"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovat</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="761"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1950"/>
         <source>Ctrl+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Crtl+C</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="789"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1978"/>
         <source>Paste current slide from clipboard (Ctrl+V)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit aktuální snímek ze schránky (Ctrl+V)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="792"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1981"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="805"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1994"/>
         <source>Ctrl+V</source>
-        <translation type="unfinished"></translation>
+        <translation>Crtl+V</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="846"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2035"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovat</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="884"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2073"/>
         <source>Remove current slide (DEL)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vymazat aktuální snímek (DEL)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="887"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2076"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Vymazat</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="900"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2089"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="918"/>
         <source>Render video</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>alternative is &quot;Renderovat video&quot;</translatorcomment>
+        <translation>Exportovat video</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="954"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2147"/>
         <source>Player and
 smartphone</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrávač a
+telefon</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="999"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2192"/>
         <source>Multimedia
 system</source>
-        <translation type="unfinished"></translation>
+        <translation>Multimediální
+systém</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1038"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2231"/>
         <source>For the
 WEB</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro
+web</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1083"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2276"/>
         <source>Render project as a video</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportovat projekt jako video</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1086"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2279"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokročilé</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1114"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Nápověda</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1150"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2330"/>
         <source>Display informations about ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit informace o ffDiaporama</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1153"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2333"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>O programu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1197"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2377"/>
         <source>Call ffDiaporama WIKI</source>
-        <translation type="unfinished"></translation>
+        <translation>Navštívit ffDiaporama WIKI</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1200"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2380"/>
         <source>Support
 and help</source>
-        <translation type="unfinished"></translation>
+        <translation>Nápověda 
+a pomoc</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1214"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2394"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1248"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2428"/>
         <source>Display blog/news page from internet WEB site</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazit blog/novinky na internetové stránce</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1251"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2431"/>
         <source>What&apos;s new</source>
-        <translation type="unfinished"></translation>
+        <translation>Co je nového</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2805"/>
         <source>Slide : xx/xxx</source>
-        <translation type="unfinished"></translation>
+        <translation>Snímek : xx/xxx</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2846"/>
         <source>Switch display to preview mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Přepnout zobrazení do režimu náhledu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2863"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2886"/>
         <source>Switch display to sheet mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Přepnout zobrazení do režimu filmového pásu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2926"/>
         <source>Enlarge thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvětšit náhledy</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2966"/>
         <source>Reduce thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmenšit náhledy</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2997"/>
         <source>Edit background</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovat pozadí</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3000"/>
         <source>Edit the background image for the slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovat pozadí snímku</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3003"/>
         <source>F5</source>
-        <translation type="unfinished"></translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3008"/>
         <source>Edit slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovat snímek</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3011"/>
         <source>Edit the slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovat snímek</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3014"/>
         <source>F6</source>
-        <translation type="unfinished"></translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3019"/>
         <source>Edit music</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovat audio</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3022"/>
         <source>Edit the slide musical playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovat seznam audia</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3025"/>
         <source>F7</source>
-        <translation type="unfinished"></translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3030"/>
         <source>Edit object transition</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovat nastavení přechodu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3033"/>
         <source>Edit entering transition for the slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovat vstupní přechod snímku</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3036"/>
         <source>F8</source>
-        <translation type="unfinished"></translation>
+        <translation>F8</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3041"/>
         <source>Edit background transition</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit pozadí přechodu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3044"/>
         <source>Edit the entering background transition for the slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit vstupní pozadí přechodu snímku</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="557"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1900"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1379"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1905"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1391"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nepodporovaný formát</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="562"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1939"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1396"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1944"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1408"/>
         <source>This application support only audio track with signed 16 bits sample format</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tato aplikace podporuje pouze audio stopy kodováné na 16bitů se znaménkem</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="566"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1943"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1404"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1948"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1416"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tato aplikace podporuje pouze mono nebo stereo audio stopy</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="572"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2067"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2072"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1357"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1401"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1406"/>
@@ -4030,46 +4050,46 @@ and help</source>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1468"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1475"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1484"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1388"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1397"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1405"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1483"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1400"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1409"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1417"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1496"/>
         <source>Error</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="855"/>
         <source>Title</source>
         <comment>Default slide name when no file</comment>
-        <translation type="unfinished"></translation>
+        <translation>Titul</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1357"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1358"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při vytvoření souboru</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1377"/>
         <source>Open project file</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít soubor projektu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1378"/>
         <source>Impossible to open file </source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor nelze otevřít</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1378"/>
         <source>Do you want to select another file ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Chcete vybrat jiný soubor ?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1381"/>
         <source>Select another file for </source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte nový soubor pro </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1400"/>
@@ -4077,7 +4097,7 @@ and help</source>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1463"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při čtení souboru projektu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1406"/>
@@ -4086,7 +4106,7 @@ and help</source>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1469"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při načítání obsahu projektu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1414"/>
@@ -4095,7 +4115,7 @@ and help</source>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1476"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tento soubor není platným souborem projektu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1484"/>
@@ -4103,289 +4123,295 @@ and help</source>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při importu souboru :
+Rozlišení v tomto souboru neodpovídá rozlišení aktuálního projektu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/cCustomTableWidget.cpp" line="70"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1349"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1614"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1347"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1627"/>
         <source>Add file to project :</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit soubor do projektu :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="97"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="100"/>
         <source>Starting SDL...</source>
-        <translation type="unfinished"></translation>
+        <translation>Startuji SDL...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="102"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="105"/>
         <source>Starting ffmpeg...</source>
-        <translation type="unfinished"></translation>
+        <translation>Startuji ffmpeg...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="111"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="114"/>
         <source>Registered video codecs for encoding :</source>
-        <translation type="unfinished"></translation>
+        <translation>Registruji video kodeky pro enkodování :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="113"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="116"/>
         <source>Registered audio codecs for encoding :</source>
-        <translation type="unfinished"></translation>
+        <translation>Registruji audio kodeky pro enkódování :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="115"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="118"/>
         <source>Registered container formats for encoding :</source>
-        <translation type="unfinished"></translation>
+        <translation>Registruji formáty souborů pro enkódování :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="117"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="120"/>
         <source> Device registered for rendering</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="119"/>
-        <source>Library :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="121"/>
-        <source>Loading background library...</source>
-        <translation type="unfinished"></translation>
+        <translation> Zařízení registrováno pro renderování</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="122"/>
+        <source>Library :</source>
+        <translation>Knihovna :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="124"/>
+        <source>Loading background library...</source>
+        <translation>Načítám galerii obrázků pozadí...</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="125"/>
         <source> images loaded into the background-library from </source>
-        <translation type="unfinished"></translation>
+        <translation> obrázků načteno do galerie pozadí z </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="123"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="126"/>
         <source>Loading no-luma transitions...</source>
-        <translation type="unfinished"></translation>
+        <translation>Načítám no-luma přechody...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="128"/>
-        <source> no-luma transitions loaded into the transition-library</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="129"/>
-        <source>Loading luma transitions...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="130"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="131"/>
+        <source> no-luma transitions loaded into the transition-library</source>
+        <translation> no-luma přechodů načteno do galerie přechodů</translation>
+    </message>
+    <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="132"/>
+        <source>Loading luma transitions...</source>
+        <translation>Načítám luma přechody...</translation>
+    </message>
+    <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="133"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="134"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="135"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="136"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="137"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="138"/>
         <source> luma transitions loaded into the transition-library from </source>
-        <translation type="unfinished"></translation>
+        <translation> luma přechodů načteno do galerie přechodů z </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="136"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="139"/>
         <source>  Total:</source>
-        <translation type="unfinished"></translation>
+        <translation>  Celkem:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="136"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="139"/>
         <source> transitions loaded into the transition-library</source>
-        <translation type="unfinished"></translation>
+        <translation> přechodů načteno do galerie přechodů</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="216"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="473"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="220"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="471"/>
         <source>Slide : </source>
-        <translation type="unfinished"></translation>
+        <translation>Snímek : </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="351"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="348"/>
         <source>Close application</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavřít aplikaci</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="351"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="348"/>
         <source>Want to save the project before closing?</source>
-        <translation type="unfinished"></translation>
+        <translation>Chcete uložit soubor před ukončením?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="411"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="408"/>
         <source>A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
-        <translation type="unfinished"></translation>
+        <translation>Nová verze programu ffDiaporama je dostupná na webové stránce. Prosím aktualizujte aplikaci z http://ffdiaporama.tuxfamily.org !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="484"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="482"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;nový projekt&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="514"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="512"/>
         <source>Configuration not correct!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení není správné!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="855"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="853"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;1567&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Vyberte projekt k otevření nebo vytvořte nový projekt&lt;br&gt;K prozkoumání ffDiaporama:&lt;br&gt;&lt;a href=&quot;1567&quot;&gt;Navštivte WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="858"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="856"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;1306&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Vložte prázdný snímek nebo snímek založený na fotografii či videu&lt;br&gt;K prozkoumání návodu jak vytvořit snímky a animovat snímky:&lt;br&gt;&lt;a href=&quot;1306&quot;&gt;Prozkoumejte principy fungování programu ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="861"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="859"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;1322&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Vyberte typ zařízení na kterém plánujete přehrávat vaše video&lt;br&gt;K získání informací jak exportovat videa:&lt;br&gt;&lt;a href=&quot;1322&quot;&gt;Navštivte WIKI stránku o exportování videa&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="864"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="862"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Navštivte webovou stránku ffDiaporama a forum,&lt;br&gt;Podívejte se na návody, postupy a podívejte se na poslední novinky:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="996"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="994"/>
         <source>Saving configuration file and applying new configuration ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukládám soubor nastavení a aplikuji nová nastavení ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1033"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1031"/>
         <source>New project</source>
-        <translation type="unfinished"></translation>
+        <translation>Nový projekt</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1033"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1106"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1031"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1104"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuální projekt byl modifikován.
+Chcete změny uložit ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1087"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1111"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1121"/>
-        <source>Open file :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1106"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1085"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1109"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1136"/>
-        <source>Open project</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1119"/>
+        <source>Open file :</source>
+        <translation>Otevřít soubor :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1137"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1104"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1107"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1134"/>
+        <source>Open project</source>
+        <translation>Otevřít projekt</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1135"/>
         <source>This project was created with a newer version of ffDiaporama.
 If you continue, you take the risk of losing data!
 Do you want to open it nevertheless?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tento projekt byl vytvořen novější verzí aplikace ffDiaporama.
+Pokud budete pokračovat, hrozí ztráta dat!
+Chcete projekt přesto otevřít?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1200"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1239"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1198"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1237"/>
         <source>Saving project file ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukládám soubor porjektu ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1228"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1226"/>
         <source>Save project as</source>
-        <translation type="unfinished"></translation>
+        <translation>ULožit projekt jako</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1310"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1308"/>
         <source>Add files</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat soubory</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1418"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1430"/>
         <source>This video files contains more than one chapter.
 Do you want to create one slide for each chapters ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tento video soubor obsahuje více než jednu kapitolu.
+Chcete vytvořit jeden snímek pro každou z kapitol ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1636"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1649"/>
         <source>Add a sub project</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit podprojekt</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1638"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1660"/>
         <source>Add project file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit projektový soubor :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1692"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1701"/>
         <source>Remove slide</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>alternative is &quot;Vymazat snímek&quot;</translatorcomment>
+        <translation>Odstranit snímek</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1692"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1701"/>
         <source>Are you sure to want to delete this slide?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jste si jisti, že chcete vymazat tento snímek?</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="255"/>
         <source>Load system icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Načítání systémových ikon</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="461"/>
         <source>All suported file (</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny podporované soubory (</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="468"/>
         <source>Image file (</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory obrazů (</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="474"/>
         <source>Video file (</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory videa (</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="480"/>
         <source>Music file (</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubory audia (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="642"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="645"/>
         <source>Read configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>Načíst konfigurační soubor</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="644"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="647"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="395"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při čtení konfiguračního souboru</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="649"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="652"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="400"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při čtení obsahu konfiguračního souboru</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="656"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="659"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="407"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tento soubor není platným konfiguračním souborem</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="780"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="783"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="456"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Echy při vytváření konfiguračního souboru</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="385"/>
         <source>Reading configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>Čtení konfiguračního souboru</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cFilterTransformObject.cpp" line="51"/>
@@ -4394,13 +4420,13 @@ Do you want to create one slide for each chapters ?</source>
         <location filename="../src/sharedfiles/cFilterTransformObject.cpp" line="63"/>
         <location filename="../src/sharedfiles/cFilterTransformObject.cpp" line="67"/>
         <source>Applying transformation filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplikuji transformační filtr</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="77"/>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="120"/>
         <source>Loading file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Načítám soubor :</translation>
     </message>
 </context>
 <context>
@@ -4409,122 +4435,127 @@ Do you want to create one slide for each chapters ?</source>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="314"/>
         <source>Kb</source>
         <comment>Unit Kb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Kb</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="315"/>
         <source>Mb</source>
         <comment>Unit Mb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mb</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="316"/>
         <source>Gb</source>
         <comment>Unit Gb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gb</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="317"/>
         <source>Tb</source>
         <comment>Unit Tb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tb</translation>
     </message>
 </context>
 <context>
     <name>cBaseMediaFile</name>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1417"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1429"/>
         <source>Add video file</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit video soubor</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="256"/>
         <source>Open file</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít soubor</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="257"/>
         <source>Impossible to open file </source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze otevřít soubor </translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="257"/>
         <source>Do you want to select another file ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Chcete vybrat jiný soubor ?</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="261"/>
         <source>Select another file for </source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat jiný soubor pro </translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="399"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="403"/>
         <source>MPix</source>
-        <translation type="unfinished"></translation>
+        <translation>MPix</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="449"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="453"/>
         <source>Unmanaged</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nenastaveno</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="502"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="506"/>
         <source>Folder</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Složka</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="668"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="672"/>
         <source>Slide number</source>
+        <translation>Snímek číslo</translation>
+    </message>
+    <message>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="712"/>
+        <source>Slides</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="719"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="713"/>
+        <source>Chapters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="745"/>
         <source>ffDiaporama</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="750"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="776"/>
         <source>Image</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Obrázek</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="751"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="777"/>
         <source>Thumbnail</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Náhled</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="820"/>
-        <source>Analyse file with EXIV2 :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1185"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1190"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1186"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1191"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
-        <translation type="unfinished"></translation>
+        <translation>Stereo</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1320"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1325"/>
         <source>Video</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Video</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1321"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1326"/>
         <source>Music</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
 </context>
 <context>
@@ -4533,7 +4564,7 @@ Do you want to create one slide for each chapters ?</source>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="506"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pokročilé</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="507"/>
