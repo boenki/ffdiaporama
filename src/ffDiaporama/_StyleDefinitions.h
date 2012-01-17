@@ -74,7 +74,7 @@ public:
     ~cStyleCollection();
 
     void    SaveToXML(QDomElement &root);
-    void    LoadFromXML(QDomElement root,LoadConfigFileType TypeConfigFile);
+    void    LoadFromXML(QDomElement root,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile);
     void    SetProjectGeometryFilter(int Geometry);
     void    SetImageGeometryFilter(int ProjectGeometry,int ImageGeometry);
     void    SortList();

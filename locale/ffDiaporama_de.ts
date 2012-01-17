@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="105"/>
         <source>Copyright (C) 2011-2012 Dominique Levray</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyright (C) 2011-2012 Dominique Levray</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="112"/>
@@ -85,7 +85,7 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="623"/>
         <source>TAG managment based on TAGLib</source>
-        <translation type="unfinished"></translation>
+        <translation>TAG verwaltung basierend auf TAGLib</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="665"/>
@@ -386,7 +386,7 @@ Crossfade transition</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="563"/>
         <source>Project properties (default values)</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekteigenschaften (Standardwerte)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="591"/>
@@ -558,42 +558,43 @@ Crossfade transition</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2826"/>
         <source>Title :</source>
-        <translation type="unfinished"></translation>
+        <translation>Title :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2859"/>
         <source>Author :</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor : </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2877"/>
         <source>No automatic filling</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht automatisch ausfüllen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2882"/>
         <source>Fill with project name when project save (if not yet defined)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ersetzen mit Projektname wenn es gespeichert wird (wenn noch nicht definiert)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2887"/>
         <source>Fill with project folder name when project save (if not yet defined)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ersetzen mit Projektordnername wenn gespeichert wird (wenn noch nicht definiert)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2895"/>
         <source>Default language :</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardsprache :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2928"/>
         <source>und</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>it exists in two variants: &apos;deu&apos; or &apos;ger&apos; </translatorcomment>
+        <translation>deu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2938"/>
         <source>(ISO 639 language code)</source>
-        <translation type="unfinished"></translation>
+        <translation>(ISO 639 Sprachcode)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2952"/>
@@ -613,12 +614,12 @@ Crossfade transition</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3390"/>
         <source>Use title project as video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwende Projektname als Videoname</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3442"/>
         <source>Manage Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Geräte verwalten</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3027"/>
@@ -938,13 +939,13 @@ Bilder</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="369"/>
         <source>Language selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachauswahl</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="370"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache muss leer oder eine der ISO 639 Sprachcodes (3-stellig) beinhalten. Schauen Sie in der Hilfe für Details!</translation>
     </message>
 </context>
 <context>
@@ -1323,77 +1324,77 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="25"/>
         <source>File information</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateiinformationen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="83"/>
         <source>File name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateiname :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="90"/>
         <source>File type :</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateitype :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="123"/>
         <source>File size :</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateigröße :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="143"/>
         <source>File created :</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei erstellt am :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="157"/>
         <source>File modify :</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei verändert am :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="200"/>
         <source>Video track information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informationen Videospur</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="269"/>
         <source>Chapter information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informationen Kapitel</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="313"/>
         <source>Audio track information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informationen Audiospur</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="348"/>
         <source>Additional information</source>
-        <translation type="unfinished"></translation>
+        <translation>zusätzliche Informationen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="394"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungen annehmen und Dialog schliessen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="397"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Ok</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="408"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Hilfe zum aktuellen Fenster anzeigen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="411"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Hilfe</translation>
+        <translation>&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="418"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -1401,208 +1402,208 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="20"/>
         <source>Manage Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Geräte verwalten</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="28"/>
         <source>Device type :</source>
-        <translation type="unfinished">Gerätetyp :</translation>
+        <translation>Gerätetyp :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="38"/>
         <source>Select the type of equipment to be shown in the list.</source>
-        <translation type="unfinished">Wählen Sie welche Gerätetypen angezeigt werden sollen.</translation>
+        <translation>Wählen Sie welche Gerätetypen angezeigt werden sollen.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="101"/>
         <source>Subtype</source>
-        <translation type="unfinished">Untergruppe</translation>
+        <translation>Untergruppe</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="112"/>
         <source>Model</source>
-        <translation type="unfinished">Modell</translation>
+        <translation>Modell</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="134"/>
         <source>Create a new equipment which comes to be added in the database.</source>
-        <translation type="unfinished">Neues Gerät in die Datenbank eintragen.  </translation>
+        <translation>Neues Gerät in die Datenbank eintragen.  </translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="137"/>
         <source>Add Device</source>
-        <translation type="unfinished">Neues Gerät</translation>
+        <translation>Neues Gerät</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="148"/>
         <source>Delete current equipment.</source>
-        <translation type="unfinished">Lösche aktuelles Gerät.</translation>
+        <translation>Lösche aktuelles Gerät.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="151"/>
         <source>Remove Device</source>
-        <translation type="unfinished">Lösche Gerät</translation>
+        <translation>Lösche Gerät</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="162"/>
         <source>Cancel the modifications that you made on an equipment defined in the default ffDiaporama database</source>
-        <translation type="unfinished">Verwerfen der Änderungen die am Gerät in der Datenbank von ffDiaporama vorgenommen wurden </translation>
+        <translation>Verwerfen der Änderungen die am Gerät in der Datenbank von ffDiaporama vorgenommen wurden </translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="165"/>
         <source>Reset Device to Default</source>
-        <translation type="unfinished">Zurücksetzen zu den Vorgabewerten des Gerätes</translation>
+        <translation>Zurücksetzen zu den Vorgabewerten des Gerätes</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="178"/>
         <source>Device subtype :</source>
-        <translation type="unfinished">Gerätekategorie :</translation>
+        <translation>Gerätekategorie :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="188"/>
         <source>Select the category in which is classified the equipment.</source>
-        <translation type="unfinished">wählen Sie die Kategorie in die das Gerät passt.</translation>
+        <translation>wählen Sie die Kategorie in die das Gerät passt.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="195"/>
         <source>Device model :</source>
-        <translation type="unfinished">Gerät :</translation>
+        <translation>Gerät :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="205"/>
         <source>File format :</source>
-        <translation type="unfinished">Dateiformat :</translation>
+        <translation>Dateiformat :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="215"/>
         <source>Enter here the name of the equipment (free text field).</source>
-        <translation type="unfinished">Bezeichnung des Gerätes (freie Texteingabe).</translation>
+        <translation>Bezeichnung des Gerätes (freie Texteingabe).</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="228"/>
         <source>Select the file type to use for the rendering.</source>
-        <translation type="unfinished">Wählen des Dateitypes für die Umwandlung.</translation>
+        <translation>Wählen des Dateitypes für die Umwandlung.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="235"/>
         <source>Video standard :</source>
-        <translation type="unfinished"></translation>
+        <translation>Video standard :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="250"/>
         <source>Select the video standard to use, PAL or NTSC.</source>
-        <translation type="unfinished">Wählen Sie den Videostandard der zu verwenden ist, PAL oder NTSC.</translation>
+        <translation>Wählen Sie den Videostandard der zu verwenden ist, PAL oder NTSC.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="254"/>
         <source>PAL</source>
-        <translation type="unfinished">PAL</translation>
+        <translation>PAL</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="259"/>
         <source>NTSC</source>
-        <translation type="unfinished">NTSC</translation>
+        <translation>NTSC</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="282"/>
         <source>Image format :</source>
-        <translation type="unfinished">Bildformat :</translation>
+        <translation>Bildformat :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="292"/>
         <source>Select the image resolution to use for the rendering.</source>
-        <translation type="unfinished">Wählen Sie die Bildauflösung für die Videoerstellung.</translation>
+        <translation>Wählen Sie die Bildauflösung für die Videoerstellung.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="302"/>
         <source>Video codec :</source>
-        <translation type="unfinished">Videocodec :</translation>
+        <translation>Videocodec :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="329"/>
         <source>Select the video codec to use for the rendering.</source>
-        <translation type="unfinished">Wählen Sie den Videocodec für die Erstellung.</translation>
+        <translation>Wählen Sie den Videocodec für die Erstellung.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="342"/>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="407"/>
         <source>Bit rate :</source>
-        <translation type="unfinished">Bitrate :</translation>
+        <translation>Bitrate :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="364"/>
         <source>Select the bit rate to use for video during the rendering.</source>
-        <translation type="unfinished">Wählen Sie die Bitrate für die Videoerstellung.</translation>
+        <translation>Wählen Sie die Bitrate für die Videoerstellung.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="373"/>
         <source>Audio codec :</source>
-        <translation type="unfinished">Audiocodec :</translation>
+        <translation>Audiocodec :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="400"/>
         <source>Select the audio codec to use for the rendering.</source>
-        <translation type="unfinished">Wählen Sie den Audiocodec für die Videoerstellung.</translation>
+        <translation>Wählen Sie den Audiocodec für die Videoerstellung.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="429"/>
         <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation type="unfinished">Wählen Sie die Audio-Bitrate für die Videoerstellung. </translation>
+        <translation>Wählen Sie die Audio-Bitrate für die Videoerstellung. </translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="478"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="489"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungen speichern und Fenster schliessen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="492"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Ok</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="503"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungen verwerfen und Fenster schliessen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="506"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Abbrechen</translation>
+        <translation>&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="517"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Hilfe zum aktuellen Fenster anzeigen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="520"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Hilfe</translation>
+        <translation>&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="527"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="121"/>
         <source>Apply modification</source>
-        <translation type="unfinished">Änderungen speichern</translation>
+        <translation>Änderungen speichern</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="122"/>
         <source>Do you whant to apply modification for this device?</source>
-        <translation type="unfinished">Wollen Sie die Änderungen für das Gerät speichern ?</translation>
+        <translation>Wollen Sie die Änderungen für das Gerät speichern ?</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="574"/>
         <source>&lt;new device&gt;</source>
-        <translation type="unfinished">&lt;neues Gerät&gt;</translation>
+        <translation>&lt;neues Gerät&gt;</translation>
     </message>
 </context>
 <context>
@@ -2282,17 +2283,17 @@ Verschieben der gewählten Datei nach unten.</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="518"/>
         <source>und</source>
-        <translation type="unfinished"></translation>
+        <translation>deu</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="528"/>
         <source>(ISO 639 language code)</source>
-        <translation type="unfinished"></translation>
+        <translation>(ISO 639 Sprachcode)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="537"/>
         <source>Language :</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="568"/>
@@ -2348,7 +2349,7 @@ Verschieben der gewählten Datei nach unten.</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="937"/>
         <source>&amp;Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Eigenschaften</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="964"/>
@@ -2430,13 +2431,13 @@ Verschieben der gewählten Datei nach unten.</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="679"/>
         <source>Language selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachauswahl</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="680"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache muss leer oder eine der ISO 639 Sprachcodes (3-stellig) beinhalten. Schauen Sie in der Hilfe für Details!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="687"/>
@@ -2474,12 +2475,12 @@ Möchten Sie diese überschreiben ?</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="733"/>
         <source>Device model selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerät auswählen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="734"/>
         <source>A device model is require!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Gerät ist erforderlich!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="820"/>
@@ -2652,12 +2653,12 @@ Möchten Sie diese überschreiben ?</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="539"/>
         <source>Start a new chapter from here</source>
-        <translation type="unfinished"></translation>
+        <translation>Ab hier mit neuem Kapitel starten</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="546"/>
         <source>Chapter :</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapitel :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="754"/>
@@ -3034,12 +3035,12 @@ Möchten Sie diese überschreiben ?</translation>
         <translation>Dateien hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2088"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2091"/>
         <source>Remove bloc</source>
         <translation>Block löschen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2088"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2091"/>
         <source>Are you sure to want to delete this bloc?</source>
         <translation>Sicher dass Sie diesen Block löschen wollen ?</translation>
     </message>
@@ -3510,87 +3511,87 @@ Möchten Sie diese überschreiben ?</translation>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="19"/>
         <source>Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekteigenschaften</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="27"/>
         <source>Title :</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="44"/>
         <source>Author :</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor : </translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="54"/>
         <source>Album :</source>
-        <translation type="unfinished"></translation>
+        <translation>Album :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="64"/>
         <source>Year :</source>
-        <translation type="unfinished"></translation>
+        <translation>Jahr :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="114"/>
         <source>Language :</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="147"/>
         <source>und</source>
-        <translation type="unfinished"></translation>
+        <translation>deu</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="157"/>
         <source>(ISO 639 language code)</source>
-        <translation type="unfinished"></translation>
+        <translation>(ISO 639 Sprachcode)</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="166"/>
         <source>Comment :</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentar :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="176"/>
         <source>Chapters :</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapitel :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="216"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="219"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Ok</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="230"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungen verwerfen und Fenster schliessen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="233"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Abbrechen</translation>
+        <translation>&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="244"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Hilfe zum aktuellen Fenster anzeigen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="247"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Hilfe</translation>
+        <translation>&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="254"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -3692,14 +3693,14 @@ sichern als</translation>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="400"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1591"/>
         <source>Define project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Festlegen der Projekteigenschaften</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="403"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1594"/>
         <source>Project
 properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekteigenschaften</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="442"/>
@@ -4050,54 +4051,54 @@ und Hilfe</translation>
         <translation>Ändern des Einstiegsüberganges für diesen Slide</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="255"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="540"/>
         <source>Load system icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Laden Systemicons</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="461"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="594"/>
         <source>All suported file (</source>
         <translation>Unterstützte Dateien (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="468"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="601"/>
         <source>Image file (</source>
         <translation>Bilddateien (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="474"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="607"/>
         <source>Video file (</source>
         <translation>Videodateien (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="480"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="613"/>
         <source>Music file (</source>
         <translation>Musikdateien (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="645"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="778"/>
         <source>Read configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>Lesen der Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="562"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1944"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1408"/>
-        <source>This application support only audio track with signed 16 bits sample format</source>
+        <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="565"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1947"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1414"/>
+        <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="566"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1948"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1416"/>
+        <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="569"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1951"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1422"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Dieses Programm unterstützt nur Mono und Stereo Audiospuren</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="572"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2072"/>
+        <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="575"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="2075"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1357"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1401"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1406"/>
@@ -4106,37 +4107,37 @@ und Hilfe</translation>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1468"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1475"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1484"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1400"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1409"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1417"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1496"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1403"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1415"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1423"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1502"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Fehlermeldung</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="647"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="780"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="395"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Fehler beim lesen der Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="652"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="785"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="400"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Fehler beim lesen des Inhaltes der Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="659"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="792"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="407"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Diese Datei ist keine gültige Konfigurationsdatei </translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="783"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="916"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="456"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
@@ -4149,8 +4150,8 @@ und Hilfe</translation>
         <translation>Titel</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1198"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1237"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1201"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1240"/>
         <source>Saving project file ...</source>
         <translation>Speichern Projektdatei ...</translation>
     </message>
@@ -4364,17 +4365,18 @@ Bildgeometrie des Bildes entspricht nicht der des aktuellen Projektes</translati
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1031"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1104"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1084"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1107"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>Aktuelles Projekt wurde geändert
 Möchten Sie es speichern ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1430"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1436"/>
         <source>This video files contains more than one chapter.
 Do you want to create one slide for each chapters ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Videodatei enthält mehr als ein Kapitel. Möchten sie ein Dia pro Kapitel erstellen ?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="482"/>
@@ -4388,102 +4390,103 @@ Do you want to create one slide for each chapters ?</source>
         <translation>Projekt neu anlegen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1104"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1084"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1107"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1134"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1110"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1137"/>
         <source>Open project</source>
         <translation>Projekt öffnen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1085"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1109"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1119"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1088"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1112"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1122"/>
         <source>Open file :</source>
         <translation>Datei öffnen: </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1135"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1138"/>
         <source>This project was created with a newer version of ffDiaporama.
 If you continue, you take the risk of losing data!
 Do you want to open it nevertheless?</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieses Projekt wurde mit einer aktuelleren Programmversion von ffDiaporama bearbeitet. Wenn Sie fortfahren riskieren Sie Datenverluste! Möchten Sie das Projekt dennoch öffnen?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1226"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1229"/>
         <source>Save project as</source>
         <translation>Projekt sichern als</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1308"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1311"/>
         <source>Add files</source>
         <translation>Dateien hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="557"/>
         <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1905"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1391"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1394"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Format nicht unterstützt</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1649"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1655"/>
         <source>Add a sub project</source>
         <translation>Hinzufügen eines Unterprojektes</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1660"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1666"/>
         <source>Add project file :</source>
         <translation>Hinzufügen Projektdatei :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1701"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1707"/>
         <source>Remove slide</source>
         <translation>Dia löschen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1701"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1707"/>
         <source>Are you sure to want to delete this slide?</source>
         <translation>Sicher dass Sie dieses Dia löschen wollen ?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/cCustomTableWidget.cpp" line="70"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1347"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1627"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1350"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1633"/>
         <source>Add file to project :</source>
         <translation>Datei zum Projekt hinzufügen:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="385"/>
         <source>Reading configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>Lesen der Konfigurationsdatei</translation>
     </message>
 </context>
 <context>
     <name>QCustomFolderTree</name>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="314"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="253"/>
         <source>Kb</source>
         <comment>Unit Kb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Kb</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="315"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="254"/>
         <source>Mb</source>
         <comment>Unit Mb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mb</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="316"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="255"/>
         <source>Gb</source>
         <comment>Unit Gb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gb</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="317"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="256"/>
         <source>Tb</source>
         <comment>Unit Tb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tb</translation>
     </message>
 </context>
 <context>
@@ -4491,101 +4494,101 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="257"/>
         <source>Impossible to open file </source>
-        <translation type="unfinished">Öffnen der Datei nicht möglich </translation>
+        <translation>Öffnen der Datei nicht möglich </translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="257"/>
         <source>Do you want to select another file ?</source>
-        <translation type="unfinished">Möchten Sie eine andere Datei auswählen ?</translation>
+        <translation>Möchten Sie eine andere Datei auswählen ?</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="261"/>
         <source>Select another file for </source>
-        <translation type="unfinished">Andere Datei wählen für</translation>
+        <translation>Andere Datei wählen für</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="403"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="357"/>
         <source>MPix</source>
-        <translation type="unfinished"></translation>
+        <translation>MPix</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="453"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="407"/>
         <source>Unmanaged</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Unverwaltet</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="712"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="666"/>
         <source>Slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Dias</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="713"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="667"/>
         <source>Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapitel</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="776"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="729"/>
         <source>Image</source>
         <comment>File type</comment>
-        <translation type="unfinished">Bild</translation>
+        <translation>Bild</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="777"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="730"/>
         <source>Thumbnail</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Vorschaubild</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1325"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1306"/>
         <source>Video</source>
         <comment>File type</comment>
-        <translation type="unfinished">Video</translation>
+        <translation>Video</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1326"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1307"/>
         <source>Music</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Musik</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1190"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1171"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="256"/>
         <source>Open file</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei öffnen</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="672"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="626"/>
         <source>Slide number</source>
-        <translation type="unfinished"></translation>
+        <translation>Dianummer</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="745"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="699"/>
         <source>ffDiaporama</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1191"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1172"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
-        <translation type="unfinished"></translation>
+        <translation>Stereo</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="506"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="460"/>
         <source>Folder</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ordner</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1429"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1435"/>
         <source>Add video file</source>
-        <translation type="unfinished"></translation>
+        <translation>Videoclip hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -4594,92 +4597,92 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="506"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Erweitert</translation>
+        <translation>Erweitert</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="507"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Smartphone</translation>
+        <translation>Smartphone</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Multimediasystem</translation>
+        <translation>Multimediasystem</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="509"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Für das Web</translation>
+        <translation>Für das Web</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="511"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Portable Player</translation>
+        <translation>Portable Player</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="512"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Netbook/NetPC</translation>
+        <translation>Netbook/NetPC</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="513"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Handheld Spielkonsole</translation>
+        <translation>Handheld Spielkonsole</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="514"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Tablet Computer</translation>
+        <translation>Tablet Computer</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="515"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Multimediaharddisk</translation>
+        <translation>Multimediaharddisk</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="516"/>
         <source>Player</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Player</translation>
+        <translation>Player</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="517"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">ADSL Box</translation>
+        <translation>ADSL Box</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="518"/>
         <source>Game console</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Spielkonsole</translation>
+        <translation>Spielkonsole</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="519"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">SWF Flash Player</translation>
+        <translation>SWF Flash Player</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="520"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Videosharing und soziale Plattformen</translation>
+        <translation>Videosharing und soziale Plattformen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="521"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">HTML 5</translation>
+        <translation>HTML 5</translation>
     </message>
 </context>
 <context>

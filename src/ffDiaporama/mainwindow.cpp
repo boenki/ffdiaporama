@@ -77,7 +77,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     AddToSystemProperties(QString(STARTINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
     ApplicationConfig->InitConfigurationValues(ForceLanguage,App);
-    PreloadSystemIcons();
+    ApplicationConfig->PreloadSystemIcons();
 
     QSplashScreen screen;
     screen.setPixmap(QPixmap("img/splash.png"));
@@ -1310,7 +1310,7 @@ void MainWindow::s_Action_AddFile() {
 
     FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add files"),
                                                        ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-                                                       ApplicationConfig->GetFilterForMediaFile(ALLFILE));
+                                                       ApplicationConfig->GetFilterForMediaFile(cBaseApplicationConfig::ALLFILE));
     if (FileList.count()>0) {
 
         // Calc position of new object depending on ApplicationConfig->AppendObject

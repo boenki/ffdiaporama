@@ -17,26 +17,19 @@ TODO
     + ajouter les noms de fichier en dessous
     + mode icon 200
 
--Trouver un moyen d'empécher le mouse over sur le QNullTableWidgetITem
+-Supprimer les grilles pour les modes summary + affichage à revoir
+-Prendre en compte le multi-select dans QCustomFileInfoLabel (+ affichage à uniformiser avec la table)
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Ajoute une demande de sauvegarde lors des chargements de projet recent
--Permet des commentaires sur plusieurs lignes dans les TAG
--Corrige une erreur de lecture du son dans certaines vidéo AVI (pcm_s16) - seek error
 
 English version / Bug fix :
--Add an ask to save when load recent project
--Allow multiline comment in TAG
--Fix a read sound error for some AVI video (pcm_s16) - seek error
 
 French version / Nouvelles fonctionnalités
--Ajoute la prise en charge des vidéos contenant des pistes son au format UINT8 (mono et stéréo)
 
 English version / New features
--Add possibility to include video with sound track using UINT8 sample format (mono and stereo)
 
 -------------------------------------
 Changelog depuis la version 20111118
@@ -56,6 +49,9 @@ Bug fix French version
 -Corrige un plantage si pas de modèle choisi dans la boite de génération en mode device
 -Corrige l'erreur de positionnement lors des changements de slide dans la boite slide (précédent/suivant) quand la durée des slides = la durées des transitions
 -Corrige l'erreur de calcul qui générait des chevrotements dans le son lors des transitions
+-Ajoute une demande de sauvegarde lors des chargements de projet recent
+-Permet des commentaires sur plusieurs lignes dans les TAG
+-Corrige une erreur de lecture du son dans certaines vidéo AVI (pcm_s16) - seek error
 
 Bug fix English version
 -When exit the application, even when answer yes, modifications are not saved
@@ -69,6 +65,9 @@ Bug fix English version
 -Fix geometry for rendered videos in NTSC mode
 -Fix a display error when add project in project
 -Correct the mistake in calculation which generated quaverings in the sound during the transitions
+-Add an ask to save when load recent project
+-Allow multiline comment in TAG
+-Fix a read sound error for some AVI video (pcm_s16) - seek error
 
 French version / Nouvelles fonctionnalités
 -Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
@@ -98,6 +97,7 @@ French version / Nouvelles fonctionnalités
 -Quand une vidéo contenant plus d'un chapitre est ajoutée au projet, propose de créer un slide par chapitre
 -Ajout des fichiers de traduction pour le Tchèque
 -Intègre le nouvelle icône pour MMFiler (merci à Pepe pour cette icône)
+-Ajoute la prise en charge des vidéos contenant des pistes son au format UINT8 (mono et stéréo)
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -127,3 +127,4 @@ English version / New features
 -When a video wich contains more than on chapter is added to the project, propose to create on slide for each chapter
 -Add translation files for Czech
 -Integrate new MMFiler icon (thanks to Pepe for it)
+-Add possibility to include video with sound track using UINT8 sample format (mono and stereo)

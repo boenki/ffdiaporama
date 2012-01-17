@@ -198,7 +198,7 @@ QImage *GetEmbededImage(QString FileName) {
 // Base class object
 //*********************************************************************************************************************************************
 
-cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig) {
+cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig):cCustomIcon() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cBaseMediaFile::cBaseMediaFile";
     #endif
@@ -260,7 +260,7 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
         else {
             QString NewFileName=QFileDialog::getOpenFileName(ApplicationConfig->TopLevelWindow,QApplication::translate("cBaseMediaFile","Select another file for ")+QFileInfo(FileName).fileName(),
                ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-               ApplicationConfig->GetFilterForMediaFile(IMAGEFILE));
+               ApplicationConfig->GetFilterForMediaFile(cBaseApplicationConfig::IMAGEFILE));
             if (NewFileName!="") {
                 if (AliasList) AliasList->append(FileName+"####"+NewFileName);
                 FileName=NewFileName;
@@ -292,52 +292,6 @@ QString cBaseMediaFile::GetInformationValue(QString ValueToSearch) {
         if (Values.count()==2) return ((QString)Values[1]).trimmed();
     }
     return "";
-}
-
-//====================================================================================================================
-
-void cBaseMediaFile::AddIcons(QString FileName) {
-    QImage Img(FileName);
-    if (Img.width()>Img.height()) {
-        Icon16 =Img.scaledToWidth(16,Qt::SmoothTransformation);
-        Icon32 =Img.scaledToWidth(32,Qt::SmoothTransformation);
-        Icon48 =Img.scaledToWidth(48,Qt::SmoothTransformation);
-        Icon100=Img.scaledToWidth(100,Qt::SmoothTransformation);
-    } else {
-        Icon16 =Img.scaledToHeight(16,Qt::SmoothTransformation);
-        Icon32 =Img.scaledToHeight(32,Qt::SmoothTransformation);
-        Icon48 =Img.scaledToHeight(48,Qt::SmoothTransformation);
-        Icon100=Img.scaledToHeight(100,Qt::SmoothTransformation);
-    }
-}
-
-//====================================================================================================================
-
-void cBaseMediaFile::AddIcons(QImage *Image) {
-    if (Image->width()>Image->height()) {
-        Icon16 =Image->scaledToWidth(16,Qt::SmoothTransformation);
-        Icon32 =Image->scaledToWidth(32,Qt::SmoothTransformation);
-        Icon48 =Image->scaledToWidth(48,Qt::SmoothTransformation);
-        Icon100=Image->scaledToWidth(100,Qt::SmoothTransformation);
-    } else {
-        Icon16 =Image->scaledToHeight(16,Qt::SmoothTransformation);
-        Icon32 =Image->scaledToHeight(32,Qt::SmoothTransformation);
-        Icon48 =Image->scaledToHeight(48,Qt::SmoothTransformation);
-        Icon100=Image->scaledToHeight(100,Qt::SmoothTransformation);
-    }
-}
-
-//====================================================================================================================
-
-void cBaseMediaFile::AddIcons(QIcon Icon) {
-    Icon16 =Icon.pixmap(16,16).toImage();
-    Icon32 =Icon.pixmap(32,32).toImage();
-    Icon48 =Icon.pixmap(48,48).toImage();
-    Icon100=Icon.pixmap(100,100).toImage();
-    if ((Icon100.height()<100)&&(Icon100.width()<100)) {
-        if (Icon100.height()>Icon100.width()) Icon100=Icon100.scaledToHeight(100,Qt::SmoothTransformation);
-            else Icon100=Icon100.scaledToWidth(100,Qt::SmoothTransformation);
-    }
 }
 
 //====================================================================================================================
@@ -439,7 +393,7 @@ cUnmanagedFile::cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig):cBaseM
     #ifdef DEBUGMODE
     qDebug() << "IN:cUnmanagedFile::cUnmanagedFile";
     #endif
-    AddIcons(DefaultFILEIcon);
+    LoadIcons(&ApplicationConfig->DefaultFILEIcon);
     ObjectType  =OBJECTTYPE_UNMANAGED;
     IsInformationValide=true;
 }
@@ -470,7 +424,7 @@ cFolder::cFolder(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(Appli
     #ifdef DEBUGMODE
     qDebug() << "IN:cFolder::cFolder";
     #endif
-    AddIcons(DefaultFOLDERIcon);
+    LoadIcons(&ApplicationConfig->DefaultFOLDERIcon);
     ObjectType  =OBJECTTYPE_FOLDER;
     IsInformationValide=true;
 }
@@ -514,7 +468,7 @@ cffDProjectFile::cffDProjectFile(cBaseApplicationConfig *ApplicationConfig):cBas
     #ifdef DEBUGMODE
     qDebug() << "IN:cffDProjectFile::cffDProjectFile";
     #endif
-    AddIcons(DefaultFFDIcon);
+    LoadIcons(&ApplicationConfig->DefaultFFDIcon);
     ObjectType      =OBJECTTYPE_FFDFILE;
     Title           ="";
     Author          ="";
@@ -753,7 +707,6 @@ cImageFile::cImageFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile
     #ifdef DEBUGMODE
     qDebug() << "IN:cImageFile::cImageFile";
     #endif
-    AddIcons(DefaultIMAGEIcon);
     ObjectType  =OBJECTTYPE_IMAGEFILE;  // coul be turn later to OBJECTTYPE_THUMBNAIL
 }
 
@@ -785,20 +738,7 @@ void cImageFile::GetFullInformationFromFile() {
     #endif
     int ImageOrientation=-1;
     CallEXIF(ImageOrientation);
-    ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
-    ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
-
-    // Compute image geometry
-    ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
-    double RatioHW=double(ImageWidth)/double(ImageHeight);
-    if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
-    else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
-    else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
-    else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
-    else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
-    else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
-    else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
-    else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+    if (Icon16.isNull()) LoadIcons(&ApplicationConfig->DefaultIMAGEIcon);
 }
 
 //====================================================================================================================
@@ -838,8 +778,7 @@ bool cImageFile::CallEXIF(int &ImageOrientation) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cImageFile::CallEXIF";
     #endif
-    bool      ExifOK=true;
-    //************************************************************************************
+
     Exiv2::Image::AutoPtr ImageFile;
     try {
         #if defined(Q_OS_WIN)
@@ -902,19 +841,54 @@ bool cImageFile::CallEXIF(int &ImageOrientation) {
                         delete Icon;
                         Icon=NewImage;
                     }
-                    AddIcons(Icon);
+                    LoadIcons(Icon);
                     delete Icon;
                 }
             }
         }
-    }
-    //************************************************************************************
-    if (ImageOrientation==-1) ImageOrientation=1;
-    // Append InformationList
-    if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
-    if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
+        // Append InformationList
+        if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
+        if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
 
-    return ExifOK;
+        ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
+        ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
+
+        // Compute image geometry
+        ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+        double RatioHW=double(ImageWidth)/double(ImageHeight);
+        if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+        else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+        else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+        else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+        else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+        else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+        else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+        else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+
+        if (ImageOrientation==-1) ImageOrientation=1;
+
+    }
+
+    if (Icon16.isNull()) {
+
+        //************************************************************************************
+        // If no exif information or no preview image then load file
+        //************************************************************************************
+
+        if (ImageOrientation==-1) ImageOrientation=1;
+        QImage *Img=ImageAt(false,true,NULL);
+        if (Img) {
+            ImageWidth =Img->width();
+            ImageHeight=Img->height();
+            LoadIcons(Img);
+            delete Img;
+            InformationList.append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
+            InformationList.append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
+            IsInformationValide=true;
+        }
+    }
+
+    return IsInformationValide;
 }
 
 //====================================================================================================================
@@ -1304,8 +1278,8 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
 
     // Load correct icon depending on type
     if (Icon16.isNull()) {
-        if (ObjectType==OBJECTTYPE_MUSICFILE) AddIcons(DefaultMUSICIcon);
-            else                              AddIcons(DefaultVIDEOIcon);
+        if (ObjectType==OBJECTTYPE_MUSICFILE) LoadIcons(&ApplicationConfig->DefaultMUSICIcon);
+            else                              LoadIcons(&ApplicationConfig->DefaultVIDEOIcon);
     }
     // Return value depending on type ask
     IsValide=((WantedObjectType==MUSICORVIDEO)&&(VideoTrackNbr+AudioTrackNbr>0))||
@@ -1342,10 +1316,7 @@ void cVideoFile::GetFullInformationFromFile() {
 
     QImage *Img=GetEmbededImage(FileName);
     if (Img) {
-        Icon16=QImage();
-        Icon32=QImage();
-        Icon48=QImage();
-        AddIcons(Img);
+        LoadIcons(Img);
         delete Img;
     }
 
@@ -1359,7 +1330,7 @@ void cVideoFile::GetFullInformationFromFile() {
         // Search if a jukebox mode thumbnail exist
         QFileInfo   File(FileName);
         QString     JPegFile=File.absolutePath()+(File.absolutePath().endsWith(QDir::separator())?"":QString(QDir::separator()))+File.completeBaseName()+".jpg";
-        if (QFileInfo(JPegFile).exists()) AddIcons(JPegFile);
+        if (QFileInfo(JPegFile).exists()) LoadIcons(JPegFile);
     }
 
     OpenCodecAndFile();
@@ -2271,7 +2242,7 @@ bool cVideoFile::OpenCodecAndFile() {
             else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
             // Icon
             if (Icon16.isNull()) {
-                QImage Final=VideoMask.copy();
+                QImage Final=ApplicationConfig->VideoMask.copy();
                 QImage ImgF;
                 if (Img->width()>Img->height()) {
                     if (double(Img->width())/double(Img->height())<1.5) ImgF=Img->scaledToWidth(84,Qt::SmoothTransformation);
@@ -2281,7 +2252,7 @@ bool cVideoFile::OpenCodecAndFile() {
                 Painter.begin(&Final);
                 Painter.drawImage(QRect((96-ImgF.width())/2,(96-ImgF.height())/2,ImgF.width(),ImgF.height()),ImgF);
                 Painter.end();
-                AddIcons(&Final);
+                LoadIcons(&Final);
             }
             delete Img;
         } else {

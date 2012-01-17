@@ -541,7 +541,7 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
     QString NewFile=QFileDialog::getOpenFileName(this,
                                                  QApplication::translate("DlgSlideProperties","Select a file"),
                                                  ActualFilePath,//GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
-                                                 GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(CurrentBrush->Image?IMAGEFILE:VIDEOFILE));
+                                                 GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(CurrentBrush->Image?cBaseApplicationConfig::IMAGEFILE:cBaseApplicationConfig::VIDEOFILE));
     QApplication::processEvents();
     if (NewFile=="") return;
     if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use

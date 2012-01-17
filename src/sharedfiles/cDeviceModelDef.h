@@ -206,9 +206,9 @@ public:
     cDeviceModelList();
     ~cDeviceModelList();
 
-    virtual bool    LoadConfigurationFile(QString ConfigFileName,LoadConfigFileType TypeConfigFile);
+    virtual bool    LoadConfigurationFile(QString ConfigFileName,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile);
     virtual bool    SaveConfigurationFile(QString ConfigFileName);
-    virtual bool    LoadFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile);
+    virtual bool    LoadFromXML(QDomElement domDocument,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile);
 
     virtual void    TranslatRenderType();
     virtual void    Initffmpeg();

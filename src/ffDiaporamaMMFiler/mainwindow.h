@@ -83,6 +83,7 @@ private slots:
     void                s_NewFunctions();
 
 private:
+    QAction             *CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck);
     QAction             *CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck);
     QIcon               *GetIconMode();
 

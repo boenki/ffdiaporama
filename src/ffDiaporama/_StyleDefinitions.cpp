@@ -228,14 +228,14 @@ void cStyleCollection::SaveToXML(QDomElement &root) {
 
 //************************************************
 
-void cStyleCollection::LoadFromXML(QDomElement root,LoadConfigFileType TypeConfigFile) {
+void cStyleCollection::LoadFromXML(QDomElement root,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile) {
     if ((root.elementsByTagName(CollectionName).length()>0)&&(root.elementsByTagName(CollectionName).item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName(CollectionName).item(0).toElement();
         int i=0;
         while ((Element.elementsByTagName(CollectionName+QString("Item_%1").arg(i)).length()>0)&&(root.elementsByTagName(CollectionName+QString("Item_%1").arg(i)).item(0).isElement()==true)) {
-            if (TypeConfigFile==GLOBALCONFIGFILE) {
+            if (TypeConfigFile==cBaseApplicationConfig::GLOBALCONFIGFILE) {
                 // Reading from global config file : append device
-                Collection.append(cStyleCollectionItem(TypeConfigFile==GLOBALCONFIGFILE,i,"",""));
+                Collection.append(cStyleCollectionItem(TypeConfigFile==cBaseApplicationConfig::GLOBALCONFIGFILE,i,"",""));
                 Collection[i].LoadFromXML(Element,QString(CollectionName+QString("Item_%1").arg(i)),false,false);
 
                 // Style name translation (Standard style only) - do it 2 times

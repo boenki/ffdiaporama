@@ -30,20 +30,6 @@
 
 //#define DEBUGMODE
 
-QString IconsPath;                      // Linux path where system icons where found (/usr/share/icons/gnome or /usr/share/icons/default.kde4
-QIcon   DefaultCDROMIcon;
-QIcon   DefaultHDDIcon;
-QIcon   DefaultUSBIcon;
-QIcon   DefaultREMOTEIcon;
-QIcon   DefaultUSERIcon;
-QIcon   DefaultFOLDERIcon;
-QIcon   DefaultFILEIcon;
-QIcon   DefaultIMAGEIcon;
-QIcon   DefaultVIDEOIcon;
-QIcon   DefaultMUSICIcon;
-QIcon   DefaultFFDIcon;
-QImage  VideoMask;
-
 //====================================================================================================================
 
 #if defined(Q_OS_WIN)
@@ -250,53 +236,6 @@ QImage  VideoMask;
 #endif
 
 //====================================================================================================================
-// Preload system icon images
-void PreloadSystemIcons() {
-    qDebug()<<QApplication::translate("MainWindow","Load system icons");
-
-    #if defined(Q_OS_WIN)
-        DefaultCDROMIcon =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-12);
-        DefaultHDDIcon   =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-8);
-        DefaultUSBIcon   =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),121);
-        DefaultREMOTEIcon=GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-10);
-        DefaultUSERIcon  =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),126);
-        DefaultFOLDERIcon=GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-4);
-        DefaultFILEIcon  =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-67);
-        DefaultIMAGEIcon =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),117);
-        DefaultVIDEOIcon =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),115);
-        DefaultMUSICIcon =GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),116);
-        DefaultFFDIcon   =QIcon("img/logo.png");
-    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        #define DEV_CDROM       "/devices/drive-optical.png"
-        #define DEV_HDD         "/devices/drive-harddisk.png"
-        #define DEV_USB         "/devices/drive-removable-media.png"
-        #define DEV_USER        "/places/user-home.png"
-        #define FOLDER_STD      "/places/folder.png"
-        #define FILE_STD        "/mimetypes/unknown.png"
-        #define IMAGEFILE_STD   "/mimetypes/image-x-generic.png"
-        #define VIDEOFILE_STD   "/mimetypes/video-x-generic.png"
-        #define MUSICFILE_STD   "/mimetypes/audio-x-generic.png"
-        if (QFileInfo("/usr/share/icons/gnome/16x16"+QString(DEV_CDROM)).exists()) IconsPath="/usr/share/icons/gnome/";
-            else if (QFileInfo("/usr/share/icons/default.kde4/16x16"+QString(DEV_CDROM)).exists()) IconsPath="/usr/share/icons/default.kde4/";
-            else IconsPath="";
-        if (IconsPath!="") {
-            DefaultCDROMIcon =QIcon(IconsPath+"16x16"+DEV_CDROM);       DefaultUSERIcon.addFile(IconsPath+"48x48"+DEV_CDROM);       DefaultUSERIcon.addFile(IconsPath+"128x128"+DEV_CDROM);
-            DefaultHDDIcon   =QIcon(IconsPath+"16x16"+DEV_HDD);         DefaultUSERIcon.addFile(IconsPath+"48x48"+DEV_HDD);         DefaultUSERIcon.addFile(IconsPath+"128x128"+DEV_HDD);
-            DefaultUSBIcon   =QIcon(IconsPath+"16x16"+DEV_USB);         DefaultUSERIcon.addFile(IconsPath+"48x48"+DEV_USB);         DefaultUSERIcon.addFile(IconsPath+"128x128"+DEV_USER);
-            DefaultREMOTEIcon=DefaultUSBIcon;
-            DefaultUSERIcon  =QIcon(IconsPath+"16x16"+DEV_USER);        DefaultUSERIcon.addFile(IconsPath+"48x48"+DEV_USER);        DefaultUSERIcon.addFile(IconsPath+"128x128"+DEV_USER);
-            DefaultFOLDERIcon=QIcon(IconsPath+"16x16"+FOLDER_STD);      DefaultFOLDERIcon.addFile(IconsPath+"48x48"+FOLDER_STD);    DefaultFOLDERIcon.addFile(IconsPath+"128x128"+FOLDER_STD);
-            DefaultFILEIcon  =QIcon(IconsPath+"16x16"+FILE_STD);        DefaultFILEIcon.addFile(IconsPath+"48x48"+FILE_STD);        DefaultFILEIcon.addFile(IconsPath+"128x128"+FILE_STD);
-            DefaultIMAGEIcon =QIcon(IconsPath+"16x16"+IMAGEFILE_STD);   DefaultIMAGEIcon.addFile(IconsPath+"48x48"+IMAGEFILE_STD);  DefaultIMAGEIcon.addFile(IconsPath+"128x128"+IMAGEFILE_STD);
-            DefaultVIDEOIcon =QIcon(IconsPath+"16x16"+VIDEOFILE_STD);   DefaultVIDEOIcon.addFile(IconsPath+"48x48"+VIDEOFILE_STD);  DefaultVIDEOIcon.addFile(IconsPath+"128x128"+VIDEOFILE_STD);
-            DefaultMUSICIcon =QIcon(IconsPath+"16x16"+MUSICFILE_STD);   DefaultMUSICIcon.addFile(IconsPath+"48x48"+MUSICFILE_STD);  DefaultMUSICIcon.addFile(IconsPath+"128x128"+MUSICFILE_STD);
-            DefaultFFDIcon   =QIcon("img/logo.png");
-        }
-    #endif
-    VideoMask=QImage("img/VideoMask.png");
-}
-
-//====================================================================================================================
 
 QString GetTextSize(qlonglong Size) {
     #ifdef DEBUGMODE
@@ -416,7 +355,146 @@ QString AdjustDirForOS(QString Dir) {
     return Dir;
 }
 
+//**********************************************************************************************************************
+// cBaseApplicationConfig
+//**********************************************************************************************************************
+
+cCustomIcon::cCustomIcon() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cCustomIcon::cCustomIcon";
+    #endif
+}
+
+void cCustomIcon::LoadIcons(QString FileName) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cCustomIcon::LoadIcons as filename";
+    #endif
+    QImage IconBIG(FileName);
+    if (IconBIG.width()>IconBIG.height()) {
+        Icon16 =IconBIG.scaledToWidth(16,Qt::SmoothTransformation);
+        Icon32 =IconBIG.scaledToWidth(32,Qt::SmoothTransformation);
+        Icon48 =IconBIG.scaledToWidth(48,Qt::SmoothTransformation);
+        Icon100=IconBIG.scaledToWidth(100,Qt::SmoothTransformation);
+    } else {
+        Icon16 =IconBIG.scaledToHeight(16,Qt::SmoothTransformation);
+        Icon32 =IconBIG.scaledToHeight(32,Qt::SmoothTransformation);
+        Icon48 =IconBIG.scaledToHeight(48,Qt::SmoothTransformation);
+        Icon100=IconBIG.scaledToHeight(100,Qt::SmoothTransformation);
+    }
+    if (IconBIG.height()>ICONBIG_MAXHEIGHT) IconBIG=IconBIG.scaledToHeight(ICONBIG_MAXHEIGHT,Qt::SmoothTransformation);
+}
+
+
 //====================================================================================================================
+
+void cCustomIcon::LoadIcons(cCustomIcon *CustomIcon) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cCustomIcon::LoadIcons as CustomIcon";
+    #endif
+    Icon16 =CustomIcon->Icon16.copy();
+    Icon32 =CustomIcon->Icon32.copy();
+    Icon48 =CustomIcon->Icon48.copy();
+    Icon100=CustomIcon->Icon100.copy();
+    IconBIG=CustomIcon->IconBIG.copy();
+}
+
+//====================================================================================================================
+
+void cCustomIcon::LoadIconsFromIMG(QString FileName) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cCustomIcon::LoadIconsFromIMG";
+    #endif
+    Icon16.load("img/MediaIcons/16x16/"+FileName);
+    Icon32.load("img/MediaIcons/32x32/"+FileName);
+    Icon48.load("img/MediaIcons/48x48/"+FileName);
+    Icon100.load("img/MediaIcons/100x100/"+FileName);
+    IconBIG.load("img/MediaIcons/200x200/"+FileName);
+}
+
+//====================================================================================================================
+
+void cCustomIcon::LoadIconsFromLinux(QString LinuxPath,QString FileName) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cCustomIcon::LoadIconsFromLinux";
+    #endif
+    Icon16.load(LinuxPath+"16x16/"+FileName);
+    Icon32.load(LinuxPath+"32x32/"+FileName);
+    Icon48.load(LinuxPath+"48x48/"+FileName);
+    Icon100=QImage(LinuxPath+"128x128/"+FileName).scaledToHeight(100,Qt::SmoothTransformation);
+    IconBIG=QImage(LinuxPath+"128x128/"+FileName).scaledToHeight(200,Qt::SmoothTransformation);
+}
+
+//====================================================================================================================
+
+void cCustomIcon::LoadIcons(QImage *Image) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cCustomIcon::LoadIcons as QImage";
+    #endif
+    if (Image->width()>Image->height()) {
+        Icon16 =Image->scaledToWidth(16,Qt::SmoothTransformation);
+        Icon32 =Image->scaledToWidth(32,Qt::SmoothTransformation);
+        Icon48 =Image->scaledToWidth(48,Qt::SmoothTransformation);
+        Icon100=Image->scaledToWidth(100,Qt::SmoothTransformation);
+    } else {
+        Icon16 =Image->scaledToHeight(16,Qt::SmoothTransformation);
+        Icon32 =Image->scaledToHeight(32,Qt::SmoothTransformation);
+        Icon48 =Image->scaledToHeight(48,Qt::SmoothTransformation);
+        Icon100=Image->scaledToHeight(100,Qt::SmoothTransformation);
+    }
+    if (Image->height()<=ICONBIG_MAXHEIGHT) IconBIG=Image->copy(); else IconBIG=Image->scaledToHeight(ICONBIG_MAXHEIGHT);
+}
+
+//====================================================================================================================
+
+void cCustomIcon::LoadIcons(QIcon Icon) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cCustomIcon::LoadIcons as QIcon";
+    #endif
+    Icon16 =Icon.pixmap(16,16).toImage();
+    Icon32 =Icon.pixmap(32,32).toImage();
+    Icon48 =Icon.pixmap(48,48).toImage();
+    Icon100=Icon.pixmap(100,100).toImage();
+    if ((Icon100.height()<100)&&(Icon100.width()<100)) {
+        if (Icon100.height()>Icon100.width()) Icon100=Icon100.scaledToHeight(100,Qt::SmoothTransformation);
+            else Icon100=Icon100.scaledToWidth(100,Qt::SmoothTransformation);
+    }
+    IconBIG=Icon.pixmap(ICONBIG_MAXHEIGHT,ICONBIG_MAXHEIGHT).toImage();
+}
+
+//====================================================================================================================
+
+QIcon cCustomIcon::GetIcon() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cCustomIcon::GetIcon";
+    #endif
+
+    QIcon Ret=QIcon(QPixmap().fromImage(Icon16));
+    Ret.addPixmap(QPixmap().fromImage(Icon32));
+    Ret.addPixmap(QPixmap().fromImage(Icon48));
+    Ret.addPixmap(QPixmap().fromImage(Icon100));
+    Ret.addPixmap(QPixmap().fromImage(IconBIG));
+    return Ret;
+}
+
+//====================================================================================================================
+
+QImage  *cCustomIcon::GetIcon(IconSize Size) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cCustomIcon::GetIcon";
+    #endif
+    switch (Size) {
+        case ICON16:  return &Icon16;
+        case ICON32:  return &Icon32;
+        case ICON48:  return &Icon48;
+        case ICON100: return &Icon100;
+        case ICONBIG: return &IconBIG;
+        default:      return &Icon16;
+    }
+}
+
+//**********************************************************************************************************************
+// cBaseApplicationConfig
+//**********************************************************************************************************************
 
 cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QString TheAllowedWEBLanguage,QString TheApplicationGroupName,QString TheApplicationName,QString TheApplicationVersion,QString TheConfigFileExt,QString TheConfigFileRootName) {
     #ifdef DEBUGMODE
@@ -445,8 +523,63 @@ cBaseApplicationConfig::~cBaseApplicationConfig() {
 //====================================================================================================================
 
 QString cBaseApplicationConfig::GetValideWEBLanguage(QString Language) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cBaseApplicationConfig::GetValideWEBLanguage";
+    #endif
     if (!AllowedWEBLanguage.contains(Language)) Language="en";
     return Language;
+}
+
+//====================================================================================================================
+// Preload system icon images
+void cBaseApplicationConfig::PreloadSystemIcons() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cBaseApplicationConfig::PreloadSystemIcons";
+    #endif
+
+    qDebug()<<QApplication::translate("MainWindow","Load system icons");
+
+    #if defined(Q_OS_WIN)
+        DefaultCDROMIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-12));
+        DefaultHDDIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-8));
+        DefaultUSBIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),121));
+        DefaultREMOTEIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-10));
+        DefaultUSERIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),126));
+        DefaultFOLDERIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-4));
+        DefaultFILEIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-67));
+        DefaultIMAGEIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),117));
+        DefaultVIDEOIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),115));
+        DefaultMUSICIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),116));
+    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+        #define DEV_CDROM       "devices/drive-optical.png"
+        #define DEV_HDD         "devices/drive-harddisk.png"
+        #define DEV_USB         "devices/drive-removable-media.png"
+        #define DEV_USER        "places/user-home.png"
+        #define FOLDER_STD      "places/folder.png"
+        #define FILE_STD        "mimetypes/unknown.png"
+        #define IMAGEFILE_STD   "mimetypes/image-x-generic.png"
+        #define VIDEOFILE_STD   "mimetypes/video-x-generic.png"
+        #define MUSICFILE_STD   "mimetypes/audio-x-generic.png"
+        if (QFileInfo("/usr/share/icons/gnome/16x16/"+QString(DEV_CDROM)).exists()) IconsPath="/usr/share/icons/gnome/";
+            else if (QFileInfo("/usr/share/icons/default.kde4/16x16/"+QString(DEV_CDROM)).exists()) IconsPath="/usr/share/icons/default.kde4/";
+            else IconsPath="";
+        if (IconsPath!="") {
+            DefaultCDROMIcon.LoadIconsFromLinux(IconsPath,DEV_CDROM);
+            DefaultHDDIcon.LoadIconsFromLinux(IconsPath,DEV_HDD);
+            DefaultUSBIcon.LoadIconsFromLinux(IconsPath,DEV_USB);
+            DefaultREMOTEIcon=DefaultUSBIcon;
+            DefaultUSERIcon.LoadIconsFromLinux(IconsPath,DEV_USER);
+            DefaultFOLDERIcon.LoadIconsFromLinux(IconsPath,FOLDER_STD);
+            DefaultFILEIcon.LoadIconsFromLinux(IconsPath,FILE_STD);
+            DefaultIMAGEIcon.LoadIconsFromLinux(IconsPath,IMAGEFILE_STD);
+            DefaultVIDEOIcon.LoadIconsFromLinux(IconsPath,VIDEOFILE_STD);
+            DefaultMUSICIcon.LoadIconsFromLinux(IconsPath,MUSICFILE_STD);
+        }
+    #endif
+    DefaultFFDIcon.LoadIconsFromIMG("ffDiaporama.png");
+    DefaultDelayedIcon.LoadIconsFromIMG("delayed.png");
+    DefaultThumbIcon.LoadIconsFromIMG("Thumbnails.png");
+    VideoMask=QImage("img/VideoMask.png");
 }
 
 //====================================================================================================================

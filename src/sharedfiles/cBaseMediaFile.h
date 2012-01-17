@@ -77,13 +77,12 @@ extern "C" {
 #define OBJECTTYPE_THUMBNAIL    7
 #define OBJECTTYPE_MUSICORVIDEO 100
 
-class cBaseMediaFile {
+class cBaseMediaFile : public cCustomIcon {
 public:
     int                     ObjectType;
     bool                    IsValide;                       // if true then object if initialise
     bool                    IsInformationValide;            // if true then information list if fuly initialise
     int                     ObjectGeometry;                 // Image geometry of the embeded image or video
-    QImage                  Icon16,Icon32,Icon48,Icon100;   // Icons associated to file
     QString                 FileName;                       // filename
     QString                 ShortName;                      // filename without path
     qlonglong               FileSize;                       // filesize
@@ -116,10 +115,7 @@ public:
     virtual QString         GetTechInfo()=0;                                // Return technical information as formated string
     virtual QString         GetTAGInfo()=0;                                 // Return TAG information as formated string
 
-    virtual void            AddIcons(QString FileName);
-    virtual void            AddIcons(QImage *Image96);
-    virtual void            AddIcons(QIcon Icon);
-    virtual QIcon           *GetDefaultTypeIcon()=0;
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)=0;
 };
 
 //*********************************************************************************************************************************************
@@ -131,10 +127,10 @@ public:
 
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
-    virtual void            GetFullInformationFromFile()            {/*Nothing to do*/}
-    virtual QIcon           *GetDefaultTypeIcon()                   { return &DefaultFILEIcon; }
-    virtual QString         GetTechInfo()                           { return ""; }
-    virtual QString         GetTAGInfo()                            { return ""; }
+    virtual void            GetFullInformationFromFile()                    {/*Nothing to do*/}
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { if (!IsInformationValide) return ApplicationConfig->DefaultDelayedIcon.GetIcon(Size); else return ApplicationConfig->DefaultFILEIcon.GetIcon(Size); }
+    virtual QString         GetTechInfo()                                   { return ""; }
+    virtual QString         GetTAGInfo()                                    { return ""; }
 };
 
 //*********************************************************************************************************************************************
@@ -147,10 +143,10 @@ public:
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
-    virtual void            GetFullInformationFromFile()            {/*Nothing to do*/}
-    virtual QIcon           *GetDefaultTypeIcon()                   { return &DefaultFOLDERIcon; }
-    virtual QString         GetTechInfo()                           { return ""; }
-    virtual QString         GetTAGInfo()                            { return ""; }
+    virtual void            GetFullInformationFromFile()                    {/*Nothing to do*/}
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { if (!IsInformationValide) return ApplicationConfig->DefaultDelayedIcon.GetIcon(Size); else return ApplicationConfig->DefaultFOLDERIcon.GetIcon(Size); }
+    virtual QString         GetTechInfo()                                   { return ""; }
+    virtual QString         GetTAGInfo()                                    { return ""; }
 };
 
 //*********************************************************************************************************************************************
@@ -177,7 +173,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
-    virtual QIcon           *GetDefaultTypeIcon()                   { return &DefaultFFDIcon; }
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { if (!IsInformationValide) return ApplicationConfig->DefaultDelayedIcon.GetIcon(Size); else return ApplicationConfig->DefaultFFDIcon.GetIcon(Size); }
 
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();
@@ -198,7 +194,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
-    virtual QIcon           *GetDefaultTypeIcon()                   { return &DefaultIMAGEIcon; }
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { if (!IsInformationValide) return ApplicationConfig->DefaultDelayedIcon.GetIcon(Size); else return (ObjectType==OBJECTTYPE_THUMBNAIL?ApplicationConfig->DefaultThumbIcon:ApplicationConfig->DefaultIMAGEIcon).GetIcon(Size); }
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();
 };
@@ -252,7 +248,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
-    virtual QIcon           *GetDefaultTypeIcon()                   { return ObjectType==OBJECTTYPE_MUSICFILE?&DefaultMUSICIcon:&DefaultVIDEOIcon; }
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { if (!IsInformationValide) return ApplicationConfig->DefaultDelayedIcon.GetIcon(Size); else return (ObjectType==OBJECTTYPE_MUSICFILE?ApplicationConfig->DefaultMUSICIcon:ApplicationConfig->DefaultVIDEOIcon).GetIcon(Size); }
 
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();

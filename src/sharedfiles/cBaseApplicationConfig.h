@@ -43,32 +43,31 @@
 #define GEOMETRY_40_17                      2
 #define NBR_GEOMETRY_DEF                    3
 
-// Default Icon
-extern QString IconsPath;                      // Linux path where system icons where found (/usr/share/icons/gnome or /usr/share/icons/default.kde4
-extern QIcon   DefaultCDROMIcon;
-extern QIcon   DefaultHDDIcon;
-extern QIcon   DefaultUSBIcon;
-extern QIcon   DefaultREMOTEIcon;
-extern QIcon   DefaultUSERIcon;
-extern QIcon   DefaultFOLDERIcon;
-extern QIcon   DefaultFILEIcon;
-extern QIcon   DefaultIMAGEIcon;
-extern QIcon   DefaultVIDEOIcon;
-extern QIcon   DefaultMUSICIcon;
-extern QIcon   DefaultFFDIcon;
-extern QImage  VideoMask;
+#define ICONBIG_MAXHEIGHT                   600
+
+class cCustomIcon {
+public:
+    QImage Icon16,Icon32,Icon48,Icon100,IconBIG;   // Icons
+    enum   IconSize {ICON16,ICON32,ICON48,ICON100,ICONBIG};
+
+                    cCustomIcon();
+
+    virtual void    LoadIcons(cCustomIcon *CustomIcon);
+    virtual void    LoadIcons(QString FileName);
+    virtual void    LoadIcons(QImage *Image);
+    virtual void    LoadIcons(QIcon Icon);
+    virtual void    LoadIconsFromIMG(QString FileName);
+    virtual void    LoadIconsFromLinux(QString LinuxPath,QString FileName);
+    virtual QImage  *GetIcon(IconSize Size);
+    virtual QIcon   GetIcon();
+};
 
 // Utility functions
-void    PreloadSystemIcons();
 int     getCpuCount();                                                                                              // Retrieve number of processor
 QString AdjustDirForOS(QString Dir);                                                                                // Adjust separator in pathname depending on operating system
 QString GetTextSize(qlonglong Size);                                                                                // transform a size (_int64) in a string with apropriate unit (Gb/Tb...)
 bool    CheckFolder(QString FileToTest,QString PathToTest);                                                         // Check if FileToTest exist in PathToTest and if yes the change current folder to PathToTest
 bool    SetWorkingPath(char *argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt);    // Adjust current folder
-
-// enum types definitions
-enum    FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
-enum    LoadConfigFileType {USERCONFIGFILE,GLOBALCONFIGFILE};
 
 #if defined(Q_OS_WIN)
     QImage  qt_fromWinHBITMAP(HDC hdc, HBITMAP bitmap, int w, int h);
@@ -79,6 +78,9 @@ enum    LoadConfigFileType {USERCONFIGFILE,GLOBALCONFIGFILE};
 // Application config class
 class cBaseApplicationConfig {
 public:
+    enum    FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
+    enum    LoadConfigFileType {USERCONFIGFILE,GLOBALCONFIGFILE};
+
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
         bool                RasterMode;                                 // Enable or disable raster mode [Linux only]
     #endif
@@ -131,8 +133,19 @@ public:
     QString                 PathFFMPEG;                                 // Filename with path to ffmpeg binary
     bool                    MainWinState;                               // WindowsSettings-ismaximized
     cSaveWindowPosition     *MainWinWSP;                                // MainWindow - Window size and position
+
     QTranslator             translator;                                 // translator for the application
     QTranslator             QTtranslator;                               // translator for QT default text
+
+    // Default systems icons
+    QString                 IconsPath;                      // Linux path where system icons where found (/usr/share/icons/gnome or /usr/share/icons/default.kde4
+    cCustomIcon             DefaultCDROMIcon,DefaultHDDIcon,DefaultUSBIcon,DefaultREMOTEIcon;
+    cCustomIcon             DefaultUSERIcon,DefaultFOLDERIcon;
+    cCustomIcon             DefaultFILEIcon,DefaultDelayedIcon;
+    cCustomIcon             DefaultIMAGEIcon,DefaultThumbIcon;
+    cCustomIcon             DefaultVIDEOIcon,DefaultMUSICIcon;
+    cCustomIcon             DefaultFFDIcon;
+    QImage                  VideoMask;
 
     cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage,QString ApplicationGroupName,QString ApplicationName,QString ApplicationVersion,QString ConfigFileExt,QString ConfigFileRootName);
     ~cBaseApplicationConfig();
@@ -143,6 +156,8 @@ public:
     virtual bool            SaveConfigurationFile();
 
     virtual QString         GetValideWEBLanguage(QString Language);
+
+    virtual void            PreloadSystemIcons();
 
     // Abstract functions
     virtual void            InitValues()                                                                =0;
