@@ -38,7 +38,7 @@
 
 //*******************************************************************************************************************************************************
 
-cDriveDesc::cDriveDesc(QString ThePath,QString Alias) {
+cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *ApplicationConfig) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cDriveDesc::cDriveDesc";
     #endif
@@ -59,7 +59,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias) {
         Label   =Alias;
     }
 
-    if (Alias==QApplication::translate("QCustomFolderTree","Personal folder")) IconDrive=DefaultUSERIcon;
+    if (Alias==QApplication::translate("QCustomFolderTree","Personal folder")) IconDrive=ApplicationConfig->DefaultUSERIcon.GetIcon(cCustomIcon::ICON16)->copy();
 
     // Adjust path depending on Operating System
     #if defined(Q_OS_WIN)
@@ -76,10 +76,10 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias) {
         if ((PhysicalPath[1]==':')&&(PhysicalPath[2]=='\\')) PhysicalPath=PhysicalPath.left(3);
         MultiByteToWideChar(CP_ACP,0,PhysicalPath.toLocal8Bit(),-1,Drive,256+1);
         switch (GetDriveType(Drive)) {
-            case DRIVE_CDROM     :  IconDrive=DefaultCDROMIcon;  IsReadOnly=true;       break;
-            case DRIVE_REMOTE    :  IconDrive=DefaultREMOTEIcon;                        break;
-            case DRIVE_REMOVABLE :  IconDrive=DefaultREMOTEIcon;                        break;
-            default              :  if (IconDrive.isNull()) IconDrive=DefaultHDDIcon;   break;
+            case DRIVE_CDROM     :  IconDrive=ApplicationConfig->DefaultCDROMIcon.GetIcon(cCustomIcon::ICON16)->copy();  IsReadOnly=true;       break;
+            case DRIVE_REMOTE    :  IconDrive=ApplicationConfig->DefaultREMOTEIcon.GetIcon(cCustomIcon::ICON16)->copy();                        break;
+            case DRIVE_REMOVABLE :  IconDrive=ApplicationConfig->DefaultREMOTEIcon.GetIcon(cCustomIcon::ICON16)->copy();                        break;
+            default              :  if (IconDrive.isNull()) IconDrive=ApplicationConfig->DefaultHDDIcon.GetIcon(cCustomIcon::ICON16)->copy();   break;
         }
         if (GetVolumeInformation(Drive,VolumeName,sizeof(WCHAR)*(256+1),&SerialNumber,&MaxComponent,&FileSysFlag,SysName,sizeof(WCHAR)*(256+1))) {
             if (Label=="") {
@@ -163,7 +163,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias) {
         // Get drive type
         if ((Path!="")&&(Device!="")) {
             if (Device.startsWith("/dev/sr") || Device.startsWith("/dev/scd")) {
-                IconDrive   =DefaultCDROMIcon;
+                IconDrive   =ApplicationConfig->DefaultCDROMIcon.GetIcon(cCustomIcon::ICON16)->copy();
                 IsReadOnly  =true;
             } else {
                 // use dmesg to get drive type
@@ -212,12 +212,12 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias) {
                         }
                         if (DmesgLine.indexOf(ToFind)!=-1) DriveTypeStr=DmesgLine.mid(DmesgLine.indexOf(ToFind)+ToFind.length()+1);
                     }
-                    if (DriveTypeStr=="SCSI removable disk") IconDrive=DefaultHDDIcon;
+                    if (DriveTypeStr=="SCSI removable disk") IconDrive=ApplicationConfig->DefaultHDDIcon.GetIcon(cCustomIcon::ICON16)->copy();
                 }
             }
 
             if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
-            if (IconDrive.isNull()) IconDrive=DefaultHDDIcon;
+            if (IconDrive.isNull()) IconDrive=ApplicationConfig->DefaultHDDIcon.GetIcon(cCustomIcon::ICON16)->copy();
         }
 
         Path.replace("\\","/");
@@ -241,9 +241,12 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias) {
                         Line.trimmed();
                         if ((Line.toUpper().startsWith("ICON"))&&(Line.indexOf("=")!=-1)) {
                             Line=Line.mid(Line.indexOf("=")+1).trimmed();
-                            if (Line.toLower().endsWith(".jpg") || Line.toLower().endsWith(".png") || Line.toLower().endsWith(".ico")) IconDrive=QIcon(AdjustDirForOS(Path+Line));
+                            if (Line.toLower().endsWith(".jpg") || Line.toLower().endsWith(".png") || Line.toLower().endsWith(".ico")) IconDrive=QIcon(AdjustDirForOS(Path+Line)).pixmap(16,16).toImage().copy();
                             #if defined(Q_OS_WIN)
-                            else IconDrive=GetIconForFileOrDir(AdjustDirForOS(Path+Line),0);
+                            else {
+                                QIcon Ico(GetIconForFileOrDir(AdjustDirForOS(Path+Line),0));
+                                IconDrive=Ico.pixmap(16,16).toImage();
+                            }
                             #endif
                         }
                     }
@@ -293,12 +296,20 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias) {
                     }
                     FileIO.close();
                 }
-                if (IconFile.toLower().endsWith(".jpg") || IconFile.toLower().endsWith(".png") || IconFile.toLower().endsWith(".ico")) IconDrive=QIcon(IconFile);
+                if (IconFile.toLower().endsWith(".jpg") || IconFile.toLower().endsWith(".png")) IconDrive=QImage(IconFile);
+                else if (IconFile.toLower().endsWith(".ico")) {
+                    QIcon Ico(IconFile);
+                    if (!Ico.isNull()) IconDrive=Ico.pixmap(16,16).toImage();
+                }
+
                 #if defined(Q_OS_WIN)
-                else IconDrive=GetIconForFileOrDir(IconFile,IconIndex);
+                else {
+                    QIcon Ico=GetIconForFileOrDir(IconFile,IconIndex);
+                    if (!Ico.isNull()) IconDrive=Ico.pixmap(16,16).toImage();
+                }
                 #endif
             } else if (Directorys[j].fileName().toLower()=="folder.jpg") {
-                IconDrive=QIcon(Path+Directorys[j].fileName());
+                IconDrive=QImage(Path+Directorys[j].fileName());
             }
         }
     }
@@ -306,10 +317,11 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias) {
 
 //*******************************************************************************************************************************************************
 
-cDriveList::cDriveList() {
+cDriveList::cDriveList(cBaseApplicationConfig *TheApplicationConfig) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cDriveList::cDriveList";
     #endif
+    ApplicationConfig=TheApplicationConfig;
 }
 
 //====================================================================================================================
@@ -339,13 +351,13 @@ void cDriveList::UpdateDriveList() {
         QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
         if (!SearchDrive(Settings.value("Personal").toString()))
             if (!SearchDrive(AdjustDirForOS(Settings.value("Personal").toString())))
-                List.append(cDriveDesc(Settings.value("Personal").toString(),QApplication::translate("QCustomFolderTree","Personal folder")));
-        foreach(QFileInfo drive,QDir::drives()) if (!SearchDrive(AdjustDirForOS(drive.filePath()))) List.append(cDriveDesc(drive.filePath(),""));
+                List.append(cDriveDesc(Settings.value("Personal").toString(),QApplication::translate("QCustomFolderTree","Personal folder"),ApplicationConfig));
+        foreach(QFileInfo drive,QDir::drives()) if (!SearchDrive(AdjustDirForOS(drive.filePath()))) List.append(cDriveDesc(drive.filePath(),"",ApplicationConfig));
 
     #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
 
-        if (!SearchDrive(QDir::homePath())) List.append(cDriveDesc(QDir::homePath(),QApplication::translate("QCustomFolderTree","Personal folder")));
-        if (!SearchDrive("/"))              List.append(cDriveDesc("/",QApplication::translate("QCustomFolderTree","System files")));
+        if (!SearchDrive(QDir::homePath())) List.append(cDriveDesc(QDir::homePath(),QApplication::translate("QCustomFolderTree","Personal folder"),ApplicationConfig));
+        if (!SearchDrive("/"))              List.append(cDriveDesc("/",QApplication::translate("QCustomFolderTree","System files"),ApplicationConfig));
 
         // list mounted drives using mount command
         QProcess    Process;
@@ -386,7 +398,7 @@ void cDriveList::UpdateDriveList() {
                 if (InfoLine.indexOf(" ")!=-1) {
                     QString Device=InfoLine.left(InfoLine.indexOf(" "));
                     if (Device.startsWith("/dev/")) {
-                        cDriveDesc ToAppend("",Device);
+                        cDriveDesc ToAppend("",Device,ApplicationConfig);
                         if (ToAppend.Path!="/") if (!SearchDrive(ToAppend.Path)) List.append(ToAppend);
                     }
                 }
@@ -482,9 +494,9 @@ QIcon cDriveList::GetFolderIcon(QString FilePath) {
     if (RetIcon.isNull()) {
         if (!FilePath.endsWith(QDir::separator()))  FilePath=FilePath+QDir::separator();
         // If root item
-        for (int i=0;i<List.count();i++) if (FilePath==List[i].Path) RetIcon=List[i].IconDrive;
+        for (int i=0;i<List.count();i++) if (FilePath==List[i].Path) RetIcon=QIcon(QPixmap().fromImage(List[i].IconDrive));
     }
 
     // If nothing found, use default closed folder icon
-    if (RetIcon.isNull()) return DefaultFOLDERIcon; else return RetIcon;
+    if (RetIcon.isNull()) return ApplicationConfig->DefaultFOLDERIcon.GetIcon(); else return RetIcon;
 }

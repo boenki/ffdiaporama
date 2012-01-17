@@ -703,58 +703,58 @@ and help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="255"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="540"/>
         <source>Load system icons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="461"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="594"/>
         <source>All suported file (</source>
         <translation>Όλα τα υποστηριζόμενα αρχεία (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="468"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="601"/>
         <source>Image file (</source>
         <translation>Αρχείο εικόνας (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="474"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="607"/>
         <source>Video file (</source>
         <translation>Αρχείο βίντεο (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="480"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="613"/>
         <source>Music file (</source>
         <translation>Αρχείο μουσικής (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="645"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="778"/>
         <source>Read configuration file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="647"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="780"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="395"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την ανάγνωση του αρχείου ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="652"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="785"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="400"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Σφάλμα στην ανάγνωση του περιεχομένου του αρχείου ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="659"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="792"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="407"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Το αρχείο δεν είναι ένα έγκυρο αρχείο ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="783"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="916"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="456"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
@@ -776,82 +776,82 @@ and help</source>
         <translation>Εφαρμογή φίλτρου μετασχηματισμού</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="247"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="250"/>
         <source>files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="248"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="251"/>
         <source>folders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="249"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="252"/>
         <source>Total size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="250"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="253"/>
         <source>Total duration:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="332"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="335"/>
         <source>Configuration not correct!</source>
         <translation>Η διαμόρφωση δεν είναι σωστή!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="398"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="410"/>
         <source>Details view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="399"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="411"/>
         <source>Short summary view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="400"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="412"/>
         <source>Long summary view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="401"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="413"/>
         <source>Small icon view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="402"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="414"/>
         <source>Medium icon view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="431"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="443"/>
         <source>All files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="432"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="444"/>
         <source>Managed files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="433"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="445"/>
         <source>Image files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="434"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="446"/>
         <source>Video files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="435"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="447"/>
         <source>Music files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="436"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="448"/>
         <source>ffDiaporama project files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -864,241 +864,241 @@ and help</source>
 <context>
     <name>QCustomFolderTable</name>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="147"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="175"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="186"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="194"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="221"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="341"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="369"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="380"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="388"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="415"/>
         <source>File</source>
         <comment>Column header</comment>
         <translation type="unfinished">Αρχείο</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="148"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="498"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="342"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="710"/>
         <source>File Type</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="149"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="176"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="187"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="195"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="222"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="499"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="343"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="370"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="381"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="389"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="416"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="711"/>
         <source>File Size</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="150"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="177"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="188"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="196"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="223"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="500"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="344"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="371"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="382"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="390"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="417"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="712"/>
         <source>File Date</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="151"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="178"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="197"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="224"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="550"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="345"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="372"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="391"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="418"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="756"/>
         <source>Duration</source>
         <comment>Column header</comment>
         <translation type="unfinished">Διάρκεια</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="152"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="198"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="549"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="346"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="392"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="755"/>
         <source>Chapters</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="153"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="189"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="199"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="551"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="347"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="383"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="393"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="757"/>
         <source>Image Size</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="154"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="190"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="200"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="552"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="348"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="384"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="394"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="758"/>
         <source>Image Format</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="155"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="191"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="201"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="553"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="349"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="385"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="395"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="759"/>
         <source>Image Geometry</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="156"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="202"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="554"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="350"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="396"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="760"/>
         <source>Video Codec</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="157"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="203"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="555"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="351"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="397"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="761"/>
         <source>Frame Rate</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="158"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="204"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="556"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="352"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="398"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="762"/>
         <source>Video Bitrate</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="159"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="205"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="557"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="353"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="399"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="763"/>
         <source>Audio Language</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="160"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="206"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="225"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="558"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="354"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="400"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="419"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="764"/>
         <source>Audio Codec</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="161"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="207"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="226"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="559"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="355"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="401"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="420"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="765"/>
         <source>Audio Channels</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="162"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="208"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="227"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="560"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="356"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="402"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="421"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="766"/>
         <source>Audio Bitrate</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="163"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="209"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="228"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="561"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="357"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="403"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="422"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="767"/>
         <source>Audio Frequency</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="164"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="179"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="210"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="229"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="562"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="358"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="373"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="404"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="423"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="768"/>
         <source>Title</source>
         <comment>Column header</comment>
         <translation type="unfinished">Τίτλος</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="165"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="211"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="230"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="563"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="359"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="405"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="424"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="769"/>
         <source>Artist</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="166"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="181"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="212"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="231"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="564"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="360"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="375"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="406"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="425"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="770"/>
         <source>Album</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="167"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="182"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="213"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="232"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="565"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="361"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="376"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="407"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="426"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="771"/>
         <source>Year</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="168"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="214"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="233"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="566"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="362"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="408"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="427"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="772"/>
         <source>Track</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="169"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="215"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="234"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="567"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="363"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="409"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="428"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="773"/>
         <source>Genre</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="170"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="216"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="568"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="364"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="410"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="774"/>
         <source>Comment</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="171"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="183"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="217"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="569"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="365"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="377"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="411"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="775"/>
         <source>Composer</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="172"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="218"/>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="570"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="366"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="412"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="776"/>
         <source>Encoder</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="180"/>
+        <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="374"/>
         <source>Author</source>
         <comment>Column header</comment>
         <translation type="unfinished"></translation>
@@ -1107,25 +1107,25 @@ and help</source>
 <context>
     <name>QCustomFolderTree</name>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="314"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="253"/>
         <source>Kb</source>
         <comment>Unit Kb</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="315"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="254"/>
         <source>Mb</source>
         <comment>Unit Mb</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="316"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="255"/>
         <source>Gb</source>
         <comment>Unit Gb</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="317"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="256"/>
         <source>Tb</source>
         <comment>Unit Tb</comment>
         <translation type="unfinished"></translation>
@@ -1139,14 +1139,14 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="394"/>
         <location filename="../src/sharedfiles/cDriveList.cpp" line="62"/>
         <location filename="../src/sharedfiles/cDriveList.cpp" line="97"/>
-        <location filename="../src/sharedfiles/cDriveList.cpp" line="342"/>
-        <location filename="../src/sharedfiles/cDriveList.cpp" line="347"/>
+        <location filename="../src/sharedfiles/cDriveList.cpp" line="354"/>
+        <location filename="../src/sharedfiles/cDriveList.cpp" line="359"/>
         <source>Personal folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="297"/>
-        <location filename="../src/sharedfiles/cDriveList.cpp" line="348"/>
+        <location filename="../src/sharedfiles/cDriveList.cpp" line="360"/>
         <source>System files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1174,52 +1174,52 @@ and help</source>
         <translation type="unfinished">Επιλογή ενός αρχείου αντικατάστασης για </translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="403"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="357"/>
         <source>MPix</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="453"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="407"/>
         <source>Unmanaged</source>
         <comment>File type</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="712"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="666"/>
         <source>Slides</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="713"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="667"/>
         <source>Chapters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="776"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="729"/>
         <source>Image</source>
         <comment>File type</comment>
         <translation type="unfinished">Εικόνα</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="777"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="730"/>
         <source>Thumbnail</source>
         <comment>File type</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1325"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1306"/>
         <source>Video</source>
         <comment>File type</comment>
         <translation type="unfinished">Βίντεο</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1326"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1307"/>
         <source>Music</source>
         <comment>File type</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1190"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1171"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
         <translation type="unfinished"></translation>
@@ -1230,24 +1230,24 @@ and help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="672"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="626"/>
         <source>Slide number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="745"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="699"/>
         <source>ffDiaporama</source>
         <comment>File type</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1191"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1172"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="506"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="460"/>
         <source>Folder</source>
         <comment>File type</comment>
         <translation type="unfinished"></translation>

@@ -292,7 +292,7 @@ void DlgBackgroundProperties::s_SelectFile() {
     QString NewFile=QFileDialog::getOpenFileName(this,
                                                  QApplication::translate("DlgBackgroundProperties","Select a file"),
                                                  GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
-                                                 GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(IMAGEFILE));
+                                                 GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cBaseApplicationConfig::IMAGEFILE));
     QApplication::processEvents();
     if (NewFile=="") return;
     if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use

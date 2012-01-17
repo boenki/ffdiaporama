@@ -40,6 +40,7 @@ Q_OBJECT
 public:
     cDriveList              *DriveList;
     QList<cBaseMediaFile*>  MediaList;
+    cBaseApplicationConfig  *ApplicationConfig;
 
     bool                    ShowHidden;                         // If true, hidden files will be show
     bool                    ShowMntDrive;                       // Show drives under /mnt/ [Linux only]
@@ -60,8 +61,14 @@ public:
     QFutureWatcher<void>    ScanMediaList;
     bool                    StopScanMediaList;
 
+    QAbstractItemModel      *DefaultModel;
+    QAbstractItemDelegate   *DefaultDelegate,*IconDelegate;
+
     explicit                QCustomFolderTable(QWidget *parent = 0);
                             ~QCustomFolderTable();
+
+    virtual void            resizeEvent(QResizeEvent *);
+    virtual void            mouseDoubleClickEvent(QMouseEvent *);
 
     virtual void            SetMode(cDriveList *DriveList,int Mode,int Filter);
     virtual void            FillListFolder(QString Path,cBaseApplicationConfig *ApplicationConfig);

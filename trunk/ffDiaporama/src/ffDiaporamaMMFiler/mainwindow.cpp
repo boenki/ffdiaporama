@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     #endif
 
     ApplicationConfig     =new cApplicationConfig(this);
-    DriveList             =new cDriveList();
+    DriveList             =new cDriveList(ApplicationConfig);
     IsFirstInitDone       =false;
     Icon_DISPLAY_DATA_S   =QIcon("img/DISPLAY_DATA_S.png");
     Icon_DISPLAY_DATA     =QIcon("img/DISPLAY_DATA.png");
@@ -89,7 +89,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     #endif
 
     ApplicationConfig->InitConfigurationValues(ForceLanguage,App);
-    PreloadSystemIcons();
+    ApplicationConfig->PreloadSystemIcons();
 
     // Register all formats and codecs for libavformat/libavcodec/etc ...
     ApplicationConfig->DeviceModelList.Initffmpeg();
@@ -173,13 +173,6 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::resizeEvent";
     #endif
-
-    if ((ApplicationConfig->CurrentMode==DISPLAY_ICON48)||(ApplicationConfig->CurrentMode==DISPLAY_ICON100)) {
-        ui->FolderTable->setUpdatesEnabled(false);
-        ui->FolderTable->SetMode(this->DriveList,ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
-        s_currentTreeItemChanged(ui->FolderTree->currentItem(),NULL);
-        ui->FolderTable->setUpdatesEnabled(true);
-    }
 }
 
 //====================================================================================================================
@@ -387,6 +380,15 @@ void MainWindow::s_action_Exit() {
 
 //====================================================================================================================
 
+QAction *MainWindow::CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
+    QAction *Action;
+    Action=new QAction(QIcon(QPixmap().fromImage(*Icon)),Text,this);
+    Action->setCheckable(Checkable);
+    if (Checkable) Action->setChecked(IsCheck);
+    Action->setData(QVariant(Data));
+    return Action;
+}
+
 QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
     QAction *Action;
     Action=new QAction(Icon,Text,this);
@@ -438,12 +440,12 @@ void MainWindow::s_action_Filter() {
 
     // Create menu
     QMenu   *ContextMenu=new QMenu(this);
-    ContextMenu->addAction(CreateMenuAction(DefaultFILEIcon, QApplication::translate("MainWindow","All files"),                OBJECTTYPE_UNMANAGED,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_UNMANAGED));
-    ContextMenu->addAction(CreateMenuAction(DefaultFILEIcon, QApplication::translate("MainWindow","Managed files"),            OBJECTTYPE_MANAGED,  true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MANAGED));
-    ContextMenu->addAction(CreateMenuAction(DefaultIMAGEIcon,QApplication::translate("MainWindow","Image files"),              OBJECTTYPE_IMAGEFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_IMAGEFILE));
-    ContextMenu->addAction(CreateMenuAction(DefaultVIDEOIcon,QApplication::translate("MainWindow","Video files"),              OBJECTTYPE_VIDEOFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_VIDEOFILE));
-    ContextMenu->addAction(CreateMenuAction(DefaultMUSICIcon,QApplication::translate("MainWindow","Music files"),              OBJECTTYPE_MUSICFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MUSICFILE));
-    ContextMenu->addAction(CreateMenuAction(DefaultFFDIcon,  QApplication::translate("MainWindow","ffDiaporama project files"),OBJECTTYPE_FFDFILE,  true,ApplicationConfig->CurrentFilter==OBJECTTYPE_FFDFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","All files"),                OBJECTTYPE_UNMANAGED,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_UNMANAGED));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","Managed files"),            OBJECTTYPE_MANAGED,  true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MANAGED));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultIMAGEIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Image files"),              OBJECTTYPE_IMAGEFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_IMAGEFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultVIDEOIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Video files"),              OBJECTTYPE_VIDEOFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_VIDEOFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultMUSICIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Music files"),              OBJECTTYPE_MUSICFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MUSICFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFFDIcon.GetIcon(cCustomIcon::ICON16),  QApplication::translate("MainWindow","ffDiaporama project files"),OBJECTTYPE_FFDFILE,  true,ApplicationConfig->CurrentFilter==OBJECTTYPE_FFDFILE));
 
     // Exec menu
     QAction *Action=ContextMenu->exec(QCursor::pos());

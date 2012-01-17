@@ -61,7 +61,7 @@ void QCustomFolderTree::InitDrives(cDriveList *TheDriveList) {
     DriveList=TheDriveList;
     foreach(cDriveDesc HDD,DriveList->List)
         if ((!HDD.Path.startsWith("/mnt/"))||(ShowMntDrive))
-            addTopLevelItem(CreateItem(HDD.Label,HDD.Path,HDD.IconDrive));
+            addTopLevelItem(CreateItem(HDD.Label,HDD.Path,QIcon(QPixmap().fromImage(HDD.IconDrive))));
 }
 
 //====================================================================================================================
@@ -544,13 +544,13 @@ void QCustomFolderTree::RefreshDriveList() {
             } else {
                 // ShowMntDrive have changed, we have to create it
                 if ((!DriveList->List[i].Path.startsWith("/mnt/"))||(ShowMntDrive))
-                    addTopLevelItem(CreateItem(DriveList->List[i].Label,DriveList->List[i].Path,DriveList->List[i].IconDrive));
+                    addTopLevelItem(CreateItem(DriveList->List[i].Label,DriveList->List[i].Path,QIcon(QPixmap().fromImage(DriveList->List[i].IconDrive))));
             }
             i++;
         } else {
             // It's a new drive
             if ((!DriveList->List[i].Path.startsWith("/mnt/"))||(ShowMntDrive))
-                addTopLevelItem(CreateItem(DriveList->List[i].Label,DriveList->List[i].Path,DriveList->List[i].IconDrive));
+                addTopLevelItem(CreateItem(DriveList->List[i].Label,DriveList->List[i].Path,QIcon(QPixmap().fromImage(DriveList->List[i].IconDrive))));
             i++;
         }
     }

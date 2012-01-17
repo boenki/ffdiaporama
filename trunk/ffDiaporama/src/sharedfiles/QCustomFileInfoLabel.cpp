@@ -56,17 +56,16 @@ void QCustomFileInfoLabel::paintEvent(QPaintEvent *) {
     QFont       font;
     QTextOption OptionText;
     QPen        Pen;
+    int         RightWidth=0;
+
     int         LinesToDisplay=0;
     int         IconHeight=0;
     QImage      *Icon=NULL;
-    int         RightWidth=0;
 
     switch (DisplayMode) {
         case DISPLAY_DATA    :  LinesToDisplay=0;       IconHeight=16;       Icon=Icon16;   break;
         case DISPLAY_WEBSHORT:  LinesToDisplay=2;       IconHeight=32;       Icon=Icon32;   break;
         case DISPLAY_WEBLONG :  LinesToDisplay=3;       IconHeight=48;       Icon=Icon48;   break;
-        case DISPLAY_ICON48  :  LinesToDisplay=0;       IconHeight=48;       Icon=Icon48;   break;
-        case DISPLAY_ICON100 :  LinesToDisplay=0;       IconHeight=100;      Icon=Icon100;  break;
     }
 
     if ((Icon)&&(!Icon->isNull())) {
@@ -116,10 +115,9 @@ void QCustomFileInfoLabel::paintEvent(QPaintEvent *) {
                 if (Text[i][j]!="") {
                     if (i==0) {
                         Painter.drawText(QRectF(IconHeight+2+18,1+i*(14+2),this->width()-IconHeight-3-RightWidth-18,14),Text[i][j],OptionText);
-                        QImage IconF=IconType->pixmap(16,16).toImage();
-                        int addX=16-IconF.width();
-                        int addY=16-IconF.height();
-                        Painter.drawImage(QRect(IconHeight+2+1+addX/2,1+addY/2,IconF.width(),IconF.height()),IconF);
+                        int addX=16-IconType->width();
+                        int addY=16-IconType->height();
+                        Painter.drawImage(QRect(IconHeight+2+1+addX/2,1+addY/2,IconType->width(),IconType->height()),*IconType);
                     } else Painter.drawText(QRectF(IconHeight+2,1+i*(14+2),this->width()-IconHeight-3-RightWidth,14),Text[i][j],OptionText);
                 }
             }
@@ -134,7 +132,7 @@ void QCustomFileInfoLabel::SetupFileInfoLabel(cBaseMediaFile *MediaObject) {
     qDebug() << "IN:QCustomFileInfoLabel::AppendMediaToTable";
     #endif
     if (MediaObject) {
-        IconType    =MediaObject->GetDefaultTypeIcon();
+        IconType    =MediaObject->GetDefaultTypeIcon(cCustomIcon::ICON16);
         Icon16      =&MediaObject->Icon16;
         Icon32      =&MediaObject->Icon32;
         Icon48      =&MediaObject->Icon48;

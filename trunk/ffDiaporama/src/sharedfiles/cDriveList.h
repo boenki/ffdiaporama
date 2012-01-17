@@ -41,20 +41,21 @@ public:
     qlonglong   Size;
     qlonglong   Used;
     qlonglong   Avail;
-    QIcon       IconDrive;
+    QImage      IconDrive;
     QString     Device;         // Linux only : associated device path (/dev/...)
     bool        IsReadOnly;
     int         Flag;           // Use by cDriveList::UpdateDriveList = 0=No longer exist, 1=Already, 2=New drive
 
-    cDriveDesc(QString Path,QString Alias);
+    cDriveDesc(QString Path,QString Alias,cBaseApplicationConfig *ApplicationConfig);
 };
 
 // class to handle drive list
 class cDriveList {
 public:
-    QList<cDriveDesc>   List;                      // Table of alias for drives
+    QList<cDriveDesc>       List;                      // Table of alias for drives
+    cBaseApplicationConfig  *ApplicationConfig;
 
-    cDriveList();
+    cDriveList(cBaseApplicationConfig *ApplicationConfig);
 
     virtual void        UpdateDriveList();
     virtual QIcon       GetFolderIcon(QString FilePath);

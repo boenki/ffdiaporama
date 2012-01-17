@@ -46,7 +46,7 @@ public:
     int             DisplayMode;
     QString         ShortName;
     QString         Text[3][2];
-    QIcon           *IconType;
+    QImage          *IconType;
     QImage          *Icon16;
     QImage          *Icon32;
     QImage          *Icon48;
