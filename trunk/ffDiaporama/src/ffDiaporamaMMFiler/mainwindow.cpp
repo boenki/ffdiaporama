@@ -117,7 +117,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     // Initialise integrated controls and list
     DriveList->UpdateDriveList();
     ui->FolderTree->InitDrives(DriveList);
-    ui->FolderTable->SetMode(DriveList,ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
+    ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
 
     ui->ToolBoxNormal->setCurrentIndex(0);
     RefreshControls();
@@ -220,7 +220,15 @@ void MainWindow::s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetIt
 
     ui->CurrentPathED->setText(ApplicationConfig->CurrentPath);
     ui->FolderIcon->setPixmap(DriveList->GetFolderIcon(ApplicationConfig->CurrentPath).pixmap(48,48));
-    ui->FolderTable->FillListFolder(ApplicationConfig->CurrentPath,ApplicationConfig);
+
+    QString Path=ApplicationConfig->CurrentPath;
+    #if defined(Q_OS_WIN)
+        Path.replace("%HOMEDRIVE%%HOMEPATH%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path.replace("%USERPROFILE%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path=AdjustDirForOS(Path);
+        if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
+    #endif
+    ui->FolderTable->FillListFolder(Path,ApplicationConfig);
 }
 
 //====================================================================================================================
@@ -232,12 +240,15 @@ void MainWindow::DoRefreshFolderInfo() {
     DriveList->UpdateDriveList();   // To update free space on drive
     cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(ApplicationConfig->CurrentPath);
     if (HDD) {
-        if (ui->FolderTable->ScanMediaList.isRunning()) {
+        // If scan in progress
+        if (ui->FolderTable->ScanMediaListProgress) {
             ui->HDDSizePgr->setMaximum(0);
             ui->HDDSizePgr->setValue(0);
             ui->HDDSizePgr->setFormat("%P%");
             ui->HDDSizePgr->setAlignment(Qt::AlignHCenter);
             ui->FolderInfoLabel->setText("");
+
+        // If scan is finished
         } else {
             // Ensure Used and Size fit in an _int32 value for QProgressBar
             qlonglong Used=HDD->Used,Size=HDD->Size;
@@ -247,10 +258,11 @@ void MainWindow::DoRefreshFolderInfo() {
             ui->HDDSizePgr->setFormat(GetTextSize(HDD->Used)+"/"+GetTextSize(HDD->Size));
             ui->HDDSizePgr->setAlignment(Qt::AlignHCenter);
         }
-        ui->FolderInfoLabel->setText(QString("%1/%2").arg(ui->FolderTable->CurrentShowFilesNumber).arg(ui->FolderTable->CurrentTotalFilesNumber)+" "+QApplication::translate("MainWindow","files")+" - "+
-                                     QString("%1").arg(ui->FolderTable->CurrentShowFolderNumber)+" "+QApplication::translate("MainWindow","folders")+" - "+
-                                     QApplication::translate("MainWindow","Total size:")+QString("%1/%2").arg(GetTextSize(ui->FolderTable->CurrentShowFolderSize)).arg(GetTextSize(ui->FolderTable->CurrentTotalFolderSize))+" - "+
-                                     QApplication::translate("MainWindow","Total duration:")+ui->FolderTable->CurrentShowDuration.toString("HH:mm:ss"));
+        QString ToDisplay=QString("%1/%2").arg(ui->FolderTable->CurrentShowFilesNumber).arg(ui->FolderTable->CurrentTotalFilesNumber)+" "+QApplication::translate("MainWindow","files")+" - "+
+                          QString("%1").arg(ui->FolderTable->CurrentShowFolderNumber)+" "+QApplication::translate("MainWindow","folders")+" - "+
+                          QApplication::translate("MainWindow","Total size:")+QString("%1/%2").arg(GetTextSize(ui->FolderTable->CurrentShowFolderSize)).arg(GetTextSize(ui->FolderTable->CurrentTotalFolderSize));
+        if (ui->FolderTable->CurrentShowDuration!=QTime(0,0,0,0)) ToDisplay=ToDisplay+" - "+QApplication::translate("MainWindow","Total duration:")+ui->FolderTable->CurrentShowDuration.toString("HH:mm:ss");
+        ui->FolderInfoLabel->setText(ToDisplay);
     } else {
         ui->HDDSizePgr->setMaximum(0);
         ui->HDDSizePgr->setValue(0);
@@ -419,7 +431,7 @@ void MainWindow::s_action_Mode() {
         ApplicationConfig->CurrentMode=Action->data().toInt();
         ui->Action_Mode_BT->setIcon(*GetIconMode());
         ui->FileInfoLabel->setVisible((ApplicationConfig->CurrentMode!=DISPLAY_WEBSHORT)&&(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG));
-        ui->FolderTable->SetMode(this->DriveList,ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
+        ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
         s_currentTreeItemChanged(ui->FolderTree->currentItem(),NULL);
     }
 
@@ -451,7 +463,7 @@ void MainWindow::s_action_Filter() {
     QAction *Action=ContextMenu->exec(QCursor::pos());
     if ((Action)&&(ApplicationConfig->CurrentFilter!=Action->data().toInt())) {
         ApplicationConfig->CurrentFilter=Action->data().toInt();
-        ui->FolderTable->SetMode(this->DriveList,ui->FolderTable->CurrentMode,ApplicationConfig->CurrentFilter);
+        ui->FolderTable->SetMode(ui->FolderTable->CurrentMode,ApplicationConfig->CurrentFilter);
         s_currentTreeItemChanged(ui->FolderTree->currentItem(),NULL);
     }
 

@@ -55,6 +55,9 @@ extern "C" {
     #define AV_SAMPLE_FMT_DBL   SAMPLE_FMT_DBL
     #define AV_SAMPLE_FMT_NB    SAMPLE_FMT_NB
 #endif
+#ifndef AVIO_FLAG_WRITE
+    #define AVIO_FLAG_WRITE 2
+#endif
 
 // Define possible values for images geometry
 #define IMAGE_GEOMETRY_UNKNOWN              0   // undefined image geometry
@@ -128,7 +131,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile()                    {/*Nothing to do*/}
-    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { if (!IsInformationValide) return ApplicationConfig->DefaultDelayedIcon.GetIcon(Size); else return ApplicationConfig->DefaultFILEIcon.GetIcon(Size); }
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFILEIcon.GetIcon(Size); }
     virtual QString         GetTechInfo()                                   { return ""; }
     virtual QString         GetTAGInfo()                                    { return ""; }
 };
@@ -143,8 +146,8 @@ public:
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
-    virtual void            GetFullInformationFromFile()                    {/*Nothing to do*/}
-    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { if (!IsInformationValide) return ApplicationConfig->DefaultDelayedIcon.GetIcon(Size); else return ApplicationConfig->DefaultFOLDERIcon.GetIcon(Size); }
+    virtual void            GetFullInformationFromFile();
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFOLDERIcon.GetIcon(Size); }
     virtual QString         GetTechInfo()                                   { return ""; }
     virtual QString         GetTAGInfo()                                    { return ""; }
 };
@@ -173,7 +176,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
-    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { if (!IsInformationValide) return ApplicationConfig->DefaultDelayedIcon.GetIcon(Size); else return ApplicationConfig->DefaultFFDIcon.GetIcon(Size); }
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFFDIcon.GetIcon(Size); }
 
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();
@@ -194,7 +197,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
-    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { if (!IsInformationValide) return ApplicationConfig->DefaultDelayedIcon.GetIcon(Size); else return (ObjectType==OBJECTTYPE_THUMBNAIL?ApplicationConfig->DefaultThumbIcon:ApplicationConfig->DefaultIMAGEIcon).GetIcon(Size); }
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return (ObjectType==OBJECTTYPE_THUMBNAIL?ApplicationConfig->DefaultThumbIcon:ApplicationConfig->DefaultIMAGEIcon).GetIcon(Size); }
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();
 };
@@ -243,12 +246,10 @@ public:
     explicit    cVideoFile(WantedObjectTypeFmt WantedObjectType,cBaseApplicationConfig *ApplicationConfig);
     ~cVideoFile();
 
-    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
-
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
-    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { if (!IsInformationValide) return ApplicationConfig->DefaultDelayedIcon.GetIcon(Size); else return (ObjectType==OBJECTTYPE_MUSICFILE?ApplicationConfig->DefaultMUSICIcon:ApplicationConfig->DefaultVIDEOIcon).GetIcon(Size); }
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return (ObjectType==OBJECTTYPE_MUSICFILE?ApplicationConfig->DefaultMUSICIcon:ApplicationConfig->DefaultVIDEOIcon).GetIcon(Size); }
 
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();
