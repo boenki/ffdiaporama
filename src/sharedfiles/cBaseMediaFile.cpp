@@ -1376,6 +1376,8 @@ void cVideoFile::GetFullInformationFromFile() {
     // Produce thumbnail
     //*********************************************************************************************************
 
+    IsInformationValide=true;
+
     // If it's an audio file, try to get embeded image
     if (ObjectType==OBJECTTYPE_MUSICFILE) {
         QImage *Img=GetEmbededImage(FileName);
@@ -1400,7 +1402,6 @@ void cVideoFile::GetFullInformationFromFile() {
     // if no icon then load default for type
     if (Icon16.isNull()) LoadIcons(ObjectType==OBJECTTYPE_VIDEOFILE?&ApplicationConfig->DefaultVIDEOIcon:&ApplicationConfig->DefaultMUSICIcon);
 
-    IsInformationValide=true;
 }
 
 //====================================================================================================================
@@ -2164,6 +2165,7 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
 bool cVideoFile::OpenCodecAndFile() {
     // Ensure file was previously checked
     if (!IsValide) return false;
+    if (!IsInformationValide) GetFullInformationFromFile();
 
     // Clean memory if a previous file was loaded
     CloseCodecAndFile();
