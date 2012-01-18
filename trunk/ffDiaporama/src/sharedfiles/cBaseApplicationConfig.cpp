@@ -157,7 +157,6 @@
         #ifdef DEBUGMODE
         qDebug() << "IN:GetIconForFileOrDir";
         #endif
-
         QIcon RetIcon;
         WCHAR WinFileName[256+1];
 
@@ -230,6 +229,7 @@
             }
             DestroyIcon(info.hIcon);
         }
+        qDebug()<<"Loading icon nbr"<<IconIndex<<"From "+FileName<<(RetIcon.isNull()?"Error":"Ok");
         return RetIcon;
     }
 
@@ -370,6 +370,7 @@ void cCustomIcon::LoadIcons(QString FileName) {
     qDebug() << "IN:cCustomIcon::LoadIcons as filename";
     #endif
     QImage IconBIG(FileName);
+    qDebug()<<"Loading "+FileName<<(IconBIG.isNull()?"Error":"Ok");
     if (IconBIG.width()>IconBIG.height()) {
         Icon16 =IconBIG.scaledToWidth(16,Qt::SmoothTransformation);
         Icon32 =IconBIG.scaledToWidth(32,Qt::SmoothTransformation);
@@ -404,11 +405,11 @@ void cCustomIcon::LoadIconsFromIMG(QString FileName) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cCustomIcon::LoadIconsFromIMG";
     #endif
-    Icon16.load("img/MediaIcons/16x16/"+FileName);
-    Icon32.load("img/MediaIcons/32x32/"+FileName);
-    Icon48.load("img/MediaIcons/48x48/"+FileName);
-    Icon100.load("img/MediaIcons/100x100/"+FileName);
-    IconBIG.load("img/MediaIcons/200x200/"+FileName);
+    Icon16.load("img/MediaIcons/16x16/"+FileName);      qDebug()<<"Loading img/MediaIcons/16x16/"+FileName<<(Icon16.isNull()?"Error":"Ok");
+    Icon32.load("img/MediaIcons/32x32/"+FileName);      qDebug()<<"Loading img/MediaIcons/32x32/"+FileName<<(Icon32.isNull()?"Error":"Ok");
+    Icon48.load("img/MediaIcons/48x48/"+FileName);      qDebug()<<"Loading img/MediaIcons/48x48/"+FileName<<(Icon48.isNull()?"Error":"Ok");
+    Icon100.load("img/MediaIcons/100x100/"+FileName);   qDebug()<<"Loading img/MediaIcons/100x100/"+FileName<<(Icon100.isNull()?"Error":"Ok");
+    IconBIG.load("img/MediaIcons/200x200/"+FileName);   qDebug()<<"Loading img/MediaIcons/200x200/"+FileName<<(IconBIG.isNull()?"Error":"Ok");
 }
 
 //====================================================================================================================
@@ -417,11 +418,14 @@ void cCustomIcon::LoadIconsFromLinux(QString LinuxPath,QString FileName) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cCustomIcon::LoadIconsFromLinux";
     #endif
-    Icon16.load(LinuxPath+"16x16/"+FileName);
-    Icon32.load(LinuxPath+"32x32/"+FileName);
-    Icon48.load(LinuxPath+"48x48/"+FileName);
-    Icon100=QImage(LinuxPath+"128x128/"+FileName).scaledToHeight(100,Qt::SmoothTransformation);
-    IconBIG=QImage(LinuxPath+"128x128/"+FileName).scaledToHeight(200,Qt::SmoothTransformation);
+    Icon16.load(LinuxPath+"16x16/"+FileName);       qDebug()<<"Loading "+LinuxPath+"16x16/"+FileName<<(Icon16.isNull()?"Error":"Ok");
+    Icon32.load(LinuxPath+"32x32/"+FileName);       qDebug()<<"Loading "+LinuxPath+"32x32/"+FileName<<(Icon32.isNull()?"Error":"Ok");
+    Icon48.load(LinuxPath+"48x48/"+FileName);       qDebug()<<"Loading "+LinuxPath+"48x48/"+FileName<<(Icon48.isNull()?"Error":"Ok");
+    Icon100=QImage(LinuxPath+"128x128/"+FileName);  qDebug()<<"Loading "+LinuxPath+"128x128/"+FileName<<(Icon100.isNull()?"Error":"Ok");
+    if (!Icon100.isNull()) IconBIG=Icon100.copy();
+
+    if (!Icon100.isNull()) Icon100=Icon100.scaledToHeight(100,Qt::SmoothTransformation);
+    if (!IconBIG.isNull()) IconBIG=IconBIG.scaledToHeight(200,Qt::SmoothTransformation);
 }
 
 //====================================================================================================================

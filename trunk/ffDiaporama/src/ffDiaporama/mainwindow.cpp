@@ -1398,7 +1398,7 @@ void MainWindow::s_Action_DoAddFile() {
             else if (ApplicationConfig->AllowVideoExtension.contains(Extension)) MediaFile=new cVideoFile(cVideoFile::VIDEOFILE,ApplicationConfig);
 
         bool IsValide=((MediaFile)&&(MediaFile->GetInformationFromFile(BrushFileName,NULL,NULL)));
-        if ((IsValide)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)) IsValide=((cVideoFile *)MediaFile)->OpenCodecAndFile();
+        if ((IsValide)&&((MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)||(MediaFile->ObjectType==OBJECTTYPE_MUSICORVIDEO))) IsValide=((cVideoFile *)MediaFile)->OpenCodecAndFile();
         if (!IsValide) {
             QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile,QMessageBox::Close);
             if (MediaFile) delete MediaFile;
