@@ -39,6 +39,8 @@ extern "C" {
     #include <libavutil/avutil.h>
 }
 
+#define FFD_APPLICATION_ROOTNAME    "Project"   // Name of root node in the project xml file
+
 //#define DEBUGMODE
 
 //****************************************************************************************************************************************************************
@@ -424,9 +426,7 @@ cFolder::cFolder(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(Appli
     #ifdef DEBUGMODE
     qDebug() << "IN:cFolder::cFolder";
     #endif
-    LoadIcons(&ApplicationConfig->DefaultFOLDERIcon);
     ObjectType  =OBJECTTYPE_FOLDER;
-    IsInformationValide=true;
 }
 
 //====================================================================================================================
@@ -449,6 +449,80 @@ bool cFolder::IsFilteredFile(int) {
     qDebug() << "IN:cFolder::IsFilteredFile";
     #endif
     return true;    // always valide
+}
+
+//====================================================================================================================
+
+void cFolder::GetFullInformationFromFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cFolder::GetFullInformationFromFile";
+    #endif
+    IsInformationValide=true;
+
+    QString AdjustedFileName=FileName;  if (!AdjustedFileName.endsWith(QDir::separator())) AdjustedFileName=AdjustedFileName+QDir::separator();
+
+    // Check if a folder.jpg file exist
+    if (Icon16.isNull()) {
+        QFileInfoList Directorys=QDir(FileName).entryInfoList(QDir::Files);
+        for (int j=0;j<Directorys.count();j++) if (Directorys[j].fileName().toLower()=="folder.jpg") {
+            QString FileName=AdjustedFileName+Directorys[j].fileName();
+            LoadIcons(FileName);
+        }
+    }
+
+    // Check if there is an desktop.ini ==========> WINDOWS EXTENSION
+    if (Icon16.isNull()) {
+        QFileInfoList Directorys=QDir(FileName).entryInfoList(QDir::Files|QDir::Hidden);
+        for (int j=0;j<Directorys.count();j++) if (Directorys[j].fileName().toLower()=="desktop.ini") {
+            QFile   FileIO(AdjustedFileName+Directorys[j].fileName());
+            QString IconFile ="";
+            #if defined(Q_OS_WIN)
+            int     IconIndex=0;
+            #endif
+            if (FileIO.open(QIODevice::ReadOnly/*|QIODevice::Text*/)) {
+                // Sometimes this kind of files have incorrect line terminator : nor \r\n nor \n
+                QTextStream FileST(&FileIO);
+                QString     AllInfo=FileST.readAll();
+                QString     Line="";
+                while (AllInfo!="") {
+                    int j=0;
+                    while ((j<AllInfo.length())&&((AllInfo[j]>=char(32))||(AllInfo[j]==9))) j++;
+                    if (j<AllInfo.length()) {
+                        Line=AllInfo.left(j);
+                        while ((j<AllInfo.length())&&(AllInfo[j]<=char(32))) j++;
+                        if (j<AllInfo.length()) AllInfo=AllInfo.mid(j); else AllInfo="";
+                    } else {
+                        Line=AllInfo;
+                        AllInfo="";
+                    }
+                    #if defined(Q_OS_WIN)
+                    if ((Line.toUpper().startsWith("ICONINDEX"))&&(Line.indexOf("=")!=-1)) {
+                        IconIndex=Line.mid(Line.indexOf("=")+1).toInt();
+                    } else
+                    #endif
+                    if ((Line.toUpper().startsWith("ICONFILE"))&&(Line.indexOf("=")!=-1)) {
+                        Line=Line.mid(Line.indexOf("=")+1).trimmed();
+                        // Replace all variables like %systemroot%
+                        while (Line.indexOf("%")!=-1) {
+                            QString Var=Line.mid(Line.indexOf("%")+1);  Var=Var.left(Var.indexOf("%"));
+                            QString Value=getenv(Var.toLocal8Bit());
+                            Line.replace("%"+Var+"%",Value,Qt::CaseInsensitive);
+                        }
+                        if (QFileInfo(Line).isRelative()) IconFile=AdjustDirForOS(AdjustedFileName+Line);
+                            else IconFile=AdjustDirForOS(QFileInfo(Line).absoluteFilePath());
+                    }
+                }
+                FileIO.close();
+            }
+            if (IconFile.toLower().endsWith(".jpg") || IconFile.toLower().endsWith(".png") || IconFile.toLower().endsWith(".ico")) LoadIcons(IconFile);
+            #if defined(Q_OS_WIN)
+            else LoadIcons(GetIconForFileOrDir(IconFile,IconIndex));
+            #endif
+        }
+    }
+
+    // if no icon then load default for type
+    if (Icon16.isNull()) LoadIcons(&ApplicationConfig->DefaultFOLDERIcon);
 }
 
 //====================================================================================================================
@@ -495,6 +569,7 @@ bool cffDProjectFile::GetInformationFromFile(QString GivenFileName,QStringList *
     FileSizeText        =GetTextSize(FileSize);
     CreatDateTime       =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
     ModifDateTime       =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
+    LoadIcons(&ApplicationConfig->DefaultFFDIcon);
     return true;
 }
 
@@ -630,8 +705,6 @@ bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
 }
 
 //====================================================================================================================
-
-#define FFD_APPLICATION_ROOTNAME    "Project"   // Name of root node in the project xml file
 
 void cffDProjectFile::GetFullInformationFromFile() {
     #ifdef DEBUGMODE
@@ -1056,38 +1129,44 @@ cVideoFile::~cVideoFile() {
 //      return true if WantedObjectType=OBJECTTYPE_VIDEOFILE and at least one video track is present
 //      return true if WantedObjectType=OBJECTTYPE_MUSICFILE and at least one audio track is present
 
-bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag) {
+void cVideoFile::GetFullInformationFromFile() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::RealGetInformationFromFile";
+    qDebug() << "IN:cVideoFile::GetFullInformationFromFile";
     #endif
 
     int64_t AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
 
-    if (!cBaseMediaFile::GetInformationFromFile(GivenFileName,AliasList,ModifyFlag)) return false;
-
     AVFormatContext *ffmpegFile=NULL;;
 
-    // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
+    //*********************************************************************************************************
+    // Open file and get a LibAVFormat context and an associated LibAVCodec decoder
+    //*********************************************************************************************************
     #if (LIBAVFORMAT_VERSION_MAJOR>=53)
-        if (avformat_open_input(&ffmpegFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
+    if (avformat_open_input(&ffmpegFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return;
     #else
-        if (av_open_input_file(&ffmpegFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
+    if (av_open_input_file(&ffmpegFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return;
     #endif
 
     ffmpegFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
 
+    //*********************************************************************************************************
+    // Search stream in file
+    //*********************************************************************************************************
     #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
-        if (avformat_find_stream_info(ffmpegFile,NULL)<0) {
-            avformat_close_input(&ffmpegFile);
+    if (avformat_find_stream_info(ffmpegFile,NULL)<0) {
+        avformat_close_input(&ffmpegFile);
+        return;
+    }
     #else
-        if (av_find_stream_info(ffmpegFile)<0) {    // deprecated : use avformat_find_stream_info instead
-            av_close_input_file(ffmpegFile);
+    if (av_find_stream_info(ffmpegFile)<0) {
+        av_close_input_file(ffmpegFile);// deprecated : use avformat_find_stream_info instead
+        return;
+    }
     #endif
 
-        return false;
-    }
-
+    //*********************************************************************************************************
     // Get metadata
+    //*********************************************************************************************************
     #if (LIBAVFORMAT_VERSION_MAJOR<53)
     AVMetadataTag *tag=NULL;
     while ((tag=av_metadata_get(ffmpegFile->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX))) {
@@ -1103,7 +1182,9 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
         InformationList.append(QString().fromUtf8(tag->key).toLower()+QString("##")+Value);
     }
 
+    //*********************************************************************************************************
     // Get chapters
+    //*********************************************************************************************************
     NbrChapters=ffmpegFile->nb_chapters;
     for (uint i=0;i<ffmpegFile->nb_chapters;i++) {
         AVChapter   *ch=ffmpegFile->chapters[i];
@@ -1122,7 +1203,10 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
             #endif
                 InformationList.append("Chapter_"+ChapterNum+":"+QString().fromUtf8(tag->key).toLower()+QString("##")+QString().fromUtf8(tag->value));
     }
+
+    //*********************************************************************************************************
     // Get informations about duration
+    //*********************************************************************************************************
     int         hh,mm,ss;
     qlonglong   ms;
 
@@ -1141,12 +1225,17 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
     EndPos  =Duration;    // By default : EndPos is set to the end of file
     InformationList.append(QString("Duration")+QString("##")+Duration.toString("HH:mm:ss.zzz"));
 
+    //*********************************************************************************************************
     // Get information from track
+    //*********************************************************************************************************
     for (int Track=0;Track<(int)ffmpegFile->nb_streams;Track++) {
 
         // Find codec
         AVCodec *Codec=avcodec_find_decoder(ffmpegFile->streams[Track]->codec->codec_id);
 
+        //*********************************************************************************************************
+        // Audio track
+        //*********************************************************************************************************
         if (ffmpegFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_AUDIO) {
             // Keep this as default track
             if (AudioStreamNumber==-1) AudioStreamNumber=Track;
@@ -1221,6 +1310,9 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
             // Next
             AudioTrackNbr++;
 
+        //*********************************************************************************************************
+        // Video track
+        //*********************************************************************************************************
         } else if (!MusicOnly && (ffmpegFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_VIDEO)) {
 
             // Keep this as default track
@@ -1263,29 +1355,52 @@ bool cVideoFile::GetInformationFromFile(QString GivenFileName,QStringList *Alias
             VideoTrackNbr++;
         }
     }
+
+    //*********************************************************************************************************
     // Close file
+    //*********************************************************************************************************
     #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
-        avformat_close_input(&ffmpegFile);
+    avformat_close_input(&ffmpegFile);
     #else
-        av_close_input_file(ffmpegFile);
+    av_close_input_file(ffmpegFile);
     #endif
 
+    //*********************************************************************************************************
     // Do file qualification
-
+    //*********************************************************************************************************
     if (VideoTrackNbr>0)      ObjectType=OBJECTTYPE_VIDEOFILE;
     else if (AudioTrackNbr>0) ObjectType=OBJECTTYPE_MUSICFILE;
     else                      ObjectType=OBJECTTYPE_MUSICORVIDEO;                    // Error !
 
-    // Load correct icon depending on type
-    if (Icon16.isNull()) {
-        if (ObjectType==OBJECTTYPE_MUSICFILE) LoadIcons(&ApplicationConfig->DefaultMUSICIcon);
-            else                              LoadIcons(&ApplicationConfig->DefaultVIDEOIcon);
+    //*********************************************************************************************************
+    // Produce thumbnail
+    //*********************************************************************************************************
+
+    // If it's an audio file, try to get embeded image
+    if (ObjectType==OBJECTTYPE_MUSICFILE) {
+        QImage *Img=GetEmbededImage(FileName);
+        if (Img) {
+            LoadIcons(Img);
+            delete Img;
+        }
+
+    // If it's a video then search if an image (jpg) with same name exist
+    } else if (ObjectType==OBJECTTYPE_VIDEOFILE) {
+
+        // Search if a jukebox mode thumbnail (jpg file with same name as video) exist
+        QFileInfo   File(FileName);
+        QString     JPegFile=File.absolutePath()+(File.absolutePath().endsWith(QDir::separator())?"":QString(QDir::separator()))+File.completeBaseName()+".jpg";
+        if (QFileInfo(JPegFile).exists()) LoadIcons(JPegFile);
+
+        // Open file
+        OpenCodecAndFile();
+        CloseCodecAndFile();
     }
-    // Return value depending on type ask
-    IsValide=((WantedObjectType==MUSICORVIDEO)&&(VideoTrackNbr+AudioTrackNbr>0))||
-            ((WantedObjectType==VIDEOFILE)&&(VideoTrackNbr>0))||
-            ((WantedObjectType==MUSICFILE)&&(AudioTrackNbr>0));
-    return IsValide;
+
+    // if no icon then load default for type
+    if (Icon16.isNull()) LoadIcons(ObjectType==OBJECTTYPE_VIDEOFILE?&ApplicationConfig->DefaultVIDEOIcon:&ApplicationConfig->DefaultMUSICIcon);
+
+    IsInformationValide=true;
 }
 
 //====================================================================================================================
@@ -1305,37 +1420,6 @@ QString cVideoFile::GetFileTypeStr() {
     #endif
     if (ObjectType==OBJECTTYPE_VIDEOFILE)   return QApplication::translate("cBaseMediaFile","Video","File type");
         else                                return QApplication::translate("cBaseMediaFile","Music","File type");
-}
-
-//====================================================================================================================
-
-void cVideoFile::GetFullInformationFromFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::GetFullInformationFromFile";
-    #endif
-
-    QImage *Img=GetEmbededImage(FileName);
-    if (Img) {
-        LoadIcons(Img);
-        delete Img;
-    }
-
-    // If it's a video then search if an image (jpg) with same name exist
-    if (ObjectType==OBJECTTYPE_VIDEOFILE) {
-        // Reset Icons to ensure it will be reloaded
-        Icon16=QImage();
-        Icon32=QImage();
-        Icon48=QImage();
-
-        // Search if a jukebox mode thumbnail exist
-        QFileInfo   File(FileName);
-        QString     JPegFile=File.absolutePath()+(File.absolutePath().endsWith(QDir::separator())?"":QString(QDir::separator()))+File.completeBaseName()+".jpg";
-        if (QFileInfo(JPegFile).exists()) LoadIcons(JPegFile);
-    }
-
-    OpenCodecAndFile();
-    CloseCodecAndFile();
-    IsInformationValide=true;
 }
 
 //====================================================================================================================

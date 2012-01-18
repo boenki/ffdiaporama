@@ -28,17 +28,16 @@
 #include <QWidget>
 #include <QTableWidget>
 #include <QString>
+#include <QFutureWatcher>
 
 // Include some common various class
 #include "cBaseApplicationConfig.h"
-#include "cDriveList.h"
 #include "cBaseMediaFile.h"
 #include "QCustomFileInfoLabel.h"
 
 class QCustomFolderTable : public QTableWidget {
 Q_OBJECT
 public:
-    cDriveList              *DriveList;
     QList<cBaseMediaFile*>  MediaList;
     cBaseApplicationConfig  *ApplicationConfig;
 
@@ -60,6 +59,7 @@ public:
     // Thread controls
     QFutureWatcher<void>    ScanMediaList;
     bool                    StopScanMediaList;
+    bool                    ScanMediaListProgress;
 
     QAbstractItemModel      *DefaultModel;
     QAbstractItemDelegate   *DefaultDelegate,*IconDelegate;
@@ -67,10 +67,12 @@ public:
     explicit                QCustomFolderTable(QWidget *parent = 0);
                             ~QCustomFolderTable();
 
+    virtual void            EnsureThreadIsStopped();
+
     virtual void            resizeEvent(QResizeEvent *);
     virtual void            mouseDoubleClickEvent(QMouseEvent *);
 
-    virtual void            SetMode(cDriveList *DriveList,int Mode,int Filter);
+    virtual void            SetMode(int Mode,int Filter);
     virtual void            FillListFolder(QString Path,cBaseApplicationConfig *ApplicationConfig);
 
     virtual void            AppendMediaToTable(cBaseMediaFile *MediaObject);
@@ -82,12 +84,10 @@ signals:
     void    DoubleClickEvent();
     void    RefreshFolderInfo();
     void    NeedResizeColumns();
-    void    UpdateItemIcon(QTableWidgetItem *,cBaseMediaFile *);
 
 public slots:
     void    s_itemDoubleClicked();
     void    DoResizeColumns();
-    void    DoUpdateItemIcon(QTableWidgetItem *Item,cBaseMediaFile *Media);
 
 private:
     void                DoScanMediaList();
