@@ -533,7 +533,7 @@ void cDeviceModelList::Initffmpeg() {
     #endif
 
     av_register_all();
-#if (LIBAVFORMAT_VERSION_MAJOR>=53) && (LIBAVFORMAT_VERSION_MINOR>=28)
+#if (LIBAVFORMAT_VERSION_MAJOR>=53) && (LIBAVFORMAT_VERSION_MINOR>=23)
     avformat_network_init();
 #endif
 

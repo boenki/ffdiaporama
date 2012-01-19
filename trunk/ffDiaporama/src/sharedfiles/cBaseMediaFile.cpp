@@ -1152,7 +1152,7 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Search stream in file
     //*********************************************************************************************************
-    #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+    #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
     if (avformat_find_stream_info(ffmpegFile,NULL)<0) {
         avformat_close_input(&ffmpegFile);
         return;
@@ -1359,7 +1359,7 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Close file
     //*********************************************************************************************************
-    #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+    #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
     avformat_close_input(&ffmpegFile);
     #else
     av_close_input_file(ffmpegFile);
@@ -1496,7 +1496,7 @@ qDebug() << "IN:cVideoFile::CloseCodecAndFile";
 
     // Close the video file
     if (ffmpegVideoFile!=NULL) {
-        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
             avformat_close_input(&ffmpegVideoFile);
         #else
             av_close_input_file(ffmpegVideoFile);
@@ -1511,7 +1511,7 @@ qDebug() << "IN:cVideoFile::CloseCodecAndFile";
     }
     // Close the audio file
     if (ffmpegAudioFile!=NULL) {
-        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
             avformat_close_input(&ffmpegAudioFile);
         #else
             av_close_input_file(ffmpegAudioFile);
@@ -2191,7 +2191,7 @@ bool cVideoFile::OpenCodecAndFile() {
 
         ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
 
-        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
             if (avformat_find_stream_info(ffmpegAudioFile,NULL)<0) {
                 avformat_close_input(&ffmpegAudioFile);
         #else
@@ -2245,7 +2245,7 @@ bool cVideoFile::OpenCodecAndFile() {
 
         ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
 
-        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
             if (avformat_find_stream_info(ffmpegVideoFile,NULL)<0) {
                 avformat_close_input(&ffmpegVideoFile);
         #else

@@ -46,10 +46,10 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     #endif
 
     switch (ExportMode) {
-        case EXPORTMODE_ADVANCED     :  setWindowTitle(QApplication::translate("DlgRenderVideo","Advanced render video"));                          break;
-        case MODE_SMARTPHONE   :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for mobil player and smartphone"));   break;
-        case MODE_MULTIMEDIASYS:  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for multimedia system"));             break;
-        case MODE_FORTHEWEB    :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for the WEB"));                       break;
+        case EXPORTMODE_ADVANCED :  setWindowTitle(QApplication::translate("DlgRenderVideo","Advanced render video"));                          break;
+        case MODE_SMARTPHONE     :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for mobil player and smartphone"));   break;
+        case MODE_MULTIMEDIASYS  :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for multimedia system"));             break;
+        case MODE_FORTHEWEB      :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for the WEB"));                       break;
     }
 
     // For the first step, only SelectDestWidget is display and enable
@@ -892,7 +892,7 @@ void DlgRenderVideo::accept() {
                     Continue=false;
                     break;
             }
-            #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<28))
+            #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
             vCodec.replace(" -b:0 "," -b "); // switch to old syntax
             #endif
 
@@ -903,7 +903,7 @@ void DlgRenderVideo::accept() {
                     case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))
-                                                    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<28))
+                                                    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
                                                     aCodec=QString("-acodec aac -strict experimental -ab %1 -absf aac_adtstoasc").arg(AudioBitRate);
                                                     #else
                                                     aCodec=QString("-acodec libvo_aacenc -ab %1").arg(AudioBitRate);
@@ -919,7 +919,7 @@ void DlgRenderVideo::accept() {
                         Continue=false;
                         break;
                 }
-                #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<28))
+                #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
                 aCodec=aCodec+" -alang "+Language;
                 #else
                 aCodec=aCodec+" -metadata:s:1 language="+Language;
@@ -977,10 +977,10 @@ void DlgRenderVideo::accept() {
 
                     File.close();
 
-                    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<28))
+                    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
                     TAG=" -i \""+TempMETAFileName+"\"  -map_metadata 0:"+(ui->IncludeSoundCB->isChecked()?"2":"1")+" -map_chapters 0:"+(ui->IncludeSoundCB->isChecked()?"2":"1");
                     #else
-                    TAG=" -i \""+TempMETAFileName+"\"  -map_metadata "+(ui->IncludeSoundCB->isChecked()?"2":"1")+" -map_chapters "+(ui->IncludeSoundCB->isChecked()?"2":"1");;
+                    TAG=" -i \""+TempMETAFileName+"\"  -map_metadata:g "+(ui->IncludeSoundCB->isChecked()?"2":"1")+" -map_chapters "+(ui->IncludeSoundCB->isChecked()?"2":"1");;
                     #endif
                 }
             }
@@ -1005,7 +1005,7 @@ void DlgRenderVideo::accept() {
                 ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r ")+QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+" -i -"+
                         (ui->IncludeSoundCB->isChecked()?" -i \""+TempWAVFileName+"\"":"")+
                         TAG+
-                        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=28))
+                        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
                         " -timestamp now"+
                         #endif
                         " -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+AddSizestr+" -r "+
