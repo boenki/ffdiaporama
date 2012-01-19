@@ -30,7 +30,7 @@
 
 #define APPLICATION_GROUPNAME               "ffDiaporama"
 #define APPLICATION_NAME                    "ffDiaporamaMMFiler"
-#define APPLICATION_VERSION                 "1.0 devel"
+#define APPLICATION_VERSION                 "1.2 devel"
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 
