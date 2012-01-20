@@ -82,70 +82,7 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     ../sharedfiles/QCustomFileInfoLabel.cpp \
     ../sharedfiles/DlgffDPjrProperties.cpp \
     ../sharedfiles/cBrushDefinition.cpp \
-    ../sharedfiles/DlgInfoFile.cpp \
-    ../TAGLib/frames/urllinkframe.cpp \
-    ../TAGLib/frames/unsynchronizedlyricsframe.cpp \
-    ../TAGLib/frames/unknownframe.cpp \
-    ../TAGLib/frames/uniquefileidentifierframe.cpp \
-    ../TAGLib/frames/textidentificationframe.cpp \
-    ../TAGLib/frames/relativevolumeframe.cpp \
-    ../TAGLib/frames/privateframe.cpp \
-    ../TAGLib/frames/popularimeterframe.cpp \
-    ../TAGLib/frames/generalencapsulatedobjectframe.cpp \
-    ../TAGLib/frames/commentsframe.cpp \
-    ../TAGLib/xiphcomment.cpp \
-    ../TAGLib/xingheader.cpp \
-    ../TAGLib/vorbisproperties.cpp \
-    ../TAGLib/vorbisfile.cpp \
-    ../TAGLib/unicode.cpp \
-    ../TAGLib/tstringlist.cpp \
-    ../TAGLib/tstring.cpp \
-    ../TAGLib/tmap.tcc \
-    ../TAGLib/tlist.tcc \
-    ../TAGLib/tfile.cpp \
-    ../TAGLib/tdebug.cpp \
-    ../TAGLib/tbytevectorlist.cpp \
-    ../TAGLib/tbytevector.cpp \
-    ../TAGLib/tagunion.cpp \
-    ../TAGLib/tag.cpp \
-    ../TAGLib/oggpageheader.cpp \
-    ../TAGLib/oggpage.cpp \
-    ../TAGLib/oggflacfile.cpp \
-    ../TAGLib/oggfile.cpp \
-    ../TAGLib/mpegproperties.cpp \
-    ../TAGLib/mpegheader.cpp \
-    ../TAGLib/mpegfile.cpp \
-    ../TAGLib/id3v2tag.cpp \
-    ../TAGLib/id3v2synchdata.cpp \
-    ../TAGLib/id3v2header.cpp \
-    ../TAGLib/id3v2framefactory.cpp \
-    ../TAGLib/id3v2frame.cpp \
-    ../TAGLib/id3v2footer.cpp \
-    ../TAGLib/id3v2extendedheader.cpp \
-    ../TAGLib/id3v1tag.cpp \
-    ../TAGLib/id3v1genres.cpp \
-    ../TAGLib/flacunknownmetadatablock.cpp \
-    ../TAGLib/flacproperties.cpp \
-    ../TAGLib/flacpicture.cpp \
-    ../TAGLib/flacmetadatablock.cpp \
-    ../TAGLib/flacfile.cpp \
-    ../TAGLib/fileref.cpp \
-    ../TAGLib/audioproperties.cpp \
-    ../TAGLib/attachedpictureframe.cpp \
-    ../TAGLib/apetag.cpp \
-    ../TAGLib/apeitem.cpp \
-    ../TAGLib/apefooter.cpp \
-    ../TAGLib/mp4tag.cpp \
-    ../TAGLib/mp4properties.cpp \
-    ../TAGLib/mp4item.cpp \
-    ../TAGLib/mp4file.cpp \
-    ../TAGLib/mp4coverart.cpp \
-    ../TAGLib/mp4atom.cpp \
-    ../TAGLib/asftag.cpp \
-    ../TAGLib/asfproperties.cpp \
-    ../TAGLib/asfpicture.cpp \
-    ../TAGLib/asffile.cpp \
-    ../TAGLib/asfattribute.cpp
+    ../sharedfiles/DlgInfoFile.cpp
 
 HEADERS  += _GlobalDefines.h \
             _SoundDefinitions.h \
@@ -188,74 +125,7 @@ HEADERS  += _GlobalDefines.h \
     ../sharedfiles/QCustomFileInfoLabel.h \
     ../sharedfiles/DlgffDPjrProperties.h \
     ../sharedfiles/cBrushDefinition.h \
-    ../sharedfiles/DlgInfoFile.h \
-    ../TAGLib/frames/urllinkframe.h \
-    ../TAGLib/frames/unsynchronizedlyricsframe.h \
-    ../TAGLib/frames/unknownframe.h \
-    ../TAGLib/frames/uniquefileidentifierframe.h \
-    ../TAGLib/frames/textidentificationframe.h \
-    ../TAGLib/frames/relativevolumeframe.h \
-    ../TAGLib/frames/privateframe.h \
-    ../TAGLib/frames/popularimeterframe.h \
-    ../TAGLib/frames/generalencapsulatedobjectframe.h \
-    ../TAGLib/frames/commentsframe.h \
-    ../TAGLib/xiphcomment.h \
-    ../TAGLib/xingheader.h \
-    ../TAGLib/vorbisproperties.h \
-    ../TAGLib/vorbisfile.h \
-    ../TAGLib/unicode.h \
-    ../TAGLib/tstringlist.h \
-    ../TAGLib/tstring.h \
-    ../TAGLib/tmap.h \
-    ../TAGLib/tlist.h \
-    ../TAGLib/tfile.h \
-    ../TAGLib/tdebug.h \
-    ../TAGLib/tbytevectorlist.h \
-    ../TAGLib/tbytevector.h \
-    ../TAGLib/tagunion.h \
-    ../TAGLib/taglib_export.h \
-    ../TAGLib/taglib_config.h \
-    ../TAGLib/taglib.h \
-    ../TAGLib/tag.h \
-    ../TAGLib/oggpageheader.h \
-    ../TAGLib/oggpage.h \
-    ../TAGLib/oggflacfile.h \
-    ../TAGLib/oggfile.h \
-    ../TAGLib/mpegproperties.h \
-    ../TAGLib/mpegheader.h \
-    ../TAGLib/mpegfile.h \
-    ../TAGLib/id3v2tag.h \
-    ../TAGLib/id3v2synchdata.h \
-    ../TAGLib/id3v2header.h \
-    ../TAGLib/id3v2framefactory.h \
-    ../TAGLib/id3v2frame.h \
-    ../TAGLib/id3v2footer.h \
-    ../TAGLib/id3v2extendedheader.h \
-    ../TAGLib/id3v1tag.h \
-    ../TAGLib/id3v1genres.h \
-    ../TAGLib/flacunknownmetadatablock.h \
-    ../TAGLib/flacproperties.h \
-    ../TAGLib/flacpicture.h \
-    ../TAGLib/flacmetadatablock.h \
-    ../TAGLib/flacfile.h \
-    ../TAGLib/fileref.h \
-    ../TAGLib/config.h \
-    ../TAGLib/audioproperties.h \
-    ../TAGLib/attachedpictureframe.h \
-    ../TAGLib/apetag.h \
-    ../TAGLib/apeitem.h \
-    ../TAGLib/apefooter.h \
-    ../TAGLib/mp4tag.h \
-    ../TAGLib/mp4properties.h \
-    ../TAGLib/mp4item.h \
-    ../TAGLib/mp4file.h \
-    ../TAGLib/mp4coverart.h \
-    ../TAGLib/mp4atom.h \
-    ../TAGLib/asftag.h \
-    ../TAGLib/asfproperties.h \
-    ../TAGLib/asfpicture.h \
-    ../TAGLib/asffile.h \
-    ../TAGLib/asfattribute.h
+    ../sharedfiles/DlgInfoFile.h
 
 FORMS    += mainwindow.ui \
     wgt_QVideoPlayer.ui \

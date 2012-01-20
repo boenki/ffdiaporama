@@ -579,7 +579,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>img/pattern_fill .png</pixmap>
+            <pixmap>img/pattern_fill.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

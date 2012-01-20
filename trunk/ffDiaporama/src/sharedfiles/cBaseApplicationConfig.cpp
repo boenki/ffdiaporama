@@ -543,47 +543,32 @@ void cBaseApplicationConfig::PreloadSystemIcons() {
 
     qDebug()<<QApplication::translate("MainWindow","Load system icons");
 
+    DefaultCDROMIcon.LoadIconsFromIMG(  "cdrom.png");
+    DefaultHDDIcon.LoadIconsFromIMG(    "hdd.png");
+    DefaultUSBIcon.LoadIconsFromIMG(    "usb.png");
+    DefaultREMOTEIcon.LoadIconsFromIMG( "hdd-lan.png");
+    DefaultFOLDERIcon.LoadIconsFromIMG( "directory.png");
+    DefaultDelayedIcon.LoadIconsFromIMG("delayed.png");
+    DefaultFFDIcon.LoadIconsFromIMG(    "ffDiaporama.png");
+    DefaultThumbIcon.LoadIconsFromIMG(  "Thumbnails.png");
+    DefaultIMAGEIcon.LoadIconsFromIMG(  "image.png");
+    DefaultVIDEOIcon.LoadIconsFromIMG(  "video.png");
+    DefaultMUSICIcon.LoadIconsFromIMG(  "audio.png");
+    VideoMask=QImage("img/VideoMask.png");
     #if defined(Q_OS_WIN)
-        DefaultCDROMIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-12));
-        DefaultHDDIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-8));
-        DefaultUSBIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),121));
-        DefaultREMOTEIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-10));
         DefaultUSERIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),126));
-        DefaultFOLDERIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-4));
         DefaultFILEIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),-67));
-        DefaultIMAGEIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),117));
-        DefaultVIDEOIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),115));
-        DefaultMUSICIcon.LoadIcons(GetIconForFileOrDir(QString(getenv("SystemRoot"))+QString("\\system32\\SHELL32.dll"),116));
     #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        #define DEV_CDROM       "devices/drive-optical.png"
-        #define DEV_HDD         "devices/drive-harddisk.png"
-        #define DEV_USB         "devices/drive-removable-media.png"
         #define DEV_USER        "places/user-home.png"
-        #define FOLDER_STD      "places/folder.png"
         #define FILE_STD        "mimetypes/unknown.png"
-        #define IMAGEFILE_STD   "mimetypes/image-x-generic.png"
-        #define VIDEOFILE_STD   "mimetypes/video-x-generic.png"
-        #define MUSICFILE_STD   "mimetypes/audio-x-generic.png"
         if (QFileInfo("/usr/share/icons/gnome/16x16/"+QString(DEV_CDROM)).exists()) IconsPath="/usr/share/icons/gnome/";
             else if (QFileInfo("/usr/share/icons/default.kde4/16x16/"+QString(DEV_CDROM)).exists()) IconsPath="/usr/share/icons/default.kde4/";
             else IconsPath="";
         if (IconsPath!="") {
-            DefaultCDROMIcon.LoadIconsFromLinux(IconsPath,DEV_CDROM);
-            DefaultHDDIcon.LoadIconsFromLinux(IconsPath,DEV_HDD);
-            DefaultUSBIcon.LoadIconsFromLinux(IconsPath,DEV_USB);
-            DefaultREMOTEIcon=DefaultUSBIcon;
             DefaultUSERIcon.LoadIconsFromLinux(IconsPath,DEV_USER);
-            DefaultFOLDERIcon.LoadIconsFromLinux(IconsPath,FOLDER_STD);
             DefaultFILEIcon.LoadIconsFromLinux(IconsPath,FILE_STD);
-            DefaultIMAGEIcon.LoadIconsFromLinux(IconsPath,IMAGEFILE_STD);
-            DefaultVIDEOIcon.LoadIconsFromLinux(IconsPath,VIDEOFILE_STD);
-            DefaultMUSICIcon.LoadIconsFromLinux(IconsPath,MUSICFILE_STD);
         }
     #endif
-    DefaultFFDIcon.LoadIconsFromIMG("ffDiaporama.png");
-    DefaultDelayedIcon.LoadIconsFromIMG("delayed.png");
-    DefaultThumbIcon.LoadIconsFromIMG("Thumbnails.png");
-    VideoMask=QImage("img/VideoMask.png");
 }
 
 //====================================================================================================================
