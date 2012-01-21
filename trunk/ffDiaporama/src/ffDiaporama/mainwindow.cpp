@@ -70,6 +70,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ApplicationConfig->ParentWindow=this;
 }
 
+//====================================================================================================================
+
 void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::InitWindow";
@@ -77,7 +79,6 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     AddToSystemProperties(QString(STARTINGPATH_STR)+AdjustDirForOS(QDir::currentPath()));
     ApplicationConfig->InitConfigurationValues(ForceLanguage,App);
-    ApplicationConfig->PreloadSystemIcons();
 
     QSplashScreen screen;
     screen.setPixmap(QPixmap("img/splash.png"));
@@ -95,6 +96,10 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     Transparent.setTextureImage(QImage("img/transparent.png"));  // Load transparent brush
     AddToSystemProperties(QString(VERSIONQT_STR)+QString(qVersion()));
     AddToSystemProperties(QString(FMTFILTERVERSION_STR)+"0.6.4-Licence=LGPL");
+
+    // Now, we have application settings then we can init all others
+    screen.showMessage(QApplication::translate("MainWindow","Loading system icons..."),Qt::AlignHCenter|Qt::AlignBottom);
+    ApplicationConfig->PreloadSystemIcons();
 
     // Now, we have application settings then we can init SDL
     screen.showMessage(QApplication::translate("MainWindow","Starting SDL..."),Qt::AlignHCenter|Qt::AlignBottom);
@@ -163,53 +168,52 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->ToolBoxNormal,SIGNAL(currentChanged(int)),this,SLOT(s_Event_ToolbarChanged(int)));
 
     // Help menu
-    connect(ui->Action_About_BT,SIGNAL(pressed()),this,SLOT(s_Action_About()));                                connect(ui->Action_About_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_About()));
-    connect(ui->ActionDocumentation_BT,SIGNAL(pressed()),this,SLOT(s_Action_Documentation()));                 connect(ui->ActionDocumentation_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_Documentation()));
-    connect(ui->ActionNewFunctions_BT,SIGNAL(pressed()),this,SLOT(s_Action_NewFunctions()));                   connect(ui->ActionNewFunctions_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_NewFunctions()));
+    connect(ui->Action_About_BT,SIGNAL(released()),this,SLOT(s_Action_About()));                            connect(ui->Action_About_BT_2,SIGNAL(released()),this,SLOT(s_Action_About()));
+    connect(ui->ActionDocumentation_BT,SIGNAL(released()),this,SLOT(s_Action_Documentation()));             connect(ui->ActionDocumentation_BT_2,SIGNAL(released()),this,SLOT(s_Action_Documentation()));
+    connect(ui->ActionNewFunctions_BT,SIGNAL(released()),this,SLOT(s_Action_NewFunctions()));               connect(ui->ActionNewFunctions_BT_2,SIGNAL(released()),this,SLOT(s_Action_NewFunctions()));
 
     // File menu
-    connect(ui->Action_New_BT,SIGNAL(pressed()),this,SLOT(s_Action_New()));                             connect(ui->Action_New_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_New()));
-    connect(ui->Action_Open_BT,SIGNAL(pressed()),this,SLOT(s_Action_Open()));                           connect(ui->Action_Open_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_Open()));
-    connect(ui->Action_OpenRecent_BT,SIGNAL(pressed()),this,SLOT(s_Action_OpenRecent()));               connect(ui->Action_OpenRecent_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_OpenRecent()));
-    connect(ui->Action_Save_BT,SIGNAL(pressed()),this,SLOT(s_Action_Save()));                           connect(ui->Action_Save_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_Save()));
-    connect(ui->ActionSave_as_BT,SIGNAL(pressed()),this,SLOT(s_Action_SaveAs()));                       connect(ui->ActionSave_as_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_SaveAs()));
-    connect(ui->Action_PrjProperties_BT,SIGNAL(pressed()),this,SLOT(s_Action_ProjectProperties()));            connect(ui->Action_PrjProperties_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_ProjectProperties()));
-    connect(ui->ActionConfiguration_BT,SIGNAL(pressed()),this,SLOT(s_Action_ChangeApplicationSettings()));     connect(ui->ActionConfiguration_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_ChangeApplicationSettings()));
-    connect(ui->Action_Exit_BT,SIGNAL(pressed()),this,SLOT(s_Action_Exit()));                           connect(ui->Action_Exit_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_Exit()));
+    connect(ui->Action_New_BT,SIGNAL(released()),this,SLOT(s_Action_New()));                                connect(ui->Action_New_BT_2,SIGNAL(released()),this,SLOT(s_Action_New()));
+    connect(ui->Action_Open_BT,SIGNAL(released()),this,SLOT(s_Action_Open()));                              connect(ui->Action_Open_BT_2,SIGNAL(released()),this,SLOT(s_Action_Open()));
+    connect(ui->Action_OpenRecent_BT,SIGNAL(pressed()),this,SLOT(s_Action_OpenRecent()));                   connect(ui->Action_OpenRecent_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_OpenRecent()));
+    connect(ui->Action_Save_BT,SIGNAL(released()),this,SLOT(s_Action_Save()));                              connect(ui->Action_Save_BT_2,SIGNAL(released()),this,SLOT(s_Action_Save()));
+    connect(ui->ActionSave_as_BT,SIGNAL(released()),this,SLOT(s_Action_SaveAs()));                          connect(ui->ActionSave_as_BT_2,SIGNAL(released()),this,SLOT(s_Action_SaveAs()));
+    connect(ui->Action_PrjProperties_BT,SIGNAL(released()),this,SLOT(s_Action_ProjectProperties()));        connect(ui->Action_PrjProperties_BT_2,SIGNAL(released()),this,SLOT(s_Action_ProjectProperties()));
+    connect(ui->ActionConfiguration_BT,SIGNAL(released()),this,SLOT(s_Action_ChangeApplicationSettings())); connect(ui->ActionConfiguration_BT_2,SIGNAL(released()),this,SLOT(s_Action_ChangeApplicationSettings()));
+    connect(ui->Action_Exit_BT,SIGNAL(released()),this,SLOT(s_Action_Exit()));                              connect(ui->Action_Exit_BT_2,SIGNAL(released()),this,SLOT(s_Action_Exit()));
 
     // Project menu
-    connect(ui->ActionAdd_BT,SIGNAL(pressed()),this,SLOT(s_Action_AddFile()));                          connect(ui->ActionAdd_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_AddFile()));
-    connect(ui->ActionAddtitle_BT,SIGNAL(pressed()),this,SLOT(s_Action_AddTitle()));                    connect(ui->ActionAddtitle_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_AddTitle()));
-    connect(ui->ActionAddProject_BT,SIGNAL(pressed()),this,SLOT(s_Action_AddProject()));                connect(ui->ActionAddProject_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_AddProject()));
-    connect(ui->ActionRemove_BT,SIGNAL(pressed()),this,SLOT(s_Action_RemoveObject()));                         connect(ui->ActionRemove_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_RemoveObject()));
-    connect(ui->ActionCut_BT,SIGNAL(pressed()),this,SLOT(s_Action_CutToClipboard()));                          connect(ui->ActionCut_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_CutToClipboard()));
-    connect(ui->ActionCopy_BT,SIGNAL(pressed()),this,SLOT(s_Action_CopyToClipboard()));                        connect(ui->ActionCopy_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_CopyToClipboard()));
-    connect(ui->ActionPaste_BT,SIGNAL(pressed()),this,SLOT(s_Action_PasteFromClipboard()));                    connect(ui->ActionPaste_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_PasteFromClipboard()));
-    connect(ui->ActionEdit_BT,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));                            connect(ui->ActionEdit_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));
+    connect(ui->ActionAdd_BT,SIGNAL(released()),this,SLOT(s_Action_AddFile()));                             connect(ui->ActionAdd_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddFile()));
+    connect(ui->ActionAddtitle_BT,SIGNAL(released()),this,SLOT(s_Action_AddTitle()));                       connect(ui->ActionAddtitle_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddTitle()));
+    connect(ui->ActionAddProject_BT,SIGNAL(released()),this,SLOT(s_Action_AddProject()));                   connect(ui->ActionAddProject_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddProject()));
+    connect(ui->ActionRemove_BT,SIGNAL(released()),this,SLOT(s_Action_RemoveObject()));                     connect(ui->ActionRemove_BT_2,SIGNAL(released()),this,SLOT(s_Action_RemoveObject()));
+    connect(ui->ActionCut_BT,SIGNAL(released()),this,SLOT(s_Action_CutToClipboard()));                      connect(ui->ActionCut_BT_2,SIGNAL(released()),this,SLOT(s_Action_CutToClipboard()));
+    connect(ui->ActionCopy_BT,SIGNAL(released()),this,SLOT(s_Action_CopyToClipboard()));                    connect(ui->ActionCopy_BT_2,SIGNAL(released()),this,SLOT(s_Action_CopyToClipboard()));
+    connect(ui->ActionPaste_BT,SIGNAL(released()),this,SLOT(s_Action_PasteFromClipboard()));                connect(ui->ActionPaste_BT_2,SIGNAL(released()),this,SLOT(s_Action_PasteFromClipboard()));
+    connect(ui->ActionEdit_BT,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));                          connect(ui->ActionEdit_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));
+
     connect(QApplication::clipboard(),SIGNAL(dataChanged()),this,SLOT(s_Event_ClipboardChanged()));
 
     connect(ui->actionEdit_background,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnBackground()));
     connect(ui->actionEdit_background_transition,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnTransitionBackground()));
-
     connect(ui->actionEdit_object,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnObject()));
-
     connect(ui->actionEdit_object_in_transition,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnTransition()));
     connect(ui->actionEdit_music,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnMusic()));
 
     // Render menu
-    connect(ui->ActionRender_BT,SIGNAL(pressed()),this,SLOT(s_Action_RenderVideo()));                          connect(ui->ActionRender_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_RenderVideo()));
-    connect(ui->ActionSmartphone_BT,SIGNAL(pressed()),this,SLOT(s_Action_RenderSmartphone()));                 connect(ui->ActionSmartphone_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_RenderSmartphone()));
-    connect(ui->ActionMultimedia_BT,SIGNAL(pressed()),this,SLOT(s_Action_RenderMultimedia()));                 connect(ui->ActionMultimedia_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_RenderMultimedia()));
-    connect(ui->ActionForTheWEB_BT,SIGNAL(pressed()),this,SLOT(s_Action_RenderForTheWEB()));                   connect(ui->ActionForTheWEB_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_RenderForTheWEB()));
+    connect(ui->ActionRender_BT,SIGNAL(released()),this,SLOT(s_Action_RenderVideo()));                          connect(ui->ActionRender_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderVideo()));
+    connect(ui->ActionSmartphone_BT,SIGNAL(released()),this,SLOT(s_Action_RenderSmartphone()));                 connect(ui->ActionSmartphone_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderSmartphone()));
+    connect(ui->ActionMultimedia_BT,SIGNAL(released()),this,SLOT(s_Action_RenderMultimedia()));                 connect(ui->ActionMultimedia_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderMultimedia()));
+    connect(ui->ActionForTheWEB_BT,SIGNAL(released()),this,SLOT(s_Action_RenderForTheWEB()));                   connect(ui->ActionForTheWEB_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderForTheWEB()));
 
     // Timeline
-    connect(ui->ZoomPlusBT,SIGNAL(pressed()),this,SLOT(s_Action_ZoomPlus()));
-    connect(ui->ZoomMinusBT,SIGNAL(pressed()),this,SLOT(s_Action_ZoomMinus()));
+    connect(ui->ZoomPlusBT,SIGNAL(released()),this,SLOT(s_Action_ZoomPlus()));
+    connect(ui->ZoomMinusBT,SIGNAL(released()),this,SLOT(s_Action_ZoomMinus()));
     connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_Event_TimelineSelectionChanged()));
     connect(ui->timeline,SIGNAL(DragMoveItem()),this,SLOT(s_Event_TimelineDragMoveItem()));
 
-    connect(ui->PartitionBT,SIGNAL(pressed()),this,SLOT(s_Action_ChPartitionMode()));
-    connect(ui->Partition2BT,SIGNAL(pressed()),this,SLOT(s_Action_ChPartitionMode()));
+    connect(ui->PartitionBT,SIGNAL(released()),this,SLOT(s_Action_ChPartitionMode()));
+    connect(ui->Partition2BT,SIGNAL(released()),this,SLOT(s_Action_ChPartitionMode()));
     connect(ui->TABTooltip,SIGNAL(linkActivated(const QString)),this,SLOT(s_Action_OpenTABHelpLink(const QString)));
 
     // Prepare title bar depending on running version
@@ -221,7 +225,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     s_Event_ToolbarChanged(0);
     ToStatusBar("");
     SetModifyFlag(false);           // Setup title window and do first RefreshControls();
-    s_Event_ClipboardChanged();           // Setup clipboard button state
+    s_Event_ClipboardChanged();     // Setup clipboard button state
 
     if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(500,this,SLOT(s_Action_DlgCheckConfig())); else {
         QString Status;
@@ -353,6 +357,15 @@ void MainWindow::closeEvent(QCloseEvent *Event) {
             return;
         }
     }
+    if (isMaximized()) {
+        ApplicationConfig->MainWinWSP->IsMaximized=true;
+        showNormal();
+        QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+    } else ApplicationConfig->MainWinWSP->IsMaximized=false;
+    if (isMinimized()) {
+        showNormal();
+        QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+    }
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ApplicationConfig->MainWinWSP->SaveWindowState(this);
     ApplicationConfig->SaveConfigurationFile();
@@ -365,7 +378,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::resizeEvent";
     #endif
-    ui->preview->SetPlayerToPause(); // Ensure player is stop
+    ui->preview->SetPlayerToPause();  // Ensure player is stop
     ui->preview2->SetPlayerToPause(); // Ensure player is stop
     SetTimelineHeight();
 }
@@ -379,6 +392,7 @@ void MainWindow::showEvent(QShowEvent *) {
     if (!IsFirstInitDone) {
         IsFirstInitDone=true;                                   // do this only one time
         ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
+        if (ApplicationConfig->MainWinWSP->IsMaximized) QTimer::singleShot(500,this,SLOT(DoMaximized()));
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
         connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(s_Event_NetworkReply(QNetworkReply*)));
@@ -386,6 +400,15 @@ void MainWindow::showEvent(QShowEvent *) {
         QNetworkReply   *reply  = mNetworkManager->get(QNetworkRequest(url));
         reply->deleteLater();
     }
+}
+
+//====================================================================================================================
+
+void MainWindow::DoMaximized() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::DoMaximized";
+    #endif
+    showMaximized();
 }
 
 //====================================================================================================================
@@ -1005,7 +1028,7 @@ void MainWindow::DoChangeApplicationSettings() {
     ui->preview2->WantedFPS=ApplicationConfig->PreviewFPS;
     SDLSetFPS(ApplicationConfig->PreviewFPS,ApplicationConfig->SDLAudioOldMode);  // Reinit SDL if Preview FPS has changed
     // Save configuration
-    ApplicationConfig->MainWinWSP->SaveWindowState(this);
+    //ApplicationConfig->MainWinWSP->SaveWindowState(this); // Do not change get WindowState for mainwindow except when closing
     ApplicationConfig->SaveConfigurationFile();
     QApplication::restoreOverrideCursor();
     ToStatusBar("");

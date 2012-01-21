@@ -45,22 +45,22 @@ extern "C" {
 
 //****************************************************************************************************************************************************************
 
-#include "../TAGLib/fileref.h"
-#include "../TAGLib/tbytevector.h"
-#include "../TAGLib/id3v2tag.h"
-#include "../TAGLib/id3v2frame.h"
-#include "../TAGLib/id3v2header.h"
-#include "../TAGLib/id3v2framefactory.h"
-#include "../TAGLib/attachedpictureframe.h"
-#include "../TAGLib/mpegfile.h"
-#include "../TAGLib/flacfile.h"
-#include "../TAGLib/mp4file.h"
-#include "../TAGLib/vorbisfile.h"
-#include "../TAGLib/oggflacfile.h"
-#include "../TAGLib/asffile.h"
-#include "../TAGLib/mp4tag.h"
-#include "../TAGLib/mp4item.h"
-#include "../TAGLib/mp4coverart.h"
+#include <taglib/fileref.h>
+#include <taglib/tbytevector.h>
+#include <taglib/id3v2tag.h>
+#include <taglib/id3v2frame.h>
+#include <taglib/id3v2header.h>
+#include <taglib/id3v2framefactory.h>
+#include <taglib/attachedpictureframe.h>
+#include <taglib/mpegfile.h>
+#include <taglib/flacfile.h>
+#include <taglib/mp4file.h>
+#include <taglib/vorbisfile.h>
+#include <taglib/oggflacfile.h>
+#include <taglib/asffile.h>
+#include <taglib/mp4tag.h>
+#include <taglib/mp4item.h>
+#include <taglib/mp4coverart.h>
 
 // from Google music manager (see:http://code.google.com/p/gogglesmm/source/browse/src/gmutils.cpp?spec=svn6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13&r=6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13)
 bool gm_decode_base64(uchar *buffer,uint &len) {
@@ -262,7 +262,7 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
         else {
             QString NewFileName=QFileDialog::getOpenFileName(ApplicationConfig->TopLevelWindow,QApplication::translate("cBaseMediaFile","Select another file for ")+QFileInfo(FileName).fileName(),
                ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-               ApplicationConfig->GetFilterForMediaFile(cBaseApplicationConfig::IMAGEFILE));
+               ApplicationConfig->GetFilterForMediaFile(ObjectType==OBJECTTYPE_IMAGEFILE?cBaseApplicationConfig::IMAGEFILE:ObjectType==OBJECTTYPE_VIDEOFILE?cBaseApplicationConfig::VIDEOFILE:cBaseApplicationConfig::MUSICFILE));
             if (NewFileName!="") {
                 if (AliasList) AliasList->append(FileName+"####"+NewFileName);
                 FileName=NewFileName;
@@ -879,8 +879,11 @@ bool cImageFile::CallEXIF(int &ImageOrientation) {
                 if ((CurrentData->typeId()!=Exiv2::undefined)&&
                     (!(((CurrentData->typeId()==Exiv2::unsignedByte)||(CurrentData->typeId()==Exiv2::signedByte))&&(CurrentData->size()>64)))) {
                     QString Key  =QString().fromStdString(CurrentData->key());
+                    #if defined(Q_OS_WIN)
+                    QString Value=QString().fromStdString(CurrentData->print(&exifData).c_str());
+                    #else
                     QString Value=QString().fromUtf8(CurrentData->print(&exifData).c_str());
-
+                    #endif
                     if (Key.startsWith("Exif.")) Key=Key.mid(QString("Exif.").length());
                     InformationList.append(Key+QString("##")+Value);
                 }
@@ -1419,8 +1422,20 @@ QString cVideoFile::GetFileTypeStr() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::GetFileTypeStr";
     #endif
-    if (ObjectType==OBJECTTYPE_VIDEOFILE)   return QApplication::translate("cBaseMediaFile","Video","File type");
-        else                                return QApplication::translate("cBaseMediaFile","Music","File type");
+
+    if (MusicOnly || (ObjectType==OBJECTTYPE_MUSICFILE)) return QApplication::translate("cBaseMediaFile","Music","File type");
+        else return QApplication::translate("cBaseMediaFile","Video","File type");
+}
+
+//====================================================================================================================
+
+QImage *cVideoFile::GetDefaultTypeIcon(cCustomIcon::IconSize Size) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cVideoFile::GetDefaultTypeIcon";
+    #endif
+
+    if (MusicOnly || (ObjectType==OBJECTTYPE_MUSICFILE)) return ApplicationConfig->DefaultMUSICIcon.GetIcon(Size);
+        else return ApplicationConfig->DefaultVIDEOIcon.GetIcon(Size);
 }
 
 //====================================================================================================================

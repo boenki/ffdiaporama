@@ -41,6 +41,7 @@ public:
     QString     WindowGeo;      // Array for saveGeometry (All windows)
     QString     MainWinSS;      // Array for saveState (QMainWindow only)
     bool        IsInit;         // True if data are ready
+    bool        IsMaximized;    // True if window is mainwindow and was maximized
 
     cSaveWindowPosition(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
     virtual void    ApplyToWindow(QWidget *Window);

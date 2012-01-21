@@ -138,7 +138,6 @@ public:
     QTranslator             QTtranslator;                               // translator for QT default text
 
     // Default systems icons
-    QString                 IconsPath;                      // Linux path where system icons where found (/usr/share/icons/gnome or /usr/share/icons/default.kde4
     cCustomIcon             DefaultCDROMIcon,DefaultHDDIcon,DefaultUSBIcon,DefaultREMOTEIcon;
     cCustomIcon             DefaultUSERIcon,DefaultFOLDERIcon;
     cCustomIcon             DefaultFILEIcon,DefaultDelayedIcon;
