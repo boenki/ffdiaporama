@@ -38,6 +38,7 @@ cSaveWindowPosition::cSaveWindowPosition(QString TheWindowName,bool &TheRestoreW
     WindowGeo       ="";
     MainWinSS       ="";
     IsInit          =false;
+    IsMaximized     =false;
 }
 
 //***********************************************
@@ -52,10 +53,10 @@ void cSaveWindowPosition::ApplyToWindow(QWidget *Window) {
     if (WindowGeo!="") {
         QByteArray WinBA=QByteArray::fromHex(WindowGeo.toUtf8());
         Window->restoreGeometry(WinBA);
-        if (IsMainWindow) {
+        /*if (IsMainWindow) {
             QByteArray MainWinBA=QByteArray::fromHex(MainWinSS.toUtf8());
             ((QMainWindow *)Window)->restoreState(MainWinBA);
-        }
+        }*/
     }
 }
 
@@ -66,13 +67,15 @@ void cSaveWindowPosition::SaveWindowState(QWidget *Window) {
     qDebug() << "IN:cSaveWindowPosition::SaveWindowState";
     #endif
     if ((Window==NULL)||(*RestoreWindow==false)) return;
+
     // Save window size & position (if needed)
-    QByteArray WinBA=QByteArray(Window->saveGeometry());
-    WindowGeo=QString(WinBA.toHex());
     if (IsMainWindow) {
         QByteArray MainWinBA=QByteArray(((QMainWindow *)Window)->saveState());
         MainWinSS=QString(MainWinBA.toHex());
     }
+
+    QByteArray WinBA=QByteArray(Window->saveGeometry());
+    WindowGeo=QString(WinBA.toHex());
     IsInit=true;
 }
 
@@ -85,7 +88,10 @@ void cSaveWindowPosition::SaveToXML(QDomElement &domDocument) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(WindowName);
     Element.setAttribute("saveGeometry",WindowGeo);
-    if (IsMainWindow) Element.setAttribute("saveState",MainWinSS);
+    if (IsMainWindow) {
+        Element.setAttribute("saveState",MainWinSS);
+        Element.setAttribute("IsMaximized",IsMaximized?"1":"0");
+    }
     OverloadedSaveToXML(Element);
     domDocument.appendChild(Element);
 }
@@ -106,8 +112,9 @@ void cSaveWindowPosition::LoadFromXML(QDomElement domDocument) {
     #endif
     if ((domDocument.elementsByTagName(WindowName).length()>0)&&(domDocument.elementsByTagName(WindowName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(WindowName).item(0).toElement();
-        if (Element.hasAttribute("saveGeometry"))               WindowGeo=Element.attribute("saveGeometry");
-        if (IsMainWindow &&(Element.hasAttribute("saveState"))) MainWinSS=Element.attribute("saveState");
+        if (Element.hasAttribute("saveGeometry"))                   WindowGeo=Element.attribute("saveGeometry");
+        if (IsMainWindow &&(Element.hasAttribute("saveState")))     MainWinSS=Element.attribute("saveState");
+        if (IsMainWindow &&(Element.hasAttribute("IsMaximized")))   IsMaximized=Element.attribute("IsMaximized")=="1";
         OverloadedLoadFromXML(Element);
         IsInit=true;
     }

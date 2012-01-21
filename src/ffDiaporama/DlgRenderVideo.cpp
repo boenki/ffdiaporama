@@ -968,7 +968,7 @@ void DlgRenderVideo::accept() {
                             NextChapter++;
                             if (NextChapter<ToSlide) Duration=Duration-Diaporama->List[NextChapter]->GetTransitDuration();
                         }
-                        out<<"\n[CHAPTER]\n";                                       // Write Chapter header
+                        out<<"[CHAPTER]\n";                                         // Write Chapter header
                         out<<"TIMEBASE=1/1000\n";                                   // Timebase
                         out<<"START="+QString("%1").arg(Start)+"\n";                // Start position in ms
                         out<<"END="+QString("%1").arg(Start+Duration)+"\n";         // End position in ms

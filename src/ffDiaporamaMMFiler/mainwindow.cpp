@@ -111,9 +111,6 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->FileInfoLabel->DisplayMode=DISPLAY_WEBLONG;
     ui->FileInfoLabel->setVisible((ApplicationConfig->CurrentMode!=DISPLAY_WEBSHORT)&&(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG));
 
-    ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
-    if (ApplicationConfig->SplitterSizeAndPos!="") ui->Splitter->restoreState(QByteArray::fromHex(ApplicationConfig->SplitterSizeAndPos.toUtf8()));
-
     // Initialise integrated controls and list
     DriveList->UpdateDriveList();
     ui->FolderTree->InitDrives(DriveList);
@@ -159,12 +156,50 @@ void MainWindow::closeEvent(QCloseEvent *) {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::closeEvent";
     #endif
+    if (isMaximized()) {
+        ApplicationConfig->MainWinWSP->IsMaximized=true;
+        showNormal();
+        QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+    } else ApplicationConfig->MainWinWSP->IsMaximized=false;
+    if (isMinimized()) {
+        showNormal();
+        QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+    }
     // Save configuration
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ApplicationConfig->MainWinWSP->SaveWindowState(this);
     ApplicationConfig->SplitterSizeAndPos=QString(QByteArray(ui->Splitter->saveState()).toHex());
     ApplicationConfig->SaveConfigurationFile();
     QApplication::restoreOverrideCursor();
+}
+
+//====================================================================================================================
+
+void MainWindow::showEvent(QShowEvent *) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::showEvent";
+    #endif
+    if (!IsFirstInitDone) {
+        IsFirstInitDone=true;                                   // do this only one time
+        ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
+        if (ApplicationConfig->SplitterSizeAndPos!="") ui->Splitter->restoreState(QByteArray::fromHex(ApplicationConfig->SplitterSizeAndPos.toUtf8()));
+        if (ApplicationConfig->MainWinWSP->IsMaximized) QTimer::singleShot(500,this,SLOT(DoMaximized()));
+        /*// Start a network process to give last ffdiaporama version from internet web site
+        QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
+        connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(s_Event_NetworkReply(QNetworkReply*)));
+        QUrl            url(BUILDVERSION_WEBURL);
+        QNetworkReply   *reply  = mNetworkManager->get(QNetworkRequest(url));
+        reply->deleteLater();*/
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::DoMaximized() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::DoMaximized";
+    #endif
+    showMaximized();
 }
 
 //====================================================================================================================
@@ -311,8 +346,9 @@ void MainWindow::s_Config() {
     if (Dlg.exec()==0) {
         // Save configuration
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-        ApplicationConfig->MainWinWSP->SaveWindowState(this);
-        ApplicationConfig->SplitterSizeAndPos=QString(QByteArray(ui->Splitter->saveState()).toHex());
+        // Do not change get WindowState for mainwindow except when closing
+        //ApplicationConfig->MainWinWSP->SaveWindowState(this);
+        //ApplicationConfig->SplitterSizeAndPos=QString(QByteArray(ui->Splitter->saveState()).toHex());
         ApplicationConfig->SaveConfigurationFile();
         QApplication::restoreOverrideCursor();
         // Transfert settings to tree
@@ -395,6 +431,7 @@ void MainWindow::s_action_Exit() {
 QAction *MainWindow::CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
     QAction *Action;
     Action=new QAction(QIcon(QPixmap().fromImage(*Icon)),Text,this);
+    Action->setIconVisibleInMenu(true);
     Action->setCheckable(Checkable);
     if (Checkable) Action->setChecked(IsCheck);
     Action->setData(QVariant(Data));
@@ -404,6 +441,7 @@ QAction *MainWindow::CreateMenuAction(QImage *Icon,QString Text,int Data,bool Ch
 QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
     QAction *Action;
     Action=new QAction(Icon,Text,this);
+    Action->setIconVisibleInMenu(true);
     Action->setCheckable(Checkable);
     if (Checkable) Action->setChecked(IsCheck);
     Action->setData(QVariant(Data));

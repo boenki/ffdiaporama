@@ -90,6 +90,8 @@ protected:
 
 
 private slots:
+    void    DoMaximized();                                  // Use on init to force window maximized
+
     // Event functions
     void    s_Event_ClipboardChanged();                     // Something have changed in the clipboard
     void    s_Event_ToolbarChanged(int MenuIndex);          // User change current toolbar TAB

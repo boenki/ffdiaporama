@@ -74,17 +74,11 @@ bool Checkffmpeg(QString &StatusStr,cBaseApplicationConfig *ApplicationConfig) {
     qDebug() << "IN:Checkffmpeg";
     #endif
     bool        ffmpegOK=true;
-    #ifdef Q_OS_WIN
-    QString     Commande= AdjustDirForOS(QString("\""+ApplicationConfig->PathFFMPEG+"\" -version"));
-    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    QString     Commande= AdjustDirForOS(QString(ApplicationConfig->PathFFMPEG+" -version"));
-    #endif
     QProcess    Process;
 
-    Process.setProcessChannelMode(QProcess::MergedChannels);
-    Process.start(Commande);
-    if (!Process.waitForStarted()) {
-        qDebug()<<Commande;
+    //Process.setProcessChannelMode(QProcess::MergedChannels);
+    Process.start("ffmpeg",QString("-version").split(";"));
+    if (!Process.waitForStarted(-1)) {
         qDebug()<<"Impossible to start ffmpeg";
         ffmpegOK=false;
     }
@@ -98,9 +92,17 @@ bool Checkffmpeg(QString &StatusStr,cBaseApplicationConfig *ApplicationConfig) {
         ffmpegOK=false;
     }
     if (ffmpegOK) {
-        QString Info=QString().fromLocal8Bit(Process.readAllStandardOutput());
-        StatusStr=Info.left(Info.indexOf("\n"));
-        if (StatusStr.indexOf(QString(char(13)))>0) StatusStr=StatusStr.left(StatusStr.indexOf(QString(char(13))));
+        QString     Info=QString().fromLocal8Bit(Process.readAllStandardOutput())+
+                         QString().fromLocal8Bit(Process.readAllStandardError());
+        qDebug()<<Info;
+        if (Info.indexOf("ffmpeg version ")>=0) {
+            StatusStr=Info.mid(Info.indexOf("ffmpeg version ")+QString("ffmpeg version ").length());
+            StatusStr=StatusStr.left(StatusStr.indexOf("\n"));
+            if (StatusStr.indexOf(QString(char(13)))>0) StatusStr=StatusStr.left(StatusStr.indexOf(QString(char(13))));
+        } else {
+            StatusStr=QApplication::translate("DlgCheckConfig","Unable to determine ffmpeg version - critical - application will stop !");
+            //ffmpegOK=false;
+        }
     } else StatusStr=QApplication::translate("DlgCheckConfig","ffmpeg not found - critical - application will stop !");
 
     Process.terminate();

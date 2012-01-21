@@ -18,9 +18,8 @@ unix {
     }
 
     INCLUDEPATH += /usr/include/ffmpeg/                                 # Specific for Fedora
-
-    LIBS        += -lavformat -lavcodec -lavutil -lswscale -lexiv2
 }
+
 win32 {
     CONFIG(release, debug|release) {
         DESTDIR     += ..\\..\\..\\winbuild
@@ -43,7 +42,9 @@ win32 {
     LIBS        += -L"C:\\Qt\\ffmpeg-win32-dev\\lib"                    #------ ffmpeg library path
     LIBS        += -L"C:\\Qt\\SDL-1.2.14\\lib"                          #------ SDL library path
     LIBS        += -L"C:\\Qt\\ThirdLib\\lib"                            #------ Exiv2 and TAGlib library path
-    LIBS        += -lavformat -lavcodec -lavutil -lswscale              #------ ffmpeg lib link
-    LIBS        += -lexiv2 -ltag                                        #------ Exiv2 and TAGlib
     LIBS        += -lgdi32                                              #------ Windows GDI lib link
 }
+
+#---- Libs for windows and linux
+LIBS        += -lavformat -lavcodec -lavutil -lswscale                  #------ ffmpeg lib link
+LIBS        += -lexiv2 -ltag                                            #------ Exiv2 and TAGlib

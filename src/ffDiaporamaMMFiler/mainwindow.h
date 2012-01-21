@@ -55,9 +55,11 @@ public:
 
 protected:
     virtual void        resizeEvent(QResizeEvent *);
+    virtual void        showEvent(QShowEvent *);
     virtual void        closeEvent(QCloseEvent *);
 
 private slots:
+    void                DoMaximized();                                  // Use on init to force window maximized
     void                DoRefreshFolderInfo();
 
     void                s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *);

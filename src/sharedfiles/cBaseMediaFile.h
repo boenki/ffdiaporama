@@ -249,7 +249,7 @@ public:
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
-    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return (ObjectType==OBJECTTYPE_MUSICFILE?ApplicationConfig->DefaultMUSICIcon:ApplicationConfig->DefaultVIDEOIcon).GetIcon(Size); }
+    virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size);
 
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();

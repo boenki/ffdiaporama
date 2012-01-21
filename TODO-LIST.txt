@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 16/01/2011) :
+Buggs/TODO (Dernier SVN le 19/01/2011) :
 ----------------------------------------
 TODO
 ----
@@ -6,8 +6,6 @@ TODO
 -Grosses lenteurs dans la boite slide quand plusieurs shots
 -Pas de chapitre 0 dans les MKV
 -Remonté de thumb à finir pour les WMA
--Chaines de caractères Exif ne sont plus traduites dans la version Windows
-
 
 -Ajuster la géométrie des thumb à l'affichage en cours :
     Défaut : 1/1
@@ -24,8 +22,10 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Evite que les boutons de la barre d'outils déclenchent plusieurs actions quand on reste appuyer trop longtemps
 
 English version / Bug fix :
+-Avoid that toolbar buttons start several actions when we click for such a long time
 
 French version / Nouvelles fonctionnalités
 
