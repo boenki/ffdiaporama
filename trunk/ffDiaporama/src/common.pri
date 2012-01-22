@@ -3,6 +3,8 @@
 # AND COMMON INCLUSIONS (INCLUDES AND LIBS)
 #--------------------------------------------------
 
+DEFINES +=SHARE_DIR=\\\"$$PREFIX\\\"
+
 unix {
     CONFIG(release, debug|release) {
         DESTDIR     += ../../../build

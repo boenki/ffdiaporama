@@ -20,6 +20,10 @@ TEMPLATE     = app
 DEFINES      += HAVE_CONFIG_H               # specific for TAGLib
 DEFINES      += TAGLIB_STATIC               # specific for TAGLib
 
+isEmpty(PREFIX) {
+    PREFIX = /usr
+}
+
 #--------------------------------------------------------------
 # DEFINES BUILD DIRECTORIES, COMMON INCLUDES AND COMMON LIBS
 #--------------------------------------------------------------

@@ -94,7 +94,7 @@ bool Checkffmpeg(QString &StatusStr,cBaseApplicationConfig *ApplicationConfig) {
     if (ffmpegOK) {
         QString     Info=QString().fromLocal8Bit(Process.readAllStandardOutput())+
                          QString().fromLocal8Bit(Process.readAllStandardError());
-        qDebug()<<Info;
+        //qDebug()<<Info;
         if (Info.indexOf("ffmpeg version ")>=0) {
             StatusStr=Info.mid(Info.indexOf("ffmpeg version ")+QString("ffmpeg version ").length());
             StatusStr=StatusStr.left(StatusStr.indexOf("\n"));
