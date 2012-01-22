@@ -23,9 +23,17 @@ Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
 -Evite que les boutons de la barre d'outils déclenchent plusieurs actions quand on reste appuyer trop longtemps
+-Corrige plusieurs régressions (Affichage de la fenêtre en mode maximiser sous Windows + Sélection d'une vidéo de remplacement en cas de fichier déplacer)
+-Utilise désormais la version officielle de TAGlib au lieu d'inclure certains fichiers sources dans ffDiaporama
+-Utilise désormais PREFIX au lieu de INSTALL_ROOT pour l'installation sous Linux
+-Corrige la désinstallation sous Linux (qui oubliait quelques fichiers)
 
 English version / Bug fix :
 -Avoid that toolbar buttons start several actions when we click for such a long time
+-Correct several regressions (Display of the window in maximized mode under Windows + Selection of a video of replacement in case of file was move)
+-Use henceforth the official version of TAGlib instead of including some sources files in ffDiaporama
+-Use henceforth PREFIX instead of INSTALL_ROOT for the installation under Linux
+-Fix the uninstall under Linux (which forgot some files)
 
 French version / Nouvelles fonctionnalités
 

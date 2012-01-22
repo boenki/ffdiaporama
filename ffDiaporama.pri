@@ -1,9 +1,23 @@
 TEMPLATE        = subdirs
 CONFIG          += ordered
 APPFOLDER       = ffDiaporama
-SUBDIRS         += src/ffDiaporama          # ffDiaporama main application
-win32:SUBDIRS   += src/ffDiaporamaStart     # ffDiaporama start application (windows only)
-SUBDIRS         += src/ffDiaporamaMMFiler   # ffDiaporama MMFiler companion application
+
+# ffDiaporama main application
+SUBDIRS         += src/ffDiaporama
+TARGET          += ffDiaporama
+
+# ffDiaporama MMFiler companion application
+SUBDIRS         += src/ffDiaporamaMMFiler
+TARGET          += ffDiaporamaMMFiler
+
+# ffDiaporama start application (windows only)
+win32:SUBDIRS   += src/ffDiaporamaStart
+
+DESTDIR += ../build
+
+isEmpty(PREFIX) {
+    PREFIX = /usr
+}
 
 OTHER_FILES += TODO-LIST.txt \          # Developpement file
     BUILDVERSION.txt \                  # Developpement file
@@ -27,82 +41,95 @@ OTHER_FILES += TODO-LIST.txt \          # Developpement file
 
 # Installation on linux systems
 unix {
-    !exists($$INSTALL_ROOT$$DEST_DIR) {
-        DEST_DIR = /usr
-    }
+    message("Install to : $$INSTALL_ROOT$$PREFIX")
 
-    message("Install to : $$INSTALL_ROOT$$DEST_DIR")
+    TARGET.path          = $$INSTALL_ROOT$$PREFIX/bin
+    TARGET.files         = ../build/ffDiaporama ../build/ffDiaporamaMMFiler
+    PostInstall.path     = /
+    PostInstall.extra    = chmod 755 $$INSTALL_ROOT$$PREFIX/bin/ffDiaporama & chmod 755 $$INSTALL_ROOT$$PREFIX/bin/ffDiaporamaMMFiler
+    INSTALLS 		+= TARGET PostInstall
 
-    TARGET.path         = $$INSTALL_ROOT$$DEST_DIR/bin
-    TARGET.files        = ../build/ffDiaporama ../build/ffDiaporamaMMFiler
-    INSTALLS 		+= TARGET
-
-    translation.path    = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/locale
+    translation.path    = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/locale
     translation.files   = locale/*.*
     INSTALLS 		+= translation
 
-    background.path     = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/background
+    background.path     = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/background
     background.files    = background/*.*
     INSTALLS 		+= background
 
-    img.path            = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/img
+    mediaic.path        = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/img/MediaIcons
+    mediaic.files       = img/MediaIcons/*.*
+    ic16x16.path        = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/img/MediaIcons/16x16
+    ic16x16.files       = img/MediaIcons/16x16/*.*
+    ic32x32.path        = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/img/MediaIcons/32x32
+    ic32x32.files       = img/MediaIcons/32x32/*.*
+    ic48x48.path        = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/img/MediaIcons/48x48
+    ic48x48.files       = img/MediaIcons/48x48/*.*
+    ic100x100.path      = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/img/MediaIcons/100x100
+    ic100x100.files     = img/MediaIcons/100x100/*.*
+    ic200x200.path      = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/img/MediaIcons/200x200
+    ic200x200.files     = img/MediaIcons/200x200/*.*
+    INSTALLS 		+= ic16x16 ic32x32 ic48x48 ic100x100 ic200x200 mediaic
+
+    img.path            = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/img
     img.files           = img/*.*
     INSTALLS 		+= img
 
-    tr_img.path         = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/transitions-img
+    tr_img.path         = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/transitions-img
     tr_img.files        = transitions-img/*.*
     INSTALLS 		+= tr_img
 
-    luma.path           = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma
+    luma.path           = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/luma
     luma.files          = luma/*.*
-    luma_Bar.path       = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Bar
+    luma_Bar.path       = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/luma/Bar
     luma_Bar.files      = luma/Bar/*.*
-    luma_Box.path       = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Box
+    luma_Box.path       = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/luma/Box
     luma_Box.files      = luma/Box/*.*
-    luma_Center.path    = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Center
+    luma_Center.path    = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/luma/Center
     luma_Center.files   = luma/Center/*.*
-    luma_Checker.path   = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Checker
+    luma_Checker.path   = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/luma/Checker
     luma_Checker.files  = luma/Checker/*.*
-    luma_Clock.path     = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Clock
+    luma_Clock.path     = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/luma/Clock
     luma_Clock.files    = luma/Clock/*.*
-    luma_Snake.path     = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER/luma/Snake
+    luma_Snake.path     = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER/luma/Snake
     luma_Snake.files    = luma/Snake/*.*
-    INSTALLS 		+= luma luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake
+    INSTALLS 		+= luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake luma
 
-    General.path        = $$INSTALL_ROOT$$DEST_DIR/share/$$APPFOLDER
+    General.path        = $$INSTALL_ROOT$$PREFIX/share/$$APPFOLDER
     General.files       = *.xml *.txt *.rtf *.ffpreset
     INSTALLS 		+= General
 
-    mimefile.path       = /usr/share/mime/packages
+    mimefile.path       = $$INSTALL_ROOT$$PREFIX/share/mime/packages
     mimefile.files      = ffDiaporama-mime.xml
     INSTALLS 		+= mimefile
 
     # install icon files for GNOME systems
     exists(/usr/share/icons/gnome/32x32/mimetypes) {
-        iconfile.path   = /usr/share/icons/gnome/32x32/mimetypes
+        iconfile.path   = $$INSTALL_ROOT$$PREFIX/share/icons/gnome/32x32/mimetypes
         iconfile.files  = img/application-ffDiaporama.png img/application-ffDiaporamaMMFiler.png
     }
     # install icon files for KDE systems
     exists(/usr/share/icons/default.kde4/32x32/mimetypes) {
-        iconfile.path   = /usr/share/icons/default.kde4/32x32/mimetypes
+        iconfile.path   = $$INSTALL_ROOT$$PREFIX/share/icons/default.kde4/32x32/mimetypes
         iconfile.files  = img/application-ffDiaporama.png img/application-ffDiaporamaMMFiler.png
     }
     INSTALLS 		+= iconfile
 
     # install desktop files /opt version
-    contains(INSTALL_ROOT,/opt) {
-        desktop.path    = /usr/share/applications
+    contains(PREFIX,/opt) {
+        desktop.path    = $$INSTALL_ROOT$$PREFIX/share/applications
         desktop.files   = ffDiaporamaopt.desktop ffDiaporamaMMFileropt.desktop
     }
-    # install desktop files /usr/local version
-    contains(INSTALL_ROOT,/usr/local) {
-        desktop.path    = /usr/share/applications
+    # install PREFIX files /usr/local version
+    contains(PREFIX,/usr/local) {
+        desktop.path    = $$INSTALL_ROOT$$PREFIX/share/applications
         desktop.files   = ffDiaporamalocal.desktop ffDiaporamaMMFilerlocal.desktop
     }
     # install desktop files /usr version
-    !contains(INSTALL_ROOT,/usr/local) : !contains(INSTALL_ROOT,/opt) {
-        desktop.path    = /usr/share/applications
+    !contains(PREFIX,/usr/local) : !contains(PREFIX,/opt) {
+        desktop.path    = $$INSTALL_ROOT$$PREFIX/share/applications
         desktop.files   = ffDiaporama.desktop ffDiaporamaMMFiler.desktop
     }
     INSTALLS 		+= desktop
+
 }

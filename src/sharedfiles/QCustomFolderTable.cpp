@@ -288,10 +288,20 @@ void QCustomFolderTable::resizeEvent(QResizeEvent *) {
     if ((CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
         int SizeColumn=0;
         if (CurrentMode==DISPLAY_ICON48) SizeColumn=48+CELLBORDER; else SizeColumn=100+CELLBORDER;
-        if (viewport()->width()/SizeColumn==0) setColumnCount(1); else setColumnCount(viewport()->width()/SizeColumn);
-        for (int i=0;i<columnCount();i++) setColumnWidth(i,SizeColumn);
-        setRowCount((CurrentDisplayItem/columnCount())+1);
-        for (int i=0;i<rowCount();i++) setRowHeight(i,SizeColumn);
+        if (columnCount()!=(viewport()->width()/SizeColumn)) {
+            if (viewport()->width()/SizeColumn==0) setColumnCount(1); else setColumnCount(viewport()->width()/SizeColumn);
+            for (int i=0;i<columnCount();i++) setColumnWidth(i,SizeColumn);
+            setRowCount((CurrentDisplayItem/columnCount())+1);
+            for (int i=0;i<rowCount();i++) setRowHeight(i,SizeColumn);
+            // Fill empty cell with unselecable item if needed
+            if ((CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
+                int toFill=CurrentDisplayItem-((rowCount()-1)*columnCount());
+                while (toFill<columnCount()) {
+                    setItem(rowCount()-1,toFill,new QNullTableWidgetItem(""));
+                    toFill++;
+                }
+            }
+        }
     } else if ((CurrentMode==DISPLAY_WEBSHORT)||(CurrentMode==DISPLAY_WEBLONG)) {
         setColumnWidth(0,viewport()->width());
     }
@@ -615,14 +625,23 @@ void QCustomFolderTable::FillListFolder(QString Path,cBaseApplicationConfig *The
 
     // Create column (if needed)
     if ((CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
-            int SizeColumn=0;
-            if (CurrentMode==DISPLAY_ICON48) SizeColumn=48+CELLBORDER; else SizeColumn=100+CELLBORDER;
-            if (viewport()->width()/SizeColumn==0) setColumnCount(1); else setColumnCount(viewport()->width()/SizeColumn);
-            for (i=0;i<columnCount();i++) setColumnWidth(i,SizeColumn);
+        int SizeColumn=0;
+        if (CurrentMode==DISPLAY_ICON48) SizeColumn=48+CELLBORDER; else SizeColumn=100+CELLBORDER;
+        if (viewport()->width()/SizeColumn==0) setColumnCount(1); else setColumnCount(viewport()->width()/SizeColumn);
+        for (i=0;i<columnCount();i++) setColumnWidth(i,SizeColumn);
     }
 
     // Append Media to table
     foreach(MediaObject,MediaList) AppendMediaToTable(MediaObject);
+
+    // Fill empty cell with unselecable item if needed
+    if ((CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
+        int toFill=CurrentDisplayItem-((rowCount()-1)*columnCount());
+        while (toFill<columnCount()) {
+            setItem(rowCount()-1,toFill,new QNullTableWidgetItem(""));
+            toFill++;
+        }
+    }
 
     // Update display
     DoResizeColumns();

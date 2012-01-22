@@ -277,26 +277,27 @@ bool CheckFolder(QString FileToTest,QString PathToTest) {
 
 //**************************************************
 // First thing to do : ensure correct current path
-// At program startup : CurrentPath is in exe/binarie folder
-//      GlobalConfig must be in current path [for Windows only]
-//      or in ../ApplicationGroupName path [Qt Creator or Linux console build mode]
-//      or in ../ApplicationName path [Qt Creator only or Linux console build mode]
-// it could be
-//      or in /usr/share/ApplicationGroupName [for Linux]
-//      or in /usr/local/share/ApplicationGroupName [for Linux]
-//      or in /opt/share/ApplicationGroupName [for Linux]
-
+// At program startup : CurrentPath is set to data folder (we search GlobalConfig file) that could be :
+//      in current path
+//      or in ../ApplicationGroupName
+//      or in ../ApplicationName
+//      or in $$PREFIX/share/ApplicationGroupName
+//      or in $$PREFIX/share/ApplicationName
 //**************************************************
+
 bool SetWorkingPath(char *argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt) {
     QString StartupDir=QFileInfo(argv[0]).absolutePath();
     qDebug()<<"StartupDir"<<StartupDir;
     QDir::setCurrent(StartupDir);
 
     QString FileToTest  =QString("%1%2").arg(ApplicationName).arg(ConfigFileExt);
+    QString ShareDir=SHARE_DIR;
 
     if (!CheckFolder(FileToTest,QDir::currentPath())
-         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationGroupName))
-         &&(!CheckFolder(FileToTest,QString("../share/")+ApplicationGroupName))
+        &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationGroupName))
+        &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationName))
+        &&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+QString("share")+QDir().separator()+ApplicationGroupName))
+        &&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+QString("share")+QDir().separator()+ApplicationName))
        ) {
         qDebug()<<"Critical error : Impossible to find global configuration file ("<<QString("%1%2").arg(ApplicationName).arg(ConfigFileExt)<<")";
         exit(1);
@@ -708,16 +709,8 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowMusicExtension.append("flac");    AllowMusicExtension.append("FLAC");
 
     // set value of external tools path (depending on operating system)
-/*
-    #ifdef Q_OS_WIN
-        PathEXIV2       = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"exiv2\\exiv2.exe");           // FileName of exiv2 (with path) : Windows version
-        //PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg\\bin\\ffmpeg.exe");  // FileName of ffmpeg (with path) : Windows version
-        PathFFMPEG      = AdjustDirForOS(QDir::currentPath()+(QDir::currentPath().endsWith(QDir::separator())?"":QString(QDir::separator()))+"ffmpeg.exe");                 // FileName of ffmpeg (with path) : Windows version
-    #else
-*/
-        PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
-        PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
-//    #endif
+    PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
+    PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
 
     RememberLastDirectories     = true;                     // If true, Remember all directories for future use
     #ifdef Q_OS_WIN

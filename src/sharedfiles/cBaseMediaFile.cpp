@@ -2049,8 +2049,10 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
         RetImage=new QImage(CacheLastImage->copy());
     }
 
-    if (!IsVideoFind) {
-        qDebug()<<"No video image return for position "<<Position;
+    if ((!IsVideoFind)&&(!RetImage)) {
+        qDebug()<<"No video image return for position "<<Position<<"=> return black frame";
+        RetImage =new QImage(ffmpegVideoFile->streams[VideoStreamNumber]->codec->width,ffmpegVideoFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
+        RetImage->fill(0);
     }
 
     // Check if it's the last image and if we need to  cache it
