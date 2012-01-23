@@ -73,8 +73,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>676</width>
-            <height>416</height>
+            <width>680</width>
+            <height>408</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -174,7 +174,7 @@
               </font>
              </property>
              <property name="text">
-              <string>TextLabel</string>
+              <string>Display options</string>
              </property>
             </widget>
            </item>

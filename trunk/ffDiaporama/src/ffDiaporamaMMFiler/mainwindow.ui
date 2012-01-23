@@ -671,7 +671,7 @@ and help</string>
               </size>
              </property>
              <property name="text">
-              <string>Icon</string>
+              <string notr="true">Icon</string>
              </property>
             </widget>
            </item>
@@ -708,7 +708,7 @@ and help</string>
               <item>
                <widget class="QLabel" name="FolderInfoLabel">
                 <property name="text">
-                 <string>Files information</string>
+                 <string notr="true">Files information</string>
                 </property>
                </widget>
               </item>

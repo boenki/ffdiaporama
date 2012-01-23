@@ -40,11 +40,30 @@
 #include "cBaseMediaFile.h"
 
 // Other third party library inclusions : ffmpeg
+
+//****************************************************************************************************************************************************************
+// EXIV2 PART
+//****************************************************************************************************************************************************************
+
+#include <exiv2/exif.hpp>
+#if (EXIV2_MAJOR_VERSION==0) && (EXIV2_MINOR_VERSION>=20)
+    #include <exiv2/exiv2.hpp>
+    #define EXIV2WITHPREVIEW
+#else
+    #include <exiv2/image.hpp>
+#endif
+
+//****************************************************************************************************************************************************************
+// FFMPEG PART
+//****************************************************************************************************************************************************************
+
 extern "C" {
     #include <libavutil/common.h>
     #include <libavcodec/avcodec.h>
     #include <libavformat/avformat.h>
     #include <libswscale/swscale.h>
+    #include <libavutil/pixdesc.h>
+    #include <libavutil/avutil.h>
 }
 #ifndef AV_SAMPLE_FMT_S16
     #define AV_SAMPLE_FMT_NONE  SAMPLE_FMT_NONE
@@ -58,6 +77,46 @@ extern "C" {
 #ifndef AVIO_FLAG_WRITE
     #define AVIO_FLAG_WRITE 2
 #endif
+#if (LIBAVFORMAT_VERSION_MAJOR>52)
+    #define FFMPEGWITHTAG
+#endif
+
+//****************************************************************************************************************************************************************
+// TAGLIB PART
+//****************************************************************************************************************************************************************
+
+#include <taglib/fileref.h>
+#include <taglib/tbytevector.h>
+#include <taglib/id3v2tag.h>
+#include <taglib/id3v2frame.h>
+#include <taglib/id3v2header.h>
+#include <taglib/id3v2framefactory.h>
+#include <taglib/attachedpictureframe.h>
+#include <taglib/mpegfile.h>
+#include <taglib/flacfile.h>
+#include <taglib/mp4file.h>
+#include <taglib/vorbisfile.h>
+#include <taglib/oggflacfile.h>
+#include <taglib/asffile.h>
+#include <taglib/mp4tag.h>
+#include <taglib/mp4item.h>
+#include <taglib/mp4coverart.h>
+
+#if (TAGLIB_MAJOR_VERSION>=1) && (TAGLIB_MINOR_VERSION>=7)
+    #define TAGLIBWITHFLAC
+#endif
+#ifdef TAGLIB_WITH_ASF
+    #if (TAGLIB_WITH_ASF>=1)
+        #define TAGLIBWITHASF
+    #endif
+#endif
+#ifdef TAGLIB_WITH_MP4
+    #if (TAGLIB_WITH_MP4>=1)
+        #define TAGLIBWITHMP4
+    #endif
+#endif
+
+//****************************************************************************************************************************************************************
 
 // Define possible values for images geometry
 #define IMAGE_GEOMETRY_UNKNOWN              0   // undefined image geometry
@@ -79,6 +138,8 @@ extern "C" {
 #define OBJECTTYPE_MUSICFILE    6
 #define OBJECTTYPE_THUMBNAIL    7
 #define OBJECTTYPE_MUSICORVIDEO 100
+
+//****************************************************************************************************************************************************************
 
 class cBaseMediaFile : public cCustomIcon {
 public:

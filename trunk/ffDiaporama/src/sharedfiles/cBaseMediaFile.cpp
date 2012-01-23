@@ -26,41 +26,15 @@
 #include <QFileDialog>
 #include <QPainter>
 
-#include <exiv2/exiv2.hpp>
-#include <exiv2/exif.hpp>
-
 // Include some additional standard class
 #include "cDeviceModelDef.h"
 #include "cBaseMediaFile.h"
 
-extern "C" {
-    //#include <libavutil/opt.h>
-    #include <libavutil/pixdesc.h>
-    #include <libavutil/avutil.h>
-}
-
-#define FFD_APPLICATION_ROOTNAME    "Project"   // Name of root node in the project xml file
 
 //#define DEBUGMODE
+#define FFD_APPLICATION_ROOTNAME    "Project"   // Name of root node in the project xml file
 
 //****************************************************************************************************************************************************************
-
-#include <taglib/fileref.h>
-#include <taglib/tbytevector.h>
-#include <taglib/id3v2tag.h>
-#include <taglib/id3v2frame.h>
-#include <taglib/id3v2header.h>
-#include <taglib/id3v2framefactory.h>
-#include <taglib/attachedpictureframe.h>
-#include <taglib/mpegfile.h>
-#include <taglib/flacfile.h>
-#include <taglib/mp4file.h>
-#include <taglib/vorbisfile.h>
-#include <taglib/oggflacfile.h>
-#include <taglib/asffile.h>
-#include <taglib/mp4tag.h>
-#include <taglib/mp4item.h>
-#include <taglib/mp4coverart.h>
 
 // from Google music manager (see:http://code.google.com/p/gogglesmm/source/browse/src/gmutils.cpp?spec=svn6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13&r=6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13)
 bool gm_decode_base64(uchar *buffer,uint &len) {
@@ -131,6 +105,7 @@ QImage *GetEmbededImage(QString FileName) {
         }
     }
     //*********** FLAC
+    #ifdef TAGLIBWITHFLAC
     if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="flac")) {
         TagLib::FLAC::File                      FLACFile(TagLib::FileName(FileName.toLocal8Bit()));
         TagLib::List<TagLib::FLAC::Picture *>   PictList=FLACFile.pictureList();
@@ -143,6 +118,7 @@ QImage *GetEmbededImage(QString FileName) {
         }
         if (PreferedPic) Image->loadFromData((const uchar *)PreferedPic->data().data(),PreferedPic->data().size());
     }
+    #endif
     //*********** OGG
     if ((Image->isNull())&&((QFileInfo(FileName).suffix().toLower()=="ogg")||(QFileInfo(FileName).suffix().toLower()=="oga"))) {
         TagLib::Vorbis::File        OggFile(TagLib::FileName(FileName.toLocal8Bit()));
@@ -163,6 +139,7 @@ QImage *GetEmbededImage(QString FileName) {
         }
     }
     //*********** MP4/M4A => don't work with M4V or MP4 video
+    #ifdef TAGLIBWITHMP4
     if ((Image->isNull())&&(/*(QFileInfo(FileName).suffix().toLower()=="mp4")||*/(QFileInfo(FileName).suffix().toLower()=="m4a")||(QFileInfo(FileName).suffix().toLower()=="m4v"))) {
         TagLib::MP4::File MP4File(TagLib::FileName(FileName.toLocal8Bit()));
 
@@ -176,7 +153,9 @@ QImage *GetEmbededImage(QString FileName) {
             }
         }
     }
+    #endif
     //*********** ASF/WMA //////////////////// A FINIR !
+    #ifdef TAGLIBWITHASF
     /*
     if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="wma")) {
         TagLib::ASF::File ASFFile(TagLib::FileName(TagLib::FileName(FileName.toLocal8Bit())));
@@ -189,6 +168,7 @@ QImage *GetEmbededImage(QString FileName) {
             qDebug()<<"ICI";
         }
     }*/
+    #endif
     //***********
     if (!Image->isNull()) return Image; else {
         delete Image;
@@ -891,6 +871,7 @@ bool cImageFile::CallEXIF(int &ImageOrientation) {
             InformationList.sort();
         }
         // Read preview image
+        #ifdef EXIV2WITHPREVIEW
         Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
         if (Manager) {
             Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
@@ -922,6 +903,7 @@ bool cImageFile::CallEXIF(int &ImageOrientation) {
                 }
             }
         }
+        #endif
         // Append InformationList
         if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
         if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));

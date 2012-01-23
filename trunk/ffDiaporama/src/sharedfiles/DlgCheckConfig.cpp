@@ -20,6 +20,7 @@
 
 #include "DlgCheckConfig.h"
 #include "ui_DlgCheckConfig.h"
+#include "cBaseMediaFile.h"
 
 //#define DEBUGMODE
 
@@ -27,49 +28,8 @@
 #define ICON_RED        "img/Red.png"
 
 //====================================================================================================================
-/*
-bool CheckExiv2(QString &StatusStr,cBaseApplicationConfig *ApplicationConfig) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:CheckExiv2";
-    #endif
-    bool        ExifOK  =true;
-    #ifdef Q_OS_WIN
-    QString     Commande= AdjustDirForOS(QString("\""+ApplicationConfig->PathEXIV2+"\" -V"));
-    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    QString     Commande= AdjustDirForOS(QString(ApplicationConfig->PathEXIV2+" -V"));
-    #endif
-    QProcess    Process;
 
-    Process.setProcessChannelMode(QProcess::MergedChannels);
-    Process.start(Commande);
-    if (!Process.waitForStarted()) {
-        qDebug()<<Commande;
-        qDebug()<<"Impossible to start exiv2";
-        ExifOK=false;
-    }
-    if (ExifOK && !Process.waitForFinished()) {
-        qDebug()<<"Error during exiv2 process";
-        ExifOK=false;
-    }
-    if (ExifOK && (Process.exitStatus()<0)) {
-        qDebug()<<"Exiv2 return error"<<Process.exitStatus();
-        ExifOK=false;
-    }
-    if (ExifOK) {
-        QString Info=QString().fromLocal8Bit(Process.readAllStandardOutput());
-        StatusStr=Info.left(Info.indexOf("\n"));
-        if (StatusStr.indexOf(QString(char(13)))>0) StatusStr=StatusStr.left(StatusStr.indexOf(QString(char(13))));
-    } else StatusStr=QApplication::translate("DlgCheckConfig","Exiv2 not found - critical - application will stop !");
-
-    Process.terminate();
-    Process.close();
-
-    return ExifOK;
-}
-*/
-//====================================================================================================================
-
-bool Checkffmpeg(QString &StatusStr,cBaseApplicationConfig *ApplicationConfig) {
+bool Checkffmpeg(QString &StatusStr) {
     #ifdef DEBUGMODE
     qDebug() << "IN:Checkffmpeg";
     #endif
@@ -146,19 +106,74 @@ void DlgCheckConfig::DoInitDialog() {
     QString StatusStr;
     bool    Status;
 
-    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","External dependencies")));
-    //Status=CheckExiv2(StatusStr,BaseApplicationConfig);   ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
-    Status=Checkffmpeg(StatusStr,BaseApplicationConfig);  ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
+    // exiv2
+    StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 version:")+QString("%1.%2.%3").arg(EXIV2_MAJOR_VERSION).arg(EXIV2_MINOR_VERSION).arg(EXIV2_PATCH_VERSION);
+    ui->ListWidget->addItem(new QListWidgetItem(StatusStr));
+    #ifdef EXIV2WITHPREVIEW
+    Status=true;
+    #else
+    Status=false;
+    #endif
+    StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 support for preview image")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
 
-    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","")));
+    ui->ListWidget->addItem(new QListWidgetItem(""));
+
+    // taglib
+    StatusStr=QApplication::translate("DlgCheckConfig","TAGLib version:")+QString("%1.%2.%3").arg(TAGLIB_MAJOR_VERSION).arg(TAGLIB_MINOR_VERSION).arg(TAGLIB_PATCH_VERSION);
+    ui->ListWidget->addItem(new QListWidgetItem(StatusStr));
+    #ifdef TAGLIBWITHFLAC
+    Status=true;
+    #else
+    Status=false;
+    #endif
+    StatusStr=QApplication::translate("DlgCheckConfig","TAGLib support for FLAC")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
+    #ifdef TAGLIBWITHASF
+    Status=true;
+    #else
+    Status=false;
+    #endif
+    StatusStr=QApplication::translate("DlgCheckConfig","TAGLib support for ASF/WMA")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
+    #ifdef TAGLIB_WITH_MP4
+    Status=true;
+    #else
+    Status=false;
+    #endif
+    StatusStr=QApplication::translate("DlgCheckConfig","TAGLib support for M4A/MP4")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
+
+
+    ui->ListWidget->addItem(new QListWidgetItem(""));
+
+    // ffmpeg
+    ui->ListWidget->addItem(new QListWidgetItem("ffmpeg"));
+    Status=Checkffmpeg(StatusStr);
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","ffmpeg version:")+StatusStr));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVCODEC version:")+QString("%1").arg(LIBAVCODEC_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MINOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MICRO)+"."+QString("%1").arg(avcodec_version())));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVFORMAT version:")+QString("%1").arg(LIBAVFORMAT_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MINOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MICRO)+"."+QString("%1").arg(avformat_version())));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBSWSCALE version:")+QString("%1").arg(LIBSWSCALE_VERSION_MAJOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MINOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MICRO)+"."+QString("%1").arg(swscale_version())));
+
+    #ifdef FFMPEGWITHTAG
+    Status=true;
+    #else
+    Status=false;
+    #endif
+    StatusStr=QApplication::translate("DlgCheckConfig","ffmpeg support for TAG and CHAPTERS")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
+
+    ui->ListWidget->addItem(new QListWidgetItem(""));
+
+    // ffmpeg
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","ffmpeg Audio Codecs")));
     for (int i=0;i<NBR_AUDIOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(AUDIOCODECDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(AUDIOCODECDEF[i].LongName)+" "+(AUDIOCODECDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
 
-    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","")));
+    ui->ListWidget->addItem(new QListWidgetItem(""));
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","ffmpeg Video Codecs")));
     for (int i=0;i<NBR_VIDEOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(VIDEOCODECDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(VIDEOCODECDEF[i].LongName)+" "+(VIDEOCODECDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
 
-    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","")));
+    ui->ListWidget->addItem(new QListWidgetItem(""));
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","ffmpeg Container Formats")));
     for (int i=0;i<NBR_FORMATDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(FORMATDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(FORMATDEF[i].LongName)+" "+(FORMATDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
 
