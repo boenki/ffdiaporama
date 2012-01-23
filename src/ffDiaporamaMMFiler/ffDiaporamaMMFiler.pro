@@ -88,5 +88,47 @@ FORMS    += mainwindow.ui \
     ../sharedfiles/DlgManageDevices.ui \
     ../sharedfiles/DlgInfoFile.ui
 
+# Installation on linux systems
+unix {
+    message("Install to : $$PREFIX")
 
+    TARGETF.path         = $$PREFIX/bin
+    TARGETF.files        = $$DESTDIR/$$TARGET
+    #PostInstall.path    = /
+    #PostInstall.extra   = chmod 755 $$PREFIX/bin/ffDiaporama & chmod 755 $$PREFIX/bin/ffDiaporamaMMFiler
+    INSTALLS 		+= TARGETF #PostInstall
 
+    translation.path    = $$PREFIX/share/$$APPFOLDER/locale
+    translation.files   = ../../locale/ffDiaporamaMMFiler_*
+    INSTALLS 		+= translation
+
+    # install icon files for GNOME systems
+    exists(/usr/share/icons/gnome/32x32/mimetypes) {
+        iconfile.path   = $$PREFIX/share/icons/gnome/32x32/mimetypes
+        iconfile.files  = ../../img/application-ffDiaporamaMMFiler.png
+    }
+    # install icon files for KDE systems
+    exists(/usr/share/icons/default.kde4/32x32/mimetypes) {
+        iconfile.path   = $$PREFIX/share/icons/default.kde4/32x32/mimetypes
+        iconfile.files  = ../../img/application-ffDiaporamaMMFiler.png
+    }
+    INSTALLS 		+= iconfile
+
+    # install desktop files /opt version
+    contains(PREFIX,/opt) {
+        desktop.path    = $$PREFIX/share/applications
+        desktop.files   = ../../ffDiaporamaMMFileropt.desktop
+    }
+    # install PREFIX files /usr/local version
+    contains(PREFIX,/usr/local) {
+        desktop.path    = $$PREFIX/share/applications
+        desktop.files   = ../../ffDiaporamaMMFilerlocal.desktop
+    }
+    # install desktop files /usr version
+    !contains(PREFIX,/usr/local) : !contains(PREFIX,/opt) {
+        desktop.path    = $$PREFIX/share/applications
+        desktop.files   = ../../ffDiaporamaMMFiler.desktop
+    }
+    INSTALLS 		+= desktop
+
+}

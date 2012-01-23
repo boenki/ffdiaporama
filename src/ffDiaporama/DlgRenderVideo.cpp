@@ -926,7 +926,7 @@ void DlgRenderVideo::accept() {
                 #endif
             }
 
-            #if (LIBAVFORMAT_VERSION_MAJOR>52)
+            #ifdef FFMPEGWITHTAG
             if (Continue) {
                 // Create metadata temp file
                 TempMETAFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
@@ -955,9 +955,7 @@ void DlgRenderVideo::accept() {
                     out<<QString("date="+QString("%1").arg(Diaporama->ProjectInfo->Year)+"\n");
                     out<<QString("composer="+AdjustMETA(Diaporama->ProjectInfo->Composer));
                     out<<QString("language="+Language+"\n");
-                    #if (LIBAVFORMAT_VERSION_MAJOR>=53)
                     out<<QString("creation_time="+QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")+"\n");   // ISO 8601 format
-                    #endif
 
                     for (int i=FromSlide;i<=ToSlide;i++) if ((i==FromSlide)||(Diaporama->List[i]->StartNewChapter)) {
                         int NextChapter=i+1;
@@ -1005,7 +1003,7 @@ void DlgRenderVideo::accept() {
                 ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r ")+QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+" -i -"+
                         (ui->IncludeSoundCB->isChecked()?" -i \""+TempWAVFileName+"\"":"")+
                         TAG+
-                        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
+                        #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
                         " -timestamp now"+
                         #endif
                         " -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+AddSizestr+" -r "+
