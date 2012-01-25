@@ -1082,8 +1082,8 @@ Consulltez l&apos;aide pour plus d&apos;informations !</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
-        <source>Unable to determine ffmpeg version - critical - application will stop !</source>
-        <translation type="unfinished"></translation>
+        <source>Unable to determine ffmpeg version</source>
+        <translation type="unfinished">Impossible de déterminer la version de ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="110"/>
@@ -2182,20 +2182,20 @@ Déplace le fichier actuellement sélectionné dans la liste d&apos;un cran vers
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="706"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="718"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="891"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="918"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1164"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1226"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1235"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1246"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1257"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1269"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1295"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1319"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1328"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1341"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1447"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1451"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1475"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="919"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1165"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1227"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1236"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1247"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1258"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1270"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1296"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1320"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1329"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1342"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1448"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1452"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1476"/>
         <source>Render video</source>
         <translation>Générer le film</translation>
     </message>
@@ -2549,62 +2549,62 @@ Voulez-vous l&apos;écraser ?</translation>
         <translation>Encodage du son</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="987"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="988"/>
         <source>Start ffmpeg encoder</source>
         <translation>Démarre l&apos;encodeur ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1038"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1104"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1111"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1148"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1152"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1039"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1105"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1112"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1149"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1153"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1039"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1040"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Erreur lors du lancement de ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1074"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1075"/>
         <source> - Estimated time left : </source>
         <translation> - Temps restant estimé : </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1104"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1105"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation>Erreur lors de la transmission de l&apos;image à ffmeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1111"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1112"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation>Erreur ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1133"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1134"/>
         <source>Closing encoder</source>
         <translation>Stop l&apos;encodeur</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1148"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1149"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation>Erreur durant le processus ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1152"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1153"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Erreur lors de l&apos;arret de ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1164"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1165"/>
         <source>Job completed succesfully!</source>
         <translation>Génération terminée avec succès !</translation>
     </message>

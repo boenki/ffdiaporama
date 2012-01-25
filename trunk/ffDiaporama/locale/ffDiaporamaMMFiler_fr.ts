@@ -273,8 +273,8 @@
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
-        <source>Unable to determine ffmpeg version - critical - application will stop !</source>
-        <translation></translation>
+        <source>Unable to determine ffmpeg version</source>
+        <translation>Impossible de déterminer la version de ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="110"/>

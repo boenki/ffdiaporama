@@ -906,7 +906,8 @@ void DlgRenderVideo::accept() {
                                                     #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
                                                     aCodec=QString("-acodec aac -strict experimental -ab %1 -absf aac_adtstoasc").arg(AudioBitRate);
                                                     #else
-                                                    aCodec=QString("-acodec libvo_aacenc -ab %1").arg(AudioBitRate);
+                                                    aCodec=QString("-acodec libvo_aacenc -ab %1 -absf aac_adtstoasc").arg(AudioBitRate);
+                                                    //if (OutputFileName.toLower().endsWith(".avi")) aCodec=aCodec+" -absf aac_adtstoasc";
                                                     #endif
                                                     else aCodec=QString("-acodec libfaac -ab %1").arg(AudioBitRate);
                                                 break;
