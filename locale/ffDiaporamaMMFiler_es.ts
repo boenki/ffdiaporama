@@ -275,7 +275,7 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
-        <source>Unable to determine ffmpeg version - critical - application will stop !</source>
+        <source>Unable to determine ffmpeg version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -386,7 +386,7 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="157"/>
         <source>File modify :</source>
-        <translation>Archivo modoficado :</translation>
+        <translation>Archivo modificado :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="200"/>
@@ -695,7 +695,7 @@ Archivo</translation>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="170"/>
         <source>Display detailled information on file</source>
-        <translation>Muestra informaciñón detallada del archivo</translation>
+        <translation>Muestra información detallada del archivo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="173"/>
@@ -861,27 +861,27 @@ y Ayuda</translation>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="460"/>
         <source>Details view</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista detalles</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="461"/>
         <source>Short summary view</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista resumen corto</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="462"/>
         <source>Long summary view</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista resumen largo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="463"/>
         <source>Small icon view</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista icono pequeño</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="464"/>
         <source>Medium icon view</source>
-        <translation type="unfinished"></translation>
+        <translation>Vista icono mediano</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="493"/>
@@ -1245,12 +1245,12 @@ y Ayuda</translation>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="719"/>
         <source>Slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositivas</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="720"/>
         <source>Chapters</source>
-        <translation type="unfinished">Capítulos</translation>
+        <translation>Capítulos</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="782"/>

@@ -1,10 +1,21 @@
 (C) 2011 Dominique LEVRAY <levray.dominique@bbox.fr>
 
+ffDiaporama use these third party libraries :
+    fmt_filters <http://ksquirrel.sourceforge.net/subprojects.php>
+    ffmpeg <http://www.ffmpeg.org/>
+    libexiv2 <http://www.exiv2.org/>
+    taglib <http://developer.kde.org/~wheeler/taglib.html>
+    libsdl <http://www.libsdl.org/>
+
 Logo & icons :
     Zouly <http://www.customxp.net/PngFactory/galerie-png-24105-Zouly.html>
+    Pepe Baeza <http://www.quesepuedehacerenlinux.net/search/label/ffdiaporama>
+    Crystal Project <http://www.everaldo.com/crystal/>
+    Nuvola <http://fr.wikipedia.org/wiki/Nuvola>
 
-English help files correction :
-  Hazel R <http://www.linuxforums.org/forum/members/hazel.html>
+English interface and WIKI translation :
+    Dominique LEVRAY <levray.dominique@bbox.fr>
+    Hazel R <http://www.linuxforums.org/forum/members/hazel.html>
 
 Spanish interface and WIKI translation :
     Pepe Baeza <http://www.quesepuedehacerenlinux.net/search/label/ffdiaporama>
@@ -20,3 +31,7 @@ German interface and WIKI translation :
 
 Russian interface :
     Mikhail Dureev <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=16>
+
+Czech  interface :
+    Bagicz
+

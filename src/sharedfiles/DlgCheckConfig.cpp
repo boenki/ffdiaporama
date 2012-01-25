@@ -60,7 +60,7 @@ bool Checkffmpeg(QString &StatusStr) {
             StatusStr=StatusStr.left(StatusStr.indexOf("\n"));
             if (StatusStr.indexOf(QString(char(13)))>0) StatusStr=StatusStr.left(StatusStr.indexOf(QString(char(13))));
         } else {
-            StatusStr=QApplication::translate("DlgCheckConfig","Unable to determine ffmpeg version - critical - application will stop !");
+            StatusStr=QApplication::translate("DlgCheckConfig","Unable to determine ffmpeg version");
             //ffmpegOK=false;
         }
     } else StatusStr=QApplication::translate("DlgCheckConfig","ffmpeg not found - critical - application will stop !");
