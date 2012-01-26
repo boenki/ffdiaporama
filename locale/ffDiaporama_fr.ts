@@ -1083,7 +1083,7 @@ Consulltez l&apos;aide pour plus d&apos;informations !</translation>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
         <source>Unable to determine ffmpeg version</source>
-        <translation type="unfinished">Impossible de déterminer la version de ffmpeg</translation>
+        <translation>Impossible de déterminer la version de ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="110"/>
@@ -3653,6 +3653,12 @@ Voulez-vous l&apos;écraser ?</translation>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="254"/>
         <source>F1</source>
         <translation>F1</translation>
+    </message>
+    <message>
+        <location filename="../src/sharedfiles/DlgffDPjrProperties.cpp" line="57"/>
+        <source>#;Slide;Title;Start;End;Duration</source>
+        <comment>Column headers</comment>
+        <translation>#;Diapo.;Titre;Début;Fin;Durée</translation>
     </message>
 </context>
 <context>

@@ -34,12 +34,12 @@
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 
-#define HELPFILE_DlgCheckConfig             "http://ffdiaporama.tuxfamily.org/?page_id=3086&lang=<local>"
+#define HELPFILE_DlgCheckConfig             "http://ffdiaporama.tuxfamily.org/?page_id=3968&lang=<local>"
 #define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/?page_id=1567&lang=<local>"
 #define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/?cat=5&lang=<local>"
-#define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=1286&lang=<local>"
-#define HELPFILE_DlgManageDevices           ""
-#define HELPFILE_DlgInfoFile                ""
+#define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=4205&lang=<local>"
+#define HELPFILE_DlgManageDevices           "http://ffdiaporama.tuxfamily.org/?page_id=4023&lang=<local>"
+#define HELPFILE_DlgInfoFile                "http://ffdiaporama.tuxfamily.org/?page_id=4206&lang=<local>"
 
 #define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de"
 
