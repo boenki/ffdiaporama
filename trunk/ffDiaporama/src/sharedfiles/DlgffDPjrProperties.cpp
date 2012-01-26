@@ -54,7 +54,7 @@ void DlgffDPjrProperties::DoInitDialog() {
     ui->CommentED->setPlainText(ffdProject->Comment);
     ui->LanguageED->setText(ffdProject->DefaultLanguage);
 
-    DoInitTableWidget(ui->ChapterTable,"#;Slide;Title;Start;End;Duration");
+    DoInitTableWidget(ui->ChapterTable,QApplication::translate("DlgffDPjrProperties","#;Slide;Title;Start;End;Duration","Column headers"));
     for (int i=0;i<ffdProject->NbrChapters;i++) {
         QString ChapterNum=QString("%1").arg(i); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
         ChapterNum="Chapter_"+ChapterNum+":";

@@ -3660,6 +3660,12 @@ Do you want to overwrite it ?</source>
         <source>F1</source>
         <translation type="unfinished">F1</translation>
     </message>
+    <message>
+        <location filename="../src/sharedfiles/DlgffDPjrProperties.cpp" line="57"/>
+        <source>#;Slide;Title;Start;End;Duration</source>
+        <comment>Column headers</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
