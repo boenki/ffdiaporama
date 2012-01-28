@@ -151,7 +151,7 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="177"/>
         <source>Display options</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar opciones</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="204"/>
@@ -276,12 +276,12 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
         <source>Unable to determine ffmpeg version</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede conocer versión de ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="110"/>
         <source>LibExiv2 version:</source>
-        <translation type="unfinished"></translation>
+        <translation>versión de LibExiv2:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
@@ -298,52 +298,52 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
         <source>LibExiv2 support for preview image</source>
-        <translation type="unfinished"></translation>
+        <translation>Soporte de LibExiv2 para previsualizar imagen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="123"/>
         <source>TAGLib version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión de TAGLib:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="130"/>
         <source>TAGLib support for FLAC</source>
-        <translation type="unfinished"></translation>
+        <translation>Soporte de TAGLib para FLAC</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="137"/>
         <source>TAGLib support for ASF/WMA</source>
-        <translation type="unfinished"></translation>
+        <translation>Soporte de TAGLib para ASF/WMA</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="144"/>
         <source>TAGLib support for M4A/MP4</source>
-        <translation type="unfinished"></translation>
+        <translation>Soporte de TAGLib para M4A/MP4</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="153"/>
         <source>ffmpeg version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión de ffmpeg:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="154"/>
         <source>LIBAVCODEC version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión de LIBAVCODEC:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="155"/>
         <source>LIBAVFORMAT version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión de LIBAVFORMAT:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="156"/>
         <source>LIBSWSCALE version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión de LIBSWSCALE:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="163"/>
         <source>ffmpeg support for TAG and CHAPTERS</source>
-        <translation type="unfinished"></translation>
+        <translation>Soporte de ffmpeg para TAG y CAPÍTULOS</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>

@@ -382,7 +382,7 @@ bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,cBaseApplica
     if (!FileName.endsWith(QDir::separator())) FileName=FileName+QDir::separator();
     FileName=FileName+CONFIGFILENAME+"."+QFileInfo(ConfigFileName).suffix();
 
-    qDebug()<<QApplication::translate("MainWindow","Reading configuration file")<<FileName;
+    qDebug()<<QApplication::translate("MainWindow","Read configuration file")<<FileName;
 
     QFile           file(FileName);
     QDomDocument    domDocument;

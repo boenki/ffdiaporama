@@ -1520,6 +1520,7 @@ qDebug() << "IN:cVideoFile::CloseCodecAndFile";
         av_free(FrameBufferYUV);
         FrameBufferYUV=NULL;
     }
+    FrameBufferYUVReady=false;
     IsOpen=false;
 }
 
@@ -1530,6 +1531,9 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::ReadAudioFrame";
     #endif
+
+    qDebug()<<"ReadAudioFrame @"<<Position;
+
     // Ensure file was previously open and all is ok
     if ((SoundTrackBloc==NULL)||(AudioStreamNumber==-1)||(ffmpegAudioFile->streams[AudioStreamNumber]==NULL)||(ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
 
@@ -1599,7 +1603,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
         if (err<0) {
             // if error in av_read_frame(...) then may be we have reach the end of file !
             Continue=false;
-            qDebug()<<"error in av_read_frame"<<err;
+            qDebug()<<"av_read_frame error during ReadAudioFrame"<<err;
         } else {
             if ((StreamPacket->stream_index==AudioStreamNumber)&&(StreamPacket->size>0)) {
 
@@ -1639,12 +1643,13 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                             memcpy(BufferForDecoded+AudioLenDecoded,BufferToDecode+Delta,SizeDecoded-Delta);
                             AudioLenDecoded+=(SizeDecoded-Delta);
 
-                        } else {
-                            //qDebug()<<"Skip packet :"<<FramePosition<<"-"<<FrameEndPosition<<"["<<dPosition<<"-"<<EndPosition<<"]";
-                        }
+                        } //else qDebug()<<"Skip packet :"<<FramePosition<<"-"<<FramePosition+FrameDuration<<"["<<dPosition<<"-"<<EndPosition<<"]";
+
                         PacketTemp.data+=Len;
                         PacketTemp.size-=Len;
                         FramePosition=FramePosition+FrameDuration;
+
+                        //qDebug()<<"Bloc lu : data="<<AudioLenDecoded<<"/"<<AudioDataWanted;
                     }
                 }
             }
@@ -1666,32 +1671,24 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     //**********************************************************************
     if (AudioLenDecoded>0) {
 
-        // UINT8 TO INT16
+        // u8 mono or stereo TO Stereo-i16
         if (AudioStream->codec->sample_fmt==AV_SAMPLE_FMT_U8) {
             uint8_t *NewBuffer=(uint8_t *)av_malloc(MaxAudioLenDecoded);
             uint8_t *Buf1=(uint8_t*)BufferForDecoded;
             int16_t *Buf2=(int16_t*)NewBuffer;
-            for (int j=0;j<AudioLenDecoded;j++) *(Buf2++)=((double(*(Buf1++))-double(128))/double(128))*double(32768);
+            int16_t Val;
+            for (int j=0;j<AudioLenDecoded;j++) {
+                Val=((double(*(Buf1++))-double(128))/double(128))*double(32768);
+                *(Buf2++)=Val;                                                      // to i16
+                if (AudioStream->codec->channels==1) *(Buf2++)=Val;                 // to stereo
+            }
             av_free(BufferForDecoded);
             BufferForDecoded=NewBuffer;
-            AudioLenDecoded*=2;
-        }
+            AudioLenDecoded*=2;                                                     // to i16
+            if (AudioStream->codec->channels==1) AudioLenDecoded*=2;                // to stereo
 
-        // Adjust volume
-        if (Volume!=1) {
-            int16_t *Buf1=(int16_t*)BufferForDecoded;
-            int32_t mix;
-            for (int j=0;j<AudioLenDecoded/(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels);j++) {
-                // Left channel : Adjust if necessary (16 bits)
-                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                // Right channel : Adjust if necessary (16 bits)
-                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-            }
-        }
-
-        bool Continue=true;
-        if (AudioStream->codec->channels==1) {
-            // Mono to stereo
+        // Mono-i16 to stereo-i16
+        } else if (AudioStream->codec->channels==1) {
             int16_t *NewBuf=(short int*)av_malloc(AudioLenDecoded*DstSampleSize+DstSampleSize);
             int16_t *Pa=NewBuf;
             int16_t *Pb=(int16_t*)BufferForDecoded;
@@ -1704,147 +1701,142 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
             av_free(BufferForDecoded);
             BufferForDecoded=(uint8_t*)NewBuf;
             AudioLenDecoded=AudioLenDecoded*2;
-
-        } else if (AudioStream->codec->channels!=2) {
-            // 5.1 to stereo ?????
-            Continue=false;
         }
 
-        if (Continue) {
+        // Now, we are sure we have stereo-i16 samples
 
-            if (SoundTrackBloc->SamplingRate!=AudioStream->codec->sample_rate) {
+        // Adjust volume
+        if (Volume!=1) {
+            int16_t *Buf1=(int16_t*)BufferForDecoded;
+            int32_t mix;
+            for (int j=0;j<AudioLenDecoded/4;j++) {
+                // Left channel : Adjust if necessary (16 bits)
+                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+                // Right channel : Adjust if necessary (16 bits)
+                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+            }
+        }
 
-                double  NewSize=(double(AudioLenDecoded/DstSampleSize)/double(AudioStream->codec->sample_rate))*double(SoundTrackBloc->SamplingRate);
-                double  PasSrc =1/double(AudioStream->codec->sample_rate);
-                double  PasDst =1/double(SoundTrackBloc->SamplingRate);
-                double  PosSrc =0;
-                double  PosDst =0;
-                int16_t *NewBuf=(short int*)av_malloc(NewSize*DstSampleSize+DstSampleSize);
-                int16_t *PtrSrc=(int16_t*)BufferForDecoded;
-                int16_t *PtrDst=NewBuf;
-                int     RealNewSize=0;
+        if (SoundTrackBloc->SamplingRate!=AudioStream->codec->sample_rate) {
 
-                if (PreviewMode && ApplicationConfig->QuickResamplingPreview) {
-                    // For Preview Mode use a quick resampling linear method without interpolation
-                    int16_t Left,Right;
+            double  NewSize=((double(AudioLenDecoded)/double(DstSampleSize))/double(AudioStream->codec->sample_rate))*double(SoundTrackBloc->SamplingRate);
+            double  PasSrc =1/double(AudioStream->codec->sample_rate);
+            double  PasDst =1/double(SoundTrackBloc->SamplingRate);
+            double  PosSrc =0;
+            double  PosDst =0;
+            int16_t *NewBuf=(short int*)av_malloc(NewSize*DstSampleSize+DstSampleSize);
+            int16_t *PtrSrc=(int16_t*)BufferForDecoded;
+            int16_t *PtrDst=NewBuf;
+            int     RealNewSize=0;
 
-                    for (int i=0;i<AudioLenDecoded/DstSampleSize;i++) {
-                        Left=*(PtrSrc++);
-                        Right=*(PtrSrc++);
-                        *(PtrDst++)=Left;           // First Chanel
-                        *(PtrDst++)=Right;          // Second Chanel
-                        PosSrc=PosSrc+PasSrc;
-                        PosDst=PosDst+PasDst;
-                        RealNewSize++;
-                        if ((PosSrc-PosDst)>=PasDst) {
-                            *(PtrDst++)=Left;           // First Chanel
-                            *(PtrDst++)=Right;          // Second Chanel
-                            PosDst=PosDst+PasDst;
-                            RealNewSize++;
-                        }
-                    }
+            if (PreviewMode && ApplicationConfig->QuickResamplingPreview) {
+                // For Preview Mode use a quick resampling linear method without interpolation
+                int16_t Left,Right;
 
-                } else {
-                    // For Rendering Mode use a resampling linear method with Hermit interpolation (http://en.wikipedia.org/wiki/Hermite_interpolation)
-                    int16_t Left_x0,Left_x1,Left_x2,Left_x3;
-                    int16_t Right_x0,Right_x1,Right_x2,Right_x3;
-                    float   t,c0,c1,c2,c3,Value;
-
-                    // First value
-                    Left_x0=*(PtrSrc++);    *(PtrDst++)=Left_x0;
-                    Right_x0=*(PtrSrc++);   *(PtrDst++)=Right_x0;
+                for (int i=0;i<AudioLenDecoded/DstSampleSize;i++) {
+                    Left=*(PtrSrc++);
+                    Right=*(PtrSrc++);
+                    *(PtrDst++)=Left;           // First Chanel
+                    *(PtrDst++)=Right;          // Second Chanel
                     PosSrc=PosSrc+PasSrc;
                     PosDst=PosDst+PasDst;
                     RealNewSize++;
-
-                    // Second value
-                    Left_x1=*(PtrSrc++);    *(PtrDst++)=Left_x1;
-                    Right_x1=*(PtrSrc++);   *(PtrDst++)=Right_x1;
-                    //PosSrc=PosSrc+PasSrc;
-                    PosDst=PosDst+PasDst;
-                    RealNewSize++;
-
-                    // Third value
-                    Left_x2=*(PtrSrc++);
-                    Right_x2=*(PtrSrc++);
-
-                    // Neutralize first swap
-                    Left_x3 =Left_x2;       Left_x2 =Left_x1;       Left_x1 =Left_x0;
-                    Right_x3=Right_x2;      Right_x2=Right_x1;      Right_x1=Right_x0;
-
-                    for (int i=2;i<(NewSize-2);i++) {
-
-                        if ((PosDst-PosSrc)>=PasSrc) {
-                            // swap all values
-                            Left_x0 =Left_x1;       Left_x1 =Left_x2;       Left_x2 =Left_x3;
-                            Right_x0=Right_x1;      Right_x1=Right_x2;      Right_x2=Right_x3;
-
-                            // Get fourth value
-                            Left_x3=*(PtrSrc++);
-                            Right_x3=*(PtrSrc++);
-                            PosSrc=PosSrc+PasSrc;
-                        }
-
-                        // Calculate distance between PosSrc and next point
-                        t=(PosDst-PosSrc)/PasSrc;
-
-                        // Calculate interpolation using Hermite method
-                        // Left Chanel
-                        c0   =Left_x1;
-                        c1   =.5F * (Left_x2 - Left_x0);
-                        c2   =Left_x0 - (2.5F * Left_x1) + (2 * Left_x2) - (.5F * Left_x3);
-                        c3   =(.5F * (Left_x3 - Left_x0)) + (1.5F * (Left_x1 - Left_x2));
-                        Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
-                        *(PtrDst++)=int16_t(Value);
-                        // Right Chanel
-                        c0   =Right_x1;
-                        c1   =.5F * (Right_x2 - Right_x0);
-                        c2   =Right_x0 - (2.5F * Right_x1) + (2 * Right_x2) - (.5F * Right_x3);
-                        c3   =(.5F * (Right_x3 - Right_x0)) + (1.5F * (Right_x1 - Right_x2));
-                        Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
-                        *(PtrDst++)=int16_t(Value);
+                    if ((PosSrc-PosDst)>=PasDst) {
+                        *(PtrDst++)=Left;           // First Chanel
+                        *(PtrDst++)=Right;          // Second Chanel
                         PosDst=PosDst+PasDst;
                         RealNewSize++;
                     }
-                    // Last 2 values
-                    *(PtrDst++)=Left_x2;
-                    *(PtrDst++)=Right_x2;
-                    RealNewSize++;
-                    *(PtrDst++)=Left_x3;
-                    *(PtrDst++)=Right_x3;
-                    RealNewSize++;
-
                 }
-
-                // Append data to SoundTrackBloc
-                SoundTrackBloc->AppendData((int16_t*)NewBuf,trunc(RealNewSize)*DstSampleSize);
-                av_free(NewBuf);                                                    // Free allocated buffers
-
-                /* OLD VERSION USING FFMPEG FUNCTION
-                // Resample sound to wanted freq. using ffmpeg audio_resample function
-                ReSampleContext *RSC=av_audio_resample_init(                        // Context for resampling audio data
-                    SoundTrackBloc->Channels,2,                                     // output_channels, input_channels
-                    SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,   // output_rate, input_rate
-                    SAMPLE_FMT_S16,AudioStream->codec->sample_fmt,                  // sample_fmt_out, sample_fmt_in
-                    16,                                                             // filter_length
-                    10,                                                             // log2_phase_count
-                    0,                                                              // linear
-                    0.8);                                                           // cutoff
-                if (RSC!=NULL) {
-                    short int*BufSampled=(short int*)av_malloc((AVCODEC_MAX_AUDIO_FRAME_SIZE*3)/2);
-                    int64_t SizeSampled=audio_resample(RSC,BufSampled,(short int*)BufferForDecoded,AudioLenDecoded/SrcSampleSize)*DstSampleSize;
-                    SoundTrackBloc->AppendData((int16_t*)BufSampled,SizeSampled);   // Append data to SoundTrackBloc
-                    audio_resample_close(RSC);                                      // Close the resampling audio context
-                    av_free(BufSampled);                                            // Free allocated buffers
-                }
-                */
 
             } else {
-                // Append data to SoundTrackBloc
-                SoundTrackBloc->AppendData((int16_t*)BufferForDecoded,AudioLenDecoded);
+                // For Rendering Mode use a resampling linear method with Hermit interpolation (http://en.wikipedia.org/wiki/Hermite_interpolation)
+                int16_t Left_x0,Left_x1,Left_x2,Left_x3;
+                int16_t Right_x0,Right_x1,Right_x2,Right_x3;
+                float   t,c0,c1,c2,c3,Value;
+
+                // First value
+                Left_x0=*(PtrSrc++);    *(PtrDst++)=Left_x0;
+                Right_x0=*(PtrSrc++);   *(PtrDst++)=Right_x0;
+                PosSrc=PosSrc+PasSrc;
+                PosDst=PosDst+PasDst;
+                RealNewSize++;
+
+                // Second value
+                Left_x1=*(PtrSrc++);    *(PtrDst++)=Left_x1;
+                Right_x1=*(PtrSrc++);   *(PtrDst++)=Right_x1;
+                //PosSrc=PosSrc+PasSrc;
+                PosDst=PosDst+PasDst;
+                RealNewSize++;
+
+                // Third value
+                Left_x2=*(PtrSrc++);
+                Right_x2=*(PtrSrc++);
+
+                // Neutralize first swap
+                Left_x3 =Left_x2;       Left_x2 =Left_x1;       Left_x1 =Left_x0;
+                Right_x3=Right_x2;      Right_x2=Right_x1;      Right_x1=Right_x0;
+
+                for (int i=2;i<(NewSize-2);i++) {
+
+                    if ((PosDst-PosSrc)>=PasSrc) {
+                        // swap all values
+                        Left_x0 =Left_x1;       Left_x1 =Left_x2;       Left_x2 =Left_x3;
+                        Right_x0=Right_x1;      Right_x1=Right_x2;      Right_x2=Right_x3;
+
+                        // Get fourth value
+                        Left_x3=*(PtrSrc++);
+                        Right_x3=*(PtrSrc++);
+                        PosSrc=PosSrc+PasSrc;
+                    }
+
+                    // Calculate distance between PosSrc and next point
+                    t=(PosDst-PosSrc)/PasSrc;
+
+                    // Calculate interpolation using Hermite method
+                    // Left Chanel
+                    c0   =Left_x1;
+                    c1   =.5F * (Left_x2 - Left_x0);
+                    c2   =Left_x0 - (2.5F * Left_x1) + (2 * Left_x2) - (.5F * Left_x3);
+                    c3   =(.5F * (Left_x3 - Left_x0)) + (1.5F * (Left_x1 - Left_x2));
+                    Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
+                    *(PtrDst++)=int16_t(Value);
+                    // Right Chanel
+                    c0   =Right_x1;
+                    c1   =.5F * (Right_x2 - Right_x0);
+                    c2   =Right_x0 - (2.5F * Right_x1) + (2 * Right_x2) - (.5F * Right_x3);
+                    c3   =(.5F * (Right_x3 - Right_x0)) + (1.5F * (Right_x1 - Right_x2));
+                    Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
+                    *(PtrDst++)=int16_t(Value);
+                    PosDst=PosDst+PasDst;
+                    RealNewSize++;
+                }
+                // Last 2 values
+                /*
+                *(PtrDst++)=Left_x2;
+                *(PtrDst++)=Right_x2;
+                RealNewSize++;
+                *(PtrDst++)=Left_x3;
+                *(PtrDst++)=Right_x3;
+                RealNewSize++;
+                */
+                *(PtrDst++)=0;
+                *(PtrDst++)=0;
+                RealNewSize++;
+                *(PtrDst++)=0;
+                *(PtrDst++)=0;
+                RealNewSize++;
             }
 
+            // Append data to SoundTrackBloc
+            SoundTrackBloc->AppendData((int16_t*)NewBuf,RealNewSize*DstSampleSize);
+            av_free(NewBuf); // Free allocated buffers
+
+        } else {
+            // Append data to SoundTrackBloc
+            SoundTrackBloc->AppendData((int16_t*)BufferForDecoded,AudioLenDecoded);
         }
+
     }
 
     // Now ensure SoundTrackBloc have correct wanted packet (if no then add nullsound)
@@ -2119,15 +2111,17 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
     // Load a video frame
     QImage *LoadedImage=NULL;
 
-    if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)) ReadAudioFrame(PreviewMode,Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
-    if ((!MusicOnly)&&(!ForceSoundOnly)) {
-        LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
-        if (!LoadedImage) LoadedImage=ReadVideoFrame(Position+StartPosToAdd-100,DontUseEndPos);  // Retry 1/10 sec before
-/////////////////// ICI -> 1/10 ce n'est pas bon !!!!!!!!!!!!
+    if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)&&(SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS)) {
+        qDebug()<<"Before : "<<SoundTrackBloc->List.count()<<"blocks"<<"Reste :"<<SoundTrackBloc->CurrentTempSize;
+        ReadAudioFrame(PreviewMode,Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
+        qDebug()<<"After : "<<SoundTrackBloc->List.count()<<"blocks"<<"Reste :"<<SoundTrackBloc->CurrentTempSize;
     }
 
+    if ((!MusicOnly)&&(!ForceSoundOnly))
+        LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
+
     if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
-        // Scale image if anamorphous codec
+        // Scale image if anamorphous
         if (AspectRatio!=1) {
             ImageWidth =int(double(LoadedImage->width())*AspectRatio);
             ImageHeight=LoadedImage->height();

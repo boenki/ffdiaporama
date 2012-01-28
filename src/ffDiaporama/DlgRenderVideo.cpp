@@ -904,10 +904,12 @@ void DlgRenderVideo::accept() {
                     case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))
                                                     #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
-                                                    aCodec=QString("-acodec aac -strict experimental -ab %1 -absf aac_adtstoasc").arg(AudioBitRate);
+                                                        aCodec=QString("-acodec aac -strict experimental -ab %1 -absf aac_adtstoasc").arg(AudioBitRate);
                                                     #else
-                                                    aCodec=QString("-acodec libvo_aacenc -ab %1 -absf aac_adtstoasc").arg(AudioBitRate);
-                                                    //if (OutputFileName.toLower().endsWith(".avi")) aCodec=aCodec+" -absf aac_adtstoasc";
+                                                        aCodec=QString("-acodec libvo_aacenc -ab %1").arg(AudioBitRate);
+                                                        #if (LIBAVFORMAT_VERSION_MAJOR>53)||((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>28))
+                                                            aCodec=aCodec+" -absf aac_adtstoasc";
+                                                        #endif
                                                     #endif
                                                     else aCodec=QString("-acodec libfaac -ab %1").arg(AudioBitRate);
                                                 break;
@@ -1215,10 +1217,6 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     cSDLSoundBlockList      RenderMusic;
     cSDLSoundBlockList      EncodedAudio;
 
-    //    AVStream        *VideoStream        =NULL;
-    //    AVCodecContext  *VideoCodecContext  =NULL;
-    //    AVCodec         *VideoCodec         =NULL;
-
     ui->SoundProgressBar->setMaximum(NbrFrame);
 
     // Get the container format
@@ -1300,7 +1298,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 // Init sound blocks
                 int audio_input_frame_size=AudioStream->codec->frame_size;                          // frame size in samples
                 if (audio_input_frame_size<=1) audio_input_frame_size=RenderMusic.SoundPacketSize; else audio_input_frame_size*=RenderMusic.SampleBytes*RenderMusic.Channels;
-                RenderMusic.SetFPS(25);         // For sound generation, use only 25 FPS to avoir rounded issue
+                RenderMusic.SetFPS(25);         // For sound generation, use only 25 FPS to avoid rounded issue
                 EncodedAudio.SetFrameSize(audio_input_frame_size);
             }
         }
@@ -1412,10 +1410,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 RenderMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
 
             // Flush audio frame
-            while ((Continue)&&(RenderMusic.List.count()>0)) {
+            while ((Continue)&&(MaxPacket>0)/*(RenderMusic.List.count()>0)*/) {
                 AVPacket    pkt;
-
                 int16_t     *Packet=RenderMusic.DetachFirstPacket();
+
                 if (Packet==NULL) {
                     Packet=(int16_t *)av_malloc(RenderMusic.SoundPacketSize+4);
                     memset(Packet,0,RenderMusic.SoundPacketSize);
@@ -1456,8 +1454,9 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 }
 
                 av_free(Packet);
-
+                MaxPacket--;
             }
+
             QApplication::processEvents();  // Give time to interface!
 
             // Calculate next position

@@ -24,8 +24,8 @@
 
 //#define DEBUGMODE
 
-#define ICON_GREEN      "img/Green.png"
-#define ICON_RED        "img/Red.png"
+#define ICON_GREEN      ":/img/Green.png"
+#define ICON_RED        ":/img/Red.png"
 
 //====================================================================================================================
 

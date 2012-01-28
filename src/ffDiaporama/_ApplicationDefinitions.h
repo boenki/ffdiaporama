@@ -37,7 +37,7 @@
 
 // Application definition
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "1.2 devel"
+#define APPLICATION_VERSION                 "1.2 beta 1"
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 
@@ -56,7 +56,7 @@
 #define HELPFILE_DlgTransitionProperties    "http://ffdiaporama.tuxfamily.org/?page_id=3941&lang=<local>"
 #define HELPFILE_DlgVideoEdit               "http://ffdiaporama.tuxfamily.org/?page_id=3945&lang=<local>"
 #define HELPFILE_DlgCheckConfig             "http://ffdiaporama.tuxfamily.org/?page_id=3968&lang=<local>"
-#define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/?page_id=1567&lang=<local>"
+#define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/?page_id=3854&lang=<local>"
 #define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/?cat=5&lang=<local>"
 #define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=3915&lang=<local>"
 #define HELPFILE_DlgManageDevices           "http://ffdiaporama.tuxfamily.org/?page_id=4023&lang=<local>"

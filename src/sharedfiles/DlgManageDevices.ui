@@ -138,7 +138,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>img/db_add.png</normaloff>img/db_add.png</iconset>
+           <normaloff>:/img/db_add.png</normaloff>:/img/db_add.png</iconset>
          </property>
         </widget>
        </item>
@@ -152,7 +152,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>img/db_remove.png</normaloff>img/db_remove.png</iconset>
+           <normaloff>:/img/db_remove.png</normaloff>:/img/db_remove.png</iconset>
          </property>
         </widget>
        </item>
@@ -166,7 +166,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>img/db_status.png</normaloff>img/db_status.png</iconset>
+           <normaloff>:/img/db_status.png</normaloff>:/img/db_status.png</iconset>
          </property>
         </widget>
        </item>
@@ -479,7 +479,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
+         <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -493,7 +493,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
+         <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -507,7 +507,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
+         <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -521,7 +521,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/help.png</normaloff>img/help.png</iconset>
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
         <string>F1</string>

@@ -81,7 +81,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ApplicationConfig->InitConfigurationValues(ForceLanguage,App);
 
     QSplashScreen screen;
-    screen.setPixmap(QPixmap("img/splash.png"));
+    screen.setPixmap(QPixmap(":/img/splash.png"));
     screen.show();
 
     ui->setupUi(this);
@@ -93,7 +93,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     AddToSystemProperties(QString(SYSTEMLOCAL_STR)+ApplicationConfig->CurrentLanguage);
     AddToSystemProperties(QString(LOADEDLOCAL_STR)+AdjustDirForOS(QDir().absoluteFilePath(QString("locale")+QDir::separator()+QString("locale_")+ApplicationConfig->CurrentLanguage+".qm")));
     AddSeparatorToSystemProperties();
-    Transparent.setTextureImage(QImage("img/transparent.png"));  // Load transparent brush
+    Transparent.setTextureImage(QImage(":/img/transparent.png"));  // Load transparent brush
     AddToSystemProperties(QString(VERSIONQT_STR)+QString(qVersion()));
     AddToSystemProperties(QString(FMTFILTERVERSION_STR)+"0.6.4-Licence=LGPL");
 

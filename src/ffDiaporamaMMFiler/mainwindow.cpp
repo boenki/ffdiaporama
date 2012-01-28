@@ -62,12 +62,12 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     ApplicationConfig     =new cApplicationConfig(this);
     DriveList             =new cDriveList(ApplicationConfig);
     IsFirstInitDone       =false;
-    Icon_DISPLAY_DATA_S   =QIcon("img/DISPLAY_DATA_S.png");
-    Icon_DISPLAY_DATA     =QIcon("img/DISPLAY_DATA.png");
-    Icon_DISPLAY_WEB_S    =QIcon("img/DISPLAY_WEB_S.png");
-    Icon_DISPLAY_WEB      =QIcon("img/DISPLAY_WEB_S.png");
-    Icon_DISPLAY_JUKEBOX_S=QIcon("img/DISPLAY_JUKEBOX_S.png");
-    Icon_DISPLAY_JUKEBOX  =QIcon("img/DISPLAY_JUKEBOX.png");
+    Icon_DISPLAY_DATA_S   =QIcon(":/img/DISPLAY_DATA_S.png");
+    Icon_DISPLAY_DATA     =QIcon(":/img/DISPLAY_DATA.png");
+    Icon_DISPLAY_WEB_S    =QIcon(":/img/DISPLAY_WEB_S.png");
+    Icon_DISPLAY_WEB      =QIcon(":/img/DISPLAY_WEB_S.png");
+    Icon_DISPLAY_JUKEBOX_S=QIcon(":/img/DISPLAY_JUKEBOX_S.png");
+    Icon_DISPLAY_JUKEBOX  =QIcon(":/img/DISPLAY_JUKEBOX.png");
 }
 
 //====================================================================================================================
@@ -77,8 +77,8 @@ MainWindow::~MainWindow() {
     qDebug() << "IN:MainWindow::~MainWindow";
     #endif
     delete ui;
-    delete ApplicationConfig;
     delete DriveList;
+    delete ApplicationConfig;
 }
 
 //====================================================================================================================
@@ -96,6 +96,10 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     ui->setupUi(this);
     setWindowTitle(QString("%1 %2").arg(APPLICATION_NAME).arg(APPLICATION_VERSION));
+
+    QString ColumnDef=QApplication::translate("MainWindow","#;Status;Job type;Source;Destination");
+    ui->JobTable->setColumnCount(ColumnDef.split(";").count());
+    ui->JobTable->setHorizontalHeaderLabels(ColumnDef.split(";"));
 
     // Transfert settings to tree
     ui->FolderTree->ShowHidden          =ApplicationConfig->ShowHiddenFilesAndDir;
@@ -221,7 +225,7 @@ void MainWindow::RefreshControls() {
 
     ui->PlayBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE)));
     ui->InfoBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE)));
-    ui->WizardBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)));
+    ui->WizardBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_FOLDER)||(Media->ObjectType==OBJECTTYPE_FFDFILE)));
 }
 
 //====================================================================================================================
@@ -430,7 +434,8 @@ void MainWindow::s_action_Exit() {
 
 QAction *MainWindow::CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
     QAction *Action;
-    Action=new QAction(QIcon(QPixmap().fromImage(*Icon)),Text,this);
+    if (Icon) Action=new QAction(QIcon(QPixmap().fromImage(*Icon)),Text,this);
+        else Action=new QAction(Text,this);
     Action->setIconVisibleInMenu(true);
     Action->setCheckable(Checkable);
     if (Checkable) Action->setChecked(IsCheck);
@@ -462,6 +467,7 @@ void MainWindow::s_action_Mode() {
     ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_WEB,    QApplication::translate("MainWindow","Long summary view"), DISPLAY_WEBLONG, true,ApplicationConfig->CurrentMode==DISPLAY_WEBLONG));
     ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_JUKEBOX,QApplication::translate("MainWindow","Small icon view"),   DISPLAY_ICON48,  true,ApplicationConfig->CurrentMode==DISPLAY_ICON48));
     ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_JUKEBOX,QApplication::translate("MainWindow","Medium icon view"),  DISPLAY_ICON100, true,ApplicationConfig->CurrentMode==DISPLAY_ICON100));
+    //ContextMenu->addAction(CreateMenuAction(Icon_DISPLAY_JUKEBOX,QApplication::translate("MainWindow","Images wall view"),  DISPLAY_ICONWALL,true,ApplicationConfig->CurrentMode==DISPLAY_ICONWALL));
 
     // Exec menu
     QAction *Action=ContextMenu->exec(QCursor::pos());
@@ -554,16 +560,6 @@ void MainWindow::s_InfoFile() {
 
 //====================================================================================================================
 
-void MainWindow::s_ActionFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_ActionFile";
-    #endif
-
-    ui->WizardBt->setDown(false);
-}
-
-//====================================================================================================================
-
 void MainWindow::s_itemDoubleClicked() {
     s_itemDoubleClicked(NULL);
 }
@@ -574,3 +570,109 @@ void MainWindow::s_itemDoubleClicked(QTableWidgetItem *) {
     #endif
     s_OpenFile();
 }
+
+//====================================================================================================================
+
+void MainWindow::s_ActionFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_ActionFile";
+    #endif
+    cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
+    if (!Media) return;
+
+    // Create menu
+    QMenu   *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Open.png"),QApplication::translate("MainWindow","Open"),            JOBTYPE_OPENFILE,                   false,false));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Info.png"),QApplication::translate("MainWindow","Display info"),    JOBTYPE_DISPLAYINFO,                false,false));
+    ContextMenu->addSeparator();
+    switch (Media->ObjectType) {
+        case OBJECTTYPE_MUSICFILE :
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Convert"),                           JOBTYPE_FFMPEGCONVERT_AUDIO,        false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Convert for ffDiaporama"),           JOBTYPE_FFMPEGCONVERT_AUDIOFFD,     false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Extract cover"),                     JOBTYPE_THUMBNAIL_EXTRACTCOVER,     false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Edit properties"),                   JOBTYPE_TAG_AUDIO,                  false,false));
+            break;
+        case OBJECTTYPE_VIDEOFILE :
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Convert"),                           JOBTYPE_FFMPEGCONVERT_VIDEO,        false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Convert for ffDiaporama"),           JOBTYPE_FFMPEGCONVERT_VIDEOFFD,     false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Extract audio track"),               JOBTYPE_FFMPEGEXTRACT_AUDIO,        false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Extract a subtitle"),                JOBTYPE_FFMPEGEXTRACT_SUBTITLES,    false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Extract a chapter"),                 JOBTYPE_FFMPEGEXTRACT_CHAPTER,      false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Extract all chapters"),              JOBTYPE_FFMPEGEXTRACT_ALLCHAPTERS,  false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Edit properties"),                   JOBTYPE_TAG_VIDEO,                  false,false));
+            break;
+        case OBJECTTYPE_IMAGEFILE :
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Convert as folder thumbnail"),       JOBTYPE_THUMBNAIL_CREATEFOLDER,     false,false));
+            break;
+        case OBJECTTYPE_FFDFILE   :
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Render project"),                    JOBTYPE_FFDIAPORAMA_RENDER,         false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Archive project"),                   JOBTYPE_FFDIAPORAMA_ARCHIVE,        false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Edit properties"),                   JOBTYPE_TAG_FFD,                    false,false));
+            break;
+        case OBJECTTYPE_FOLDER    :
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Create an album playlist"),          JOBTYPE_PLAYLIST_CREATEALBUM,       false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Create an artist playlist"),         JOBTYPE_PLAYLIST_CREATEARTIST,      false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Create an album folder thumbnail"),  JOBTYPE_THUMBNAIL_CREATEALBUM,      false,false));
+            //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Create an artist folder thumbnail"), JOBTYPE_THUMBNAIL_CREATEARTIST,     false,false));
+            break;
+    }
+
+    // Exec menu
+    QAction *Action=ContextMenu->exec(QCursor::pos());
+    if ((Action)&&(ApplicationConfig->CurrentFilter!=Action->data().toInt())) {
+        int ActionType=Action->data().toInt();
+        switch (ActionType) {
+            case JOBTYPE_OPENFILE                   :
+                s_OpenFile();
+                break;
+            case JOBTYPE_DISPLAYINFO                :
+                s_InfoFile();
+                break;
+            case JOBTYPE_FFMPEGCONVERT_AUDIO        :
+                break;
+            case JOBTYPE_FFMPEGCONVERT_AUDIOFFD     :
+                break;
+            case JOBTYPE_FFMPEGCONVERT_VIDEO        :
+                break;
+            case JOBTYPE_FFMPEGCONVERT_VIDEOFFD     :
+                break;
+            case JOBTYPE_FFMPEGEXTRACT_AUDIO        :
+                break;
+            case JOBTYPE_FFMPEGEXTRACT_SUBTITLES    :
+                break;
+            case JOBTYPE_FFMPEGEXTRACT_CHAPTER      :
+                break;
+            case JOBTYPE_FFMPEGEXTRACT_ALLCHAPTERS  :
+                break;
+            case JOBTYPE_FFDIAPORAMA_RENDER         :
+                break;
+            case JOBTYPE_FFDIAPORAMA_ARCHIVE        :
+                break;
+            case JOBTYPE_PLAYLIST_CREATEARTIST      :
+                break;
+            case JOBTYPE_PLAYLIST_CREATEALBUM       :
+                break;
+            case JOBTYPE_THUMBNAIL_CREATEARTIST     :
+                break;
+            case JOBTYPE_THUMBNAIL_CREATEALBUM      :
+                break;
+            case JOBTYPE_THUMBNAIL_CREATEFOLDER     :
+                break;
+            case JOBTYPE_THUMBNAIL_EXTRACTCOVER     :
+                break;
+            case JOBTYPE_TAG_AUDIO                  :
+                break;
+            case JOBTYPE_TAG_VIDEO                  :
+                break;
+            case JOBTYPE_TAG_FFD                    :
+                break;
+        }
+    }
+
+    // delete menu
+    while (ContextMenu->actions().count()) delete ContextMenu->actions().takeLast();
+    delete ContextMenu;
+
+    ui->WizardBt->setDown(false);
+}
+

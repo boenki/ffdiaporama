@@ -19,10 +19,10 @@ isEmpty(PREFIX) {
 include(../common.pri)
 #--------------------------------------------------------------
 
-win32:RC_FILE = ffDiaporamaMMFiler.rc
-
-OTHER_FILES += \
-    ffDiaporamaMMFiler.rc
+# Ressource files
+win32:RC_FILE    += ../../ffDiaporamaMMFiler.rc
+unix:OTHER_FILES += ../../ffDiaporamaMMFiler.rc
+RESOURCES        += ../../RSCffDiaporama.qrc
 
 TRANSLATIONS += ../../locale/ffDiaporamaMMFiler_fr.ts \
     ../../locale/ffDiaporamaMMFiler_it.ts \
@@ -55,7 +55,8 @@ SOURCES += main.cpp\
     ../sharedfiles/DlgCheckConfig.cpp \
     ../sharedfiles/_QCustomDialog.cpp \
     ../sharedfiles/DlgManageDevices.cpp \
-    ../sharedfiles/DlgInfoFile.cpp
+    ../sharedfiles/DlgInfoFile.cpp \
+    cJobQueue.cpp
 
 HEADERS  += mainwindow.h \
     DlgApplicationSettings.h \
@@ -78,7 +79,8 @@ HEADERS  += mainwindow.h \
     ../sharedfiles/DlgCheckConfig.h \
     ../sharedfiles/_QCustomDialog.h \
     ../sharedfiles/DlgManageDevices.h \
-    ../sharedfiles/DlgInfoFile.h
+    ../sharedfiles/DlgInfoFile.h \
+    cJobQueue.h
 
 
 FORMS    += mainwindow.ui \
@@ -94,23 +96,26 @@ unix {
 
     TARGETF.path         = $$PREFIX/bin
     TARGETF.files        = $$DESTDIR/$$TARGET
-    #PostInstall.path    = /
-    #PostInstall.extra   = chmod 755 $$PREFIX/bin/ffDiaporama & chmod 755 $$PREFIX/bin/ffDiaporamaMMFiler
-    INSTALLS 		+= TARGETF #PostInstall
+    INSTALLS 		+= TARGETF
 
     translation.path    = $$PREFIX/share/$$APPFOLDER/locale
     translation.files   = ../../locale/ffDiaporamaMMFiler_*
     INSTALLS 		+= translation
 
+    ico.path            = $$PREFIX/share/$$APPFOLDER
+    ico.files           = ../../application-ffDiaporamaMMFiler.png \
+                          ../../application-ffDiaporamaMMFiler.ico
+    INSTALLS 		+= ico
+
     # install icon files for GNOME systems
     exists(/usr/share/icons/gnome/32x32/mimetypes) {
         iconfile.path   = $$PREFIX/share/icons/gnome/32x32/mimetypes
-        iconfile.files  = ../../img/application-ffDiaporamaMMFiler.png
+        iconfile.files  = ../../application-ffDiaporamaMMFiler.png
     }
     # install icon files for KDE systems
     exists(/usr/share/icons/default.kde4/32x32/mimetypes) {
         iconfile.path   = $$PREFIX/share/icons/default.kde4/32x32/mimetypes
-        iconfile.files  = ../../img/application-ffDiaporamaMMFiler.png
+        iconfile.files  = ../../application-ffDiaporamaMMFiler.png
     }
     INSTALLS 		+= iconfile
 
@@ -132,3 +137,5 @@ unix {
     INSTALLS 		+= desktop
 
 }
+
+

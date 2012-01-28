@@ -39,7 +39,7 @@
 //#define DEBUGMODE
 
 #define FILETABLESTATE_FILETOCHEK   1
-#define FileToCheckIcon             "img/player_time.png"
+#define FileToCheckIcon             ":/img/player_time.png"
 
 #define CELLBORDER      8
 

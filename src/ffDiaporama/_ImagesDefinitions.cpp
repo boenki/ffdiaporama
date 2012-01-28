@@ -48,10 +48,10 @@ cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType) {
     TransitionSubType=TheTransitionSubType;
     QString Familly=QString("%1").arg(TransitionFamilly);   if (Familly.length()<2) Familly="0"+Familly;
     QString SubType=QString("%1").arg(TransitionSubType);   if (SubType.length()<2) SubType="0"+SubType;
-    QString FileName=QString("transitions-img")+QDir().separator()+QString("tr-")+Familly+QString("-")+SubType+QString(".png");
+    QString FileName=QString(":/img/Transitions")+QDir().separator()+QString("tr-")+Familly+QString("-")+SubType+QString(".png");
     Icon=QImage(FileName);
     if (Icon.isNull()) {
-        Icon=QImage(QString("transitions-img")+QDir().separator()+QString("tr-icon-error.png"));
+        Icon=QImage(QString(":/img/Transitions")+QDir().separator()+QString("tr-icon-error.png"));
         qDebug()<<"Icon not found:"<<QDir(FileName).absolutePath();
     }
 }
@@ -90,7 +90,7 @@ QImage *cIconList::GetIcon(int TransitionFamilly,int TransitionSubType) {
     int i=0;
     while ((i<List.count())&&((List[i].TransitionFamilly!=TransitionFamilly)||(List[i].TransitionSubType!=TransitionSubType))) i++;
     if (i<List.count()) return new QImage(List[i].Icon);
-        else return new QImage("transitions-img/tr-icon-error.png");
+        else return new QImage(":/img/Transitions/tr-icon-error.png");
 }
 
 //*********************************************************************************************************************************************

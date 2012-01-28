@@ -421,12 +421,14 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             Pen.setStyle(Qt::SolidLine);
             QString SlideDuration=QTime(0,0,0,0).addMSecs(Object->GetDuration()).toString("hh:mm:ss.zzz");
             QString FileName=Object->SlideName;
-            QString TransitionDuration=QTime(0,0,0,0).addMSecs(Object->GetTransitDuration()).toString("ss.zzz");
+            QString TransitionDuration=QTime(0,0,0,0).addMSecs(Object->GetTransitDuration()).toString("ss.z");
             QString SlideNumber=QString("%1").arg(Col+1);
             // Chapter TAG
-            if (Col==0) Painter.drawImage(2,2,QImage("img/Chapter.png"));
-                else if (Object->StartNewChapter) Painter.drawImage(TransitionSize+3,2,QImage("img/Chapter.png"));
-            TransitionDuration=TransitionDuration.right(TransitionDuration.length()-1);   // Cut first 0
+            if (Col==0) Painter.drawImage(2,2,QImage(":/img/Chapter.png"));
+                else if (Object->StartNewChapter) Painter.drawImage(TransitionSize+3,2,QImage(":/img/Chapter.png"));
+            if (TransitionDuration[0]=='0')             TransitionDuration=TransitionDuration.right(TransitionDuration.length()-1);   // Cut first 0
+            while (TransitionDuration.endsWith("0"))    TransitionDuration=TransitionDuration.left(TransitionDuration.length()-1);
+            while (TransitionDuration.endsWith("."))    TransitionDuration=TransitionDuration.left(TransitionDuration.length()-1);
 
             if (Object->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO) {
                 Pen.setColor(Qt::black);

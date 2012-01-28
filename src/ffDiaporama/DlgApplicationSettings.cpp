@@ -28,12 +28,12 @@
 
 //#define DEBUGMODE
 
-#define ICON_GEOMETRY_IMAGE                 "img/Geometry_ImageLock.png"
-#define ICON_FRAMING_FULL                   "img/AdjustWH.png"
-#define ICON_FRAMING_WIDTH                  "img/AdjustW.png"
-#define ICON_FRAMING_HEIGHT                 "img/AdjustH.png"
-#define ICON_GLOBALCONF                     "img/db.png"
-#define ICON_USERCONF                       "img/db_update.png"
+#define ICON_GEOMETRY_IMAGE                 ":/img/Geometry_ImageLock.png"
+#define ICON_FRAMING_FULL                   ":/img/AdjustWH.png"
+#define ICON_FRAMING_WIDTH                  ":/img/AdjustW.png"
+#define ICON_FRAMING_HEIGHT                 ":/img/AdjustH.png"
+#define ICON_GLOBALCONF                     ":/img/db.png"
+#define ICON_USERCONF                       ":/img/db_update.png"
 
 DlgApplicationSettings::DlgApplicationSettings(QString HelpURL,cApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgApplicationSettings) {
@@ -267,7 +267,7 @@ void DlgApplicationSettings::DoInitDialog() {
     // Define handler
     connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->OkBt,SIGNAL(clicked()),this,SLOT(accept()));
-    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
+    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(doHelp()));
     connect(ui->CheckConfigBT,SIGNAL(clicked()),this,SLOT(s_CheckConfig()));
     connect(ui->DBManageDevicesBT,SIGNAL(clicked()),this,SLOT(s_ManageDevices()));
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(TabChanged(int)));

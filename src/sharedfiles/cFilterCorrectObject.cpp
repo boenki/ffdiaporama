@@ -141,7 +141,13 @@ QImage *cFilterCorrectObject::GetImage(QImage *LastLoadedImage,int Width,int Hei
 
     // Smoothing is not correctly used here !
     // Then force smoothing by reduce source image before draw image
-    PB.drawImage(QRectF(DstX,DstY,DstW,DstH),NewSourceImage);
+    try {
+        PB.drawImage(QRectF(DstX,DstY,DstW,DstH),NewSourceImage);
+    }
+    catch (...) {
+        qDebug()<<"Error";
+    }
+
     PB.end();
 
     // Delete SourceImage if we have created it

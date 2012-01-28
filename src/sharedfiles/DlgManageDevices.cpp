@@ -25,12 +25,12 @@
 
 //#define DEBUGMODE
 
-#define ICON_GEOMETRY_IMAGE                 "img/Geometry_ImageLock.png"
-#define ICON_FRAMING_FULL                   "img/AdjustWH.png"
-#define ICON_FRAMING_WIDTH                  "img/AdjustW.png"
-#define ICON_FRAMING_HEIGHT                 "img/AdjustH.png"
-#define ICON_GLOBALCONF                     "img/db.png"
-#define ICON_USERCONF                       "img/db_update.png"
+#define ICON_GEOMETRY_IMAGE                 ":/img/Geometry_ImageLock.png"
+#define ICON_FRAMING_FULL                   ":/img/AdjustWH.png"
+#define ICON_FRAMING_WIDTH                  ":/img/AdjustW.png"
+#define ICON_FRAMING_HEIGHT                 ":/img/AdjustH.png"
+#define ICON_GLOBALCONF                     ":/img/db.png"
+#define ICON_USERCONF                       ":/img/db_update.png"
 
 //====================================================================================================================
 

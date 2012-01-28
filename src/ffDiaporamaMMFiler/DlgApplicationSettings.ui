@@ -239,7 +239,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/config.png</normaloff>img/config.png</iconset>
+         <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
        </property>
       </widget>
      </item>
@@ -250,7 +250,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/db.png</normaloff>img/db.png</iconset>
+         <normaloff>:/img/db.png</normaloff>:/img/db.png</iconset>
        </property>
       </widget>
      </item>
@@ -277,7 +277,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
+         <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -291,7 +291,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
+         <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -305,7 +305,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/help.png</normaloff>img/help.png</iconset>
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
         <string>F1</string>

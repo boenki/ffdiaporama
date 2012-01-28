@@ -854,12 +854,12 @@ Support</translation>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="463"/>
         <source>Small icon view</source>
-        <translation>Vue en petit icônes</translation>
+        <translation>Vue en icônes petites</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="464"/>
         <source>Medium icon view</source>
-        <translation>Vue en icônes moyens</translation>
+        <translation>Vue en icônes moyennes</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="493"/>

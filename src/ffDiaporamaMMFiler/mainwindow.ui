@@ -15,10 +15,10 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>img/application-ffDiaporamaMMFiler.png</normaloff>img/application-ffDiaporamaMMFiler.png</iconset>
+    <normaloff>:/application-ffDiaporamaMMFiler.png</normaloff>:/application-ffDiaporamaMMFiler.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
     <property name="spacing">
      <number>2</number>
     </property>
@@ -76,7 +76,7 @@ QToolButton:pressed {
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="TabFile">
        <property name="font">
@@ -107,8 +107,8 @@ QToolButton:pressed {
            <string>Refresh</string>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>img/Refresh.png</normaloff>img/Refresh.png</iconset>
+           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+            <normaloff>:/img/Refresh.png</normaloff>:/img/Refresh.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -144,8 +144,8 @@ QToolButton:pressed {
 File</string>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>img/Actin_Open.png</normaloff>img/Actin_Open.png</iconset>
+           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+            <normaloff>:/img/Action_Open.png</normaloff>:/img/Action_Open.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -174,8 +174,8 @@ File</string>
 Information</string>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>img/Action_Info.png</normaloff>img/Action_Info.png</iconset>
+           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+            <normaloff>:/img/Action_Info.png</normaloff>:/img/Action_Info.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -200,8 +200,8 @@ Information</string>
            <string>Action</string>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>img/Action_Wizard.png</normaloff>img/Action_Wizard.png</iconset>
+           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+            <normaloff>:/img/Action_Wizard.png</normaloff>:/img/Action_Wizard.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -248,8 +248,8 @@ Information</string>
            <string>Settings</string>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>img/config.png</normaloff>img/config.png</iconset>
+           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+            <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -289,8 +289,8 @@ Information</string>
            <string>Exit</string>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>img/exit.png</normaloff>img/exit.png</iconset>
+           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+            <normaloff>:/img/exit.png</normaloff>:/img/exit.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -337,8 +337,8 @@ Information</string>
            <string>Mode</string>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>img/DISPLAY_DATA_S.png</normaloff>img/DISPLAY_DATA_S.png</iconset>
+           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+            <normaloff>:/img/DISPLAY_DATA.png</normaloff>:/img/DISPLAY_DATA.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -369,8 +369,8 @@ Information</string>
            <string>Filter</string>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>img/filter.png</normaloff>img/filter.png</iconset>
+           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+            <normaloff>:/img/filenew.png</normaloff>:/img/filenew.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -430,7 +430,7 @@ Information</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>img/application-ffDiaporamaMMFiler.png</normaloff>img/application-ffDiaporamaMMFiler.png</iconset>
+            <normaloff>:/application-ffDiaporamaMMFiler.png</normaloff>:/application-ffDiaporamaMMFiler.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -478,7 +478,7 @@ and help</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>img/help.png</normaloff>img/help.png</iconset>
+            <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -528,7 +528,7 @@ and help</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>img/contents.png</normaloff>img/contents.png</iconset>
+            <normaloff>:/img/contents.png</normaloff>:/img/contents.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -553,70 +553,18 @@ and help</string>
      </widget>
     </item>
     <item>
-     <widget class="QCustomHorizSplitter" name="Splitter">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+     <widget class="QSplitter" name="splitter">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
       </property>
-      <widget class="QCustomFolderTree" name="FolderTree">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="verticalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOn</enum>
-       </property>
-       <property name="horizontalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOn</enum>
-       </property>
-       <property name="editTriggers">
-        <set>QAbstractItemView::NoEditTriggers</set>
-       </property>
-       <property name="showDropIndicator" stdset="0">
-        <bool>false</bool>
-       </property>
-       <property name="selectionBehavior">
-        <enum>QAbstractItemView::SelectItems</enum>
-       </property>
-       <property name="textElideMode">
-        <enum>Qt::ElideNone</enum>
-       </property>
-       <property name="horizontalScrollMode">
-        <enum>QAbstractItemView::ScrollPerPixel</enum>
-       </property>
-       <property name="indentation">
-        <number>15</number>
-       </property>
-       <property name="uniformRowHeights">
-        <bool>true</bool>
-       </property>
-       <property name="itemsExpandable">
-        <bool>true</bool>
-       </property>
-       <property name="animated">
-        <bool>false</bool>
-       </property>
-       <property name="expandsOnDoubleClick">
-        <bool>true</bool>
-       </property>
-       <attribute name="headerVisible">
-        <bool>false</bool>
-       </attribute>
-       <column>
-        <property name="text">
-         <string notr="true">1</string>
-        </property>
-       </column>
-      </widget>
-      <widget class="QWidget" name="FolderWdgt" native="true">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="handleWidth">
+       <number>6</number>
+      </property>
+      <widget class="QWidget" name="BrowserWidget" native="true">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
          <number>2</number>
         </property>
@@ -624,7 +572,282 @@ and help</string>
          <number>0</number>
         </property>
         <item>
-         <widget class="QWidget" name="FolderInfomationWdgt" native="true">
+         <widget class="QCustomHorizSplitter" name="Splitter">
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="handleWidth">
+           <number>8</number>
+          </property>
+          <widget class="QCustomFolderTree" name="FolderTree">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOn</enum>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOn</enum>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="showDropIndicator" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectItems</enum>
+           </property>
+           <property name="textElideMode">
+            <enum>Qt::ElideNone</enum>
+           </property>
+           <property name="horizontalScrollMode">
+            <enum>QAbstractItemView::ScrollPerPixel</enum>
+           </property>
+           <property name="indentation">
+            <number>15</number>
+           </property>
+           <property name="uniformRowHeights">
+            <bool>true</bool>
+           </property>
+           <property name="itemsExpandable">
+            <bool>true</bool>
+           </property>
+           <property name="animated">
+            <bool>false</bool>
+           </property>
+           <property name="expandsOnDoubleClick">
+            <bool>true</bool>
+           </property>
+           <attribute name="headerVisible">
+            <bool>false</bool>
+           </attribute>
+           <column>
+            <property name="text">
+             <string notr="true">1</string>
+            </property>
+           </column>
+          </widget>
+          <widget class="QWidget" name="FolderWdgt" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QWidget" name="FolderInfomationWdgt" native="true">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>50</height>
+               </size>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_2">
+               <property name="margin">
+                <number>0</number>
+               </property>
+               <property name="spacing">
+                <number>2</number>
+               </property>
+               <item row="0" column="0" rowspan="2">
+                <widget class="QLabel" name="FolderIcon">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>48</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>48</width>
+                   <height>48</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string notr="true">Icon</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="CurrentPathED">
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QWidget" name="FolderStatusBar" native="true">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="margin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="FolderInfoLabel">
+                    <property name="text">
+                     <string notr="true">Files information</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>98</width>
+                      <height>13</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QProgressBar" name="HDDSizePgr">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>150</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>150</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="value">
+                     <number>24</number>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="format">
+                     <string notr="true">%p%</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCustomFolderTable" name="FolderTable">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="showDropIndicator" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="showGrid">
+               <bool>false</bool>
+              </property>
+              <property name="cornerButtonEnabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCustomFileInfoLabel" name="FileInfoLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="text">
+               <string notr="true">File Information</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="JobQueueWidget" native="true">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>2</number>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QFrame" name="frame">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -634,24 +857,55 @@ and help</string>
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>50</height>
+            <height>26</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>50</height>
+            <height>26</height>
            </size>
           </property>
-          <layout class="QGridLayout" name="gridLayout_2">
-           <property name="margin">
+          <property name="font">
+           <font>
+            <family>Sans Serif</family>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton {
+	background-color: transparent;
+	border: none; 
+}
+QToolButton:hover{ 
+    border: 2px solid #8f8f91;
+     border-radius: 1px;
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
+}
+QToolButton:pressed {
+    border: 2px solid #8f8f91;
+     border-radius: 6px;
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
+ }
+</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Panel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="ShotToolBox">
+           <property name="spacing">
             <number>0</number>
            </property>
-           <property name="spacing">
-            <number>2</number>
+           <property name="margin">
+            <number>1</number>
            </property>
-           <item row="0" column="0" rowspan="2">
-            <widget class="QLabel" name="FolderIcon">
+           <item>
+            <widget class="QToolButton" name="AddShot">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -660,148 +914,140 @@ and help</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>48</width>
-               <height>48</height>
+               <width>24</width>
+               <height>24</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>48</width>
-               <height>48</height>
+               <width>24</width>
+               <height>24</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Append a shot to end of the timeline</string>
+             </property>
              <property name="text">
-              <string notr="true">Icon</string>
+              <string>JobStatusBt</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../ffDiaporamaMMFiler.qrc">
+               <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="CurrentPathED"/>
-           </item>
-           <item row="1" column="1">
-            <widget class="QWidget" name="FolderStatusBar" native="true">
+           <item>
+            <widget class="QToolButton" name="RemoveShot">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>24</width>
                <height>24</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>16777215</width>
+               <width>24</width>
                <height>24</height>
               </size>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <property name="margin">
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="FolderInfoLabel">
-                <property name="text">
-                 <string notr="true">Files information</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>98</width>
-                  <height>13</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QProgressBar" name="HDDSizePgr">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>150</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="value">
-                 <number>24</number>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="format">
-                 <string notr="true">%p%</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Remove current selected shot</string>
+             </property>
+             <property name="text">
+              <string>JobUpBt</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../ffDiaporamaMMFiler.qrc">
+               <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="RemoveShot_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Sans Serif</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Remove current selected shot</string>
+             </property>
+             <property name="text">
+              <string>JobDownBt</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../ffDiaporamaMMFiler.qrc">
+               <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonIconOnly</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
             </widget>
            </item>
           </layout>
          </widget>
         </item>
         <item>
-         <widget class="QCustomFolderTable" name="FolderTable">
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-          <property name="showDropIndicator" stdset="0">
-           <bool>false</bool>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-          <property name="showGrid">
-           <bool>false</bool>
-          </property>
-          <property name="cornerButtonEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCustomFileInfoLabel" name="FileInfoLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="text">
-           <string notr="true">File Information</string>
-          </property>
-         </widget>
+         <widget class="QTableWidget" name="JobTable"/>
         </item>
        </layout>
       </widget>
@@ -834,6 +1080,8 @@ and help</string>
    <header>../sharedfiles/QCustomFileInfoLabel.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../ffDiaporamaMMFiler.qrc"/>
+ </resources>
  <connections/>
 </ui>

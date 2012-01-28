@@ -371,7 +371,7 @@ void cCustomIcon::LoadIcons(QString FileName) {
     qDebug() << "IN:cCustomIcon::LoadIcons as filename";
     #endif
     QImage IconBIG(FileName);
-    qDebug()<<"Loading "+FileName<<(IconBIG.isNull()?"Error":"Ok");
+    if (IconBIG.isNull()) qDebug()<<"Loading "+FileName<<"Error";
     if (IconBIG.width()>IconBIG.height()) {
         Icon16 =IconBIG.scaledToWidth(16,Qt::SmoothTransformation);
         Icon32 =IconBIG.scaledToWidth(32,Qt::SmoothTransformation);
@@ -406,11 +406,11 @@ void cCustomIcon::LoadIconsFromIMG(QString FileName) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cCustomIcon::LoadIconsFromIMG";
     #endif
-    Icon16.load("img/MediaIcons/16x16/"+FileName);      if (Icon16.isNull())  qDebug()<<"Loading img/MediaIcons/16x16/"+FileName<<"Error";
-    Icon32.load("img/MediaIcons/32x32/"+FileName);      if (Icon32.isNull())  qDebug()<<"Loading img/MediaIcons/32x32/"+FileName<<"Error";
-    Icon48.load("img/MediaIcons/48x48/"+FileName);      if (Icon48.isNull())  qDebug()<<"Loading img/MediaIcons/48x48/"+FileName<<"Error";
-    Icon100.load("img/MediaIcons/100x100/"+FileName);   if (Icon100.isNull()) qDebug()<<"Loading img/MediaIcons/100x100/"+FileName<<"Error";
-    IconBIG.load("img/MediaIcons/200x200/"+FileName);   if (IconBIG.isNull()) qDebug()<<"Loading img/MediaIcons/200x200/"+FileName<<"Error";
+    Icon16.load(":/img/MediaIcons/16x16/"+FileName);      if (Icon16.isNull())  qDebug()<<"Loading img/MediaIcons/16x16/"+FileName<<"Error";
+    Icon32.load(":/img/MediaIcons/32x32/"+FileName);      if (Icon32.isNull())  qDebug()<<"Loading img/MediaIcons/32x32/"+FileName<<"Error";
+    Icon48.load(":/img/MediaIcons/48x48/"+FileName);      if (Icon48.isNull())  qDebug()<<"Loading img/MediaIcons/48x48/"+FileName<<"Error";
+    Icon100.load(":/img/MediaIcons/100x100/"+FileName);   if (Icon100.isNull()) qDebug()<<"Loading img/MediaIcons/100x100/"+FileName<<"Error";
+    IconBIG.load(":/img/MediaIcons/200x200/"+FileName);   if (IconBIG.isNull()) qDebug()<<"Loading img/MediaIcons/200x200/"+FileName<<"Error";
 }
 
 //====================================================================================================================
@@ -556,7 +556,7 @@ void cBaseApplicationConfig::PreloadSystemIcons() {
     DefaultMUSICIcon.LoadIconsFromIMG(  "audio.png");
     DefaultUSERIcon.LoadIconsFromIMG(   "folder_home.png");
     DefaultFILEIcon.LoadIconsFromIMG(   "file.png");
-    VideoMask=QImage("img/VideoMask.png");
+    VideoMask=QImage(":/img/VideoMask.png");
 }
 
 //====================================================================================================================
