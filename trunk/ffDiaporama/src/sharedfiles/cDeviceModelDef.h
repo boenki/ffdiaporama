@@ -47,13 +47,13 @@ extern "C" {
 
 // Export mode definition
 #define EXPORTMODE_ADVANCED                 0
-#define ICON_ADVANCED                       "img/render.png"
+#define ICON_ADVANCED                       ":/img/render.png"
 #define MODE_SMARTPHONE                     1
-#define ICON_SMARTPHONE                     "img/Smartphone.png"
+#define ICON_SMARTPHONE                     ":/img/Smartphone.png"
 #define MODE_MULTIMEDIASYS                  2
-#define ICON_MULTIMEDIASYS                  "img/tv.png"
+#define ICON_MULTIMEDIASYS                  ":/img/tv.png"
 #define MODE_FORTHEWEB                      3
-#define ICON_FORTHEWEB                      "img/Internet.png"
+#define ICON_FORTHEWEB                      ":/img/Internet.png"
 
 //============================================
 

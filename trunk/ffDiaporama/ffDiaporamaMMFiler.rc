@@ -1,5 +1,5 @@
 #include <winver.h>
-IDI_CON1 ICON        DISCARDABLE "ffDiaporama.ico"
+IDI_CON1 ICON        DISCARDABLE "application-ffDiaporamaMMFiler.ico"
 
 VS_VERSION_INFO VERSIONINFO
 FILEVERSION    	1,2,2012,0123
@@ -13,12 +13,12 @@ FILESUBTYPE    	0
     BLOCK "StringFileInfo" {
         BLOCK "040904E4" {  // 0409 for english 0x409 and 04E4 for 1252 code page
             VALUE "CompanyName",      "."
-            VALUE "LegalCopyright",   "(c) 2011 Dominique LEVRAY"
-            VALUE "FileDescription",  "ffDiaporama"
+            VALUE "LegalCopyright",   "(c) 2012 Dominique LEVRAY"
+            VALUE "FileDescription",  "ffDiaporamaMMFiler"
             VALUE "FileVersion",      "1.2.2012.0123"
-            VALUE "InternalName",     "ffDiaporama"
-            VALUE "OriginalFilename", "ffDiaporama.exe"
-            VALUE "ProductName",      "ffDiaporama"
+            VALUE "InternalName",     "ffDiaporamaMMFiler"
+            VALUE "OriginalFilename", "ffDiaporamaMMFiler.exe"
+            VALUE "ProductName",      "ffDiaporamaMMFiler"
             VALUE "ProductVersion",   "1.2.2012.0123"
         }
     }

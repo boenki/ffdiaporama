@@ -124,7 +124,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>img/player_play.png</normaloff>img/player_play.png</iconset>
+           <normaloff>:/img/player_play.png</normaloff>:/img/player_play.png</iconset>
          </property>
          <property name="iconSize">
           <size>

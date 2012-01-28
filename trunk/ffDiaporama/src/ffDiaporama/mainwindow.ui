@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>img/logo.png</normaloff>img/logo.png</iconset>
+    <normaloff>:/application-ffDiaporama.png</normaloff>:/application-ffDiaporama.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="font">
@@ -161,7 +161,7 @@ project</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/filenew.png</normaloff>img/filenew.png</iconset>
+              <normaloff>:/img/filenew.png</normaloff>:/img/filenew.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -212,7 +212,7 @@ project</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/fileopen.png</normaloff>img/fileopen.png</iconset>
+              <normaloff>:/img/fileopen.png</normaloff>:/img/fileopen.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -263,7 +263,7 @@ recent</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/filerecent.png</normaloff>img/filerecent.png</iconset>
+              <normaloff>:/img/filerecent.png</normaloff>:/img/filerecent.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -311,7 +311,7 @@ project</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/filesave.png</normaloff>img/filesave.png</iconset>
+              <normaloff>:/img/filesave.png</normaloff>:/img/filesave.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -362,7 +362,7 @@ project as</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/filesaveas.png</normaloff>img/filesaveas.png</iconset>
+              <normaloff>:/img/filesaveas.png</normaloff>:/img/filesaveas.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -405,7 +405,7 @@ properties</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/PrjProperties.png</normaloff>img/PrjProperties.png</iconset>
+              <normaloff>:/img/PrjProperties.png</normaloff>:/img/PrjProperties.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -446,7 +446,7 @@ properties</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/config.png</normaloff>img/config.png</iconset>
+              <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -487,7 +487,7 @@ properties</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/exit.png</normaloff>img/exit.png</iconset>
+              <normaloff>:/img/exit.png</normaloff>:/img/exit.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -564,7 +564,7 @@ title</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/add_text.png</normaloff>img/add_text.png</iconset>
+              <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -612,7 +612,7 @@ files</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/add_image.png</normaloff>img/add_image.png</iconset>
+              <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -657,7 +657,7 @@ project</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/add_project.png</normaloff>img/add_project.png</iconset>
+              <normaloff>:/img/add_project.png</normaloff>:/img/add_project.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -705,7 +705,7 @@ project</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/editcut.png</normaloff>img/editcut.png</iconset>
+              <normaloff>:/img/editcut.png</normaloff>:/img/editcut.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -749,7 +749,7 @@ project</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/editcopy.png</normaloff>img/editcopy.png</iconset>
+              <normaloff>:/img/editcopy.png</normaloff>:/img/editcopy.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -793,7 +793,7 @@ project</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/editpaste.png</normaloff>img/editpaste.png</iconset>
+              <normaloff>:/img/editpaste.png</normaloff>:/img/editpaste.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -847,7 +847,7 @@ project</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/edit.png</normaloff>img/edit.png</iconset>
+              <normaloff>:/img/edit.png</normaloff>:/img/edit.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -888,7 +888,7 @@ project</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
+              <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -956,7 +956,7 @@ smartphone</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/Smartphone.png</normaloff>img/Smartphone.png</iconset>
+              <normaloff>:/img/Smartphone.png</normaloff>:/img/Smartphone.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1001,7 +1001,7 @@ system</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/tv.png</normaloff>img/tv.png</iconset>
+              <normaloff>:/img/tv.png</normaloff>:/img/tv.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1040,7 +1040,7 @@ WEB</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
+              <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1087,7 +1087,7 @@ WEB</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/render.png</normaloff>img/render.png</iconset>
+              <normaloff>:/img/render.png</normaloff>:/img/render.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1154,7 +1154,7 @@ WEB</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/logo.png</normaloff>img/logo.png</iconset>
+              <normaloff>:/application-ffDiaporama.png</normaloff>:/application-ffDiaporama.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1202,7 +1202,7 @@ and help</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/help.png</normaloff>img/help.png</iconset>
+              <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1252,7 +1252,7 @@ and help</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/contents.png</normaloff>img/contents.png</iconset>
+              <normaloff>:/img/contents.png</normaloff>:/img/contents.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1352,7 +1352,7 @@ project</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/filenew.png</normaloff>img/filenew.png</iconset>
+               <normaloff>:/img/filenew.png</normaloff>:/img/filenew.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1403,7 +1403,7 @@ project</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/fileopen.png</normaloff>img/fileopen.png</iconset>
+               <normaloff>:/img/fileopen.png</normaloff>:/img/fileopen.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1454,7 +1454,7 @@ recent</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/filerecent.png</normaloff>img/filerecent.png</iconset>
+               <normaloff>:/img/filerecent.png</normaloff>:/img/filerecent.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1502,7 +1502,7 @@ project</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/filesave.png</normaloff>img/filesave.png</iconset>
+               <normaloff>:/img/filesave.png</normaloff>:/img/filesave.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1553,7 +1553,7 @@ project as</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/filesaveas.png</normaloff>img/filesaveas.png</iconset>
+               <normaloff>:/img/filesaveas.png</normaloff>:/img/filesaveas.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1596,7 +1596,7 @@ properties</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/PrjProperties.png</normaloff>img/PrjProperties.png</iconset>
+               <normaloff>:/img/PrjProperties.png</normaloff>:/img/PrjProperties.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1637,7 +1637,7 @@ properties</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/config.png</normaloff>img/config.png</iconset>
+               <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1678,7 +1678,7 @@ properties</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/exit.png</normaloff>img/exit.png</iconset>
+               <normaloff>:/img/exit.png</normaloff>:/img/exit.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1753,7 +1753,7 @@ title</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/add_text.png</normaloff>img/add_text.png</iconset>
+               <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1801,7 +1801,7 @@ files</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/add_image.png</normaloff>img/add_image.png</iconset>
+               <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1846,7 +1846,7 @@ project</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/add_project.png</normaloff>img/add_project.png</iconset>
+               <normaloff>:/img/add_project.png</normaloff>:/img/add_project.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1894,7 +1894,7 @@ project</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/editcut.png</normaloff>img/editcut.png</iconset>
+               <normaloff>:/img/editcut.png</normaloff>:/img/editcut.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1938,7 +1938,7 @@ project</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/editcopy.png</normaloff>img/editcopy.png</iconset>
+               <normaloff>:/img/editcopy.png</normaloff>:/img/editcopy.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1982,7 +1982,7 @@ project</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/editpaste.png</normaloff>img/editpaste.png</iconset>
+               <normaloff>:/img/editpaste.png</normaloff>:/img/editpaste.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2036,7 +2036,7 @@ project</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/edit.png</normaloff>img/edit.png</iconset>
+               <normaloff>:/img/edit.png</normaloff>:/img/edit.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2077,7 +2077,7 @@ project</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
+               <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2149,7 +2149,7 @@ smartphone</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/Smartphone.png</normaloff>img/Smartphone.png</iconset>
+               <normaloff>:/img/Smartphone.png</normaloff>:/img/Smartphone.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2194,7 +2194,7 @@ system</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/tv.png</normaloff>img/tv.png</iconset>
+               <normaloff>:/img/tv.png</normaloff>:/img/tv.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2233,7 +2233,7 @@ WEB</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
+               <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2280,7 +2280,7 @@ WEB</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/render.png</normaloff>img/render.png</iconset>
+               <normaloff>:/img/render.png</normaloff>:/img/render.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2334,7 +2334,7 @@ WEB</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/logo.png</normaloff>img/logo.png</iconset>
+               <normaloff>:/application-ffDiaporama.png</normaloff>:/application-ffDiaporama.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2382,7 +2382,7 @@ and help</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/help.png</normaloff>img/help.png</iconset>
+               <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2432,7 +2432,7 @@ and help</string>
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/contents.png</normaloff>img/contents.png</iconset>
+               <normaloff>:/img/contents.png</normaloff>:/img/contents.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -2581,7 +2581,7 @@ and help</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/fifteenpieces.png</normaloff>img/fifteenpieces.png</iconset>
+         <normaloff>:/img/fifteenpieces.png</normaloff>:/img/fifteenpieces.png</iconset>
        </property>
       </row>
      </widget>
@@ -2701,7 +2701,7 @@ and help</string>
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap>img/logo_big.png</pixmap>
+               <pixmap>:/img/logo_big.png</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>
@@ -2864,7 +2864,7 @@ and help</string>
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>img/player_play.png</normaloff>img/player_play.png</iconset>
+          <normaloff>:/img/player_play.png</normaloff>:/img/player_play.png</iconset>
         </property>
        </widget>
       </item>
@@ -2904,7 +2904,7 @@ and help</string>
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>img/journal.png</normaloff>img/journal.png</iconset>
+          <normaloff>:/img/journal.png</normaloff>:/img/journal.png</iconset>
         </property>
        </widget>
       </item>
@@ -2944,7 +2944,7 @@ and help</string>
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>img/zoomup.png</normaloff>img/zoomup.png</iconset>
+          <normaloff>:/img/zoomup.png</normaloff>:/img/zoomup.png</iconset>
         </property>
        </widget>
       </item>
@@ -2984,7 +2984,7 @@ and help</string>
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>img/zoomdown.png</normaloff>img/zoomdown.png</iconset>
+          <normaloff>:/img/zoomdown.png</normaloff>:/img/zoomdown.png</iconset>
         </property>
        </widget>
       </item>

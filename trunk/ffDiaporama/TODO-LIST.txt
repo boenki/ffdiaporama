@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 19/01/2011) :
+Buggs/TODO (Dernier SVN le 28/01/2011) :
 ----------------------------------------
 TODO
 ----
@@ -22,18 +22,8 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Evite que les boutons de la barre d'outils déclenchent plusieurs actions quand on reste appuyer trop longtemps
--Corrige plusieurs régressions (Affichage de la fenêtre en mode maximiser sous Windows + Sélection d'une vidéo de remplacement en cas de fichier déplacer)
--Utilise désormais la version officielle de TAGlib au lieu d'inclure certains fichiers sources dans ffDiaporama
--Utilise désormais PREFIX au lieu de INSTALL_ROOT pour l'installation sous Linux
--Corrige la désinstallation sous Linux (qui oubliait quelques fichiers)
 
 English version / Bug fix :
--Avoid that toolbar buttons start several actions when we click for such a long time
--Correct several regressions (Display of the window in maximized mode under Windows + Selection of a video of replacement in case of file was move)
--Use henceforth the official version of TAGlib instead of including some sources files in ffDiaporama
--Use henceforth PREFIX instead of INSTALL_ROOT for the installation under Linux
--Fix the uninstall under Linux (which forgot some files)
 
 French version / Nouvelles fonctionnalités
 
@@ -60,6 +50,12 @@ Bug fix French version
 -Ajoute une demande de sauvegarde lors des chargements de projet recent
 -Permet des commentaires sur plusieurs lignes dans les TAG
 -Corrige une erreur de lecture du son dans certaines vidéo AVI (pcm_s16) - seek error
+-Evite que les boutons de la barre d'outils déclenchent plusieurs actions quand on reste appuyer trop longtemps
+-Corrige plusieurs régressions (Affichage de la fenêtre en mode maximiser sous Windows + Sélection d'une vidéo de remplacement en cas de fichier déplacer)
+-Utilise désormais la version officielle de TAGlib au lieu d'inclure certains fichiers sources dans ffDiaporama
+-Utilise désormais PREFIX au lieu de INSTALL_ROOT pour l'installation sous Linux
+-Corrige la désinstallation sous Linux (qui oubliait quelques fichiers)
+-Corrige des petites erreurs dans le son (crachotement très léger en début de piste et/ou à période régulière)
 
 Bug fix English version
 -When exit the application, even when answer yes, modifications are not saved
@@ -76,6 +72,12 @@ Bug fix English version
 -Add an ask to save when load recent project
 -Allow multiline comment in TAG
 -Fix a read sound error for some AVI video (pcm_s16) - seek error
+-Avoid that toolbar buttons start several actions when we click for such a long time
+-Correct several regressions (Display of the window in maximized mode under Windows + Selection of a video of replacement in case of file was move)
+-Use henceforth the official version of TAGlib instead of including some sources files in ffDiaporama
+-Use henceforth PREFIX instead of INSTALL_ROOT for the installation under Linux
+-Fix the uninstall under Linux (which forgot some files)
+-Correct small errors in the sound (very light crackling in the beginning of track and/or in regular period)
 
 French version / Nouvelles fonctionnalités
 -Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
@@ -106,6 +108,8 @@ French version / Nouvelles fonctionnalités
 -Ajout des fichiers de traduction pour le Tchèque
 -Intègre le nouvelle icône pour MMFiler (merci à Pepe pour cette icône)
 -Ajoute la prise en charge des vidéos contenant des pistes son au format UINT8 (mono et stéréo)
+-Transfert de toutes les icones en ressources QT
+-Ajoute trois valeurs possible pour les durées de transition : 6, 8 et 10 secondes
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -136,3 +140,5 @@ English version / New features
 -Add translation files for Czech
 -Integrate new MMFiler icon (thanks to Pepe for it)
 -Add possibility to include video with sound track using UINT8 sample format (mono and stereo)
+-Move all icons into QT ressources
+-Add three new possible values for transition duration : 6, 8 et 10 secondes

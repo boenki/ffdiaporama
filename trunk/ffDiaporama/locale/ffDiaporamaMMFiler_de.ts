@@ -154,7 +154,7 @@ Filme. Die letzten verwendeten Ordner werden gespeichert und beim nächsten mal 
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="177"/>
         <source>Display options</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigeoptionen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="204"/>
@@ -279,12 +279,12 @@ Filme. Die letzten verwendeten Ordner werden gespeichert und beim nächsten mal 
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
         <source>Unable to determine ffmpeg version</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="110"/>
         <source>LibExiv2 version:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
@@ -301,52 +301,52 @@ Filme. Die letzten verwendeten Ordner werden gespeichert und beim nächsten mal 
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
         <source>LibExiv2 support for preview image</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="123"/>
         <source>TAGLib version:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="130"/>
         <source>TAGLib support for FLAC</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="137"/>
         <source>TAGLib support for ASF/WMA</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="144"/>
         <source>TAGLib support for M4A/MP4</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="153"/>
         <source>ffmpeg version:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="154"/>
         <source>LIBAVCODEC version:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="155"/>
         <source>LIBAVFORMAT version:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="156"/>
         <source>LIBSWSCALE version:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="163"/>
         <source>ffmpeg support for TAG and CHAPTERS</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>

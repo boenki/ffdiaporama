@@ -171,7 +171,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>img/font.png</pixmap>
+            <pixmap>:/img/font.png</pixmap>
            </property>
           </widget>
          </item>
@@ -200,7 +200,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>img/TextStyle.png</pixmap>
+            <pixmap>:/img/TextStyle.png</pixmap>
            </property>
           </widget>
          </item>
@@ -234,7 +234,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/text_bold.png</normaloff>img/text_bold.png</iconset>
+               <normaloff>:/img/text_bold.png</normaloff>:/img/text_bold.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -266,7 +266,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/text_italic.png</normaloff>img/text_italic.png</iconset>
+               <normaloff>:/img/text_italic.png</normaloff>:/img/text_italic.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -295,7 +295,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/text_underline.png</normaloff>img/text_underline.png</iconset>
+               <normaloff>:/img/text_underline.png</normaloff>:/img/text_underline.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -382,7 +382,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>img/Alignment.png</pixmap>
+            <pixmap>:/img/Alignment.png</pixmap>
            </property>
           </widget>
          </item>
@@ -416,7 +416,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/text_align_left.png</normaloff>img/text_align_left.png</iconset>
+               <normaloff>:/img/text_align_left.png</normaloff>:/img/text_align_left.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -451,7 +451,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/text_align_center.png</normaloff>img/text_align_center.png</iconset>
+               <normaloff>:/img/text_align_center.png</normaloff>:/img/text_align_center.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -483,7 +483,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/text_align_justif.png</normaloff>img/text_align_justif.png</iconset>
+               <normaloff>:/img/text_align_justif.png</normaloff>:/img/text_align_justif.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -515,7 +515,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/text_align_right.png</normaloff>img/text_align_right.png</iconset>
+               <normaloff>:/img/text_align_right.png</normaloff>:/img/text_align_right.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -560,7 +560,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/text_align_vup.png</normaloff>img/text_align_vup.png</iconset>
+               <normaloff>:/img/text_align_vup.png</normaloff>:/img/text_align_vup.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -592,7 +592,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/text_align_vcenter.png</normaloff>img/text_align_vcenter.png</iconset>
+               <normaloff>:/img/text_align_vcenter.png</normaloff>:/img/text_align_vcenter.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -624,7 +624,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>img/text_align_vbottom.png</normaloff>img/text_align_vbottom.png</iconset>
+               <normaloff>:/img/text_align_vbottom.png</normaloff>:/img/text_align_vbottom.png</iconset>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -651,7 +651,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>img/color_fill.png</pixmap>
+            <pixmap>:/img/color_fill.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -695,7 +695,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>img/color.png</pixmap>
+            <pixmap>:/img/color.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -812,7 +812,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>img/pattern_fill.png</pixmap>
+            <pixmap>:/img/pattern_fill.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -865,7 +865,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>img/Distance.png</pixmap>
+            <pixmap>:/img/Distance.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1034,7 +1034,7 @@
               <string notr="true"/>
              </property>
              <property name="pixmap">
-              <pixmap>img/object_image.png</pixmap>
+              <pixmap>:/img/object_image.png</pixmap>
              </property>
              <property name="scaledContents">
               <bool>true</bool>
@@ -1143,7 +1143,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>img/db_menu.png</normaloff>img/db_menu.png</iconset>
+             <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
            </property>
            <property name="arrowType">
             <enum>Qt::NoArrow</enum>
@@ -1194,7 +1194,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>img/db_menu.png</normaloff>img/db_menu.png</iconset>
+             <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
            </property>
            <property name="arrowType">
             <enum>Qt::NoArrow</enum>
@@ -1313,7 +1313,7 @@ color: #000000;
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>img/Shadow.png</pixmap>
+            <pixmap>:/img/Shadow.png</pixmap>
            </property>
           </widget>
          </item>
@@ -1361,7 +1361,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
+         <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -1375,7 +1375,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
+         <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -1389,7 +1389,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/help.png</normaloff>img/help.png</iconset>
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
         <string>F1</string>

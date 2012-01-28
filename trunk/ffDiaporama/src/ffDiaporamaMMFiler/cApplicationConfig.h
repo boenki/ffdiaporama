@@ -27,6 +27,7 @@
 #include "../sharedfiles/cBaseApplicationConfig.h"
 #include "../sharedfiles/cBaseMediaFile.h"
 #include "../sharedfiles/cDeviceModelDef.h"
+#include "cJobQueue.h"
 
 #define APPLICATION_GROUPNAME               "ffDiaporama"
 #define APPLICATION_NAME                    "ffDiaporamaMMFiler"
@@ -35,7 +36,7 @@
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 
 #define HELPFILE_DlgCheckConfig             "http://ffdiaporama.tuxfamily.org/?page_id=3968&lang=<local>"
-#define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/?page_id=1567&lang=<local>"
+#define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/?page_id=3854&lang=<local>"
 #define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/?cat=5&lang=<local>"
 #define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=4205&lang=<local>"
 #define HELPFILE_DlgManageDevices           "http://ffdiaporama.tuxfamily.org/?page_id=4023&lang=<local>"
@@ -47,6 +48,7 @@ class cApplicationConfig : public cBaseApplicationConfig {
 public:
     // Device database
     cDeviceModelList        DeviceModelList;                            // List of known rendering device model
+    cJobQueue               JobQueue;
 
     QString                 SplitterSizeAndPos;                         // Splitter size save
     bool                    ShowHiddenFilesAndDir;                      // If true, hidden files will be show

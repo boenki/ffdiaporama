@@ -23,11 +23,12 @@ isEmpty(PREFIX) {
 include(../common.pri)
 #--------------------------------------------------------------
 
-win32:RC_FILE = ffDiaporama.rc
-
 LIBS		+=-lSDL                                                     # specific for SDL
 
-OTHER_FILES += ffDiaporama.rc
+# Ressource files
+win32:RC_FILE    += ../../ffDiaporama.rc
+unix:OTHER_FILES += ../../ffDiaporama.rc
+RESOURCES        += ../../RSCffDiaporama.qrc
 
 TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_it.ts \
@@ -149,40 +150,25 @@ unix {
 
     TARGET.path          = $$PREFIX/bin
     TARGET.files         = $$DESTDIR/$$TARGET
-    #PostInstall.path     = /
-    #PostInstall.extra    = chmod 755 $$PREFIX/bin/ffDiaporama & chmod 755 $$PREFIX/bin/ffDiaporamaMMFiler
-    INSTALLS 		+= TARGET #PostInstall
+    INSTALLS 		+= TARGET
 
     translation.path    = $$PREFIX/share/$$APPFOLDER/locale
     translation.files   = ../../locale/ffDiaporama_* \
                           ../../locale/qt_*
     INSTALLS 		+= translation
 
+    ico.path            = $$PREFIX/share/$$APPFOLDER
+    ico.files           = ../../application-ffDiaporama.png \
+                          ../../application-ffDiaporama.ico
+    INSTALLS 		+= ico
+
     background.path     = $$PREFIX/share/$$APPFOLDER/background
     background.files    = ../../background/*.*
     INSTALLS 		+= background
 
-    mediaic.path        = $$PREFIX/share/$$APPFOLDER/img/MediaIcons
-    mediaic.files       = ../../img/MediaIcons/*.*
-    ic16x16.path        = $$PREFIX/share/$$APPFOLDER/img/MediaIcons/16x16
-    ic16x16.files       = ../../img/MediaIcons/16x16/*.*
-    ic32x32.path        = $$PREFIX/share/$$APPFOLDER/img/MediaIcons/32x32
-    ic32x32.files       = ../../img/MediaIcons/32x32/*.*
-    ic48x48.path        = $$PREFIX/share/$$APPFOLDER/img/MediaIcons/48x48
-    ic48x48.files       = ../../img/MediaIcons/48x48/*.*
-    ic100x100.path      = $$PREFIX/share/$$APPFOLDER/img/MediaIcons/100x100
-    ic100x100.files     = ../../img/MediaIcons/100x100/*.*
-    ic200x200.path      = $$PREFIX/share/$$APPFOLDER/img/MediaIcons/200x200
-    ic200x200.files     = ../../img/MediaIcons/200x200/*.*
-    INSTALLS 		+= ic16x16 ic32x32 ic48x48 ic100x100 ic200x200 mediaic
-
-    img.path            = $$PREFIX/share/$$APPFOLDER/img
-    img.files           = ../../img/*.*
-    INSTALLS 		+= img
-
-    tr_img.path         = $$PREFIX/share/$$APPFOLDER/transitions-img
-    tr_img.files        = ../../transitions-img/*.*
-    INSTALLS 		+= tr_img
+    #tr_img.path         = $$PREFIX/share/$$APPFOLDER/transitions-img
+    #tr_img.files        = ../../transitions-img/*.*
+    #INSTALLS 		+= tr_img
 
     luma.path           = $$PREFIX/share/$$APPFOLDER/luma
     luma.files          = ../../luma/*.*
@@ -211,12 +197,12 @@ unix {
     # install icon files for GNOME systems
     exists(/usr/share/icons/gnome/32x32/mimetypes) {
         iconfile.path   = $$PREFIX/share/icons/gnome/32x32/mimetypes
-        iconfile.files  = ../../img/application-ffDiaporama.png
+        iconfile.files  = ../../application-ffDiaporama.png
     }
     # install icon files for KDE systems
     exists(/usr/share/icons/default.kde4/32x32/mimetypes) {
         iconfile.path   = $$PREFIX/share/icons/default.kde4/32x32/mimetypes
-        iconfile.files  = ../../img/application-ffDiaporama.png
+        iconfile.files  = ../../application-ffDiaporama.png
     }
     INSTALLS 		+= iconfile
 

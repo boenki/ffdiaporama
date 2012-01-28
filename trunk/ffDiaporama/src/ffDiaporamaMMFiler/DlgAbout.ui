@@ -58,7 +58,7 @@
         <string notr="true"/>
        </property>
        <property name="pixmap">
-        <pixmap>img/logo_big.png</pixmap>
+        <pixmap>:/img/logo_big.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -445,7 +445,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
+                   <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -462,7 +462,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
+                   <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -479,7 +479,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
+                   <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -496,7 +496,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
+                   <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -513,7 +513,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
+                   <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -530,7 +530,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
+                   <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -602,7 +602,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/Internet.png</normaloff>img/Internet.png</iconset>
+                   <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -673,7 +673,7 @@ This General Public License does not permit incorporating your program into prop
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
+         <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
      </item>

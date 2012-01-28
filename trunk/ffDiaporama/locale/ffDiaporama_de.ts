@@ -1088,12 +1088,12 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
         <source>Unable to determine ffmpeg version</source>
-        <translation type="unfinished"></translation>
+        <translation>ffmpeg Version konnte nicht erkannt werden</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="110"/>
         <source>LibExiv2 version:</source>
-        <translation type="unfinished"></translation>
+        <translation>LibExiv2 Version:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
@@ -1110,52 +1110,52 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
         <source>LibExiv2 support for preview image</source>
-        <translation type="unfinished"></translation>
+        <translation>LibExiv2 Unterstützung für Bildvorschau</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="123"/>
         <source>TAGLib version:</source>
-        <translation type="unfinished"></translation>
+        <translation>TAGLib version:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="130"/>
         <source>TAGLib support for FLAC</source>
-        <translation type="unfinished"></translation>
+        <translation>TAGLib Unterstützung für FLAC</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="137"/>
         <source>TAGLib support for ASF/WMA</source>
-        <translation type="unfinished"></translation>
+        <translation>TAGLib Unterstützung für ASF/WMA</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="144"/>
         <source>TAGLib support for M4A/MP4</source>
-        <translation type="unfinished"></translation>
+        <translation>TAGLib Unterstützung für M4A/MP4</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="153"/>
         <source>ffmpeg version:</source>
-        <translation type="unfinished"></translation>
+        <translation>ffmpeg Version:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="154"/>
         <source>LIBAVCODEC version:</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBAVCODEC Version:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="155"/>
         <source>LIBAVFORMAT version:</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBAVFORMAT Version:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="156"/>
         <source>LIBSWSCALE version:</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBSWSCALE Version:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="163"/>
         <source>ffmpeg support for TAG and CHAPTERS</source>
-        <translation type="unfinished"></translation>
+        <translation>ffmpeg Unterstützung für TAG und KAPITEL</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>
@@ -3662,7 +3662,7 @@ Möchten Sie diese überschreiben ?</translation>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.cpp" line="57"/>
         <source>#;Slide;Title;Start;End;Duration</source>
         <comment>Column headers</comment>
-        <translation type="unfinished"></translation>
+        <translation>#;Aufname;Title;Start;Ende;Dauer</translation>
     </message>
 </context>
 <context>
@@ -4152,7 +4152,7 @@ und Hilfe</translation>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1437"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Diese Anwendung unterstützt nur Audiospuren mit unsigniertem 8-Bit oder signiertem 16-Bit Sample Format</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="569"/>
@@ -4453,7 +4453,7 @@ Do you want to create one slide for each chapters ?</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="101"/>
         <source>Loading system icons...</source>
-        <translation type="unfinished"></translation>
+        <translation>Laden der Systemsymbole...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1054"/>

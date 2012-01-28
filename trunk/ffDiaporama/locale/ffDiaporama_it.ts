@@ -1083,12 +1083,12 @@ Vedere la guida per maggiori dettagli!</translation>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
         <source>Unable to determine ffmpeg version</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile determinare la versione di ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="110"/>
         <source>LibExiv2 version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione LibExiv2:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
@@ -1105,52 +1105,52 @@ Vedere la guida per maggiori dettagli!</translation>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
         <source>LibExiv2 support for preview image</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporto LibExiv2 per l&apos;immagine di anteprima</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="123"/>
         <source>TAGLib version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione TAGLib:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="130"/>
         <source>TAGLib support for FLAC</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporto TAGLib per FLAC</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="137"/>
         <source>TAGLib support for ASF/WMA</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporto TAGLib per ASF/WMA</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="144"/>
         <source>TAGLib support for M4A/MP4</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporto TAGLib per M4A/MP4</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="153"/>
         <source>ffmpeg version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione Ffmpeg:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="154"/>
         <source>LIBAVCODEC version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione LIBAVCODEC:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="155"/>
         <source>LIBAVFORMAT version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione LIBAVFORMAT:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="156"/>
         <source>LIBSWSCALE version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione LIBSWSCALE:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="163"/>
         <source>ffmpeg support for TAG and CHAPTERS</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporto ffmpeg per TAG e CHAPTERS</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>
@@ -3664,7 +3664,7 @@ Vuoi sovrascriverlo?</translation>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.cpp" line="57"/>
         <source>#;Slide;Title;Start;End;Duration</source>
         <comment>Column headers</comment>
-        <translation type="unfinished"></translation>
+        <translation>#;Diapositiva;Titolo;Inizio;Fine;Durata</translation>
     </message>
 </context>
 <context>
@@ -4460,7 +4460,7 @@ Vuoi creare una diapositiva per ogni capitolo ?</translation>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="101"/>
         <source>Loading system icons...</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento icone di sistema...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1054"/>

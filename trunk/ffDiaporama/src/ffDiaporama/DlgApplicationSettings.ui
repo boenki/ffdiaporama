@@ -826,7 +826,7 @@ Chosen randomly a transition in the library</string>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>img/random.png</normaloff>img/random.png</iconset>
+                 <normaloff>:/img/random.png</normaloff>:/img/random.png</iconset>
                </property>
                <attribute name="buttonGroup">
                 <string>TransitionButtons</string>
@@ -850,7 +850,7 @@ No transition</string>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>transitions-img/tr-00-00.png</normaloff>transitions-img/tr-00-00.png</iconset>
+                 <normaloff>transitions-:/img/tr-00-00.png</normaloff>transitions-:/img/tr-00-00.png</iconset>
                </property>
                <attribute name="buttonGroup">
                 <string>TransitionButtons</string>
@@ -874,7 +874,7 @@ Crossfade transition</string>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>transitions-img/tr-00-01.png</normaloff>transitions-img/tr-00-01.png</iconset>
+                 <normaloff>transitions-:/img/tr-00-01.png</normaloff>transitions-:/img/tr-00-01.png</iconset>
                </property>
                <attribute name="buttonGroup">
                 <string>TransitionButtons</string>
@@ -3432,7 +3432,7 @@ image</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/config.png</normaloff>img/config.png</iconset>
+         <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
        </property>
       </widget>
      </item>
@@ -3443,7 +3443,7 @@ image</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>SubProjects/ffDiaporamaMMFiler/img/db.png</normaloff>SubProjects/ffDiaporamaMMFiler/img/db.png</iconset>
+         <normaloff>SubProjects/ffDiaporamaMMFiler/:/img/db.png</normaloff>SubProjects/ffDiaporamaMMFiler/:/img/db.png</iconset>
        </property>
       </widget>
      </item>
@@ -3470,7 +3470,7 @@ image</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
+         <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -3484,7 +3484,7 @@ image</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
+         <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -3498,7 +3498,7 @@ image</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/help.png</normaloff>img/help.png</iconset>
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
         <string>F1</string>

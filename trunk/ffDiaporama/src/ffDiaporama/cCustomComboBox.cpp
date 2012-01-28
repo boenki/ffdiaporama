@@ -74,7 +74,7 @@ void cCustomColorComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
     } else {
         if (ColorNum==MAXCOLORREF) {
             painter->fillRect(option.rect,QColor(ComboBox->SavedCustomColor));
-            QImage  Img("img/colorize.png");
+            QImage  Img(":/img/colorize.png");
             painter->drawImage(QRectF(option.rect.x()+(option.rect.width()-16)/2,option.rect.y()+(option.rect.height()-16)/2,16,16),Img);
         } else {
             painter->fillRect(option.rect,Qt::white);
@@ -188,7 +188,7 @@ void cCustomColorComboBox::MakeIcons() {
         Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),QColor(ColorRef[ColorNum]));
     } else {
         Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),QColor(SavedCustomColor));
-        QImage  Img("img/colorize.png");
+        QImage  Img(":/img/colorize.png");
         //Painter.drawImage(QRectF((iconSize().width()-16)/2,(iconSize().height()-16)/2,16,16),Img,QRectF(0,0,Img.width(),Img.height()));
         Painter.drawImage(QRectF(0,0,8,8),Img,QRectF(0,0,Img.width(),Img.height()));
     }

@@ -168,6 +168,21 @@
          <string notr="true">4</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>6</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>8</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>10</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>
@@ -273,8 +288,8 @@
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
+         <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -287,8 +302,8 @@
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
+         <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -301,8 +316,8 @@
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>img/help.png</normaloff>img/help.png</iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
         <string>F1</string>
@@ -313,6 +328,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../RSCffDiaporama.qrc"/>
+  <include location="../../RSCffDiaporama.qrc"/>
+ </resources>
  <connections/>
 </ui>

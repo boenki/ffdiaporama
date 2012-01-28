@@ -101,7 +101,7 @@
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>img/FolderOpen.png</normaloff>img/FolderOpen.png</iconset>
+             <normaloff>:/img/FolderOpen.png</normaloff>:/img/FolderOpen.png</iconset>
            </property>
           </widget>
          </item>
@@ -938,7 +938,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/PrjProperties.png</normaloff>img/PrjProperties.png</iconset>
+         <normaloff>:/img/PrjProperties.png</normaloff>:/img/PrjProperties.png</iconset>
        </property>
       </widget>
      </item>
@@ -965,7 +965,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
+         <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -979,7 +979,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
+         <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -993,7 +993,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/help.png</normaloff>img/help.png</iconset>
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
         <string>F1</string>

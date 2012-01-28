@@ -118,6 +118,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     DlgAboutWSP->SaveToXML(domDocument);
     DlgManageDevicesWSP->SaveToXML(domDocument);
     DlgInfoFileWSP->SaveToXML(domDocument);
+    JobQueue.SaveToXML(domDocument,"JobList");
 }
 
 //====================================================================================================================
@@ -142,6 +143,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     DlgAboutWSP->LoadFromXML(domDocument);
     DlgManageDevicesWSP->LoadFromXML(domDocument);
     DlgInfoFileWSP->LoadFromXML(domDocument);
+    JobQueue.LoadFromXML(domDocument,"JobList");
     return true;
 }
 

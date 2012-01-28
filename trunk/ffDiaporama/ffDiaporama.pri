@@ -1,5 +1,5 @@
 TEMPLATE        = subdirs
-CONFIG          += ordered
+//CONFIG          += ordered
 
 # ffDiaporama main application
 SUBDIRS         += src/ffDiaporama

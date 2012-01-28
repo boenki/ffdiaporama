@@ -143,7 +143,7 @@ QToolButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/add_project.png</normaloff>img/add_project.png</iconset>
+              <normaloff>:/img/add_project.png</normaloff>:/img/add_project.png</iconset>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonIconOnly</enum>
@@ -184,7 +184,7 @@ QToolButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
+              <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonIconOnly</enum>
@@ -225,7 +225,7 @@ QToolButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/arrow_left.png</normaloff>img/arrow_left.png</iconset>
+              <normaloff>:/img/arrow_left.png</normaloff>:/img/arrow_left.png</iconset>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonIconOnly</enum>
@@ -260,7 +260,7 @@ QToolButton:pressed {
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>img/arrow_right.png</normaloff>img/arrow_right.png</iconset>
+              <normaloff>:/img/arrow_right.png</normaloff>:/img/arrow_right.png</iconset>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonIconOnly</enum>
@@ -748,7 +748,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/add_text.png</normaloff>img/add_text.png</iconset>
+                   <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
                  </property>
                  <property name="shortcut">
                   <string>Ctrl+Ins</string>
@@ -786,7 +786,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/add_image.png</normaloff>img/add_image.png</iconset>
+                   <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
                  </property>
                  <property name="shortcut">
                   <string>Ins</string>
@@ -831,7 +831,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/editcopy.png</normaloff>img/editcopy.png</iconset>
+                   <normaloff>:/img/editcopy.png</normaloff>:/img/editcopy.png</iconset>
                  </property>
                  <property name="shortcut">
                   <string>Ctrl+C</string>
@@ -869,7 +869,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/editcut.png</normaloff>img/editcut.png</iconset>
+                   <normaloff>:/img/editcut.png</normaloff>:/img/editcut.png</iconset>
                  </property>
                  <property name="shortcut">
                   <string>Ctrl+X</string>
@@ -907,7 +907,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/editpaste.png</normaloff>img/editpaste.png</iconset>
+                   <normaloff>:/img/editpaste.png</normaloff>:/img/editpaste.png</iconset>
                  </property>
                  <property name="shortcut">
                   <string>Ctrl+V</string>
@@ -945,7 +945,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/trash.png</normaloff>img/trash.png</iconset>
+                   <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
                  </property>
                  <property name="shortcut">
                   <string>Del</string>
@@ -990,7 +990,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/arrow_up.png</normaloff>img/arrow_up.png</iconset>
+                   <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1034,7 +1034,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/arrow_down.png</normaloff>img/arrow_down.png</iconset>
+                   <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1078,7 +1078,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/Visible_OK.png</normaloff>img/Visible_OK.png</iconset>
+                   <normaloff>:/img/Visible_OK.png</normaloff>:/img/Visible_OK.png</iconset>
                  </property>
                  <property name="toolButtonStyle">
                   <enum>Qt::ToolButtonIconOnly</enum>
@@ -1113,7 +1113,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/object_sound.png</normaloff>img/object_sound.png</iconset>
+                   <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
                  </property>
                  <property name="toolButtonStyle">
                   <enum>Qt::ToolButtonIconOnly</enum>
@@ -1155,7 +1155,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/EditText.png</normaloff>img/EditText.png</iconset>
+                   <normaloff>:/img/EditText.png</normaloff>:/img/EditText.png</iconset>
                  </property>
                  <property name="shortcut">
                   <string>F5</string>
@@ -1193,7 +1193,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/EditImage.png</normaloff>img/EditImage.png</iconset>
+                   <normaloff>:/img/EditImage.png</normaloff>:/img/EditImage.png</iconset>
                  </property>
                  <property name="shortcut">
                   <string>F6</string>
@@ -1231,7 +1231,7 @@ QToolButton:pressed {
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>img/EditMovie.png</normaloff>img/EditMovie.png</iconset>
+                   <normaloff>:/img/EditMovie.png</normaloff>:/img/EditMovie.png</iconset>
                  </property>
                  <property name="shortcut">
                   <string>F7</string>
@@ -1380,7 +1380,7 @@ QToolButton:pressed {
                   </property>
                   <property name="icon">
                    <iconset>
-                    <normaloff>img/db_menu.png</normaloff>img/db_menu.png</iconset>
+                    <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
                   </property>
                   <property name="arrowType">
                    <enum>Qt::NoArrow</enum>
@@ -1438,7 +1438,7 @@ QToolButton:pressed {
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>img/EditImage.png</pixmap>
+                 <pixmap>:/img/EditImage.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1485,7 +1485,7 @@ QToolButton:pressed {
                  <string notr="true"/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>img/PosSize_X.png</pixmap>
+                 <pixmap>:/img/PosSize_X.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1563,7 +1563,7 @@ QToolButton:pressed {
                    <string notr="true"/>
                   </property>
                   <property name="pixmap">
-                   <pixmap>img/PosSize_Y.png</pixmap>
+                   <pixmap>:/img/PosSize_Y.png</pixmap>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1638,7 +1638,7 @@ QToolButton:pressed {
                  <string notr="true"/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>img/PosSize_Width.png</pixmap>
+                 <pixmap>:/img/PosSize_Width.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1719,7 +1719,7 @@ QToolButton:pressed {
                    <string notr="true"/>
                   </property>
                   <property name="pixmap">
-                   <pixmap>img/PosSize_Height.png</pixmap>
+                   <pixmap>:/img/PosSize_Height.png</pixmap>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1794,7 +1794,7 @@ QToolButton:pressed {
                  <string notr="true"/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>img/RotateZ.png</pixmap>
+                 <pixmap>:/img/RotateZ.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1911,7 +1911,7 @@ QToolButton:pressed {
                  <string notr="true"/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>img/RotateY.png</pixmap>
+                 <pixmap>:/img/RotateY.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2025,7 +2025,7 @@ QToolButton:pressed {
                  <string notr="true"/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>img/RotateX.png</pixmap>
+                 <pixmap>:/img/RotateX.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2179,7 +2179,7 @@ QToolButton:pressed {
                   </property>
                   <property name="icon">
                    <iconset>
-                    <normaloff>img/db_menu.png</normaloff>img/db_menu.png</iconset>
+                    <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
                   </property>
                   <property name="arrowType">
                    <enum>Qt::NoArrow</enum>
@@ -2700,7 +2700,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/ruler_ok.png</normaloff>img/ruler_ok.png</iconset>
+         <normaloff>:/img/ruler_ok.png</normaloff>:/img/ruler_ok.png</iconset>
        </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -2730,7 +2730,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/arrow_left.png</normaloff>img/arrow_left.png</iconset>
+         <normaloff>:/img/arrow_left.png</normaloff>:/img/arrow_left.png</iconset>
        </property>
       </widget>
      </item>
@@ -2744,7 +2744,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_ok.png</normaloff>img/action_ok.png</iconset>
+         <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -2758,7 +2758,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/arrow_right.png</normaloff>img/arrow_right.png</iconset>
+         <normaloff>:/img/arrow_right.png</normaloff>:/img/arrow_right.png</iconset>
        </property>
       </widget>
      </item>
@@ -2797,7 +2797,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/action_cancel.png</normaloff>img/action_cancel.png</iconset>
+         <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
      </item>
@@ -2811,7 +2811,7 @@ color: #000000;
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>img/help.png</normaloff>img/help.png</iconset>
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
         <string>F1</string>
