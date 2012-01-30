@@ -30,8 +30,7 @@
 #include "cDeviceModelDef.h"
 #include "cBaseMediaFile.h"
 
-
-//#define DEBUGMODE
+#define DEBUGMODE
 #define FFD_APPLICATION_ROOTNAME    "Project"   // Name of root node in the project xml file
 
 //****************************************************************************************************************************************************************
@@ -2139,36 +2138,35 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
         ReadAudioFrame(PreviewMode,Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
     }
 
-    if ((!MusicOnly)&&(!ForceSoundOnly)) LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
-
-    if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
-        // Scale image if anamorphous
-        if (AspectRatio!=1) {
-            ImageWidth =int(double(LoadedImage->width())*AspectRatio);
-            ImageHeight=LoadedImage->height();
-            QImage *NewLoadedImage=new QImage(LoadedImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-            delete LoadedImage;
-            LoadedImage=NewLoadedImage;
-        }
-        // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
-        if ((PreviewMode)&&(ImageHeight>PREVIEWMAXHEIGHT*2)) {
-            QImage *NewImage=new QImage(LoadedImage->scaledToHeight(PREVIEWMAXHEIGHT));
-            delete LoadedImage;
-            LoadedImage =NewImage;
-        }
-        if (Filter && ((!PreviewMode)||(PreviewMode && ApplicationConfig->ApplyTransfoPreview))) Filter->ApplyFilter(LoadedImage);
-        if ((PreviewMode)&&(Position+StartPosToAdd==0)) {
-            if (CacheFirstImage!=NULL) delete CacheFirstImage;
-            CacheFirstImage=LoadedImage;
-            LoadedImage=new QImage(CacheFirstImage->copy());
-        }
-
-    } else {
-        // This case append when sound file is a video file : we don't want image ! /////////////////////////////?????????????????????????? Pas logique !
+    if ((!MusicOnly)&&(!ForceSoundOnly)) {
+        LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
         if (LoadedImage) {
-            delete LoadedImage;
-            LoadedImage=NULL;
+
+            // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
+            if ((PreviewMode)&&(ImageHeight>PREVIEWMAXHEIGHT)) {
+                QImage *NewImage=new QImage(LoadedImage->scaledToHeight(PREVIEWMAXHEIGHT));
+                delete LoadedImage;
+                LoadedImage =NewImage;
+            }
+
+            // Scale image if anamorphous
+            if (AspectRatio!=1) {
+                ImageWidth =int(double(LoadedImage->width())*AspectRatio);
+                ImageHeight=LoadedImage->height();
+                QImage *NewLoadedImage=new QImage(LoadedImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                delete LoadedImage;
+                LoadedImage=NewLoadedImage;
+            }
+
+            if (Filter && ((!PreviewMode)||(PreviewMode && ApplicationConfig->ApplyTransfoPreview))) Filter->ApplyFilter(LoadedImage);
+
+            if ((PreviewMode)&&(Position+StartPosToAdd==0)) {
+                if (CacheFirstImage!=NULL) delete CacheFirstImage;
+                CacheFirstImage=LoadedImage;
+                LoadedImage=new QImage(CacheFirstImage->copy());
+            }
         }
+
     }
 
     return LoadedImage;
