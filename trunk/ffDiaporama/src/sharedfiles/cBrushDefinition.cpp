@@ -224,6 +224,7 @@ cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,
     Green               =0;
     Blue                =0;
     LockGeometry        =false;
+    AspectRatio         =1;
     FullFilling         =false;
 }
 
@@ -455,6 +456,12 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 double  DstW            =Rect.width();
                 double  DstH            =DstW*TheAspectRatio;
 
+                // Adjust SourceImage to wanted size and pos
+                int ax=(Hyp-RealImageW)/2-SrcX;
+                int ay=(Hyp-RealImageH)/2-SrcY;
+
+                QImage *NewSourceImage=new QImage(SourceImage->copy(ax,ay,SrcW,SrcH).scaled(int(DstW),int(DstH),Qt::IgnoreAspectRatio,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+
                 // Prepare Img Composition with transparent background
                 Img=new QImage(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
                 QPainter    PB;
@@ -466,23 +473,10 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 if (ApplicationConfig->Smoothing)   PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
                     else                            PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
-                // Expand Source Image to Canvas size (hyp)
-                QImage   *TempImage=new QImage(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
-                QPainter PC;
-                PC.begin(TempImage);
-                PC.setCompositionMode(QPainter::CompositionMode_Source);
-                PC.fillRect(QRect(0,0,Hyp,Hyp),Qt::transparent);
-                PC.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                PC.drawImage((Hyp-RealImageW)/2,(Hyp-RealImageH)/2,*SourceImage);
-                PC.end();
-
-                // Adjust TempImage to wanted size and pos
-                QImage NewSourceImage=(TempImage->copy(int(SrcX),int(SrcY),SrcW,SrcH)).scaled(int(DstW),int(DstH),Qt::IgnoreAspectRatio,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
-                delete TempImage;
-
                 // Smoothing is not correctly used here !
                 // Then force smoothing by reduce source image before draw image
-                PB.drawImage(QRectF(DstX,DstY,DstW,DstH),NewSourceImage);
+                PB.drawImage(QRectF(DstX,DstY,DstW,DstH),*NewSourceImage);
+                delete NewSourceImage;
 
                 PB.end();
 
@@ -624,6 +618,7 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
     Blue                =BrushToCopy->Blue;
     LockGeometry        =BrushToCopy->LockGeometry;
     FullFilling         =BrushToCopy->FullFilling;
+    AspectRatio         =BrushToCopy->AspectRatio;
 }
 
 //====================================================================================================================
