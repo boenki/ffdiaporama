@@ -215,11 +215,6 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
     qDebug() << "IN:cBaseMediaFile::GetInformationFromFile";
     #endif
     FileName            =QFileInfo(GivenFileName).absoluteFilePath();
-    ShortName           =QFileInfo(FileName).fileName();
-    FileSize            =QFileInfo(FileName).size();
-    FileSizeText        =GetTextSize(FileSize);
-    CreatDateTime       =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
-    ModifDateTime       =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
 
     if (ModifyFlag) *ModifyFlag=false;
 
@@ -253,8 +248,15 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
     }
     if (!Continue) {
         qDebug()<<"Impossible to open file"<<FileName;
+        ShortName=QFileInfo(FileName).fileName();
         return false;
     }
+
+    ShortName    =QFileInfo(FileName).fileName();
+    FileSize     =QFileInfo(FileName).size();
+    FileSizeText =GetTextSize(FileSize);
+    CreatDateTime=QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
+    ModifDateTime=QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
 
     IsValide=true;
 
@@ -378,6 +380,30 @@ cUnmanagedFile::cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig):cBaseM
     LoadIcons(&ApplicationConfig->DefaultFILEIcon);
     ObjectType  =OBJECTTYPE_UNMANAGED;
     IsInformationValide=true;
+}
+
+//====================================================================================================================
+
+bool cUnmanagedFile::GetInformationFromFile(QString GivenFileName,QStringList *,bool *) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cUnmanagedFile::GetInformationFromFile";
+    #endif
+    FileName            =QFileInfo(GivenFileName).absoluteFilePath();
+    ShortName           =QFileInfo(FileName).fileName();
+
+    if (!QFileInfo(FileName).exists()) {
+        qDebug()<<"Impossible to open file"<<FileName;
+        IsValide=false;
+    } else {
+        FileSize            =QFileInfo(FileName).size();
+        FileSizeText        =GetTextSize(FileSize);
+        CreatDateTime       =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
+        ModifDateTime       =QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
+
+        IsValide=true;
+    }
+
+    return IsValide;
 }
 
 //====================================================================================================================
@@ -1532,8 +1558,6 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     qDebug() << "IN:cVideoFile::ReadAudioFrame";
     #endif
 
-    qDebug()<<"ReadAudioFrame @"<<Position;
-
     // Ensure file was previously open and all is ok
     if ((SoundTrackBloc==NULL)||(AudioStreamNumber==-1)||(ffmpegAudioFile->streams[AudioStreamNumber]==NULL)||(ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
 
@@ -2112,20 +2136,17 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
     QImage *LoadedImage=NULL;
 
     if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)&&(SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS)) {
-        qDebug()<<"Before : "<<SoundTrackBloc->List.count()<<"blocks"<<"Reste :"<<SoundTrackBloc->CurrentTempSize;
         ReadAudioFrame(PreviewMode,Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
-        qDebug()<<"After : "<<SoundTrackBloc->List.count()<<"blocks"<<"Reste :"<<SoundTrackBloc->CurrentTempSize;
     }
 
-    if ((!MusicOnly)&&(!ForceSoundOnly))
-        LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
+    if ((!MusicOnly)&&(!ForceSoundOnly)) LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
 
     if ((!MusicOnly)&&(!ForceSoundOnly)&&(LoadedImage)) {
         // Scale image if anamorphous
         if (AspectRatio!=1) {
             ImageWidth =int(double(LoadedImage->width())*AspectRatio);
             ImageHeight=LoadedImage->height();
-            QImage *NewLoadedImage=new QImage(LoadedImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/));
+            QImage *NewLoadedImage=new QImage(LoadedImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
             delete LoadedImage;
             LoadedImage=NewLoadedImage;
         }
@@ -2143,7 +2164,7 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
         }
 
     } else {
-        // This case append when sound file is a video file : we don't want image !
+        // This case append when sound file is a video file : we don't want image ! /////////////////////////////?????????????????????????? Pas logique !
         if (LoadedImage) {
             delete LoadedImage;
             LoadedImage=NULL;

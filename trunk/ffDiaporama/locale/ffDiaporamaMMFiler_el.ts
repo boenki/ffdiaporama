@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgAbout.ui" line="105"/>
         <source>Copyright (C) 2011-2012 Dominique Levray</source>
-        <translation type="unfinished"></translation>
+        <translation>Πνευματικά δικαιώματα (C) 2011-2012 Dominique Levray</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgAbout.ui" line="112"/>
@@ -76,7 +76,7 @@
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgAbout.ui" line="575"/>
         <source>TAG managment based on TAGLib</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχείριση TAG βασισμένη στο TAGlib</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgAbout.ui" line="672"/>
@@ -139,27 +139,27 @@
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="249"/>
         <source>Manage Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχείριση συσκευών</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="197"/>
         <source>Show hidden folders and files</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση των κρυφών φακέλων και αρχείων</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="177"/>
         <source>Display options</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογές προβολής</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="204"/>
         <source>Display folders first</source>
-        <translation type="unfinished"></translation>
+        <translation>Προβολή λίστας φακέλων</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="211"/>
         <source>Display only drives mounted in /media/</source>
-        <translation type="unfinished"></translation>
+        <translation>Προβολή των δίσκων προσαρτημένων στο /media/</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="238"/>
@@ -204,12 +204,12 @@
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.cpp" line="135"/>
         <source>Apply modification</source>
-        <translation type="unfinished">Εφαρμογή των τροποποιήσεων</translation>
+        <translation>Εφαρμογή των τροποποιήσεων</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.cpp" line="136"/>
         <source>Do you whant to apply modification for this device?</source>
-        <translation type="unfinished">Επιθυμείτε την εφαρμογή των τροποποιήσεων για την συσκευή αυτή;</translation>
+        <translation>Επιθυμείτε την εφαρμογή των τροποποιήσεων για τη συσκευή αυτή;</translation>
     </message>
 </context>
 <context>
@@ -274,12 +274,12 @@
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
         <source>Unable to determine ffmpeg version</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατος ο εντοπισμός της έκδοσης ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="110"/>
         <source>LibExiv2 version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση LibExiv2:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
@@ -296,52 +296,52 @@
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
         <source>LibExiv2 support for preview image</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη LibExiv2 για εικόνες προεπισκόπησης</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="123"/>
         <source>TAGLib version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση TAGLib:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="130"/>
         <source>TAGLib support for FLAC</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη TAGLib για FLAC</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="137"/>
         <source>TAGLib support for ASF/WMA</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη TAGLib για ASF/WMA</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="144"/>
         <source>TAGLib support for M4A/MP4</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη TAGLib για M4A/MP4</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="153"/>
         <source>ffmpeg version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση ffmpeg:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="154"/>
         <source>LIBAVCODEC version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση LIBAVCODEC:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="155"/>
         <source>LIBAVFORMAT version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση LIBAVFORMAT:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="156"/>
         <source>LIBSWSCALE version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση LIBSWSCALE:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="163"/>
         <source>ffmpeg support for TAG and CHAPTERS</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη ffmpeg για TAG και CHAPTERS</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>
@@ -359,77 +359,77 @@
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="25"/>
         <source>File information</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες αρχείου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="83"/>
         <source>File name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="90"/>
         <source>File type :</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="123"/>
         <source>File size :</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="143"/>
         <source>File created :</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="157"/>
         <source>File modify :</source>
-        <translation type="unfinished"></translation>
+        <translation>Τροποποίηση αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="200"/>
         <source>Video track information</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες κομματιού βίντεο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="269"/>
         <source>Chapter information</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες κεφαλαίου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="313"/>
         <source>Audio track information</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες κομματιού ήχου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="348"/>
         <source>Additional information</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρόσθετες πληροφορίες</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="394"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="397"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Εντάξει</translation>
+        <translation>&amp;Εντάξει</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="408"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
+        <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="411"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Βοήθεια</translation>
+        <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="418"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -437,208 +437,208 @@
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="20"/>
         <source>Manage Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχείριση συσκευών</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="28"/>
         <source>Device type :</source>
-        <translation type="unfinished">Τύπος συσκευής:</translation>
+        <translation>Τύπος συσκευής:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="38"/>
         <source>Select the type of equipment to be shown in the list.</source>
-        <translation type="unfinished">Επιλέξτε τον τύπο της συσκευής που θα εμφανίζεται στην λίστα.</translation>
+        <translation>Επιλέξτε τον τύπο της συσκευής που θα εμφανίζεται στην λίστα.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="101"/>
         <source>Subtype</source>
-        <translation type="unfinished">Δευτερεύων τύπος</translation>
+        <translation>Δευτερεύων τύπος</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="112"/>
         <source>Model</source>
-        <translation type="unfinished">Μοντέλο</translation>
+        <translation>Μοντέλο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="134"/>
         <source>Create a new equipment which comes to be added in the database.</source>
-        <translation type="unfinished">Δημιουργία μιας νέας συσκευής η οποία θα προστεθεί στη βάση δεδομένων.</translation>
+        <translation>Δημιουργία μιας νέας συσκευής η οποία θα προστεθεί στη βάση δεδομένων.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="137"/>
         <source>Add Device</source>
-        <translation type="unfinished">Προσθήκη συσκευής</translation>
+        <translation>Προσθήκη συσκευής</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="148"/>
         <source>Delete current equipment.</source>
-        <translation type="unfinished">Διαγραφή της τρέχουσας συσκευής.</translation>
+        <translation>Διαγραφή της τρέχουσας συσκευής.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="151"/>
         <source>Remove Device</source>
-        <translation type="unfinished">Αφαίρεση συσκευής</translation>
+        <translation>Αφαίρεση συσκευής</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="162"/>
         <source>Cancel the modifications that you made on an equipment defined in the default ffDiaporama database</source>
-        <translation type="unfinished">Ακυρώνει τις τροποποιήσεις που έχετε πραγματοποιήσει σε μια συσκευή που έχει καθοριστεί στην προκαθορισμένη βάση δεδομένων του ffDiaporama</translation>
+        <translation>Ακυρώνει τις τροποποιήσεις που έχετε πραγματοποιήσει σε μια συσκευή που έχει καθοριστεί στην προκαθορισμένη βάση δεδομένων του ffDiaporama</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="165"/>
         <source>Reset Device to Default</source>
-        <translation type="unfinished">Επαναφορά προκαθ. συσκευής</translation>
+        <translation>Επαναφορά προκαθ. συσκευής</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="178"/>
         <source>Device subtype :</source>
-        <translation type="unfinished">Δευτερεύων τύπος συσκευής:</translation>
+        <translation>Δευτερεύων τύπος συσκευής:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="188"/>
         <source>Select the category in which is classified the equipment.</source>
-        <translation type="unfinished">Επιλέξτε την κατηγορία στην οποία κατατάσσεται η συσκευή.</translation>
+        <translation>Επιλέξτε την κατηγορία στην οποία κατατάσσεται η συσκευή.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="195"/>
         <source>Device model :</source>
-        <translation type="unfinished">Μοντέλο συσκευής:</translation>
+        <translation>Μοντέλο συσκευής:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="205"/>
         <source>File format :</source>
-        <translation type="unfinished">Μορφή αρχείου:</translation>
+        <translation>Μορφή αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="215"/>
         <source>Enter here the name of the equipment (free text field).</source>
-        <translation type="unfinished">Εισάγετε εδώ το όνομα της συσκευής (πεδίο ελεύθερου κειμένου).</translation>
+        <translation>Εισάγετε εδώ το όνομα της συσκευής (πεδίο ελεύθερου κειμένου).</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="228"/>
         <source>Select the file type to use for the rendering.</source>
-        <translation type="unfinished">Επιλέξτε την μορφή του αρχείου που θα χρησιμοποιείται για την αποτύπωση.</translation>
+        <translation>Επιλέξτε την μορφή του αρχείου που θα χρησιμοποιείται για την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="235"/>
         <source>Video standard :</source>
-        <translation type="unfinished">Πρότυπο βίντεο:</translation>
+        <translation>Πρότυπο βίντεο:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="250"/>
         <source>Select the video standard to use, PAL or NTSC.</source>
-        <translation type="unfinished">Επιλέξτε το πρότυπο βίντεο προς χρήση, PAL ή NTSC.</translation>
+        <translation>Επιλέξτε το πρότυπο βίντεο προς χρήση, PAL ή NTSC.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="254"/>
         <source>PAL</source>
-        <translation type="unfinished">PAL</translation>
+        <translation>PAL</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="259"/>
         <source>NTSC</source>
-        <translation type="unfinished">NTSC</translation>
+        <translation>NTSC</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="282"/>
         <source>Image format :</source>
-        <translation type="unfinished">Μορφή εικόνας:</translation>
+        <translation>Μορφή εικόνας:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="292"/>
         <source>Select the image resolution to use for the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τη ανάλυση της εικόνας για την αποτύπωση.</translation>
+        <translation>Επιλέξτε τη ανάλυση της εικόνας για την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="302"/>
         <source>Video codec :</source>
-        <translation type="unfinished">Κωδικοποιητής βίντεο:</translation>
+        <translation>Κωδικοποιητής βίντεο:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="329"/>
         <source>Select the video codec to use for the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τον κωδικοποιητή βίντεο για την αποτύπωση.</translation>
+        <translation>Επιλέξτε τον κωδικοποιητή βίντεο για την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="342"/>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="407"/>
         <source>Bit rate :</source>
-        <translation type="unfinished">Ρυθμός bit:</translation>
+        <translation>Ρυθμός bit:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="364"/>
         <source>Select the bit rate to use for video during the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τον ρυθμό bit του βίντεο κατά την αποτύπωση.</translation>
+        <translation>Επιλέξτε τον ρυθμό bit του βίντεο κατά την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="373"/>
         <source>Audio codec :</source>
-        <translation type="unfinished">Κωδικοποιητής ήχου:</translation>
+        <translation>Κωδικοποιητής ήχου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="400"/>
         <source>Select the audio codec to use for the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τον κωδικοποιητή ήχου για την αποτύπωση.</translation>
+        <translation>Επιλέξτε τον κωδικοποιητή ήχου για την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="429"/>
         <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τον ρυθμό bit του ήχου κατά την αποτύπωση.</translation>
+        <translation>Επιλέξτε τον ρυθμό bit του ήχου κατά την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="478"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="489"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="492"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Εντάξει</translation>
+        <translation>&amp;Εντάξει</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="503"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="506"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Ακύρωση</translation>
+        <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="517"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
+        <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="520"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Βοήθεια</translation>
+        <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="527"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="121"/>
         <source>Apply modification</source>
-        <translation type="unfinished">Εφαρμογή των τροποποιήσεων</translation>
+        <translation>Εφαρμογή των τροποποιήσεων</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="122"/>
         <source>Do you whant to apply modification for this device?</source>
-        <translation type="unfinished">Επιθυμείτε την εφαρμογή των τροποποιήσεων για την συσκευή αυτή;</translation>
+        <translation>Επιθυμείτε την εφαρμογή των τροποποιήσεων για τη συσκευή αυτή;</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="574"/>
         <source>&lt;new device&gt;</source>
-        <translation type="unfinished">&lt;νέα συσκευή&gt;</translation>
+        <translation>&lt;νέα συσκευή&gt;</translation>
     </message>
 </context>
 <context>
@@ -676,44 +676,46 @@
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="107"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανανέωση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="140"/>
         <source>Open file with default application defined on computer</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα του αρχείου με την προκαθορισμένη εφαρμογή του συστήματος</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="143"/>
         <source>Open
 File</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα
+Αρχείου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="170"/>
         <source>Display detailled information on file</source>
-        <translation type="unfinished"></translation>
+        <translation>Προβολή πληροφοριών του αρχείου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="173"/>
         <source>Display
 Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Προβολή
+πληροφοριών</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="200"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενέργεια</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="337"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Λειτουργία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="369"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Φίλτρο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="390"/>
@@ -780,7 +782,7 @@ and help</source>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="747"/>
         <source>Read configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγνωση αρχείου διαμόρφωσης</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="749"/>
@@ -828,22 +830,22 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="296"/>
         <source>files</source>
-        <translation type="unfinished"></translation>
+        <translation>αρχεία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="297"/>
         <source>folders</source>
-        <translation type="unfinished"></translation>
+        <translation>φάκελοι</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="298"/>
         <source>Total size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Συνολικό μέγεθος:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="299"/>
         <source>Total duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Συνολική διάρκεια:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="383"/>
@@ -853,62 +855,62 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="460"/>
         <source>Details view</source>
-        <translation type="unfinished"></translation>
+        <translation>Προβολή λεπτομερειών</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="461"/>
         <source>Short summary view</source>
-        <translation type="unfinished"></translation>
+        <translation>Προβολή σύντομης σύνοψης</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="462"/>
         <source>Long summary view</source>
-        <translation type="unfinished"></translation>
+        <translation>Προβολή εκτεταμένης σύνοψης</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="463"/>
         <source>Small icon view</source>
-        <translation type="unfinished"></translation>
+        <translation>Προβολή μικρών εικονιδίων</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="464"/>
         <source>Medium icon view</source>
-        <translation type="unfinished"></translation>
+        <translation>Προβολή μεσαίων εικονιδίων</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="493"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Όλα τα αρχεία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="494"/>
         <source>Managed files</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστηριζόμενα αρχεία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="495"/>
         <source>Image files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία εικόνων</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="496"/>
         <source>Video files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία βίντεο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="497"/>
         <source>Music files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία μουσικής</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="498"/>
         <source>ffDiaporama project files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία έργων ffDiaporama</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="385"/>
         <source>Reading configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγνωση αρχείου διαμόρφωσης</translation>
     </message>
 </context>
 <context>
@@ -921,14 +923,14 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="446"/>
         <source>File</source>
         <comment>Column header</comment>
-        <translation type="unfinished">Αρχείο</translation>
+        <translation>Αρχείο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="373"/>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="725"/>
         <source>File Type</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος αρχείου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="374"/>
@@ -939,7 +941,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="726"/>
         <source>File Size</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος αρχείου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="375"/>
@@ -950,7 +952,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="727"/>
         <source>File Date</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ημερομηνία αρχείου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="376"/>
@@ -960,7 +962,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="772"/>
         <source>Duration</source>
         <comment>Column header</comment>
-        <translation type="unfinished">Διάρκεια</translation>
+        <translation>Διάρκεια</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="377"/>
@@ -968,7 +970,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="771"/>
         <source>Chapters</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Κεφάλαια</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="378"/>
@@ -977,7 +979,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="773"/>
         <source>Image Size</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος εικόνας</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="379"/>
@@ -986,7 +988,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="774"/>
         <source>Image Format</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή εικόνας</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="380"/>
@@ -995,7 +997,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="775"/>
         <source>Image Geometry</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Γεωμετρία εικόνας</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="381"/>
@@ -1003,7 +1005,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="776"/>
         <source>Video Codec</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικοποιητής βίντεο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="382"/>
@@ -1011,7 +1013,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="777"/>
         <source>Frame Rate</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμός πλαισίου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="383"/>
@@ -1019,7 +1021,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="778"/>
         <source>Video Bitrate</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμός bit βίντεο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="384"/>
@@ -1027,7 +1029,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="779"/>
         <source>Audio Language</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Γλώσσα ήχου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="385"/>
@@ -1036,7 +1038,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="780"/>
         <source>Audio Codec</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικοποιητής ήχου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="386"/>
@@ -1045,7 +1047,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="781"/>
         <source>Audio Channels</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Κανάλια ήχου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="387"/>
@@ -1054,7 +1056,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="782"/>
         <source>Audio Bitrate</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμός bit ήχου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="388"/>
@@ -1063,7 +1065,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="783"/>
         <source>Audio Frequency</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Συχνότητα ήχου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="389"/>
@@ -1073,7 +1075,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="784"/>
         <source>Title</source>
         <comment>Column header</comment>
-        <translation type="unfinished">Τίτλος</translation>
+        <translation>Τίτλος</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="390"/>
@@ -1082,7 +1084,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="785"/>
         <source>Artist</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Καλλιτέχνης</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="391"/>
@@ -1092,7 +1094,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="786"/>
         <source>Album</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Άλμπουμ</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="392"/>
@@ -1102,7 +1104,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="787"/>
         <source>Year</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Έτος</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="393"/>
@@ -1111,7 +1113,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="788"/>
         <source>Track</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Κομμάτι</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="394"/>
@@ -1120,7 +1122,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="789"/>
         <source>Genre</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Είδος</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="395"/>
@@ -1128,7 +1130,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="790"/>
         <source>Comment</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Σχόλιο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="396"/>
@@ -1137,7 +1139,7 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="791"/>
         <source>Composer</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Συνθέτης</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="397"/>
@@ -1145,13 +1147,13 @@ and help</source>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="792"/>
         <source>Encoder</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικοποιητής</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTable.cpp" line="405"/>
         <source>Author</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation>Συγγραφέας</translation>
     </message>
 </context>
 <context>
@@ -1160,25 +1162,25 @@ and help</source>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="253"/>
         <source>Kb</source>
         <comment>Unit Kb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Kb</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="254"/>
         <source>Mb</source>
         <comment>Unit Mb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mb</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="255"/>
         <source>Gb</source>
         <comment>Unit Gb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gb</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="256"/>
         <source>Tb</source>
         <comment>Unit Tb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tb</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="145"/>
@@ -1192,18 +1194,18 @@ and help</source>
         <location filename="../src/sharedfiles/cDriveList.cpp" line="354"/>
         <location filename="../src/sharedfiles/cDriveList.cpp" line="359"/>
         <source>Personal folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσωπικός φάκελος</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="297"/>
         <location filename="../src/sharedfiles/cDriveList.cpp" line="360"/>
         <source>System files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία συστήματος</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDriveList.cpp" line="98"/>
         <source>Empty drive...</source>
-        <translation type="unfinished"></translation>
+        <translation>Κενός δίσκος...</translation>
     </message>
 </context>
 <context>
@@ -1211,96 +1213,96 @@ and help</source>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="239"/>
         <source>Impossible to open file </source>
-        <translation type="unfinished">Αδύνατο το άνοιγμα του αρχείου </translation>
+        <translation>Αδύνατο το άνοιγμα του αρχείου </translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="239"/>
         <source>Do you want to select another file ?</source>
-        <translation type="unfinished">Θέλετε να επιλέξετε ένα άλλο αρχείο;</translation>
+        <translation>Θέλετε να επιλέξετε ένα άλλο αρχείο;</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="243"/>
         <source>Select another file for </source>
-        <translation type="unfinished">Επιλογή ενός αρχείου αντικατάστασης για </translation>
+        <translation>Επιλογή ενός αρχείου αντικατάστασης για </translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="339"/>
         <source>MPix</source>
-        <translation type="unfinished"></translation>
+        <translation>MPix</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="389"/>
         <source>Unmanaged</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Δεν υποστηρίζεται</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="719"/>
         <source>Slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαφάνειες</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="720"/>
         <source>Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Κεφάλαια</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="782"/>
         <source>Image</source>
         <comment>File type</comment>
-        <translation type="unfinished">Εικόνα</translation>
+        <translation>Εικόνα</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="783"/>
         <source>Thumbnail</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Εικόνα επισκόπησης</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1409"/>
         <source>Video</source>
         <comment>File type</comment>
-        <translation type="unfinished">Βίντεο</translation>
+        <translation>Βίντεο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1408"/>
         <source>Music</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Μουσική</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1245"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="238"/>
         <source>Open file</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα αρχείου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="681"/>
         <source>Slide number</source>
-        <translation type="unfinished"></translation>
+        <translation>Αριθμός διαφάνειας</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="752"/>
         <source>ffDiaporama</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1246"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
-        <translation type="unfinished"></translation>
+        <translation>Stereo</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="514"/>
         <source>Folder</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Φάκελος</translation>
     </message>
 </context>
 <context>
@@ -1309,92 +1311,92 @@ and help</source>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="506"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Για προχωρημένους</translation>
+        <translation>Για προχωρημένους</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="507"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Smartphone</translation>
+        <translation>Smartphone</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Σύστημα πολυμέσων</translation>
+        <translation>Σύστημα πολυμέσων</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="509"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Για το διαδίκτυο</translation>
+        <translation>Για το διαδίκτυο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="511"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Φορητός αναπαραγωγέας</translation>
+        <translation>Φορητός αναπαραγωγέας</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="512"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Netbook/NetPC</translation>
+        <translation>Netbook/NetPC</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="513"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Φορητή κονσόλα παιχνιδιών</translation>
+        <translation>Φορητή κονσόλα παιχνιδιών</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="514"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Ταμπλέτα επαφής</translation>
+        <translation>Ταμπλέτα επαφής</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="515"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Πύλη και σκληρός δίσκος πολυμέσων</translation>
+        <translation>Πύλη και σκληρός δίσκος πολυμέσων</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="516"/>
         <source>Player</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Αναπαραγωγέας</translation>
+        <translation>Αναπαραγωγέας</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="517"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">ADSL δρομολογητής</translation>
+        <translation>ADSL δρομολογητής</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="518"/>
         <source>Game console</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Κονσόλα παιχνιδιών</translation>
+        <translation>Κονσόλα παιχνιδιών</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="519"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">SWF Αναπαραγωγέας Flash</translation>
+        <translation>SWF Αναπαραγωγέας Flash</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="520"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Ιστοσελίδες κοινόχρηστων βίντεο και κοινωνικών δικτύων</translation>
+        <translation>Ιστοσελίδες κοινόχρηστων βίντεο και κοινωνικών δικτύων</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="521"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">HTML 5</translation>
+        <translation>HTML 5</translation>
     </message>
 </context>
 </TS>

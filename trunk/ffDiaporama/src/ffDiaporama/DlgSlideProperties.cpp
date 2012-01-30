@@ -544,8 +544,8 @@ void DlgSlideProperties::RefreshStyleControls() {
                 ui->FramingStyleCB->addItem(QIcon(ICON_GEOMETRY_PROJECT), QApplication::translate("DlgImageCorrection","Lock to project geometry"));
             }
             int Index=1;
-            if (!CurrentTextItem->BackgroundBrush->BrushFileCorrect.LockGeometry)                         Index=0;
-                else if (CurrentTextItem->BackgroundBrush->BrushFileCorrect.AspectRatio==ProjectGeometry) Index=2;
+            if (!CurrentTextItem->BackgroundBrush->LockGeometry)                         Index=0;
+                else if (CurrentTextItem->BackgroundBrush->AspectRatio==ProjectGeometry) Index=2;
             if (ui->FramingStyleCB->currentIndex()!=Index) ui->FramingStyleCB->setCurrentIndex(Index);
             if (!ui->FramingStyleCB->updatesEnabled()) ui->FramingStyleCB->setUpdatesEnabled(true);
             StopMajFramingStyle=false;
@@ -572,7 +572,7 @@ void DlgSlideProperties::RefreshStyleControls() {
             FramingStyleLabelPixmap="EditImage.png";
             ui->FramingStyleLabel->setPixmap(QPixmap(QString("img")+QString(QDir::separator())+FramingStyleLabelPixmap));
         }
-        CurrentTextItem->BackgroundBrush->InitDefaultFramingStyle(CurrentTextItem->BackgroundBrush->BrushFileCorrect.LockGeometry,CurrentTextItem->BackgroundBrush->BrushFileCorrect.AspectRatio);
+        CurrentTextItem->BackgroundBrush->InitDefaultFramingStyle(CurrentTextItem->BackgroundBrush->LockGeometry,CurrentTextItem->BackgroundBrush->AspectRatio);
         if (CurrentTextItem->BackgroundBrush->Image!=NULL) GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentTextItem->BackgroundBrush->Image->ObjectGeometry);
             else if (CurrentTextItem->BackgroundBrush->Video!=NULL) GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentTextItem->BackgroundBrush->Video->ObjectGeometry);
         QString StyleDef=CurrentTextItem->GetFramingStyle();
@@ -800,8 +800,8 @@ void DlgSlideProperties::RefreshSceneImage() {
             ui->RotateYED->setValue(CurrentTextItem->RotateYAxis);      ui->RotateYSLD->setValue(CurrentTextItem->RotateYAxis);
             ui->RotateZED->setValue(CurrentTextItem->RotateZAxis);      ui->RotateZSLD->setValue(CurrentTextItem->RotateZAxis);
 
-            if ((CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(!CurrentTextItem->BackgroundBrush->BrushFileCorrect.LockGeometry))
-                CurrentTextItem->BackgroundBrush->BrushFileCorrect.AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
+            if ((CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(!CurrentTextItem->BackgroundBrush->LockGeometry))
+                CurrentTextItem->BackgroundBrush->AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
 
             //***********************
             // Shape TAB
@@ -977,9 +977,9 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
         // Create and add to scene a cCustomGraphicsRectItem
         new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i]->x,&CompositionList->List[i]->y,
                     NULL,&CompositionList->List[i]->w,&CompositionList->List[i]->h,xmax,ymax,
-                    ((!CompositionList->List[i]->BackgroundBrush->BrushFileCorrect.LockGeometry)&&
+                    ((!CompositionList->List[i]->BackgroundBrush->LockGeometry)&&
                     (CompositionList->List[i]->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
-                    CompositionList->List[i]->BackgroundBrush->BrushFileCorrect.AspectRatio,
+                    CompositionList->List[i]->BackgroundBrush->AspectRatio,
                     &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i]->IndexKey,false);
 
         NextZValue+=10;  // 10 by 10 step for ZValue
@@ -988,9 +988,9 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
         // Create and add to scene a cCustomGraphicsRectItem
         new cCustomGraphicsRectItem(scene,NextZValue,&CompositionList->List[i]->x,&CompositionList->List[i]->y,
                     NULL,&CompositionList->List[i]->w,&CompositionList->List[i]->h,xmax,ymax,
-                    ((!CompositionList->List[i]->BackgroundBrush->BrushFileCorrect.LockGeometry)&&
+                    ((!CompositionList->List[i]->BackgroundBrush->LockGeometry)&&
                     (CompositionList->List[i]->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK))?false:true,
-                    CompositionList->List[i]->BackgroundBrush->BrushFileCorrect.AspectRatio,
+                    CompositionList->List[i]->BackgroundBrush->AspectRatio,
                     &MagneticRuler,this,TYPE_DlgSlideProperties,CompositionList->List[i]->IndexKey,true);
 
         NextZValue+=10;  // 10 by 10 step for ZValue
@@ -1397,7 +1397,7 @@ void DlgSlideProperties::s_CoordinateStyleBT() {
         CompositionObject->ApplyCoordinateStyle(GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.GetStyleDef(Item));
 
         // Report new shot framing to RectItem
-        RectItem->AspectRatio=CompositionObject->BackgroundBrush->BrushFileCorrect.AspectRatio;
+        RectItem->AspectRatio=CompositionObject->BackgroundBrush->AspectRatio;
         if (CompositionObject->h>(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax) CompositionObject->h=(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax;
             else CompositionObject->w=(CompositionObject->h*ymax/RectItem->AspectRatio)/xmax;
 
@@ -1442,21 +1442,21 @@ void DlgSlideProperties::s_ChangeFramingStyle(int Value) {
         // It's a text block
         switch (Value) {
             case 0: // Unlock
-                CurrentBrush->BrushFileCorrect.LockGeometry=false;
+                CurrentBrush->LockGeometry=false;
                 break;
             case 1: // Lock to this geometry
-                CurrentBrush->BrushFileCorrect.LockGeometry=true;
-                CurrentBrush->BrushFileCorrect.AspectRatio =RectItem->AspectRatio;
+                CurrentBrush->LockGeometry=true;
+                CurrentBrush->AspectRatio =RectItem->AspectRatio;
                 break;
             case 2: // Lock to project geometry
-                CurrentBrush->BrushFileCorrect.LockGeometry=true;
-                CurrentBrush->BrushFileCorrect.AspectRatio=ProjectGeometry;
+                CurrentBrush->LockGeometry=true;
+                CurrentBrush->AspectRatio=ProjectGeometry;
                 break;
             default:
                 return;
         }
-        RectItem->KeepAspectRatio=CurrentBrush->BrushFileCorrect.LockGeometry;
-        RectItem->AspectRatio    =CurrentBrush->BrushFileCorrect.AspectRatio;
+        RectItem->KeepAspectRatio=CurrentBrush->LockGeometry;
+        RectItem->AspectRatio    =CurrentBrush->AspectRatio;
         if (CompositionObject->h>(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax) CompositionObject->h=(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax;
             else CompositionObject->w=(CompositionObject->h*ymax/RectItem->AspectRatio)/xmax;
     } else {
@@ -1482,13 +1482,13 @@ void DlgSlideProperties::s_ChangeFramingStyle(int Value) {
         }
         if (List.count()>0) {
             for (i=0;i<List.count();i++) {
-                if      (List[i].startsWith("X:"))              CurrentBrush->BrushFileCorrect.X             =List[i].mid(QString("X:").length()).toDouble();
-                else if (List[i].startsWith("Y:"))              CurrentBrush->BrushFileCorrect.Y             =List[i].mid(QString("Y:").length()).toDouble();
-                else if (List[i].startsWith("ZoomFactor:"))     CurrentBrush->BrushFileCorrect.ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
-                else if (List[i].startsWith("LockGeometry:"))   CurrentBrush->BrushFileCorrect.LockGeometry  =List[i].mid(QString("LockGeometry:").length()).toInt()==1;
-                else if (List[i].startsWith("AspectRatio:"))    CurrentBrush->BrushFileCorrect.AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
+                if      (List[i].startsWith("X:"))              CurrentBrush->X             =List[i].mid(QString("X:").length()).toDouble();
+                else if (List[i].startsWith("Y:"))              CurrentBrush->Y             =List[i].mid(QString("Y:").length()).toDouble();
+                else if (List[i].startsWith("ZoomFactor:"))     CurrentBrush->ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
+                else if (List[i].startsWith("LockGeometry:"))   CurrentBrush->LockGeometry  =List[i].mid(QString("LockGeometry:").length()).toInt()==1;
+                else if (List[i].startsWith("AspectRatio:"))    CurrentBrush->AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
             }
-            RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+            RectItem->AspectRatio=CurrentBrush->AspectRatio;
             if (CompositionObject->h>(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax) CompositionObject->h=(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax;
                 else CompositionObject->w=(CompositionObject->h*ymax/RectItem->AspectRatio)/xmax;
         }
@@ -1556,7 +1556,7 @@ void DlgSlideProperties::ImageEditCorrect() {
     bool UpdateSlideName=(DiaporamaObject->SlideName==FileName);
     if (DlgImageCorrection(CompositionObject,CompositionObject->BackgroundForm,CompositionObject->BackgroundBrush,Position,this).exec()==0) {
 
-        RectItem->AspectRatio=CurrentBrush->BrushFileCorrect.AspectRatio;
+        RectItem->AspectRatio=CurrentBrush->AspectRatio;
         CompositionObject->h =(CompositionObject->w*xmax*RectItem->AspectRatio)/ymax;
 
         // Adjust height and width to image stay in screen
@@ -1831,8 +1831,8 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
     // Create and append a composition block to the object list
     DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,GlobalMainWindow->ApplicationConfig));
     cCompositionObject *CompositionObject=DiaporamaObject->ObjectComposition.List[DiaporamaObject->ObjectComposition.List.count()-1];
-    CompositionObject->BackgroundBrush->BrushFileCorrect.LockGeometry=false;
-    CompositionObject->BackgroundBrush->BrushFileCorrect.AspectRatio=1;
+    CompositionObject->BackgroundBrush->LockGeometry=false;
+    CompositionObject->BackgroundBrush->AspectRatio=1;
 
     // Apply Styles
     CompositionObject->ApplyTextStyle(DiaporamaObject->Parent->ApplicationConfig->StyleTextCollection.GetStyleDef(DiaporamaObject->Parent->ApplicationConfig->StyleTextCollection.DecodeString(DiaporamaObject->Parent->ApplicationConfig->DefaultBlock_Text_TextST)));
@@ -2006,12 +2006,12 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
                             CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
                             CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
                             NewW=CompositionObject->w*GlobalMainWindow->Diaporama->InternalWidth;
-                            NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
+                            NewH=NewW*CurrentBrush->AspectRatio;
                             NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
                             NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
                             if (NewH>1) {
                                 NewH=CompositionObject->h*GlobalMainWindow->Diaporama->InternalHeight;
-                                NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
+                                NewW=NewH/CurrentBrush->AspectRatio;
                                 NewW=NewW/GlobalMainWindow->Diaporama->InternalWidth;
                                 NewH=NewH/GlobalMainWindow->Diaporama->InternalHeight;
                             }

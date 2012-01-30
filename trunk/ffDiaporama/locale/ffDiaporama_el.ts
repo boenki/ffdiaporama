@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="105"/>
         <source>Copyright (C) 2011-2012 Dominique Levray</source>
-        <translation type="unfinished"></translation>
+        <translation>Πνευματικά δικαιώματα (C) 2011-2012 Dominique Levray</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="112"/>
@@ -82,7 +82,7 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="623"/>
         <source>TAG managment based on TAGLib</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχείριση TAG βασισμένη στο TAGlib</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="665"/>
@@ -365,7 +365,7 @@ Crossfade transition</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="492"/>
         <source>Use quick resampler during preview</source>
-        <translation>Χρήση γρήγορης αναδειγματοληψίας κατά την προεπικσόπηση</translation>
+        <translation>Χρήση γρήγορης αναδειγματοληψίας κατά την προεπισκόπηση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="499"/>
@@ -380,7 +380,7 @@ Crossfade transition</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="563"/>
         <source>Project properties (default values)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες έργου (προκαθορισμένες ρυθμίσεις)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="591"/>
@@ -676,42 +676,42 @@ image</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2826"/>
         <source>Title :</source>
-        <translation type="unfinished"></translation>
+        <translation>Τίτλος:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2859"/>
         <source>Author :</source>
-        <translation type="unfinished"></translation>
+        <translation>Συγγραφέας:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2877"/>
         <source>No automatic filling</source>
-        <translation type="unfinished"></translation>
+        <translation>Χωρίς αυτόματη συμπλήρωση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2882"/>
         <source>Fill with project name when project save (if not yet defined)</source>
-        <translation type="unfinished"></translation>
+        <translation>Συμπλήρωση με το όνομα του έργου κατά την αποθήκευση (αν δεν εχει άκόμα οριστεί)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2887"/>
         <source>Fill with project folder name when project save (if not yet defined)</source>
-        <translation type="unfinished"></translation>
+        <translation>Συμπλήρωση με το όνομα του φακέλου του έργου κατά την αποθήκευση (αν δεν εχει άκόμα οριστεί)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2895"/>
         <source>Default language :</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένη γλώσσα:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2928"/>
         <source>und</source>
-        <translation type="unfinished"></translation>
+        <translation>und</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2938"/>
         <source>(ISO 639 language code)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Κωδικός γλώσσας ISO 639)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="2952"/>
@@ -731,12 +731,12 @@ image</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3390"/>
         <source>Use title project as video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση του ονόματος του έργου για το όνομα του βίντεο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3442"/>
         <source>Manage Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχείριση συσκευών</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3027"/>
@@ -941,13 +941,14 @@ image</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="369"/>
         <source>Language selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή γλώσσας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="370"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
-        <translation type="unfinished"></translation>
+        <translation>Η γλώσσα θα πρέπει να είναι κενή ή ένας κωδικός γλώσσας ISO 639 (3 χαρακτήρες)
+Δείτε στη Βοήθεια για περισσότερες πληροφορίες!</translation>
     </message>
 </context>
 <context>
@@ -1090,12 +1091,12 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
         <source>Unable to determine ffmpeg version</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατος ο εντοπισμός της έκδοσης ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="110"/>
         <source>LibExiv2 version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση LibExiv2:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
@@ -1112,52 +1113,52 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="117"/>
         <source>LibExiv2 support for preview image</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη LibExiv2 για εικόνες προεπισκόπησης</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="123"/>
         <source>TAGLib version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση TAGLib:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="130"/>
         <source>TAGLib support for FLAC</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη TAGLib για FLAC</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="137"/>
         <source>TAGLib support for ASF/WMA</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη TAGLib για ASF/WMA</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="144"/>
         <source>TAGLib support for M4A/MP4</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη TAGLib για M4A/MP4</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="153"/>
         <source>ffmpeg version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση ffmpeg:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="154"/>
         <source>LIBAVCODEC version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση LIBAVCODEC:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="155"/>
         <source>LIBAVFORMAT version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση LIBAVFORMAT:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="156"/>
         <source>LIBSWSCALE version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έκδοση LIBSWSCALE:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="163"/>
         <source>ffmpeg support for TAG and CHAPTERS</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη ffmpeg για TAG και CHAPTERS</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>
@@ -1391,77 +1392,77 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="25"/>
         <source>File information</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες αρχείου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="83"/>
         <source>File name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="90"/>
         <source>File type :</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="123"/>
         <source>File size :</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="143"/>
         <source>File created :</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="157"/>
         <source>File modify :</source>
-        <translation type="unfinished"></translation>
+        <translation>Τροποποίηση αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="200"/>
         <source>Video track information</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες κομματιού βίντεο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="269"/>
         <source>Chapter information</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες κεφαλαίου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="313"/>
         <source>Audio track information</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες κομματιού ήχου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="348"/>
         <source>Additional information</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρόσθετες πληροφορίες</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="394"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="397"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Εντάξει</translation>
+        <translation>&amp;Εντάξει</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="408"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
+        <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="411"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Βοήθεια</translation>
+        <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgInfoFile.ui" line="418"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -1469,208 +1470,208 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="20"/>
         <source>Manage Devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχείριση συσκευών</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="28"/>
         <source>Device type :</source>
-        <translation type="unfinished">Τύπος συσκευής:</translation>
+        <translation>Τύπος συσκευής:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="38"/>
         <source>Select the type of equipment to be shown in the list.</source>
-        <translation type="unfinished">Επιλέξτε τον τύπο της συσκευής που θα εμφανίζεται στην λίστα.</translation>
+        <translation>Επιλέξτε τον τύπο της συσκευής που θα εμφανίζεται στην λίστα.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="101"/>
         <source>Subtype</source>
-        <translation type="unfinished">Δευτερεύων τύπος</translation>
+        <translation>Δευτερεύων τύπος</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="112"/>
         <source>Model</source>
-        <translation type="unfinished">Μοντέλο</translation>
+        <translation>Μοντέλο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="134"/>
         <source>Create a new equipment which comes to be added in the database.</source>
-        <translation type="unfinished">Δημιουργία μιας νέας συσκευής η οποία θα προστεθεί στη βάση δεδομένων.</translation>
+        <translation>Δημιουργία μιας νέας συσκευής η οποία θα προστεθεί στη βάση δεδομένων.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="137"/>
         <source>Add Device</source>
-        <translation type="unfinished">Προσθήκη συσκευής</translation>
+        <translation>Προσθήκη συσκευής</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="148"/>
         <source>Delete current equipment.</source>
-        <translation type="unfinished">Διαγραφή της τρέχουσας συσκευής.</translation>
+        <translation>Διαγραφή της τρέχουσας συσκευής.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="151"/>
         <source>Remove Device</source>
-        <translation type="unfinished">Αφαίρεση συσκευής</translation>
+        <translation>Αφαίρεση συσκευής</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="162"/>
         <source>Cancel the modifications that you made on an equipment defined in the default ffDiaporama database</source>
-        <translation type="unfinished">Ακυρώνει τις τροποποιήσεις που έχετε πραγματοποιήσει σε μια συσκευή που έχει καθοριστεί στην προκαθορισμένη βάση δεδομένων του ffDiaporama</translation>
+        <translation>Ακυρώνει τις τροποποιήσεις που έχετε πραγματοποιήσει σε μια συσκευή που έχει καθοριστεί στην προκαθορισμένη βάση δεδομένων του ffDiaporama</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="165"/>
         <source>Reset Device to Default</source>
-        <translation type="unfinished">Επαναφορά προκαθ. συσκευής</translation>
+        <translation>Επαναφορά προκαθ. συσκευής</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="178"/>
         <source>Device subtype :</source>
-        <translation type="unfinished">Δευτερεύων τύπος συσκευής:</translation>
+        <translation>Δευτερεύων τύπος συσκευής:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="188"/>
         <source>Select the category in which is classified the equipment.</source>
-        <translation type="unfinished">Επιλέξτε την κατηγορία στην οποία κατατάσσεται η συσκευή.</translation>
+        <translation>Επιλέξτε την κατηγορία στην οποία κατατάσσεται η συσκευή.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="195"/>
         <source>Device model :</source>
-        <translation type="unfinished">Μοντέλο συσκευής:</translation>
+        <translation>Μοντέλο συσκευής:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="205"/>
         <source>File format :</source>
-        <translation type="unfinished">Μορφή αρχείου:</translation>
+        <translation>Μορφή αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="215"/>
         <source>Enter here the name of the equipment (free text field).</source>
-        <translation type="unfinished">Εισάγετε εδώ το όνομα της συσκευής (πεδίο ελεύθερου κειμένου).</translation>
+        <translation>Εισάγετε εδώ το όνομα της συσκευής (πεδίο ελεύθερου κειμένου).</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="228"/>
         <source>Select the file type to use for the rendering.</source>
-        <translation type="unfinished">Επιλέξτε την μορφή του αρχείου που θα χρησιμοποιείται για την αποτύπωση.</translation>
+        <translation>Επιλέξτε την μορφή του αρχείου που θα χρησιμοποιείται για την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="235"/>
         <source>Video standard :</source>
-        <translation type="unfinished">Πρότυπο βίντεο:</translation>
+        <translation>Πρότυπο βίντεο:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="250"/>
         <source>Select the video standard to use, PAL or NTSC.</source>
-        <translation type="unfinished">Επιλέξτε το πρότυπο βίντεο προς χρήση, PAL ή NTSC.</translation>
+        <translation>Επιλέξτε το πρότυπο βίντεο προς χρήση, PAL ή NTSC.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="254"/>
         <source>PAL</source>
-        <translation type="unfinished">PAL</translation>
+        <translation>PAL</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="259"/>
         <source>NTSC</source>
-        <translation type="unfinished">NTSC</translation>
+        <translation>NTSC</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="282"/>
         <source>Image format :</source>
-        <translation type="unfinished">Μορφή εικόνας:</translation>
+        <translation>Μορφή εικόνας:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="292"/>
         <source>Select the image resolution to use for the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τη ανάλυση της εικόνας για την αποτύπωση.</translation>
+        <translation>Επιλέξτε τη ανάλυση της εικόνας για την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="302"/>
         <source>Video codec :</source>
-        <translation type="unfinished">Κωδικοποιητής βίντεο:</translation>
+        <translation>Κωδικοποιητής βίντεο:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="329"/>
         <source>Select the video codec to use for the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τον κωδικοποιητή βίντεο για την αποτύπωση.</translation>
+        <translation>Επιλέξτε τον κωδικοποιητή βίντεο για την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="342"/>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="407"/>
         <source>Bit rate :</source>
-        <translation type="unfinished">Ρυθμός bit:</translation>
+        <translation>Ρυθμός bit:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="364"/>
         <source>Select the bit rate to use for video during the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τον ρυθμό bit του βίντεο κατά την αποτύπωση.</translation>
+        <translation>Επιλέξτε τον ρυθμό bit του βίντεο κατά την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="373"/>
         <source>Audio codec :</source>
-        <translation type="unfinished">Κωδικοποιητής ήχου:</translation>
+        <translation>Κωδικοποιητής ήχου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="400"/>
         <source>Select the audio codec to use for the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τον κωδικοποιητή ήχου για την αποτύπωση.</translation>
+        <translation>Επιλέξτε τον κωδικοποιητή ήχου για την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="429"/>
         <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τον ρυθμό bit του ήχου κατά την αποτύπωση.</translation>
+        <translation>Επιλέξτε τον ρυθμό bit του ήχου κατά την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="478"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="489"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="492"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Εντάξει</translation>
+        <translation>&amp;Εντάξει</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="503"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="506"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Ακύρωση</translation>
+        <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="517"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
+        <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="520"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Βοήθεια</translation>
+        <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.ui" line="527"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="121"/>
         <source>Apply modification</source>
-        <translation type="unfinished">Εφαρμογή των τροποποιήσεων</translation>
+        <translation>Εφαρμογή των τροποποιήσεων</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="122"/>
         <source>Do you whant to apply modification for this device?</source>
-        <translation type="unfinished">Επιθυμείτε την εφαρμογή των τροποποιήσεων για την συσκευή αυτή;</translation>
+        <translation>Επιθυμείτε την εφαρμογή των τροποποιήσεων για τη συσκευή αυτή;</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="574"/>
         <source>&lt;new device&gt;</source>
-        <translation type="unfinished">&lt;νέα συσκευή&gt;</translation>
+        <translation>&lt;νέα συσκευή&gt;</translation>
     </message>
 </context>
 <context>
@@ -2350,17 +2351,17 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="518"/>
         <source>und</source>
-        <translation type="unfinished"></translation>
+        <translation>und</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="528"/>
         <source>(ISO 639 language code)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Κωδικός γλώσσας ISO 639)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="537"/>
         <source>Language :</source>
-        <translation type="unfinished"></translation>
+        <translation>Γλώσσα:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="568"/>
@@ -2416,7 +2417,7 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="937"/>
         <source>&amp;Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ιδιότητες</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.ui" line="964"/>
@@ -2498,13 +2499,14 @@ Move the current selected file of a notch downward.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="679"/>
         <source>Language selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή γλώσσας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="680"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
-        <translation type="unfinished"></translation>
+        <translation>Η γλώσσα θα πρέπει να είναι κενή ή ένας κωδικός γλώσσας ISO 639 (3 χαρακτήρες)
+Δείτε στη Βοήθεια για περισσότερες πληροφορίες!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="687"/>
@@ -2542,12 +2544,12 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="733"/>
         <source>Device model selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή μοντέλου συσκευής</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="734"/>
         <source>A device model is require!</source>
-        <translation type="unfinished"></translation>
+        <translation>Απαιτείται ένα μοντέλο συσκευής!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="820"/>
@@ -2720,12 +2722,12 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="539"/>
         <source>Start a new chapter from here</source>
-        <translation type="unfinished"></translation>
+        <translation>Έναρξη ενός νέου κεφαλαίου από εδώ</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="546"/>
         <source>Chapter :</source>
-        <translation type="unfinished"></translation>
+        <translation>κεφάλαιο:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="754"/>
@@ -3073,7 +3075,8 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="478"/>
         <source>No style for nonstandard geometry image</source>
-        <translation>Κανένα στυλ για τις εικόνες χωρίς πρότυπο γεωμετρίας</translation>
+        <translation>Κανένα στυλ για εικόνες χωρίς
+πρότυπο γεωμετρίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="542"/>
@@ -3578,93 +3581,93 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="19"/>
         <source>Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες έργου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="27"/>
         <source>Title :</source>
-        <translation type="unfinished"></translation>
+        <translation>Τίτλος:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="44"/>
         <source>Author :</source>
-        <translation type="unfinished"></translation>
+        <translation>Συγγραφέας:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="54"/>
         <source>Album :</source>
-        <translation type="unfinished"></translation>
+        <translation>Άλμπουμ:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="64"/>
         <source>Year :</source>
-        <translation type="unfinished"></translation>
+        <translation>Έτος:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="114"/>
         <source>Language :</source>
-        <translation type="unfinished"></translation>
+        <translation>Γλώσσα:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="147"/>
         <source>und</source>
-        <translation type="unfinished"></translation>
+        <translation>und</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="157"/>
         <source>(ISO 639 language code)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Κωδικός γλώσσας ISO 639)</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="166"/>
         <source>Comment :</source>
-        <translation type="unfinished"></translation>
+        <translation>Σχόλιο:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="176"/>
         <source>Chapters :</source>
-        <translation type="unfinished"></translation>
+        <translation>Κεφάλαια:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="216"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="219"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Εντάξει</translation>
+        <translation>&amp;Εντάξει</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="230"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="233"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Ακύρωση</translation>
+        <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="244"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
+        <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="247"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Βοήθεια</translation>
+        <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.ui" line="254"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.cpp" line="57"/>
         <source>#;Slide;Title;Start;End;Duration</source>
         <comment>Column headers</comment>
-        <translation type="unfinished"></translation>
+        <translation>#;Διαφάνεια;Τίτλος;Αρχή;Τέλος;Διάρκεια</translation>
     </message>
 </context>
 <context>
@@ -3766,14 +3769,15 @@ project as</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="400"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1591"/>
         <source>Define project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορισμός ιδοτήτων του έργου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="403"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1594"/>
         <source>Project
 properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες
+έργου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="442"/>
@@ -4149,7 +4153,7 @@ and help</source>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="747"/>
         <source>Read configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγνωση αρχείου διαμόρφωσης</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="565"/>
@@ -4157,7 +4161,7 @@ and help</source>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1437"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η εφαρμογή υποστηρίζει μόνο κομμάτια ήχου με δειγματοληψία μη υπογεγραμμένου 8bit ή υπογεγραμμένου 16bit</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="569"/>
@@ -4165,7 +4169,7 @@ and help</source>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1445"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η εφαρμογή υποστηρίζει κομμάτια ήχου mono ή stereo μόνο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="575"/>
@@ -4447,7 +4451,8 @@ Do you want to save-it ?</source>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1459"/>
         <source>This video files contains more than one chapter.
 Do you want to create one slide for each chapters ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτό το βίντεο περιέχει περισσότερα από ένα κεφάλεια.
+Θέλετε να δημιουργήσετε μια διαφάνεια για κάθε κεφάλαιο;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="505"/>
@@ -4458,7 +4463,7 @@ Do you want to create one slide for each chapters ?</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="101"/>
         <source>Loading system icons...</source>
-        <translation type="unfinished"></translation>
+        <translation>Φόρτωση εικονιδίων συστήματος...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1054"/>
@@ -4485,7 +4490,9 @@ Do you want to create one slide for each chapters ?</source>
         <source>This project was created with a newer version of ffDiaporama.
 If you continue, you take the risk of losing data!
 Do you want to open it nevertheless?</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτό το έργο έχει δημιουργηθεί με μια νεότερη έκδοση του ffDiaporama.
+Αν συνεχίσετε, διακυνδινεύετε την απώλεια των δεδομένων σας!
+Θέλετε να το ανοίξετε παρ &apos;όλα αυτά;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1252"/>
@@ -4535,7 +4542,7 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="385"/>
         <source>Reading configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγνωση αρχείου διαμόρφωσης</translation>
     </message>
 </context>
 <context>
@@ -4544,25 +4551,25 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="253"/>
         <source>Kb</source>
         <comment>Unit Kb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Kb</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="254"/>
         <source>Mb</source>
         <comment>Unit Mb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mb</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="255"/>
         <source>Gb</source>
         <comment>Unit Gb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gb</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="256"/>
         <source>Tb</source>
         <comment>Unit Tb</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tb</translation>
     </message>
 </context>
 <context>
@@ -4570,101 +4577,101 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="239"/>
         <source>Impossible to open file </source>
-        <translation type="unfinished">Αδύνατο το άνοιγμα του αρχείου </translation>
+        <translation>Αδύνατο το άνοιγμα του αρχείου </translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="239"/>
         <source>Do you want to select another file ?</source>
-        <translation type="unfinished">Θέλετε να επιλέξετε ένα άλλο αρχείο;</translation>
+        <translation>Θέλετε να επιλέξετε ένα άλλο αρχείο;</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="243"/>
         <source>Select another file for </source>
-        <translation type="unfinished">Επιλογή ενός αρχείου αντικατάστασης για </translation>
+        <translation>Επιλογή ενός αρχείου αντικατάστασης για </translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="339"/>
         <source>MPix</source>
-        <translation type="unfinished"></translation>
+        <translation>MPix</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="389"/>
         <source>Unmanaged</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Δεν υποστηρίζεται</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="719"/>
         <source>Slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαφάνειες</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="720"/>
         <source>Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Κεφάλαια</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="782"/>
         <source>Image</source>
         <comment>File type</comment>
-        <translation type="unfinished">Εικόνα</translation>
+        <translation>Εικόνα</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="783"/>
         <source>Thumbnail</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Εικόνα επισκόπησης</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1409"/>
         <source>Video</source>
         <comment>File type</comment>
-        <translation type="unfinished">Βίντεο</translation>
+        <translation>Βίντεο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1408"/>
         <source>Music</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Μουσική</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1245"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="238"/>
         <source>Open file</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα αρχείου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="681"/>
         <source>Slide number</source>
-        <translation type="unfinished"></translation>
+        <translation>Αριθμός διαφάνειας</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="752"/>
         <source>ffDiaporama</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1246"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
-        <translation type="unfinished"></translation>
+        <translation>Stereo</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="514"/>
         <source>Folder</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Φάκελος</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1458"/>
         <source>Add video file</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη αρχείου βίντεο</translation>
     </message>
 </context>
 <context>
@@ -4673,92 +4680,92 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="506"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Για προχωρημένους</translation>
+        <translation>Για προχωρημένους</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="507"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Smartphone</translation>
+        <translation>Smartphone</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Σύστημα πολυμέσων</translation>
+        <translation>Σύστημα πολυμέσων</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="509"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Για το διαδίκτυο</translation>
+        <translation>Για το διαδίκτυο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="511"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Φορητός αναπαραγωγέας</translation>
+        <translation>Φορητός αναπαραγωγέας</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="512"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Netbook/NetPC</translation>
+        <translation>Netbook/NetPC</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="513"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Φορητή κονσόλα παιχνιδιών</translation>
+        <translation>Φορητή κονσόλα παιχνιδιών</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="514"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Ταμπλέτα επαφής</translation>
+        <translation>Ταμπλέτα επαφής</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="515"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Πύλη και σκληρός δίσκος πολυμέσων</translation>
+        <translation>Πύλη και σκληρός δίσκος πολυμέσων</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="516"/>
         <source>Player</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Αναπαραγωγέας</translation>
+        <translation>Αναπαραγωγέας</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="517"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">ADSL δρομολογητής</translation>
+        <translation>ADSL δρομολογητής</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="518"/>
         <source>Game console</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Κονσόλα παιχνιδιών</translation>
+        <translation>Κονσόλα παιχνιδιών</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="519"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">SWF Αναπαραγωγέας Flash</translation>
+        <translation>SWF Αναπαραγωγέας Flash</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="520"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">Ιστοσελίδες κοινόχρηστων βίντεο και κοινωνικών δικτύων</translation>
+        <translation>Ιστοσελίδες κοινόχρηστων βίντεο και κοινωνικών δικτύων</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="521"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
-        <translation type="unfinished">HTML 5</translation>
+        <translation>HTML 5</translation>
     </message>
 </context>
 <context>

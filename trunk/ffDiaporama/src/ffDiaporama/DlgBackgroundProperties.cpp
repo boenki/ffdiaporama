@@ -82,8 +82,8 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
     // Image file
     connect(ui->ImageFileBT,SIGNAL(pressed()),this,SLOT(s_SelectFile()));
     connect(ui->ImageEditCorrectBT,SIGNAL(pressed()),this,SLOT(s_ImageEditCorrect()));
-    ui->KeepRatioRB->setChecked(!DiaporamaObject->BackgroundBrush->BrushFileCorrect.FullFilling);
-    ui->FullFillRB->setChecked(DiaporamaObject->BackgroundBrush->BrushFileCorrect.FullFilling);
+    ui->KeepRatioRB->setChecked(!DiaporamaObject->BackgroundBrush->FullFilling);
+    ui->FullFillRB->setChecked(DiaporamaObject->BackgroundBrush->FullFilling);
     connect(ui->FullFillRB,SIGNAL(clicked()),this,SLOT(s_FullFill()));
     connect(ui->KeepRatioRB,SIGNAL(clicked()),this,SLOT(s_KeepRatio()));
 
@@ -229,7 +229,7 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
         ui->ImageEditCorrectBT->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
         ui->KeepRatioRB->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
 
-        ui->ImageEditCorrectBT->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(DiaporamaObject->BackgroundBrush->Image!=NULL)&&(!DiaporamaObject->BackgroundBrush->BrushFileCorrect.FullFilling));
+        ui->ImageEditCorrectBT->setEnabled((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(DiaporamaObject->BackgroundBrush->Image!=NULL)&&(!DiaporamaObject->BackgroundBrush->FullFilling));
 
         ui->FullFillRB->setVisible((Allowed)&&(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
         ui->ImageFileED->setText(DiaporamaObject->BackgroundBrush->Image?DiaporamaObject->BackgroundBrush->Image->FileName:"");
@@ -394,7 +394,7 @@ void DlgBackgroundProperties::s_ImageEditCorrect() {
 
 void DlgBackgroundProperties::s_FullFill() {
     if (DiaporamaObject->BackgroundBrush->Image) {
-        DiaporamaObject->BackgroundBrush->BrushFileCorrect.FullFilling=true;
+        DiaporamaObject->BackgroundBrush->FullFilling=true;
         RefreshControls(ui->NewBackgroundRD->isChecked());
     }
 }
@@ -403,7 +403,7 @@ void DlgBackgroundProperties::s_FullFill() {
 
 void DlgBackgroundProperties::s_KeepRatio() {
     if (DiaporamaObject->BackgroundBrush->Image) {
-        DiaporamaObject->BackgroundBrush->BrushFileCorrect.FullFilling=false;
+        DiaporamaObject->BackgroundBrush->FullFilling=false;
         RefreshControls(ui->NewBackgroundRD->isChecked());
     }
 }

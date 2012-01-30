@@ -68,7 +68,6 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../sharedfiles/cSaveWindowPosition.cpp \
             ../sharedfiles/cBaseApplicationConfig.cpp \
             ../sharedfiles/cFilterTransformObject.cpp \
-            ../sharedfiles/cFilterCorrectObject.cpp \
             ../fmt_filters/fmt_filters.cpp \
             ../sharedfiles/cLuLoImageCache.cpp \
             ../sharedfiles/cDeviceModelDef.cpp \
@@ -110,7 +109,6 @@ HEADERS  += _GlobalDefines.h \
             ../sharedfiles/cSaveWindowPosition.h \
             ../sharedfiles/cBaseApplicationConfig.h \
             ../sharedfiles/cFilterTransformObject.h \
-            ../sharedfiles/cFilterCorrectObject.h \
             ../fmt_filters/fmt_filters.h \
             ../sharedfiles/cLuLoImageCache.h \
             ../sharedfiles/cDeviceModelDef.h \

@@ -365,7 +365,7 @@ QString cCompositionObject::GetCoordinateStyle() {
         cStyleCollection    *FS     =&GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection;
 
         // Prepare collection
-        BackgroundBrush->InitDefaultFramingStyle(BackgroundBrush->BrushFileCorrect.LockGeometry,BackgroundBrush->BrushFileCorrect.AspectRatio);
+        BackgroundBrush->InitDefaultFramingStyle(BackgroundBrush->LockGeometry,BackgroundBrush->AspectRatio);
         if (BackgroundBrush->Image!=NULL)            FS->SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,BackgroundBrush->Image->ObjectGeometry);
             else if (BackgroundBrush->Video!=NULL)   FS->SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,BackgroundBrush->Video->ObjectGeometry);
 
@@ -437,12 +437,12 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
                 GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CustomFramingStyle,List);
                 if (List.count()>0) {
                     for (int k=0;k<List.count();k++) {
-                        if      (List[k].startsWith("X:"))              BackgroundBrush->BrushFileCorrect.X             =List[k].mid(QString("X:").length()).toDouble();
-                        else if (List[k].startsWith("Y:"))              BackgroundBrush->BrushFileCorrect.Y             =List[k].mid(QString("Y:").length()).toDouble();
-                        else if (List[k].startsWith("ZoomFactor:"))     BackgroundBrush->BrushFileCorrect.ZoomFactor    =List[k].mid(QString("ZoomFactor:").length()).toDouble();
-                        else if (List[k].startsWith("LockGeometry:"))   BackgroundBrush->BrushFileCorrect.LockGeometry  =List[k].mid(QString("LockGeometry:").length()).toInt()==1;
+                        if      (List[k].startsWith("X:"))              BackgroundBrush->X             =List[k].mid(QString("X:").length()).toDouble();
+                        else if (List[k].startsWith("Y:"))              BackgroundBrush->Y             =List[k].mid(QString("Y:").length()).toDouble();
+                        else if (List[k].startsWith("ZoomFactor:"))     BackgroundBrush->ZoomFactor    =List[k].mid(QString("ZoomFactor:").length()).toDouble();
+                        else if (List[k].startsWith("LockGeometry:"))   BackgroundBrush->LockGeometry  =List[k].mid(QString("LockGeometry:").length()).toInt()==1;
                         else if (List[k].startsWith("AspectRatio:"))    {
-                            BackgroundBrush->BrushFileCorrect.AspectRatio   =List[k].mid(QString("AspectRatio:").length()).toDouble();
+                            BackgroundBrush->AspectRatio   =List[k].mid(QString("AspectRatio:").length()).toDouble();
                             RecalcAspectRatio=false;
                         }
                     }
@@ -458,7 +458,7 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
         if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_4_3)        { DisplayW=1440; DisplayH=1080; }
         else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
         else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
-        BackgroundBrush->BrushFileCorrect.AspectRatio =(h*DisplayH)/(w*DisplayW);
+        BackgroundBrush->AspectRatio =(h*DisplayH)/(w*DisplayW);
     }
 }
 
@@ -591,9 +591,9 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             QBrush *BR              =NULL;
             bool UpdateCachedBrush  =true;
 
-            if (PreviewMode && UseBrushCache && (CachedBrushBrush!=NULL)&&(BackgroundBrush->BrushFileCorrect.AspectRatio==CachedBrushAspect)&&
+            if (PreviewMode && UseBrushCache && (CachedBrushBrush!=NULL)&&(BackgroundBrush->AspectRatio==CachedBrushAspect)&&
                     (W<=CachedBrushW)&&(H<=CachedBrushH)&&(Position==CachedBrushPosition)&&(StartPosToAdd==CachedBrushStartPosToAdd)) {
-                if ((W!=CachedBrushW)||(H!=CachedBrushH)||(BackgroundBrush->BrushFileCorrect.AspectRatio!=CachedBrushAspect)) {
+                if ((W!=CachedBrushW)||(H!=CachedBrushH)||(BackgroundBrush->AspectRatio!=CachedBrushAspect)) {
                     // if Cached brush is more higher than what we want (thumbnail) then adjust brush
                     QPainter NewP;
                     QImage   NewImage(CachedBrushW,CachedBrushH,QImage::Format_ARGB32);
@@ -625,7 +625,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 CachedBrushH            =H;
                 CachedBrushPosition     =Position;
                 CachedBrushStartPosToAdd=StartPosToAdd;
-                CachedBrushAspect       =BackgroundBrush->BrushFileCorrect.AspectRatio;
+                CachedBrushAspect       =BackgroundBrush->AspectRatio;
             }
 
             if (!BR) {
@@ -2771,24 +2771,24 @@ bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber)
         for (int i=0;i<Object->List[0]->ShotComposition.List.count();i++) if (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Video!=NULL) IsStatic=false;
     } else for (int i=0;i<Object->List[ShotNumber]->ShotComposition.List.count();i++) if (Object->List[ShotNumber]->ShotComposition.List[i]->IsVisible) {
         if (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Video!=NULL) IsStatic=false; else {
-            if ((Object->List[ShotNumber]->ShotComposition.List[i]->x                                               !=Object->List[ShotNumber-1]->ShotComposition.List[i]->x)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->y                                               !=Object->List[ShotNumber-1]->ShotComposition.List[i]->y)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->w                                               !=Object->List[ShotNumber-1]->ShotComposition.List[i]->w)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->h                                               !=Object->List[ShotNumber-1]->ShotComposition.List[i]->h)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateXAxis                                     !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateXAxis)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateYAxis                                     !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateYAxis)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateZAxis                                     !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateZAxis)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.X             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.X)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Y             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Y)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.ZoomFactor    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.ZoomFactor)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.AspectRatio   !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.AspectRatio)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.ImageRotation !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.ImageRotation)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Blue          !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Blue)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Red           !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Red)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Green         !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Green)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Brightness    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Brightness)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Contrast      !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Contrast)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Gamma         !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BrushFileCorrect.Gamma))
+            if ((Object->List[ShotNumber]->ShotComposition.List[i]->x                              !=Object->List[ShotNumber-1]->ShotComposition.List[i]->x)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->y                              !=Object->List[ShotNumber-1]->ShotComposition.List[i]->y)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->w                              !=Object->List[ShotNumber-1]->ShotComposition.List[i]->w)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->h                              !=Object->List[ShotNumber-1]->ShotComposition.List[i]->h)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateXAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateXAxis)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateYAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateYAxis)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateZAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateZAxis)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->X             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->X)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Y             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Y)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->ZoomFactor    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->ZoomFactor)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->AspectRatio   !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->AspectRatio)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->ImageRotation !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->ImageRotation)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Blue          !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Blue)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Red           !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Red)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Green         !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Green)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Brightness    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Brightness)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Contrast      !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Contrast)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Gamma         !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Gamma))
                 IsStatic=false;
         }
     }
