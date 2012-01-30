@@ -27,13 +27,13 @@
 // Include some additional standard class
 #include <QRectF>
 #include <QPainter>
+#include <QImage>
 #include <QString>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
 // Include some common various class
 #include "cFilterTransformObject.h"
-#include "cFilterCorrectObject.h"
 #include "cLuLoImageCache.h"
 #include "cBaseMediaFile.h"
 #include "cSoundBlockList.h"
@@ -121,12 +121,28 @@ public:
     double                  Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
     QString                 BrushImage;             // Image name if image from library
     double                  SoundVolume;            // Volume of soundtrack
-    cFilterCorrectObject    BrushFileCorrect;       // Image correction if image from disk
     cImageFile              *Image;                 // Embeded Object for title and image type
     cVideoFile              *Video;                 // Embeded Object for video type
     QString                 DefaultFramingW;        // Default Framing when ADJUST_WITH
     QString                 DefaultFramingH;        // Default Framing when ADJUST_HEIGHT
     QString                 DefaultFramingF;        // Default Framing when ADJUST_FULL
+
+    // Image correction part
+    double                  X;                      // X position (in %) relative to up/left corner
+    double                  Y;                      // Y position (in %) relative to up/left corner
+    double                  ZoomFactor;             // Zoom factor (in %)
+    double                  ImageRotation;          // Image rotation (in °)
+    int                     Brightness;             // Brightness adjustment
+    int                     Contrast;               // Contrast adjustment
+    double                  Gamma;                  // Gamma adjustment
+    int                     Red;                    // Red adjustment
+    int                     Green;                  // Green adjustment
+    int                     Blue;                   // Blue adjustment
+    bool                    LockGeometry;           // True if geometry is locked
+    double                  AspectRatio;            // Aspect Ratio of image
+    bool                    FullFilling;            // Background image disk only : If true aspect ratio is not keep and image is deformed to fill the frame
+
+    // Link to global objects
     cBaseApplicationConfig  *ApplicationConfig;
     cBackgroundList         *BackgroundList;
 
@@ -144,6 +160,10 @@ public:
     QString                 GetFramingStyle(double X,double Y,double ZoomFactor,double AspectRatio,double ImageRotation);
     QString                 GetFramingStyle();
     void                    ApplyStyle(bool LockGeometry,QString Style);
+
+    // Image correction part
+    void                    ApplyFilter(QImage *Image);
+
 
 private:
     QBrush                  *GetLibraryBrush(QRectF Rect);

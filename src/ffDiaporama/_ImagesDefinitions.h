@@ -26,7 +26,6 @@
 
 // Include some common various class
 #include "../sharedfiles/cFilterTransformObject.h"
-#include "../sharedfiles/cFilterCorrectObject.h"
 #include "../sharedfiles/cLuLoImageCache.h"
 #include "../sharedfiles/cBaseMediaFile.h"
 #include "../sharedfiles/cSoundBlockList.h"

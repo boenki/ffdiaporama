@@ -46,7 +46,7 @@
 //****************************************************************************************************************************************************************
 
 #include <exiv2/exif.hpp>
-#if (EXIV2_MAJOR_VERSION==0) && (EXIV2_MINOR_VERSION>=20)
+#if (EXIV2_MAJOR_VERSION==0) && (EXIV2_MINOR_VERSION>20)
     #include <exiv2/exiv2.hpp>
     #define EXIV2WITHPREVIEW
 #else
@@ -129,15 +129,16 @@ extern "C" {
 #define IMAGE_GEOMETRY_40_17                7   // Standard cinema landscape image
 #define IMAGE_GEOMETRY_17_40                8   // Standard cinema portrait image
 
-#define OBJECTTYPE_UNMANAGED    0
-#define OBJECTTYPE_MANAGED      1
-#define OBJECTTYPE_FOLDER       2
-#define OBJECTTYPE_FFDFILE      3
-#define OBJECTTYPE_IMAGEFILE    4
-#define OBJECTTYPE_VIDEOFILE    5
-#define OBJECTTYPE_MUSICFILE    6
-#define OBJECTTYPE_THUMBNAIL    7
-#define OBJECTTYPE_MUSICORVIDEO 100
+// Define object types
+#define OBJECTTYPE_UNMANAGED                0
+#define OBJECTTYPE_MANAGED                  1
+#define OBJECTTYPE_FOLDER                   2
+#define OBJECTTYPE_FFDFILE                  3
+#define OBJECTTYPE_IMAGEFILE                4
+#define OBJECTTYPE_VIDEOFILE                5
+#define OBJECTTYPE_MUSICFILE                6
+#define OBJECTTYPE_THUMBNAIL                7
+#define OBJECTTYPE_MUSICORVIDEO             100
 
 //****************************************************************************************************************************************************************
 
@@ -189,6 +190,7 @@ class cUnmanagedFile : public cBaseMediaFile {
 public:
     explicit cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig);
 
+    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile()                    {/*Nothing to do*/}

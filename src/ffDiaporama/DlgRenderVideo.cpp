@@ -902,7 +902,7 @@ void DlgRenderVideo::accept() {
                     case CODEC_ID_PCM_S16LE:    aCodec=QString("-acodec pcm_s16le -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(AudioBitRate); break;
-                    case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))
+                    case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac")) {
                                                     #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
                                                         aCodec=QString("-acodec aac -strict experimental -ab %1 -absf aac_adtstoasc").arg(AudioBitRate);
                                                     #else
@@ -911,7 +911,7 @@ void DlgRenderVideo::accept() {
                                                             aCodec=aCodec+" -absf aac_adtstoasc";
                                                         #endif
                                                     #endif
-                                                    else aCodec=QString("-acodec libfaac -ab %1").arg(AudioBitRate);
+                                                    } else aCodec=QString("-acodec libfaac -ab %1").arg(AudioBitRate);
                                                 break;
                     case CODEC_ID_AC3:          aCodec=QString("-acodec ac3 -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_VORBIS:       aCodec=QString("-acodec libvorbis -ab %1").arg(AudioBitRate); break;

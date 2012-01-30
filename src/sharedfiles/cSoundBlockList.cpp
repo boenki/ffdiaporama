@@ -63,7 +63,8 @@ void cSoundBlockList::SetFPS(double TheFPS) {
     #endif
     FPS            =TheFPS;
     WantedDuration =double(1)/FPS;
-    SoundPacketSize=int(WantedDuration*double(SamplingRate)*double(SampleBytes)*double(Channels));
+    SoundPacketSize=int(WantedDuration*double(SamplingRate))*SampleBytes*Channels;
+    if (SoundPacketSize==31996) SoundPacketSize=32000; // Fix a rounded error for 6 FPS
     NbrPacketForFPS=1;
     dDuration      =WantedDuration;
     while (SoundPacketSize>MAXSOUNDPACKETSIZE) {

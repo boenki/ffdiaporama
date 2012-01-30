@@ -293,6 +293,7 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
 void wgt_QVideoPlayer::SetPlayerToPause() {
     if (!(PlayerPlayMode && !PlayerPauseMode)) return;
     Timer.stop();                                   // Stop Timer
+    if (SDL_GetAudioStatus()==SDL_AUDIO_PLAYING) SDL_PauseAudio(1);
     if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
     if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
     MixedMusic.ClearList();                         // Free sound buffers

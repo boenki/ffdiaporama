@@ -1569,12 +1569,12 @@ void MainWindow::s_Action_DoAddFile() {
                     CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
                     CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
                     NewW=CompositionObject->w*Diaporama->InternalWidth;
-                    NewH=NewW*CurrentBrush->BrushFileCorrect.AspectRatio;
+                    NewH=NewW*CurrentBrush->AspectRatio;
                     NewW=NewW/Diaporama->InternalWidth;
                     NewH=NewH/Diaporama->InternalHeight;
                     if (NewH>1) {
                         NewH=CompositionObject->h*Diaporama->InternalHeight;
-                        NewW=NewH/CurrentBrush->BrushFileCorrect.AspectRatio;
+                        NewW=NewH/CurrentBrush->AspectRatio;
                         NewW=NewW/Diaporama->InternalWidth;
                         NewH=NewH/Diaporama->InternalHeight;
                     }

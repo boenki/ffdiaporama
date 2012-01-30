@@ -20,6 +20,9 @@
 
 #include "cBrushDefinition.h"
 
+// Include some common various class
+#include "../fmt_filters/fmt_filters.h"
+
 //#define DEBUGMODE
 
 //*********************************************************************************************************************************************
@@ -32,19 +35,15 @@ QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QStri
     #endif
     QGradient Gradient;
     switch (GradientOrientation) {
-        case GRADIENTORIENTATION_UPLEFT:        Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()));                     break;          // Up-Left
-        case GRADIENTORIENTATION_UP:            Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()),QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()));    break;          // Up
-        case GRADIENTORIENTATION_UPRIGHT:       Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()),QPointF(Rect.x(),Rect.y()+Rect.height()));                     break;          // Up-right
-        case GRADIENTORIENTATION_LEFT:          Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()/2),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2));   break;          // Left
-        case GRADIENTORIENTATION_RADIAL:        Gradient=QRadialGradient(
-                    QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2),
-                    Rect.width()>Rect.height()?Rect.width():Rect.height(),
-                    QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2)
-                );  break;                                                                                                                                      // Radial
-        case GRADIENTORIENTATION_RIGHT:         Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2),QPointF(Rect.x(),Rect.y()+Rect.height()/2));   break;          // Right
-        case GRADIENTORIENTATION_BOTTOMLEFT:    Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width(),Rect.y()));                     break;          // bt-Left
-        case GRADIENTORIENTATION_BOTTOM:        Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width()/2,Rect.y()));    break;          // bottom
-        case GRADIENTORIENTATION_BOTTOMRIGHT:   Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()),QPointF(Rect.x(),Rect.y()));                     break;          // bt-right
+        case GRADIENTORIENTATION_UPLEFT:        Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()));                                                                                             break;          // Up-Left
+        case GRADIENTORIENTATION_UP:            Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()),QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()));                                                                            break;          // Up
+        case GRADIENTORIENTATION_UPRIGHT:       Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()),QPointF(Rect.x(),Rect.y()+Rect.height()));                                                                                             break;          // Up-right
+        case GRADIENTORIENTATION_LEFT:          Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()/2),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2));                                                                           break;          // Left
+        case GRADIENTORIENTATION_RADIAL:        Gradient=QRadialGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2),Rect.width()>Rect.height()?Rect.width():Rect.height(),QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2));    break;                                                                                                                                      // Radial
+        case GRADIENTORIENTATION_RIGHT:         Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2),QPointF(Rect.x(),Rect.y()+Rect.height()/2));                                                                           break;          // Right
+        case GRADIENTORIENTATION_BOTTOMLEFT:    Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width(),Rect.y()));                                                                                             break;          // bt-Left
+        case GRADIENTORIENTATION_BOTTOM:        Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width()/2,Rect.y()));                                                                            break;          // bottom
+        case GRADIENTORIENTATION_BOTTOMRIGHT:   Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()),QPointF(Rect.x(),Rect.y()));                                                                                             break;          // bt-right
     }
     Gradient.setColorAt(0,QColor(ColorD));
     Gradient.setColorAt(1,QColor(ColorF));
@@ -72,7 +71,7 @@ void DrawShape(QPainter &Painter,int BackgroundForm,double left,double top,doubl
             RayY=2*height/10;  if (RayY<4)  RayY=4;
             Painter.drawRoundedRect(QRectF(left,top,width-1,height-1),RayX,RayY,Qt::AbsoluteSize);
             break;
-        case 4 : Painter.drawEllipse(QRectF(left,top,width-1,height-1));                        break;  // Ellipse
+        case 4 : Painter.drawEllipse(QRectF(left,top,width-1,height-1));                                break;  // Ellipse
         case 5 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,90);                               break;  // Triangle UP
         case 6 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,0);                                break;  // Triangle Right
         case 7 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-90);                              break;  // Triangle Down
@@ -212,6 +211,20 @@ cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,
     SoundVolume         =1;                             // Volume of soundtrack
     ApplicationConfig   =TheApplicationConfig;
     BackgroundList      =TheBackgroundList;
+
+    // Image correction part
+    ImageRotation       =0;                             // Image rotation
+    X                   =0;                             // X position (in %) relative to up/left corner
+    Y                   =0;                             // Y position (in %) relative to up/left corner
+    ZoomFactor          =1;                             // Zoom factor (in %)
+    Brightness          =0;
+    Contrast            =0;
+    Gamma               =1;
+    Red                 =0;
+    Green               =0;
+    Blue                =0;
+    LockGeometry        =false;
+    FullFilling         =false;
 }
 
 //====================================================================================================================
@@ -352,13 +365,13 @@ void cBrushDefinition::ApplyStyle(bool LockGeometry,QString Style) {
     if (!Style.isEmpty()) List.append(Style);
 
     // Apply
-    BrushFileCorrect.LockGeometry=LockGeometry;
+    LockGeometry=LockGeometry;
     for (int i=0;i<List.count();i++) {
-        if      (List[i].startsWith("X:"))              BrushFileCorrect.X             =List[i].mid(QString("X:").length()).toDouble();
-        else if (List[i].startsWith("Y:"))              BrushFileCorrect.Y             =List[i].mid(QString("Y:").length()).toDouble();
-        else if (List[i].startsWith("ZoomFactor:"))     BrushFileCorrect.ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
-        else if (List[i].startsWith("ImageRotation:"))  BrushFileCorrect.ImageRotation =List[i].mid(QString("ImageRotation:").length()).toDouble();
-        else if (List[i].startsWith("AspectRatio:"))    BrushFileCorrect.AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
+        if      (List[i].startsWith("X:"))              X             =List[i].mid(QString("X:").length()).toDouble();
+        else if (List[i].startsWith("Y:"))              Y             =List[i].mid(QString("Y:").length()).toDouble();
+        else if (List[i].startsWith("ZoomFactor:"))     ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
+        else if (List[i].startsWith("ImageRotation:"))  ImageRotation =List[i].mid(QString("ImageRotation:").length()).toDouble();
+        else if (List[i].startsWith("AspectRatio:"))    AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
 
     }
 }
@@ -382,12 +395,106 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
         QBrush *Ret=NULL;
         QImage *Img=NULL;
         if (RenderImage) {
-            if (BrushFileCorrect.FullFilling) {
+            if (FullFilling) {
                 // Create brush image with distortion
                 Img=new QImage(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
             } else {
                 // Create brush image with ken burns effect !
-                Img=BrushFileCorrect.GetImage(RenderImage,Rect.width(),Rect.height(),PctDone,PreviousBrush?&PreviousBrush->BrushFileCorrect:NULL,ApplicationConfig->Smoothing);
+                QImage  *SourceImage    =NULL;
+                double  TheXFactor      =X;
+                double  TheYFactor      =Y;
+                double  TheZoomFactor   =ZoomFactor;
+                double  TheRotateFactor =ImageRotation;
+                double  TheBrightness   =Brightness;
+                double  TheContrast     =Contrast;
+                double  TheGamma        =Gamma;
+                double  TheRed          =Red;
+                double  TheGreen        =Green;
+                double  TheBlue         =Blue;
+                double  TheAspectRatio  =AspectRatio;
+
+                // Adjust values depending on PctDone and previous Filter (if exist)
+                if (PreviousBrush) {
+                    if (PreviousBrush->X!=TheXFactor)                  TheXFactor      =PreviousBrush->X+(TheXFactor-PreviousBrush->X)*PctDone;
+                    if (PreviousBrush->Y!=TheYFactor)                  TheYFactor      =PreviousBrush->Y+(TheYFactor-PreviousBrush->Y)*PctDone;
+                    if (PreviousBrush->ZoomFactor!=TheZoomFactor)      TheZoomFactor   =PreviousBrush->ZoomFactor+(TheZoomFactor-PreviousBrush->ZoomFactor)*PctDone;
+                    if (PreviousBrush->ImageRotation!=TheRotateFactor) TheRotateFactor =PreviousBrush->ImageRotation+(TheRotateFactor-PreviousBrush->ImageRotation)*PctDone;
+                    if (PreviousBrush->Brightness!=TheBrightness)      TheBrightness   =PreviousBrush->Brightness+(TheBrightness-PreviousBrush->Brightness)*PctDone;
+                    if (PreviousBrush->Contrast!=TheContrast)          TheContrast     =PreviousBrush->Contrast+(TheContrast-PreviousBrush->Contrast)*PctDone;
+                    if (PreviousBrush->Gamma!=TheGamma)                TheGamma        =PreviousBrush->Gamma+(TheGamma-PreviousBrush->Gamma)*PctDone;
+                    if (PreviousBrush->Red!=TheRed)                    TheRed          =PreviousBrush->Red+(TheRed-PreviousBrush->Red)*PctDone;
+                    if (PreviousBrush->Green!=TheGreen)                TheGreen        =PreviousBrush->Green+(TheGreen-PreviousBrush->Green)*PctDone;
+                    if (PreviousBrush->Blue!=TheBlue)                  TheBlue         =PreviousBrush->Blue+(TheBlue-PreviousBrush->Blue)*PctDone;
+                    if (PreviousBrush->AspectRatio!=TheAspectRatio)    TheAspectRatio  =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
+                }
+
+                // Prepare values from sourceimage size
+                double   RealImageW=double(RenderImage->width());               // Get real image widht
+                double   RealImageH=double(RenderImage->height());              // Get real image height
+                double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse of the image to define full canvas
+
+                // Rotate image if needed and create a SourceImage
+                if (TheRotateFactor!=0) {
+                    QTransform matrix;
+                    matrix.rotate(TheRotateFactor,Qt::ZAxis);
+                    SourceImage=new QImage(RenderImage->transformed(matrix,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                    // update real image size
+                    RealImageW=double(SourceImage->width());
+                    RealImageH=double(SourceImage->height());
+
+                // If no rotation then SourceImage=RenderImage
+                } else SourceImage=RenderImage;
+
+                // Calc coordinates of the part in the source image
+                double  SrcX            =Hyp*TheXFactor;
+                double  SrcY            =Hyp*TheYFactor;
+                double  SrcW            =Hyp*TheZoomFactor;
+                double  SrcH            =SrcW*TheAspectRatio;
+                double  DstX            =0;
+                double  DstY            =0;
+                double  DstW            =Rect.width();
+                double  DstH            =DstW*TheAspectRatio;
+
+                // Prepare Img Composition with transparent background
+                Img=new QImage(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
+                QPainter    PB;
+                PB.begin(Img);
+                PB.setCompositionMode(QPainter::CompositionMode_Source);
+                PB.fillRect(QRect(0,0,Rect.width()+1,Rect.height()+1),Qt::transparent);
+                PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+                if (ApplicationConfig->Smoothing)   PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+                    else                            PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+
+                // Expand Source Image to Canvas size (hyp)
+                QImage   *TempImage=new QImage(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
+                QPainter PC;
+                PC.begin(TempImage);
+                PC.setCompositionMode(QPainter::CompositionMode_Source);
+                PC.fillRect(QRect(0,0,Hyp,Hyp),Qt::transparent);
+                PC.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                PC.drawImage((Hyp-RealImageW)/2,(Hyp-RealImageH)/2,*SourceImage);
+                PC.end();
+
+                // Adjust TempImage to wanted size and pos
+                QImage NewSourceImage=(TempImage->copy(int(SrcX),int(SrcY),SrcW,SrcH)).scaled(int(DstW),int(DstH),Qt::IgnoreAspectRatio,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
+                delete TempImage;
+
+                // Smoothing is not correctly used here !
+                // Then force smoothing by reduce source image before draw image
+                PB.drawImage(QRectF(DstX,DstY,DstW,DstH),NewSourceImage);
+
+                PB.end();
+
+                // Delete SourceImage if we have created it
+                if (SourceImage!=RenderImage) delete SourceImage;
+
+                // Apply correction filters to DestImage
+                fmt_filters::image img(Img->bits(),Img->width(),Img->height());
+                if (TheBrightness!=0)                           fmt_filters::brightness(img,TheBrightness);
+                if (TheContrast!=0)                             fmt_filters::contrast(img,TheContrast);
+                if (TheGamma!=1)                                fmt_filters::gamma(img,TheGamma);
+                if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))   fmt_filters::colorize(img,TheRed,TheGreen,TheBlue);
             }
             if (Img) {
                 Ret=new QBrush(*Img);
@@ -404,6 +511,20 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
         }
         return new QBrush(Qt::NoBrush);
     }
+}
+
+//====================================================================================================================
+// Note:This function is use only by DlgImageCorrection !
+void cBrushDefinition::ApplyFilter(QImage *Image) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cBrushDefinition::ApplyFilter";
+    #endif
+    if (Image==NULL) return;
+    fmt_filters::image img(Image->bits(),Image->width(),Image->height());
+    if (Brightness!=0)                      fmt_filters::brightness(img,Brightness);
+    if (Contrast!=0)                        fmt_filters::contrast(img,Contrast);
+    if (Gamma!=1)                           fmt_filters::gamma(img,Gamma);
+    if ((Red!=0)||(Green!=0)||(Blue!=0))    fmt_filters::colorize(img,Red,Green,Blue);
 }
 
 //====================================================================================================================
@@ -460,11 +581,11 @@ QString cBrushDefinition::GetFramingStyle() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cBrushDefinition::GetFramingStyle";
     #endif
-    return  QString("###X:%1").arg(BrushFileCorrect.X,0,'e')+
-            QString("###Y:%1").arg(BrushFileCorrect.Y,0,'e')+
-            QString("###ZoomFactor:%1").arg(BrushFileCorrect.ZoomFactor,0,'e')+
-            QString("###LockGeometry:%1").arg(BrushFileCorrect.LockGeometry?1:0)+
-            QString("###AspectRatio:%1").arg(BrushFileCorrect.AspectRatio,0,'e');
+    return  QString("###X:%1").arg(X,0,'e')+
+            QString("###Y:%1").arg(Y,0,'e')+
+            QString("###ZoomFactor:%1").arg(ZoomFactor,0,'e')+
+            QString("###LockGeometry:%1").arg(LockGeometry?1:0)+
+            QString("###AspectRatio:%1").arg(AspectRatio,0,'e');
 }
 
 //====================================================================================================================
@@ -486,10 +607,23 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
     Image               =BrushToCopy->Image;
     Video               =BrushToCopy->Video;
     SoundVolume         =BrushToCopy->SoundVolume;
-    BrushFileCorrect    =BrushToCopy->BrushFileCorrect;
     DefaultFramingW     =BrushToCopy->DefaultFramingW;
     DefaultFramingH     =BrushToCopy->DefaultFramingH;
     DefaultFramingF     =BrushToCopy->DefaultFramingF;
+
+    // Image correction part
+    ImageRotation       =BrushToCopy->ImageRotation;
+    X                   =BrushToCopy->X;
+    Y                   =BrushToCopy->Y;
+    ZoomFactor          =BrushToCopy->ZoomFactor;
+    Brightness          =BrushToCopy->Brightness;
+    Contrast            =BrushToCopy->Contrast;
+    Gamma               =BrushToCopy->Gamma;
+    Red                 =BrushToCopy->Red;
+    Green               =BrushToCopy->Green;
+    Blue                =BrushToCopy->Blue;
+    LockGeometry        =BrushToCopy->LockGeometry;
+    FullFilling         =BrushToCopy->FullFilling;
 }
 
 //====================================================================================================================
@@ -547,7 +681,23 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
             break;
     }
 
-    BrushFileCorrect.SaveToXML(Element,"ImageCorrection");       // Image correction if image from disk
+    // Image correction part
+    QDomElement CorrectElement=DomDocument.createElement("ImageCorrection");
+    CorrectElement.setAttribute("X",               X);                 // X position (in %) relative to up/left corner
+    CorrectElement.setAttribute("Y",               Y);                 // Y position (in %) relative to up/left corner
+    CorrectElement.setAttribute("ZoomFactor",      ZoomFactor);        // Zoom factor (in %)
+    CorrectElement.setAttribute("ImageRotation",   ImageRotation);     // Image rotation (in °)
+    CorrectElement.setAttribute("Brightness",      Brightness);
+    CorrectElement.setAttribute("Contrast",        Contrast);
+    CorrectElement.setAttribute("Gamma",           Gamma);
+    CorrectElement.setAttribute("Red",             Red);
+    CorrectElement.setAttribute("Green",           Green);
+    CorrectElement.setAttribute("Blue",            Blue);
+    CorrectElement.setAttribute("LockGeometry",    LockGeometry?1:0);
+    CorrectElement.setAttribute("AspectRatio",     AspectRatio);
+    CorrectElement.setAttribute("FullFilling",     FullFilling?1:0);
+    Element.appendChild(CorrectElement);
+
     domDocument.appendChild(Element);
 }
 
@@ -630,7 +780,29 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 break;
         }
 
-        BrushFileCorrect.LoadFromXML(Element,"ImageCorrection");         // Image correction if image from disk
+        // Image correction part
+        if ((Element.elementsByTagName("ImageCorrection").length()>0)&&(Element.elementsByTagName("ImageCorrection").item(0).isElement()==true)) {
+            QDomElement CorrectElement=Element.elementsByTagName("ImageCorrection").item(0).toElement();
+
+            if (CorrectElement.hasAttribute("X"))              X               =CorrectElement.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
+            if (CorrectElement.hasAttribute("Y"))              Y               =CorrectElement.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
+            if (CorrectElement.hasAttribute("ZoomFactor"))     ZoomFactor      =CorrectElement.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
+            if (CorrectElement.hasAttribute("ImageRotation"))  ImageRotation   =CorrectElement.attribute("ImageRotation").toDouble();          // Image rotation (in °)
+            if (CorrectElement.hasAttribute("Brightness"))     Brightness      =CorrectElement.attribute("Brightness").toInt();
+            if (CorrectElement.hasAttribute("Contrast"))       Contrast        =CorrectElement.attribute("Contrast").toInt();
+            if (CorrectElement.hasAttribute("Gamma"))          Gamma           =CorrectElement.attribute("Gamma").toDouble();
+            if (CorrectElement.hasAttribute("Red"))            Red             =CorrectElement.attribute("Red").toInt();
+            if (CorrectElement.hasAttribute("Green"))          Green           =CorrectElement.attribute("Green").toInt();
+            if (CorrectElement.hasAttribute("Blue"))           Blue            =CorrectElement.attribute("Blue").toInt();
+            if (CorrectElement.hasAttribute("AspectRatio"))    AspectRatio     =CorrectElement.attribute("AspectRatio").toDouble();
+            if (CorrectElement.hasAttribute("FullFilling"))    FullFilling     =CorrectElement.attribute("FullFilling").toInt()==1;
+
+            // If old ImageGeometry value in project file then compute LockGeometry
+            if (CorrectElement.hasAttribute("ImageGeometry"))           LockGeometry=(CorrectElement.attribute("ImageGeometry").toInt()!=2);
+                else if (CorrectElement.hasAttribute("LockGeometry"))   LockGeometry=(CorrectElement.attribute("LockGeometry").toInt()==1); // Else load saved value
+
+        }
+
         return (BrushType==BRUSHTYPE_IMAGEDISK)?(Image!=NULL)||(Video!=NULL):true;
     }
     return false;
