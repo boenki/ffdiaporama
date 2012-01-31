@@ -24,14 +24,23 @@
 // Basic inclusions (common to all files)
 #include "../sharedfiles/_GlobalDefines.h"
 
-// Include some additional standard class
-
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-
 // Specific inclusions
 #include "_Diaporama.h"
 #include "cCustomTableWidget.h"
+
+#include <QLabel>
+#include <QMouseEvent>
+
+// Thumbnails definitions
+#define ADJUSTXCOLUMN                       10      // width to add to object image for display transition
+#define TIMELINEMINHEIGH                    80      // min heigh of montage track
+#define TIMELINEMAXHEIGH                    160     // max heigh of montage track
+#define TIMELINESOUNDHEIGHT                 18      // Height of sound & music track
+
+// Thumbnail type definition
+#define THUMBNAILTYPE_OBJECT                0
+#define THUMBNAILTYPE_NULL                  1
+#define THUMBNAILTYPE_SHOT                  2
 
 class wgt_QCustomThumbnails : public QLabel {
 Q_OBJECT

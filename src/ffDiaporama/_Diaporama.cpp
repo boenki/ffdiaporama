@@ -20,7 +20,11 @@
 
 // Specific inclusions
 #include "_Diaporama.h"
+#include "_ApplicationDefinitions.h"
 #include "mainwindow.h"
+
+#include <QMessageBox>
+#include <QFileDialog>
 
 //============================================
 // Global static
@@ -99,7 +103,7 @@ cCompositionObject::~cCompositionObject() {
 
 //====================================================================================================================
 
-void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
+void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition) {
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
@@ -118,7 +122,7 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("BackgroundTransparent",Opacity);          // Opacity of the form
 
     // Text part
-    if (TypeComposition!=COMPOSITIONTYPE_SHOT) {
+    if ((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
         Element.setAttribute("Text",Text); // Text of the object
         if (Text!="") {
             Element.setAttribute("FontName",FontName);                      // font name
@@ -149,7 +153,7 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
 
 //====================================================================================================================
 
-bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList) {
+bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition) {
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         bool IsOk=true;
@@ -169,7 +173,7 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         if (Element.hasAttribute("RotateYAxis"))            RotateYAxis =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
 
         // Text part
-        if (TypeComposition!=COMPOSITIONTYPE_SHOT) {
+        if ((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
             Text=Element.attribute("Text");  // Text of the object
             if (Text!="") {
                 if (Element.hasAttribute("FontName"))           FontName            =Element.attribute("FontName");                         // font name

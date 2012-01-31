@@ -18,15 +18,24 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-
 #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
 #include <windows.h>
 #include <winbase.h>
 #endif
 
+#include <QMenu>
+#include <QAction>
+#include <QMessageBox>
+#include <QInputDialog>
+
 #include "DlgManageStyle.h"
+
+#define ICON_FRAMING_CUSTOM                 ":/img/action_cancel.png"
+#define ICON_FRAMING_FULL                   ":/img/AdjustWH.png"
+#define ICON_FRAMING_WIDTH                  ":/img/AdjustW.png"
+#define ICON_FRAMING_HEIGHT                 ":/img/AdjustH.png"
+#define ICON_GLOBALCONF                     ":/img/db.png"
+#define ICON_USERCONF                       ":/img/db_update.png"
 
 bool toAssending(const cStyleCollectionItem &Item1 ,const cStyleCollectionItem &Item2) {
     return Item1.StyleName.toUpper()<Item2.StyleName.toUpper();

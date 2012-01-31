@@ -22,6 +22,9 @@
 #include "ui_DlgMusicProperties.h"
 #include "mainwindow.h"
 
+#include <QFileDialog>
+#include <QMessageBox>
+
 DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,QWidget *parent) : QDialog(parent), ui(new Ui::DlgMusicProperties) {
     ui->setupUi(this);
 

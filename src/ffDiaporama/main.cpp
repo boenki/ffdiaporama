@@ -25,14 +25,16 @@
 #define __STDC_CONSTANT_MACROS  // Activate macro for stdint
 #include <stdint.h>             // Include stdint with macro activated
 
-#include "_GlobalDefines.h"
 #include "mainwindow.h"
 #include <QTranslator>
 
 int main(int argc, char *argv[]) {
-    QApplication app(argc,argv);
-
     SetWorkingPath(argv,APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT);
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+        if (SearchRasterMode(APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
+    #endif
+
+    QApplication app(argc,argv);
 
     QString AutoLoad="";
     QString ForceLanguage="";

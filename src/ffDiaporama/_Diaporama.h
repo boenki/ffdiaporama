@@ -57,6 +57,45 @@ class cDiaporamaObject;
 #define TRANSITIONMAXSUBTYPE_SLIDE          16
 #define TRANSITIONMAXSUBTYPE_PUSH           16
 
+// Speed wave forme definition
+#define SPEEDWAVE_LINEAR                    0
+#define SPEEDWAVE_SINQUARTER                1
+
+// Composition parameters
+#define SCALINGTEXTFACTOR                   400
+
+// Object type definition
+#define DIAPORAMAOBJECTTYPE_EMPTY           0
+#define DIAPORAMAOBJECTTYPE_IMAGE           1
+#define DIAPORAMAOBJECTTYPE_VIDEO           2
+
+// Shot type definition
+#define SHOTTYPE_STATIC                     0
+#define SHOTTYPE_MOBIL                      1
+#define SHOTTYPE_VIDEO                      2
+
+//============================================
+// Default values
+//============================================
+#define DEFAULT_FONT_FAMILLY                "Arial"
+#define DEFAULT_FONT_SIZE                   12
+#define DEFAULT_FONT_COLOR                  "#ffffaa"
+#define DEFAULT_FONT_SHADOWCOLOR            "#333333"
+#define DEFAULT_FONT_ISBOLD                 false
+#define DEFAULT_FONT_ISITALIC               false
+#define DEFAULT_FONT_ISUNDERLINE            false
+#define DEFAULT_FONT_HALIGN                 1
+#define DEFAULT_FONT_VALIGN                 1
+#define DEFAULT_FONT_TEXTEFFECT             5
+
+#define DEFAULT_SHAPE_OPACITY               0
+#define DEFAULT_SHAPE_BORDERSIZE            0
+#define DEFAULT_SHAPE_BORDERCOLOR           "#333333"
+#define DEFAULT_SHAPE_SHADOWCOLOR           "#000000"
+#define DEFAULT_SHAPE_INTERNALBORDERSIZE    6
+#define DEFAULT_SHAPE_INTERNALBORDERCOLOR1  "#808080"
+#define DEFAULT_SHAPE_INTERNALBORDERCOLOR2  "#c0c0c0"
+#define DEFAULT_SHAPE_BRUSHCOLORD           "#808080"
 
 //============================================
 // Global static
@@ -120,8 +159,8 @@ public:
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
     void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
                                       cSDLSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList);
+    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition=true);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
 
     // Style managment functions
     QString     GetCoordinateStyle();

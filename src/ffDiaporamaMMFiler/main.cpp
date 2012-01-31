@@ -26,9 +26,12 @@
 #include "mainwindow.h"
 
 int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
-
     SetWorkingPath(argv,APPLICATION_GROUPNAME,APPLICATION_NAME,CONFIGFILEEXT);
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+        if (SearchRasterMode(APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
+    #endif
+
+    QApplication app(argc, argv);
 
     QString ForceLanguage="";
 

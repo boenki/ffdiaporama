@@ -24,13 +24,10 @@
 // Basic inclusions (common to all files)
 #include "../sharedfiles/_GlobalDefines.h"
 
-// Include some additional standard class
-
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-
 // Include some common various class
 #include "../sharedfiles/_SDL_Support.h"
+
+#include <QNetworkReply>
 
 // Specific inclusions
 #include "_Diaporama.h"

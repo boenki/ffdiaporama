@@ -23,6 +23,9 @@
 #include "ui_DlgRenderVideo.h"
 #include "mainwindow.h"
 
+#include <QFileDialog>
+#include <QMessageBox>
+
 //#define DEBUGMODE
 
 //====================================================================================================================

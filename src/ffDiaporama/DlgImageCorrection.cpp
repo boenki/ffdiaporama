@@ -22,6 +22,17 @@
 #include "ui_DlgImageCorrection.h"
 #include "mainwindow.h"
 
+#include <QMessageBox>
+#include <QFileDialog>
+
+#define ICON_RULER_ON                       ":/img/ruler_ok.png"
+#define ICON_RULER_OFF                      ":/img/ruler_ko.png"
+#define ICON_GEOMETRY_LOCKED                ":/img/Geometry_Lock.png"
+#define ICON_GEOMETRY_UNLOCKED              ":/img/Geometry_Unlock.png"
+#define ICON_GEOMETRY_PROJECT               ":/img/Geometry_ProjectLock.png"
+#define ICON_GEOMETRY_IMAGE                 ":/img/Geometry_ImageLock.png"
+#define ICON_OBJECT_MOVIE                   ":/img/object_movie.png"
+
 DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition,QWidget *parent):QDialog(parent),ui(new Ui::DlgImageCorrection) {
     ui->setupUi(this);
     BackgroundForm  =TheBackgroundForm;

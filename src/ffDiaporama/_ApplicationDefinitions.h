@@ -40,6 +40,10 @@
 #define APPLICATION_VERSION                 "1.2 beta 2"
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
+#define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
+
+//#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Stable/BUILDVERSION.txt"
+#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Devel/BUILDVERSION.txt"
 
 // Dialogbox help file
 #define WIKI_CMS_PATH                       "http://ffdiaporama.tuxfamily.org/?page_id="
@@ -69,7 +73,6 @@
 #define STYLENAME_BLOCKSHAPESTYLE           "StyleBlockShapeCollection"
 #define STYLENAME_FRAMINGSTYLE              "StyleImageFramingCollection"
 
-
 // String to include in the system properties
 #define OPERATINGSYSTEM_STR                 "Operating system version\t: "
 #define STARTINGPATH_STR                    "Starting path\t: "
@@ -85,6 +88,10 @@
 #define LIBSWSCALEVERSION_STR               "LIBSWSCALE version\t: "
 #define USERCONFIGFILE_STR                  "User config file\t: "
 #define GLOBALCONFIGFILE_STR                "Global config file\t: "
+
+// Display coordinates unit
+#define DISPLAYUNIT_PERCENT                 0
+#define DISPLAYUNIT_PIXELS                  1
 
 // Global values
 extern QString SystemProperties;                                // System properties log

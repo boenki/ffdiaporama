@@ -24,13 +24,10 @@
 // Basic inclusions (common to all files)
 #include "../sharedfiles/_GlobalDefines.h"
 
-// Include some additional standard class
-
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-
 // Specific inclusions
 #include "_Diaporama.h"
+
+#include <QLabel>
 
 class wgt_QCustomRuller : public QLabel {
 Q_OBJECT

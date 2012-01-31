@@ -37,6 +37,11 @@
 #define SecondSound_Color       Qt::darkCyan
 #define DotLine_Color           Qt::white
 
+// Icons
+#define ICON_SHOTPRESENCE                   ":/img/TimelineShots.png"               // FileName of icon representing shots in the timeline
+#define ICON_BLOCKPRESENCE                  ":/img/TimelineBlocks.png"              // FileName of icon representing blocks in the timeline
+#define ICON_PLAYERPAUSE                    ":/img/player_pause.png"                // FileName of pause icon
+
 //===========================================================================================================================
 
 wgt_QCustomThumbnails::wgt_QCustomThumbnails(QTableWidget *TheTimeline,int TheType) : QLabel(TheTimeline) {

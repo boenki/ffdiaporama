@@ -18,9 +18,6 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-
 #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
 #include <windows.h>
 #include <winbase.h>
@@ -31,6 +28,17 @@
 #include "ui_DlgManageStyle.h"
 
 #include "mainwindow.h"
+
+#include <QMessageBox>
+#include <QInputDialog>
+#include <QLineEdit>
+
+#define ICON_FRAMING_CUSTOM                 ":/img/action_cancel.png"
+#define ICON_FRAMING_FULL                   ":/img/AdjustWH.png"
+#define ICON_FRAMING_WIDTH                  ":/img/AdjustW.png"
+#define ICON_FRAMING_HEIGHT                 ":/img/AdjustH.png"
+#define ICON_GLOBALCONF                     ":/img/db.png"
+#define ICON_USERCONF                       ":/img/db_update.png"
 
 //============================================================================================================================
 // Manage style dialog

@@ -457,8 +457,8 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 double  DstH            =DstW*TheAspectRatio;
 
                 // Adjust SourceImage to wanted size and pos
-                int ax=(Hyp-RealImageW)/2-SrcX;
-                int ay=(Hyp-RealImageH)/2-SrcY;
+                int ax=SrcX-(Hyp-RealImageW)/2;
+                int ay=SrcY-(Hyp-RealImageH)/2;
 
                 QImage *NewSourceImage=new QImage(SourceImage->copy(ax,ay,SrcW,SrcH).scaled(int(DstW),int(DstH),Qt::IgnoreAspectRatio,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
 

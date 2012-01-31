@@ -30,7 +30,7 @@
 #include "cDeviceModelDef.h"
 #include "cBaseMediaFile.h"
 
-#define DEBUGMODE
+//#define DEBUGMODE
 #define FFD_APPLICATION_ROOTNAME    "Project"   // Name of root node in the project xml file
 
 //****************************************************************************************************************************************************************
@@ -1835,19 +1835,11 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                     RealNewSize++;
                 }
                 // Last 2 values
-                /*
                 *(PtrDst++)=Left_x2;
                 *(PtrDst++)=Right_x2;
                 RealNewSize++;
-                *(PtrDst++)=Left_x3;
-                *(PtrDst++)=Right_x3;
-                RealNewSize++;
-                */
-                *(PtrDst++)=0;
-                *(PtrDst++)=0;
-                RealNewSize++;
-                *(PtrDst++)=0;
-                *(PtrDst++)=0;
+                *(PtrDst++)=Left_x2;    //Left_x3;
+                *(PtrDst++)=Right_x2;   //Right_x3;
                 RealNewSize++;
             }
 
