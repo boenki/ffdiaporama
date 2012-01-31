@@ -22,6 +22,13 @@
 #include "wgt_QCustomThumbnails.h"
 #include "cCustomTableWidget.h"
 
+
+#include <QHeaderView>
+#include <QScrollBar>
+#include <QInputDialog>
+#include <QLineEdit>
+#include <QMessageBox>
+
 //********************************************************************************************************************
 // cCustomTableWidget
 //********************************************************************************************************************

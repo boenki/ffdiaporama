@@ -29,8 +29,34 @@
 
 #include <QClipboard>
 #include <QMimeData>
+#include <QMessageBox>
+#include <QFileDialog>
 
 //#define DEBUGMODE
+
+#define ICON_FRAMING_CUSTOM                 ":/img/action_cancel.png"
+#define ICON_FRAMING_FULL                   ":/img/AdjustWH.png"
+#define ICON_FRAMING_WIDTH                  ":/img/AdjustW.png"
+#define ICON_FRAMING_HEIGHT                 ":/img/AdjustH.png"
+#define ICON_GLOBALCONF                     ":/img/db.png"
+#define ICON_USERCONF                       ":/img/db_update.png"
+
+#define ICON_GEOMETRY_LOCKED                ":/img/Geometry_Lock.png"
+#define ICON_GEOMETRY_UNLOCKED              ":/img/Geometry_Unlock.png"
+#define ICON_GEOMETRY_PROJECT               ":/img/Geometry_ProjectLock.png"
+#define ICON_VISIBLE_OK                     ":/img/Visible_OK.png"
+#define ICON_VISIBLE_KO                     ":/img/Visible_KO.png"
+#define ICON_SOUND_OK                       ":/img/object_sound.png"
+#define ICON_SOUND_KO                       ":/img/sound_KO.png"
+#define ICON_OBJECT_TEXT                    ":/img/object_text.png"
+#define ICON_OBJECT_SOUND                   ":/img/object_sound.png"
+#define ICON_OBJECT_MOVIE                   ":/img/object_movie.png"
+#define ICON_OBJECT_IMAGE                   ":/img/object_image.png"
+#define ICON_OBJECT_TEXTHIDE                ":/img/object_textHide.png"
+#define ICON_OBJECT_MOVIEHIDE               ":/img/object_movieHide.png"
+#define ICON_OBJECT_IMAGEHIDE               ":/img/object_imageHide.png"
+#define ICON_RULER_ON                       ":/img/ruler_ok.png"
+#define ICON_RULER_OFF                      ":/img/ruler_ko.png"
 
 DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgSlideProperties) {
     #ifdef DEBUGMODE
@@ -1514,7 +1540,7 @@ void DlgSlideProperties::TextEditor() {
     if (Dlg.exec()==0) {
         ui->BlockTable->item(ui->BlockTable->currentRow(),2)->setText(CompositionObject->Text);
         ApplyToContexte(false,true);
-    }
+    } else RefreshSceneImage();
 }
 
 //========= Open video editor

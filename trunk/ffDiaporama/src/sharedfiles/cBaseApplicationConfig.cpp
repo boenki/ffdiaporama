@@ -30,6 +30,57 @@
 
 //#define DEBUGMODE
 
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    bool SearchRasterMode(QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName) {
+        QString UserConfigPath;    // Path and filename to user profil path
+        QString UserConfigFile;    // Path and filename to user configuration file
+        QString GlobalConfigFile;  // Path and filename to global configuration file (in binary directory)
+        bool    RasterMode=true;
+
+        UserConfigPath=QDir::homePath();
+        if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
+        UserConfigPath  = UserConfigPath+"."+ApplicationGroupName+QDir::separator();
+        GlobalConfigFile=QFileInfo(ApplicationName+ConfigFileExt).absoluteFilePath();
+        UserConfigFile  =QFileInfo(UserConfigPath+ApplicationName+ConfigFileExt).absoluteFilePath();
+
+
+        QFile           file(GlobalConfigFile);
+        QDomDocument    domDocument;
+        QDomElement     root;
+        QString         errorStr;
+        int             errorLine,errorColumn;
+
+        // Load Global preferences
+        if (file.open(QFile::ReadOnly | QFile::Text)) {
+            if (domDocument.setContent(&file,true,&errorStr,&errorLine,&errorColumn)) {
+                root = domDocument.documentElement();
+                if ((root.tagName()==ConfigFileRootName)&&(root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
+                    qDebug()<<QApplication::translate("MainWindow","Search Raster mode in configuration file")<<GlobalConfigFile;
+                    QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
+                    if (Element.hasAttribute("RasterMode")) RasterMode=Element.attribute("RasterMode")=="1";
+                }
+            }
+            file.close();
+        }
+
+        // Load user preferences
+        file.setFileName(UserConfigFile);
+        if (file.open(QFile::ReadOnly | QFile::Text)) {
+            if (domDocument.setContent(&file,true,&errorStr,&errorLine,&errorColumn)) {
+                root = domDocument.documentElement();
+                if ((root.tagName()==ConfigFileRootName)&&(root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
+                    qDebug()<<QApplication::translate("MainWindow","Search Raster mode in configuration file")<<GlobalConfigFile;
+                    QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
+                    if (Element.hasAttribute("RasterMode")) RasterMode=Element.attribute("RasterMode")=="1";
+                }
+            }
+            file.close();
+        }
+
+        return RasterMode;
+    }
+#endif
+
 //====================================================================================================================
 
 #if defined(Q_OS_WIN)
@@ -659,10 +710,6 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     #endif
     GlobalConfigFile=QFileInfo(ApplicationName+ConfigFileExt).absoluteFilePath();
     UserConfigFile  =QFileInfo(UserConfigPath+ApplicationName+ConfigFileExt).absoluteFilePath();
-
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    if (RasterMode) QApplication::setGraphicsSystem("raster");
-    #endif
 
     // Define application name
     if (ApplicationGroupName==ApplicationName) App->setApplicationName(ApplicationName+QString(" ")+ApplicationVersion);

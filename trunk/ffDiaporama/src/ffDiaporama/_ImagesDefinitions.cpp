@@ -20,7 +20,7 @@
 
 // Specific inclusions
 #include "_ImagesDefinitions.h"
-#include "mainwindow.h"
+//#include "mainwindow.h"
 
 // static global values
 cBackgroundList BackgroundList;

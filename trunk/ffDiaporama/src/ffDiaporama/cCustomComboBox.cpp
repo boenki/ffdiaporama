@@ -21,6 +21,9 @@
 #include "cCustomComboBox.h"
 #include "../fmt_filters/fmt_filters.h"
 
+#include <QHeaderView>
+#include <QColorDialog>
+
 //======================================
 // Specific defines for this dialog box
 //======================================
@@ -234,9 +237,10 @@ cCustomBrushComboBoxItem::cCustomBrushComboBoxItem(QObject *parent):QStyledItemD
 
 //========================================================================================================================
 void cCustomBrushComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    if ((!ComboBox)||(!ComboBox->Brush)) return;
     int ColorNum=index.row()*4+index.column();
     if (ColorNum<MAXBRUSHPATTERN) {
-        cBrushDefinition Brush(GlobalMainWindow->ApplicationConfig,&BackgroundList);
+        cBrushDefinition Brush(ComboBox->Brush->ApplicationConfig,&BackgroundList);
         Brush.ColorD     =ComboBox->Brush->ColorD;
         Brush.BrushType  =BRUSHTYPE_PATTERN;
         Brush.PatternType=ColorNum;
@@ -330,7 +334,7 @@ void cCustomBrushComboBox::MakeIcons() {
     QPainter Painter;
     Painter.begin(&Image);
     if (ColorNum<MAXBRUSHPATTERN) {
-        cBrushDefinition TheBrush(GlobalMainWindow->ApplicationConfig,&BackgroundList);
+        cBrushDefinition TheBrush(Brush->ApplicationConfig,&BackgroundList);
         TheBrush.ColorD=Brush->ColorD;
         TheBrush.BrushType  =BRUSHTYPE_PATTERN;
         TheBrush.PatternType=ColorNum;
@@ -366,9 +370,10 @@ cGradientOrientationComboBoxItem::cGradientOrientationComboBoxItem(QObject *pare
 
 //========================================================================================================================
 void cGradientOrientationComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    if ((!ComboBox)||(!ComboBox->Brush)) return;
     int ColorNum=index.row()*3+index.column();
     if ((ColorNum>=0)&&(ColorNum<MAXGRADIENTORIENTATION)) {
-        cBrushDefinition Brush(GlobalMainWindow->ApplicationConfig,&BackgroundList);
+        cBrushDefinition Brush(ComboBox->Brush->ApplicationConfig,&BackgroundList);
         Brush.BrushType=ComboBox->Brush->BrushType;
         Brush.ColorD=ComboBox->Brush->ColorD;
         Brush.ColorF=ComboBox->Brush->ColorF;
@@ -464,7 +469,7 @@ void cGradientOrientationComboBox::MakeIcons() {
     QPainter Painter;
     Painter.begin(&Image);
     if ((ColorNum>=0)&&(ColorNum<MAXGRADIENTORIENTATION)) {
-        cBrushDefinition TheBrush(GlobalMainWindow->ApplicationConfig,&BackgroundList);
+        cBrushDefinition TheBrush(Brush->ApplicationConfig,&BackgroundList);
         TheBrush.BrushType=Brush->BrushType;
         TheBrush.ColorD=Brush->ColorD;
         TheBrush.ColorF=Brush->ColorF;

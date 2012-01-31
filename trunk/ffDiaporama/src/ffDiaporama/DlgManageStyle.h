@@ -23,11 +23,8 @@
 
 // Basic inclusions (common to all files)
 #include "../sharedfiles/_GlobalDefines.h"
+#include "../sharedfiles/_QCustomDialog.h"
 
-// Include some additional standard class
-
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
 #include "_StyleDefinitions.h"
 
 //=====================

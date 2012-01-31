@@ -23,6 +23,8 @@
 #include "ui_DlgBackgroundProperties.h"
 #include "mainwindow.h"
 
+#include <QFileDialog>
+
 DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgBackgroundProperties) {
     ui->setupUi(this);
     DiaporamaObject = TheDiaporamaObject;

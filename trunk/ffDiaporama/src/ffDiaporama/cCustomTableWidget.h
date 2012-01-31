@@ -24,14 +24,11 @@
 // Basic inclusions (common to all files)
 #include "../sharedfiles/_GlobalDefines.h"
 
-// Include some additional standard class
-
-// Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include <QTableWidget>
 
 // Specific inclusions
 #include "_Diaporama.h"
-#include "mainwindow.h"
+//#include "mainwindow.h"
 
 class cCustomTableWidget : public QTableWidget {
 Q_OBJECT

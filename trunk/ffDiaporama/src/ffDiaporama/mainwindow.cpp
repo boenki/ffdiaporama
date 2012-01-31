@@ -35,6 +35,11 @@
 #include <QMimeData>
 #include <QDomElement>
 #include <QDomDocument>
+#include <QSplashScreen>
+#include <QMenu>
+#include <QAction>
+#include <QMessageBox>
+#include <QFileDialog>
 
 #include "DlgAbout.h"
 #include "DlgBackgroundProperties.h"

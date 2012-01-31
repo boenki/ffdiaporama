@@ -24,6 +24,11 @@
 
 //#define DEBUGMODE
 
+#define ICON_PLAYERPLAY                     ":/img/player_play.png"                 // FileName of play icon
+#define ICON_PLAYERPAUSE                    ":/img/player_pause.png"                // FileName of pause icon
+
+#define BUFFERING_NBR_FRAME                 5                                     // Number of frame wanted in the playing buffer
+
 //*********************************************************************************************************************************************
 // Base object for Movie frame
 //*********************************************************************************************************************************************

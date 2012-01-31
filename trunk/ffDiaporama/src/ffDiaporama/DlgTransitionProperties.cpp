@@ -22,6 +22,8 @@
 #include "ui_DlgTransitionProperties.h"
 #include "mainwindow.h"
 
+#include <QStyledItemDelegate>
+
 //======================================
 // Specific defines for this dialog box
 //======================================

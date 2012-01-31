@@ -75,6 +75,10 @@ bool    SetWorkingPath(char *argv[],QString ApplicationGroupName,QString Applica
     QIcon   GetIconForFileOrDir(QString FileName,int IconIndex);
 #endif
 
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    bool SearchRasterMode(QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName);
+#endif
+
 // Application config class
 class cBaseApplicationConfig {
 public:

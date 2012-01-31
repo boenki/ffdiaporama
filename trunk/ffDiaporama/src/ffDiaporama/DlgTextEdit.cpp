@@ -20,6 +20,7 @@
 
 #include "DlgTextEdit.h"
 #include "ui_DlgTextEdit.h"
+#include "mainwindow.h"
 
 //#define DEBUGMODE
 
@@ -137,7 +138,7 @@ void DlgTextEdit::PrepareGlobalUndo() {
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT",GlobalMainWindow->Diaporama->ProjectFileName,true);  // Save object
+    CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT","",NULL,false);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
 }
 
@@ -150,7 +151,7 @@ void DlgTextEdit::DoGlobalUndo() {
     #endif
     // Restore element
     QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL);
+    if (root.tagName()=="UNDO-DLG") CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);
 }
 
 //====================================================================================================================

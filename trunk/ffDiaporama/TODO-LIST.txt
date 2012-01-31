@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 28/01/2011) :
+Buggs/TODO (Dernier SVN le 30/01/2011) :
 ----------------------------------------
 TODO
 ----
@@ -22,8 +22,14 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige l'undo dans la boite texte qui ne fonctionnait plus depuis ffD 1.1
+-Corrige l'activation/désactivation du mode Raster pour les Linux qui ne fonctionnait plus depuis ffD 1.1
+-Corrige l'erreur de calcul dans le recadrage d'image [Beta 2]
 
 English version / Bug fix :
+-Fix undo in text dialog wich not work correctly since ffD 1.1
+-Fix Raster mode activation/deactivation for Linux wich not work correctly since ffD 1.1
+-Fix computation error in image reframming [Beta 2]
 
 French version / Nouvelles fonctionnalités
 
