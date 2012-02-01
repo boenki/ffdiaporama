@@ -157,6 +157,13 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
         file.close();
     }
 
+    // Because now we have local installed, then we can translate collection style name
+    ApplicationConfig->StyleTextCollection.DoTranslateCollection();
+    ApplicationConfig->StyleTextBackgroundCollection.DoTranslateCollection();
+    ApplicationConfig->StyleCoordinateCollection.DoTranslateCollection();
+    ApplicationConfig->StyleBlockShapeCollection.DoTranslateCollection();
+    ApplicationConfig->StyleImageFramingCollection.DoTranslateCollection();
+
     Diaporama=new cDiaporama(ApplicationConfig);
     Diaporama->Timeline=ui->timeline;
     ui->preview->InitDiaporamaPlay(Diaporama);

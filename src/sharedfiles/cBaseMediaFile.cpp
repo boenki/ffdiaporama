@@ -1855,7 +1855,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     }
 
     // Now ensure SoundTrackBloc have correct wanted packet (if no then add nullsound)
-    while (SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS) SoundTrackBloc->AppendNullSoundPacket();
+    //while (SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS) SoundTrackBloc->AppendNullSoundPacket();
 
     if (BufferToDecode)   av_free(BufferToDecode);
     if (BufferForDecoded) av_free(BufferForDecoded);

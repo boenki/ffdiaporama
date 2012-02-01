@@ -1534,7 +1534,8 @@ void DlgSlideProperties::TextEditor() {
     qDebug() << "IN:DlgSlideProperties::TextEditor";
     #endif
     if (!PrepContexte()) return;
-    DlgTextEdit Dlg(CompositionObject,HELPFILE_DlgTextEdit,GlobalMainWindow->ApplicationConfig,GlobalMainWindow->ApplicationConfig->DlgTextEditWSP,this);
+    DlgTextEdit Dlg(CompositionObject,HELPFILE_DlgTextEdit,GlobalMainWindow->ApplicationConfig,GlobalMainWindow->ApplicationConfig->DlgTextEditWSP,
+                    &GlobalMainWindow->ApplicationConfig->StyleTextCollection,&GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {

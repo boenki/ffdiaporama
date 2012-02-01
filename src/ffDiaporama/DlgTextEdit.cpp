@@ -20,20 +20,22 @@
 
 #include "DlgTextEdit.h"
 #include "ui_DlgTextEdit.h"
-#include "mainwindow.h"
 
 //#define DEBUGMODE
 
-DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
+                         cStyleCollection *TheStyleTextCollection,cStyleCollection *TheStyleTextBackgroundCollection,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTextEdit) {
     #ifdef DEBUGMODE
     qDebug() << "IN:DlgTextEdit::DlgTextEdit";
     #endif
     ui->setupUi(this);
-    OkBt            =ui->OKBT;
-    CancelBt        =ui->CancelBt;
-    HelpBt          =ui->HelpBT;
-    CurrentTextItem =TheCurrentTextItem;
+    OkBt                            =ui->OKBT;
+    CancelBt                        =ui->CancelBt;
+    HelpBt                          =ui->HelpBT;
+    CurrentTextItem                 =TheCurrentTextItem;
+    StyleTextCollection             =TheStyleTextCollection;
+    StyleTextBackgroundCollection   =TheStyleTextBackgroundCollection;
     StopMAJSpinbox  =false;
 }
 
@@ -162,7 +164,7 @@ void DlgTextEdit::RefreshControls() {
     #endif
     StopMAJSpinbox=true;
     // Update text controls
-    ui->TextStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleTextCollection.GetStyleName(CurrentTextItem->GetTextStyle()));
+    ui->TextStyleED->setText(StyleTextCollection->GetStyleName(CurrentTextItem->GetTextStyle()));
     if (CurrentTextItem->FontSize!=ui->fontSize->currentIndex())        ui->fontSize->setCurrentIndex(ui->fontSize->findText(QString("%1").arg(CurrentTextItem->FontSize)));
     if (CurrentTextItem->Text!=ui->plainTextEdit->toPlainText())        ui->plainTextEdit->setPlainText(CurrentTextItem->Text);
     if (CurrentTextItem->FontName!=ui->fontStyleCB->currentText())      ui->fontStyleCB->setCurrentIndex(ui->fontStyleCB->findText(QString(CurrentTextItem->FontName)));
@@ -193,7 +195,7 @@ void DlgTextEdit::RefreshControls() {
     ui->BackgroundLabel->setVisible(Allow_Brush);
     ui->BackgroundStyleBT->setVisible(Allow_Brush);
     ui->BackgroundStyleED->setVisible(Allow_Brush);
-    if (Allow_Brush) ui->BackgroundStyleED->setText(GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection.GetStyleName(CurrentTextItem->GetBackgroundStyle()));
+    if (Allow_Brush) ui->BackgroundStyleED->setText(StyleTextBackgroundCollection->GetStyleName(CurrentTextItem->GetBackgroundStyle()));
     ui->BrushTypeLabel->setVisible(Allow_Brush);
     ui->BrushTypeCombo->setVisible(Allow_Brush);
     ui->ColorLabel1->setVisible(Allow_Color1);
@@ -545,9 +547,9 @@ void DlgTextEdit::s_TextStyleBT() {
     qDebug() << "IN:DlgTextEdit::s_TextStyleBT";
     #endif
     QString ActualStyle=CurrentTextItem->GetTextStyle();
-    QString Item=GlobalMainWindow->ApplicationConfig->StyleTextCollection.PopupCollectionMenu(this,ActualStyle);
+    QString Item=StyleTextCollection->PopupCollectionMenu(this,ActualStyle);
     ui->TextStyleBT->setDown(false);
-    if (Item!="") CurrentTextItem->ApplyTextStyle(GlobalMainWindow->ApplicationConfig->StyleTextCollection.GetStyleDef(Item));
+    if (Item!="") CurrentTextItem->ApplyTextStyle(StyleTextCollection->GetStyleDef(Item));
     RefreshControls();
 }
 
@@ -556,8 +558,8 @@ void DlgTextEdit::s_BackgroundStyleBT() {
     qDebug() << "IN:DlgTextEdit::s_BackgroundStyleBT";
     #endif
     QString ActualStyle=CurrentTextItem->GetBackgroundStyle();
-    QString Item=GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection.PopupCollectionMenu(this,ActualStyle);
+    QString Item=StyleTextBackgroundCollection->PopupCollectionMenu(this,ActualStyle);
     ui->BackgroundStyleBT->setDown(false);
-    if (Item!="") CurrentTextItem->ApplyBackgroundStyle(GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection.GetStyleDef(Item));
+    if (Item!="") CurrentTextItem->ApplyBackgroundStyle(StyleTextBackgroundCollection->GetStyleDef(Item));
     RefreshControls();
 }

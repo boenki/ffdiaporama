@@ -1413,7 +1413,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 RenderMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
 
             // Flush audio frame
-            while ((Continue)&&(MaxPacket>0)/*(RenderMusic.List.count()>0)*/) {
+            while ((Continue)&&(RenderMusic.List.count()>0)) {
                 AVPacket    pkt;
                 int16_t     *Packet=RenderMusic.DetachFirstPacket();
 
@@ -1457,7 +1457,6 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 }
 
                 av_free(Packet);
-                MaxPacket--;
             }
 
             QApplication::processEvents();  // Give time to interface!

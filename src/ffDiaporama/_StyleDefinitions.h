@@ -87,6 +87,7 @@ public:
     void    ManageExistingStyle(QWidget *ParentWindow);
     void    StringToStringList(QString String,QStringList &List);
     void    StringDefToStringList(QString String,QStringList &List);
+    void    DoTranslateCollection();
 
     // Configuration option
     QString DecodeString(QString String);

@@ -44,11 +44,14 @@ namespace Ui {
 class DlgTextEdit : public QCustomDialog {
 Q_OBJECT
 public:
-    cCompositionObject  *CurrentTextItem;           // Text to modify
-    cBrushDefinition    *CurrentBrush;              // Brush to modify
+    cCompositionObject  *CurrentTextItem;                   // Text to modify
+    cBrushDefinition    *CurrentBrush;                      // Brush to modify
     bool                StopMAJSpinbox;
+    cStyleCollection    *StyleTextCollection;               // Link to text style collection
+    cStyleCollection    *StyleTextBackgroundCollection;     // Link to background text style collection
 
-    explicit        DlgTextEdit(cCompositionObject *CurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit        DlgTextEdit(cCompositionObject *CurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
+                                cStyleCollection *StyleTextCollection,cStyleCollection *StyleTextBackgroundCollection,QWidget *parent=0);
                     ~DlgTextEdit();
 
     // function to be overloaded

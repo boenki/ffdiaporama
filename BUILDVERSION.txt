@@ -1,1 +1,1 @@
-Version beta 2 1.2 20120131
+Version beta 2 1.2 20120201
