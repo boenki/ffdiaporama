@@ -57,6 +57,11 @@ public:
     QString                 CurrentPath;                                // Currently shown path
     int                     CurrentFilter;                              // Currently selected filter
     int                     CurrentMode;                                // Currently selected display mode
+
+    int                     Image_ThumbWidth,Image_ThumbHeight;         // Thumbnail size in big icon mode for image
+    int                     Music_ThumbWidth,Music_ThumbHeight;         // Thumbnail size in big icon mode for music
+    int                     Video_ThumbWidth,Video_ThumbHeight;         // Thumbnail size in big icon mode for video
+
     cSaveWindowPosition     *DlgApplicationSettingsWSP;                 // Dialog box "Application settings" - Window size and position
     cSaveWindowPosition     *DlgCheckConfigWSP;                         // Dialog box "Check configuration" - Window size and position
     cSaveWindowPosition     *DlgAboutWSP;                               // Dialog box "About" - Window size and position

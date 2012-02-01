@@ -79,6 +79,15 @@ void cApplicationConfig::InitValues() {
     ShowFoldersFirst        =true;
     CurrentFilter           =OBJECTTYPE_UNMANAGED;
     CurrentMode             =DISPLAY_DATA;
+
+    // Thumbnail size in big icon mode
+    Image_ThumbWidth =300;
+    Image_ThumbHeight=200;
+    Music_ThumbWidth =200;
+    Music_ThumbHeight=200;
+    Video_ThumbWidth =162;
+    Video_ThumbHeight=216;
+
     #if defined(Q_OS_WIN)
     QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
     CurrentPath=Settings.value("Personal").toString();
@@ -112,6 +121,13 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("CurrentFilter",           CurrentFilter);
     Element.setAttribute("CurrentMode",             CurrentMode);
 
+    Element.setAttribute("Image_ThumbWidth",        Image_ThumbWidth);
+    Element.setAttribute("Image_ThumbHeight",       Image_ThumbHeight);
+    Element.setAttribute("Music_ThumbWidth",        Music_ThumbWidth);
+    Element.setAttribute("Music_ThumbHeight",       Music_ThumbHeight);
+    Element.setAttribute("Video_ThumbWidth",        Video_ThumbWidth);
+    Element.setAttribute("Video_ThumbHeight",       Video_ThumbHeight);
+
     domDocument.appendChild(Element);
     DlgApplicationSettingsWSP->SaveToXML(domDocument);
     DlgCheckConfigWSP->SaveToXML(domDocument);
@@ -137,6 +153,13 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         if (Element.hasAttribute("CurrentPath"))            CurrentPath=Element.attribute("CurrentPath");
         if (Element.hasAttribute("CurrentFilter"))          CurrentFilter=Element.attribute("CurrentFilter").toInt();
         if (Element.hasAttribute("CurrentMode"))            CurrentMode=Element.attribute("CurrentMode").toInt();
+
+        if (Element.hasAttribute("Image_ThumbWidth"))       Image_ThumbWidth=Element.attribute("Image_ThumbWidth").toInt();
+        if (Element.hasAttribute("Image_ThumbHeight"))      Image_ThumbHeight=Element.attribute("Image_ThumbHeight").toInt();
+        if (Element.hasAttribute("Music_ThumbWidth"))       Music_ThumbWidth=Element.attribute("Music_ThumbWidth").toInt();
+        if (Element.hasAttribute("Music_ThumbHeight"))      Music_ThumbHeight=Element.attribute("Music_ThumbHeight").toInt();
+        if (Element.hasAttribute("Video_ThumbWidth"))       Video_ThumbWidth=Element.attribute("Video_ThumbWidth").toInt();
+        if (Element.hasAttribute("Video_ThumbHeight"))      Video_ThumbHeight=Element.attribute("Video_ThumbHeight").toInt();
     }
     DlgApplicationSettingsWSP->LoadFromXML(domDocument);
     DlgCheckConfigWSP->LoadFromXML(domDocument);

@@ -256,5 +256,9 @@
         <file>img/Transitions/tr-03-14.png</file>
         <file>img/Transitions/tr-03-15.png</file>
         <file>img/Transitions/tr-icon-error.png</file>
+        <file>img/Transitions/tr-10-00.png</file>
+        <file>img/Transitions/tr-10-01.png</file>
+        <file>img/Transitions/tr-10-02.png</file>
+        <file>img/Transitions/tr-10-03.png</file>
     </qresource>
 </RCC>

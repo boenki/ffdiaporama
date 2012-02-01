@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 30/01/2011) :
+Buggs/TODO (Dernier SVN le 31/01/2011) :
 ----------------------------------------
 TODO
 ----
@@ -22,26 +22,26 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige l'undo dans la boite texte qui ne fonctionnait plus depuis ffD 1.1
--Corrige l'activation/désactivation du mode Raster pour les Linux qui ne fonctionnait plus depuis ffD 1.1
--Corrige l'erreur de calcul dans le recadrage d'image [Beta 2]
--Corrige l'erreur sur le son [Beta 1/Beta2]
--Supprime l'activation par double click du mode edition sur les lignes de fichiers musicaux dans la boite musique
--Réactive les traductions pour les noms des styles standards qui ne fonctionnait plus depuis ffD 1.1
 
 English version / Bug fix :
--Fix undo in text dialog wich not work correctly since ffD 1.1
--Fix Raster mode activation/deactivation for Linux wich not work correctly since ffD 1.1
--Fix computation error in image reframming [Beta 2]
--Fix sound error [Beta 1/Beta2]
--Remove edit mode when double click on music files in music dialog
--Re-enable translation for standard style name wich not work correctly since ffD 1.1
 
-French version / Nouvelles fonctionnalités
--Ajoute 6,8 et 10 secondes en valeurs par défaut sélectionnable pour les transitions dans la boite d'option
+French version / Nouvelles fonctionnalités :
+-Modifie le fonctionnement du slider video (preview+boite edit vidéo)
+  - Dessine le slider avec une pointe de triangle (pour qu'il ait le même look sur toutes les plateformes)
+  - Quand on click hors du thumb sur le slider, le slider prend la position du click
+-Ajoute une nouvelle famille de transitions avec 4 transitions (Deformation)
+[MMFiler]-Ouvre un menu contextuel (Action) quand on fait un click droit sur un fichier multimédia
+[MMFiler]-Ajoute un scroller dans la boite de dialogue d'information sur les fichiers
+[MMFiler]-Ajoute des options dans la boite de dialogue de configuration pour définir la taille des vignettes en mode mode Grands icônes
 
-English version / New features
--Add 6,8 and 10 secondes as selectable default values for transitions in option dialog
+English version / New features :
+-Modify video slider functioning (preview+edit video dialog)
+- Draw the slider with a triangle (so it looks exactly the same on all plateforms)
+- When a click on the slider but out of thumb, the slider position become the click position
+-Add a new transition familly with 4 transitions (Deform)
+[MMFiler]-Open a contextual menu (Action) when a right click is done on a multimedia file
+[MMFiler]-Add a scroller for Information File Dialog
+[MMFiler]-Add options in option dialog to define thumbnails size when Big icons mode
 
 -------------------------------------
 Changelog depuis la version 20111118
@@ -70,6 +70,12 @@ Bug fix French version
 -Utilise désormais PREFIX au lieu de INSTALL_ROOT pour l'installation sous Linux
 -Corrige la désinstallation sous Linux (qui oubliait quelques fichiers)
 -Corrige des petites erreurs dans le son (crachotement très léger en début de piste et/ou à période régulière)
+-Corrige l'undo dans la boite texte qui ne fonctionnait plus depuis ffD 1.1
+-Corrige l'activation/désactivation du mode Raster pour les Linux qui ne fonctionnait plus depuis ffD 1.1
+-Corrige l'erreur de calcul dans le recadrage d'image [Beta 2]
+-Corrige l'erreur sur le son [Beta 1/Beta2]
+-Supprime l'activation par double click du mode edition sur les lignes de fichiers musicaux dans la boite musique
+-Réactive les traductions pour les noms des styles standards qui ne fonctionnait plus depuis ffD 1.1
 
 Bug fix English version
 -When exit the application, even when answer yes, modifications are not saved
@@ -92,6 +98,12 @@ Bug fix English version
 -Use henceforth PREFIX instead of INSTALL_ROOT for the installation under Linux
 -Fix the uninstall under Linux (which forgot some files)
 -Correct small errors in the sound (very light crackling in the beginning of track and/or in regular period)
+-Fix undo in text dialog wich not work correctly since ffD 1.1
+-Fix Raster mode activation/deactivation for Linux wich not work correctly since ffD 1.1
+-Fix computation error in image reframming [Beta 2]
+-Fix sound error [Beta 1/Beta2]
+-Remove edit mode when double click on music files in music dialog
+-Re-enable translation for standard style name wich not work correctly since ffD 1.1
 
 French version / Nouvelles fonctionnalités
 -Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
@@ -124,6 +136,7 @@ French version / Nouvelles fonctionnalités
 -Ajoute la prise en charge des vidéos contenant des pistes son au format UINT8 (mono et stéréo)
 -Transfert de toutes les icones en ressources QT
 -Ajoute trois valeurs possible pour les durées de transition : 6, 8 et 10 secondes
+-Ajoute 6,8 et 10 secondes en valeurs par défaut sélectionnable pour les transitions dans la boite d'option
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -156,3 +169,5 @@ English version / New features
 -Add possibility to include video with sound track using UINT8 sample format (mono and stereo)
 -Move all icons into QT ressources
 -Add three new possible values for transition duration : 6, 8 et 10 secondes
+-Add 6,8 and 10 secondes as selectable default values for transitions in option dialog
+

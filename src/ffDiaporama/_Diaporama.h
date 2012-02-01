@@ -50,12 +50,14 @@ class cDiaporamaObject;
 #define TRANSITIONFAMILLY_LUMA_CHECKER      7
 #define TRANSITIONFAMILLY_LUMA_CLOCK        8
 #define TRANSITIONFAMILLY_LUMA_SNAKE        9
+#define TRANSITIONFAMILLY_DEFORM            10
 
 // No luma transition : number of sub type
 #define TRANSITIONMAXSUBTYPE_BASE           4
 #define TRANSITIONMAXSUBTYPE_ZOOMINOUT      18
 #define TRANSITIONMAXSUBTYPE_SLIDE          16
 #define TRANSITIONMAXSUBTYPE_PUSH           16
+#define TRANSITIONMAXSUBTYPE_DEFORM         4
 
 // Speed wave forme definition
 #define SPEEDWAVE_LINEAR                    0
@@ -381,6 +383,7 @@ public:
     void                    DoZoom(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
     void                    DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
     void                    DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    void                    DoDeform(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
     void                    DoLuma(cLumaList *List,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
     QImage                  RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg);
 

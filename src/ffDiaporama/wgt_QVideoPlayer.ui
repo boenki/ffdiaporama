@@ -123,7 +123,7 @@
           <string notr="true">...</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../RSCffDiaporama.qrc">
            <normaloff>:/img/player_play.png</normaloff>:/img/player_play.png</iconset>
          </property>
          <property name="iconSize">
@@ -136,12 +136,6 @@
        </item>
        <item>
         <widget class="QCustomRuller" name="CustomRuller">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -154,14 +148,8 @@
            <height>32</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="lineWidth">
-          <number>0</number>
-         </property>
-         <property name="text">
-          <string notr="true">CustomSlider</string>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
@@ -359,16 +347,19 @@ color: white;
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QCustomRuller</class>
-   <extends>QLabel</extends>
-   <header>../sharedfiles/QCustomRuller.h</header>
-  </customwidget>
-  <customwidget>
    <class>QMovieLabel</class>
    <extends>QLabel</extends>
    <header>wgt_QVideoPlayer.h</header>
   </customwidget>
+  <customwidget>
+   <class>QCustomRuller</class>
+   <extends>QSlider</extends>
+   <header>../sharedfiles/QCustomRuller.h</header>
+  </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../RSCffDiaporama.qrc"/>
+  <include location="../../RSCffDiaporama.qrc"/>
+ </resources>
  <connections/>
 </ui>

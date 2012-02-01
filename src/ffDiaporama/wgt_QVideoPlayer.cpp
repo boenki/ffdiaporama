@@ -138,9 +138,9 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     connect(ui->MovieFrame,SIGNAL(DoubleClick()),this,SLOT(s_DoubleClick()));
 
     // Slider control
-    connect(ui->CustomRuller->Slider,SIGNAL(sliderPressed()),this,SLOT(s_SliderPressed()));
-    connect(ui->CustomRuller->Slider,SIGNAL(sliderReleased()),this,SLOT(s_SliderReleased()));
-    connect(ui->CustomRuller->Slider,SIGNAL(valueChanged(int)),this,SLOT(s_SliderMoved(int)));
+    connect(ui->CustomRuller,SIGNAL(sliderPressed()),this,SLOT(s_SliderPressed()));
+    connect(ui->CustomRuller,SIGNAL(sliderReleased()),this,SLOT(s_SliderReleased()));
+    connect(ui->CustomRuller,SIGNAL(valueChanged(int)),this,SLOT(s_SliderMoved(int)));
 }
 
 //============================================================================================
@@ -213,7 +213,7 @@ void wgt_QVideoPlayer::Resize() {
     ui->MovieFrame->setFixedHeight(TheHeight);
 
     ui->CustomRuller->setFixedWidth(TheWidth-ui->VideoPlayerPlayPauseBT->width()-ui->Position->width());
-    if (ui->CustomRuller->Slider!=NULL) ui->CustomRuller->Slider->setFixedWidth(TheWidth-ui->VideoPlayerPlayPauseBT->width()-ui->Position->width());
+    if (ui->CustomRuller!=NULL) ui->CustomRuller->setFixedWidth(TheWidth-ui->VideoPlayerPlayPauseBT->width()-ui->Position->width());
     if (ActualPosition!=-1) {
         int aActualPosition=ActualPosition;
         ActualPosition=-1;
@@ -234,7 +234,7 @@ void wgt_QVideoPlayer::SetBackgroundColor(QColor Background) {
 //============================================================================================
 
 void wgt_QVideoPlayer::EnableWidget(bool State) {
-    if (ui->CustomRuller->Slider!=NULL) ui->CustomRuller->Slider->setEnabled(State);
+    if (ui->CustomRuller!=NULL) ui->CustomRuller->setEnabled(State);
 }
 
 //============================================================================================
@@ -350,7 +350,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
     GlobalMainWindow->InPlayerUpdate=true;
 
     // Update display in controls
-    ui->CustomRuller->Slider->setValue(Value);
+    ui->CustomRuller->setValue(Value);
     ActualPosition=Value;
     ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
     ui->Duration->setText(tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
@@ -501,7 +501,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     }
 
     // if TimerTick update the preview
-    if ((TimerTick)&&(ui->CustomRuller->Slider!=NULL)) s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
+    if ((TimerTick)&&(ui->CustomRuller!=NULL)) s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
 
     ui->BufferState->setValue(ImageList.List.count());
     if (ImageList.List.count()<2)
@@ -627,9 +627,9 @@ QTime wgt_QVideoPlayer::GetActualDuration() {
 //============================================================================================
 
 void wgt_QVideoPlayer::SetActualDuration(int Duration) {
-    if (ui->CustomRuller->Slider!=NULL) {
-        ui->CustomRuller->Slider->setMaximum(Duration-1);
-        //ui->CustomRuller->Slider->repaint();
+    if (ui->CustomRuller!=NULL) {
+        ui->CustomRuller->setMaximum(Duration-1);
+        //ui->CustomRuller->repaint();
     }
     ui->CustomRuller->TotalDuration=Duration;
     //ui->CustomRuller->repaint();

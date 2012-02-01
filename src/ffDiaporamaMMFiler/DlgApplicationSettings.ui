@@ -84,8 +84,14 @@
            <property name="spacing">
             <number>4</number>
            </property>
-           <item row="1" column="1">
+           <item row="1" column="1" colspan="4">
             <widget class="QCheckBox" name="RestoreWindowCH">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="toolTip">
               <string>If this box is checked, the sizes and the positions of all the windows and dialogue box of ffDiaporama will be saved to be reused the next time which you will use ffDiaporama.</string>
              </property>
@@ -94,8 +100,14 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
+           <item row="2" column="1" colspan="4">
             <widget class="QCheckBox" name="RememberLastDirectoriesCH">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="toolTip">
               <string>If this box is checked, the directories that you use for the images, the videos, the projects, the musics and the generations of movie will be saved to be reused the next time which you will use ffDiaporama.</string>
              </property>
@@ -104,7 +116,7 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="0" colspan="2">
+           <item row="0" column="0" colspan="5">
             <widget class="QLabel" name="label_3">
              <property name="font">
               <font>
@@ -118,7 +130,7 @@
              </property>
             </widget>
            </item>
-           <item row="12" column="0">
+           <item row="16" column="0" colspan="3">
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -131,7 +143,7 @@
              </property>
             </spacer>
            </item>
-           <item row="6" column="0" colspan="2">
+           <item row="6" column="0" colspan="5">
             <widget class="QLabel" name="label_35">
              <property name="minimumSize">
               <size>
@@ -155,17 +167,44 @@
              <property name="text">
               <string>Video options</string>
              </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="3" column="1" colspan="4">
             <widget class="QCheckBox" name="RasterModeCB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Enable &quot;raster&quot; Graphics System (Need application restart)</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="0" colspan="2">
+           <item row="8" column="0" colspan="5">
             <widget class="QLabel" name="BrowserOptions">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>30</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <weight>75</weight>
@@ -176,12 +215,15 @@
              <property name="text">
               <string>Display options</string>
              </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             </property>
             </widget>
            </item>
-           <item row="7" column="1">
+           <item row="7" column="1" colspan="4">
             <widget class="QCheckBox" name="Crop1088To1080CB">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -191,25 +233,156 @@
              </property>
             </widget>
            </item>
-           <item row="9" column="1">
+           <item row="9" column="1" colspan="4">
             <widget class="QCheckBox" name="HiddenCB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Show hidden folders and files</string>
              </property>
             </widget>
            </item>
-           <item row="10" column="1">
+           <item row="10" column="1" colspan="4">
             <widget class="QCheckBox" name="FoldersFirstCB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Display folders first</string>
              </property>
             </widget>
            </item>
-           <item row="11" column="1">
+           <item row="11" column="1" colspan="4">
             <widget class="QCheckBox" name="OnlyMediaDrivesCB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Display only drives mounted in /media/</string>
              </property>
+            </widget>
+           </item>
+           <item row="12" column="1" colspan="4">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Thumbnails size for big icons mode :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="13" column="1">
+            <widget class="QLabel" name="label_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="13" column="2">
+            <widget class="QLabel" name="label_4">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Image :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="13" column="3">
+            <widget class="QComboBox" name="ThumbSImageCB">
+             <property name="sizeAdjustPolicy">
+              <enum>QComboBox::AdjustToContents</enum>
+             </property>
+             <item>
+              <property name="text">
+               <string>300x200</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="13" column="4">
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="14" column="2">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Music :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="15" column="2">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>Video :</string>
+             </property>
+            </widget>
+           </item>
+           <item row="14" column="3">
+            <widget class="QComboBox" name="ThumbSMusicCB">
+             <property name="sizeAdjustPolicy">
+              <enum>QComboBox::AdjustToContents</enum>
+             </property>
+             <item>
+              <property name="text">
+               <string>200x200</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="15" column="3">
+            <widget class="QComboBox" name="ThumbSVideoCB">
+             <property name="sizeAdjustPolicy">
+              <enum>QComboBox::AdjustToContents</enum>
+             </property>
+             <item>
+              <property name="text">
+               <string>150x200</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>162x216</string>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>
@@ -238,7 +411,7 @@
         <string>Check Configuration</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
          <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
        </property>
       </widget>
@@ -249,7 +422,7 @@
         <string>Manage Devices</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
          <normaloff>:/img/db.png</normaloff>:/img/db.png</iconset>
        </property>
       </widget>
@@ -276,7 +449,7 @@
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -290,7 +463,7 @@
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -304,7 +477,7 @@
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
@@ -320,6 +493,9 @@
   <tabstop>OkBt</tabstop>
   <tabstop>CancelBt</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../RSCffDiaporama.qrc"/>
+  <include location="../../RSCffDiaporama.qrc"/>
+ </resources>
  <connections/>
 </ui>

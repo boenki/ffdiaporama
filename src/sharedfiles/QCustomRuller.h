@@ -26,8 +26,11 @@
 
 #include <QLabel>
 #include <QSlider>
+#include <QPaintEvent>
+#include <QResizeEvent>
+#include <QMouseEvent>
 
-class QCustomRuller : public QLabel {
+class QCustomRuller : public QSlider {
 Q_OBJECT
 public:
     int     TotalDuration;      // Total duration in MSec of the movie
@@ -38,16 +41,14 @@ public:
     int     NextStartPos;       // Start position of the next slide
     int     NextEndPos;         // End position of the next slide
 
-    QSlider *Slider;            // Embeded QSlider object
-
     explicit QCustomRuller(QWidget *parent = 0);
-    ~QCustomRuller();
 
     void    ActiveSlider(int TotalDuration);
 
 protected:
     virtual void resizeEvent(QResizeEvent *);
     virtual void paintEvent (QPaintEvent *);
+    virtual void mousePressEvent(QMouseEvent *);
 
 signals:
 

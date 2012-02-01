@@ -72,6 +72,7 @@ private slots:
     void                s_ActionFile();
     void                s_itemDoubleClicked(QTableWidgetItem *);
     void                s_itemDoubleClicked();
+    void                s_itemRightClicked(QMouseEvent *ev);
 
     void                s_Config();
     void                s_action_Exit();
