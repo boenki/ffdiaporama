@@ -73,8 +73,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>495</width>
-            <height>495</height>
+            <width>452</width>
+            <height>473</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -533,8 +533,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>659</width>
-            <height>2102</height>
+            <width>662</width>
+            <height>2059</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -825,7 +825,7 @@ Chosen randomly a transition in the library</string>
                 <string notr="true"/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../../RSCffDiaporama.qrc">
                  <normaloff>:/img/random.png</normaloff>:/img/random.png</iconset>
                </property>
                <attribute name="buttonGroup">
@@ -927,6 +927,21 @@ Crossfade transition</string>
                <item>
                 <property name="text">
                  <string notr="true">4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>6</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>8</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>10</string>
                 </property>
                </item>
               </widget>
@@ -2971,8 +2986,8 @@ image</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>659</width>
-            <height>371</height>
+            <width>384</width>
+            <height>369</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -3431,7 +3446,7 @@ image</string>
         <string>Check Configuration</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
          <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
        </property>
       </widget>
@@ -3469,7 +3484,7 @@ image</string>
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -3483,7 +3498,7 @@ image</string>
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -3497,7 +3512,7 @@ image</string>
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
@@ -3521,7 +3536,10 @@ image</string>
   <tabstop>OkBt</tabstop>
   <tabstop>CancelBt</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../RSCffDiaporama.qrc"/>
+  <include location="../../RSCffDiaporama.qrc"/>
+ </resources>
  <connections/>
  <buttongroups>
   <buttongroup name="TransitionButtons"/>

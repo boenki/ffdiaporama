@@ -25,15 +25,23 @@ French version / Correction de bug :
 -Corrige l'undo dans la boite texte qui ne fonctionnait plus depuis ffD 1.1
 -Corrige l'activation/désactivation du mode Raster pour les Linux qui ne fonctionnait plus depuis ffD 1.1
 -Corrige l'erreur de calcul dans le recadrage d'image [Beta 2]
+-Corrige l'erreur sur le son [Beta 1/Beta2]
+-Supprime l'activation par double click du mode edition sur les lignes de fichiers musicaux dans la boite musique
+-Réactive les traductions pour les noms des styles standards qui ne fonctionnait plus depuis ffD 1.1
 
 English version / Bug fix :
 -Fix undo in text dialog wich not work correctly since ffD 1.1
 -Fix Raster mode activation/deactivation for Linux wich not work correctly since ffD 1.1
 -Fix computation error in image reframming [Beta 2]
+-Fix sound error [Beta 1/Beta2]
+-Remove edit mode when double click on music files in music dialog
+-Re-enable translation for standard style name wich not work correctly since ffD 1.1
 
 French version / Nouvelles fonctionnalités
+-Ajoute 6,8 et 10 secondes en valeurs par défaut sélectionnable pour les transitions dans la boite d'option
 
 English version / New features
+-Add 6,8 and 10 secondes as selectable default values for transitions in option dialog
 
 -------------------------------------
 Changelog depuis la version 20111118

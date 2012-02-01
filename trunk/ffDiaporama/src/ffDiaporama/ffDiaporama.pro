@@ -45,7 +45,6 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             _ImagesDefinitions.cpp \
             _Diaporama.cpp \
             wgt_QVideoPlayer.cpp \
-            wgt_QCustomRuller.cpp \
             wgt_QCustomThumbnails.cpp \
             DlgApplicationSettings.cpp \
             DlgBackgroundProperties.cpp \
@@ -64,6 +63,7 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             cCustomTableWidget.cpp \
             DlgManageStyle.cpp \
             _StyleDefinitions.cpp \
+            ../sharedfiles/QCustomRuller.cpp \
             ../sharedfiles/DlgCheckConfig.cpp \
             ../sharedfiles/cSaveWindowPosition.cpp \
             ../sharedfiles/cBaseApplicationConfig.cpp \
@@ -81,13 +81,12 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../sharedfiles/cBrushDefinition.cpp \
             ../sharedfiles/DlgInfoFile.cpp
 
-HEADERS  += _GlobalDefines.h \
+HEADERS  += \
             _SoundDefinitions.h \
             _ImagesDefinitions.h \
             _ApplicationDefinitions.h \
             _Diaporama.h \
             wgt_QVideoPlayer.h \
-            wgt_QCustomRuller.h \
             wgt_QCustomThumbnails.h \
             DlgApplicationSettings.h \
             DlgBackgroundProperties.h \
@@ -105,6 +104,7 @@ HEADERS  += _GlobalDefines.h \
             cCustomTableWidget.h \
             DlgManageStyle.h \
             _StyleDefinitions.h \
+            ../sharedfiles/QCustomRuller.h \
             ../sharedfiles/DlgCheckConfig.h \
             ../sharedfiles/cSaveWindowPosition.h \
             ../sharedfiles/cBaseApplicationConfig.h \

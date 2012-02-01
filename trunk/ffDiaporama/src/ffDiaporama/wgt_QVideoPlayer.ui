@@ -135,7 +135,7 @@
         </widget>
        </item>
        <item>
-        <widget class="wgt_QCustomRuller" name="CustomRuller">
+        <widget class="QCustomRuller" name="CustomRuller">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -359,9 +359,9 @@ color: white;
  </widget>
  <customwidgets>
   <customwidget>
-   <class>wgt_QCustomRuller</class>
+   <class>QCustomRuller</class>
    <extends>QLabel</extends>
-   <header>wgt_QCustomRuller.h</header>
+   <header>../sharedfiles/QCustomRuller.h</header>
   </customwidget>
   <customwidget>
    <class>QMovieLabel</class>
