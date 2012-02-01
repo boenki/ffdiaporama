@@ -78,6 +78,11 @@ void DlgApplicationSettings::DoInitDialog() {
         ui->OnlyMediaDrivesCB->setChecked(!ApplicationConfig->ShowMntDrive);
     #endif
 
+    QString ThumbSize;
+    ThumbSize=QString("%1x%2").arg(ApplicationConfig->Image_ThumbWidth).arg(ApplicationConfig->Image_ThumbHeight); ui->ThumbSImageCB->setCurrentIndex(ui->ThumbSImageCB->findText(ThumbSize));
+    ThumbSize=QString("%1x%2").arg(ApplicationConfig->Music_ThumbWidth).arg(ApplicationConfig->Music_ThumbHeight); ui->ThumbSMusicCB->setCurrentIndex(ui->ThumbSMusicCB->findText(ThumbSize));
+    ThumbSize=QString("%1x%2").arg(ApplicationConfig->Video_ThumbWidth).arg(ApplicationConfig->Video_ThumbHeight); ui->ThumbSVideoCB->setCurrentIndex(ui->ThumbSVideoCB->findText(ThumbSize));
+
     connect(ui->CheckConfigBT,SIGNAL(clicked()),this,SLOT(s_CheckConfig()));
     connect(ui->DBManageDevicesBT,SIGNAL(clicked()),this,SLOT(s_ManageDevices()));
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(TabChanged(int)));
@@ -97,6 +102,13 @@ void DlgApplicationSettings::DoAccept() {
     ApplicationConfig->ShowHiddenFilesAndDir    =ui->HiddenCB->isChecked();
     ApplicationConfig->ShowFoldersFirst         =ui->FoldersFirstCB->isChecked();
     ApplicationConfig->Crop1088To1080           =ui->Crop1088To1080CB->isChecked();
+
+
+    QString ThumbSize;
+    ThumbSize=ui->ThumbSImageCB->currentText();   ApplicationConfig->Image_ThumbWidth=ThumbSize.left(ThumbSize.indexOf("x")).toInt();    ApplicationConfig->Image_ThumbHeight=ThumbSize.mid(ThumbSize.indexOf("x")+1).toInt();
+    ThumbSize=ui->ThumbSMusicCB->currentText();   ApplicationConfig->Music_ThumbWidth=ThumbSize.left(ThumbSize.indexOf("x")).toInt();    ApplicationConfig->Music_ThumbHeight=ThumbSize.mid(ThumbSize.indexOf("x")+1).toInt();
+    ThumbSize=ui->ThumbSVideoCB->currentText();   ApplicationConfig->Video_ThumbWidth=ThumbSize.left(ThumbSize.indexOf("x")).toInt();    ApplicationConfig->Video_ThumbHeight=ThumbSize.mid(ThumbSize.indexOf("x")+1).toInt();
+
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
         ApplicationConfig->RasterMode           =ui->RasterModeCB->isChecked();
         ApplicationConfig->ShowMntDrive         =!ui->OnlyMediaDrivesCB->isChecked();

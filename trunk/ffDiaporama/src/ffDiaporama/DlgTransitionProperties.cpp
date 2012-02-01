@@ -52,18 +52,29 @@ DlgTransitionProperties::DlgTransitionProperties(cDiaporamaObject *DiaporamaObje
     this->DiaporamaObject       =DiaporamaObject;
     this->IsBackgroundTransition=IsBackgroundTransition;
 
-#if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-#else
+    #else
     setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
-#endif
-
+    #endif
 
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
     DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",DiaporamaObject->Parent->ProjectFileName,true);  // Save object
     Undo->appendChild(root);                                // Add object to xml document
+
+    ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","None and basic"),  QVariant(TRANSITIONFAMILLY_BASE));
+    ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Zoom"),            QVariant(TRANSITIONFAMILLY_ZOOMINOUT));
+    ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Slide"),           QVariant(TRANSITIONFAMILLY_SLIDE));
+    ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Push"),            QVariant(TRANSITIONFAMILLY_PUSH));
+    ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Deform"),          QVariant(TRANSITIONFAMILLY_DEFORM));
+    ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Luma-Bar"),        QVariant(TRANSITIONFAMILLY_LUMA_BAR));
+    ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Luma-Box"),        QVariant(TRANSITIONFAMILLY_LUMA_BOX));
+    ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Luma-Center"),     QVariant(TRANSITIONFAMILLY_LUMA_CENTER));
+    ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Luma-Checker"),    QVariant(TRANSITIONFAMILLY_LUMA_CHECKER));
+    ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Luma-Clock"),      QVariant(TRANSITIONFAMILLY_LUMA_CLOCK));
+    ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Luma-Snake"),      QVariant(TRANSITIONFAMILLY_LUMA_SNAKE));
 
     // Init internal values
     PreviousFrame=NULL;
@@ -105,8 +116,10 @@ DlgTransitionProperties::DlgTransitionProperties(cDiaporamaObject *DiaporamaObje
     while (Duration.endsWith('.')) Duration=Duration.left(Duration.length()-1);
     ui->TransitionDurationCB->setCurrentIndex(ui->TransitionDurationCB->findText(Duration));
 
-    ui->TransitionTypeCB->setCurrentIndex(TransitionFamilly);
-    s_ChTransitionTypeCB(TransitionFamilly);
+    for (int i=0;(i<ui->TransitionTypeCB->count());i++) if (ui->TransitionTypeCB->itemData(i).toInt()==TransitionFamilly) {
+        ui->TransitionTypeCB->setCurrentIndex(i);
+        s_ChTransitionTypeCB(i);
+    }
 
     //=================> Define handlers
 
@@ -165,7 +178,7 @@ void DlgTransitionProperties::accept() {
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgTransitionPropertiesWSP->SaveWindowState(this);
 
-    DiaporamaObject->TransitionFamilly =ui->TransitionTypeCB->currentIndex();
+    DiaporamaObject->TransitionFamilly =ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
     DiaporamaObject->TransitionSubType =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
     DiaporamaObject->TransitionDuration=int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
 
@@ -179,6 +192,9 @@ void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
     Timer.stop();
     if (PreviousFrame==NULL) return;    // Nothing to do if previsous frame is not initialize
 
+    // Convert item number to transition familly
+    NewValue=ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
+
     ui->TransitionTable->setUpdatesEnabled(false);
 
     // clear table
@@ -190,6 +206,7 @@ void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
     case TRANSITIONFAMILLY_ZOOMINOUT   : MaxItem=TRANSITIONMAXSUBTYPE_ZOOMINOUT;    break;
     case TRANSITIONFAMILLY_PUSH        : MaxItem=TRANSITIONMAXSUBTYPE_PUSH;         break;
     case TRANSITIONFAMILLY_SLIDE       : MaxItem=TRANSITIONMAXSUBTYPE_SLIDE;        break;
+    case TRANSITIONFAMILLY_DEFORM      : MaxItem=TRANSITIONMAXSUBTYPE_DEFORM;       break;
     case TRANSITIONFAMILLY_LUMA_BAR    : MaxItem=LumaList_Bar.List.count();         break;
     case TRANSITIONFAMILLY_LUMA_BOX    : MaxItem=LumaList_Box.List.count();         break;
     case TRANSITIONFAMILLY_LUMA_CENTER : MaxItem=LumaList_Center.List.count();      break;
@@ -286,7 +303,7 @@ void DlgTransitionProperties::s_ChTransitionDurationCB(int) {
     AnimationTime=0;
 
     // Adjust Transition
-    PreviousFrame->TransitionFamilly=ui->TransitionTypeCB->currentIndex();
+    PreviousFrame->TransitionFamilly=ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
     PreviousFrame->TransitionSubType=ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
     PreviousFrame->TransitionDuration=int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
 

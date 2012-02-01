@@ -71,6 +71,7 @@ public:
 
     virtual void            resizeEvent(QResizeEvent *);
     virtual void            mouseDoubleClickEvent(QMouseEvent *);
+    virtual void            mouseReleaseEvent(QMouseEvent *);
 
     virtual void            SetMode(int Mode,int Filter);
     virtual void            FillListFolder(QString Path,cBaseApplicationConfig *ApplicationConfig);
@@ -82,11 +83,11 @@ public:
 
 signals:
     void    DoubleClickEvent();
+    void    RightClickEvent(QMouseEvent *ev);
     void    RefreshFolderInfo();
     void    NeedResizeColumns();
 
 public slots:
-    void    s_itemDoubleClicked();
     void    DoResizeColumns();
 
 private:

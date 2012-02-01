@@ -23,57 +23,85 @@
 #include <QPainter>
 #include <QFont>
 
+//#define DEBUGMODE
+
 //======================================
 // Specific defines for this dialog box
 //======================================
 #define TAQUET_SIZE         9       // TAQUET_SIZE is QSlider::handle:horizontal (width+margin)/2
 #define CompletTickH1       3       // Y start position of the complete tick line
-#define CompletTickH2       20      // Y end position of the complete tick line
+#define CompletTickH2       15      // Y end position of the complete tick line
 #define IntermediateTickH1  7       // Y start position of the intermediate tick line
-#define IntermediateTickH2  20      // Y end position of the intermediate tick line
+#define IntermediateTickH2  15      // Y end position of the intermediate tick line
+#define ThumbWidth          14      // Width of the thumb
+#define ThumbHeight         20      // Height of the thumb
+#define ThumbYPos           16      // Y midle position of the thumb
 
 //====================================================================================================================
 
-QCustomRuller::QCustomRuller(QWidget *parent):QLabel(parent) {
-    Slider  =NULL;
+QCustomRuller::QCustomRuller(QWidget *parent):QSlider(parent) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomRuller::QCustomRuller";
+    #endif
+
     StartPos=0;
     EndPos  =0;
-}
-
-QCustomRuller::~QCustomRuller() {
-    if (Slider) {
-        delete Slider;
-        Slider=NULL;
-    }
+    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    setFixedHeight(32);
 }
 
 //====================================================================================================================
 
 void QCustomRuller::ActiveSlider(int TotalDuration) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomRuller::ActiveSlider";
+    #endif
+
     this->TotalDuration=TotalDuration;
-    if (Slider==NULL) {
-        Slider=new QSlider(Qt::Horizontal,this);
-        Slider->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
-        Slider->setFixedHeight(32);
-        Slider->setStyleSheet("QSlider {background: transparent;\n width: 18px;\n border-top: 1px solid #202020;\n border-bottom: 0px;\n border-left: 0px;\n border-right: 0px;\n}");
-    }
 }
 
 //====================================================================================================================
 
 void QCustomRuller::resizeEvent(QResizeEvent *) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomRuller::resizeEvent";
+    #endif
+
 //    if (Slider!=NULL) Slider->setMinimumWidth(this->width());
 }
 
 //====================================================================================================================
 
+void QCustomRuller::mousePressEvent(QMouseEvent *ev) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomRuller::mousePressEvent";
+    #endif
+
+    if (ev->button()==Qt::LeftButton) {
+        int x1 =int(double(this->width()-TAQUET_SIZE*2)*(double(value())/double(maximum())))+TAQUET_SIZE;
+        if ((ev->x()>=x1-ThumbWidth/2)&&(ev->x()<=x1+ThumbWidth/2)) QSlider::mousePressEvent(ev);   // It's on the thumb
+        else if ((ev->x()>=TAQUET_SIZE-ThumbWidth/2)&&(ev->x()<=this->width()-TAQUET_SIZE+ThumbWidth/2))          // Set new value
+            setValue(int(double((ev->x()-TAQUET_SIZE)/double(this->width()-TAQUET_SIZE*2))*double(maximum())));
+    }
+}
+
+//====================================================================================================================
+
 void QCustomRuller::paintEvent(QPaintEvent *) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomRuller::paintEvent";
+    #endif
+
     QFont       Font("DejaVu Sans",6,QFont::Normal,QFont::StyleNormal);
     QPainter    Painter(this);
-    double       Width        = double(this->width());
-    double       Height       = double(this->height());
-    int         TextHPosition= (Slider==NULL?9:28);
+    double      Width        = double(this->width());
+    double      Height       = double(this->height());
+    int         TextHPosition= 28; //(Slider==NULL?9:28);
     int         WidthTick=QFontMetrics(Font).width("00:00");
+
+    //********************************************************
+    // Draw slider background
+    //********************************************************
 
     // Prepare QPainter
     Painter.setFont(Font);
@@ -187,6 +215,33 @@ void QCustomRuller::paintEvent(QPaintEvent *) {
     }
     Painter.setPen(QColor(0x20,0x20,0x20));
     Painter.drawLine(0,0,Width,0);
-    //Painter.setPen(Qt::white);
-    //Painter.drawLine(0,Height-1,Width,Height-1);
+
+    //********************************************************
+    // Draw slider
+    //********************************************************
+
+    Painter.setPen(QColor(0x20,0x20,0x20));
+    Painter.setBrush(QBrush(QColor(0xA0,0xA0,0xA0)));
+    Painter.drawRect(TAQUET_SIZE-1,15,Width-TAQUET_SIZE*2+2,5);
+
+    //********************************************************
+    // Draw thumb
+    //********************************************************
+    int     x1 =int(double(Width-TAQUET_SIZE*2)*(double(value())/double(maximum())))+TAQUET_SIZE;
+    QPointF Table[10];
+    double  vcos,vsin,Angle;
+    int     i;
+
+    Angle=90;
+    for (i=0;i<3;i++) {
+        vcos=cos(Angle*3.14159265/180)*(ThumbWidth/2);
+        vsin=sin(Angle*3.14159265/180)*(ThumbHeight/2);
+        Table[i]=QPointF(x1+vcos,ThumbYPos-vsin);
+        Angle=Angle+(double(360)/3);
+        if (Angle>=360) Angle=-Angle+360;
+    }
+    Painter.setBrush(QBrush(QColor(0xCC,0xCC,0xCC)));
+    Painter.drawPolygon(Table,3);
+    Painter.setPen(QColor(0x70,0x70,0x70));
+    Painter.drawLine(x1,7,x1,16);
 }

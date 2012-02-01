@@ -1758,6 +1758,7 @@ void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
             case TRANSITIONFAMILLY_ZOOMINOUT   : DoZoom(Info,&P,W,H);                   break;
             case TRANSITIONFAMILLY_PUSH        : DoPush(Info,&P,W,H);                   break;
             case TRANSITIONFAMILLY_SLIDE       : DoSlide(Info,&P,W,H);                  break;
+            case TRANSITIONFAMILLY_DEFORM      : DoDeform(Info,&P,W,H);                 break;
             case TRANSITIONFAMILLY_LUMA_BAR    : DoLuma(&LumaList_Bar,Info,&P,W,H);     break;
             case TRANSITIONFAMILLY_LUMA_BOX    : DoLuma(&LumaList_Box,Info,&P,W,H);     break;
             case TRANSITIONFAMILLY_LUMA_CENTER : DoLuma(&LumaList_Center,Info,&P,W,H);  break;
@@ -2115,6 +2116,34 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
             dh=(double(H)-double(Img.height()))/2;
             P->drawImage(QRectF(dw,H/2,Img.width(),Img.height()/2),Img,QRectF(0,Img.height()/2,Img.width(),Img.height()/2));
         }
+        break;
+    }
+}
+
+//============================================================================================
+
+void cDiaporama::DoDeform(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
+    int         PCTW=int(Info->TransitionPCTDone*double(W));
+    int         PCTH=int(Info->TransitionPCTDone*double(H));
+    int         PCTWB=int((1-Info->TransitionPCTDone)*double(W));
+    int         PCTHB=int((1-Info->TransitionPCTDone)*double(H));
+
+    switch (Info->TransitionSubType) {
+    case 0 :    // Since left to right
+        P->drawImage(QRect(PCTW,0,W-PCTW,H),*Info->TransitObject_PreparedImage,QRect(0,0,W,H));
+        P->drawImage(QRect(0,0,PCTW,H),*Info->CurrentObject_PreparedImage,QRect(0,0,W,H));
+        break;
+    case 1 :    // Since right to left
+        P->drawImage(QRect(0,0,PCTWB,H),*Info->TransitObject_PreparedImage,QRect(0,0,W,H));
+        P->drawImage(QRect(PCTWB,0,W-PCTWB,H),*Info->CurrentObject_PreparedImage,QRect(0,0,W,H));
+        break;
+    case 2 :    // Since up to down
+        P->drawImage(QRect(0,PCTH,W,H-PCTH),*Info->TransitObject_PreparedImage,QRect(0,0,W,H));
+        P->drawImage(QRect(0,0,W,PCTH),*Info->CurrentObject_PreparedImage,QRect(0,0,W,H));
+        break;
+    case 3 :    // Since down to up
+        P->drawImage(QRect(0,0,W,PCTHB),*Info->TransitObject_PreparedImage,QRect(0,0,W,H));
+        P->drawImage(QRect(0,PCTHB,W,H-PCTHB),*Info->CurrentObject_PreparedImage,QRect(0,0,W,H));
         break;
     }
 }

@@ -45,7 +45,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-//#define DEBUGMODE
+#define DEBUGMODE
 
 QIcon   Icon_DISPLAY_DATA_S;
 QIcon   Icon_DISPLAY_DATA;
@@ -126,8 +126,8 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->FolderTree,SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),this,SLOT(s_currentTreeItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
 
     connect(ui->FolderTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_currentTableItemChanged()));
-    connect(ui->FolderTable,SIGNAL(itemDoubleClicked(QTableWidgetItem *)),this,SLOT(s_itemDoubleClicked(QTableWidgetItem *)));
     connect(ui->FolderTable,SIGNAL(DoubleClickEvent()),this,SLOT(s_itemDoubleClicked()));
+    connect(ui->FolderTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_itemRightClicked(QMouseEvent *)));
     connect(ui->FolderTable,SIGNAL(RefreshFolderInfo()),this,SLOT(DoRefreshFolderInfo()));
 
     connect(ui->RefreshBt,SIGNAL(pressed()),this,SLOT(s_Refresh()));
@@ -561,14 +561,25 @@ void MainWindow::s_InfoFile() {
 //====================================================================================================================
 
 void MainWindow::s_itemDoubleClicked() {
-    s_itemDoubleClicked(NULL);
+    s_OpenFile();
 }
+
+//====================================================================================================================
 
 void MainWindow::s_itemDoubleClicked(QTableWidgetItem *) {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::s_itemDoubleClicked";
     #endif
     s_OpenFile();
+}
+
+//====================================================================================================================
+
+void MainWindow::s_itemRightClicked(QMouseEvent *) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_itemRightClicked";
+    #endif
+    s_ActionFile();
 }
 
 //====================================================================================================================
@@ -619,7 +630,7 @@ void MainWindow::s_ActionFile() {
 
     // Exec menu
     QAction *Action=ContextMenu->exec(QCursor::pos());
-    if ((Action)&&(ApplicationConfig->CurrentFilter!=Action->data().toInt())) {
+    if (Action) {
         int ActionType=Action->data().toInt();
         switch (ActionType) {
             case JOBTYPE_OPENFILE                   :

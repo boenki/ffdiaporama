@@ -52,56 +52,6 @@
        <property name="toolTip">
         <string>Select a transition family</string>
        </property>
-       <item>
-        <property name="text">
-         <string>None and basic</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Zoom</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Slide</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Push</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Luma-Bar</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Luma-Box</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Luma-Center</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Luma-Checker</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Luma-Clock</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Luma-Snake</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>

@@ -492,20 +492,21 @@ QTableWidgetItem *QCustomFolderTable::CreateItem(QString ItemText,int Alignment,
 
 //====================================================================================================================
 
-void QCustomFolderTable::s_itemDoubleClicked() {
+void QCustomFolderTable::mouseDoubleClickEvent(QMouseEvent *) {
     #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::s_itemDoubleClicked";
+    qDebug() << "IN:QCustomFolderTable::mouseDoubleClickEvent";
     #endif
     emit DoubleClickEvent();
 }
 
 //====================================================================================================================
 
-void QCustomFolderTable::mouseDoubleClickEvent(QMouseEvent *) {
+void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *ev) {
     #ifdef DEBUGMODE
     qDebug() << "IN:QCustomFolderTable::mouseDoubleClickEvent";
     #endif
-    emit DoubleClickEvent();
+    if (ev->button()==Qt::RightButton) emit RightClickEvent(ev);
+        else QTableWidget::mouseReleaseEvent(ev);
 }
 
 //====================================================================================================================
