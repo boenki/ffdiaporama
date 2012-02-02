@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 31/01/2011) :
+Buggs/TODO (Dernier SVN le 01/02/2011) :
 ----------------------------------------
 TODO
 ----
@@ -26,22 +26,8 @@ French version / Correction de bug :
 English version / Bug fix :
 
 French version / Nouvelles fonctionnalités :
--Modifie le fonctionnement du slider video (preview+boite edit vidéo)
-  - Dessine le slider avec une pointe de triangle (pour qu'il ait le même look sur toutes les plateformes)
-  - Quand on click hors du thumb sur le slider, le slider prend la position du click
--Ajoute une nouvelle famille de transitions avec 4 transitions (Deformation)
-[MMFiler]-Ouvre un menu contextuel (Action) quand on fait un click droit sur un fichier multimédia
-[MMFiler]-Ajoute un scroller dans la boite de dialogue d'information sur les fichiers
-[MMFiler]-Ajoute des options dans la boite de dialogue de configuration pour définir la taille des vignettes en mode mode Grands icônes
 
 English version / New features :
--Modify video slider functioning (preview+edit video dialog)
-- Draw the slider with a triangle (so it looks exactly the same on all plateforms)
-- When a click on the slider but out of thumb, the slider position become the click position
--Add a new transition familly with 4 transitions (Deform)
-[MMFiler]-Open a contextual menu (Action) when a right click is done on a multimedia file
-[MMFiler]-Add a scroller for Information File Dialog
-[MMFiler]-Add options in option dialog to define thumbnails size when Big icons mode
 
 -------------------------------------
 Changelog depuis la version 20111118
@@ -137,6 +123,13 @@ French version / Nouvelles fonctionnalités
 -Transfert de toutes les icones en ressources QT
 -Ajoute trois valeurs possible pour les durées de transition : 6, 8 et 10 secondes
 -Ajoute 6,8 et 10 secondes en valeurs par défaut sélectionnable pour les transitions dans la boite d'option
+-Modifie le fonctionnement du slider video (preview+boite edit vidéo)
+  - Dessine le slider avec une pointe de triangle (pour qu'il ait le même look sur toutes les plateformes)
+  - Quand on click hors du thumb sur le slider, le slider prend la position du click
+-Ajoute une nouvelle famille de transitions avec 4 transitions (Deformation)
+[MMFiler]-Ouvre un menu contextuel (Action) quand on fait un click droit sur un fichier multimédia
+[MMFiler]-Ajoute un scroller dans la boite de dialogue d'information sur les fichiers
+[MMFiler]-Ajoute des options dans la boite de dialogue de configuration pour définir la taille des vignettes en mode mode Grands icônes
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -170,4 +163,10 @@ English version / New features
 -Move all icons into QT ressources
 -Add three new possible values for transition duration : 6, 8 et 10 secondes
 -Add 6,8 and 10 secondes as selectable default values for transitions in option dialog
-
+-Modify video slider functioning (preview+edit video dialog)
+- Draw the slider with a triangle (so it looks exactly the same on all plateforms)
+- When a click on the slider but out of thumb, the slider position become the click position
+-Add a new transition familly with 4 transitions (Deform)
+[MMFiler]-Open a contextual menu (Action) when a right click is done on a multimedia file
+[MMFiler]-Add a scroller for Information File Dialog
+[MMFiler]-Add options in option dialog to define thumbnails size when Big icons mode

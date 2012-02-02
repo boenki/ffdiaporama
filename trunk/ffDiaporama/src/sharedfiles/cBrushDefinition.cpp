@@ -429,38 +429,38 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                     if (PreviousBrush->AspectRatio!=TheAspectRatio)    TheAspectRatio  =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
                 }
 
-                // Prepare values from sourceimage size
-                double   RealImageW=double(RenderImage->width());               // Get real image widht
-                double   RealImageH=double(RenderImage->height());              // Get real image height
-                double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse of the image to define full canvas
-
                 // Rotate image if needed and create a SourceImage
                 if (TheRotateFactor!=0) {
                     QTransform matrix;
                     matrix.rotate(TheRotateFactor,Qt::ZAxis);
                     SourceImage=new QImage(RenderImage->transformed(matrix,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                    // update real image size
-                    RealImageW=double(SourceImage->width());
-                    RealImageH=double(SourceImage->height());
+                } else SourceImage=RenderImage; // If no rotation then SourceImage=RenderImage
 
-                // If no rotation then SourceImage=RenderImage
-                } else SourceImage=RenderImage;
+                // Prepare values from sourceimage size
+                double   RealImageW=double(SourceImage->width());               // Get real image widht
+                double   RealImageH=double(SourceImage->height());              // Get real image height
+                double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse of the image to define full canvas
 
-                // Calc coordinates of the part in the source image
-                double  SrcX            =Hyp*TheXFactor;
-                double  SrcY            =Hyp*TheYFactor;
-                double  SrcW            =Hyp*TheZoomFactor;
-                double  SrcH            =SrcW*TheAspectRatio;
-                double  DstX            =0;
-                double  DstY            =0;
-                double  DstW            =Rect.width();
-                double  DstH            =DstW*TheAspectRatio;
+                //**************************************************************************************************
+                // Smoothing is not correctly used here so force smoothing by reduce source image before draw image
+                //**************************************************************************************************
 
                 // Adjust SourceImage to wanted size and pos
-                int ax=SrcX-(Hyp-RealImageW)/2;
-                int ay=SrcY-(Hyp-RealImageH)/2;
+                double  DecalX  =(Hyp-RealImageW)/2;
+                double  DecalY  =(Hyp-RealImageH)/2;
+                QRectF  ImgRect(Hyp*TheXFactor-DecalX,Hyp*TheYFactor-DecalY,Hyp*TheZoomFactor,Hyp*TheZoomFactor*TheAspectRatio);
+                QRectF  ImgDest(0,0,Rect.width(),double(Rect.width())*TheAspectRatio);
+                double  RatioX  =ImgDest.width()/ImgRect.width();
+                double  RatioY  =ImgDest.height()/ImgRect.height();
 
-                QImage *NewSourceImage=new QImage(SourceImage->copy(ax,ay,SrcW,SrcH).scaled(int(DstW),int(DstH),Qt::IgnoreAspectRatio,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                // Adust coordinates to keep transparency if framing is out of image borders
+                if (ImgRect.left()<0)               {   ImgDest.setLeft(-ImgRect.left()*RatioX);    ImgRect.setLeft(0);                             }
+                if (ImgRect.right()>Hyp-DecalX*2)   {   ImgRect.setRight(Hyp-DecalX*2);             ImgDest.setRight(ImgRect.width()*RatioX);       }
+                if (ImgRect.top()<0)                {   ImgDest.setTop( -ImgRect.top() *RatioY);    ImgRect.setTop( 0);                             }
+                if (ImgRect.bottom()>Hyp-DecalY*2)  {   ImgRect.setBottom(Hyp-DecalY*2);            ImgDest.setBottom(ImgRect.height()*RatioY);     }
+
+                QImage  *NewSourceImage=new QImage(SourceImage->copy(ImgRect.left(),ImgRect.top(),ImgRect.width(),ImgRect.height()).scaled(ImgDest.width(),ImgDest.height(),Qt::IgnoreAspectRatio,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+
 
                 // Prepare Img Composition with transparent background
                 Img=new QImage(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
@@ -473,9 +473,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 if (ApplicationConfig->Smoothing)   PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
                     else                            PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
-                // Smoothing is not correctly used here !
-                // Then force smoothing by reduce source image before draw image
-                PB.drawImage(QRectF(DstX,DstY,DstW,DstH),*NewSourceImage);
+                PB.drawImage(ImgDest,*NewSourceImage/*,ImgRect*/);
                 delete NewSourceImage;
 
                 PB.end();
