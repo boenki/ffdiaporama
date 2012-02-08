@@ -36,10 +36,9 @@
 // Include some common various class
 #include "cFilterTransformObject.h"
 #include "cSoundBlockList.h"
-#include "cLuLoImageCache.h"
-#include "cBaseMediaFile.h"
+#include "cCustomIcon.h"
 
-// Other third party library inclusions : ffmpeg
+// Other third party library inclusions
 
 //****************************************************************************************************************************************************************
 // EXIV2 PART
@@ -129,16 +128,17 @@ extern "C" {
 #define IMAGE_GEOMETRY_40_17                7   // Standard cinema landscape image
 #define IMAGE_GEOMETRY_17_40                8   // Standard cinema portrait image
 
-// Define object types
-#define OBJECTTYPE_UNMANAGED                0
-#define OBJECTTYPE_MANAGED                  1
-#define OBJECTTYPE_FOLDER                   2
-#define OBJECTTYPE_FFDFILE                  3
-#define OBJECTTYPE_IMAGEFILE                4
-#define OBJECTTYPE_VIDEOFILE                5
-#define OBJECTTYPE_MUSICFILE                6
-#define OBJECTTYPE_THUMBNAIL                7
-#define OBJECTTYPE_MUSICORVIDEO             100
+//****************************************************************************************************************************************************************
+
+class cThumbCache {
+public:
+    QString         ThumbCacheFile;             // ThumbCache file name
+    QDomDocument    ThumbCacheDocument;         // XML document associate to ThumbCache
+    bool            IsModify;
+
+    cThumbCache(QString ThumbCacheFile);
+    ~cThumbCache();
+};
 
 //****************************************************************************************************************************************************************
 
@@ -150,12 +150,14 @@ public:
     int                     ObjectGeometry;                 // Image geometry of the embeded image or video
     QString                 FileName;                       // filename
     QString                 ShortName;                      // filename without path
+    QString                 FileExtension;                  // file extension
     qlonglong               FileSize;                       // filesize
     QString                 FileSizeText;                   // filesize in text mode
     QDateTime               CreatDateTime;                  // Original date/time
     QDateTime               ModifDateTime;                  // Last modified date/time
     int                     ImageWidth;                     // Widht of normal image
     int                     ImageHeight;                    // Height of normal image
+    int                     ImageOrientation;               // EXIF ImageOrientation (or -1)
     double                  AspectRatio;                    // Aspect ratio
     cFilterTransformObject  BrushFileTransform;             // Image transformation if image from disk
     cBaseApplicationConfig *ApplicationConfig;
@@ -181,6 +183,9 @@ public:
     virtual QString         GetTAGInfo()=0;                                 // Return TAG information as formated string
 
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)=0;
+
+    virtual void            AddThumbnailToCache(cThumbCache *ThumbCache,QDateTime TimeStamp);
+    virtual bool            GetThumbnailFromCache(cThumbCache *ThumbCache);
 };
 
 //*********************************************************************************************************************************************
@@ -255,11 +260,11 @@ class cImageFile : public cBaseMediaFile {
 public:
     explicit cImageFile(cBaseApplicationConfig *ApplicationConfig);
 
-    virtual QImage          *ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter);
-    virtual bool            CallEXIF(int &ImageOrientation);
+    virtual QImage          *ImageAt(bool PreviewMode,cFilterTransformObject *Filter);
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
-    virtual void            GetFullInformationFromFile();
+    virtual void            GetFullInformationFromFile(cThumbCache *ThumbCache);
+    virtual void            GetFullInformationFromFile() {GetFullInformationFromFile(NULL);}
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return (ObjectType==OBJECTTYPE_THUMBNAIL?ApplicationConfig->DefaultThumbIcon:ApplicationConfig->DefaultIMAGEIcon).GetIcon(Size); }
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();
@@ -271,18 +276,13 @@ public:
 
 class cVideoFile : public cBaseMediaFile {
 public:
-    enum WantedObjectTypeFmt {MUSICORVIDEO,VIDEOFILE,MUSICFILE};
-
     bool                    IsOpen;                     // True if ffmpeg open on this file
     bool                    MusicOnly;                  // True if object is a music only file
-    WantedObjectTypeFmt     WantedObjectType;
     bool                    IsVorbis;                   // True if vorbis version must be use instead of MP3/WAV version
     QTime                   StartPos;                   // Start position
     QTime                   EndPos;                     // End position
     QString                 Container;                  // Container type (get from file extension)
     QTime                   Duration;                   // Duration of the video
-    QImage                  *CacheFirstImage;           // Cache image of first image of the video (Preview mode only)
-    QImage                  *CacheLastImage;            // Cache image of last image of the video (Preview mode only)
     double                  dEndFileCachePos;           // Position of the cache image of last image of the video
     bool                    CodecUsePTS;                // true if codec use PTS (h264) if if we use only DTS
     QString                 VideoCodecInfo;
@@ -306,7 +306,7 @@ public:
 
     int                     NbrChapters;                // Number of chapters in the file
 
-    explicit    cVideoFile(WantedObjectTypeFmt WantedObjectType,cBaseApplicationConfig *ApplicationConfig);
+    explicit    cVideoFile(int WantedObjectType,cBaseApplicationConfig *ApplicationConfig);
     ~cVideoFile();
 
     virtual QString         GetFileTypeStr();
@@ -320,7 +320,7 @@ public:
     virtual bool            OpenCodecAndFile();
     virtual void            CloseCodecAndFile();
 
-    virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos);
+    virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos);
     virtual QImage          *ReadVideoFrame(qlonglong Position,bool DontUseEndPos);
     virtual void            ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
     virtual QImage          *ConvertYUVToRGB();

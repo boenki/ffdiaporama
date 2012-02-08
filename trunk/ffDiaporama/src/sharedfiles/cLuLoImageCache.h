@@ -31,41 +31,60 @@
 
 // Include some common various class
 #include "cFilterTransformObject.h"
+#include "cCustomIcon.h"
 
 #define PREVIEWMAXHEIGHT    720         // Max height for preview image
 
 //===================================================
 
+#define LULOOBJECT_IMAGE    0
+#define LULOOBJECT_VIDEO    1
+
+class cLuLoImageCache;
+
 class cLuLoImageCacheObject {
 public:
-    QString FileName;                               // Filename
-    QString FilterString;                           // Filter string
-    bool    Smoothing;                              // Smoothing
-    QImage  *CachePreviewImage;                     // Cache image (Preview mode)
-    QImage  *CacheRenderImage;                      // Cache image (Full image mode)
-    int     ImageOrientation;                       // Image orientation (EXIF)
+    int             TypeObject;                             // One of the LULOOBJECT_ type
+    QString         FileName;                               // Filename
+    bool            Smoothing;                              // Smoothing
+    QImage          *CachePreviewImage;                     // Cache image (Preview mode)
+    QImage          *CacheRenderImage;                      // Cache image (Full image mode)
+    QString         FilterString;                           // Filter string                    [For LULOOBJECT_IMAGE]
+    int             ImageOrientation;                       // Image orientation (EXIF)         [For LULOOBJECT_IMAGE]
+    int             Position;                               // Position in video                [For LULOOBJECT_VIDEO]
+    cCustomIcon     *Video;                                 // Video                            [For LULOOBJECT_VIDEO]
+    cLuLoImageCache *LuLoImageCache;                        // Link to parent LuLoImageCache collection
 
-    cLuLoImageCacheObject(QString FileName,QString FilterString,bool Smoothing);
+    // Constructor for image file
+    cLuLoImageCacheObject(QString FileName,int ImageOrientation,QString FilterString,bool Smoothing,cLuLoImageCache *Parent);
+
+    // Constructor for video image
+    cLuLoImageCacheObject(cCustomIcon *Video,int Position,bool Smoothing,cLuLoImageCache *Parent);
+
     ~cLuLoImageCacheObject();
 
-    void    ClearAll();
-
-    QImage *ValidateUnfilteredImage();
-    QImage *ValidateCacheRenderImage(cFilterTransformObject *Filter=NULL);
-    QImage *ValidateCachePreviewImage(cFilterTransformObject *Filter=NULL);
+    QImage *ValidateCacheRenderImage();
+    QImage *ValidateCachePreviewImage();
 };
 
 //===================================================
 
 class cLuLoImageCache {
 public:
-    QList<cLuLoImageCacheObject *>    List;           // Fifo list
+    QList<cLuLoImageCacheObject *>  List;           // Fifo list
+    int                             MaxValue;       // Max memory used
 
     cLuLoImageCache();
+    ~cLuLoImageCache();
 
-    void                    FreeMemoryToMaxValue(int MaxValue);
+    void                    FreeMemoryToMaxValue();
     int                     MemoryUsed();
-    cLuLoImageCacheObject   *FindObject(QString FileName,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop);   // Find object corresponding to FileName
+
+    // Find image object corresponding to FileName and filter
+    cLuLoImageCacheObject   *FindObject(QString FileName,int ImageOrientation,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop);
+
+    // Find video image object corresponding to FileName and position
+    cLuLoImageCacheObject   *FindObject(cCustomIcon *Video,int Position,bool Smoothing,bool SetAtTop);
 };
 
 #endif // _cLuLoImageCACHE_H

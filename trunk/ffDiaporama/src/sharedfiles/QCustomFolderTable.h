@@ -41,11 +41,6 @@ public:
     QList<cBaseMediaFile*>  MediaList;
     cBaseApplicationConfig  *ApplicationConfig;
 
-    bool                    ShowHidden;                         // If true, hidden files will be show
-    bool                    ShowMntDrive;                       // Show drives under /mnt/ [Linux only]
-    bool                    ShowFoldersFirst;                   // If true, display folders at first in table list
-    int                     CurrentMode;                        // Current display mode
-    int                     CurrentFilter;                      // Current display mode
     QString                 CurrentPath;
 
     int                     CurrentShowFolderNumber;
@@ -61,6 +56,10 @@ public:
     bool                    StopScanMediaList;
     bool                    ScanMediaListProgress;
 
+    // ThumbCache
+    cThumbCache             *ThumbCache;
+    bool                    IsThumbCacheReady;
+
     QAbstractItemModel      *DefaultModel;
     QAbstractItemDelegate   *DefaultDelegate,*IconDelegate;
 
@@ -74,12 +73,14 @@ public:
     virtual void            mouseReleaseEvent(QMouseEvent *);
 
     virtual void            SetMode(int Mode,int Filter);
-    virtual void            FillListFolder(QString Path,cBaseApplicationConfig *ApplicationConfig);
+    virtual void            FillListFolder(QString Path);
+    virtual void            RefreshListFolder();
 
     virtual void            AppendMediaToTable(cBaseMediaFile *MediaObject);
     virtual void            UpdateMediaToTable(int Row,int Col,cBaseMediaFile *MediaObject);
 
-    virtual cBaseMediaFile  *GetCurrentMediaFile();
+    virtual cBaseMediaFile          *GetCurrentMediaFile();
+    virtual QList<cBaseMediaFile*>  GetCurrentSelectedMediaFile();
 
 signals:
     void    DoubleClickEvent();
@@ -92,6 +93,8 @@ public slots:
 
 private:
     void                DoScanMediaList();
+    int                 GetWidthForIcon();
+    int                 GetHeightForIcon();
     QTableWidgetItem    *CreateItem(QString ItemText,int Alignment,QBrush Background);
 };
 

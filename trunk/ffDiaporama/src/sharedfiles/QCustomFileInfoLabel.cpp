@@ -34,7 +34,8 @@ QCustomFileInfoLabel::QCustomFileInfoLabel(QWidget *parent):QLabel(parent) {
     qDebug() << "IN:QCustomFileInfoLabel::QCustomFileInfoLabel";
     #endif
     DisplayMode =DISPLAY_WEBLONG;
-    SetupFileInfoLabel(NULL);
+    QList<cBaseMediaFile*> EmptyList;
+    SetupFileInfoLabel(EmptyList);
 }
 
 //====================================================================================================================
@@ -115,9 +116,11 @@ void QCustomFileInfoLabel::paintEvent(QPaintEvent *) {
                 if (Text[i][j]!="") {
                     if (i==0) {
                         Painter.drawText(QRectF(IconHeight+2+18,1+i*(14+2),this->width()-IconHeight-3-RightWidth-18,14),Text[i][j],OptionText);
-                        int addX=16-IconType->width();
-                        int addY=16-IconType->height();
-                        Painter.drawImage(QRect(IconHeight+2+1+addX/2,1+addY/2,IconType->width(),IconType->height()),*IconType);
+                        if (IconType) {
+                            int addX=16-IconType->width();
+                            int addY=16-IconType->height();
+                            Painter.drawImage(QRect(IconHeight+2+1+addX/2,1+addY/2,IconType->width(),IconType->height()),*IconType);
+                        }
                     } else Painter.drawText(QRectF(IconHeight+2,1+i*(14+2),this->width()-IconHeight-3-RightWidth,14),Text[i][j],OptionText);
                 }
             }
@@ -127,11 +130,15 @@ void QCustomFileInfoLabel::paintEvent(QPaintEvent *) {
 
 //====================================================================================================================
 
-void QCustomFileInfoLabel::SetupFileInfoLabel(cBaseMediaFile *MediaObject) {
+void QCustomFileInfoLabel::SetupFileInfoLabel(QList<cBaseMediaFile*> MediaList) {
     #ifdef DEBUGMODE
     qDebug() << "IN:QCustomFileInfoLabel::AppendMediaToTable";
     #endif
-    if (MediaObject) {
+    if (MediaList.count()==1) {
+
+        // One file selection
+        cBaseMediaFile *MediaObject=MediaList[0];
+
         IconType    =MediaObject->GetDefaultTypeIcon(cCustomIcon::ICON16);
         Icon16      =&MediaObject->Icon16;
         Icon32      =&MediaObject->Icon32;
@@ -146,7 +153,23 @@ void QCustomFileInfoLabel::SetupFileInfoLabel(cBaseMediaFile *MediaObject) {
         Text[2][0]  =MediaObject->GetTAGInfo();
         Text[2][1]  ="";
 
+    } else if (MediaList.count()>1) {
+
+        // Multi select
+
+        IconType    =NULL;
+        Icon16      =NULL;
+        Icon32      =NULL;
+        Icon48      =NULL;
+        Icon100     =NULL;
+        for (int i=0;i<3;i++) for (int j=0;j<2;j++) Text[i][j]="";
+
+        Text[0][0]  ="Multiple files";
+
     } else {
+
+        // No selection
+
         IconType    =NULL;
         Icon16      =NULL;
         Icon32      =NULL;

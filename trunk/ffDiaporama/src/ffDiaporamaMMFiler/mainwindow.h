@@ -28,6 +28,8 @@
 #include <QString>
 #include <QStringList>
 #include <QMainWindow>
+#include <QFutureWatcher>
+
 #include "../sharedfiles/cBaseApplicationConfig.h"
 #include "../sharedfiles/cDriveList.h"
 #include "../sharedfiles/QCustomFolderTree.h"
@@ -44,9 +46,13 @@ namespace Ui {
 class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
-    cApplicationConfig  *ApplicationConfig;
-    cDriveList          *DriveList;
-    bool                IsFirstInitDone;
+    cApplicationConfig      *ApplicationConfig;
+    cDriveList              *DriveList;
+    bool                    IsFirstInitDone;
+    cJobQueue               JobQueue;
+    QTimer                  Timer;
+    QFutureWatcher<void>    Thread;
+    int                     CurrentJobThread;
 
     explicit            MainWindow(QWidget *parent = 0);
                         ~MainWindow();
@@ -57,13 +63,18 @@ protected:
     virtual void        resizeEvent(QResizeEvent *);
     virtual void        showEvent(QShowEvent *);
     virtual void        closeEvent(QCloseEvent *);
+    virtual void        customEvent(QEvent *);
 
 private slots:
+
     void                DoMaximized();                                  // Use on init to force window maximized
     void                DoRefreshFolderInfo();
 
+    void                s_TimerEvent();
+    void                ThreadJob();
+
     void                s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *);
-    void                s_currentTableItemChanged();
+    void                DoRefreshSelectedFileInfo();
 
     void                s_DlgCheckConfig();
     void                s_Refresh();
@@ -85,10 +96,14 @@ private slots:
     void                s_Documentation();
     void                s_NewFunctions();
 
+    // Actions
+    void                s_ConvertIMG(QList<cBaseMediaFile*>*MediaList,QString DestFormat,int JobType);
+
 private:
     QAction             *CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck);
     QAction             *CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck);
     QIcon               *GetIconMode();
+    QIcon               *GetIconFilter();
 
     Ui::MainWindow *ui;
 };

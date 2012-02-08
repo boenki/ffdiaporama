@@ -37,10 +37,9 @@
 class QCustomFolderTree : public QTreeWidget {
 Q_OBJECT
 public:
-    bool                ShowHidden;                         // If true, hidden files will be show
-    bool                ShowMntDrive;                       // Show drives under /mnt/ [Linux only]
-    cDriveList          *DriveList;
-    explicit            QCustomFolderTree(QWidget *parent=0);
+    cBaseApplicationConfig  *ApplicationConfig;
+    cDriveList              *DriveList;
+    explicit                QCustomFolderTree(QWidget *parent=0);
 
     // Public utility functions
     virtual void        InitDrives(cDriveList *TheDriveList);

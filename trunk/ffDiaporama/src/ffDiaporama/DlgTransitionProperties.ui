@@ -120,17 +120,17 @@
        </item>
        <item>
         <property name="text">
-         <string>6</string>
+         <string notr="true">6</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>8</string>
+         <string notr="true">8</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>10</string>
+         <string notr="true">10</string>
         </property>
        </item>
       </widget>

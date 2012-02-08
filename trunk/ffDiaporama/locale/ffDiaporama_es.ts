@@ -3019,7 +3019,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="109"/>
         <source>Slide</source>
-        <translation>Deslizar</translation>
+        <translation>Presentación</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="154"/>
@@ -3398,7 +3398,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgTransitionProperties.cpp" line="71"/>
         <source>Deform</source>
-        <translation type="unfinished"></translation>
+        <translation>Deformar</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransitionProperties.cpp" line="72"/>
@@ -3687,7 +3687,7 @@ Do you want to overwrite it ?</source>
         <location filename="../src/sharedfiles/DlgffDPjrProperties.cpp" line="57"/>
         <source>#;Slide;Title;Start;End;Duration</source>
         <comment>Column headers</comment>
-        <translation>#;Diapoitiva;Título;Inicio;Final;Duración</translation>
+        <translation>#;Diapositiva;Título;Inicio;Final;Duración</translation>
     </message>
 </context>
 <context>
@@ -4154,7 +4154,7 @@ y Ayuda</translation>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="58"/>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="72"/>
         <source>Search Raster mode in configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar el modo Raster en el archivo de configuración</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="623"/>

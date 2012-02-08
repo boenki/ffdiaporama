@@ -146,13 +146,6 @@ public:
     QString             FormShadowColor;        // Color of the shadow of the form
     int                 Opacity;                // Opacity of the form
 
-    // Brush cache part (use to speed up interface)
-    QBrush              *CachedBrushBrush;              // Cached brush brush
-    double              CachedBrushW,CachedBrushH;      // With and height used to make CachedBrush
-    double              CachedBrushAspect;              // Aspect ratio used to make CachedBrush
-    qlonglong           CachedBrushPosition;            // Position used to make CachedBrush
-    qlonglong           CachedBrushStartPosToAdd;       // StartPosToAdd used to make CachedBrush
-
     cBaseApplicationConfig *ApplicationConfig;
 
     cCompositionObject(int TypeComposition,int IndexKey,cBaseApplicationConfig *TheApplicationConfig);
@@ -160,7 +153,7 @@ public:
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
     void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
-                                      cSDLSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
+                                      cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition=true);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
 
@@ -286,11 +279,11 @@ public:
     bool                CurrentObject_FreeBackgroundBrush;      // True if allow to delete CurrentObject_BackgroundBrush during destructor
     QImage              *CurrentObject_PreparedBackground;      // Current image produce for background
     bool                CurrentObject_FreePreparedBackground;   // True if allow to delete CurrentObject_FreePreparedBackground during destructor
-    cSDLSoundBlockList  *CurrentObject_SoundTrackMontage;       // Sound for playing sound from montage track
+    cSoundBlockList     *CurrentObject_SoundTrackMontage;       // Sound for playing sound from montage track
     bool                CurrentObject_FreeSoundTrackMontage;    // True if allow to delete CurrentObject_SoundTrackMontage during destructor
     QImage              *CurrentObject_PreparedImage;           // Current image prepared
     bool                CurrentObject_FreePreparedImage;        // True if allow to delete CurrentObject_PreparedImage during destructor
-    cSDLSoundBlockList  *CurrentObject_MusicTrack;              // Sound for playing music from music track
+    cSoundBlockList     *CurrentObject_MusicTrack;              // Sound for playing music from music track
     bool                CurrentObject_FreeMusicTrack;           // True if allow to delete CurrentObject_MusicTrack during destructor
     cMusicObject        *CurrentObject_MusicObject;             // Ref to the current playing music
 
@@ -317,11 +310,11 @@ public:
     bool                TransitObject_FreeBackgroundBrush;      // True if allow to delete TransitObject_BackgroundBrush during destructor
     QImage              *TransitObject_PreparedBackground;      // Current image produce for background
     bool                TransitObject_FreePreparedBackground;   // True if allow to delete TransitObject_PreparedBackground during destructor
-    cSDLSoundBlockList  *TransitObject_SoundTrackMontage;       // Sound for playing sound from montage track
+    cSoundBlockList     *TransitObject_SoundTrackMontage;       // Sound for playing sound from montage track
     bool                TransitObject_FreeSoundTrackMontage;    // True if allow to delete TransitObject_SoundTrackMontage during destructor
     QImage              *TransitObject_PreparedImage;           // Current image prepared
     bool                TransitObject_FreePreparedImage;        // True if allow to delete TransitObject_PreparedImage during destructor
-    cSDLSoundBlockList  *TransitObject_MusicTrack;              // Sound for playing music from music track
+    cSoundBlockList     *TransitObject_MusicTrack;              // Sound for playing music from music track
     bool                TransitObject_FreeMusicTrack;           // True if allow to delete TransitObject_MusicTrack during destructor
     cMusicObject        *TransitObject_MusicObject;             // Ref to the current playing music
 
@@ -370,11 +363,10 @@ public:
     bool                    SaveFile(QWidget *ParentWindow);
     bool                    LoadFile(QWidget *ParentWindow,QString &ProjectFileName);
     bool                    AppendFile(QWidget *ParentWindow,QString ProjectFileName,int CurIndex);
-    void                    FreeUnusedMemory(int ObjectNum,int NbrSlideInCache);
     void                    UpdateChapterInformation();
 
     // Thread functions
-    void                    PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSDLSoundBlockList *MusicTrack);
+    void                    PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack);
     void                    LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos);
     void                    DoAssembly(cDiaporamaObjectInfo *Info,int W,int H);
 

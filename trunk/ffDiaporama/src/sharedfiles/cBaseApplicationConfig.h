@@ -35,6 +35,8 @@
 
 // Include some common various class
 #include "cSaveWindowPosition.h"
+#include "cCustomIcon.h"
+#include "cFilterTransformObject.h"
 #include "cLuLoImageCache.h"
 
 // Standard geometry definition
@@ -43,24 +45,29 @@
 #define GEOMETRY_40_17                      2
 #define NBR_GEOMETRY_DEF                    3
 
-#define ICONBIG_MAXHEIGHT                   600
+// Media object types
+#define OBJECTTYPE_UNMANAGED                0
+#define OBJECTTYPE_MANAGED                  1
+#define OBJECTTYPE_FOLDER                   2
+#define OBJECTTYPE_FFDFILE                  3
+#define OBJECTTYPE_IMAGEFILE                4
+#define OBJECTTYPE_VIDEOFILE                5
+#define OBJECTTYPE_MUSICFILE                6
+#define OBJECTTYPE_THUMBNAIL                7
 
-class cCustomIcon {
-public:
-    QImage Icon16,Icon32,Icon48,Icon100,IconBIG;   // Icons
-    enum   IconSize {ICON16,ICON32,ICON48,ICON100,ICONBIG};
+// MMFiler allowed display mode
+#define DISPLAY_DATA                        0
+#define DISPLAY_WEBSHORT                    1
+#define DISPLAY_WEBLONG                     2
+#define DISPLAY_ICON48                      3
+#define DISPLAY_ICON100                     4
+#define DISPLAY_ICONBIG                     5
 
-                    cCustomIcon();
+#define THUMBNAILCACHEFILE          ".ThumbnailsCache.xml"      // Name of thumbnails cached file
+#define THUMBCACHE_APPNAME          "FFD-ThumbnailsCache"
+#define THUMBCACHE_ROOTNAME         "ThumbnailsCache"           // Name of root node in thumbnails cached file
 
-    virtual void    LoadIcons(cCustomIcon *CustomIcon);
-    virtual void    LoadIcons(QString FileName);
-    virtual void    LoadIcons(QImage *Image);
-    virtual void    LoadIcons(QIcon Icon);
-    virtual void    LoadIconsFromIMG(QString FileName);
-    virtual void    LoadIconsFromLinux(QString LinuxPath,QString FileName);
-    virtual QImage  *GetIcon(IconSize Size);
-    virtual QIcon   GetIcon();
-};
+//****************************************************************************************************************************************************************
 
 // Utility functions
 int     getCpuCount();                                                                                              // Retrieve number of processor
@@ -68,12 +75,6 @@ QString AdjustDirForOS(QString Dir);                                            
 QString GetTextSize(qlonglong Size);                                                                                // transform a size (_int64) in a string with apropriate unit (Gb/Tb...)
 bool    CheckFolder(QString FileToTest,QString PathToTest);                                                         // Check if FileToTest exist in PathToTest and if yes the change current folder to PathToTest
 bool    SetWorkingPath(char *argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt);    // Adjust current folder
-
-#if defined(Q_OS_WIN)
-    QImage  qt_fromWinHBITMAP(HDC hdc, HBITMAP bitmap, int w, int h);
-    QPixmap convertHIconToPixmap( const HICON icon);
-    QIcon   GetIconForFileOrDir(QString FileName,int IconIndex);
-#endif
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     bool SearchRasterMode(QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName);
@@ -148,7 +149,19 @@ public:
     cCustomIcon             DefaultIMAGEIcon,DefaultThumbIcon;
     cCustomIcon             DefaultVIDEOIcon,DefaultMUSICIcon;
     cCustomIcon             DefaultFFDIcon;
-    QImage                  VideoMask;
+    QImage                  VideoMask_120,VideoMask_150,VideoMask_162;
+
+    // MMFiler specific add-on
+    bool                    ShowHiddenFilesAndDir;                      // If true, hidden files will be show
+    bool                    ShowMntDrive;                               // If true, show drives under /mnt/ [Linux only]
+    bool                    ShowFoldersFirst;                           // If true, display folders at first in table list
+    int                     CurrentFilter;                              // Currently selected filter
+    int                     CurrentMode;                                // Currently selected display mode
+    bool                    DisplayFileName;                            // If true Display File Name in icon views
+    int                     MinimumEXIFHeight;                          // Minimum height of EXIF preview image for use it
+    int                     Image_ThumbWidth,Image_ThumbHeight;         // Thumbnail size in big icon mode for image
+    int                     Music_ThumbWidth,Music_ThumbHeight;         // Thumbnail size in big icon mode for music
+    int                     Video_ThumbWidth,Video_ThumbHeight;         // Thumbnail size in big icon mode for video
 
     cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage,QString ApplicationGroupName,QString ApplicationName,QString ApplicationVersion,QString ConfigFileExt,QString ConfigFileRootName);
     ~cBaseApplicationConfig();

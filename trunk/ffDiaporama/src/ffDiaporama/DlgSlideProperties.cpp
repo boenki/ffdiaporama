@@ -1064,34 +1064,6 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
 }
 
 //====================================================================================================================
-
-void DlgSlideProperties::RefreshSceneImageAndCache(cCompositionObject *CurrentTextItem,cBrushDefinition *CurrentBrush) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::RefreshSceneImageAndCache";
-    #endif
-
-    if (CurrentBrush->Image) {
-        cLuLoImageCacheObject *ImageObject=CurrentBrush->Image->ApplicationConfig->ImagesCache.FindObject(CurrentBrush->Image->FileName,&CurrentBrush->Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing,true);
-        ImageObject->ClearAll();
-    } else if (CurrentBrush->Video) {
-        if (CurrentBrush->Video->CacheFirstImage) {
-            delete CurrentBrush->Video->CacheFirstImage;
-            CurrentBrush->Video->CacheFirstImage=NULL;
-        }
-        if (CurrentBrush->Video->CacheLastImage) {
-            delete CurrentBrush->Video->CacheLastImage;
-            CurrentBrush->Video->CacheLastImage=NULL;
-        }
-        for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i]->ShotComposition.List.count();j++)
-            if ((DiaporamaObject->List[i]->ShotComposition.List[j]->IndexKey==CurrentTextItem->IndexKey)&&(DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush)) {
-            delete DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush;
-            DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush=NULL;
-        }
-    }
-    RefreshSceneImage();
-}
-
-//====================================================================================================================
 // Display or hide TV Margins
 //====================================================================================================================
 
@@ -1134,10 +1106,7 @@ void DlgSlideProperties::UpdateDockInfo() {
             QStringList *Info=NULL;
             if (CurrentTextItem->BackgroundBrush->Image!=NULL) {
                 // If exiv value not loaded then call exiv2 now !
-                if (CurrentTextItem->BackgroundBrush->Image->InformationList.count()==0) {
-                    int ImageOrientation=1;
-                    CurrentTextItem->BackgroundBrush->Image->CallEXIF(ImageOrientation);
-                }
+                if (!CurrentTextItem->BackgroundBrush->Image->IsInformationValide) CurrentTextItem->BackgroundBrush->Image->GetFullInformationFromFile();
                 Info=&CurrentTextItem->BackgroundBrush->Image->InformationList;
             } else if (CurrentTextItem->BackgroundBrush->Video!=NULL) {
                 ui->TableInfo->insertRow(ui->TableInfo->rowCount());
@@ -1551,15 +1520,6 @@ void DlgSlideProperties::VideoEdit() {
     #endif
     if ((!PrepContexte())||(!CompositionObject->BackgroundBrush->Video)) return;
     DlgVideoEdit(CompositionObject->BackgroundBrush,this).exec();
-
-    // free CachedBrushBrush (for this object only)
-    for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i]->ShotComposition.List.count();j++) {
-        if ((DiaporamaObject->List[i]->ShotComposition.List[j]->IndexKey==CompositionObject->IndexKey)&&(DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush)) {
-            delete DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush;
-            DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush=NULL;
-        }
-    }
-
     ApplyToContexte(false,true);
 }
 
@@ -1590,20 +1550,6 @@ void DlgSlideProperties::ImageEditCorrect() {
         if (((CompositionObject->y+CompositionObject->h)*ymax)>ymax) {
             CompositionObject->h=1-CompositionObject->y;
             CompositionObject->w=((CompositionObject->h*ymax)/RectItem->AspectRatio)/xmax;
-        }
-
-        // free CachedBrushBrush (for this object only)
-        for (int i=0;i<DiaporamaObject->List.count();i++) for (int j=0;j<DiaporamaObject->List[i]->ShotComposition.List.count();j++) {
-            if ((DiaporamaObject->List[i]->ShotComposition.List[j]->IndexKey==CompositionObject->IndexKey)&&(DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush)) {
-                delete DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush;
-                DiaporamaObject->List[i]->ShotComposition.List[j]->CachedBrushBrush=NULL;
-            }
-        }
-
-        if (CurrentBrush->Image) {
-            // free Image CacheObject in lulo
-            cLuLoImageCacheObject *ImageObject=CurrentBrush->Image->ApplicationConfig->ImagesCache.FindObject(CurrentBrush->Image->FileName,&CurrentBrush->Image->BrushFileTransform,GlobalMainWindow->ApplicationConfig->Smoothing,true);
-            ImageObject->ClearAll();
         }
 
         // if Slide name is name of this file
@@ -1962,7 +1908,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
         // If it's not an image : search if file is a video
         if (CurrentBrush->Image==NULL) for (int i=0;i<GlobalMainWindow->ApplicationConfig->AllowVideoExtension.count();i++) if (GlobalMainWindow->ApplicationConfig->AllowVideoExtension[i]==Extension) {
             // Create a video wrapper
-            CurrentBrush->Video=new cVideoFile(cVideoFile::VIDEOFILE,GlobalMainWindow->ApplicationConfig);
+            CurrentBrush->Video=new cVideoFile(OBJECTTYPE_VIDEOFILE,GlobalMainWindow->ApplicationConfig);
             bool ModifyFlag=false;
             IsValide=(CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag))&&(CurrentBrush->Video->OpenCodecAndFile());
             if (IsValide) {
@@ -1991,8 +1937,8 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
         }
         if (IsValide) {
 
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,false):
+            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,&CurrentBrush->Image->BrushFileTransform):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,1,false,&CurrentBrush->Video->BrushFileTransform,false):
                            NULL);
             if (!Image) {
                 IsValide=false;

@@ -43,11 +43,14 @@ public:
     int      OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
 
     cFilterTransformObject();
+    cFilterTransformObject(QString FilterString);
 
     void        ApplyFilter(QImage *Image);
     void        SaveToXML(QDomElement &domDocument,QString ElementName);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName);
     QString     FilterToString();
+    bool        HaveFilter();
+
 };
 
 #endif  // CFILTERTRANSFORMOBJECT_H

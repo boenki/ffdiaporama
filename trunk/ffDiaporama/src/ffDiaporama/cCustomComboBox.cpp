@@ -246,8 +246,10 @@ void cCustomBrushComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
         Brush.PatternType=ColorNum;
         painter->fillRect(option.rect,Brush.ColorD.toLower()!="#ffffff"?Qt::white:Qt::black);
         QBrush *BR=Brush.GetBrush(option.rect,true,0,0,NULL,1,NULL);
-        painter->setBrush(*BR);
-        delete BR;
+        if (BR) {
+            painter->setBrush(*BR);
+            delete BR;
+        }
         painter->drawRect(option.rect);
     } else {
         painter->fillRect(option.rect,Qt::white);
@@ -340,8 +342,10 @@ void cCustomBrushComboBox::MakeIcons() {
         TheBrush.PatternType=ColorNum;
         Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),TheBrush.ColorD.toLower()!="#ffffff"?Qt::white:Qt::black);
         QBrush *BR=TheBrush.GetBrush(QRectF(0,0,iconSize().width(),iconSize().height()),true,0,0,NULL,1,NULL);
-        Painter.setBrush(*BR);
-        delete BR;
+        if (BR) {
+            Painter.setBrush(*BR);
+            delete BR;
+        }
         Painter.drawRect(QRectF(0,0,iconSize().width(),iconSize().height()));
     } else {
         Painter.setBrush(QBrush(Qt::white));
@@ -381,8 +385,10 @@ void cGradientOrientationComboBoxItem::paint(QPainter *painter,const QStyleOptio
         Brush.Intermediate=ComboBox->Brush->Intermediate;
         Brush.GradientOrientation=ColorNum;
         QBrush *BR=Brush.GetBrush(option.rect,true,0,0,NULL,1,NULL);
-        painter->setBrush(*BR);
-        delete BR;
+        if (BR) {
+            painter->setBrush(*BR);
+            delete BR;
+        }
         painter->drawRect(option.rect);
     } else {
         painter->fillRect(option.rect,Qt::white);
@@ -477,8 +483,10 @@ void cGradientOrientationComboBox::MakeIcons() {
         TheBrush.Intermediate=Brush->Intermediate;
         TheBrush.GradientOrientation=ColorNum;
         QBrush *BR=TheBrush.GetBrush(QRectF(0,0,iconSize().width(),iconSize().height()),true,0,0,NULL,1,NULL);
-        Painter.setBrush(*BR);
-        delete BR;
+        if (BR) {
+            Painter.setBrush(*BR);
+            delete BR;
+        }
         Painter.drawRect(QRectF(0,0,iconSize().width(),iconSize().height()));
     } else {
         Painter.setBrush(QBrush(Qt::white));

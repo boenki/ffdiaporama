@@ -78,23 +78,11 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
 
     // BackgroundBrush is initilise by object constructor except TypeComposition and key
     BackgroundBrush->TypeComposition = TypeComposition;
-
-    // Brush cache part (use to speed up interface)
-    CachedBrushBrush        = NULL;             // Cached brush brush
-    CachedBrushW            = -1;               // With used to make CachedBrush
-    CachedBrushH            = -1;               // Height used to make CachedBrush
-    CachedBrushPosition     = -1;               // Position used to make CachedBrush
-    CachedBrushStartPosToAdd= -1;               // StartPosToAdd used to make CachedBrush
-    CachedBrushAspect       = 1;                // Aspect ratio used to make CachedBrush
 }
 
 //====================================================================================================================
 
 cCompositionObject::~cCompositionObject() {
-    if (CachedBrushBrush) {
-        delete CachedBrushBrush;
-        CachedBrushBrush=NULL;
-    }
     if (BackgroundBrush) {
         delete BackgroundBrush;
         BackgroundBrush=NULL;
@@ -510,7 +498,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 
 // ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
-                                               cSDLSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache) {
+                                               cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache) {
     // W and H = 0 when producing sound track in render process
     if (!IsVisible) return;
 
@@ -520,7 +508,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         // if SoundOnly then load Brush of type BRUSHTYPE_IMAGEDISK to SoundTrackMontage
         if (BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK) {
             QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,0,0),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,NULL);
-            delete BR;
+            if (BR) delete BR;
         }
     } else {
 
@@ -590,54 +578,20 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
 
         // Draw internal shape
         if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
-            if (BackgroundBrush->Video==NULL) UseBrushCache=false;   // Accept UseBrushCache only for video !
+
             // Create brush with Ken Burns effect !
             QBrush *BR              =NULL;
-            bool UpdateCachedBrush  =true;
 
-            if (PreviewMode && UseBrushCache && (CachedBrushBrush!=NULL)&&(BackgroundBrush->AspectRatio==CachedBrushAspect)&&
-                    (W<=CachedBrushW)&&(H<=CachedBrushH)&&(Position==CachedBrushPosition)&&(StartPosToAdd==CachedBrushStartPosToAdd)) {
-                if ((W!=CachedBrushW)||(H!=CachedBrushH)||(BackgroundBrush->AspectRatio!=CachedBrushAspect)) {
-                    // if Cached brush is more higher than what we want (thumbnail) then adjust brush
-                    QPainter NewP;
-                    QImage   NewImage(CachedBrushW,CachedBrushH,QImage::Format_ARGB32);
-                    NewP.begin(&NewImage);
-                    if (!PreviewMode || GlobalMainWindow->ApplicationConfig->Smoothing)  NewP.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-                        else NewP.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-                    NewP.setBrush(*CachedBrushBrush);
-                    NewP.setCompositionMode(QPainter::CompositionMode_Source);
-                    NewP.fillRect(QRect(0,0,CachedBrushW,CachedBrushH),Qt::transparent);
-                    NewP.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                    NewP.drawRect(0,0,CachedBrushW,CachedBrushH);
-                    NewP.end();
-
-                    BR=new QBrush(NewImage.scaled(W,H,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-                    UpdateCachedBrush=false;
-                } else BR=CachedBrushBrush;
-            } else {
-                BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL);
+            BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
+            if (BR) {
                 QTransform  MatrixBR;
                 MatrixBR.translate(-W/2,-H/2);
-                if (BR) BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
+                BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
+                Painter.setBrush(*BR);
+                delete BR;
+            } else {
+                qDebug()<<"Error in cCompositionObject::DrawCompositionObject Brush is NULL !";
             }
-
-            // if PreviewMode && UseBrushCache then Keep value for next use
-            if (BR && UpdateCachedBrush && PreviewMode && UseBrushCache && (BR!=CachedBrushBrush)) {
-                if (CachedBrushBrush!=NULL) delete CachedBrushBrush;
-                CachedBrushBrush        =BR;
-                CachedBrushW            =W;
-                CachedBrushH            =H;
-                CachedBrushPosition     =Position;
-                CachedBrushStartPosToAdd=StartPosToAdd;
-                CachedBrushAspect       =BackgroundBrush->AspectRatio;
-            }
-
-            if (!BR) {
-                qDebug()<<"Brush is NULL !";
-            }
-            Painter.setBrush(*BR);
-            if (BR && (BR!=CachedBrushBrush)) delete BR;
-
         }
         if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
         DrawShape(Painter,BackgroundForm,-W/2,-H/2,W,H,0,0);
@@ -882,7 +836,6 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
 //====================================================================================================================
 
 cDiaporamaObject::~cDiaporamaObject() {
-    List.clear();
     if (Thumbnail) {
         delete Thumbnail;
         Thumbnail=NULL;
@@ -915,7 +868,7 @@ void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Pa
 
         // Add static shot composition
         if (List.count()>0) for (int j=0;j<List[0]->ShotComposition.List.count();j++) {
-            List[0]->ShotComposition.List[j]->DrawCompositionObject(&P,double(ThumbHeight)/1080,0,0,ThumbWidth,ThumbHeight,true,0,0,NULL,0,NULL,true);
+            List[0]->ShotComposition.List[j]->DrawCompositionObject(&P,double(ThumbHeight)/1080,0,0,ThumbWidth,ThumbHeight,true,0,0,NULL,0,NULL,false);
         }
 
         P.end();
@@ -1515,30 +1468,10 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName,int Cu
 }
 
 //============================================================================================
-// Function use to free CacheFullImage in the cImageFile
-//   if ObjectNum=-1 then free all object
-//   else only object prior to ObjectNum-1 and after ObjectNum+1 are free
-//============================================================================================
-void cDiaporama::FreeUnusedMemory(int ObjectNum,int NbrSlideInCache) {
-    if (ObjectNum==-1) return;
-    // free CacheFullImage
-    for (int i=0;i<List.count();i++) if ((i<(ObjectNum-NbrSlideInCache))||(i>(ObjectNum+NbrSlideInCache))) {
-        // free CachedBrushBrush
-        for (int j=0;j<List[i]->List.count();j++) for (int k=0;k<List[i]->List[j]->ShotComposition.List.count();k++) {
-            if (List[i]->List[j]->ShotComposition.List[k]->CachedBrushBrush) {
-                delete List[i]->List[j]->ShotComposition.List[k]->CachedBrushBrush;
-                List[i]->List[j]->ShotComposition.List[k]->CachedBrushBrush=NULL;
-            }
-        }
-        ApplicationConfig->ImagesCache.FreeMemoryToMaxValue(1024*1024*1024);
-    }
-}
-
-//============================================================================================
 // Function use directly or with thread to prepare an image number Column at given position
 // Note : Position is relative to the start of the Column object !
 //============================================================================================
-void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSDLSoundBlockList *MusicTrack) {
+void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack) {
     if (Column>=List.count()) {
         for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
         return;
@@ -1586,7 +1519,7 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position
         }
 
         // Get more music bloc at correct position (volume is always 100% @ this point !)
-        CurMusic->Music->ImageAt(PreviewMode,Position+StartPosition,0,false,MusicTrack,1,true,NULL,false);
+        CurMusic->Music->ImageAt(PreviewMode,Position+StartPosition,0,MusicTrack,1,true,NULL,false);
 
         // Apply correct volume to block in queue
         if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
@@ -1606,7 +1539,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     cDiaporamaObject    *CurObject          =IsCurrentObject?Info->CurrentObject:Info->TransitObject;
     int                 CurTimePosition     =(IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime);
     double              PCTDone             =IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone;
-    cSDLSoundBlockList     *SoundTrackMontage  =(IsCurrentObject?Info->CurrentObject_SoundTrackMontage:Info->TransitObject_SoundTrackMontage);
+    cSoundBlockList     *SoundTrackMontage  =(IsCurrentObject?Info->CurrentObject_SoundTrackMontage:Info->TransitObject_SoundTrackMontage);
     int                 ObjectNumber        =IsCurrentObject?Info->CurrentObject_Number:Info->TransitObject_Number;
     int                 ShotNumber          =IsCurrentObject?Info->CurrentObject_ShotSequenceNumber:Info->TransitObject_ShotSequenceNumber;
     cDiaporamaShot      *PreviousShot       =(ShotNumber>0?List[ObjectNumber]->List[ShotNumber-1]:NULL);
@@ -2231,7 +2164,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
                 if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush);
                 // Apply composition to background
                 for (int j=0;j<List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List.count();j++)
-                    List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,true);
+                    List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,false);
                 P.end();
             }
             // same job for Transition Object if a previous was not keep !
@@ -2247,7 +2180,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
                 if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush);
                 // Apply composition to background
                 for (int j=0;j<List[Info->TransitObject_BackgroundIndex]->BackgroundComposition.List.count();j++)
-                    List[Info->TransitObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,true);
+                    List[Info->TransitObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,false);
                 P.end();
             }
         }

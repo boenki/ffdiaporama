@@ -29,9 +29,66 @@
 // Include some additional standard class
 #include "cDeviceModelDef.h"
 #include "cBaseMediaFile.h"
+#include "cLuLoImageCache.h"
 
 //#define DEBUGMODE
-#define FFD_APPLICATION_ROOTNAME    "Project"   // Name of root node in the project xml file
+#define FFD_APPLICATION_ROOTNAME    "Project"           // Name of root node in the project xml file
+
+cThumbCache::cThumbCache(QString Path) {
+    ThumbCacheFile    =AdjustDirForOS(Path+QString(THUMBNAILCACHEFILE));
+    ThumbCacheDocument=QDomDocument(THUMBCACHE_APPNAME);
+
+    QFile   SourceFile(ThumbCacheFile);
+    QString errorStr;
+    int     errorLine,errorColumn;
+
+    bool IsThumbCacheReady=false;
+    if (SourceFile.open(QFile::ReadOnly | QFile::Text)) {
+        IsThumbCacheReady=(ThumbCacheDocument.setContent(&SourceFile,true,&errorStr,&errorLine,&errorColumn))&&(ThumbCacheDocument.documentElement().tagName()==THUMBCACHE_ROOTNAME);
+        SourceFile.close();
+        // Scan all entries to delete thumb for file no longer exist and thumb for file wich timestamp is not the same
+        QDomNodeList    nodeList=ThumbCacheDocument.elementsByTagName("Thumbnails");
+        for (int i=0;i<nodeList.count();i++) {
+            bool        ToDelete=true;
+            QDomElement Element=nodeList.at(i).toElement();
+            QString     ShortFileName="";
+            if (Element.hasAttribute("ShortFileName")) {
+                ShortFileName=Element.attribute("ShortFileName");
+                if (Element.hasAttribute("TimeStamp")) {
+                    QFileInfo FileInfo(AdjustDirForOS(Path+ShortFileName));
+                    QString   TimeStamp=Element.attribute("TimeStamp");
+                    QString   fTimeStamp=FileInfo.lastModified().toString("dd/MM/yyyy hh:mm:ss.zzz");
+                    ToDelete=(!FileInfo.exists());
+                    ToDelete=ToDelete||(fTimeStamp!=TimeStamp);
+                }
+            }
+            if (ToDelete)
+                ThumbCacheDocument.documentElement().removeChild(Element); else i++;
+        }
+    }
+    if (!IsThumbCacheReady) {
+        ThumbCacheDocument=QDomDocument(THUMBCACHE_APPNAME);
+        ThumbCacheDocument.appendChild(ThumbCacheDocument.createElement(THUMBCACHE_ROOTNAME));
+        IsThumbCacheReady=true;
+    }
+}
+
+//****************************************************************************************************************************************************************
+
+cThumbCache::~cThumbCache() {
+    if (IsModify) {
+        if ((QFileInfo(ThumbCacheFile).exists())&&(!QFile(ThumbCacheFile).remove())) {
+            qDebug()<<"Error overwritting"<<ThumbCacheFile;
+        } else if (ThumbCacheDocument.elementsByTagName("Thumbnails").count()>0) {
+            QFile DestinationFile(ThumbCacheFile);
+            if (DestinationFile.open(QFile::WriteOnly | QFile::Text)) {
+                QTextStream out(&DestinationFile);
+                ThumbCacheDocument.save(out,4);
+                DestinationFile.close();
+            }
+        }
+    }
+}
 
 //****************************************************************************************************************************************************************
 
@@ -120,7 +177,7 @@ QImage *GetEmbededImage(QString FileName) {
     #endif
     //*********** OGG
     if ((Image->isNull())&&((QFileInfo(FileName).suffix().toLower()=="ogg")||(QFileInfo(FileName).suffix().toLower()=="oga"))) {
-        TagLib::Vorbis::File        OggFile(TagLib::FileName(FileName.toLocal8Bit()));
+        TagLib::Vorbis::File OggFile(TagLib::FileName(FileName.toLocal8Bit()));
         if ((OggFile.tag())&&(OggFile.tag()->contains(TagLib::String("COVERART")))) {
             const TagLib::StringList &CoverList=OggFile.tag()->fieldListMap()["COVERART"];
             for (TagLib::StringList::ConstIterator it=CoverList.begin();it!=CoverList.end();it++) {
@@ -141,32 +198,38 @@ QImage *GetEmbededImage(QString FileName) {
     #ifdef TAGLIBWITHMP4
     if ((Image->isNull())&&(/*(QFileInfo(FileName).suffix().toLower()=="mp4")||*/(QFileInfo(FileName).suffix().toLower()=="m4a")||(QFileInfo(FileName).suffix().toLower()=="m4v"))) {
         TagLib::MP4::File MP4File(TagLib::FileName(FileName.toLocal8Bit()));
-
-        if (MP4File.tag()) {
-            if (MP4File.tag()->itemListMap().contains("covr")) {
-                TagLib::MP4::CoverArtList coverArtList = MP4File.tag()->itemListMap()["covr"].toCoverArtList();
-                if (coverArtList.size()!= 0) {
-                    TagLib::MP4::CoverArt ca = coverArtList.front();
-                    Image->loadFromData((const uchar *) ca.data().data(),ca.data().size());
-                }
-            }
+        if ((MP4File.tag())&&(MP4File.tag()->itemListMap().contains("covr"))) {
+			TagLib::MP4::CoverArtList coverArtList = MP4File.tag()->itemListMap()["covr"].toCoverArtList();
+			if (coverArtList.size()!= 0) {
+				TagLib::MP4::CoverArt ca = coverArtList.front();
+				Image->loadFromData((const uchar *) ca.data().data(),ca.data().size());
+			}
         }
     }
     #endif
-    //*********** ASF/WMA //////////////////// A FINIR !
+    //*********** ASF/WMA //////////////////// A FINIR ! ///////////// CA A PAS L'AIR DE MARCHER !
     #ifdef TAGLIBWITHASF
-    /*
     if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="wma")) {
         TagLib::ASF::File ASFFile(TagLib::FileName(TagLib::FileName(FileName.toLocal8Bit())));
-        if ((ASFFile.tag())&&(!ASFFile.tag()->attributeListMap()["WM/Picture"].isEmpty())) {
-            TagLib::ID3v2::FrameList l=ASFFile.tag()->attributeListMap()["WM/Picture"];
-            if (!l.isEmpty()) {
-                TagLib::ID3v2::AttachedPictureFrame *pic=static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
-                if (pic) Image->loadFromData((const uchar *)pic->picture().data(),pic->picture().size());
+        /*
+        TagLib::ASF::Tag* asfTag = dynamic_cast<TagLib::ASF::Tag*>(ASFFile.tag());
+        TagLib::ASF::AttributeListMap& attrListMap = asfTag->attributeListMap();
+        for (TagLib::ASF::AttributeListMap::Iterator it=attrListMap.begin();it!=attrListMap.end();++it) {
+
+            TagLib::ASF::AttributeList& attrList = (*it).second;
+            for (TagLib::ASF::AttributeList::Iterator ait = attrList.begin();ait != attrList.end();++ait) {
+                qDebug()<< QString().fromStdString((*ait).toString().toCString());
             }
-            qDebug()<<"ICI";
         }
-    }*/
+        */
+        if ((ASFFile.tag())&&(ASFFile.tag()->attributeListMap().contains("WM/Picture"))) {
+            const TagLib::ASF::AttributeList &attrList=ASFFile.tag()->attributeListMap()["WM/Picture"];
+            if (!attrList.isEmpty()) {
+                    TagLib::ASF::Picture pic = attrList[0].toPicture();
+                    if (pic.isValid()) Image->loadFromData((const uchar *)pic.picture().data(),pic.picture().size());
+            }
+        }
+    }
     #endif
     //***********
     if (!Image->isNull()) return Image; else {
@@ -188,6 +251,7 @@ cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig):cCu
     IsInformationValide = false;                                    // if true then information list if fuly initialise
     ObjectGeometry      = IMAGE_GEOMETRY_UNKNOWN;                   // Image geometry
     FileName            = "";                                       // filename
+    FileExtension       = "";
     ShortName           = "";
     FileSize            = 0;
     FileSizeText        = "";
@@ -197,6 +261,7 @@ cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig):cCu
     ModifDateTime       = QDateTime(QDate(0,0,0),QTime(0,0,0));     // Last modified date/time
     ApplicationConfig   = TheApplicationConfig;
     AspectRatio         = 1;
+    ImageOrientation    = -1;
 }
 
 //====================================================================================================================
@@ -205,6 +270,96 @@ cBaseMediaFile::~cBaseMediaFile() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cBaseMediaFile::~cBaseMediaFile";
     #endif
+}
+
+//*****************************************************************************************************************************************
+
+bool cBaseMediaFile::GetThumbnailFromCache(cThumbCache *ThumbCache) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cBaseMediaFile::GetThumbnailFromCache";
+    #endif
+    if (!ThumbCache) return false;
+    bool    IsOk=false;
+
+    QString ShortFileName=ShortName;
+    if (ObjectType==OBJECTTYPE_FOLDER) ShortFileName="###FOLDER###"; else ShortFileName =QFileInfo(FileName).fileName();
+
+    QDomNodeList    nodeList=ThumbCache->ThumbCacheDocument.elementsByTagName("Thumbnails");
+    bool            IsFind=false;
+    for (int i=0;(i<nodeList.count())&&(!IsFind);i++) {
+        QDomElement Element=nodeList.at(i).toElement();
+        if ((Element.hasAttribute("ShortFileName"))&&(Element.attribute("ShortFileName")==ShortFileName)) {
+            IsFind=true;
+            if (Element.hasAttribute("Thumbnail"))  {
+                QImage Image;
+                if (Image.loadFromData(qUncompress(QByteArray::fromHex(Element.attribute("Thumbnail").toUtf8())),"PNG")) {
+                    LoadIcons(&Image);
+                    if (Element.hasAttribute("PixelXDimension")) ImageWidth=Element.attribute("PixelXDimension").toInt();
+                    if (Element.hasAttribute("PixelYDimension")) ImageHeight=Element.attribute("PixelYDimension").toInt();
+                    if (GetInformationValue("Photo.PixelXDimension")=="") InformationList.append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
+                    if (GetInformationValue("Photo.PixelYDimension")=="") InformationList.append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
+                    IsOk=true;
+                } else {
+                    qDebug()<<"GetThumbnail FromCache"<<FileName<<"Error";
+                }
+            }
+        }
+    }
+    return IsOk;
+}
+
+//*****************************************************************************************************************************************
+
+void cBaseMediaFile::AddThumbnailToCache(cThumbCache *ThumbCache,QDateTime TimeStamp) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cBaseMediaFile::AddThumbnailToCache";
+    #endif
+
+    if (!ThumbCache)                    return;
+    if (ImageWidth*ImageHeight<1000000) return; // No cache for image <1M pixel
+
+    ThumbCache->IsModify=true;
+
+    QByteArray  Compressed,ImageHexed;
+    QString     ShortFileName=ShortName;
+
+    if (ObjectType==OBJECTTYPE_FOLDER) ShortFileName="###FOLDER###"; else ShortFileName =QFileInfo(FileName).fileName();
+
+    QByteArray  ba;
+    QBuffer     buf(&ba);
+    bool        IsSaved   =false;
+
+    QDomNodeList nodeList=ThumbCache->ThumbCacheDocument.elementsByTagName("Thumbnails");
+    for (int i=0;i<nodeList.count();i++) {
+        QDomElement Element=nodeList.at(i).toElement();
+        if ((Element.hasAttribute("ShortFileName"))&&(Element.attribute("ShortFileName")==ShortFileName)) {
+            IconBIG.save(&buf,"PNG");
+            Compressed=qCompress(ba,1);
+            ImageHexed=Compressed.toHex();
+            Element.setAttribute("Thumbnail",QString(ImageHexed));
+            Element.setAttribute("Width",IconBIG.width());
+            Element.setAttribute("Height",IconBIG.height());
+            Element.setAttribute("PixelXDimension",ImageWidth);
+            Element.setAttribute("PixelYDimension",ImageHeight);
+            Element.setAttribute("TimeStamp",TimeStamp.toString("dd/MM/yyyy hh:mm:ss.zzz"));
+            IsSaved=true;
+            i=nodeList.count();
+        }
+    }
+    if (!IsSaved) {
+        QDomElement SubElement=ThumbCache->ThumbCacheDocument.createElement("Thumbnails");
+        SubElement.setAttribute("ShortFileName",ShortFileName);
+        IconBIG.save(&buf,"PNG");
+        Compressed=qCompress(ba,1);
+        ImageHexed=Compressed.toHex();
+        SubElement.setAttribute("Thumbnail",QString(ImageHexed));
+        SubElement.setAttribute("Width",IconBIG.width());
+        SubElement.setAttribute("Height",IconBIG.height());
+        SubElement.setAttribute("PixelXDimension",ImageWidth);
+        SubElement.setAttribute("PixelYDimension",ImageHeight);
+        SubElement.setAttribute("TimeStamp",TimeStamp.toString("dd/MM/yyyy hh:mm:ss.zzz"));
+        ThumbCache->ThumbCacheDocument.documentElement().appendChild(SubElement);
+    }
 }
 
 //====================================================================================================================
@@ -252,10 +407,11 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
     }
 
     ShortName    =QFileInfo(FileName).fileName();
+    FileExtension=QFileInfo(FileName).completeSuffix().toLower();
     FileSize     =QFileInfo(FileName).size();
     FileSizeText =GetTextSize(FileSize);
-    CreatDateTime=QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
-    ModifDateTime=QFileInfo(FileName).created();            // Keep date/time file was created on the computer !
+    ModifDateTime=QFileInfo(FileName).lastModified();
+    CreatDateTime=QFileInfo(FileName).created();
 
     IsValide=true;
 
@@ -471,7 +627,16 @@ void cFolder::GetFullInformationFromFile() {
         QFileInfoList Directorys=QDir(FileName).entryInfoList(QDir::Files);
         for (int j=0;j<Directorys.count();j++) if (Directorys[j].fileName().toLower()=="folder.jpg") {
             QString FileName=AdjustedFileName+Directorys[j].fileName();
-            LoadIcons(FileName);
+            QImage Final(":img/FolderMask_200.png");
+            QImage Img(FileName);
+            QImage ImgF;
+            if (double(Img.height())/double(Img.width())*double(Img.width())<=162) ImgF=Img.scaledToWidth(180,Qt::SmoothTransformation);
+                else ImgF=Img.scaledToHeight(162,Qt::SmoothTransformation);
+            QPainter Painter;
+            Painter.begin(&Final);
+            Painter.drawImage(QRect((Final.width()-ImgF.width())/2,195-ImgF.height(),ImgF.width(),ImgF.height()),ImgF);
+            Painter.end();
+            LoadIcons(&Final);
         }
     }
 
@@ -810,13 +975,164 @@ QString cImageFile::GetFileTypeStr() {
 
 //====================================================================================================================
 
-void cImageFile::GetFullInformationFromFile() {
+void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cImageFile::GetFullInformationFromFile";
     #endif
-    int ImageOrientation=-1;
-    CallEXIF(ImageOrientation);
+    ImageOrientation    =-1;
+    IsInformationValide =false;
+
+    // ******************************************************************************************************
+    // Try to load EXIF information
+    // ******************************************************************************************************
+    bool    ExifOk=false;
+    Exiv2::Image::AutoPtr ImageFile;
+    try {
+        #if defined(Q_OS_WIN)
+            ImageFile=Exiv2::ImageFactory::open(FileName.toLocal8Bit().data());
+        #else
+            ImageFile=Exiv2::ImageFactory::open(FileName.toUtf8().data());
+        #endif
+        ExifOk=true;
+    }
+    catch( Exiv2::Error& e ) {
+        qDebug()<<"Ther is no EXIF metadata for file"<<FileName;
+    }
+    if (ExifOk) {
+        ImageFile->readMetadata();
+        // Read data
+        Exiv2::ExifData &exifData = ImageFile->exifData();
+        if (!exifData.empty()) {
+            Exiv2::ExifData::const_iterator end = exifData.end();
+            for (Exiv2::ExifData::const_iterator CurrentData=exifData.begin();CurrentData!=end;++CurrentData) {
+
+                if ((QString().fromStdString(CurrentData->key())=="Exif.Image.Orientation")&&(CurrentData->tag()==274))
+                    ImageOrientation=QString().fromStdString(CurrentData->value().toString()).toInt();
+
+                if ((CurrentData->typeId()!=Exiv2::undefined)&&
+                    (!(((CurrentData->typeId()==Exiv2::unsignedByte)||(CurrentData->typeId()==Exiv2::signedByte))&&(CurrentData->size()>64)))) {
+                    QString Key  =QString().fromStdString(CurrentData->key());
+                    #if defined(Q_OS_WIN)
+                    QString Value=QString().fromStdString(CurrentData->print(&exifData).c_str());
+                    #else
+                    QString Value=QString().fromUtf8(CurrentData->print(&exifData).c_str());
+                    #endif
+                    if (Key.startsWith("Exif.")) Key=Key.mid(QString("Exif.").length());
+                    InformationList.append(Key+QString("##")+Value);
+                }
+            }
+        }
+
+        // Append InformationList
+        if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
+        if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
+
+        // Get size information
+        if (GetInformationValue("Photo.PixelXDimension")!="") ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
+        if (GetInformationValue("Photo.PixelYDimension")!="") ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
+
+        // Read preview image
+        #ifdef EXIV2WITHPREVIEW
+        Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
+        if (Manager) {
+            Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
+            if (!Properties.empty()) {
+                Exiv2::PreviewImage Image=Manager->getPreviewImage(Properties[Properties.size()-1]);      // Get the latest image (biggest)
+                QImage *Icon=new QImage();
+                if (Icon->loadFromData(QByteArray((const char*)Image.pData(),Image.size()))) {
+                    if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+                        QMatrix matrix;
+                        matrix.rotate(-90);
+                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                        delete Icon;
+                        Icon=NewImage;
+                    } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+                        QMatrix matrix;
+                        matrix.rotate(180);
+                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                        delete Icon;
+                        Icon=NewImage;
+                    } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+                        QMatrix matrix;
+                        matrix.rotate(90);
+                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                        delete Icon;
+                        Icon=NewImage;
+                    }
+                    // if preview Icon have a really small size, then don't use it
+                    if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
+                }
+                delete Icon;
+            }
+            delete Manager;
+        }
+        #endif
+    }
+
+    // if no information about size then load image
+    if ((ImageWidth==0)||(ImageHeight==0)) {
+        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ImageOrientation,NULL,ApplicationConfig->Smoothing,true);
+        if (ImageObject==NULL) {
+            qDebug()<<"Error in CallEXIF : FindObject return NULL !";
+        } else {
+            QImage *LN_Image=ImageObject->ValidateCacheRenderImage();   // Get a link to render image in LuLoImageCache collection
+            if ((LN_Image==NULL)||(LN_Image->isNull())) {
+                qDebug()<<"Error in CallEXIF : ValidateCacheRenderImage return NULL !";
+            } else {
+                ImageWidth =LN_Image->width();
+                ImageHeight=LN_Image->height();
+                InformationList.append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
+                InformationList.append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
+                IsInformationValide=true;
+            }
+        }
+    }
+
+    // Sort InformationList
+    InformationList.sort();
+
+    // Now we have image size then compute image geometry
+    ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
+    double RatioHW=double(ImageWidth)/double(ImageHeight);
+    if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
+    else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
+    else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
+    else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
+    else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
+    else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
+    else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
+    else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
+
+    if (Icon16.isNull()) {
+
+        //************************************************************************************
+        // If no exif information or no preview image then load file
+        //************************************************************************************
+
+        // Try to load thumb from thumbcache (if exist)
+        if (ThumbCache) GetThumbnailFromCache(ThumbCache);
+
+        if (Icon16.isNull()) {
+            //qDebug()<<QString("Create thumbnail for %1").arg(FileName);
+            cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ImageOrientation,NULL,ApplicationConfig->Smoothing,true);
+            if (ImageObject==NULL) {
+                qDebug()<<"Error in CallEXIF : FindObject return NULL for thumbnail creation !";
+            } else {
+                QImage *LN_Image=ImageObject->ValidateCacheRenderImage();   // Get a link to render image in LuLoImageCache collection
+                if ((LN_Image==NULL)||(LN_Image->isNull())) {
+                    qDebug()<<"Error in CallEXIF : ValidateCacheRenderImage return NULL for thumbnail creation !";
+                } else {
+                    LoadIcons(LN_Image);
+                    if (ThumbCache) AddThumbnailToCache(ThumbCache,ModifDateTime);
+                }
+            }
+        }
+    }
+
+    // if Icon16 stil null then load default icon
     if (Icon16.isNull()) LoadIcons(&ApplicationConfig->DefaultIMAGEIcon);
+
+    IsInformationValide=true;
 }
 
 //====================================================================================================================
@@ -852,238 +1168,48 @@ QString cImageFile::GetTAGInfo() {
 
 //====================================================================================================================
 
-bool cImageFile::CallEXIF(int &ImageOrientation) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cImageFile::CallEXIF";
-    #endif
-
-    Exiv2::Image::AutoPtr ImageFile;
-    try {
-        #if defined(Q_OS_WIN)
-            ImageFile=Exiv2::ImageFactory::open(FileName.toLocal8Bit().data());
-        #else
-            ImageFile=Exiv2::ImageFactory::open(FileName.toUtf8().data());
-        #endif
-        IsInformationValide=true;
-    }
-    catch( Exiv2::Error& e ) {
-        qDebug()<<"Cannot load metadata using Exiv2 for file"<<FileName;
-        IsInformationValide=false;
-    }
-    if (IsInformationValide) {
-        ImageFile->readMetadata();
-        // Read data
-        Exiv2::ExifData &exifData = ImageFile->exifData();
-        if (!exifData.empty()) {
-            Exiv2::ExifData::const_iterator end = exifData.end();
-            for (Exiv2::ExifData::const_iterator CurrentData=exifData.begin();CurrentData!=end;++CurrentData) {
-
-                if ((QString().fromStdString(CurrentData->key())=="Exif.Image.Orientation")&&(CurrentData->tag()==274))
-                    ImageOrientation=QString().fromStdString(CurrentData->value().toString()).toInt();
-
-                if ((CurrentData->typeId()!=Exiv2::undefined)&&
-                    (!(((CurrentData->typeId()==Exiv2::unsignedByte)||(CurrentData->typeId()==Exiv2::signedByte))&&(CurrentData->size()>64)))) {
-                    QString Key  =QString().fromStdString(CurrentData->key());
-                    #if defined(Q_OS_WIN)
-                    QString Value=QString().fromStdString(CurrentData->print(&exifData).c_str());
-                    #else
-                    QString Value=QString().fromUtf8(CurrentData->print(&exifData).c_str());
-                    #endif
-                    if (Key.startsWith("Exif.")) Key=Key.mid(QString("Exif.").length());
-                    InformationList.append(Key+QString("##")+Value);
-                }
-            }
-            InformationList.sort();
-        }
-        // Read preview image
-        #ifdef EXIV2WITHPREVIEW
-        Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
-        if (Manager) {
-            Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
-            if (!Properties.empty()) {
-                Exiv2::PreviewImage Image=Manager->getPreviewImage(Properties[Properties.size()-1]);      // Get the latest image (biggest)
-                QImage *Icon=new QImage();
-                if (Icon->loadFromData(QByteArray((const char*)Image.pData(),Image.size()))) {
-                    if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
-                        QMatrix matrix;
-                        matrix.rotate(-90);
-                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                        delete Icon;
-                        Icon=NewImage;
-                    } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
-                        QMatrix matrix;
-                        matrix.rotate(180);
-                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                        delete Icon;
-                        Icon=NewImage;
-                    } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
-                        QMatrix matrix;
-                        matrix.rotate(90);
-                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                        delete Icon;
-                        Icon=NewImage;
-                    }
-                    LoadIcons(Icon);
-                    delete Icon;
-                }
-            }
-        }
-        #endif
-        // Append InformationList
-        if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
-        if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
-
-        ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
-        ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
-
-        // Compute image geometry
-        ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
-        double RatioHW=double(ImageWidth)/double(ImageHeight);
-        if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
-        else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
-        else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
-        else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
-        else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
-        else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
-        else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
-        else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
-
-        if (ImageOrientation==-1) ImageOrientation=1;
-
-    }
-
-    if (Icon16.isNull()) {
-
-        //************************************************************************************
-        // If no exif information or no preview image then load file
-        //************************************************************************************
-
-        if (ImageOrientation==-1) ImageOrientation=1;
-        QImage *Img=ImageAt(false,true,NULL);
-        if (Img) {
-            ImageWidth =Img->width();
-            ImageHeight=Img->height();
-            LoadIcons(Img);
-            delete Img;
-            InformationList.append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
-            InformationList.append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
-            IsInformationValide=true;
-        }
-    }
-
-    return IsInformationValide;
-}
-
-//====================================================================================================================
-
-QImage *cImageFile::ImageAt(bool PreviewMode,bool ForceLoadDisk,cFilterTransformObject *Filter) {
+QImage *cImageFile::ImageAt(bool PreviewMode,cFilterTransformObject *Filter) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cImageFile::ImageAt";
     #endif
-    if (!IsValide) return NULL;
+    if (!IsValide)            return NULL;
+    if (!IsInformationValide) GetFullInformationFromFile();
 
-    bool                    Smoothing   =(!PreviewMode || ApplicationConfig->Smoothing);
-    cLuLoImageCacheObject   *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,&BrushFileTransform,Smoothing,true);
+    QImage                *LN_Image   =NULL;
+    QImage                *RetImage   =NULL;
+    cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ImageOrientation,Filter,(!PreviewMode || ApplicationConfig->Smoothing),true);
+
     if (!ImageObject) {
-        qDebug()<<"ImagesCache.FindObject return NULL !";
+        qDebug()<<"Error in cImageFile::ImageAt : FindObject return NULL !";
         return NULL;  // There is an error !!!!!
     }
-    if (ImageObject->ImageOrientation==-1) CallEXIF(ImageObject->ImageOrientation);
 
-    // Unfiltered image
-    if (PreviewMode && ForceLoadDisk && (!Filter)) {
-        QImage *UnfilteredImage=ImageObject->ValidateUnfilteredImage();
-        if (UnfilteredImage && !UnfilteredImage->isNull()) {
-            // Compute image geometry
-            ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
-            double RatioHW=double(UnfilteredImage->width())/double(UnfilteredImage->height());
-            if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
-            else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
-            else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
-            else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
-            else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
-            else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
-            else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
-            else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
-            return UnfilteredImage;
-        }
-        // Image is not correct !
-        if (UnfilteredImage && UnfilteredImage->isNull()) {
-            delete UnfilteredImage;
-            UnfilteredImage=NULL;
-        }
-        return NULL;
-    }
+    if (PreviewMode) LN_Image=ImageObject->ValidateCachePreviewImage();
+        else         LN_Image=ImageObject->ValidateCacheRenderImage();
 
-    // Ensure ImageObject is at correct state
-    if ((ForceLoadDisk)||                                                                           // If full refresh asked
-        ((!PreviewMode)&&(ImageObject->CacheRenderImage==NULL)&&(ImageObject->CachePreviewImage!=NULL))||    // if not preview mode and CachePreviewImage not null but CacheRenderImage is null
-        ((PreviewMode)&&(ImageObject->CachePreviewImage==NULL)&&(ImageObject->CacheRenderImage!=NULL)))      // if preview mode and CacheRenderImage not null but CachePreviewImage is null       ??????????????
-            ImageObject->ClearAll();
-
-    if (PreviewMode) {
-
-        // Stop here if we have wanted image
-        if (ImageObject->CachePreviewImage) return new QImage(ImageObject->CachePreviewImage->copy());
-
-        QImage *CachePreviewImage=ImageObject->ValidateCachePreviewImage(Filter);
-
-        // Get preview image size
-        ImageHeight=CachePreviewImage->height();
-        ImageWidth =CachePreviewImage->width();
-
-        // Compute image geometry
-        ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
-        double RatioHW=double(CachePreviewImage->width())/double(CachePreviewImage->height());
-        if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
-        else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
-        else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
-        else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
-        else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
-        else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
-        else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
-        else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
-
+    if ((LN_Image==NULL)||(LN_Image->isNull())) {
+        qDebug()<<"Error in cImageFile::ImageAt : ValidateCacheImage return NULL !";
     } else {
-
-        // Stop here if we have wanted image
-        if (ImageObject->CacheRenderImage) return new QImage(ImageObject->CacheRenderImage->copy());
-
-        // Ensure CacheRenderImage is valide
-        QImage *CacheRenderImage=ImageObject->ValidateCacheRenderImage((Filter && !PreviewMode)?Filter:NULL);
-        if (CacheRenderImage && !CacheRenderImage->isNull()) {
-            // Compute image geometry
-            ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
-            double RatioHW=double(CacheRenderImage->width())/double(CacheRenderImage->height());
-            if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
-            else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
-            else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
-            else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
-            else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
-            else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
-            else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
-            else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
-        }
-
+        RetImage=new QImage(LN_Image->copy());
+        if ((RetImage==NULL)||(RetImage->isNull()))
+            qDebug()<<"Error in cImageFile::ImageAt : LN_Image->copy() return NULL !";
     }
+
     // return wanted image
-    if ((PreviewMode)&&(ImageObject->CachePreviewImage)) return new QImage(ImageObject->CachePreviewImage->copy());
-    if ((!PreviewMode)&&(ImageObject->CacheRenderImage)) return new QImage(ImageObject->CacheRenderImage->copy());
-    return NULL; // if image is not valide
+    return RetImage;
 }
 
 /*************************************************************************************************************************************
     CLASS cVideoFile
 *************************************************************************************************************************************/
 
-cVideoFile::cVideoFile(WantedObjectTypeFmt TheWantedObjectType,cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
+cVideoFile::cVideoFile(int TheWantedObjectType,cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::cVideoFile";
     #endif
 
-    WantedObjectType        = TheWantedObjectType;
-    MusicOnly               = (WantedObjectType==MUSICFILE);
-    ObjectType              = OBJECTTYPE_MUSICORVIDEO;                  // Not yet determined
+    MusicOnly               = (TheWantedObjectType==OBJECTTYPE_MUSICFILE);
+    ObjectType              = TheWantedObjectType;
     IsOpen                  = false;
     StartPos                = QTime(0,0,0,0);   // Start position
     EndPos                  = QTime(0,0,0,0);   // End position
@@ -1095,8 +1221,6 @@ cVideoFile::cVideoFile(WantedObjectTypeFmt TheWantedObjectType,cBaseApplicationC
     FrameBufferYUV          = NULL;
     FrameBufferYUVReady     = false;
     FrameBufferYUVPosition  = 0;
-    CacheFirstImage         = NULL;                     // Cache image of first image of the video
-    CacheLastImage          = NULL;                     // Cache image of last image of the video (Preview mode only)
     dEndFileCachePos        = 0;                        // Position of the cache image of last image of the video
     VideoCodecInfo          = "";
     VideoTrackNbr           = 0;
@@ -1118,15 +1242,6 @@ cVideoFile::~cVideoFile() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::~cVideoFile";
     #endif
-    if (CacheFirstImage!=NULL) {
-        delete CacheFirstImage;
-        CacheFirstImage=NULL;
-    }
-    if (CacheLastImage!=NULL) {
-        delete CacheLastImage;
-        CacheLastImage=NULL;
-    }
-
     // Close LibAVFormat and LibAVCodec contexte for the file
     CloseCodecAndFile();
 }
@@ -1376,13 +1491,6 @@ void cVideoFile::GetFullInformationFromFile() {
     #endif
 
     //*********************************************************************************************************
-    // Do file qualification
-    //*********************************************************************************************************
-    if (VideoTrackNbr>0)      ObjectType=OBJECTTYPE_VIDEOFILE;
-    else if (AudioTrackNbr>0) ObjectType=OBJECTTYPE_MUSICFILE;
-    else                      ObjectType=OBJECTTYPE_MUSICORVIDEO;                    // Error !
-
-    //*********************************************************************************************************
     // Produce thumbnail
     //*********************************************************************************************************
 
@@ -1404,9 +1512,11 @@ void cVideoFile::GetFullInformationFromFile() {
         QString     JPegFile=File.absolutePath()+(File.absolutePath().endsWith(QDir::separator())?"":QString(QDir::separator()))+File.completeBaseName()+".jpg";
         if (QFileInfo(JPegFile).exists()) LoadIcons(JPegFile);
 
-        // Open file
-        OpenCodecAndFile();
-        CloseCodecAndFile();
+        if (Icon16.isNull()) {
+            // Open file
+            OpenCodecAndFile();
+            CloseCodecAndFile();
+        }
     }
 
     // if no icon then load default for type
@@ -1888,14 +1998,6 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
     if ((dPosition>0)&&(dPosition>=dEndFile)) {
         Position=QTime(0,0,0,0).msecsTo(EndPos);
         dPosition=double(Position)/1000;
-        // if we have the correct last image then return it
-        if ((dEndFileCachePos==dEndFile)&&(CacheLastImage)) return new QImage(CacheLastImage->copy());
-        // if we have an old last image delete
-        if (CacheLastImage) {
-            delete CacheLastImage;
-            CacheLastImage=NULL;
-            dEndFileCachePos=0;
-        }
     }
 
     // Adjust position if input file have a start_time value
@@ -2004,8 +2106,6 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
                         delete RetImage;
                         RetImage=newRetImage;
                     }
-                    if (CacheLastImage) delete CacheLastImage;
-                    CacheLastImage  =new QImage(RetImage->copy());
                     dEndFileCachePos=dEndFile;  // keep position for future use
                 }
 
@@ -2033,22 +2133,13 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
         }
     }
 
-    if ((!IsVideoFind)&&(FramePosition>=dEndFile)&&(CacheLastImage)&&(!CacheLastImage->isNull())) {
-        IsVideoFind=true;
-        RetImage=new QImage(CacheLastImage->copy());
-    }
-
     if ((!IsVideoFind)&&(!RetImage)) {
         qDebug()<<"No video image return for position "<<Position<<"=> return black frame";
         RetImage =new QImage(ffmpegVideoFile->streams[VideoStreamNumber]->codec->width,ffmpegVideoFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
         RetImage->fill(0);
     }
 
-    // Check if it's the last image and if we need to  cache it
-    if ((FramePosition>=dEndFile)&&(RetImage)&&(!CacheLastImage)) {
-        CacheLastImage  =new QImage(RetImage->copy());
-        dEndFileCachePos=dEndFile;  // keep position for future use
-    }
+    dEndFileCachePos=dEndFile;  // keep position for future use
 
     return RetImage;
 }
@@ -2107,21 +2198,13 @@ QImage *cVideoFile::ConvertYUVToRGB() {
 
 //====================================================================================================================
 //DontUseEndPos default=false
-QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,bool ForceLoadDisk,cSoundBlockList *SoundTrackBloc,double Volume,
+QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,cSoundBlockList *SoundTrackBloc,double Volume,
                                    bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cVideoFile::ImageAt";
     #endif
     if (!IsValide) return NULL;
     if (!IsOpen) OpenCodecAndFile();
-
-    // If ForceLoadDisk then ensure CacheImage is null
-    if ((ForceLoadDisk)&&(CacheFirstImage!=NULL)) {
-        delete CacheFirstImage;
-        CacheFirstImage=NULL;
-    }
-
-    if ((PreviewMode)&&(CacheFirstImage)&&(Position+StartPosToAdd==0)) return new QImage(CacheFirstImage->copy());
 
     // Load a video frame
     QImage *LoadedImage=NULL;
@@ -2151,12 +2234,6 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
             }
 
             if (Filter && ((!PreviewMode)||(PreviewMode && ApplicationConfig->ApplyTransfoPreview))) Filter->ApplyFilter(LoadedImage);
-
-            if ((PreviewMode)&&(Position+StartPosToAdd==0)) {
-                if (CacheFirstImage!=NULL) delete CacheFirstImage;
-                CacheFirstImage=LoadedImage;
-                LoadedImage=new QImage(CacheFirstImage->copy());
-            }
         }
 
     }
@@ -2173,14 +2250,6 @@ bool cVideoFile::OpenCodecAndFile() {
 
     // Clean memory if a previous file was loaded
     CloseCodecAndFile();
-    if (CacheFirstImage!=NULL) {
-        delete CacheFirstImage;
-        CacheFirstImage=NULL;
-    }
-    if (CacheLastImage!=NULL) {
-        delete CacheLastImage;
-        CacheLastImage=NULL;
-    }
 
     //**********************************
 
@@ -2314,7 +2383,8 @@ bool cVideoFile::OpenCodecAndFile() {
 
         // Try to load one image to be sure we can make something with this file
         IsOpen=true;
-        QImage *Img =ImageAt(true,0,0,true,NULL,1,false,NULL,false);
+        qlonglong Position=QTime(0,0,0,0).msecsTo(Duration)/2;
+        QImage *Img =ImageAt(true,Position,0,NULL,1,false,NULL,false);
         if (Img) {
             // Get informations about size image
             ImageWidth=Img->width();
@@ -2332,15 +2402,13 @@ bool cVideoFile::OpenCodecAndFile() {
             else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
             // Icon
             if (Icon16.isNull()) {
-                QImage Final=ApplicationConfig->VideoMask.copy();
+                QImage Final=(ApplicationConfig->Video_ThumbWidth==162?ApplicationConfig->VideoMask_162:ApplicationConfig->Video_ThumbWidth==150?ApplicationConfig->VideoMask_150:ApplicationConfig->VideoMask_120).copy();
                 QImage ImgF;
-                if (Img->width()>Img->height()) {
-                    if (double(Img->width())/double(Img->height())<1.5) ImgF=Img->scaledToWidth(84,Qt::SmoothTransformation);
-                    else ImgF=Img->scaledToWidth(88,Qt::SmoothTransformation);
-                } else ImgF=Img->scaledToHeight(88,Qt::SmoothTransformation);
+                if (Img->width()>Img->height()) ImgF=Img->scaledToWidth(ApplicationConfig->Video_ThumbWidth-2,Qt::SmoothTransformation);
+                    else                        ImgF=Img->scaledToHeight(ApplicationConfig->Video_ThumbHeight*0.7,Qt::SmoothTransformation);
                 QPainter Painter;
                 Painter.begin(&Final);
-                Painter.drawImage(QRect((96-ImgF.width())/2,(96-ImgF.height())/2,ImgF.width(),ImgF.height()),ImgF);
+                Painter.drawImage(QRect((Final.width()-ImgF.width())/2,(Final.height()-ImgF.height())/2,ImgF.width(),ImgF.height()),ImgF);
                 Painter.end();
                 LoadIcons(&Final);
             }

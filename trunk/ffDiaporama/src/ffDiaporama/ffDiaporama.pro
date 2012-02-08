@@ -79,6 +79,7 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../sharedfiles/QCustomFileInfoLabel.cpp \
             ../sharedfiles/DlgffDPjrProperties.cpp \
             ../sharedfiles/cBrushDefinition.cpp \
+            ../sharedfiles/cCustomIcon.cpp \
             ../sharedfiles/DlgInfoFile.cpp
 
 HEADERS  += \
@@ -121,6 +122,7 @@ HEADERS  += \
             ../sharedfiles/QCustomFileInfoLabel.h \
             ../sharedfiles/DlgffDPjrProperties.h \
             ../sharedfiles/cBrushDefinition.h \
+            ../sharedfiles/cCustomIcon.h \
             ../sharedfiles/DlgInfoFile.h
 
 FORMS    += mainwindow.ui \
@@ -164,10 +166,6 @@ unix {
     background.files    = ../../background/*.*
     INSTALLS 		+= background
 
-    #tr_img.path         = $$PREFIX/share/$$APPFOLDER/transitions-img
-    #tr_img.files        = ../../transitions-img/*.*
-    #INSTALLS 		+= tr_img
-
     luma.path           = $$PREFIX/share/$$APPFOLDER/luma
     luma.files          = ../../luma/*.*
     luma_Bar.path       = $$PREFIX/share/$$APPFOLDER/luma/Bar
@@ -193,16 +191,16 @@ unix {
     INSTALLS 		+= mimefile
 
     # install icon files for GNOME systems
-    exists(/usr/share/icons/gnome/32x32/mimetypes) {
-        iconfile.path   = $$PREFIX/share/icons/gnome/32x32/mimetypes
-        iconfile.files  = ../../application-ffDiaporama.png
-    }
+    #exists(/usr/share/icons/gnome/32x32/mimetypes) {
+    #    iconfile.path   = $$PREFIX/share/icons/gnome/32x32/mimetypes
+    #    iconfile.files  = ../../application-ffDiaporama.png
+    #}
     # install icon files for KDE systems
-    exists(/usr/share/icons/default.kde4/32x32/mimetypes) {
-        iconfile.path   = $$PREFIX/share/icons/default.kde4/32x32/mimetypes
-        iconfile.files  = ../../application-ffDiaporama.png
-    }
-    INSTALLS 		+= iconfile
+    #exists(/usr/share/icons/default.kde4/32x32/mimetypes) {
+    #    iconfile.path   = $$PREFIX/share/icons/default.kde4/32x32/mimetypes
+    #    iconfile.files  = ../../application-ffDiaporama.png
+    #}
+    #INSTALLS 		+= iconfile
 
     # install desktop files /opt version
     contains(PREFIX,/opt) {

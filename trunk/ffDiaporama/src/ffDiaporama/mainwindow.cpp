@@ -165,6 +165,8 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ApplicationConfig->StyleBlockShapeCollection.DoTranslateCollection();
     ApplicationConfig->StyleImageFramingCollection.DoTranslateCollection();
 
+    ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
+
     Diaporama=new cDiaporama(ApplicationConfig);
     Diaporama->Timeline=ui->timeline;
     ui->preview->InitDiaporamaPlay(Diaporama);
@@ -861,7 +863,6 @@ void MainWindow::s_Event_TimelineSelectionChanged() {
                 (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SetStartEndPos(0,0,-1,0,-1,0);
             }
         }
-        Diaporama->FreeUnusedMemory(Diaporama->CurrentCol,Diaporama->ApplicationConfig->NbrSlideInCache);
         RefreshControls();
     }
     QApplication::restoreOverrideCursor();
@@ -1029,6 +1030,7 @@ void MainWindow::s_Action_ChangeApplicationSettings() {
     if (Dlg.exec()==0) {
         ToStatusBar(QApplication::translate("MainWindow","Saving configuration file and applying new configuration ..."));
         QTimer::singleShot(500,this,SLOT(DoChangeApplicationSettings()));
+        ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
     }
 }
 
@@ -1431,10 +1433,10 @@ void MainWindow::s_Action_DoAddFile() {
         cBaseMediaFile  *MediaFile=NULL;
 
         if (ApplicationConfig->AllowImageExtension.contains(Extension))          MediaFile=new cImageFile(ApplicationConfig);
-            else if (ApplicationConfig->AllowVideoExtension.contains(Extension)) MediaFile=new cVideoFile(cVideoFile::VIDEOFILE,ApplicationConfig);
+            else if (ApplicationConfig->AllowVideoExtension.contains(Extension)) MediaFile=new cVideoFile(OBJECTTYPE_VIDEOFILE,ApplicationConfig);
 
         bool IsValide=((MediaFile)&&(MediaFile->GetInformationFromFile(BrushFileName,NULL,NULL)));
-        if ((IsValide)&&((MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)||(MediaFile->ObjectType==OBJECTTYPE_MUSICORVIDEO))) IsValide=((cVideoFile *)MediaFile)->OpenCodecAndFile();
+        if ((IsValide)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)) IsValide=((cVideoFile *)MediaFile)->OpenCodecAndFile();
         if (!IsValide) {
             QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile,QMessageBox::Close);
             if (MediaFile) delete MediaFile;
@@ -1530,8 +1532,8 @@ void MainWindow::s_Action_DoAddFile() {
         //*****************************************************
         // Try to load an image to ensure all is ok
         //*****************************************************
-        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,true,&CurrentBrush->Image->BrushFileTransform):
-                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,true,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,false):
+        QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,&CurrentBrush->Image->BrushFileTransform):
+                       CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,false):
                        NULL);
 
         if (!Image) {

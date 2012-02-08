@@ -20,7 +20,7 @@
 
 // Include some common various class
 #include "../fmt_filters/fmt_filters.h"
-
+#include <QStringList>
 
 #include "cFilterTransformObject.h"
 
@@ -41,6 +41,35 @@ cFilterTransformObject::cFilterTransformObject() {
 
 //====================================================================================================================
 
+cFilterTransformObject::cFilterTransformObject(QString FilterString) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cFilterTransformObject::cFilterTransformObject(QString FilterString)";
+    #endif
+
+    QStringList Values=FilterString.split("##");
+    if (Values.count()==3) {
+        BlurSigma  =Values[0].toDouble()/100;
+        BlurRadius =Values[1].toDouble()/100;
+        OnOffFilter=Values[2].toInt();
+    } else {
+        qDebug()<<"Error in cFilterTransformObject::cFilterTransformObject(QString FilterString) : FilterString is incorrect !";
+        BlurSigma  =0;
+        BlurRadius =5;
+        OnOffFilter=0;
+    }
+}
+
+//====================================================================================================================
+
+QString cFilterTransformObject::FilterToString() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:cFilterTransformObject::FilterToString";
+    #endif
+    if (!HaveFilter()) return ""; else return QString("%1##%2##%3").arg(int(BlurSigma*100)).arg(int(BlurRadius*100)).arg(OnOffFilter);
+}
+
+//====================================================================================================================
+
 void cFilterTransformObject::ApplyFilter(QImage *Image) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cFilterTransformObject::ApplyFilter";
@@ -48,25 +77,31 @@ void cFilterTransformObject::ApplyFilter(QImage *Image) {
     if (Image==NULL) return;
     fmt_filters::image img(Image->bits(),Image->width(),Image->height());
     if ((OnOffFilter & FilterDespeckle)==FilterDespeckle)   {
-        qDebug()<<QApplication::translate("MainWindow","Applying transformation filter");
+        qDebug()<<QApplication::translate("MainWindow","Applying Despeckle filter");
         fmt_filters::despeckle(img);
     }
     if ((OnOffFilter & FilterEqualize)==FilterEqualize) {
-        qDebug()<<QApplication::translate("MainWindow","Applying transformation filter");
+        qDebug()<<QApplication::translate("MainWindow","Applying Equalize filter");
         fmt_filters::equalize(img);
     }
     if ((OnOffFilter & FilterGray)==FilterGray) {
-        qDebug()<<QApplication::translate("MainWindow","Applying transformation filter");
+        qDebug()<<QApplication::translate("MainWindow","Applying Gray filter");
         fmt_filters::gray(img);
     }
     if (BlurSigma<0) {
-        qDebug()<<QApplication::translate("MainWindow","Applying transformation filter");
+        qDebug()<<QApplication::translate("MainWindow","Applying blur filter");
         fmt_filters::blur(img,BlurRadius,-BlurSigma);
     }
     if (BlurSigma>0) {
-        qDebug()<<QApplication::translate("MainWindow","Applying transformation filter");
+        qDebug()<<QApplication::translate("MainWindow","Applying sharpen filter");
         fmt_filters::sharpen(img,BlurRadius,BlurSigma);
     }
+}
+
+//====================================================================================================================
+
+bool cFilterTransformObject::HaveFilter() {
+    return (OnOffFilter!=0)||(BlurSigma!=0);
 }
 
 //====================================================================================================================
@@ -102,13 +137,4 @@ bool cFilterTransformObject::LoadFromXML(QDomElement domDocument,QString Element
         return true;
     }
     return false;
-}
-
-//====================================================================================================================
-
-QString cFilterTransformObject::FilterToString() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cFilterTransformObject::FilterToString";
-    #endif
-    return QString("%1##%2##%3").arg(int(BlurSigma*100)).arg(int(BlurRadius*100)).arg(OnOffFilter);
 }

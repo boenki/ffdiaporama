@@ -32,6 +32,8 @@
 #include <QTableWidgetItem>
 #include <QStyledItemDelegate>
 #include <QPainter>
+#include <QModelIndex>
+#include <QModelIndexList>
 
 #include "QCustomFolderTable.h"
 #include "QCustomFileInfoLabel.h"
@@ -41,7 +43,8 @@
 #define FILETABLESTATE_FILETOCHEK   1
 #define FileToCheckIcon             ":/img/player_time.png"
 
-#define CELLBORDER      8
+#define CELLBORDER              8
+int DISPLAYFILENAMEHEIGHT=20;           // Will be compute because it's not the same for all operating system
 
 //********************************************************************************************************
 // Utility functions use to sort table
@@ -92,26 +95,57 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
             ParentTable->ScanMediaList.pause();
         }
 
-        QImage  *Icon           =NULL;
-        int     LinesToDisplay  =0;
-        int     IconHeight      =0;
-        int     addX            =0;
-        int     addY            =0;
+        QImage      *Icon           =NULL;
+        QImage      *BigIcon        =NULL;
+        int         LinesToDisplay  =0;
+        int         IconHeight      =0;
+        int         addX            =0;
+        int         addY            =0;
+        bool        DrawFilename    =false;
+        QFont       font;
+        QTextOption OptionText;
+        QPen        Pen;
 
-        switch (ParentTable->CurrentMode) {
+        switch (ParentTable->ApplicationConfig->CurrentMode) {
             case DISPLAY_ICON48  :
                 if (!Icon && !ParentTable->MediaList[ItemIndex]->IsInformationValide) Icon=ParentTable->ApplicationConfig->DefaultDelayedIcon.GetIcon(cCustomIcon::ICON48);
                 if (!Icon) Icon=&ParentTable->MediaList[ItemIndex]->Icon48;
                 if ((!Icon)||(Icon->isNull())) Icon=ParentTable->MediaList[ItemIndex]->GetDefaultTypeIcon(cCustomIcon::ICON48);
+                IconHeight=option.rect.height()-CELLBORDER-(ParentTable->ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
+                LinesToDisplay=0;
+                addX=(option.rect.width()-Icon->width())/2;
+                if (ParentTable->ApplicationConfig->DisplayFileName) addY=(option.rect.height()-Icon->height()-DISPLAYFILENAMEHEIGHT)/3;
+                    else addY=(option.rect.height()-Icon->height())/2;
+                DrawFilename=ParentTable->ApplicationConfig->DisplayFileName;
+                break;
 
             case DISPLAY_ICON100 :
                 if (!Icon && !ParentTable->MediaList[ItemIndex]->IsInformationValide) Icon=ParentTable->ApplicationConfig->DefaultDelayedIcon.GetIcon(cCustomIcon::ICON100);
                 if (!Icon) Icon=&ParentTable->MediaList[ItemIndex]->Icon100;
                 if ((!Icon)||(Icon->isNull())) Icon=ParentTable->MediaList[ItemIndex]->GetDefaultTypeIcon(cCustomIcon::ICON100);
-                IconHeight=option.rect.height();
+                IconHeight=option.rect.height()-CELLBORDER-(ParentTable->ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
                 LinesToDisplay=0;
-                addX=option.rect.width()-Icon->width();
-                addY=option.rect.height()-Icon->height();
+                addX=(option.rect.width()-Icon->width())/2;
+                if (ParentTable->ApplicationConfig->DisplayFileName) addY=(option.rect.height()-Icon->height()-DISPLAYFILENAMEHEIGHT)/3;
+                    else addY=(option.rect.height()-Icon->height())/2;
+                DrawFilename=ParentTable->ApplicationConfig->DisplayFileName;
+                break;
+
+            case DISPLAY_ICONBIG :
+                if (!Icon && !ParentTable->MediaList[ItemIndex]->IsInformationValide) Icon=ParentTable->ApplicationConfig->DefaultDelayedIcon.GetIcon(cCustomIcon::ICON100);
+                if (!Icon) Icon=&ParentTable->MediaList[ItemIndex]->IconBIG;
+                if ((!Icon)||(Icon->isNull())) Icon=ParentTable->MediaList[ItemIndex]->GetDefaultTypeIcon(cCustomIcon::ICONBIG);
+                IconHeight=option.rect.height()-CELLBORDER-(ParentTable->ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
+                LinesToDisplay=0;
+                BigIcon=new QImage(Icon->copy());//->scaledToHeight(IconHeight));
+                if (BigIcon->width()>option.rect.width()-CELLBORDER) {
+                    delete BigIcon;
+                    BigIcon=new QImage(Icon->scaledToWidth(option.rect.width()-CELLBORDER));
+                }
+                addX=(option.rect.width()-BigIcon->width())/2;
+                if (ParentTable->ApplicationConfig->DisplayFileName) addY=(option.rect.height()-BigIcon->height()-DISPLAYFILENAMEHEIGHT)/3;
+                    else addY=(option.rect.height()-BigIcon->height())/2;
+                DrawFilename=ParentTable->ApplicationConfig->DisplayFileName;
                 break;
 
             case DISPLAY_WEBSHORT:
@@ -120,8 +154,8 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
                 if ((!Icon)||(Icon->isNull())) Icon=ParentTable->MediaList[ItemIndex]->GetDefaultTypeIcon(cCustomIcon::ICON32);
                 IconHeight=32;
                 LinesToDisplay=2;
-                addX=IconHeight-Icon->width();
-                addY=IconHeight-Icon->height();
+                addX=(IconHeight-Icon->width())/2;
+                addY=(IconHeight-Icon->height())/2;
                 break;
 
             case DISPLAY_WEBLONG :
@@ -130,17 +164,36 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
                 if ((!Icon)||(Icon->isNull())) Icon=ParentTable->MediaList[ItemIndex]->GetDefaultTypeIcon(cCustomIcon::ICON48);
                 IconHeight=48;
                 LinesToDisplay=3;
-                addX=IconHeight-Icon->width();
-                addY=IconHeight-Icon->height();
+                addX=(IconHeight-Icon->width())/2;
+                addY=(IconHeight-Icon->height())/2;
                 break;
         }
         // Draw Icon
-        Painter->drawImage(QRectF(option.rect.x()+1+addX/2,option.rect.y()+1+addY/2,Icon->width(),Icon->height()),*Icon);
+        if (BigIcon) Painter->drawImage(QRectF(option.rect.x()+1+addX,option.rect.y()+1+addY,BigIcon->width(),BigIcon->height()),*BigIcon);
+            else if (Icon) Painter->drawImage(QRectF(option.rect.x()+1+addX,option.rect.y()+1+addY,Icon->width(),Icon->height()),*Icon);
+
+        // Setup default brush
+        Painter->setBrush(Qt::NoBrush);
+        // Setup default pen
+        Pen.setColor(Qt::black);
+        Pen.setWidth(1);
+        Pen.setStyle(Qt::SolidLine);
+        Painter->setPen(Pen);
+
+        // Setup default font
+        font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);
+        font.setUnderline(false);
+        Painter->setFont(font);
+
+        // Draw file name if icon view
+        if (DrawFilename) {
+            OptionText=QTextOption(Qt::AlignHCenter|Qt::AlignTop);                      // Setup alignement
+            OptionText.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);          // Setup word wrap text option
+            Painter->drawText(QRectF(option.rect.x()+1,option.rect.y()+option.rect.height()-1-DISPLAYFILENAMEHEIGHT,option.rect.width()-2,DISPLAYFILENAMEHEIGHT),
+                              ParentTable->MediaList[ItemIndex]->ShortName,OptionText);
+        }
 
         if (LinesToDisplay) {
-            QFont       font;
-            QTextOption OptionText;
-            QPen        Pen;
             int         RightWidth=0;
 
             // Init text to display in summary views
@@ -152,14 +205,6 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
             SummaryText[2][0]=ParentTable->MediaList[ItemIndex]->GetTAGInfo();
             SummaryText[2][1]="";
 
-            // Setup default brush
-            Painter->setBrush(Qt::NoBrush);
-
-            // Setup default pen
-            Pen.setColor(Qt::black);
-            Pen.setWidth(1);
-            Pen.setStyle(Qt::SolidLine);
-            Painter->setPen(Pen);
 
             for (int i=0;i<LinesToDisplay;i++) for (int j=1;j>=0;j--) { // for each LinesToDisplay, start with right part
 
@@ -173,10 +218,10 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
                 }
 
                 // Setup font
-                if (i==0)   font=QFont("Sans serif",9,QFont::Bold,QFont::StyleNormal);          // First line use bold
-                    else    font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);        // other lines use small font
-                font.setUnderline(false);
-                Painter->setFont(font);
+                if (i==0) {
+                    font=QFont("Sans serif",9,QFont::Bold,QFont::StyleNormal);          // First line use bold
+                    Painter->setFont(font);
+                }
 
                 if (j==1) {
                     // Right part
@@ -207,14 +252,17 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
             Painter->setOpacity(0.25);
             Painter->drawRect(option.rect.x(),option.rect.y(),option.rect.width()-1,option.rect.height()-1);
             Painter->setOpacity(1);
-        } else if (option.state & QStyle::State_MouseOver) {
+
+        // MouseOver is removed because it works correctly only on KDE !
+        /*} else if (option.state & QStyle::State_MouseOver) {
             Painter->setPen(QPen(Qt::NoPen));
             Painter->setBrush(QBrush(Qt::gray));
             Painter->setOpacity(0.25);
             Painter->drawRect(option.rect.x(),option.rect.y(),option.rect.width()-1,option.rect.height()-1);
-            Painter->setOpacity(1);
+            Painter->setOpacity(1);*/
         }
 
+        if (BigIcon) delete BigIcon;
         if (ThreadToPause) ParentTable->ScanMediaList.resume();
     }
 }
@@ -244,6 +292,8 @@ QCustomFolderTable::QCustomFolderTable(QWidget *parent):QTableWidget(parent) {
     CurrentShowDuration     =QTime(0,0,0,0);
     StopScanMediaList       =false;
     ScanMediaListProgress   =false;
+    IsThumbCacheReady       =false;
+    ThumbCache              =NULL;
     connect(this,SIGNAL(NeedResizeColumns()),this,SLOT(DoResizeColumns()));
 }
 
@@ -276,25 +326,76 @@ void QCustomFolderTable::EnsureThreadIsStopped() {
         //while (QApplication::hasPendingEvents()) QApplication::processEvents();
         StopScanMediaList=false;
     }
+    // Flush ThumbCacheFile
+    if (ThumbCache) {
+        delete ThumbCache;
+        ThumbCache=NULL;
+    }
 }
 
 //====================================================================================================================
 
-void QCustomFolderTable::resizeEvent(QResizeEvent *) {
+int QCustomFolderTable::GetWidthForIcon() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomFolderTable::GetWidthForIcon";
+    #endif
+
+    int SizeColumn;
+    if (ApplicationConfig->CurrentMode==DISPLAY_ICON48)            SizeColumn=(ApplicationConfig->DisplayFileName?80:48)+CELLBORDER;
+        else if (ApplicationConfig->CurrentMode==DISPLAY_ICON100)  SizeColumn=100+CELLBORDER;
+        else {
+        if (ApplicationConfig->CurrentFilter==OBJECTTYPE_VIDEOFILE)          SizeColumn=ApplicationConfig->Video_ThumbWidth+CELLBORDER;
+            else if (ApplicationConfig->CurrentFilter==OBJECTTYPE_IMAGEFILE) SizeColumn=ApplicationConfig->Image_ThumbWidth+CELLBORDER;
+            else {
+            SizeColumn=ApplicationConfig->Image_ThumbWidth;
+            if (SizeColumn<ApplicationConfig->Music_ThumbWidth) SizeColumn=ApplicationConfig->Music_ThumbWidth;
+            if (SizeColumn<ApplicationConfig->Video_ThumbWidth) SizeColumn=ApplicationConfig->Video_ThumbWidth;
+            SizeColumn+=CELLBORDER;
+        }
+    }
+    return SizeColumn;
+}
+
+//====================================================================================================================
+
+int QCustomFolderTable::GetHeightForIcon() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomFolderTable::GetHeightForIcon";
+    #endif
+
+    int SizeColumn;
+    if (ApplicationConfig->CurrentMode==DISPLAY_ICON48)         SizeColumn=48+CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
+    else if (ApplicationConfig->CurrentMode==DISPLAY_ICON100)   SizeColumn=100+CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
+    else {
+        if (ApplicationConfig->CurrentFilter==OBJECTTYPE_VIDEOFILE)      SizeColumn=ApplicationConfig->Video_ThumbHeight+CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
+        else if (ApplicationConfig->CurrentFilter==OBJECTTYPE_IMAGEFILE) SizeColumn=ApplicationConfig->Image_ThumbHeight+CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
+        else {
+            SizeColumn=ApplicationConfig->Image_ThumbHeight;
+            if (SizeColumn<ApplicationConfig->Music_ThumbHeight) SizeColumn=ApplicationConfig->Music_ThumbHeight;
+            if (SizeColumn<ApplicationConfig->Video_ThumbHeight) SizeColumn=ApplicationConfig->Video_ThumbHeight;
+            SizeColumn+=CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
+        }
+    }
+    return SizeColumn;
+}
+
+//====================================================================================================================
+
+void QCustomFolderTable::resizeEvent(QResizeEvent *ev) {
     #ifdef DEBUGMODE
     qDebug() << "IN:QCustomFolderTable::resizeEvent";
     #endif
 
-    if ((CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
-        int SizeColumn=0;
-        if (CurrentMode==DISPLAY_ICON48) SizeColumn=48+CELLBORDER; else SizeColumn=100+CELLBORDER;
+    if ((ApplicationConfig->CurrentMode==DISPLAY_ICON48)||(ApplicationConfig->CurrentMode==DISPLAY_ICON100)||(ApplicationConfig->CurrentMode==DISPLAY_ICONBIG)) {
+        int SizeColumn=GetWidthForIcon();
         if (columnCount()!=(viewport()->width()/SizeColumn)) {
             if (viewport()->width()/SizeColumn==0) setColumnCount(1); else setColumnCount(viewport()->width()/SizeColumn);
             for (int i=0;i<columnCount();i++) setColumnWidth(i,SizeColumn);
             setRowCount((CurrentDisplayItem/columnCount())+1);
-            for (int i=0;i<rowCount();i++) setRowHeight(i,SizeColumn);
+            int RHeight=GetHeightForIcon();
+            for (int i=0;i<(CurrentDisplayItem/columnCount())+1;i++) setRowHeight(RHeight,SizeColumn);
             // Fill empty cell with unselecable item if needed
-            if ((CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
+            if ((ApplicationConfig->CurrentMode==DISPLAY_ICON48)||(ApplicationConfig->CurrentMode==DISPLAY_ICON100)||(ApplicationConfig->CurrentMode==DISPLAY_ICONBIG)) {
                 int toFill=CurrentDisplayItem-((rowCount()-1)*columnCount());
                 while (toFill<columnCount()) {
                     setItem(rowCount()-1,toFill,new QNullTableWidgetItem(""));
@@ -302,9 +403,10 @@ void QCustomFolderTable::resizeEvent(QResizeEvent *) {
                 }
             }
         }
-    } else if ((CurrentMode==DISPLAY_WEBSHORT)||(CurrentMode==DISPLAY_WEBLONG)) {
+    } else if ((ApplicationConfig->CurrentMode==DISPLAY_WEBSHORT)||(ApplicationConfig->CurrentMode==DISPLAY_WEBLONG)) {
         setColumnWidth(0,viewport()->width());
     }
+    QTableWidget::resizeEvent(ev);
 }
 
 //====================================================================================================================
@@ -317,8 +419,21 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
     // Ensure scan thread is stoped
     EnsureThreadIsStopped();
 
-    CurrentMode  =Mode;
-    CurrentFilter=Filter;
+    ApplicationConfig->CurrentMode  =Mode;
+    ApplicationConfig->CurrentFilter=Filter;
+
+    if ((ApplicationConfig->CurrentMode==DISPLAY_ICON48)||(ApplicationConfig->CurrentMode==DISPLAY_ICON100)||(ApplicationConfig->CurrentMode==DISPLAY_ICONBIG)) {
+        // Compute DISPLAYFILENAMEHEIGHT
+        QImage      Img(100,100,QImage::Format_ARGB32);
+        QPainter    Painter;
+        Painter.begin(&Img);
+        QFont font("Sans serif",8,QFont::Normal,QFont::StyleNormal);
+        Painter.setFont(font);
+        QFontMetrics fm = Painter.fontMetrics();
+        if (ApplicationConfig->CurrentMode==DISPLAY_ICON48) DISPLAYFILENAMEHEIGHT=fm.height()*3;    // 3 lines for ICON48 mode
+            else                                            DISPLAYFILENAMEHEIGHT=fm.height()*2;    // 2 lines for bigest mode
+        Painter.end();
+    }
 
     // Reset content
     setRowCount(0);
@@ -345,9 +460,10 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
     verticalHeader()->hide();
     verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
 
-    switch (CurrentMode) {
+    switch (ApplicationConfig->CurrentMode) {
         case DISPLAY_ICON48 :
         case DISPLAY_ICON100 :
+        case DISPLAY_ICONBIG :
             setItemDelegate(IconDelegate);
             setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -363,7 +479,7 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
             horizontalHeader()->show();
             horizontalHeader()->setStretchLastSection(false);
             setShowGrid(false);
-            switch (CurrentFilter) {
+            switch (ApplicationConfig->CurrentFilter) {
                 //case OBJECTTYPE_FOLDER    :
                 //case OBJECTTYPE_THUMBNAIL :
                 case OBJECTTYPE_UNMANAGED :
@@ -511,13 +627,20 @@ void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *ev) {
 
 //====================================================================================================================
 
-void QCustomFolderTable::FillListFolder(QString Path,cBaseApplicationConfig *TheApplicationConfig) {
+void QCustomFolderTable::RefreshListFolder() {
     #ifdef DEBUGMODE
     qDebug() << "IN:QCustomFolderTable::FillListFolder";
     #endif
+    FillListFolder(CurrentPath);
+}
 
+//====================================================================================================================
+
+void QCustomFolderTable::FillListFolder(QString Path) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomFolderTable::FillListFolder";
+    #endif
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    ApplicationConfig=TheApplicationConfig;
 
     // Ensure scan thread is stoped
     EnsureThreadIsStopped();
@@ -552,13 +675,16 @@ void QCustomFolderTable::FillListFolder(QString Path,cBaseApplicationConfig *The
     #endif
     if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
 
+    // Compute ThumbCache FileName
+    ThumbCache=new cThumbCache(Path);
+
     // Scan files and add them to table
     QDir                Folder(Path);
     QFileInfoList       Files=Folder.entryInfoList(QDir::Dirs|QDir::AllDirs|QDir::Files|QDir::Hidden);
     cBaseMediaFile      *MediaObject=NULL;
 
     // Scan folder entries to remove all file not corresponding to showhiden filter
-    i=0; while (i<Files.count()) if (ShowHidden || !((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))) i++; else Files.removeAt(i);
+    i=0; while (i<Files.count()) if (ApplicationConfig->ShowHiddenFilesAndDir || !((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))) i++; else Files.removeAt(i);
 
     // Compute total number of files and total folder size
     foreach(QFileInfo File,Files) if (!File.isDir()) {
@@ -569,7 +695,7 @@ void QCustomFolderTable::FillListFolder(QString Path,cBaseApplicationConfig *The
     //**********************************************************
 
     // Scan media list to remove all files wich are no longer present (depending on filter)
-    i=0; while (i<MediaList.count()) if (MediaList[i]->IsFilteredFile(CurrentFilter)) i++; else delete MediaList.takeAt(i);
+    i=0; while (i<MediaList.count()) if (MediaList[i]->IsFilteredFile(ApplicationConfig->CurrentFilter)) i++; else delete MediaList.takeAt(i);
 
     // Scan media list to remove all files wich are no longer present in folder entries
     i=0;
@@ -597,8 +723,8 @@ void QCustomFolderTable::FillListFolder(QString Path,cBaseApplicationConfig *The
                         if ((ApplicationConfig->AllowVideoExtension.contains(((QFileInfo)Files[i]).suffix().toLower()))&&
                             (((QFileInfo)Files[i]).completeBaseName()==File->completeBaseName())) MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
                 }
-            }   else if (ApplicationConfig->AllowVideoExtension.contains(File->suffix().toLower())) MediaObject=new cVideoFile(cVideoFile::VIDEOFILE,ApplicationConfig);
-                else if (ApplicationConfig->AllowMusicExtension.contains(File->suffix().toLower())) MediaObject=new cVideoFile(cVideoFile::MUSICFILE,ApplicationConfig);
+            }   else if (ApplicationConfig->AllowVideoExtension.contains(File->suffix().toLower())) MediaObject=new cVideoFile(OBJECTTYPE_VIDEOFILE,ApplicationConfig);
+                else if (ApplicationConfig->AllowMusicExtension.contains(File->suffix().toLower())) MediaObject=new cVideoFile(OBJECTTYPE_MUSICFILE,ApplicationConfig);
                 else if (File->suffix().toLower()=="ffd")                                           MediaObject=new cffDProjectFile(ApplicationConfig);
                 else if (File->isDir())                                                             MediaObject=new cFolder(ApplicationConfig);
                 else                                                                                MediaObject=new cUnmanagedFile(ApplicationConfig);
@@ -609,7 +735,7 @@ void QCustomFolderTable::FillListFolder(QString Path,cBaseApplicationConfig *The
                 MediaObject=NULL;
             }
             // Check if file correspond to current filer
-            if ((MediaObject)&&(!MediaObject->IsFilteredFile(CurrentFilter))) {
+            if ((MediaObject)&&(!MediaObject->IsFilteredFile(ApplicationConfig->CurrentFilter))) {
                 delete MediaObject;
                 MediaObject=NULL;
             }
@@ -619,15 +745,14 @@ void QCustomFolderTable::FillListFolder(QString Path,cBaseApplicationConfig *The
     }
 
     // Sort MediaList
-    if (ShowFoldersFirst) qSort(MediaList.begin(),MediaList.end(),MediaListLessThanWithFolder);
+    if (ApplicationConfig->ShowFoldersFirst) qSort(MediaList.begin(),MediaList.end(),MediaListLessThanWithFolder);
         else qSort(MediaList.begin(),MediaList.end(),MediaListLessThan);
 
     //**********************************************************
 
     // Create column (if needed)
-    if ((CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
-        int SizeColumn=0;
-        if (CurrentMode==DISPLAY_ICON48) SizeColumn=48+CELLBORDER; else SizeColumn=100+CELLBORDER;
+    if ((ApplicationConfig->CurrentMode==DISPLAY_ICON48)||(ApplicationConfig->CurrentMode==DISPLAY_ICON100)||(ApplicationConfig->CurrentMode==DISPLAY_ICONBIG)) {
+        int SizeColumn=GetWidthForIcon();
         if (viewport()->width()/SizeColumn==0) setColumnCount(1); else setColumnCount(viewport()->width()/SizeColumn);
         for (i=0;i<columnCount();i++) setColumnWidth(i,SizeColumn);
     }
@@ -636,7 +761,7 @@ void QCustomFolderTable::FillListFolder(QString Path,cBaseApplicationConfig *The
     foreach(MediaObject,MediaList) AppendMediaToTable(MediaObject);
 
     // Fill empty cell with unselecable item if needed
-    if ((CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
+    if ((ApplicationConfig->CurrentMode==DISPLAY_ICON48)||(ApplicationConfig->CurrentMode==DISPLAY_ICON100)||(ApplicationConfig->CurrentMode==DISPLAY_ICONBIG)) {
         int toFill=CurrentDisplayItem-((rowCount()-1)*columnCount());
         while (toFill<columnCount()) {
             setItem(rowCount()-1,toFill,new QNullTableWidgetItem(""));
@@ -656,13 +781,31 @@ void QCustomFolderTable::FillListFolder(QString Path,cBaseApplicationConfig *The
 
 //====================================================================================================================
 
+QList<cBaseMediaFile*> QCustomFolderTable::GetCurrentSelectedMediaFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:QCustomFolderTable::GetCurrentMediaFile";
+    #endif
+
+    QList<cBaseMediaFile*>  SelMediaList;
+    QModelIndexList         SelList=selectionModel()->selectedIndexes();
+    for (int i=0;i<SelList.count();i++) {
+        int Col=SelList[i].column();
+        int Row=SelList[i].row();
+        if (ApplicationConfig->CurrentMode==DISPLAY_DATA) SelMediaList.append(MediaList[Row]);    // One item per row
+            else SelMediaList.append(MediaList[Row*columnCount()+Col]);                           // Multiple items per row
+    }
+    return SelMediaList;
+}
+
+//====================================================================================================================
+
 cBaseMediaFile *QCustomFolderTable::GetCurrentMediaFile() {
     #ifdef DEBUGMODE
     qDebug() << "IN:QCustomFolderTable::GetCurrentMediaFile";
     #endif
     cBaseMediaFile  *Media=NULL;
     if (currentRow()>=0) {
-        if (CurrentMode==DISPLAY_DATA) {
+        if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
             QString ShortName="";
             int     i=0;
             if (item(currentRow(),0)) ShortName=item(currentRow(),0)->text();
@@ -680,7 +823,7 @@ void QCustomFolderTable::DoResizeColumns() {
     qDebug() << "IN:QCustomFolderTable::DoResizeColumns";
     #endif
     // Adjust row & column size if needed
-    if (CurrentMode==DISPLAY_DATA) {
+    if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
         setUpdatesEnabled(false);
         setVisible(false);                      // To ensure all items of all columns are used to compute size
         resizeColumnsToContents();              // Resize column widht
@@ -711,7 +854,7 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
         CurrentShowFolderSize+=MediaObject->FileSize;
     }
 
-    if (CurrentMode==DISPLAY_DATA) {
+    if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
 
         QColor Background=((Row & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
         insertRow(Row);
@@ -728,13 +871,13 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
             else if (ColName==QApplication::translate("QCustomFolderTable","File Date","Column header")) setItem(Row,iCol,CreateItem(MediaObject->GetFileDateTimeStr(),Qt::AlignLeft|Qt::AlignVCenter,Background));
         }
 
-    } else if ((CurrentMode==DISPLAY_WEBSHORT)||(CurrentMode==DISPLAY_WEBLONG)) {
+    } else if ((ApplicationConfig->CurrentMode==DISPLAY_WEBSHORT)||(ApplicationConfig->CurrentMode==DISPLAY_WEBLONG)) {
 
         insertRow(Row);
         verticalHeader()->setResizeMode(Row,QHeaderView::Fixed);
-        if (CurrentMode==DISPLAY_WEBSHORT) setRowHeight(Row,32+2); else setRowHeight(Row,48+2);  // DISPLAY_WEBLONG
+        if (ApplicationConfig->CurrentMode==DISPLAY_WEBSHORT) setRowHeight(Row,32+2); else setRowHeight(Row,48+2);  // DISPLAY_WEBLONG
 
-    } else if ((CurrentMode==DISPLAY_ICON48)||(CurrentMode==DISPLAY_ICON100)) {
+    } else if ((ApplicationConfig->CurrentMode==DISPLAY_ICON48)||(ApplicationConfig->CurrentMode==DISPLAY_ICON100)||(ApplicationConfig->CurrentMode==DISPLAY_ICONBIG)) {
 
         int NbrCol=columnCount();
 
@@ -742,7 +885,7 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
         if (CurrentDisplayItem/NbrCol==rowCount()) {
             insertRow(Row);
             verticalHeader()->setResizeMode(Row,QHeaderView::Fixed);
-            if (CurrentMode==DISPLAY_ICON48) setRowHeight(Row,48+CELLBORDER); else setRowHeight(Row,100+CELLBORDER);  // DISPLAY_ICON100
+            setRowHeight(Row,GetHeightForIcon());
         } else {
             Row--;
         }
@@ -760,7 +903,7 @@ void QCustomFolderTable::UpdateMediaToTable(int Row,int Col,cBaseMediaFile *Medi
 
     if (!MediaObject->IsValide) return;
 
-    if ((CurrentMode==DISPLAY_DATA)) {
+    if ((ApplicationConfig->CurrentMode==DISPLAY_DATA)) {
 
         QColor Background=((Row & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
         for (int Col=1;Col<columnCount();Col++) {
@@ -807,9 +950,10 @@ void QCustomFolderTable::DoScanMediaList() {
     // Parse all items to update them
     for (int ItemIndex=0;ItemIndex<MediaList.count();ItemIndex++) if (!MediaList[ItemIndex]->IsInformationValide)  {
         // Get full information
-        MediaList[ItemIndex]->GetFullInformationFromFile();
+        if  (MediaList[ItemIndex]->ObjectType==OBJECTTYPE_IMAGEFILE) ((cImageFile *)MediaList[ItemIndex])->GetFullInformationFromFile(ThumbCache);
+            else MediaList[ItemIndex]->GetFullInformationFromFile();
         // Update display
-        if (CurrentMode==DISPLAY_DATA) UpdateMediaToTable(ItemIndex,0,MediaList[ItemIndex]); else {
+        if (ApplicationConfig->CurrentMode==DISPLAY_DATA) UpdateMediaToTable(ItemIndex,0,MediaList[ItemIndex]); else {
             int Row=ItemIndex/columnCount();
             int Col=ItemIndex-Row*columnCount();
             UpdateMediaToTable(Row,Col,MediaList[ItemIndex]);

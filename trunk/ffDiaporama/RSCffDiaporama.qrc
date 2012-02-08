@@ -126,7 +126,6 @@
         <file>img/trash.png</file>
         <file>img/tv.png</file>
         <file>img/undo.png</file>
-        <file>img/VideoMask.png</file>
         <file>img/Visible_KO.png</file>
         <file>img/Visible_OK.png</file>
         <file>img/zoom.png</file>
@@ -260,5 +259,16 @@
         <file>img/Transitions/tr-10-01.png</file>
         <file>img/Transitions/tr-10-02.png</file>
         <file>img/Transitions/tr-10-03.png</file>
+        <file>img/FILTER_FFD_S.png</file>
+        <file>img/FILTER_FILE_S.png</file>
+        <file>img/FILTER_IMAGE_S.png</file>
+        <file>img/FILTER_MUSIC_S.png</file>
+        <file>img/FILTER_VIDEO_S.png</file>
+        <file>img/MediaIcons/200x200/ffDiaporama.png</file>
+        <file>img/MediaIcons/200x200/Thumbnails.png</file>
+        <file>img/VideoMask_120x180.png</file>
+        <file>img/VideoMask_150x200.png</file>
+        <file>img/VideoMask_162x216.png</file>
+        <file>img/FolderMask_200.png</file>
     </qresource>
 </RCC>
