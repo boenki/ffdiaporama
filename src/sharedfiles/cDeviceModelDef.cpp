@@ -539,15 +539,15 @@ void cDeviceModelList::Initffmpeg() {
 
     // Check codec to know if they was finded
     AVCodec *p=NULL;
-    while ((p=av_codec_next(p))) {
+    while ((p=av_codec_next(p))) if ((p->id==CODEC_ID_PCM_S16LE)||(p->encode!=NULL)) {
         if (p->type==AVMEDIA_TYPE_AUDIO) {
-            for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(p->encode!=NULL)&&(!AUDIOCODECDEF[i].IsFind)) {
+            for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(!AUDIOCODECDEF[i].IsFind)) {
                 AUDIOCODECDEF[i].IsFind=true;
                 strcpy(AUDIOCODECDEF[i].ShortName,p->name);
             }
             if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
         }
-        if (p->type==AVMEDIA_TYPE_VIDEO) for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(p->encode!=NULL)&&(!VIDEOCODECDEF[i].IsFind)) {
+        if (p->type==AVMEDIA_TYPE_VIDEO) for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(!VIDEOCODECDEF[i].IsFind)) {
             VIDEOCODECDEF[i].IsFind=true;
             strcpy(VIDEOCODECDEF[i].ShortName,p->name);
         }

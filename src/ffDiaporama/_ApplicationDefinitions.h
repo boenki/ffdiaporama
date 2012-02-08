@@ -37,7 +37,7 @@
 
 // Application definition
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "1.2 beta 2"
+#define APPLICATION_VERSION                 "1.2 beta 3"
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
@@ -154,7 +154,6 @@ public:
     QString                 LastRenderVideoPath;                        // Last folder use for render video
 
     // Preferences
-    int                     NbrSlideInCache;                            // Number of slide in cache (memory)
     qlonglong               MemCacheMaxValue;                           // Maximum value for image cache
     bool                    SDLAudioOldMode;                            // If true SDL audio use old mode sample instead byte
     bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide

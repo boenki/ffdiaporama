@@ -1068,7 +1068,6 @@ void DlgRenderVideo::accept() {
                         if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(AdjustedDuration)/(FPS/double(1000)))-1);
                     }
                     RefreshDisplay =true;
-                    if (Column>0) Diaporama->FreeUnusedMemory(Column-1,1);
                 } else RefreshDisplay =(LastCheckTime.msecsTo(QTime::currentTime())>=1000);    // Refresh display only one time per second
 
                 // Refresh Display (if needed)
@@ -1254,7 +1253,11 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
     // Allocate AudioStream
     if (Continue) {
+        #if FF_API_NEW_STREAM
+        AudioStream=avformat_new_stream(OutputFormatContext,0);
+        #else
         AudioStream=av_new_stream(OutputFormatContext,0);
+        #endif
         if (AudioStream==NULL) {
             QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream!");
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
@@ -1265,8 +1268,12 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     // Open audio codec
     if (Continue) {
         AudioCodecContext=AudioStream->codec;
-        avcodec_get_context_defaults2(AudioCodecContext,AVMEDIA_TYPE_AUDIO);  // Fill stream with default values
-        AudioCodec=avcodec_find_encoder(CODEC_ID_PCM_S16LE);                // Open Audio encoder
+        #if FF_API_ALLOC_CONTEXT
+        avcodec_get_context_defaults3(AudioCodecContext,NULL);     // Fill stream with default values
+        #else
+        avcodec_get_context_defaults2(AudioCodecContext,AVMEDIA_TYPE_AUDIO);    // Fill stream with default values
+        #endif
+        AudioCodec=avcodec_find_encoder(CODEC_ID_PCM_S16LE);                    // Open Audio encoder
         if (!AudioCodec) {
             QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found!");
             av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
@@ -1351,6 +1358,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
         int ColumnStart     =-1;                                            // Render start position of current object
         int Column          =-1;                                            // Render current object
         for (qlonglong RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
+
             // Calculate position & column
             int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
             if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
@@ -1377,21 +1385,21 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
             // Ensure MusicTracks are ready
             if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
-                Frame->CurrentObject_MusicTrack=new cSDLSoundBlockList();
+                Frame->CurrentObject_MusicTrack=new cSoundBlockList();
                 Frame->CurrentObject_MusicTrack->SetFPS(25/*Diaporama->VideoFrameRate*/);        // Pour la generation du sond, force en PAL pour eviter les problèmes d'arrondi
             }
             if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
-                Frame->TransitObject_MusicTrack=new cSDLSoundBlockList();
+                Frame->TransitObject_MusicTrack=new cSoundBlockList();
                 Frame->TransitObject_MusicTrack->SetFPS(25/*Diaporama->VideoFrameRate*/);        // Pour la generation du sond, force en PAL pour eviter les problèmes d'arrondi
             }
 
             // Ensure SoundTracks are ready
             if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
-                Frame->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
+                Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
                 Frame->CurrentObject_SoundTrackMontage->SetFPS(25/*Diaporama->VideoFrameRate*/);        // Pour la generation du sond, force en PAL pour eviter les problèmes d'arrondi
             }
             if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
-                Frame->TransitObject_SoundTrackMontage=new cSDLSoundBlockList();
+                Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
                 Frame->TransitObject_SoundTrackMontage->SetFPS(25/*Diaporama->VideoFrameRate*/);        // Pour la generation du sond, force en PAL pour eviter les problèmes d'arrondi
             }
 

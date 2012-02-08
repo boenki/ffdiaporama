@@ -50,17 +50,11 @@ public:
     cDeviceModelList        DeviceModelList;                            // List of known rendering device model
     cJobQueue               JobQueue;
 
-    QString                 SplitterSizeAndPos;                         // Splitter size save
-    bool                    ShowHiddenFilesAndDir;                      // If true, hidden files will be show
-    bool                    ShowMntDrive;                               // If true, show drives under /mnt/ [Linux only]
-    bool                    ShowFoldersFirst;                           // If true, display folders at first in table list
-    QString                 CurrentPath;                                // Currently shown path
-    int                     CurrentFilter;                              // Currently selected filter
-    int                     CurrentMode;                                // Currently selected display mode
+    qlonglong               MemCacheMaxValue;                           // Maximum value for image cache
 
-    int                     Image_ThumbWidth,Image_ThumbHeight;         // Thumbnail size in big icon mode for image
-    int                     Music_ThumbWidth,Music_ThumbHeight;         // Thumbnail size in big icon mode for music
-    int                     Video_ThumbWidth,Video_ThumbHeight;         // Thumbnail size in big icon mode for video
+    QString                 SplitterHSizeAndPos;                        // Splitter H between tree and table (size save)
+    QString                 SplitterVSizeAndPos;                        // Splitter V between browser and job table (size save)
+    QString                 CurrentPath;                                // Currently shown path
 
     cSaveWindowPosition     *DlgApplicationSettingsWSP;                 // Dialog box "Application settings" - Window size and position
     cSaveWindowPosition     *DlgCheckConfigWSP;                         // Dialog box "Check configuration" - Window size and position

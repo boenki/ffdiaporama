@@ -33,14 +33,6 @@
 
 #include "cBaseMediaFile.h"
 
-// defines allowed display mode
-#define DISPLAY_DATA        0
-#define DISPLAY_WEBSHORT    1
-#define DISPLAY_WEBLONG     2
-#define DISPLAY_ICON48      3
-#define DISPLAY_ICON100     4
-#define DISPLAY_ICONWALL    5
-
 class QCustomFileInfoLabel : public QLabel {
 Q_OBJECT
 public:
@@ -57,7 +49,7 @@ public:
     virtual void    paintEvent(QPaintEvent *event);
     virtual void    mouseDoubleClickEvent(QMouseEvent *);
 
-    virtual void    SetupFileInfoLabel(cBaseMediaFile *MediaObject);
+    virtual void    SetupFileInfoLabel(QList<cBaseMediaFile*> MediaList);
 
 signals:
     void    DoubleClickEvent();

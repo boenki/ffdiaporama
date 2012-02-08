@@ -55,8 +55,10 @@ SOURCES += main.cpp\
     ../sharedfiles/DlgCheckConfig.cpp \
     ../sharedfiles/_QCustomDialog.cpp \
     ../sharedfiles/DlgManageDevices.cpp \
+    ../sharedfiles/cCustomIcon.cpp \
     ../sharedfiles/DlgInfoFile.cpp \
-    cJobQueue.cpp
+    cJobQueue.cpp \
+    QCustomJobTable.cpp
 
 HEADERS  += mainwindow.h \
     DlgApplicationSettings.h \
@@ -78,9 +80,11 @@ HEADERS  += mainwindow.h \
     ../fmt_filters/fmt_filters.h \
     ../sharedfiles/DlgCheckConfig.h \
     ../sharedfiles/_QCustomDialog.h \
+    ../sharedfiles/cCustomIcon.h \
     ../sharedfiles/DlgManageDevices.h \
     ../sharedfiles/DlgInfoFile.h \
-    cJobQueue.h
+    cJobQueue.h \
+    QCustomJobTable.h
 
 
 FORMS    += mainwindow.ui \
@@ -108,16 +112,16 @@ unix {
     INSTALLS 		+= ico
 
     # install icon files for GNOME systems
-    exists(/usr/share/icons/gnome/32x32/mimetypes) {
-        iconfile.path   = $$PREFIX/share/icons/gnome/32x32/mimetypes
-        iconfile.files  = ../../application-ffDiaporamaMMFiler.png
-    }
+    #exists(/usr/share/icons/gnome/32x32/mimetypes) {
+    #    iconfile.path   = $$PREFIX/share/icons/gnome/32x32/mimetypes
+    #    iconfile.files  = ../../application-ffDiaporamaMMFiler.png
+    #}
     # install icon files for KDE systems
-    exists(/usr/share/icons/default.kde4/32x32/mimetypes) {
-        iconfile.path   = $$PREFIX/share/icons/default.kde4/32x32/mimetypes
-        iconfile.files  = ../../application-ffDiaporamaMMFiler.png
-    }
-    INSTALLS 		+= iconfile
+    #exists(/usr/share/icons/default.kde4/32x32/mimetypes) {
+    #    iconfile.path   = $$PREFIX/share/icons/default.kde4/32x32/mimetypes
+    #    iconfile.files  = ../../application-ffDiaporamaMMFiler.png
+    #}
+    #INSTALLS 		+= iconfile
 
     # install desktop files /opt version
     contains(PREFIX,/opt) {
@@ -137,5 +141,3 @@ unix {
     INSTALLS 		+= desktop
 
 }
-
-

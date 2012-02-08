@@ -245,7 +245,7 @@ cBrushDefinition::~cBrushDefinition() {
 
 //====================================================================================================================
 
-QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
+QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cBrushDefinition::GetBrush";
     #endif
@@ -256,7 +256,7 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int
         case BRUSHTYPE_GRADIENT2 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_GRADIENT3 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
         case BRUSHTYPE_IMAGELIBRARY :   return GetLibraryBrush(Rect);
-        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect,PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PreviousBrush);
+        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect,PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PreviousBrush,UseBrushCache);
     }
     return new QBrush(Qt::NoBrush);
 }
@@ -379,29 +379,47 @@ void cBrushDefinition::ApplyStyle(bool LockGeometry,QString Style) {
 
 //====================================================================================================================
 
-QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
+QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cBrushDefinition::GetImageDiskBrush";
     #endif
+
+    // If not an image or a video or filename is empty then return
     if ((Image?Image->FileName:Video?Video->FileName:"")=="") return new QBrush(Qt::NoBrush);
 
     // W and H = 0 when producing sound track in render process
     bool    SoundOnly=((Rect.width()==0)&&(Rect.height()==0));
 
     if (!SoundOnly) {
-        QImage *RenderImage=(Image?Image->ImageAt(PreviewMode,false,&Image->BrushFileTransform):
-                            Video?Video->ImageAt(PreviewMode,Position,StartPosToAdd,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform,false):
-                            NULL);
+        QImage *RenderImage=NULL;
+        if (Video) {
+            // Only slide dialog set UseBrushCache to true => use LuloImageCache to Cache rendered image
+            if (UseBrushCache) {
+                QImage                *LN_Image=NULL;
+                cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(Video,Position+StartPosToAdd,(!PreviewMode || ApplicationConfig->Smoothing),true);
+                if (PreviewMode) LN_Image=ImageObject->CachePreviewImage;
+                    else         LN_Image=ImageObject->CacheRenderImage;
+                if (LN_Image) RenderImage=new QImage(LN_Image->copy());
+                    else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
+                if (!LN_Image) {
+                    if (PreviewMode)    ImageObject->CachePreviewImage=new QImage(RenderImage->copy());
+                        else            ImageObject->CacheRenderImage=new QImage(RenderImage->copy());
+                }
+            } else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
+        } else if (Image) RenderImage=Image->ImageAt(PreviewMode,&Image->BrushFileTransform);
 
         QBrush *Ret=NULL;
-        QImage *Img=NULL;
+
         if (RenderImage) {
+            QImage *FinalImg=NULL;
+
             if (FullFilling) {
                 // Create brush image with distortion
-                Img=new QImage(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                FinalImg=new QImage(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                delete RenderImage;
+                RenderImage=NULL;
             } else {
                 // Create brush image with ken burns effect !
-                QImage  *SourceImage    =NULL;
                 double  TheXFactor      =X;
                 double  TheYFactor      =Y;
                 double  TheZoomFactor   =ZoomFactor;
@@ -429,21 +447,14 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                     if (PreviousBrush->AspectRatio!=TheAspectRatio)    TheAspectRatio  =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
                 }
 
-                // Rotate image if needed and create a SourceImage
-                if (TheRotateFactor!=0) {
-                    QTransform matrix;
-                    matrix.rotate(TheRotateFactor,Qt::ZAxis);
-                    SourceImage=new QImage(RenderImage->transformed(matrix,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                } else SourceImage=RenderImage; // If no rotation then SourceImage=RenderImage
-
                 // Prepare values from sourceimage size
-                double   RealImageW=double(SourceImage->width());               // Get real image widht
-                double   RealImageH=double(SourceImage->height());              // Get real image height
+                double   RealImageW=double(RenderImage->width());               // Get real image widht
+                double   RealImageH=double(RenderImage->height());              // Get real image height
                 double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse of the image to define full canvas
 
-                //**************************************************************************************************
+                // **************************************************************************************************
                 // Smoothing is not correctly used here so force smoothing by reduce source image before draw image
-                //**************************************************************************************************
+                // **************************************************************************************************
 
                 // Adjust SourceImage to wanted size and pos
                 double  DecalX  =(Hyp-RealImageW)/2;
@@ -459,13 +470,26 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 if (ImgRect.top()<0)                {   ImgDest.setTop( -ImgRect.top() *RatioY);    ImgRect.setTop( 0);                             }
                 if (ImgRect.bottom()>Hyp-DecalY*2)  {   ImgRect.setBottom(Hyp-DecalY*2);            ImgDest.setBottom(ImgRect.height()*RatioY);     }
 
-                QImage  *NewSourceImage=new QImage(SourceImage->copy(ImgRect.left(),ImgRect.top(),ImgRect.width(),ImgRect.height()).scaled(ImgDest.width(),ImgDest.height(),Qt::IgnoreAspectRatio,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                QImage *NewSourceImage=new QImage(RenderImage->copy(ImgRect.left(),ImgRect.top(),ImgRect.width(),ImgRect.height()).scaled(ImgDest.width(),ImgDest.height(),Qt::IgnoreAspectRatio,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                delete RenderImage;
+                RenderImage=NULL;
 
+                // Rotate image if needed and create a New NewSourceImage
+                if (TheRotateFactor!=0) {
+                    QTransform matrix;
+                    matrix.rotate(TheRotateFactor,Qt::ZAxis);
+                    QImage *NewNewSourceImage=new QImage(NewSourceImage->transformed(matrix,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                    int ax=NewNewSourceImage->width()-NewSourceImage->width();
+                    int ay=NewNewSourceImage->height()-NewSourceImage->height();
+                    delete NewSourceImage;
+                    NewSourceImage=new QImage(NewNewSourceImage->copy(ax/2,ay/2,NewNewSourceImage->width()-ax,NewNewSourceImage->height()-ay));
+                    delete NewNewSourceImage;
+                }
 
                 // Prepare Img Composition with transparent background
-                Img=new QImage(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
+                FinalImg=new QImage(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
                 QPainter    PB;
-                PB.begin(Img);
+                PB.begin(FinalImg);
                 PB.setCompositionMode(QPainter::CompositionMode_Source);
                 PB.fillRect(QRect(0,0,Rect.width()+1,Rect.height()+1),Qt::transparent);
                 PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -473,33 +497,30 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 if (ApplicationConfig->Smoothing)   PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
                     else                            PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
-                PB.drawImage(ImgDest,*NewSourceImage/*,ImgRect*/);
+                PB.drawImage(ImgDest,*NewSourceImage);
                 delete NewSourceImage;
 
                 PB.end();
 
-                // Delete SourceImage if we have created it
-                if (SourceImage!=RenderImage) delete SourceImage;
-
                 // Apply correction filters to DestImage
-                fmt_filters::image img(Img->bits(),Img->width(),Img->height());
+                fmt_filters::image img(FinalImg->bits(),FinalImg->width(),FinalImg->height());
                 if (TheBrightness!=0)                           fmt_filters::brightness(img,TheBrightness);
                 if (TheContrast!=0)                             fmt_filters::contrast(img,TheContrast);
                 if (TheGamma!=1)                                fmt_filters::gamma(img,TheGamma);
                 if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))   fmt_filters::colorize(img,TheRed,TheGreen,TheBlue);
             }
-            if (Img) {
-                Ret=new QBrush(*Img);
-                delete Img;
+            if (FinalImg) {
+                Ret=new QBrush(*FinalImg);
+                delete FinalImg;
+                FinalImg=NULL;
             }
-            delete RenderImage;
         }
         return Ret;
     } else {
         // Force loading of sound of video
         if (Video) {
-            QImage *RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,false,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
-            delete RenderImage;
+            QImage *RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
+            if (RenderImage) delete RenderImage;
         }
         return new QBrush(Qt::NoBrush);
     }
@@ -667,8 +688,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
                     Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
                     Image->BrushFileTransform.SaveToXML(Element,"ImageTransformation");                     // Image transformation
-                    cLuLoImageCacheObject *ImageObject=Image->ApplicationConfig->ImagesCache.FindObject(QFileInfo(Image->FileName).absoluteFilePath(),&Image->BrushFileTransform,Image->ApplicationConfig->Smoothing,true); // Get image object
-                    if (ImageObject) Element.setAttribute("ImageOrientation",ImageObject->ImageOrientation);
+                    Element.setAttribute("ImageOrientation",Image->ImageOrientation);
                 }
             }
             break;
@@ -734,22 +754,16 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     QString Extension=QFileInfo(BrushFileName).suffix().toLower();
                     for (int i=0;i<ApplicationConfig->AllowImageExtension.count();i++) if (ApplicationConfig->AllowImageExtension[i]==Extension) {
                         Image=new cImageFile(ApplicationConfig);
-                        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(BrushFileName,&Image->BrushFileTransform,ApplicationConfig->Smoothing,true); // Get image object
-                        if (ImageObject) {  // File already loaded
-                            if (Element.hasAttribute("ImageOrientation")) ImageObject->ImageOrientation=Element.attribute("ImageOrientation").toInt();
-                            Image->GetInformationFromFile(BrushFileName,AliasList,NULL);
-                            //Image->FileName=QFileInfo(BrushFileName).absoluteFilePath();
-                        } else { // File not previously loaded
-                            IsValide=Image->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag);
-                            if (!IsValide) {
-                                delete Image;
-                                Image=NULL;
-                            }
+                        Image->ImageOrientation=Element.attribute("ImageOrientation").toInt();
+                        IsValide=Image->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag);
+                        if (!IsValide) {
+                            delete Image;
+                            Image=NULL;
                         }
                         break;
                     }
                     if (Image==NULL) for (int i=0;i<ApplicationConfig->AllowVideoExtension.count();i++) if (ApplicationConfig->AllowVideoExtension[i]==Extension) {
-                        Video=new cVideoFile(cVideoFile::VIDEOFILE,ApplicationConfig);
+                        Video=new cVideoFile(OBJECTTYPE_VIDEOFILE,ApplicationConfig);
                         IsValide=Video->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag);
                         if (!IsValide) {
                             delete Video;

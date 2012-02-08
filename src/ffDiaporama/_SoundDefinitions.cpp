@@ -100,7 +100,7 @@ bool cMusicObject::LoadMedia(QString &filename,QStringList *AliasList,bool *Modi
         Music=NULL;
     }
 
-    Music=new cVideoFile(cVideoFile::MUSICFILE,ApplicationConfig);
+    Music=new cVideoFile(OBJECTTYPE_MUSICFILE,ApplicationConfig);
     IsValide=(Music->GetInformationFromFile(filename,AliasList,ModifyFlag))&&(Music->OpenCodecAndFile());
     /*if (IsValide) {
         // Check if file have at least one sound track compatible

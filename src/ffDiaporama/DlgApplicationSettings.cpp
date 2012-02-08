@@ -77,9 +77,9 @@ void DlgApplicationSettings::DoInitDialog() {
     #endif
     ui->SDLAudioModeCB->setChecked(ApplicationConfig->SDLAudioOldMode);
 
-    if (ApplicationConfig->MemCacheMaxValue<=qlonglong(128*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(0);
-    else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(1);
-    else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(512*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(2);
+    if      (ApplicationConfig->MemCacheMaxValue<=qlonglong( 256*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(0);
+    else if (ApplicationConfig->MemCacheMaxValue<=qlonglong( 512*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(1);
+    else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(1024*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(2);
     else ui->MemCacheProfilCB->setCurrentIndex(3);
 
     // Preview Options
@@ -307,19 +307,11 @@ void DlgApplicationSettings::DoAccept() {
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
 
     switch (ui->MemCacheProfilCB->currentIndex()) {
-        case 3 : ApplicationConfig->MemCacheMaxValue=qlonglong(1024*1024*1024);
-                 ApplicationConfig->NbrSlideInCache =40;
-                 break;
-        case 2 : ApplicationConfig->MemCacheMaxValue=qlonglong(512*1024*1024);
-                 ApplicationConfig->NbrSlideInCache =20;
-                 break;
-        case 1 : ApplicationConfig->MemCacheMaxValue=qlonglong(256*1024*1024);
-                 ApplicationConfig->NbrSlideInCache =10;
-                 break;
-        default : ApplicationConfig->MemCacheMaxValue=qlonglong(128*1024*1024);
-                 ApplicationConfig->NbrSlideInCache =5;
-                 break;
-        }
+        case 3  : ApplicationConfig->MemCacheMaxValue=qlonglong(2024*1024*1024);    break;
+        case 2  : ApplicationConfig->MemCacheMaxValue=qlonglong(1024*1024*1024);    break;
+        case 1  : ApplicationConfig->MemCacheMaxValue=qlonglong(512*1024*1024);     break;
+        default : ApplicationConfig->MemCacheMaxValue=qlonglong(256*1024*1024);     break;
+    }
 
     // Editor Options part
     ApplicationConfig->AppendObject             =ui->AppendObjectCB->currentIndex()==1;

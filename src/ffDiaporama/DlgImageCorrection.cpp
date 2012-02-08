@@ -48,10 +48,10 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,in
 #endif
 
     if (CurrentBrush->Image) {
-        CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
+        CachedImage=CurrentBrush->Image->ImageAt(true,NULL);
         GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentBrush->Image->ObjectGeometry);
      } else if (CurrentBrush->Video) {
-        CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
+        CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,1,false,NULL,false);
         GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentBrush->Video->ObjectGeometry);
     }
 
@@ -174,9 +174,28 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,in
 }
 
 DlgImageCorrection::~DlgImageCorrection() {
+    ui->GraphicsView->setScene(NULL);
+    if (cadre!=NULL) {
+        scene->removeItem(cadre);
+        delete cadre;
+        cadre=NULL;
+    }
+    if (scene!=NULL) {
+        delete scene;
+        scene=NULL;
+    }
+
     delete ui;  // Deleting this make deletion of scene and all included object
-    scene=NULL;
+
     delete CachedImage;
+    if (UndoSlide) {
+        delete UndoSlide;
+        UndoSlide=NULL;
+    }
+    if (UndoShot) {
+        delete UndoShot;
+        UndoShot=NULL;
+    }
 }
 
 //====================================================================================================================
@@ -317,10 +336,6 @@ void DlgImageCorrection::reject() {
     if (UndoReloadImage) {
         if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(UndoBrushFileName,NULL,NULL);
             else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(UndoBrushFileName,NULL,NULL);
-        delete CachedImage;
-        CachedImage=NULL;
-        if (CurrentBrush->Image) CachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
-            else if (CurrentBrush->Video) CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
     }
 
     done(1);
@@ -563,7 +578,7 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
 
     if (CurrentBrush->Image) {
         CurrentBrush->Image->GetInformationFromFile(NewBrushFileName,NULL,NULL);
-        if (CurrentBrush->Image->IsValide) NewCachedImage=CurrentBrush->Image->ImageAt(true,true,NULL);
+        if (CurrentBrush->Image->IsValide) NewCachedImage=CurrentBrush->Image->ImageAt(true,NULL);
     } else if (CurrentBrush->Video) {
         QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
         if (CurrentBrush->Video->GetInformationFromFile(NewBrushFileName,NULL,NULL)&&(CurrentBrush->Video->OpenCodecAndFile())) {
@@ -580,7 +595,7 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
                 ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
                 IsValide=false;
             }
-            if (IsValide) NewCachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),true,NULL,1,false,NULL,false);
+            if (IsValide) NewCachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,1,false,NULL,false);
         }
         if (!NewCachedImage) {
             QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);

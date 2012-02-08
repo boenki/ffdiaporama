@@ -114,7 +114,6 @@ void cApplicationConfig::InitValues() {
     #endif
 
     // Initialise all variables and set them default value
-    NbrSlideInCache             = 5;                        // Number of slide in cache (Real compute is NbrSlideInCache*2+1)
     MemCacheMaxValue            = 256*1024*1024;            // 256 Mb for image cache
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
     SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
@@ -247,7 +246,6 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     }
 
     Element=Document.createElement("EditorOptions");
-    Element.setAttribute("NbrSlideInCache",             NbrSlideInCache);
     Element.setAttribute("MemCacheMaxValue",            MemCacheMaxValue);
     Element.setAttribute("SDLAudioOldMode",             SDLAudioOldMode?"1":"0");
     Element.setAttribute("AppendObject",                AppendObject?"1":"0");
@@ -373,7 +371,6 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
 
     if ((domDocument.elementsByTagName("EditorOptions").length()>0)&&(domDocument.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("EditorOptions").item(0).toElement();
-        if (Element.hasAttribute("NbrSlideInCache"))            NbrSlideInCache             =Element.attribute("NbrSlideInCache").toInt();
         if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue            =Element.attribute("MemCacheMaxValue").toLongLong();
         if (Element.hasAttribute("SDLAudioOldMode"))            SDLAudioOldMode             =Element.attribute("SDLAudioOldMode")=="1";
         if (Element.hasAttribute("AppendObject"))               AppendObject                =Element.attribute("AppendObject")=="1";

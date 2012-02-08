@@ -29,6 +29,7 @@
 #include <QTranslator>
 
 int main(int argc, char *argv[]) {
+
     SetWorkingPath(argv,APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT);
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
         if (SearchRasterMode(APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");

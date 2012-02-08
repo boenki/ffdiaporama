@@ -97,7 +97,7 @@ void QCustomRuller::paintEvent(QPaintEvent *) {
     double      Width        = double(this->width());
     double      Height       = double(this->height());
     int         TextHPosition= 28; //(Slider==NULL?9:28);
-    int         WidthTick=QFontMetrics(Font).width("00:00");
+    int         WidthTick    = QFontMetrics(Font).width("00:00");
 
     //********************************************************
     // Draw slider background

@@ -32,6 +32,7 @@ cApplicationConfig::cApplicationConfig(QMainWindow *TopLevelWindow):cBaseApplica
     #ifdef DEBUGMODE
     qDebug() << "IN:cApplicationConfig::cApplicationConfig";
     #endif
+    MemCacheMaxValue=1024*1024*512;
 }
 
 //====================================================================================================================
@@ -73,20 +74,8 @@ void cApplicationConfig::InitValues() {
     qDebug() << "IN:cApplicationConfig::InitValues";
     #endif
 
-    SplitterSizeAndPos      ="";
-    ShowHiddenFilesAndDir   =false;
-    ShowMntDrive            =false;
-    ShowFoldersFirst        =true;
-    CurrentFilter           =OBJECTTYPE_UNMANAGED;
-    CurrentMode             =DISPLAY_DATA;
-
-    // Thumbnail size in big icon mode
-    Image_ThumbWidth =300;
-    Image_ThumbHeight=200;
-    Music_ThumbWidth =200;
-    Music_ThumbHeight=200;
-    Video_ThumbWidth =162;
-    Video_ThumbHeight=216;
+    SplitterHSizeAndPos     ="";
+    SplitterVSizeAndPos     ="";
 
     #if defined(Q_OS_WIN)
     QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
@@ -113,20 +102,9 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     QDomElement     Element;
 
     Element=Document.createElement("Options");
-    Element.setAttribute("SplitterSizeAndPos",      SplitterSizeAndPos);
-    Element.setAttribute("ShowHiddenFilesAndDir",   ShowHiddenFilesAndDir?"1":"0");
-    Element.setAttribute("ShowMntDrive",            ShowMntDrive?"1":"0");
-    Element.setAttribute("ShowFoldersFirst",        ShowFoldersFirst?"1":"0");
+    Element.setAttribute("SplitterHSizeAndPos",     SplitterHSizeAndPos);
+    Element.setAttribute("SplitterVSizeAndPos",     SplitterVSizeAndPos);
     Element.setAttribute("CurrentPath",             CurrentPath);
-    Element.setAttribute("CurrentFilter",           CurrentFilter);
-    Element.setAttribute("CurrentMode",             CurrentMode);
-
-    Element.setAttribute("Image_ThumbWidth",        Image_ThumbWidth);
-    Element.setAttribute("Image_ThumbHeight",       Image_ThumbHeight);
-    Element.setAttribute("Music_ThumbWidth",        Music_ThumbWidth);
-    Element.setAttribute("Music_ThumbHeight",       Music_ThumbHeight);
-    Element.setAttribute("Video_ThumbWidth",        Video_ThumbWidth);
-    Element.setAttribute("Video_ThumbHeight",       Video_ThumbHeight);
 
     domDocument.appendChild(Element);
     DlgApplicationSettingsWSP->SaveToXML(domDocument);
@@ -146,20 +124,9 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
 
     if ((domDocument.elementsByTagName("Options").length()>0)&&(domDocument.elementsByTagName("Options").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("Options").item(0).toElement();
-        if (Element.hasAttribute("SplitterSizeAndPos"))     SplitterSizeAndPos=Element.attribute("SplitterSizeAndPos");
-        if (Element.hasAttribute("ShowHiddenFilesAndDir"))  ShowHiddenFilesAndDir=Element.attribute("ShowHiddenFilesAndDir")=="1";
-        if (Element.hasAttribute("ShowMntDrive"))           ShowMntDrive=Element.attribute("ShowMntDrive")=="1";
-        if (Element.hasAttribute("ShowFoldersFirst"))       ShowFoldersFirst=Element.attribute("ShowFoldersFirst")=="1";
+        if (Element.hasAttribute("SplitterHSizeAndPos"))    SplitterHSizeAndPos=Element.attribute("SplitterHSizeAndPos");
+        if (Element.hasAttribute("SplitterVSizeAndPos"))    SplitterVSizeAndPos=Element.attribute("SplitterVSizeAndPos");
         if (Element.hasAttribute("CurrentPath"))            CurrentPath=Element.attribute("CurrentPath");
-        if (Element.hasAttribute("CurrentFilter"))          CurrentFilter=Element.attribute("CurrentFilter").toInt();
-        if (Element.hasAttribute("CurrentMode"))            CurrentMode=Element.attribute("CurrentMode").toInt();
-
-        if (Element.hasAttribute("Image_ThumbWidth"))       Image_ThumbWidth=Element.attribute("Image_ThumbWidth").toInt();
-        if (Element.hasAttribute("Image_ThumbHeight"))      Image_ThumbHeight=Element.attribute("Image_ThumbHeight").toInt();
-        if (Element.hasAttribute("Music_ThumbWidth"))       Music_ThumbWidth=Element.attribute("Music_ThumbWidth").toInt();
-        if (Element.hasAttribute("Music_ThumbHeight"))      Music_ThumbHeight=Element.attribute("Music_ThumbHeight").toInt();
-        if (Element.hasAttribute("Video_ThumbWidth"))       Video_ThumbWidth=Element.attribute("Video_ThumbWidth").toInt();
-        if (Element.hasAttribute("Video_ThumbHeight"))      Video_ThumbHeight=Element.attribute("Video_ThumbHeight").toInt();
     }
     DlgApplicationSettingsWSP->LoadFromXML(domDocument);
     DlgCheckConfigWSP->LoadFromXML(domDocument);

@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 01/02/2011) :
+Buggs/TODO (Dernier SVN le 03/02/2011) :
 ----------------------------------------
 TODO
 ----
@@ -15,19 +15,25 @@ TODO
     + ajouter les noms de fichier en dessous
     + mode icon 200
 
--Supprimer les grilles pour les modes summary + affichage à revoir
 -Prendre en compte le multi-select dans QCustomFileInfoLabel (+ affichage à uniformiser avec la table)
+-Rendre optionnel le cache des images
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige le systeme de mise en cache des images pour régler les "memory leak" qui générait des erreurs QPainter
 
 English version / Bug fix :
+-Fix image memory cache system to solve "memory leak" wich generate QPainter error
 
 French version / Nouvelles fonctionnalités :
+-[MMFiler] Met en cache les images dans des fichiers .ThumbnailsCache.xml de chaque répertoire
+-[MMFiler] Commence les travaux sur le moteur de job
 
 English version / New features :
+-[MMFiler] Create .ThumbnailsCache.xml file into directories to cache image
+-[MMFiler] Start work on job engine
 
 -------------------------------------
 Changelog depuis la version 20111118
@@ -62,6 +68,8 @@ Bug fix French version
 -Corrige l'erreur sur le son [Beta 1/Beta2]
 -Supprime l'activation par double click du mode edition sur les lignes de fichiers musicaux dans la boite musique
 -Réactive les traductions pour les noms des styles standards qui ne fonctionnait plus depuis ffD 1.1
+[MMFiler] Corrige les filtres music/video
+[MMFiler] Corrige l'icône du bouton de filtrage
 
 Bug fix English version
 -When exit the application, even when answer yes, modifications are not saved
@@ -90,6 +98,8 @@ Bug fix English version
 -Fix sound error [Beta 1/Beta2]
 -Remove edit mode when double click on music files in music dialog
 -Re-enable translation for standard style name wich not work correctly since ffD 1.1
+[MMFiler] Fix filtering for music/video
+[MMFiler] Fix icon of filter button
 
 French version / Nouvelles fonctionnalités
 -Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
@@ -130,6 +140,11 @@ French version / Nouvelles fonctionnalités
 [MMFiler]-Ouvre un menu contextuel (Action) quand on fait un click droit sur un fichier multimédia
 [MMFiler]-Ajoute un scroller dans la boite de dialogue d'information sur les fichiers
 [MMFiler]-Ajoute des options dans la boite de dialogue de configuration pour définir la taille des vignettes en mode mode Grands icônes
+Prend en compte ffmpeg 0.10
+[MMFiler] Sauvegarde les tailles/positions du splitter de la liste des jobs
+[MMFiler] Active la vue mur d'image
+[MMFiler] Ajoute une option dans la boite d'option pour afficher les noms de fichier dans les vues en icônes
+[MMFiler] Active l'affichage des noms de fichier en mode icône
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -170,3 +185,8 @@ English version / New features
 [MMFiler]-Open a contextual menu (Action) when a right click is done on a multimedia file
 [MMFiler]-Add a scroller for Information File Dialog
 [MMFiler]-Add options in option dialog to define thumbnails size when Big icons mode
+Enable ffmpeg 0.10
+[MMFiler] Save size/position of jobs list splitter
+[MMFiler] Enable wall image view
+[MMFiler] Add an option in option dialog to display filename in icon view
+[MMFiler] Add display of files name for icon views

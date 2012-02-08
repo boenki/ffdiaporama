@@ -77,6 +77,8 @@ void DlgApplicationSettings::DoInitDialog() {
         ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
         ui->OnlyMediaDrivesCB->setChecked(!ApplicationConfig->ShowMntDrive);
     #endif
+    ui->FileNameIconViewCB->setChecked(ApplicationConfig->DisplayFileName);
+    ui->MiniHeightEXIFCB->setCurrentIndex(ApplicationConfig->MinimumEXIFHeight/100);
 
     QString ThumbSize;
     ThumbSize=QString("%1x%2").arg(ApplicationConfig->Image_ThumbWidth).arg(ApplicationConfig->Image_ThumbHeight); ui->ThumbSImageCB->setCurrentIndex(ui->ThumbSImageCB->findText(ThumbSize));
@@ -102,7 +104,8 @@ void DlgApplicationSettings::DoAccept() {
     ApplicationConfig->ShowHiddenFilesAndDir    =ui->HiddenCB->isChecked();
     ApplicationConfig->ShowFoldersFirst         =ui->FoldersFirstCB->isChecked();
     ApplicationConfig->Crop1088To1080           =ui->Crop1088To1080CB->isChecked();
-
+    ApplicationConfig->DisplayFileName          =ui->FileNameIconViewCB->isChecked();
+    ApplicationConfig->MinimumEXIFHeight        =ui->MiniHeightEXIFCB->currentIndex()*100;
 
     QString ThumbSize;
     ThumbSize=ui->ThumbSImageCB->currentText();   ApplicationConfig->Image_ThumbWidth=ThumbSize.left(ThumbSize.indexOf("x")).toInt();    ApplicationConfig->Image_ThumbHeight=ThumbSize.mid(ThumbSize.indexOf("x")+1).toInt();

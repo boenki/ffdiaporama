@@ -68,7 +68,6 @@ public:
     void            RefreshStyleControls();
     void            RefreshControls();
     void            RefreshSceneImage();
-    void            RefreshSceneImageAndCache(cCompositionObject  *CurrentTextItem,cBrushDefinition *CurrentBrush);
     void            UpdateDockInfo();
     void            AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
     void            GetForDisplayUnit(double &DisplayW,double &DisplayH);

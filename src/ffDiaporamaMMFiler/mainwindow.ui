@@ -14,7 +14,7 @@
    <string notr="true">ffDiaporamaMMFiler</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../../RSCffDiaporama.qrc">
     <normaloff>:/application-ffDiaporamaMMFiler.png</normaloff>:/application-ffDiaporamaMMFiler.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -103,11 +103,14 @@ QToolButton:pressed {
             <height>58</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Refresh tree and folder table</string>
+          </property>
           <property name="text">
            <string>Refresh</string>
           </property>
           <property name="icon">
-           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+           <iconset resource="../../RSCffDiaporama.qrc">
             <normaloff>:/img/Refresh.png</normaloff>:/img/Refresh.png</iconset>
           </property>
           <property name="iconSize">
@@ -144,7 +147,7 @@ QToolButton:pressed {
 File</string>
           </property>
           <property name="icon">
-           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+           <iconset resource="../../RSCffDiaporama.qrc">
             <normaloff>:/img/Action_Open.png</normaloff>:/img/Action_Open.png</iconset>
           </property>
           <property name="iconSize">
@@ -174,7 +177,7 @@ File</string>
 Information</string>
           </property>
           <property name="icon">
-           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+           <iconset resource="../../RSCffDiaporama.qrc">
             <normaloff>:/img/Action_Info.png</normaloff>:/img/Action_Info.png</iconset>
           </property>
           <property name="iconSize">
@@ -196,11 +199,14 @@ Information</string>
             <height>58</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Open contextual action menu</string>
+          </property>
           <property name="text">
            <string>Action</string>
           </property>
           <property name="icon">
-           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+           <iconset resource="../../RSCffDiaporama.qrc">
             <normaloff>:/img/Action_Wizard.png</normaloff>:/img/Action_Wizard.png</iconset>
           </property>
           <property name="iconSize">
@@ -248,7 +254,7 @@ Information</string>
            <string>Settings</string>
           </property>
           <property name="icon">
-           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+           <iconset resource="../../RSCffDiaporama.qrc">
             <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
           </property>
           <property name="iconSize">
@@ -289,7 +295,7 @@ Information</string>
            <string>Exit</string>
           </property>
           <property name="icon">
-           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+           <iconset resource="../../RSCffDiaporama.qrc">
             <normaloff>:/img/exit.png</normaloff>:/img/exit.png</iconset>
           </property>
           <property name="iconSize">
@@ -333,11 +339,14 @@ Information</string>
             <pointsize>8</pointsize>
            </font>
           </property>
+          <property name="toolTip">
+           <string>Select display mode</string>
+          </property>
           <property name="text">
            <string>Mode</string>
           </property>
           <property name="icon">
-           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+           <iconset resource="../../RSCffDiaporama.qrc">
             <normaloff>:/img/DISPLAY_DATA.png</normaloff>:/img/DISPLAY_DATA.png</iconset>
           </property>
           <property name="iconSize">
@@ -365,11 +374,14 @@ Information</string>
             <pointsize>8</pointsize>
            </font>
           </property>
+          <property name="toolTip">
+           <string>Select file filter</string>
+          </property>
           <property name="text">
            <string>Filter</string>
           </property>
           <property name="icon">
-           <iconset resource="../../ffDiaporamaMMFiler.qrc">
+           <iconset resource="../../RSCffDiaporama.qrc">
             <normaloff>:/img/filenew.png</normaloff>:/img/filenew.png</iconset>
           </property>
           <property name="iconSize">
@@ -429,7 +441,7 @@ Information</string>
            <string>About</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="../../RSCffDiaporama.qrc">
             <normaloff>:/application-ffDiaporamaMMFiler.png</normaloff>:/application-ffDiaporamaMMFiler.png</iconset>
           </property>
           <property name="iconSize">
@@ -477,7 +489,7 @@ Information</string>
 and help</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="../../RSCffDiaporama.qrc">
             <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
           </property>
           <property name="iconSize">
@@ -527,7 +539,7 @@ and help</string>
            <string>What's new</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="../../RSCffDiaporama.qrc">
             <normaloff>:/img/contents.png</normaloff>:/img/contents.png</iconset>
           </property>
           <property name="iconSize">
@@ -553,7 +565,7 @@ and help</string>
      </widget>
     </item>
     <item>
-     <widget class="QSplitter" name="splitter">
+     <widget class="QSplitter" name="SplitterV">
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
@@ -572,7 +584,7 @@ and help</string>
          <number>0</number>
         </property>
         <item>
-         <widget class="QCustomHorizSplitter" name="Splitter">
+         <widget class="QCustomHorizSplitter" name="SplitterH">
           <property name="frameShape">
            <enum>QFrame::NoFrame</enum>
           </property>
@@ -931,13 +943,13 @@ QToolButton:pressed {
               </font>
              </property>
              <property name="toolTip">
-              <string>Append a shot to end of the timeline</string>
+              <string>Stop current job</string>
              </property>
              <property name="text">
-              <string>JobStatusBt</string>
+              <string notr="true">JobStatusBt</string>
              </property>
              <property name="icon">
-              <iconset resource="../../ffDiaporamaMMFiler.qrc">
+              <iconset resource="../../RSCffDiaporama.qrc">
                <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
              </property>
              <property name="toolButtonStyle">
@@ -972,13 +984,13 @@ QToolButton:pressed {
               </font>
              </property>
              <property name="toolTip">
-              <string>Remove current selected shot</string>
+              <string>Up job in the list</string>
              </property>
              <property name="text">
-              <string>JobUpBt</string>
+              <string notr="true">JobUpBt</string>
              </property>
              <property name="icon">
-              <iconset resource="../../ffDiaporamaMMFiler.qrc">
+              <iconset resource="../../RSCffDiaporama.qrc">
                <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
              </property>
              <property name="toolButtonStyle">
@@ -1013,13 +1025,13 @@ QToolButton:pressed {
               </font>
              </property>
              <property name="toolTip">
-              <string>Remove current selected shot</string>
+              <string>Down job in the list</string>
              </property>
              <property name="text">
-              <string>JobDownBt</string>
+              <string notr="true">JobDownBt</string>
              </property>
              <property name="icon">
-              <iconset resource="../../ffDiaporamaMMFiler.qrc">
+              <iconset resource="../../RSCffDiaporama.qrc">
                <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
              </property>
              <property name="toolButtonStyle">
@@ -1047,7 +1059,17 @@ QToolButton:pressed {
          </widget>
         </item>
         <item>
-         <widget class="QTableWidget" name="JobTable"/>
+         <widget class="QCustomJobTable" name="JobTable">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -1079,9 +1101,15 @@ QToolButton:pressed {
    <extends>QLabel</extends>
    <header>../sharedfiles/QCustomFileInfoLabel.h</header>
   </customwidget>
+  <customwidget>
+   <class>QCustomJobTable</class>
+   <extends>QTableWidget</extends>
+   <header>QCustomJobTable.h</header>
+  </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../ffDiaporamaMMFiler.qrc"/>
+  <include location="../../RSCffDiaporama.qrc"/>
+  <include location="../../RSCffDiaporama.qrc"/>
  </resources>
  <connections/>
 </ui>
