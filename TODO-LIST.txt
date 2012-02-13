@@ -1,39 +1,46 @@
-Buggs/TODO (Dernier SVN le 03/02/2011) :
+Buggs/TODO (Dernier SVN le 08/02/2011) :
 ----------------------------------------
 TODO
 ----
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
--Grosses lenteurs dans la boite slide quand plusieurs shots
--Pas de chapitre 0 dans les MKV
--Remonté de thumb à finir pour les WMA
-
--Ajuster la géométrie des thumb à l'affichage en cours :
-    Défaut : 1/1
-    Images : 3/2
-    Musique: 1/1
-    Vidéo  : 2/3
-    + ajouter les noms de fichier en dessous
-    + mode icon 200
-
--Prendre en compte le multi-select dans QCustomFileInfoLabel (+ affichage à uniformiser avec la table)
--Rendre optionnel le cache des images
+-Ajuster la géométrie des thumb à l'affichage en cours :    Défaut : 1/1    Images : 3/2    Musique: 1/1    Vidéo  : 2/3
+-[MMFiler] Prendre en compte le multi-select dans QCustomFileInfoLabel (+ affichage à uniformiser avec la table)
+-[MMFiler] Rendre optionnel le cache des thumbnails (.ThumbnailsCache.xml)
+-[MMFiler] Developper la partie transformation des fichiers sources
+-[MMFiler] Ajouter la récupération/transformation des données exif pour le job de conversion d'images
+-[ffDiaporama] Ne pas générer les thumbnails lors des ouvertures de projets !
+-[ffDiaporama] Voir s'il est possible de changer la stratégie d'allocation de la stack pour Windows/XP
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
 -Corrige le systeme de mise en cache des images pour régler les "memory leak" qui générait des erreurs QPainter
+-Corrige les problèmes de fragmentation du tas (heap) sous windows XP qui générait des erreurs d'allocation mémoire
+-Corrige les problèmes de lecture EXIF sous Windows en revennant à la version binaire d'Exiv
 
 English version / Bug fix :
 -Fix image memory cache system to solve "memory leak" wich generate QPainter error
+-Fix heap fragmentation for Windows XP which generate memory allocation errors
+-Fix EXIF reading for Windows by comming back to Exiv binary version
 
 French version / Nouvelles fonctionnalités :
+-Ajoute une option dans la boite de configuration pour générer des fichiers de cache d'image filtrée
+-Supprime la sélection du modèle mémoire pour Windows dans la boite de configuration => Forcé à 196 Mo non modifiable
 -[MMFiler] Met en cache les images dans des fichiers .ThumbnailsCache.xml de chaque répertoire
 -[MMFiler] Commence les travaux sur le moteur de job
+-[MMFiler] Ajoute la fenêtre des jobs et celle du journal au bas de la fenêtre principal
+-[MMFiler] Ajoute l'action de supprimer des fichiers
+-[MMFiler] Crée un 1er job de conversion d'image + crée la boite de dialogue de paramétrage du job
 
 English version / New features :
+-Add an option in option dialog to allow use of cached transformed images files
+-Remove memory model selection in option dialog for Windows => Value was set to 196 Mb and can't be modified
 -[MMFiler] Create .ThumbnailsCache.xml file into directories to cache image
 -[MMFiler] Start work on job engine
+-[MMFiler] Add job queue list and log at bottom of main window
+-[MMFiler] Add remove file action
+-[MMFiler] Create a first job to convert image + create convert image job settings dialog
 
 -------------------------------------
 Changelog depuis la version 20111118

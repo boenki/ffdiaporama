@@ -95,6 +95,8 @@ public:
 
     // Image cache
     cLuLoImageCache         ImagesCache;                                // cLuLoImageCache List Object
+    qlonglong               MemCacheMaxValue;                           // Maximum value for image cache
+    bool                    AllowCachedTransfoImages;                   // If true allow use of cached transformed images
 
     // Last directories
     bool                    RememberLastDirectories;                    // If true, Remember all directories for future use

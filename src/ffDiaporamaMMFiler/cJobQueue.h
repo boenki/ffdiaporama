@@ -24,15 +24,33 @@
 #include <QDomElement>
 #include <QDomDocument>
 #include <QString>
+#include <QListWidget>
 #include "../sharedfiles/cBaseApplicationConfig.h"
+#include "../sharedfiles/cBaseMediaFile.h"
+
+#define JOBQUALIF_SOURCE_KEEP               0x0001
+#define JOBQUALIF_SOURCE_REMOVE             0x0002
+#define JOBQUALIF_SOURCE_ADDSUFFIX          0x0004
+#define JOBQUALIF_SOURCE_MOVE               0x0008
+#define JOBQUALIF_SOURCE_ALL                (JOBQUALIF_SOURCE_KEEP|JOBQUALIF_SOURCE_REMOVE|JOBQUALIF_SOURCE_ADDSUFFIX|JOBQUALIF_SOURCE_MOVE)
+
+#define JOBQUALIF_DESTNAME_ADDSUFFIX        0x0010
+#define JOBQUALIF_DESTPLACE_INFOLDER        0x0020
+
+#define JOBQUALIF_DESTINATION_OVERWRITE     0x0100
+#define JOBQUALIF_DESTINATION_COPYTHUMB     0x0200
 
 #define JOBTYPE_NOTDEFINED                  0
 #define JOBTYPE_OPENFILE                    1
 #define JOBTYPE_DISPLAYINFO                 2
-#define JOBTYPE_IMAGE_CONVERT_JPG           3
-#define JOBTYPE_IMAGE_CONVERT_MULTJPG       4
-#define JOBTYPE_IMAGE_CONVERT_PNG           5
-#define JOBTYPE_IMAGE_CONVERT_MULTPNG       6
+#define JOBTYPE_REMOVEFILE                  3
+#define JOBTYPE_IMAGE_CONVERTIMAGE          4
+#define JOBQUALIF_IMAGE_CONVERTIMAGE        (JOBQUALIF_SOURCE_KEEP|JOBQUALIF_SOURCE_REMOVE|JOBQUALIF_SOURCE_ADDSUFFIX|JOBQUALIF_SOURCE_MOVE|JOBQUALIF_DESTNAME_ADDSUFFIX|JOBQUALIF_DESTPLACE_INFOLDER|JOBQUALIF_DESTINATION_OVERWRITE/*|JOBQUALIF_DESTINATION_COPYTHUMB*/)
+#define JOBDEFAULT_IMAGE_CONVERTIMAGE       (JOBQUALIF_SOURCE_KEEP)
+#define NBR_JOBTYPE                         5
+
+extern  uint32_t    PossibleJobsSettings[NBR_JOBTYPE];
+
 /*
 #define JOBTYPE_FFMPEGCONVERT_AUDIO         7
 #define JOBTYPE_FFMPEGCONVERT_AUDIOFFD      8
@@ -54,6 +72,9 @@
 #define JOBTYPE_TAG_VIDEO                   20
 #define JOBTYPE_TAG_FFD                     21
 */
+
+
+
 #define JOBSTATUS_READYTOSTART              0
 #define JOBSTATUS_STARTED                   1
 #define JOBSTATUS_PAUSED                    2
@@ -66,41 +87,66 @@ const QEvent::Type FileListChanged  = (QEvent::Type)2001;
 
 class cJob {
 public:
+    // Job qualification & settings
+    uint32_t    JobQualif;
+    uint32_t    JobSettings;
+    QString     SourceSuffix;
+    QString     SourceFolder;
+    QString     DestinationSuffix;
+    QString     DestinationFolder;
+    QString     DestinationExtension;
+
+    // Job controls
     QDateTime   DateTime;
     int         JobType;
     int         JobStatus;
     int         PercentDone;
-    bool        Overwrite;
     QStringList SourcesAndDests;
-    QString     Command;
-    QString     Result;
     int         Succeded;
     int         CurrentIndex;
+
+    // Job specific
+    QString     Command;
 
     cJob();
     ~cJob();
 
-    void        SaveToXML(QDomElement &domDocument,QString ElementName);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName);
+    virtual void        SaveToXML(QDomElement &domDocument,QString ElementName);
+    virtual bool        LoadFromXML(QDomElement domDocument,QString ElementName);
+
+    virtual QString     ComputeDestinationName(QString Source);
+    virtual QString     ComputeNewSourceName(QString Source);
+
+    virtual bool        IsCommandListContain(QString ToFind);
+    virtual int         CommandListValue(QString ToFind);
+    virtual QString     CommandListValueString(QString ToFind);
 };
 
 //***************************
 
 class cJobQueue {
 public:
-    QList<cJob*>    List;                       // list of cJobObject
-    QStringList     StatusText;
-    QStringList     JobTypeText;
+    QList<cJob*>            List;                       // list of cJobObject
+    QStringList             StatusText;
+    QStringList             JobTypeText;
+    QList<cBaseMediaFile*>  MediaList;
+    QListWidget             *JobLog;
 
     cJobQueue();
     ~cJobQueue();
 
-    void        SaveToXML(QDomElement &domDocument,QString ElementName);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName);
-    void        RefreshJobStatus(QWidget *Window);
+    virtual void        SaveToXML(QDomElement &domDocument,QString ElementName);
+    virtual bool        LoadFromXML(QDomElement domDocument,QString ElementName);
+    virtual void        RefreshJobStatus(QWidget *Window);
 
     // Jobs
-    void        ConvertIMG(cJob *Job,QWidget *Window);
+    virtual bool        ApplyDestinationOverWriting(QString Destination,uint32_t JobSettings);
+    virtual bool        ApplySourceTransformation(QString Source,QString NewSource);
+    virtual void        ConvertIMG(cJob *Job,QWidget *Window);
+
+private:
+    void                AddToLog(bool IsOk,int IndentLevel,QString Message);
+
 };
 
 #endif // CJOBQUEUE_H

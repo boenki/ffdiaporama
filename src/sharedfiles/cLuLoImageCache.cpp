@@ -32,11 +32,12 @@
 //*********************************************************************************************************************************************
 // Constructor for image file
 
-cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName,int TheImageOrientation,QString TheFilterString,bool TheSmoothing,cLuLoImageCache *Parent) {
+cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName,QDateTime TheModifDateTime,int TheImageOrientation,QString TheFilterString,bool TheSmoothing,cLuLoImageCache *Parent) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cLuLoImageCacheObject::cLuLoImageCacheObject";
     #endif
     FileName            =TheFileName;       // Full filename
+    ModifDateTime       =TheModifDateTime;
     FilterString        =TheFilterString;
     Smoothing           =TheSmoothing;
     CacheRenderImage    =NULL;
@@ -74,14 +75,21 @@ cLuLoImageCacheObject::~cLuLoImageCacheObject() {
     qDebug() << "IN:cLuLoImageCacheObject::~cLuLoImageCacheObject";
     #endif
 
+    if (CachePreviewImage!=NULL) {
+        if (CachePreviewImage!=CacheRenderImage) delete CachePreviewImage;
+        CachePreviewImage=NULL;
+    }
     if (CacheRenderImage!=NULL) {
         delete CacheRenderImage;
         CacheRenderImage=NULL;
     }
-    if (CachePreviewImage!=NULL) {
-        delete CachePreviewImage;
-        CachePreviewImage=NULL;
-    }
+}
+
+//===============================================================================
+
+QString cLuLoImageCacheObject::CachedFilteredImage() {
+    QString CachedFile=FileName;
+    return CachedFile.replace("."+QFileInfo(CachedFile).suffix(),"_ffd.jpg");
 }
 
 //===============================================================================
@@ -93,13 +101,22 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
 
     if (CacheRenderImage==NULL) {
 
-        if (FilterString=="") {
+        if ((FilterString!="")&&(QFileInfo(CachedFilteredImage()).exists())) {
+
+            qDebug()<<QApplication::translate("MainWindow","Loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName();
+            CacheRenderImage=new QImage(CachedFilteredImage());
+            if (!CacheRenderImage) qDebug()<<QApplication::translate("MainWindow","Error allocating memory for cached filtered file");
+            if ((CacheRenderImage)||(CacheRenderImage->isNull())) qDebug()<<QApplication::translate("MainWindow","Error loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName();
+
+        } else if (FilterString=="") {
 
             // Image object
             if (TypeObject==LULOOBJECT_IMAGE) {
                 // Load image from disk
                 qDebug()<<QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName();
                 CacheRenderImage=new QImage(FileName);
+                if (!CacheRenderImage) qDebug()<<QApplication::translate("MainWindow","Error allocating memory for render image");
+                if ((CacheRenderImage)||(CacheRenderImage->isNull())) qDebug()<<QApplication::translate("MainWindow","Error loading file :")+FileName;
 
                 // If image is ok then apply exif orientation (if needed)
                 if ((CacheRenderImage)&&(!CacheRenderImage->isNull())) {
@@ -129,10 +146,15 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
 
             }
 
+            // If image is ok then apply filter if exist
+             if ((FilterString!="")&&(CacheRenderImage)&&(!CacheRenderImage->isNull())) {
+                cFilterTransformObject Filter(FilterString);
+                Filter.ApplyFilter(CacheRenderImage);
+            }
         } else {
 
             // Search LuLoImageCache collection to find image without filter
-            cLuLoImageCacheObject *UnfilteredObject=LuLoImageCache->FindObject(FileName,ImageOrientation,NULL,Smoothing,true);
+            cLuLoImageCacheObject *UnfilteredObject=LuLoImageCache->FindObject(FileName,ModifDateTime,ImageOrientation,NULL,Smoothing,true);
 
             if (UnfilteredObject) {
 
@@ -145,12 +167,12 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
             } else {
                 qDebug()<<"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : LuLoImageCache->FindObject return NULL";
             }
-        }
 
-        // If image is ok then apply filter if exist
-         if ((FilterString!="")&&(CacheRenderImage)&&(!CacheRenderImage->isNull())) {
-            cFilterTransformObject Filter(FilterString);
-            Filter.ApplyFilter(CacheRenderImage);
+            // If image is ok then apply filter if exist
+             if ((FilterString!="")&&(CacheRenderImage)&&(!CacheRenderImage->isNull())) {
+                cFilterTransformObject Filter(FilterString);
+                Filter.ApplyFilter(CacheRenderImage);
+            }
         }
 
         // If error
@@ -174,24 +196,27 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
 
     if (CachePreviewImage==NULL) {
 
-        if (FilterString=="") {
+        if ((FilterString=="")||((FilterString!="")&&(QFileInfo(CachedFilteredImage()).exists()))) {
 
             ValidateCacheRenderImage();
 
             // if CacheRenderImage exist then copy it
-            if ((CacheRenderImage)&&(!CacheRenderImage->isNull())) CachePreviewImage=new QImage(CacheRenderImage->copy());
-
-            // If image size>PREVIEWMAXHEIGHT, reduce Cache Image
-            if ((CachePreviewImage)&&(!CachePreviewImage->isNull())&&(CachePreviewImage->height()>PREVIEWMAXHEIGHT*2))  {
-                QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                delete CachePreviewImage;
-                CachePreviewImage=NewImage;
+            if ((CacheRenderImage)&&(!CacheRenderImage->isNull())) {
+                if (CacheRenderImage->height()<=PREVIEWMAXHEIGHT) CachePreviewImage=CacheRenderImage; else {
+                    CachePreviewImage=new QImage(CacheRenderImage->copy());
+                    // If image size>PREVIEWMAXHEIGHT, reduce Cache Image
+                    if ((CachePreviewImage)&&(!CachePreviewImage->isNull())&&(CachePreviewImage->height()>PREVIEWMAXHEIGHT*2))  {
+                        QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                        delete CachePreviewImage;
+                        CachePreviewImage=NewImage;
+                    }
+                }
             }
 
         } else {
 
             // Search LuLoImageCache collection to find image without filter
-            cLuLoImageCacheObject *UnfilteredObject=LuLoImageCache->FindObject(FileName,ImageOrientation,NULL,Smoothing,true);
+            cLuLoImageCacheObject *UnfilteredObject=LuLoImageCache->FindObject(FileName,ModifDateTime,ImageOrientation,NULL,Smoothing,true);
 
             if (UnfilteredObject) {
 
@@ -264,7 +289,7 @@ cLuLoImageCache::~cLuLoImageCache() {
 //===============================================================================
 
 // Image version
-cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,int ImageOrientation,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop) {
+cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop) {
     #ifdef DEBUGMODE
     qDebug() << "IN:cLuLoImageCache::FindObject";
     #endif
@@ -273,7 +298,7 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,int ImageOri
     int i=0;
     while ((i<List.count())&&((List[i]->TypeObject!=LULOOBJECT_IMAGE)||(List[i]->FileName!=FileName)||(List[i]->FilterString!=FilterString)||(List[i]->Smoothing!=Smoothing))) i++;
 
-    if ((i<List.count())&&(List[i]->TypeObject==LULOOBJECT_IMAGE)&&(List[i]->FileName==FileName)&&(List[i]->FilterString==FilterString)&&(List[i]->Smoothing==Smoothing)) {
+    if ((i<List.count())&&(List[i]->TypeObject==LULOOBJECT_IMAGE)&&(List[i]->FileName==FileName)&&(List[i]->ModifDateTime==ModifDateTime)&&(List[i]->FilterString==FilterString)&&(List[i]->Smoothing==Smoothing)) {
         // if wanted and image found then set it to the top of the list
         if ((SetAtTop)&&(i>0)) { // If item is not the first
             cLuLoImageCacheObject *Object=List.takeAt(i);   // Detach item from the list
@@ -282,11 +307,13 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,int ImageOri
         }
     } else {
         // Image not found then create it at top of the list
-        List.prepend(new cLuLoImageCacheObject(FileName,ImageOrientation,FilterString,Smoothing,this));     // Append a new object at first position
+        List.prepend(new cLuLoImageCacheObject(FileName,ModifDateTime,ImageOrientation,FilterString,Smoothing,this));     // Append a new object at first position
         i=0;
     }
     return List[i]; // return first object
 }
+
+//===============================================================================
 
 // Video version
 cLuLoImageCacheObject *cLuLoImageCache::FindObject(cCustomIcon *Video,int Position,bool Smoothing,bool SetAtTop) {
@@ -314,14 +341,14 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(cCustomIcon *Video,int Positi
 
 //===============================================================================
 
-int cLuLoImageCache::MemoryUsed() {
+qlonglong cLuLoImageCache::MemoryUsed() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cLuLoImageCache::MemoryUsed";
     #endif
-    int MemUsed=0;
+    qlonglong MemUsed=0;
     for (int i=0;i<List.count();i++) {
-        if (List[i]->CacheRenderImage)    MemUsed=MemUsed+List[i]->CacheRenderImage->byteCount();
-        if (List[i]->CachePreviewImage)   MemUsed=MemUsed+List[i]->CachePreviewImage->byteCount();
+        if (List[i]->CacheRenderImage)                                                              MemUsed=MemUsed+List[i]->CacheRenderImage->byteCount();
+        if ((List[i]->CachePreviewImage)&&(List[i]->CachePreviewImage!=List[i]->CacheRenderImage))  MemUsed=MemUsed+List[i]->CachePreviewImage->byteCount();
     }
     return MemUsed;
 }
@@ -332,19 +359,29 @@ void cLuLoImageCache::FreeMemoryToMaxValue() {
     #ifdef DEBUGMODE
     qDebug() << "IN:cLuLoImageCache::FreeMemoryToMaxValue";
     #endif
-    int ToFree=MemoryUsed()-MaxValue;
-    int i=List.count()-1;
-    while ((ToFree>0)&&(i>0)) {
-        if (List[i]->CacheRenderImage) {
-            ToFree=ToFree-List[i]->CacheRenderImage->byteCount();
-            delete List[i]->CacheRenderImage;
-            List[i]->CacheRenderImage=NULL;
+
+    qlonglong Memory=MemoryUsed();
+    if (Memory>MaxValue) {
+        QString DisplayLog=QString("Free memory for max value (%1 Mb) : Before=%2 cached objects for %3 Mb").arg(MaxValue/(1024*1024)).arg(List.count()).arg(Memory/(1024*1024));
+        int i=List.count()-1;
+        while ((Memory>MaxValue)&&(i>0)) {
+            if ((Memory>MaxValue)&&(List[i]->CachePreviewImage)) {
+                if (List[i]->CachePreviewImage!=List[i]->CacheRenderImage) {
+                    Memory=Memory-List[i]->CachePreviewImage->byteCount();
+                    delete List[i]->CachePreviewImage;
+                }
+                List[i]->CachePreviewImage=NULL;
+            }
+            if (List[i]->CacheRenderImage) {
+                Memory=Memory-List[i]->CacheRenderImage->byteCount();
+                delete List[i]->CacheRenderImage;
+                List[i]->CacheRenderImage=NULL;
+            }
+            i--;
         }
-        if ((ToFree>0)&&(List[i]->CachePreviewImage)) {
-            ToFree=ToFree-List[i]->CachePreviewImage->byteCount();
-            delete List[i]->CachePreviewImage;
-            List[i]->CachePreviewImage=NULL;
-        }
-        i--;
+        while ((List.count()>0)&&(List[List.count()-1]->CachePreviewImage==NULL)&&(List[List.count()-1]->CacheRenderImage==NULL)) delete List.takeLast();
+        qDebug()<<DisplayLog+QString(" - After=%1 cached objects for %2 Mb").arg(List.count()).arg(Memory/(1024*1024));
+    //} else {
+    //    qDebug()<<QString("Check memory used %1 Mb/%2 Mb - OK").arg(Memory/(1024*1024)).arg(MaxValue/(1024*1024));
     }
 }

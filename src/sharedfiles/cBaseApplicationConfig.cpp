@@ -326,11 +326,15 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     #endif
     #ifdef Q_OS_WIN
         CheckConfigAtStartup= false;
+        MemCacheMaxValue    = 128*1024*1024;                                                // 128 Mb max for image cache on Windows 32
+    #else
+        MemCacheMaxValue    = 512*1024*1024;                                                // 512 Mb for image cache
     #endif
     Crop1088To1080          = true;                                                         // Automaticaly crop video from 1088 lines to 1080 (CANON)
     ApplyTransfoPreview     = true;                                                         // True if image transformation are apply during preview
     QuickResamplingPreview  = false;                                                        // If true then use quick resampling during preview
     Smoothing               = true;                                                         // True do smoothing in preview
+    AllowCachedTransfoImages= false;                                                        // Allow cached transformed images
 
     //*********************************************************************
     // Search plateforme and define specific value depending on plateforme
@@ -515,19 +519,25 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
 
         if ((domDocument.elementsByTagName("MMFiler").length()>0)&&(domDocument.elementsByTagName("MMFiler").item(0).isElement()==true)) {
             QDomElement Element=domDocument.elementsByTagName("MMFiler").item(0).toElement();
-            if (Element.hasAttribute("ShowHiddenFilesAndDir"))  ShowHiddenFilesAndDir=Element.attribute("ShowHiddenFilesAndDir")=="1";
-            if (Element.hasAttribute("ShowMntDrive"))           ShowMntDrive=Element.attribute("ShowMntDrive")=="1";
-            if (Element.hasAttribute("ShowFoldersFirst"))       ShowFoldersFirst=Element.attribute("ShowFoldersFirst")=="1";
-            if (Element.hasAttribute("CurrentFilter"))          CurrentFilter=Element.attribute("CurrentFilter").toInt();
-            if (Element.hasAttribute("CurrentMode"))            CurrentMode=Element.attribute("CurrentMode").toInt();
-            if (Element.hasAttribute("DisplayFileName"))        DisplayFileName=Element.attribute("DisplayFileName")=="1";
-            if (Element.hasAttribute("MinimumEXIFHeight"))      MinimumEXIFHeight=Element.attribute("MinimumEXIFHeight").toInt();
-            if (Element.hasAttribute("Image_ThumbWidth"))       Image_ThumbWidth=Element.attribute("Image_ThumbWidth").toInt();
-            if (Element.hasAttribute("Image_ThumbHeight"))      Image_ThumbHeight=Element.attribute("Image_ThumbHeight").toInt();
-            if (Element.hasAttribute("Music_ThumbWidth"))       Music_ThumbWidth=Element.attribute("Music_ThumbWidth").toInt();
-            if (Element.hasAttribute("Music_ThumbHeight"))      Music_ThumbHeight=Element.attribute("Music_ThumbHeight").toInt();
-            if (Element.hasAttribute("Video_ThumbWidth"))       Video_ThumbWidth=Element.attribute("Video_ThumbWidth").toInt();
-            if (Element.hasAttribute("Video_ThumbHeight"))      Video_ThumbHeight=Element.attribute("Video_ThumbHeight").toInt();
+            if (Element.hasAttribute("ShowHiddenFilesAndDir"))      ShowHiddenFilesAndDir=Element.attribute("ShowHiddenFilesAndDir")=="1";
+            if (Element.hasAttribute("ShowMntDrive"))               ShowMntDrive=Element.attribute("ShowMntDrive")=="1";
+            if (Element.hasAttribute("ShowFoldersFirst"))           ShowFoldersFirst=Element.attribute("ShowFoldersFirst")=="1";
+            if (Element.hasAttribute("CurrentFilter"))              CurrentFilter=Element.attribute("CurrentFilter").toInt();
+            if (Element.hasAttribute("CurrentMode"))                CurrentMode=Element.attribute("CurrentMode").toInt();
+            if (Element.hasAttribute("DisplayFileName"))            DisplayFileName=Element.attribute("DisplayFileName")=="1";
+            if (Element.hasAttribute("MinimumEXIFHeight"))          MinimumEXIFHeight=Element.attribute("MinimumEXIFHeight").toInt();
+            if (Element.hasAttribute("Image_ThumbWidth"))           Image_ThumbWidth=Element.attribute("Image_ThumbWidth").toInt();
+            if (Element.hasAttribute("Image_ThumbHeight"))          Image_ThumbHeight=Element.attribute("Image_ThumbHeight").toInt();
+            if (Element.hasAttribute("Music_ThumbWidth"))           Music_ThumbWidth=Element.attribute("Music_ThumbWidth").toInt();
+            if (Element.hasAttribute("Music_ThumbHeight"))          Music_ThumbHeight=Element.attribute("Music_ThumbHeight").toInt();
+            if (Element.hasAttribute("Video_ThumbWidth"))           Video_ThumbWidth=Element.attribute("Video_ThumbWidth").toInt();
+            if (Element.hasAttribute("Video_ThumbHeight"))          Video_ThumbHeight=Element.attribute("Video_ThumbHeight").toInt();
+        }
+
+        if ((domDocument.elementsByTagName("CacheMemory").length()>0)&&(domDocument.elementsByTagName("CacheMemory").item(0).isElement()==true)) {
+            QDomElement Element=domDocument.elementsByTagName("CacheMemory").item(0).toElement();
+            if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue=qlonglong(Element.attribute("MemCacheMaxValue").toInt())*qlonglong(1024*1024);
+            if (Element.hasAttribute("AllowCachedTransfoImages"))   AllowCachedTransfoImages=Element.attribute("AllowCachedTransfoImages")=="1";
         }
     }
 
@@ -630,6 +640,11 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("Music_ThumbHeight",       Music_ThumbHeight);
     Element.setAttribute("Video_ThumbWidth",        Video_ThumbWidth);
     Element.setAttribute("Video_ThumbHeight",       Video_ThumbHeight);
+    root.appendChild(Element);
+
+    Element=domDocument.createElement("CacheMemory");
+    Element.setAttribute("MemCacheMaxValue",        MemCacheMaxValue/(1024*1024));
+    Element.setAttribute("AllowCachedTransfoImages",AllowCachedTransfoImages?"1":"0");
     root.appendChild(Element);
 
     // Save windows size and position

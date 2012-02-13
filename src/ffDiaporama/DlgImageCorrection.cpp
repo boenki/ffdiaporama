@@ -24,6 +24,7 @@
 
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QSplashScreen>
 
 #define ICON_RULER_ON                       ":/img/ruler_ok.png"
 #define ICON_RULER_OFF                      ":/img/ruler_ko.png"
@@ -40,6 +41,8 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,in
     CurrentBrush    =TheCurrentBrush;
     VideoPosition   =TheVideoPosition;
     UndoReloadImage =false;
+
+    InitialFilteredString=CurrentBrush->Image->BrushFileTransform.FilterToString();
 
 #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
@@ -346,6 +349,29 @@ void DlgImageCorrection::reject() {
 void DlgImageCorrection::accept() {
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgImageCorrectionWSP->SaveWindowState(this);
+
+    // Check if cached filtered file exist
+    QString CachedFile=CurrentBrush->Image->FileName;
+    CachedFile=CachedFile.replace("."+QFileInfo(CachedFile).suffix(),"_ffd.jpg");
+    if ((InitialFilteredString!=CurrentBrush->Image->BrushFileTransform.FilterToString())||
+        ((GlobalMainWindow->ApplicationConfig->AllowCachedTransfoImages)&&(!QFileInfo(CachedFile).exists()))) {
+        if (QFileInfo(CachedFile).exists()) QFile::remove(CachedFile);
+        if (GlobalMainWindow->ApplicationConfig->AllowCachedTransfoImages) {
+            QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+            QSplashScreen screen(this,QPixmap(":/img/splash.png"));
+            screen.showMessage(QApplication::translate("DlgImageCorrection","Creating cached filtered file ..."),Qt::AlignHCenter|Qt::AlignBottom);
+            screen.show();
+            QApplication::processEvents();
+            cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ApplicationConfig->ImagesCache.
+                FindObject(CurrentBrush->Image->FileName,CurrentBrush->Image->ModifDateTime,CurrentBrush->Image->ImageOrientation,NULL,true,true);
+            QImage *UnfilteredImage=new QImage(ImageObject->ValidateCacheRenderImage()->copy());
+            CurrentBrush->Image->BrushFileTransform.ApplyFilter(UnfilteredImage);
+            UnfilteredImage->save(CachedFile,"jpg",100);
+            delete UnfilteredImage;
+            screen.hide();
+            QApplication::restoreOverrideCursor();
+        }
+    }
 
     // Close the box
     done(0);

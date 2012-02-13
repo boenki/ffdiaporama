@@ -48,6 +48,7 @@ QCustomFolderTree::QCustomFolderTree(QWidget *parent):QTreeWidget(parent) {
     qDebug() << "IN:QCustomFolderTree::QCustomFolderTree";
     #endif
     ApplicationConfig=NULL;
+    DriveList=NULL;
     connect(this,SIGNAL(itemExpanded(QTreeWidgetItem *)),this,SLOT(s_itemExpanded(QTreeWidgetItem *)));
 }
 

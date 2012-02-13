@@ -57,8 +57,12 @@ SOURCES += main.cpp\
     ../sharedfiles/DlgManageDevices.cpp \
     ../sharedfiles/cCustomIcon.cpp \
     ../sharedfiles/DlgInfoFile.cpp \
+    ../sharedfiles/QCustomGetFolder.cpp \
     cJobQueue.cpp \
-    QCustomJobTable.cpp
+    QCustomJobTable.cpp \
+    DlgJobSettings.cpp \
+    wgt_JobConvertImage.cpp \
+    wgt_JobBase.cpp
 
 HEADERS  += mainwindow.h \
     DlgApplicationSettings.h \
@@ -83,8 +87,12 @@ HEADERS  += mainwindow.h \
     ../sharedfiles/cCustomIcon.h \
     ../sharedfiles/DlgManageDevices.h \
     ../sharedfiles/DlgInfoFile.h \
+    ../sharedfiles/QCustomGetFolder.h \
     cJobQueue.h \
-    QCustomJobTable.h
+    QCustomJobTable.h \
+    DlgJobSettings.h \
+    wgt_JobConvertImage.h \
+    wgt_JobBase.h
 
 
 FORMS    += mainwindow.ui \
@@ -92,7 +100,10 @@ FORMS    += mainwindow.ui \
     DlgAbout.ui \
     ../sharedfiles/DlgCheckConfig.ui \
     ../sharedfiles/DlgManageDevices.ui \
-    ../sharedfiles/DlgInfoFile.ui
+    ../sharedfiles/DlgInfoFile.ui \
+    ../sharedfiles/QCustomGetFolder.ui \
+    DlgJobSettings.ui \
+    wgt_JobConvertImage.ui
 
 # Installation on linux systems
 unix {

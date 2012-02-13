@@ -18,35 +18,39 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtGui/QApplication>
-#include <QString>
-#include <QDir>
+#ifndef WGT_JOBCONVERTIMAGE_H
+#define WGT_JOBCONVERTIMAGE_H
 
-#include "../sharedfiles/cBaseApplicationConfig.h"
-#include "mainwindow.h"
+#include <QWidget>
 
-int main(int argc, char *argv[]) {
-    SetWorkingPath(argv,APPLICATION_GROUPNAME,APPLICATION_NAME,CONFIGFILEEXT);
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        if (SearchRasterMode(APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
-    #endif
+// Basic inclusions (common to all files)
+#include "../sharedfiles/_GlobalDefines.h"
 
-    QApplication::setStyle("Cleanlooks");
+#include "wgt_JobBase.h"
 
-    QApplication app(argc, argv);
-
-    QString ForceLanguage="";
-
-    // Parse parameters
-    for (int i=1;i<argc;i++) {
-        QString Param=QString(argv[i]).toLower();
-        if (Param.startsWith("-lang=")) ForceLanguage=Param.mid(QString("-lang=").length());
-    }
-
-    MainWindow w;
-    w.InitWindow(ForceLanguage,&app);
-
-    if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
-
-    return app.exec();
+namespace Ui {
+    class wgt_JobConvertImage;
 }
+
+class wgt_JobConvertImage : public wgt_JobBase {
+Q_OBJECT
+public:
+    explicit wgt_JobConvertImage(QCustomDialog *Dialog,QWidget *parent = 0);
+    ~wgt_JobConvertImage();
+
+    virtual void    DoInitDialog();
+    virtual void    RefreshControls();
+    virtual void    AppendJobSummary(int index,QString *JobSummary,cJobQueue *JobQueue);
+
+private slots:
+    void            s_DestFormatCB(int);
+    void            s_RescalCB();
+    void            s_DontUpscaleCB();
+    void            s_RescalCombo(int);
+    void            s_QualitySL(int);
+
+private:
+    Ui::wgt_JobConvertImage *ui;
+};
+
+#endif // WGT_JOBCONVERTIMAGE_H

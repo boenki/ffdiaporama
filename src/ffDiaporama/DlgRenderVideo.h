@@ -32,6 +32,15 @@ namespace Ui {
     class DlgRenderVideo;
 }
 
+struct sWriteWAV {
+    cSDLSoundBlockList      RenderMusic;
+    cSDLSoundBlockList      EncodedAudio;
+    AVCodecContext          *AudioCodecContext;
+    uint8_t                 *audio_outbuf;
+    AVStream                *AudioStream;
+    AVFormatContext         *OutputFormatContext;
+};
+
 class DlgRenderVideo : public QDialog {
 Q_OBJECT
 public:
@@ -91,6 +100,8 @@ private slots:
 
 private:
     Ui::DlgRenderVideo *ui;
+
+    void WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue);
 };
 
 #endif // DLGRENDERVIDEO_H

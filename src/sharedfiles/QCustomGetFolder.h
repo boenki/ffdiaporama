@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef DLGINFOFILE_H
-#define DLGINFOFILE_H
+#ifndef QCUSTOMGETFOLDER_H
+#define QCUSTOMGETFOLDER_H
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
@@ -27,34 +27,37 @@
 
 // Include some additional standard class
 #include <QString>
+#include <QTreeWidgetItem>
 
-// Include some common various class
-#include "cBaseApplicationConfig.h"
-#include "cSaveWindowPosition.h"
-#include "cBaseMediaFile.h"
+#include "cDriveList.h"
 
 namespace Ui {
-    class DlgInfoFile;
+    class QCustomGetFolder;
 }
 
-class DlgInfoFile : public QCustomDialog {
+class QCustomGetFolder : public QCustomDialog {
 Q_OBJECT
 public:
-    cBaseMediaFile *MediaFile;
+    cDriveList      *DriveList;
+    QString         CurrentPath;
 
-    explicit DlgInfoFile(cBaseMediaFile *MediaFile,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
-    ~DlgInfoFile();
+    explicit        QCustomGetFolder(QString CurrentPath,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+                    ~QCustomGetFolder();
 
     // function to be overloaded
-    virtual void        DoInitDialog();                             // Initialise dialog
-    virtual void        DoAccept()          {/*Nothing to do*/}     // Call when user click on Ok button
-    virtual void        DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
-    virtual void        PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
-    virtual void        DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
+    virtual void    DoInitDialog();                             // Initialise dialog
+    virtual void    DoAccept();                                 // Call when user click on Ok button
+    virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
+    virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
+    virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
+
+private slots:
+    void    s_currentTreeItemChanged(QTreeWidgetItem *,QTreeWidgetItem *);
 
 private:
-
-    Ui::DlgInfoFile *ui;
+    Ui::QCustomGetFolder *ui;
 };
 
-#endif // DLGINFOFILE_H
+QString GetDestinationFolder(QString CurrentPath,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent);
+
+#endif // QCUSTOMGETFOLDER_H

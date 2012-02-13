@@ -18,35 +18,29 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtGui/QApplication>
-#include <QString>
-#include <QDir>
+#ifndef WGT_JOBBASE_H
+#define WGT_JOBBASE_H
 
-#include "../sharedfiles/cBaseApplicationConfig.h"
-#include "mainwindow.h"
+// Basic inclusions (common to all files)
+#include "../sharedfiles/_GlobalDefines.h"
+#include "../sharedfiles/_QCustomDialog.h"
+#include <QWidget>
+#include "cJobQueue.h"
 
-int main(int argc, char *argv[]) {
-    SetWorkingPath(argv,APPLICATION_GROUPNAME,APPLICATION_NAME,CONFIGFILEEXT);
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        if (SearchRasterMode(APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
-    #endif
+class wgt_JobBase : public QWidget {
+Q_OBJECT
+public:
+    QCustomDialog   *Dialog;
+    cJob            *Job;
 
-    QApplication::setStyle("Cleanlooks");
+    explicit wgt_JobBase(QCustomDialog *Dialog,QWidget *parent = 0);
 
-    QApplication app(argc, argv);
+    virtual void    DoInitDialog()=0;
+    virtual void    RefreshControls()=0;
+    virtual void    AppendJobSummary(int index,QString *JobSummary,cJobQueue *JobQueue)=0;
 
-    QString ForceLanguage="";
+signals:
+    void NeedRefreshControls();
+};
 
-    // Parse parameters
-    for (int i=1;i<argc;i++) {
-        QString Param=QString(argv[i]).toLower();
-        if (Param.startsWith("-lang=")) ForceLanguage=Param.mid(QString("-lang=").length());
-    }
-
-    MainWindow w;
-    w.InitWindow(ForceLanguage,&app);
-
-    if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
-
-    return app.exec();
-}
+#endif // WGT_JOBBASE_H

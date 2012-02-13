@@ -411,13 +411,11 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
         QBrush *Ret=NULL;
 
         if (RenderImage) {
-            QImage *FinalImg=NULL;
-
             if (FullFilling) {
                 // Create brush image with distortion
-                FinalImg=new QImage(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                QImage *NewRenderImage=new QImage(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
                 delete RenderImage;
-                RenderImage=NULL;
+                RenderImage=NewRenderImage;
             } else {
                 // Create brush image with ken burns effect !
                 double  TheXFactor      =X;
@@ -452,6 +450,40 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 double   RealImageH=double(RenderImage->height());              // Get real image height
                 double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse of the image to define full canvas
 
+                // Expand canvas
+                QImage   *NewRenderImage=new QImage(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
+                QPainter Painter;
+                Painter.begin(NewRenderImage);
+                Painter.setCompositionMode(QPainter::CompositionMode_Source);
+                Painter.fillRect(QRect(0,0,Hyp+1,Hyp+1),Qt::transparent);
+                Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                Painter.drawImage(QPoint((Hyp-RealImageW)/2,(Hyp-RealImageH)/2),*RenderImage);
+                Painter.end();
+                delete RenderImage;
+                RenderImage=NewRenderImage;
+                NewRenderImage=NULL;
+
+                // Rotate image (if needed)
+                if (TheRotateFactor!=0) {
+                    QTransform matrix;
+                    matrix.rotate(TheRotateFactor,Qt::ZAxis);
+                    NewRenderImage=new QImage(RenderImage->transformed(matrix,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                    int ax=NewRenderImage->width()-RenderImage->width();
+                    int ay=NewRenderImage->height()-RenderImage->height();
+                    delete RenderImage;
+                    RenderImage=new QImage(NewRenderImage->copy(ax/2,ay/2,NewRenderImage->width()-ax,NewRenderImage->height()-ay));
+                    delete NewRenderImage;
+                    NewRenderImage=NULL;
+                }
+
+                // Get part we need and scaled it to destination size
+                NewRenderImage=new QImage(RenderImage->copy(Hyp*TheXFactor,Hyp*TheYFactor,Hyp*TheZoomFactor,Hyp*TheZoomFactor*TheAspectRatio)
+                                    .scaled(Rect.width(),double(Rect.width())*TheAspectRatio,Qt::IgnoreAspectRatio,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                delete RenderImage;
+                RenderImage=NewRenderImage;
+                NewRenderImage=NULL;
+
+/*
                 // **************************************************************************************************
                 // Smoothing is not correctly used here so force smoothing by reduce source image before draw image
                 // **************************************************************************************************
@@ -501,18 +533,18 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 delete NewSourceImage;
 
                 PB.end();
-
+*/
                 // Apply correction filters to DestImage
-                fmt_filters::image img(FinalImg->bits(),FinalImg->width(),FinalImg->height());
+                fmt_filters::image img(RenderImage->bits(),RenderImage->width(),RenderImage->height());
                 if (TheBrightness!=0)                           fmt_filters::brightness(img,TheBrightness);
                 if (TheContrast!=0)                             fmt_filters::contrast(img,TheContrast);
                 if (TheGamma!=1)                                fmt_filters::gamma(img,TheGamma);
                 if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))   fmt_filters::colorize(img,TheRed,TheGreen,TheBlue);
             }
-            if (FinalImg) {
-                Ret=new QBrush(*FinalImg);
-                delete FinalImg;
-                FinalImg=NULL;
+            if (RenderImage) {
+                Ret=new QBrush(*RenderImage);
+                delete RenderImage;
+                RenderImage=NULL;
             }
         }
         return Ret;

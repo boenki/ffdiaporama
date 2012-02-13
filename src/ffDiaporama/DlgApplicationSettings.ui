@@ -47,7 +47,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -73,8 +73,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>452</width>
-            <height>473</height>
+            <width>661</width>
+            <height>520</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -232,7 +232,7 @@
              </property>
             </widget>
            </item>
-           <item row="12" column="0" colspan="2">
+           <item row="13" column="0" colspan="2">
             <widget class="QLabel" name="label">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -261,7 +261,7 @@
              </property>
             </widget>
            </item>
-           <item row="14" column="0">
+           <item row="15" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
               <string>Object position :</string>
@@ -274,7 +274,7 @@
              </property>
             </widget>
            </item>
-           <item row="14" column="1">
+           <item row="15" column="1">
             <widget class="QComboBox" name="AppendObjectCB">
              <property name="toolTip">
               <string>Define the position which occupy the new objects in the timeline during the insertions</string>
@@ -291,7 +291,7 @@
              </item>
             </widget>
            </item>
-           <item row="15" column="0">
+           <item row="16" column="0">
             <widget class="QLabel" name="label_26">
              <property name="text">
               <string>Multiple file insertion :</string>
@@ -301,7 +301,7 @@
              </property>
             </widget>
            </item>
-           <item row="15" column="1">
+           <item row="16" column="1">
             <widget class="QCheckBox" name="SortFileCB">
              <property name="toolTip">
               <string>Adjust the way will be sorted out files when you select several files in Add file.</string>
@@ -311,7 +311,7 @@
              </property>
             </widget>
            </item>
-           <item row="22" column="0">
+           <item row="23" column="0">
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -324,7 +324,7 @@
              </property>
             </spacer>
            </item>
-           <item row="16" column="1">
+           <item row="17" column="1">
             <widget class="QCheckBox" name="AskUserToRemove">
              <property name="toolTip">
               <string>If this box is checked, a confirmation will display every time you remove an object</string>
@@ -334,7 +334,7 @@
              </property>
             </widget>
            </item>
-           <item row="16" column="0">
+           <item row="17" column="0">
             <widget class="QLabel" name="label_33">
              <property name="text">
               <string>Object deletion :</string>
@@ -344,7 +344,7 @@
              </property>
             </widget>
            </item>
-           <item row="13" column="0">
+           <item row="14" column="0">
             <widget class="QLabel" name="label_34">
              <property name="text">
               <string>Coordinates unit :</string>
@@ -354,7 +354,7 @@
              </property>
             </widget>
            </item>
-           <item row="13" column="1">
+           <item row="14" column="1">
             <widget class="QComboBox" name="UnitCB">
              <property name="toolTip">
               <string>Select the unit of the coordinates which will be used in properties dialog box</string>
@@ -378,7 +378,7 @@
              </property>
             </widget>
            </item>
-           <item row="19" column="0" colspan="2">
+           <item row="20" column="0" colspan="2">
             <widget class="QLabel" name="label_35">
              <property name="minimumSize">
               <size>
@@ -404,7 +404,7 @@
              </property>
             </widget>
            </item>
-           <item row="21" column="1">
+           <item row="22" column="1">
             <widget class="QCheckBox" name="Crop1088To1080CB">
              <property name="text">
               <string>Automatically crop 1920x1088 video to 1920x1080</string>
@@ -445,7 +445,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_89">
+              <widget class="QLabel" name="MemCacheProfilSpacer">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -460,7 +460,7 @@
             </layout>
            </item>
            <item row="11" column="0">
-            <widget class="QLabel" name="label_7">
+            <widget class="QLabel" name="MemCacheProfilLabel">
              <property name="text">
               <string>Memory profil :</string>
              </property>
@@ -503,6 +503,52 @@
              </property>
             </widget>
            </item>
+           <item row="10" column="0" colspan="2">
+            <widget class="QLabel" name="label_96">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
+             <property name="text">
+              <string>Cache and memory options</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             </property>
+            </widget>
+           </item>
+           <item row="12" column="0">
+            <widget class="QLabel" name="label_97">
+             <property name="text">
+              <string>Transformed image :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="12" column="1">
+            <widget class="QCheckBox" name="CacheTransformedImagesCB">
+             <property name="text">
+              <string>Create cache file (with _ffd suffix) for transformed images</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </widget>
@@ -533,8 +579,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>662</width>
-            <height>2059</height>
+            <width>495</width>
+            <height>2034</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -2986,8 +3032,8 @@ image</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>384</width>
-            <height>369</height>
+            <width>379</width>
+            <height>338</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">

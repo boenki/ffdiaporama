@@ -33,7 +33,7 @@
 #include "cFilterTransformObject.h"
 #include "cCustomIcon.h"
 
-#define PREVIEWMAXHEIGHT    720         // Max height for preview image
+#define PREVIEWMAXHEIGHT    1080         // Max height for preview image
 
 //===================================================
 
@@ -46,6 +46,7 @@ class cLuLoImageCacheObject {
 public:
     int             TypeObject;                             // One of the LULOOBJECT_ type
     QString         FileName;                               // Filename
+    QDateTime       ModifDateTime;
     bool            Smoothing;                              // Smoothing
     QImage          *CachePreviewImage;                     // Cache image (Preview mode)
     QImage          *CacheRenderImage;                      // Cache image (Full image mode)
@@ -56,15 +57,16 @@ public:
     cLuLoImageCache *LuLoImageCache;                        // Link to parent LuLoImageCache collection
 
     // Constructor for image file
-    cLuLoImageCacheObject(QString FileName,int ImageOrientation,QString FilterString,bool Smoothing,cLuLoImageCache *Parent);
+    cLuLoImageCacheObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,QString FilterString,bool Smoothing,cLuLoImageCache *Parent);
 
     // Constructor for video image
     cLuLoImageCacheObject(cCustomIcon *Video,int Position,bool Smoothing,cLuLoImageCache *Parent);
 
     ~cLuLoImageCacheObject();
 
-    QImage *ValidateCacheRenderImage();
-    QImage *ValidateCachePreviewImage();
+    QImage      *ValidateCacheRenderImage();
+    QImage      *ValidateCachePreviewImage();
+    QString     CachedFilteredImage();
 };
 
 //===================================================
@@ -72,16 +74,16 @@ public:
 class cLuLoImageCache {
 public:
     QList<cLuLoImageCacheObject *>  List;           // Fifo list
-    int                             MaxValue;       // Max memory used
+    qlonglong                       MaxValue;       // Max memory used
 
     cLuLoImageCache();
     ~cLuLoImageCache();
 
     void                    FreeMemoryToMaxValue();
-    int                     MemoryUsed();
+    qlonglong               MemoryUsed();
 
     // Find image object corresponding to FileName and filter
-    cLuLoImageCacheObject   *FindObject(QString FileName,int ImageOrientation,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop);
+    cLuLoImageCacheObject   *FindObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop);
 
     // Find video image object corresponding to FileName and position
     cLuLoImageCacheObject   *FindObject(cCustomIcon *Video,int Position,bool Smoothing,bool SetAtTop);

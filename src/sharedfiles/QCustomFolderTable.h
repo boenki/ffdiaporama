@@ -54,6 +54,7 @@ public:
     // Thread controls
     QFutureWatcher<void>    ScanMediaList;
     bool                    StopScanMediaList;
+    bool                    StopAllEvent;
     bool                    ScanMediaListProgress;
 
     // ThumbCache
@@ -77,13 +78,16 @@ public:
     virtual void            RefreshListFolder();
 
     virtual void            AppendMediaToTable(cBaseMediaFile *MediaObject);
-    virtual void            UpdateMediaToTable(int Row,int Col,cBaseMediaFile *MediaObject);
+
+    virtual QImage          *GetImageForColumn(int Col,cBaseMediaFile *MediaObject);
+    virtual QString         GetTextForColumn(int Col,cBaseMediaFile *MediaObject);
+    virtual int             GetAlignmentForColumn(int Col);
 
     virtual cBaseMediaFile          *GetCurrentMediaFile();
     virtual QList<cBaseMediaFile*>  GetCurrentSelectedMediaFile();
 
 signals:
-    void    DoubleClickEvent();
+    void    DoubleClickEvent(QMouseEvent *ev);
     void    RightClickEvent(QMouseEvent *ev);
     void    RefreshFolderInfo();
     void    NeedResizeColumns();

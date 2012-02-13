@@ -57,9 +57,10 @@ win32 {
     LIBS        += -L"I:\\Qt\\ffmpeg-win32-dev\\lib"                    #------ ffmpeg library path
     LIBS        += -L"I:\\Qt\\SDL-1.2.14\\lib"                          #------ SDL library path
     LIBS        += -L"I:\\Qt\\ThirdLib\\lib"                            #------ Exiv2 and TAGlib library path
-    LIBS        += -lgdi32                                              #------ Windows GDI lib link
+    LIBS        += -lgdi32 -lkernel32                                   #------ Windows GDI lib link
 }
 
 #---- Libs for windows and linux
 LIBS        += -lavformat -lavcodec -lavutil -lswscale                  #------ ffmpeg lib link
-LIBS        += -lexiv2 -ltag                                            #------ Exiv2 and TAGlib
+unix:LIBS   += -lexiv2                                                  #------ Exiv2 [and TAGlib]Linux only]
+LIBS        += -ltag                                                    #------ TAGlib

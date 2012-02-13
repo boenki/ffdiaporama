@@ -2,7 +2,6 @@ b_strategy=2
 bf=0
 cmp=+chroma
 coder=0
-directpred=3
 flags=+loop
 flags2=+bpyramid+mixed_refs-wpred-dct8x8+fastpskip
 g=250
@@ -24,4 +23,4 @@ trellis=1
 wpredp=0
 maxrate=10000000
 bufsize=10000000
-
+directpred=3
