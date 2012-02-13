@@ -18,35 +18,14 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtGui/QApplication>
-#include <QString>
-#include <QDir>
+#include "wgt_JobBase.h"
 
-#include "../sharedfiles/cBaseApplicationConfig.h"
-#include "mainwindow.h"
+//====================================================================================================================
 
-int main(int argc, char *argv[]) {
-    SetWorkingPath(argv,APPLICATION_GROUPNAME,APPLICATION_NAME,CONFIGFILEEXT);
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        if (SearchRasterMode(APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
+wgt_JobBase::wgt_JobBase(QCustomDialog *Dialog,QWidget *parent):QWidget(parent) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:wgt_JobBase::wgt_JobBase";
     #endif
-
-    QApplication::setStyle("Cleanlooks");
-
-    QApplication app(argc, argv);
-
-    QString ForceLanguage="";
-
-    // Parse parameters
-    for (int i=1;i<argc;i++) {
-        QString Param=QString(argv[i]).toLower();
-        if (Param.startsWith("-lang=")) ForceLanguage=Param.mid(QString("-lang=").length());
-    }
-
-    MainWindow w;
-    w.InitWindow(ForceLanguage,&app);
-
-    if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
-
-    return app.exec();
+    this->Dialog=Dialog;
 }
+

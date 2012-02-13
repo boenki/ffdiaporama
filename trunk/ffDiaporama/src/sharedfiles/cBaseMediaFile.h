@@ -41,38 +41,32 @@
 // Other third party library inclusions
 
 //****************************************************************************************************************************************************************
-// EXIV2 PART
+// EXIV2 PART [Linux only - Windows use binary version]
 //****************************************************************************************************************************************************************
-
-#include <exiv2/exif.hpp>
-#if (EXIV2_MAJOR_VERSION==0) && (EXIV2_MINOR_VERSION>20)
-    #include <exiv2/exiv2.hpp>
-    #define EXIV2WITHPREVIEW
-#else
-    #include <exiv2/image.hpp>
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #include <exiv2/exif.hpp>
+    #if (EXIV2_MAJOR_VERSION==0) && (EXIV2_MINOR_VERSION>20)
+        #include <exiv2/exiv2.hpp>
+        #define EXIV2WITHPREVIEW
+    #else
+        #include <exiv2/image.hpp>
+    #endif
 #endif
-
 //****************************************************************************************************************************************************************
 // FFMPEG PART
 //****************************************************************************************************************************************************************
 
 extern "C" {
     #include <libavutil/common.h>
+    #include <libavutil/avutil.h>
     #include <libavcodec/avcodec.h>
     #include <libavformat/avformat.h>
     #include <libswscale/swscale.h>
     #include <libavutil/pixdesc.h>
     #include <libavutil/avutil.h>
+    #include <libavutil/audioconvert.h>
 }
-#ifndef AV_SAMPLE_FMT_S16
-    #define AV_SAMPLE_FMT_NONE  SAMPLE_FMT_NONE
-    #define AV_SAMPLE_FMT_U8    SAMPLE_FMT_U8
-    #define AV_SAMPLE_FMT_S16   SAMPLE_FMT_S16
-    #define AV_SAMPLE_FMT_S32   SAMPLE_FMT_S32
-    #define AV_SAMPLE_FMT_FLT   SAMPLE_FMT_FLT
-    #define AV_SAMPLE_FMT_DBL   SAMPLE_FMT_DBL
-    #define AV_SAMPLE_FMT_NB    SAMPLE_FMT_NB
-#endif
+
 #ifndef AVIO_FLAG_WRITE
     #define AVIO_FLAG_WRITE 2
 #endif

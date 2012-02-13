@@ -529,7 +529,8 @@ void cDeviceModelList::Initffmpeg() {
     #endif
     qDebug()<<"Starting ffmpeg lib ...";
     #ifndef FF_API_AVCODEC_INIT
-    avcodec_init();
+    avcodec_register_all();
+    //avcodec_init();
     #endif
 
     av_register_all();

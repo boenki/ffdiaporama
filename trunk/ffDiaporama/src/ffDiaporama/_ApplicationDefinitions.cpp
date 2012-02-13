@@ -114,7 +114,6 @@ void cApplicationConfig::InitValues() {
     #endif
 
     // Initialise all variables and set them default value
-    MemCacheMaxValue            = 256*1024*1024;            // 256 Mb for image cache
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
     SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
@@ -246,7 +245,6 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     }
 
     Element=Document.createElement("EditorOptions");
-    Element.setAttribute("MemCacheMaxValue",            MemCacheMaxValue);
     Element.setAttribute("SDLAudioOldMode",             SDLAudioOldMode?"1":"0");
     Element.setAttribute("AppendObject",                AppendObject?"1":"0");
     Element.setAttribute("DisplayUnit",                 DisplayUnit);

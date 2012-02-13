@@ -50,7 +50,7 @@ QCustomJobTable::QCustomJobTable(QWidget *parent):QTableWidget(parent) {
     horizontalHeader()->setClickable(false);
     horizontalHeader()->setMovable(false);
     horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
-    horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
+    horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
     horizontalHeader()->show();
     horizontalHeader()->setStretchLastSection(false);
 

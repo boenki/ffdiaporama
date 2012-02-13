@@ -107,7 +107,11 @@ void DlgCheckConfig::DoInitDialog() {
     bool    Status;
 
     // exiv2
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 version:")+QString("%1.%2.%3").arg(EXIV2_MAJOR_VERSION).arg(EXIV2_MINOR_VERSION).arg(EXIV2_PATCH_VERSION);
+    #else
+    StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2/Exiv2 binary version");
+    #endif
     ui->ListWidget->addItem(new QListWidgetItem(StatusStr));
     #ifdef EXIV2WITHPREVIEW
     Status=true;

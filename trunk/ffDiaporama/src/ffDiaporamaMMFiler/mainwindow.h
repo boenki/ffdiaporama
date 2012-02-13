@@ -70,6 +70,8 @@ private slots:
     void                DoMaximized();                                  // Use on init to force window maximized
     void                DoRefreshFolderInfo();
 
+    void                AddToLog(bool IsOk,int IndentLevel,QString Message);
+
     void                s_TimerEvent();
     void                ThreadJob();
 
@@ -78,18 +80,18 @@ private slots:
 
     void                s_DlgCheckConfig();
     void                s_Refresh();
-    void                s_OpenFile();
-    void                s_InfoFile();
-    void                s_ActionFile();
-    void                s_itemDoubleClicked(QTableWidgetItem *);
-    void                s_itemDoubleClicked();
-    void                s_itemRightClicked(QMouseEvent *ev);
+    void                s_Action_OpenFile();
+    void                s_Action_InfoFile();
+    void                s_Action_RemoveFile();
+    void                s_Action_WizardOnFile();
+    void                s_itemDoubleClicked(QMouseEvent *ev);   // do a s_Action_OpenFile
+    void                s_itemRightClicked(QMouseEvent *ev);    // do a s_Action_WizardOnFile
 
     void                s_Config();
-    void                s_action_Exit();
+    void                s_Action_Exit();
 
-    void                s_action_Mode();
-    void                s_action_Filter();
+    void                s_Action_Mode();
+    void                s_Action_Filter();
 
     // Help menu
     void                s_About();
@@ -97,7 +99,7 @@ private slots:
     void                s_NewFunctions();
 
     // Actions
-    void                s_ConvertIMG(QList<cBaseMediaFile*>*MediaList,QString DestFormat,int JobType);
+    void                DoAddJob_ConvertIMG(QList<cBaseMediaFile*>*MediaList);
 
 private:
     QAction             *CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck);

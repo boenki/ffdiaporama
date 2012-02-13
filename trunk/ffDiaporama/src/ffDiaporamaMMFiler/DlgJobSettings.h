@@ -18,32 +18,34 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef DLGINFOFILE_H
-#define DLGINFOFILE_H
+#ifndef DLGJOBSETTINGS_H
+#define DLGJOBSETTINGS_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-#include "_QCustomDialog.h"
+#include "../sharedfiles/_GlobalDefines.h"
+#include "../sharedfiles/_QCustomDialog.h"
 
 // Include some additional standard class
+#include <QDialog>
 #include <QString>
 
-// Include some common various class
-#include "cBaseApplicationConfig.h"
-#include "cSaveWindowPosition.h"
-#include "cBaseMediaFile.h"
+#include "cJobQueue.h"
+#include "wgt_JobBase.h"
 
 namespace Ui {
-    class DlgInfoFile;
+    class DlgJobSettings;
 }
 
-class DlgInfoFile : public QCustomDialog {
+class DlgJobSettings : public QCustomDialog {
 Q_OBJECT
 public:
-    cBaseMediaFile *MediaFile;
+    cJob        *Job;
+    cJobQueue   *JobQueue;
+    QString     JobSummary;
+    wgt_JobBase *wgt_Job;
 
-    explicit DlgInfoFile(cBaseMediaFile *MediaFile,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
-    ~DlgInfoFile();
+    explicit DlgJobSettings(cJob *Job,cJobQueue *JobQueue,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    ~DlgJobSettings();
 
     // function to be overloaded
     virtual void        DoInitDialog();                             // Initialise dialog
@@ -52,9 +54,25 @@ public:
     virtual void        PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
     virtual void        DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
 
-private:
+    virtual void        RefreshJobSummary();
 
-    Ui::DlgInfoFile *ui;
+private slots:
+    void    RefreshControls();
+
+    void    s_Source_Nothing_RD();
+    void    s_Source_Delete_RD();
+    void    s_Source_Rename_RD();
+    void    s_Source_Move_RD();
+    void    s_Destination_AddSuffix_RD();
+    void    s_Destination_InFolder_RD();
+    void    s_Source_Suffix_ED(const QString);
+    void    s_Destination_Suffix_ED(const QString);
+    void    s_Destination_Overwrite_RD();
+    void    s_Source_Folder_BT();
+    void    s_Destination_Folder_BT();
+
+private:
+    Ui::DlgJobSettings *ui;
 };
 
-#endif // DLGINFOFILE_H
+#endif // DLGJOBSETTINGS_H

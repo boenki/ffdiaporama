@@ -99,7 +99,7 @@ void QCustomDialog::accept() {
     qDebug() << "IN:QCustomDialog::accept";
     #endif
     // Save Window size and position
-    DlgWSP->SaveWindowState(this);
+    if (DlgWSP) DlgWSP->SaveWindowState(this);
 
     // call overloaded function
     DoAccept();
@@ -115,7 +115,7 @@ void QCustomDialog::reject() {
     qDebug() << "IN:QCustomDialog::accept";
     #endif
     // Save Window size and position
-    DlgWSP->SaveWindowState(this);
+    if (DlgWSP) DlgWSP->SaveWindowState(this);
 
     // Undo change
     DoGlobalUndo();

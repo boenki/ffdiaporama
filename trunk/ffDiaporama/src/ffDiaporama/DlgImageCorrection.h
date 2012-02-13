@@ -53,6 +53,7 @@ public:
     int                     VideoPosition;
     double                  ImageGeometry;
     double                  ProjectGeometry;
+    QString                 InitialFilteredString;
 
     explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,QWidget *parent = 0);
     ~DlgImageCorrection();

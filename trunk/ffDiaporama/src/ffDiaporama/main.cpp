@@ -28,12 +28,70 @@
 #include "mainwindow.h"
 #include <QTranslator>
 
+#ifdef Q_OS_WIN
+    #include <windows.h>
+    #include <winbase.h>
+
+    // set low fragmentation heap to remove memory error
+    // from http://social.msdn.microsoft.com/forums/en-US/vclanguage/thread/7eec66a1-07b5-47aa-816d-7c1d7f7be274
+    // NOTE: To enable the low-fragmentation heap when running under a debugger, set the _NO_DEBUG_HEAP environment variable to 1.
+    VOID SetLFHeap() {
+        // Why would we have have to code it the hard way, that is by pulling the function out of the kernel32.dll?
+        // VS 6.0 doesn't have the API defined in its headers.
+
+        // Missing enum borrowed from: C:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\Include\WinNT.h(8815)
+        typedef enum _HEAP_INFORMATION_CLASS {
+            HeapCompatibilityInformation
+        } HEAP_INFORMATION_CLASS;
+
+        // Function pointer prototype
+        typedef BOOL (WINAPI *Function_HeapSetInformation) (HANDLE, HEAP_INFORMATION_CLASS, PVOID, SIZE_T);
+
+        WCHAR WinFileName[256+1];
+        MultiByteToWideChar(CP_ACP,0,QString("kernel32.dll").toLocal8Bit(),-1,WinFileName,256+1);
+        HMODULE hKernel32 = GetModuleHandle(WinFileName);
+
+        if(hKernel32) {
+            Function_HeapSetInformation heapSetInfo;
+            ULONG heapFlags = 2;  // LFH == 2
+            HANDLE hProcessHeap = GetProcessHeap();
+            heapSetInfo = (Function_HeapSetInformation)GetProcAddress(hKernel32, "HeapSetInformation");
+            if (heapSetInfo) {
+                if(heapSetInfo(hProcessHeap, HeapCompatibilityInformation, &heapFlags, sizeof(ULONG))) {
+                    qDebug()<<"DLLMain's Request for Low Fragmentation Heap for the Process Heap Successful";
+                } else {
+                    qDebug()<<"DLLMain's Request for Low Fragmentation Heap for the Process Heap Unsuccessful.  Will Run with the Standard Heap Allocators";
+                }
+                #if _MSC_VER >= 1300
+                // no way to get the pointer to the CRT heap in VC 6.0 (_crtheap)
+                if(heapSetInfo((HANDLE)_get_heap_handle(), HeapCompatibilityInformation, &heapFlags, sizeof(ULONG))) {
+                    qDebug()<<"DLLMain's Request for Low Fragmentation for the CRT Heap Successful";
+                } else {
+                    qDebug()<<"DLLMain's Request for Low Fragmentation for the CRT Heap Unsuccessful.  Will Run with the Standard Heap Allocators";
+                }
+                #endif
+            } else {
+                qDebug()<<"DllMain unable to GetProcAddress for HeapSetInformation";
+            }
+        } else {
+            qDebug()<<"DllMain unable to GetModuleHandle(kernel32.dll)";
+        }
+        // Only try to set the heap once.  If it fails, live with it.
+    }
+#endif
+
 int main(int argc, char *argv[]) {
+
+    #ifdef Q_OS_WIN
+    SetLFHeap();
+    #endif
 
     SetWorkingPath(argv,APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT);
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
         if (SearchRasterMode(APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
     #endif
+
+    QApplication::setStyle("Cleanlooks");
 
     QApplication app(argc,argv);
 

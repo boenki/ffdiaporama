@@ -43,10 +43,12 @@ cApplicationConfig::~cApplicationConfig() {
     #endif
 
     delete DlgApplicationSettingsWSP;
+    delete DlgJobSettingsWSP;
     delete DlgCheckConfigWSP;
     delete DlgManageDevicesWSP;
     delete DlgInfoFileWSP;
     delete DlgAboutWSP;
+    delete DlgGetFolderWSP;
 }
 
 //====================================================================================================================
@@ -77,6 +79,14 @@ void cApplicationConfig::InitValues() {
     SplitterHSizeAndPos     ="";
     SplitterVSizeAndPos     ="";
 
+    JobDefault[JOBTYPE_NOTDEFINED]          =0;                                 DefaultSourceSuffix[JOBTYPE_NOTDEFINED]         ="";        DefaultDestinationSuffix[JOBTYPE_NOTDEFINED]        ="";
+    JobDefault[JOBTYPE_OPENFILE]            =0;                                 DefaultSourceSuffix[JOBTYPE_OPENFILE]           ="";        DefaultDestinationSuffix[JOBTYPE_OPENFILE]          ="";
+    JobDefault[JOBTYPE_DISPLAYINFO]         =0;                                 DefaultSourceSuffix[JOBTYPE_DISPLAYINFO]        ="";        DefaultDestinationSuffix[JOBTYPE_DISPLAYINFO]       ="";
+    JobDefault[JOBTYPE_IMAGE_CONVERTIMAGE]  =JOBDEFAULT_IMAGE_CONVERTIMAGE;     DefaultSourceSuffix[JOBTYPE_IMAGE_CONVERTIMAGE] ="_old";    DefaultDestinationSuffix[JOBTYPE_IMAGE_CONVERTIMAGE]="_new";    DefaultOptions[JOBTYPE_IMAGE_CONVERTIMAGE]="jpg;";
+
+    DefaultSourceFolder     ="";
+    DefaultDestinationFolder="";
+
     #if defined(Q_OS_WIN)
     QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
     CurrentPath=Settings.value("Personal").toString();
@@ -89,6 +99,8 @@ void cApplicationConfig::InitValues() {
     DlgManageDevicesWSP      =new cSaveWindowPosition("DlgManageDevicesWSP",RestoreWindow,false);       // Dialog box "Manage Devices" - Window size and position
     DlgAboutWSP              =new cSaveWindowPosition("DlgAboutWSP",RestoreWindow,false);               // Dialog box "About" - Window size and position
     DlgInfoFileWSP           =new cSaveWindowPosition("DlgInfoFileWSP",RestoreWindow,false);            // Dialog box "File Information" - Window size and position
+    DlgJobSettingsWSP        =new cSaveWindowPosition("DlgJobSettingsWSP",RestoreWindow,false);         // Dialog box "Job settings" - Window size and position
+    DlgGetFolderWSP          =new cSaveWindowPosition("DlgGetFolderWSP",RestoreWindow,false);           // Dialog box "Select a folder" - Window size and position
 }
 
 //====================================================================================================================
@@ -102,16 +114,28 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     QDomElement     Element;
 
     Element=Document.createElement("Options");
-    Element.setAttribute("SplitterHSizeAndPos",     SplitterHSizeAndPos);
-    Element.setAttribute("SplitterVSizeAndPos",     SplitterVSizeAndPos);
-    Element.setAttribute("CurrentPath",             CurrentPath);
-
+    Element.setAttribute("SplitterHSizeAndPos",         SplitterHSizeAndPos);
+    Element.setAttribute("SplitterVSizeAndPos",         SplitterVSizeAndPos);
+    Element.setAttribute("CurrentPath",                 CurrentPath);
+    Element.setAttribute("DefaultSourceFolder",         DefaultSourceFolder);
+    Element.setAttribute("DefaultDestinationFolder",    DefaultDestinationFolder);
     domDocument.appendChild(Element);
+
+    for (int i=0;i<NBR_JOBTYPE;i++) {
+        Element=Document.createElement(QString("DefaultJobSettings_%1").arg(i));
+        Element.setAttribute("JobDefault",              JobDefault[i]);
+        Element.setAttribute("DefaultSourceSuffix",     DefaultSourceSuffix[i]);
+        Element.setAttribute("DefaultDestinationSuffix",DefaultDestinationSuffix[i]);
+        domDocument.appendChild(Element);
+    }
+
     DlgApplicationSettingsWSP->SaveToXML(domDocument);
     DlgCheckConfigWSP->SaveToXML(domDocument);
     DlgAboutWSP->SaveToXML(domDocument);
     DlgManageDevicesWSP->SaveToXML(domDocument);
     DlgInfoFileWSP->SaveToXML(domDocument);
+    DlgJobSettingsWSP->SaveToXML(domDocument);
+    DlgGetFolderWSP->SaveToXML(domDocument);
     JobQueue.SaveToXML(domDocument,"JobList");
 }
 
@@ -124,16 +148,28 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
 
     if ((domDocument.elementsByTagName("Options").length()>0)&&(domDocument.elementsByTagName("Options").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("Options").item(0).toElement();
-        if (Element.hasAttribute("SplitterHSizeAndPos"))    SplitterHSizeAndPos=Element.attribute("SplitterHSizeAndPos");
-        if (Element.hasAttribute("SplitterVSizeAndPos"))    SplitterVSizeAndPos=Element.attribute("SplitterVSizeAndPos");
-        if (Element.hasAttribute("CurrentPath"))            CurrentPath=Element.attribute("CurrentPath");
+        if (Element.hasAttribute("SplitterHSizeAndPos"))        SplitterHSizeAndPos         =Element.attribute("SplitterHSizeAndPos");
+        if (Element.hasAttribute("SplitterVSizeAndPos"))        SplitterVSizeAndPos         =Element.attribute("SplitterVSizeAndPos");
+        if (Element.hasAttribute("CurrentPath"))                CurrentPath                 =Element.attribute("CurrentPath");
+        if (Element.hasAttribute("DefaultSourceFolder"))        DefaultSourceFolder         =Element.attribute("DefaultSourceFolder");
+        if (Element.hasAttribute("DefaultDestinationFolder"))   DefaultDestinationFolder    =Element.attribute("DefaultDestinationFolder");
     }
+
+    for (int i=0;i<NBR_JOBTYPE;i++) if ((domDocument.elementsByTagName(QString("DefaultJobSettings_%1").arg(i)).length()>0)&&(domDocument.elementsByTagName(QString("DefaultJobSettings_%1").arg(i)).item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName(QString("DefaultJobSettings_%1").arg(i)).item(0).toElement();
+        if (Element.hasAttribute("JobDefault"))                 JobDefault[i]               =Element.attribute("JobDefault").toInt();
+        if (Element.hasAttribute("DefaultSourceSuffix"))        DefaultSourceSuffix[i]      =Element.attribute("DefaultSourceSuffix");
+        if (Element.hasAttribute("DefaultDestinationSuffix"))   DefaultDestinationSuffix[i] =Element.attribute("DefaultDestinationSuffix");
+        domDocument.appendChild(Element);
+    }
+
     DlgApplicationSettingsWSP->LoadFromXML(domDocument);
     DlgCheckConfigWSP->LoadFromXML(domDocument);
     DlgAboutWSP->LoadFromXML(domDocument);
     DlgManageDevicesWSP->LoadFromXML(domDocument);
     DlgInfoFileWSP->LoadFromXML(domDocument);
+    DlgJobSettingsWSP->LoadFromXML(domDocument);
+    DlgGetFolderWSP->LoadFromXML(domDocument);
     JobQueue.LoadFromXML(domDocument,"JobList");
     return true;
 }
-

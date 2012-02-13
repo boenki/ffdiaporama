@@ -43,6 +43,7 @@
 #include "QCustomJobTable.h"
 #include "DlgApplicationSettings.h"
 #include "DlgAbout.h"
+#include "DlgJobSettings.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -60,6 +61,9 @@ QIcon   Icon_FILTER_FFD;
 QIcon   Icon_FILTER_IMAGE;
 QIcon   Icon_FILTER_MUSIC;
 QIcon   Icon_FILTER_VIDEO;
+
+#define ICON_GREEN      ":/img/Green.png"
+#define ICON_RED        ":/img/Red.png"
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow) {
     #ifdef DEBUGMODE
@@ -135,24 +139,25 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->FolderTree,SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),this,SLOT(s_currentTreeItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
 
     connect(ui->FolderTable,SIGNAL(itemSelectionChanged()),this,SLOT(DoRefreshSelectedFileInfo()));
-    connect(ui->FolderTable,SIGNAL(DoubleClickEvent()),this,SLOT(s_itemDoubleClicked()));
+    connect(ui->FolderTable,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_itemDoubleClicked(QMouseEvent *)));
     connect(ui->FolderTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_itemRightClicked(QMouseEvent *)));
     connect(ui->FolderTable,SIGNAL(RefreshFolderInfo()),this,SLOT(DoRefreshFolderInfo()));
 
-    connect(ui->RefreshBt,SIGNAL(pressed()),this,SLOT(s_Refresh()));
-    connect(ui->PlayBt,SIGNAL(pressed()),this,SLOT(s_OpenFile()));
-    connect(ui->InfoBt,SIGNAL(pressed()),this,SLOT(s_InfoFile()));
-    connect(ui->WizardBt,SIGNAL(pressed()),this,SLOT(s_ActionFile()));
+    connect(ui->RefreshBt,SIGNAL(released()),this,SLOT(s_Refresh()));
+    connect(ui->PlayBt,SIGNAL(released()),this,SLOT(s_Action_OpenFile()));
+    connect(ui->InfoBt,SIGNAL(released()),this,SLOT(s_Action_InfoFile()));
+    connect(ui->WizardBt,SIGNAL(pressed()),this,SLOT(s_Action_WizardOnFile()));
+    connect(ui->RemoveBt,SIGNAL(released()),this,SLOT(s_Action_RemoveFile()));
 
     connect(ui->ActionConfiguration_BT,SIGNAL(pressed()),this,SLOT(s_Config()));
 
     connect(ui->Action_About_BT,SIGNAL(pressed()),this,SLOT(s_About()));
     connect(ui->ActionDocumentation_BT,SIGNAL(pressed()),this,SLOT(s_Documentation()));
     connect(ui->ActionNewFunctions_BT,SIGNAL(pressed()),this,SLOT(s_NewFunctions()));
-    connect(ui->Action_Exit_BT,SIGNAL(pressed()),this,SLOT(s_action_Exit()));
+    connect(ui->Action_Exit_BT,SIGNAL(pressed()),this,SLOT(s_Action_Exit()));
 
-    connect(ui->Action_Mode_BT,SIGNAL(pressed()),this,SLOT(s_action_Mode()));
-    connect(ui->Action_Filter_BT,SIGNAL(pressed()),this,SLOT(s_action_Filter()));
+    connect(ui->Action_Mode_BT,SIGNAL(pressed()),this,SLOT(s_Action_Mode()));
+    connect(ui->Action_Filter_BT,SIGNAL(pressed()),this,SLOT(s_Action_Filter()));
 
     ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(ApplicationConfig->CurrentPath));
     if (ui->FolderTree->GetCurrentFolderPath()!=ApplicationConfig->CurrentPath) ui->FolderTree->SetSelectItemByPath(QApplication::translate("QCustomFolderTree","Personal folder"));
@@ -241,6 +246,7 @@ void MainWindow::RefreshControls() {
     ui->PlayBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE)));
     ui->InfoBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE)));
     ui->WizardBt->setEnabled((Media)&&((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_FOLDER)||(Media->ObjectType==OBJECTTYPE_FFDFILE)));
+    ui->RemoveBt->setEnabled(Media);
 }
 
 //====================================================================================================================
@@ -267,10 +273,7 @@ void MainWindow::ThreadJob() {
     if ((i<JobQueue.List.count())&&(JobQueue.List[i]->JobStatus==JOBSTATUS_READYTOSTART)) {
         CurrentJobThread=i;
         switch (JobQueue.List[i]->JobType) {
-            case JOBTYPE_IMAGE_CONVERT_JPG     :
-            case JOBTYPE_IMAGE_CONVERT_MULTJPG :
-            case JOBTYPE_IMAGE_CONVERT_PNG     :
-            case JOBTYPE_IMAGE_CONVERT_MULTPNG : JobQueue.ConvertIMG(JobQueue.List[i],this);
+            case JOBTYPE_IMAGE_CONVERTIMAGE    : JobQueue.ConvertIMG(JobQueue.List[i],this);
 
         }
     }
@@ -492,9 +495,9 @@ void MainWindow::s_NewFunctions() {
 
 //====================================================================================================================
 
-void MainWindow::s_action_Exit() {
+void MainWindow::s_Action_Exit() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_Exit";
+    qDebug() << "IN:MainWindow::s_Action_Exit";
     #endif
     close();
 }
@@ -524,9 +527,9 @@ QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Chec
 
 //====================================================================================================================
 
-void MainWindow::s_action_Mode() {
+void MainWindow::s_Action_Mode() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_Mode";
+    qDebug() << "IN:MainWindow::s_Action_Mode";
     #endif
 
     // Create menu
@@ -558,9 +561,9 @@ void MainWindow::s_action_Mode() {
 
 //====================================================================================================================
 
-void MainWindow::s_action_Filter() {
+void MainWindow::s_Action_Filter() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_action_Filter";
+    qDebug() << "IN:MainWindow::s_Action_Filter";
     #endif
 
     // Create menu
@@ -591,9 +594,9 @@ void MainWindow::s_action_Filter() {
 
 //====================================================================================================================
 
-void MainWindow::s_OpenFile() {
+void MainWindow::s_Action_OpenFile() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_OpenFile";
+    qDebug() << "IN:MainWindow::s_Action_OpenFile";
     #endif
 
     ui->PlayBt->setDown(false);
@@ -612,9 +615,9 @@ void MainWindow::s_OpenFile() {
 
 //====================================================================================================================
 
-void MainWindow::s_InfoFile() {
+void MainWindow::s_Action_InfoFile() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_InfoFile";
+    qDebug() << "IN:MainWindow::s_Action_InfoFile";
     #endif
 
     ui->InfoBt->setDown(false);
@@ -630,17 +633,49 @@ void MainWindow::s_InfoFile() {
 
 //====================================================================================================================
 
-void MainWindow::s_itemDoubleClicked() {
-    s_OpenFile();
+void MainWindow::s_Action_RemoveFile() {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::s_Action_RemoveFile";
+    #endif
+
+    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    if (MediaList.count()==0) return;
+
+    QString FilesToDelete="";
+    for (int i=0;i<MediaList.count();i++) FilesToDelete=FilesToDelete+(FilesToDelete!=""?", ":"")+MediaList[i]->ShortName;
+
+    if (QMessageBox::question(this,APPLICATION_NAME,QApplication::translate("MainWindow","Are you sure to remove theses files ?")+"\n"+FilesToDelete,QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes) {
+        for (int i=0;i<MediaList.count();i++) {
+            if (QFile(MediaList[i]->FileName).remove()) {
+                AddToLog(true,0,QApplication::translate("MainWindow","Successfuly remove file (%1)").arg(MediaList[i]->FileName));
+                ui->FolderTable->RefreshListFolder();
+            } else AddToLog(false,1,QApplication::translate("MainWindow","Failed to remove file (%1)").arg(MediaList[i]->FileName));
+        }
+    }
+
 }
 
 //====================================================================================================================
 
-void MainWindow::s_itemDoubleClicked(QTableWidgetItem *) {
+void MainWindow::AddToLog(bool IsOk,int IndentLevel,QString Message) {
+    #ifdef DEBUGMODE
+    qDebug() << "IN:MainWindow::AddToLog";
+    #endif
+
+    QString Indent="";
+    for (int i=0;i<IndentLevel;i++) Indent=Indent+"    ";
+    ui->JobLog->addItem(new QListWidgetItem(QIcon(IsOk?ICON_GREEN:ICON_RED),Indent+Message));
+    ui->JobLog->setCurrentItem(ui->JobLog->item(ui->JobLog->count()-1));
+    ui->JobLog->scrollToItem(ui->JobLog->item(ui->JobLog->count()-1),QAbstractItemView::PositionAtBottom);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_itemDoubleClicked(QMouseEvent *) {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::s_itemDoubleClicked";
     #endif
-    s_OpenFile();
+    s_Action_OpenFile();
 }
 
 //====================================================================================================================
@@ -649,14 +684,14 @@ void MainWindow::s_itemRightClicked(QMouseEvent *) {
     #ifdef DEBUGMODE
     qDebug() << "IN:MainWindow::s_itemRightClicked";
     #endif
-    s_ActionFile();
+    s_Action_WizardOnFile();
 }
 
 //====================================================================================================================
 
-void MainWindow::s_ActionFile() {
+void MainWindow::s_Action_WizardOnFile() {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_ActionFile";
+    qDebug() << "IN:MainWindow::s_Action_WizardOnFile";
     #endif
 
     QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
@@ -664,6 +699,9 @@ void MainWindow::s_ActionFile() {
         ui->WizardBt->setDown(false);
         return;
     }
+
+    JobQueue.MediaList=ui->FolderTable->MediaList;
+    JobQueue.JobLog   =ui->JobLog;
 
     bool    Multiple=(MediaList.count()>1);
     bool    IsFind;
@@ -681,8 +719,9 @@ void MainWindow::s_ActionFile() {
 
         // Create menu
         QMenu   *ContextMenu=new QMenu(this);
-        ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Open.png"),JobQueue.JobTypeText[JOBTYPE_OPENFILE],JOBTYPE_OPENFILE,false,false));
-        ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Info.png"),JobQueue.JobTypeText[JOBTYPE_DISPLAYINFO],JOBTYPE_DISPLAYINFO,false,false));
+        if (!Multiple) ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Open.png"),JobQueue.JobTypeText[JOBTYPE_OPENFILE],JOBTYPE_OPENFILE,false,false));
+        if (!Multiple) ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Info.png"),JobQueue.JobTypeText[JOBTYPE_DISPLAYINFO],JOBTYPE_DISPLAYINFO,false,false));
+        ContextMenu->addAction(CreateMenuAction(QIcon(":/img/trash.png"),JobQueue.JobTypeText[JOBTYPE_REMOVEFILE],JOBTYPE_REMOVEFILE,false,false));
         ContextMenu->addSeparator();
         switch (ObjectTypes[0]) {
             case OBJECTTYPE_MUSICFILE :
@@ -701,14 +740,7 @@ void MainWindow::s_ActionFile() {
                 //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Edit properties"),                   JOBTYPE_TAG_VIDEO,                  false,false));
                 break;
             case OBJECTTYPE_IMAGEFILE :
-                if (Multiple) {
-                    //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Convert as folder thumbnail"),       JOBTYPE_THUMBNAIL_CREATEFOLDER,     false,false));
-                    if ((FileExtensions.count()>1)||(FileExtensions[0]!="jpg")) ContextMenu->addAction(CreateMenuAction(NULL,JobQueue.JobTypeText[JOBTYPE_IMAGE_CONVERT_MULTJPG],JOBTYPE_IMAGE_CONVERT_MULTJPG,false,false));
-                    if ((FileExtensions.count()>1)||(FileExtensions[0]!="png")) ContextMenu->addAction(CreateMenuAction(NULL,JobQueue.JobTypeText[JOBTYPE_IMAGE_CONVERT_MULTPNG],JOBTYPE_IMAGE_CONVERT_MULTPNG,false,false));
-                } else {
-                    if (FileExtensions[0]!="jpg") ContextMenu->addAction(CreateMenuAction(NULL,JobQueue.JobTypeText[JOBTYPE_IMAGE_CONVERT_JPG],JOBTYPE_IMAGE_CONVERT_JPG,false,false));
-                    if (FileExtensions[0]!="png") ContextMenu->addAction(CreateMenuAction(NULL,JobQueue.JobTypeText[JOBTYPE_IMAGE_CONVERT_PNG],JOBTYPE_IMAGE_CONVERT_PNG,false,false));
-                }
+                ContextMenu->addAction(CreateMenuAction(NULL,JobQueue.JobTypeText[JOBTYPE_IMAGE_CONVERTIMAGE],JOBTYPE_IMAGE_CONVERTIMAGE,false,false));
                 break;
             case OBJECTTYPE_FFDFILE   :
                 //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Render project"),                    JOBTYPE_FFDIAPORAMA_RENDER,         false,false));
@@ -728,12 +760,10 @@ void MainWindow::s_ActionFile() {
         if (Action) {
             int ActionType=Action->data().toInt();
             switch (ActionType) {
-                case JOBTYPE_OPENFILE                   :   s_OpenFile();                                   break;
-                case JOBTYPE_DISPLAYINFO                :   s_InfoFile();                                   break;
-                case JOBTYPE_IMAGE_CONVERT_JPG          :
-                case JOBTYPE_IMAGE_CONVERT_MULTJPG      :   s_ConvertIMG(&MediaList,"jpg",ActionType);      break;
-                case JOBTYPE_IMAGE_CONVERT_PNG          :
-                case JOBTYPE_IMAGE_CONVERT_MULTPNG      :   s_ConvertIMG(&MediaList,"png",ActionType);      break;
+                case JOBTYPE_OPENFILE                   :   s_Action_OpenFile();                       break;
+                case JOBTYPE_DISPLAYINFO                :   s_Action_InfoFile();                       break;
+                case JOBTYPE_REMOVEFILE                 :   s_Action_RemoveFile();                     break;
+                case JOBTYPE_IMAGE_CONVERTIMAGE         :   DoAddJob_ConvertIMG(&MediaList);    break;
             }
         }
 
@@ -746,19 +776,36 @@ void MainWindow::s_ActionFile() {
 
 //====================================================================================================================
 
-void MainWindow::s_ConvertIMG(QList<cBaseMediaFile*>*MediaList,QString DestFormat,int JobType) {
+void MainWindow::DoAddJob_ConvertIMG(QList<cBaseMediaFile*>*MediaList) {
     #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_ConvertIMG";
+    qDebug() << "IN:MainWindow::DoAddJob_ConvertIMG";
     #endif
 
     cJob *Job=new cJob();
-    Job->JobType=JobType;
-    Job->DateTime=QDateTime::currentDateTime();
-    Job->Command=DestFormat;
-    for (int i=0;i<MediaList->count();i++) {
-        cBaseMediaFile *Media=(cBaseMediaFile *)MediaList->at(i);
-        if (Media->FileExtension!=DestFormat) Job->SourcesAndDests.append(Media->FileName+"##-##"+Media->FileName.left(Media->FileName.length()-Media->FileExtension.length())+DestFormat);
-    }
-    JobQueue.List.append(Job);
-    ui->JobTable->DoRefreshList();
+    Job->JobType                =JOBTYPE_IMAGE_CONVERTIMAGE;
+    Job->JobQualif              =PossibleJobsSettings[Job->JobType];
+    Job->JobSettings            =ApplicationConfig->JobDefault[Job->JobType];
+    Job->SourceSuffix           =ApplicationConfig->DefaultSourceSuffix[Job->JobType];
+    Job->SourceFolder           =ApplicationConfig->DefaultSourceFolder;
+    Job->DestinationSuffix      =ApplicationConfig->DefaultDestinationSuffix[Job->JobType];
+    Job->DestinationFolder      =ApplicationConfig->DefaultDestinationFolder;
+    Job->DateTime               =QDateTime::currentDateTime();
+    Job->DestinationExtension   =ApplicationConfig->DefaultOptions[Job->JobType].split(";")[0];
+    Job->Command                =ApplicationConfig->DefaultOptions[Job->JobType].split(";")[1];
+    for (int i=0;i<MediaList->count();i++) Job->SourcesAndDests.append(((cBaseMediaFile *)MediaList->at(i))->FileName);
+
+    DlgJobSettings Dlg(Job,&JobQueue,"",ApplicationConfig,ApplicationConfig->DlgJobSettingsWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) {
+        // Keep options as default options for next time we use it
+        ApplicationConfig->DefaultOptions[Job->JobType]             =Job->DestinationExtension+";"+Job->Command;
+        ApplicationConfig->JobDefault[Job->JobType]                 =Job->JobSettings;
+        ApplicationConfig->DefaultSourceSuffix[Job->JobType]        =Job->SourceSuffix;
+        ApplicationConfig->DefaultSourceFolder                      =Job->SourceFolder;
+        ApplicationConfig->DefaultDestinationSuffix[Job->JobType]   =Job->DestinationSuffix;
+        ApplicationConfig->DefaultDestinationFolder                 =Job->DestinationFolder;
+        // Add job to queue
+        JobQueue.List.append(Job);
+        ui->JobTable->DoRefreshList();
+    } else delete Job;
 }

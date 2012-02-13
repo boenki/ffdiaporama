@@ -25,6 +25,7 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QFutureWatcher>
 
 //#define DEBUGMODE
 
@@ -864,16 +865,24 @@ void DlgRenderVideo::accept() {
                                         }
                                         break;
                 case VCODEC_H264HQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
+                                        #if (LIBAVFORMAT_VERSION_MAJOR<54)
                                         Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
-                                        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
+                                        #else
+                                        Preset="-fpre \""+Preset+"libx264-hq-10.ffpreset\"";
+                                        #endif
+                                        vCodec=QString("-vcodec libx264 -pix_fmt yuv420p ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
                                             .arg(VideoBitRate-VideoBitRate/10)
                                             .arg(VideoBitRate+VideoBitRate/10)
                                             .arg(VideoBitRate*2)
                                             .arg(VideoBitRate);
                                         break;
                 case VCODEC_H264PQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
+                                        #if (LIBAVFORMAT_VERSION_MAJOR<54)
                                         Preset="-fpre \""+Preset+"libx264-pq.ffpreset\"";
-                                        vCodec=QString("-vcodec libx264 ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
+                                        #else
+                                        Preset="-fpre \""+Preset+"libx264-pq-10.ffpreset\"";
+                                        #endif
+                                        vCodec=QString("-vcodec libx264 -pix_fmt yuv420p ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
                                             .arg(VideoBitRate-VideoBitRate/10)
                                             .arg(VideoBitRate+VideoBitRate/10)
                                             .arg(VideoBitRate*2)
@@ -911,7 +920,7 @@ void DlgRenderVideo::accept() {
                                                     #else
                                                         aCodec=QString("-acodec libvo_aacenc -ab %1").arg(AudioBitRate);
                                                         #if (LIBAVFORMAT_VERSION_MAJOR>53)||((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>28))
-                                                            aCodec=aCodec+" -absf aac_adtstoasc";
+                                                            aCodec=aCodec+" -bsf:1 aac_adtstoasc";
                                                         #endif
                                                     #endif
                                                     } else aCodec=QString("-acodec libfaac -ab %1").arg(AudioBitRate);
@@ -1210,14 +1219,14 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     cDiaporamaObjectInfo    *PreviousFrame      =NULL;
     cDiaporamaObjectInfo    *Frame              =NULL;
     AVOutputFormat          *Fmt                =NULL;      // No delete needed!
-    AVFormatContext         *OutputFormatContext=NULL;
-    AVStream                *AudioStream        =NULL;
-    AVCodecContext          *AudioCodecContext  =NULL;
     AVCodec                 *AudioCodec         =NULL;
-    uint8_t                 *audio_outbuf       =NULL;
-    AVFormatParameters      fpOutFile;          memset(&fpOutFile,0,sizeof(AVFormatParameters));
-    cSDLSoundBlockList      RenderMusic;
-    cSDLSoundBlockList      EncodedAudio;
+    QFutureWatcher<void>    ThreadWrite;
+    sWriteWAV               WriteWAV;
+
+    WriteWAV.AudioCodecContext  =NULL;
+    WriteWAV.audio_outbuf       =NULL;
+    WriteWAV.AudioStream        =NULL;
+    WriteWAV.OutputFormatContext=NULL;
 
     ui->SoundProgressBar->setMaximum(NbrFrame);
 
@@ -1231,19 +1240,21 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     // allocate the output media context
     if (Continue) {
 
-        OutputFormatContext = avformat_alloc_context();
-        if (!OutputFormatContext) {
+        WriteWAV.OutputFormatContext = avformat_alloc_context();
+        if (!WriteWAV.OutputFormatContext) {
             QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : Unable to allocate OutputFormatContext!");
             Continue=false;
         } else {
-            memcpy(OutputFormatContext->filename,TempWAVFileName.toUtf8(),strlen(TempWAVFileName.toUtf8())+1);
-            OutputFormatContext->oformat  =Fmt;
+            memcpy(WriteWAV.OutputFormatContext->filename,TempWAVFileName.toUtf8(),strlen(TempWAVFileName.toUtf8())+1);
+            WriteWAV.OutputFormatContext->oformat  =Fmt;
             //OutputFormatContext->timestamp=0;
-            OutputFormatContext->bit_rate =1536;
+            WriteWAV.OutputFormatContext->bit_rate =1536;
             #if FF_API_FORMAT_PARAMETERS
             #else
-            if (av_set_parameters(OutputFormatContext,&fpOutFile)<0) {
-                av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+            AVFormatParameters fpOutFile;
+            memset(&fpOutFile,0,sizeof(AVFormatParameters));
+            if (av_set_parameters(WriteWAV.OutputFormatContext,&fpOutFile)<0) {
+                av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
                 QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Invalid output format parameters!");
                 Continue=false;
             }
@@ -1254,62 +1265,62 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     // Allocate AudioStream
     if (Continue) {
         #if FF_API_NEW_STREAM
-        AudioStream=avformat_new_stream(OutputFormatContext,0);
+        WriteWAV.AudioStream=avformat_new_stream(WriteWAV.OutputFormatContext,0);
         #else
-        AudioStream=av_new_stream(OutputFormatContext,0);
+        WriteWAV.AudioStream=av_new_stream(WriteWAV.OutputFormatContext,0);
         #endif
-        if (AudioStream==NULL) {
+        if (WriteWAV.AudioStream==NULL) {
             QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream!");
-            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+            av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
             Continue=false;
         }
     }
 
     // Open audio codec
     if (Continue) {
-        AudioCodecContext=AudioStream->codec;
+        WriteWAV.AudioCodecContext=WriteWAV.AudioStream->codec;
         #if FF_API_ALLOC_CONTEXT
-        avcodec_get_context_defaults3(AudioCodecContext,NULL);     // Fill stream with default values
+        avcodec_get_context_defaults3(WriteWAV.AudioCodecContext,NULL);     // Fill stream with default values
         #else
-        avcodec_get_context_defaults2(AudioCodecContext,AVMEDIA_TYPE_AUDIO);    // Fill stream with default values
+        avcodec_get_context_defaults2(WriteWAV.AudioCodecContext,AVMEDIA_TYPE_AUDIO);    // Fill stream with default values
         #endif
         AudioCodec=avcodec_find_encoder(CODEC_ID_PCM_S16LE);                    // Open Audio encoder
         if (!AudioCodec) {
             QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found!");
-            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+            av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
             Continue=false;
         } else {
-            AudioCodecContext->codec_id             = CODEC_ID_PCM_S16LE;
-            AudioCodecContext->codec_type           = AVMEDIA_TYPE_AUDIO;
-            AudioCodecContext->sample_fmt           = AV_SAMPLE_FMT_S16;
-            AudioCodecContext->sample_rate          = 48000;
-            AudioCodecContext->bit_rate             = 48000;
-            AudioCodecContext->rc_max_rate          = 0;
-            AudioCodecContext->rc_min_rate          = 0;
-            AudioCodecContext->bit_rate_tolerance   = 0;
-            AudioCodecContext->rc_buffer_size       = 0;
-            AudioCodecContext->channels             = 2;
-            AudioCodecContext->channel_layout       = CH_LAYOUT_STEREO_DOWNMIX;    //CH_LAYOUT_STEREO;
-            AudioCodecContext->time_base            = (AVRational){1,AudioCodecContext->sample_rate};
-            AudioStream->r_frame_rate               = AudioCodecContext->time_base;
-            AudioStream->time_base                  = AudioCodecContext->time_base;
-            AudioCodecContext->flags               |= CODEC_FLAG_GLOBAL_HEADER;
+            WriteWAV.AudioCodecContext->codec_id             = CODEC_ID_PCM_S16LE;
+            WriteWAV.AudioCodecContext->codec_type           = AVMEDIA_TYPE_AUDIO;
+            WriteWAV.AudioCodecContext->sample_fmt           = AV_SAMPLE_FMT_S16;
+            WriteWAV.AudioCodecContext->sample_rate          = 48000;
+            WriteWAV.AudioCodecContext->bit_rate             = 48000;
+            WriteWAV.AudioCodecContext->rc_max_rate          = 0;
+            WriteWAV.AudioCodecContext->rc_min_rate          = 0;
+            WriteWAV.AudioCodecContext->bit_rate_tolerance   = 0;
+            WriteWAV.AudioCodecContext->rc_buffer_size       = 0;
+            WriteWAV.AudioCodecContext->channels             = 2;
+            WriteWAV.AudioCodecContext->channel_layout       = AV_CH_STEREO_LEFT|AV_CH_STEREO_RIGHT;    //CH_LAYOUT_STEREO;
+            WriteWAV.AudioCodecContext->time_base            = (AVRational){1,WriteWAV.AudioCodecContext->sample_rate};
+            WriteWAV.AudioStream->r_frame_rate               = WriteWAV.AudioCodecContext->time_base;
+            WriteWAV.AudioStream->time_base                  = WriteWAV.AudioCodecContext->time_base;
+            WriteWAV.AudioCodecContext->flags               |= CODEC_FLAG_GLOBAL_HEADER;
 
             // open the codec
             #ifndef FF_API_AVCODEC_OPEN
-            if (avcodec_open(AudioCodecContext,AudioCodec)<0) {
+            if (avcodec_open(WriteWAV.AudioCodecContext,AudioCodec)<0) {
             #else
-            if (avcodec_open2(AudioCodecContext,AudioCodec,NULL)<0) {
+            if (avcodec_open2(WriteWAV.AudioCodecContext,AudioCodec,NULL)<0) {
             #endif
                 QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"could not open audio codec!");
-                av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+                av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
                 Continue=false;
             } else {
                 // Init sound blocks
-                int audio_input_frame_size=AudioStream->codec->frame_size;                          // frame size in samples
-                if (audio_input_frame_size<=1) audio_input_frame_size=RenderMusic.SoundPacketSize; else audio_input_frame_size*=RenderMusic.SampleBytes*RenderMusic.Channels;
-                RenderMusic.SetFPS(25);         // For sound generation, use only 25 FPS to avoid rounded issue
-                EncodedAudio.SetFrameSize(audio_input_frame_size);
+                int audio_input_frame_size=WriteWAV.AudioStream->codec->frame_size;                          // frame size in samples
+                if (audio_input_frame_size<=1) audio_input_frame_size=WriteWAV.RenderMusic.SoundPacketSize; else audio_input_frame_size*=WriteWAV.RenderMusic.SampleBytes*WriteWAV.RenderMusic.Channels;
+                WriteWAV.RenderMusic.SetFPS(25);         // For sound generation, use only 25 FPS to avoid rounded issue
+                WriteWAV.EncodedAudio.SetFrameSize(audio_input_frame_size);
             }
         }
     }
@@ -1318,9 +1329,9 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     if (Continue) {
         int Err=0;
         #if FF_API_OLD_AVIO
-            if ((Err=avio_open(&OutputFormatContext->pb,TempWAVFileName.toUtf8(),AVIO_FLAG_WRITE))<0) {
+            if ((Err=avio_open(&WriteWAV.OutputFormatContext->pb,TempWAVFileName.toUtf8(),AVIO_FLAG_WRITE))<0) {
         #else
-            if (url_fopen(&OutputFormatContext->pb,TempWAVFileName.toUtf8(),URL_WRONLY)<0) {
+            if (url_fopen(&WriteWAV.OutputFormatContext->pb,TempWAVFileName.toUtf8(),URL_WRONLY)<0) {
         #endif
             char Buf[500];
             av_strerror(Err,Buf,500);
@@ -1332,8 +1343,8 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
     // Allocate buffer to encode
     if (Continue) {
-        audio_outbuf=(uint8_t *)av_malloc(FF_MIN_BUFFER_SIZE);
-        if (audio_outbuf==NULL) {
+        WriteWAV.audio_outbuf=(uint8_t *)av_malloc(FF_MIN_BUFFER_SIZE);
+        if (WriteWAV.audio_outbuf==NULL) {
             QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio buffer!");
             Continue=false;
         }
@@ -1342,11 +1353,11 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     // write the header
     if ((Continue)&&
         #if FF_API_FORMAT_PARAMETERS
-            (avformat_write_header(OutputFormatContext,NULL)<0)) {
+            (avformat_write_header(WriteWAV.OutputFormatContext,NULL)<0)) {
         #else
-            (av_write_header(OutputFormatContext)!=0)) {
+            (av_write_header(WriteWAV.OutputFormatContext)!=0)) {
         #endif
-        av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+        av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
         QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file!");
         Continue=false;
     }
@@ -1414,58 +1425,15 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             if ((Frame->CurrentObject_SoundTrackMontage!=NULL)&&
                 (Frame->CurrentObject_SoundTrackMontage->List.count()>0)&&
                 (MaxPacket>Frame->CurrentObject_SoundTrackMontage->List.count())) MaxPacket=Frame->CurrentObject_SoundTrackMontage->List.count();
-            if (MaxPacket>RenderMusic.NbrPacketForFPS) MaxPacket=RenderMusic.NbrPacketForFPS;
+            if (MaxPacket>WriteWAV.RenderMusic.NbrPacketForFPS) MaxPacket=WriteWAV.RenderMusic.NbrPacketForFPS;
 
             // mix audio data
             for (int j=0;j<MaxPacket;j++)
-                RenderMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
+                WriteWAV.RenderMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
 
-            // Flush audio frame
-            while ((Continue)&&(RenderMusic.List.count()>0)) {
-                AVPacket    pkt;
-                int16_t     *Packet=RenderMusic.DetachFirstPacket();
-
-                if (Packet==NULL) {
-                    Packet=(int16_t *)av_malloc(RenderMusic.SoundPacketSize+4);
-                    memset(Packet,0,RenderMusic.SoundPacketSize);
-                }
-
-                EncodedAudio.AppendData(Packet,RenderMusic.SoundPacketSize);
-                while (EncodedAudio.List.count()>0) {
-                    int16_t *PacketSound=EncodedAudio.DetachFirstPacket();
-                    if (PacketSound==NULL) {
-                        PacketSound=(int16_t *)av_malloc(EncodedAudio.SoundPacketSize+4);
-                        memset(PacketSound,0,EncodedAudio.SoundPacketSize);
-                    }
-                    int out_size= avcodec_encode_audio(AudioCodecContext,audio_outbuf,EncodedAudio.SoundPacketSize,(short int *)PacketSound);
-                    if (out_size>0) {
-                        av_init_packet(&pkt);
-
-                        if ((AudioCodecContext->coded_frame!=NULL)&&(AudioCodecContext->coded_frame->pts!=int64_t(INT64_C(0x8000000000000000))))
-                            pkt.pts=av_rescale_q(AudioCodecContext->coded_frame->pts,AudioCodecContext->time_base,AudioStream->time_base);
-
-                        if ((AudioCodecContext->coded_frame!=NULL)&&(AudioCodecContext->coded_frame->key_frame))
-                            pkt.flags|=AV_PKT_FLAG_KEY;
-
-                        pkt.stream_index=AudioStream->index;
-                        pkt.data        =audio_outbuf;
-                        pkt.size        =out_size;
-
-                        // write the compressed frame in the media file
-                        if (av_interleaved_write_frame(OutputFormatContext,&pkt)!=0) {
-                            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-                            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
-                            Continue=false;
-                        }
-                    } else if (out_size<0) {
-                        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
-                        Continue=false;
-                    }
-                    av_free(PacketSound);
-                }
-
-                av_free(Packet);
-            }
+            // Write audio frame to disk
+            if (ThreadWrite.isRunning()) ThreadWrite.waitForFinished();
+            ThreadWrite.setFuture(QtConcurrent::run(this,&DlgRenderVideo::WriteRenderedMusicToDisk,&WriteWAV,&Continue));
 
             QApplication::processEvents();  // Give time to interface!
 
@@ -1479,9 +1447,11 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             Continue=Continue && !StopProcessWanted;;
         }
 
+        if (ThreadWrite.isRunning()) ThreadWrite.waitForFinished();
+
         // Write de trailer
-        if ((Continue)&&(av_write_trailer(OutputFormatContext)!=0)) {
-            av_log(OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+        if ((Continue)&&(av_write_trailer(WriteWAV.OutputFormatContext)!=0)) {
+            av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
             QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the trailer of the temporary audio file!");
             Continue=false;
         }
@@ -1492,21 +1462,74 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
     // Clean all
 
-    if (audio_outbuf)   av_free(audio_outbuf);
+    if (WriteWAV.audio_outbuf)   av_free(WriteWAV.audio_outbuf);
     if (PreviousFrame)  delete PreviousFrame;
     if (Frame)          delete Frame;
-    if (OutputFormatContext) {
+    if (WriteWAV.OutputFormatContext) {
         #if FF_API_OLD_AVIO
-        if (OutputFormatContext->pb) avio_close(OutputFormatContext->pb);                                   // close the file
+        if (WriteWAV.OutputFormatContext->pb) avio_close(WriteWAV.OutputFormatContext->pb);                                   // close the file
         #else
-        if (OutputFormatContext->pb) url_fclose(OutputFormatContext->pb);                                   // close the file
+        if (WriteWAV.OutputFormatContext->pb) url_fclose(WriteWAV.OutputFormatContext->pb);                                   // close the file
         #endif
-        if (OutputFormatContext->streams[0]) {
-            avcodec_close(AudioStream->codec);                                                              // close codec
-            if (OutputFormatContext->streams[0]->codec) av_freep(&OutputFormatContext->streams[0]->codec);  // free the audiostream
+        if (WriteWAV.OutputFormatContext->streams[0]) {
+            avcodec_close(WriteWAV.AudioStream->codec);                                                              // close codec
+            if (WriteWAV.OutputFormatContext->streams[0]->codec) av_freep(&WriteWAV.OutputFormatContext->streams[0]->codec);  // free the audiostream
         }
-        av_free(OutputFormatContext);                                                                       // free the container
+        av_free(WriteWAV.OutputFormatContext);                                                                       // free the container
     }
 
     return Continue;
+}
+
+void DlgRenderVideo::WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue) {
+   #ifdef DEBUGMODE
+    qDebug() << "IN:DlgRenderVideo::WriteTempAudioFile";
+    #endif
+
+    // Flush audio frame
+    while ((*Continue)&&(WriteWAV->RenderMusic.List.count()>0)) {
+        AVPacket    pkt;
+        int16_t     *Packet=WriteWAV->RenderMusic.DetachFirstPacket();
+
+        if (Packet==NULL) {
+            Packet=(int16_t *)av_malloc(WriteWAV->RenderMusic.SoundPacketSize+4);
+            memset(Packet,0,WriteWAV->RenderMusic.SoundPacketSize);
+        }
+
+        WriteWAV->EncodedAudio.AppendData(Packet,WriteWAV->RenderMusic.SoundPacketSize);
+        while (WriteWAV->EncodedAudio.List.count()>0) {
+            int16_t *PacketSound=WriteWAV->EncodedAudio.DetachFirstPacket();
+            if (PacketSound==NULL) {
+                PacketSound=(int16_t *)av_malloc(WriteWAV->EncodedAudio.SoundPacketSize+4);
+                memset(PacketSound,0,WriteWAV->EncodedAudio.SoundPacketSize);
+            }
+            int out_size= avcodec_encode_audio(WriteWAV->AudioCodecContext,WriteWAV->audio_outbuf,WriteWAV->EncodedAudio.SoundPacketSize,(short int *)PacketSound);
+            if (out_size>0) {
+                av_init_packet(&pkt);
+
+                if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->pts!=int64_t(INT64_C(0x8000000000000000))))
+                    pkt.pts=av_rescale_q(WriteWAV->AudioCodecContext->coded_frame->pts,WriteWAV->AudioCodecContext->time_base,WriteWAV->AudioStream->time_base);
+
+                if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->key_frame))
+                    pkt.flags|=AV_PKT_FLAG_KEY;
+
+                pkt.stream_index=WriteWAV->AudioStream->index;
+                pkt.data        =WriteWAV->audio_outbuf;
+                pkt.size        =out_size;
+
+                // write the compressed frame in the media file
+                if (av_interleaved_write_frame(WriteWAV->OutputFormatContext,&pkt)!=0) {
+                    av_log(WriteWAV->OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+                    QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
+                    *Continue=false;
+                }
+            } else if (out_size<0) {
+                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
+                *Continue=false;
+            }
+            av_free(PacketSound);
+        }
+
+        av_free(Packet);
+    }
 }

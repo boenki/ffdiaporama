@@ -51,16 +51,26 @@ public:
     cJobQueue               JobQueue;
 
     qlonglong               MemCacheMaxValue;                           // Maximum value for image cache
-
-    QString                 SplitterHSizeAndPos;                        // Splitter H between tree and table (size save)
-    QString                 SplitterVSizeAndPos;                        // Splitter V between browser and job table (size save)
     QString                 CurrentPath;                                // Currently shown path
 
+    // Default settings for jobs
+    uint32_t                JobDefault[NBR_JOBTYPE];
+    QString                 DefaultSourceSuffix[NBR_JOBTYPE];
+    QString                 DefaultDestinationSuffix[NBR_JOBTYPE];
+    QString                 DefaultOptions[NBR_JOBTYPE];
+    QString                 DefaultSourceFolder;
+    QString                 DefaultDestinationFolder;
+
+    // Size & pos
+    QString                 SplitterHSizeAndPos;                        // Splitter H between tree and table (size save)
+    QString                 SplitterVSizeAndPos;                        // Splitter V between browser and job table (size save)
     cSaveWindowPosition     *DlgApplicationSettingsWSP;                 // Dialog box "Application settings" - Window size and position
     cSaveWindowPosition     *DlgCheckConfigWSP;                         // Dialog box "Check configuration" - Window size and position
     cSaveWindowPosition     *DlgAboutWSP;                               // Dialog box "About" - Window size and position
     cSaveWindowPosition     *DlgManageDevicesWSP;                       // Dialog box "Manage Devices" - Window size and position
     cSaveWindowPosition     *DlgInfoFileWSP;                            // Dialog box "File Information" - Window size and position
+    cSaveWindowPosition     *DlgJobSettingsWSP;                         // Dialog box "Job settings" - Window size and position
+    cSaveWindowPosition     *DlgGetFolderWSP;                           // Dialog box "Select a folder" - Window size and position
 
     explicit cApplicationConfig(QMainWindow *TopLevelWindow);
     ~cApplicationConfig();
