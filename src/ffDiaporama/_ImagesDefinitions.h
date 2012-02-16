@@ -43,7 +43,6 @@ public:
 
     cIconObject(int TransitionFamilly,int TransitionSubType);
     cIconObject(int TransitionFamilly,int TransitionSubType,QImage LumaImage);
-    ~cIconObject();
 };
 
 //*********************************************************************************************************************************************
@@ -71,7 +70,6 @@ public:
     QString Name;
 
     cLumaListObject(QString FileName);
-    ~cLumaListObject();
 };
 
 class   cLumaList {

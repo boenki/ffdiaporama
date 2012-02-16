@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>116</height>
+    <height>128</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,7 +26,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">Convert image</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
@@ -125,27 +125,27 @@
      </item>
      <item>
       <property name="text">
-       <string>5 MPix</string>
+       <string notr="true">5 MPix</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>6 MPix</string>
+       <string notr="true">6 MPix</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>8 MPix</string>
+       <string notr="true">8 MPix</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>10 MPix</string>
+       <string notr="true">10 MPix</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>12 MPix</string>
+       <string notr="true">12 MPix</string>
       </property>
      </item>
     </widget>
@@ -187,12 +187,12 @@
     <widget class="QComboBox" name="DestFormatCB">
      <item>
       <property name="text">
-       <string>jpg</string>
+       <string notr="true">jpg</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>png</string>
+       <string notr="true">png</string>
       </property>
      </item>
     </widget>

@@ -25,14 +25,11 @@
 
 #include <QHeaderView>
 
-//#define DEBUGMODE
-
 //====================================================================================================================
 
 QCustomJobTable::QCustomJobTable(QWidget *parent):QTableWidget(parent) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomJobTable::QCustomJobTable";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomJobTable::QCustomJobTable");
+
     JobQueue=NULL;
     ApplicationConfig=NULL;
 
@@ -70,9 +67,8 @@ QCustomJobTable::QCustomJobTable(QWidget *parent):QTableWidget(parent) {
 //====================================================================================================================
 
 void QCustomJobTable::DoResizeColumns() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomJobTable::DoResizeColumns";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomJobTable::DoResizeColumns");
+
     setUpdatesEnabled(false);
     setVisible(false);                      // To ensure all items of all columns are used to compute size
     resizeColumnsToContents();              // Resize column widht
@@ -85,9 +81,8 @@ void QCustomJobTable::DoResizeColumns() {
 //====================================================================================================================
 
 QTableWidgetItem *QCustomJobTable::CreateItem(QString ItemText,int Alignment,QBrush Background) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomJobTable::CreateItem";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomJobTable::CreateItem");
+
     QTableWidgetItem *Item=new QTableWidgetItem(ItemText);
     Item->setTextAlignment(Alignment);
     Item->setBackground(Background);
@@ -97,9 +92,7 @@ QTableWidgetItem *QCustomJobTable::CreateItem(QString ItemText,int Alignment,QBr
 //====================================================================================================================
 
 void QCustomJobTable::DoRefreshList() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomJobTable::DoRefreshList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomJobTable::DoRefreshList");
 
     setUpdatesEnabled(false);
     while (rowCount()>0) removeRow(rowCount()-1);
@@ -119,9 +112,7 @@ void QCustomJobTable::DoRefreshList() {
 //====================================================================================================================
 
 void QCustomJobTable::DoRefreshAJob(int Row) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomJobTable::DoRefreshList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomJobTable::DoRefreshList");
 
     QColor  Background=((Row & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
     setItem(Row,1,CreateItem(JobQueue->StatusText[JobQueue->List[Row]->JobStatus],Qt::AlignLeft|Qt::AlignVCenter,Background));

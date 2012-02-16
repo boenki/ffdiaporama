@@ -25,8 +25,6 @@
 #include <QCustomEvent>
 #include <QPainter>
 
-//#define DEBUGMODE
-
 // Qualification of possible settings for each job
 uint32_t PossibleJobsSettings[NBR_JOBTYPE] = {
      0                                                  // #define JOBTYPE_NOTDEFINED
@@ -42,9 +40,7 @@ uint32_t PossibleJobsSettings[NBR_JOBTYPE] = {
 //====================================================================================================================
 
 cJob::cJob() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJob::cJob";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJob::cJob");
 
     // Job qualification & settings
     JobQualif        =0;
@@ -68,18 +64,14 @@ cJob::cJob() {
 //====================================================================================================================
 
 cJob::~cJob() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJob::~cJob";
-    #endif
-
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJob::~cJob");
 }
 
 //====================================================================================================================
 
 void cJob::SaveToXML(QDomElement &domDocument,QString ElementName) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJob::SaveToXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJob::SaveToXML");
+
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
@@ -110,9 +102,8 @@ void cJob::SaveToXML(QDomElement &domDocument,QString ElementName) {
 //====================================================================================================================
 
 bool cJob::LoadFromXML(QDomElement domDocument,QString ElementName) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJob::LoadFromXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJob::LoadFromXML");
+
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         bool IsOk=true;
@@ -147,9 +138,7 @@ bool cJob::LoadFromXML(QDomElement domDocument,QString ElementName) {
 //====================================================================================================================
 
 QString cJob::ComputeDestinationName(QString Source) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJob::ComputeDestinationName";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJob::ComputeDestinationName");
 
     QString SourceExt   ="."+QFileInfo(Source).suffix();
     QString ShortName   =QFileInfo(Source).fileName();          ShortName.replace(SourceExt,"");
@@ -168,9 +157,7 @@ QString cJob::ComputeDestinationName(QString Source) {
 //====================================================================================================================
 
 QString cJob::ComputeNewSourceName(QString Source) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJob::ComputeNewSourceName";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJob::ComputeNewSourceName");
 
     QString SourceExt       ="."+QFileInfo(Source).suffix();
     QString ShortName       =QFileInfo(Source).fileName();          ShortName.replace(SourceExt,"");
@@ -189,9 +176,8 @@ QString cJob::ComputeNewSourceName(QString Source) {
 //====================================================================================================================
 
 bool cJob::IsCommandListContain(QString ToFind) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJob::IsCommandListContain";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJob::IsCommandListContain");
+
     bool        Ret=false;
     QStringList CommandList=Command.split("##");
     for (int i=0;i<CommandList.count();i++) if (CommandList[i].left(ToFind.length())==ToFind) Ret=true;
@@ -201,9 +187,8 @@ bool cJob::IsCommandListContain(QString ToFind) {
 //====================================================================================================================
 
 QString cJob::CommandListValueString(QString ToFind) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJob::CommandListValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJob::CommandListValue");
+
     QString Ret="";
     QStringList CommandList=Command.split("##");
     for (int i=0;i<CommandList.count();i++) if (CommandList[i].left(ToFind.length())==ToFind) Ret=CommandList[i].split(":")[1];
@@ -213,9 +198,8 @@ QString cJob::CommandListValueString(QString ToFind) {
 //====================================================================================================================
 
 int cJob::CommandListValue(QString ToFind) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJob::CommandListValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJob::CommandListValue");
+
     int         Ret=0;
     QStringList CommandList=Command.split("##");
     for (int i=0;i<CommandList.count();i++) if (CommandList[i].left(ToFind.length())==ToFind) Ret=CommandList[i].split(":")[1].toInt();
@@ -227,11 +211,7 @@ int cJob::CommandListValue(QString ToFind) {
 //*********************************************************************************************************************************************
 
 cJobQueue::cJobQueue() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJobQueue::cJobQueue";
-    #endif
-
-    JobLog   =NULL;
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJobQueue::cJobQueue");
 
     StatusText.append(QApplication::translate("QCustomJobTable","Waiting"));                            // JOBSTATUS_READYTOSTART
     StatusText.append(QApplication::translate("QCustomJobTable","Started"));                            // JOBSTATUS_STARTED
@@ -250,18 +230,16 @@ cJobQueue::cJobQueue() {
 //====================================================================================================================
 
 cJobQueue::~cJobQueue() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJobQueue::~cJobQueue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJobQueue::~cJobQueue");
+
     while (List.count()>0) delete List.takeLast();
 }
 
 //====================================================================================================================
 
 void cJobQueue::SaveToXML(QDomElement &domDocument,QString ElementName) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJobQueue::SaveToXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJobQueue::SaveToXML");
+
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     // Save job list
@@ -273,9 +251,8 @@ void cJobQueue::SaveToXML(QDomElement &domDocument,QString ElementName) {
 //====================================================================================================================
 
 bool cJobQueue::LoadFromXML(QDomElement domDocument,QString ElementName) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJobQueue::LoadFromXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJobQueue::LoadFromXML");
+
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         bool IsOk=true;
@@ -296,50 +273,29 @@ bool cJobQueue::LoadFromXML(QDomElement domDocument,QString ElementName) {
 //====================================================================================================================
 
 void cJobQueue::RefreshJobStatus(QWidget */*Window*/) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJobQueue::RefreshJobStatus";
-    #endif
-
-}
-
-//====================================================================================================================
-
-void cJobQueue::AddToLog(bool IsOk,int IndentLevel,QString Message) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJobQueue::AddToLog";
-    #endif
-
-    QString Indent="";
-    for (int i=0;i<IndentLevel;i++) Indent=Indent+"    ";
-    JobLog->addItem(new QListWidgetItem(QIcon(IsOk?ICON_GREEN:ICON_RED),Indent+Message));
-    JobLog->setCurrentItem(JobLog->item(JobLog->count()-1));
-    JobLog->scrollToItem(JobLog->item(JobLog->count()-1),QAbstractItemView::PositionAtBottom);
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJobQueue::RefreshJobStatus");
 }
 
 //====================================================================================================================
 
 bool cJobQueue::ApplySourceTransformation(QString /*Source*/,QString /*NewSource*/) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJobQueue::ApplySourceTransformation";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJobQueue::ApplySourceTransformation");
 
-    AddToLog(false,1,QString(QApplication::translate("cJobQueue","Applying source transformation : Sorry no yet developped !")));
+    ToLog(LOGMSG_CRITICAL,QString(QApplication::translate("cJobQueue","Applying source transformation : Sorry no yet developped !")));
     return true;
 }
 
 //====================================================================================================================
 
 bool cJobQueue::ApplyDestinationOverWriting(QString Destination,uint32_t JobSettings) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJobQueue::ApplyDestinationOverWriting";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJobQueue::ApplyDestinationOverWriting");
 
     bool IsOkForWriting=true;
     if ((QFileInfo(Destination).exists())&&((JobSettings & JOBQUALIF_DESTINATION_OVERWRITE)==0)) {
-        AddToLog(false,1,QApplication::translate("cJobQueue","Destination file (%1) already exist").arg(Destination));
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("cJobQueue","Destination file (%1) already exist").arg(Destination));
         IsOkForWriting=false;
     } else if ((QFileInfo(Destination).exists())&&((JobSettings & JOBQUALIF_DESTINATION_OVERWRITE)!=0)&&(!QFile(Destination).remove())) {
-        AddToLog(false,1,QApplication::translate("cJobQueue","Failed to remove existing destination file (%1)").arg(Destination));
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("cJobQueue","Failed to remove existing destination file (%1)").arg(Destination));
         IsOkForWriting=false;
     }
     return IsOkForWriting;
@@ -347,14 +303,12 @@ bool cJobQueue::ApplyDestinationOverWriting(QString Destination,uint32_t JobSett
 
 //====================================================================================================================
 
-void cJobQueue::ConvertIMG(cJob *Job,QWidget *Window) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cJobQueue::ConvertIMG";
-    #endif
+void cJobQueue::ConvertIMG(cJob *Job) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cJobQueue::ConvertIMG");
 
     if (Job->JobType!=JOBTYPE_IMAGE_CONVERTIMAGE) {
         Job->JobStatus=JOBSTATUS_CANCELED;
-        AddToLog(false,0,QString(QApplication::translate("cJobQueue","Jobtype error")));
+        ToLog(LOGMSG_CRITICAL,QString(QApplication::translate("cJobQueue","Jobtype error")));
         return;
     }
     if ((Job->JobStatus!=JOBSTATUS_READYTOSTART)&&(Job->JobStatus!=JOBSTATUS_PAUSED)) return;
@@ -370,14 +324,14 @@ void cJobQueue::ConvertIMG(cJob *Job,QWidget *Window) {
         int     StepInJob   =4;      // Load+Rescal+Save+Modif Source
 
 
-        AddToLog(true,0,QApplication::translate("cJobQueue","Convert image")+" "+Source);
+        ToLog(LOGMSG_INFORMATION,QApplication::translate("cJobQueue","Convert image")+" "+Source);
         Img.load(Source);
         Job->PercentDone=(double(Job->CurrentIndex*StepInJob+1)/double(Job->SourcesAndDests.count()*StepInJob))*100;
-        QApplication::postEvent(Window,new QEvent(JobStatusChanged));
+        PostEvent(EVENT_JobStatusChanged);
 
         // Step 1 : Load image
         if (Img.isNull()) {
-            AddToLog(false,1,QApplication::translate("cJobQueue","Failed to open source file")+" "+Source);
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("cJobQueue","Failed to open file %1").arg(Source));
         }
 
         // Step 2 : Rescal
@@ -415,10 +369,9 @@ void cJobQueue::ConvertIMG(cJob *Job,QWidget *Window) {
             }
             if ((NewWidth!=0)&&(NewHeight!=0)) {
                 Img=Img.scaledToWidth(NewWidth,Qt::SmoothTransformation);
-                if (Img.isNull()) AddToLog(false,1,QApplication::translate("cJobQueue","failed to rescal image to %1x%2").arg(NewWidth).arg(NewHeight));
-                    else AddToLog(true,1,QApplication::translate("cJobQueue","succesfully rescal image to %1x%2").arg(NewWidth).arg(NewHeight));
-                AddToLog(true,1,QApplication::translate("cJobQueue","Rescal image to %1x%2").arg(NewWidth).arg(NewHeight));
-                QApplication::postEvent(Window,new QEvent(JobStatusChanged));
+                if (Img.isNull()) ToLog(LOGMSG_CRITICAL,QApplication::translate("cJobQueue","failed to rescal image %1 to %2x%3").arg(Source).arg(NewWidth).arg(NewHeight));
+                    else ToLog(LOGMSG_INFORMATION,QApplication::translate("cJobQueue","succesfully rescal image %1 to %2x%3").arg(Source).arg(NewWidth).arg(NewHeight));
+                PostEvent(EVENT_JobStatusChanged);
             }
         }
 
@@ -427,10 +380,10 @@ void cJobQueue::ConvertIMG(cJob *Job,QWidget *Window) {
 
             // Step 4 : Save image
             if (!Img.save(Destination,Job->DestinationExtension.toUtf8().data(),Quality)) {
-                AddToLog(false,1,QApplication::translate("cJobQueue","Failed to write destination file (%1)").arg(Destination));
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("cJobQueue","Failed to write destination file %1").arg(Destination));
             } else {
-                AddToLog(true,1,QApplication::translate("cJobQueue","Successfully writing destination file (%1)").arg(Destination));
-                QApplication::postEvent(Window,new QEvent(FileListChanged));
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("cJobQueue","Successfully writing destination file %1").arg(Destination));
+                PostEvent(EVENT_FileListChanged,QFileInfo(Destination).absolutePath());
 
                 // Step 5 : Transform source file
                 if (ApplySourceTransformation(Source,NewSource)) Job->Succeded++;
@@ -440,8 +393,8 @@ void cJobQueue::ConvertIMG(cJob *Job,QWidget *Window) {
         // Go to next file
         Job->CurrentIndex++;
         Job->PercentDone=(double(Job->CurrentIndex*2)/double(Job->SourcesAndDests.count()*2))*100;
-        if (Job->CurrentIndex<Job->SourcesAndDests.count()) QApplication::postEvent(Window,new QEvent(JobStatusChanged));
+        if (Job->CurrentIndex<Job->SourcesAndDests.count()) PostEvent(EVENT_JobStatusChanged);
     }
     if (Job->Succeded==Job->SourcesAndDests.count()) Job->JobStatus=JOBSTATUS_SUCCEEDED; else Job->JobStatus=JOBSTATUS_ENDEDWITHERROR;
-    QApplication::postEvent(Window,new QEvent(JobStatusChanged));
+    PostEvent(EVENT_JobStatusChanged);
 }

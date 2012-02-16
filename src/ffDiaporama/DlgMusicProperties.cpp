@@ -26,6 +26,7 @@
 #include <QMessageBox>
 
 DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,QWidget *parent) : QDialog(parent), ui(new Ui::DlgMusicProperties) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::DlgMusicProperties");
     ui->setupUi(this);
 
     DiaporamaObject = TheDiaporamaObject;
@@ -86,24 +87,28 @@ DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,QWid
 //====================================================================================================================
 
 DlgMusicProperties::~DlgMusicProperties() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::~DlgMusicProperties");
     delete ui;
 }
 
 //====================================================================================================================
 
 void DlgMusicProperties::Help() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::Help");
     GlobalMainWindow->OpenHelp(HELPFILE_DlgMusicProperties);
 }
 
 //====================================================================================================================
 
 void DlgMusicProperties::SetSavedWindowGeometry() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::SetSavedWindowGeometry");
     DiaporamaObject->Parent->ApplicationConfig->DlgMusicPropertiesWSP->ApplyToWindow(this);
 }
 
 //====================================================================================================================
 
 void DlgMusicProperties::showEvent(QShowEvent *ev) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::showEvent");
     QDialog::showEvent(ev);
     QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
 }
@@ -111,6 +116,7 @@ void DlgMusicProperties::showEvent(QShowEvent *ev) {
 //====================================================================================================================
 
 void DlgMusicProperties::reject() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::reject");
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgMusicPropertiesWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
@@ -121,6 +127,7 @@ void DlgMusicProperties::reject() {
 //====================================================================================================================
 
 void DlgMusicProperties::accept() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::accept");
     DiaporamaObject->MusicReduceFactor=double(ui->VolumeReductionFactorCB->currentText().toInt())/100;
     // Get Music volume for each file of the playlist
     if (DiaporamaObject->MusicType) {
@@ -138,6 +145,7 @@ void DlgMusicProperties::accept() {
 //====================================================================================================================
 
 void DlgMusicProperties::s_SameMusic() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_SameMusic");
     if (DiaporamaObject==NULL) return;
     DiaporamaObject->MusicType=false;
     DiaporamaObject->MusicPause=false;
@@ -148,6 +156,7 @@ void DlgMusicProperties::s_SameMusic() {
 //====================================================================================================================
 
 void DlgMusicProperties::s_SameMusicNormal() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_SameMusicNormal");
     if (DiaporamaObject==NULL) return;
     DiaporamaObject->MusicType=false;
     DiaporamaObject->MusicPause=false;
@@ -156,6 +165,7 @@ void DlgMusicProperties::s_SameMusicNormal() {
 }
 
 void DlgMusicProperties::s_SameMusicReduceVolume() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_SameMusicReduceVolume");
     DiaporamaObject->MusicType=false;
     DiaporamaObject->MusicPause=false;
     DiaporamaObject->MusicReduceVolume=true;
@@ -163,6 +173,7 @@ void DlgMusicProperties::s_SameMusicReduceVolume() {
 }
 
 void DlgMusicProperties::s_SameMusicPause() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_SameMusicPause");
     if (DiaporamaObject==NULL) return;
     DiaporamaObject->MusicType=false;
     DiaporamaObject->MusicPause=true;
@@ -173,6 +184,7 @@ void DlgMusicProperties::s_SameMusicPause() {
 //====================================================================================================================
 
 void DlgMusicProperties::s_NewMusic() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_NewMusic");
     if (DiaporamaObject==NULL) return;
     DiaporamaObject->MusicType=true;
     DiaporamaObject->MusicPause=false;
@@ -183,6 +195,7 @@ void DlgMusicProperties::s_NewMusic() {
 //====================================================================================================================
 
 void DlgMusicProperties::SetupUi() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::SetupUi");
     if (DiaporamaObject!=NULL) {
         ui->SameMusicRD->setChecked(!DiaporamaObject->MusicType);
         ui->SameMusicNormalRD->setEnabled(!DiaporamaObject->MusicType);
@@ -222,6 +235,7 @@ void DlgMusicProperties::SetupUi() {
 //====================================================================================================================
 
 void DlgMusicProperties::s_AddMusic() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_AddMusic");
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("DlgMusicProperties","Add music files"),
                                                        DiaporamaObject->Parent->ApplicationConfig->RememberLastDirectories?DiaporamaObject->Parent->ApplicationConfig->LastMusicPath:"",
                                                        GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cBaseApplicationConfig::MUSICFILE));
@@ -255,7 +269,7 @@ void DlgMusicProperties::s_AddMusic() {
             ui->PlayListTable->verticalHeader()->setResizeMode(j,QHeaderView::ResizeToContents);
             CurIndex++;
         } else {
-            QMessageBox::critical(NULL,QApplication::translate("DlgMusicProperties","Error","Error message"),
+            CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("DlgMusicProperties","Error","Error message"),
                                   NewFile+"\n\n"+QApplication::translate("DlgMusicProperties","Format not supported","Error message"),QMessageBox::Close);
             DiaporamaObject->MusicList.removeAt(CurIndex);
         }
@@ -267,6 +281,7 @@ void DlgMusicProperties::s_AddMusic() {
 //====================================================================================================================
 
 void DlgMusicProperties::s_RemoveMusic() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_RemoveMusic");
     int CurIndex=ui->PlayListTable->currentRow();
     if (CurIndex==-1) return;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -280,11 +295,13 @@ void DlgMusicProperties::s_RemoveMusic() {
 //====================================================================================================================
 
 void DlgMusicProperties::s_PlayListTable_DoubleClick(QTableWidgetItem *) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_PlayListTable_DoubleClick");
     SetupUi();
 }
 
 //====================================================================================================================
 
 void DlgMusicProperties::s_PlayListTable_SelectionChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_PlayListTable_SelectionChanged");
     SetupUi();
 }

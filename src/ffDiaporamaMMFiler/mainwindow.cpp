@@ -47,8 +47,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-//#define DEBUGMODE
-
 QIcon   Icon_DISPLAY_DATA_S;
 QIcon   Icon_DISPLAY_DATA;
 QIcon   Icon_DISPLAY_WEB_S;
@@ -66,34 +64,32 @@ QIcon   Icon_FILTER_VIDEO;
 #define ICON_RED        ":/img/Red.png"
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::MainWindow";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::MainWindow");
+    EventReceiver=this;
 
-    ApplicationConfig     =new cApplicationConfig(this);
-    DriveList             =new cDriveList(ApplicationConfig);
-    IsFirstInitDone       =false;
-    CurrentJobThread      =-1;
-    Icon_DISPLAY_DATA_S   =QIcon(":/img/DISPLAY_DATA_S.png");
-    Icon_DISPLAY_DATA     =QIcon(":/img/DISPLAY_DATA.png");
-    Icon_DISPLAY_WEB_S    =QIcon(":/img/DISPLAY_WEB_S.png");
-    Icon_DISPLAY_WEB      =QIcon(":/img/DISPLAY_WEB_S.png");
-    Icon_DISPLAY_JUKEBOX_S=QIcon(":/img/DISPLAY_JUKEBOX_S.png");
-    Icon_DISPLAY_JUKEBOX  =QIcon(":/img/DISPLAY_JUKEBOX.png");
+    ApplicationConfig               =new cApplicationConfig(this);
+    JobQueue.BaseApplicationConfig  =ApplicationConfig;
+    DriveList                       =new cDriveList(ApplicationConfig);
+    IsFirstInitDone                 =false;
+    CurrentJobThread                =-1;
+    Icon_DISPLAY_DATA_S             =QIcon(":/img/DISPLAY_DATA_S.png");
+    Icon_DISPLAY_DATA               =QIcon(":/img/DISPLAY_DATA.png");
+    Icon_DISPLAY_WEB_S              =QIcon(":/img/DISPLAY_WEB_S.png");
+    Icon_DISPLAY_WEB                =QIcon(":/img/DISPLAY_WEB_S.png");
+    Icon_DISPLAY_JUKEBOX_S          =QIcon(":/img/DISPLAY_JUKEBOX_S.png");
+    Icon_DISPLAY_JUKEBOX            =QIcon(":/img/DISPLAY_JUKEBOX.png");
 
-    Icon_FILTER_NO        =QIcon(":/img/FILTER_FILE_S.png");
-    Icon_FILTER_FFD       =QIcon(":/img/FILTER_FFD_S.png");
-    Icon_FILTER_IMAGE     =QIcon(":/img/FILTER_IMAGE_S.png");
-    Icon_FILTER_MUSIC     =QIcon(":/img/FILTER_MUSIC_S.png");
-    Icon_FILTER_VIDEO     =QIcon(":/img/FILTER_VIDEO_S.png");
+    Icon_FILTER_NO                  =QIcon(":/img/FILTER_FILE_S.png");
+    Icon_FILTER_FFD                 =QIcon(":/img/FILTER_FFD_S.png");
+    Icon_FILTER_IMAGE               =QIcon(":/img/FILTER_IMAGE_S.png");
+    Icon_FILTER_MUSIC               =QIcon(":/img/FILTER_MUSIC_S.png");
+    Icon_FILTER_VIDEO               =QIcon(":/img/FILTER_VIDEO_S.png");
 }
 
 //====================================================================================================================
 
 MainWindow::~MainWindow() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::~MainWindow";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::~MainWindow");
     delete ui;
     delete DriveList;
     delete ApplicationConfig;
@@ -102,9 +98,7 @@ MainWindow::~MainWindow() {
 //====================================================================================================================
 
 void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::InitWindow";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::InitWindow");
 
     ApplicationConfig->InitConfigurationValues(ForceLanguage,App);
     ApplicationConfig->PreloadSystemIcons();
@@ -115,6 +109,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->setupUi(this);
     setWindowTitle(QString("%1 %2").arg(APPLICATION_NAME).arg(APPLICATION_VERSION));
     ui->FolderTree->ApplicationConfig =ApplicationConfig;
+    ui->FolderTree->IsRemoveAllowed   =true;
     ui->FolderTable->ApplicationConfig=ApplicationConfig;
     ui->JobTable->ApplicationConfig   =ApplicationConfig;
     ui->JobTable->JobQueue            =&JobQueue;
@@ -137,6 +132,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
 
     connect(ui->FolderTree,SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),this,SLOT(s_currentTreeItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
+    connect(ui->FolderTree,SIGNAL(ActionRemoveFolder()),this,SLOT(s_Action_RemoveFolder()));
 
     connect(ui->FolderTable,SIGNAL(itemSelectionChanged()),this,SLOT(DoRefreshSelectedFileInfo()));
     connect(ui->FolderTable,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_itemDoubleClicked(QMouseEvent *)));
@@ -168,15 +164,13 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     }
 
     connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
-    Timer.start(500);   // Start Timer
+    Timer.start(1000);   // Start Timer
 }
 
 //====================================================================================================================
 
 void MainWindow::closeEvent(QCloseEvent *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::closeEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::closeEvent");
     Timer.stop();
     if (isMaximized()) {
         ApplicationConfig->MainWinWSP->IsMaximized=true;
@@ -199,9 +193,7 @@ void MainWindow::closeEvent(QCloseEvent *) {
 //====================================================================================================================
 
 void MainWindow::showEvent(QShowEvent *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::showEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::showEvent");
     if (!IsFirstInitDone) {
         IsFirstInitDone=true;                                   // do this only one time
         ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
@@ -220,26 +212,20 @@ void MainWindow::showEvent(QShowEvent *) {
 //====================================================================================================================
 
 void MainWindow::DoMaximized() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::DoMaximized";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoMaximized");
     showMaximized();
 }
 
 //====================================================================================================================
 
 void MainWindow::resizeEvent(QResizeEvent *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::resizeEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::resizeEvent");
 }
 
 //====================================================================================================================
 
 void MainWindow::RefreshControls() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::RefreshControls";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::RefreshControls");
 
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
 
@@ -252,28 +238,24 @@ void MainWindow::RefreshControls() {
 //====================================================================================================================
 
 void MainWindow::s_TimerEvent() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_TimerEvent";
-    #endif
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_TimerEvent");       // Remove : Too much
 
     if (Thread.isRunning()) return;
     if (CurrentJobThread!=-1) ui->JobTable->DoRefreshAJob(CurrentJobThread);
     CurrentJobThread=-1;
-    Thread.setFuture(QtConcurrent::run(this,&MainWindow::ThreadJob));
+    if (JobQueue.List.count()>0) Thread.setFuture(QtConcurrent::run(this,&MainWindow::ThreadJob));
 }
 
 //====================================================================================================================
 
 void MainWindow::ThreadJob() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::ConvertIMG";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::ThreadJob");
     int i=0;
     while ((i<JobQueue.List.count())&&(JobQueue.List[i]->JobStatus!=JOBSTATUS_READYTOSTART)) i++;
     if ((i<JobQueue.List.count())&&(JobQueue.List[i]->JobStatus==JOBSTATUS_READYTOSTART)) {
         CurrentJobThread=i;
         switch (JobQueue.List[i]->JobType) {
-            case JOBTYPE_IMAGE_CONVERTIMAGE    : JobQueue.ConvertIMG(JobQueue.List[i],this);
+            case JOBTYPE_IMAGE_CONVERTIMAGE    : JobQueue.ConvertIMG(JobQueue.List[i]); break;
 
         }
     }
@@ -282,21 +264,38 @@ void MainWindow::ThreadJob() {
 //====================================================================================================================
 
 void MainWindow::customEvent(QEvent *event) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::RefreshJobStatus";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::RefreshJobStatus");
 
-    if      (event->type()==JobStatusChanged) ui->JobTable->DoRefreshAJob(CurrentJobThread);
-    else if (event->type()==FileListChanged)  ui->FolderTable->RefreshListFolder();
-    else QMainWindow::customEvent(event);
+    if (event->type()!=BaseAppEvent) QMainWindow::customEvent(event); else while (!EventList.isEmpty()) {
+        QString Event     =EventList.takeFirst();
+        int     EventType =((QString)(Event.split("###;###")[0])).toInt();
+        QString EventParam=Event.split("###;###")[1];
+
+        if (EventType==EVENT_GeneralLogChanged) {
+            int     MessageType =((QString)EventParam.split("###:###")[0]).toInt();
+            QString Message     =EventParam.split("###:###")[1];
+            ui->JobLog->addItem(new QListWidgetItem(QIcon(MessageType==LOGMSG_CRITICAL?ICON_RED:ICON_GREEN),Message));
+            ui->JobLog->setCurrentItem(ui->JobLog->item(ui->JobLog->count()-1));
+            ui->JobLog->scrollToItem(ui->JobLog->item(ui->JobLog->count()-1),QAbstractItemView::PositionAtBottom);
+
+        } else switch (EventType) {
+            case EVENT_JobStatusChanged :
+                ui->JobTable->DoRefreshAJob(CurrentJobThread);
+                break;
+            case EVENT_FileListChanged :
+                if (ui->FolderTable->CurrentPath==EventParam) ui->FolderTable->RefreshListFolder();
+                break;
+            case EVENT_FolderChanged :
+
+                break;
+        }
+    }
 }
 
 //====================================================================================================================
 
 QIcon *MainWindow::GetIconMode() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::GetIconMode";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::GetIconMode");
     switch (ApplicationConfig->CurrentMode) {
         case DISPLAY_DATA:      return &Icon_DISPLAY_DATA_S;
         case DISPLAY_WEBSHORT:
@@ -311,9 +310,7 @@ QIcon *MainWindow::GetIconMode() {
 //====================================================================================================================
 
 QIcon *MainWindow::GetIconFilter() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::GetIconFilter";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::GetIconFilter");
     switch (ApplicationConfig->CurrentFilter) {
         case OBJECTTYPE_UNMANAGED:
         case OBJECTTYPE_MANAGED:    return &Icon_FILTER_NO;
@@ -328,9 +325,7 @@ QIcon *MainWindow::GetIconFilter() {
 //====================================================================================================================
 
 void MainWindow::s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_currentTreeItemChanged";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_currentTreeItemChanged");
 
     ApplicationConfig->CurrentPath=ui->FolderTree->GetFolderPath(current,false);
     QList<cBaseMediaFile*> EmptyList;
@@ -355,9 +350,7 @@ void MainWindow::s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetIt
 //====================================================================================================================
 
 void MainWindow::DoRefreshFolderInfo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_currentTreeItemChanged";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_currentTreeItemChanged");
     DriveList->UpdateDriveList();   // To update free space on drive
     cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(ApplicationConfig->CurrentPath);
     if (HDD) {
@@ -396,9 +389,7 @@ void MainWindow::DoRefreshFolderInfo() {
 //====================================================================================================================
 
 void MainWindow::DoRefreshSelectedFileInfo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::DoRefreshSelectedFileInfo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoRefreshSelectedFileInfo");
 
     if (ui->FileInfoLabel->isVisible()) {
         ui->FileInfoLabel->SetupFileInfoLabel(ui->FolderTable->GetCurrentSelectedMediaFile());
@@ -410,9 +401,7 @@ void MainWindow::DoRefreshSelectedFileInfo() {
 //====================================================================================================================
 
 void MainWindow::s_Refresh() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_Refresh";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Refresh");
 
     ui->RefreshBt->setDown(false);
     ui->FolderTree->RefreshDriveList();
@@ -422,9 +411,7 @@ void MainWindow::s_Refresh() {
 //====================================================================================================================
 
 void MainWindow::s_Config() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_Config";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Config");
 
     DlgApplicationSettings Dlg(HELPFILE_DlgApplicationSettings,ApplicationConfig,ApplicationConfig->DlgApplicationSettingsWSP,this);
     Dlg.InitDialog();
@@ -447,16 +434,14 @@ void MainWindow::s_Config() {
 //====================================================================================================================
 
 void MainWindow::s_DlgCheckConfig() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_DlgCheckConfig";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_DlgCheckConfig");
     DlgCheckConfig Dlg(HELPFILE_DlgCheckConfig,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 
     QString Status;
     if (!Checkffmpeg(Status)) {
-        QMessageBox::critical(this,APPLICATION_NAME,QApplication::translate("MainWindow","Configuration not correct!"));
+        CustomMessageBox(this,QMessageBox::Critical,APPLICATION_NAME,QApplication::translate("MainWindow","Configuration not correct!"));
         close();
     }
 }
@@ -464,9 +449,7 @@ void MainWindow::s_DlgCheckConfig() {
 //====================================================================================================================
 
 void MainWindow::s_About() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_About";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_About");
     ui->Action_About_BT->setDown(false);
     DlgAbout Dlg("",ApplicationConfig,ApplicationConfig->DlgAboutWSP,this);
     Dlg.InitDialog();
@@ -476,9 +459,7 @@ void MainWindow::s_About() {
 //====================================================================================================================
 
 void MainWindow::s_Documentation() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_Documentation";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Documentation");
     ui->ActionDocumentation_BT->setDown(false);
     QDesktopServices::openUrl(QUrl(QString(HELPFILE_SUPPORT).replace("<local>",ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
 }
@@ -486,9 +467,7 @@ void MainWindow::s_Documentation() {
 //====================================================================================================================
 
 void MainWindow::s_NewFunctions() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_NewFunctions";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_NewFunctions");
     ui->ActionNewFunctions_BT->setDown(false);
     QDesktopServices::openUrl(QUrl(QString(HELPFILE_NEWS).replace("<local>",ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
 }
@@ -496,15 +475,14 @@ void MainWindow::s_NewFunctions() {
 //====================================================================================================================
 
 void MainWindow::s_Action_Exit() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_Action_Exit";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_Exit");
     close();
 }
 
 //====================================================================================================================
 
 QAction *MainWindow::CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::CreateMenuAction");
     QAction *Action;
     if (Icon) Action=new QAction(QIcon(QPixmap().fromImage(*Icon)),Text,this);
         else Action=new QAction(Text,this);
@@ -516,6 +494,7 @@ QAction *MainWindow::CreateMenuAction(QImage *Icon,QString Text,int Data,bool Ch
 }
 
 QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::CreateMenuAction");
     QAction *Action;
     Action=new QAction(Icon,Text,this);
     Action->setIconVisibleInMenu(true);
@@ -528,9 +507,7 @@ QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Chec
 //====================================================================================================================
 
 void MainWindow::s_Action_Mode() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_Action_Mode";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_Mode");
 
     // Create menu
     QMenu *ContextMenu=new QMenu(this);
@@ -562,9 +539,7 @@ void MainWindow::s_Action_Mode() {
 //====================================================================================================================
 
 void MainWindow::s_Action_Filter() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_Action_Filter";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_Filter");
 
     // Create menu
     QMenu   *ContextMenu=new QMenu(this);
@@ -595,9 +570,7 @@ void MainWindow::s_Action_Filter() {
 //====================================================================================================================
 
 void MainWindow::s_Action_OpenFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_Action_OpenFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_OpenFile");
 
     ui->PlayBt->setDown(false);
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
@@ -616,9 +589,7 @@ void MainWindow::s_Action_OpenFile() {
 //====================================================================================================================
 
 void MainWindow::s_Action_InfoFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_Action_InfoFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_InfoFile");
 
     ui->InfoBt->setDown(false);
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
@@ -634,9 +605,7 @@ void MainWindow::s_Action_InfoFile() {
 //====================================================================================================================
 
 void MainWindow::s_Action_RemoveFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_Action_RemoveFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RemoveFile");
 
     QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
     if (MediaList.count()==0) return;
@@ -644,12 +613,12 @@ void MainWindow::s_Action_RemoveFile() {
     QString FilesToDelete="";
     for (int i=0;i<MediaList.count();i++) FilesToDelete=FilesToDelete+(FilesToDelete!=""?", ":"")+MediaList[i]->ShortName;
 
-    if (QMessageBox::question(this,APPLICATION_NAME,QApplication::translate("MainWindow","Are you sure to remove theses files ?")+"\n"+FilesToDelete,QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes) {
+    if (CustomMessageBox(this,QMessageBox::Question,APPLICATION_NAME,QApplication::translate("MainWindow","Are you sure to remove theses files ?")+"\n"+FilesToDelete,QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes) {
         for (int i=0;i<MediaList.count();i++) {
             if (QFile(MediaList[i]->FileName).remove()) {
-                AddToLog(true,0,QApplication::translate("MainWindow","Successfuly remove file (%1)").arg(MediaList[i]->FileName));
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Successfuly remove file (%1)").arg(MediaList[i]->FileName));
                 ui->FolderTable->RefreshListFolder();
-            } else AddToLog(false,1,QApplication::translate("MainWindow","Failed to remove file (%1)").arg(MediaList[i]->FileName));
+            } else ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Failed to remove file (%1)").arg(MediaList[i]->FileName));
         }
     }
 
@@ -657,42 +626,72 @@ void MainWindow::s_Action_RemoveFile() {
 
 //====================================================================================================================
 
-void MainWindow::AddToLog(bool IsOk,int IndentLevel,QString Message) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::AddToLog";
+void MainWindow::s_Action_RemoveFolder() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RemoveFolder");
+
+    QString FolderPath=ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),false);
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    if (FolderPath.startsWith("~")) FolderPath=QDir::homePath()+FolderPath.mid(1);
     #endif
 
-    QString Indent="";
-    for (int i=0;i<IndentLevel;i++) Indent=Indent+"    ";
-    ui->JobLog->addItem(new QListWidgetItem(QIcon(IsOk?ICON_GREEN:ICON_RED),Indent+Message));
-    ui->JobLog->setCurrentItem(ui->JobLog->item(ui->JobLog->count()-1));
-    ui->JobLog->scrollToItem(ui->JobLog->item(ui->JobLog->count()-1),QAbstractItemView::PositionAtBottom);
+    QString NewFolderPath=ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),true);
+    if (NewFolderPath.lastIndexOf(QDir::separator())!=-1) NewFolderPath=NewFolderPath.left(NewFolderPath.lastIndexOf(QDir::separator()));
+
+    if (CustomMessageBox(this,QMessageBox::Question,APPLICATION_NAME,QApplication::translate("MainWindow","Are you sure to remove this folder ?")+"\n"+FolderPath,QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes) {
+        ui->FolderTable->EnsureThreadIsStopped();
+        QFutureWatcher<void> ThreadRemove;
+        ThreadRemove.setFuture(QtConcurrent::run(this,&MainWindow::DoDirectJob_RemoveFolder,FolderPath));
+        ThreadRemove.waitForFinished();
+        ui->FolderTree->SetSelectItemByPath(NewFolderPath);
+    }
+}
+
+//====================================================================================================================
+
+bool MainWindow::DoDirectJob_RemoveFolder(QString FolderPath) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoDirectJob_RemoveFolder");
+
+    QDir            Folder(FolderPath);
+    QFileInfoList   Dirs=Folder.entryInfoList(QDir::Dirs|QDir::AllDirs|QDir::Hidden);
+
+    foreach(QFileInfo Dir,Dirs)
+        if ((Dir.isDir())&&(Dir.absoluteFilePath()!=FolderPath)&&(Dir.fileName()!=".")&&(Dir.fileName()!=".."))
+            if (!DoDirectJob_RemoveFolder(Dir.absoluteFilePath())) return false;
+
+    QFileInfoList  Files=Folder.entryInfoList(QDir::Dirs|QDir::AllEntries|QDir::Hidden);
+    foreach(QFileInfo File,Files) if (!File.isDir()) if (!QFile(File.absoluteFilePath()).remove()) {
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Impossible to remove file %1 - error %2:%3").arg(File.fileName()).arg(errno).arg(QString().fromLocal8Bit(strerror(errno))));
+        return false;
+    }
+
+    if (!QDir().rmdir(FolderPath)) {
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Impossible to remove folder %1 - error %2:%3").arg(FolderPath).arg(errno).arg(QString().fromLocal8Bit(strerror(errno))));
+        return false;
+    } else {
+        PostEvent(EVENT_FolderChanged,FolderPath);
+        ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Successfully remove folder (and all is content) %1").arg(FolderPath));
+        return true;
+    }
 }
 
 //====================================================================================================================
 
 void MainWindow::s_itemDoubleClicked(QMouseEvent *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_itemDoubleClicked";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_itemDoubleClicked");
     s_Action_OpenFile();
 }
 
 //====================================================================================================================
 
 void MainWindow::s_itemRightClicked(QMouseEvent *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_itemRightClicked";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_itemRightClicked");
     s_Action_WizardOnFile();
 }
 
 //====================================================================================================================
 
 void MainWindow::s_Action_WizardOnFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::s_Action_WizardOnFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_WizardOnFile");
 
     QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
     if (MediaList.count()==0) {
@@ -701,7 +700,6 @@ void MainWindow::s_Action_WizardOnFile() {
     }
 
     JobQueue.MediaList=ui->FolderTable->MediaList;
-    JobQueue.JobLog   =ui->JobLog;
 
     bool    Multiple=(MediaList.count()>1);
     bool    IsFind;
@@ -719,9 +717,9 @@ void MainWindow::s_Action_WizardOnFile() {
 
         // Create menu
         QMenu   *ContextMenu=new QMenu(this);
-        if (!Multiple) ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Open.png"),JobQueue.JobTypeText[JOBTYPE_OPENFILE],JOBTYPE_OPENFILE,false,false));
-        if (!Multiple) ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Info.png"),JobQueue.JobTypeText[JOBTYPE_DISPLAYINFO],JOBTYPE_DISPLAYINFO,false,false));
-        ContextMenu->addAction(CreateMenuAction(QIcon(":/img/trash.png"),JobQueue.JobTypeText[JOBTYPE_REMOVEFILE],JOBTYPE_REMOVEFILE,false,false));
+        if (!Multiple)                                          ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Open.png"), JobQueue.JobTypeText[JOBTYPE_OPENFILE],JOBTYPE_OPENFILE,        false,false));
+        if ((!Multiple)&&(ObjectTypes[0]!=OBJECTTYPE_FOLDER))   ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Info.png"), JobQueue.JobTypeText[JOBTYPE_DISPLAYINFO],JOBTYPE_DISPLAYINFO,  false,false));
+        if (ObjectTypes[0]!=OBJECTTYPE_FOLDER)                  ContextMenu->addAction(CreateMenuAction(QIcon(":/img/trash.png"),       JobQueue.JobTypeText[JOBTYPE_REMOVEFILE],JOBTYPE_REMOVEFILE,    false,false));
         ContextMenu->addSeparator();
         switch (ObjectTypes[0]) {
             case OBJECTTYPE_MUSICFILE :
@@ -740,7 +738,7 @@ void MainWindow::s_Action_WizardOnFile() {
                 //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Edit properties"),                   JOBTYPE_TAG_VIDEO,                  false,false));
                 break;
             case OBJECTTYPE_IMAGEFILE :
-                ContextMenu->addAction(CreateMenuAction(NULL,JobQueue.JobTypeText[JOBTYPE_IMAGE_CONVERTIMAGE],JOBTYPE_IMAGE_CONVERTIMAGE,false,false));
+                ContextMenu->addAction(CreateMenuAction(QIcon(":/img/ConvertImg.png"),JobQueue.JobTypeText[JOBTYPE_IMAGE_CONVERTIMAGE],JOBTYPE_IMAGE_CONVERTIMAGE,false,false));
                 break;
             case OBJECTTYPE_FFDFILE   :
                 //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Render project"),                    JOBTYPE_FFDIAPORAMA_RENDER,         false,false));
@@ -777,9 +775,7 @@ void MainWindow::s_Action_WizardOnFile() {
 //====================================================================================================================
 
 void MainWindow::DoAddJob_ConvertIMG(QList<cBaseMediaFile*>*MediaList) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:MainWindow::DoAddJob_ConvertIMG";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoAddJob_ConvertIMG");
 
     cJob *Job=new cJob();
     Job->JobType                =JOBTYPE_IMAGE_CONVERTIMAGE;
@@ -796,7 +792,9 @@ void MainWindow::DoAddJob_ConvertIMG(QList<cBaseMediaFile*>*MediaList) {
 
     DlgJobSettings Dlg(Job,&JobQueue,"",ApplicationConfig,ApplicationConfig->DlgJobSettingsWSP,this);
     Dlg.InitDialog();
-    if (Dlg.exec()==0) {
+    int Ret=Dlg.exec();
+    ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),true),false);
+    if (Ret==0) {
         // Keep options as default options for next time we use it
         ApplicationConfig->DefaultOptions[Job->JobType]             =Job->DestinationExtension+";"+Job->Command;
         ApplicationConfig->JobDefault[Job->JobType]                 =Job->JobSettings;

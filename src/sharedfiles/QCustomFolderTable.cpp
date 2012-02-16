@@ -38,8 +38,6 @@
 #include "QCustomFolderTable.h"
 #include "QCustomFileInfoLabel.h"
 
-//#define DEBUGMODE
-
 #define FILETABLESTATE_FILETOCHEK   1
 #define FileToCheckIcon             ":/img/player_time.png"
 
@@ -81,12 +79,16 @@ public:
 //========================================================================================================================
 
 QCustomStyledItemDelegate::QCustomStyledItemDelegate(QObject *parent):QStyledItemDelegate(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomStyledItemDelegate::QCustomStyledItemDelegate");
+
     ParentTable=(QCustomFolderTable *)parent;
 }
 
 //========================================================================================================================
 
 void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomStyledItemDelegate::paint");
+
     if ((index.row()>=ParentTable->rowCount())||(index.column()>=ParentTable->columnCount())) return;
 
     int ItemIndex=(ParentTable->ApplicationConfig->CurrentMode==DISPLAY_DATA?index.row():index.row()*ParentTable->columnCount()+index.column());
@@ -102,7 +104,7 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
 
         QString         TextToDisplay  =ParentTable->GetTextForColumn(index.column(),ParentTable->MediaList[ItemIndex]);
         QImage          *ImageToDisplay=ParentTable->GetImageForColumn(index.column(),ParentTable->MediaList[ItemIndex]);
-        Qt::Alignment   Alignment      =(Qt::Alignment)(ParentTable->horizontalHeaderItem(index.column())->textAlignment()|Qt::AlignVCenter);
+        Qt::Alignment   Alignment      =((Qt::Alignment)(ParentTable->horizontalHeaderItem(index.column())?ParentTable->horizontalHeaderItem(index.column())->textAlignment():Qt::AlignHCenter))|Qt::AlignVCenter;
         int             DecalX         =(ImageToDisplay!=NULL?18:0);
         QColor          Background     =((index.row() & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
         QFont           font;
@@ -306,9 +308,7 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
 //********************************************************************************************************
 
 QCustomFolderTable::QCustomFolderTable(QWidget *parent):QTableWidget(parent) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::QCustomFolderTable";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::QCustomFolderTable");
 
     DefaultModel            =model();           // Save default QAbstractItemModel
     DefaultDelegate         =itemDelegate();    // Save default QAbstractItemDelegate
@@ -334,9 +334,8 @@ QCustomFolderTable::QCustomFolderTable(QWidget *parent):QTableWidget(parent) {
 //====================================================================================================================
 
 QCustomFolderTable::~QCustomFolderTable() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::~QCustomFolderTable";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::~QCustomFolderTable");
+
     // Ensure scan thread is stoped
     StopAllEvent=true;
     EnsureThreadIsStopped();
@@ -355,9 +354,7 @@ QCustomFolderTable::~QCustomFolderTable() {
 //====================================================================================================================
 
 QImage *QCustomFolderTable::GetImageForColumn(int Col,cBaseMediaFile *MediaObject) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::GetImageForColumn";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetImageForColumn");
 
     if (StopAllEvent) return NULL;
 
@@ -377,9 +374,7 @@ QImage *QCustomFolderTable::GetImageForColumn(int Col,cBaseMediaFile *MediaObjec
 //====================================================================================================================
 
 QString QCustomFolderTable::GetTextForColumn(int Col,cBaseMediaFile *MediaObject) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::GetTextForColumn";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetTextForColumn");
 
     if ((StopAllEvent)||(Col>=columnCount())) return "";
 
@@ -423,9 +418,7 @@ QString QCustomFolderTable::GetTextForColumn(int Col,cBaseMediaFile *MediaObject
 //====================================================================================================================
 
 int QCustomFolderTable::GetAlignmentForColumn(int Col) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::GetTextForColumn";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetTextForColumn");
 
     if ((StopAllEvent)||(Col>=columnCount())) return Qt::AlignLeft;
 
@@ -464,9 +457,8 @@ int QCustomFolderTable::GetAlignmentForColumn(int Col) {
 //====================================================================================================================
 
 void QCustomFolderTable::EnsureThreadIsStopped() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::EnsureThreadIsStopped";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::EnsureThreadIsStopped");
+
     // Ensure scan thread is stoped
     if (ScanMediaList.isRunning()) {
         StopScanMediaList=true;
@@ -480,9 +472,7 @@ void QCustomFolderTable::EnsureThreadIsStopped() {
 //====================================================================================================================
 
 int QCustomFolderTable::GetWidthForIcon() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::GetWidthForIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetWidthForIcon");
 
     int SizeColumn;
     if (ApplicationConfig->CurrentMode==DISPLAY_ICON48)            SizeColumn=(ApplicationConfig->DisplayFileName?80:48)+CELLBORDER;
@@ -503,9 +493,7 @@ int QCustomFolderTable::GetWidthForIcon() {
 //====================================================================================================================
 
 int QCustomFolderTable::GetHeightForIcon() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::GetHeightForIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetHeightForIcon");
 
     int SizeColumn;
     if (ApplicationConfig->CurrentMode==DISPLAY_ICON48)         SizeColumn=48+CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
@@ -526,9 +514,7 @@ int QCustomFolderTable::GetHeightForIcon() {
 //====================================================================================================================
 
 void QCustomFolderTable::resizeEvent(QResizeEvent *ev) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::resizeEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::resizeEvent");
 
     if ((ApplicationConfig->CurrentMode==DISPLAY_ICON48)||(ApplicationConfig->CurrentMode==DISPLAY_ICON100)||(ApplicationConfig->CurrentMode==DISPLAY_ICONBIG)) {
         int SizeColumn=GetWidthForIcon();
@@ -556,9 +542,7 @@ void QCustomFolderTable::resizeEvent(QResizeEvent *ev) {
 //====================================================================================================================
 
 void QCustomFolderTable::SetMode(int Mode,int Filter) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::SetMode";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::SetMode");
 
     // Ensure scan thread is stoped
     EnsureThreadIsStopped();
@@ -740,9 +724,8 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
 //====================================================================================================================
 
 QTableWidgetItem *QCustomFolderTable::CreateItem(QString ItemText,int Alignment,QBrush Background) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::CreateItem";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::CreateItem");
+
     QTableWidgetItem *Item=new QTableWidgetItem(ItemText);
     Item->setTextAlignment(Alignment);
     Item->setBackground(Background);
@@ -752,18 +735,16 @@ QTableWidgetItem *QCustomFolderTable::CreateItem(QString ItemText,int Alignment,
 //====================================================================================================================
 
 void QCustomFolderTable::mouseDoubleClickEvent(QMouseEvent *ev) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::mouseDoubleClickEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::mouseDoubleClickEvent");
+
     emit DoubleClickEvent(ev);
 }
 
 //====================================================================================================================
 
 void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *ev) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::mouseDoubleClickEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::mouseDoubleClickEvent");
+
     if (ev->button()==Qt::RightButton) emit RightClickEvent(ev);
         else QTableWidget::mouseReleaseEvent(ev);
 }
@@ -771,9 +752,7 @@ void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *ev) {
 //====================================================================================================================
 
 void QCustomFolderTable::RefreshListFolder() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::FillListFolder";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::FillListFolder");
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
@@ -906,9 +885,8 @@ void QCustomFolderTable::RefreshListFolder() {
 //====================================================================================================================
 
 void QCustomFolderTable::FillListFolder(QString Path) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::FillListFolder";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::FillListFolder");
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Ensure scan thread is stoped
@@ -1057,9 +1035,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
 //====================================================================================================================
 
 QList<cBaseMediaFile*> QCustomFolderTable::GetCurrentSelectedMediaFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::GetCurrentSelectedMediaFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetCurrentSelectedMediaFile");
 
     QList<cBaseMediaFile*>  SelMediaList;
     QModelIndexList         SelList=selectionModel()->selectedIndexes();
@@ -1079,9 +1055,8 @@ QList<cBaseMediaFile*> QCustomFolderTable::GetCurrentSelectedMediaFile() {
 //====================================================================================================================
 
 cBaseMediaFile *QCustomFolderTable::GetCurrentMediaFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::GetCurrentMediaFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetCurrentMediaFile");
+
     cBaseMediaFile  *Media=NULL;
     if (currentRow()>=0) {
         int Index;
@@ -1095,9 +1070,8 @@ cBaseMediaFile *QCustomFolderTable::GetCurrentMediaFile() {
 //====================================================================================================================
 
 void QCustomFolderTable::DoResizeColumns() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::DoResizeColumns";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::DoResizeColumns");
+
     if (!StopAllEvent) {
         if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
             int      ColSize[100]; for (int i=0;i<100;i++) ColSize[i]=horizontalHeader()->sectionSizeHint(i);
@@ -1132,9 +1106,7 @@ void QCustomFolderTable::DoResizeColumns() {
 //====================================================================================================================
 
 void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::AppendMediaToTable";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::AppendMediaToTable");
 
     int Row=rowCount();
     int Col=0;
@@ -1176,12 +1148,11 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
 //====================================================================================================================
 
 void QCustomFolderTable::DoScanMediaList() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTable::DoScanMediaList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::DoScanMediaList");
 
     // Parse all items to update them
     for (int ItemIndex=0;(ItemIndex<MediaList.count())&&(!StopAllEvent);ItemIndex++) if (!MediaList[ItemIndex]->IsInformationValide)  {
+        MediaList[ItemIndex]->IsIconNeeded=true;
         // Get full information
         if  (MediaList[ItemIndex]->ObjectType==OBJECTTYPE_IMAGEFILE) ((cImageFile *)MediaList[ItemIndex])->GetFullInformationFromFile(ThumbCache);
             else MediaList[ItemIndex]->GetFullInformationFromFile();

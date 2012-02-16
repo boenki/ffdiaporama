@@ -22,8 +22,6 @@
 #include "_ApplicationDefinitions.h"
 #include "_Diaporama.h"
 
-//#define DEBUGMODE
-
 /****************************************************************************
   Other
 ****************************************************************************/
@@ -49,46 +47,47 @@ void ExitApplicationWithFatalError(QString StringToAdd) {
 //====================================================================================================================
 
 cSaveDlgSlideProperties::cSaveDlgSlideProperties(QString WindowName,bool &RestoreWindow,bool IsMainWindow):cSaveWindowPosition(WindowName,RestoreWindow,IsMainWindow) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::cSaveDlgSlideProperties");
     SplitterTop="";
     SplitterBottom="";
 }
 
 void cSaveDlgSlideProperties::ApplyToWindow(QWidget *Window,QSplitter *Top,QSplitter *Bottom) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::ApplyToWindow");
     cSaveWindowPosition::ApplyToWindow(Window);
     if (SplitterTop!="")    Top->restoreState(QByteArray::fromHex(SplitterTop.toUtf8()));
     if (SplitterBottom!="") Bottom->restoreState(QByteArray::fromHex(SplitterBottom.toUtf8()));
 }
 
 void cSaveDlgSlideProperties::SaveWindowState(QWidget *Window,QSplitter *Top,QSplitter *Bottom) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::SaveWindowState");
     cSaveWindowPosition::SaveWindowState(Window);
     SplitterTop   =QString(QByteArray(Top->saveState()).toHex());
     SplitterBottom=QString(QByteArray(Bottom->saveState()).toHex());
 }
 
 void cSaveDlgSlideProperties::OverloadedSaveToXML(QDomElement &Element) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::OverloadedSaveToXML");
     Element.setAttribute("SplitterTop",SplitterTop);
     Element.setAttribute("SplitterBottom",SplitterBottom);
 }
 
 void cSaveDlgSlideProperties::OverloadedLoadFromXML(QDomElement Element) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::OverloadedLoadFromXML");
     if (Element.hasAttribute("SplitterTop"))    SplitterTop=Element.attribute("SplitterTop");
     if (Element.hasAttribute("SplitterBottom")) SplitterBottom=Element.attribute("SplitterBottom");
 }
 
-
 //====================================================================================================================
 
 cApplicationConfig::cApplicationConfig(QMainWindow *TheTopLevelWindow):cBaseApplicationConfig(TheTopLevelWindow,ALLOWEDWEBLANGUAGE,APPLICATION_NAME,APPLICATION_NAME,APPLICATION_VERSION,CONFIGFILEEXT,CONFIGFILE_ROOTNAME) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::cApplicationConfig";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::cApplicationConfig");
 }
 
 //====================================================================================================================
 cApplicationConfig::~cApplicationConfig() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::~cApplicationConfig";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::~cApplicationConfig");
+
     delete DlgMusicPropertiesWSP;
     delete DlgBackgroundPropertiesWSP;
     delete DlgApplicationSettingsWSP;
@@ -109,9 +108,7 @@ cApplicationConfig::~cApplicationConfig() {
 //====================================================================================================================
 
 void cApplicationConfig::InitValues() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::InitValues";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::InitValues");
 
     // Initialise all variables and set them default value
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
@@ -212,27 +209,23 @@ void cApplicationConfig::InitValues() {
 //====================================================================================================================
 
 bool cApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication *App) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::LoadConfigurationFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::LoadConfigurationFile");
+
     return cBaseApplicationConfig::LoadConfigurationFile(TypeConfigFile,App) && DeviceModelList.LoadConfigurationFile(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile,TypeConfigFile);
 }
 
 //====================================================================================================================
 
 bool cApplicationConfig::SaveConfigurationFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::SaveConfigurationValues";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::SaveConfigurationValues");
+
     return cBaseApplicationConfig::SaveConfigurationFile() && DeviceModelList.SaveConfigurationFile(UserConfigFile);
 }
 
 //====================================================================================================================
 
 void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::SaveValueToXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::SaveValueToXML");
 
     QDomElement     Element,SubElement,SubSubElement;
     QDomDocument    Document;
@@ -356,9 +349,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
 //====================================================================================================================
 
 bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::LoadValueFromXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::LoadValueFromXML");
 
     // Load preferences
     if ((domDocument.elementsByTagName("LastDirectories").length()>0)&&(domDocument.elementsByTagName("LastDirectories").item(0).isElement()==true)) {

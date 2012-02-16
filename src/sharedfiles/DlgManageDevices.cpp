@@ -23,8 +23,6 @@
 #include "DlgManageDevices.h"
 #include "ui_DlgManageDevices.h"
 
-//#define DEBUGMODE
-
 #define ICON_GEOMETRY_IMAGE                 ":/img/Geometry_ImageLock.png"
 #define ICON_FRAMING_FULL                   ":/img/AdjustWH.png"
 #define ICON_FRAMING_WIDTH                  ":/img/AdjustW.png"
@@ -37,9 +35,7 @@
 DlgManageDevices::DlgManageDevices(cDeviceModelList *DeviceModelList,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgManageDevices) {
 
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DlgManageDevices";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DlgManageDevices");
 
     this->DeviceModelList=DeviceModelList;
 
@@ -57,9 +53,7 @@ DlgManageDevices::DlgManageDevices(cDeviceModelList *DeviceModelList,QString Hel
 // Initialise dialog
 
 void DlgManageDevices::DoInitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DoInitDialog");
 
     // Tab Manage database
     ui->DBDeviceTypeCB->addItem(QIcon(ICON_SMARTPHONE),DeviceModelList->TranslatedRenderType[1]);
@@ -95,9 +89,8 @@ void DlgManageDevices::DoInitDialog() {
 //====================================================================================================================
 
 DlgManageDevices::~DlgManageDevices() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::~DlgManageDevices";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::~DlgManageDevices");
+
     delete ui;
 }
 
@@ -105,20 +98,17 @@ DlgManageDevices::~DlgManageDevices() {
 // Call when user click on Ok button
 
 void DlgManageDevices::DoAccept() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DoAccept";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DoAccept");
+
     AskApplyDBChange();
 }
 
 //====================================================================================================================
 
 void DlgManageDevices::AskApplyDBChange() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::AskApplyDBChange";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::AskApplyDBChange");
 
-    if ((IsDeviceChanged)&&(QMessageBox::question(this,QApplication::translate("DlgManageDevices","Apply modification"),
+    if ((IsDeviceChanged)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgManageDevices","Apply modification"),
         QApplication::translate("DlgManageDevices","Do you whant to apply modification for this device?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) DBApplyChange();
     IsDeviceChanged=false;
@@ -127,9 +117,7 @@ void DlgManageDevices::AskApplyDBChange() {
 //====================================================================================================================
 
 void DlgManageDevices::DBFillTableDevice(int ChangeIndex) {
-#ifdef DEBUGMODE
-qDebug() << "IN:DlgManageDevices::DBFillTableDevice";
-#endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBFillTableDevice");
 
     AskApplyDBChange();
     ui->TableDevice->setUpdatesEnabled(false);
@@ -174,9 +162,7 @@ qDebug() << "IN:DlgManageDevices::DBFillTableDevice";
 //====================================================================================================================
 
 void DlgManageDevices::DBSelectionChanged() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBSelectionChanged";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBSelectionChanged");
 
     AskApplyDBChange();
     CurrentDevice=ui->TableDevice->currentRow();
@@ -225,9 +211,7 @@ void DlgManageDevices::DBSelectionChanged() {
 //====================================================================================================================
 
 void DlgManageDevices::DBImageSizeCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBImageSizeCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBImageSizeCombo");
 
     int SaveIndex=ui->DBImageSizeCombo->currentIndex();
     ui->DBImageSizeCombo->clear();
@@ -255,9 +239,7 @@ void DlgManageDevices::DBImageSizeCombo(int) {
 //====================================================================================================================
 
 void DlgManageDevices::DBFileFormatCombo(int /*ChangeIndex*/) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBFileFormatCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBFileFormatCombo");
 
     ui->DBVideoFormatCB->clear();
     ui->DBAudioFormatCB->clear();
@@ -329,12 +311,8 @@ void DlgManageDevices::DBFileFormatCombo(int /*ChangeIndex*/) {
 //====================================================================================================================
 
 void DlgManageDevices::DBChImageSizeCB(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBChImageSizeCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBChImageSizeCB");
 
-    // Change bitrate values
-//TODO:
     IsDeviceChanged=true;
     ui->DBApplyBT->setEnabled(IsDeviceChanged);
 }
@@ -342,9 +320,7 @@ void DlgManageDevices::DBChImageSizeCB(int) {
 //====================================================================================================================
 
 void DlgManageDevices::DBChModel(QString) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBChModel";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBChModel");
 
     IsDeviceChanged=true;
     ui->DBApplyBT->setEnabled(IsDeviceChanged);
@@ -353,9 +329,7 @@ void DlgManageDevices::DBChModel(QString) {
 //====================================================================================================================
 
 void DlgManageDevices::DBDeviceSubtypeCB(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBDeviceSubtypeCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBDeviceSubtypeCB");
 
     IsDeviceChanged=true;
     ui->DBApplyBT->setEnabled(IsDeviceChanged);
@@ -364,9 +338,7 @@ void DlgManageDevices::DBDeviceSubtypeCB(int) {
 //====================================================================================================================
 
 void DlgManageDevices::DBChVideoBitRateCB(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBChVideoBitRateCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBChVideoBitRateCB");
 
     IsDeviceChanged=true;
     ui->DBApplyBT->setEnabled(IsDeviceChanged);
@@ -375,9 +347,7 @@ void DlgManageDevices::DBChVideoBitRateCB(int) {
 //====================================================================================================================
 
 void DlgManageDevices::DBChAudioBitRateCB(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBChAudioBitRateCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBChAudioBitRateCB");
 
     IsDeviceChanged=true;
     ui->DBApplyBT->setEnabled(IsDeviceChanged);
@@ -386,9 +356,7 @@ void DlgManageDevices::DBChAudioBitRateCB(int) {
 //====================================================================================================================
 
 void DlgManageDevices::DBVideoBitRateCB(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBVideoBitRateCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBVideoBitRateCB");
 
     ui->DBVideoBitRateCB->clear();
     int CurrentCodec=ui->DBVideoFormatCB->currentIndex();
@@ -435,9 +403,7 @@ void DlgManageDevices::DBVideoBitRateCB(int) {
 //====================================================================================================================
 
 void DlgManageDevices::DBAudioBitRateCB(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBAudioBitRateCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBAudioBitRateCB");
 
     ui->DBAudioBitRateCB->clear();
     int CurrentCodec=ui->DBAudioFormatCB->currentIndex();
@@ -484,9 +450,7 @@ void DlgManageDevices::DBAudioBitRateCB(int) {
 //====================================================================================================================
 
 void DlgManageDevices::DBResetToDefaultBT() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBResetToDefaultBT";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBResetToDefaultBT");
 
     if (CurrentDevice>=0) {
         cDeviceModelDef *Device=DeviceModelList->RenderDeviceModel[CurrentDevice];
@@ -520,9 +484,7 @@ void DlgManageDevices::DBResetToDefaultBT() {
 }
 
 void DlgManageDevices::DBApplyChange() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBApplyChange";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBApplyChange");
 
     if (CurrentDevice>=0) {
         cDeviceModelDef *Device=DeviceModelList->RenderDeviceModel[CurrentDevice];
@@ -561,9 +523,7 @@ void DlgManageDevices::DBApplyChange() {
 //====================================================================================================================
 
 void DlgManageDevices::DBAddDevice() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBAddDevice";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBAddDevice");
 
     int DeviceIndex=0;
     for (int i=0;i<DeviceModelList->RenderDeviceModel.count();i++) if (DeviceModelList->RenderDeviceModel[i]->DeviceIndex>DeviceIndex) DeviceIndex=DeviceModelList->RenderDeviceModel[i]->DeviceIndex;
@@ -587,9 +547,7 @@ void DlgManageDevices::DBAddDevice() {
 //====================================================================================================================
 
 void DlgManageDevices::DBRemoveBT() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgManageDevices::DBRemoveBT";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DBRemoveBT");
 
     if ((CurrentDevice<0)||(CurrentDevice>=DeviceModelList->RenderDeviceModel.count())) return;
     if (DeviceModelList->RenderDeviceModel[CurrentDevice]->FromGlobalConf) return;

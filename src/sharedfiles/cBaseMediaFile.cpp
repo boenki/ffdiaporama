@@ -22,7 +22,7 @@
 #include "cBaseApplicationConfig.h"
 
 // Include some additional standard class
-#include <QMessageBox>
+#include "_QCustomDialog.h"
 #include <QFileDialog>
 #include <QPainter>
 
@@ -31,10 +31,11 @@
 #include "cBaseMediaFile.h"
 #include "cLuLoImageCache.h"
 
-//#define DEBUGMODE
 #define FFD_APPLICATION_ROOTNAME    "Project"           // Name of root node in the project xml file
 
 cThumbCache::cThumbCache(QString Path) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbCache::cThumbCache");
+
     ThumbCacheFile    =AdjustDirForOS(Path+QString(THUMBNAILCACHEFILE));
     ThumbCacheDocument=QDomDocument(THUMBCACHE_APPNAME);
 
@@ -76,9 +77,11 @@ cThumbCache::cThumbCache(QString Path) {
 //****************************************************************************************************************************************************************
 
 cThumbCache::~cThumbCache() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbCache::~cThumbCache");
+
     if (IsModify) {
         if ((QFileInfo(ThumbCacheFile).exists())&&(!QFile(ThumbCacheFile).remove())) {
-            qDebug()<<"Error overwritting"<<ThumbCacheFile;
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Error overwritting %1").arg(ThumbCacheFile));
         } else if (ThumbCacheDocument.elementsByTagName("Thumbnails").count()>0) {
             QFile DestinationFile(ThumbCacheFile);
             if (DestinationFile.open(QFile::WriteOnly | QFile::Text)) {
@@ -94,6 +97,8 @@ cThumbCache::~cThumbCache() {
 
 // from Google music manager (see:http://code.google.com/p/gogglesmm/source/browse/src/gmutils.cpp?spec=svn6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13&r=6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13)
 bool gm_decode_base64(uchar *buffer,uint &len) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:gm_decode_base64");
+
     static const char base64[256]={
     0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
     0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
@@ -145,6 +150,7 @@ bool gm_decode_base64(uchar *buffer,uint &len) {
 }
 
 QImage *GetEmbededImage(QString FileName) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:GetEmbededImage");
 
     // Try to get embeded image
     QImage *Image=new QImage();
@@ -218,7 +224,7 @@ QImage *GetEmbededImage(QString FileName) {
 
             TagLib::ASF::AttributeList& attrList = (*it).second;
             for (TagLib::ASF::AttributeList::Iterator ait = attrList.begin();ait != attrList.end();++ait) {
-                qDebug()<< QString().fromStdString((*ait).toString().toCString());
+                //qDebug()<< QString().fromStdString((*ait).toString().toCString());
             }
         }
         */
@@ -243,9 +249,8 @@ QImage *GetEmbededImage(QString FileName) {
 //*********************************************************************************************************************************************
 
 cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig):cCustomIcon() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseMediaFile::cBaseMediaFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::cBaseMediaFile");
+
     ObjectType          = OBJECTTYPE_UNMANAGED;
     IsValide            = false;                                    // if true then object if initialise
     IsInformationValide = false;                                    // if true then information list if fuly initialise
@@ -267,17 +272,14 @@ cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig):cCu
 //====================================================================================================================
 
 cBaseMediaFile::~cBaseMediaFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseMediaFile::~cBaseMediaFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,QString("IN:cBaseMediaFile::~cBaseMediaFile for object %1").arg(FileName));
 }
 
 //*****************************************************************************************************************************************
 
 bool cBaseMediaFile::GetThumbnailFromCache(cThumbCache *ThumbCache) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseMediaFile::GetThumbnailFromCache";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetThumbnailFromCache");
+
     if (!ThumbCache) return false;
     bool    IsOk=false;
 
@@ -300,7 +302,7 @@ bool cBaseMediaFile::GetThumbnailFromCache(cThumbCache *ThumbCache) {
                     if (GetInformationValue("Photo.PixelYDimension")=="") InformationList.append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
                     IsOk=true;
                 } else {
-                    qDebug()<<"GetThumbnail FromCache"<<FileName<<"Error";
+                    ToLog(LOGMSG_CRITICAL,QString("GetThumbnailFromCache Error reading %1").arg(FileName));
                 }
             } else {
                 ThumbCache->ThumbCacheDocument.documentElement().removeChild(Element);
@@ -313,9 +315,7 @@ bool cBaseMediaFile::GetThumbnailFromCache(cThumbCache *ThumbCache) {
 //*****************************************************************************************************************************************
 
 void cBaseMediaFile::AddThumbnailToCache(cThumbCache *ThumbCache,QDateTime TimeStamp) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseMediaFile::AddThumbnailToCache";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::AddThumbnailToCache");
 
     if (!ThumbCache)                    return;
     if (ImageWidth*ImageHeight<1000000) return; // No cache for image <1M pixel
@@ -367,9 +367,8 @@ void cBaseMediaFile::AddThumbnailToCache(cThumbCache *ThumbCache,QDateTime TimeS
 //====================================================================================================================
 
 bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseMediaFile::GetInformationFromFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetInformationFromFile");
+
     FileName            =QFileInfo(GivenFileName).absoluteFilePath();
 
     if (ModifyFlag) *ModifyFlag=false;
@@ -386,7 +385,7 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
 
     bool Continue=true;
     while ((Continue)&&(!QFileInfo(FileName).exists())) {
-        if (QMessageBox::question(ApplicationConfig->TopLevelWindow,QApplication::translate("cBaseMediaFile","Open file"),
+        if (CustomMessageBox(ApplicationConfig->TopLevelWindow,QMessageBox::Question,QApplication::translate("cBaseMediaFile","Open file"),
             QApplication::translate("cBaseMediaFile","Impossible to open file ")+FileName+"\n"+QApplication::translate("cBaseMediaFile","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)
             Continue=false;
@@ -403,7 +402,7 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
         }
     }
     if (!Continue) {
-        qDebug()<<"Impossible to open file"<<FileName;
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to open file %1").arg(FileName));
         ShortName=QFileInfo(FileName).fileName();
         return false;
     }
@@ -423,9 +422,8 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
 //====================================================================================================================
 
 QString cBaseMediaFile::GetInformationValue(QString ValueToSearch) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseMediaFile::GetInformationValue";
-    #endif
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetInformationValue");    // Remove: to much
+
     int i=0;
     while ((i<InformationList.count())&&(!((QString )InformationList[i]).startsWith(ValueToSearch+"##"))) i++;
     if ((i<InformationList.count())&&(((QString )InformationList[i]).startsWith(ValueToSearch))) {
@@ -438,9 +436,8 @@ QString cBaseMediaFile::GetInformationValue(QString ValueToSearch) {
 //====================================================================================================================
 
 QString cBaseMediaFile::GetImageGeometryStr() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseMediaFile::GetImageGeometryStr";
-    #endif
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetImageGeometryStr");    // Remove: to much
+
     switch (ObjectGeometry) {
         case IMAGE_GEOMETRY_3_2     : return "3:2";
         case IMAGE_GEOMETRY_2_3     : return "2:3";
@@ -457,18 +454,16 @@ QString cBaseMediaFile::GetImageGeometryStr() {
 //====================================================================================================================
 
 QString cBaseMediaFile::GetFileSizeStr() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseMediaFile::GetFileSizeStr";
-    #endif
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetFileSizeStr");         // Remove: to much
+
     return FileSizeText;
 }
 
 //====================================================================================================================
 
 QString cBaseMediaFile::GetFileDateTimeStr(bool Created) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseMediaFile::GetFileDateTimeStr";
-    #endif
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetFileDateTimeStr");     // Remove: to much
+
     if (Created) return CreatDateTime.toString("dd/MM/yyyy hh:mm:ss");
         else return ModifDateTime.toString("dd/MM/yyyy hh:mm:ss");
 }
@@ -476,9 +471,8 @@ QString cBaseMediaFile::GetFileDateTimeStr(bool Created) {
 //====================================================================================================================
 
 QString cBaseMediaFile::GetImageSizeStr(ImageSizeFmt Fmt) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseMediaFile::GetImageSizeStr";
-    #endif
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetImageSizeStr");        // Remove: to much
+
     QString SizeInfo="";
     QString FmtInfo ="";
     QString GeoInfo ="";
@@ -510,6 +504,8 @@ QString cBaseMediaFile::GetImageSizeStr(ImageSizeFmt Fmt) {
 //====================================================================================================================
 
 QString cBaseMediaFile::GetCumulInfoStr(QString Key1,QString Key2) {
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetCumulInfoStr");        // Remove: to much
+
     int     Num     =0;
     QString TrackNum="";
     QString Value   ="";
@@ -531,9 +527,8 @@ QString cBaseMediaFile::GetCumulInfoStr(QString Key1,QString Key2) {
 //*********************************************************************************************************************************************
 
 cUnmanagedFile::cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cUnmanagedFile::cUnmanagedFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cUnmanagedFile::cUnmanagedFile");
+
     LoadIcons(&ApplicationConfig->DefaultFILEIcon);
     ObjectType  =OBJECTTYPE_UNMANAGED;
     IsInformationValide=true;
@@ -542,14 +537,13 @@ cUnmanagedFile::cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig):cBaseM
 //====================================================================================================================
 
 bool cUnmanagedFile::GetInformationFromFile(QString GivenFileName,QStringList *,bool *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cUnmanagedFile::GetInformationFromFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cUnmanagedFile::GetInformationFromFile");
+
     FileName            =QFileInfo(GivenFileName).absoluteFilePath();
     ShortName           =QFileInfo(FileName).fileName();
 
     if (!QFileInfo(FileName).exists()) {
-        qDebug()<<"Impossible to open file"<<FileName;
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to open file %1").arg(FileName));
         IsValide=false;
     } else {
         FileSize            =QFileInfo(FileName).size();
@@ -566,18 +560,16 @@ bool cUnmanagedFile::GetInformationFromFile(QString GivenFileName,QStringList *,
 //====================================================================================================================
 
 QString cUnmanagedFile::GetFileTypeStr() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cUnmanagedFile::GetFileTypeStr";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,QString("IN:cUnmanagedFile::GetFileTypeStr for %1").arg(FileName));
+
     return QApplication::translate("cBaseMediaFile","Unmanaged","File type");
 }
 
 //====================================================================================================================
 
 bool cUnmanagedFile::IsFilteredFile(int RequireObjectType) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cUnmanagedFile::IsFilteredFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cUnmanagedFile::IsFilteredFile");
+
     return RequireObjectType==OBJECTTYPE_UNMANAGED;
 }
 
@@ -586,18 +578,16 @@ bool cUnmanagedFile::IsFilteredFile(int RequireObjectType) {
 //*********************************************************************************************************************************************
 
 cFolder::cFolder(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cFolder::cFolder";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFolder::cFolder");
+
     ObjectType  =OBJECTTYPE_FOLDER;
 }
 
 //====================================================================================================================
 
 bool cFolder::GetInformationFromFile(QString GivenFileName,QStringList */*AliasList*/,bool */*ModifyFlag*/) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cFolder::GetInformationFromFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFolder::GetInformationFromFile");
+
     FileName            =QFileInfo(GivenFileName).absoluteFilePath();
     ShortName           =QFileInfo(GivenFileName).fileName();
     CreatDateTime       =QFileInfo(FileName).lastModified();       // Keep date/time file was created by the camera !
@@ -608,18 +598,16 @@ bool cFolder::GetInformationFromFile(QString GivenFileName,QStringList */*AliasL
 //====================================================================================================================
 
 bool cFolder::IsFilteredFile(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cFolder::IsFilteredFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFolder::IsFilteredFile");
+
     return true;    // always valide
 }
 
 //====================================================================================================================
 
 void cFolder::GetFullInformationFromFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cFolder::GetFullInformationFromFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFolder::GetFullInformationFromFile");
+
     IsInformationValide=true;
 
     QString AdjustedFileName=FileName;  if (!AdjustedFileName.endsWith(QDir::separator())) AdjustedFileName=AdjustedFileName+QDir::separator();
@@ -700,9 +688,8 @@ void cFolder::GetFullInformationFromFile() {
 //====================================================================================================================
 
 QString cFolder::GetFileTypeStr() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cFolder::GetFileTypeStr";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,QString("IN:cFolder::GetFileTypeStr for %1").arg(FileName));
+
     return QApplication::translate("cBaseMediaFile","Folder","File type");
 }
 
@@ -711,9 +698,8 @@ QString cFolder::GetFileTypeStr() {
 //*********************************************************************************************************************************************
 
 cffDProjectFile::cffDProjectFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cffDProjectFile::cffDProjectFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::cffDProjectFile");
+
     LoadIcons(&ApplicationConfig->DefaultFFDIcon);
     ObjectType      =OBJECTTYPE_FFDFILE;
     Title           ="";
@@ -732,9 +718,8 @@ cffDProjectFile::cffDProjectFile(cBaseApplicationConfig *ApplicationConfig):cBas
 //====================================================================================================================
 
 bool cffDProjectFile::GetInformationFromFile(QString GivenFileName,QStringList */*AliasList*/,bool */*ModifyFlag*/) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cffDProjectFile::GetInformationFromFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::GetInformationFromFile");
+
     FileName            =QFileInfo(GivenFileName).absoluteFilePath();
     ShortName           =QFileInfo(GivenFileName).fileName();
     FileSize            =QFileInfo(GivenFileName).size();
@@ -748,9 +733,7 @@ bool cffDProjectFile::GetInformationFromFile(QString GivenFileName,QStringList *
 //====================================================================================================================
 
 void cffDProjectFile::SaveToXML(QDomElement &domDocument) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cffDProjectFile::SaveToXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::SaveToXML");
 
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement("ffDiaporamaProjectProperties");
@@ -780,9 +763,7 @@ void cffDProjectFile::SaveToXML(QDomElement &domDocument) {
 //====================================================================================================================
 
 bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cffDProjectFile::LoadFromXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::LoadFromXML");
 
     bool IsOk=false;
     if ((domDocument.elementsByTagName("ffDiaporamaProjectProperties").length()>0)&&(domDocument.elementsByTagName("ffDiaporamaProjectProperties").item(0).isElement()==true)) {
@@ -879,9 +860,7 @@ bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
 //====================================================================================================================
 
 void cffDProjectFile::GetFullInformationFromFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cffDProjectFile::GetFullInformationFromFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::GetFullInformationFromFile");
 
     QFile           file(FileName);
     QDomDocument    domDocument;
@@ -902,9 +881,8 @@ void cffDProjectFile::GetFullInformationFromFile() {
 //====================================================================================================================
 
 QString cffDProjectFile::GetTechInfo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cffDProjectFile::GetTechInfo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::GetTechInfo");
+
     QString Info="";
     if (Composer!="")   Info=Info+(Info!=""?" - ":"")+Composer+" ("+ffDRevision+")";
     if (GetImageSizeStr(cBaseMediaFile::GEOONLY)!="")   Info=Info+(Info!=""?" - ":"")+GetImageSizeStr(cBaseMediaFile::GEOONLY);
@@ -916,9 +894,8 @@ QString cffDProjectFile::GetTechInfo() {
 //====================================================================================================================
 
 QString cffDProjectFile::GetTAGInfo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cffDProjectFile::GetTechInfo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::GetTechInfo");
+
     QString Info=Title;
     if (Album!="")      Info=Info+(Info!=""?" - ":"")+Album;
     if (Info!="")       Info=Info+(Info!=""?" - ":"")+QString("%1").arg(Year);
@@ -929,18 +906,16 @@ QString cffDProjectFile::GetTAGInfo() {
 //====================================================================================================================
 
 bool cffDProjectFile::IsFilteredFile(int RequireObjectType) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cffDProjectFile::IsFilteredFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::IsFilteredFile");
+
     return (RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(RequireObjectType==OBJECTTYPE_FFDFILE);
 }
 
 //====================================================================================================================
 
 QString cffDProjectFile::GetFileTypeStr() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cffDProjectFile::GetFileTypeStr";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,QString("IN:cffDProjectFile::GetFileTypeStr for %1").arg(FileName));
+
     return QApplication::translate("cBaseMediaFile","ffDiaporama","File type");
 }
 
@@ -949,18 +924,16 @@ QString cffDProjectFile::GetFileTypeStr() {
 //*********************************************************************************************************************************************
 
 cImageFile::cImageFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cImageFile::cImageFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::cImageFile");
+
     ObjectType  =OBJECTTYPE_IMAGEFILE;  // coul be turn later to OBJECTTYPE_THUMBNAIL
 }
 
 //====================================================================================================================
 
 bool cImageFile::IsFilteredFile(int RequireObjectType) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cImageFile::IsFilteredFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::IsFilteredFile");
+
     if (ObjectType==OBJECTTYPE_IMAGEFILE) return (RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(RequireObjectType==OBJECTTYPE_IMAGEFILE);
         else return (RequireObjectType==OBJECTTYPE_UNMANAGED);
 }
@@ -968,9 +941,8 @@ bool cImageFile::IsFilteredFile(int RequireObjectType) {
 //====================================================================================================================
 
 QString cImageFile::GetFileTypeStr() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cImageFile::GetFileTypeStr";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,QString("IN:cImageFile::GetFileTypeStr for %1").arg(FileName));
+
     if (ObjectType==OBJECTTYPE_IMAGEFILE) return QApplication::translate("cBaseMediaFile","Image","File type");
         else return QApplication::translate("cBaseMediaFile","Thumbnail","File type");
 }
@@ -978,9 +950,8 @@ QString cImageFile::GetFileTypeStr() {
 //====================================================================================================================
 
 void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cImageFile::GetFullInformationFromFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::GetFullInformationFromFile");
+
     ImageOrientation    =-1;
     IsInformationValide =false;
     bool ExifOk=false;
@@ -999,7 +970,7 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
             ExifOk=true;
         }
         catch( Exiv2::Error& e ) {
-            qDebug()<<"Ther is no EXIF metadata for file"<<FileName;
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
         }
         if (ExifOk) {
             ImageFile->readMetadata();
@@ -1084,16 +1055,16 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
         Process.setProcessChannelMode(QProcess::MergedChannels);
         Process.start(Commande);
         if (!Process.waitForStarted()) {
-            qDebug()<<"Impossible to start exiv2 - no exif informations will be decode for"<<FileName;
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to start exiv2 - no exif informations will be decode for %1").arg(FileName));
             ExifOk=false;
         }
         if (ExifOk && !Process.waitForFinished()) {
             Process.kill();
-            qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<FileName;
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Error during exiv2 process - no exif informations will be decode for %1").arg(FileName));
             ExifOk=false;
         }
         if (ExifOk && (Process.exitStatus()<0)) {
-            qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode for"<<FileName;
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","exiv2 return error %1 - no exif informations will be decode for %2").arg(Process.exitStatus()).arg(FileName));
             ExifOk=false;
         }
         if (ExifOk) {
@@ -1128,16 +1099,16 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
             Commande=AdjustDirForOS("exiv2 print -pva \""+FileName+"\"");
             Process.start(Commande);
             if (!Process.waitForStarted()) {
-                qDebug()<<"Impossible to start exiv2 - no exif informations will be decode for"<<FileName;
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to start exiv2 - no exif informations will be decode for %1").arg(FileName));
                 ExifOk=false;
             }
             if (ExifOk && !Process.waitForFinished()) {
                 Process.kill();
-                qDebug()<<"Error during exiv2 process - no exif informations will be decode for"<<FileName;
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Error during exiv2 process - no exif informations will be decode for %1").arg(FileName));
                 ExifOk=false;
             }
             if (ExifOk && (Process.exitStatus()<0)) {
-                qDebug()<<"Exiv2 return error"<<Process.exitStatus()<<"- no exif informations will be decode for"<<FileName;
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","exiv2 return error %1 - no exif informations will be decode for %2").arg(Process.exitStatus()).arg(FileName));
                 ExifOk=false;
             }
             if (ExifOk) {
@@ -1170,20 +1141,19 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
     //************************************************************************************
     // If no exif preview image (of image too small) then load/create thumbnail
     //************************************************************************************
-    if (Icon16.isNull()) {
+    if ((IsIconNeeded)&&(Icon16.isNull())) {
 
         // Try to load thumb from thumbcache (if exist)
         if (ThumbCache) GetThumbnailFromCache(ThumbCache);
 
         if (Icon16.isNull()) {
-            //qDebug()<<QString("Create thumbnail for %1").arg(FileName);
             cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,NULL,ApplicationConfig->Smoothing,true);
             if (ImageObject==NULL) {
-                qDebug()<<"Error in CallEXIF : FindObject return NULL for thumbnail creation !";
+                ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for thumbnail creation !");
             } else {
                 QImage *LN_Image=ImageObject->ValidateCacheRenderImage();   // Get a link to render image in LuLoImageCache collection
                 if ((LN_Image==NULL)||(LN_Image->isNull())) {
-                    qDebug()<<"Error in CallEXIF : ValidateCacheRenderImage return NULL for thumbnail creation !";
+                    ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : ValidateCacheRenderImage return NULL for thumbnail creation !");
                 } else {
                     LoadIcons(LN_Image);
                     if (ThumbCache) AddThumbnailToCache(ThumbCache,ModifDateTime);
@@ -1198,11 +1168,11 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
     if ((ImageWidth==0)||(ImageHeight==0)) {
         cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,NULL,ApplicationConfig->Smoothing,true);
         if (ImageObject==NULL) {
-            qDebug()<<"Error in CallEXIF : FindObject return NULL !";
+            ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for size computation !");
         } else {
             QImage *LN_Image=ImageObject->ValidateCacheRenderImage();   // Get a link to render image in LuLoImageCache collection
             if ((LN_Image==NULL)||(LN_Image->isNull())) {
-                qDebug()<<"Error in CallEXIF : ValidateCacheRenderImage return NULL !";
+                ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : ValidateCacheRenderImage return NULL for size computation !");
             } else {
                 ImageWidth =LN_Image->width();
                 ImageHeight=LN_Image->height();
@@ -1241,9 +1211,8 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
 //====================================================================================================================
 
 QString cImageFile::GetTechInfo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cImageFile::GetTechInfo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::GetTechInfo");
+
     QString Info=GetImageSizeStr(FULLWEB);
     if (GetInformationValue("artist")!="")              Info=Info+(Info!=""?"-":"")+GetInformationValue("artist");
     if (GetInformationValue("composer")!="")            Info=Info+(Info!=""?"-":"")+GetInformationValue("composer");
@@ -1254,9 +1223,7 @@ QString cImageFile::GetTechInfo() {
 //====================================================================================================================
 
 QString cImageFile::GetTAGInfo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cImageFile::GetTAGInfo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::GetTAGInfo");
 
     QString Info=GetInformationValue("Photo.ExposureTime");
     if (GetInformationValue("Photo.ApertureValue")!="")    Info=Info+(Info!=""?"-":"")+GetInformationValue("Photo.ApertureValue");
@@ -1272,9 +1239,8 @@ QString cImageFile::GetTAGInfo() {
 //====================================================================================================================
 
 QImage *cImageFile::ImageAt(bool PreviewMode,cFilterTransformObject *Filter) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cImageFile::ImageAt";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::ImageAt");
+
     if (!IsValide)            return NULL;
     if (!IsInformationValide) GetFullInformationFromFile();
 
@@ -1283,7 +1249,7 @@ QImage *cImageFile::ImageAt(bool PreviewMode,cFilterTransformObject *Filter) {
     cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,Filter,(!PreviewMode || ApplicationConfig->Smoothing),true);
 
     if (!ImageObject) {
-        qDebug()<<"Error in cImageFile::ImageAt : FindObject return NULL !";
+        ToLog(LOGMSG_CRITICAL,"Error in cImageFile::ImageAt : FindObject return NULL !");
         return NULL;  // There is an error !!!!!
     }
 
@@ -1291,11 +1257,11 @@ QImage *cImageFile::ImageAt(bool PreviewMode,cFilterTransformObject *Filter) {
         else         LN_Image=ImageObject->ValidateCacheRenderImage();
 
     if ((LN_Image==NULL)||(LN_Image->isNull())) {
-        qDebug()<<"Error in cImageFile::ImageAt : ValidateCacheImage return NULL !";
+        ToLog(LOGMSG_CRITICAL,"Error in cImageFile::ImageAt : ValidateCacheImage return NULL !");
     } else {
         RetImage=new QImage(LN_Image->copy());
         if ((RetImage==NULL)||(RetImage->isNull()))
-            qDebug()<<"Error in cImageFile::ImageAt : LN_Image->copy() return NULL !";
+            ToLog(LOGMSG_CRITICAL,"Error in cImageFile::ImageAt : LN_Image->copy() return NULL !");
     }
 
     // return wanted image
@@ -1307,9 +1273,7 @@ QImage *cImageFile::ImageAt(bool PreviewMode,cFilterTransformObject *Filter) {
 *************************************************************************************************************************************/
 
 cVideoFile::cVideoFile(int TheWantedObjectType,cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::cVideoFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::cVideoFile");
 
     MusicOnly               = (TheWantedObjectType==OBJECTTYPE_MUSICFILE);
     ObjectType              = TheWantedObjectType;
@@ -1343,9 +1307,8 @@ cVideoFile::cVideoFile(int TheWantedObjectType,cBaseApplicationConfig *Applicati
 //====================================================================================================================
 
 cVideoFile::~cVideoFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::~cVideoFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::~cVideoFile");
+
     // Close LibAVFormat and LibAVCodec contexte for the file
     CloseCodecAndFile();
 }
@@ -1359,9 +1322,7 @@ cVideoFile::~cVideoFile() {
 //      return true if WantedObjectType=OBJECTTYPE_MUSICFILE and at least one audio track is present
 
 void cVideoFile::GetFullInformationFromFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::GetFullInformationFromFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::GetFullInformationFromFile");
 
     int64_t AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
 
@@ -1631,18 +1592,15 @@ void cVideoFile::GetFullInformationFromFile() {
 //====================================================================================================================
 
 bool cVideoFile::IsFilteredFile(int RequireObjectType) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::IsFilteredFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::IsFilteredFile");
+
     return (RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(ObjectType==RequireObjectType);
 }
 
 //====================================================================================================================
 
 QString cVideoFile::GetFileTypeStr() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::GetFileTypeStr";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,QString("IN:cVideoFile::GetFileTypeStr for %1").arg(FileName));
 
     if (MusicOnly || (ObjectType==OBJECTTYPE_MUSICFILE)) return QApplication::translate("cBaseMediaFile","Music","File type");
         else return QApplication::translate("cBaseMediaFile","Video","File type");
@@ -1651,9 +1609,7 @@ QString cVideoFile::GetFileTypeStr() {
 //====================================================================================================================
 
 QImage *cVideoFile::GetDefaultTypeIcon(cCustomIcon::IconSize Size) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::GetDefaultTypeIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::GetDefaultTypeIcon");
 
     if (MusicOnly || (ObjectType==OBJECTTYPE_MUSICFILE)) return ApplicationConfig->DefaultMUSICIcon.GetIcon(Size);
         else return ApplicationConfig->DefaultVIDEOIcon.GetIcon(Size);
@@ -1662,9 +1618,8 @@ QImage *cVideoFile::GetDefaultTypeIcon(cCustomIcon::IconSize Size) {
 //====================================================================================================================
 
 QString cVideoFile::GetTechInfo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::GetTechInfo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::GetTechInfo");
+
     QString Info="";
     if (ObjectType==OBJECTTYPE_MUSICFILE) {
         Info=GetCumulInfoStr("Audio","Codec");
@@ -1704,9 +1659,8 @@ QString cVideoFile::GetTechInfo() {
 //====================================================================================================================
 
 QString cVideoFile::GetTAGInfo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::GetTAGInfo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::GetTAGInfo");
+
     QString Info=GetInformationValue("track");
     if (GetInformationValue("title")!="")          Info=Info+(Info!=""?"-":"")+GetInformationValue("title");
     if (GetInformationValue("artist")!="")         Info=Info+(Info!=""?"-":"")+GetInformationValue("artist");
@@ -1721,9 +1675,8 @@ QString cVideoFile::GetTAGInfo() {
 //====================================================================================================================
 
 void cVideoFile::CloseCodecAndFile() {
-#ifdef DEBUGMODE
-qDebug() << "IN:cVideoFile::CloseCodecAndFile";
-#endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::CloseCodecAndFile");
+
     // Close the video codec
     if (VideoDecoderCodec!=NULL) {
         avcodec_close(ffmpegVideoFile->streams[VideoStreamNumber]->codec);
@@ -1767,9 +1720,7 @@ qDebug() << "IN:cVideoFile::CloseCodecAndFile";
 // Read an audio frame from current stream
 //====================================================================================================================
 void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::ReadAudioFrame";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadAudioFrame");
 
     // Ensure file was previously open and all is ok
     if ((SoundTrackBloc==NULL)||(AudioStreamNumber==-1)||(ffmpegAudioFile->streams[AudioStreamNumber]==NULL)||(ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
@@ -1821,7 +1772,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
         if (av_seek_frame(ffmpegAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
             // Try in AVSEEK_FLAG_ANY mode
             if (av_seek_frame(ffmpegAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
-                qDebug()<<"Seek error";
+                ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadAudioFrame : Seek error");
             }
         }
         FramePosition=-1;
@@ -1840,7 +1791,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
         if (err<0) {
             // if error in av_read_frame(...) then may be we have reach the end of file !
             Continue=false;
-            qDebug()<<"av_read_frame error during ReadAudioFrame"<<err;
+            ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::ReadAudioFrame : av_read_frame error %1").arg(err));
         } else {
             if ((StreamPacket->stream_index==AudioStreamNumber)&&(StreamPacket->size>0)) {
 
@@ -2082,9 +2033,8 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 #define MAXELEMENTSINOBJECTLIST 500
 
 QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::ReadVideoFrame";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadVideoFrame");
+
     int64_t AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
 
     // Ensure file was previously open
@@ -2094,7 +2044,7 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
     double dPosition=double(Position)/1000;                                                 // Position in double format
 
     if (dEndFile==0) {
-        qDebug()<<"dEndFile=0 ?????";
+        ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadVideoFrame : dEndFile=0 ?????");
         return NULL;
     }
 
@@ -2144,7 +2094,7 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
         if (av_seek_frame(ffmpegVideoFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
             // Try in AVSEEK_FLAG_ANY mode
             if (av_seek_frame(ffmpegVideoFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
-                qDebug()<<"Seek error";
+                ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadVideoFrame : Seek error");
             }
         }
     } else {
@@ -2238,7 +2188,7 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
     }
 
     if ((!IsVideoFind)&&(!RetImage)) {
-        qDebug()<<"No video image return for position "<<Position<<"=> return black frame";
+        ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return black frame").arg(Position));
         RetImage =new QImage(ffmpegVideoFile->streams[VideoStreamNumber]->codec->width,ffmpegVideoFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
         RetImage->fill(0);
     }
@@ -2249,14 +2199,18 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
 }
 
 //====================================================================================================================
+//#define PIXFMT      PIX_FMT_BGRA
+//#define QTPIXFMT    QImage::Format_ARGB32_Premultiplied
+#define PIXFMT      PIX_FMT_RGB24
+#define QTPIXFMT    QImage::Format_RGB888
 
 QImage *cVideoFile::ConvertYUVToRGB() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::ConvertYUVToRGB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ConvertYUVToRGB");
+
     int     W               =ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
     int     H               =ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
-    QImage  *RetImage       =new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+
+    QImage  *RetImage       =new QImage(W,H,QTPIXFMT);
     AVFrame *FrameBufferRGB =avcodec_alloc_frame();  // Allocate structure for RGB image
 
     if (FrameBufferRGB!=NULL) {
@@ -2264,7 +2218,7 @@ QImage *cVideoFile::ConvertYUVToRGB() {
         avpicture_fill(
                 (AVPicture *)FrameBufferRGB,        // Buffer to prepare
                 RetImage->bits(),                   // Buffer which will contain the image data
-                PIX_FMT_BGRA,                       // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
+                PIXFMT,                             // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
                 W,                                  // The width of the image in pixels
                 H                                   // The height of the image in pixels
         );
@@ -2272,7 +2226,7 @@ QImage *cVideoFile::ConvertYUVToRGB() {
         // Get a converter from libswscale
         struct SwsContext *img_convert_ctx=sws_getContext(
             W,H,ffmpegVideoFile->streams[VideoStreamNumber]->codec->pix_fmt,        // Src Widht,Height,Format
-            W,H,PIX_FMT_BGRA,                                                       // Destination Width,Height,Format
+            W,H,PIXFMT,                                                             // Destination Width,Height,Format
             SWS_FAST_BILINEAR/*SWS_BICUBIC*/,                                       // flags
             NULL,NULL,NULL);                                                        // src Filter,dst Filter,param
 
@@ -2304,9 +2258,9 @@ QImage *cVideoFile::ConvertYUVToRGB() {
 //DontUseEndPos default=false
 QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,cSoundBlockList *SoundTrackBloc,double Volume,
                                    bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cVideoFile::ImageAt";
-    #endif
+
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ImageAt");
+
     if (!IsValide) return NULL;
     if (!IsOpen) OpenCodecAndFile();
 
@@ -2348,6 +2302,8 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
 //====================================================================================================================
 
 bool cVideoFile::OpenCodecAndFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::OpenCodecAndFile");
+
     // Ensure file was previously checked
     if (!IsValide) return false;
     if (!IsInformationValide) GetFullInformationFromFile();

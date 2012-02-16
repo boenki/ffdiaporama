@@ -23,15 +23,12 @@
 
 #include "cApplicationConfig.h"
 
-//#define DEBUGMODE
-
 //====================================================================================================================
 
 DlgAbout::DlgAbout(QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgAbout) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgAbout::DlgAbout";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::DlgAbout");
+
     ui->setupUi(this);
     OkBt    =ui->OKBT;
     //CancelBt=;
@@ -41,9 +38,8 @@ DlgAbout::DlgAbout(QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSa
 //====================================================================================================================
 
 DlgAbout::~DlgAbout() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgAbout::~DlgAbout";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::~DlgAbout");
+
     delete ui;
 }
 
@@ -51,9 +47,7 @@ DlgAbout::~DlgAbout() {
 // Initialise dialog
 
 void DlgAbout::DoInitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgAbout::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::DoInitDialog");
 
     ui->ApplicationNameLabel->setText(QString(APPLICATION_VERSION));
     ui->tabWidget->setCurrentIndex(0);
@@ -69,62 +63,55 @@ void DlgAbout::DoInitDialog() {
 //====================================================================================================================
 
 void DlgAbout::WQtWebSite() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgAbout::WQtWebSite";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::WQtWebSite");
+
     QDesktopServices::openUrl(QUrl("http://qt.nokia.com/products/"));
 }
 
 //====================================================================================================================
 
 void DlgAbout::TAGLibWebSite() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgAbout::TAGLibWebSite";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::TAGLibWebSite");
+
     QDesktopServices::openUrl(QUrl("http://developer.kde.org/~wheeler/taglib.html"));
 }
 
 //====================================================================================================================
 
 void DlgAbout::ffMPEGWebSite() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgAbout::ffMPEGWebSite";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::ffMPEGWebSite");
+
     QDesktopServices::openUrl(QUrl("http://www.ffmpeg.org/"));
 }
 
 //====================================================================================================================
 
 void DlgAbout::EXIV2WebSite() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgAbout::EXIV2WebSite";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::EXIV2WebSite");
+
     QDesktopServices::openUrl(QUrl("http://www.exiv2.org/"));
 }
 
 //====================================================================================================================
 
 void DlgAbout::FMTFWebSite() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgAbout::FMTFWebSite";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::FMTFWebSite");
+
     QDesktopServices::openUrl(QUrl("http://ksquirrel.sourceforge.net/subprojects.php"));
 }
 
 //====================================================================================================================
 
 void DlgAbout::CrystalWebSite() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgAbout::CrystalWebSite";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::CrystalWebSite");
+
     QDesktopServices::openUrl(QUrl("http://www.everaldo.com/crystal/"));
 }
 
 //====================================================================================================================
 
 void DlgAbout::CC2WebSite() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgAbout::CC2WebSite";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::CC2WebSite");
+
     QDesktopServices::openUrl(QUrl("http://creativecommons.org/"));
 }

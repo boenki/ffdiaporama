@@ -23,6 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
+#include "_QCustomDialog.h"
 
 // Include some additional standard class
 #include <QWidget>
@@ -30,6 +31,8 @@
 #include <QTreeWidgetItem>
 #include <QString>
 #include <QIcon>
+#include <QAction>
+#include <QImage>
 
 // Include some common various class
 #include "cDriveList.h"
@@ -40,6 +43,7 @@ public:
     cBaseApplicationConfig  *ApplicationConfig;
     cDriveList              *DriveList;
     explicit                QCustomFolderTree(QWidget *parent=0);
+    bool                    IsRemoveAllowed;
 
     // Public utility functions
     virtual void        InitDrives(cDriveList *TheDriveList);
@@ -51,16 +55,19 @@ public:
     virtual cDriveDesc  *SearchRealDrive(QString Path);
     virtual void        RefreshDriveList();
 
+private slots:
+    void                s_itemExpanded(QTreeWidgetItem *item);
+    void                s_ContextMenu(const QPoint Point);
+
 private:
     QTreeWidgetItem     *CreateItem(QString Text,QString FilePath,QIcon Icon);
     bool                IsFolderHaveChild(QString Folder);
     bool                IsReadOnlyDrive(QString Folder);
     void                DeleteChildItem(QTreeWidgetItem *Item);
-
-private slots:
-    void                s_itemExpanded(QTreeWidgetItem *item);
+    QAction             *CreateMenuAction(QString RessourceNameIcon,QString Text,int Data,bool Checkable,bool IsCheck);
 
 signals:
+    void                ActionRemoveFolder();
 
 };
 

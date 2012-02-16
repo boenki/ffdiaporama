@@ -22,9 +22,8 @@
 #include "QCustomGetFolder.h"
 #include "ui_QCustomGetFolder.h"
 
-//#define DEBUGMODE
-
 QString GetDestinationFolder(QString CurrentPath,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:GetDestinationFolder");
     QCustomGetFolder Dlg(CurrentPath,HelpURL,ApplicationConfig,DlgWSP,parent);
     Dlg.InitDialog();
     if (Dlg.exec()==0) return Dlg.CurrentPath; else return "";
@@ -34,9 +33,8 @@ QString GetDestinationFolder(QString CurrentPath,QString HelpURL,cBaseApplicatio
 
 QCustomGetFolder::QCustomGetFolder(QString TheCurrentPath,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::QCustomGetFolder) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomGetFolder::QCustomGetFolder";
-    #endif
+
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomGetFolder::QCustomGetFolder");
 
     ui->setupUi(this);
     OkBt    =ui->OkBt;
@@ -55,9 +53,8 @@ QCustomGetFolder::QCustomGetFolder(QString TheCurrentPath,QString HelpURL,cBaseA
 //====================================================================================================================
 
 QCustomGetFolder::~QCustomGetFolder() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomGetFolder::~QCustomGetFolder";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomGetFolder::~QCustomGetFolder");
+
     delete ui;
     delete DriveList;
 }
@@ -66,9 +63,7 @@ QCustomGetFolder::~QCustomGetFolder() {
 // Initialise dialog
 
 void QCustomGetFolder::DoInitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomGetFolder::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomGetFolder::DoInitDialog");
 
     DriveList=new cDriveList(BaseApplicationConfig);
     DriveList->UpdateDriveList();
@@ -83,9 +78,7 @@ void QCustomGetFolder::DoInitDialog() {
 //====================================================================================================================
 
 void QCustomGetFolder::s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomGetFolder::s_currentTreeItemChanged";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomGetFolder::s_currentTreeItemChanged");
 
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
 }
@@ -94,16 +87,14 @@ void QCustomGetFolder::s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWi
 // Call when user click on Ok button
 
 void QCustomGetFolder::DoAccept() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomGetFolder::DoAccept";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomGetFolder::DoAccept");
 
     CurrentPath=ui->FolderTree->GetCurrentFolderPath();
     #if defined(Q_OS_WIN)
-        CurrentPath.replace("%HOMEDRIVE%%HOMEPATH%",DriveList->List[0].CurrentPath,Qt::CaseInsensitive);
-        CurrentPath.replace("%USERPROFILE%",DriveList->List[0].CurrentPath,Qt::CaseInsensitive);
-        CurrentPath=AdjustDirForOS(Path);
-        if (QDir(CurrentPath).canonicalPath()!="") CurrentPath=CurrentPath(Path).canonicalPath(); // Resolved eventual .lnk files
+        CurrentPath.replace("%HOMEDRIVE%%HOMEPATH%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        CurrentPath.replace("%USERPROFILE%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        CurrentPath=AdjustDirForOS(CurrentPath);
+        if (QDir(CurrentPath).canonicalPath()!="") CurrentPath=QDir(CurrentPath).canonicalPath(); // Resolved eventual .lnk files
     #else
         if (CurrentPath.startsWith("~")) CurrentPath=QDir::homePath()+CurrentPath.mid(1);
     #endif

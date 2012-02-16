@@ -32,8 +32,6 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
-//#define DEBUGMODE
-
 #define ICON_FRAMING_CUSTOM                 ":/img/action_cancel.png"
 #define ICON_FRAMING_FULL                   ":/img/AdjustWH.png"
 #define ICON_FRAMING_WIDTH                  ":/img/AdjustW.png"
@@ -59,9 +57,7 @@
 #define ICON_RULER_OFF                      ":/img/ruler_ko.png"
 
 DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgSlideProperties) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::DlgSlideProperties";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DlgSlideProperties");
 
     ui->setupUi(this);
     this->DiaporamaObject           =DiaporamaObject;
@@ -262,9 +258,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
 //====================================================================================================================
 
 void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::MakeFormIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::MakeFormIcon");
 
     for (int i=0;i<UICB->count();i++) {
         cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,GlobalMainWindow->ApplicationConfig);
@@ -292,9 +286,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
 //====================================================================================================================
 
 void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::MakeBorderStyleIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::MakeBorderStyleIcon");
 
     for (int i=0;i<UICB->count();i++) {
         QPixmap  Image(32,32);
@@ -316,9 +308,7 @@ void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
 //====================================================================================================================
 
 DlgSlideProperties::~DlgSlideProperties() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::~DlgSlideProperties";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::~DlgSlideProperties");
 
     Clean();
     StopMAJSpinbox=true;
@@ -333,9 +323,7 @@ DlgSlideProperties::~DlgSlideProperties() {
 //====================================================================================================================
 
 void DlgSlideProperties::Clean() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::Clean";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::Clean");
 
     StopMAJSpinbox=true;
     InScene_SelectionChanged=true;
@@ -364,9 +352,7 @@ void DlgSlideProperties::Clean() {
 //====================================================================================================================
 
 void DlgSlideProperties::Help() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::Help";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::Help");
 
     GlobalMainWindow->OpenHelp(HELPFILE_DlgSlideProperties);
 }
@@ -374,9 +360,7 @@ void DlgSlideProperties::Help() {
 //====================================================================================================================
 
 void DlgSlideProperties::resizeEvent(QResizeEvent *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::resizeEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::resizeEvent");
 
     if (IsFirstInitDone) RefreshShotTable(ui->ShotTable->currentColumn());      // Fill the ShotTable and select 1st shot
 }
@@ -384,9 +368,7 @@ void DlgSlideProperties::resizeEvent(QResizeEvent *) {
 //====================================================================================================================
 
 void DlgSlideProperties::SetSavedWindowGeometry() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::SetSavedWindowGeometry";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::SetSavedWindowGeometry");
 
     DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->ApplyToWindow(this,ui->SplitterTop,ui->SplitterBottom);
 }
@@ -394,9 +376,7 @@ void DlgSlideProperties::SetSavedWindowGeometry() {
 //====================================================================================================================
 
 void DlgSlideProperties::showEvent(QShowEvent *ev) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::showEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::showEvent");
 
     QDialog::showEvent(ev);
     if (IsFirstInitDone) return;
@@ -408,9 +388,7 @@ void DlgSlideProperties::showEvent(QShowEvent *ev) {
 //====================================================================================================================
 
 void DlgSlideProperties::GetForDisplayUnit(double &DisplayW,double &DisplayH) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::GetForDisplayUnit";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::GetForDisplayUnit");
 
     if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_4_3)        { DisplayW=1440; DisplayH=1080; }
     else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
@@ -421,9 +399,7 @@ void DlgSlideProperties::GetForDisplayUnit(double &DisplayW,double &DisplayH) {
 //====================================================================================================================
 
 void DlgSlideProperties::s_NewChapter(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_SlideNameChange";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideNameChange");
 
     DiaporamaObject->StartNewChapter=ui->NewChapterCB->isChecked();
 }
@@ -431,9 +407,7 @@ void DlgSlideProperties::s_NewChapter(int) {
 //====================================================================================================================
 
 void DlgSlideProperties::s_SlideNameChange(QString NewText) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_SlideNameChange";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideNameChange");
 
     DiaporamaObject->SlideName=NewText;
 }
@@ -441,9 +415,7 @@ void DlgSlideProperties::s_SlideNameChange(QString NewText) {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotDurationChange(QTime NewValue) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ShotDurationChange";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotDurationChange");
 
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
@@ -454,9 +426,7 @@ void DlgSlideProperties::s_ShotDurationChange(QTime NewValue) {
 //====================================================================================================================
 
 void DlgSlideProperties::reject() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::reject";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::reject");
 
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
@@ -468,9 +438,7 @@ void DlgSlideProperties::reject() {
 //====================================================================================================================
 
 void DlgSlideProperties::accept() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::accept";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::accept");
 
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
@@ -479,9 +447,7 @@ void DlgSlideProperties::accept() {
 }
 
 void DlgSlideProperties::OKPrevious() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::OKPrevious";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::OKPrevious");
 
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
@@ -490,9 +456,7 @@ void DlgSlideProperties::OKPrevious() {
 }
 
 void DlgSlideProperties::OKNext() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::OKNext";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::OKNext");
 
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
@@ -503,9 +467,7 @@ void DlgSlideProperties::OKNext() {
 //====================================================================================================================
 
 void DlgSlideProperties::GetSound() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::GetSound";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::GetSound");
 
     int CurrentShot=ui->ShotTable->currentColumn();
     if ((CurrentShot>=0)&&(CurrentShot<DiaporamaObject->List.count())) CompositionList=&DiaporamaObject->List[CurrentShot]->ShotComposition;
@@ -530,9 +492,7 @@ void DlgSlideProperties::GetSound() {
 //====================================================================================================================
 
 void DlgSlideProperties::RefreshStyleControls() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::RefreshStyleControls";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::RefreshStyleControls");
 
     if (InRefreshStyleControls) return;
     InRefreshStyleControls=true;
@@ -621,9 +581,7 @@ void DlgSlideProperties::RefreshStyleControls() {
 //====================================================================================================================
 
 void DlgSlideProperties::RefreshControls() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::RefreshControls";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::RefreshControls");
 
     if (InRefreshControls) return;
 
@@ -740,16 +698,13 @@ void DlgSlideProperties::RefreshControls() {
 // Refresh background image of the scene
 
 void DlgSlideProperties::s_RefreshSceneImage() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_RefreshSceneImage";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_RefreshSceneImage");
+
     RefreshSceneImage();
 }
 
 void DlgSlideProperties::RefreshSceneImage() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::RefreshSceneImage";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::RefreshSceneImage");
 
     if (InRefreshSceneImage) return;
     InRefreshSceneImage=true;
@@ -913,9 +868,7 @@ void DlgSlideProperties::RefreshSceneImage() {
 // Refresh the ShotTable
 
 void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::RefreshShotTable";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::RefreshShotTable");
 
     int CellHeight=ui->ShotTable->rowHeight(0);
     int CellWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(CellHeight);
@@ -940,9 +893,7 @@ void DlgSlideProperties::RefreshShotTable(int SetCurrentIndex) {
 // Refresh the BlockTable
 
 void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::RefreshBlockTable";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::RefreshBlockTable");
 
     // Calculate scene size
     GetForDisplayUnit(xmax,ymax);
@@ -1068,9 +1019,7 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
 //====================================================================================================================
 
 void DlgSlideProperties::s_TVMarginsBt() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_TVMarginsBt";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_TVMarginsBt");
 
     if (MagneticRuler.MagneticRuler==true) MagneticRuler.MagneticRuler=false; else MagneticRuler.MagneticRuler=true;
     DiaporamaObject->Parent->ApplicationConfig->SlideRuler=MagneticRuler.MagneticRuler;
@@ -1082,9 +1031,7 @@ void DlgSlideProperties::s_TVMarginsBt() {
 //====================================================================================================================
 
 void DlgSlideProperties::UpdateDockInfo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::UpdateDockInfo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::UpdateDockInfo");
 
     ui->TableInfo->setUpdatesEnabled(false);               // To allow and force a general update
     while (ui->TableInfo->rowCount()>0) ui->TableInfo->removeRow(0);
@@ -1140,9 +1087,7 @@ void DlgSlideProperties::UpdateDockInfo() {
 //====================================================================================================================
 
 cCompositionObject *DlgSlideProperties::GetSelectedGlobalCompositionObject() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::GetSelectedGlobalCompositionObject";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::GetSelectedGlobalCompositionObject");
 
     int CurrentBlock=ui->BlockTable->currentRow();
     if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return NULL;
@@ -1154,9 +1099,7 @@ cCompositionObject *DlgSlideProperties::GetSelectedGlobalCompositionObject() {
 //====================================================================================================================
 
 cCompositionObject *DlgSlideProperties::GetSelectedCompositionObject() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::GetSelectedCompositionObject";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::GetSelectedCompositionObject");
 
     int CurrentBlock=ui->BlockTable->currentRow();
     if ((CurrentBlock<0)||(CurrentBlock>=CompositionList->List.count())) return NULL; else return CompositionList->List[CurrentBlock];
@@ -1168,9 +1111,8 @@ cCompositionObject *DlgSlideProperties::GetSelectedCompositionObject() {
 
 //========= Ensure current context is ok for modifing properties
 bool DlgSlideProperties::PrepContexte() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::PrepContexte";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::PrepContexte");
+
     if (StopMAJSpinbox) return false;
 
     // Get current block object
@@ -1195,9 +1137,8 @@ bool DlgSlideProperties::PrepContexte() {
 
 //========= Apply modification
 void DlgSlideProperties::ApplyToContexte(bool ReposRectItem,bool ApplyGlobal) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::ApplyToContexte";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::ApplyToContexte");
+
     if (ApplyGlobal) ApplyGlobalPropertiesToAllShots(CompositionObject);
     if (ReposRectItem) {
         RectItem->setPos(CompositionObject->x*xmax,CompositionObject->y*ymax);
@@ -1210,9 +1151,8 @@ void DlgSlideProperties::ApplyToContexte(bool ReposRectItem,bool ApplyGlobal) {
 
 //========= X position
 void DlgSlideProperties::s_ChgPosXValue(double Value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChgPosXValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgPosXValue");
+
     if (!PrepContexte()) return;
     if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CompositionObject->x=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
         else                                                                          CompositionObject->x=(Value/DisplayW);    // DisplayUnit==DISPLAYUNIT_PIXELS
@@ -1221,9 +1161,8 @@ void DlgSlideProperties::s_ChgPosXValue(double Value) {
 
 //========= Y position
 void DlgSlideProperties::s_ChgPosYValue(double Value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChgPosYValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgPosYValue");
+
     if (!PrepContexte()) return;
     if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CompositionObject->y=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
         else                                                                          CompositionObject->y=(Value/DisplayH);    // DisplayUnit==DISPLAYUNIT_PIXELS
@@ -1232,9 +1171,8 @@ void DlgSlideProperties::s_ChgPosYValue(double Value) {
 
 //========= Width
 void DlgSlideProperties::s_ChgWidthValue(double Value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChgWidthValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgWidthValue");
+
     if (!PrepContexte()) return;
     if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CompositionObject->w=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
         else CompositionObject->w=(Value/DisplayW);                                                                             // DisplayUnit==DISPLAYUNIT_PIXELS
@@ -1244,9 +1182,8 @@ void DlgSlideProperties::s_ChgWidthValue(double Value) {
 
 //========= Height
 void DlgSlideProperties::s_ChgHeightValue(double Value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChgHeightValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgHeightValue");
+
     if (!PrepContexte()) return;
     if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CompositionObject->h=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
         else CompositionObject->h=(Value/DisplayH);                                                                             // DisplayUnit==DISPLAYUNIT_PIXELS
@@ -1256,9 +1193,8 @@ void DlgSlideProperties::s_ChgHeightValue(double Value) {
 
 //========= X Rotation value
 void DlgSlideProperties::s_ChgRotateXValue(int Value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChgRotateXValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgRotateXValue");
+
     if (!PrepContexte()) return;
     CompositionObject->RotateXAxis=Value;
     ApplyToContexte(false,false);
@@ -1266,9 +1202,8 @@ void DlgSlideProperties::s_ChgRotateXValue(int Value) {
 
 //========= Y Rotation value
 void DlgSlideProperties::s_ChgRotateYValue(int Value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChgRotateYValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgRotateYValue");
+
     if (!PrepContexte()) return;
     CompositionObject->RotateYAxis=Value;
     ApplyToContexte(false,false);
@@ -1276,9 +1211,8 @@ void DlgSlideProperties::s_ChgRotateYValue(int Value) {
 
 //========= Z Rotation value
 void DlgSlideProperties::s_ChgRotateZValue(int Value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChgRotateZValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgRotateZValue");
+
     if (!PrepContexte()) return;
     CompositionObject->RotateZAxis=Value;
     ApplyToContexte(false,false);
@@ -1286,9 +1220,8 @@ void DlgSlideProperties::s_ChgRotateZValue(int Value) {
 
 //========= Background forme
 void DlgSlideProperties::s_ChangeBackgroundForm(int Style) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChangeBackgroundForm";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChangeBackgroundForm");
+
     if (!PrepContexte()) return;
     CompositionObject->BackgroundForm=Style+1;
     ApplyToContexte(false,true);
@@ -1296,9 +1229,8 @@ void DlgSlideProperties::s_ChangeBackgroundForm(int Style) {
 
 //========= Opacity
 void DlgSlideProperties::s_ChangeOpacity(int Style) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChangeOpacity";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChangeOpacity");
+
     if (!PrepContexte()) return;
     CompositionObject->Opacity=Style;
     ApplyToContexte(false,true);
@@ -1306,9 +1238,8 @@ void DlgSlideProperties::s_ChangeOpacity(int Style) {
 
 //========= Border pen size
 void DlgSlideProperties::s_ChgPenSize(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChgPenSize";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgPenSize");
+
     if (!PrepContexte()) return;
     CompositionObject->PenSize=ui->PenSizeEd->value();
     ui->PenColorCB->setEnabled(CompositionObject->PenSize!=0);
@@ -1318,9 +1249,8 @@ void DlgSlideProperties::s_ChgPenSize(int) {
 
 //========= Border pen style
 void DlgSlideProperties::s_ChangePenStyle(int index) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChangePenStyle";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChangePenStyle");
+
     if (!PrepContexte()) return;
     CompositionObject->PenStyle=ui->PenStyleCB->itemData(index).toInt();
     ApplyToContexte(false,true);
@@ -1328,9 +1258,8 @@ void DlgSlideProperties::s_ChangePenStyle(int index) {
 
 //========= Border pen color
 void DlgSlideProperties::s_ChPenColorCB(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChPenColorCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChPenColorCB");
+
     if (!PrepContexte()) return;
     CompositionObject->PenColor=ui->PenColorCB->GetCurrentColor();
     ApplyToContexte(false,true);
@@ -1338,9 +1267,8 @@ void DlgSlideProperties::s_ChPenColorCB(int) {
 
 //========= Shape shadow style
 void DlgSlideProperties::s_ChgShadowFormValue(int value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChgShadowFormValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgShadowFormValue");
+
     if (!PrepContexte()) return;
     CompositionObject->FormShadow=value;
     ui->ShadowEffectED->setEnabled(CompositionObject->FormShadow!=0);
@@ -1350,9 +1278,8 @@ void DlgSlideProperties::s_ChgShadowFormValue(int value) {
 
 //========= Shape shadow distance
 void DlgSlideProperties::s_ChgShadowDistanceValue(int value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChgShadowDistanceValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgShadowDistanceValue");
+
     if (!PrepContexte()) return;
     CompositionObject->FormShadowDistance =value;
     ApplyToContexte(false,true);
@@ -1360,9 +1287,8 @@ void DlgSlideProperties::s_ChgShadowDistanceValue(int value) {
 
 //========= shadow color
 void DlgSlideProperties::s_ChgShadowColorCB(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChgShadowColorCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgShadowColorCB");
+
     if (!PrepContexte()) return;
     CompositionObject->FormShadowColor=ui->ShadowColorCB->GetCurrentColor();
     ApplyToContexte(false,true);
@@ -1373,9 +1299,8 @@ void DlgSlideProperties::s_ChgShadowColorCB(int) {
 //====================================================================================================================
 
 void DlgSlideProperties::s_CoordinateStyleBT() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_CoordinateStyleBT";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_CoordinateStyleBT");
+
     if (!PrepContexte()) return;
     // Define StyleCoordinateCollection filter
     if (CompositionObject->BackgroundBrush->Image!=NULL)         GlobalMainWindow->ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CompositionObject->BackgroundBrush->Image->ObjectGeometry);
@@ -1406,9 +1331,8 @@ void DlgSlideProperties::s_CoordinateStyleBT() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockShapeStyleBT() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_BlockShapeStyleBT";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockShapeStyleBT");
+
     if (!PrepContexte()) return;
     QString ActualStyle =CompositionObject->GetBlockShapeStyle();
     QString Item        =GlobalMainWindow->ApplicationConfig->StyleBlockShapeCollection.PopupCollectionMenu(this,ActualStyle);
@@ -1424,9 +1348,7 @@ void DlgSlideProperties::s_BlockShapeStyleBT() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ChangeFramingStyle(int Value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ChangeFramingStyle";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChangeFramingStyle");
 
     if (StopMajFramingStyle) return;
     if (!PrepContexte()) return;
@@ -1499,9 +1421,8 @@ void DlgSlideProperties::s_ChangeFramingStyle(int Value) {
 
 //========= Open text editor
 void DlgSlideProperties::TextEditor() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::TextEditor";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::TextEditor");
+
     if (!PrepContexte()) return;
     DlgTextEdit Dlg(CompositionObject,HELPFILE_DlgTextEdit,GlobalMainWindow->ApplicationConfig,GlobalMainWindow->ApplicationConfig->DlgTextEditWSP,
                     &GlobalMainWindow->ApplicationConfig->StyleTextCollection,&GlobalMainWindow->ApplicationConfig->StyleTextBackgroundCollection,this);
@@ -1515,9 +1436,8 @@ void DlgSlideProperties::TextEditor() {
 
 //========= Open video editor
 void DlgSlideProperties::VideoEdit() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::VideoEdit";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::VideoEdit");
+
     if ((!PrepContexte())||(!CompositionObject->BackgroundBrush->Video)) return;
     DlgVideoEdit(CompositionObject->BackgroundBrush,this).exec();
     ApplyToContexte(false,true);
@@ -1525,9 +1445,8 @@ void DlgSlideProperties::VideoEdit() {
 
 //========= Open image correction editor
 void DlgSlideProperties::ImageEditCorrect() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::ImageEditCorrect";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::ImageEditCorrect");
+
     if (!PrepContexte()) return;
 
     cBrushDefinition *CurrentBrush=CompositionObject->BackgroundBrush;
@@ -1569,9 +1488,7 @@ void DlgSlideProperties::ImageEditCorrect() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotTableDragMoveItem() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ShotTableDragMoveItem";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTableDragMoveItem");
 
     if (GlobalMainWindow->DragItemSource<GlobalMainWindow->DragItemDest) GlobalMainWindow->DragItemDest--;
     DiaporamaObject->List.move(GlobalMainWindow->DragItemSource,GlobalMainWindow->DragItemDest);
@@ -1583,9 +1500,7 @@ void DlgSlideProperties::s_ShotTableDragMoveItem() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotTableMoveLeft() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ShotTableMoveLeft";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTableMoveLeft");
 
     int CurrentShot=ui->ShotTable->currentColumn();
     DiaporamaObject->List.swap(CurrentShot,CurrentShot-1);
@@ -1595,9 +1510,7 @@ void DlgSlideProperties::s_ShotTableMoveLeft() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotTableMoveRight() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ShotTableMoveRight";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTableMoveRight");
 
     int CurrentShot=ui->ShotTable->currentColumn();
     DiaporamaObject->List.swap(CurrentShot+1,CurrentShot);
@@ -1608,9 +1521,7 @@ void DlgSlideProperties::s_ShotTableMoveRight() {
 // User select a shot in the ShotTable widget
 
 void DlgSlideProperties::s_ShotTable_SelectionChanged() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ShotTable_SelectionChanged";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_SelectionChanged");
 
     if (InShotTable_SelectionChanged) return;
     int Current=ui->ShotTable->currentColumn();
@@ -1636,9 +1547,7 @@ void DlgSlideProperties::s_ShotTable_SelectionChanged() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotTable_AddShot() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ShotTable_AddShot";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_AddShot");
 
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
@@ -1655,14 +1564,12 @@ void DlgSlideProperties::s_ShotTable_AddShot() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_ShotTable_RemoveShot() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_ShotTable_RemoveShot";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_RemoveShot");
 
     int Current=ui->ShotTable->currentColumn();
     if ((Current<0)||(Current>=DiaporamaObject->List.count())) return;
     if (DiaporamaObject->List.count()<2) return;
-    if ((GlobalMainWindow->ApplicationConfig->AskUserToRemove)&&(QMessageBox::question(this,QApplication::translate("DlgSlideProperties","Remove shot"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this shot?"),
+    if ((GlobalMainWindow->ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgSlideProperties","Remove shot"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this shot?"),
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
     delete DiaporamaObject->List.takeAt(Current);
     ui->ShotTable->setUpdatesEnabled(false);
@@ -1679,9 +1586,7 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
 // User select a block in the BlockTable widget
 
 void DlgSlideProperties::s_BlockTable_SelectionChanged() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_BlockTable_SelectionChanged";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_SelectionChanged");
 
     if (InBlockTable_SelectionChanged) return;
     InBlockTable_SelectionChanged=true;
@@ -1726,9 +1631,7 @@ void DlgSlideProperties::s_BlockTable_SelectionChanged() {
 // User select a block in the scene widget
 
 void DlgSlideProperties::s_Scene_SelectionChanged() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_Scene_SelectionChanged";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_Scene_SelectionChanged");
 
     if ((scene==NULL)||(InScene_SelectionChanged)) return;
 
@@ -1770,9 +1673,7 @@ void DlgSlideProperties::s_Scene_SelectionChanged() {
 // User double click on a block in the BlockTable widget
 
 void DlgSlideProperties::s_BlockTable_ItemDoubleClicked(QTableWidgetItem *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_BlockTable_ItemDoubleClicked";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_ItemDoubleClicked");
 
     s_Scene_DoubleClick();
 }
@@ -1781,9 +1682,7 @@ void DlgSlideProperties::s_BlockTable_ItemDoubleClicked(QTableWidgetItem *) {
 // User double click on a block in the scene widget
 
 void DlgSlideProperties::s_Scene_DoubleClick() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_Scene_DoubleClick";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_Scene_DoubleClick");
 
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
@@ -1795,9 +1694,7 @@ void DlgSlideProperties::s_Scene_DoubleClick() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_BlockTable_AddNewTextBlock";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewTextBlock");
 
     int CurrentShot=ui->ShotTable->currentColumn();
 
@@ -1838,9 +1735,7 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_BlockTable_AddNewFileBlock";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewFileBlock");
 
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("DlgSlideProperties","Add files"),
                                                        DiaporamaObject->Parent->ApplicationConfig->RememberLastDirectories?DiaporamaObject->Parent->ApplicationConfig->LastMediaPath:"",
@@ -2045,7 +1940,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
             NextZValue+=10;
 
         } else {
-            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
         }
     }
     RefreshBlockTable(CompositionList->List.count()-1);
@@ -2054,14 +1949,12 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockTable_RemoveBlock() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_BlockTable_RemoveBlock";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_RemoveBlock");
 
     int                 CurrentRow=ui->BlockTable->currentRow();
     cCompositionObject  *CurrentTextItem=GetSelectedCompositionObject();
     if (CurrentTextItem==NULL) return;
-    if ((GlobalMainWindow->ApplicationConfig->AskUserToRemove)&&(QMessageBox::question(this,QApplication::translate("DlgSlideProperties","Remove bloc"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this bloc?"),
+    if ((GlobalMainWindow->ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgSlideProperties","Remove bloc"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this bloc?"),
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
     int i=0;
     while ((i<CompositionList->List.count())&&(CompositionList->List[i]->IndexKey!=CurrentTextItem->IndexKey)) i++;
@@ -2090,9 +1983,7 @@ void DlgSlideProperties::s_BlockTable_RemoveBlock() {
 //====================================================================================================================
 
 void DlgSlideProperties::CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::CopyBlockProperties";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::CopyBlockProperties");
 
     if (SourceBlock==DestBlock) return;
 
@@ -2131,9 +2022,7 @@ void DlgSlideProperties::CopyBlockProperties(cCompositionObject *SourceBlock,cCo
 }
 
 void DlgSlideProperties::ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::ApplyGlobalPropertiesToAllShots";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::ApplyGlobalPropertiesToAllShots");
 
     // Apply to GlobalComposition objects
     for (int j=0;j<DiaporamaObject->ObjectComposition.List.count();j++) if (GlobalBlock->IndexKey==DiaporamaObject->ObjectComposition.List[j]->IndexKey)
@@ -2147,9 +2036,7 @@ void DlgSlideProperties::ApplyGlobalPropertiesToAllShots(cCompositionObject *Glo
 //====================================================================================================================
 
 void DlgSlideProperties::ChangeVisibleState() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::ChangeVisibleState";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::ChangeVisibleState");
 
     cCompositionObject      *CurrentTextItem=GetSelectedCompositionObject();
     if (!CurrentTextItem)   return;
@@ -2174,9 +2061,7 @@ void DlgSlideProperties::ChangeVisibleState() {
 //====================================================================================================================
 
 void DlgSlideProperties::BlockUp() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::BlockUp";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::BlockUp");
 
     int CurrentBlock=ui->BlockTable->currentRow();
     CompositionList->List.swap(CurrentBlock,CurrentBlock-1);
@@ -2186,9 +2071,7 @@ void DlgSlideProperties::BlockUp() {
 //====================================================================================================================
 
 void DlgSlideProperties::BlockDown() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::BlockDown";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::BlockDown");
 
     int CurrentBlock=ui->BlockTable->currentRow();
     CompositionList->List.swap(CurrentBlock+1,CurrentBlock);
@@ -2198,9 +2081,7 @@ void DlgSlideProperties::BlockDown() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_CopyBlockBT() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_CopyBlockBT";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_CopyBlockBT");
 
     cCompositionObject      *GlobalBlock=GetSelectedGlobalCompositionObject();
     cCompositionObject      *ShotBlock  =GetSelectedCompositionObject();
@@ -2227,9 +2108,7 @@ void DlgSlideProperties::s_CopyBlockBT() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_CutBlockBT() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_CutBlockBT";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_CutBlockBT");
 
     cCompositionObject      *GlobalBlock=GetSelectedGlobalCompositionObject();
     cCompositionObject      *ShotBlock  =GetSelectedCompositionObject();
@@ -2256,9 +2135,7 @@ void DlgSlideProperties::s_CutBlockBT() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_PasteBlockBT() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_PasteBlockBT";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_PasteBlockBT");
 
     const QMimeData *SlideData=QApplication::clipboard()->mimeData();
     if (SlideData->hasFormat("ffDiaporama/block")) {
@@ -2323,9 +2200,7 @@ void DlgSlideProperties::s_PasteBlockBT() {
 //====================================================================================================================
 
 void DlgSlideProperties::s_Event_ClipboardChanged() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgSlideProperties::s_Event_ClipboardChanged";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_Event_ClipboardChanged");
 
     ui->PasteBlockBT->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/block")));
 }

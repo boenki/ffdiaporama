@@ -23,9 +23,8 @@
 //====================================================================================================================
 
 wgt_JobBase::wgt_JobBase(QCustomDialog *Dialog,QWidget *parent):QWidget(parent) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:wgt_JobBase::wgt_JobBase";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobBase::wgt_JobBase");
+
     this->Dialog=Dialog;
 }
 

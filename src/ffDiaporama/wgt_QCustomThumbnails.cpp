@@ -45,6 +45,7 @@
 //===========================================================================================================================
 
 wgt_QCustomThumbnails::wgt_QCustomThumbnails(QTableWidget *TheTimeline,int TheType) : QLabel(TheTimeline) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QCustomThumbnails::wgt_QCustomThumbnails");
     Timeline            =TheTimeline;
     Type                =TheType;
     DiaporamaObject     =NULL;
@@ -64,6 +65,7 @@ wgt_QCustomThumbnails::wgt_QCustomThumbnails(QTableWidget *TheTimeline,int TheTy
 //===========================================================================================================================
 
 wgt_QCustomThumbnails::~wgt_QCustomThumbnails() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QCustomThumbnails::wgt_QCustomThumbnails");
 }
 
 void wgt_QCustomThumbnails::mouseMoveEvent(QMouseEvent *event) {
@@ -79,6 +81,7 @@ void wgt_QCustomThumbnails::mousePressEvent(QMouseEvent *event) {
 //===========================================================================================================================
 
 void wgt_QCustomThumbnails::mouseDoubleClickEvent(QMouseEvent *Event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QCustomThumbnails::mouseDoubleClickEvent");
     int XPos=mapFromGlobal(QPoint(Event->globalX(),Event->globalY())).x();
     int YPos=mapFromGlobal(QPoint(Event->globalX(),Event->globalY())).y();
 
@@ -93,6 +96,7 @@ void wgt_QCustomThumbnails::mouseDoubleClickEvent(QMouseEvent *Event) {
 //===========================================================================================================================
 
 void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QCustomThumbnails::paintEvent");
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QPainter Painter(this);
     Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
@@ -636,6 +640,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 //===========================================================================================================================
 
 void wgt_QCustomThumbnails::DrawThumbnailsBox(int Xa,int Ya,int Width,int Height,QPainter &Painter,QImage *Icon) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QCustomThumbnails::DrawThumbnailsBox");
     QPen Pen;
     Pen.setWidth(1);
     Pen.setColor(Qt::darkGray);

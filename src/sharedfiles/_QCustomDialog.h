@@ -34,6 +34,8 @@
 #include <QTableWidgetItem>
 #include <QTableWidgetItem>
 #include <QIcon>
+#include <QLineEdit>
+#include <QMessageBox>
 
 // Include some common various class
 #include "cBaseApplicationConfig.h"
@@ -83,5 +85,10 @@ public:
     explicit QNullTableWidgetItem(int type):QTableWidgetItem(type=Type)                                                     {setFlags(Qt::NoItemFlags);}
     explicit QNullTableWidgetItem(const QString &text,int type=Type):QTableWidgetItem(text,type=Type)                       {setFlags(Qt::NoItemFlags);}
 };
+
+
+// New definition for QInputDialog::getText
+QString CustomInputDialog(QWidget *parent,const QString &title,const QString &label,int mode,const QString &text,bool *ok,Qt::InputMethodHints inputMethodHints=Qt::ImhNone);
+int     CustomMessageBox (QWidget *parent,QMessageBox::Icon icon,const QString& title,const QString& text,QMessageBox::StandardButtons buttons=QMessageBox::Ok,QMessageBox::StandardButton defaultButton=QMessageBox::NoButton);
 
 #endif // _QCUSTOMDIALOG_H

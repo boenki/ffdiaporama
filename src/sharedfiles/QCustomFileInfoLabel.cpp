@@ -27,12 +27,9 @@
 #include <QFontMetrics>
 #include <QTableWidget>
 
-//#define DEBUGMODE
-
 QCustomFileInfoLabel::QCustomFileInfoLabel(QWidget *parent):QLabel(parent) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFileInfoLabel::QCustomFileInfoLabel";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFileInfoLabel::QCustomFileInfoLabel");
+
     DisplayMode =DISPLAY_WEBLONG;
     QList<cBaseMediaFile*> EmptyList;
     SetupFileInfoLabel(EmptyList);
@@ -47,9 +44,7 @@ void QCustomFileInfoLabel::mouseDoubleClickEvent(QMouseEvent *) {
 //====================================================================================================================
 
 void QCustomFileInfoLabel::paintEvent(QPaintEvent *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFileInfoLabel::paintEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFileInfoLabel::paintEvent");
 
     if (!((QTableWidget *)parent())->updatesEnabled()) return;
 
@@ -131,9 +126,8 @@ void QCustomFileInfoLabel::paintEvent(QPaintEvent *) {
 //====================================================================================================================
 
 void QCustomFileInfoLabel::SetupFileInfoLabel(QList<cBaseMediaFile*> MediaList) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFileInfoLabel::AppendMediaToTable";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFileInfoLabel::AppendMediaToTable");
+
     if (MediaList.count()==1) {
 
         // One file selection

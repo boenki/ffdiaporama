@@ -20,8 +20,6 @@
 
 #include "cCustomIcon.h"
 
-//#define DEBUGMODE
-
 //*****************************************************************************************************************************************
 
 #if defined(Q_OS_WIN)
@@ -34,9 +32,8 @@
 
     // qt_fromWinHBITMAP From Qmmander Filemanager / Copyright (C) Alex Skoruppa 2009 (See:http://qmmander.googlecode.com/svn-history/r93/trunk/winfileinfo.cpp)
     QImage qt_fromWinHBITMAP(HDC hdc, HBITMAP bitmap, int w, int h) {
-        #ifdef DEBUGMODE
-        qDebug() << "IN:qt_fromWinHBITMAP";
-        #endif
+        ToLog(LOGMSG_DEBUGTRACE,"IN:qt_fromWinHBITMAP");
+
         BITMAPINFO bmi;
         memset(&bmi, 0, sizeof(bmi));
         bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
@@ -62,7 +59,7 @@
                 memcpy(dest, src, image.bytesPerLine());
             }
         } else {
-            qDebug()<<"qt_fromWinHBITMAP(), failed to get bitmap bits";
+            ToLog(LOGMSG_CRITICAL,"qt_fromWinHBITMAP(), failed to get bitmap bits");
         }
         qFree(data);
 
@@ -72,9 +69,7 @@
     //====================================================================================================================
     // convertHIconToPixmap From Qmmander Filemanager / Copyright (C) Alex Skoruppa 2009 (See:http://qmmander.googlecode.com/svn-history/r93/trunk/winfileinfo.cpp)
     QPixmap convertHIconToPixmap( const HICON icon) {
-        #ifdef DEBUGMODE
-        qDebug() << "IN:convertHIconToPixmap";
-        #endif
+        ToLog(LOGMSG_DEBUGTRACE,"IN:convertHIconToPixmap");
 
         bool foundAlpha = false;
         HDC screenDevice = GetDC(0);
@@ -84,7 +79,7 @@
         ICONINFO iconinfo;
         bool result = GetIconInfo(icon, &iconinfo); //x and y Hotspot describes the icon center
         if (!result)
-            qDebug()<<"convertHIconToPixmap(), failed to GetIconInfo()";
+            ToLog(LOGMSG_CRITICAL,"convertHIconToPixmap(), failed to GetIconInfo()");
 
         int w = iconinfo.xHotspot * 2;
         int h = iconinfo.yHotspot * 2;
@@ -146,9 +141,8 @@
     //====================================================================================================================
     // GetIconForFileOrDir adapted by domledom From Qmmander Filemanager / Copyright (C) Alex Skoruppa 2009 (See:http://qmmander.googlecode.com/svn-history/r93/trunk/winfileinfo.cpp)
     QIcon GetIconForFileOrDir(QString FileName,int IconIndex) {
-        #ifdef DEBUGMODE
-        qDebug() << "IN:GetIconForFileOrDir";
-        #endif
+        ToLog(LOGMSG_DEBUGTRACE,"IN:GetIconForFileOrDir");
+
         QIcon RetIcon;
         WCHAR WinFileName[256+1];
 
@@ -201,7 +195,7 @@
                     RetIcon.addPixmap(pixmap);
                     if (!key.isEmpty()) QPixmapCache::insert(key,pixmap);
                 } else {
-                    qDebug()<<"QCustomFolderTree::getWinIcon() no small icon found";
+                    ToLog(LOGMSG_WARNING,"QCustomFolderTree::getWinIcon() no small icon found");
                 }
             }
             DestroyIcon(info.hIcon);
@@ -217,11 +211,11 @@
                 RetIcon.addPixmap(pixmap);
                 if (!key.isEmpty()) QPixmapCache::insert(key+QLatin1Char('l'),pixmap);
             } else {
-                qDebug()<<"QCustomFolderTree::getWinIcon() no large icon found";
+                ToLog(LOGMSG_WARNING,"QCustomFolderTree::getWinIcon() no large icon found");
             }
             DestroyIcon(info.hIcon);
         }
-        if (RetIcon.isNull()) qDebug()<<"Loading icon nbr"<<IconIndex<<"From "+FileName<<"Error";
+        if (RetIcon.isNull()) ToLog(LOGMSG_CRITICAL,QString("Loading icon nbr %1 From %2 Error").arg(IconIndex).arg(FileName));
         return RetIcon;
     }
 
@@ -230,18 +224,15 @@
 //*****************************************************************************************************************************************
 
 cCustomIcon::cCustomIcon() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cCustomIcon::cCustomIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::cCustomIcon");
+    IsIconNeeded=false;
 }
 
 void cCustomIcon::LoadIcons(QString FileName) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cCustomIcon::LoadIcons as filename";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIcons as filename");
 
     IconBIG=QImage(FileName);
-    if (IconBIG.isNull()) qDebug()<<"Loading "+FileName<<"Error"; else {
+    if (IconBIG.isNull()) ToLog(LOGMSG_CRITICAL,QString("Loading %1 Error").arg(FileName)); else {
         if (IconBIG.width()>IconBIG.height()) {
             Icon16 =IconBIG.scaledToWidth(16,Qt::SmoothTransformation);
             Icon32 =IconBIG.scaledToWidth(32,Qt::SmoothTransformation);
@@ -260,9 +251,8 @@ void cCustomIcon::LoadIcons(QString FileName) {
 //====================================================================================================================
 
 void cCustomIcon::LoadIcons(cCustomIcon *CustomIcon) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cCustomIcon::LoadIcons as CustomIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIcons as CustomIcon");
+
     Icon16 =CustomIcon->Icon16.copy();
     Icon32 =CustomIcon->Icon32.copy();
     Icon48 =CustomIcon->Icon48.copy();
@@ -273,26 +263,24 @@ void cCustomIcon::LoadIcons(cCustomIcon *CustomIcon) {
 //====================================================================================================================
 
 void cCustomIcon::LoadIconsFromIMG(QString FileName) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cCustomIcon::LoadIconsFromIMG";
-    #endif
-    Icon16.load(":/img/MediaIcons/16x16/"+FileName);      if (Icon16.isNull())  qDebug()<<"Loading img/MediaIcons/16x16/"+FileName<<"Error";
-    Icon32.load(":/img/MediaIcons/32x32/"+FileName);      if (Icon32.isNull())  qDebug()<<"Loading img/MediaIcons/32x32/"+FileName<<"Error";
-    Icon48.load(":/img/MediaIcons/48x48/"+FileName);      if (Icon48.isNull())  qDebug()<<"Loading img/MediaIcons/48x48/"+FileName<<"Error";
-    Icon100.load(":/img/MediaIcons/100x100/"+FileName);   if (Icon100.isNull()) qDebug()<<"Loading img/MediaIcons/100x100/"+FileName<<"Error";
-    IconBIG.load(":/img/MediaIcons/200x200/"+FileName);   if (IconBIG.isNull()) qDebug()<<"Loading img/MediaIcons/200x200/"+FileName<<"Error";
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIconsFromIMG");
+
+    Icon16.load(":/img/MediaIcons/16x16/"+FileName);      if (Icon16.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading img/MediaIcons/16x16/%1 Error").arg(FileName));
+    Icon32.load(":/img/MediaIcons/32x32/"+FileName);      if (Icon32.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading img/MediaIcons/32x32/%1 Error").arg(FileName));
+    Icon48.load(":/img/MediaIcons/48x48/"+FileName);      if (Icon48.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading img/MediaIcons/48x48/%1 Error").arg(FileName));
+    Icon100.load(":/img/MediaIcons/100x100/"+FileName);   if (Icon100.isNull()) ToLog(LOGMSG_CRITICAL,QString("Loading img/MediaIcons/100x100/%1 Error").arg(FileName));
+    IconBIG.load(":/img/MediaIcons/200x200/"+FileName);   if (IconBIG.isNull()) ToLog(LOGMSG_CRITICAL,QString("Loading img/MediaIcons/200x200/%1 Error").arg(FileName));
 }
 
 //====================================================================================================================
 
 void cCustomIcon::LoadIconsFromLinux(QString LinuxPath,QString FileName) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cCustomIcon::LoadIconsFromLinux";
-    #endif
-    Icon16.load(LinuxPath+"16x16/"+FileName);           if (Icon16.isNull())  qDebug()<<"Loading "+LinuxPath+"16x16/"+FileName<<"Error";
-    Icon32.load(LinuxPath+"32x32/"+FileName);           if (Icon32.isNull())  qDebug()<<"Loading "+LinuxPath+"32x32/"+FileName<<"Error";
-    Icon48.load(LinuxPath+"48x48/"+FileName);           if (Icon48.isNull())  qDebug()<<"Loading "+LinuxPath+"48x48/"+FileName<<"Error";
-    Icon100=QImage(LinuxPath+"128x128/"+FileName);      if (Icon100.isNull()) qDebug()<<"Loading "+LinuxPath+"128x128/"+FileName<<"Error";
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIconsFromLinux");
+
+    Icon16.load(LinuxPath+"16x16/"+FileName);           if (Icon16.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading %116x16/%2 Error").arg(LinuxPath).arg(FileName));
+    Icon32.load(LinuxPath+"32x32/"+FileName);           if (Icon32.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading %132x32/%2 Error").arg(LinuxPath).arg(FileName));
+    Icon48.load(LinuxPath+"48x48/"+FileName);           if (Icon48.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading %148x48/%2 Error").arg(LinuxPath).arg(FileName));
+    Icon100=QImage(LinuxPath+"128x128/"+FileName);      if (Icon100.isNull()) ToLog(LOGMSG_CRITICAL,QString("Loading %1128x128/%2 Error").arg(LinuxPath).arg(FileName));
     if (!Icon100.isNull()) IconBIG=Icon100.copy();
 
     if (!Icon100.isNull()) Icon100=Icon100.scaledToHeight(100,Qt::SmoothTransformation);
@@ -302,9 +290,8 @@ void cCustomIcon::LoadIconsFromLinux(QString LinuxPath,QString FileName) {
 //====================================================================================================================
 
 void cCustomIcon::LoadIcons(QImage *Image) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cCustomIcon::LoadIcons as QImage";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIcons as QImage");
+
     if (Image->width()>Image->height()) {
         Icon16 =Image->scaledToWidth(16,Qt::SmoothTransformation);
         Icon32 =Image->scaledToWidth(32,Qt::SmoothTransformation);
@@ -323,9 +310,8 @@ void cCustomIcon::LoadIcons(QImage *Image) {
 //====================================================================================================================
 
 void cCustomIcon::LoadIcons(QIcon Icon) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cCustomIcon::LoadIcons as QIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIcons as QIcon");
+
     Icon16 =Icon.pixmap(16,16).toImage();
     Icon32 =Icon.pixmap(32,32).toImage();
     Icon48 =Icon.pixmap(48,48).toImage();
@@ -340,9 +326,7 @@ void cCustomIcon::LoadIcons(QIcon Icon) {
 //====================================================================================================================
 
 QIcon cCustomIcon::GetIcon() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cCustomIcon::GetIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::GetIcon");
 
     QIcon Ret=QIcon(QPixmap().fromImage(Icon16));
     Ret.addPixmap(QPixmap().fromImage(Icon32));
@@ -355,9 +339,8 @@ QIcon cCustomIcon::GetIcon() {
 //====================================================================================================================
 
 QImage  *cCustomIcon::GetIcon(IconSize Size) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cCustomIcon::GetIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::GetIcon");
+
     switch (Size) {
         case ICON16:  return &Icon16;
         case ICON32:  return &Icon32;

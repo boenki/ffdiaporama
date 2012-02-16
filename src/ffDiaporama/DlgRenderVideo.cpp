@@ -27,14 +27,10 @@
 #include <QMessageBox>
 #include <QFutureWatcher>
 
-//#define DEBUGMODE
-
 //====================================================================================================================
 
 DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidget *parent):QDialog(parent),ui(new Ui::DlgRenderVideo) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::DlgRenderVideo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::DlgRenderVideo");
 
     ui->setupUi(this);
     Diaporama           =&TheDiaporama;
@@ -198,9 +194,7 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
 //====================================================================================================================
 
 DlgRenderVideo::~DlgRenderVideo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::~DlgRenderVideo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::~DlgRenderVideo");
 
     delete ui;
 }
@@ -208,9 +202,7 @@ DlgRenderVideo::~DlgRenderVideo() {
 //====================================================================================================================
 
 void DlgRenderVideo::Help() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::Help";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::Help");
 
     GlobalMainWindow->OpenHelp(HELPFILE_DlgRenderVideo);
 }
@@ -218,9 +210,7 @@ void DlgRenderVideo::Help() {
 //====================================================================================================================
 
 void DlgRenderVideo::ProjectProperties() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::ProjectProperties";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::ProjectProperties");
 
     DlgffDPjrProperties Dlg(Diaporama->ProjectInfo,HELPFILE_DlgffDPjrProperties,GlobalMainWindow->ApplicationConfig,GlobalMainWindow->ApplicationConfig->DlgffDPjrPropertiesWSP,this);
     Dlg.InitDialog();
@@ -230,9 +220,7 @@ void DlgRenderVideo::ProjectProperties() {
 //====================================================================================================================
 
 void DlgRenderVideo::SetZoneToAll() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::SetZoneToAll";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::SetZoneToAll");
 
     ui->RenderZoneAllBt->setChecked(true);
     ui->RenderZoneFromBt->setChecked(false);
@@ -244,9 +232,7 @@ void DlgRenderVideo::SetZoneToAll() {
 //====================================================================================================================
 
 void DlgRenderVideo::SetZoneToPartial() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::SetZoneToPartial";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::SetZoneToPartial");
 
     ui->RenderZoneAllBt->setChecked(false);
     ui->RenderZoneFromBt->setChecked(true);
@@ -258,9 +244,7 @@ void DlgRenderVideo::SetZoneToPartial() {
 //====================================================================================================================
 
 void DlgRenderVideo::s_DeviceTypeCB(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::s_DeviceTypeCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::s_DeviceTypeCB");
 
     ui->DeviceModelCB->clear();
     int ItemData=ui->DeviceTypeCB->currentIndex();
@@ -283,9 +267,7 @@ void DlgRenderVideo::s_DeviceTypeCB(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::InitImageSizeCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::InitImageSizeCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::InitImageSizeCombo");
 
     int Geometry=ui->GeometryCombo->currentIndex();
     int Standard=ui->StandardCombo->currentIndex();
@@ -311,9 +293,7 @@ void DlgRenderVideo::InitImageSizeCombo(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::SelectDestinationFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::SelectDestinationFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::SelectDestinationFile");
 
     QString FileFormat;
     if (ExportMode==EXPORTMODE_ADVANCED) {
@@ -340,9 +320,7 @@ void DlgRenderVideo::SelectDestinationFile() {
 //====================================================================================================================
 
 void DlgRenderVideo::FileFormatCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::FileFormatCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::FileFormatCombo");
 
     AdjustDestinationFile();
 
@@ -426,9 +404,7 @@ void DlgRenderVideo::FileFormatCombo(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::InitVideoBitRateCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::InitVideoBitRateCB");
 
     ui->VideoBitRateCB->clear();
     int CurrentCodec=ui->VideoFormatCB->currentIndex();
@@ -478,9 +454,7 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
 //====================================================================================================================
 
 void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::InitAudioBitRateCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::InitAudioBitRateCB");
 
     ui->AudioBitRateCB->clear();
     int CurrentCodec=ui->AudioFormatCB->currentIndex();
@@ -529,9 +503,7 @@ void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
 //====================================================================================================================
 
 void DlgRenderVideo::AdjustDestinationFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::AdjustDestinationFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::AdjustDestinationFile");
 
     QString FileFormat;
     if (ExportMode==EXPORTMODE_ADVANCED) {
@@ -557,9 +529,7 @@ void DlgRenderVideo::AdjustDestinationFile() {
 //====================================================================================================================
 
 void DlgRenderVideo::SetSavedWindowGeometry() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::SetSavedWindowGeometry";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::SetSavedWindowGeometry");
 
     Diaporama->ApplicationConfig->DlgRenderVideoWSP->ApplyToWindow(this);
 }
@@ -567,9 +537,7 @@ void DlgRenderVideo::SetSavedWindowGeometry() {
 //====================================================================================================================
 
 void DlgRenderVideo::showEvent(QShowEvent *ev) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::showEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::showEvent");
 
     QDialog::showEvent(ev);
     QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
@@ -578,13 +546,11 @@ void DlgRenderVideo::showEvent(QShowEvent *ev) {
 //====================================================================================================================
 
 void DlgRenderVideo::reject() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::reject";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::reject");
 
     if (IsDestFileOpen) {
         StopProcessWanted=true;
-        qDebug()<<QApplication::translate("DlgRenderVideo","Stop rendering");
+        ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Stop rendering"));
     } else {
         // Save Window size and position
         Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);
@@ -595,9 +561,7 @@ void DlgRenderVideo::reject() {
 //====================================================================================================================
 
 void DlgRenderVideo::s_IncludeSound() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::s_IncludeSound";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::s_IncludeSound");
 
     ui->AudioFormatLabel->setEnabled(ui->IncludeSoundCB->isChecked());
     ui->AudioFormatCB->setEnabled(ui->IncludeSoundCB->isChecked());
@@ -609,9 +573,7 @@ void DlgRenderVideo::s_IncludeSound() {
 //====================================================================================================================
 
 void DlgRenderVideo::s_DeviceModelCB(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::s_DeviceModelCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::s_DeviceModelCB");
 
     QString Device=ui->DeviceModelCB->currentText();
     int i=0;
@@ -643,9 +605,7 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
 //====================================================================================================================
 
 void DlgRenderVideo::accept() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::accept";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::accept");
 
     cDiaporamaObjectInfo    *PreviousFrame  =NULL;
     cDiaporamaObjectInfo    *Frame          =NULL;
@@ -664,14 +624,14 @@ void DlgRenderVideo::accept() {
 
     if (IsDestFileOpen) {
         StopProcessWanted=true;
-        qDebug()<<QApplication::translate("DlgRenderVideo","Stop rendering");
+        ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Stop rendering"));
     } else {
         RenderedFrame=0;
         int FromSlide=(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneFromED->value()-1:0;
         int ToSlide  =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneToED->value()-1:Diaporama->List.count()-1;
 
         if (FromSlide>ToSlide) {
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Range selection"),
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Range selection"),
                 QApplication::translate("DlgRenderVideo","Slide range is defined to incorrect values"));
             ui->RenderZoneToED->setFocus();
             return;
@@ -680,7 +640,7 @@ void DlgRenderVideo::accept() {
         Language=ui->LanguageED->text();
         if (Language=="") Language="und";
         if (Language.length()!=3) {
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Language selection"),
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Language selection"),
                 QApplication::translate("DlgRenderVideo","Language must be empty or an ISO 639 language code (3 characters)\nSee help for more details!"));
             ui->LanguageED->setFocus();
             return;
@@ -688,7 +648,7 @@ void DlgRenderVideo::accept() {
 
         if (OutputFileName !=ui->DestinationFilePath->text()) OutputFileName=ui->DestinationFilePath->text();
 
-        if ((QFileInfo(OutputFileName).exists())&&(QMessageBox::question(this,QApplication::translate("DlgRenderVideo","Overwrite file ?"),
+        if ((QFileInfo(OutputFileName).exists())&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgRenderVideo","Overwrite file ?"),
             QApplication::translate("DlgRenderVideo","The file you selected already exist.\nDo you want to overwrite it ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)) return;
 
@@ -707,7 +667,7 @@ void DlgRenderVideo::accept() {
             // Video codec
             VideoCodecIndex=ui->VideoFormatCB->currentIndex();
             if (VideoCodecIndex<0) {
-                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Video codec error!");
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Video codec error!");
                 done(0);
                 return;
             }
@@ -719,7 +679,7 @@ void DlgRenderVideo::accept() {
             // Audio codec
             AudioCodecIndex=ui->AudioFormatCB->currentIndex();
             if (AudioCodecIndex<0) {
-                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec error!");
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec error!");
                 done(0);
                 return;
             }
@@ -734,7 +694,7 @@ void DlgRenderVideo::accept() {
             OutputFileFormat=0;
             QString Device=ui->DeviceModelCB->currentText();
             if (Device=="") {
-                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Device model selection"),
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Device model selection"),
                     QApplication::translate("DlgRenderVideo","A device model is require!"));
                 ui->DeviceModelCB->setFocus();
                 return;
@@ -821,7 +781,7 @@ void DlgRenderVideo::accept() {
             TempWAVFileName=TempWAVFileName+"temp.wav";
 
             StartTime=QTime::currentTime();                                  // Display control : time the process start
-            qDebug()<<QApplication::translate("DlgRenderVideo","Encoding sound");
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding sound"));
             Continue=WriteTempAudioFile(TempWAVFileName,FromSlide);
         } else {
             ui->SoundProgressLabel->setEnabled(false);
@@ -900,7 +860,7 @@ void DlgRenderVideo::accept() {
                 case VCODEC_THEORA  :   vCodec=QString("-vcodec libtheora -b:0 %1").arg(VideoBitRate);
                                         break;
                 default:
-                    QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Unknown video codec");
+                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Unknown video codec");
                     Continue=false;
                     break;
             }
@@ -930,7 +890,7 @@ void DlgRenderVideo::accept() {
                     case CODEC_ID_AMR_NB:       aCodec=QString("-acodec libopencore_amrnb -ab %1").arg(AudioBitRate); Channels=1; break;
 
                     default:
-                        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Unknown audio codec");
+                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Unknown audio codec");
                         Continue=false;
                         break;
                 }
@@ -999,7 +959,7 @@ void DlgRenderVideo::accept() {
             }
             #endif
             if (Continue) {
-                qDebug()<<QApplication::translate("DlgRenderVideo","Start ffmpeg encoder");
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Start ffmpeg encoder"));
                 int GeoW=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARNUM;
                 int GeoH=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARDEN;
                 #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
@@ -1038,7 +998,7 @@ void DlgRenderVideo::accept() {
                         )) ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount());
 
                 ffmpegCommand=ffmpegCommand+" \""+OutputFileName+"\"";
-                qDebug()<<ffmpegCommand;
+                ToLog(LOGMSG_INFORMATION,ffmpegCommand);
 
                 ffmpegCommand=AdjustDirForOS(ffmpegCommand);
             }
@@ -1050,7 +1010,7 @@ void DlgRenderVideo::accept() {
             //Process.setWorkingDirectory(Diaporama->ApplicationConfig->UserConfigPath);         // Set working directory to user folder (for log generation)
             Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);                 // Start command
             if (!Process.waitForStarted()) {
-                QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),
                                       QApplication::translate("DlgRenderVideo","Error starting ffmpeg","Error message")+"\n"+ffmpegCommand,
                                       QMessageBox::Close);
                 Continue=false;
@@ -1115,14 +1075,14 @@ void DlgRenderVideo::accept() {
 
                 // Save image to the pipe
                 if (!Frame->RenderedImage->save(&Process,"PPM",100)) {
-                    QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error sending image to ffmpeg","Error message"),QMessageBox::Close);
+                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error sending image to ffmpeg","Error message"),QMessageBox::Close);
                     Continue=false;
                 }
 
                 // Wait until ffmpeg processed the frame
                 while (Continue &&(Process.bytesToWrite()>0)) {
                     if (!Process.waitForBytesWritten()) {
-                        QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","ffmpeg error","Error message"),QMessageBox::Close);
+                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","ffmpeg error","Error message"),QMessageBox::Close);
                         Continue=false;
                     }
                     // Give time to interface!
@@ -1144,7 +1104,7 @@ void DlgRenderVideo::accept() {
             // Clean PreviousFrame
             if (PreviousFrame!=NULL) delete PreviousFrame;
 
-            qDebug()<<QApplication::translate("DlgRenderVideo","Closing encoder");
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Closing encoder"));
 
             // Close the pipe to stop ffmpeg process
             Process.closeWriteChannel();
@@ -1159,11 +1119,11 @@ void DlgRenderVideo::accept() {
             ui->TotalProgressBar->setValue(NbrFrame);
 
             if (!Process.waitForFinished(30000)) { // 30 sec max to close ffmpeg
-                QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error during ffmpeg process","Error message"),QMessageBox::Close);
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error during ffmpeg process","Error message"),QMessageBox::Close);
                 Process.terminate();
                 Continue=false;
             } else if (Process.exitStatus()!=QProcess::NormalExit) {
-              QMessageBox::critical(NULL,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error exiting ffmpeg","Error message"),QMessageBox::Close);
+              CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error exiting ffmpeg","Error message"),QMessageBox::Close);
               Continue=false;
             }
         }
@@ -1175,7 +1135,7 @@ void DlgRenderVideo::accept() {
         Process.close();
 
         // Inform user of success
-        if (Continue) QMessageBox::information(this,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed succesfully!"));
+        if (Continue) CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed succesfully!"));
 
         // Save Window size and position
         Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);
@@ -1188,9 +1148,7 @@ void DlgRenderVideo::accept() {
 //============================================================================================
 
 QString DlgRenderVideo::AdjustMETA(QString Text) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::AdjustMETA";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::AdjustMETA");
 
     //Metadata keys or values containing special characters (’=’, ’;’, ’#’, ’\’ and a newline) must be escaped with a backslash ’\’.
     Text.replace("=","\\=");
@@ -1211,9 +1169,7 @@ QString DlgRenderVideo::AdjustMETA(QString Text) {
 //============================================================================================
 
 bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::WriteTempAudioFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::WriteTempAudioFile");
 
     bool                    Continue            =true;      // true if no error occur
     cDiaporamaObjectInfo    *PreviousFrame      =NULL;
@@ -1233,7 +1189,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     // Get the container format
     Fmt=av_guess_format(NULL,TempWAVFileName.toUtf8(),NULL);
     if (Fmt==NULL) {
-        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary wav file!");
+        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary wav file!");
         Continue=false;
     } else Fmt->audio_codec=CODEC_ID_PCM_S16LE;
 
@@ -1242,7 +1198,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
         WriteWAV.OutputFormatContext = avformat_alloc_context();
         if (!WriteWAV.OutputFormatContext) {
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : Unable to allocate OutputFormatContext!");
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : Unable to allocate OutputFormatContext!");
             Continue=false;
         } else {
             memcpy(WriteWAV.OutputFormatContext->filename,TempWAVFileName.toUtf8(),strlen(TempWAVFileName.toUtf8())+1);
@@ -1254,8 +1210,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             AVFormatParameters fpOutFile;
             memset(&fpOutFile,0,sizeof(AVFormatParameters));
             if (av_set_parameters(WriteWAV.OutputFormatContext,&fpOutFile)<0) {
-                av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Invalid output format parameters!");
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Invalid output format parameters!");
                 Continue=false;
             }
             #endif
@@ -1270,8 +1225,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
         WriteWAV.AudioStream=av_new_stream(WriteWAV.OutputFormatContext,0);
         #endif
         if (WriteWAV.AudioStream==NULL) {
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream!");
-            av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream!");
             Continue=false;
         }
     }
@@ -1286,8 +1240,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
         #endif
         AudioCodec=avcodec_find_encoder(CODEC_ID_PCM_S16LE);                    // Open Audio encoder
         if (!AudioCodec) {
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found!");
-            av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found!");
             Continue=false;
         } else {
             WriteWAV.AudioCodecContext->codec_id             = CODEC_ID_PCM_S16LE;
@@ -1312,8 +1265,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             #else
             if (avcodec_open2(WriteWAV.AudioCodecContext,AudioCodec,NULL)<0) {
             #endif
-                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"could not open audio codec!");
-                av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"could not open audio codec!");
                 Continue=false;
             } else {
                 // Init sound blocks
@@ -1335,8 +1287,8 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
         #endif
             char Buf[500];
             av_strerror(Err,Buf,500);
-            qDebug()<<Buf;
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary audio file!");
+            ToLog(LOGMSG_CRITICAL,Buf);
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary audio file!");
             Continue=false;
         }
     }
@@ -1345,7 +1297,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     if (Continue) {
         WriteWAV.audio_outbuf=(uint8_t *)av_malloc(FF_MIN_BUFFER_SIZE);
         if (WriteWAV.audio_outbuf==NULL) {
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio buffer!");
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio buffer!");
             Continue=false;
         }
     }
@@ -1357,8 +1309,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
         #else
             (av_write_header(WriteWAV.OutputFormatContext)!=0)) {
         #endif
-        av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-        QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file!");
+        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file!");
         Continue=false;
     }
 
@@ -1451,8 +1402,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
         // Write de trailer
         if ((Continue)&&(av_write_trailer(WriteWAV.OutputFormatContext)!=0)) {
-            av_log(WriteWAV.OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-            QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the trailer of the temporary audio file!");
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the trailer of the temporary audio file!");
             Continue=false;
         }
     }
@@ -1482,9 +1432,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 }
 
 void DlgRenderVideo::WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue) {
-   #ifdef DEBUGMODE
-    qDebug() << "IN:DlgRenderVideo::WriteTempAudioFile";
-    #endif
+   ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::WriteTempAudioFile");
 
     // Flush audio frame
     while ((*Continue)&&(WriteWAV->RenderMusic.List.count()>0)) {
@@ -1519,12 +1467,11 @@ void DlgRenderVideo::WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue
 
                 // write the compressed frame in the media file
                 if (av_interleaved_write_frame(WriteWAV->OutputFormatContext,&pkt)!=0) {
-                    av_log(WriteWAV->OutputFormatContext,AV_LOG_DEBUG,"AVLOG:");
-                    QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
+                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
                     *Continue=false;
                 }
             } else if (out_size<0) {
-                QMessageBox::critical(this,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
                 *Continue=false;
             }
             av_free(PacketSound);

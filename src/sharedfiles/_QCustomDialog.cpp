@@ -20,13 +20,85 @@
 
 #include "_QCustomDialog.h"
 #include <QHeaderView>
+#include <QInputDialog>
+#include <QDialogButtonBox>
 
-//#define DEBUGMODE
+//====================================================================================================================
+
+QString CustomInputDialog(QWidget *parent,const QString &title,const QString &label,int mode,const QString &text,bool *ok,Qt::InputMethodHints inputMethodHints) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:CustomInputDialog");
+
+    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+    Qt::WindowFlags Flags=(Qt::Dialog|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint);
+    #else
+    Qt::WindowFlags Flags=(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|/*Qt::WindowMinimizeButtonHint|*/Qt::WindowCloseButtonHint);
+    #endif
+
+    QInputDialog dialog(parent,Flags);
+    int x=QCursor::pos().x()-dialog.width();   if (x<0) x=0;
+    int y=QCursor::pos().y()-dialog.height();  if (y<0) y=0;
+    dialog.move(x,y);
+    dialog.setWindowTitle(title);
+    dialog.setLabelText(label);
+    dialog.setTextValue(text);
+    dialog.setTextEchoMode((QLineEdit::EchoMode)mode);
+    dialog.setInputMethodHints(inputMethodHints);
+
+    int ret = dialog.exec();
+    if (ok) *ok = !!ret;
+    if (ret) return dialog.textValue();
+        else return QString();
+}
+
+//====================================================================================================================
+
+int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title,const QString& text,QMessageBox::StandardButtons buttons,QMessageBox::StandardButton defaultButton) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:CustomMessageBox");
+
+    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+    Qt::WindowFlags Flags=(Qt::Dialog|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint);
+    #else
+    Qt::WindowFlags Flags=(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|/*Qt::WindowMinimizeButtonHint|*/Qt::WindowCloseButtonHint);
+    #endif
+
+    QMessageBox msgBox(icon,title,text,QMessageBox::NoButton,parent,Flags);
+
+    // For Linux only, because we replace Qt::Dialog with Qt::Window, we have to set up position of the dialog
+    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+        int x,y;
+        if (parent==NULL) {
+            x=QCursor::pos().x()-msgBox.width();   if (x<0) x=0;
+            y=QCursor::pos().y()-msgBox.height();  if (y<0) y=0;
+        } else {
+            x=parent->width()/2-msgBox.width();   if (x<0) x=0;
+            y=parent->height()/2-msgBox.height(); if (y<0) y=0;
+        }
+        msgBox.move(x,y);
+    #endif
+
+    QDialogButtonBox *buttonBox = msgBox.findChild<QDialogButtonBox*>();
+    Q_ASSERT(buttonBox != 0);
+
+    uint mask = QMessageBox::FirstButton;
+    while (mask <= QMessageBox::LastButton) {
+        uint sb = buttons & mask;
+        mask <<= 1;
+        if (!sb) continue;
+        QPushButton *button = msgBox.addButton((QMessageBox::StandardButton)sb);
+        // Choose the first accept role as the default
+        if (msgBox.defaultButton()) continue;
+        if ((defaultButton == QMessageBox::NoButton && buttonBox->buttonRole(button) == QDialogButtonBox::AcceptRole)
+            || (defaultButton != QMessageBox::NoButton && sb == uint(defaultButton)))
+            msgBox.setDefaultButton(button);
+    }
+    if (msgBox.exec() == -1) return QMessageBox::Cancel;
+    return msgBox.standardButton(msgBox.clickedButton());
+}
+
+//====================================================================================================================
 
 QCustomDialog::QCustomDialog(QString HelpURL,cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):QDialog(parent) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomDialog::QCustomDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::QCustomDialog");
 
     this->HelpURL               =HelpURL;
     this->BaseApplicationConfig =BaseApplicationConfig;
@@ -39,7 +111,7 @@ QCustomDialog::QCustomDialog(QString HelpURL,cBaseApplicationConfig *BaseApplica
     #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
         setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
     #else
-        setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
+        setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|/*Qt::WindowMinimizeButtonHint|*/Qt::WindowCloseButtonHint);
     #endif
 
 }
@@ -47,9 +119,8 @@ QCustomDialog::QCustomDialog(QString HelpURL,cBaseApplicationConfig *BaseApplica
 //====================================================================================================================
 
 QCustomDialog::~QCustomDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomDialog::~QCustomDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::~QCustomDialog");
+
     if (Undo) {
         delete Undo;
         Undo=NULL;
@@ -60,9 +131,7 @@ QCustomDialog::~QCustomDialog() {
 // Initialise dialog
 
 void QCustomDialog::InitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomDialog::InitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::InitDialog");
 
     // Define handler for standard buttons
     if (OkBt)       connect(OkBt,SIGNAL(clicked()),this,SLOT(accept()));
@@ -86,18 +155,16 @@ void QCustomDialog::InitDialog() {
 //====================================================================================================================
 
 void QCustomDialog::doHelp() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomDialog::Help";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::Help");
+
     if (HelpURL!="") QDesktopServices::openUrl(QUrl(HelpURL.replace("<local>",BaseApplicationConfig->GetValideWEBLanguage(BaseApplicationConfig->CurrentLanguage))));
 }
 
 //====================================================================================================================
 
 void QCustomDialog::accept() {
-    #ifdef QCustomDialog
-    qDebug() << "IN:QCustomDialog::accept";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::accept");
+
     // Save Window size and position
     if (DlgWSP) DlgWSP->SaveWindowState(this);
 
@@ -111,9 +178,8 @@ void QCustomDialog::accept() {
 //====================================================================================================================
 
 void QCustomDialog::reject() {
-    #ifdef QCustomDialog
-    qDebug() << "IN:QCustomDialog::accept";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::accept");
+
     // Save Window size and position
     if (DlgWSP) DlgWSP->SaveWindowState(this);
 
@@ -131,9 +197,8 @@ void QCustomDialog::reject() {
 // utility function to init a table widget
 
 void QCustomDialog::DoInitTableWidget(QTableWidget *Table,QString TableColumns) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomDialog::DoInitTableWidget";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::DoInitTableWidget");
+
     Table->setSelectionBehavior(QAbstractItemView::SelectRows);
     Table->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     Table->horizontalHeader()->show();
@@ -159,9 +224,8 @@ void QCustomDialog::DoInitTableWidget(QTableWidget *Table,QString TableColumns) 
 // utility function to create a QTableWidgetItem
 
 QTableWidgetItem *QCustomDialog::CreateItem(QString ItemText,int Alignment,QBrush Background) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomDialog::CreateItem";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::CreateItem");
+
     QTableWidgetItem *Item=new QTableWidgetItem(ItemText);
     Item->setTextAlignment(Alignment);
     Item->setBackground(Background);
@@ -172,9 +236,8 @@ QTableWidgetItem *QCustomDialog::CreateItem(QString ItemText,int Alignment,QBrus
 // utility function to resize columns in a table widget
 
 void QCustomDialog::DoResizeColumnsTableWidget(QTableWidget *Table) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomDialog::DoResizeColumnsTableWidget";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::DoResizeColumnsTableWidget");
+
     Table->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
     Table->setVisible(false);                      // To ensure all items of all columns are used to compute size
     Table->resizeColumnsToContents();              // Resize column widht

@@ -21,16 +21,12 @@
 #include "DlgInfoFile.h"
 #include "ui_DlgInfoFile.h"
 
-//#define DEBUGMODE
-
 //====================================================================================================================
 
 DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgInfoFile) {
 
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgInfoFile::DlgInfoFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgInfoFile::DlgInfoFile");
 
     this->MediaFile=MediaFile;
 
@@ -43,9 +39,8 @@ DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,QString HelpURL,cBaseApplicat
 //====================================================================================================================
 
 DlgInfoFile::~DlgInfoFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgInfoFile::~DlgInfoFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgInfoFile::~DlgInfoFile");
+
     delete ui;
 }
 
@@ -53,9 +48,7 @@ DlgInfoFile::~DlgInfoFile() {
 // Initialise dialog
 
 void DlgInfoFile::DoInitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgInfoFile::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgInfoFile::DoInitDialog");
 
     DoInitTableWidget(ui->tableWidget,"Propertie;Value");
 

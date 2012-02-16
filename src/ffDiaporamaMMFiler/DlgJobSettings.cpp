@@ -25,16 +25,12 @@
 #include "../sharedfiles/QCustomGetFolder.h"
 #include "cApplicationConfig.h"
 
-//#define DEBUGMODE
-
 //====================================================================================================================
 
 DlgJobSettings::DlgJobSettings(cJob *TheJob,cJobQueue *TheJobQueue,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgJobSettings) {
 
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::DlgJobSettings";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::DlgJobSettings");
 
     ui->setupUi(this);
     CancelBt=ui->CancelBt;
@@ -50,9 +46,7 @@ DlgJobSettings::DlgJobSettings(cJob *TheJob,cJobQueue *TheJobQueue,QString HelpU
 //====================================================================================================================
 
 DlgJobSettings::~DlgJobSettings() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::~DlgJobSettings";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::~DlgJobSettings");
 
     delete ui;
     delete wgt_Job;
@@ -62,9 +56,7 @@ DlgJobSettings::~DlgJobSettings() {
 // Initialise dialog
 
 void DlgJobSettings::DoInitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::DoInitDialog");
 
     switch (Job->JobType) {
         case JOBTYPE_IMAGE_CONVERTIMAGE : wgt_Job=new wgt_JobConvertImage(this,ui->JobWidget);  break;
@@ -95,9 +87,7 @@ void DlgJobSettings::DoInitDialog() {
 //====================================================================================================================
 
 void DlgJobSettings::RefreshControls() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::RefreshControls";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::RefreshControls");
 
     bool DisplaySourcePart=(Job->JobQualif&JOBQUALIF_SOURCE_ALL)!=0;
     ui->Source_Nothing_RD->setChecked((Job->JobSettings&JOBQUALIF_SOURCE_KEEP)!=0);
@@ -149,9 +139,7 @@ void DlgJobSettings::RefreshControls() {
 //====================================================================================================================
 
 void DlgJobSettings::s_Source_Nothing_RD() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::s_Source_Nothing_RD";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Source_Nothing_RD");
 
     Job->JobSettings=(Job->JobSettings & ~JOBQUALIF_SOURCE_ALL)|JOBQUALIF_SOURCE_KEEP;
     RefreshControls();
@@ -160,9 +148,7 @@ void DlgJobSettings::s_Source_Nothing_RD() {
 //====================================================================================================================
 
 void DlgJobSettings::s_Source_Delete_RD() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::s_Source_Delete_RD";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Source_Delete_RD");
 
     Job->JobSettings=(Job->JobSettings & ~JOBQUALIF_SOURCE_ALL)|JOBQUALIF_SOURCE_REMOVE;
     RefreshControls();
@@ -171,9 +157,7 @@ void DlgJobSettings::s_Source_Delete_RD() {
 //====================================================================================================================
 
 void DlgJobSettings::s_Source_Rename_RD() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::s_Source_Rename_RD";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Source_Rename_RD");
 
     Job->JobSettings=(Job->JobSettings & ~JOBQUALIF_SOURCE_ALL)|JOBQUALIF_SOURCE_ADDSUFFIX;
     RefreshControls();
@@ -182,9 +166,7 @@ void DlgJobSettings::s_Source_Rename_RD() {
 //====================================================================================================================
 
 void DlgJobSettings::s_Source_Move_RD() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::s_Source_Move_RD";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Source_Move_RD");
 
     Job->JobSettings=(Job->JobSettings & ~JOBQUALIF_SOURCE_ALL)|JOBQUALIF_SOURCE_MOVE;
     RefreshControls();
@@ -193,9 +175,8 @@ void DlgJobSettings::s_Source_Move_RD() {
 //====================================================================================================================
 
 void DlgJobSettings::s_Destination_AddSuffix_RD() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::s_Destination_AddSuffix_RD";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Destination_AddSuffix_RD");
+
     if (ui->Destination_AddSuffix_RD->isChecked()) Job->JobSettings=(Job->JobSettings|JOBQUALIF_DESTNAME_ADDSUFFIX);
         else Job->JobSettings=(Job->JobSettings & ~JOBQUALIF_DESTNAME_ADDSUFFIX);
     RefreshControls();
@@ -204,9 +185,8 @@ void DlgJobSettings::s_Destination_AddSuffix_RD() {
 //====================================================================================================================
 
 void DlgJobSettings::s_Destination_InFolder_RD() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::s_Destination_InFolder_RD";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Destination_InFolder_RD");
+
     if (ui->Destination_InFolder_RD->isChecked()) Job->JobSettings=(Job->JobSettings|JOBQUALIF_DESTPLACE_INFOLDER);
         else Job->JobSettings=(Job->JobSettings & ~JOBQUALIF_DESTPLACE_INFOLDER);
     RefreshControls();
@@ -215,9 +195,7 @@ void DlgJobSettings::s_Destination_InFolder_RD() {
 //====================================================================================================================
 
 void DlgJobSettings::s_Destination_Overwrite_RD() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::s_Destination_Overwrite_RD";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Destination_Overwrite_RD");
 
     if (ui->Destination_Overwrite_RD->isChecked()) Job->JobSettings=(Job->JobSettings|JOBQUALIF_DESTINATION_OVERWRITE);
         else Job->JobSettings=(Job->JobSettings & ~JOBQUALIF_DESTINATION_OVERWRITE);
@@ -227,9 +205,7 @@ void DlgJobSettings::s_Destination_Overwrite_RD() {
 //====================================================================================================================
 
 void DlgJobSettings::s_Source_Suffix_ED(const QString Suffix) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::s_Destination_Overwrite_RD";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Destination_Overwrite_RD");
 
     Job->SourceSuffix=Suffix;
     RefreshControls();
@@ -238,9 +214,7 @@ void DlgJobSettings::s_Source_Suffix_ED(const QString Suffix) {
 //====================================================================================================================
 
 void DlgJobSettings::s_Destination_Suffix_ED(const QString Suffix) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::s_Destination_Overwrite_RD";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Destination_Overwrite_RD");
 
     Job->DestinationSuffix=Suffix;
     RefreshControls();
@@ -249,9 +223,7 @@ void DlgJobSettings::s_Destination_Suffix_ED(const QString Suffix) {
 //====================================================================================================================
 
 void DlgJobSettings::s_Source_Folder_BT() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::s_Source_Folder_BT";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Source_Folder_BT");
 
     QString NewPath=GetDestinationFolder(Job->SourceFolder,"",BaseApplicationConfig,((cApplicationConfig *)BaseApplicationConfig)->DlgGetFolderWSP,this);
     if (NewPath!="") {
@@ -263,9 +235,7 @@ void DlgJobSettings::s_Source_Folder_BT() {
 //====================================================================================================================
 
 void DlgJobSettings::s_Destination_Folder_BT() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::s_Destination_Folder_BT";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Destination_Folder_BT");
 
     QString NewPath=GetDestinationFolder(Job->DestinationFolder,"",BaseApplicationConfig,((cApplicationConfig *)BaseApplicationConfig)->DlgGetFolderWSP,this);
     if (NewPath!="") {
@@ -277,9 +247,7 @@ void DlgJobSettings::s_Destination_Folder_BT() {
 //====================================================================================================================
 
 void DlgJobSettings::RefreshJobSummary() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgJobSettings::RefreshJobSummary";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::RefreshJobSummary");
 
     JobSummary  ="";
 
@@ -291,7 +259,7 @@ void DlgJobSettings::RefreshJobSummary() {
         if (JobSummary!="") JobSummary=JobSummary+"\n";
 
         JobSummary=JobSummary+JobQueue->JobTypeText[Job->JobType]+" ("+QFileInfo(Source).fileName()+" => "+(QFileInfo(Source).absolutePath()==QFileInfo(Destination).absolutePath()?QFileInfo(Destination).fileName():Destination)+")";
-        if ((Job->JobSettings&JOBQUALIF_DESTINATION_OVERWRITE)!=0)  JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","overwrite destination file as needed")).arg(Source);
+        if ((Job->JobSettings&JOBQUALIF_DESTINATION_OVERWRITE)!=0)  JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","overwrite destination file as needed"));
         if ((Job->JobSettings&JOBQUALIF_SOURCE_REMOVE)!=0)          JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and remove %1")).arg(Source);
         else if ((Job->JobSettings&JOBQUALIF_SOURCE_ADDSUFFIX)!=0)  JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and rename %1 to %2")).arg(Source).arg(NewSource);
         else if ((Job->JobSettings&JOBQUALIF_SOURCE_MOVE)!=0)       JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and move %1 to %2")).arg(Source).arg(NewSource);

@@ -23,16 +23,13 @@
 // Include some common various class
 #include "../fmt_filters/fmt_filters.h"
 
-//#define DEBUGMODE
-
 //*********************************************************************************************************************************************
 // Utility function to create a gradient brush
 //*********************************************************************************************************************************************
 
 QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QString ColorD,QString ColorF,QString ColorIntermed,double Intermediate) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:GetGradientBrush";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:GetGradientBrush");
+
     QGradient Gradient;
     switch (GradientOrientation) {
         case GRADIENTORIENTATION_UPLEFT:        Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()));                                                                                             break;          // Up-Left
@@ -56,6 +53,8 @@ QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QStri
 //====================================================================================================================
 
 void DrawShape(QPainter &Painter,int BackgroundForm,double left,double top,double width,double height,double CenterX,double CenterY) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DrawShape");
+
     double RayX=0,RayY=0;
 
     switch (BackgroundForm) {
@@ -108,9 +107,8 @@ void DrawPolygonR(QPainter &Painter,double width,double height,double CenterX,do
 //*********************************************************************************************************************************************
 
 cBackgroundObject::cBackgroundObject(QString FileName,int TheGeometry) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBackgroundObject::cBackgroundObject";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundObject::cBackgroundObject");
+
     IsValide    = false;
     FilePath    = FileName;
     Name        = QFileInfo(FileName).baseName();
@@ -151,18 +149,16 @@ cBackgroundObject::cBackgroundObject(QString FileName,int TheGeometry) {
 // Global class containing background library
 //*********************************************************************************************************************************************
 cBackgroundList::cBackgroundList() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBackgroundList::cBackgroundList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundList::cBackgroundList");
+
     Geometry=-1;
 }
 
 //====================================================================================================================
 
 void cBackgroundList::ScanDisk(QString Path,int TheGeometry) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBackgroundList::ScanDisk";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundList::ScanDisk");
+
     if (Geometry==TheGeometry) return;
     Geometry=TheGeometry;
 
@@ -179,9 +175,8 @@ void cBackgroundList::ScanDisk(QString Path,int TheGeometry) {
 //====================================================================================================================
 
 int cBackgroundList::SearchImage(QString NameToFind) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBackgroundList::SearchImage";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundList::SearchImage");
+
     int Ret=-1;
     int j=0;
     while ((j<List.count())&&(Ret==-1)) if (List[j].Name==NameToFind) Ret=j; else j++;
@@ -194,9 +189,8 @@ int cBackgroundList::SearchImage(QString NameToFind) {
 //*********************************************************************************************************************************************
 
 cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,cBackgroundList *TheBackgroundList) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::cBrushDefinition";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::cBrushDefinition");
+
     TypeComposition     =COMPOSITIONTYPE_BACKGROUND;
     BrushType           =BRUSHTYPE_SOLID;               // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors, 5=brush library, 6=image disk
     PatternType         =Qt::Dense4Pattern;             // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
@@ -230,9 +224,8 @@ cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,
 
 //====================================================================================================================
 cBrushDefinition::~cBrushDefinition() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::~cBrushDefinition";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::~cBrushDefinition");
+
     if (Image) {
         if (TypeComposition!=COMPOSITIONTYPE_SHOT) delete Image;
         Image=NULL;
@@ -246,9 +239,8 @@ cBrushDefinition::~cBrushDefinition() {
 //====================================================================================================================
 
 QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::GetBrush";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetBrush");
+
     switch (BrushType) {
         case BRUSHTYPE_NOBRUSH :        return new QBrush(Qt::NoBrush);
         case BRUSHTYPE_SOLID :          return new QBrush(QColor(ColorD),Qt::SolidPattern);
@@ -264,9 +256,8 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int
 //====================================================================================================================
 
 void cBrushDefinition::GetDefaultFraming(FramingType TheFramingType,bool LockGeometry,double &X,double &Y,double &ZoomFactor,double &AspectRatio) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::GetDefaultFraming";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetDefaultFraming");
+
     if ((Image==NULL)&&(Video==NULL)) return;
 
     // Calc coordinates of the part in the source image
@@ -327,9 +318,8 @@ void cBrushDefinition::GetDefaultFraming(FramingType TheFramingType,bool LockGeo
 //====================================================================================================================
 
 QString cBrushDefinition::GetFramingStyle(double X,double Y,double ZoomFactor,double AspectRatio,double ImageRotation) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::GetFramingStyle";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetFramingStyle");
+
     return  QString("###X:%1").arg(X,0,'e',4)+
             QString("###Y:%1").arg(Y,0,'e',4)+
             QString("###ZoomFactor:%1").arg(ZoomFactor,0,'e')+
@@ -340,9 +330,8 @@ QString cBrushDefinition::GetFramingStyle(double X,double Y,double ZoomFactor,do
 //====================================================================================================================
 
 void cBrushDefinition::InitDefaultFramingStyle(bool LockGeometry,double AspectRatio) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::InitDefaultFramingStyle";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::InitDefaultFramingStyle");
+
     double X,Y,ZoomFactor;
 
     GetDefaultFraming(ADJUST_WITH,LockGeometry,X,Y,ZoomFactor,AspectRatio);     DefaultFramingW=GetFramingStyle(X,Y,ZoomFactor,AspectRatio,0);
@@ -353,9 +342,8 @@ void cBrushDefinition::InitDefaultFramingStyle(bool LockGeometry,double AspectRa
 //====================================================================================================================
 
 void cBrushDefinition::ApplyStyle(bool LockGeometry,QString Style) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::ApplyStyle";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::ApplyStyle");
+
     QStringList List;
 
     // String to StringList
@@ -380,9 +368,7 @@ void cBrushDefinition::ApplyStyle(bool LockGeometry,QString Style) {
 //====================================================================================================================
 
 QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::GetImageDiskBrush";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetImageDiskBrush");
 
     // If not an image or a video or filename is empty then return
     if ((Image?Image->FileName:Video?Video->FileName:"")=="") return new QBrush(Qt::NoBrush);
@@ -413,9 +399,9 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
         if (RenderImage) {
             if (FullFilling) {
                 // Create brush image with distortion
-                QImage *NewRenderImage=new QImage(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                Ret=new QBrush(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
                 delete RenderImage;
-                RenderImage=NewRenderImage;
+                RenderImage=NULL;
             } else {
                 // Create brush image with ken burns effect !
                 double  TheXFactor      =X;
@@ -451,100 +437,41 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse of the image to define full canvas
 
                 // Expand canvas
-                QImage   *NewRenderImage=new QImage(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
+                QImage   NewRenderImage(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
                 QPainter Painter;
-                Painter.begin(NewRenderImage);
+                Painter.begin(&NewRenderImage);
                 Painter.setCompositionMode(QPainter::CompositionMode_Source);
                 Painter.fillRect(QRect(0,0,Hyp+1,Hyp+1),Qt::transparent);
                 Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
                 Painter.drawImage(QPoint((Hyp-RealImageW)/2,(Hyp-RealImageH)/2),*RenderImage);
                 Painter.end();
                 delete RenderImage;
-                RenderImage=NewRenderImage;
-                NewRenderImage=NULL;
 
                 // Rotate image (if needed)
                 if (TheRotateFactor!=0) {
                     QTransform matrix;
                     matrix.rotate(TheRotateFactor,Qt::ZAxis);
-                    NewRenderImage=new QImage(RenderImage->transformed(matrix,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                    int ax=NewRenderImage->width()-RenderImage->width();
-                    int ay=NewRenderImage->height()-RenderImage->height();
-                    delete RenderImage;
-                    RenderImage=new QImage(NewRenderImage->copy(ax/2,ay/2,NewRenderImage->width()-ax,NewRenderImage->height()-ay));
-                    delete NewRenderImage;
-                    NewRenderImage=NULL;
+                    int W=NewRenderImage.width();
+                    int H=NewRenderImage.height();
+                    NewRenderImage=NewRenderImage.transformed(matrix,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
+                    int ax=NewRenderImage.width()-W;
+                    int ay=NewRenderImage.height()-H;
+                    NewRenderImage=NewRenderImage.copy(ax/2,ay/2,NewRenderImage.width()-ax,NewRenderImage.height()-ay);
                 }
 
                 // Get part we need and scaled it to destination size
-                NewRenderImage=new QImage(RenderImage->copy(Hyp*TheXFactor,Hyp*TheYFactor,Hyp*TheZoomFactor,Hyp*TheZoomFactor*TheAspectRatio)
-                                    .scaled(Rect.width(),double(Rect.width())*TheAspectRatio,Qt::IgnoreAspectRatio,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                delete RenderImage;
-                RenderImage=NewRenderImage;
-                NewRenderImage=NULL;
+                NewRenderImage=NewRenderImage.copy(Hyp*TheXFactor,Hyp*TheYFactor,Hyp*TheZoomFactor,Hyp*TheZoomFactor*TheAspectRatio)
+                                    .scaled(Rect.width(),double(Rect.width())*TheAspectRatio,Qt::IgnoreAspectRatio,
+                                    ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
 
-/*
-                // **************************************************************************************************
-                // Smoothing is not correctly used here so force smoothing by reduce source image before draw image
-                // **************************************************************************************************
-
-                // Adjust SourceImage to wanted size and pos
-                double  DecalX  =(Hyp-RealImageW)/2;
-                double  DecalY  =(Hyp-RealImageH)/2;
-                QRectF  ImgRect(Hyp*TheXFactor-DecalX,Hyp*TheYFactor-DecalY,Hyp*TheZoomFactor,Hyp*TheZoomFactor*TheAspectRatio);
-                QRectF  ImgDest(0,0,Rect.width(),double(Rect.width())*TheAspectRatio);
-                double  RatioX  =ImgDest.width()/ImgRect.width();
-                double  RatioY  =ImgDest.height()/ImgRect.height();
-
-                // Adust coordinates to keep transparency if framing is out of image borders
-                if (ImgRect.left()<0)               {   ImgDest.setLeft(-ImgRect.left()*RatioX);    ImgRect.setLeft(0);                             }
-                if (ImgRect.right()>Hyp-DecalX*2)   {   ImgRect.setRight(Hyp-DecalX*2);             ImgDest.setRight(ImgRect.width()*RatioX);       }
-                if (ImgRect.top()<0)                {   ImgDest.setTop( -ImgRect.top() *RatioY);    ImgRect.setTop( 0);                             }
-                if (ImgRect.bottom()>Hyp-DecalY*2)  {   ImgRect.setBottom(Hyp-DecalY*2);            ImgDest.setBottom(ImgRect.height()*RatioY);     }
-
-                QImage *NewSourceImage=new QImage(RenderImage->copy(ImgRect.left(),ImgRect.top(),ImgRect.width(),ImgRect.height()).scaled(ImgDest.width(),ImgDest.height(),Qt::IgnoreAspectRatio,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                delete RenderImage;
-                RenderImage=NULL;
-
-                // Rotate image if needed and create a New NewSourceImage
-                if (TheRotateFactor!=0) {
-                    QTransform matrix;
-                    matrix.rotate(TheRotateFactor,Qt::ZAxis);
-                    QImage *NewNewSourceImage=new QImage(NewSourceImage->transformed(matrix,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                    int ax=NewNewSourceImage->width()-NewSourceImage->width();
-                    int ay=NewNewSourceImage->height()-NewSourceImage->height();
-                    delete NewSourceImage;
-                    NewSourceImage=new QImage(NewNewSourceImage->copy(ax/2,ay/2,NewNewSourceImage->width()-ax,NewNewSourceImage->height()-ay));
-                    delete NewNewSourceImage;
-                }
-
-                // Prepare Img Composition with transparent background
-                FinalImg=new QImage(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
-                QPainter    PB;
-                PB.begin(FinalImg);
-                PB.setCompositionMode(QPainter::CompositionMode_Source);
-                PB.fillRect(QRect(0,0,Rect.width()+1,Rect.height()+1),Qt::transparent);
-                PB.setCompositionMode(QPainter::CompositionMode_SourceOver);
-
-                if (ApplicationConfig->Smoothing)   PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-                    else                            PB.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-
-                PB.drawImage(ImgDest,*NewSourceImage);
-                delete NewSourceImage;
-
-                PB.end();
-*/
                 // Apply correction filters to DestImage
-                fmt_filters::image img(RenderImage->bits(),RenderImage->width(),RenderImage->height());
+                fmt_filters::image img(NewRenderImage.bits(),NewRenderImage.width(),NewRenderImage.height());
                 if (TheBrightness!=0)                           fmt_filters::brightness(img,TheBrightness);
                 if (TheContrast!=0)                             fmt_filters::contrast(img,TheContrast);
                 if (TheGamma!=1)                                fmt_filters::gamma(img,TheGamma);
                 if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))   fmt_filters::colorize(img,TheRed,TheGreen,TheBlue);
-            }
-            if (RenderImage) {
-                Ret=new QBrush(*RenderImage);
-                delete RenderImage;
-                RenderImage=NULL;
+
+                if (!NewRenderImage.isNull()) Ret=new QBrush(NewRenderImage);
             }
         }
         return Ret;
@@ -561,9 +488,8 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
 //====================================================================================================================
 // Note:This function is use only by DlgImageCorrection !
 void cBrushDefinition::ApplyFilter(QImage *Image) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::ApplyFilter";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::ApplyFilter");
+
     if (Image==NULL) return;
     fmt_filters::image img(Image->bits(),Image->width(),Image->height());
     if (Brightness!=0)                      fmt_filters::brightness(img,Brightness);
@@ -575,9 +501,8 @@ void cBrushDefinition::ApplyFilter(QImage *Image) {
 //====================================================================================================================
 
 QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::GetLibraryBrush";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetLibraryBrush");
+
     if (!BackgroundList) return NULL;
     int BackgroundImageNumber=BackgroundList->SearchImage(BrushImage);
     if ((BackgroundImageNumber>=0)&&(BackgroundImageNumber<BackgroundList->List.count())) {
@@ -603,9 +528,8 @@ QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
 //====================================================================================================================
 // Return height for width depending on Rect geometry
 int cBrushDefinition::GetHeightForWidth(int WantedWith,QRectF Rect) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::GetHeightForWidth";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetHeightForWidth");
+
     double   Ratio=Rect.width()/Rect.height();
     return int(double(double(WantedWith)/Ratio));
 }
@@ -613,9 +537,8 @@ int cBrushDefinition::GetHeightForWidth(int WantedWith,QRectF Rect) {
 //====================================================================================================================
 // Return width for height depending on Rect geometry
 int cBrushDefinition::GetWidthForHeight(int WantedHeight,QRectF Rect) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::GetWidthForHeight";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetWidthForHeight");
+
     double   Ratio=Rect.height()/Rect.width();
     return int(double(double(WantedHeight)/Ratio));
 }
@@ -623,9 +546,8 @@ int cBrushDefinition::GetWidthForHeight(int WantedHeight,QRectF Rect) {
 //====================================================================================================================
 
 QString cBrushDefinition::GetFramingStyle() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::GetFramingStyle";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetFramingStyle");
+
     return  QString("###X:%1").arg(X,0,'e')+
             QString("###Y:%1").arg(Y,0,'e')+
             QString("###ZoomFactor:%1").arg(ZoomFactor,0,'e')+
@@ -637,9 +559,8 @@ QString cBrushDefinition::GetFramingStyle() {
 // create a COMPOSITIONTYPE_SHOT brush as a copy of a given brush
 
 void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::CopyFromBrushDefinition";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::CopyFromBrushDefinition");
+
     TypeComposition     =COMPOSITIONTYPE_SHOT;
     BrushType           =BrushToCopy->BrushType;
     PatternType         =BrushToCopy->PatternType;
@@ -675,9 +596,8 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
 //====================================================================================================================
 
 void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::SaveToXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::SaveToXML");
+
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     QString         BrushFileName=(Image?Image->FileName:Video?Video->FileName:"");
@@ -749,9 +669,8 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 //====================================================================================================================
 
 bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBrushDefinition::LoadFromXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::LoadFromXML");
+
     if (ModifyFlag) *ModifyFlag=false;
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();

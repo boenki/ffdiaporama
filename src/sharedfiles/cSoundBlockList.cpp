@@ -23,16 +23,13 @@
 // Specific defines for this file
 #define MAXSOUNDPACKETSIZE      4096
 
-//#define DEBUGMODE
-
 //*********************************************************************************************************************************************
 // Base object for sound manipulation
 //*********************************************************************************************************************************************
 
 cSoundBlockList::cSoundBlockList() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSoundBlockList::cSoundBlockList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::cSoundBlockList");
+
     TempData            =(uint8_t *)av_malloc(MAXSOUNDPACKETSIZE+4);                        // Buffer for stocking temporary data (when decoding data are less than a packet)
     CurrentTempSize     =0;                                                                 // Amount of data in the TempData buffer
     SoundPacketSize     =MAXSOUNDPACKETSIZE;                                                // Size of a packet (depending on FPS)
@@ -46,9 +43,8 @@ cSoundBlockList::cSoundBlockList() {
 //====================================================================================================================
 
 cSoundBlockList::~cSoundBlockList() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSoundBlockList::~cSoundBlockList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::~cSoundBlockList");
+
     ClearList();
     av_free(TempData);
     TempData=NULL;
@@ -58,9 +54,8 @@ cSoundBlockList::~cSoundBlockList() {
 // Prepare and calculate values for a frame rate
 //====================================================================================================================
 void cSoundBlockList::SetFPS(double TheFPS) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSoundBlockList::SetFPS";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFPS");
+
     FPS            =TheFPS;
     WantedDuration =double(1)/FPS;
     SoundPacketSize=int(WantedDuration*double(SamplingRate))*SampleBytes*Channels;
@@ -78,9 +73,8 @@ void cSoundBlockList::SetFPS(double TheFPS) {
 // Prepare and calculate values for a frame size
 //====================================================================================================================
 void cSoundBlockList::SetFrameSize(int FrameSize) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSoundBlockList::SetFrameSize";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFrameSize");
+
     SoundPacketSize=FrameSize;
     WantedDuration =double(SoundPacketSize)/(double(SamplingRate)*double(SampleBytes)*double(Channels));
     FPS            =1/WantedDuration;
@@ -96,9 +90,8 @@ void cSoundBlockList::SetFrameSize(int FrameSize) {
 // Clear the list (make av_free of each packet)
 //====================================================================================================================
 void cSoundBlockList::ClearList() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSoundBlockList::ClearList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::ClearList");
+
     while (List.count()>0) {
         int16_t *Packet=DetachFirstPacket();
         if (Packet) av_free(Packet);
@@ -110,9 +103,8 @@ void cSoundBlockList::ClearList() {
 // Detach the first packet of the list (do not make av_free)
 //====================================================================================================================
 int16_t *cSoundBlockList::DetachFirstPacket() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSoundBlockList::DetachFirstPacket";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::DetachFirstPacket");
+
     int16_t *Ret=NULL;
     if (List.count()>0) Ret=(int16_t *)List.takeFirst();
     return Ret;
@@ -122,9 +114,8 @@ int16_t *cSoundBlockList::DetachFirstPacket() {
 // Append a packet to the end of the list
 //====================================================================================================================
 void cSoundBlockList::AppendPacket(int16_t *PacketToAdd) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSoundBlockList::AppendPacket";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendPacket");
+
     List.append(PacketToAdd);
 }
 
@@ -132,9 +123,8 @@ void cSoundBlockList::AppendPacket(int16_t *PacketToAdd) {
 // Append a packet of null sound to the end of the list
 //====================================================================================================================
 void cSoundBlockList::AppendNullSoundPacket() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSoundBlockList::AppendNullSoundPacket";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendNullSoundPacket");
+
     AppendPacket(NULL);
 }
 
@@ -142,9 +132,8 @@ void cSoundBlockList::AppendNullSoundPacket() {
 // Append data to the list creating packet as necessary and filling TempData
 //====================================================================================================================
 void cSoundBlockList::AppendData(int16_t *Data,int64_t DataLen) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSoundBlockList::AppendData";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendData");
+
     uint8_t *CurData=(uint8_t *)Data;
     // Cut data to Packet
     while ((DataLen+CurrentTempSize>=SoundPacketSize)) {
@@ -177,9 +166,8 @@ void cSoundBlockList::AppendData(int16_t *Data,int64_t DataLen) {
 // Note : the 2 packet are free during process
 //====================================================================================================================
 void cSoundBlockList::MixAppendPacket(int16_t *PacketA,int16_t *PacketB) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSoundBlockList::MixAppendPacket";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::MixAppendPacket");
+
     int32_t mix;
     if ((PacketA==NULL)&&(PacketB==NULL))           AppendNullSoundPacket();
         else if ((PacketA!=NULL)&&(PacketB==NULL))  AppendPacket(PacketA);
@@ -203,9 +191,8 @@ void cSoundBlockList::MixAppendPacket(int16_t *PacketA,int16_t *PacketB) {
 // Change volume of a packet
 //====================================================================================================================
 void cSoundBlockList::ApplyVolume(int PacketNumber,double VolumeFactor) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSoundBlockList::ApplyVolume";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::ApplyVolume");
+
     if (PacketNumber>=List.count()) return;
     int16_t *Buf1=List[PacketNumber];
     if (Buf1==NULL) return;

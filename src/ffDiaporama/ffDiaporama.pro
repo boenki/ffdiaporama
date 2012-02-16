@@ -5,7 +5,8 @@
 #--------------------------------------------------------------
 
 QT           += core gui xml network
-CONFIG       += console
+#win32:CONFIG += console
+CONFIG       += thread
 QMAKE_STRIP  = echo
 APPFOLDER    = ffDiaporama
 TARGET       = ffDiaporama
@@ -63,6 +64,7 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             cCustomTableWidget.cpp \
             DlgManageStyle.cpp \
             _StyleDefinitions.cpp \
+            ../sharedfiles/_GlobalDefines.cpp \
             ../sharedfiles/QCustomRuller.cpp \
             ../sharedfiles/DlgCheckConfig.cpp \
             ../sharedfiles/cSaveWindowPosition.cpp \

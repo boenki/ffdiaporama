@@ -23,8 +23,6 @@
 #include <QPainter>
 #include <QFont>
 
-//#define DEBUGMODE
-
 //======================================
 // Specific defines for this dialog box
 //======================================
@@ -40,9 +38,7 @@
 //====================================================================================================================
 
 QCustomRuller::QCustomRuller(QWidget *parent):QSlider(parent) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomRuller::QCustomRuller";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::QCustomRuller");
 
     StartPos=0;
     EndPos  =0;
@@ -53,9 +49,7 @@ QCustomRuller::QCustomRuller(QWidget *parent):QSlider(parent) {
 //====================================================================================================================
 
 void QCustomRuller::ActiveSlider(int TotalDuration) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomRuller::ActiveSlider";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::ActiveSlider");
 
     this->TotalDuration=TotalDuration;
 }
@@ -63,9 +57,7 @@ void QCustomRuller::ActiveSlider(int TotalDuration) {
 //====================================================================================================================
 
 void QCustomRuller::resizeEvent(QResizeEvent *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomRuller::resizeEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::resizeEvent");
 
 //    if (Slider!=NULL) Slider->setMinimumWidth(this->width());
 }
@@ -73,9 +65,7 @@ void QCustomRuller::resizeEvent(QResizeEvent *) {
 //====================================================================================================================
 
 void QCustomRuller::mousePressEvent(QMouseEvent *ev) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomRuller::mousePressEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::mousePressEvent");
 
     if (ev->button()==Qt::LeftButton) {
         int x1 =int(double(this->width()-TAQUET_SIZE*2)*(double(value())/double(maximum())))+TAQUET_SIZE;
@@ -88,9 +78,7 @@ void QCustomRuller::mousePressEvent(QMouseEvent *ev) {
 //====================================================================================================================
 
 void QCustomRuller::paintEvent(QPaintEvent *) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomRuller::paintEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::paintEvent");
 
     QFont       Font("DejaVu Sans",6,QFont::Normal,QFont::StyleNormal);
     QPainter    Painter(this);

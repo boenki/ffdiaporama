@@ -26,6 +26,7 @@
 #include <QFileDialog>
 
 DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgBackgroundProperties) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::DlgBackgroundProperties");
     ui->setupUi(this);
     DiaporamaObject = TheDiaporamaObject;
     StopMAJSpinbox  = false;
@@ -94,6 +95,7 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
 //====================================================================================================================
 
 DlgBackgroundProperties::~DlgBackgroundProperties() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::~DlgBackgroundProperties");
     delete ui;
     delete Undo;
 }
@@ -101,24 +103,28 @@ DlgBackgroundProperties::~DlgBackgroundProperties() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::Help() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::Help");
     GlobalMainWindow->OpenHelp(HELPFILE_DlgBackgroundProperties);
 }
 
 //====================================================================================================================
 
 void DlgBackgroundProperties::SetSavedWindowGeometry() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::SetSavedWindowGeometry");
     DiaporamaObject->Parent->ApplicationConfig->DlgBackgroundPropertiesWSP->ApplyToWindow(this);
 }
 
 //====================================================================================================================
 
 void DlgBackgroundProperties::resizeEvent(QResizeEvent *) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::resizeEvent");
     if (IsFirstInitDone) RefreshControls(ui->NewBackgroundRD->isChecked());
 }
 
 //====================================================================================================================
 
 void DlgBackgroundProperties::showEvent(QShowEvent *ev) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::showEvent");
     QDialog::showEvent(ev);
     if (IsFirstInitDone) return;
     QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
@@ -129,6 +135,7 @@ void DlgBackgroundProperties::showEvent(QShowEvent *ev) {
 //====================================================================================================================
 
 void DlgBackgroundProperties::reject() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::reject");
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgBackgroundPropertiesWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
@@ -139,6 +146,7 @@ void DlgBackgroundProperties::reject() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::accept() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::accept");
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgBackgroundPropertiesWSP->SaveWindowState(this);
     done(0);
@@ -147,12 +155,14 @@ void DlgBackgroundProperties::accept() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::SetupUi() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::SetupUi");
     RefreshControls(ui->NewBackgroundRD->isChecked());
 }
 
 //====================================================================================================================
 
 void DlgBackgroundProperties::s_SameBackground() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_SameBackground");
     if (DiaporamaObject==NULL) return;
     DiaporamaObject->BackgroundType=false;
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -161,6 +171,7 @@ void DlgBackgroundProperties::s_SameBackground() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::s_NewBackground() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_NewBackground");
     if (DiaporamaObject==NULL) return;
     DiaporamaObject->BackgroundType=true;
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -169,6 +180,7 @@ void DlgBackgroundProperties::s_NewBackground() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::RefreshControls(bool Allowed) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::RefreshControls");
     if (!IsFirstInitDone) return;
 
     if (Allowed) {
@@ -283,6 +295,7 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
 //====================================================================================================================
 
 void DlgBackgroundProperties::s_ChangeBrushTypeCombo(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChangeBrushTypeCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -291,6 +304,7 @@ void DlgBackgroundProperties::s_ChangeBrushTypeCombo(int Value) {
 //====================================================================================================================
 
 void DlgBackgroundProperties::s_SelectFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_SelectFile");
     QString NewFile=QFileDialog::getOpenFileName(this,
                                                  QApplication::translate("DlgBackgroundProperties","Select a file"),
                                                  GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
@@ -325,6 +339,7 @@ void DlgBackgroundProperties::s_SelectFile() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::s_IntermPosSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_IntermPosSliderMoved");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -333,6 +348,7 @@ void DlgBackgroundProperties::s_IntermPosSliderMoved(int Value) {
 //====================================================================================================================
 
 void DlgBackgroundProperties::s_IntermPosED(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_IntermPosED");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -344,6 +360,7 @@ void DlgBackgroundProperties::s_IntermPosED(int Value) {
 
 //========= Pattern shape combo
 void DlgBackgroundProperties::s_ChIndexPatternBrushCombo(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexPatternBrushCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -351,6 +368,7 @@ void DlgBackgroundProperties::s_ChIndexPatternBrushCombo(int) {
 
 //========= Gradient shape orientation
 void DlgBackgroundProperties::s_ChIndexGradientOrientationCombo(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientOrientationCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -358,6 +376,7 @@ void DlgBackgroundProperties::s_ChIndexGradientOrientationCombo(int) {
 
 //========= Shape/Gradient shape first color
 void DlgBackgroundProperties::s_ChIndexGradientFirstColorCombo(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientFirstColorCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -365,6 +384,7 @@ void DlgBackgroundProperties::s_ChIndexGradientFirstColorCombo(int) {
 
 //========= Gradient shape last color
 void DlgBackgroundProperties::s_ChIndexGradientFinalColorCombo(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientFinalColorCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -372,6 +392,7 @@ void DlgBackgroundProperties::s_ChIndexGradientFinalColorCombo(int) {
 
 //========= Gradient shape intermediate color
 void DlgBackgroundProperties::s_ChIndexGradientIntermColorCombo(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientIntermColorCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -379,6 +400,7 @@ void DlgBackgroundProperties::s_ChIndexGradientIntermColorCombo(int) {
 
 //========= Background image
 void DlgBackgroundProperties::s_ChIndexBackgroundCombo(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexBackgroundCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
     RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -386,6 +408,7 @@ void DlgBackgroundProperties::s_ChIndexBackgroundCombo(int) {
 
 //========= Image file correction
 void DlgBackgroundProperties::s_ImageEditCorrect() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ImageEditCorrect");
     if (DiaporamaObject->BackgroundBrush->Image) {
         DlgImageCorrection(NULL,1,DiaporamaObject->BackgroundBrush,0,this).exec();
         RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -395,6 +418,7 @@ void DlgBackgroundProperties::s_ImageEditCorrect() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::s_FullFill() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_FullFill");
     if (DiaporamaObject->BackgroundBrush->Image) {
         DiaporamaObject->BackgroundBrush->FullFilling=true;
         RefreshControls(ui->NewBackgroundRD->isChecked());
@@ -404,6 +428,7 @@ void DlgBackgroundProperties::s_FullFill() {
 //====================================================================================================================
 
 void DlgBackgroundProperties::s_KeepRatio() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_KeepRatio");
     if (DiaporamaObject->BackgroundBrush->Image) {
         DiaporamaObject->BackgroundBrush->FullFilling=false;
         RefreshControls(ui->NewBackgroundRD->isChecked());

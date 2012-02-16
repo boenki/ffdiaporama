@@ -64,11 +64,13 @@ QString  ColorRef[MAXCOLORREF]={
 //========================================================================================================================
 
 cCustomColorComboBoxItem::cCustomColorComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomColorComboBoxItem::cCustomColorComboBoxItem");
 }
 
 //========================================================================================================================
 
 void cCustomColorComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomColorComboBoxItem::paint");
     int ColorNum=index.row()*5+index.column();
     if (ColorNum<MAXCOLORREF) {
         painter->setPen(Qt::NoPen);
@@ -96,6 +98,7 @@ void cCustomColorComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
 //========================================================================================================================
 
 QSize cCustomColorComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomColorComboBoxItem::sizeHint");
     return QSize(24,24);
 }
 
@@ -104,6 +107,7 @@ QSize cCustomColorComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,
 //******************************************************************************************************************
 
 cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomColorComboBox::cCustomColorComboBox");
     STOPMAJ=false;
     CurrentColor=NULL;
 
@@ -138,6 +142,7 @@ cCustomColorComboBox::cCustomColorComboBox(QWidget *parent):QComboBox(parent) {
 //========================================================================================================================
 
 void cCustomColorComboBox::SetCurrentColor(QString *Color) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomColorComboBox::SetCurrentColor");
     CurrentColor=Color;
     int i=0;
     while ((i<MAXCOLORREF)&&(ColorRef[i]!=*CurrentColor)) i++;
@@ -160,6 +165,7 @@ void cCustomColorComboBox::SetCurrentColor(QString *Color) {
 //========================================================================================================================
 
 QString cCustomColorComboBox::GetCurrentColor() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomColorComboBox::GetCurrentColor");
     if (!CurrentColor) return SavedCustomColor;
     int i=((QTableWidget *)view())->currentRow()*5+((QTableWidget *)view())->currentColumn();
     StandardColor=((i>=0)&&(i<MAXCOLORREF));
@@ -173,7 +179,7 @@ QString cCustomColorComboBox::GetCurrentColor() {
 //========================================================================================================================
 
 void cCustomColorComboBox::MakeIcons() {
-
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomColorComboBox::MakeIcons");
     int ColorNum=0;
     if (CurrentColor) {
         while ((ColorNum<MAXCOLORREF)&&(ColorRef[ColorNum]!=*CurrentColor)) ColorNum++;
@@ -202,6 +208,7 @@ void cCustomColorComboBox::MakeIcons() {
 //========================================================================================================================
 
 void cCustomColorComboBox::s_ItemSelectionChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomColorComboBox::s_ItemSelectionChanged");
     STOPMAJ=true;
     setCurrentIndex(((QTableWidget *)view())->currentRow());
     MakeIcons();
@@ -212,6 +219,7 @@ void cCustomColorComboBox::s_ItemSelectionChanged() {
 //========================================================================================================================
 
 void cCustomColorComboBox::s_ItemPressed(int,int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomColorComboBox::s_ItemPressed");
     int CurrentRow=((QTableWidget *)view())->currentRow();      if (CurrentRow<0) CurrentRow=0;
     int CurrentCol=((QTableWidget *)view())->currentColumn();   if (CurrentCol<0) CurrentCol=0;
     int ColorNum=CurrentRow*5+CurrentCol;
@@ -233,10 +241,12 @@ void cCustomColorComboBox::s_ItemPressed(int,int) {
 //******************************************************************************************************************
 
 cCustomBrushComboBoxItem::cCustomBrushComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBrushComboBoxItem::cCustomBrushComboBoxItem");
 }
 
 //========================================================================================================================
 void cCustomBrushComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBrushComboBoxItem::paint");
     if ((!ComboBox)||(!ComboBox->Brush)) return;
     int ColorNum=index.row()*4+index.column();
     if (ColorNum<MAXBRUSHPATTERN) {
@@ -267,6 +277,7 @@ void cCustomBrushComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
 //========================================================================================================================
 
 QSize cCustomBrushComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBrushComboBoxItem::sizeHint");
     return QSize(24,24);
 }
 
@@ -275,6 +286,7 @@ QSize cCustomBrushComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,
 //******************************************************************************************************************
 
 cCustomBrushComboBox::cCustomBrushComboBox(QWidget *parent):QComboBox(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBrushComboBox::cCustomBrushComboBox");
     STOPMAJ=false;
     Brush=NULL;
     QTableWidget    *Table=new QTableWidget();
@@ -305,6 +317,7 @@ cCustomBrushComboBox::cCustomBrushComboBox(QWidget *parent):QComboBox(parent) {
 //========================================================================================================================
 
 void cCustomBrushComboBox::SetCurrentBrush(cBrushDefinition *TheBrush) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBrushComboBox::SetCurrentBrush");
     if (STOPMAJ) return;
     Brush=TheBrush;
     ((QTableWidget *)view())->setCurrentCell(Brush->PatternType/4,Brush->PatternType-(Brush->PatternType/4)*4);
@@ -315,6 +328,7 @@ void cCustomBrushComboBox::SetCurrentBrush(cBrushDefinition *TheBrush) {
 //========================================================================================================================
 
 cBrushDefinition *cCustomBrushComboBox::GetCurrentBrush() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBrushComboBox::GetCurrentBrush");
     Brush->BrushType  =BRUSHTYPE_PATTERN;
     Brush->PatternType=currentIndex()*4+((QTableWidget *)view())->currentColumn();
     MakeIcons();
@@ -324,6 +338,7 @@ cBrushDefinition *cCustomBrushComboBox::GetCurrentBrush() {
 //========================================================================================================================
 
 void cCustomBrushComboBox::MakeIcons() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBrushComboBox::MakeIcons");
     if (!Brush) return;
     int CurrentRow=currentIndex();
     if (CurrentRow<0) return;
@@ -358,6 +373,7 @@ void cCustomBrushComboBox::MakeIcons() {
 //========================================================================================================================
 
 void cCustomBrushComboBox::s_ItemSelectionChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBrushComboBox::s_ItemSelectionChanged");
     STOPMAJ=true;
     setCurrentIndex(((QTableWidget *)view())->currentRow());
     MakeIcons();
@@ -370,10 +386,12 @@ void cCustomBrushComboBox::s_ItemSelectionChanged() {
 //******************************************************************************************************************
 
 cGradientOrientationComboBoxItem::cGradientOrientationComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cGradientOrientationComboBoxItem::cGradientOrientationComboBoxItem");
 }
 
 //========================================================================================================================
 void cGradientOrientationComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cGradientOrientationComboBoxItem::paint");
     if ((!ComboBox)||(!ComboBox->Brush)) return;
     int ColorNum=index.row()*3+index.column();
     if ((ColorNum>=0)&&(ColorNum<MAXGRADIENTORIENTATION)) {
@@ -406,6 +424,7 @@ void cGradientOrientationComboBoxItem::paint(QPainter *painter,const QStyleOptio
 //========================================================================================================================
 
 QSize cGradientOrientationComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cGradientOrientationComboBoxItem::sizeHint");
     return QSize(32,32);
 }
 
@@ -414,6 +433,7 @@ QSize cGradientOrientationComboBoxItem::sizeHint(const QStyleOptionViewItem &/*o
 //******************************************************************************************************************
 
 cGradientOrientationComboBox::cGradientOrientationComboBox(QWidget *parent):QComboBox(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cGradientOrientationComboBox::cGradientOrientationComboBox");
     STOPMAJ=false;
     Brush=NULL;
     QTableWidget    *Table=new QTableWidget();
@@ -443,6 +463,7 @@ cGradientOrientationComboBox::cGradientOrientationComboBox(QWidget *parent):QCom
 //========================================================================================================================
 
 void cGradientOrientationComboBox::SetCurrentBrush(cBrushDefinition *TheBrush) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cGradientOrientationComboBox::SetCurrentBrush");
     if (STOPMAJ) return;
     Brush=TheBrush;
     setCurrentIndex(Brush->GradientOrientation/3);
@@ -453,6 +474,7 @@ void cGradientOrientationComboBox::SetCurrentBrush(cBrushDefinition *TheBrush) {
 //========================================================================================================================
 
 cBrushDefinition *cGradientOrientationComboBox::GetCurrentBrush() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cGradientOrientationComboBox::GetCurrentBrush");
     if (Brush) {
         Brush->GradientOrientation=currentIndex()*3+((QTableWidget *)view())->currentColumn();
         MakeIcons();
@@ -463,6 +485,7 @@ cBrushDefinition *cGradientOrientationComboBox::GetCurrentBrush() {
 //========================================================================================================================
 
 void cGradientOrientationComboBox::MakeIcons() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cGradientOrientationComboBox::MakeIcons");
     if (!Brush) return;
     int CurrentRow=currentIndex();
     if (CurrentRow<0) return;
@@ -499,6 +522,7 @@ void cGradientOrientationComboBox::MakeIcons() {
 //========================================================================================================================
 
 void cGradientOrientationComboBox::s_ItemSelectionChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cGradientOrientationComboBox::s_ItemSelectionChanged");
     STOPMAJ=true;
     setCurrentIndex(((QTableWidget *)view())->currentRow());
     MakeIcons();
@@ -513,11 +537,13 @@ void cGradientOrientationComboBox::s_ItemSelectionChanged() {
 #define OnOffFilterComboBoxNBRCOLUMN   2
 
 cOnOffFilterComboBoxItem::cOnOffFilterComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cOnOffFilterComboBoxItem::cOnOffFilterComboBoxItem");
 }
 
 //========================================================================================================================
 
 void cOnOffFilterComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cOnOffFilterComboBoxItem::paint");
     int ColorNum=index.row()*OnOffFilterComboBoxNBRCOLUMN+index.column();
     // Prepare OnOff filter pixmaps
     QImage              Image=ComboBox->SourceImage.copy();
@@ -548,6 +574,7 @@ void cOnOffFilterComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
 //========================================================================================================================
 
 QSize cOnOffFilterComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cOnOffFilterComboBoxItem::sizeHint");
     return QSize(ComboBox->SourceImage.width(),ComboBox->SourceImage.height());
 }
 
@@ -556,6 +583,7 @@ QSize cOnOffFilterComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,
 //******************************************************************************************************************
 
 cOnOffFilterComboBox::cOnOffFilterComboBox(QWidget *parent):QComboBox(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cOnOffFilterComboBox::cOnOffFilterComboBox");
     STOPMAJ=false;
     CurrentFilter=NULL;
     QTableWidget    *Table=new QTableWidget();
@@ -592,6 +620,7 @@ cOnOffFilterComboBox::cOnOffFilterComboBox(QWidget *parent):QComboBox(parent) {
 //========================================================================================================================
 
 void cOnOffFilterComboBox::s_ItemSelectionChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cOnOffFilterComboBox::s_ItemSelectionChanged");
     if (STOPMAJ) return;
     STOPMAJ=true;
     if (CurrentFilter) *CurrentFilter=((QTableWidget *)view())->currentRow()*OnOffFilterComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
@@ -607,6 +636,7 @@ void cOnOffFilterComboBox::s_ItemSelectionChanged() {
 //========================================================================================================================
 
 void cOnOffFilterComboBox::SetCurrentFilter(QImage *TheSourceImage,int *OnOffFilter) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cOnOffFilterComboBox::SetCurrentFilter");
     if (STOPMAJ) return;
     STOPMAJ=true;
     if (TheSourceImage==NULL) return;
@@ -628,6 +658,7 @@ void cOnOffFilterComboBox::SetCurrentFilter(QImage *TheSourceImage,int *OnOffFil
 //========================================================================================================================
 
 int cOnOffFilterComboBox::GetCurrentFilter() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cOnOffFilterComboBox::GetCurrentFilter");
     int CurrentRow=currentIndex();
     if (CurrentRow<0) return 0;
     int CurrentCol=((QTableWidget *)view())->currentColumn();
@@ -641,10 +672,12 @@ int cOnOffFilterComboBox::GetCurrentFilter() {
 //******************************************************************************************************************
 
 cBackgroundComboBoxItem::cBackgroundComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBoxItem::cBackgroundComboBoxItem");
 }
 
 //========================================================================================================================
 void cBackgroundComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBoxItem::paint");
     int BackgroundNum=index.row();
     if (BackgroundNum<BackgroundList.List.count()) {
         painter->drawPixmap(option.rect.left(),option.rect.top(),BackgroundList.List[BackgroundNum].Icon);
@@ -664,6 +697,7 @@ void cBackgroundComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem
 //========================================================================================================================
 
 QSize cBackgroundComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBoxItem::sizeHint");
     if (BackgroundList.List.count()>0) return QSize(BackgroundList.List[0].Icon.width(),64);
         else return QSize(114,64);
 }
@@ -673,6 +707,7 @@ QSize cBackgroundComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,c
 //******************************************************************************************************************
 
 cBackgroundComboBox::cBackgroundComboBox(QWidget *parent):QComboBox(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBox::cBackgroundComboBox");
     STOPMAJ=false;
     QTableWidget    *Table=new QTableWidget();
     Table->horizontalHeader()->hide();
@@ -699,6 +734,7 @@ cBackgroundComboBox::cBackgroundComboBox(QWidget *parent):QComboBox(parent) {
 //========================================================================================================================
 
 void cBackgroundComboBox::SetCurrentBackground(QString BrushImage) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBox::SetCurrentBackground");
     if (STOPMAJ) return;
     int i=0;
     while ((i<BackgroundList.List.count())&&(BrushImage!=BackgroundList.List[i].Name)) i++;
@@ -715,6 +751,7 @@ void cBackgroundComboBox::SetCurrentBackground(QString BrushImage) {
 //========================================================================================================================
 
 QString cBackgroundComboBox::GetCurrentBackground() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBox::GetCurrentBackground");
     int i=currentIndex();
     MakeIcons();
     return BackgroundList.List[i].Name;
@@ -723,6 +760,7 @@ QString cBackgroundComboBox::GetCurrentBackground() {
 //========================================================================================================================
 
 void cBackgroundComboBox::MakeIcons() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBox::MakeIcons");
     int CurrentRow=currentIndex();
     if (CurrentRow<0) return;
     int CurrentCol=((QTableWidget *)view())->currentColumn();
@@ -745,6 +783,7 @@ void cBackgroundComboBox::MakeIcons() {
 //========================================================================================================================
 
 void cBackgroundComboBox::s_ItemSelectionChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBox::s_ItemSelectionChanged");
     STOPMAJ=true;
     setCurrentIndex(((QTableWidget *)view())->currentRow());
     MakeIcons();
@@ -755,14 +794,17 @@ void cBackgroundComboBox::s_ItemSelectionChanged() {
 //========================================================================================================================
 
 cCustomLabel::cCustomLabel(QWidget *parent):QLabel(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomLabel::cCustomLabel");
     setAttribute(Qt::WA_PaintOutsidePaintEvent, true);
 }
 
 void cCustomLabel::paintEvent(QPaintEvent *) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomLabel::paintEvent");
     DisplayCustomText(text());
 }
 
 void cCustomLabel::DisplayCustomText(QString Text) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomLabel::DisplayCustomText");
     setText(Text);
     QPainter Painter(this);
     Painter.save();

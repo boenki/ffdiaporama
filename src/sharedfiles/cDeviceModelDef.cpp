@@ -21,8 +21,6 @@
 // Include some common various class
 #include "cDeviceModelDef.h"
 
-//#define DEBUGMODE
-
 /****************************************************************************
   Definition of image format supported by the application
 ****************************************************************************/
@@ -268,9 +266,8 @@ struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
 //====================================================================================================================
 
 cDeviceModelDef::cDeviceModelDef(bool IsGlobalConf,int IndexKey) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDeviceModelDef::cDeviceModelDef";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelDef::cDeviceModelDef");
+
     FromGlobalConf  =IsGlobalConf;                          // true if device model is defined in global config file
     FromUserConf    =!IsGlobalConf;                         // true if device model is defined in user config file
     IsFind          =false;                                 // true if device model format is supported by installed version of ffmpeg
@@ -288,17 +285,14 @@ cDeviceModelDef::cDeviceModelDef(bool IsGlobalConf,int IndexKey) {
 }
 
 cDeviceModelDef::~cDeviceModelDef() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDeviceModelDef::~cDeviceModelDef";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelDef::~cDeviceModelDef");
 }
 
 //====================================================================================================================
 
 void cDeviceModelDef::SaveToXML(QDomElement &domDocument,QString ElementName) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDeviceModelDef::SaveToXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelDef::SaveToXML");
+
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     Element.setAttribute("DeviceIndex",DeviceIndex);
@@ -318,9 +312,8 @@ void cDeviceModelDef::SaveToXML(QDomElement &domDocument,QString ElementName) {
 //====================================================================================================================
 
 bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDeviceModelDef::LoadFromXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelDef::LoadFromXML");
+
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         if (IsUserConfigFile) FromUserConf=true;
@@ -356,33 +349,28 @@ bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName,bo
 //====================================================================================================================
 
 cDeviceModelList::cDeviceModelList() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDeviceModelList::cDeviceModelList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::cDeviceModelList");
 }
 
 //====================================================================================================================
 
 cDeviceModelList::~cDeviceModelList() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDeviceModelList::~cDeviceModelList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::~cDeviceModelList");
+
     while (!RenderDeviceModel.isEmpty()) delete RenderDeviceModel.takeLast();
 }
 
 //====================================================================================================================
 
 bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDeviceModelList::LoadConfigurationFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::LoadConfigurationFile");
 
     // Compute FileName
     QString FileName=QFileInfo(ConfigFileName).absolutePath();
     if (!FileName.endsWith(QDir::separator())) FileName=FileName+QDir::separator();
     FileName=FileName+CONFIGFILENAME+"."+QFileInfo(ConfigFileName).suffix();
 
-    qDebug()<<QApplication::translate("MainWindow","Read configuration file")<<FileName;
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Read configuration file")+" "+FileName);
 
     QFile           file(FileName);
     QDomDocument    domDocument;
@@ -392,19 +380,19 @@ bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,cBaseApplica
     bool            IsOk=true;
 
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        qDebug()<<QApplication::translate("MainWindow","Error reading configuration file","Error message")<<FileName;
+        ToLog(LOGMSG_WARNING,QApplication::translate("MainWindow","Error reading configuration file","Error message")+" "+FileName);
         IsOk=false;
     }
 
     if (IsOk && (!domDocument.setContent(&file,true,&errorStr,&errorLine,&errorColumn))) {
-        qDebug()<<QApplication::translate("MainWindow","Error reading content of configuration file","Error message")<<FileName;
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+FileName);
         IsOk=false;
     }
 
     if (IsOk) {
         root = domDocument.documentElement();
         if (root.tagName()!=CONFIGROOTNAME) {
-            qDebug()<<QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")<<FileName;
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")+" "+FileName);
             IsOk=false;
         }
     }
@@ -419,9 +407,7 @@ bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,cBaseApplica
 //====================================================================================================================
 
 bool cDeviceModelList::SaveConfigurationFile(QString ConfigFileName) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDeviceModelList::LoadConfigurationFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::LoadConfigurationFile");
 
     // Compute FileName
     QString FileName=QFileInfo(ConfigFileName).absolutePath();
@@ -453,7 +439,7 @@ bool cDeviceModelList::SaveConfigurationFile(QString ConfigFileName) {
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        qDebug()<<QApplication::translate("MainWindow","Error creating configuration file","Error message")<<FileName;
+        ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Error creating configuration file","Error message")+" "+FileName);
         return false;
     }
     QTextStream out(&file);
@@ -465,9 +451,8 @@ bool cDeviceModelList::SaveConfigurationFile(QString ConfigFileName) {
 //====================================================================================================================
 
 bool cDeviceModelList::LoadFromXML(QDomElement domDocument,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDeviceModelList::LoadFromXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::LoadFromXML");
+
     if ((domDocument.elementsByTagName("RenderingDeviceModel").length()>0)&&(domDocument.elementsByTagName("RenderingDeviceModel").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("RenderingDeviceModel").item(0).toElement();
         int i=0;
@@ -500,9 +485,8 @@ bool cDeviceModelList::LoadFromXML(QDomElement domDocument,cBaseApplicationConfi
 //====================================================================================================================
 
 void cDeviceModelList::TranslatRenderType() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDeviceModelList::TranslatRenderType";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::TranslatRenderType");
+
     TranslatedRenderType.append(QApplication::translate("cDeviceModelList","Advanced","Device database type"));           // EXPORTMODE_ADVANCED
     TranslatedRenderType.append(QApplication::translate("cDeviceModelList","Smartphone","Device database type"));         // MODE_SMARTPHONE
     TranslatedRenderType.append(QApplication::translate("cDeviceModelList","Multimedia system","Device database type"));  // MODE_MULTIMEDIASYS
@@ -524,19 +508,17 @@ void cDeviceModelList::TranslatRenderType() {
 //====================================================================================================================
 
 void cDeviceModelList::Initffmpeg() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDeviceModelList::Initffmpeg";
-    #endif
-    qDebug()<<"Starting ffmpeg lib ...";
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::Initffmpeg");
+    ToLog(LOGMSG_INFORMATION,"Starting ffmpeg lib ...");
     #ifndef FF_API_AVCODEC_INIT
     avcodec_register_all();
     //avcodec_init();
     #endif
 
     av_register_all();
-#if (LIBAVFORMAT_VERSION_MAJOR>=53) && (LIBAVFORMAT_VERSION_MINOR>=23)
+    #if (LIBAVFORMAT_VERSION_MAJOR>=53) && (LIBAVFORMAT_VERSION_MINOR>=23)
     avformat_network_init();
-#endif
+    #endif
 
     // Check codec to know if they was finded
     AVCodec *p=NULL;

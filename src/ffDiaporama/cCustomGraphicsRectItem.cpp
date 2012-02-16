@@ -37,6 +37,7 @@ cResizeGraphicsRectItem::cResizeGraphicsRectItem(QGraphicsScene *scene,cCustomGr
      double(scene->sceneRect().width())*(*((TheRectItem->zoom!=NULL)?TheRectItem->zoom:TheRectItem->w)),
      double(scene->sceneRect().height())*(*((TheRectItem->zoom!=NULL)?TheRectItem->zoom:TheRectItem->h)),parent) {
 
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::cResizeGraphicsRectItem");
     RectItem        = TheRectItem;
     TypeItem        = TheTypeItem;
     IsCapture       = false;
@@ -68,6 +69,7 @@ cResizeGraphicsRectItem::cResizeGraphicsRectItem(QGraphicsScene *scene,cCustomGr
 //====================================================================================================================
 
 cResizeGraphicsRectItem::~cResizeGraphicsRectItem() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::~cResizeGraphicsRectItem");
     switch (TypeItem) {
         case 0 :  RectItem->UpperLeft=NULL;     break;  // Upper-Left corner
         case 1 :  RectItem->UpperRight=NULL;    break;  // Upper-Right corner
@@ -83,23 +85,26 @@ cResizeGraphicsRectItem::~cResizeGraphicsRectItem() {
 //====================================================================================================================
 
 void cResizeGraphicsRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::mousePressEvent");
     QGraphicsRectItem::mousePressEvent(event);
-      IsCapture = true;
+    IsCapture = true;
 }
 
 //====================================================================================================================
 
 void cResizeGraphicsRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-      IsCapture = false;
-      QGraphicsRectItem::mouseReleaseEvent(event);
-      setSelected(false);
-      RectItem->setFocus();
-      RectItem->setSelected(true);
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::mouseReleaseEvent");
+    IsCapture = false;
+    QGraphicsRectItem::mouseReleaseEvent(event);
+    setSelected(false);
+    RectItem->setFocus();
+    RectItem->setSelected(true);
 }
 
 //====================================================================================================================
 
 void cResizeGraphicsRectItem::CalcPosition() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::CalcPosition");
     if (scene()==NULL) return;
     QTransform Matrix=scene()->views().at(0)->transform();
     double xscale = Matrix.m11();   // X
@@ -161,6 +166,7 @@ void cResizeGraphicsRectItem::CalcPosition() {
 //====================================================================================================================
 
 QVariant cResizeGraphicsRectItem::itemChange(GraphicsItemChange change,const QVariant &value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::itemChange");
     if ((change == ItemPositionChange)&&(scene()!=NULL)) {
         QVariant newpos = value;
         if ((IsCapture==true)&&(BlockRecursion==false)) {
@@ -189,6 +195,7 @@ QVariant cResizeGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
 //====================================================================================================================
 
 void cResizeGraphicsRectItem::paint(QPainter *painter,const QStyleOptionGraphicsItem *option,QWidget *widget) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::paint");
     if (RectItem->zoom==NULL) { // Slide dialog
 
         cCustomGraphicsRectItem *CurrentTextItem=NULL;
@@ -243,6 +250,7 @@ void cResizeGraphicsRectItem::paint(QPainter *painter,const QStyleOptionGraphics
 //====================================================================================================================
 
 void cResizeGraphicsRectItem::ResizeUpperLeft(QPointF &newpos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::ResizeUpperLeft");
     if (scene()==NULL) return;
     QTransform Matrix=scene()->views().at(0)->transform();
     double xscale = Matrix.m11();   // X
@@ -330,6 +338,7 @@ void cResizeGraphicsRectItem::ResizeUpperLeft(QPointF &newpos) {
 //====================================================================================================================
 
 void cResizeGraphicsRectItem::ResizeUpperRight(QPointF &newpos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::ResizeUpperRight");
     if (scene()==NULL) return;
     QTransform Matrix=scene()->views().at(0)->transform();
     double xscale = Matrix.m11();   // X
@@ -416,6 +425,7 @@ void cResizeGraphicsRectItem::ResizeUpperRight(QPointF &newpos) {
 //====================================================================================================================
 
 void cResizeGraphicsRectItem::ResizeBottomLeft(QPointF &newpos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::ResizeBottomLeft");
     if (scene()==NULL) return;
     QTransform Matrix=scene()->views().at(0)->transform();
     double xscale = Matrix.m11();   // X
@@ -502,6 +512,7 @@ void cResizeGraphicsRectItem::ResizeBottomLeft(QPointF &newpos) {
 //====================================================================================================================
 
 void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::ResizeBottomRight");
     if (scene()==NULL) return;
     QTransform Matrix=scene()->views().at(0)->transform();
     double xscale = Matrix.m11();   // X
@@ -584,6 +595,7 @@ void cResizeGraphicsRectItem::ResizeBottomRight(QPointF &newpos) {
 // Resize from Upper border
 //====================================================================================================================
 void cResizeGraphicsRectItem::ResizeUpper(QPointF &newpos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::ResizeUpper");
     if (scene()==NULL) return;
     QTransform Matrix=scene()->views().at(0)->transform();
     double xscale = Matrix.m11();   // X
@@ -644,6 +656,7 @@ void cResizeGraphicsRectItem::ResizeUpper(QPointF &newpos) {
 // Resize from Bottom border
 //====================================================================================================================
 void cResizeGraphicsRectItem::ResizeBottom(QPointF &newpos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::ResizeBottom");
     if (scene()==NULL) return;
     QTransform Matrix=scene()->views().at(0)->transform();
     double xscale = Matrix.m11();   // X
@@ -704,6 +717,7 @@ void cResizeGraphicsRectItem::ResizeBottom(QPointF &newpos) {
 // Resize from Left border
 //====================================================================================================================
 void cResizeGraphicsRectItem::ResizeLeft(QPointF &newpos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::ResizeLeft");
     if (scene()==NULL) return;
     QTransform Matrix=scene()->views().at(0)->transform();
     double xscale = Matrix.m11();   // X
@@ -762,6 +776,7 @@ void cResizeGraphicsRectItem::ResizeLeft(QPointF &newpos) {
 // Resize from Right border
 //====================================================================================================================
 void cResizeGraphicsRectItem::ResizeRight(QPointF &newpos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cResizeGraphicsRectItem::ResizeRight");
     if (scene()==NULL) return;
     QTransform Matrix=scene()->views().at(0)->transform();
     double xscale = Matrix.m11();   // X
@@ -825,6 +840,7 @@ cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZV
                                                 :QGraphicsRectItem((*Thex)*xmax,(*They)*ymax,xmax*(*((Thezoom!=NULL)?Thezoom:Thew)),ymax*(*((Thezoom!=NULL)?Thezoom:Theh)),NULL)
 
 {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::cCustomGraphicsRectItem");
     IndexKey        = TheIndexKey;
     ParentWidget    = TheParentWidget;
     ParentWidgetType= TheParentWidgetType;
@@ -893,6 +909,7 @@ cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZV
 //====================================================================================================================
 
 cCustomGraphicsRectItem::~cCustomGraphicsRectItem() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::~cCustomGraphicsRectItem");
     if (UpperLeft) {
         if (UpperLeft->scene()) UpperLeft->scene()->removeItem(UpperLeft);
         delete UpperLeft;
@@ -939,11 +956,13 @@ cCustomGraphicsRectItem::~cCustomGraphicsRectItem() {
 //====================================================================================================================
 
 void cCustomGraphicsRectItem::paint(QPainter */*painter*/,const QStyleOptionGraphicsItem */*option*/,QWidget */*widget*/) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::paint");
 }
 
 //====================================================================================================================
 
 void cCustomGraphicsRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::mousePressEvent");
     QGraphicsRectItem::mousePressEvent(event);
     IsCapture = true;
 }
@@ -951,6 +970,7 @@ void cCustomGraphicsRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 //====================================================================================================================
 
 void cCustomGraphicsRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::mouseReleaseEvent");
     IsCapture = false;
     QGraphicsRectItem::mouseReleaseEvent(event);
 }
@@ -960,6 +980,7 @@ void cCustomGraphicsRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 //====================================================================================================================
 
 QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVariant &value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::itemChange");
     if (change == QGraphicsItem::ItemPositionChange) {
 
         QPointF newpos=value.toPointF();
@@ -1017,6 +1038,7 @@ QVariant cCustomGraphicsRectItem::itemChange(GraphicsItemChange change,const QVa
 //====================================================================================================================
 
 void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::SendRefreshBackgroundImage");
     RecalcEmbededResizeRectItem();
     switch (ParentWidgetType) {
         case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->RefreshSceneImage();          break;
@@ -1025,6 +1047,7 @@ void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
 }
 
 void cCustomGraphicsRectItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::mouseDoubleClickEvent");
     QGraphicsRectItem::mouseDoubleClickEvent(event);
     switch (ParentWidgetType) {
         case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->s_Scene_DoubleClick();      break;
@@ -1035,6 +1058,7 @@ void cCustomGraphicsRectItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
 //====================================================================================================================
 
 void cCustomGraphicsRectItem::RecalcEmbededResizeRectItem() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::RecalcEmbededResizeRectItem");
     if ((!KeepAspectRatio)&&(zoom==NULL)) AspectRatio=(double(scene()->sceneRect().height())*(*h))/(double(scene()->sceneRect().width())*(*w));
     // Refresh Resizebox position
     if (UpperLeft)   UpperLeft->CalcPosition();
@@ -1050,6 +1074,7 @@ void cCustomGraphicsRectItem::RecalcEmbededResizeRectItem() {
 //====================================================================================================================
 
 void cCustomGraphicsRectItem::keyPressEvent(QKeyEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::keyPressEvent");
     double xmax = double(scene()->sceneRect().width());
     double ymax = double(scene()->sceneRect().height());
     double newX = (*x)*xmax;

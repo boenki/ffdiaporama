@@ -22,32 +22,27 @@
 #include "ui_wgt_JobConvertImage.h"
 #include "../sharedfiles/cBaseMediaFile.h"
 
-//#define DEBUGMODE
-
 //====================================================================================================================
 
 wgt_JobConvertImage::wgt_JobConvertImage(QCustomDialog *Dialog,QWidget *parent):wgt_JobBase(Dialog,parent),ui(new Ui::wgt_JobConvertImage) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:wgt_JobConvertImage::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::DoInitDialog");
+
     ui->setupUi(this);
 }
 
 //====================================================================================================================
 
 wgt_JobConvertImage::~wgt_JobConvertImage() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:wgt_JobConvertImage::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::DoInitDialog");
+
     delete ui;
 }
 
 //====================================================================================================================
 
 void wgt_JobConvertImage::DoInitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:wgt_JobConvertImage::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::DoInitDialog");
+
     connect(ui->DestFormatCB,   SIGNAL(currentIndexChanged(int)),this,SLOT(s_DestFormatCB(int)));
     connect(ui->RescalCB,       SIGNAL(released()),this,SLOT(s_RescalCB()));
     connect(ui->DontUpscaleCB,  SIGNAL(released()),this,SLOT(s_DontUpscaleCB()));
@@ -58,9 +53,8 @@ void wgt_JobConvertImage::DoInitDialog() {
 //====================================================================================================================
 
 void wgt_JobConvertImage::RefreshControls() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:wgt_JobConvertImage::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::DoInitDialog");
+
     int Quality=90;
     ui->DestFormatCB->setCurrentIndex(ui->DestFormatCB->findText(Job->DestinationExtension));
     ui->RescalCB->setChecked(Job->IsCommandListContain("-S"));
@@ -76,9 +70,7 @@ void wgt_JobConvertImage::RefreshControls() {
 //====================================================================================================================
 
 void wgt_JobConvertImage::AppendJobSummary(int index,QString *JobSummary,cJobQueue *JobQueue) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:wgt_JobConvertImage::AppendJobSummary";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::AppendJobSummary");
 
     QString         SourceFile=Job->SourcesAndDests[index];
     cBaseMediaFile  *MediaFile=NULL;
@@ -133,9 +125,8 @@ void wgt_JobConvertImage::AppendJobSummary(int index,QString *JobSummary,cJobQue
 //====================================================================================================================
 
 void wgt_JobConvertImage::s_DestFormatCB(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:wgt_JobConvertImage::s_DestFormatCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::s_DestFormatCB");
+
     Job->DestinationExtension=ui->DestFormatCB->currentText();
     emit NeedRefreshControls();
 }
@@ -143,9 +134,7 @@ void wgt_JobConvertImage::s_DestFormatCB(int) {
 //====================================================================================================================
 
 void wgt_JobConvertImage::s_RescalCB() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:wgt_JobConvertImage::s_RescalCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::s_RescalCB");
 
     int         i=0;
     QStringList CommandList=Job->Command.split("##");
@@ -159,18 +148,15 @@ void wgt_JobConvertImage::s_RescalCB() {
 //====================================================================================================================
 
 void wgt_JobConvertImage::s_RescalCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:wgt_JobConvertImage::s_RescalCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::s_RescalCombo");
+
     s_RescalCB();
 }
 
 //====================================================================================================================
 
 void wgt_JobConvertImage::s_DontUpscaleCB() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:wgt_JobConvertImage::s_DontUpscaleCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::s_DontUpscaleCB");
 
     int         i=0;
     QStringList CommandList=Job->Command.split("##");
@@ -184,9 +170,7 @@ void wgt_JobConvertImage::s_DontUpscaleCB() {
 //====================================================================================================================
 
 void wgt_JobConvertImage::s_QualitySL(int Quality) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:wgt_JobConvertImage::s_DontUpscaleCB";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::s_DontUpscaleCB");
 
     int         i=0;
     QStringList CommandList=Job->Command.split("##");
