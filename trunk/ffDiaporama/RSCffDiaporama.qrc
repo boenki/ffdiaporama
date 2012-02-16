@@ -270,5 +270,7 @@
         <file>img/VideoMask_150x200.png</file>
         <file>img/VideoMask_162x216.png</file>
         <file>img/FolderMask_200.png</file>
+        <file>img/AddFolder.png</file>
+        <file>img/ConvertImg.png</file>
     </qresource>
 </RCC>

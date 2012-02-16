@@ -1,6 +1,6 @@
-QT          += core gui xml
-CONFIG      += console
-CONFIG      += thread
+QT           += core gui xml
+#win32:CONFIG += console
+CONFIG       += thread
 QMAKE_STRIP  = echo
 APPFOLDER    = ffDiaporama
 TARGET       = ffDiaporamaMMFiler
@@ -39,6 +39,7 @@ SOURCES += main.cpp\
     DlgApplicationSettings.cpp \
     cApplicationConfig.cpp \
     DlgAbout.cpp \
+    ../sharedfiles/_GlobalDefines.cpp \
     ../sharedfiles/cSaveWindowPosition.cpp \
     ../sharedfiles/cBaseApplicationConfig.cpp \
     ../sharedfiles/QCustomFolderTree.cpp \

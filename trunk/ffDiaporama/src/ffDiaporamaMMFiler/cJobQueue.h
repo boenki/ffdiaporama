@@ -73,8 +73,6 @@ extern  uint32_t    PossibleJobsSettings[NBR_JOBTYPE];
 #define JOBTYPE_TAG_FFD                     21
 */
 
-
-
 #define JOBSTATUS_READYTOSTART              0
 #define JOBSTATUS_STARTED                   1
 #define JOBSTATUS_PAUSED                    2
@@ -82,8 +80,9 @@ extern  uint32_t    PossibleJobsSettings[NBR_JOBTYPE];
 #define JOBSTATUS_SUCCEEDED                 4
 #define JOBSTATUS_ENDEDWITHERROR            5
 
-const QEvent::Type JobStatusChanged = (QEvent::Type)2000;
-const QEvent::Type FileListChanged  = (QEvent::Type)2001;
+#define EVENT_JobStatusChanged              100
+#define EVENT_FileListChanged               101
+#define EVENT_FolderChanged                 102
 
 class cJob {
 public:
@@ -126,11 +125,11 @@ public:
 
 class cJobQueue {
 public:
+    cBaseApplicationConfig  *BaseApplicationConfig;
     QList<cJob*>            List;                       // list of cJobObject
     QStringList             StatusText;
     QStringList             JobTypeText;
     QList<cBaseMediaFile*>  MediaList;
-    QListWidget             *JobLog;
 
     cJobQueue();
     ~cJobQueue();
@@ -142,11 +141,7 @@ public:
     // Jobs
     virtual bool        ApplyDestinationOverWriting(QString Destination,uint32_t JobSettings);
     virtual bool        ApplySourceTransformation(QString Source,QString NewSource);
-    virtual void        ConvertIMG(cJob *Job,QWidget *Window);
-
-private:
-    void                AddToLog(bool IsOk,int IndentLevel,QString Message);
-
+    virtual void        ConvertIMG(cJob *Job);
 };
 
 #endif // CJOBQUEUE_H

@@ -28,12 +28,12 @@
 #include <QTextStream>
 #include <QTranslator>
 
-//#define DEBUGMODE
-
 //*****************************************************************************************************************************************
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     bool SearchRasterMode(QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName) {
+        ToLog(LOGMSG_DEBUGTRACE,"IN:SearchRasterMode");
+
         QString UserConfigPath;    // Path and filename to user profil path
         QString UserConfigFile;    // Path and filename to user configuration file
         QString GlobalConfigFile;  // Path and filename to global configuration file (in binary directory)
@@ -57,7 +57,7 @@
             if (domDocument.setContent(&file,true,&errorStr,&errorLine,&errorColumn)) {
                 root = domDocument.documentElement();
                 if ((root.tagName()==ConfigFileRootName)&&(root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
-                    qDebug()<<QApplication::translate("MainWindow","Search Raster mode in configuration file")<<GlobalConfigFile;
+                    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Search Raster mode in configuration file")+GlobalConfigFile);
                     QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
                     if (Element.hasAttribute("RasterMode")) RasterMode=Element.attribute("RasterMode")=="1";
                 }
@@ -71,7 +71,7 @@
             if (domDocument.setContent(&file,true,&errorStr,&errorLine,&errorColumn)) {
                 root = domDocument.documentElement();
                 if ((root.tagName()==ConfigFileRootName)&&(root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
-                    qDebug()<<QApplication::translate("MainWindow","Search Raster mode in configuration file")<<GlobalConfigFile;
+                    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Search Raster mode in configuration file")+GlobalConfigFile);
                     QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
                     if (Element.hasAttribute("RasterMode")) RasterMode=Element.attribute("RasterMode")=="1";
                 }
@@ -86,9 +86,7 @@
 //====================================================================================================================
 
 QString GetTextSize(qlonglong Size) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:GetTextSize";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:GetTextSize");
 
     QString UnitStr="";
     int     Unit   =0;
@@ -111,14 +109,13 @@ QString GetTextSize(qlonglong Size) {
 //====================================================================================================================
 
 bool CheckFolder(QString FileToTest,QString PathToTest) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:CheckFolder";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:CheckFolder");
+
     QString Path=QDir(PathToTest).absolutePath();
     if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
     bool IsFound=QFileInfo(Path+FileToTest).exists();
     if (IsFound) QDir::setCurrent(Path);
-    qDebug()<<"Try to find datas in"<<Path+FileToTest<<IsFound;
+    ToLog(LOGMSG_INFORMATION,QString("Try to find datas in %1 %2").arg(Path+FileToTest).arg(IsFound));
     return IsFound;
 }
 
@@ -134,8 +131,9 @@ bool CheckFolder(QString FileToTest,QString PathToTest) {
 //**************************************************
 
 bool SetWorkingPath(char *argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:SetWorkingPath");
     QString StartupDir=QFileInfo(argv[0]).absolutePath();
-    qDebug()<<"StartupDir"<<StartupDir;
+    ToLog(LOGMSG_INFORMATION,"StartupDir "+StartupDir);
     QDir::setCurrent(StartupDir);
 
     QString FileToTest  =QString("%1%2").arg(ApplicationName).arg(ConfigFileExt);
@@ -147,10 +145,10 @@ bool SetWorkingPath(char *argv[],QString ApplicationGroupName,QString Applicatio
         &&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+QString("share")+QDir().separator()+ApplicationGroupName))
         &&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+QString("share")+QDir().separator()+ApplicationName))
        ) {
-        qDebug()<<"Critical error : Impossible to find global configuration file ("<<QString("%1%2").arg(ApplicationName).arg(ConfigFileExt)<<")";
+        ToLog(LOGMSG_INFORMATION,QString("Critical error : Impossible to find global configuration file (%1%2)").arg(ApplicationName).arg(ConfigFileExt));
         exit(1);
     }
-    qDebug()<<"Set working path to"<<QDir::currentPath();
+    ToLog(LOGMSG_INFORMATION,"Set working path to "+QDir::currentPath());
 
     return true;
 }
@@ -161,9 +159,7 @@ bool SetWorkingPath(char *argv[],QString ApplicationGroupName,QString Applicatio
 //Thanks to : Stuart Nixon
 //See : http://lists.trolltech.com/qt-interest/2006-05/thread00922-0.html
 int getCpuCount() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:getCpuCount";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:getCpuCount");
     int cpuCount=1;
 
 #if defined(Q_OS_WIN)
@@ -190,9 +186,8 @@ int getCpuCount() {
 
 //functions used to adjust folder name depending on operating system
 QString AdjustDirForOS(QString Dir) {
-    #ifdef DEBUGMODE
-    qDebug()<<"IN:AdjustDirForOS";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:AdjustDirForOS");
+
     #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
     Dir.replace("/","\\");
     bool DoubleSlashBegin=Dir.startsWith("\\\\");
@@ -213,9 +208,8 @@ QString AdjustDirForOS(QString Dir) {
 //**********************************************************************************************************************
 
 cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QString TheAllowedWEBLanguage,QString TheApplicationGroupName,QString TheApplicationName,QString TheApplicationVersion,QString TheConfigFileExt,QString TheConfigFileRootName) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseApplicationConfig::cBaseApplicationConfig";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::cBaseApplicationConfig");
+
     AllowedWEBLanguage      =TheAllowedWEBLanguage;
     TopLevelWindow          =TheTopLevelWindow;            // Link to MainWindow of the application
     ApplicationGroupName    =TheApplicationGroupName;      // Private folder name to save user configuration file
@@ -223,25 +217,23 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
     ApplicationVersion      =TheApplicationVersion;        // Application version
     ConfigFileExt           =TheConfigFileExt;             // File extension of configuration files
     ConfigFileRootName      =TheConfigFileRootName;        // Name of root node in the config xml file
-    if (ApplicationGroupName!=ApplicationName) qDebug()<<QString("Starting ")+ApplicationGroupName+QString(" ")+ApplicationName+QString(" version ")+ApplicationVersion;
-        else qDebug()<<QString("Starting ")+ApplicationGroupName+QString(" version ")+ApplicationVersion;
+    if (ApplicationGroupName!=ApplicationName) ToLog(LOGMSG_INFORMATION,QString("Starting %1 %2 %3").arg(ApplicationGroupName).arg(ApplicationName).arg(ApplicationVersion));
+        else ToLog(LOGMSG_INFORMATION,QString("Starting %1 %2").arg(ApplicationGroupName).arg(ApplicationVersion));
 }
 
 //====================================================================================================================
 
 cBaseApplicationConfig::~cBaseApplicationConfig() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseApplicationConfig::~cBaseApplicationConfig";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::~cBaseApplicationConfig");
+
     if (MainWinWSP) delete MainWinWSP;      MainWinWSP=NULL;
 }
 
 //====================================================================================================================
 
 QString cBaseApplicationConfig::GetValideWEBLanguage(QString Language) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseApplicationConfig::GetValideWEBLanguage";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::GetValideWEBLanguage");
+
     if (!AllowedWEBLanguage.contains(Language)) Language="en";
     return Language;
 }
@@ -249,10 +241,9 @@ QString cBaseApplicationConfig::GetValideWEBLanguage(QString Language) {
 //====================================================================================================================
 // Preload system icon images
 void cBaseApplicationConfig::PreloadSystemIcons() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseApplicationConfig::PreloadSystemIcons";
-    #endif
-    qDebug()<<"Loading system icons...";
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::PreloadSystemIcons");
+
+    ToLog(LOGMSG_INFORMATION,"Loading system icons...");
 
     DefaultCDROMIcon.LoadIconsFromIMG(  "cdrom.png");
     DefaultHDDIcon.LoadIconsFromIMG(    "hdd.png");
@@ -275,9 +266,8 @@ void cBaseApplicationConfig::PreloadSystemIcons() {
 //====================================================================================================================
 
 QString cBaseApplicationConfig::GetFilterForMediaFile(FilterFile type) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseApplicationConfig::GetFilterForMediaFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::GetFilterForMediaFile");
+
     // enum FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
     QString ReturnFile="";
     if (type==ALLFILE) {
@@ -310,9 +300,7 @@ QString cBaseApplicationConfig::GetFilterForMediaFile(FilterFile type) {
 //====================================================================================================================
 
 bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QApplication *App) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseApplicationConfig::InitConfigurationValues";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::InitConfigurationValues");
 
     // Initialise all variables and set them default value
     ParentWindow            = NULL;
@@ -326,7 +314,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     #endif
     #ifdef Q_OS_WIN
         CheckConfigAtStartup= false;
-        MemCacheMaxValue    = 128*1024*1024;                                                // 128 Mb max for image cache on Windows 32
+        MemCacheMaxValue    = 180*1024*1024;                                                // 180 Mb max for image cache on Windows 32
     #else
         MemCacheMaxValue    = 512*1024*1024;                                                // 512 Mb for image cache
     #endif
@@ -462,9 +450,8 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
 //====================================================================================================================
 
 bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication *App) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseApplicationConfig::LoadConfigurationValues"<<(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::LoadConfigurationValues"+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
+
     QFile           file(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
     QDomDocument    domDocument;
     QDomElement     root;
@@ -472,21 +459,21 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
     int             errorLine,errorColumn;
     bool            IsOk=true;
 
-    qDebug()<<QApplication::translate("MainWindow","Read configuration file")<<(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Read configuration file")+" "+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        qDebug()<<QApplication::translate("MainWindow","Error reading configuration file","Error message")<<(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
+        ToLog(LOGMSG_WARNING,QApplication::translate("MainWindow","Error reading configuration file","Error message")+" "+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
         IsOk=false;
     }
 
     if (IsOk && (!domDocument.setContent(&file,true,&errorStr,&errorLine,&errorColumn))) {
-        qDebug()<<QApplication::translate("MainWindow","Error reading content of configuration file","Error message")<<(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
         IsOk=false;
     }
 
     if (IsOk) {
         root = domDocument.documentElement();
         if (root.tagName()!=ConfigFileRootName) {
-            qDebug()<<QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")<<(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")+" "+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
             IsOk=false;
         }
     }
@@ -549,7 +536,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
 
         // Validate if system locale is supported and if not force use of "en"
         if ((CurrentLanguage!="en")&&(!QFileInfo(QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm")).exists())) {
-            qDebug()<<QString("Language \"")+CurrentLanguage+QString("\" not found : switch to english");
+            ToLog(LOGMSG_INFORMATION,QString("Language \"%1\" not found : switch to english").arg(CurrentLanguage));
             CurrentLanguage="en";
         }
 
@@ -557,23 +544,23 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
         if (CurrentLanguage!="en") {
             // Load translation
             if (!translator.load(QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm"))) {
-                qDebug()<<"Error loading application translation file ..."<<QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm");
+                ToLog(LOGMSG_WARNING,QString("Error loading application translation file ... locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm"));
                 exit(1);
-            } else qDebug()<<"Loading application translation file ..."<<QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm");
+            } else ToLog(LOGMSG_INFORMATION,QString("Loading application translation file ... locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm"));
 
             // Try to load QT system translation file in current project local folder
             if (QFileInfo(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm")).exists()) {
                 if (!QTtranslator.load(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"))) {
-                    qDebug()<<"Error loading QT system translation file ..."<<QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm";
+                    ToLog(LOGMSG_WARNING,QString("Error loading QT system translation file ... locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm");
                 } else {
-                    qDebug()<<"Loading QT system translation file ..."<<QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm";
+                    ToLog(LOGMSG_INFORMATION,QString("Loading QT system translation file ... locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm");
                 }
             } else if (QFileInfo(QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm")).exists()) {
                 // If not then try to load QT system translation file in parrent project local folder
                 if (!QTtranslator.load(QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"))) {
-                    qDebug()<<"Error loading QT system translation file ..."<<QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm");
+                    ToLog(LOGMSG_WARNING,QString("Error loading QT system translation file ... ..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"));
                 } else {
-                    qDebug()<<"Loading QT system translation file ..."<<QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm");
+                    ToLog(LOGMSG_INFORMATION,QString("Loading QT system translation file ... ..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"));
                 }
             }
             App->installTranslator(&translator);
@@ -588,9 +575,8 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
 //====================================================================================================================
 
 bool cBaseApplicationConfig::SaveConfigurationFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cBaseApplicationConfig::SaveConfigurationValues";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::SaveConfigurationValues");
+
     // Save all option to the configuration file
     QFile           file(UserConfigFile);
     QDomDocument    domDocument(ApplicationName);
@@ -654,7 +640,7 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        qDebug()<<QApplication::translate("MainWindow","Error creating configuration file","Error message")<<UserConfigFile;
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error creating configuration file","Error message")+" "+UserConfigFile);
         return false;
     }
     QTextStream out(&file);

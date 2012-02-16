@@ -25,17 +25,14 @@
 // Include some additional standard class
 #include <QFileInfo>
 
-//#define DEBUGMODE
-
 //*********************************************************************************************************************************************
 // Base object for image cache manipulation
 //*********************************************************************************************************************************************
 // Constructor for image file
 
 cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName,QDateTime TheModifDateTime,int TheImageOrientation,QString TheFilterString,bool TheSmoothing,cLuLoImageCache *Parent) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cLuLoImageCacheObject::cLuLoImageCacheObject";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCacheObject::cLuLoImageCacheObject");
+
     FileName            =TheFileName;       // Full filename
     ModifDateTime       =TheModifDateTime;
     FilterString        =TheFilterString;
@@ -53,9 +50,8 @@ cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName,QDateTime TheMo
 // Constructor for video image
 
 cLuLoImageCacheObject::cLuLoImageCacheObject(cCustomIcon *TheVideo,int ThePosition,bool TheSmoothing,cLuLoImageCache *Parent) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cLuLoImageCacheObject::cLuLoImageCacheObject";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCacheObject::cLuLoImageCacheObject");
+
     FilterString        ="";
     Smoothing           =TheSmoothing;
     CacheRenderImage    =NULL;
@@ -71,9 +67,7 @@ cLuLoImageCacheObject::cLuLoImageCacheObject(cCustomIcon *TheVideo,int ThePositi
 //===============================================================================
 
 cLuLoImageCacheObject::~cLuLoImageCacheObject() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cLuLoImageCacheObject::~cLuLoImageCacheObject";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCacheObject::~cLuLoImageCacheObject");
 
     if (CachePreviewImage!=NULL) {
         if (CachePreviewImage!=CacheRenderImage) delete CachePreviewImage;
@@ -95,28 +89,30 @@ QString cLuLoImageCacheObject::CachedFilteredImage() {
 //===============================================================================
 
 QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cLuLoImageCacheObject::ValidateCacheRenderImage";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCacheObject::ValidateCacheRenderImage");
 
     if (CacheRenderImage==NULL) {
 
         if ((FilterString!="")&&(QFileInfo(CachedFilteredImage()).exists())) {
 
-            qDebug()<<QApplication::translate("MainWindow","Loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName();
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName());
             CacheRenderImage=new QImage(CachedFilteredImage());
-            if (!CacheRenderImage) qDebug()<<QApplication::translate("MainWindow","Error allocating memory for cached filtered file");
-            if ((CacheRenderImage)||(CacheRenderImage->isNull())) qDebug()<<QApplication::translate("MainWindow","Error loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName();
+            if (!CacheRenderImage)
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error allocating memory for cached filtered file"));
+            if ((CacheRenderImage)&&(CacheRenderImage->isNull()))
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName());
 
         } else if (FilterString=="") {
 
             // Image object
             if (TypeObject==LULOOBJECT_IMAGE) {
                 // Load image from disk
-                qDebug()<<QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName();
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
                 CacheRenderImage=new QImage(FileName);
-                if (!CacheRenderImage) qDebug()<<QApplication::translate("MainWindow","Error allocating memory for render image");
-                if ((CacheRenderImage)||(CacheRenderImage->isNull())) qDebug()<<QApplication::translate("MainWindow","Error loading file :")+FileName;
+                if (!CacheRenderImage)
+                    ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error allocating memory for render image"));
+                if ((CacheRenderImage)&&(CacheRenderImage->isNull()))
+                    ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading file :")+FileName);
 
                 // If image is ok then apply exif orientation (if needed)
                 if ((CacheRenderImage)&&(!CacheRenderImage->isNull())) {
@@ -161,11 +157,11 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
                 // Get a copy of render image without filter
                 QImage *UnfilteredImage=UnfilteredObject->ValidateCacheRenderImage();
                 if ((UnfilteredImage==NULL)||(UnfilteredImage->isNull()))
-                    qDebug()<<"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : UnfilteredObject->ValidateCacheRenderImage() return NULL";
+                    ToLog(LOGMSG_CRITICAL,"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : UnfilteredObject->ValidateCacheRenderImage() return NULL");
                     else CacheRenderImage=new QImage(UnfilteredImage->copy());
 
             } else {
-                qDebug()<<"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : LuLoImageCache->FindObject return NULL";
+                ToLog(LOGMSG_CRITICAL,"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : LuLoImageCache->FindObject return NULL");
             }
 
             // If image is ok then apply filter if exist
@@ -183,16 +179,14 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
 
     }
     LuLoImageCache->FreeMemoryToMaxValue();
-    if (CacheRenderImage==NULL) qDebug()<<"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : return NULL";
+    if (CacheRenderImage==NULL) ToLog(LOGMSG_CRITICAL,"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : return NULL");
     return CacheRenderImage;
 }
 
 //===============================================================================
 
 QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cLuLoImageCacheObject::ValidateCachePreviewImage";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCacheObject::ValidateCachePreviewImage");
 
     if (CachePreviewImage==NULL) {
 
@@ -230,7 +224,7 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
                     // Get a copy of render image without filter
                     QImage *UnfilteredImage=UnfilteredObject->ValidateCacheRenderImage();
                     if ((UnfilteredImage==NULL)||(UnfilteredImage->isNull()))
-                        qDebug()<<"Error in cLuLoImageCacheObject::ValidateCachePreviewImage() : UnfilteredObject->ValidateCacheRenderImage() return NULL";
+                        ToLog(LOGMSG_CRITICAL,"Error in cLuLoImageCacheObject::ValidateCachePreviewImage() : UnfilteredObject->ValidateCacheRenderImage() return NULL");
                         else CachePreviewImage=new QImage(UnfilteredImage->copy());
 
                     // If image size>PREVIEWMAXHEIGHT, reduce Cache Image
@@ -249,7 +243,7 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
                 }
 
             } else {
-                qDebug()<<"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : LuLoImageCache->FindObject return NULL";
+                ToLog(LOGMSG_CRITICAL,"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : LuLoImageCache->FindObject return NULL");
             }
 
         }
@@ -263,7 +257,7 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
     }
 
     LuLoImageCache->FreeMemoryToMaxValue();
-    if (CachePreviewImage==NULL) qDebug()<<"Error in cLuLoImageCacheObject::CachePreviewImage() : return NULL";
+    if (CachePreviewImage==NULL) ToLog(LOGMSG_CRITICAL,"Error in cLuLoImageCacheObject::CachePreviewImage() : return NULL");
     return CachePreviewImage;
 }
 
@@ -272,15 +266,15 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
 //*********************************************************************************************************************************************
 
 cLuLoImageCache::cLuLoImageCache() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cLuLoImageCache::cLuLoImageCache";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::cLuLoImageCache");
+
     MaxValue=1024*1024*1024;
 }
 
 //===============================================================================
 
 cLuLoImageCache::~cLuLoImageCache() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::~cLuLoImageCache");
     while (List.count()>0) delete List.takeLast();
 }
 
@@ -290,9 +284,8 @@ cLuLoImageCache::~cLuLoImageCache() {
 
 // Image version
 cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cLuLoImageCache::FindObject";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::FindObject");
+
 
     QString FilterString=(Filter!=NULL)?Filter->FilterToString():"";
     int i=0;
@@ -317,9 +310,7 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,QDateTime Mo
 
 // Video version
 cLuLoImageCacheObject *cLuLoImageCache::FindObject(cCustomIcon *Video,int Position,bool Smoothing,bool SetAtTop) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cLuLoImageCache::FindObject";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::FindObject");
 
     int i=0;
     while ((i<List.count())&&((List[i]->TypeObject!=LULOOBJECT_VIDEO)||(List[i]->Video!=Video)||(List[i]->Position!=Position)||(List[i]->Smoothing!=Smoothing))) i++;
@@ -342,9 +333,8 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(cCustomIcon *Video,int Positi
 //===============================================================================
 
 qlonglong cLuLoImageCache::MemoryUsed() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cLuLoImageCache::MemoryUsed";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::MemoryUsed");
+
     qlonglong MemUsed=0;
     for (int i=0;i<List.count();i++) {
         if (List[i]->CacheRenderImage)                                                              MemUsed=MemUsed+List[i]->CacheRenderImage->byteCount();
@@ -356,9 +346,7 @@ qlonglong cLuLoImageCache::MemoryUsed() {
 //===============================================================================
 
 void cLuLoImageCache::FreeMemoryToMaxValue() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cLuLoImageCache::FreeMemoryToMaxValue";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::FreeMemoryToMaxValue");
 
     qlonglong Memory=MemoryUsed();
     if (Memory>MaxValue) {
@@ -380,8 +368,8 @@ void cLuLoImageCache::FreeMemoryToMaxValue() {
             i--;
         }
         while ((List.count()>0)&&(List[List.count()-1]->CachePreviewImage==NULL)&&(List[List.count()-1]->CacheRenderImage==NULL)) delete List.takeLast();
-        qDebug()<<DisplayLog+QString(" - After=%1 cached objects for %2 Mb").arg(List.count()).arg(Memory/(1024*1024));
+        ToLog(LOGMSG_INFORMATION,DisplayLog+QString(" - After=%1 cached objects for %2 Mb").arg(List.count()).arg(Memory/(1024*1024)));
     //} else {
-    //    qDebug()<<QString("Check memory used %1 Mb/%2 Mb - OK").arg(Memory/(1024*1024)).arg(MaxValue/(1024*1024));
+    //    ToLog(LOGMSG_INFORMATION,<<QString("Check memory used %1 Mb/%2 Mb - OK").arg(Memory/(1024*1024)).arg(MaxValue/(1024*1024));
     }
 }

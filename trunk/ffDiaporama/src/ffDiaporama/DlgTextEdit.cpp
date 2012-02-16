@@ -21,14 +21,12 @@
 #include "DlgTextEdit.h"
 #include "ui_DlgTextEdit.h"
 
-//#define DEBUGMODE
-
 DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
                          cStyleCollection *TheStyleTextCollection,cStyleCollection *TheStyleTextBackgroundCollection,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTextEdit) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::DlgTextEdit";
-    #endif
+
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::DlgTextEdit");
+
     ui->setupUi(this);
     OkBt                            =ui->OKBT;
     CancelBt                        =ui->CancelBt;
@@ -42,9 +40,8 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QString HelpURL,
 //====================================================================================================================
 
 DlgTextEdit::~DlgTextEdit() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::~DlgTextEdit";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::~DlgTextEdit");
+
     delete ui;
 }
 
@@ -52,9 +49,7 @@ DlgTextEdit::~DlgTextEdit() {
 // Initialise dialog
 
 void DlgTextEdit::DoInitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::DoInitDialog");
 
     // Init check box
     ui->textLeft->setCheckable(true);
@@ -134,9 +129,8 @@ void DlgTextEdit::DoInitDialog() {
 // Initiale Undo
 
 void DlgTextEdit::PrepareGlobalUndo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::PrepareGlobalUndo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::PrepareGlobalUndo");
+
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
@@ -148,9 +142,8 @@ void DlgTextEdit::PrepareGlobalUndo() {
 // Apply Undo : call when user click on Cancel button
 
 void DlgTextEdit::DoGlobalUndo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::DoGlobalUndo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::DoGlobalUndo");
+
     // Restore element
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);
@@ -159,9 +152,8 @@ void DlgTextEdit::DoGlobalUndo() {
 //====================================================================================================================
 
 void DlgTextEdit::RefreshControls() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::RefreshControls";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::RefreshControls");
+
     StopMAJSpinbox=true;
     // Update text controls
     ui->TextStyleED->setText(StyleTextCollection->GetStyleName(CurrentTextItem->GetTextStyle()));
@@ -247,9 +239,8 @@ void DlgTextEdit::RefreshControls() {
 }
 
 void DlgTextEdit::MakeTextStyleIcon(QComboBox *UICB) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::MakeTextStyleIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::MakeTextStyleIcon");
+
     for (int i=0;i<UICB->count();i++) {
         cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,BaseApplicationConfig);
         Object.Text="T";
@@ -283,9 +274,8 @@ void DlgTextEdit::MakeTextStyleIcon(QComboBox *UICB) {
 
 //========= Text style bold
 void DlgTextEdit::s_SetBold() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_SetBold";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetBold");
+
     if (StopMAJSpinbox) return;
     if (CurrentTextItem->IsBold==true) CurrentTextItem->IsBold=false; else CurrentTextItem->IsBold=true;
     RefreshControls();
@@ -293,9 +283,8 @@ void DlgTextEdit::s_SetBold() {
 
 //========= Text style italic
 void DlgTextEdit::s_SetItalic() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_SetItalic";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetItalic");
+
     if (StopMAJSpinbox) return;
     if (CurrentTextItem->IsItalic==true) CurrentTextItem->IsItalic=false; else CurrentTextItem->IsItalic=true;
     RefreshControls();
@@ -303,9 +292,8 @@ void DlgTextEdit::s_SetItalic() {
 
 //========= Text style underline
 void DlgTextEdit::s_SetUnderline() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_SetUnderline";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetUnderline");
+
     if (StopMAJSpinbox) return;
     if (CurrentTextItem->IsUnderline==true) CurrentTextItem->IsUnderline=false; else CurrentTextItem->IsUnderline=true;
     RefreshControls();
@@ -313,9 +301,8 @@ void DlgTextEdit::s_SetUnderline() {
 
 //========= Horizontal alignment left
 void DlgTextEdit::s_SetTextLeft() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_SetTextLeft";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextLeft");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->HAlign=0;
     RefreshControls();
@@ -323,9 +310,8 @@ void DlgTextEdit::s_SetTextLeft() {
 
 //========= Horizontal alignment center
 void DlgTextEdit::s_SetTextCenter() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_SetTextCenter";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextCenter");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->HAlign=1;
     RefreshControls();
@@ -333,9 +319,8 @@ void DlgTextEdit::s_SetTextCenter() {
 
 //========= Horizontal alignment right
 void DlgTextEdit::s_SetTextRight() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_SetTextRight";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextRight");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->HAlign=2;
     RefreshControls();
@@ -343,9 +328,8 @@ void DlgTextEdit::s_SetTextRight() {
 
 //========= Horizontal alignment justify
 void DlgTextEdit::s_SetTextJustif() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_SetTextJustif";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextJustif");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->HAlign=3;
     RefreshControls();
@@ -353,9 +337,8 @@ void DlgTextEdit::s_SetTextJustif() {
 
 //========= Vertical alignment up
 void DlgTextEdit::s_SetTextUp() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_SetTextUp";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextUp");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->VAlign=0;
     RefreshControls();
@@ -363,9 +346,8 @@ void DlgTextEdit::s_SetTextUp() {
 
 //========= Vertical alignment center
 void DlgTextEdit::s_SetTextVCenter() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_SetTextVCenter";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextVCenter");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->VAlign=1;
     RefreshControls();
@@ -373,9 +355,8 @@ void DlgTextEdit::s_SetTextVCenter() {
 
 //========= Vertical alignment bottom
 void DlgTextEdit::s_SetTextBottom() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_SetTextBottom";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextBottom");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->VAlign=2;
     RefreshControls();
@@ -383,9 +364,8 @@ void DlgTextEdit::s_SetTextBottom() {
 
 //========= Font family
 void DlgTextEdit::s_ChangeFont(QFont font) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChangeFont";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChangeFont");
+
     if (StopMAJSpinbox) return;
     if (font.family()!="") CurrentTextItem->FontName=font.family();
     RefreshControls();
@@ -393,9 +373,8 @@ void DlgTextEdit::s_ChangeFont(QFont font) {
 
 //========= Size font
 void DlgTextEdit::s_ChangeSizeFont(QString size) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChangeSizeFont";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChangeSizeFont");
+
     if (StopMAJSpinbox) return;
     if (size!="") CurrentTextItem->FontSize=size.toInt();
     RefreshControls();
@@ -403,9 +382,8 @@ void DlgTextEdit::s_ChangeSizeFont(QString size) {
 
 //========= Style font
 void DlgTextEdit::s_ChangeStyleFont(int Style) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChangeStyleFont";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChangeStyleFont");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->StyleText=Style;
     RefreshControls();
@@ -413,9 +391,8 @@ void DlgTextEdit::s_ChangeStyleFont(int Style) {
 
 //========= Plain text edit
 void DlgTextEdit::s_plainTextEditChange() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_plainTextEditChange";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_plainTextEditChange");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->Text=ui->plainTextEdit->toPlainText();
     RefreshControls();
@@ -423,9 +400,8 @@ void DlgTextEdit::s_plainTextEditChange() {
 
 //========= Font color
 void DlgTextEdit::s_ChIndexFontColorCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChIndexFontColorCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexFontColorCombo");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->FontColor=ui->FontColorCombo->GetCurrentColor();
     RefreshControls();
@@ -433,9 +409,8 @@ void DlgTextEdit::s_ChIndexFontColorCombo(int) {
 
 //========= Text shadow color
 void DlgTextEdit::s_ChIndexFontShadowColorCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChIndexFontShadowColorCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexFontShadowColorCombo");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->FontShadowColor=ui->StyleShadowColorCombo->GetCurrentColor();
     RefreshControls();
@@ -444,9 +419,8 @@ void DlgTextEdit::s_ChIndexFontShadowColorCombo(int) {
 //====================================================================================================================
 
 void DlgTextEdit::s_ChangeBrushTypeCombo(int Value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChangeBrushTypeCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChangeBrushTypeCombo");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->BackgroundBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
     RefreshControls();
@@ -455,9 +429,8 @@ void DlgTextEdit::s_ChangeBrushTypeCombo(int Value) {
 //====================================================================================================================
 
 void DlgTextEdit::s_IntermPosSliderMoved(int Value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_IntermPosSliderMoved";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_IntermPosSliderMoved");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls();
@@ -466,9 +439,8 @@ void DlgTextEdit::s_IntermPosSliderMoved(int Value) {
 //====================================================================================================================
 
 void DlgTextEdit::s_IntermPosED(int Value) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_IntermPosED";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_IntermPosED");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls();
@@ -480,9 +452,8 @@ void DlgTextEdit::s_IntermPosED(int Value) {
 
 //========= Pattern shape combo
 void DlgTextEdit::s_ChIndexPatternBrushCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChIndexPatternBrushCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexPatternBrushCombo");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->BackgroundBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
     RefreshControls();
@@ -490,9 +461,8 @@ void DlgTextEdit::s_ChIndexPatternBrushCombo(int) {
 
 //========= Gradient shape orientation
 void DlgTextEdit::s_ChIndexGradientOrientationCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChIndexGradientOrientationCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexGradientOrientationCombo");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->BackgroundBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
     RefreshControls();
@@ -500,9 +470,8 @@ void DlgTextEdit::s_ChIndexGradientOrientationCombo(int) {
 
 //========= Shape/Gradient shape first color
 void DlgTextEdit::s_ChIndexGradientFirstColorCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChIndexGradientFirstColorCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexGradientFirstColorCombo");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->BackgroundBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
     RefreshControls();
@@ -510,9 +479,8 @@ void DlgTextEdit::s_ChIndexGradientFirstColorCombo(int) {
 
 //========= Gradient shape last color
 void DlgTextEdit::s_ChIndexGradientFinalColorCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChIndexGradientFinalColorCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexGradientFinalColorCombo");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->BackgroundBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
     RefreshControls();
@@ -520,9 +488,8 @@ void DlgTextEdit::s_ChIndexGradientFinalColorCombo(int) {
 
 //========= Gradient shape intermediate color
 void DlgTextEdit::s_ChIndexGradientIntermColorCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChIndexGradientIntermColorCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexGradientIntermColorCombo");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->BackgroundBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
     RefreshControls();
@@ -530,9 +497,8 @@ void DlgTextEdit::s_ChIndexGradientIntermColorCombo(int) {
 
 //========= Background image
 void DlgTextEdit::s_ChIndexBackgroundCombo(int) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_ChIndexBackgroundCombo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexBackgroundCombo");
+
     if (StopMAJSpinbox) return;
     CurrentTextItem->BackgroundBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
     RefreshControls();
@@ -543,9 +509,8 @@ void DlgTextEdit::s_ChIndexBackgroundCombo(int) {
 //====================================================================================================================
 
 void DlgTextEdit::s_TextStyleBT() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_TextStyleBT";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_TextStyleBT");
+
     QString ActualStyle=CurrentTextItem->GetTextStyle();
     QString Item=StyleTextCollection->PopupCollectionMenu(this,ActualStyle);
     ui->TextStyleBT->setDown(false);
@@ -554,9 +519,8 @@ void DlgTextEdit::s_TextStyleBT() {
 }
 
 void DlgTextEdit::s_BackgroundStyleBT() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgTextEdit::s_BackgroundStyleBT";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_BackgroundStyleBT");
+
     QString ActualStyle=CurrentTextItem->GetBackgroundStyle();
     QString Item=StyleTextBackgroundCollection->PopupCollectionMenu(this,ActualStyle);
     ui->BackgroundStyleBT->setDown(false);

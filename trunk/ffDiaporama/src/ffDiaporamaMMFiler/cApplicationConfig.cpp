@@ -24,23 +24,18 @@
 #include "../sharedfiles/QCustomFolderTable.h"
 #include "cApplicationConfig.h"
 
-//#define DEBUGMODE
-
 //====================================================================================================================
 
 cApplicationConfig::cApplicationConfig(QMainWindow *TopLevelWindow):cBaseApplicationConfig(TopLevelWindow,ALLOWEDWEBLANGUAGE,APPLICATION_GROUPNAME,APPLICATION_NAME,APPLICATION_VERSION,CONFIGFILEEXT,CONFIGFILE_ROOTNAME) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::cApplicationConfig";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::cApplicationConfig");
+
     MemCacheMaxValue=1024*1024*512;
 }
 
 //====================================================================================================================
 
 cApplicationConfig::~cApplicationConfig() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::~cApplicationConfig";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::~cApplicationConfig");
 
     delete DlgApplicationSettingsWSP;
     delete DlgJobSettingsWSP;
@@ -54,27 +49,23 @@ cApplicationConfig::~cApplicationConfig() {
 //====================================================================================================================
 
 bool cApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication *App) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::LoadConfigurationFile";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::LoadConfigurationFile");
+
     return cBaseApplicationConfig::LoadConfigurationFile(TypeConfigFile,App) && DeviceModelList.LoadConfigurationFile(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile,TypeConfigFile);
 }
 
 //====================================================================================================================
 
 bool cApplicationConfig::SaveConfigurationFile() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::SaveConfigurationValues";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::SaveConfigurationValues");
+
     return cBaseApplicationConfig::SaveConfigurationFile() && DeviceModelList.SaveConfigurationFile(UserConfigFile);
 }
 
 //====================================================================================================================
 
 void cApplicationConfig::InitValues() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::InitValues";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::InitValues");
 
     SplitterHSizeAndPos     ="";
     SplitterVSizeAndPos     ="";
@@ -106,9 +97,7 @@ void cApplicationConfig::InitValues() {
 //====================================================================================================================
 
 void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::SaveValueToXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::SaveValueToXML");
 
     QDomDocument    Document;
     QDomElement     Element;
@@ -142,9 +131,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
 //====================================================================================================================
 
 bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFileType /*TypeConfigFile*/) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cApplicationConfig::LoadValueFromXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::LoadValueFromXML");
 
     if ((domDocument.elementsByTagName("Options").length()>0)&&(domDocument.elementsByTagName("Options").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("Options").item(0).toElement();

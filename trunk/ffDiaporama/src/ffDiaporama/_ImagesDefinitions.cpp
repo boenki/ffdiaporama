@@ -44,6 +44,8 @@ int  LUMADLG_WIDTH=0;
 //*********************************************************************************************************************************************
 
 cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cIconObject::cIconObject");
+
     TransitionFamilly=TheTransitionFamilly;
     TransitionSubType=TheTransitionSubType;
     QString Familly=QString("%1").arg(TransitionFamilly);   if (Familly.length()<2) Familly="0"+Familly;
@@ -52,22 +54,18 @@ cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType) {
     Icon=QImage(FileName);
     if (Icon.isNull()) {
         Icon=QImage(QString(":/img/Transitions")+QDir().separator()+QString("tr-icon-error.png"));
-        qDebug()<<"Icon not found:"<<QDir(FileName).absolutePath();
+        ToLog(LOGMSG_WARNING,"Icon not found:"+QDir(FileName).absolutePath());
     }
 }
 
 //====================================================================================================================
 
 cIconObject::cIconObject(int TheTransitionFamilly,int TheTransitionSubType,QImage LumaImage) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cIconObject::cIconObject");
+
     TransitionFamilly=TheTransitionFamilly;
     TransitionSubType=TheTransitionSubType;
     Icon=LumaImage.scaled(QSize(32,32),Qt::IgnoreAspectRatio/*,Qt::SmoothTransformation*/);
-}
-
-//====================================================================================================================
-
-cIconObject::~cIconObject() {
-
 }
 
 //*********************************************************************************************************************************************
@@ -75,18 +73,21 @@ cIconObject::~cIconObject() {
 //*********************************************************************************************************************************************
 
 cIconList::cIconList() {
-
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cIconList::cIconList");
 }
 
 //====================================================================================================================
 
 cIconList::~cIconList() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cIconList::~cIconList");
     List.clear();
 }
 
 //====================================================================================================================
 
 QImage *cIconList::GetIcon(int TransitionFamilly,int TransitionSubType) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cIconList::GetIcon");
+
     int i=0;
     while ((i<List.count())&&((List[i].TransitionFamilly!=TransitionFamilly)||(List[i].TransitionSubType!=TransitionSubType))) i++;
     if (i<List.count()) return new QImage(List[i].Icon);
@@ -97,14 +98,11 @@ QImage *cIconList::GetIcon(int TransitionFamilly,int TransitionSubType) {
 // Global class for luma object
 //*********************************************************************************************************************************************
 cLumaListObject::cLumaListObject(QString FileName) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLumaListObject::cLumaListObject");
+
     OriginalLuma=QImage(FileName);
     DlgLumaImage=QImage(OriginalLuma.scaled(LUMADLG_WIDTH,LUMADLG_HEIGHT,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
     Name        =QFileInfo(FileName).baseName();
-}
-
-//====================================================================================================================
-
-cLumaListObject::~cLumaListObject() {
 }
 
 //*********************************************************************************************************************************************
@@ -112,6 +110,8 @@ cLumaListObject::~cLumaListObject() {
 //*********************************************************************************************************************************************
 
 cLumaList::cLumaList() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLumaList::cLumaList");
+
     Geometry=GEOMETRY_16_9;
     LUMADLG_WIDTH=int((double(LUMADLG_HEIGHT)/double(9))*double(16));
 }
@@ -119,12 +119,16 @@ cLumaList::cLumaList() {
 //====================================================================================================================
 
 cLumaList::~cLumaList() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLumaList::~cLumaList");
+
     List.clear();
 }
 
 //====================================================================================================================
 
 void cLumaList::ScanDisk(QString Path,int TransitionFamilly) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLumaList::ScanDisk");
+
     QDir                Folder(Path);
     QFileInfoList       Files=Folder.entryInfoList();;
 
@@ -139,6 +143,8 @@ void cLumaList::ScanDisk(QString Path,int TransitionFamilly) {
 //====================================================================================================================
 
 void cLumaList::SetGeometry(int TheGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLumaList::SetGeometry");
+
     if (Geometry==TheGeometry) return;
     Geometry=TheGeometry;
     switch (Geometry) {

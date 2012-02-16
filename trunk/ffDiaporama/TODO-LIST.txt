@@ -1,46 +1,53 @@
-Buggs/TODO (Dernier SVN le 08/02/2011) :
+Buggs/TODO (Dernier SVN le 13/02/2011) :
 ----------------------------------------
 TODO
 ----
+[ffDiaporama]
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
+-Ne pas générer les thumbnails lors des ouvertures de projets !
+-Voir s'il est possible de changer la stratégie d'allocation de la stack pour Windows/XP
+
+[MMFiler]
 -Ajuster la géométrie des thumb à l'affichage en cours :    Défaut : 1/1    Images : 3/2    Musique: 1/1    Vidéo  : 2/3
--[MMFiler] Prendre en compte le multi-select dans QCustomFileInfoLabel (+ affichage à uniformiser avec la table)
--[MMFiler] Rendre optionnel le cache des thumbnails (.ThumbnailsCache.xml)
--[MMFiler] Developper la partie transformation des fichiers sources
--[MMFiler] Ajouter la récupération/transformation des données exif pour le job de conversion d'images
--[ffDiaporama] Ne pas générer les thumbnails lors des ouvertures de projets !
--[ffDiaporama] Voir s'il est possible de changer la stratégie d'allocation de la stack pour Windows/XP
+-Prendre en compte le multi-select dans QCustomFileInfoLabel (+ affichage à uniformiser avec la table)
+-Rendre optionnel le cache des thumbnails (.ThumbnailsCache.xml)
+-Developper la partie transformation des fichiers sources
+-Ajouter la récupération/transformation des données exif pour le job de conversion d'images
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le systeme de mise en cache des images pour régler les "memory leak" qui générait des erreurs QPainter
--Corrige les problèmes de fragmentation du tas (heap) sous windows XP qui générait des erreurs d'allocation mémoire
--Corrige les problèmes de lecture EXIF sous Windows en revennant à la version binaire d'Exiv
 
 English version / Bug fix :
--Fix image memory cache system to solve "memory leak" wich generate QPainter error
--Fix heap fragmentation for Windows XP which generate memory allocation errors
--Fix EXIF reading for Windows by comming back to Exiv binary version
 
 French version / Nouvelles fonctionnalités :
--Ajoute une option dans la boite de configuration pour générer des fichiers de cache d'image filtrée
--Supprime la sélection du modèle mémoire pour Windows dans la boite de configuration => Forcé à 196 Mo non modifiable
--[MMFiler] Met en cache les images dans des fichiers .ThumbnailsCache.xml de chaque répertoire
--[MMFiler] Commence les travaux sur le moteur de job
--[MMFiler] Ajoute la fenêtre des jobs et celle du journal au bas de la fenêtre principal
--[MMFiler] Ajoute l'action de supprimer des fichiers
--[MMFiler] Crée un 1er job de conversion d'image + crée la boite de dialogue de paramétrage du job
+-Passe la lecture des vidéos en RGB24 au lieu d'ABGR32 (evite les WARNING de swscaler et accélère la lecture)
+-Supprime les boutons minimize dans les boites de dialogue [Linux]
+-Détache les boites de dialogue de saisie de texte dans la gestion des styles [Linux-Gnome Shell]
+-Détache toutes les boites de dialogue de messages [Linux-Gnome Shell]
+-Modifie les traitements d'images pour utiliser moins la zone mémoire HEAP [Windows/XP]
+-Ajoute un menu contextuel dans l'arbre des répertoires avec 4 actions (Actualiser, Actualiser à partir d'ici, créer un sous-répertoire, supprimer ce répertoire)
+-Transforme le systeme d'affichage des messages dans la console :
+    -Ajoute l'heure et le type de message (Information, Warning, Erreur)
+    -Sous Windows, la fenêtre CMD n'est plus ouverte systématiquement : Pour voir les messages, il faut lancer l'application depuis une console déjà ouverte
+    -Permet de rediriger les messages dans un fichier via les >
+    -Ajoute les messages de debuggage (DEBUGTRACE)
+-Ajoute une nouvelle option sur la ligne de commande pour régler le niveau des messages -LogLevel
 
 English version / New features :
--Add an option in option dialog to allow use of cached transformed images files
--Remove memory model selection in option dialog for Windows => Value was set to 196 Mb and can't be modified
--[MMFiler] Create .ThumbnailsCache.xml file into directories to cache image
--[MMFiler] Start work on job engine
--[MMFiler] Add job queue list and log at bottom of main window
--[MMFiler] Add remove file action
--[MMFiler] Create a first job to convert image + create convert image job settings dialog
+-Modify video reading from ABGR32 TO RGB24 (avoir swscaler warning and speed reading)
+-Remove minimize buttons for all dialog box [Linux]
+-Unlock text edit dialog for style creation [Linux-Gnome Shell]
+-Unlock all messages box [Linux-Gnome Shell]
+-Modify image processing to use less HEAP memory zone [Windows/XP]
+-Add a contextual menu in folder tree with 4 actions (Refresh, refresh from here, create subfolder and remove folder)
+-Modify log system to display in console :
+    -Add hour and message type (Information, Warning, Error)
+    -For Windows, the CMD windows is now longer open at startup : To see messages, application must be started from a console
+    -Allow to redirect message to a log file using >
+    -Add debugging messages (DEBUGTRACE)
+-Add a new argument for command line to define level of message -LogLevel
 
 -------------------------------------
 Changelog depuis la version 20111118
@@ -77,6 +84,9 @@ Bug fix French version
 -Réactive les traductions pour les noms des styles standards qui ne fonctionnait plus depuis ffD 1.1
 [MMFiler] Corrige les filtres music/video
 [MMFiler] Corrige l'icône du bouton de filtrage
+-Corrige le systeme de mise en cache des images pour régler les "memory leak" qui générait des erreurs QPainter
+-Corrige les problèmes de fragmentation du tas (heap) sous windows XP qui générait des erreurs d'allocation mémoire
+-Corrige les problèmes de lecture EXIF sous Windows en revennant à la version binaire d'Exiv
 
 Bug fix English version
 -When exit the application, even when answer yes, modifications are not saved
@@ -107,6 +117,9 @@ Bug fix English version
 -Re-enable translation for standard style name wich not work correctly since ffD 1.1
 [MMFiler] Fix filtering for music/video
 [MMFiler] Fix icon of filter button
+-Fix image memory cache system to solve "memory leak" wich generate QPainter error
+-Fix heap fragmentation for Windows XP which generate memory allocation errors
+-Fix EXIF reading for Windows by comming back to Exiv binary version
 
 French version / Nouvelles fonctionnalités
 -Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
@@ -152,6 +165,13 @@ Prend en compte ffmpeg 0.10
 [MMFiler] Active la vue mur d'image
 [MMFiler] Ajoute une option dans la boite d'option pour afficher les noms de fichier dans les vues en icônes
 [MMFiler] Active l'affichage des noms de fichier en mode icône
+-Ajoute une option dans la boite de configuration pour générer des fichiers de cache d'image filtrée
+-Supprime la sélection du modèle mémoire pour Windows dans la boite de configuration => Forcé à 196 Mo non modifiable
+-[MMFiler] Met en cache les images dans des fichiers .ThumbnailsCache.xml de chaque répertoire
+-[MMFiler] Commence les travaux sur le moteur de job
+-[MMFiler] Ajoute la fenêtre des jobs et celle du journal au bas de la fenêtre principal
+-[MMFiler] Ajoute l'action de supprimer des fichiers
+-[MMFiler] Crée un 1er job de conversion d'image + crée la boite de dialogue de paramétrage du job
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -197,3 +217,10 @@ Enable ffmpeg 0.10
 [MMFiler] Enable wall image view
 [MMFiler] Add an option in option dialog to display filename in icon view
 [MMFiler] Add display of files name for icon views
+-Add an option in option dialog to allow use of cached transformed images files
+-Remove memory model selection in option dialog for Windows => Value was set to 196 Mb and can't be modified
+-[MMFiler] Create .ThumbnailsCache.xml file into directories to cache image
+-[MMFiler] Start work on job engine
+-[MMFiler] Add job queue list and log at bottom of main window
+-[MMFiler] Add remove file action
+-[MMFiler] Create a first job to convert image + create convert image job settings dialog

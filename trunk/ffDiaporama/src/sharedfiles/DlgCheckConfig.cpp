@@ -22,39 +22,35 @@
 #include "ui_DlgCheckConfig.h"
 #include "cBaseMediaFile.h"
 
-//#define DEBUGMODE
-
 #define ICON_GREEN      ":/img/Green.png"
 #define ICON_RED        ":/img/Red.png"
 
 //====================================================================================================================
 
 bool Checkffmpeg(QString &StatusStr) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:Checkffmpeg";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:Checkffmpeg");
+
     bool        ffmpegOK=true;
     QProcess    Process;
 
     //Process.setProcessChannelMode(QProcess::MergedChannels);
     Process.start("ffmpeg",QString("-version").split(";"));
     if (!Process.waitForStarted(-1)) {
-        qDebug()<<"Impossible to start ffmpeg";
+        ToLog(LOGMSG_CRITICAL,"Impossible to start ffmpeg");
         ffmpegOK=false;
     }
     if (ffmpegOK && !Process.waitForFinished()) {
         Process.kill();
-        qDebug()<<"Error during ffmpeg process";
+        ToLog(LOGMSG_CRITICAL,"Error during ffmpeg process");
         ffmpegOK=false;
     }
     if (ffmpegOK && (Process.exitStatus()<0)) {
-        qDebug()<<"ffmpeg return error"<<Process.exitStatus();
+        ToLog(LOGMSG_CRITICAL,QString("ffmpeg return error %1").arg(Process.exitStatus()));
         ffmpegOK=false;
     }
     if (ffmpegOK) {
         QString     Info=QString().fromLocal8Bit(Process.readAllStandardOutput())+
                          QString().fromLocal8Bit(Process.readAllStandardError());
-        //qDebug()<<Info;
         if (Info.indexOf("ffmpeg version ")>=0) {
             StatusStr=Info.mid(Info.indexOf("ffmpeg version ")+QString("ffmpeg version ").length());
             StatusStr=StatusStr.left(StatusStr.indexOf("\n"));
@@ -76,9 +72,7 @@ bool Checkffmpeg(QString &StatusStr) {
 DlgCheckConfig::DlgCheckConfig(QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgCheckConfig) {
 
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgCheckConfig::DlgCheckConfig";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgCheckConfig::DlgCheckConfig");
 
     ui->setupUi(this);
     OkBt    =ui->OKBT;
@@ -89,9 +83,8 @@ DlgCheckConfig::DlgCheckConfig(QString HelpURL,cBaseApplicationConfig *Applicati
 //====================================================================================================================
 
 DlgCheckConfig::~DlgCheckConfig() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgCheckConfig::~DlgCheckConfig";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgCheckConfig::~DlgCheckConfig");
+
     delete ui;
 }
 
@@ -99,9 +92,7 @@ DlgCheckConfig::~DlgCheckConfig() {
 // Initialise dialog
 
 void DlgCheckConfig::DoInitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgCheckConfig::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgCheckConfig::DoInitDialog");
 
     QString StatusStr;
     bool    Status;
@@ -188,8 +179,7 @@ void DlgCheckConfig::DoInitDialog() {
 // Call when user click on Ok button
 
 void DlgCheckConfig::DoAccept() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgCheckConfig::DoAccept";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgCheckConfig::DoAccept");
+
     BaseApplicationConfig->CheckConfigAtStartup=ui->CheckConfigAtStartupCB->isChecked();
 }

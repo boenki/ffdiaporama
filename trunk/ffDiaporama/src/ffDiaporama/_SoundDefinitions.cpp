@@ -30,6 +30,8 @@
 //*********************************************************************************************************************************************
 
 cMusicObject::cMusicObject() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cMusicObject::cMusicObject");
+
     IsValide    =false;
     FilePath    ="";
     StartPos    =QTime(0,0,0,0);                // Start position
@@ -44,6 +46,8 @@ cMusicObject::cMusicObject() {
 //====================================================================================================================
 
 cMusicObject::~cMusicObject() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cMusicObject::~cMusicObject");
+
     if (Music!=NULL) {
         delete Music;
         Music=NULL;
@@ -53,6 +57,8 @@ cMusicObject::~cMusicObject() {
 //====================================================================================================================
 
 void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cMusicObject::SaveToXML");
+
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     QString         FileName;
@@ -75,6 +81,8 @@ void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QStrin
 //====================================================================================================================
 
 bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag,cBaseApplicationConfig *ApplicationConfig) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cMusicObject::LoadFromXML");
+
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
@@ -94,6 +102,8 @@ bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QStri
 //====================================================================================================================
 
 bool cMusicObject::LoadMedia(QString &filename,QStringList *AliasList,bool *ModifyFlag,cBaseApplicationConfig *ApplicationConfig) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cMusicObject::LoadMedia");
+
     // Clean all
     if (Music!=NULL) {
         delete Music;
@@ -102,17 +112,6 @@ bool cMusicObject::LoadMedia(QString &filename,QStringList *AliasList,bool *Modi
 
     Music=new cVideoFile(OBJECTTYPE_MUSICFILE,ApplicationConfig);
     IsValide=(Music->GetInformationFromFile(filename,AliasList,ModifyFlag))&&(Music->OpenCodecAndFile());
-    /*if (IsValide) {
-        // Check if file have at least one sound track compatible
-        if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)) {
-            ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with signed 16 bits sample format","Error message");
-            IsValide=false;
-        }
-        if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
-            ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
-            IsValide=false;
-        }
-    }*/
     FilePath=QFileInfo(Music->FileName).absoluteFilePath();
     StartPos=QTime(0,0,0,0);                // Start position
     EndPos  =Music->Duration;

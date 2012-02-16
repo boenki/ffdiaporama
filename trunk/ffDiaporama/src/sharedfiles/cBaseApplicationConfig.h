@@ -83,12 +83,10 @@ bool    SetWorkingPath(char *argv[],QString ApplicationGroupName,QString Applica
 // Application config class
 class cBaseApplicationConfig {
 public:
-    enum    FilterFile {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
-    enum    LoadConfigFileType {USERCONFIGFILE,GLOBALCONFIGFILE};
+    enum    FilterFile          {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
+    enum    LoadConfigFileType  {USERCONFIGFILE,GLOBALCONFIGFILE};
 
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        bool                RasterMode;                                 // Enable or disable raster mode [Linux only]
-    #endif
+    bool                    RasterMode;                                 // Enable or disable raster mode [Linux only]
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
     QMainWindow             *TopLevelWindow;                            // Link to MainWindow of the application
     QString                 AllowedWEBLanguage;

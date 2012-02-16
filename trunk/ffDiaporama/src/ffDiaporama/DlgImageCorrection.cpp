@@ -35,6 +35,7 @@
 #define ICON_OBJECT_MOVIE                   ":/img/object_movie.png"
 
 DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition,QWidget *parent):QDialog(parent),ui(new Ui::DlgImageCorrection) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DlgImageCorrection");
     ui->setupUi(this);
     BackgroundForm  =TheBackgroundForm;
     CurrentTextItem =TheCurrentTextItem;
@@ -177,6 +178,7 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,in
 }
 
 DlgImageCorrection::~DlgImageCorrection() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::~DlgImageCorrection");
     ui->GraphicsView->setScene(NULL);
     if (cadre!=NULL) {
         scene->removeItem(cadre);
@@ -204,48 +206,56 @@ DlgImageCorrection::~DlgImageCorrection() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_BrightnessReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BrightnessReset");
     s_BrightnessSliderMoved(0);
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_ContrastReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ContrastReset");
     s_ContrastSliderMoved(0);
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_GammaReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_GammaReset");
     s_GammaValueED(1);
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_RedReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_RedReset");
     s_RedSliderMoved(0);
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_GreenReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_GreenReset");
     s_GreenSliderMoved(0);
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_BlueReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlueReset");
     s_BlueSliderMoved(0);
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_BlurSharpenReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSharpenReset");
     s_BlurSigmaSliderMoved(0);
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::s_RadiusReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_RadiusReset");
     s_BlurRadiusSliderMoved(5);
 }
 
@@ -253,18 +263,21 @@ void DlgImageCorrection::s_RadiusReset() {
 //====================================================================================================================
 
 void DlgImageCorrection::Help() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::Help");
     GlobalMainWindow->OpenHelp(HELPFILE_DlgImageCorrection);
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::SetSavedWindowGeometry() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::SetSavedWindowGeometry");
     GlobalMainWindow->ApplicationConfig->DlgImageCorrectionWSP->ApplyToWindow(this);
 }
 
 //====================================================================================================================
 
 void DlgImageCorrection::resizeEvent(QResizeEvent *) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::resizeEvent");
     if (scene!=NULL) {
         if (cadre!=NULL) {
             scene->removeItem(cadre);
@@ -288,6 +301,7 @@ void DlgImageCorrection::resizeEvent(QResizeEvent *) {
 //====================================================================================================================
 
 void DlgImageCorrection::showEvent(QShowEvent *ev) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::showEvent");
     QDialog::showEvent(ev);
     QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
 
@@ -324,6 +338,7 @@ void DlgImageCorrection::showEvent(QShowEvent *ev) {
 //====================================================================================================================
 
 void DlgImageCorrection::reject() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::reject");
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgImageCorrectionWSP->SaveWindowState(this);
 
@@ -347,6 +362,7 @@ void DlgImageCorrection::reject() {
 //====================================================================================================================
 
 void DlgImageCorrection::accept() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::accept");
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgImageCorrectionWSP->SaveWindowState(this);
 
@@ -380,6 +396,7 @@ void DlgImageCorrection::accept() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_XValueEDChanged(double Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_XValueEDChanged");
     if (FLAGSTOPED) return;
     CurrentBrush->X=Value/100;
     RefreshControls();
@@ -388,6 +405,7 @@ void DlgImageCorrection::s_XValueEDChanged(double Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_YValueEDChanged(double Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_YValueEDChanged");
     if (FLAGSTOPED) return;
     CurrentBrush->Y=Value/100;
     RefreshControls();
@@ -396,6 +414,7 @@ void DlgImageCorrection::s_YValueEDChanged(double Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_WValueEDChanged(double Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_WValueEDChanged");
     if (FLAGSTOPED) return;
     if (CurrentBrush->LockGeometry) {
         CurrentBrush->ZoomFactor=Value/100;
@@ -423,6 +442,7 @@ void DlgImageCorrection::s_WValueEDChanged(double Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_HValueEDChanged(double Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_HValueEDChanged");
     if (FLAGSTOPED) return;
     double newH=(Value/100)*ymax;
     if (CurrentBrush->LockGeometry) {
@@ -450,6 +470,7 @@ void DlgImageCorrection::s_HValueEDChanged(double Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_RotationEDChanged(double Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_RotationEDChanged");
     if (FLAGSTOPED) return;
     if (Value<-180) Value=360-Value;
     if (Value>180)  Value=-360-Value;
@@ -460,6 +481,7 @@ void DlgImageCorrection::s_RotationEDChanged(double Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_RotateLeft() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_RotateLeft");
     double Value=(int((CurrentBrush->ImageRotation-90)/90)*90);
     if (Value<=-180) Value=360-Value;
     ui->RotateED->setValue(Value);
@@ -468,6 +490,7 @@ void DlgImageCorrection::s_RotateLeft() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_RotateRight() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_RotateRight");
     double Value=(int((CurrentBrush->ImageRotation+90)/90)*90);
     if (Value>180) Value=-360+Value;
     ui->RotateED->setValue(Value);
@@ -476,6 +499,7 @@ void DlgImageCorrection::s_RotateRight() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_AdjustW() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_AdjustW");
     double W=MagneticRuler.MagnetX2-MagneticRuler.MagnetX1;
     double H=W*CurrentBrush->AspectRatio;
     CurrentBrush->X=((xmax-W)/2)/xmax;
@@ -487,6 +511,7 @@ void DlgImageCorrection::s_AdjustW() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_AdjustH() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_AdjustH");
     double H=MagneticRuler.MagnetY2-MagneticRuler.MagnetY1;
     double W=H/CurrentBrush->AspectRatio;
     CurrentBrush->X=((xmax-W)/2)/xmax;
@@ -498,6 +523,7 @@ void DlgImageCorrection::s_AdjustH() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_AdjustWH() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_AdjustWH");
     // Special case for custom geometry -> use all the image then change aspect ratio to image aspect ratio
     if (!CurrentBrush->LockGeometry) {
         double W=MagneticRuler.MagnetX2-MagneticRuler.MagnetX1;
@@ -521,6 +547,7 @@ void DlgImageCorrection::s_AdjustWH() {
 //====================================================================================================================
 
 void DlgImageCorrection::RefreshControls() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::RefreshControls");
     if ((!scene)||(FLAGSTOPED)) return;
     FLAGSTOPED=true;
 
@@ -588,6 +615,7 @@ void DlgImageCorrection::RefreshControls() {
 //====================================================================================================================
 
 void DlgImageCorrection::ChangeBrushDiskFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::ChangeBrushDiskFile");
     QString ActualFilePath=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).absolutePath();
 
     QString NewFile=QFileDialog::getOpenFileName(this,
@@ -624,7 +652,7 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
             if (IsValide) NewCachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,1,false,NULL,false);
         }
         if (!NewCachedImage) {
-            QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
+            CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
             CurrentBrush->Video->GetInformationFromFile(OldBrushFileName,NULL,NULL);
             CurrentBrush->Video->OpenCodecAndFile();
         }
@@ -640,6 +668,7 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_ChTransformationCB(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ChTransformationCB");
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
     cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
@@ -651,6 +680,7 @@ void DlgImageCorrection::s_ChTransformationCB(int) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_BlurSigmaSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSigmaSliderMoved");
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
     cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
@@ -664,6 +694,7 @@ void DlgImageCorrection::s_BlurSigmaSliderMoved(int Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_BlurSigmaValueED(double Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSigmaValueED");
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
     cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
@@ -677,6 +708,7 @@ void DlgImageCorrection::s_BlurSigmaValueED(double Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_BlurRadiusSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurRadiusSliderMoved");
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
     cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
@@ -690,6 +722,7 @@ void DlgImageCorrection::s_BlurRadiusSliderMoved(int Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_MagneticEdgeBt() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_MagneticEdgeBt");
     if (MagneticRuler.MagneticRuler==true) MagneticRuler.MagneticRuler=false; else MagneticRuler.MagneticRuler=true;
     ui->MagneticEdgeBt->setIcon(QIcon(MagneticRuler.MagneticRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
     GlobalMainWindow->Diaporama->ApplicationConfig->FramingRuler=MagneticRuler.MagneticRuler;
@@ -699,6 +732,7 @@ void DlgImageCorrection::s_MagneticEdgeBt() {
 //====================================================================================================================
 
 void DlgImageCorrection::RefreshBackgroundImage() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::RefreshBackgroundImage");
     if (!scene) return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -822,6 +856,7 @@ void DlgImageCorrection::RefreshBackgroundImage() {
 //====================================================================================================================
 
 void DlgImageCorrection::s_BrightnessSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BrightnessSliderMoved");
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
     CurrentBrush->Brightness=Value;
@@ -834,6 +869,7 @@ void DlgImageCorrection::s_BrightnessSliderMoved(int Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_ContrastSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ContrastSliderMoved");
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
     CurrentBrush->Contrast=Value;
@@ -846,6 +882,7 @@ void DlgImageCorrection::s_ContrastSliderMoved(int Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_GammaSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_GammaSliderMoved");
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
     CurrentBrush->Gamma=double(Value)/100;
@@ -858,6 +895,7 @@ void DlgImageCorrection::s_GammaSliderMoved(int Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_GammaValueED(double Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_GammaValueED");
     if (FLAGSTOPSPIN) return;
     FLAGSTOPSPIN=true;
     CurrentBrush->Gamma=Value;
@@ -870,6 +908,7 @@ void DlgImageCorrection::s_GammaValueED(double Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_RedSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_RedSliderMoved");
     CurrentBrush->Red=Value;
     ui->RedSlider->setValue(CurrentBrush->Red);
     ui->RedValue->setValue(CurrentBrush->Red);
@@ -879,6 +918,7 @@ void DlgImageCorrection::s_RedSliderMoved(int Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_GreenSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_GreenSliderMoved");
     CurrentBrush->Green=Value;
     ui->GreenSlider->setValue(CurrentBrush->Green);
     ui->GreenValue->setValue(CurrentBrush->Green);
@@ -888,6 +928,7 @@ void DlgImageCorrection::s_GreenSliderMoved(int Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_BlueSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlueSliderMoved");
     CurrentBrush->Blue=Value;
     ui->BlueSlider->setValue(CurrentBrush->Blue);
     ui->BlueValue->setValue(CurrentBrush->Blue);
@@ -897,6 +938,7 @@ void DlgImageCorrection::s_BlueSliderMoved(int Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_LockGeometryCB(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_LockGeometryCB");
     switch (Value) {
         case 0 :
             CurrentBrush->LockGeometry=false;
@@ -924,6 +966,7 @@ void DlgImageCorrection::s_LockGeometryCB(int Value) {
 //====================================================================================================================
 
 void DlgImageCorrection::s_FramingStyleBT() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_FramingStyleBT");
     if (!CurrentTextItem) return;
     QString ActualStyle=CurrentTextItem->GetFramingStyle();
     QString Item=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.PopupCollectionMenu(this,ActualStyle);

@@ -21,16 +21,12 @@
 #include "DlgffDPjrProperties.h"
 #include "ui_DlgffDPjrProperties.h"
 
-//#define DEBUGMODE
-
 //====================================================================================================================
 
 DlgffDPjrProperties::DlgffDPjrProperties(cffDProjectFile *ffdProject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgffDPjrProperties) {
 
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgffDPjrProperties::DlgffDPjrProperties";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DlgffDPjrProperties");
 
     this->ffdProject=ffdProject;
     ui->setupUi(this);
@@ -43,9 +39,7 @@ DlgffDPjrProperties::DlgffDPjrProperties(cffDProjectFile *ffdProject,QString Hel
 // Initialise dialog
 
 void DlgffDPjrProperties::DoInitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgffDPjrProperties::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoInitDialog");
 
     ui->TitleED->setText(ffdProject->Title);
     ui->AuthorED->setText(ffdProject->Author);
@@ -73,9 +67,8 @@ void DlgffDPjrProperties::DoInitDialog() {
 //====================================================================================================================
 
 DlgffDPjrProperties::~DlgffDPjrProperties() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgffDPjrProperties::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoInitDialog");
+
     delete ui;
 }
 
@@ -83,9 +76,8 @@ DlgffDPjrProperties::~DlgffDPjrProperties() {
 // Call when user click on Ok button
 
 void DlgffDPjrProperties::DoAccept() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgffDPjrProperties::DoAccept";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoAccept");
+
     ffdProject->Title           =ui->TitleED->text();
     ffdProject->Author          =ui->AuthorED->text();
     ffdProject->Album           =ui->AlbumED->text();

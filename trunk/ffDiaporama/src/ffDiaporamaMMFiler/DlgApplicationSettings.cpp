@@ -25,16 +25,12 @@
 #include "DlgApplicationSettings.h"
 #include "ui_DlgApplicationSettings.h"
 
-//#define DEBUGMODE
-
 //====================================================================================================================
 
 DlgApplicationSettings::DlgApplicationSettings(QString HelpURL,cApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgApplicationSettings) {
 
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgApplicationSettings::DlgApplicationSettings";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DlgApplicationSettings");
 
     this->ApplicationConfig=ApplicationConfig;
     this->HelpURLChkConfig =HelpURLChkConfig;
@@ -50,9 +46,7 @@ DlgApplicationSettings::DlgApplicationSettings(QString HelpURL,cApplicationConfi
 //====================================================================================================================
 
 DlgApplicationSettings::~DlgApplicationSettings() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgApplicationSettings::~DlgApplicationSettings";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::~DlgApplicationSettings");
 
     delete ui;
 }
@@ -61,9 +55,7 @@ DlgApplicationSettings::~DlgApplicationSettings() {
 // Initialise dialog
 
 void DlgApplicationSettings::DoInitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgApplicationSettings::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DoInitDialog");
 
     ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
     ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
@@ -96,9 +88,8 @@ void DlgApplicationSettings::DoInitDialog() {
 // Call when user click on Ok button
 
 void DlgApplicationSettings::DoAccept() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgApplicationSettings::DoAccept";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DoAccept");
+
     ApplicationConfig->RememberLastDirectories  =ui->RememberLastDirectoriesCH->isChecked();
     ApplicationConfig->RestoreWindow            =ui->RestoreWindowCH->isChecked();
     ApplicationConfig->ShowHiddenFilesAndDir    =ui->HiddenCB->isChecked();
@@ -121,6 +112,7 @@ void DlgApplicationSettings::DoAccept() {
 //====================================================================================================================
 
 void DlgApplicationSettings::s_CheckConfig() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::s_CheckConfig");
     DlgCheckConfig Dlg(HELPFILE_DlgCheckConfig,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
@@ -129,6 +121,7 @@ void DlgApplicationSettings::s_CheckConfig() {
 //====================================================================================================================
 
 void DlgApplicationSettings::s_ManageDevices() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::s_ManageDevices");
     DlgManageDevices Dlg(&ApplicationConfig->DeviceModelList,HELPFILE_DlgManageDevices,ApplicationConfig,ApplicationConfig->DlgManageDevicesWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
@@ -137,18 +130,5 @@ void DlgApplicationSettings::s_ManageDevices() {
 //====================================================================================================================
 
 void DlgApplicationSettings::TabChanged(int) {
-/*
-    AskApplyDBChange();
-    if (ui->tabWidget->currentIndex()==2) {
-    }
-*/
-}
-
-//====================================================================================================================
-
-void DlgApplicationSettings::AskApplyDBChange() {
-    if ((IsDeviceChanged)&&(QMessageBox::question(this,QApplication::translate("DlgApplicationSettings","Apply modification"),
-        QApplication::translate("DlgApplicationSettings","Do you whant to apply modification for this device?"),
-        QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) //DBApplyChange();
-    IsDeviceChanged=false;
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::TabChanged");
 }

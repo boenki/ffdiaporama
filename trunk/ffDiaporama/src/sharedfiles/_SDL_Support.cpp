@@ -20,8 +20,6 @@
 
 #include "_SDL_Support.h"
 
-//#define DEBUGMODE
-
 //*********************************************************************************************************************************************
 // SDL global define values
 //*********************************************************************************************************************************************
@@ -36,12 +34,11 @@ cSDLSoundBlockList  MixedMusic;             // Sound to play
 //*********************************************************************************************************************************************
 
 void SDLAudioCallback(void *,Uint8 *stream,int len) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:SDLAudioCallback";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:SDLAudioCallback");
+
     SDLIsAudioOpen=true;
     if (len!=MixedMusic.SoundPacketSize) {
-        qDebug()<<"Error in SDLAudioCallback : Wanted len("<<len<<")<>MixedMusic.SoundPacketSize("<<MixedMusic.SoundPacketSize<<")";
+        ToLog(LOGMSG_CRITICAL,QString("Error in SDLAudioCallback : Wanted len(%1)<>MixedMusic.SoundPacketSize(%2)").arg(len).arg(MixedMusic.SoundPacketSize));
         return;
     }
     int16_t *Packet=MixedMusic.DetachFirstPacket();
@@ -58,12 +55,11 @@ void SDLAudioCallback(void *,Uint8 *stream,int len) {
 //*********************************************************************************************************************************************
 
 void SDLFirstInit(double WantedFPS,bool SDLAncMode) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:SDLFirstInit";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:SDLFirstInit");
+
     // Start SDL
     if (SDL_Init(SDL_INIT_AUDIO)) {
-        qDebug()<<"SDLFirstInit=Could not initialize SDL :"<<SDL_GetError();
+        ToLog(LOGMSG_CRITICAL,QString("SDLFirstInit=Could not initialize SDL :%1").arg(SDL_GetError()));
         exit(1);    // ExitApplicationWithFatalError
     }
     SDLSetFPS(WantedFPS,SDLAncMode);
@@ -74,9 +70,8 @@ void SDLFirstInit(double WantedFPS,bool SDLAncMode) {
 //*********************************************************************************************************************************************
 
 void SDLLastClose() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:SDLLastClose";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:SDLLastClose");
+
     if (SDLIsAudioOpen) {
         SDL_CloseAudio();                               // Close audio
         SDLIsAudioOpen=false;
@@ -89,9 +84,8 @@ void SDLLastClose() {
 //*********************************************************************************************************************************************
 
 void SDLSetFPS(double WantedFPS,bool SDLAncMode) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:SDLSetFPS";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:SDLSetFPS");
+
     //if (SDLCurrentFPS==WantedFPS) return;
     SDLCurrentFPS=WantedFPS;
 
@@ -114,7 +108,7 @@ void SDLSetFPS(double WantedFPS,bool SDLAncMode) {
 
     Desired.silence =0;
     if (SDL_OpenAudio(&Desired,&AudioSpec)<0) {
-        qDebug()<<"SDLFirstInit=Error in SDL_OpenAudio:"<<SDL_GetError();
+        ToLog(LOGMSG_CRITICAL,QString("SDLFirstInit=Error in SDL_OpenAudio:%1").arg(SDL_GetError()));
         exit(1);    // ExitApplicationWithFatalError
     }
 //    SDLIsAudioOpen=true;
@@ -124,18 +118,15 @@ void SDLSetFPS(double WantedFPS,bool SDLAncMode) {
 // Construct block list -> SDL Version
 //====================================================================================================================
 cSDLSoundBlockList::cSDLSoundBlockList():cSoundBlockList() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSDLSoundBlockList::cSDLSoundBlockList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSDLSoundBlockList::cSDLSoundBlockList");
 }
 
 //====================================================================================================================
 // Detach the first packet of the list (do not make av_free) -> SDL Version
 //====================================================================================================================
 int16_t *cSDLSoundBlockList::DetachFirstPacket() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSDLSoundBlockList::DetachFirstPacket";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSDLSoundBlockList::DetachFirstPacket");
+
     int16_t *Ret=NULL;
     SDL_LockAudio();
     if (List.count()>0) Ret=(int16_t *)List.takeFirst();
@@ -147,9 +138,8 @@ int16_t *cSDLSoundBlockList::DetachFirstPacket() {
 // Append a packet to the end of the list -> SDL Version
 //====================================================================================================================
 void cSDLSoundBlockList::AppendPacket(int16_t *PacketToAdd) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSDLSoundBlockList::AppendPacket";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSDLSoundBlockList::AppendPacket");
+
     SDL_LockAudio();
     List.append(PacketToAdd);
     SDL_UnlockAudio();

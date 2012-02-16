@@ -21,11 +21,23 @@
 #include <QtGui/QApplication>
 #include <QString>
 #include <QDir>
+#include <stdio.h>
 
 #include "../sharedfiles/cBaseApplicationConfig.h"
 #include "mainwindow.h"
+#include <iostream>
 
 int main(int argc, char *argv[]) {
+
+    #ifdef Q_OS_WIN
+    // Check Windows version and :
+    //      If <Windows/XP then exit application
+    //      If Windows/XP then swith to low fragmentation heap mode
+    //      If >Windows/XP then it's OK
+    // And attach stdio to console if application was started from a console
+    SetLFHeap();
+    #endif
+
     SetWorkingPath(argv,APPLICATION_GROUPNAME,APPLICATION_NAME,CONFIGFILEEXT);
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
         if (SearchRasterMode(APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
@@ -40,9 +52,20 @@ int main(int argc, char *argv[]) {
     // Parse parameters
     for (int i=1;i<argc;i++) {
         QString Param=QString(argv[i]).toLower();
-        if (Param.startsWith("-lang=")) ForceLanguage=Param.mid(QString("-lang=").length());
+        if (Param.startsWith("-lang="))             ForceLanguage=Param.mid(QString("-lang=").length());
+        else if (Param.startsWith("-loglevel="))    LogMsgLevel  =Param.mid(QString("-loglevel=").length()).toInt();
     }
 
+    // Log Level part
+    switch (LogMsgLevel) {
+        case 1 : std::cout << QString("Set LogLevel to DEBUGTRACE\n").toLocal8Bit().constData();    break;
+        case 2 : std::cout << QString("Set LogLevel to INFORMATION\n").toLocal8Bit().constData();   break;
+        case 3 : std::cout << QString("Set LogLevel to WARNING\n").toLocal8Bit().constData();       break;
+        case 4 : std::cout << QString("Set LogLevel to CRITICAL\n").toLocal8Bit().constData();      break;
+        default :std::cout << QString("Incorrect LogLevel\n").toLocal8Bit().constData();            LogMsgLevel=2;   exit(1);    break;
+    }
+
+    // Start GUI
     MainWindow w;
     w.InitWindow(ForceLanguage,&app);
 

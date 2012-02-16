@@ -18,12 +18,12 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
+#include "../sharedfiles/_QCustomDialog.h"
 // Specific inclusions
 #include "_Diaporama.h"
 #include "_ApplicationDefinitions.h"
 #include "mainwindow.h"
 
-#include <QMessageBox>
 #include <QFileDialog>
 
 //============================================
@@ -37,6 +37,8 @@ QBrush  Transparent;        // Transparent brush
 //*********************************************************************************************************************************************
 
 cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cBaseApplicationConfig *TheApplicationConfig) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::cCompositionObject");
+
     // Attribut of the text object
     ApplicationConfig       = TheApplicationConfig;
     TypeComposition         = TheTypeComposition;
@@ -83,6 +85,8 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
 //====================================================================================================================
 
 cCompositionObject::~cCompositionObject() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::~cCompositionObject");
+
     if (BackgroundBrush) {
         delete BackgroundBrush;
         BackgroundBrush=NULL;
@@ -92,6 +96,8 @@ cCompositionObject::~cCompositionObject() {
 //====================================================================================================================
 
 void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:SaveToXML");
+
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
@@ -142,6 +148,8 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
 //====================================================================================================================
 
 bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:LoadFromXML");
+
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         bool IsOk=true;
@@ -230,6 +238,8 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 //====================================================================================================================
 
 QString cCompositionObject::GetBlockShapeStyle() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:GetBlockShapeStyle");
+
     return  QString("###BackgroundForm:%1").arg(BackgroundForm)+
             QString("###PenSize:%1").arg(PenSize)+
             QString("###PenStyle:%1").arg(PenStyle)+
@@ -241,6 +251,8 @@ QString cCompositionObject::GetBlockShapeStyle() {
 }
 
 void cCompositionObject::ApplyBlockShapeStyle(QString StyleDef) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:ApplyBlockShapeStyle");
+
     QStringList List;
 
     // String to StringList
@@ -266,6 +278,8 @@ void cCompositionObject::ApplyBlockShapeStyle(QString StyleDef) {
 //====================================================================================================================
 
 QString cCompositionObject::GetTextStyle() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:GetTextStyle");
+
     return  QString("FontSize:%1").arg(FontSize)+
             QString("###HAlign:%1").arg(HAlign)+
             QString("###VAlign:%1").arg(VAlign)+
@@ -279,6 +293,8 @@ QString cCompositionObject::GetTextStyle() {
 }
 
 void cCompositionObject::ApplyTextStyle(QString StyleDef) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:ApplyTextStyle");
+
     QStringList List;
 
     // String to StringList
@@ -306,6 +322,8 @@ void cCompositionObject::ApplyTextStyle(QString StyleDef) {
 //====================================================================================================================
 
 QString cCompositionObject::GetBackgroundStyle() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:GetBackgroundStyle");
+
     return  QString("BrushType:%1").arg(BackgroundBrush->BrushType)+
             QString("###PatternType:%1").arg(BackgroundBrush->PatternType)+
             QString("###GradientOrientation:%1").arg(BackgroundBrush->GradientOrientation)+
@@ -317,6 +335,8 @@ QString cCompositionObject::GetBackgroundStyle() {
 }
 
 void cCompositionObject::ApplyBackgroundStyle(QString StyleDef) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:ApplyBackgroundStyle");
+
     QStringList List;
 
     // String to StringList
@@ -342,6 +362,8 @@ void cCompositionObject::ApplyBackgroundStyle(QString StyleDef) {
 //====================================================================================================================
 
 QString cCompositionObject::GetCoordinateStyle() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:GetCoordinateStyle");
+
     QString Style=QString("###X:%1").arg(x,0,'e')+
             QString("###Y:%1").arg(y,0,'e')+
             QString("###W:%1").arg(w,0,'e')+
@@ -386,6 +408,8 @@ QString cCompositionObject::GetCoordinateStyle() {
 }
 
 void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:ApplyCoordinateStyle");
+
     QStringList List;
     bool        RecalcAspectRatio=true;
 
@@ -457,12 +481,16 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
 //====================================================================================================================
 
 QString cCompositionObject::GetFramingStyle() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:GetFramingStyle");
+
     return BackgroundBrush->GetFramingStyle();
 }
 
 //====================================================================================================================
 
 void cCompositionObject::CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:CopyFromCompositionObject");
+
     IsVisible            =CompositionObjectToCopy->IsVisible;
     x                    =CompositionObjectToCopy->x;
     y                    =CompositionObjectToCopy->y;
@@ -499,6 +527,8 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 // ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
                                                cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:DrawCompositionObject");
+
     // W and H = 0 when producing sound track in render process
     if (!IsVisible) return;
 
@@ -544,9 +574,9 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         double  Hb=Wb; // always square image
         AddX-=(Wb-W)/2;
         AddY-=(Hb-H)/2;
-        QImage   *Img=new QImage(Wb,Hb,QImage::Format_ARGB32_Premultiplied);
+        QImage   Img(Wb,Hb,QImage::Format_ARGB32_Premultiplied);
         QPainter Painter;
-        Painter.begin(Img);
+        Painter.begin(&Img);
         Painter.setCompositionMode(QPainter::CompositionMode_Source);
         Painter.fillRect(QRect(0,0,Wb,Hb),Qt::transparent);
         Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -590,7 +620,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 Painter.setBrush(*BR);
                 delete BR;
             } else {
-                qDebug()<<"Error in cCompositionObject::DrawCompositionObject Brush is NULL !";
+                ToLog(LOGMSG_CRITICAL,"Error in cCompositionObject::DrawCompositionObject Brush is NULL !");
             }
         }
         if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
@@ -660,9 +690,9 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         Painter.drawText(QRectF(MarginX-W/2,MarginY-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
         Painter.end();
 
-        if ((FormShadow)&&(Img)&&(!Img->isNull())) {
+        if ((FormShadow)&&(!Img.isNull())) {
             double  Distance =double(FormShadowDistance)*ADJUST_RATIO;
-            QImage  ImgShadow=Img->copy();
+            QImage  ImgShadow=Img.copy();
             Uint8   *Data    =ImgShadow.bits();
             QColor  SColor   =QColor(FormShadowColor);
             Uint8   R        =SColor.red();
@@ -706,30 +736,32 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         if (SrcX+DstW>Wb)   DstW=Wb-SrcX;
         if (SrcY+DstH>Hb)   DstH=Hb-SrcY;
 
-        if ((Img)&&(!Img->isNull())) DestPainter->drawImage(QRectF(DstX,DstY,DstW,DstH),*Img,QRectF(SrcX,SrcY,DstW,DstH));
+        if ((!Img.isNull())) DestPainter->drawImage(QRectF(DstX,DstY,DstW,DstH),Img,QRectF(SrcX,SrcY,DstW,DstH));
         DestPainter->setOpacity(1);
-        if (Img) {
-            delete Img;
-            Img=NULL;
-        }
     }
 }
 
 //*********************************************************************************************************************************************
 
 cCompositionList::cCompositionList() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionList:cCompositionList");
+
     TypeComposition=COMPOSITIONTYPE_BACKGROUND;
 }
 
 //====================================================================================================================
 
 cCompositionList::~cCompositionList() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionList:~cCompositionList");
+
     while (List.count()>0) delete List.takeLast();
 }
 
 //====================================================================================================================
 
 void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionList:SaveToXML");
+
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     // Save composition list
@@ -742,6 +774,8 @@ void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 //====================================================================================================================
 
 bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionList:LoadFromXML");
+
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         bool IsOk=true;
@@ -767,6 +801,8 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 //*********************************************************************************************************************************************
 
 cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaShot:cDiaporamaShot");
+
     Parent                          = DiaporamaObject;
     StaticDuration                  = GlobalMainWindow->ApplicationConfig->FixedDuration;    // Duration (in msec) of the static part animation
     ShotComposition.TypeComposition = COMPOSITIONTYPE_SHOT;
@@ -775,11 +811,15 @@ cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject) {
 //====================================================================================================================
 
 cDiaporamaShot::~cDiaporamaShot() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaShot:~cDiaporamaShot");
+
 }
 
 //===============================================================
 
 void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaShot:SaveToXML");
+
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
@@ -791,6 +831,8 @@ void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QStr
 //===============================================================
 
 bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaShot:LoadFromXML");
+
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         StaticDuration=Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
@@ -807,6 +849,8 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
 //*********************************************************************************************************************************************
 
 cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:cDiaporamaObject");
+
     BackgroundBrush                         = new cBrushDefinition(Diaporama->ApplicationConfig,&BackgroundList);
     Parent                                  = Diaporama;
     TypeObject                              = DIAPORAMAOBJECTTYPE_EMPTY;
@@ -836,6 +880,8 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
 //====================================================================================================================
 
 cDiaporamaObject::~cDiaporamaObject() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:~cDiaporamaObject");
+
     if (Thumbnail) {
         delete Thumbnail;
         Thumbnail=NULL;
@@ -850,12 +896,16 @@ cDiaporamaObject::~cDiaporamaObject() {
 //====================================================================================================================
 
 QString cDiaporamaObject::GetDisplayName() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:GetDisplayName");
+
     return SlideName;
 }
 
 //===============================================================
 // Draw Thumb
 void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:DrawThumbnail");
+
     if ((!Thumbnail)||((Thumbnail)&&((Thumbnail->width()!=ThumbWidth)||(Thumbnail->height()!=ThumbHeight)))) {
         if (Thumbnail) {
             delete Thumbnail;
@@ -883,6 +933,8 @@ qlonglong cDiaporamaObject::GetTransitDuration() {
 }
 
 qlonglong cDiaporamaObject::GetCumulTransitDuration() {
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:GetCumulTransitDuration");   // Remove : Too much
+
     // Adjust duration to ensure transition will be full !
     int       ObjectIndex    =Parent->GetObjectIndex(this);
     qlonglong TransitDuration=GetTransitDuration();
@@ -893,6 +945,8 @@ qlonglong cDiaporamaObject::GetCumulTransitDuration() {
 //===============================================================
 
 qlonglong cDiaporamaObject::GetDuration() {
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:GetDuration");       // Remove : Too much
+
     qlonglong Duration=0;
     for (int i=0;i<List.count();i++) Duration=Duration+List[i]->StaticDuration;
 
@@ -927,6 +981,8 @@ qlonglong cDiaporamaObject::GetDuration() {
 //===============================================================
 
 void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:SaveToXML");
+
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
@@ -980,6 +1036,7 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 //===============================================================
 
 bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:LoadFromXML");
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
@@ -1059,6 +1116,8 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 //*********************************************************************************************************************************************
 
 cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:cDiaporama");
+
     Timeline                    = NULL;
     ApplicationConfig           = TheApplicationConfig;
     ProjectInfo                 = new cffDProjectFile(ApplicationConfig);
@@ -1076,6 +1135,8 @@ cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
 //====================================================================================================================
 
 cDiaporama::~cDiaporama() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:~cDiaporama");
+
     if (ProjectInfo) {
         delete ProjectInfo;
         ProjectInfo=NULL;
@@ -1086,6 +1147,8 @@ cDiaporama::~cDiaporama() {
 //====================================================================================================================
 
 void cDiaporama::UpdateChapterInformation() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:UpdateChapterInformation");
+
     // Remove all chapters information
     int i=0;
     while (i<ProjectInfo->InformationList.count()) {
@@ -1115,6 +1178,8 @@ void cDiaporama::UpdateChapterInformation() {
 //====================================================================================================================
 
 void cDiaporama::DefineSizeAndGeometry(int Geometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DefineSizeAndGeometry");
+
     ImageGeometry   =Geometry;
     InternalHeight  =PREVIEWMAXHEIGHT;
     InternalWidth   =GetWidthForHeight(InternalHeight);
@@ -1139,6 +1204,8 @@ void cDiaporama::DefineSizeAndGeometry(int Geometry) {
 //=======================================================
 
 int cDiaporama::GetHeightForWidth(int WantedWith) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetHeightForWidth");
+
     switch (ImageGeometry) {
         case GEOMETRY_4_3 :     return int(double(3)*(double(WantedWith)/double(4)));       break;
         case GEOMETRY_16_9 :    return int(double(9)*(double(WantedWith)/double(16)));      break;
@@ -1152,6 +1219,8 @@ int cDiaporama::GetHeightForWidth(int WantedWith) {
 //=======================================================
 
 int cDiaporama::GetWidthForHeight(int WantedHeight) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetWidthForHeight");
+
     switch (ImageGeometry) {
         case GEOMETRY_4_3 :     return int(double(4)*(double(WantedHeight)/double(3)));       break;
         case GEOMETRY_16_9 :    return int(double(16)*(double(WantedHeight)/double(9)));      break;
@@ -1163,6 +1232,8 @@ int cDiaporama::GetWidthForHeight(int WantedHeight) {
 //====================================================================================================================
 
 qlonglong cDiaporama::GetTransitionDuration(int index) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetTransitionDuration");
+
     qlonglong Duration=0;
     if ((index>=0)&&(List.count()>0)&&((index<List.count())&&(!((List[index]->TransitionFamilly==0)&&(List[index]->TransitionSubType==0))))) Duration=List[index]->TransitionDuration;
     return Duration;
@@ -1171,6 +1242,8 @@ qlonglong cDiaporama::GetTransitionDuration(int index) {
 //====================================================================================================================
 
 qlonglong cDiaporama::GetDuration() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetDuration");
+
     qlonglong Duration=0;
     for (int i=0;i<List.count();i++) Duration=Duration+((List[i]->GetDuration()-GetTransitionDuration(i+1)>=33)?List[i]->GetDuration()-GetTransitionDuration(i+1):33);
     return Duration;
@@ -1179,6 +1252,8 @@ qlonglong cDiaporama::GetDuration() {
 //====================================================================================================================
 
 qlonglong cDiaporama::GetPartialDuration(int from,int to) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetPartialDuration");
+
     if (from<0)             from=0;
     if (from>=List.count()) from=List.count()-1;
     if (to<0)               to=0;
@@ -1191,6 +1266,8 @@ qlonglong cDiaporama::GetPartialDuration(int from,int to) {
 //====================================================================================================================
 
 qlonglong cDiaporama::GetObjectStartPosition(int index) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetObjectStartPosition");
+
     qlonglong Duration=0;
     if (index>=List.count()) {
         index=List.count()-1;
@@ -1203,6 +1280,8 @@ qlonglong cDiaporama::GetObjectStartPosition(int index) {
 //====================================================================================================================
 
 int cDiaporama::GetObjectIndex(cDiaporamaObject *ObjectToFind) {
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetObjectIndex");          // Remove : Too much
+
     int i=0;
     while ((i<List.count())&&(ObjectToFind!=List[i])) i++;
     if (i<List.count()) return i; else return -1;
@@ -1211,6 +1290,8 @@ int cDiaporama::GetObjectIndex(cDiaporamaObject *ObjectToFind) {
 //====================================================================================================================
 
 void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Painter,int AddX,int AddY) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:PrepareBackground");
+
     // Background type : false=same as precedent - true=new background definition
     while ((Index>0)&&(!List[Index]->BackgroundType)) Index--;
     // Make painter translation to ensure QBrush image will start at AddX AddY position
@@ -1228,6 +1309,8 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
 //====================================================================================================================
 
 cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,qlonglong &StartPosition,int *CountObject,int *IndexObject) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetMusicObject");
+
     if (ObjectIndex>=List.count()) return NULL;
 
     cMusicObject *Ret =NULL;
@@ -1268,6 +1351,8 @@ cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,qlonglong &StartPositio
 //====================================================================================================================
 
 bool cDiaporama::SaveFile(QWidget *ParentWindow) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:SaveFile");
+
     QFile           file(ProjectFileName);
     QDomDocument    domDocument(APPLICATION_NAME);
     QDomElement     Element;
@@ -1311,7 +1396,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error creating data file","Error message"),QMessageBox::Close);
+        if (ParentWindow!=NULL) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error creating data file","Error message"),QMessageBox::Close);
             else                printf("%s\n",QApplication::translate("MainWindow","Error creating data file","Error message").toLocal8Bit().constData());
         return false;
     }
@@ -1327,11 +1412,13 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 //====================================================================================================================
 
 bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:LoadFile");
+
     QStringList AliasList;
     bool        Continue=true;
 
     while ((Continue)&&(!QFileInfo(ProjectFileName).exists())) {
-        if (QMessageBox::question(GlobalMainWindow,QApplication::translate("MainWindow","Open project file"),
+        if (CustomMessageBox(GlobalMainWindow,QMessageBox::Question,QApplication::translate("MainWindow","Open project file"),
             QApplication::translate("MainWindow","Impossible to open file ")+ProjectFileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
 
@@ -1344,7 +1431,7 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
         }
     }
     if (!Continue) {
-        qDebug()<<"Impossible to open file"<<ProjectFileName;
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Impossible to open project file %1").arg(ProjectFileName));
         return false;
     }
 
@@ -1355,12 +1442,12 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
     int             errorLine,errorColumn;
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
         QString ErrorMsg=QApplication::translate("MainWindow","Error reading project file","Error message")+"\n"+ProjectFileName;
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),ErrorMsg,QMessageBox::Close);
+        if (ParentWindow!=NULL) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),ErrorMsg,QMessageBox::Close);
             else                printf("%s\n",ErrorMsg.toLocal8Bit().constData());
         return false;
     }
     if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
+        if (ParentWindow!=NULL) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
             else                printf("%s\n",QApplication::translate("MainWindow","Error reading content of project file","Error message").toLocal8Bit().constData());
         file.close();
         return false;
@@ -1368,7 +1455,7 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
 
     root = domDocument.documentElement();
     if (root.tagName()!=APPLICATION_ROOTNAME) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","The file is not a valid project file","Error message"),QMessageBox::Close);
+        if (ParentWindow!=NULL) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","The file is not a valid project file","Error message"),QMessageBox::Close);
             else                printf("%s\n",QApplication::translate("MainWindow","The file is not a valid project file","Error message").toLocal8Bit().constData());
         file.close();
         return false;
@@ -1408,6 +1495,8 @@ bool cDiaporama::LoadFile(QWidget *ParentWindow,QString &ProjectFileName) {
 //====================================================================================================================
 
 bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName,int CurIndex) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:AppendFile");
+
     QFile           file(ProjectFileName);
     QDomDocument    domDocument;
     QDomElement     root;
@@ -1416,20 +1505,20 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName,int Cu
     QStringList     AliasList;
 
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading project file","Error message"),QMessageBox::Close);
+        if (ParentWindow!=NULL) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading project file","Error message"),QMessageBox::Close);
             else                printf("%s\n",QApplication::translate("MainWindow","Error reading project file","Error message").toLocal8Bit().constData());
         return false;
     }
 
     if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
+        if (ParentWindow!=NULL) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
             else                printf("%s\n",QApplication::translate("MainWindow","Error reading content of project file","Error message").toLocal8Bit().constData());
         return false;
     }
 
     root = domDocument.documentElement();
     if (root.tagName()!=APPLICATION_ROOTNAME) {
-        if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","The file is not a valid project file","Error message"),QMessageBox::Close);
+        if (ParentWindow!=NULL) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","The file is not a valid project file","Error message"),QMessageBox::Close);
             else                printf("%s\n",QApplication::translate("MainWindow","The file is not a valid project file","Error message").toLocal8Bit().constData());
         return false;
     }
@@ -1438,7 +1527,7 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName,int Cu
         QDomElement Element=root.elementsByTagName("Project").item(0).toElement();
         int TheImageGeometry   =Element.attribute("ImageGeometry").toInt();
         if (TheImageGeometry!=ImageGeometry) {
-            if (ParentWindow!=NULL) QMessageBox::critical(NULL,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Impossible to import this file :\nImage geometry in this file is not the same than the current project","Error message"),QMessageBox::Close);
+            if (ParentWindow!=NULL) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Impossible to import this file :\nImage geometry in this file is not the same than the current project","Error message"),QMessageBox::Close);
                 else                printf("%s\n",QApplication::translate("MainWindow","Impossible to import this file :\nImage geometry in this file is not the same than the current project","Error message").toLocal8Bit().constData());
             return false;
         }
@@ -1472,6 +1561,8 @@ bool cDiaporama::AppendFile(QWidget *ParentWindow,QString ProjectFileName,int Cu
 // Note : Position is relative to the start of the Column object !
 //============================================================================================
 void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:PrepareMusicBloc");
+
     if (Column>=List.count()) {
         for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
         return;
@@ -1534,6 +1625,8 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position
 //  IsCurrentObject : If true : prepare CurrentObject - If false : prepare Transition Object
 //============================================================================================
 void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode,bool AddStartPos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:PrepareImage");
+
     bool                SoundOnly           =((W==0)&&(H==0));                     // W and H = 0 when producing sound track in render process
     cDiaporamaShot      *CurShot            =IsCurrentObject?Info->CurrentObject_CurrentShot:Info->TransitObject_CurrentShot;
     cDiaporamaObject    *CurObject          =IsCurrentObject?Info->CurrentObject:Info->TransitObject;
@@ -1651,6 +1744,8 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
 // Function use directly or with thread to make assembly of background and images and make mix (sound & music) when transition
 //=============================================================================================================================
 void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoAssembly");
+
     if (Info->RenderedImage!=NULL) return;    // return immediatly if we have image
     bool SoundOnly=((W==0)&&(H==0));
 
@@ -1709,6 +1804,8 @@ void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
 //============================================================================================
 
 void cDiaporama::DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int,int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoBasic");
+
     switch (Info->TransitionSubType) {
     case 0:
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
@@ -1743,6 +1840,8 @@ void cDiaporama::DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int,int) {
 //============================================================================================
 
 void cDiaporama::DoLuma(cLumaList *LumaList,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoLuma");
+
     QImage  Img=Info->CurrentObject_PreparedImage->copy();
     if (Info->TransitionSubType<LumaList->List.count()) {
         // Get a copy of luma image scaled to correct size
@@ -1768,6 +1867,8 @@ void cDiaporama::DoLuma(cLumaList *LumaList,cDiaporamaObjectInfo *Info,QPainter 
 //============================================================================================
 
 void cDiaporama::DoZoom(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoZoom");
+
     bool    Reverse=(Info->TransitionSubType & 0x1)==1;
     QPoint  box;
     int     wt= int(double(W)*(Reverse?(1-Info->TransitionPCTDone):Info->TransitionPCTDone));
@@ -1814,6 +1915,8 @@ void cDiaporama::DoZoom(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
 //============================================================================================
 
 void cDiaporama::DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoSlide");
+
     QRect   box1,box2;
     bool    Reverse=Info->TransitionSubType>=8;
     double  PCT=(Reverse?(1-Info->TransitionPCTDone):Info->TransitionPCTDone);
@@ -1858,6 +1961,8 @@ void cDiaporama::DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
 //============================================================================================
 
 void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoPush");
+
     QRect       box1,box2;
     QRect       box3,box4;
     QPoint      box;
@@ -2056,6 +2161,8 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
 //============================================================================================
 
 void cDiaporama::DoDeform(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoDeform");
+
     int         PCTW=int(Info->TransitionPCTDone*double(W));
     int         PCTH=int(Info->TransitionPCTDone*double(H));
     int         PCTWB=int((1-Info->TransitionPCTDone)*double(W));
@@ -2084,6 +2191,8 @@ void cDiaporama::DoDeform(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
 //============================================================================================
 
 QImage cDiaporama::RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:RotateImage");
+
     double dw=double(OldImg->width());
     double dh=double(OldImg->height());
     double hyp=sqrt(dw*dw+dh*dh);
@@ -2116,6 +2225,8 @@ QImage cDiaporama::RotateImage(double TheRotateXAxis,double TheRotateYAxis,doubl
 //============================================================================================
 
 void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:LoadSources");
+
     // W and H = 0 when producing sound track in render process
     bool SoundOnly=((W==0)&&(H==0));
 
@@ -2323,6 +2434,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
 //============================================================================================
 
 void cDiaporama::LoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:LoadSourceVideoImage");
+
     // W and H = 0 when producing sound track in render process
     if ((W!=0)&&(H!=0)) {
         // Title mode : create an empty transparent image
@@ -2345,6 +2458,8 @@ void cDiaporama::LoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMod
 //============================================================================================
 
 void cDiaporama::LoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:LoadTransitVideoImage");
+
     // W and H = 0 when producing sound track in render process
     if ((W!=0)&&(H!=0)) {
         // create an empty transparent image
@@ -2369,6 +2484,8 @@ void cDiaporama::LoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMo
 
 // make a copy of PreviousFrame
 cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo from PreviousFrame");
+
     FrameDuration                       =PreviousFrame->FrameDuration;
     RenderedImage                       =NULL;                                              // Final image rendered
     FreeRenderedImage                   =true;                                              // True if allow to delete RenderedImage during destructor
@@ -2432,6 +2549,8 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
 
 
 cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int TimePosition,cDiaporama *Diaporama,double TheFrameDuration) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo");
+
     //==============> Pre-initialise all values
     FrameDuration                       =TheFrameDuration;
     RenderedImage                       =NULL;              // Final image rendered
@@ -2732,6 +2851,8 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
 }
 
 bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:IsShotStatic");
+
     bool IsStatic=true;
     if (ShotNumber==0) {
         for (int i=0;i<Object->List[0]->ShotComposition.List.count();i++) if (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Video!=NULL) IsStatic=false;
@@ -2765,6 +2886,8 @@ bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber)
 // Destructor
 //============================================================================================
 cDiaporamaObjectInfo::~cDiaporamaObjectInfo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:~cDiaporamaObjectInfo");
+
     // CurrentObject
     if ((CurrentObject_FreeBackgroundBrush)&&(CurrentObject_BackgroundBrush)) {
         delete CurrentObject_BackgroundBrush;

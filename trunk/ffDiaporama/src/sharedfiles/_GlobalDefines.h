@@ -21,34 +21,56 @@
 #ifndef _GLOBALDEFINES_H
 #define _GLOBALDEFINES_H
 
-    /* ======================================================================
-        THIS FILE MUST ABSOLUTELY BE REFERENCED AT FIRST IN ALL .h FILES OF
-        THE PROJECT
-       ====================================================================== */
+/* ======================================================================
+    THIS FILE MUST ABSOLUTELY BE REFERENCED AT FIRST IN ALL .h FILES OF
+    THE PROJECT
+   ====================================================================== */
 
-    //============================================
-    // Activate standard stdint macro
-    //============================================
-    #ifdef _STDINT_H
-        #undef _STDINT_H            // Remove previous inclusion (if exist)
-    #endif
+//============================================
+// Activate standard stdint macro
+//============================================
+#ifdef _STDINT_H
+    #undef _STDINT_H            // Remove previous inclusion (if exist)
+#endif
 
-    #define __STDC_CONSTANT_MACROS  // Activate macro for stdint
-    #include <stdint.h>             // Include stdint with macro activated
+#define __STDC_CONSTANT_MACROS  // Activate macro for stdint
+#include <stdint.h>             // Include stdint with macro activated
 
-    //============================================
-    // Minimum QT inclusions needed by all files
-    //============================================
-    #include <QtCore>
-    #include <QApplication>
-    #include <QtDebug>
+//============================================
+// Minimum QT inclusions needed by all files
+//============================================
+#include <QtCore>
+#include <QApplication>
 
-    //====================================================================
-    // For windows, windows.h and winbase.h must be included after QtCore
-    //====================================================================
-    #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
-    #include <windows.h>
-    #include <winbase.h>
-    #endif
+//====================================================================
+// For windows, windows.h and winbase.h must be included after QtCore
+//====================================================================
+#if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
+#include <windows.h>
+#include <winbase.h>
+#endif
+
+//====================================================================
+// Internal log defines and functions
+//====================================================================
+
+// Log level for message
+#define LOGMSG_DEBUGTRACE                   1
+#define LOGMSG_INFORMATION                  2
+#define LOGMSG_WARNING                      3
+#define LOGMSG_CRITICAL                     4
+
+const QEvent::Type BaseAppEvent = (QEvent::Type)2000;   // The custom event will be send to EventReceiver (if EventReceiver not null)
+#define EVENT_GeneralLogChanged             1           // General internal event code to display log message
+
+extern int          LogMsgLevel;                        // Level from wich debug message was print to stdout
+extern QStringList  EventList;                          // Internal event queue
+extern QObject      *EventReceiver;                     // Windows wich receive event
+
+#ifdef Q_OS_WIN
+void SetLFHeap();
+#endif
+void PostEvent(int EventType,QString EventParam="");
+void ToLog(int MessageType,QString Message);
 
 #endif // _GLOBALDEFINES_H

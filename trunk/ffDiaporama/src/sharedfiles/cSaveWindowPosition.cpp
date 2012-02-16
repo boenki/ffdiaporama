@@ -24,14 +24,11 @@
 // Include some additional standard class
 #include <QMainWindow>
 
-//#define DEBUGMODE
-
 //====================================================================================================================
 
 cSaveWindowPosition::cSaveWindowPosition(QString TheWindowName,bool &TheRestoreWindow,bool TheIsMainWindow) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSaveWindowPosition::cSaveWindowPosition";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::cSaveWindowPosition");
+
     RestoreWindow   =&TheRestoreWindow;
     WindowName      =TheWindowName;
     IsMainWindow    =TheIsMainWindow;
@@ -44,9 +41,8 @@ cSaveWindowPosition::cSaveWindowPosition(QString TheWindowName,bool &TheRestoreW
 //***********************************************
 
 void cSaveWindowPosition::ApplyToWindow(QWidget *Window) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSaveWindowPosition::ApplyToWindow";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::ApplyToWindow");
+
     if ((Window==NULL)||(*RestoreWindow==false)||(!IsInit)) return;
 
     // Restore window size and position
@@ -63,9 +59,8 @@ void cSaveWindowPosition::ApplyToWindow(QWidget *Window) {
 //***********************************************
 
 void cSaveWindowPosition::SaveWindowState(QWidget *Window) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSaveWindowPosition::SaveWindowState";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::SaveWindowState");
+
     if ((Window==NULL)||(*RestoreWindow==false)) return;
 
     // Save window size & position (if needed)
@@ -82,9 +77,8 @@ void cSaveWindowPosition::SaveWindowState(QWidget *Window) {
 //***********************************************
 
 void cSaveWindowPosition::SaveToXML(QDomElement &domDocument) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSaveWindowPosition::SaveToXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::SaveToXML");
+
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(WindowName);
     Element.setAttribute("saveGeometry",WindowGeo);
@@ -99,17 +93,14 @@ void cSaveWindowPosition::SaveToXML(QDomElement &domDocument) {
 //***********************************************
 
 void cSaveWindowPosition::OverloadedSaveToXML(QDomElement &) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSaveWindowPosition::OverloadedSaveToXML - To be overloaded";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::OverloadedSaveToXML - To be overloaded");
 }
 
 //***********************************************
 
 void cSaveWindowPosition::LoadFromXML(QDomElement domDocument) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSaveWindowPosition::LoadFromXML";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::LoadFromXML");
+
     if ((domDocument.elementsByTagName(WindowName).length()>0)&&(domDocument.elementsByTagName(WindowName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(WindowName).item(0).toElement();
         if (Element.hasAttribute("saveGeometry"))                   WindowGeo=Element.attribute("saveGeometry");
@@ -123,8 +114,6 @@ void cSaveWindowPosition::LoadFromXML(QDomElement domDocument) {
 //***********************************************
 
 void cSaveWindowPosition::OverloadedLoadFromXML(QDomElement) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cSaveWindowPosition::OverloadedLoadFromXML - To be overloaded";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWindowPosition::OverloadedLoadFromXML - To be overloaded");
 }
 

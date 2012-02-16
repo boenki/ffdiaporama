@@ -24,10 +24,6 @@
 #include "DlgApplicationSettings.h"
 #include "ui_DlgApplicationSettings.h"
 
-#include <QMessageBox>
-
-//#define DEBUGMODE
-
 #define ICON_GEOMETRY_IMAGE                 ":/img/Geometry_ImageLock.png"
 #define ICON_FRAMING_FULL                   ":/img/AdjustWH.png"
 #define ICON_FRAMING_WIDTH                  ":/img/AdjustW.png"
@@ -38,9 +34,7 @@
 DlgApplicationSettings::DlgApplicationSettings(QString HelpURL,cApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgApplicationSettings) {
 
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgApplicationSettings::DlgApplicationSettings";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DlgApplicationSettings");
 
     this->ApplicationConfig=ApplicationConfig;
 
@@ -58,9 +52,7 @@ DlgApplicationSettings::DlgApplicationSettings(QString HelpURL,cApplicationConfi
 // Initialise dialog
 
 void DlgApplicationSettings::DoInitDialog() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgApplicationSettings::DoInitDialog";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DoInitDialog");
 
     //********************************
     // Application TAB
@@ -281,9 +273,8 @@ void DlgApplicationSettings::DoInitDialog() {
 //====================================================================================================================
 
 DlgApplicationSettings::~DlgApplicationSettings() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgApplicationSettings::~DlgApplicationSettings";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::~DlgApplicationSettings");
+
     delete ui;
 }
 
@@ -291,9 +282,7 @@ DlgApplicationSettings::~DlgApplicationSettings() {
 // Call when user click on Ok button
 
 void DlgApplicationSettings::DoAccept() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgApplicationSettings::DoAccept";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DoAccept");
 
     // Application options part
     ApplicationConfig->RememberLastDirectories  =ui->RememberLastDirectoriesCH->isChecked();
@@ -366,7 +355,7 @@ void DlgApplicationSettings::DoAccept() {
     ApplicationConfig->DefaultLanguage =ui->LanguageED->text();
     if (ApplicationConfig->DefaultLanguage=="") ApplicationConfig->DefaultLanguage="und";
     if (ApplicationConfig->DefaultLanguage.length()!=3) {
-        QMessageBox::critical(this,QApplication::translate("DlgApplicationSettings","Language selection"),
+        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgApplicationSettings","Language selection"),
             QApplication::translate("DlgApplicationSettings","Language must be empty or an ISO 639 language code (3 characters)\nSee help for more details!"));
         ui->LanguageED->setFocus();
         return;
@@ -407,9 +396,8 @@ void DlgApplicationSettings::DoAccept() {
 // Call when user click on Cancel button
 
 void DlgApplicationSettings::DoRejet() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgApplicationSettings::DoRejet";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DoRejet");
+
     // Nothing to do
 }
 
@@ -417,9 +405,8 @@ void DlgApplicationSettings::DoRejet() {
 // Initiale Undo
 
 void DlgApplicationSettings::PrepareGlobalUndo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgApplicationSettings::PrepareGlobalUndo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::PrepareGlobalUndo");
+
     // Nothing to do
 }
 
@@ -427,15 +414,15 @@ void DlgApplicationSettings::PrepareGlobalUndo() {
 // Apply Undo : call when user click on Cancel button
 
 void DlgApplicationSettings::DoGlobalUndo() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:DlgApplicationSettings::DoGlobalUndo";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DoGlobalUndo");
+
     // Nothing to do
 }
 
 //====================================================================================================================
 
 void DlgApplicationSettings::s_CheckConfig() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::s_CheckConfig");
     DlgCheckConfig Dlg(HELPFILE_DlgCheckConfig,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
@@ -444,6 +431,7 @@ void DlgApplicationSettings::s_CheckConfig() {
 //====================================================================================================================
 
 void DlgApplicationSettings::s_ManageDevices() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::s_ManageDevices");
     DlgManageDevices Dlg(&ApplicationConfig->DeviceModelList,HELPFILE_DlgManageDevices,ApplicationConfig,ApplicationConfig->DlgManageDevicesWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
@@ -452,6 +440,7 @@ void DlgApplicationSettings::s_ManageDevices() {
 //====================================================================================================================
 
 void DlgApplicationSettings::TabChanged(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::TabChanged");
     if (ui->tabWidget->currentIndex()==2) {
         ChangeSmartphoneTypeCB(0);
         ChangeMMSystemTypeCB(0);
@@ -462,6 +451,7 @@ void DlgApplicationSettings::TabChanged(int) {
 //====================================================================================================================
 
 void DlgApplicationSettings::InitImageSizeCombo(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::InitImageSizeCombo");
     int Geometry=ui->GeometryCombo->currentIndex();
     int Standard=ui->StandardCombo->currentIndex();
     int ImageSize=ui->SizeCombo->currentIndex();
@@ -486,6 +476,7 @@ void DlgApplicationSettings::InitImageSizeCombo(int) {
 //====================================================================================================================
 
 void DlgApplicationSettings::FileFormatCombo(int ChangeIndex) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::FileFormatCombo");
     ui->VideoFormatCB->clear();
     ui->AudioFormatCB->clear();
 
@@ -568,6 +559,7 @@ void DlgApplicationSettings::FileFormatCombo(int ChangeIndex) {
 //====================================================================================================================
 
 void DlgApplicationSettings::ChangeSmartphoneTypeCB(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::ChangeSmartphoneTypeCB");
     int         ExportMode=MODE_SMARTPHONE;
     ui->SmartphoneModelCB->clear();
     int ItemData=ui->SmartphoneTypeCB->currentIndex();
@@ -587,6 +579,7 @@ void DlgApplicationSettings::ChangeSmartphoneTypeCB(int) {
 //====================================================================================================================
 
 void DlgApplicationSettings::ChangeMMSystemTypeCB(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::ChangeMMSystemTypeCB");
     int         ExportMode=MODE_MULTIMEDIASYS;
     ui->MMSystemModelCB->clear();
     int ItemData=ui->MMSystemTypeCB->currentIndex();
@@ -606,6 +599,7 @@ void DlgApplicationSettings::ChangeMMSystemTypeCB(int) {
 //====================================================================================================================
 
 void DlgApplicationSettings::ChangeForTheWTypeCB(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::ChangeForTheWTypeCB");
     int         ExportMode=MODE_FORTHEWEB;
     ui->ForTheWModelCB->clear();
     int ItemData=ui->ForTheWTypeCB->currentIndex();
@@ -625,6 +619,7 @@ void DlgApplicationSettings::ChangeForTheWTypeCB(int) {
 //====================================================================================================================
 
 void DlgApplicationSettings::InitVideoBitRateCB(int ChangeIndex) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::InitVideoBitRateCB");
     ui->VideoBitRateCB->clear();
     int CurrentCodec=ui->VideoFormatCB->currentIndex();
     int CurrentSize =ui->SizeCombo->itemData(ui->SizeCombo->currentIndex()).toInt();
@@ -673,6 +668,8 @@ void DlgApplicationSettings::InitVideoBitRateCB(int ChangeIndex) {
 //====================================================================================================================
 
 void DlgApplicationSettings::InitAudioBitRateCB(int ChangeIndex) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::InitAudioBitRateCB");
+
     ui->AudioBitRateCB->clear();
     int CurrentCodec=ui->AudioFormatCB->currentIndex();
     if (CurrentCodec>=0) {

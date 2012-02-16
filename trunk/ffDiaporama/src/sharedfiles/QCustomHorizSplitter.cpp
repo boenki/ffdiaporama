@@ -25,19 +25,14 @@
 #include <QList>
 #include <QSize>
 
-//#define DEBUGMODE
-
 QCustomHorizSplitter::QCustomHorizSplitter(QWidget *parent):QSplitter(parent) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomHorizSplitter::QCustomHorizSplitter";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomHorizSplitter::QCustomHorizSplitter");
     IsFirstInitDone=false;
 }
 
 void QCustomHorizSplitter::resizeEvent(QResizeEvent *event) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTree::resizeEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::resizeEvent");
+
     if (!IsFirstInitDone) QSplitter::resizeEvent(event); else {
         QList<int> List=sizes();
         List[1]+=(event->size().width()-event->oldSize().width());
@@ -46,9 +41,8 @@ void QCustomHorizSplitter::resizeEvent(QResizeEvent *event) {
 }
 
 void QCustomHorizSplitter::showEvent(QShowEvent *event) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:QCustomFolderTree::showEvent";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::showEvent");
+
     QSplitter::showEvent(event);
     IsFirstInitDone=true;
 }

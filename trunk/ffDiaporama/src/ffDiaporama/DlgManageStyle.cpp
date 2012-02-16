@@ -45,6 +45,7 @@
 //============================================================================================================================
 
 DlgManageStyle::DlgManageStyle(cStyleCollection *TheCollection,QWidget *parent):QDialog(parent),ui(new Ui::DlgManageStyle) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::DlgManageStyle");
     ui->setupUi(this);
     Collection    =TheCollection;
     UndoCollection=Collection->PrepUndo();
@@ -74,6 +75,7 @@ DlgManageStyle::DlgManageStyle(cStyleCollection *TheCollection,QWidget *parent):
 //====================================================================================================================
 
 DlgManageStyle::~DlgManageStyle() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::~DlgManageStyle");
     delete ui;
     delete UndoCollection;
 }
@@ -81,18 +83,21 @@ DlgManageStyle::~DlgManageStyle() {
 //====================================================================================================================
 
 void DlgManageStyle::Help() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::Help");
     GlobalMainWindow->OpenHelp(HELPFILE_DlgManageStyle);
 }
 
 //====================================================================================================================
 
 void DlgManageStyle::SetSavedWindowGeometry() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::SetSavedWindowGeometry");
     GlobalMainWindow->ApplicationConfig->DlgManageStyleWSP->ApplyToWindow(this);
 }
 
 //====================================================================================================================
 
 void DlgManageStyle::showEvent(QShowEvent *ev) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::showEvent");
     QDialog::showEvent(ev);
     QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
 }
@@ -100,6 +105,7 @@ void DlgManageStyle::showEvent(QShowEvent *ev) {
 //====================================================================================================================
 
 void DlgManageStyle::reject() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::reject");
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgManageStyleWSP->SaveWindowState(this);
     UndoCollection->SourceCollection->ApplyUndo(UndoCollection);
@@ -109,6 +115,7 @@ void DlgManageStyle::reject() {
 //====================================================================================================================
 
 void DlgManageStyle::accept() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::accept");
     // Save Window size and position
     GlobalMainWindow->ApplicationConfig->DlgManageStyleWSP->SaveWindowState(this);
     done(0);
@@ -117,6 +124,7 @@ void DlgManageStyle::accept() {
 //====================================================================================================================
 
 void DlgManageStyle::PopulateList(QString StyleToActivate) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::PopulateList");
     ui->ListStyle->setUpdatesEnabled(false);
     ui->ListStyle->clear();
     QString Item;
@@ -134,6 +142,7 @@ void DlgManageStyle::PopulateList(QString StyleToActivate) {
 //====================================================================================================================
 
 void DlgManageStyle::s_currentRowChanged(int NewRow) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::s_currentRowChanged");
     QListWidgetItem *Item=ui->ListStyle->item(NewRow);
     if (Item) {
         QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();
@@ -158,6 +167,7 @@ void DlgManageStyle::s_currentRowChanged(int NewRow) {
 //====================================================================================================================
 
 void DlgManageStyle::s_DBRename() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::s_DBRename");
     QListWidgetItem *Item=ui->ListStyle->item(ui->ListStyle->currentRow());
     if (Item) {
         QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();
@@ -174,7 +184,7 @@ void DlgManageStyle::s_DBRename() {
                     int j=0;
                     while ((j<Collection->Collection.count())&&((j==i)||(Collection->Collection[j].StyleName!=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Text))) j++;
                     if ((j<Collection->Collection.count())&&(Collection->Collection[j].StyleName==(Collection->GeometryFilter?Collection->ActiveFilter:"")+Text)) {
-                        QMessageBox::critical(this,QApplication::translate("DlgManageStyle","Rename style"),
+                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgManageStyle","Rename style"),
                                               QApplication::translate("DlgManageStyle","A style with this name already exist.\nPlease select another name!"));
                         Continue=true;
                     } else {
@@ -194,6 +204,7 @@ void DlgManageStyle::s_DBRename() {
 //====================================================================================================================
 
 void DlgManageStyle::s_DBRemove() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::s_DBRemove");
     QListWidgetItem *Item=ui->ListStyle->item(ui->ListStyle->currentRow());
     if (Item) {
         QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();
@@ -212,6 +223,7 @@ void DlgManageStyle::s_DBRemove() {
 //====================================================================================================================
 
 void DlgManageStyle::s_DBReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::s_DBReset");
     QListWidgetItem *Item=ui->ListStyle->item(ui->ListStyle->currentRow());
     if (Item) {
         QString StyleName=(Collection->GeometryFilter?Collection->ActiveFilter:"")+Item->text();

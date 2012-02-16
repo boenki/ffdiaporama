@@ -48,6 +48,7 @@ public:
 //====================================================================================================================
 
 DlgTransitionProperties::DlgTransitionProperties(cDiaporamaObject *DiaporamaObject,bool IsBackgroundTransition,QWidget *parent):QDialog(parent),ui(new Ui::DlgTransitionProperties) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::DlgTransitionProperties");
     ui->setupUi(this);
     this->DiaporamaObject       =DiaporamaObject;
     this->IsBackgroundTransition=IsBackgroundTransition;
@@ -135,6 +136,7 @@ DlgTransitionProperties::DlgTransitionProperties(cDiaporamaObject *DiaporamaObje
 //====================================================================================================================
 
 DlgTransitionProperties::~DlgTransitionProperties() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::~DlgTransitionProperties");
     delete ui;
     delete Undo;
     if (PreviousFrame) {
@@ -146,18 +148,21 @@ DlgTransitionProperties::~DlgTransitionProperties() {
 //====================================================================================================================
 
 void DlgTransitionProperties::Help() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::Help");
     GlobalMainWindow->OpenHelp(HELPFILE_DlgTransitionProperties);
 }
 
 //====================================================================================================================
 
 void DlgTransitionProperties::SetSavedWindowGeometry() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::SetSavedWindowGeometry");
     DiaporamaObject->Parent->ApplicationConfig->DlgTransitionPropertiesWSP->ApplyToWindow(this);
 }
 
 //====================================================================================================================
 
 void DlgTransitionProperties::showEvent(QShowEvent *ev) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::showEvent");
     QDialog::showEvent(ev);
     QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
 }
@@ -165,6 +170,7 @@ void DlgTransitionProperties::showEvent(QShowEvent *ev) {
 //====================================================================================================================
 
 void DlgTransitionProperties::reject() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::reject");
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgTransitionPropertiesWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
@@ -175,6 +181,7 @@ void DlgTransitionProperties::reject() {
 //====================================================================================================================
 
 void DlgTransitionProperties::accept() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::accept");
     // Save Window size and position
     DiaporamaObject->Parent->ApplicationConfig->DlgTransitionPropertiesWSP->SaveWindowState(this);
 
@@ -189,6 +196,7 @@ void DlgTransitionProperties::accept() {
 //====================================================================================================================
 
 void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::s_ChTransitionTypeCB");
     Timer.stop();
     if (PreviousFrame==NULL) return;    // Nothing to do if previsous frame is not initialize
 
@@ -273,6 +281,7 @@ void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
 //====================================================================================================================
 
 void DlgTransitionProperties::s_ChTransitionDurationCB(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::s_ChTransitionDurationCB");
     // Stop timer
     Timer.stop();
 
@@ -315,6 +324,7 @@ void DlgTransitionProperties::s_ChTransitionDurationCB(int) {
 // Timer event : update pixmap in the table
 //====================================================================================================================
 void DlgTransitionProperties::s_TimerEvent() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::s_TimerEvent");
     // Update all pixmap in the table
     int CurCol=0;
     int CurRow=0;
@@ -364,6 +374,7 @@ void DlgTransitionProperties::s_TimerEvent() {
 // Change of selected cell in the table
 //====================================================================================================================
 void DlgTransitionProperties::s_TableCellChanged(int currentRow,int currentColumn,int previousRow,int previousColumn) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::s_TableCellChanged");
     int NewCell=currentRow*ui->TransitionTable->columnCount()+currentColumn;
     if (NewCell>=MaxItem) {
         CurrentSelectRow=previousRow;

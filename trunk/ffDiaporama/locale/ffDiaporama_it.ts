@@ -1,4 +1,6 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0">
 <context>
     <name>DlgAbout</name>
     <message>
@@ -702,6 +704,18 @@ See help for more details!</source>
         <translation>La lingua deve essere vuota o con un codice lingua ISO 639 (3 caratteri)
 Vedere la guida per maggiori dettagli!</translation>
     </message>
+    <message>
+        <source>Cache and memory options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transformed image :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create cache file (with _ffd suffix) for transformed images</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgBackgroundProperties</name>
@@ -868,6 +882,10 @@ Vedere la guida per maggiori dettagli!</translation>
         <source>ffmpeg Container Formats</source>
         <translation>ffmpeg Formati Contenitore</translation>
     </message>
+    <message>
+        <source>LibExiv2/Exiv2 binary version</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgImageCorrection</name>
@@ -911,7 +929,7 @@ Vedere la guida per maggiori dettagli!</translation>
         <source>Define the height</source>
         <translation>Definisce l&apos;altezza</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <source>Turn the image to the left (on the multiple fellow man of 90°).</source>
         <translation>Ruotare l&apos;immagine a sinistra (sul prossimo multiplo di 90 °).</translation>
     </message>
@@ -919,7 +937,7 @@ Vedere la guida per maggiori dettagli!</translation>
         <source>Define the rotation angle for z axis.</source>
         <translation>Definire l&apos;angolo di rotazione per l&apos;asse z.</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <source>Turn the image to the right (on the multiple fellow man of 90°).</source>
         <translation>Ruotare l&apos;immagine a destra (sul prossimo multiplo di 90 °).</translation>
     </message>
@@ -1026,6 +1044,10 @@ Vedere la guida per maggiori dettagli!</translation>
     <message>
         <source>Lock to image geometry</source>
         <translation>Blocca alla geometrica immagine</translation>
+    </message>
+    <message>
+        <source>Creating cached filtered file ...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2683,14 +2705,17 @@ Vuoi sovrascriverlo?</translation>
     </message>
     <message>
         <source>Move to start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
         <translation>Sposta alla posizione iniziale</translation>
     </message>
     <message>
         <source>Use current position as start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
         <translation>Usa la posizione corrente come posizione iniziale</translation>
     </message>
     <message>
         <source>Define the start position to use for</source>
+        <extracomment>Tooltip in dialog box</extracomment>
         <translation>Definire la posizione iniziale da usare per</translation>
     </message>
     <message>
@@ -2699,14 +2724,17 @@ Vuoi sovrascriverlo?</translation>
     </message>
     <message>
         <source>Define the end position to use for</source>
+        <extracomment>Tooltip in dialog box</extracomment>
         <translation>Definire la posizione finale da usare per</translation>
     </message>
     <message>
         <source>Use current position as end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
         <translation>Usa la posizione corrente come posizione finale</translation>
     </message>
     <message>
         <source>Move to end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
         <translation>Sposta alla posizione finale</translation>
     </message>
     <message>
@@ -3274,10 +3302,6 @@ la geometria dell&apos;immagine nel file non è uguale a quella del progetto cor
         <translation>Caricamento file :</translation>
     </message>
     <message>
-        <source>Applying transformation filter</source>
-        <translation>Applicazione filtri trasformazione</translation>
-    </message>
-    <message>
         <source>Starting SDL...</source>
         <translation>Avvio di SDL...</translation>
     </message>
@@ -3451,6 +3475,50 @@ Vuoi aprirlo comunque?</translation>
         <source>Add file to project :</source>
         <translation>Aggiungi file al progetto :</translation>
     </message>
+    <message>
+        <source>Impossible to open project file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying Despeckle filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying Equalize filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying Gray filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying blur filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Applying sharpen filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading cached filtered file :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error allocating memory for cached filtered file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error loading cached filtered file :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error allocating memory for render image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error loading file :</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTree</name>
@@ -3558,6 +3626,30 @@ Vuoi aprirlo comunque?</translation>
         <source>Add video file</source>
         <translation>Aggiungi files video</translation>
     </message>
+    <message>
+        <source>Error overwritting %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to open file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image don&apos;t have EXIF metadata %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to start exiv2 - no exif informations will be decode for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error during exiv2 process - no exif informations will be decode for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>exiv2 return error %1 - no exif informations will be decode for %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>cDeviceModelList</name>
@@ -3660,6 +3752,7 @@ Vuoi aprirlo comunque?</translation>
     <name>wgt_QVideoPlayer</name>
     <message>
         <source>Click to start play, click again to pause the movie</source>
+        <extracomment>Tooltip in dialog box</extracomment>
         <translation>Clicca per avviare la riproduzione, clicca ancora per mettere in pausa il filmato</translation>
     </message>
 </context>

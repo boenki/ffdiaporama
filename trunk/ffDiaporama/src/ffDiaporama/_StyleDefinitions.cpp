@@ -26,7 +26,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QMessageBox>
-#include <QInputDialog>
+#include "../sharedfiles/_QCustomDialog.h"
 
 #include "DlgManageStyle.h"
 
@@ -46,6 +46,8 @@ bool toAssending(const cStyleCollectionItem &Item1 ,const cStyleCollectionItem &
 //====================================================================================================================
 
 cStyleCollectionItem::cStyleCollectionItem(bool IsGlobalConf,int IndexKey,QString TheStyleName,QString TheStyleDef) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollectionItem::cStyleCollectionItem");
+
     FromGlobalConf  =IsGlobalConf;                          // true if device model is defined in global config file
     FromUserConf    =!IsGlobalConf;                         // true if device model is defined in user config file
     IsFind          =false;                                 // true if device model format is supported by installed version of ffmpeg
@@ -57,6 +59,8 @@ cStyleCollectionItem::cStyleCollectionItem(bool IsGlobalConf,int IndexKey,QStrin
 //************************************************
 
 cStyleCollectionItem::cStyleCollectionItem(cStyleCollectionItem *Item) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollectionItem::cStyleCollectionItem");
+
     FromGlobalConf  =Item->FromGlobalConf;
     FromUserConf    =Item->FromUserConf;
     IsFind          =Item->IsFind;
@@ -70,12 +74,14 @@ cStyleCollectionItem::cStyleCollectionItem(cStyleCollectionItem *Item) {
 //************************************************
 
 cStyleCollectionItem::~cStyleCollectionItem() {
-
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollectionItem::~cStyleCollectionItem");
 }
 
 //************************************************
 
 void cStyleCollectionItem::SaveToXML(QDomElement &domDocument,QString ElementName) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollectionItem::SaveToXML");
+
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     Element.setAttribute("StyleIndex",      StyleIndex);
@@ -88,6 +94,8 @@ void cStyleCollectionItem::SaveToXML(QDomElement &domDocument,QString ElementNam
 //************************************************
 
 bool cStyleCollectionItem::LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile,bool MustCheck) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollectionItem::LoadFromXML");
+
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
@@ -109,6 +117,8 @@ bool cStyleCollectionItem::LoadFromXML(QDomElement domDocument,QString ElementNa
 //************************************************
 
 QString cStyleCollectionItem::GetFilteredPart() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollectionItem::GetFilteredPart");
+
     QString FilterPart="";
     QString Name=StyleName;
     for (int k=0;k<2;k++) {
@@ -128,6 +138,8 @@ QString cStyleCollectionItem::GetFilteredPart() {
 //====================================================================================================================
 
 cStyleCollection::cStyleCollection() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::cStyleCollection");
+
     GeometryFilter  =false;
     SourceCollection=NULL;
 }
@@ -135,11 +147,15 @@ cStyleCollection::cStyleCollection() {
 //************************************************
 
 cStyleCollection::~cStyleCollection() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::~cStyleCollection");
+
 }
 
 //************************************************
 
 cStyleCollection *cStyleCollection::PrepUndo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::PrepUndo");
+
     cStyleCollection *UndoCollection=new cStyleCollection();
 
     UndoCollection->SourceCollection=this;
@@ -154,6 +170,8 @@ cStyleCollection *cStyleCollection::PrepUndo() {
 //************************************************
 
 void cStyleCollection::ApplyUndo(cStyleCollection *UndoCollection) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::ApplyUndo");
+
     Collection.clear();
     for (int i=0;i<UndoCollection->Collection.count();i++) Collection.append(new cStyleCollectionItem(UndoCollection->Collection[i]));
 }
@@ -161,12 +179,16 @@ void cStyleCollection::ApplyUndo(cStyleCollection *UndoCollection) {
 //************************************************
 
 void cStyleCollection::SortList() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::SortList");
+
     qSort(Collection.begin(),Collection.end(),toAssending);
 }
 
 //************************************************
 
 QString cStyleCollection::GetStyleName(QString StyleDef) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::GetStyleName");
+
     int i=0;
     if (GeometryFilter) while ((i<Collection.count())&&((Collection[i].StyleDef!=StyleDef)||(!Collection[i].StyleName.startsWith(ActiveFilter)))) i++;
         else            while ((i<Collection.count())&&(Collection[i].StyleDef!=StyleDef)) i++;
@@ -178,6 +200,8 @@ QString cStyleCollection::GetStyleName(QString StyleDef) {
 //************************************************
 
 QString cStyleCollection::GetStyleDef(QString StyleName) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::GetStyleDef");
+
     int i=0;
     if (StyleName.startsWith(ActiveFilter)) {
         while ((i<Collection.count())&&(Collection[i].StyleName!=StyleName)) i++;
@@ -191,12 +215,16 @@ QString cStyleCollection::GetStyleDef(QString StyleName) {
 //************************************************
 
 void cStyleCollection::SetProjectGeometryFilter(int Geometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::SetProjectGeometryFilter");
+
     SetImageGeometryFilter(Geometry,-1);
 }
 
 //************************************************
 
 void cStyleCollection::SetImageGeometryFilter(int ProjectGeometry,int ImageGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::SetImageGeometryFilter");
+
     if (ProjectGeometry==-1) {
         GeometryFilter=false;
         ActiveFilter  ="";
@@ -224,6 +252,8 @@ void cStyleCollection::SetImageGeometryFilter(int ProjectGeometry,int ImageGeome
 //************************************************
 
 void cStyleCollection::SaveToXML(QDomElement &root) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::SaveToXML");
+
     int             j=0;
     QDomDocument    Document;
     QDomElement     Element=Document.createElement(CollectionName);
@@ -238,6 +268,8 @@ void cStyleCollection::SaveToXML(QDomElement &root) {
 //************************************************
 
 void cStyleCollection::LoadFromXML(QDomElement root,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::LoadFromXML");
+
     if ((root.elementsByTagName(CollectionName).length()>0)&&(root.elementsByTagName(CollectionName).item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName(CollectionName).item(0).toElement();
         int i=0;
@@ -273,6 +305,8 @@ void cStyleCollection::LoadFromXML(QDomElement root,cBaseApplicationConfig::Load
 //************************************************
 
 void cStyleCollection::DoTranslateCollection() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::DoTranslateCollection");
+
     for (int i=0;i<Collection.count();i++) {
         // Style name translation (Standard style only) - do it 2 times
         QString UnfilteredStyleName=Collection[i].StyleName;
@@ -333,6 +367,8 @@ void cStyleCollection::DoTranslateCollection() {
 
 //************************************************
 void cStyleCollection::FillCollectionCB(QComboBox *CB,QString ActualStyleName,bool AdditionnalFramingStyle) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::FillCollectionCB");
+
     if ((ActiveFilter!="")&&(ActualStyleName.startsWith(ActiveFilter))) ActualStyleName=ActualStyleName.mid(ActiveFilter.length());
 
     // Compute if update is needed !
@@ -388,6 +424,8 @@ void cStyleCollection::FillCollectionCB(QComboBox *CB,QString ActualStyleName,bo
 //************************************************
 
 QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString ActualStyleDef) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::PopupCollectionMenu");
+
     QString Item="";
     bool    IsStyleFound =false;
     QMenu   *ContextMenu =new QMenu(ParentWindow);
@@ -442,6 +480,8 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString Actu
 //************************************************
 
 void cStyleCollection::UpdateExistingStyle(QString StyleName,QString ActualStyleDef) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::UpdateExistingStyle");
+
     int i=0;
     while ((i<Collection.count())&&(Collection[i].StyleName!=StyleName)) i++;
     if ((i<Collection.count())&&(Collection[i].StyleName==StyleName)) {
@@ -453,18 +493,20 @@ void cStyleCollection::UpdateExistingStyle(QString StyleName,QString ActualStyle
 //************************************************
 
 void cStyleCollection::CreateNewStyle(QWidget *ParentWindow,QString ActualStyleDef) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::CreateNewStyle");
+
     bool    Ok,Continue=true;
     QString Text="";
 
     while (Continue) {
         Continue=false;
-        Text=QInputDialog::getText(ParentWindow,QApplication::translate("DlgManageStyle","Create new style"),QApplication::translate("DlgManageStyle","Style name:"),QLineEdit::Normal,Text,&Ok);
+        Text=CustomInputDialog(ParentWindow,QApplication::translate("DlgManageStyle","Create new style"),QApplication::translate("DlgManageStyle","Style name:"),QLineEdit::Normal,Text,&Ok);
         if (Ok && !Text.isEmpty()) {
             Text=(GeometryFilter?ActiveFilter:"")+Text;
             int i=0;
             while ((i<Collection.count())&&(Collection[i].StyleName!=Text)) i++;
             if ((i<Collection.count())&&(Collection[i].StyleName==Text)) {
-                if (QMessageBox::question(ParentWindow,QApplication::translate("DlgManageStyle","Create new style"),
+                if (CustomMessageBox(ParentWindow,QMessageBox::Question,QApplication::translate("DlgManageStyle","Create new style"),
                                           QApplication::translate("DlgManageStyle","A style with this name already exist.\nDo you want to overwrite-it ?"),
                                           QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes) Collection[i].StyleDef=ActualStyleDef;
                 else Continue=true;
@@ -482,6 +524,8 @@ void cStyleCollection::CreateNewStyle(QWidget *ParentWindow,QString ActualStyleD
 //************************************************
 
 void cStyleCollection::ManageExistingStyle(QWidget *ParentWindow) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::ManageExistingStyle");
+
     DlgManageStyle Dlg(this,ParentWindow);
     Dlg.exec();
 }
@@ -489,12 +533,16 @@ void cStyleCollection::ManageExistingStyle(QWidget *ParentWindow) {
 //************************************************
 
 void cStyleCollection::StringToStringList(QString Item,QStringList &List) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::StringToStringList");
+
     int i=0;
     while ((i<Collection.count())&&(Collection[i].StyleName!=ActiveFilter+Item)) i++;
     if (i<Collection.count()) StringDefToStringList(Collection[i].StyleDef,List);
 }
 
 void cStyleCollection::StringDefToStringList(QString String,QStringList &List) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::StringDefToStringList");
+
     while (String.contains("###")) {
         List.append(String.left(String.indexOf("###")));
         String=String.mid(String.indexOf("###")+QString("###").length());
@@ -505,6 +553,8 @@ void cStyleCollection::StringDefToStringList(QString String,QStringList &List) {
 //************************************************
 
 QString cStyleCollection::DecodeString(QString String) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::DecodeString");
+
     if (!String.contains("###GLOBALSTYLE###:")) return String;
     int StyleIndex=String.mid(QString("###GLOBALSTYLE###:").length()).toInt();
     int i=0;
@@ -516,6 +566,8 @@ QString cStyleCollection::DecodeString(QString String) {
 //************************************************
 
 QString cStyleCollection::EncodeString(QComboBox *CB,int ProjectGeometry,int ImageGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::EncodeString");
+
     QString CurStyleName=CB->currentText();
     SetImageGeometryFilter(ProjectGeometry,ImageGeometry);
     if (GeometryFilter) CurStyleName=ActiveFilter+CurStyleName;

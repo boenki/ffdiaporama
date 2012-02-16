@@ -51,9 +51,6 @@ public:
     virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
     virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
 
-    // Other public function
-    void            AskApplyDBChange();
-
 private slots:
     void            s_ManageDevices();
     void            s_CheckConfig();

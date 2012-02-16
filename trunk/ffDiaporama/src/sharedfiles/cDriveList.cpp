@@ -34,14 +34,10 @@
 #include "cBaseApplicationConfig.h"
 #include "cDriveList.h"
 
-//#define DEBUGMODE
-
 //*******************************************************************************************************************************************************
 
 cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *ApplicationConfig) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDriveDesc::cDriveDesc";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDriveDesc::cDriveDesc");
 
     Flag        =2;         // New DriveDesc
     Label       ="";
@@ -107,16 +103,16 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
 
         // use df to get information on drive (size/used/avail) and ensure drive is mounted
         if (!Process.waitForStarted()) {
-            qDebug()<<"Impossible to execute df";
+            ToLog(LOGMSG_CRITICAL,"Impossible to execute df");
             IsOk=false;
         }
         if (IsOk && !Process.waitForFinished()) {
             Process.kill();
-            qDebug()<<"Error during mount df";
+            ToLog(LOGMSG_CRITICAL,"Error during mount df");
             IsOk=false;
         }
         if (IsOk && (Process.exitStatus()<0)) {
-            qDebug()<<"mount return df";
+            ToLog(LOGMSG_CRITICAL,"mount return df");
             IsOk=false;
         }
         if (!IsOk) {
@@ -174,16 +170,16 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
                 Process.setProcessChannelMode(QProcess::MergedChannels);
                 Process.start("dmesg");
                 if (!Process.waitForStarted()) {
-                    qDebug()<<"Impossible to execute dmesg";
+                    ToLog(LOGMSG_CRITICAL,"Impossible to execute dmesg");
                     IsOk=false;
                 }
                 if (IsOk && !Process.waitForFinished()) {
                     Process.kill();
-                    qDebug()<<"Error during mount dmesg";
+                    ToLog(LOGMSG_CRITICAL,"Error during mount dmesg");
                     IsOk=false;
                 }
                 if (IsOk && (Process.exitStatus()<0)) {
-                    qDebug()<<"mount return dmesg";
+                    ToLog(LOGMSG_CRITICAL,"mount return dmesg");
                     IsOk=false;
                 }
                 if (!IsOk) {
@@ -318,9 +314,8 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
 //*******************************************************************************************************************************************************
 
 cDriveList::cDriveList(cBaseApplicationConfig *TheApplicationConfig) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDriveList::cDriveList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDriveList::cDriveList");
+
     ApplicationConfig=TheApplicationConfig;
 }
 
@@ -340,9 +335,7 @@ bool cDriveList::SearchDrive(QString Path) {
 // Utility function to be use to populate ListList
 
 void cDriveList::UpdateDriveList() {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDriveList::CreateListList";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDriveList::CreateListList");
 
     for (int i=0;i<List.count();i++) List[i].Flag=0;
 
@@ -366,16 +359,16 @@ void cDriveList::UpdateDriveList() {
 
         Process.start("mount");
         if (!Process.waitForStarted()) {
-            qDebug()<<"Impossible to execute mount";
+            ToLog(LOGMSG_CRITICAL,"Impossible to execute mount");
             IsOk=false;
         }
         if (IsOk && !Process.waitForFinished()) {
             Process.kill();
-            qDebug()<<"Error during mount process";
+            ToLog(LOGMSG_CRITICAL,"Error during mount process");
             IsOk=false;
         }
         if (IsOk && (Process.exitStatus()<0)) {
-            qDebug()<<"mount return error";
+            ToLog(LOGMSG_CRITICAL,"mount return error");
             IsOk=false;
         }
         if (!IsOk) {
@@ -412,9 +405,7 @@ void cDriveList::UpdateDriveList() {
 //      FilePath : Path to get Icon
 
 QIcon cDriveList::GetFolderIcon(QString FilePath) {
-    #ifdef DEBUGMODE
-    qDebug() << "IN:cDriveList::GetFolderIcon";
-    #endif
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDriveList::GetFolderIcon");
 
     if (!FilePath.endsWith(QDir::separator())) FilePath=FilePath+QDir::separator();
 

@@ -34,6 +34,7 @@
 //********************************************************************************************************************
 
 cCustomTableWidget::cCustomTableWidget(QWidget *parent):QTableWidget(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::cCustomTableWidget");
     PartitionMode=false;
     horizontalHeader()->setResizeMode(QHeaderView::Fixed);
     verticalHeader()->setResizeMode(QHeaderView::Fixed);
@@ -48,6 +49,7 @@ cCustomTableWidget::cCustomTableWidget(QWidget *parent):QTableWidget(parent) {
 //====================================================================================================================
 
 void cCustomTableWidget::dragEnterEvent(QDragEnterEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::dragEnterEvent");
     GlobalMainWindow->IsDragOn=2;
     GlobalMainWindow->DragItemSource=-1;
     GlobalMainWindow->DragItemDest  =-1;
@@ -56,6 +58,7 @@ void cCustomTableWidget::dragEnterEvent(QDragEnterEvent *event) {
 }
 
 void cCustomTableWidget::dropEvent(QDropEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::dropEvent");
     GlobalMainWindow->IsDragOn=0;
 
     QList<QUrl> urlList;
@@ -80,6 +83,7 @@ void cCustomTableWidget::dropEvent(QDropEvent *event) {
 }
 
 void cCustomTableWidget::dragMoveEvent(QDragMoveEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::dragMoveEvent");
     int ThumbWidth  =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
     int ThumbHeight =GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
     int NbrX        =width()/ThumbWidth;
@@ -115,6 +119,7 @@ void cCustomTableWidget::dragMoveEvent(QDragMoveEvent *event) {
 //====================================================================================================================
 
 void cCustomTableWidget::mousePressEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::mousePressEvent");
     if (GlobalMainWindow->IsDragOn==1) return;
     setCursor(Qt::ArrowCursor);
     GlobalMainWindow->IsDragOn=0;
@@ -142,6 +147,7 @@ void cCustomTableWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void cCustomTableWidget::mouseMoveEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::mouseMoveEvent");
     if (GlobalMainWindow->IsDragOn!=1) {
         //QTableWidget::mouseMoveEvent(event);
     } else {
@@ -224,6 +230,7 @@ void cCustomTableWidget::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void cCustomTableWidget::mouseReleaseEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::mouseReleaseEvent");
     if (GlobalMainWindow->IsDragOn!=1) {
         QTableWidget::mouseReleaseEvent(event);
     } else {
@@ -236,6 +243,7 @@ void cCustomTableWidget::mouseReleaseEvent(QMouseEvent *event) {
 //====================================================================================================================
 
 void cCustomTableWidget::AddObjectToTimeLine(int CurIndex) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::AddObjectToTimeLine");
     int ThumbWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
     int ThumbHeight=GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
     int NbrX       =viewport()->width()/ThumbWidth;
@@ -284,6 +292,7 @@ void cCustomTableWidget::AddObjectToTimeLine(int CurIndex) {
 //====================================================================================================================
 
 void cCustomTableWidget::SetTimelineHeight(bool NewPartitionMode) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::SetTimelineHeight");
     int Selected=CurrentSelected();
     if (!NewPartitionMode) {
         setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
@@ -308,6 +317,7 @@ void cCustomTableWidget::SetTimelineHeight(bool NewPartitionMode) {
 //====================================================================================================================
 
 void cCustomTableWidget::ResetDisplay(int Selected) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::ResetDisplay");
     GlobalMainWindow->FLAGSTOPITEMSELECTION=true;
     setUpdatesEnabled(false);
     CleanAll();
@@ -343,6 +353,7 @@ int cCustomTableWidget::NbrItem() {
 //====================================================================================================================
 
 void cCustomTableWidget::SetCurrentCell(int Index) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::SetCurrentCell");
     setUpdatesEnabled(false);
     if (GlobalMainWindow->ApplicationConfig->PartitionMode) {
         int NbrCol=width()/(GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN);
@@ -354,6 +365,7 @@ void cCustomTableWidget::SetCurrentCell(int Index) {
 //====================================================================================================================
 
 void cCustomTableWidget::CleanAll() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::CleanAll");
     while (columnCount()>0) removeColumn(columnCount()-1);
     while (rowCount())      removeRow(rowCount()-1);
 }
@@ -363,6 +375,7 @@ void cCustomTableWidget::CleanAll() {
 //********************************************************************************************************************
 
 cCustomTableWidget2::cCustomTableWidget2(QWidget *parent):QTableWidget(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget2::cCustomTableWidget2");
     horizontalHeader()->setResizeMode(QHeaderView::Fixed);
     verticalHeader()->setResizeMode(QHeaderView::Fixed);
     setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -376,6 +389,7 @@ cCustomTableWidget2::cCustomTableWidget2(QWidget *parent):QTableWidget(parent) {
 //====================================================================================================================
 
 void cCustomTableWidget2::mousePressEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget2::mousePressEvent");
     if (GlobalMainWindow->IsDragOn==1) return;
     setCursor(Qt::ArrowCursor);
     GlobalMainWindow->IsDragOn=0;
@@ -401,6 +415,7 @@ void cCustomTableWidget2::mousePressEvent(QMouseEvent *event) {
 }
 
 void cCustomTableWidget2::mouseMoveEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget2::mouseMoveEvent");
     if (GlobalMainWindow->IsDragOn!=1) {
         //QTableWidget::mouseMoveEvent(event);
     } else {
@@ -461,6 +476,7 @@ void cCustomTableWidget2::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void cCustomTableWidget2::mouseReleaseEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget2::mouseReleaseEvent");
     if (GlobalMainWindow->IsDragOn!=1) {
         QTableWidget::mouseReleaseEvent(event);
     } else {
@@ -485,6 +501,7 @@ int cCustomTableWidget2::NbrItem() {
 //====================================================================================================================
 
 void cCustomTableWidget2::SetCurrentCell(int Index) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget2::SetCurrentCell");
     setUpdatesEnabled(false);
     setCurrentCell(0,Index);
     setUpdatesEnabled(true);
