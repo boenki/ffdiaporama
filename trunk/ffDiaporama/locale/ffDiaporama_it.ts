@@ -245,10 +245,6 @@ Transizione dissolvenza incrociata</translation>
         <translation>Abilita il sistema grafico &quot;raster&quot; (Bisogna riavviare l&apos;applicazione)</translation>
     </message>
     <message>
-        <source>Video options</source>
-        <translation>Opzioni video</translation>
-    </message>
-    <message>
         <source>Automatically crop 1920x1088 video to 1920x1080</source>
         <translation>Ritaglio automatico video 1920x1088 a 1920x1080</translation>
     </message>
@@ -705,15 +701,15 @@ See help for more details!</source>
 Vedere la guida per maggiori dettagli!</translation>
     </message>
     <message>
-        <source>Cache and memory options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Transformed image :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Create cache file (with _ffd suffix) for transformed images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video :</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
