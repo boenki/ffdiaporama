@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 13/02/2011) :
+Buggs/TODO (Dernier SVN le 16/02/2011) :
 ----------------------------------------
 TODO
 ----
@@ -22,32 +22,8 @@ French version / Correction de bug :
 English version / Bug fix :
 
 French version / Nouvelles fonctionnalités :
--Passe la lecture des vidéos en RGB24 au lieu d'ABGR32 (evite les WARNING de swscaler et accélère la lecture)
--Supprime les boutons minimize dans les boites de dialogue [Linux]
--Détache les boites de dialogue de saisie de texte dans la gestion des styles [Linux-Gnome Shell]
--Détache toutes les boites de dialogue de messages [Linux-Gnome Shell]
--Modifie les traitements d'images pour utiliser moins la zone mémoire HEAP [Windows/XP]
--Ajoute un menu contextuel dans l'arbre des répertoires avec 4 actions (Actualiser, Actualiser à partir d'ici, créer un sous-répertoire, supprimer ce répertoire)
--Transforme le systeme d'affichage des messages dans la console :
-    -Ajoute l'heure et le type de message (Information, Warning, Erreur)
-    -Sous Windows, la fenêtre CMD n'est plus ouverte systématiquement : Pour voir les messages, il faut lancer l'application depuis une console déjà ouverte
-    -Permet de rediriger les messages dans un fichier via les >
-    -Ajoute les messages de debuggage (DEBUGTRACE)
--Ajoute une nouvelle option sur la ligne de commande pour régler le niveau des messages -LogLevel
 
 English version / New features :
--Modify video reading from ABGR32 TO RGB24 (avoir swscaler warning and speed reading)
--Remove minimize buttons for all dialog box [Linux]
--Unlock text edit dialog for style creation [Linux-Gnome Shell]
--Unlock all messages box [Linux-Gnome Shell]
--Modify image processing to use less HEAP memory zone [Windows/XP]
--Add a contextual menu in folder tree with 4 actions (Refresh, refresh from here, create subfolder and remove folder)
--Modify log system to display in console :
-    -Add hour and message type (Information, Warning, Error)
-    -For Windows, the CMD windows is now longer open at startup : To see messages, application must be started from a console
-    -Allow to redirect message to a log file using >
-    -Add debugging messages (DEBUGTRACE)
--Add a new argument for command line to define level of message -LogLevel
 
 -------------------------------------
 Changelog depuis la version 20111118
@@ -172,6 +148,18 @@ Prend en compte ffmpeg 0.10
 -[MMFiler] Ajoute la fenêtre des jobs et celle du journal au bas de la fenêtre principal
 -[MMFiler] Ajoute l'action de supprimer des fichiers
 -[MMFiler] Crée un 1er job de conversion d'image + crée la boite de dialogue de paramétrage du job
+-Passe la lecture des vidéos en RGB24 au lieu d'ABGR32 (evite les WARNING de swscaler et accélère la lecture)
+-Supprime les boutons minimize dans les boites de dialogue [Linux]
+-Détache les boites de dialogue de saisie de texte dans la gestion des styles [Linux-Gnome Shell]
+-Détache toutes les boites de dialogue de messages [Linux-Gnome Shell]
+-Modifie les traitements d'images pour utiliser moins la zone mémoire HEAP [Windows/XP]
+-Ajoute un menu contextuel dans l'arbre des répertoires avec 4 actions (Actualiser, Actualiser à partir d'ici, créer un sous-répertoire, supprimer ce répertoire)
+-Transforme le systeme d'affichage des messages dans la console :
+    -Ajoute l'heure et le type de message (Information, Warning, Erreur)
+    -Sous Windows, la fenêtre CMD n'est plus ouverte systématiquement : Pour voir les messages, il faut lancer l'application depuis une console déjà ouverte
+    -Permet de rediriger les messages dans un fichier via les >
+    -Ajoute les messages de debuggage (DEBUGTRACE)
+-Ajoute une nouvelle option sur la ligne de commande pour régler le niveau des messages -LogLevel
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -224,3 +212,15 @@ Enable ffmpeg 0.10
 -[MMFiler] Add job queue list and log at bottom of main window
 -[MMFiler] Add remove file action
 -[MMFiler] Create a first job to convert image + create convert image job settings dialog
+-Modify video reading from ABGR32 TO RGB24 (avoir swscaler warning and speed reading)
+-Remove minimize buttons for all dialog box [Linux]
+-Unlock text edit dialog for style creation [Linux-Gnome Shell]
+-Unlock all messages box [Linux-Gnome Shell]
+-Modify image processing to use less HEAP memory zone [Windows/XP]
+-Add a contextual menu in folder tree with 4 actions (Refresh, refresh from here, create subfolder and remove folder)
+-Modify log system to display in console :
+    -Add hour and message type (Information, Warning, Error)
+    -For Windows, the CMD windows is now longer open at startup : To see messages, application must be started from a console
+    -Allow to redirect message to a log file using >
+    -Add debugging messages (DEBUGTRACE)
+-Add a new argument for command line to define level of message -LogLevel
