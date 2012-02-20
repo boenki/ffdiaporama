@@ -17,12 +17,24 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige le plantage quand on passe du mode normal au mode partition et qu'il n'y a aucune diapo
+-Corrige l'erreur de compilation avec LIBAV <53
 
 English version / Bug fix :
+-Fix crash when changing mode to partition or to normal and no slide was present
+-Fix compilation error with LIBAV <53
 
 French version / Nouvelles fonctionnalités :
+-Ajoute le FLAC dans la liste des codecs audio pour génération et l'autorise pour le MKV
+-Ajoute le x264 lossless dans la liste des codecs video pour génération et l'autorise pour le MKV
+-Ajoute un bouton lossless dans les boutons de génération de la fenêtre principale
+-Ajoute la sélection du format d'image par défaut pour le lossless dans la boite de configuration
 
 English version / New features :
+-Add FLAC to audio codecs list for rendering and allow it for MKV
+-Add x264 lossless to video codecs list for rendering and allow it for MKV
+-Add a lossless button in render button of the main window
+-Add a default lossless image format selection in option dialog
 
 -------------------------------------
 Changelog depuis la version 20111118

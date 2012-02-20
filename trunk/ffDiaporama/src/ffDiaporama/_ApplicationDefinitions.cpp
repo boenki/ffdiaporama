@@ -145,6 +145,7 @@ void cApplicationConfig::InitValues() {
     DefaultMultimediaModel      =0;                         // Default Multimedia Model
     DefaultForTheWEBType        =0;                         // Default ForTheWEB Type
     DefaultForTheWEBModel       =0;                         // Default ForTheWEB Model
+    DefaultLossLess             =0;                         // Default Lossless imagesize
 
     #ifdef Q_OS_WIN
         LastProjectPath         = WINDOWS_DOCUMENTS;            // Last folder use for project
@@ -311,6 +312,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultMultimediaModel",      DefaultMultimediaModel);
     Element.setAttribute("DefaultForTheWEBType",        DefaultForTheWEBType);
     Element.setAttribute("DefaultForTheWEBModel",       DefaultForTheWEBModel);
+    Element.setAttribute("DefaultLossLess",             DefaultLossLess);
     domDocument.appendChild(Element);
 
     Element=Document.createElement("RecentFiles");
@@ -435,6 +437,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         if (Element.hasAttribute("DefaultMultimediaModel")) DefaultMultimediaModel  =Element.attribute("DefaultMultimediaModel").toInt();
         if (Element.hasAttribute("DefaultForTheWEBType"))   DefaultForTheWEBType    =Element.attribute("DefaultForTheWEBType").toInt();
         if (Element.hasAttribute("DefaultForTheWEBModel"))  DefaultForTheWEBModel   =Element.attribute("DefaultForTheWEBModel").toInt();
+        if (Element.hasAttribute("DefaultLossLess"))        DefaultLossLess         =Element.attribute("DefaultLossLess").toInt();
     }
 
     if ((domDocument.elementsByTagName("RecentFiles").length()>0)&&(domDocument.elementsByTagName("RecentFiles").item(0).isElement()==true)) {

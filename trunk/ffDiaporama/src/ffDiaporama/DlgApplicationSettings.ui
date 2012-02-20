@@ -47,7 +47,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -3341,28 +3341,8 @@ image</string>
               <string>Select the default image format to use for the rendering among the proposed list. </string>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>-1</number>
              </property>
-             <item>
-              <property name="text">
-               <string notr="true">VGA</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">DVD</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">720p</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">1080p</string>
-              </property>
-             </item>
             </widget>
            </item>
            <item row="1" column="0">
@@ -3420,6 +3400,32 @@ image</string>
               </size>
              </property>
             </spacer>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="label_35">
+             <property name="text">
+              <string>Lossless :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1" colspan="2">
+            <widget class="QComboBox" name="LosslessSizeCombo">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Select the default image format to use for the rendering among the proposed list. </string>
+             </property>
+             <property name="currentIndex">
+              <number>-1</number>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -3538,7 +3544,6 @@ image</string>
   <tabstop>CancelBt</tabstop>
  </tabstops>
  <resources>
-  <include location="../../RSCffDiaporama.qrc"/>
   <include location="../../RSCffDiaporama.qrc"/>
  </resources>
  <connections/>

@@ -59,6 +59,7 @@ void DlgManageDevices::DoInitDialog() {
     ui->DBDeviceTypeCB->addItem(QIcon(ICON_SMARTPHONE),DeviceModelList->TranslatedRenderType[1]);
     ui->DBDeviceTypeCB->addItem(QIcon(ICON_MULTIMEDIASYS),DeviceModelList->TranslatedRenderType[2]);
     ui->DBDeviceTypeCB->addItem(QIcon(ICON_FORTHEWEB),DeviceModelList->TranslatedRenderType[3]);
+    //ui->DBDeviceTypeCB->addItem(QIcon(ICON_LOSSLESS),DeviceModelList->TranslatedRenderType[4]);       // No entry for Lossless mode !
     ui->DBDeviceTypeCB->setCurrentIndex(0);
     for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) ui->DBFileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
     ui->DBFileFormatCB->setCurrentIndex(-1);

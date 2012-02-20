@@ -59,6 +59,8 @@ extern "C" {
 #define ICON_MULTIMEDIASYS                  ":/img/tv.png"
 #define MODE_FORTHEWEB                      3
 #define ICON_FORTHEWEB                      ":/img/Internet.png"
+#define MODE_LOSSLESS                       4
+#define ICON_LOSSLESS                       ":/img/Lossless.png"
 
 //============================================
 
@@ -114,6 +116,8 @@ extern int ORDERIMAGENAME[NBR_SIZEDEF];                         // Display order
 #define     VCODECST_H263       "H263"                          // String Flash Video / Sorenson H.263
 #define     VCODEC_THEORA       7                               // Theora
 #define     VCODECST_THEORA     "THEORA"                        // String Theora
+#define     VCODEC_X264LL       8                               // x264 lossless + VPRE libx264-lossless.ffpreset ********
+#define     VCODECST_X264LL     "X264LL"                        // String x264 lossless ********
 
 struct sVideoCodecDef {
     bool    IsFind;                                             // true if codec is supported by installed version of ffmpeg
@@ -125,7 +129,7 @@ struct sVideoCodecDef {
     char    PossibleBitrate[200];                               // list of possible compression bit rate (define by this application)
     char    DefaultBitrate[NBR_SIZEDEF][10];                    // prefered compression bit rate for each possible size
 };
-#define NBR_VIDEOCODECDEF   8
+#define NBR_VIDEOCODECDEF   9
 extern struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF];
 
 //============================================
