@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef WGT_JOBCONVERTIMAGE_H
-#define WGT_JOBCONVERTIMAGE_H
+#ifndef WGT_JOBCONVERTAUDIO_H
+#define WGT_JOBCONVERTAUDIO_H
 
 #include <QWidget>
 
@@ -29,29 +29,31 @@
 #include "wgt_JobBase.h"
 
 namespace Ui {
-    class wgt_JobConvertImage;
+    class wgt_JobConvertAudio;
 }
 
-class wgt_JobConvertImage : public wgt_JobBase {
+class wgt_JobConvertAudio : public wgt_JobBase {
 Q_OBJECT
 public:
-    explicit wgt_JobConvertImage(QCustomDialog *Dialog,QWidget *parent = 0);
-    ~wgt_JobConvertImage();
+    bool    StopRefreshCB;
+
+    explicit wgt_JobConvertAudio(QCustomDialog *Dialog,QWidget *parent = 0);
+    ~wgt_JobConvertAudio();
 
     virtual void    DoInitDialog();
     virtual void    RefreshControls();
     virtual void    AppendJobSummary(int index,QString *JobSummary,cJobQueue *JobQueue);
-    virtual QString ComputeDestSuffix(cBaseMediaFile *MediaFile);
 
 private slots:
-    void            s_DestFormatCB(int);
-    void            s_RescalCB();
-    void            s_DontUpscaleCB();
-    void            s_RescalCombo(int);
-    void            s_QualitySL(int);
+    void    s_AudioFormatCB(int);
+    void    s_AudioBitRateCB(int);
+    void    s_ChAudioFreqCB();
+    void    s_AudioFreqCB(int);
+    void    s_ForceToMonoCB();
+    void    s_ForceToStereoCB();
 
 private:
-    Ui::wgt_JobConvertImage *ui;
+    Ui::wgt_JobConvertAudio *ui;
 };
 
-#endif // WGT_JOBCONVERTIMAGE_H
+#endif // WGT_JOBCONVERTAUDIO_H

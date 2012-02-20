@@ -126,7 +126,7 @@ struct sVideoCodecDef {
     char    DefaultBitrate[NBR_SIZEDEF][10];                    // prefered compression bit rate for each possible size
 };
 #define NBR_VIDEOCODECDEF   8
-extern struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF];  // Real definition in capplicationconfig.cpp
+extern struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF];
 
 //============================================
 // Audio codec definitions
@@ -141,8 +141,8 @@ struct sAudioCodecDef {
     char    PossibleBitrate6CH[200];                            // list of possible compression bit rate in 5.1/6 chanels mode (define by this application)
     char    Default[10];                                        // prefered compression bit rate
 };
-#define NBR_AUDIOCODECDEF   7
-extern struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF];  // Real definition in capplicationconfig.cpp
+#define NBR_AUDIOCODECDEF   8
+extern struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF];
 
 //============================================
 // Format container definitions
@@ -156,7 +156,10 @@ struct sFormatDef {
     char    PossibleAudioCodec[200];                            // list of possible audio codec for this format container (define by this application)
 };
 #define NBR_FORMATDEF   10
-extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];              // Real definition in capplicationconfig.cpp
+extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];
+
+#define NBR_AUDIOFORMATDEF   5
+extern struct sFormatDef AUDIOFORMATDEF[NBR_AUDIOFORMATDEF];
 
 //============================================
 // Device model class definition

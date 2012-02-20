@@ -22,8 +22,9 @@
 #include "ui_DlgCheckConfig.h"
 #include "cBaseMediaFile.h"
 
-#define ICON_GREEN      ":/img/Green.png"
-#define ICON_RED        ":/img/Red.png"
+#define ICON_GREEN      ":/img/SmallGreen.png"
+#define ICON_RED        ":/img/SmallRed.png"
+#define ICON_YELLOW     ":/img/SmallYellow.png"
 
 //====================================================================================================================
 
@@ -110,7 +111,7 @@ void DlgCheckConfig::DoInitDialog() {
     Status=false;
     #endif
     StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 support for preview image")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
-    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_YELLOW),StatusStr));
 
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
@@ -123,21 +124,21 @@ void DlgCheckConfig::DoInitDialog() {
     Status=false;
     #endif
     StatusStr=QApplication::translate("DlgCheckConfig","TAGLib support for FLAC")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
-    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_YELLOW),StatusStr));
     #ifdef TAGLIBWITHASF
     Status=true;
     #else
     Status=false;
     #endif
     StatusStr=QApplication::translate("DlgCheckConfig","TAGLib support for ASF/WMA")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
-    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_YELLOW),StatusStr));
     #ifdef TAGLIB_WITH_MP4
     Status=true;
     #else
     Status=false;
     #endif
     StatusStr=QApplication::translate("DlgCheckConfig","TAGLib support for M4A/MP4")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
-    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_YELLOW),StatusStr));
 
 
     ui->ListWidget->addItem(new QListWidgetItem(""));
@@ -156,7 +157,7 @@ void DlgCheckConfig::DoInitDialog() {
     Status=false;
     #endif
     StatusStr=QApplication::translate("DlgCheckConfig","ffmpeg support for TAG and CHAPTERS")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
-    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),StatusStr));
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_YELLOW),StatusStr));
 
     ui->ListWidget->addItem(new QListWidgetItem(""));
 

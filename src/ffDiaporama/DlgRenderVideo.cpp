@@ -39,11 +39,7 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QWidge
     StopSpinboxRecursion=false;
     Language            =Diaporama->ProjectInfo->DefaultLanguage;
 
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-    #else
-    setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
-    #endif
 
     switch (ExportMode) {
         case EXPORTMODE_ADVANCED :  setWindowTitle(QApplication::translate("DlgRenderVideo","Advanced render video"));                          break;
@@ -735,9 +731,8 @@ void DlgRenderVideo::accept() {
         ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+QString(" - %1 Hz - ").arg(AudioFrequency)+AudioBitRateStr+"b/s");
 
         //**********************************************************************************************************************************
-
-        FPS     =double(AV_TIME_BASE)/double(25);  // Time duration of a frame (pour éviter les problèmes d'arrondi, génère le son en PAL)
-        NbrFrame=int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/double(FPS));            // Number of frame to generate
+        FPS             =double(AV_TIME_BASE)/25;                                                   // For sound generation, use only 25 FPS to avoid rounded issue (instead of VideoFrameRate)
+        NbrFrame        =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/FPS)+1;  // Number of frame to generate (For sound generation generate one frame more !)
 
         ui->SoundProgressBar->setValue(0);
         ui->SoundProgressBar->setMaximum(NbrFrame);
@@ -792,8 +787,9 @@ void DlgRenderVideo::accept() {
         // 2nd step encoding : produce final file using temporary WAV file with sound
         //**********************************************************************************************************************************
         StartTime=QTime::currentTime();                                                             // Display control : time the process start
-        FPS     =double((uint64_t)AV_TIME_BASE)/double(VideoFrameRate);                             // Time duration of a frame
-        NbrFrame=int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/double(FPS));    // Number of frame to generate
+        if ((VideoFrameRate>=29.96)&&(VideoFrameRate<=29.98))    VideoFrameRate=29.97;              // Manual rounded
+        FPS             =double(AV_TIME_BASE)/VideoFrameRate;
+        NbrFrame        =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/FPS);    // Number of frame to generate
 
         ui->SlideProgressBar->setValue(0);
         ui->TotalProgressBar->setValue(0);
@@ -1178,6 +1174,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     AVCodec                 *AudioCodec         =NULL;
     QFutureWatcher<void>    ThreadWrite;
     sWriteWAV               WriteWAV;
+    double                  RenderFPS           =25;        // For sound generation, use only 25 FPS to avoid rounded issue (instead of VideoFrameRate)
 
     WriteWAV.AudioCodecContext  =NULL;
     WriteWAV.audio_outbuf       =NULL;
@@ -1271,7 +1268,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 // Init sound blocks
                 int audio_input_frame_size=WriteWAV.AudioStream->codec->frame_size;                          // frame size in samples
                 if (audio_input_frame_size<=1) audio_input_frame_size=WriteWAV.RenderMusic.SoundPacketSize; else audio_input_frame_size*=WriteWAV.RenderMusic.SampleBytes*WriteWAV.RenderMusic.Channels;
-                WriteWAV.RenderMusic.SetFPS(25);         // For sound generation, use only 25 FPS to avoid rounded issue
+                WriteWAV.RenderMusic.SetFPS(RenderFPS);
                 WriteWAV.EncodedAudio.SetFrameSize(audio_input_frame_size);
             }
         }
@@ -1343,26 +1340,26 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             }
 
             // Get current frame
-            Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
+            Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000)/*((double(AV_TIME_BASE)/RenderFPS)/1000)*/);
 
             // Ensure MusicTracks are ready
             if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
                 Frame->CurrentObject_MusicTrack=new cSoundBlockList();
-                Frame->CurrentObject_MusicTrack->SetFPS(25/*Diaporama->VideoFrameRate*/);        // Pour la generation du sond, force en PAL pour eviter les problèmes d'arrondi
+                Frame->CurrentObject_MusicTrack->SetFPS(RenderFPS);
             }
             if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
                 Frame->TransitObject_MusicTrack=new cSoundBlockList();
-                Frame->TransitObject_MusicTrack->SetFPS(25/*Diaporama->VideoFrameRate*/);        // Pour la generation du sond, force en PAL pour eviter les problèmes d'arrondi
+                Frame->TransitObject_MusicTrack->SetFPS(RenderFPS);
             }
 
             // Ensure SoundTracks are ready
             if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
                 Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
-                Frame->CurrentObject_SoundTrackMontage->SetFPS(25/*Diaporama->VideoFrameRate*/);        // Pour la generation du sond, force en PAL pour eviter les problèmes d'arrondi
+                Frame->CurrentObject_SoundTrackMontage->SetFPS(RenderFPS);
             }
             if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
                 Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
-                Frame->TransitObject_SoundTrackMontage->SetFPS(25/*Diaporama->VideoFrameRate*/);        // Pour la generation du sond, force en PAL pour eviter les problèmes d'arrondi
+                Frame->TransitObject_SoundTrackMontage->SetFPS(RenderFPS);
             }
 
             // Prepare frame with W and H =0 to force SoundMusicOnly! (thread mode is not necessary here)
@@ -1389,7 +1386,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             QApplication::processEvents();  // Give time to interface!
 
             // Calculate next position
-            Position     +=(FPS/1000);
+            Position     +=(FPS/1000)/*((double(AV_TIME_BASE)/RenderFPS)/1000)*/;
             if (PreviousFrame!=NULL) delete PreviousFrame;
             PreviousFrame=Frame;
             Frame =NULL;

@@ -490,6 +490,17 @@ QString cBaseMediaFile::GetImageSizeStr(ImageSizeFmt Fmt) {
             break;
         }
         if ((FmtInfo=="")&&(MPix>=1)) FmtInfo=QString("%1").arg(MPix,8,'f',1).trimmed()+QApplication::translate("cBaseMediaFile","MPix");
+        else switch (ImageHeight) {
+            case 240:   FmtInfo="QVGA";     break;
+            case 320:   FmtInfo="HVGA";     break;
+            case 480:   FmtInfo="WVGA";     break;
+            case 576:   FmtInfo="DVD";      break;
+            case 600:   FmtInfo="SVGA";     break;
+            case 720:   FmtInfo="720p";     break;
+            case 768:   FmtInfo="XGA";      break;
+            case 1080:  FmtInfo="1080p";    break;
+            default:    FmtInfo="ns";       break;
+        }
     }
     GeoInfo=GetImageGeometryStr();
     switch (Fmt) {
@@ -1002,8 +1013,17 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
             if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
 
             // Get size information
-            if (GetInformationValue("Photo.PixelXDimension")!="") ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
-            if (GetInformationValue("Photo.PixelYDimension")!="") ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
+            if (GetInformationValue("Photo.PixelXDimension")!="")       ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
+                else if (GetInformationValue("Image.ImageWidth")!="")   ImageWidth =GetInformationValue("Image.ImageWidth").toInt();            // TIFF Version
+            if (GetInformationValue("Photo.PixelYDimension")!="")       ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
+                else if (GetInformationValue("Image.ImageLength")!="")  ImageHeight=GetInformationValue("Image.ImageLength").toInt();           // TIFF Version
+
+            // switch ImageWidth and ImageHeight if image was rotated
+            if ((ImageOrientation==6)||(ImageOrientation==8)) {
+                int IW=ImageWidth;
+                ImageWidth=ImageHeight;
+                ImageHeight=IW;
+            }
 
             // Read preview image
             #ifdef EXIV2WITHPREVIEW
@@ -1088,8 +1108,8 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
                     if (Part.contains(" ")) Part=Part.left(Part.indexOf(" "));
                     if (Part.startsWith("Exif.")) Part=Part.mid(QString("Exif.").length());
                     InformationList.append(Part+"##"+Value);
-                    if (Part=="Photo.PixelXDimension") ImageWidth =Value.toInt();
-                    if (Part=="Photo.PixelYDimension") ImageHeight=Value.toInt();
+                    if ((Part=="Photo.PixelXDimension")||(Part=="Image.ImageWidth"))    ImageWidth =Value.toInt();  // TIFF use Image.ImageWidth instead of Photo.PixelXDimension
+                    if ((Part=="Photo.PixelYDimension")||(Part=="Image.ImageLength"))   ImageHeight=Value.toInt();  // TIFF use Image.ImageLength instead of Photo.PixelYDimension
                 }
             }
             Process.terminate();
@@ -1577,7 +1597,7 @@ void cVideoFile::GetFullInformationFromFile() {
         QString     JPegFile=File.absolutePath()+(File.absolutePath().endsWith(QDir::separator())?"":QString(QDir::separator()))+File.completeBaseName()+".jpg";
         if (QFileInfo(JPegFile).exists()) LoadIcons(JPegFile);
 
-        if (Icon16.isNull()) {
+        if (Icon16.isNull()||(ImageWidth==0)|| (ImageHeight==0)) {
             // Open file
             OpenCodecAndFile();
             CloseCodecAndFile();
@@ -1721,6 +1741,8 @@ void cVideoFile::CloseCodecAndFile() {
 //====================================================================================================================
 void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadAudioFrame");
+
+    if (Volume==0) return;
 
     // Ensure file was previously open and all is ok
     if ((SoundTrackBloc==NULL)||(AudioStreamNumber==-1)||(ffmpegAudioFile->streams[AudioStreamNumber]==NULL)||(ffmpegAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
@@ -2443,7 +2465,8 @@ bool cVideoFile::OpenCodecAndFile() {
 
         // Try to load one image to be sure we can make something with this file
         IsOpen=true;
-        qlonglong Position=QTime(0,0,0,0).msecsTo(Duration)/2;
+        qlonglong Position=0;
+        if (QTime(0,0,0,0).msecsTo(Duration)>1000) Position=1000;   // If video is > 1 sec then get image at 1 sec
         QImage *Img =ImageAt(true,Position,0,NULL,1,false,NULL,false);
         if (Img) {
             // Get informations about size image

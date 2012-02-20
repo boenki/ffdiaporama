@@ -131,6 +131,9 @@ QToolButton:pressed {
             <height>24</height>
            </size>
           </property>
+          <property name="shortcut">
+           <string>F5</string>
+          </property>
           <property name="toolButtonStyle">
            <enum>Qt::ToolButtonTextUnderIcon</enum>
           </property>
@@ -173,6 +176,9 @@ File</string>
             <width>24</width>
             <height>24</height>
            </size>
+          </property>
+          <property name="shortcut">
+           <string>Return</string>
           </property>
           <property name="toolButtonStyle">
            <enum>Qt::ToolButtonTextUnderIcon</enum>

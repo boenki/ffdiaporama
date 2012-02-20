@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef WGT_JOBCONVERTIMAGE_H
-#define WGT_JOBCONVERTIMAGE_H
+#ifndef wgt_JobConvertVideo_H
+#define wgt_JobConvertVideo_H
 
 #include <QWidget>
 
@@ -29,29 +29,26 @@
 #include "wgt_JobBase.h"
 
 namespace Ui {
-    class wgt_JobConvertImage;
+    class wgt_JobConvertVideo;
 }
 
-class wgt_JobConvertImage : public wgt_JobBase {
+class wgt_JobConvertVideo : public wgt_JobBase {
 Q_OBJECT
 public:
-    explicit wgt_JobConvertImage(QCustomDialog *Dialog,QWidget *parent = 0);
-    ~wgt_JobConvertImage();
+    explicit wgt_JobConvertVideo(QCustomDialog *Dialog,QWidget *parent = 0);
+    ~wgt_JobConvertVideo();
 
     virtual void    DoInitDialog();
     virtual void    RefreshControls();
     virtual void    AppendJobSummary(int index,QString *JobSummary,cJobQueue *JobQueue);
-    virtual QString ComputeDestSuffix(cBaseMediaFile *MediaFile);
 
 private slots:
-    void            s_DestFormatCB(int);
-    void            s_RescalCB();
-    void            s_DontUpscaleCB();
-    void            s_RescalCombo(int);
-    void            s_QualitySL(int);
+    void    s_DeviceCB(int);
+    void    s_DeviceTypeCB(int);
+    void    s_DeviceModelCB(int);
 
 private:
-    Ui::wgt_JobConvertImage *ui;
+    Ui::wgt_JobConvertVideo *ui;
 };
 
-#endif // WGT_JOBCONVERTIMAGE_H
+#endif // wgt_JobConvertVideo_H

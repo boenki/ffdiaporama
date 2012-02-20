@@ -272,5 +272,10 @@
         <file>img/FolderMask_200.png</file>
         <file>img/AddFolder.png</file>
         <file>img/ConvertImg.png</file>
+        <file>img/ConvertAudio.png</file>
+        <file>img/ConvertVideo.png</file>
+        <file>img/SmallGreen.png</file>
+        <file>img/SmallRed.png</file>
+        <file>img/SmallYellow.png</file>
     </qresource>
 </RCC>

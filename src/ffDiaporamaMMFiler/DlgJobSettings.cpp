@@ -18,12 +18,16 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
+#include "../sharedfiles/QCustomGetFolder.h"
+#include "cApplicationConfig.h"
+
 #include "wgt_JobConvertImage.h"
+#include "wgt_JobConvertAudio.h"
+#include "wgt_JobConvertVideo.h"
+
 #include "DlgJobSettings.h"
 #include "ui_DlgJobSettings.h"
 
-#include "../sharedfiles/QCustomGetFolder.h"
-#include "cApplicationConfig.h"
 
 //====================================================================================================================
 
@@ -60,6 +64,8 @@ void DlgJobSettings::DoInitDialog() {
 
     switch (Job->JobType) {
         case JOBTYPE_IMAGE_CONVERTIMAGE : wgt_Job=new wgt_JobConvertImage(this,ui->JobWidget);  break;
+        case JOBTYPE_AUDIO_CONVERTAUDIO : wgt_Job=new wgt_JobConvertAudio(this,ui->JobWidget);  break;
+        case JOBTYPE_VIDEO_CONVERTVIDEO : wgt_Job=new wgt_JobConvertVideo(this,ui->JobWidget);  break;
     }
     if (wgt_Job) {
         wgt_Job->Job=Job;
@@ -71,7 +77,8 @@ void DlgJobSettings::DoInitDialog() {
     connect(ui->Source_Delete_RD,               SIGNAL(released()),this,SLOT(s_Source_Delete_RD()));
     connect(ui->Source_Rename_RD,               SIGNAL(released()),this,SLOT(s_Source_Rename_RD()));
     connect(ui->Source_Move_RD,                 SIGNAL(released()),this,SLOT(s_Source_Move_RD()));
-    connect(ui->Destination_AddSuffix_RD,       SIGNAL(released()),this,SLOT(s_Destination_AddSuffix_RD()));
+    connect(ui->Destination_AddSizeSuffix_CB,   SIGNAL(released()),this,SLOT(s_Destination_AddSizeSuffix_CB()));
+    connect(ui->Destination_AddSuffix_CB,       SIGNAL(released()),this,SLOT(s_Destination_AddSuffix_CB()));
     connect(ui->Destination_InFolder_RD,        SIGNAL(released()),this,SLOT(s_Destination_InFolder_RD()));
     connect(ui->Source_Suffix_ED,               SIGNAL(textChanged(const QString)),this,SLOT(s_Source_Suffix_ED(const QString)));
     connect(ui->Destination_Suffix_ED,          SIGNAL(textChanged(const QString)),this,SLOT(s_Destination_Suffix_ED(const QString)));
@@ -97,6 +104,7 @@ void DlgJobSettings::RefreshControls() {
     ui->Source_Move_RD->setChecked((Job->JobSettings&JOBQUALIF_SOURCE_MOVE)!=0);
     ui->Source_Folder_ED->setText(Job->SourceFolder);
     ui->Source_Label->setVisible(DisplaySourcePart);
+    ui->Source_Label_spacer1->setVisible(DisplaySourcePart);
     ui->Source_Nothing_RD->setVisible(DisplaySourcePart);       ui->Source_Nothing_RD->setEnabled((Job->JobQualif&JOBQUALIF_SOURCE_KEEP)!=0);
     ui->Source_Delete_RD->setVisible(DisplaySourcePart);        ui->Source_Delete_RD->setEnabled((Job->JobQualif&JOBQUALIF_SOURCE_REMOVE)!=0);
     ui->Source_Rename_RD->setVisible(DisplaySourcePart);        ui->Source_Rename_RD->setEnabled((Job->JobQualif&JOBQUALIF_SOURCE_ADDSUFFIX)!=0);
@@ -110,10 +118,12 @@ void DlgJobSettings::RefreshControls() {
     bool DisplayDestinationPlacePart=(Job->JobQualif&JOBQUALIF_DESTPLACE_INFOLDER)!=0;
     bool DisplayOverWrite=(Job->JobQualif&JOBQUALIF_DESTINATION_OVERWRITE)!=0;
     ui->DestinationName_Label->setVisible(DisplayDestinationNamePart||DisplayDestinationPlacePart||DisplayOverWrite);
-    ui->Destination_AddSuffix_RD->setChecked((Job->JobSettings&JOBQUALIF_DESTNAME_ADDSUFFIX)!=0);
+    ui->Destination_AddSuffix_CB->setChecked((Job->JobSettings&JOBQUALIF_DESTNAME_ADDSUFFIX)!=0);
     ui->Destination_Suffix_ED->setText(Job->DestinationSuffix);
-    ui->Destination_AddSuffix_RD->setVisible(DisplayDestinationNamePart);       ui->Destination_AddSuffix_RD->setEnabled((Job->JobQualif&JOBQUALIF_DESTNAME_ADDSUFFIX)!=0);
-    ui->Destination_Suffix_ED->setVisible(DisplayDestinationNamePart);          ui->Destination_Suffix_ED->setEnabled(ui->Destination_AddSuffix_RD->isChecked()&&DisplayDestinationNamePart);
+    ui->Destination_AddSuffix_CB->setVisible(DisplayDestinationNamePart);       ui->Destination_AddSuffix_CB->setEnabled((Job->JobQualif&JOBQUALIF_DESTNAME_ADDSUFFIX)!=0);
+    ui->Destination_Suffix_ED->setVisible(DisplayDestinationNamePart);          ui->Destination_Suffix_ED->setEnabled(ui->Destination_AddSuffix_CB->isChecked()&&DisplayDestinationNamePart);
+    ui->Destination_AddSizeSuffix_CB->setChecked((Job->JobSettings&JOBQUALIF_DESTNAME_ADDSIZESUFFIX)!=0);
+    ui->Destination_AddSizeSuffix_CB->setVisible(DisplayDestinationNamePart);   ui->Destination_AddSizeSuffix_CB->setEnabled((Job->JobQualif&JOBQUALIF_DESTNAME_ADDSIZESUFFIX)!=0);
     ui->Destination_InFolder_RD->setChecked((Job->JobSettings&JOBQUALIF_DESTPLACE_INFOLDER)!=0);
     ui->Destination_Folder_ED->setText(Job->DestinationFolder);
     ui->DestinationPlace_Label_spacer0->setVisible(DisplayDestinationPlacePart);
@@ -134,6 +144,13 @@ void DlgJobSettings::RefreshControls() {
 
     RefreshJobSummary();
     ui->JobSummary_ED->setText(JobSummary);
+}
+
+//====================================================================================================================
+
+void DlgJobSettings::DoAccept() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::DoAccept");
+    // Keep options for next use
 }
 
 //====================================================================================================================
@@ -174,11 +191,21 @@ void DlgJobSettings::s_Source_Move_RD() {
 
 //====================================================================================================================
 
-void DlgJobSettings::s_Destination_AddSuffix_RD() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Destination_AddSuffix_RD");
+void DlgJobSettings::s_Destination_AddSuffix_CB() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Destination_AddSuffix_CB");
 
-    if (ui->Destination_AddSuffix_RD->isChecked()) Job->JobSettings=(Job->JobSettings|JOBQUALIF_DESTNAME_ADDSUFFIX);
+    if (ui->Destination_AddSuffix_CB->isChecked()) Job->JobSettings=(Job->JobSettings|JOBQUALIF_DESTNAME_ADDSUFFIX);
         else Job->JobSettings=(Job->JobSettings & ~JOBQUALIF_DESTNAME_ADDSUFFIX);
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgJobSettings::s_Destination_AddSizeSuffix_CB() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::s_Destination_AddSizeSuffix_CB");
+
+    if (ui->Destination_AddSizeSuffix_CB->isChecked()) Job->JobSettings=(Job->JobSettings|JOBQUALIF_DESTNAME_ADDSIZESUFFIX);
+        else Job->JobSettings=(Job->JobSettings & ~JOBQUALIF_DESTNAME_ADDSIZESUFFIX);
     RefreshControls();
 }
 
@@ -250,19 +277,29 @@ void DlgJobSettings::RefreshJobSummary() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgJobSettings::RefreshJobSummary");
 
     JobSummary  ="";
-
     for (int i=0;i<Job->SourcesAndDests.count();i++) {
         QString Source      =Job->SourcesAndDests[i];
-        QString Destination =Job->ComputeDestinationName(Source);
-        QString NewSource   =Job->ComputeNewSourceName(Source);
+        cBaseMediaFile  *MediaFile=NULL;
 
-        if (JobSummary!="") JobSummary=JobSummary+"\n";
+        // Search MediaFile in list
+        for (int j=0;j<JobQueue->MediaList.count();j++) if (((cBaseMediaFile *)JobQueue->MediaList.at(j))->FileName==Source) {
+            MediaFile=JobQueue->MediaList.at(j);
+            break;
+        }
 
-        JobSummary=JobSummary+JobQueue->JobTypeText[Job->JobType]+" ("+QFileInfo(Source).fileName()+" => "+(QFileInfo(Source).absolutePath()==QFileInfo(Destination).absolutePath()?QFileInfo(Destination).fileName():Destination)+")";
-        if ((Job->JobSettings&JOBQUALIF_DESTINATION_OVERWRITE)!=0)  JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","overwrite destination file as needed"));
-        if ((Job->JobSettings&JOBQUALIF_SOURCE_REMOVE)!=0)          JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and remove %1")).arg(Source);
-        else if ((Job->JobSettings&JOBQUALIF_SOURCE_ADDSUFFIX)!=0)  JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and rename %1 to %2")).arg(Source).arg(NewSource);
-        else if ((Job->JobSettings&JOBQUALIF_SOURCE_MOVE)!=0)       JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and move %1 to %2")).arg(Source).arg(NewSource);
-        if (wgt_Job) wgt_Job->AppendJobSummary(i,&JobSummary,JobQueue);
+        if (MediaFile!=NULL) {
+            QString DestSuffix  =wgt_Job->ComputeDestSuffix(MediaFile);
+            QString Destination =Job->ComputeDestinationName(Source,DestSuffix);
+            QString NewSource   =Job->ComputeNewSourceName(Source);
+
+            if (JobSummary!="") JobSummary=JobSummary+"\n";
+
+            JobSummary=JobSummary+JobQueue->JobTypeText[Job->JobType]+" ("+QFileInfo(Source).fileName()+" => "+(QFileInfo(Source).absolutePath()==QFileInfo(Destination).absolutePath()?QFileInfo(Destination).fileName():Destination)+")";
+            if ((Job->JobSettings&JOBQUALIF_DESTINATION_OVERWRITE)!=0)  JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","overwrite destination file as needed"));
+            if ((Job->JobSettings&JOBQUALIF_SOURCE_REMOVE)!=0)          JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and remove %1")).arg(Source);
+            else if ((Job->JobSettings&JOBQUALIF_SOURCE_ADDSUFFIX)!=0)  JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and rename %1 to %2")).arg(Source).arg(NewSource);
+            else if ((Job->JobSettings&JOBQUALIF_SOURCE_MOVE)!=0)       JobSummary=JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and move %1 to %2")).arg(Source).arg(NewSource);
+            if (wgt_Job) wgt_Job->AppendJobSummary(i,&JobSummary,JobQueue);
+        }
     }
 }

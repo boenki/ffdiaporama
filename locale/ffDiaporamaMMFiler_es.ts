@@ -297,111 +297,111 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="62"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
         <source>ffmpeg not found - critical - application will stop !</source>
         <translation>ffmpeg no encontrado - critico - la aplicación se detiene !</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="164"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="165"/>
         <source>ffmpeg Audio Codecs</source>
         <translation>ffmpeg Codecs de Audio</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="112"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="125"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="132"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="139"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="158"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="165"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="169"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="113"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="126"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="133"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="140"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="159"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="166"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="170"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="174"/>
         <source>available</source>
         <translation>disponible</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="59"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="60"/>
         <source>Unable to determine ffmpeg version</source>
         <translation>No se puede conocer versión de ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="102"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="103"/>
         <source>LibExiv2 version:</source>
         <translation>versión de LibExiv2:</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="104"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="105"/>
         <source>LibExiv2/Exiv2 binary version</source>
         <translation>Versión de LibExiv2/Exiv2</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="112"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="125"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="132"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="139"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="158"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="165"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="169"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="113"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="126"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="133"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="140"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="159"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="166"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="170"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="174"/>
         <source>not available</source>
         <translation>no disponible</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="112"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="113"/>
         <source>LibExiv2 support for preview image</source>
         <translation>Soporte de LibExiv2 para previsualizar imagen</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="118"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="119"/>
         <source>TAGLib version:</source>
         <translation>Versión de TAGLib:</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="125"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="126"/>
         <source>TAGLib support for FLAC</source>
         <translation>Soporte de TAGLib para FLAC</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="132"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="133"/>
         <source>TAGLib support for ASF/WMA</source>
         <translation>Soporte de TAGLib para ASF/WMA</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="139"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="140"/>
         <source>TAGLib support for M4A/MP4</source>
         <translation>Soporte de TAGLib para M4A/MP4</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="148"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="149"/>
         <source>ffmpeg version:</source>
         <translation>Versión de ffmpeg:</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="149"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="150"/>
         <source>LIBAVCODEC version:</source>
         <translation>Versión de LIBAVCODEC:</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="150"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="151"/>
         <source>LIBAVFORMAT version:</source>
         <translation>Versión de LIBAVFORMAT:</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="151"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="152"/>
         <source>LIBSWSCALE version:</source>
         <translation>Versión de LIBSWSCALE:</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="158"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="159"/>
         <source>ffmpeg support for TAG and CHAPTERS</source>
         <translation>Soporte de ffmpeg para TAG y CAPÍTULOS</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="168"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="169"/>
         <source>ffmpeg Video Codecs</source>
         <translation>ffmpeg Codecs de Video</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="172"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>
         <source>ffmpeg Container Formats</source>
         <translation>ffmpeg Formatos</translation>
     </message>
@@ -499,7 +499,7 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="147"/>
         <source>Rename sources files by adding this suffix:</source>
-        <translation type="unfinished"></translation>
+        <translation>Renombrar archivos de origen añadiendo este sufijo:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="293"/>
@@ -526,56 +526,61 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="323"/>
-        <source>Add suffix to file names :</source>
+        <source>Add this suffix to file name :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="513"/>
         <source>Move sources files to this folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mover archivos de origen a este directorio:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="535"/>
         <source>Place destination files In another folder than sources files</source>
-        <translation type="unfinished"></translation>
+        <translation>Situar destino de archivos en otro directorio distinto al origen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="554"/>
         <source>Overwrite existing destination files</source>
+        <translation>Sobreescribir archivos de destino existentes</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="581"/>
+        <source>Add size suffix to file name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="599"/>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="641"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Aceptar modificación y salir de ventana</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="602"/>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="644"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="613"/>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="655"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Cancelar modificación y salir de ventana</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="616"/>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="658"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="627"/>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="669"/>
         <source>Open help page describing this dialog box</source>
         <translation>Abrir ayuda que describe esta ventana</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="630"/>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="672"/>
         <source>&amp;Help</source>
         <translation>&amp;Ayuda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="637"/>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="679"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
@@ -790,6 +795,14 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     </message>
 </context>
 <context>
+    <name>DlgRenderVideo</name>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="658"/>
+        <source>Error starting ffmpeg</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="95"/>
@@ -797,27 +810,27 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
         <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="320"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="326"/>
         <source>Change application and project settings</source>
         <translation>Cambiar configuración del proyecto y de la aplicación</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="323"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="329"/>
         <source>Settings</source>
         <translation>Configuración</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="361"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="367"/>
         <source>Exit application (Ctrl+W)</source>
         <translation>Salir de la Aplicación (Ctrl+W)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="364"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="370"/>
         <source>Exit</source>
         <translation>Salir</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="377"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="383"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
@@ -832,129 +845,140 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
         <translation>Refrescar árbol y tabla de directorio</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="161"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="135"/>
+        <source>F5</source>
+        <translation type="unfinished">F5</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="164"/>
         <source>Open file with default application defined on computer</source>
         <translation>Abrir archivo con aplicación predeterminada definida en el ordenador</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="164"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="167"/>
         <source>Open
 File</source>
         <translation>Abrir
 Archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="197"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="181"/>
+        <source>Return</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="203"/>
         <source>Display detailled information on file</source>
         <translation>Muestra información detallada del archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="200"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="206"/>
         <source>Display
 Information</source>
         <translation>Mostrar
 Información</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="233"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="239"/>
         <source>Remove file from the disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar archivo desde disco</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="236"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="242"/>
         <source>Remove
 File</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar
+Archivo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="250"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="256"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="272"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="278"/>
         <source>Open contextual action menu</source>
         <translation>Abrir menu de acción contextual</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="275"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="281"/>
         <source>Action</source>
         <translation>Acción</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="412"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="418"/>
         <source>Select display mode</source>
         <translation>Seleccionar modo de vista</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="415"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="421"/>
         <source>Mode</source>
         <translation>Modo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="447"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="453"/>
         <source>Select file filter</source>
         <translation>Seleccionar filtro</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="450"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="456"/>
         <source>Filter</source>
         <translation>Filtro</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="471"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="477"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="507"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="513"/>
         <source>Display informations about ffDiaporama</source>
         <translation>Muestra información acerca de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="510"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="516"/>
         <source>About</source>
         <translation>Acerca de</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="554"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="560"/>
         <source>Call ffDiaporama WIKI</source>
         <translation>Abrir WIKI de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="557"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="563"/>
         <source>Support
 and help</source>
         <translation>Soporte
 y Ayuda</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="571"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="577"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="605"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="611"/>
         <source>Display blog/news page from internet WEB site</source>
         <translation>Muestra blog/página de noticias desde el sitio WEB</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="608"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="614"/>
         <source>What&apos;s new</source>
         <translation>Actualidad</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="1015"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="1021"/>
         <source>Stop current job</source>
         <translation>Parar trabajo actual</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="1056"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="1062"/>
         <source>Up job in the list</source>
         <translation>Subir trabajo en lista</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="1097"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="1103"/>
         <source>Down job in the list</source>
         <translation>Bajar trabajo en lista</translation>
     </message>
@@ -986,13 +1010,13 @@ y Ayuda</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="462"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="373"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="382"/>
         <source>Read configuration file</source>
         <translation>Lee archivo de configuración</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="464"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="383"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="392"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
@@ -1000,7 +1024,7 @@ y Ayuda</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="469"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="388"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="397"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
@@ -1008,7 +1032,7 @@ y Ayuda</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="476"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="395"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="404"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
@@ -1016,7 +1040,7 @@ y Ayuda</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="643"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="442"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="451"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
@@ -1030,12 +1054,12 @@ y Ayuda</translation>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="101"/>
         <source>Error allocating memory for cached filtered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al asignar memoria para el archivo de caché</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="103"/>
         <source>Error loading cached filtered file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al cargar el archivo de caché :</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="110"/>
@@ -1045,132 +1069,132 @@ y Ayuda</translation>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="113"/>
         <source>Error allocating memory for render image</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al asignar memoria para procesar imagen</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="115"/>
         <source>Error loading file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Error cargando archivo :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="375"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="382"/>
         <source>files</source>
         <translation>archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="376"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="383"/>
         <source>folders</source>
         <translation>directorios</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="377"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="384"/>
         <source>Total size:</source>
         <translation>Tamaño total:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="378"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="385"/>
         <source>Total duration:</source>
         <translation>Duración total:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="444"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="451"/>
         <source>Configuration not correct!</source>
         <translation>¡Configuración no correcta!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="514"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="521"/>
         <source>Details view</source>
         <translation>Vista detalles</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="515"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="522"/>
         <source>Short summary view</source>
         <translation>Vista resumen corto</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="516"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="523"/>
         <source>Long summary view</source>
         <translation>Vista resumen largo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="517"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="524"/>
         <source>Small icon view</source>
         <translation>Vista icono pequeño</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="518"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="525"/>
         <source>Medium icon view</source>
         <translation>Vista icono mediano</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="519"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="526"/>
         <source>Images wall view</source>
         <translation>Imágenes vista muro</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="546"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="553"/>
         <source>All files</source>
         <translation>Todos los archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="547"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="554"/>
         <source>Managed files</source>
         <translation>Gestionar archivos</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="548"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="555"/>
         <source>Image files</source>
         <translation>Archivos de imagen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="549"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="556"/>
         <source>Video files</source>
         <translation>Archivos de video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="550"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="557"/>
         <source>Music files</source>
         <translation>Archivos de música</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="551"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="558"/>
         <source>ffDiaporama project files</source>
         <translation>Archivos de proyecto ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="616"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="623"/>
         <source>Are you sure to remove theses files ?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Estás seguro que quieres eliminar estos archivos?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="619"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="626"/>
         <source>Successfuly remove file (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos eliminados (%1)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="621"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="628"/>
         <source>Failed to remove file (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al eliminar archivo (%1)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="640"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="647"/>
         <source>Are you sure to remove this folder ?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Estás seguro que quieres eliminar esta carpeta?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="663"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="670"/>
         <source>Impossible to remove file %1 - error %2:%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposible eliminar archivo %1 - error %2:%3</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="668"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="675"/>
         <source>Impossible to remove folder %1 - error %2:%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposible eliminar carpeta %1 - error %2:%3</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="672"/>
+        <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="679"/>
         <source>Successfully remove folder (and all is content) %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Carpeta eliminada (y todo su contenido) %1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cFilterTransformObject.cpp" line="73"/>
@@ -1514,43 +1538,43 @@ y Ayuda</translation>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="86"/>
         <source>Refresh all</source>
-        <translation type="unfinished"></translation>
+        <translation>Refrescar todo</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="87"/>
         <source>Refresh from here</source>
-        <translation type="unfinished"></translation>
+        <translation>Refrescar aquí</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="88"/>
         <source>Create new subfolder</source>
-        <translation type="unfinished"></translation>
+        <translation>Crear nueva subcarpeta</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="89"/>
         <source>Remove folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar carpeta</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="107"/>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="115"/>
         <source>Create folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Cear carpeta</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="107"/>
         <source>Folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Carpeta:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="114"/>
         <source>Error %1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Error %1:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="116"/>
         <source>Impossible to create folder !</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Imposible crear carpeta !</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="348"/>
@@ -1569,42 +1593,42 @@ y Ayuda</translation>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="20"/>
         <source>Select a folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar una carpeta</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="98"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Aceptar modificación y alir de la ventana</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="101"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Ok</translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="112"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar modificación y salir de la ventana</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="115"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Cancelar</translation>
+        <translation>&amp;Cancelar</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="126"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir ayuda que describe contenido de esta ventana</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="129"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Ayuda</translation>
+        <translation>&amp;Ayuda</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="136"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -1630,89 +1654,185 @@ y Ayuda</translation>
         <translation>Tipo de trabajo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="216"/>
+        <location filename="../src/ffDiaporamaMMFiler/QCustomJobTable.cpp" line="63"/>
+        <source>Current action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="248"/>
         <source>Waiting</source>
         <translation>Esperando</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="217"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="249"/>
         <source>Started</source>
         <translation>Iniciado</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="218"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="250"/>
         <source>Paused</source>
         <translation>Pausa</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="219"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="251"/>
         <source>Canceled</source>
         <translation>Cancelado</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="220"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="252"/>
         <source>Succeeded</source>
         <translation>Realizado</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="221"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="253"/>
         <source>Ended with error</source>
         <translation>Finalizado con error</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="223"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="255"/>
         <source>Not defined</source>
         <translation>Sin definir</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="224"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="256"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="225"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="257"/>
         <source>Display information</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar información</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="226"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="258"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="227"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="259"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="260"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="261"/>
         <source>Convert</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="262"/>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="298"/>
         <source>overwrite destination file as needed</source>
-        <translation type="unfinished"></translation>
+        <translation>abrir archivo de destino si es necesario</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="263"/>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="299"/>
         <source>and remove %1</source>
-        <translation type="unfinished"></translation>
+        <translation>y eliminar %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="264"/>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="300"/>
         <source>and rename %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>y renombrar %1 to %2</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="265"/>
+        <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="301"/>
         <source>and move %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>y mover %1 to %2</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="97"/>
-        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="114"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="130"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="151"/>
         <source>and rescal image to %1</source>
+        <translation>y escalar imagen a %1</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="132"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="153"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="157"/>
+        <source>and rotate image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="120"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="133"/>
+        <source>but don&apos;t rotate image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="159"/>
         <source>new image size will become %1x%2</source>
+        <translation>el nuevo tamaño de imagen será %1x%2</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="130"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="164"/>
+        <source>and set codec to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="131"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="165"/>
+        <source>and set audio compression to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="132"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="166"/>
+        <source>and force audio frequency to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="133"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="167"/>
+        <source>and force to mono</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="133"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="167"/>
+        <source>and force to stereo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="106"/>
+        <source>and resize to %1x%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="113"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="117"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="121"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="124"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="129"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="139"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="149"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="152"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="155"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="158"/>
+        <source>and set video codec to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="114"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="130"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="140"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="153"/>
+        <source>and set video compression to %1 with + and - 10%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="118"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="122"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="125"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="156"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="159"/>
+        <source>and set video compression to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="131"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="141"/>
+        <source>and set video preset %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="150"/>
+        <source>and set video quality to 2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1735,9 +1855,9 @@ y Ayuda</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="405"/>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="546"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="557"/>
         <source>Impossible to open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposible abrir archivo %1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="492"/>
@@ -1745,70 +1865,70 @@ y Ayuda</translation>
         <translation>MPix</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="565"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="576"/>
         <source>Unmanaged</source>
         <comment>File type</comment>
         <translation>Sin gestionar</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="889"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="900"/>
         <source>Slides</source>
         <translation>Diapositivas</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="890"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="901"/>
         <source>Chapters</source>
         <translation>Capítulos</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="946"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="957"/>
         <source>Image</source>
         <comment>File type</comment>
         <translation>Imagen</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="947"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="958"/>
         <source>Thumbnail</source>
         <comment>File type</comment>
         <translation>Miniatura</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="973"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="984"/>
         <source>Image don&apos;t have EXIF metadata %1</source>
-        <translation type="unfinished"></translation>
+        <translation>La imagen no tiene metadata EXIF %1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1058"/>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1102"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1078"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1122"/>
         <source>Impossible to start exiv2 - no exif informations will be decode for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposible lanzar exiv2 - no se mostrará información exif %1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1063"/>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1107"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1083"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1127"/>
         <source>Error during exiv2 process - no exif informations will be decode for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Error durante el proceso de exiv2 - no se mostrará información exif %1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1067"/>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1111"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1087"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1131"/>
         <source>exiv2 return error %1 - no exif informations will be decode for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>exiv2 devuelve error %1 - no se mostrará información exif %2</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1606"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1626"/>
         <source>Video</source>
         <comment>File type</comment>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1605"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1625"/>
         <source>Music</source>
         <comment>File type</comment>
         <translation>Musica</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1450"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1470"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
         <translation>Mono</translation>
@@ -1821,121 +1941,141 @@ y Ayuda</translation>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="84"/>
         <source>Error overwritting %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Error sobreescribiendo %1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="854"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="865"/>
         <source>Slide number</source>
         <translation>Número de diapositiva</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="919"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="930"/>
         <source>ffDiaporama</source>
         <comment>File type</comment>
         <translation>ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1451"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1471"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
         <translation>Estéreo</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="693"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="704"/>
         <source>Folder</source>
         <comment>File type</comment>
         <translation>Directorio</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="582"/>
+        <source>Impossible to start exiv2 - no exif informations will be set for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="587"/>
+        <source>Error during exiv2 process - no exif informations will be set for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="591"/>
+        <source>exiv2 return error %1 - no exif informations will be set for %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="597"/>
+        <source>Successfully add minimal exif values to %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>cDeviceModelList</name>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="490"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="499"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
         <translation>Avanzado</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="491"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="494"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="500"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="503"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
         <translation>Smartphone</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="492"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="501"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
         <translation>Sistema Multimedia</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="493"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="502"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
         <translation>Para la WEB</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="495"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="504"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
         <translation>Reproductor portátil</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="496"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="505"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
         <translation>Netbook/NetPC</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="497"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="506"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
         <translation>Consola de juegos portátil</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="498"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="507"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
         <translation>Tablet PC</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="499"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
         <translation>Disco duro multimedia y pasarela</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="500"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="509"/>
         <source>Player</source>
         <comment>Device database type</comment>
         <translation>Reproductor</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="501"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
         <translation>ADSL Box</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="502"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="511"/>
         <source>Game console</source>
         <comment>Device database type</comment>
         <translation>Consola de Juegos</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="503"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="512"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
         <translation>Reproductor SWF Flash</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="504"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="513"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
         <translation>Intercambio de videos y Web Social</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="505"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="514"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>
@@ -1944,54 +2084,191 @@ y Ayuda</translation>
 <context>
     <name>cJobQueue</name>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="284"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="400"/>
         <source>Applying source transformation : Sorry no yet developped !</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplicando transformación : ¡ Disculpas, aún no está desarrollado !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="298"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="416"/>
         <source>Failed to remove existing destination file (%1)</source>
+        <translation>Error al eliminar archivo de destino existente(%1)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="418"/>
+        <source>Successfully remove existing destination file (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="311"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="430"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="624"/>
         <source>Jobtype error</source>
         <translation>Error de tipo de trabajo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="327"/>
-        <source>Convert image</source>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="451"/>
+        <source>Start image conversion of %1 to %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="334"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="454"/>
+        <source>Open file</source>
+        <translation type="unfinished">Abrir archivo</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="457"/>
+        <source>Successfully open file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="460"/>
+        <source>Rescal image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="482"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="510"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="551"/>
+        <source>Failed to rotate image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="483"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="511"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="552"/>
+        <source>Succesfully rotate image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="536"/>
+        <source>Failed to rescal image %1 to %2x%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="537"/>
+        <source>Succesfully rescal image %1 to %2x%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="557"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="642"/>
+        <source>Apply destination overwriting strategy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="561"/>
+        <source>Save image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="572"/>
+        <source>Add minimal exif value to image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="599"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="695"/>
+        <source>Apply source file strategy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="612"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="706"/>
+        <source>Job finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="639"/>
+        <source>Start audio conversion of %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="644"/>
+        <source>Error : for sound conversion, source and destination must be different !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="653"/>
+        <source>Process ffmpeg job</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="688"/>
+        <source>Error : ffmpeg job can&apos;t start : %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="689"/>
+        <source>Error : ffmpeg return error %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="691"/>
+        <source>Succesfully process ffmpeg job</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="456"/>
         <source>Failed to open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al abrir archivo %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="372"/>
-        <source>failed to rescal image %1 to %2x%3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="373"/>
-        <source>succesfully rescal image %1 to %2x%3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="383"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="563"/>
         <source>Failed to write destination file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al escribir el archivo de destino %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="385"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="565"/>
         <source>Successfully writing destination file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivo de destino creado %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="295"/>
+        <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="411"/>
         <source>Destination file (%1) already exist</source>
         <translation>Archivo de destino (%1) ya existe</translation>
+    </message>
+</context>
+<context>
+    <name>wgt_JobConvertAudio</name>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="39"/>
+        <source>Convert audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="46"/>
+        <source>Format :</source>
+        <translation type="unfinished">Formato :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="68"/>
+        <source>Select the audio codec to use for the rendering.</source>
+        <translation type="unfinished">Seleccionar codec de audio que se va a usar para la generación del video.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="75"/>
+        <source>Bit rate :</source>
+        <translation type="unfinished">Tasa de bits :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="97"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="158"/>
+        <source>Select the bit rate to use for audio during the rendering.</source>
+        <translation type="unfinished">Selecciona tasa de bits para el audio que se va a usar para la generación del video.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="104"/>
+        <source>Force to mono</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="111"/>
+        <source>Force to stereo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="139"/>
+        <source>Change frequency to :</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1999,61 +2276,100 @@ y Ayuda</translation>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="48"/>
         <source>Convert image</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir imagen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="79"/>
         <source>Quality :</source>
-        <translation type="unfinished"></translation>
+        <translation>Calidad:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="93"/>
         <source>QVGA (240 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>QVGA (240 líneas)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="98"/>
         <source>HVGA (320 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>HVGA (320 líneas)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="103"/>
         <source>VGA/WVGA (480 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>VGA/WVGA (480 líneas)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="108"/>
         <source>SD/DVD (576 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>SD/DVD (576 líneas)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="113"/>
         <source>720p (720 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>720p (720 líneas)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="118"/>
         <source>XGA (768 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>XGA (768 líneas)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="123"/>
         <source>1080p (1080 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080p (1080 líneas)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="156"/>
         <source>Resize :</source>
-        <translation type="unfinished"></translation>
+        <translation>Redimensionar :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="169"/>
         <source>But not upscale image</source>
+        <translation>Sin escalar imagen</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="250"/>
+        <source>Format :</source>
+        <translation>Formato :</translation>
+    </message>
+</context>
+<context>
+    <name>wgt_JobConvertVideo</name>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="33"/>
+        <source>Convert video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="235"/>
-        <source>Format :</source>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="40"/>
+        <source>Device type :</source>
+        <translation type="unfinished">Tipo de Dispositivo :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="50"/>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="91"/>
+        <source>Select the type of equipment.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="57"/>
+        <source>Device model :</source>
+        <translation type="unfinished">Modelo de Dispositivo :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="67"/>
+        <source>Select the model of equipment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="74"/>
+        <source>Include sound in the video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="81"/>
+        <source>Device :</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

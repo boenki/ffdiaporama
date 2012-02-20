@@ -38,6 +38,7 @@ public:
     virtual void    DoInitDialog()=0;
     virtual void    RefreshControls()=0;
     virtual void    AppendJobSummary(int index,QString *JobSummary,cJobQueue *JobQueue)=0;
+    virtual QString ComputeDestSuffix(cBaseMediaFile *) {return "";}
 
 signals:
     void NeedRefreshControls();

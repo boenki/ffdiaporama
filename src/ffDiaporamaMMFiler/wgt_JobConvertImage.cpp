@@ -25,7 +25,7 @@
 //====================================================================================================================
 
 wgt_JobConvertImage::wgt_JobConvertImage(QCustomDialog *Dialog,QWidget *parent):wgt_JobBase(Dialog,parent),ui(new Ui::wgt_JobConvertImage) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::DoInitDialog");
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::wgt_JobConvertImage");
 
     ui->setupUi(this);
 }
@@ -33,7 +33,7 @@ wgt_JobConvertImage::wgt_JobConvertImage(QCustomDialog *Dialog,QWidget *parent):
 //====================================================================================================================
 
 wgt_JobConvertImage::~wgt_JobConvertImage() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::DoInitDialog");
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::~wgt_JobConvertImage");
 
     delete ui;
 }
@@ -53,18 +53,44 @@ void wgt_JobConvertImage::DoInitDialog() {
 //====================================================================================================================
 
 void wgt_JobConvertImage::RefreshControls() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::DoInitDialog");
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::RefreshControls");
 
     int Quality=90;
     ui->DestFormatCB->setCurrentIndex(ui->DestFormatCB->findText(Job->DestinationExtension));
-    ui->RescalCB->setChecked(Job->IsCommandListContain("-S"));
-    ui->DontUpscaleCB->setChecked(Job->IsCommandListContain("-D"));
+    ui->RescalCB->setChecked(Job->IsCommandListContain("-SRS"));
+    ui->DontUpscaleCB->setChecked(Job->IsCommandListContain("-DUP"));
     ui->RescalCombo->setEnabled(ui->RescalCB->isChecked());
     ui->DontUpscaleCB->setEnabled(ui->RescalCB->isChecked());
     if (Job->IsCommandListContain("-Q")) Quality=Job->CommandListValue("-Q");
     ui->QualitySL->setValue(Quality);
     ui->QualityLabel->setText(QString("%1%").arg(Quality));
-    if (Job->IsCommandListContain("-S")) ui->RescalCombo->setCurrentIndex(ui->RescalCombo->findText(Job->CommandListValueString("-S")));
+    if (Job->IsCommandListContain("-SRS")) ui->RescalCombo->setCurrentIndex(ui->RescalCombo->findText(Job->CommandListValueString("-SRS")));
+    ui->QualitySL->setEnabled    ((Job->DestinationExtension!="tiff")&&(Job->DestinationExtension!="bmp")&&(Job->DestinationExtension!="ppm"));
+    ui->QualityLabel->setEnabled ((Job->DestinationExtension!="tiff")&&(Job->DestinationExtension!="bmp")&&(Job->DestinationExtension!="ppm"));
+    ui->QualityLabel0->setEnabled((Job->DestinationExtension!="tiff")&&(Job->DestinationExtension!="bmp")&&(Job->DestinationExtension!="ppm"));
+}
+
+//====================================================================================================================
+
+QString wgt_JobConvertImage::ComputeDestSuffix(cBaseMediaFile *MediaFile) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::ComputeDestSuffix");
+
+    QString SizeSuffix="ns";
+    if (Job->IsCommandListContain("-SRS")) {
+        QString Value=Job->CommandListValueString("-SRS");
+        if (Value.indexOf("MPix")!=-1)  SizeSuffix=Value.left(Value.indexOf(" "))+Value.mid(Value.indexOf(" ")+1);  // Remove space
+            else                        SizeSuffix=Value.left(Value.indexOf(" "));  // Get beginning
+    } else {
+        SizeSuffix=MediaFile->GetImageSizeStr(cBaseMediaFile::FMTONLY);
+    }
+    int         i=0;
+    QStringList CommandList=Job->Command.split("##");
+    Job->Command="";
+    while (i<CommandList.count()) if ((CommandList[i].startsWith("-SSX"))||(CommandList[i].startsWith("-SRT"))) CommandList.removeAt(i); else i++;
+    CommandList.append(QString("-SSX:%1").arg(SizeSuffix));
+    CommandList.append(QString("-SRT:%1").arg(MediaFile->ImageOrientation));
+    for (int i=0;i<CommandList.count();i++) Job->Command=(Job->Command!=""?Job->Command+"##":"")+CommandList[i];
+    return SizeSuffix;
 }
 
 //====================================================================================================================
@@ -82,19 +108,30 @@ void wgt_JobConvertImage::AppendJobSummary(int index,QString *JobSummary,cJobQue
     }
 
     if (MediaFile!=NULL) {
+        bool ForceRotate=(MediaFile->ImageOrientation!=1)&&((Job->DestinationExtension=="tiff")||(Job->DestinationExtension=="bmp")||(Job->DestinationExtension=="ppm")||(Job->DestinationExtension=="png"));
         int  ImageWidth =MediaFile->ImageWidth;
         int  ImageHeight=MediaFile->ImageHeight;
-        if (Job->IsCommandListContain("-S")) {
-            QString Value       =Job->CommandListValueString("-S");
+        if (Job->IsCommandListContain("-SRS")) {
+            QString Value       =Job->CommandListValueString("-SRS");
             if (Value.indexOf("MPix")!=-1) {
+                // if image is rotated then swap ImageWidth and ImageHeight
+                if ((MediaFile->ImageOrientation==3)||(MediaFile->ImageOrientation==6)||(MediaFile->ImageOrientation==8)) {
+                    int IW=ImageWidth;
+                    ImageWidth=ImageHeight;
+                    ImageHeight=IW;
+                }
                 double  iValue      =Value.left(Value.indexOf("MPix")).trimmed().toDouble()*1000*1000;
                 double  ActualValue =ImageWidth*ImageHeight;
                 // + or - 10%
-                if (((iValue-iValue*0.1>ActualValue)&&(!Job->IsCommandListContain("-D")))||(iValue+iValue*0.1<ActualValue)) {
+                if (((iValue-iValue*0.1>ActualValue)&&(!Job->IsCommandListContain("-DUP")))||(iValue+iValue*0.1<ActualValue)) {
                     double Transfo=sqrt(iValue/ActualValue);
                     ImageWidth =int(Transfo*double(ImageWidth));
                     ImageHeight=int(Transfo*double(ImageHeight));
                     *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and rescal image to %1")).arg(Value);
+                    if ((MediaFile->ImageOrientation==3)||(MediaFile->ImageOrientation==6)||(MediaFile->ImageOrientation==8)) {
+                        if (ForceRotate)    *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and rotate image"));
+                            else            *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","but don't rotate image"));
+                    }
                 }
             } else {
                 int MaxRows=0;
@@ -107,15 +144,17 @@ void wgt_JobConvertImage::AppendJobSummary(int index,QString *JobSummary,cJobQue
                 else if (Value.indexOf("1080p")!=-1)    MaxRows=1080;
                 if (MaxRows!=0) {
                     // + or - 10%
-                    if (((MaxRows-MaxRows*0.1>ImageHeight)&&(!Job->IsCommandListContain("-D")))||(MaxRows+MaxRows*0.1<ImageHeight)) {
+                    if (((MaxRows-MaxRows*0.1>ImageHeight)&&(!Job->IsCommandListContain("-DUP")))||(MaxRows+MaxRows*0.1<ImageHeight)) {
                         double AspectR=double(ImageWidth)/double(ImageHeight);
                         ImageHeight=MaxRows;
                         ImageWidth =int(double(MaxRows)*AspectR);
                         *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and rescal image to %1")).arg(Value);
+                        if ((MediaFile->ImageOrientation==3)||(MediaFile->ImageOrientation==6)||(MediaFile->ImageOrientation==8))
+                            *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and rotate image"));
                     }
                 }
             }
-        }
+        } else if (ForceRotate) *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and rotate image"));
         if ((ImageWidth!=MediaFile->ImageWidth)||(ImageHeight!=MediaFile->ImageHeight)) {
             *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","new image size will become %1x%2")).arg(ImageWidth).arg(ImageHeight);
         }
@@ -139,8 +178,8 @@ void wgt_JobConvertImage::s_RescalCB() {
     int         i=0;
     QStringList CommandList=Job->Command.split("##");
     Job->Command="";
-    while (i<CommandList.count()) if (CommandList[i].startsWith("-S")) CommandList.removeAt(i); else i++;
-    if (ui->RescalCB->isChecked()) CommandList.append(QString("-S:%1").arg(ui->RescalCombo->currentText()));
+    while (i<CommandList.count()) if (CommandList[i].startsWith("-SRS")) CommandList.removeAt(i); else i++;
+    if (ui->RescalCB->isChecked()) CommandList.append(QString("-SRS:%1").arg(ui->RescalCombo->currentText()));
     for (int i=0;i<CommandList.count();i++) Job->Command=(Job->Command!=""?Job->Command+"##":"")+CommandList[i];
     emit NeedRefreshControls();
 }
@@ -161,8 +200,8 @@ void wgt_JobConvertImage::s_DontUpscaleCB() {
     int         i=0;
     QStringList CommandList=Job->Command.split("##");
     Job->Command="";
-    while (i<CommandList.count()) if (CommandList[i].startsWith("-D")) CommandList.removeAt(i); else i++;
-    if (ui->DontUpscaleCB->isChecked()) CommandList.append(QString("-D"));
+    while (i<CommandList.count()) if (CommandList[i].startsWith("-DUP")) CommandList.removeAt(i); else i++;
+    if (ui->DontUpscaleCB->isChecked()) CommandList.append(QString("-DUP"));
     for (int i=0;i<CommandList.count();i++) Job->Command=(Job->Command!=""?Job->Command+"##":"")+CommandList[i];
     emit NeedRefreshControls();
 }

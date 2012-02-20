@@ -50,11 +50,7 @@ DlgManageStyle::DlgManageStyle(cStyleCollection *TheCollection,QWidget *parent):
     Collection    =TheCollection;
     UndoCollection=Collection->PrepUndo();
 
-#if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-#else
-    setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
-#endif
 
     PopulateList("");
 

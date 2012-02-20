@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="it_IT" sourcelanguage="en">
 <context>
     <name>DlgAbout</name>
     <message>
@@ -180,27 +180,27 @@
     </message>
     <message>
         <source>Thumbnail rules options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni regolazione miniatura</translation>
     </message>
     <message>
         <source>Minimum height for EXIF &quot;Preview Image&quot; :</source>
-        <translation type="unfinished"></translation>
+        <translation>Altezza minima per EXIF &quot;Anteprima immagine&quot; :</translation>
     </message>
     <message>
         <source>Define minimum height Preview Image must have to use it</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce altezza minima dell&apos;anteprima immagine da utilizzare</translation>
     </message>
     <message>
         <source>No minimum height</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessuna altezza minima</translation>
     </message>
     <message>
         <source>Not less than 100</source>
-        <translation type="unfinished"></translation>
+        <translation>Non meno di 100</translation>
     </message>
     <message>
         <source>Not less than 200</source>
-        <translation type="unfinished"></translation>
+        <translation>Non meno di 200</translation>
     </message>
 </context>
 <context>
@@ -307,7 +307,7 @@
     </message>
     <message>
         <source>LibExiv2/Exiv2 binary version</source>
-        <translation type="unfinished"></translation>
+        <translation>LVersione binario LibExiv2/Exiv2</translation>
     </message>
 </context>
 <context>
@@ -377,75 +377,79 @@
     <name>DlgJobSettings</name>
     <message>
         <source>Job settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni lavoro</translation>
     </message>
     <message>
         <source>What to do to sources files ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Cosa fare per i file sorgenti ?</translation>
     </message>
     <message>
         <source>Do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Non fare niente</translation>
     </message>
     <message>
         <source>buttonGroup</source>
-        <translation type="unfinished"></translation>
+        <translation>Gruppo pulsanti</translation>
     </message>
     <message>
         <source>Delete sources files</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina file sorgenti</translation>
     </message>
     <message>
         <source>Rename sources files by adding this suffix:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina file sorgenti aggiundo questo suffisso:</translation>
     </message>
     <message>
         <source>How to name destinations files ?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add suffix to file names :</source>
-        <translation type="unfinished"></translation>
+        <translation>Come nominare i file destinazione ?</translation>
     </message>
     <message>
         <source>Move sources files to this folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sposta file sorgenti in questa cartella:</translation>
     </message>
     <message>
         <source>Place destination files In another folder than sources files</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserire la destinazione file in un&apos;altra cartella rispetto ai file sorgenti</translation>
     </message>
     <message>
         <source>Overwrite existing destination files</source>
-        <translation type="unfinished"></translation>
+        <translation>Sovrascrivi destinazione file esistenti</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">Annulla (&amp;C)</translation>
+        <translation>Annulla (&amp;C)</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Aprire la pagina aiuto che descrive questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation type="unfinished">Aiuto(&amp;H)</translation>
+        <translation>Aiuto(&amp;H)</translation>
     </message>
     <message>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
+    </message>
+    <message>
+        <source>Add this suffix to file name :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add size suffix to file name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -613,6 +617,13 @@
     <message>
         <source>&lt;new device&gt;</source>
         <translation>&lt;nuovo dispositivo&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>DlgRenderVideo</name>
+    <message>
+        <source>Error starting ffmpeg</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -857,83 +868,92 @@ e aiuto</translation>
     </message>
     <message>
         <source>Remove file from the disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella il file dal disco</translation>
     </message>
     <message>
         <source>Remove
 File</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella
+File</translation>
     </message>
     <message>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Canc</translation>
     </message>
     <message>
         <source>Are you sure to remove theses files ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di cancellare questi file ?</translation>
     </message>
     <message>
         <source>Successfuly remove file (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>File cancellato con successo (%1)</translation>
     </message>
     <message>
         <source>Failed to remove file (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancellazione file fallita (%1)</translation>
     </message>
     <message>
         <source>Are you sure to remove this folder ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di rimuovere questa cartella ?</translation>
     </message>
     <message>
         <source>Impossible to remove file %1 - error %2:%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile rimuovere file %1 - errore %2:%3</translation>
     </message>
     <message>
         <source>Impossible to remove folder %1 - error %2:%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile rimuovere la cartella %1 - errpre %2:%3</translation>
     </message>
     <message>
         <source>Successfully remove folder (and all is content) %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Cartella rimossa con successo (e tutto è corretto) %1</translation>
     </message>
     <message>
         <source>Applying Despeckle filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione filtro Smacchia</translation>
     </message>
     <message>
         <source>Applying Equalize filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione filtro Equalizza</translation>
     </message>
     <message>
         <source>Applying Gray filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione filtro Gridio</translation>
     </message>
     <message>
         <source>Applying blur filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione filtro Sfocatura</translation>
     </message>
     <message>
         <source>Applying sharpen filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione filtro Nitidezza</translation>
     </message>
     <message>
         <source>Loading cached filtered file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento file cache filtrato :</translation>
     </message>
     <message>
         <source>Error allocating memory for cached filtered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore allocazione memoria per file cache filtrato</translation>
     </message>
     <message>
         <source>Error loading cached filtered file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore caricamento file cache filtrato :</translation>
     </message>
     <message>
         <source>Error allocating memory for render image</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore allocazione memoria per generare immagine</translation>
     </message>
     <message>
         <source>Error loading file :</source>
+        <translation>Errore caricamento file :</translation>
+    </message>
+    <message>
+        <source>F5</source>
+        <translation type="unfinished">F5</translation>
+    </message>
+    <message>
+        <source>Return</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1111,156 +1131,212 @@ File</source>
     </message>
     <message>
         <source>Refresh all</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiorna tutto</translation>
     </message>
     <message>
         <source>Refresh from here</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiorna da quì</translation>
     </message>
     <message>
         <source>Create new subfolder</source>
-        <translation type="unfinished"></translation>
+        <translation>Crare nuova sotto cartella</translation>
     </message>
     <message>
         <source>Remove folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella cartella</translation>
     </message>
     <message>
         <source>Create folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Creare cartella</translation>
     </message>
     <message>
         <source>Folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cartella:</translation>
     </message>
     <message>
         <source>Error %1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore %1:</translation>
     </message>
     <message>
         <source>Impossible to create folder !</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile creare la cartella !</translation>
     </message>
 </context>
 <context>
     <name>QCustomGetFolder</name>
     <message>
         <source>Select a folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona una cartella</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">Annulla (&amp;C)</translation>
+        <translation>Annulla (&amp;C)</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Aprire la pagina aiuto che descrive questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation type="unfinished">Aiuto(&amp;H)</translation>
+        <translation>Aiuto(&amp;H)</translation>
     </message>
     <message>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
     <name>QCustomJobTable</name>
     <message>
         <source>overwrite destination file as needed</source>
-        <translation type="unfinished"></translation>
+        <translation>sovrascrivi il file di destinazione se necessario</translation>
     </message>
     <message>
         <source>and remove %1</source>
-        <translation type="unfinished"></translation>
+        <translation>e rimuove %1</translation>
     </message>
     <message>
         <source>and rename %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>e rinomina %1 a %2</translation>
     </message>
     <message>
         <source>and move %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>e sposta %1 a %2</translation>
     </message>
     <message>
         <source>Date/Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Data/Ora</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Stato</translation>
     </message>
     <message>
         <source>Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Progresso</translation>
     </message>
     <message>
         <source>Job Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo lavoro</translation>
     </message>
     <message>
         <source>Waiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Attendere</translation>
     </message>
     <message>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniziato</translation>
     </message>
     <message>
         <source>Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Stoppato</translation>
     </message>
     <message>
         <source>Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancellato</translation>
     </message>
     <message>
         <source>Succeeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Successo</translation>
     </message>
     <message>
         <source>Ended with error</source>
-        <translation type="unfinished"></translation>
+        <translation>Finito con errore</translation>
     </message>
     <message>
         <source>Not defined</source>
-        <translation type="unfinished"></translation>
+        <translation>Non definito</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished">Apri</translation>
+        <translation>Apri</translation>
     </message>
     <message>
         <source>Display information</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza informazione</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella</translation>
     </message>
     <message>
         <source>Convert</source>
-        <translation type="unfinished"></translation>
+        <translation>Converte</translation>
     </message>
     <message>
         <source>and rescal image to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>e riscala immagine a %1</translation>
     </message>
     <message>
         <source>new image size will become %1x%2</source>
+        <translation>nuova dimensione immagine diventerà %1x%2</translation>
+    </message>
+    <message>
+        <source>Current action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and set codec to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and set audio compression to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and force audio frequency to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and force to mono</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and force to stereo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and rotate image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>but don&apos;t rotate image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and resize to %1x%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and set video codec to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and set video compression to %1 with + and - 10%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and set video compression to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and set video preset %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>and set video quality to 2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1345,26 +1421,42 @@ File</source>
     </message>
     <message>
         <source>Error overwritting %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore sovrascrittura %1</translation>
     </message>
     <message>
         <source>Impossible to open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile aprire file %1</translation>
     </message>
     <message>
         <source>Image don&apos;t have EXIF metadata %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Immagine non ha metadati EXIF %1</translation>
     </message>
     <message>
         <source>Impossible to start exiv2 - no exif informations will be decode for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile avviare exiv2 - nessuna informazione exif sarà decodificata per %1</translation>
     </message>
     <message>
         <source>Error during exiv2 process - no exif informations will be decode for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore durante il processo exiv2 - nessuna informazione exif sarà decodificata per %1</translation>
     </message>
     <message>
         <source>exiv2 return error %1 - no exif informations will be decode for %2</source>
+        <translation>exiv2 ritorna l&apos;errore %1 - nessuna informazioneexif sarà decodificata per %2</translation>
+    </message>
+    <message>
+        <source>Impossible to start exiv2 - no exif informations will be set for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error during exiv2 process - no exif informations will be set for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>exiv2 return error %1 - no exif informations will be set for %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Successfully add minimal exif values to %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1450,42 +1542,145 @@ File</source>
     <name>cJobQueue</name>
     <message>
         <source>Applying source transformation : Sorry no yet developped !</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione trasformazione sorgente : Spiacenti non ancora sviluppate !</translation>
     </message>
     <message>
         <source>Destination file (%1) already exist</source>
-        <translation type="unfinished"></translation>
+        <translation>File destinazione (%1) già esistente</translation>
     </message>
     <message>
         <source>Failed to remove existing destination file (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fallita cancellazione del file destinazione esistente (%1)</translation>
     </message>
     <message>
         <source>Jobtype error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Convert image</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore tipo lavoro</translation>
     </message>
     <message>
         <source>Failed to open file %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>failed to rescal image %1 to %2x%3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>succesfully rescal image %1 to %2x%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Fallito apertura file %1</translation>
     </message>
     <message>
         <source>Failed to write destination file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fallita scrittura file destinazione %1</translation>
     </message>
     <message>
         <source>Successfully writing destination file %1</source>
+        <translation>Successo scrittura file destinazione %1</translation>
+    </message>
+    <message>
+        <source>Successfully remove existing destination file (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start image conversion of %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open file</source>
+        <translation type="unfinished">Apri file</translation>
+    </message>
+    <message>
+        <source>Successfully open file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rescal image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to rotate image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Succesfully rotate image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to rescal image %1 to %2x%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Succesfully rescal image %1 to %2x%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply destination overwriting strategy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply source file strategy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Job finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start audio conversion of %1 to %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Process ffmpeg job</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error : ffmpeg job can&apos;t start : %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error : ffmpeg return error %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Succesfully process ffmpeg job</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add minimal exif value to image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error : for sound conversion, source and destination must be different !</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>wgt_JobConvertAudio</name>
+    <message>
+        <source>Convert audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format :</source>
+        <translation type="unfinished">Formato :</translation>
+    </message>
+    <message>
+        <source>Select the audio codec to use for the rendering.</source>
+        <translation type="unfinished">Seleziona il codec audio da usare per il rendering.</translation>
+    </message>
+    <message>
+        <source>Bit rate :</source>
+        <translation type="unfinished">Bit rate :</translation>
+    </message>
+    <message>
+        <source>Select the bit rate to use for audio during the rendering.</source>
+        <translation type="unfinished">Seleziona il bit rate da usare per l&apos;audio durante il rendering.</translation>
+    </message>
+    <message>
+        <source>Force to mono</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Force to stereo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change frequency to :</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1493,50 +1688,81 @@ File</source>
     <name>wgt_JobConvertImage</name>
     <message>
         <source>Convert image</source>
-        <translation type="unfinished"></translation>
+        <translation>Conversione immagine</translation>
     </message>
     <message>
         <source>Quality :</source>
-        <translation type="unfinished"></translation>
+        <translation>Qualità :</translation>
     </message>
     <message>
         <source>QVGA (240 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>QVGA (240 righe)</translation>
     </message>
     <message>
         <source>HVGA (320 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>HVGA (320 righe)</translation>
     </message>
     <message>
         <source>VGA/WVGA (480 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>VGA/WGA (480 righe)</translation>
     </message>
     <message>
         <source>SD/DVD (576 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>SD/DVD (576 righe)</translation>
     </message>
     <message>
         <source>720p (720 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>720p (720 righe)</translation>
     </message>
     <message>
         <source>XGA (768 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>XGA (768 righe)</translation>
     </message>
     <message>
         <source>1080p (1080 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080p (1080 righe)</translation>
     </message>
     <message>
         <source>Resize :</source>
-        <translation type="unfinished"></translation>
+        <translation>Ridimensione :</translation>
     </message>
     <message>
         <source>But not upscale image</source>
-        <translation type="unfinished"></translation>
+        <translation>Ma non sovrascale immagine</translation>
     </message>
     <message>
         <source>Format :</source>
+        <translation>Formato :</translation>
+    </message>
+</context>
+<context>
+    <name>wgt_JobConvertVideo</name>
+    <message>
+        <source>Convert video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device type :</source>
+        <translation type="unfinished">Tipo dispositivo :</translation>
+    </message>
+    <message>
+        <source>Select the type of equipment.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device model :</source>
+        <translation type="unfinished">Modello dispositivo :</translation>
+    </message>
+    <message>
+        <source>Select the model of equipment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Include sound in the video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Device :</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

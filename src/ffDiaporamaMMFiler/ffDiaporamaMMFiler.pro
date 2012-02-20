@@ -63,7 +63,9 @@ SOURCES += main.cpp\
     QCustomJobTable.cpp \
     DlgJobSettings.cpp \
     wgt_JobConvertImage.cpp \
-    wgt_JobBase.cpp
+    wgt_JobBase.cpp \
+    wgt_JobConvertAudio.cpp \
+    wgt_JobConvertVideo.cpp
 
 HEADERS  += mainwindow.h \
     DlgApplicationSettings.h \
@@ -93,7 +95,9 @@ HEADERS  += mainwindow.h \
     QCustomJobTable.h \
     DlgJobSettings.h \
     wgt_JobConvertImage.h \
-    wgt_JobBase.h
+    wgt_JobBase.h \
+    wgt_JobConvertAudio.h \
+    wgt_JobConvertVideo.h
 
 
 FORMS    += mainwindow.ui \
@@ -104,7 +108,9 @@ FORMS    += mainwindow.ui \
     ../sharedfiles/DlgInfoFile.ui \
     ../sharedfiles/QCustomGetFolder.ui \
     DlgJobSettings.ui \
-    wgt_JobConvertImage.ui
+    wgt_JobConvertImage.ui \
+    wgt_JobConvertAudio.ui \
+    wgt_JobConvertVideo.ui
 
 # Installation on linux systems
 unix {

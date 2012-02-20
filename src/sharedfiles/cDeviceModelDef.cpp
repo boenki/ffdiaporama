@@ -243,7 +243,8 @@ struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
     {false, CODEC_ID_AC3,      "ac3",               "AC3 (Doly Digital)",                   "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
     {false, CODEC_ID_VORBIS,   "libvorbis",         "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",     false,"","128k"},
     {false, CODEC_ID_MP2,      "mp2",               "MP2 (MPEG-1 Audio Layer II)",          "64k#96k#128k#192k#256k#500k",     false,"","128k"},
-    {false, CODEC_ID_AMR_NB,   "libopencore_amrnb", "AMR (Adaptive Multi-Rate)",            "4750#5150#5900#6700#7400#7950#10200#12200",     false,"","6700"}
+    {false, CODEC_ID_AMR_NB,   "libopencore_amrnb", "AMR (Adaptive Multi-Rate)",            "4750#5150#5900#6700#7400#7950#10200#12200",     false,"","6700"},
+    {false, CODEC_ID_FLAC,     "flac",              "FLAC ((Free Lossless Audio Codec))",   "",     false,"",""}
 };
 
 struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
@@ -260,6 +261,14 @@ struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
 };
 // Note : depending on ffmpeg version :
 //       => aac codec is libfaac or aac
+
+struct sFormatDef AUDIOFORMATDEF[NBR_AUDIOFORMATDEF]={
+    {false, "flac", "flac", "FLAC (Free Lossless Audio Codec)",         "",         "flac"},
+    {false, "mp4",  "m4a",  "M4A file format",                          "",         "libfaac#aac"},
+    {false, "mp3",  "mp3",  "MP3 (MPEG-1/2 Audio Layer III)",           "",         "libmp3lame#mp3"},
+    {false, "ogg",  "ogg",  "OGG (Vorbis)",                             "",         "libvorbis#vorbis"},
+    {false, "wav",  "wav",  "WAV (PCM signed 16-bit little-endian)",    "",         "pcm_s16le"}
+};
 
 //====================================================================================================================
 // Device model class definition
@@ -579,6 +588,32 @@ void cDeviceModelList::Initffmpeg() {
                 if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
             }
             FORMATDEF[i].IsFind=IsFindAudioCodec && IsFindVideoCodec;
+        }
+    }
+
+    // Check audio format to know if they was finded
+    ofmt=NULL;
+    while ((ofmt=av_oformat_next(ofmt))) {
+        for (int i=0;i<NBR_AUDIOFORMATDEF;i++) if (strcmp(ofmt->name,AUDIOFORMATDEF[i].ShortName)==0) {
+            QString     AllowedCodec=AUDIOFORMATDEF[i].PossibleAudioCodec;
+            QString     Codec="";
+            int         Index=0;
+            bool        IsFindAudioCodec=false;
+            while (AllowedCodec.length()>0) {
+                Index=AllowedCodec.indexOf("#");
+                if (Index>0) {
+                    Codec=AllowedCodec.left(Index);
+                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+                } else {
+                    Codec=AllowedCodec;
+                    AllowedCodec="";
+                }
+                // Now find index of this codec in the AUDIOCODECDEF
+                Index=0;
+                while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
+                if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
+            }
+            AUDIOFORMATDEF[i].IsFind=IsFindAudioCodec;
         }
     }
 }

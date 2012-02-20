@@ -12,7 +12,6 @@ TODO
 -Prendre en compte le multi-select dans QCustomFileInfoLabel (+ affichage à uniformiser avec la table)
 -Rendre optionnel le cache des thumbnails (.ThumbnailsCache.xml)
 -Developper la partie transformation des fichiers sources
--Ajouter la récupération/transformation des données exif pour le job de conversion d'images
 
 --------------------------------
 Changelog depuis le dernier SVN

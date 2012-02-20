@@ -111,8 +111,8 @@ void PostEvent(int EventType,QString EventParam) {
 
 //====================================================================================================================
 
-void ToLog(int MessageType,QString Message) {
-    if ((MessageType!=LOGMSG_DEBUGTRACE)&&(EventReceiver!=NULL)) PostEvent(EVENT_GeneralLogChanged,QString("%1###:###%2").arg((int)MessageType).arg(Message));
+void ToLog(int MessageType,QString Message,QString Source) {
+    if ((MessageType!=LOGMSG_DEBUGTRACE)&&(EventReceiver!=NULL)) PostEvent(EVENT_GeneralLogChanged,QString("%1###:###%2###:###%3").arg((int)MessageType).arg(Message).arg(Source));
 
     QString DateTime=QTime::currentTime().toString("hh:mm:ss.zzz");
     if (MessageType>=LogMsgLevel) switch (MessageType) {
