@@ -136,6 +136,7 @@ private slots:
     void    s_Action_RenderSmartphone();
     void    s_Action_RenderMultimedia();
     void    s_Action_RenderForTheWEB();
+    void    s_Action_RenderLossLess();
 
     // Actions Help menu
     void    s_Action_About();

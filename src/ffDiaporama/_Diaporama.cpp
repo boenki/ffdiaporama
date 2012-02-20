@@ -1269,7 +1269,7 @@ qlonglong cDiaporama::GetObjectStartPosition(int index) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetObjectStartPosition");
 
     qlonglong Duration=0;
-    if (index>=List.count()) {
+    if ((index>=List.count())&&(List.count()>0)) {
         index=List.count()-1;
         Duration=List[index]->GetDuration();
     }

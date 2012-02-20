@@ -201,6 +201,7 @@ public:
     int                     DefaultMultimediaModel;                     // Default Multimedia Model
     int                     DefaultForTheWEBType;                       // Default ForTheWEB Type
     int                     DefaultForTheWEBModel;                      // Default ForTheWEB Model
+    int                     DefaultLossLess;                            // Default Lossless imagesize
 
     QStringList             RecentFile;                                 // Recent project files
 

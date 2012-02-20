@@ -181,8 +181,6 @@ void DlgApplicationSettings::DoInitDialog() {
     //********************************
     // RenderDefault part
     //********************************
-    InitImageSizeCombo(0);
-
     ui->SmartphoneTypeCB->view()->setFixedWidth(400);
     ui->MMSystemTypeCB->view()->setFixedWidth(400);
     ui->ForTheWTypeCB->view()->setFixedWidth(400);
@@ -199,7 +197,9 @@ void DlgApplicationSettings::DoInitDialog() {
     if (ui->FileFormatCB->currentIndex()<0) ui->FileFormatCB->setCurrentIndex(0);
     // Image size & standard
     ui->StandardCombo->setCurrentIndex(ApplicationConfig->DefaultStandard);
+    InitImageSizeCombo(0);
     ui->SizeCombo->setCurrentIndex(ui->SizeCombo->findText(DefImageFormat[ApplicationConfig->DefaultStandard][ApplicationConfig->ImageGeometry][ApplicationConfig->DefaultImageSize].Name));
+    ui->LosslessSizeCombo->setCurrentIndex(ui->LosslessSizeCombo->findText(DefImageFormat[ApplicationConfig->DefaultStandard][ApplicationConfig->ImageGeometry][ApplicationConfig->DefaultLossLess].Name));
     // codec(s) & bitrate(s)
     FileFormatCombo(-1);     // For first initialisation : ChangeIndex=-1
     ui->LanguageED->setText(ApplicationConfig->DefaultLanguage);
@@ -375,6 +375,7 @@ void DlgApplicationSettings::DoAccept() {
     ApplicationConfig->DefaultSmartphoneType =ui->SmartphoneTypeCB->itemData(ui->SmartphoneTypeCB->currentIndex()).toInt();
     ApplicationConfig->DefaultMultimediaType =ui->MMSystemTypeCB->itemData(ui->MMSystemTypeCB->currentIndex()).toInt();
     ApplicationConfig->DefaultForTheWEBType  =ui->ForTheWTypeCB->itemData(ui->ForTheWTypeCB->currentIndex()).toInt();
+    ApplicationConfig->DefaultLossLess       =ui->LosslessSizeCombo->itemData(ui->LosslessSizeCombo->currentIndex()).toInt();
 
     QString Text=ui->SmartphoneModelCB->currentText();
     int i=0;
@@ -452,10 +453,12 @@ void DlgApplicationSettings::TabChanged(int) {
 
 void DlgApplicationSettings::InitImageSizeCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::InitImageSizeCombo");
-    int Geometry=ui->GeometryCombo->currentIndex();
-    int Standard=ui->StandardCombo->currentIndex();
+    int Geometry =ui->GeometryCombo->currentIndex();
+    int Standard =ui->StandardCombo->currentIndex();
     int ImageSize=ui->SizeCombo->currentIndex();
+    int Lossless =ui->LosslessSizeCombo->currentIndex();
     ui->SizeCombo->clear();
+    ui->LosslessSizeCombo->clear();
     QStringList List;
     for (int i=0;i<NBR_SIZEDEF;i++) List.append(QString("%1:%2#####%3").arg(DefImageFormat[Standard][Geometry][i].Name).arg(ORDERIMAGENAME[i]).arg(i));
     // Sort List
@@ -469,8 +472,10 @@ void DlgApplicationSettings::InitImageSizeCombo(int) {
         QString Codec=List[i].left(List[i].indexOf("#####")); Codec=Codec.left(Codec.lastIndexOf(":"));
         int Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
         ui->SizeCombo->addItem(Codec,QVariant(Index));
+        ui->LosslessSizeCombo->addItem(Codec,QVariant(Index));
     }
     ui->SizeCombo->setCurrentIndex(ImageSize);
+    ui->LosslessSizeCombo->setCurrentIndex(Lossless);
 }
 
 //====================================================================================================================

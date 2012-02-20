@@ -277,5 +277,6 @@
         <file>img/SmallGreen.png</file>
         <file>img/SmallRed.png</file>
         <file>img/SmallYellow.png</file>
+        <file>img/Lossless.png</file>
     </qresource>
 </RCC>

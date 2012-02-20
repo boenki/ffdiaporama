@@ -228,6 +228,7 @@ QImage *GetEmbededImage(QString FileName) {
             }
         }
         */
+        #ifdef TAGLIBWITHASFPICTURE
         if ((ASFFile.tag())&&(ASFFile.tag()->attributeListMap().contains("WM/Picture"))) {
             const TagLib::ASF::AttributeList &attrList=ASFFile.tag()->attributeListMap()["WM/Picture"];
             if (!attrList.isEmpty()) {
@@ -235,6 +236,7 @@ QImage *GetEmbededImage(QString FileName) {
                     if (pic.isValid()) Image->loadFromData((const uchar *)pic.picture().data(),pic.picture().size());
             }
         }
+        #endif
     }
     #endif
     //***********

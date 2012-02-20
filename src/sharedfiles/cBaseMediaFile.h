@@ -64,7 +64,15 @@ extern "C" {
     #include <libswscale/swscale.h>
     #include <libavutil/pixdesc.h>
     #include <libavutil/avutil.h>
-    #include <libavutil/audioconvert.h>
+    #if (LIBAVFORMAT_VERSION_MAJOR<53)
+        #define AV_SAMPLE_FMT_S16       SAMPLE_FMT_S16
+        #define AV_SAMPLE_FMT_U8        SAMPLE_FMT_U8
+        #define AV_SAMPLE_FMT_S32       SAMPLE_FMT_S32
+        #define AV_SAMPLE_FMT_FLT       SAMPLE_FMT_FLT
+        #define AV_SAMPLE_FMT_DBL       SAMPLE_FMT_DBL
+        #define AV_CH_STEREO_LEFT       CH_STEREO_LEFT
+        #define AV_CH_STEREO_RIGHT      CH_STEREO_RIGHT
+    #endif
 }
 
 #ifndef AVIO_FLAG_WRITE
@@ -101,6 +109,9 @@ extern "C" {
 #ifdef TAGLIB_WITH_ASF
     #if (TAGLIB_WITH_ASF>=1)
         #define TAGLIBWITHASF
+        #if (TAGLIB_MAJOR_VERSION>=1) && (TAGLIB_MINOR_VERSION>=7)
+            #define TAGLIBWITHASFPICTURE
+        #endif
     #endif
 #endif
 #ifdef TAGLIB_WITH_MP4

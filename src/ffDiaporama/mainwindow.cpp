@@ -214,6 +214,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->ActionSmartphone_BT,SIGNAL(released()),this,SLOT(s_Action_RenderSmartphone()));                 connect(ui->ActionSmartphone_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderSmartphone()));
     connect(ui->ActionMultimedia_BT,SIGNAL(released()),this,SLOT(s_Action_RenderMultimedia()));                 connect(ui->ActionMultimedia_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderMultimedia()));
     connect(ui->ActionForTheWEB_BT,SIGNAL(released()),this,SLOT(s_Action_RenderForTheWEB()));                   connect(ui->ActionForTheWEB_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderForTheWEB()));
+    connect(ui->ActionLossLess_BT,SIGNAL(released()),this,SLOT(s_Action_RenderLossLess()));                    connect(ui->ActionLossLess_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderLossLess()));
 
     // Timeline
     connect(ui->ZoomPlusBT,SIGNAL(released()),this,SLOT(s_Action_ZoomPlus()));
@@ -488,6 +489,7 @@ void MainWindow::RefreshControls() {
     ui->ActionSmartphone_BT->setEnabled(ui->timeline->NbrItem()>0);                                         ui->ActionSmartphone_BT_2->setEnabled(ui->timeline->NbrItem()>0);
     ui->ActionMultimedia_BT->setEnabled(ui->timeline->NbrItem()>0);                                         ui->ActionMultimedia_BT_2->setEnabled(ui->timeline->NbrItem()>0);
     ui->ActionForTheWEB_BT->setEnabled(ui->timeline->NbrItem()>0);                                          ui->ActionForTheWEB_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionLossLess_BT->setEnabled(ui->timeline->NbrItem()>0);                                           ui->ActionLossLess_BT_2->setEnabled(ui->timeline->NbrItem()>0);
 
     ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+QString("%1").arg(Diaporama->CurrentCol+1)+" / "+QString("%1").arg(Diaporama->List.count()));
 }
@@ -932,6 +934,24 @@ void MainWindow::s_Action_RenderForTheWEB() {
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
     DlgRenderVideo(*Diaporama,MODE_FORTHEWEB,this).exec();
+    CurrentRenderingDialog=NULL;
+    AdjustRuller();
+}
+
+void MainWindow::s_Action_RenderLossLess() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RenderLossLess");
+
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_Action_RenderForTheWEB()));
+        return;
+    }
+    ui->ActionLossLess_BT->setDown(false);
+    ui->ActionLossLess_BT_2->setDown(false);
+
+    if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
+    DlgRenderVideo(*Diaporama,MODE_LOSSLESS,this).exec();
     CurrentRenderingDialog=NULL;
     AdjustRuller();
 }

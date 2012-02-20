@@ -233,6 +233,11 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "8000k",    // 1080p
         "400k"      // RIM 240
         }
+    },{
+        false,CODEC_ID_H264,VCODEC_X264LL,VCODECST_X264LL,                                      // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "libx264","x264 lossless",                                                              // ShortName[50], LongName[200]
+        "",                                                                                     // PossibleBitrate
+        {""}                                                                                    // DefaultBitrate[NBR_SIZEDEF]
     }
 };
 
@@ -244,13 +249,13 @@ struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
     {false, CODEC_ID_VORBIS,   "libvorbis",         "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",     false,"","128k"},
     {false, CODEC_ID_MP2,      "mp2",               "MP2 (MPEG-1 Audio Layer II)",          "64k#96k#128k#192k#256k#500k",     false,"","128k"},
     {false, CODEC_ID_AMR_NB,   "libopencore_amrnb", "AMR (Adaptive Multi-Rate)",            "4750#5150#5900#6700#7400#7950#10200#12200",     false,"","6700"},
-    {false, CODEC_ID_FLAC,     "flac",              "FLAC ((Free Lossless Audio Codec))",   "",     false,"",""}
+    {false, CODEC_ID_FLAC,     "flac",              "FLAC (Free Lossless Audio Codec)",     "",     false,"",""}
 };
 
 struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
     {false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libopencore_amrnb"},
     {false, "avi",      "avi",  "AVI file format",              "MJPEG#MPEG#MPEG4#H264HQ#H264PQ",   "pcm_s16le#mp2#libmp3lame#mp3#libfaac#aac#ac3"},
-    {false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA",       "pcm_s16le#libmp3lame#mp3#libfaac#aac#ac3#libvorbis#vorbis"},
+    {false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA#X264LL","pcm_s16le#libmp3lame#mp3#libfaac#aac#ac3#libvorbis#vorbis#flac"},
     {false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                            "pcm_s16le"},
     {false, "mp4",      "mp4",  "MP4 file format",              "MPEG4#H264HQ#H264PQ",              "libmp3lame#mp3#libfaac#aac"},
     {false, "mpeg",     "mpg",  "MPEG file format",             "MPEG",                             "mp2#ac3"},
@@ -500,6 +505,7 @@ void cDeviceModelList::TranslatRenderType() {
     TranslatedRenderType.append(QApplication::translate("cDeviceModelList","Smartphone","Device database type"));         // MODE_SMARTPHONE
     TranslatedRenderType.append(QApplication::translate("cDeviceModelList","Multimedia system","Device database type"));  // MODE_MULTIMEDIASYS
     TranslatedRenderType.append(QApplication::translate("cDeviceModelList","For the WEB","Device database type"));        // MODE_FORTHEWEB
+    TranslatedRenderType.append(QApplication::translate("cDeviceModelList","Lossless","Device database type"));           // MODE_LOSSLESS
     TranslatedRenderSubtype[MODE_SMARTPHONE].append(QApplication::translate("cDeviceModelList","Smartphone","Device database type"));
     TranslatedRenderSubtype[MODE_SMARTPHONE].append(QApplication::translate("cDeviceModelList","Portable Player","Device database type"));
     TranslatedRenderSubtype[MODE_SMARTPHONE].append(QApplication::translate("cDeviceModelList","Netbook/NetPC","Device database type"));
