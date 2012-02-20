@@ -99,7 +99,7 @@ private slots:
 
     // Actions
     bool                DoDirectJob_RemoveFolder(QString FolderPath);
-    void                DoAddJob_ConvertIMG(QList<cBaseMediaFile*>*MediaList);
+    void                DoAddJob_Convert(QList<cBaseMediaFile*>*MediaList,int JobType);
 
 private:
     QAction             *CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck);

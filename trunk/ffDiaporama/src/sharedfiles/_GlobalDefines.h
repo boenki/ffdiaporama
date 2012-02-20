@@ -71,6 +71,6 @@ extern QObject      *EventReceiver;                     // Windows wich receive 
 void SetLFHeap();
 #endif
 void PostEvent(int EventType,QString EventParam="");
-void ToLog(int MessageType,QString Message);
+void ToLog(int MessageType,QString Message,QString Source="internal");
 
 #endif // _GLOBALDEFINES_H

@@ -28,11 +28,7 @@
 QString CustomInputDialog(QWidget *parent,const QString &title,const QString &label,int mode,const QString &text,bool *ok,Qt::InputMethodHints inputMethodHints) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:CustomInputDialog");
 
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
     Qt::WindowFlags Flags=(Qt::Dialog|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint);
-    #else
-    Qt::WindowFlags Flags=(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|/*Qt::WindowMinimizeButtonHint|*/Qt::WindowCloseButtonHint);
-    #endif
 
     QInputDialog dialog(parent,Flags);
     int x=QCursor::pos().x()-dialog.width();   if (x<0) x=0;
@@ -43,6 +39,7 @@ QString CustomInputDialog(QWidget *parent,const QString &title,const QString &la
     dialog.setTextValue(text);
     dialog.setTextEchoMode((QLineEdit::EchoMode)mode);
     dialog.setInputMethodHints(inputMethodHints);
+    dialog.setWindowModality(Qt::ApplicationModal);
 
     int ret = dialog.exec();
     if (ok) *ok = !!ret;
@@ -55,29 +52,10 @@ QString CustomInputDialog(QWidget *parent,const QString &title,const QString &la
 int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title,const QString& text,QMessageBox::StandardButtons buttons,QMessageBox::StandardButton defaultButton) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:CustomMessageBox");
 
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
     Qt::WindowFlags Flags=(Qt::Dialog|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint);
-    #else
-    Qt::WindowFlags Flags=(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|/*Qt::WindowMinimizeButtonHint|*/Qt::WindowCloseButtonHint);
-    #endif
 
-    QMessageBox msgBox(icon,title,text,QMessageBox::NoButton,parent,Flags);
-
-    // For Linux only, because we replace Qt::Dialog with Qt::Window, we have to set up position of the dialog
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        int x,y;
-        if (parent==NULL) {
-            x=QCursor::pos().x()-msgBox.width();   if (x<0) x=0;
-            y=QCursor::pos().y()-msgBox.height();  if (y<0) y=0;
-        } else {
-            x=parent->width()/2-msgBox.width();   if (x<0) x=0;
-            y=parent->height()/2-msgBox.height(); if (y<0) y=0;
-        }
-        msgBox.move(x,y);
-    #endif
-
-    QDialogButtonBox *buttonBox = msgBox.findChild<QDialogButtonBox*>();
-    Q_ASSERT(buttonBox != 0);
+    QMessageBox         msgBox(icon,title,text,QMessageBox::NoButton,parent,Flags);
+    QDialogButtonBox    *buttonBox = msgBox.findChild<QDialogButtonBox*>();
 
     uint mask = QMessageBox::FirstButton;
     while (mask <= QMessageBox::LastButton) {
@@ -91,6 +69,7 @@ int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title
             || (defaultButton != QMessageBox::NoButton && sb == uint(defaultButton)))
             msgBox.setDefaultButton(button);
     }
+    msgBox.setWindowModality(Qt::ApplicationModal);
     if (msgBox.exec() == -1) return QMessageBox::Cancel;
     return msgBox.standardButton(msgBox.clickedButton());
 }
@@ -108,12 +87,7 @@ QCustomDialog::QCustomDialog(QString HelpURL,cBaseApplicationConfig *BaseApplica
     CancelBt                    =NULL;
     HelpBt                      =NULL;
 
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
-        setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-    #else
-        setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|/*Qt::WindowMinimizeButtonHint|*/Qt::WindowCloseButtonHint);
-    #endif
-
+    setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
 }
 
 //====================================================================================================================

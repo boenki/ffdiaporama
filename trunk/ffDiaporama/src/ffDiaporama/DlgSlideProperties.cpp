@@ -65,11 +65,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     GlobalMainWindow->DragItemDest  =-1;
     GlobalMainWindow->IsDragOn      =0;
 
-#if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-#else
-    setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
-#endif
 
     ui->SplitterTop->setCollapsible(0,false);
     ui->SplitterTop->setCollapsible(1,false);

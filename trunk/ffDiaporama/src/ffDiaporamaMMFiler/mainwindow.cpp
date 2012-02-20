@@ -60,12 +60,12 @@ QIcon   Icon_FILTER_IMAGE;
 QIcon   Icon_FILTER_MUSIC;
 QIcon   Icon_FILTER_VIDEO;
 
-#define ICON_GREEN      ":/img/Green.png"
-#define ICON_RED        ":/img/Red.png"
+#define ICON_GREEN      ":/img/SmallGreen.png"
+#define ICON_RED        ":/img/SmallRed.png"
+#define ICON_YELLOW     ":/img/SmallYellow.png"
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::MainWindow");
-    EventReceiver=this;
 
     ApplicationConfig               =new cApplicationConfig(this);
     JobQueue.BaseApplicationConfig  =ApplicationConfig;
@@ -163,6 +163,10 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
         if (!Checkffmpeg(Status)) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig()));
     }
 
+    // Connect Event Receiver so now we accept messages
+    EventReceiver=this;
+
+    // Start timer to start job processing
     connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
     Timer.start(1000);   // Start Timer
 }
@@ -255,8 +259,8 @@ void MainWindow::ThreadJob() {
     if ((i<JobQueue.List.count())&&(JobQueue.List[i]->JobStatus==JOBSTATUS_READYTOSTART)) {
         CurrentJobThread=i;
         switch (JobQueue.List[i]->JobType) {
-            case JOBTYPE_IMAGE_CONVERTIMAGE    : JobQueue.ConvertIMG(JobQueue.List[i]); break;
-
+            case JOBTYPE_IMAGE_CONVERTIMAGE    : JobQueue.ConvertIMG(JobQueue.List[i]);         break;
+            case JOBTYPE_AUDIO_CONVERTAUDIO    : JobQueue.ProcessFFMPEGJob(JobQueue.List[i]);   break;
         }
     }
 }
@@ -267,23 +271,26 @@ void MainWindow::customEvent(QEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::RefreshJobStatus");
 
     if (event->type()!=BaseAppEvent) QMainWindow::customEvent(event); else while (!EventList.isEmpty()) {
-        QString Event     =EventList.takeFirst();
-        int     EventType =((QString)(Event.split("###;###")[0])).toInt();
-        QString EventParam=Event.split("###;###")[1];
+        QString Event      =EventList.takeFirst();
+        int     EventType  =((QString)(Event.split("###;###")[0])).toInt();
+        QString EventParam =Event.split("###;###")[1];
 
         if (EventType==EVENT_GeneralLogChanged) {
             int     MessageType =((QString)EventParam.split("###:###")[0]).toInt();
             QString Message     =EventParam.split("###:###")[1];
-            ui->JobLog->addItem(new QListWidgetItem(QIcon(MessageType==LOGMSG_CRITICAL?ICON_RED:ICON_GREEN),Message));
-            ui->JobLog->setCurrentItem(ui->JobLog->item(ui->JobLog->count()-1));
-            ui->JobLog->scrollToItem(ui->JobLog->item(ui->JobLog->count()-1),QAbstractItemView::PositionAtBottom);
-
+            QString EventSource =EventParam.split("###:###")[2];
+            if (EventSource==JOBQUEUESRC) {
+                ui->JobLog->addItem(new QListWidgetItem(QIcon(MessageType==LOGMSG_CRITICAL?ICON_RED:MessageType==LOGMSG_WARNING?ICON_YELLOW:ICON_GREEN),Message));
+                ui->JobLog->setCurrentItem(ui->JobLog->item(ui->JobLog->count()-1));
+                ui->JobLog->scrollToItem(ui->JobLog->item(ui->JobLog->count()-1),QAbstractItemView::PositionAtBottom);
+            }
         } else switch (EventType) {
             case EVENT_JobStatusChanged :
                 ui->JobTable->DoRefreshAJob(CurrentJobThread);
                 break;
             case EVENT_FileListChanged :
-                if (ui->FolderTable->CurrentPath==EventParam) ui->FolderTable->RefreshListFolder();
+            qDebug()<<ui->FolderTable->CurrentPath;
+                if ((ui->FolderTable->CurrentPath==EventParam)||(ui->FolderTable->CurrentPath==EventParam+QDir::separator())) ui->FolderTable->RefreshListFolder();
                 break;
             case EVENT_FolderChanged :
 
@@ -720,16 +727,16 @@ void MainWindow::s_Action_WizardOnFile() {
         if (!Multiple)                                          ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Open.png"), JobQueue.JobTypeText[JOBTYPE_OPENFILE],JOBTYPE_OPENFILE,        false,false));
         if ((!Multiple)&&(ObjectTypes[0]!=OBJECTTYPE_FOLDER))   ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Action_Info.png"), JobQueue.JobTypeText[JOBTYPE_DISPLAYINFO],JOBTYPE_DISPLAYINFO,  false,false));
         if (ObjectTypes[0]!=OBJECTTYPE_FOLDER)                  ContextMenu->addAction(CreateMenuAction(QIcon(":/img/trash.png"),       JobQueue.JobTypeText[JOBTYPE_REMOVEFILE],JOBTYPE_REMOVEFILE,    false,false));
-        ContextMenu->addSeparator();
+        //ContextMenu->addSeparator();
         switch (ObjectTypes[0]) {
             case OBJECTTYPE_MUSICFILE :
-                //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Convert"),                           JOBTYPE_FFMPEGCONVERT_AUDIO,        false,false));
+                ContextMenu->addAction(CreateMenuAction(QIcon(":/img/ConvertAudio.png"),JobQueue.JobTypeText[JOBTYPE_AUDIO_CONVERTAUDIO],JOBTYPE_AUDIO_CONVERTAUDIO,false,false));
                 //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Convert for ffDiaporama"),           JOBTYPE_FFMPEGCONVERT_AUDIOFFD,     false,false));
                 //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Extract cover"),                     JOBTYPE_THUMBNAIL_EXTRACTCOVER,     false,false));
                 //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Edit properties"),                   JOBTYPE_TAG_AUDIO,                  false,false));
                 break;
             case OBJECTTYPE_VIDEOFILE :
-                //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Convert"),                           JOBTYPE_FFMPEGCONVERT_VIDEO,        false,false));
+                ContextMenu->addAction(CreateMenuAction(QIcon(":/img/ConvertVideo.png"),JobQueue.JobTypeText[JOBTYPE_VIDEO_CONVERTVIDEO],JOBTYPE_VIDEO_CONVERTVIDEO,false,false));
                 //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Convert for ffDiaporama"),           JOBTYPE_FFMPEGCONVERT_VIDEOFFD,     false,false));
                 //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Extract audio track"),               JOBTYPE_FFMPEGEXTRACT_AUDIO,        false,false));
                 //ContextMenu->addAction(CreateMenuAction(NULL,QApplication::translate("MainWindow","Extract a subtitle"),                JOBTYPE_FFMPEGEXTRACT_SUBTITLES,    false,false));
@@ -758,10 +765,12 @@ void MainWindow::s_Action_WizardOnFile() {
         if (Action) {
             int ActionType=Action->data().toInt();
             switch (ActionType) {
-                case JOBTYPE_OPENFILE                   :   s_Action_OpenFile();                       break;
-                case JOBTYPE_DISPLAYINFO                :   s_Action_InfoFile();                       break;
-                case JOBTYPE_REMOVEFILE                 :   s_Action_RemoveFile();                     break;
-                case JOBTYPE_IMAGE_CONVERTIMAGE         :   DoAddJob_ConvertIMG(&MediaList);    break;
+                case JOBTYPE_OPENFILE                   :   s_Action_OpenFile();                                                    break;
+                case JOBTYPE_DISPLAYINFO                :   s_Action_InfoFile();                                                    break;
+                case JOBTYPE_REMOVEFILE                 :   s_Action_RemoveFile();                                                  break;
+                case JOBTYPE_IMAGE_CONVERTIMAGE         :   DoAddJob_Convert(&MediaList,JOBTYPE_IMAGE_CONVERTIMAGE);                break;
+                case JOBTYPE_AUDIO_CONVERTAUDIO         :   DoAddJob_Convert(&MediaList,JOBTYPE_AUDIO_CONVERTAUDIO);                break;
+                case JOBTYPE_VIDEO_CONVERTVIDEO         :   DoAddJob_Convert(&MediaList,JOBTYPE_VIDEO_CONVERTVIDEO);                break;
             }
         }
 
@@ -774,11 +783,11 @@ void MainWindow::s_Action_WizardOnFile() {
 
 //====================================================================================================================
 
-void MainWindow::DoAddJob_ConvertIMG(QList<cBaseMediaFile*>*MediaList) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoAddJob_ConvertIMG");
+void MainWindow::DoAddJob_Convert(QList<cBaseMediaFile*>*MediaList,int JobType) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoAddJob_Convert");
 
     cJob *Job=new cJob();
-    Job->JobType                =JOBTYPE_IMAGE_CONVERTIMAGE;
+    Job->JobType                =JobType;
     Job->JobQualif              =PossibleJobsSettings[Job->JobType];
     Job->JobSettings            =ApplicationConfig->JobDefault[Job->JobType];
     Job->SourceSuffix           =ApplicationConfig->DefaultSourceSuffix[Job->JobType];

@@ -73,7 +73,9 @@ void cApplicationConfig::InitValues() {
     JobDefault[JOBTYPE_NOTDEFINED]          =0;                                 DefaultSourceSuffix[JOBTYPE_NOTDEFINED]         ="";        DefaultDestinationSuffix[JOBTYPE_NOTDEFINED]        ="";
     JobDefault[JOBTYPE_OPENFILE]            =0;                                 DefaultSourceSuffix[JOBTYPE_OPENFILE]           ="";        DefaultDestinationSuffix[JOBTYPE_OPENFILE]          ="";
     JobDefault[JOBTYPE_DISPLAYINFO]         =0;                                 DefaultSourceSuffix[JOBTYPE_DISPLAYINFO]        ="";        DefaultDestinationSuffix[JOBTYPE_DISPLAYINFO]       ="";
-    JobDefault[JOBTYPE_IMAGE_CONVERTIMAGE]  =JOBDEFAULT_IMAGE_CONVERTIMAGE;     DefaultSourceSuffix[JOBTYPE_IMAGE_CONVERTIMAGE] ="_old";    DefaultDestinationSuffix[JOBTYPE_IMAGE_CONVERTIMAGE]="_new";    DefaultOptions[JOBTYPE_IMAGE_CONVERTIMAGE]="jpg;";
+    JobDefault[JOBTYPE_IMAGE_CONVERTIMAGE]  =JOBDEFAULT_IMAGE_CONVERTIMAGE;     DefaultSourceSuffix[JOBTYPE_IMAGE_CONVERTIMAGE] ="old";     DefaultDestinationSuffix[JOBTYPE_IMAGE_CONVERTIMAGE]="new";     DefaultOptions[JOBTYPE_IMAGE_CONVERTIMAGE]="jpg;";
+    JobDefault[JOBTYPE_AUDIO_CONVERTAUDIO]  =JOBDEFAULT_AUDIO_CONVERTAUDIO;     DefaultSourceSuffix[JOBTYPE_AUDIO_CONVERTAUDIO] ="old";     DefaultDestinationSuffix[JOBTYPE_AUDIO_CONVERTAUDIO]="new";     DefaultOptions[JOBTYPE_AUDIO_CONVERTAUDIO]="mp3;";
+    JobDefault[JOBTYPE_VIDEO_CONVERTVIDEO]  =JOBDEFAULT_VIDEO_CONVERTVIDEO;     DefaultSourceSuffix[JOBTYPE_VIDEO_CONVERTVIDEO] ="old";     DefaultDestinationSuffix[JOBTYPE_VIDEO_CONVERTVIDEO]="new";     DefaultOptions[JOBTYPE_VIDEO_CONVERTVIDEO]="mp4;";
 
     DefaultSourceFolder     ="";
     DefaultDestinationFolder="";
@@ -113,6 +115,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     for (int i=0;i<NBR_JOBTYPE;i++) {
         Element=Document.createElement(QString("DefaultJobSettings_%1").arg(i));
         Element.setAttribute("JobDefault",              JobDefault[i]);
+        Element.setAttribute("DefaultOptions",          DefaultOptions[i]);
         Element.setAttribute("DefaultSourceSuffix",     DefaultSourceSuffix[i]);
         Element.setAttribute("DefaultDestinationSuffix",DefaultDestinationSuffix[i]);
         domDocument.appendChild(Element);
@@ -145,6 +148,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     for (int i=0;i<NBR_JOBTYPE;i++) if ((domDocument.elementsByTagName(QString("DefaultJobSettings_%1").arg(i)).length()>0)&&(domDocument.elementsByTagName(QString("DefaultJobSettings_%1").arg(i)).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(QString("DefaultJobSettings_%1").arg(i)).item(0).toElement();
         if (Element.hasAttribute("JobDefault"))                 JobDefault[i]               =Element.attribute("JobDefault").toInt();
+        if (Element.hasAttribute("DefaultOptions"))             DefaultOptions[i]           =Element.attribute("DefaultOptions");
         if (Element.hasAttribute("DefaultSourceSuffix"))        DefaultSourceSuffix[i]      =Element.attribute("DefaultSourceSuffix");
         if (Element.hasAttribute("DefaultDestinationSuffix"))   DefaultDestinationSuffix[i] =Element.attribute("DefaultDestinationSuffix");
         domDocument.appendChild(Element);

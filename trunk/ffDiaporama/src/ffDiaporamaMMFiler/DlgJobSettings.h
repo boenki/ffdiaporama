@@ -49,7 +49,7 @@ public:
 
     // function to be overloaded
     virtual void        DoInitDialog();                             // Initialise dialog
-    virtual void        DoAccept()          {/*Nothing to do*/}     // Call when user click on Ok button
+    virtual void        DoAccept();                                 // Call when user click on Ok button
     virtual void        DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
     virtual void        PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
     virtual void        DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
@@ -63,7 +63,8 @@ private slots:
     void    s_Source_Delete_RD();
     void    s_Source_Rename_RD();
     void    s_Source_Move_RD();
-    void    s_Destination_AddSuffix_RD();
+    void    s_Destination_AddSizeSuffix_CB();
+    void    s_Destination_AddSuffix_CB();
     void    s_Destination_InFolder_RD();
     void    s_Source_Suffix_ED(const QString);
     void    s_Destination_Suffix_ED(const QString);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="it_IT" sourcelanguage="en">
 <context>
     <name>DlgAbout</name>
     <message>
@@ -702,15 +702,15 @@ Vedere la guida per maggiori dettagli!</translation>
     </message>
     <message>
         <source>Transformed image :</source>
-        <translation type="unfinished"></translation>
+        <translation>Immagine trasformata :</translation>
     </message>
     <message>
         <source>Create cache file (with _ffd suffix) for transformed images</source>
-        <translation type="unfinished"></translation>
+        <translation>Creare file cache (con suffisso _ffd) per immagini trasformate</translation>
     </message>
     <message>
         <source>Video :</source>
-        <translation type="unfinished"></translation>
+        <translation>Video :</translation>
     </message>
 </context>
 <context>
@@ -880,7 +880,7 @@ Vedere la guida per maggiori dettagli!</translation>
     </message>
     <message>
         <source>LibExiv2/Exiv2 binary version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione LibExiv2/Exiv2 binario</translation>
     </message>
 </context>
 <context>
@@ -1043,7 +1043,7 @@ Vedere la guida per maggiori dettagli!</translation>
     </message>
     <message>
         <source>Creating cached filtered file ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Creazione file cache filtrata ...</translation>
     </message>
 </context>
 <context>
@@ -3473,47 +3473,47 @@ Vuoi aprirlo comunque?</translation>
     </message>
     <message>
         <source>Impossible to open project file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile aprire file progetto %1</translation>
     </message>
     <message>
         <source>Applying Despeckle filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione filtro Smacchia</translation>
     </message>
     <message>
         <source>Applying Equalize filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione filtro Equalizza</translation>
     </message>
     <message>
         <source>Applying Gray filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione filtro Grigio</translation>
     </message>
     <message>
         <source>Applying blur filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione filtro sfocatura</translation>
     </message>
     <message>
         <source>Applying sharpen filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicazione filtro Nitidezza</translation>
     </message>
     <message>
         <source>Loading cached filtered file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento file cache filtrato :</translation>
     </message>
     <message>
         <source>Error allocating memory for cached filtered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore allocazione momoria per file cache filtrato</translation>
     </message>
     <message>
         <source>Error loading cached filtered file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore caricamento file cache filtrato :</translation>
     </message>
     <message>
         <source>Error allocating memory for render image</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore allocazione memoria per generazione immagine</translation>
     </message>
     <message>
         <source>Error loading file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore caricamento file :</translation>
     </message>
 </context>
 <context>
@@ -3624,27 +3624,27 @@ Vuoi aprirlo comunque?</translation>
     </message>
     <message>
         <source>Error overwritting %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore sovrascrittura %1</translation>
     </message>
     <message>
         <source>Impossible to open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile aprire file %1</translation>
     </message>
     <message>
         <source>Image don&apos;t have EXIF metadata %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Immagine non ha metadati EXIF %1</translation>
     </message>
     <message>
         <source>Impossible to start exiv2 - no exif informations will be decode for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile avviare exiv2 - nessuna informazione exif sarà decodificata per %1</translation>
     </message>
     <message>
         <source>Error during exiv2 process - no exif informations will be decode for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore durante processo exiv2 - nessuna informazione exif sarà decodificata per %1</translation>
     </message>
     <message>
         <source>exiv2 return error %1 - no exif informations will be decode for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>exiv2 ritorna errore %1 - nessuna informazione exif sarà decodificata per %2</translation>
     </message>
 </context>
 <context>

@@ -45,11 +45,7 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,in
 
     InitialFilteredString=CurrentBrush->Image->BrushFileTransform.FilterToString();
 
-#if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-#else
-    setWindowFlags(Qt::Window|Qt::WindowTitleHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint);
-#endif
 
     if (CurrentBrush->Image) {
         CachedImage=CurrentBrush->Image->ImageAt(true,NULL);
@@ -369,8 +365,8 @@ void DlgImageCorrection::accept() {
     // Check if cached filtered file exist
     QString CachedFile=CurrentBrush->Image->FileName;
     CachedFile=CachedFile.replace("."+QFileInfo(CachedFile).suffix(),"_ffd.jpg");
-    if ((InitialFilteredString!=CurrentBrush->Image->BrushFileTransform.FilterToString())||
-        ((GlobalMainWindow->ApplicationConfig->AllowCachedTransfoImages)&&(!QFileInfo(CachedFile).exists()))) {
+    if ((CurrentBrush->Image->BrushFileTransform.FilterToString()!="")&&((InitialFilteredString!=CurrentBrush->Image->BrushFileTransform.FilterToString())||
+            ((GlobalMainWindow->ApplicationConfig->AllowCachedTransfoImages)&&(!QFileInfo(CachedFile).exists())))) {
         if (QFileInfo(CachedFile).exists()) QFile::remove(CachedFile);
         if (GlobalMainWindow->ApplicationConfig->AllowCachedTransfoImages) {
             QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));

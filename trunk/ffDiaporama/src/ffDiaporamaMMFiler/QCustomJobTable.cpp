@@ -57,9 +57,10 @@ QCustomJobTable::QCustomJobTable(QWidget *parent):QTableWidget(parent) {
     verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
 
     QString ColumnDef=  QApplication::translate("QCustomJobTable","Date/Time")+";" \
-                        +QApplication::translate("QCustomJobTable","Status")+";" \
-                        +QApplication::translate("QCustomJobTable","Progress")+";" \
-                        +QApplication::translate("QCustomJobTable","Job Type");
+                       +QApplication::translate("QCustomJobTable","Status")+";" \
+                       +QApplication::translate("QCustomJobTable","Progress")+";" \
+                       +QApplication::translate("QCustomJobTable","Job Type")+";" \
+                       +QApplication::translate("QCustomJobTable","Current action");
     setColumnCount(ColumnDef.split(";").count());
     setHorizontalHeaderLabels(ColumnDef.split(";"));
 }
@@ -102,9 +103,10 @@ void QCustomJobTable::DoRefreshList() {
         int     iCol=0;
         insertRow(Row);
         setItem(Row,iCol++,CreateItem(JobQueue->List[Row]->DateTime.toString("dd/MM/yyyy hh:mm:ss"),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        setItem(Row,iCol++,CreateItem(JobQueue->StatusText[JobQueue->List[Row]->JobStatus],Qt::AlignLeft|Qt::AlignVCenter,Background));
-        setItem(Row,iCol++,CreateItem(QString("%1%").arg(JobQueue->List[Row]->PercentDone),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        setItem(Row,iCol++,CreateItem(JobQueue->JobTypeText[JobQueue->List[Row]->JobType], Qt::AlignLeft|Qt::AlignVCenter,Background));
+        setItem(Row,iCol++,CreateItem(JobQueue->StatusText[JobQueue->List[Row]->JobStatus],         Qt::AlignLeft|Qt::AlignVCenter,Background));
+        setItem(Row,iCol++,CreateItem(QString("%1%").arg(JobQueue->List[Row]->PercentDone),         Qt::AlignLeft|Qt::AlignVCenter,Background));
+        setItem(Row,iCol++,CreateItem(JobQueue->JobTypeText[JobQueue->List[Row]->JobType],          Qt::AlignLeft|Qt::AlignVCenter,Background));
+        setItem(Row,iCol++,CreateItem(JobQueue->List[Row]->CurrentAction,                           Qt::AlignLeft|Qt::AlignVCenter,Background));
     }
     DoResizeColumns(); // this do a setUpdatesEnabled(true);
 }
@@ -115,6 +117,7 @@ void QCustomJobTable::DoRefreshAJob(int Row) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomJobTable::DoRefreshList");
 
     QColor  Background=((Row & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
-    setItem(Row,1,CreateItem(JobQueue->StatusText[JobQueue->List[Row]->JobStatus],Qt::AlignLeft|Qt::AlignVCenter,Background));
-    setItem(Row,2,CreateItem(QString("%1%").arg(JobQueue->List[Row]->PercentDone),Qt::AlignLeft|Qt::AlignVCenter,Background));
+    setItem(Row,1,CreateItem(JobQueue->StatusText[JobQueue->List[Row]->JobStatus],  Qt::AlignLeft|Qt::AlignVCenter,Background));
+    setItem(Row,2,CreateItem(QString("%1%").arg(JobQueue->List[Row]->PercentDone),  Qt::AlignLeft|Qt::AlignVCenter,Background));
+    setItem(Row,4,CreateItem(JobQueue->List[Row]->CurrentAction,                    Qt::AlignLeft|Qt::AlignVCenter,Background));
 }
