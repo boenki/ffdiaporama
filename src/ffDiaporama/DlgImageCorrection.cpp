@@ -43,14 +43,14 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCurrentTextItem,in
     VideoPosition   =TheVideoPosition;
     UndoReloadImage =false;
 
-    InitialFilteredString=CurrentBrush->Image->BrushFileTransform.FilterToString();
-
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
 
     if (CurrentBrush->Image) {
+        InitialFilteredString=CurrentBrush->Image->BrushFileTransform.FilterToString();
         CachedImage=CurrentBrush->Image->ImageAt(true,NULL);
         GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentBrush->Image->ObjectGeometry);
      } else if (CurrentBrush->Video) {
+        InitialFilteredString=CurrentBrush->Video->BrushFileTransform.FilterToString();
         CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,1,false,NULL,false);
         GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentBrush->Video->ObjectGeometry);
     }
@@ -363,10 +363,10 @@ void DlgImageCorrection::accept() {
     GlobalMainWindow->ApplicationConfig->DlgImageCorrectionWSP->SaveWindowState(this);
 
     // Check if cached filtered file exist
-    QString CachedFile=CurrentBrush->Image->FileName;
+    QString CachedFile=CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
     CachedFile=CachedFile.replace("."+QFileInfo(CachedFile).suffix(),"_ffd.jpg");
-    if ((CurrentBrush->Image->BrushFileTransform.FilterToString()!="")&&((InitialFilteredString!=CurrentBrush->Image->BrushFileTransform.FilterToString())||
-            ((GlobalMainWindow->ApplicationConfig->AllowCachedTransfoImages)&&(!QFileInfo(CachedFile).exists())))) {
+    QString NewFilter=CurrentBrush->Image?CurrentBrush->Image->BrushFileTransform.FilterToString():CurrentBrush->Video->BrushFileTransform.FilterToString();
+    if ((NewFilter!="")&&((InitialFilteredString!=NewFilter)||((GlobalMainWindow->ApplicationConfig->AllowCachedTransfoImages)&&(!QFileInfo(CachedFile).exists())))) {
         if (QFileInfo(CachedFile).exists()) QFile::remove(CachedFile);
         if (GlobalMainWindow->ApplicationConfig->AllowCachedTransfoImages) {
             QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -374,10 +374,15 @@ void DlgImageCorrection::accept() {
             screen.showMessage(QApplication::translate("DlgImageCorrection","Creating cached filtered file ..."),Qt::AlignHCenter|Qt::AlignBottom);
             screen.show();
             QApplication::processEvents();
-            cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ApplicationConfig->ImagesCache.
-                FindObject(CurrentBrush->Image->FileName,CurrentBrush->Image->ModifDateTime,CurrentBrush->Image->ImageOrientation,NULL,true,true);
+            cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ApplicationConfig->ImagesCache.FindObject(
+                        CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName,
+                        CurrentBrush->Image?CurrentBrush->Image->ModifDateTime:CurrentBrush->Video->ModifDateTime,
+                        CurrentBrush->Image?CurrentBrush->Image->ImageOrientation:CurrentBrush->Video->ImageOrientation,
+                        NULL,true,true);
+
             QImage *UnfilteredImage=new QImage(ImageObject->ValidateCacheRenderImage()->copy());
-            CurrentBrush->Image->BrushFileTransform.ApplyFilter(UnfilteredImage);
+            if (CurrentBrush->Image) CurrentBrush->Image->BrushFileTransform.ApplyFilter(UnfilteredImage);
+                else                 CurrentBrush->Video->BrushFileTransform.ApplyFilter(UnfilteredImage);
             UnfilteredImage->save(CachedFile,"jpg",100);
             delete UnfilteredImage;
             screen.hide();

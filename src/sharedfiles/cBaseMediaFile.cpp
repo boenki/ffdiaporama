@@ -2234,14 +2234,15 @@ QImage *cVideoFile::ConvertYUVToRGB() {
     int     W               =ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
     int     H               =ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
 
-    QImage  *RetImage       =new QImage(W,H,QTPIXFMT);
+    QImage   RetImage(W,H,QTPIXFMT);
+    QImage  *FinalImage=NULL;
     AVFrame *FrameBufferRGB =avcodec_alloc_frame();  // Allocate structure for RGB image
 
     if (FrameBufferRGB!=NULL) {
 
         avpicture_fill(
                 (AVPicture *)FrameBufferRGB,        // Buffer to prepare
-                RetImage->bits(),                   // Buffer which will contain the image data
+                RetImage.bits(),                    // Buffer which will contain the image data
                 PIXFMT,                             // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
                 W,                                  // The width of the image in pixels
                 H                                   // The height of the image in pixels
@@ -2264,10 +2265,7 @@ QImage *cVideoFile::ConvertYUVToRGB() {
                 FrameBufferRGB->data,                                               // Destination buffer
                 FrameBufferRGB->linesize                                            // Destination Stride
             );
-            if (ret<=0) {
-                delete RetImage;
-                RetImage=NULL;
-            }
+            if (ret>0) FinalImage=new QImage(RetImage.convertToFormat(QImage::Format_ARGB32_Premultiplied));
             sws_freeContext(img_convert_ctx);
         }
 
@@ -2275,7 +2273,7 @@ QImage *cVideoFile::ConvertYUVToRGB() {
         av_free(FrameBufferRGB);
     }
 
-    return RetImage;
+    return FinalImage;
 }
 
 //====================================================================================================================
