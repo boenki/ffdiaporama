@@ -17,10 +17,8 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige les erreurs de marges (erreur d'arrondie) quand la taille des bloques change
 
 English version / Bug fix :
--Fix margin error (rounded error) when blocks size change
 
 French version / Nouvelles fonctionnalités :
 
@@ -66,9 +64,11 @@ Bug fix French version
 -Corrige les problèmes de lecture EXIF sous Windows en revennant à la version binaire d'Exiv
 -Corrige le plantage quand on passe du mode normal au mode partition et qu'il n'y a aucune diapo
 -Corrige l'erreur de compilation avec LIBAV <53
+
 -Corrige la saturation du son lors des resampling
 -Supprime les seek inutiles lors de l'encodage du son (revient à une vitesse d'encodage normal)
 -Remet les icones manquantes pour les transitions dans la boite de configuration
+-Corrige les erreurs de marges (erreur d'arrondie) quand la taille des bloques change
 
 Bug fix English version
 -When exit the application, even when answer yes, modifications are not saved
@@ -104,9 +104,11 @@ Bug fix English version
 -Fix EXIF reading for Windows by comming back to Exiv binary version
 -Fix crash when changing mode to partition or to normal and no slide was present
 -Fix compilation error with LIBAV <53
+
 -Fix sound croaking when resampling
 -Remove unwanted seek when rendering sound (now sound rendering time is correct)
 -Restore missing icons for transition in option dialog
+-Fix margin error (rounded error) when blocks size change
 
 French version / Nouvelles fonctionnalités
 -Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
