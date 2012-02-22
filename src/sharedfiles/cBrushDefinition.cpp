@@ -435,8 +435,8 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 double   RealImageW=double(RenderImage->width());               // Get real image widht
                 double   RealImageH=double(RenderImage->height());              // Get real image height
                 double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse of the image to define full canvas
-                int      iHyp=int(Hyp);                     if (Hyp-iHyp>0.5d) iHyp++;              if (int(iHyp/2)*2<iHyp) iHyp--;     Hyp=iHyp;
-                int      HypPixel=int(Hyp*TheZoomFactor);   if (Hyp-HypPixel>0.5d) HypPixel++;
+                int      iHyp=int(Hyp);                     if (Hyp-iHyp>double(0.5)) iHyp++;              if (int(iHyp/2)*2<iHyp) iHyp--;     Hyp=iHyp;
+                int      HypPixel=int(Hyp*TheZoomFactor);   if (Hyp-HypPixel>double(0.5)) HypPixel++;
 
                 // Expand canvas
                 QImage   NewRenderImage(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
