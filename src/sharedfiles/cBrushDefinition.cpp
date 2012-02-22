@@ -435,6 +435,8 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 double   RealImageW=double(RenderImage->width());               // Get real image widht
                 double   RealImageH=double(RenderImage->height());              // Get real image height
                 double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse of the image to define full canvas
+                int      iHyp=int(Hyp);                     if (Hyp-iHyp>0.5d) iHyp++;              if (int(iHyp/2)*2<iHyp) iHyp--;     Hyp=iHyp;
+                int      HypPixel=int(Hyp*TheZoomFactor);   if (Hyp-HypPixel>0.5d) HypPixel++;
 
                 // Expand canvas
                 QImage   NewRenderImage(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
@@ -456,12 +458,12 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                     NewRenderImage=NewRenderImage.transformed(matrix,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
                     int ax=NewRenderImage.width()-W;
                     int ay=NewRenderImage.height()-H;
-                    NewRenderImage=NewRenderImage.copy(ax/2,ay/2,NewRenderImage.width()-ax,NewRenderImage.height()-ay);
+                    NewRenderImage=NewRenderImage.copy(ax/2,ay/2,NewRenderImage.width()-ax+1,NewRenderImage.height()-ay+1);
                 }
 
                 // Get part we need and scaled it to destination size
-                NewRenderImage=NewRenderImage.copy(Hyp*TheXFactor,Hyp*TheYFactor,Hyp*TheZoomFactor,Hyp*TheZoomFactor*TheAspectRatio)
-                                    .scaled(Rect.width(),double(Rect.width())*TheAspectRatio,Qt::IgnoreAspectRatio,
+                NewRenderImage=NewRenderImage.copy(Hyp*TheXFactor,Hyp*TheYFactor,HypPixel,HypPixel*TheAspectRatio)
+                                    .scaled(Rect.width()+1,double(Rect.width()+1)*TheAspectRatio,Qt::IgnoreAspectRatio,
                                     ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
 
                 // Apply correction filters to DestImage

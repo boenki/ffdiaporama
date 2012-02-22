@@ -774,8 +774,11 @@ void DlgRenderVideo::accept() {
         ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+QString(" - %1 Hz - ").arg(AudioFrequency)+(AudioBitRateStr!="0"?AudioBitRateStr+"b/s":"lossless"));
 
         //**********************************************************************************************************************************
+        if ((VideoFrameRate>=29.96)&&(VideoFrameRate<=29.98))    VideoFrameRate=29.97;              // Manual rounded
+
         FPS             =double(AV_TIME_BASE)/25;                                                   // For sound generation, use only 25 FPS to avoid rounded issue (instead of VideoFrameRate)
         NbrFrame        =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/FPS);    // Number of frame to generate
+        StartTime       =QTime::currentTime();                                                      // Display control : time the process start
 
         ui->SoundProgressBar->setValue(0);
         ui->SoundProgressBar->setMaximum(NbrFrame);
@@ -817,8 +820,6 @@ void DlgRenderVideo::accept() {
             TempWAVFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
             if (!TempWAVFileName.endsWith(QDir::separator())) TempWAVFileName=TempWAVFileName+QDir::separator();
             TempWAVFileName=TempWAVFileName+"temp.wav";
-
-            StartTime=QTime::currentTime();                                  // Display control : time the process start
             ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding sound"));
             Continue=WriteTempAudioFile(TempWAVFileName,FromSlide);
         } else {
@@ -829,8 +830,7 @@ void DlgRenderVideo::accept() {
         //**********************************************************************************************************************************
         // 2nd step encoding : produce final file using temporary WAV file with sound
         //**********************************************************************************************************************************
-        StartTime=QTime::currentTime();                                                             // Display control : time the process start
-        if ((VideoFrameRate>=29.96)&&(VideoFrameRate<=29.98))    VideoFrameRate=29.97;              // Manual rounded
+        //StartTime=QTime::currentTime();                                                             // Display control : time the process start
         FPS             =double(AV_TIME_BASE)/VideoFrameRate;
         NbrFrame        =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/FPS);    // Number of frame to generate
 
@@ -1318,10 +1318,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 Continue=false;
             } else {
                 // Init sound blocks
-                int audio_input_frame_size=WriteWAV.AudioStream->codec->frame_size;                          // frame size in samples
-                if (audio_input_frame_size<=1) audio_input_frame_size=WriteWAV.RenderMusic.SoundPacketSize; else audio_input_frame_size*=WriteWAV.RenderMusic.SampleBytes*WriteWAV.RenderMusic.Channels;
                 WriteWAV.RenderMusic.SetFPS(RenderFPS);
-                WriteWAV.EncodedAudio.SetFrameSize(audio_input_frame_size);
             }
         }
     }
@@ -1438,7 +1435,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             QApplication::processEvents();  // Give time to interface!
 
             // Calculate next position
-            Position     +=(FPS/1000)/*((double(AV_TIME_BASE)/RenderFPS)/1000)*/;
+            Position     +=(FPS/1000);
             if (PreviousFrame!=NULL) delete PreviousFrame;
             PreviousFrame=Frame;
             Frame =NULL;
@@ -1484,48 +1481,36 @@ void DlgRenderVideo::WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue
    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::WriteTempAudioFile");
 
     // Flush audio frame
-    while ((*Continue)&&(WriteWAV->RenderMusic.List.count()>0)) {
-        AVPacket    pkt;
-        int16_t     *Packet=WriteWAV->RenderMusic.DetachFirstPacket();
-
-        if (Packet==NULL) {
-            Packet=(int16_t *)av_malloc(WriteWAV->RenderMusic.SoundPacketSize+4);
-            memset(Packet,0,WriteWAV->RenderMusic.SoundPacketSize);
+    AVPacket pkt;
+    while (WriteWAV->RenderMusic.List.count()>0) {
+        int16_t *PacketSound=WriteWAV->RenderMusic.DetachFirstPacket();
+        if (PacketSound==NULL) {
+            PacketSound=(int16_t *)av_malloc(WriteWAV->RenderMusic.SoundPacketSize+4);
+            memset(PacketSound,0,WriteWAV->RenderMusic.SoundPacketSize);
         }
+        int out_size= avcodec_encode_audio(WriteWAV->AudioCodecContext,WriteWAV->audio_outbuf,WriteWAV->RenderMusic.SoundPacketSize,(short int *)PacketSound);
+        if (out_size>0) {
+            av_init_packet(&pkt);
 
-        WriteWAV->EncodedAudio.AppendData(Packet,WriteWAV->RenderMusic.SoundPacketSize);
-        while (WriteWAV->EncodedAudio.List.count()>0) {
-            int16_t *PacketSound=WriteWAV->EncodedAudio.DetachFirstPacket();
-            if (PacketSound==NULL) {
-                PacketSound=(int16_t *)av_malloc(WriteWAV->EncodedAudio.SoundPacketSize+4);
-                memset(PacketSound,0,WriteWAV->EncodedAudio.SoundPacketSize);
-            }
-            int out_size= avcodec_encode_audio(WriteWAV->AudioCodecContext,WriteWAV->audio_outbuf,WriteWAV->EncodedAudio.SoundPacketSize,(short int *)PacketSound);
-            if (out_size>0) {
-                av_init_packet(&pkt);
+            if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->pts!=int64_t(INT64_C(0x8000000000000000))))
+                pkt.pts=av_rescale_q(WriteWAV->AudioCodecContext->coded_frame->pts,WriteWAV->AudioCodecContext->time_base,WriteWAV->AudioStream->time_base);
 
-                if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->pts!=int64_t(INT64_C(0x8000000000000000))))
-                    pkt.pts=av_rescale_q(WriteWAV->AudioCodecContext->coded_frame->pts,WriteWAV->AudioCodecContext->time_base,WriteWAV->AudioStream->time_base);
+            if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->key_frame))
+                pkt.flags|=AV_PKT_FLAG_KEY;
 
-                if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->key_frame))
-                    pkt.flags|=AV_PKT_FLAG_KEY;
+            pkt.stream_index=WriteWAV->AudioStream->index;
+            pkt.data        =WriteWAV->audio_outbuf;
+            pkt.size        =out_size;
 
-                pkt.stream_index=WriteWAV->AudioStream->index;
-                pkt.data        =WriteWAV->audio_outbuf;
-                pkt.size        =out_size;
-
-                // write the compressed frame in the media file
-                if (av_interleaved_write_frame(WriteWAV->OutputFormatContext,&pkt)!=0) {
-                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
-                    *Continue=false;
-                }
-            } else if (out_size<0) {
-                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
+            // write the compressed frame in the media file
+            if (av_interleaved_write_frame(WriteWAV->OutputFormatContext,&pkt)!=0) {
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
                 *Continue=false;
             }
-            av_free(PacketSound);
+        } else if (out_size<0) {
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
+            *Continue=false;
         }
-
-        av_free(Packet);
+        av_free(PacketSound);
     }
 }

@@ -33,8 +33,7 @@ namespace Ui {
 }
 
 struct sWriteWAV {
-    cSDLSoundBlockList      RenderMusic;
-    cSDLSoundBlockList      EncodedAudio;
+    cSoundBlockList         RenderMusic;
     AVCodecContext          *AudioCodecContext;
     uint8_t                 *audio_outbuf;
     AVStream                *AudioStream;

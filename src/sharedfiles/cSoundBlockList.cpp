@@ -21,7 +21,7 @@
 #include "cSoundBlockList.h"
 
 // Specific defines for this file
-#define MAXSOUNDPACKETSIZE      4096    //16384
+#define MAXSOUNDPACKETSIZE     3840 //4096 //16384
 
 //*********************************************************************************************************************************************
 // Base object for sound manipulation
@@ -58,6 +58,7 @@ void cSoundBlockList::SetFPS(double TheFPS) {
 
     FPS=TheFPS;
     WantedDuration =(double(AV_TIME_BASE)/FPS)/(1000*1000); //double(1)/FPS;
+    //if ((WantedDuration>=double(0.033))&&(WantedDuration<=double(0.035))) WantedDuration=0.03337;
     SoundPacketSize=int(WantedDuration*double(SamplingRate))*SampleBytes*Channels;
     if (SoundPacketSize==31996) SoundPacketSize=32000;      // Fix a rounded error for 6 FPS
     NbrPacketForFPS=1;
@@ -76,14 +77,15 @@ void cSoundBlockList::SetFrameSize(int FrameSize) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFrameSize");
 
     SoundPacketSize=FrameSize;
-    WantedDuration =double(SoundPacketSize)/(double(SamplingRate)*double(SampleBytes)*double(Channels));
-    FPS            =1/WantedDuration;
+    //WantedDuration =double(SoundPacketSize)/(double(SamplingRate)*double(SampleBytes)*double(Channels));
+    //FPS            =1/WantedDuration;
     NbrPacketForFPS=1;
-    dDuration      =WantedDuration;
-    while (FPS>30) {
-        WantedDuration *=2;
-        FPS            /=2;
-    }
+    //dDuration      =WantedDuration;
+    //while (FPS>30) {
+    //        WantedDuration *=2;
+    //        FPS            /=2;
+    //}
+    dDuration=double(SoundPacketSize)/(double(SamplingRate)*double(SampleBytes)*double(Channels));
 }
 
 //====================================================================================================================
