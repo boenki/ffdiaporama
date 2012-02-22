@@ -1232,7 +1232,7 @@ int cDiaporama::GetWidthForHeight(int WantedHeight) {
 //====================================================================================================================
 
 qlonglong cDiaporama::GetTransitionDuration(int index) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetTransitionDuration");
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetTransitionDuration"); // Remove : too much
 
     qlonglong Duration=0;
     if ((index>=0)&&(List.count()>0)&&((index<List.count())&&(!((List[index]->TransitionFamilly==0)&&(List[index]->TransitionSubType==0))))) Duration=List[index]->TransitionDuration;

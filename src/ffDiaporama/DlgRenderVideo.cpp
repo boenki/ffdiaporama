@@ -775,7 +775,7 @@ void DlgRenderVideo::accept() {
 
         //**********************************************************************************************************************************
         FPS             =double(AV_TIME_BASE)/25;                                                   // For sound generation, use only 25 FPS to avoid rounded issue (instead of VideoFrameRate)
-        NbrFrame        =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/FPS)+1;  // Number of frame to generate (For sound generation generate one frame more !)
+        NbrFrame        =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/FPS);    // Number of frame to generate
 
         ui->SoundProgressBar->setValue(0);
         ui->SoundProgressBar->setMaximum(NbrFrame);
@@ -1029,7 +1029,7 @@ void DlgRenderVideo::accept() {
                         #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
                         " -timestamp now"+
                         #endif
-                        " -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+AddSizestr+" -shortest -r "+
+                        " -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+AddSizestr+" -r "+          // -shortest
                         QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
                         " "+aCodec+QString(" -ar %1 -ac %2 -aspect %3:%4")
                         .arg(AudioFrequency)

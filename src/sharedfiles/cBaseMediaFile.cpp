@@ -1762,8 +1762,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     int64_t         MaxAudioLenDecoded  =AVCODEC_MAX_AUDIO_FRAME_SIZE*10;
     int64_t         AudioLenDecoded     =0;
     double          dPosition           =double(Position)/1000;     // Position in double format
-    double          EndPosition         =dPosition+SoundTrackBloc->WantedDuration;
-    double          AudioDataWanted     =SoundTrackBloc->WantedDuration*double(AudioStream->codec->sample_rate)*SrcSampleSize;
+    double          AudioDataWanted     =(PreviewMode?SoundTrackBloc->WantedDuration:5)*double(AudioStream->codec->sample_rate)*SrcSampleSize;  // 5 sec for rendering
 
     bool            Continue        =true;
     double          FramePosition   =dPosition;
@@ -1782,8 +1781,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     BufferForDecoded    =(uint8_t *)av_malloc(MaxAudioLenDecoded);
 
     // Calc if we need to seek to a position
-    if ((Position==0)||(DiffTimePosition>2)) {// Allow 2 msec diff (rounded double !)
-
+    if ((Position==0)||(DiffTimePosition>/*2*/50)) {// Allow 2 msec diff (rounded double !)
         // Flush all buffers
         for (unsigned int i=0;i<ffmpegAudioFile->nb_streams;i++)  {
             AVCodecContext *codec_context = ffmpegAudioFile->streams[i]->codec;
@@ -1792,6 +1790,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
         SoundTrackBloc->ClearList();      // Clear soundtrack list
 
         // Seek to nearest previous key frame
+        ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadAudioFrame => do a seek");
         int64_t seek_target=av_rescale_q(int64_t((dPosition/1000)*AV_TIME_BASE),AV_TIME_BASE_Q,ffmpegAudioFile->streams[AudioStreamNumber]->time_base);
         if (av_seek_frame(ffmpegAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
             // Try in AVSEEK_FLAG_ANY mode
@@ -1804,7 +1803,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     }
 
     //*************************************************************************************************************************************
-    // Decoding process : Get StreamPacket until endposition is reach (if sound is wanted) or until image is ok (if image only is wanted)
+    // Decoding process : Get StreamPacket until AudioLenDecoded>=AudioDataWanted or we have reach the end of file
     //*************************************************************************************************************************************
 
     while (Continue) {
@@ -1876,7 +1875,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
         }
     }
     // Keep NextPacketPosition for determine next time if we need to seek
-    LastAudioReadedPosition=int(EndPosition*1000);
+    LastAudioReadedPosition=int(/*EndPosition*/FramePosition*1000);
 
     //**********************************************************************
     // Transfert data from BufferForDecoded to Buffer using audio_resample
@@ -1930,6 +1929,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
         }
 
         if (SoundTrackBloc->SamplingRate!=AudioStream->codec->sample_rate) {
+            ToLog(LOGMSG_INFORMATION,QString("IN:cVideoFile::ReadAudioFrame => do a resample of %1 bytes").arg(AudioLenDecoded));
 
             double  NewSize=((double(AudioLenDecoded)/double(DstSampleSize))/double(AudioStream->codec->sample_rate))*double(SoundTrackBloc->SamplingRate);
             double  PasSrc =1/double(AudioStream->codec->sample_rate);
@@ -2012,13 +2012,16 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                     c2   =Left_x0 - (2.5F * Left_x1) + (2 * Left_x2) - (.5F * Left_x3);
                     c3   =(.5F * (Left_x3 - Left_x0)) + (1.5F * (Left_x1 - Left_x2));
                     Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
+                    if (Value>32767)  Value=32767; else if (Value<-32768) Value=-32768;
                     *(PtrDst++)=int16_t(Value);
+
                     // Right Chanel
                     c0   =Right_x1;
                     c1   =.5F * (Right_x2 - Right_x0);
                     c2   =Right_x0 - (2.5F * Right_x1) + (2 * Right_x2) - (.5F * Right_x3);
                     c3   =(.5F * (Right_x3 - Right_x0)) + (1.5F * (Right_x1 - Right_x2));
                     Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
+                    if (Value>32767)  Value=32767; else if (Value<-32768) Value=-32768;
                     *(PtrDst++)=int16_t(Value);
                     PosDst=PosDst+PasDst;
                     RealNewSize++;
@@ -2027,8 +2030,8 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                 *(PtrDst++)=Left_x2;
                 *(PtrDst++)=Right_x2;
                 RealNewSize++;
-                *(PtrDst++)=Left_x2;    //Left_x3;
-                *(PtrDst++)=Right_x2;   //Right_x3;
+                *(PtrDst++)=Left_x3;    //Left_x3;
+                *(PtrDst++)=Right_x3;   //Right_x3;
                 RealNewSize++;
             }
 

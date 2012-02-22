@@ -21,7 +21,7 @@
 #include "cSoundBlockList.h"
 
 // Specific defines for this file
-#define MAXSOUNDPACKETSIZE      4096
+#define MAXSOUNDPACKETSIZE      4096    //16384
 
 //*********************************************************************************************************************************************
 // Base object for sound manipulation
