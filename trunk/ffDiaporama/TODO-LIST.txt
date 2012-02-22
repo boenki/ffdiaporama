@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 16/02/2011) :
+Buggs/TODO (Dernier SVN le 20/02/2011) :
 ----------------------------------------
 TODO
 ----
@@ -17,24 +17,16 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le plantage quand on passe du mode normal au mode partition et qu'il n'y a aucune diapo
--Corrige l'erreur de compilation avec LIBAV <53
+-Corrige la saturation du son lors des resampling
+-Supprime les seek inutiles lors de l'encodage du son (revient à une vitesse d'encodage normal)
 
 English version / Bug fix :
--Fix crash when changing mode to partition or to normal and no slide was present
--Fix compilation error with LIBAV <53
+-Fix sound croaking when resampling
+-Remove unwanted seek when rendering sound (now sound rendering time is correct)
 
 French version / Nouvelles fonctionnalités :
--Ajoute le FLAC dans la liste des codecs audio pour génération et l'autorise pour le MKV
--Ajoute le x264 lossless dans la liste des codecs video pour génération et l'autorise pour le MKV
--Ajoute un bouton lossless dans les boutons de génération de la fenêtre principale
--Ajoute la sélection du format d'image par défaut pour le lossless dans la boite de configuration
 
 English version / New features :
--Add FLAC to audio codecs list for rendering and allow it for MKV
--Add x264 lossless to video codecs list for rendering and allow it for MKV
--Add a lossless button in render button of the main window
--Add a default lossless image format selection in option dialog
 
 -------------------------------------
 Changelog depuis la version 20111118
@@ -74,6 +66,8 @@ Bug fix French version
 -Corrige le systeme de mise en cache des images pour régler les "memory leak" qui générait des erreurs QPainter
 -Corrige les problèmes de fragmentation du tas (heap) sous windows XP qui générait des erreurs d'allocation mémoire
 -Corrige les problèmes de lecture EXIF sous Windows en revennant à la version binaire d'Exiv
+-Corrige le plantage quand on passe du mode normal au mode partition et qu'il n'y a aucune diapo
+-Corrige l'erreur de compilation avec LIBAV <53
 
 Bug fix English version
 -When exit the application, even when answer yes, modifications are not saved
@@ -107,6 +101,8 @@ Bug fix English version
 -Fix image memory cache system to solve "memory leak" wich generate QPainter error
 -Fix heap fragmentation for Windows XP which generate memory allocation errors
 -Fix EXIF reading for Windows by comming back to Exiv binary version
+-Fix crash when changing mode to partition or to normal and no slide was present
+-Fix compilation error with LIBAV <53
 
 French version / Nouvelles fonctionnalités
 -Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
@@ -171,6 +167,10 @@ Prend en compte ffmpeg 0.10
     -Permet de rediriger les messages dans un fichier via les >
     -Ajoute les messages de debuggage (DEBUGTRACE)
 -Ajoute une nouvelle option sur la ligne de commande pour régler le niveau des messages -LogLevel
+-Ajoute le FLAC dans la liste des codecs audio pour génération et l'autorise pour le MKV
+-Ajoute le x264 lossless dans la liste des codecs video pour génération et l'autorise pour le MKV
+-Ajoute un bouton lossless dans les boutons de génération de la fenêtre principale
+-Ajoute la sélection du format d'image par défaut pour le lossless dans la boite de configuration
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -235,3 +235,7 @@ Enable ffmpeg 0.10
     -Allow to redirect message to a log file using >
     -Add debugging messages (DEBUGTRACE)
 -Add a new argument for command line to define level of message -LogLevel
+-Add FLAC to audio codecs list for rendering and allow it for MKV
+-Add x264 lossless to video codecs list for rendering and allow it for MKV
+-Add a lossless button in render button of the main window
+-Add a default lossless image format selection in option dialog

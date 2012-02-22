@@ -527,7 +527,7 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="323"/>
         <source>Add this suffix to file name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir este sufijo al nombre de archivo:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="513"/>
@@ -547,7 +547,7 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="581"/>
         <source>Add size suffix to file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir sufijo de tamaño al nombre</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="641"/>
@@ -799,7 +799,7 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="658"/>
         <source>Error starting ffmpeg</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al lanzar ffmpeg</translation>
     </message>
 </context>
 <context>
@@ -847,7 +847,7 @@ se guardará para ser reutilizado la próxima vez que vaya a trabajar con ffDiap
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="135"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="164"/>
@@ -864,7 +864,7 @@ Archivo</translation>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="181"/>
         <source>Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Regresar</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="203"/>
@@ -1656,7 +1656,7 @@ y Ayuda</translation>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/QCustomJobTable.cpp" line="63"/>
         <source>Current action</source>
-        <translation type="unfinished"></translation>
+        <translation>Acción actual</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="248"/>
@@ -1746,12 +1746,12 @@ y Ayuda</translation>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="153"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="157"/>
         <source>and rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>y rotar imagen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="133"/>
         <source>but don&apos;t rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>pero no rotar imagen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="159"/>
@@ -1762,36 +1762,36 @@ y Ayuda</translation>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="130"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="164"/>
         <source>and set codec to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>y fijar codec a  %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="131"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="165"/>
         <source>and set audio compression to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>y fijar compresión de audio a  %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="132"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="166"/>
         <source>and force audio frequency to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>y forzar frecuencia de audio a  %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="133"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="167"/>
         <source>and force to mono</source>
-        <translation type="unfinished"></translation>
+        <translation>y forzar a mono</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="133"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="167"/>
         <source>and force to stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>y forzar a estereo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="106"/>
         <source>and resize to %1x%2</source>
-        <translation type="unfinished"></translation>
+        <translation>y reescalar a %1x%2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="113"/>
@@ -1805,7 +1805,7 @@ y Ayuda</translation>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="155"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="158"/>
         <source>and set video codec to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>y fijar codec de video a %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="114"/>
@@ -1813,7 +1813,7 @@ y Ayuda</translation>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="140"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="153"/>
         <source>and set video compression to %1 with + and - 10%</source>
-        <translation type="unfinished"></translation>
+        <translation>y fijar compresión de video a %1 con + y - 10%</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="118"/>
@@ -1822,18 +1822,18 @@ y Ayuda</translation>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="156"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="159"/>
         <source>and set video compression to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>y fijar compresión de video a %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="131"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="141"/>
         <source>and set video preset %1</source>
-        <translation type="unfinished"></translation>
+        <translation>y fijar perfil de video %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="150"/>
         <source>and set video quality to 2</source>
-        <translation type="unfinished"></translation>
+        <translation>y fijar calidad de video a 2</translation>
     </message>
 </context>
 <context>
@@ -1969,22 +1969,22 @@ y Ayuda</translation>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="582"/>
         <source>Impossible to start exiv2 - no exif informations will be set for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposible ejecutar exiv2 no habrá información exif para %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="587"/>
         <source>Error during exiv2 process - no exif informations will be set for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Error duarnte el proceso de exiv2 - no habrá información exif para %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="591"/>
         <source>exiv2 return error %1 - no exif informations will be set for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>exiv2 devuelve el error %1 -  no habrá información exif para %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="597"/>
         <source>Successfully add minimal exif values to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadidos valores exif mínimos a %1</translation>
     </message>
 </context>
 <context>
@@ -2096,7 +2096,7 @@ y Ayuda</translation>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="418"/>
         <source>Successfully remove existing destination file (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminado archivo de destino existente(%1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="430"/>
@@ -2107,104 +2107,104 @@ y Ayuda</translation>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="451"/>
         <source>Start image conversion of %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciando conversión de imagen de %1 a %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="454"/>
         <source>Open file</source>
-        <translation type="unfinished">Abrir archivo</translation>
+        <translation>Abrir archivo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="457"/>
         <source>Successfully open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Abriendo archivo %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="460"/>
         <source>Rescal image</source>
-        <translation type="unfinished"></translation>
+        <translation>Reescalar imagen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="482"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="510"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="551"/>
         <source>Failed to rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al rotar imagen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="483"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="511"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="552"/>
         <source>Succesfully rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>Imagen rotada</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="536"/>
         <source>Failed to rescal image %1 to %2x%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al reescalar imagen %1 a %2x%3</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="537"/>
         <source>Succesfully rescal image %1 to %2x%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Imagen reescalada  %1 a %2x%3</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="557"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="642"/>
         <source>Apply destination overwriting strategy</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplicando estrategia para sobreescribir en destino</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="561"/>
         <source>Save image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar archivo de imagen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="572"/>
         <source>Add minimal exif value to image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir valor mínimo de exif a imagen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="599"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="695"/>
         <source>Apply source file strategy</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplicar estrategia a archivo de origen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="612"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="706"/>
         <source>Job finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabajo finalizado</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="639"/>
         <source>Start audio conversion of %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciando conversión de audio de %1 a %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="644"/>
         <source>Error : for sound conversion, source and destination must be different !</source>
-        <translation type="unfinished"></translation>
+        <translation>Error : ¡para conversión de sonido, origen y destino deben ser diferentes !</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="653"/>
         <source>Process ffmpeg job</source>
-        <translation type="unfinished"></translation>
+        <translation>Procesando trabajo de ffmepg</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="688"/>
         <source>Error : ffmpeg job can&apos;t start : %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Error : no se puede iniciar trabajo de ffmpeg : %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="689"/>
         <source>Error : ffmpeg return error %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Error : ffmpeg devuelve error %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="691"/>
         <source>Succesfully process ffmpeg job</source>
-        <translation type="unfinished"></translation>
+        <translation>Procesado el trabajo de ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="456"/>
@@ -2232,43 +2232,43 @@ y Ayuda</translation>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="39"/>
         <source>Convert audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir audio</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="46"/>
         <source>Format :</source>
-        <translation type="unfinished">Formato :</translation>
+        <translation>Formato :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="68"/>
         <source>Select the audio codec to use for the rendering.</source>
-        <translation type="unfinished">Seleccionar codec de audio que se va a usar para la generación del video.</translation>
+        <translation>Seleccionar codec de audio que se va a usar para la generación del video.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="75"/>
         <source>Bit rate :</source>
-        <translation type="unfinished">Tasa de bits :</translation>
+        <translation>Tasa de bits :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="97"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="158"/>
         <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation type="unfinished">Selecciona tasa de bits para el audio que se va a usar para la generación del video.</translation>
+        <translation>Selecciona tasa de bits para el audio que se va a usar para la generación del video.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="104"/>
         <source>Force to mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Forzar a mono</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="111"/>
         <source>Force to stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Forzar a estereo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="139"/>
         <source>Change frequency to :</source>
-        <translation type="unfinished"></translation>
+        <translation>CAmbiar frecuencia a :</translation>
     </message>
 </context>
 <context>
@@ -2339,38 +2339,38 @@ y Ayuda</translation>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="33"/>
         <source>Convert video</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir video</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="40"/>
         <source>Device type :</source>
-        <translation type="unfinished">Tipo de Dispositivo :</translation>
+        <translation>Tipo de Dispositivo :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="50"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="91"/>
         <source>Select the type of equipment.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar tipo de equipo.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="57"/>
         <source>Device model :</source>
-        <translation type="unfinished">Modelo de Dispositivo :</translation>
+        <translation>Modelo de Dispositivo :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="67"/>
         <source>Select the model of equipment</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar modelo de equipo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="74"/>
         <source>Include sound in the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Incluir sonido en el video</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="81"/>
         <source>Device :</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivo :</translation>
     </message>
 </context>
 </TS>
