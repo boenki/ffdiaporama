@@ -2,8 +2,8 @@
 IDI_CON1 ICON        DISCARDABLE "application-ffDiaporamaMMFiler.ico"
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION	1,2,12,0220
-PRODUCTVERSION 	1,2,12,0220
+FILEVERSION	1,2,12,0222
+PRODUCTVERSION 	1,2,12,0222
 FILEFLAGSMASK  	0
 FILEFLAGS      	0
 FILEOS         	VOS__WINDOWS32
@@ -15,11 +15,11 @@ FILESUBTYPE    	0
             VALUE "CompanyName",      "."
             VALUE "LegalCopyright",   "(c) 2011 Dominique LEVRAY"
             VALUE "FileDescription",  "ffDiaporamaMMFiler"
-            VALUE "FileVersion",      "1.2.2012.0220"
+            VALUE "FileVersion",      "1.2.2012.0222"
             VALUE "InternalName",     "ffDiaporamaMMFiler"
             VALUE "OriginalFilename", "ffDiaporamaMMFiler.exe"
             VALUE "ProductName",      "ffDiaporamaMMFiler"
-            VALUE "ProductVersion",   "1.2.2012.0220"
+            VALUE "ProductVersion",   "1.2.2012.0222"
         }
     }
     BLOCK "VarFileInfo" {

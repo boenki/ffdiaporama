@@ -47,7 +47,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -73,7 +73,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>664</width>
+            <width>518</width>
             <height>484</height>
            </rect>
           </property>
@@ -850,8 +850,8 @@ No transition</string>
                 <string notr="true"/>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>transitions-:/img/tr-00-00.png</normaloff>transitions-:/img/tr-00-00.png</iconset>
+                <iconset resource="../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/Transitions/tr-00-00.png</normaloff>:/img/Transitions/tr-00-00.png</iconset>
                </property>
                <attribute name="buttonGroup">
                 <string>TransitionButtons</string>
@@ -874,8 +874,8 @@ Crossfade transition</string>
                 <string notr="true"/>
                </property>
                <property name="icon">
-                <iconset>
-                 <normaloff>transitions-:/img/tr-00-01.png</normaloff>transitions-:/img/tr-00-01.png</iconset>
+                <iconset resource="../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/Transitions/tr-00-01.png</normaloff>:/img/Transitions/tr-00-01.png</iconset>
                </property>
                <attribute name="buttonGroup">
                 <string>TransitionButtons</string>
@@ -2987,8 +2987,8 @@ image</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>680</width>
-            <height>415</height>
+            <width>384</width>
+            <height>397</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
