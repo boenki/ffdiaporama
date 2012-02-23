@@ -712,6 +712,10 @@ Vedere la guida per maggiori dettagli!</translation>
         <source>Video :</source>
         <translation>Video :</translation>
     </message>
+    <message>
+        <source>Lossless :</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgBackgroundProperties</name>
@@ -3378,18 +3382,6 @@ la geometria dell&apos;immagine nel file non è uguale a quella del progetto cor
         <translation>Configurazione non corretta!</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;1567&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;body&gt;Seleziona un progetto da aprie o crea un nuovo progetto&lt;br&gt;Per scoprire ffDiaporama:&lt;br&gt;&lt;a href=&quot;1567&quot;&gt;Consulta il WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;1306&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;body&gt;Aggiungi diapositive vuote o diapositive sulla base di foto o video&lt;br&gt;Per scoprire come costruire la vostra presentazione e animare le diapositive:&lt;br&gt;&lt;a href=&quot;1306&quot;&gt;Scopri i principi di funzionamento di ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;1322&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;body&gt;Seleziona il tipo di dispositivo che si intende utilizzare per il vostro video&lt;br&gt;Per scoprire come renderizzare i video:&lt;br&gt;&lt;a href=&quot;1322&quot;&gt;Consulta la pagina del WIKI rendering video&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Visita il sito Web ffDiaporama per usare il forum,&lt;br&gt;consulta il tutorials e conosci le ultime novità:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -3514,6 +3506,22 @@ Vuoi aprirlo comunque?</translation>
     <message>
         <source>Error loading file :</source>
         <translation>Errore caricamento file :</translation>
+    </message>
+    <message>
+        <source>Lossless</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3723,6 +3731,11 @@ Vuoi aprirlo comunque?</translation>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>
+    </message>
+    <message>
+        <source>Lossless</source>
+        <comment>Device database type</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
