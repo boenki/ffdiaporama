@@ -864,10 +864,12 @@ void DlgRenderVideo::accept() {
                                         }
                                         break;
                 case VCODEC_H264HQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
-                                        #if (LIBAVFORMAT_VERSION_MAJOR<54)
+                                        #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+                                        //#if (LIBAVFORMAT_VERSION_MAJOR<54)
                                         Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
                                         #else
-                                        Preset="-fpre \""+Preset+"libx264-hq-10.ffpreset\"";
+                                        //Preset="-fpre \""+Preset+"libx264-hq-10.ffpreset\"";
+                                        Preset="-preset veryfast -x264opts ref=3";
                                         #endif
                                         vCodec=QString("-vcodec libx264 -pix_fmt yuv420p ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
                                             .arg(VideoBitRate-VideoBitRate/10)
@@ -876,10 +878,12 @@ void DlgRenderVideo::accept() {
                                             .arg(VideoBitRate);
                                         break;
                 case VCODEC_H264PQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
-                                        #if (LIBAVFORMAT_VERSION_MAJOR<54)
+                                        #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+                                        //#if (LIBAVFORMAT_VERSION_MAJOR<54)
                                         Preset="-fpre \""+Preset+"libx264-pq.ffpreset\"";
                                         #else
-                                        Preset="-fpre \""+Preset+"libx264-pq-10.ffpreset\"";
+                                        //Preset="-fpre \""+Preset+"libx264-pq-10.ffpreset\"";
+                                        Preset="-preset veryfast -x264opts level=1.3:no-cabac:vbv-bufsize=768:vbv-maxrate=768";
                                         #endif
                                         vCodec=QString("-vcodec libx264 -pix_fmt yuv420p ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
                                             .arg(VideoBitRate-VideoBitRate/10)
@@ -891,7 +895,7 @@ void DlgRenderVideo::accept() {
                                         #if (LIBAVFORMAT_VERSION_MAJOR<54)
                                         Preset="-fpre \""+Preset+"libx264-lossless.ffpreset\"";
                                         #else
-                                        Preset="-preset fast -qp 0";
+                                        Preset="-preset veryfast -qp 0";
                                         #endif
                                         vCodec=QString("-vcodec libx264 -pix_fmt yuv420p ")+Preset;
                                         break;
@@ -1040,10 +1044,10 @@ void DlgRenderVideo::accept() {
                 if (ExtendH>0) ffmpegCommand=ffmpegCommand+QString(" -padleft %1 -padright %2").arg(ExtendH/2).arg(ExtendH-ExtendH/2);
 
                 // Activate multithreading support if getCpuCount()>1 and codec is h264 or VP8
-                if ((getCpuCount()>1)&&(
+                if (((getCpuCount()-1)>1)&&(
                         (VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_H264)||
                         (VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_VP8)
-                        )) ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount());
+                        )) ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount()-1);
 
                 ffmpegCommand=ffmpegCommand+" \""+OutputFileName+"\"";
                 ToLog(LOGMSG_INFORMATION,ffmpegCommand);

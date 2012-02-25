@@ -747,7 +747,7 @@ no estándar</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3407"/>
         <source>Lossless :</source>
-        <translation type="unfinished"></translation>
+        <translation>Lossless :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3464"/>
@@ -4019,7 +4019,8 @@ WEB</translation>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1077"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2308"/>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin
+pérdidas</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1121"/>
@@ -4544,17 +4545,17 @@ Do you want to create one slide for each chapters ?</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="847"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Selecciona abrir un proyecto o crear uno nuevo&lt;br&gt;Para descubrir ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consulta el WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="850"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Agregar diapositivas vacías o diapositivas basadas en fotos o videos&lt;br&gt;Para descubrir cómo construir tu presentación y para animar diapositivas:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Los principios de funcionamiento de ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="853"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Seleccione el tipo de equipo que deseas utilizar para tu video&lt;br&gt;Descubre cómo generar videos:&lt;br&gt;Consulta la página del WIKI : &lt;a href=&quot;%1&quot;&gt;Generación de videos&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1036"/>
@@ -4851,7 +4852,7 @@ Si continúas, se corre el riesgo de perder datos!
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
         <source>Lossless</source>
         <comment>Device database type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Lossless</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>

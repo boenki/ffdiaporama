@@ -22,11 +22,13 @@
 #include <iostream>
 #include "_GlobalDefines.h"
 
-int          LogMsgLevel=LOGMSG_INFORMATION;     // Level from wich debug message was print to stdout
-QStringList  EventList;                          // Internal event queue
-QObject      *EventReceiver=NULL;                // Windows wich receive event
+int         LogMsgLevel=LOGMSG_INFORMATION;     // Level from wich debug message was print to stdout
+QStringList EventList;                          // Internal event queue
+QObject     *EventReceiver=NULL;                // Windows wich receive event
 
 #ifdef Q_OS_WIN
+    bool IsWindowsXP=false;
+
     #include <windows.h>
     #include <winbase.h>
     #include <stdio.h>
@@ -55,6 +57,8 @@ QObject      *EventReceiver=NULL;                // Windows wich receive event
             exit(1);
 
         } else if (QSysInfo().WindowsVersion==0x0030) {    // If Windows XP
+
+            IsWindowsXP=true;
 
             // Why would we have have to code it the hard way, that is by pulling the function out of the kernel32.dll?
             // VS 6.0 doesn't have the API defined in its headers.

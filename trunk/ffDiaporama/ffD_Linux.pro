@@ -1,5 +1,17 @@
 # this file is to be used by Qt Creator for Linux
-include(ffDiaporama.pri)
+TEMPLATE        = subdirs
+//CONFIG          += ordered
+
+# ffDiaporama main application
+SUBDIRS         += src/ffDiaporama
+TARGET          += ffDiaporama
+
+# ffDiaporama MMFiler companion application
+SUBDIRS         += src/ffDiaporamaMMFiler
+TARGET          += ffDiaporamaMMFiler
+
+# ffDiaporama start application (windows only)
+win32:SUBDIRS   += src/ffDiaporamaStart
 
 OTHER_FILES += TODO-LIST.txt \          # Developpement file
     BUILDVERSION.txt \                  # Developpement file

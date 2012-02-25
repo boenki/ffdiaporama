@@ -64,15 +64,22 @@ void DlgApplicationSettings::DoInitDialog() {
     #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
         ui->RasterModeCB->setVisible(false);
         ui->SDLAudioModeCB->setVisible(false);
+    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+        ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
+    #endif
+    #ifdef Q_OS_WIN
+    if (IsWindowsXP) {
         ui->MemCacheProfilCB->setVisible(false);
         ui->MemCacheProfilLabel->setVisible(false);
         ui->MemCacheProfilSpacer->setVisible(false);
-    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-        ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
-        if      (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(0);
-        else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(512*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(1);
-        else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(1024*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(2);
+    } else {
+    #endif
+        if      (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
+        else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(512*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(1);
+        else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(1024*1024*1024))    ui->MemCacheProfilCB->setCurrentIndex(2);
         else ui->MemCacheProfilCB->setCurrentIndex(3);
+    #ifdef Q_OS_WIN
+    }
     #endif
     ui->SDLAudioModeCB->setChecked(ApplicationConfig->SDLAudioOldMode);
     ui->CacheTransformedImagesCB->setChecked(ApplicationConfig->AllowCachedTransfoImages);
@@ -298,16 +305,12 @@ void DlgApplicationSettings::DoAccept() {
     ApplicationConfig->QuickResamplingPreview   =ui->QuickResamplingPreviewCB->isChecked();
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
 
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
     switch (ui->MemCacheProfilCB->currentIndex()) {
         case 3  : ApplicationConfig->MemCacheMaxValue=qlonglong(2048*qlonglong(1024*1024));    break;
         case 2  : ApplicationConfig->MemCacheMaxValue=qlonglong(1024*qlonglong(1024*1024));    break;
         case 1  : ApplicationConfig->MemCacheMaxValue=qlonglong(512*qlonglong(1024*1024));     break;
         default : ApplicationConfig->MemCacheMaxValue=qlonglong(256*qlonglong(1024*1024));     break;
     }
-    #else
-        ApplicationConfig->MemCacheMaxValue=qlonglong(196*qlonglong(1024*1024));
-    #endif
     ApplicationConfig->AllowCachedTransfoImages=ui->CacheTransformedImagesCB->isChecked();
 
     // Editor Options part
