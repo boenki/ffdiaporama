@@ -129,6 +129,7 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     ui->BufferState->setFixedWidth(DisplayMSec?80:60);
     this->FileInfo      = FileInfo;
     ui->CustomRuller->ActiveSlider(0);
+    ui->CustomRuller->setSingleStep(25);
 
     ui->SpacerV1->setText("");
     ui->SpacerH1->setText("");

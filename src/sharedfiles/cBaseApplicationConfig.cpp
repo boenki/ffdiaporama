@@ -314,10 +314,8 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     #endif
     #ifdef Q_OS_WIN
         CheckConfigAtStartup= false;
-        MemCacheMaxValue    = 180*1024*1024;                                                // 180 Mb max for image cache on Windows 32
-    #else
-        MemCacheMaxValue    = 512*1024*1024;                                                // 512 Mb for image cache
     #endif
+    MemCacheMaxValue        = 512*1024*1024;                                                // 512 Mb for image cache
     Crop1088To1080          = true;                                                         // Automaticaly crop video from 1088 lines to 1080 (CANON)
     ApplyTransfoPreview     = true;                                                         // True if image transformation are apply during preview
     QuickResamplingPreview  = false;                                                        // If true then use quick resampling during preview

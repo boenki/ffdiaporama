@@ -1757,10 +1757,9 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     int64_t         SrcSampleSize       =(AudioStream->codec->sample_fmt==AV_SAMPLE_FMT_S16?2:1)*int64_t(AudioStream->codec->channels);
     int64_t         DstSampleSize       =(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels);
     AVPacket        *StreamPacket       =NULL;
-    uint8_t         *BufferToDecode     =NULL;
-    uint8_t         *BufferForDecoded   =NULL;
     int64_t         MaxAudioLenDecoded  =AVCODEC_MAX_AUDIO_FRAME_SIZE*10;
     int64_t         AudioLenDecoded     =0;
+    uint8_t         *BufferForDecoded   =(uint8_t *)av_malloc(MaxAudioLenDecoded);
     double          dPosition           =double(Position)/1000;     // Position in double format
     double          AudioDataWanted     =(PreviewMode?SoundTrackBloc->WantedDuration:5)*double(AudioStream->codec->sample_rate)*SrcSampleSize;  // 5 sec for rendering
 
@@ -1769,19 +1768,21 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     double          FrameDuration   =0;
 
     // Cac difftime between asked position and previous end decoded position
-    int DiffTimePosition=LastAudioReadedPosition-Position;
+    qlonglong Diff=(qlonglong(SoundTrackBloc->SoundPacketSize*SoundTrackBloc->List.count()+SoundTrackBloc->CurrentTempSize)/DstSampleSize)*1000/SoundTrackBloc->SamplingRate;
+    qlonglong DiffTimePosition=(LastAudioReadedPosition-Diff)-Position;
     if (DiffTimePosition<0) DiffTimePosition=-DiffTimePosition;
 
     // Adjust position if input file have a start_time value
     if (ffmpegAudioFile->start_time!=AVNOPTSVALUE)
         dPosition+=double(ffmpegAudioFile->start_time)/double(AV_TIME_BASE);
 
-    // Prepare a buffer for sound decoding
-    BufferToDecode      =(uint8_t *)av_malloc(48000*4*2);   // 2 sec buffer
-    BufferForDecoded    =(uint8_t *)av_malloc(MaxAudioLenDecoded);
+    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+        // if Old ffmpeg : Prepare a buffer for sound decoding
+        uint8_t *BufferToDecode=(uint8_t *)av_malloc(48000*4*2);   // 2 sec buffer
+    #endif
 
     // Calc if we need to seek to a position
-    if ((Position==0)||(DiffTimePosition>/*2*/50)) {// Allow 2 msec diff (rounded double !)
+    if ((Position==0)||(DiffTimePosition>10)) {// Allow 10 msec diff (rounded double !)
         // Flush all buffers
         for (unsigned int i=0;i<ffmpegAudioFile->nb_streams;i++)  {
             AVCodecContext *codec_context = ffmpegAudioFile->streams[i]->codec;
@@ -1828,9 +1829,15 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                 // NOTE: the audio packet can contain several frames
                 if (FramePosition!=-1) while (PacketTemp.size>0) {
 
+                    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
                     // Decode audio data
-                    int SizeDecoded=(AVCODEC_MAX_AUDIO_FRAME_SIZE*3)/2;
-                    int Len=avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
+                    int SizeDecoded     =(AVCODEC_MAX_AUDIO_FRAME_SIZE*3)/2;
+                    int Len             =avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
+                    #else
+                    AVFrame *Frame      =avcodec_alloc_frame();
+                    int     SizeDecoded =0;
+                    int     Len         =avcodec_decode_audio4(AudioStream->codec,Frame,&SizeDecoded,&PacketTemp);
+                    #endif
                     if (Len<0) {
                         // if decode error then data are not good : replace them with null sound
                         //SizeDecoded=int64_t(LastAudioFrameDuration*double(SoundTrackBloc->SamplingRate))*DstSampleSize;
@@ -1840,10 +1847,15 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                         // if error, we skip the frame and exit the while loop
                         PacketTemp.size=0;
                     } else if (SizeDecoded>0) {
+                        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
+                        SizeDecoded  =Frame->nb_samples*SrcSampleSize;
+                        FrameDuration=double(Frame->nb_samples)/double(AudioStream->codec->sample_rate);
+                        #else
                         FrameDuration=double(SizeDecoded)/(double(SrcSampleSize)*double(AudioStream->codec->sample_rate));
+                        #endif
+
                         // If wanted position <= CurrentPosition+Packet duration then add this packet to the queue
                         if ((FramePosition+FrameDuration)>=dPosition) {
-
                             int64_t Delta=0;
                             // if dPosition start in the midle of the pack, then calculate delta
                             if (dPosition>FramePosition) {
@@ -1851,17 +1863,22 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                                 Delta*=SrcSampleSize;
                             }
                             // Append decoded data to BufferForDecoded buffer
+                            #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
                             memcpy(BufferForDecoded+AudioLenDecoded,BufferToDecode+Delta,SizeDecoded-Delta);
+                            #else
+                            memcpy(BufferForDecoded+AudioLenDecoded,Frame->data[0]+Delta,SizeDecoded-Delta);
+                            #endif
                             AudioLenDecoded+=(SizeDecoded-Delta);
+                        }
 
-                        } //else qDebug()<<"Skip packet :"<<FramePosition<<"-"<<FramePosition+FrameDuration<<"["<<dPosition<<"-"<<EndPosition<<"]";
-
-                        PacketTemp.data+=Len;
-                        PacketTemp.size-=Len;
-                        FramePosition=FramePosition+FrameDuration;
-
-                        //qDebug()<<"Bloc lu : data="<<AudioLenDecoded<<"/"<<AudioDataWanted;
+                        PacketTemp.data        +=Len;
+                        PacketTemp.size        -=Len;
+                        FramePosition           =FramePosition+FrameDuration;
+                        LastAudioReadedPosition =int(FramePosition*1000);    // Keep NextPacketPosition for determine next time if we need to seek
                     }
+                    #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
+                    av_free(Frame);
+                    #endif
                 }
             }
 
@@ -1874,8 +1891,6 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
             Continue=(AudioLenDecoded<AudioDataWanted);
         }
     }
-    // Keep NextPacketPosition for determine next time if we need to seek
-    LastAudioReadedPosition=int(/*EndPosition*/FramePosition*1000);
 
     //**********************************************************************
     // Transfert data from BufferForDecoded to Buffer using audio_resample
@@ -1928,6 +1943,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
             }
         }
 
+        // Resampling
         if (SoundTrackBloc->SamplingRate!=AudioStream->codec->sample_rate) {
             ToLog(LOGMSG_INFORMATION,QString("IN:cVideoFile::ReadAudioFrame => do a resample of %1 bytes").arg(AudioLenDecoded));
 
@@ -2049,7 +2065,9 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     // Now ensure SoundTrackBloc have correct wanted packet (if no then add nullsound)
     //while (SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS) SoundTrackBloc->AppendNullSoundPacket();
 
+    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
     if (BufferToDecode)   av_free(BufferToDecode);
+    #endif
     if (BufferForDecoded) av_free(BufferForDecoded);
 }
 

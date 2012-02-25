@@ -714,7 +714,7 @@ Vedere la guida per maggiori dettagli!</translation>
     </message>
     <message>
         <source>Lossless :</source>
-        <translation type="unfinished"></translation>
+        <translation>Senza perdite :</translation>
     </message>
 </context>
 <context>
@@ -3509,19 +3509,19 @@ Vuoi aprirlo comunque?</translation>
     </message>
     <message>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>Senza perdite</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Seleziona un progetto da aprire o crea un nuovo progetto&lt;br&gt;Per scoprire ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consulta il WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Aggiungere diapositive vuote o diapositive dasate su foto o video&lt;br&gt;Per scaprire come costruire la vostra presentazione e ad animare la presentazione:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Scoprire i principi di funzionamento di ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Selezionare il tipo di dispositivo che si intende utilizzare per il vostro video&lt;br&gt;Per scoprire come generare video:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consulta la pagina generazione video del WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -3735,7 +3735,7 @@ Vuoi aprirlo comunque?</translation>
     <message>
         <source>Lossless</source>
         <comment>Device database type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Senza perdita</translation>
     </message>
 </context>
 <context>

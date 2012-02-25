@@ -1,1 +1,1 @@
-Version RC 3 1.2 20120222
+Version RC 4 1.2 20120225

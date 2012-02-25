@@ -97,6 +97,22 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
 
             ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName());
             CacheRenderImage=new QImage(CachedFilteredImage());
+
+            #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+            // On Windows : reduce image size to 8 MPix max
+            double  MaxValue=8000000;
+            if ((IsWindowsXP)&&(CacheRenderImage!=NULL)&&(!CacheRenderImage->isNull())&&((CacheRenderImage->width()*CacheRenderImage->height())>MaxValue)) {
+                double  ActualValue =CacheRenderImage->width()*CacheRenderImage->height();
+                double  Transfo     =sqrt(MaxValue/ActualValue);;
+                int     ImageWidth  =int(Transfo*double(CacheRenderImage->width()));
+                int     ImageHeight =int(Transfo*double(CacheRenderImage->height()));
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Rescal image to 8MPix"));
+                QImage *NewCacheRenderImage=new QImage(CacheRenderImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                delete CacheRenderImage;
+                CacheRenderImage=NewCacheRenderImage;
+            }
+            #endif
+
             if (!CacheRenderImage)
                 ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error allocating memory for cached filtered file"));
             if ((CacheRenderImage)&&(CacheRenderImage->isNull()))
@@ -109,6 +125,22 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
                 // Load image from disk
                 ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
                 CacheRenderImage=new QImage(FileName);
+
+                #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+                // On Windows : reduce image size to 8 MPix max
+                double  MaxValue=8000000;
+                if ((IsWindowsXP)&&(CacheRenderImage!=NULL)&&(!CacheRenderImage->isNull())&&((CacheRenderImage->width()*CacheRenderImage->height())>MaxValue)) {
+                    double  ActualValue =CacheRenderImage->width()*CacheRenderImage->height();
+                    double  Transfo     =sqrt(MaxValue/ActualValue);;
+                    int     ImageWidth  =int(Transfo*double(CacheRenderImage->width()));
+                    int     ImageHeight =int(Transfo*double(CacheRenderImage->height()));
+                    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Rescal image to 8MPix"));
+                    QImage *NewCacheRenderImage=new QImage(CacheRenderImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                    delete CacheRenderImage;
+                    CacheRenderImage=NewCacheRenderImage;
+                }
+                #endif
+
                 if (!CacheRenderImage)
                     ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error allocating memory for render image"));
                 if ((CacheRenderImage)&&(CacheRenderImage->isNull()))
@@ -348,12 +380,16 @@ qlonglong cLuLoImageCache::MemoryUsed() {
 void cLuLoImageCache::FreeMemoryToMaxValue() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::FreeMemoryToMaxValue");
 
-    qlonglong Memory=MemoryUsed();
-    if (Memory>MaxValue) {
-        QString DisplayLog=QString("Free memory for max value (%1 Mb) : Before=%2 cached objects for %3 Mb").arg(MaxValue/(1024*1024)).arg(List.count()).arg(Memory/(1024*1024));
+    qlonglong Memory    =MemoryUsed();
+    qlonglong MaxMemory =MaxValue;
+    #ifdef Q_OS_WIN
+    if (IsWindowsXP) MaxMemory=180*1024*1024;
+    #endif
+    if (Memory>MaxMemory) {
+        QString DisplayLog=QString("Free memory for max value (%1 Mb) : Before=%2 cached objects for %3 Mb").arg(MaxMemory/(1024*1024)).arg(List.count()).arg(MaxMemory/(1024*1024));
         int i=List.count()-1;
-        while ((Memory>MaxValue)&&(i>0)) {
-            if ((Memory>MaxValue)&&(List[i]->CachePreviewImage)) {
+        while ((Memory>MaxMemory)&&(i>0)) {
+            if ((Memory>MaxMemory)&&(List[i]->CachePreviewImage)) {
                 if (List[i]->CachePreviewImage!=List[i]->CacheRenderImage) {
                     Memory=Memory-List[i]->CachePreviewImage->byteCount();
                     delete List[i]->CachePreviewImage;
@@ -369,7 +405,5 @@ void cLuLoImageCache::FreeMemoryToMaxValue() {
         }
         while ((List.count()>0)&&(List[List.count()-1]->CachePreviewImage==NULL)&&(List[List.count()-1]->CacheRenderImage==NULL)) delete List.takeLast();
         ToLog(LOGMSG_INFORMATION,DisplayLog+QString(" - After=%1 cached objects for %2 Mb").arg(List.count()).arg(Memory/(1024*1024)));
-    //} else {
-    //    ToLog(LOGMSG_INFORMATION,<<QString("Check memory used %1 Mb/%2 Mb - OK").arg(Memory/(1024*1024)).arg(MaxValue/(1024*1024));
     }
 }

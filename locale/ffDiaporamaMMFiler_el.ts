@@ -164,57 +164,57 @@
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="261"/>
         <source>Image :</source>
-        <translation type="unfinished"></translation>
+        <translation>Εικόνα:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="293"/>
         <source>Music :</source>
-        <translation type="unfinished"></translation>
+        <translation>Μουσική:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="300"/>
         <source>Video :</source>
-        <translation type="unfinished"></translation>
+        <translation>Βίντεο:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="341"/>
         <source>Display filename in icon views</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση του ονόματος αρχείου στην προβολή εικονιδίων</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="348"/>
         <source>Thumbnails size for big icons mode :</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος εικόνων επισκόπησης στη λειτουργία μεγάλων εικονιδίων:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="415"/>
         <source>Thumbnail rules options</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογές κανόνων εικόνας επισκόπησης</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="446"/>
         <source>Minimum height for EXIF &quot;Preview Image&quot; :</source>
-        <translation type="unfinished"></translation>
+        <translation>Ελάχιστο ύψος για EXIF «Προεπισκόπηση εικόνας»:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="453"/>
         <source>Define minimum height Preview Image must have to use it</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορισμός του ελάχιστου ύψους της εικόνας προεπισκόπησης που πρέπει να έχει για να χρησιμοποιηθεί</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="457"/>
         <source>No minimum height</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="462"/>
         <source>Not less than 100</source>
-        <translation type="unfinished"></translation>
+        <translation>Όχι λιγότερο από 100</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="467"/>
         <source>Not less than 200</source>
-        <translation type="unfinished"></translation>
+        <translation>Όχι λιγότερο από 200</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgApplicationSettings.ui" line="510"/>
@@ -329,7 +329,7 @@
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="105"/>
         <source>LibExiv2/Exiv2 binary version</source>
-        <translation type="unfinished"></translation>
+        <translation>LibExiv2/Exiv2 εκτελέσιμη έκδοση</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="113"/>
@@ -487,27 +487,27 @@
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="20"/>
         <source>Job settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίσεις εργασιών</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="67"/>
         <source>What to do to sources files ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Τι να γίνει με τα πηγαία αρχεία;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="147"/>
         <source>Rename sources files by adding this suffix:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετονομασία των πηγαίων αρχείων προσθέτοντας αυτήν την κατάληξη:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="293"/>
         <source>How to name destinations files ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Πως να ονομαστούν τα αρχεία προορισμού;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="117"/>
         <source>Delete sources files</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαγραφή πηγαίων αρχείων</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="98"/>
@@ -515,72 +515,72 @@
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="150"/>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="516"/>
         <source>buttonGroup</source>
-        <translation type="unfinished"></translation>
+        <translation>κουμπί ομάδας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="95"/>
         <source>Do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Να μην γίνει τίποτα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="323"/>
         <source>Add this suffix to file name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη αυτής της κατάληξης στο όνομα αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="513"/>
         <source>Move sources files to this folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετακίνηση των πηγαίων αρχείων σε αυτόν τον φάκελο:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="535"/>
         <source>Place destination files In another folder than sources files</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοποθέτηση των αρχείων προορισμού σε έναν άλλο φάκελο από αυτόν των πηγαίων αρχείων</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="554"/>
         <source>Overwrite existing destination files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντικατάσταση των υπαρχόντων αρχείων προορισμού</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="581"/>
         <source>Add size suffix to file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη κατάληξης με το μέγεθος στο όνομα αρχείου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="641"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="644"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Εντάξει</translation>
+        <translation>&amp;Εντάξει</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="655"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="658"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Ακύρωση</translation>
+        <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="669"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
+        <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="672"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Βοήθεια</translation>
+        <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.ui" line="679"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -797,7 +797,7 @@
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="658"/>
         <source>Error starting ffmpeg</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα κατά την εκκίνηση του ffmpeg</translation>
     </message>
 </context>
 <context>
@@ -840,12 +840,12 @@
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="119"/>
         <source>Refresh tree and folder table</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανανέωση πίνακα δέντρου και φακέλου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="135"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="164"/>
@@ -862,7 +862,7 @@ File</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="181"/>
         <source>Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισαγωγή</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="203"/>
@@ -879,23 +879,24 @@ Information</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="239"/>
         <source>Remove file from the disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση του αρχείου από το δίσκο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="242"/>
         <source>Remove
 File</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση
+Αρχείου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="256"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Del</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="278"/>
         <source>Open contextual action menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα του σχετικού μενού ενεργειών</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="281"/>
@@ -905,7 +906,7 @@ File</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="418"/>
         <source>Select display mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή λειτουργίας προβολής</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="421"/>
@@ -915,7 +916,7 @@ File</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="453"/>
         <source>Select file filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή φίλτρου αρχείου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="456"/>
@@ -967,23 +968,23 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="1021"/>
         <source>Stop current job</source>
-        <translation type="unfinished"></translation>
+        <translation>Διακοπή της τρέχουσας εργασίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="1062"/>
         <source>Up job in the list</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετακίνηση πάνω της εργασίας στη λίστα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.ui" line="1103"/>
         <source>Down job in the list</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετακίνηση κάτω της εργασίας στη λίστα</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="60"/>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="74"/>
         <source>Search Raster mode in configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναζήτηση λειτουργίας Raster στο αρχείο διαμόρφωσης</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="274"/>
@@ -1042,17 +1043,17 @@ and help</source>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="98"/>
         <source>Loading cached filtered file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Φόρτωση φιλτραρισμένου προσωρινού αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="101"/>
         <source>Error allocating memory for cached filtered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα κατανομής μνήμης προσωρινού φιλτραρισμένου αρχείου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="103"/>
         <source>Error loading cached filtered file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα φόρτωσης φιλτραρισμένου προσωρινού αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="110"/>
@@ -1062,12 +1063,12 @@ and help</source>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="113"/>
         <source>Error allocating memory for render image</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα κατανομής μνήμης για την αποτύπωση εικόνας</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="115"/>
         <source>Error loading file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα φόρτωσης του αρχείου:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="382"/>
@@ -1122,7 +1123,7 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="526"/>
         <source>Images wall view</source>
-        <translation type="unfinished"></translation>
+        <translation>Προβολή εικόνων σε διάταξη τοίχου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="553"/>
@@ -1157,62 +1158,62 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="623"/>
         <source>Are you sure to remove theses files ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Θέλετε σίγουρα την αφαίρεση αυτών των αρχείων;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="626"/>
         <source>Successfuly remove file (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτυχής αφαίρεση του αρχείου (%1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="628"/>
         <source>Failed to remove file (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία αφαίρεσης του αρχείου (%1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="647"/>
         <source>Are you sure to remove this folder ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Θέλετε σίγουρα την αφαίρεση αυτού του φακέλου;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="670"/>
         <source>Impossible to remove file %1 - error %2:%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η αφαίρεση του αρχείου %1 - σφάλμα %2:%3</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="675"/>
         <source>Impossible to remove folder %1 - error %2:%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η αφαίρεση του φακέλου %1 - σφάλμα %2:%3</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/mainwindow.cpp" line="679"/>
         <source>Successfully remove folder (and all is content) %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτυχής αφαίρεση του φακέλου (και όλων των περιεχομένων του) %1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cFilterTransformObject.cpp" line="73"/>
         <source>Applying Despeckle filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή φίλτρου κηλίδωσης</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cFilterTransformObject.cpp" line="77"/>
         <source>Applying Equalize filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή φίλτρου ισοστάθμισης</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cFilterTransformObject.cpp" line="81"/>
         <source>Applying Gray filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή φίλτρου απόχρωσης του γκρι</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cFilterTransformObject.cpp" line="85"/>
         <source>Applying blur filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή φίλτρου θόλωσης</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cFilterTransformObject.cpp" line="89"/>
         <source>Applying sharpen filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή φίλτρου όξυνσης</translation>
     </message>
 </context>
 <context>
@@ -1531,43 +1532,43 @@ and help</source>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="86"/>
         <source>Refresh all</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανανέωση όλων</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="87"/>
         <source>Refresh from here</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανανέωση από εδώ</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="88"/>
         <source>Create new subfolder</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία νέου υποφακέλου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="89"/>
         <source>Remove folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση φακέλου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="107"/>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="115"/>
         <source>Create folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία φακέλου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="107"/>
         <source>Folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Φάκελος:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="114"/>
         <source>Error %1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα %1:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="116"/>
         <source>Impossible to create folder !</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η δημιουργία του φακέλου!</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomFolderTree.cpp" line="348"/>
@@ -1586,42 +1587,42 @@ and help</source>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="20"/>
         <source>Select a folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε ένα φάκελο</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="98"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Αποδοχή των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="101"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Εντάξει</translation>
+        <translation>&amp;Εντάξει</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="112"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
+        <translation>Ακύρωση των τροποποιήσεων και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="115"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Ακύρωση</translation>
+        <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="126"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
+        <translation>Άνοιγμα της σελίδας βοήθειας σχετικά με αυτό το πλαίσιο διαλόγου</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="129"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Βοήθεια</translation>
+        <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/QCustomGetFolder.ui" line="136"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -1629,162 +1630,162 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/QCustomJobTable.cpp" line="59"/>
         <source>Date/Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Ημερομηνία/Ώρα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/QCustomJobTable.cpp" line="60"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Κατάσταση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/QCustomJobTable.cpp" line="61"/>
         <source>Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρόοδος</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/QCustomJobTable.cpp" line="62"/>
         <source>Job Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος εργασίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/QCustomJobTable.cpp" line="63"/>
         <source>Current action</source>
-        <translation type="unfinished"></translation>
+        <translation>Τρέχουσα ενέργεια</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="248"/>
         <source>Waiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναμονή</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="249"/>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Ξεκίνησε</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="250"/>
         <source>Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Σε παύση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="251"/>
         <source>Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Ακυρώθηκε</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="252"/>
         <source>Succeeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτεύχθηκε</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="253"/>
         <source>Ended with error</source>
-        <translation type="unfinished"></translation>
+        <translation>Τερματίστηκε με σφάλμα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="255"/>
         <source>Not defined</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν έχει καθοριστεί</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="256"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="257"/>
         <source>Display information</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση πληροφοριών</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="258"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="259"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="260"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="261"/>
         <source>Convert</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετατροπή</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="298"/>
         <source>overwrite destination file as needed</source>
-        <translation type="unfinished"></translation>
+        <translation>αντικατάσταση του αρχείου προορισμού όπως απαιτείται</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="299"/>
         <source>and remove %1</source>
-        <translation type="unfinished"></translation>
+        <translation>και αφαίρεση του %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="300"/>
         <source>and rename %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>και μετονομασία του %1 σε %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/DlgJobSettings.cpp" line="301"/>
         <source>and move %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>και μετακίνηση του %1 σε %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="130"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="151"/>
         <source>and rescal image to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>και αλλαγή μεγέθους εικόνας σε %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="132"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="153"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="157"/>
         <source>and rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>και περιστροφή της εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="133"/>
         <source>but don&apos;t rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>αλλά να μην γίνει περιστροφή της εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.cpp" line="159"/>
         <source>new image size will become %1x%2</source>
-        <translation type="unfinished"></translation>
+        <translation>το νέο μέγεθος της εικόνας θα είναι %1x%2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="130"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="164"/>
         <source>and set codec to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>και ορισμός του κωδικοποιητή σε %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="131"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="165"/>
         <source>and set audio compression to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>και ορισμός της συμπίεσης ήχου σε %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="132"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="166"/>
         <source>and force audio frequency to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>και εξαναγκασμός της συχνότητας του ήχου σε %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="133"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="167"/>
         <source>and force to mono</source>
-        <translation type="unfinished"></translation>
+        <translation>και εξαναγκασμός σε mono</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.cpp" line="133"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="167"/>
         <source>and force to stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>και εξαναγκασμός σε stereo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="106"/>
         <source>and resize to %1x%2</source>
-        <translation type="unfinished"></translation>
+        <translation>και αλλαγή μεγέθους σε %1x%2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="113"/>
@@ -1798,7 +1799,7 @@ and help</source>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="155"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="158"/>
         <source>and set video codec to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>και ορισμός του κωδικοποιητή βίντεο σε %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="114"/>
@@ -1806,7 +1807,7 @@ and help</source>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="140"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="153"/>
         <source>and set video compression to %1 with + and - 10%</source>
-        <translation type="unfinished"></translation>
+        <translation>και ορισμός της συμπίεσης βίντεο σε %1 με + και - 10%</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="118"/>
@@ -1815,18 +1816,18 @@ and help</source>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="156"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="159"/>
         <source>and set video compression to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>και ορισμός της συμπίεσης βίντεο σε %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="131"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="141"/>
         <source>and set video preset %1</source>
-        <translation type="unfinished"></translation>
+        <translation>και ορισμός προεπιλογής βίντεο %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.cpp" line="150"/>
         <source>and set video quality to 2</source>
-        <translation type="unfinished"></translation>
+        <translation>και ορισμός ποιότητας βίντεο σε 2</translation>
     </message>
 </context>
 <context>
@@ -1850,7 +1851,7 @@ and help</source>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="405"/>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="557"/>
         <source>Impossible to open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατο το άνοιγμα του αρχείου %1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="492"/>
@@ -1888,25 +1889,25 @@ and help</source>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="984"/>
         <source>Image don&apos;t have EXIF metadata %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Η εικόνα δεν περιέχει μεταδεδομένα EXIF %1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1078"/>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1122"/>
         <source>Impossible to start exiv2 - no exif informations will be decode for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η εκκίνηση του exiv2 - δεν θα αποκωδικοποιηθούν πληροφορίες exif για το %1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1083"/>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1127"/>
         <source>Error during exiv2 process - no exif informations will be decode for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα κατά την εκκίνηση του exiv2 - δεν θα αποκωδικοποιηθούν πληροφορίες exif για το %1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1087"/>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1131"/>
         <source>exiv2 return error %1 - no exif informations will be decode for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιστροφή σφάλματος του exiv2 %1 - δεν θα αποκωδικοποιηθούν πληροφορίες exif για το %2</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1626"/>
@@ -1934,7 +1935,7 @@ and help</source>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="84"/>
         <source>Error overwritting %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα κατά την αντικατάσταση του %1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="865"/>
@@ -1962,22 +1963,22 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="582"/>
         <source>Impossible to start exiv2 - no exif informations will be set for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η εκκίνηση του exiv2 - δεν θα διατεθούν πληροφορίες exif για το %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="587"/>
         <source>Error during exiv2 process - no exif informations will be set for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα κατά τη διεργασία του exiv2 - δεν θα διατεθούν πληροφορίες exif για το %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="591"/>
         <source>exiv2 return error %1 - no exif informations will be set for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιστροφή σφάλματος του exiv2 %1 - δεν θα διατεθούν πληροφορίες exif για το %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="597"/>
         <source>Successfully add minimal exif values to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτυχής προσθήκη των ελάχιστων τιμών exif για το %1</translation>
     </message>
 </context>
 <context>
@@ -2079,145 +2080,145 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="400"/>
         <source>Applying source transformation : Sorry no yet developped !</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή μετασχηματισμού πηγής: Δυστυχώς δεν υποστηρίζεται ακόμα!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="416"/>
         <source>Failed to remove existing destination file (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία αφαίρεσης του υπάρχοντος αρχείου προορισμού (%1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="418"/>
         <source>Successfully remove existing destination file (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτυχής αφαίρεση του υπάρχοντος αρχείου προορισμού (%1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="430"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="624"/>
         <source>Jobtype error</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα τύπου εργασίας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="451"/>
         <source>Start image conversion of %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκκίνηση μετατροπής εικόνας από %1 σε %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="454"/>
         <source>Open file</source>
-        <translation type="unfinished">Άνοιγμα αρχείου</translation>
+        <translation>Άνοιγμα αρχείου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="457"/>
         <source>Successfully open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτυχές άνοιγμα του αρχείου (%1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="460"/>
         <source>Rescal image</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανακλιμάκωση της εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="482"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="510"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="551"/>
         <source>Failed to rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία περιστροφής της εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="483"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="511"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="552"/>
         <source>Succesfully rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτυχής περιστροφή εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="536"/>
         <source>Failed to rescal image %1 to %2x%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία ανακλιμάκωσης της εικόνας %1 σε %2x%3</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="537"/>
         <source>Succesfully rescal image %1 to %2x%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτυχής ανακλιμάκωση της εικόνας %1 σε %2x%3</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="557"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="642"/>
         <source>Apply destination overwriting strategy</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή στρατηγικής αντικατάστασης προορισμού</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="561"/>
         <source>Save image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση αρχείου εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="572"/>
         <source>Add minimal exif value to image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη των ελαχίστων τιμών exif στο αρχείο εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="599"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="695"/>
         <source>Apply source file strategy</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή στρατηγικής πηγαίου αρχείου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="612"/>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="706"/>
         <source>Job finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Η εργασία ολοκληρώθηκε</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="639"/>
         <source>Start audio conversion of %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκκίνηση της μετατροπής ήχου από %1 σε %2</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="644"/>
         <source>Error : for sound conversion, source and destination must be different !</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα: για τη μετατροπή του ήχου, ή πηγή και ο προορισμός πρέπει να είναι διαφορετικοί!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="653"/>
         <source>Process ffmpeg job</source>
-        <translation type="unfinished"></translation>
+        <translation>Διεργασία ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="688"/>
         <source>Error : ffmpeg job can&apos;t start : %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα: αδύνατη η εκκίνηση της διεργασίας του ffmpeg: %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="689"/>
         <source>Error : ffmpeg return error %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα: επσιτροφή σφάλματος ffmpeg %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="691"/>
         <source>Succesfully process ffmpeg job</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτυχής διεργασία ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="456"/>
         <source>Failed to open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία ανοίγματος του αρχείου %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="563"/>
         <source>Failed to write destination file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία εγγραφής στο αρχείο προορισμού %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="565"/>
         <source>Successfully writing destination file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>η εγγραφή στο αρχείο προορισμού %1 έγινε με επιτυχία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/cJobQueue.cpp" line="411"/>
         <source>Destination file (%1) already exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Το αρχείο προορισμού (%1) υπάρχει ήδη</translation>
     </message>
 </context>
 <context>
@@ -2225,43 +2226,43 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="39"/>
         <source>Convert audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετατροπή του ήχου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="46"/>
         <source>Format :</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="68"/>
         <source>Select the audio codec to use for the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τον κωδικοποιητή ήχου για την αποτύπωση.</translation>
+        <translation>Επιλέξτε τον κωδικοποιητή ήχου για την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="75"/>
         <source>Bit rate :</source>
-        <translation type="unfinished">Ρυθμός bit:</translation>
+        <translation>Ρυθμός bit:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="97"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="158"/>
         <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation type="unfinished">Επιλέξτε τον ρυθμό bit του ήχου κατά την αποτύπωση.</translation>
+        <translation>Επιλέξτε τον ρυθμό bit του ήχου κατά την αποτύπωση.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="104"/>
         <source>Force to mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξαναγκασμός σε mono</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="111"/>
         <source>Force to stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξαναγκασμός σε stereo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertAudio.ui" line="139"/>
         <source>Change frequency to :</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλλαγή της συχνότητας του ήχου σε:</translation>
     </message>
 </context>
 <context>
@@ -2269,62 +2270,62 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="48"/>
         <source>Convert image</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετατροπή εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="79"/>
         <source>Quality :</source>
-        <translation type="unfinished"></translation>
+        <translation>Ποιότητα:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="93"/>
         <source>QVGA (240 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>QVGA (240 γραμμές)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="98"/>
         <source>HVGA (320 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>HVGA (320 γραμμές)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="103"/>
         <source>VGA/WVGA (480 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>VGA/WVGA (480 γραμμές)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="108"/>
         <source>SD/DVD (576 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>SD/DVD (576 γραμμές)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="113"/>
         <source>720p (720 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>720p (720 γραμμές)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="118"/>
         <source>XGA (768 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>XGA (768 γραμμές)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="123"/>
         <source>1080p (1080 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>1080p (1080 γραμμές)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="156"/>
         <source>Resize :</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλλαγή μεγέθους:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="169"/>
         <source>But not upscale image</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλλά χωρίς ανακλιμάκωση της εικόνας</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertImage.ui" line="250"/>
         <source>Format :</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή:</translation>
     </message>
 </context>
 <context>
@@ -2332,38 +2333,38 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="33"/>
         <source>Convert video</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετατροπή του βίντεο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="40"/>
         <source>Device type :</source>
-        <translation type="unfinished">Τύπος συσκευής:</translation>
+        <translation>Τύπος συσκευής:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="50"/>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="91"/>
         <source>Select the type of equipment.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε τον τύπο της συσκευής.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="57"/>
         <source>Device model :</source>
-        <translation type="unfinished">Μοντέλο συσκευής:</translation>
+        <translation>Μοντέλο συσκευής:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="67"/>
         <source>Select the model of equipment</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε το μοντέλο της συσκευής</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="74"/>
         <source>Include sound in the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Συμπερίληψη του ήχου στο βίντεο</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporamaMMFiler/wgt_JobConvertVideo.ui" line="81"/>
         <source>Device :</source>
-        <translation type="unfinished"></translation>
+        <translation>Συσκευή:</translation>
     </message>
 </context>
 </TS>

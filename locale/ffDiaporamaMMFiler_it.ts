@@ -445,11 +445,11 @@
     </message>
     <message>
         <source>Add this suffix to file name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi questo suffisso al nome file :</translation>
     </message>
     <message>
         <source>Add size suffix to file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi dimensione suffisso al nome file</translation>
     </message>
 </context>
 <context>
@@ -623,7 +623,7 @@
     <name>DlgRenderVideo</name>
     <message>
         <source>Error starting ffmpeg</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore avvio ffmpeg</translation>
     </message>
 </context>
 <context>
@@ -950,11 +950,11 @@ File</translation>
     </message>
     <message>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <source>Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Invio</translation>
     </message>
 </context>
 <context>
@@ -1285,59 +1285,59 @@ File</translation>
     </message>
     <message>
         <source>Current action</source>
-        <translation type="unfinished"></translation>
+        <translation>Azione corrente</translation>
     </message>
     <message>
         <source>and set codec to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>e imposta codec per %1</translation>
     </message>
     <message>
         <source>and set audio compression to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>e imposta compressione audio per %1</translation>
     </message>
     <message>
         <source>and force audio frequency to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>e forza frequenza audio per %1</translation>
     </message>
     <message>
         <source>and force to mono</source>
-        <translation type="unfinished"></translation>
+        <translation>e forza a mono</translation>
     </message>
     <message>
         <source>and force to stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>e forza a stereo</translation>
     </message>
     <message>
         <source>and rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>e ruota immagine</translation>
     </message>
     <message>
         <source>but don&apos;t rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>ma non ruotare immagine</translation>
     </message>
     <message>
         <source>and resize to %1x%2</source>
-        <translation type="unfinished"></translation>
+        <translation>e ridimensiona a %1x%2</translation>
     </message>
     <message>
         <source>and set video codec to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>e imposta codec video a %1</translation>
     </message>
     <message>
         <source>and set video compression to %1 with + and - 10%</source>
-        <translation type="unfinished"></translation>
+        <translation>e imposta compressione video a %1 con + e - 10%</translation>
     </message>
     <message>
         <source>and set video compression to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>e imposta compressione video a %1</translation>
     </message>
     <message>
         <source>and set video preset %1</source>
-        <translation type="unfinished"></translation>
+        <translation>e imposta video preimpostato %1</translation>
     </message>
     <message>
         <source>and set video quality to 2</source>
-        <translation type="unfinished"></translation>
+        <translation>e imposta qualità video a 2</translation>
     </message>
 </context>
 <context>
@@ -1445,19 +1445,19 @@ File</translation>
     </message>
     <message>
         <source>Impossible to start exiv2 - no exif informations will be set for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile avviare exiv2 - nessuna informazione exif sarà impostata per %1</translation>
     </message>
     <message>
         <source>Error during exiv2 process - no exif informations will be set for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore durante processo exiv2 - nessuna informazione exif sarà impostata per %1</translation>
     </message>
     <message>
         <source>exiv2 return error %1 - no exif informations will be set for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>exiv2 ritorna errore %1 - nessuna informazione exif sarà impostata per %2</translation>
     </message>
     <message>
         <source>Successfully add minimal exif values to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunti con successo valori exif minimali a %1</translation>
     </message>
 </context>
 <context>
@@ -1570,118 +1570,118 @@ File</translation>
     </message>
     <message>
         <source>Successfully remove existing destination file (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimossi con successo file destinazione esistenti (%1)</translation>
     </message>
     <message>
         <source>Start image conversion of %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvio conversione immagine di %1 per %2</translation>
     </message>
     <message>
         <source>Open file</source>
-        <translation type="unfinished">Apri file</translation>
+        <translation>Apri file</translation>
     </message>
     <message>
         <source>Successfully open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Aperto con successo file %1</translation>
     </message>
     <message>
         <source>Rescal image</source>
-        <translation type="unfinished"></translation>
+        <translation>Riscala immagine</translation>
     </message>
     <message>
         <source>Failed to rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruotazione immagine fallita</translation>
     </message>
     <message>
         <source>Succesfully rotate image</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruotata immagine con successo</translation>
     </message>
     <message>
         <source>Failed to rescal image %1 to %2x%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Fallito riscalatura immagine %1 a %2x%3</translation>
     </message>
     <message>
         <source>Succesfully rescal image %1 to %2x%3</source>
-        <translation type="unfinished"></translation>
+        <translation>Successo riscalatura immagine %1 a %2x%3</translation>
     </message>
     <message>
         <source>Apply destination overwriting strategy</source>
-        <translation type="unfinished"></translation>
+        <translation>Applica destinazione strategia di sovrascrittura</translation>
     </message>
     <message>
         <source>Save image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva file immagine</translation>
     </message>
     <message>
         <source>Apply source file strategy</source>
-        <translation type="unfinished"></translation>
+        <translation>Applica strategia file sorgente</translation>
     </message>
     <message>
         <source>Job finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Lavoro finito</translation>
     </message>
     <message>
         <source>Start audio conversion of %1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvio conversione audio di %1 a %2</translation>
     </message>
     <message>
         <source>Process ffmpeg job</source>
-        <translation type="unfinished"></translation>
+        <translation>Processo lavoro ffmpeg</translation>
     </message>
     <message>
         <source>Error : ffmpeg job can&apos;t start : %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore : lavoro ffmpeg non può partire : %1</translation>
     </message>
     <message>
         <source>Error : ffmpeg return error %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore : ffmpeg ritorna errore %1</translation>
     </message>
     <message>
         <source>Succesfully process ffmpeg job</source>
-        <translation type="unfinished"></translation>
+        <translation>Lavoro ffmpeg processato con successo</translation>
     </message>
     <message>
         <source>Add minimal exif value to image file</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi valori exif minimi al file immagine</translation>
     </message>
     <message>
         <source>Error : for sound conversion, source and destination must be different !</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore : per conversione file, sorgente e destinazione devono essere differenti !</translation>
     </message>
 </context>
 <context>
     <name>wgt_JobConvertAudio</name>
     <message>
         <source>Convert audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Converzione audio</translation>
     </message>
     <message>
         <source>Format :</source>
-        <translation type="unfinished">Formato :</translation>
+        <translation>Formato :</translation>
     </message>
     <message>
         <source>Select the audio codec to use for the rendering.</source>
-        <translation type="unfinished">Seleziona il codec audio da usare per il rendering.</translation>
+        <translation>Seleziona il codec audio da usare per la generazione.</translation>
     </message>
     <message>
         <source>Bit rate :</source>
-        <translation type="unfinished">Bit rate :</translation>
+        <translation>Bit rate :</translation>
     </message>
     <message>
         <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation type="unfinished">Seleziona il bit rate da usare per l&apos;audio durante il rendering.</translation>
+        <translation>Seleziona il bit rate da usare per l&apos;audio durante la generazione.</translation>
     </message>
     <message>
         <source>Force to mono</source>
-        <translation type="unfinished"></translation>
+        <translation>Forza a mono</translation>
     </message>
     <message>
         <source>Force to stereo</source>
-        <translation type="unfinished"></translation>
+        <translation>Forza a stereo</translation>
     </message>
     <message>
         <source>Change frequency to :</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambia frequenza a :</translation>
     </message>
 </context>
 <context>
@@ -1739,31 +1739,31 @@ File</translation>
     <name>wgt_JobConvertVideo</name>
     <message>
         <source>Convert video</source>
-        <translation type="unfinished"></translation>
+        <translation>Conversione video</translation>
     </message>
     <message>
         <source>Device type :</source>
-        <translation type="unfinished">Tipo dispositivo :</translation>
+        <translation>Tipo dispositivo :</translation>
     </message>
     <message>
         <source>Select the type of equipment.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezione il tipo di dispositivo.</translation>
     </message>
     <message>
         <source>Device model :</source>
-        <translation type="unfinished">Modello dispositivo :</translation>
+        <translation>Modello dispositivo :</translation>
     </message>
     <message>
         <source>Select the model of equipment</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona il modello di dispositivo</translation>
     </message>
     <message>
         <source>Include sound in the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Includi suono nel video</translation>
     </message>
     <message>
         <source>Device :</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivo :</translation>
     </message>
 </context>
 </TS>
