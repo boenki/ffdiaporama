@@ -387,6 +387,7 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
 
     bool Continue=true;
     while ((Continue)&&(!QFileInfo(FileName).exists())) {
+        QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
         if (CustomMessageBox(ApplicationConfig->TopLevelWindow,QMessageBox::Question,QApplication::translate("cBaseMediaFile","Open file"),
             QApplication::translate("cBaseMediaFile","Impossible to open file ")+FileName+"\n"+QApplication::translate("cBaseMediaFile","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes)
@@ -402,6 +403,7 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
                 if (ModifyFlag) *ModifyFlag=true;
             } else Continue=false;
         }
+        QApplication::restoreOverrideCursor();
     }
     if (!Continue) {
         ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to open file %1").arg(FileName));
@@ -2182,13 +2184,8 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
             // Check if we need to continue loop
             Continue=(IsVideoFind==false)&&(FramePosition<dEndFile);
 
-            if ((IsVideoFind)&&(ApplicationConfig->Crop1088To1080)&&(RetImage->height()==1088)&&(RetImage->width()==1920)) {
-                QImage *newRetImage=new QImage(RetImage->copy(0,4,1920,1080));
-                delete RetImage;
-                RetImage=newRetImage;
-            }
-
         } else {
+
             // if error in av_read_frame(...) then may be we have reach the end of file !
             Continue=false;
             // Create image
@@ -2199,15 +2196,7 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
                 RetImage              =ConvertYUVToRGB();           // Create RetImage from YUV Buffer
                 IsVideoFind           =(RetImage!=NULL);
 
-                if (IsVideoFind) {
-                    if ((ApplicationConfig->Crop1088To1080)&&(RetImage->height()==1088)&&(RetImage->width()==1920)) {
-                        QImage *newRetImage=new QImage(RetImage->copy(0,4,1920,1080));
-                        delete RetImage;
-                        RetImage=newRetImage;
-                    }
-                    dEndFileCachePos=dEndFile;  // keep position for future use
-                }
-
+                if (IsVideoFind) dEndFileCachePos=dEndFile;         // keep position for future use
             }
         }
 
@@ -2256,7 +2245,6 @@ QImage *cVideoFile::ConvertYUVToRGB() {
     int     H               =ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
 
     QImage   RetImage(W,H,QTPIXFMT);
-    QImage  *FinalImage=NULL;
     AVFrame *FrameBufferRGB =avcodec_alloc_frame();  // Allocate structure for RGB image
 
     if (FrameBufferRGB!=NULL) {
@@ -2286,7 +2274,10 @@ QImage *cVideoFile::ConvertYUVToRGB() {
                 FrameBufferRGB->data,                                               // Destination buffer
                 FrameBufferRGB->linesize                                            // Destination Stride
             );
-            if (ret>0) FinalImage=new QImage(RetImage.convertToFormat(QImage::Format_ARGB32_Premultiplied));
+            if (ret>0) {
+                if ((ApplicationConfig->Crop1088To1080)&&(RetImage.height()==1088)&&(RetImage.width()==1920)) RetImage=RetImage.copy(0,4,1920,1080);
+                //FinalImage=new QImage(RetImage.convertToFormat(QImage::Format_ARGB32_Premultiplied)); // Force to ARGB32
+            }
             sws_freeContext(img_convert_ctx);
         }
 
@@ -2294,7 +2285,8 @@ QImage *cVideoFile::ConvertYUVToRGB() {
         av_free(FrameBufferRGB);
     }
 
-    return FinalImage;
+    //return FinalImage;
+    return new QImage(RetImage);
 }
 
 //====================================================================================================================
@@ -2310,9 +2302,9 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
     // Load a video frame
     QImage *LoadedImage=NULL;
 
-    if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)&&(SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS)) {
+    if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)&&(SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS))
         ReadAudioFrame(PreviewMode,Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
-    }
+
 
     if ((!MusicOnly)&&(!ForceSoundOnly)) {
         LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
@@ -2334,7 +2326,14 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
                 LoadedImage=NewLoadedImage;
             }
 
-            if (Filter && ((!PreviewMode)||(PreviewMode && ApplicationConfig->ApplyTransfoPreview))) Filter->ApplyFilter(LoadedImage);
+            if (Filter && ((!PreviewMode)||(PreviewMode && ApplicationConfig->ApplyTransfoPreview))) {
+                if (LoadedImage->format()!=QImage::Format_ARGB32_Premultiplied) {
+                    QImage *NewLoadedImage=new QImage(LoadedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
+                    delete LoadedImage;
+                    LoadedImage=NewLoadedImage;
+                }
+                Filter->ApplyFilter(LoadedImage);
+            }
         }
 
     }

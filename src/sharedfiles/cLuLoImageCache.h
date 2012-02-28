@@ -87,6 +87,9 @@ public:
 
     // Find video image object corresponding to FileName and position
     cLuLoImageCacheObject   *FindObject(cCustomIcon *Video,int Position,bool Smoothing,bool SetAtTop);
+
+    // Special case for video object : Remove all video object  of this name
+    void                    RemoveVideoObject(QString FileName);
 };
 
 #endif // _cLuLoImageCACHE_H

@@ -391,6 +391,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowImageExtension.append("pgm");     AllowImageExtension.append("PGM");
     AllowImageExtension.append("ppm");     AllowImageExtension.append("PPM");
     AllowImageExtension.append("tiff");    AllowImageExtension.append("TIFF");
+    AllowImageExtension.append("tif");     AllowImageExtension.append("TIF");
     AllowImageExtension.append("xbm");     AllowImageExtension.append("XBM");
     AllowImageExtension.append("xpm");     AllowImageExtension.append("XPM");
     // List of all file extension allowed for musique

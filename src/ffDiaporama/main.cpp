@@ -43,9 +43,9 @@ int main(int argc, char *argv[]) {
     SetWorkingPath(argv,APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT);
     #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
         if (SearchRasterMode(APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
+    #else
+        QApplication::setStyle("Cleanlooks");
     #endif
-
-    QApplication::setStyle("Cleanlooks");
 
     QApplication app(argc,argv);
 

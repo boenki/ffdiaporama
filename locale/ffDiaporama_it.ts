@@ -3523,6 +3523,10 @@ Vuoi aprirlo comunque?</translation>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Selezionare il tipo di dispositivo che si intende utilizzare per il vostro video&lt;br&gt;Per scoprire come generare video:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consulta la pagina generazione video del WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Rescal image to 8MPix</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTree</name>

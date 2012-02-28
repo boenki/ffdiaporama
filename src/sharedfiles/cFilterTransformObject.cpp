@@ -67,7 +67,11 @@ QString cFilterTransformObject::FilterToString() {
 void cFilterTransformObject::ApplyFilter(QImage *Image) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cFilterTransformObject::ApplyFilter");
 
-    if (Image==NULL) return;
+    if ((Image==NULL)||((OnOffFilter==0)&&(BlurSigma==0))) return;
+    if (Image->format()!=QImage::Format_ARGB32_Premultiplied) {
+        ToLog(LOGMSG_INFORMATION,"Error in cFilterTransformObject::ApplyFilter, Image is not and ARGB32_Premultiplied");
+        return;
+    }
     fmt_filters::image img(Image->bits(),Image->width(),Image->height());
     if ((OnOffFilter & FilterDespeckle)==FilterDespeckle)   {
         ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Applying Despeckle filter"));
