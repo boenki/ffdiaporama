@@ -40,6 +40,7 @@
 // Icons
 #define ICON_SHOTPRESENCE                   ":/img/TimelineShots.png"               // FileName of icon representing shots in the timeline
 #define ICON_BLOCKPRESENCE                  ":/img/TimelineBlocks.png"              // FileName of icon representing blocks in the timeline
+#define ICON_HAVEFILTER                     ":/img/Transform.png"                   // FileName of icon representing block with filter in the timeline
 #define ICON_PLAYERPAUSE                    ":/img/player_pause.png"                // FileName of pause icon
 
 //===========================================================================================================================
@@ -285,6 +286,12 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             double  SoundVolume         = 0;
             bool    PreviousHaveSound   = false;
             double  PreviousSoundVolume = 0;
+            bool    HaveFilter          =false;
+
+            // Search it at least one block have filter
+            for (int obj=0;obj<Object->ObjectComposition.List.count();obj++)
+                if (((Object->ObjectComposition.List[obj]->BackgroundBrush->Image)&&((Object->ObjectComposition.List[obj]->BackgroundBrush->Image->BrushFileTransform.HaveFilter())))||
+                    ((Object->ObjectComposition.List[obj]->BackgroundBrush->Video)&&((Object->ObjectComposition.List[obj]->BackgroundBrush->Video->BrushFileTransform.HaveFilter())))) HaveFilter=true;
 
             // Parse current ObjectComposition table to determine if slide have sound
             for (int i=0;i<Object->ObjectComposition.List.count();i++) if ((Object->ObjectComposition.List[i]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&
@@ -341,36 +348,46 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 // Display a thumb with no sound
                 Painter.fillRect(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,ThumbHeight,Transparent);
                 Object->DrawThumbnail(ThumbWidth+2,ThumbHeight+2,&Painter,TransitionSize+3,TimelineHeight/2+2-1);   // Draw Thumb
-                if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32,QImage(ICON_SHOTPRESENCE));
-                if (Object->ObjectComposition.List.count()>1) Painter.drawImage(TransitionSize+3+8,2-1+ThumbHeight-32,QImage(ICON_BLOCKPRESENCE));
+                if (Object->ObjectComposition.List.count()>1)   Painter.drawImage(TransitionSize+3+8,2-1+ThumbHeight-32,QImage(ICON_BLOCKPRESENCE));                // Add mark if multiple block
+                if (Object->List.count()>1)                     Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32,QImage(ICON_SHOTPRESENCE));     // Add mark if multiple shot
+                if (HaveFilter)                                 Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32+24,QImage(ICON_HAVEFILTER));    // Add mark if at least one block have filter
                 DrawThumbnailsBox(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,ThumbHeight,Painter,NULL);
                 MediaObjectRect=QRect(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,ThumbHeight);
 
             } else {
                 // Display a thumb with sound track
 
-                int H3            =NewThumbHeight/5;
-                int HH3           =(NewThumbHeight-H3*3)/4;
-                int RHeight       =int(double(TIMELINESOUNDHEIGHT)*(SoundVolume/1.5));
+                int     H3          =NewThumbHeight/5;
+                int     HH3         =(NewThumbHeight-H3*3)/4;
+                int     RHeight     =int(double(TIMELINESOUNDHEIGHT)*(SoundVolume/1.5));
 
                 // Draw thumb part
                 Painter.fillRect(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,NewThumbHeight,Transparent);
-                Object->DrawThumbnail(NewThumbWidth+2,NewThumbHeight+2,&Painter,TransitionSize+3+BarWidth,TimelineHeight/2+2-1);   // Draw Thumb
-                if (Object->List.count()>1) Painter.drawImage(TransitionSize+3+BarWidth+NewThumbWidth-32,TimelineHeight/2+2-1+NewThumbHeight-32,QImage(ICON_SHOTPRESENCE));
-                if (Object->ObjectComposition.List.count()>1) Painter.drawImage(TransitionSize+3+BarWidth+8,TimelineHeight/2+2-1+NewThumbHeight-32,QImage(ICON_BLOCKPRESENCE));
-                DrawThumbnailsBox(TransitionSize+3+BarWidth,TimelineHeight/2+2-1,NewThumbWidth,NewThumbHeight,Painter,NULL);
-                DrawThumbnailsBox(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,NewThumbHeight,Painter,NULL);
-                MediaObjectRect=QRect(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,NewThumbHeight);
+                Object->DrawThumbnail(NewThumbWidth+2,NewThumbHeight+4,&Painter,TransitionSize+3+BarWidth-1,TimelineHeight/2-1);   // Draw Thumb
+
+                QPen Pen;
+                Pen.setWidth(1);
+                Painter.setBrush(Qt::NoBrush);
+                Pen.setColor(Qt::black);    Painter.setPen(Pen);    Painter.drawRect(TransitionSize+3-2,TimelineHeight/2+1-2,ThumbWidth+4,NewThumbHeight+4);
+                Pen.setColor(Qt::darkGray); Painter.setPen(Pen);    Painter.drawRect(TransitionSize+3-1,TimelineHeight/2+1-1,ThumbWidth+2,NewThumbHeight+2);
+                Pen.setColor(Qt::white);    Painter.setPen(Pen);    Painter.drawRect(TransitionSize+3,  TimelineHeight/2+1,  ThumbWidth,  NewThumbHeight);
+                Painter.drawRect(TransitionSize+3+BarWidth-1,TimelineHeight/2+1,NewThumbWidth+1,NewThumbHeight);
+
+                MediaObjectRect=QRect(TransitionSize+3,         TimelineHeight/2+2-1,   ThumbWidth,     NewThumbHeight);
 
                 // Draw black bar for cinema decoration at left & right
-                Painter.fillRect(TransitionSize+3,TimelineHeight/2+2-1,BarWidth-2,NewThumbHeight,QBrush(Qt::black));
-                Painter.fillRect(TransitionSize+3+BarWidth+NewThumbWidth+2,TimelineHeight/2+2-1,ThumbWidth-NewThumbWidth-BarWidth-2,NewThumbHeight,QBrush(Qt::black));
+                Painter.fillRect(TransitionSize+3,                              TimelineHeight/2+2,   BarWidth-2,                             NewThumbHeight-1,QBrush(Qt::black));
+                Painter.fillRect(TransitionSize+3+BarWidth+NewThumbWidth+2-1,   TimelineHeight/2+2,   ThumbWidth-NewThumbWidth-BarWidth-2+1,  NewThumbHeight-1,QBrush(Qt::black));
+
                 // Draw cinema decoration at left & right
                 int YPos=Height-TimelineHeight/2-TIMELINESOUNDHEIGHT*2-(ThumbHeight-2)/2;
                 for (int HH=0;HH<3;HH++) {
-                    Painter.fillRect(TransitionSize+3+4,YPos+HH3+(H3+HH3)*HH-1,BarWidth-2-8,H3,QBrush(Qt::lightGray));
-                    Painter.fillRect(TransitionSize+3+BarWidth+NewThumbWidth+2+4,YPos+HH3+(H3+HH3)*HH-1,BarWidth-2-8,H3,QBrush(Qt::lightGray));
+                    Painter.fillRect(TransitionSize+3+4,                            YPos+HH3+(H3+HH3)*HH-1, BarWidth-2-8,   H3,QBrush(Qt::lightGray));
+                    Painter.fillRect(TransitionSize+3+BarWidth+NewThumbWidth+2+4,   YPos+HH3+(H3+HH3)*HH-1, BarWidth-2-8,   H3,QBrush(Qt::lightGray));
                 }
+                if (Object->ObjectComposition.List.count()>1)   Painter.drawImage(TransitionSize+3,TimelineHeight/2+2-1+NewThumbHeight-48-4,QImage(ICON_BLOCKPRESENCE));                   // Add mark if multiple block
+                if (Object->List.count()>1)                     Painter.drawImage(TransitionSize+3+BarWidth*2+NewThumbWidth-24-2,TimelineHeight/2+2-1+NewThumbHeight-48-4,QImage(ICON_SHOTPRESENCE));     // Add mark if multiple shot
+                if (HaveFilter)                                 Painter.drawImage(TransitionSize+3+BarWidth*2+NewThumbWidth-24-2,TimelineHeight/2+2-1+NewThumbHeight-24-4,QImage(ICON_HAVEFILTER));    // Add mark if at least one block have filter
 
                 // Draw background for soundtrack
                 Pen.setColor(ObjectBackground_Ruller);

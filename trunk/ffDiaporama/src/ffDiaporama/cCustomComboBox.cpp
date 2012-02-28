@@ -546,7 +546,9 @@ void cOnOffFilterComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
     ToLog(LOGMSG_DEBUGTRACE,"IN:cOnOffFilterComboBoxItem::paint");
     int ColorNum=index.row()*OnOffFilterComboBoxNBRCOLUMN+index.column();
     // Prepare OnOff filter pixmaps
-    QImage              Image=ComboBox->SourceImage.copy();
+    QImage Image=ComboBox->SourceImage.copy();
+    if (Image.format()!=QImage::Format_ARGB32_Premultiplied) Image=Image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+
     fmt_filters::image  Img(Image.bits(),Image.width(),Image.height());
     if ((ColorNum & FilterDespeckle)==FilterDespeckle)  fmt_filters::despeckle(Img);
     if ((ColorNum & FilterEqualize)==FilterEqualize)    fmt_filters::equalize(Img);

@@ -956,6 +956,10 @@ File</translation>
         <source>Return</source>
         <translation>Invio</translation>
     </message>
+    <message>
+        <source>Rescal image to 8MPix</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -1536,6 +1540,11 @@ File</translation>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>
+    </message>
+    <message>
+        <source>Lossless</source>
+        <comment>Device database type</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

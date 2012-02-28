@@ -777,17 +777,17 @@
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="111"/>
+        <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="112"/>
         <source>Apply modification</source>
         <translation>Εφαρμογή των τροποποιήσεων</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="112"/>
+        <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="113"/>
         <source>Do you whant to apply modification for this device?</source>
         <translation>Επιθυμείτε την εφαρμογή των τροποποιήσεων για τη συσκευή αυτή;</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="534"/>
+        <location filename="../src/sharedfiles/DlgManageDevices.cpp" line="535"/>
         <source>&lt;new device&gt;</source>
         <translation>&lt;νέα συσκευή&gt;</translation>
     </message>
@@ -1007,35 +1007,35 @@ and help</source>
         <translation>Αρχείο μουσικής (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="462"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="382"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="460"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="387"/>
         <source>Read configuration file</source>
         <translation>Ανάγνωση αρχείου διαμόρφωσης</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="464"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="392"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="462"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="397"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την ανάγνωση του αρχείου ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="469"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="397"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="467"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="402"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Σφάλμα στην ανάγνωση του περιεχομένου του αρχείου ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="476"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="404"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="474"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="409"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Το αρχείο δεν είναι ένα έγκυρο αρχείο ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="643"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="451"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="641"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="456"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την δημιουργία του αρχείου ρυθμίσεων</translation>
@@ -1046,27 +1046,33 @@ and help</source>
         <translation>Φόρτωση φιλτραρισμένου προσωρινού αρχείου:</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="101"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="109"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="137"/>
+        <source>Rescal image to 8MPix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="117"/>
         <source>Error allocating memory for cached filtered file</source>
         <translation>Σφάλμα κατανομής μνήμης προσωρινού φιλτραρισμένου αρχείου</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="103"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="119"/>
         <source>Error loading cached filtered file :</source>
         <translation>Σφάλμα φόρτωσης φιλτραρισμένου προσωρινού αρχείου:</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="110"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="126"/>
         <source>Loading file :</source>
         <translation>Φόρτωση του αρχείου:</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="113"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="145"/>
         <source>Error allocating memory for render image</source>
         <translation>Σφάλμα κατανομής μνήμης για την αποτύπωση εικόνας</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="115"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="147"/>
         <source>Error loading file :</source>
         <translation>Σφάλμα φόρτωσης του αρχείου:</translation>
     </message>
@@ -1833,102 +1839,102 @@ and help</source>
 <context>
     <name>cBaseMediaFile</name>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="389"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="391"/>
         <source>Impossible to open file </source>
         <translation>Αδύνατο το άνοιγμα του αρχείου </translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="389"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="391"/>
         <source>Do you want to select another file ?</source>
         <translation>Θέλετε να επιλέξετε ένα άλλο αρχείο;</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="393"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="395"/>
         <source>Select another file for </source>
         <translation>Επιλογή ενός αρχείου αντικατάστασης για </translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="405"/>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="557"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="407"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="559"/>
         <source>Impossible to open file %1</source>
         <translation>Αδύνατο το άνοιγμα του αρχείου %1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="492"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="494"/>
         <source>MPix</source>
         <translation>MPix</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="576"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="578"/>
         <source>Unmanaged</source>
         <comment>File type</comment>
         <translation>Δεν υποστηρίζεται</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="900"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="902"/>
         <source>Slides</source>
         <translation>Διαφάνειες</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="901"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="903"/>
         <source>Chapters</source>
         <translation>Κεφάλαια</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="957"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="959"/>
         <source>Image</source>
         <comment>File type</comment>
         <translation>Εικόνα</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="958"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="960"/>
         <source>Thumbnail</source>
         <comment>File type</comment>
         <translation>Εικόνα επισκόπησης</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="984"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="986"/>
         <source>Image don&apos;t have EXIF metadata %1</source>
         <translation>Η εικόνα δεν περιέχει μεταδεδομένα EXIF %1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1078"/>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1122"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1080"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1124"/>
         <source>Impossible to start exiv2 - no exif informations will be decode for %1</source>
         <translation>Αδύνατη η εκκίνηση του exiv2 - δεν θα αποκωδικοποιηθούν πληροφορίες exif για το %1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1083"/>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1127"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1085"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1129"/>
         <source>Error during exiv2 process - no exif informations will be decode for %1</source>
         <translation>Σφάλμα κατά την εκκίνηση του exiv2 - δεν θα αποκωδικοποιηθούν πληροφορίες exif για το %1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1087"/>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1131"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1089"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1133"/>
         <source>exiv2 return error %1 - no exif informations will be decode for %2</source>
         <translation>Επιστροφή σφάλματος του exiv2 %1 - δεν θα αποκωδικοποιηθούν πληροφορίες exif για το %2</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1626"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1628"/>
         <source>Video</source>
         <comment>File type</comment>
         <translation>Βίντεο</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1625"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1627"/>
         <source>Music</source>
         <comment>File type</comment>
         <translation>Μουσική</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1470"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1472"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
         <translation>Mono</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="388"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="390"/>
         <source>Open file</source>
         <translation>Άνοιγμα αρχείου</translation>
     </message>
@@ -1938,24 +1944,24 @@ and help</source>
         <translation>Σφάλμα κατά την αντικατάσταση του %1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="865"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="867"/>
         <source>Slide number</source>
         <translation>Αριθμός διαφάνειας</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="930"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="932"/>
         <source>ffDiaporama</source>
         <comment>File type</comment>
         <translation>ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1471"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1473"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
         <translation>Stereo</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="704"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="706"/>
         <source>Folder</source>
         <comment>File type</comment>
         <translation>Φάκελος</translation>
@@ -1984,92 +1990,98 @@ and help</source>
 <context>
     <name>cDeviceModelList</name>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="499"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="504"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
         <translation>Για προχωρημένους</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="500"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="503"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="505"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="509"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
         <translation>Smartphone</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="501"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="506"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
         <translation>Σύστημα πολυμέσων</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="502"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="507"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
         <translation>Για το διαδίκτυο</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="504"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
+        <source>Lossless</source>
+        <comment>Device database type</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
         <translation>Φορητός αναπαραγωγέας</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="505"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="511"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
         <translation>Netbook/NetPC</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="506"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="512"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
         <translation>Φορητή κονσόλα παιχνιδιών</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="507"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="513"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
         <translation>Ταμπλέτα επαφής</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="514"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
         <translation>Πύλη και σκληρός δίσκος πολυμέσων</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="509"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="515"/>
         <source>Player</source>
         <comment>Device database type</comment>
         <translation>Αναπαραγωγέας</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="516"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
         <translation>ADSL δρομολογητής</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="511"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="517"/>
         <source>Game console</source>
         <comment>Device database type</comment>
         <translation>Κονσόλα παιχνιδιών</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="512"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="518"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
         <translation>SWF Αναπαραγωγέας Flash</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="513"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="519"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
         <translation>Ιστοσελίδες κοινόχρηστων βίντεο και κοινωνικών δικτύων</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="514"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="520"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>

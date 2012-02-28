@@ -17,8 +17,16 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Ajoute TIF en plus de TIFF dans la liste des extensions supportées
+-Ajoute une icône dans la timeline pour indiquer les slides comprenant au moins un bloque avec transformation
+-Améliore encore la lecture des vidéos
+-Remet les boites de dialogue systèmes pour l'ouverture des fichiers
 
 English version / Bug fix :
+-Add TIF extension in the supported extension list
+-Add an icon to the timeline to symbolise when at least one block of the slide have a transformation
+-Improve again video reading
+-Use system dialog box for opening files
 
 French version / Nouvelles fonctionnalités :
 

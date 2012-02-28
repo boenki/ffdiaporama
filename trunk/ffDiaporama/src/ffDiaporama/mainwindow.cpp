@@ -1304,8 +1304,9 @@ void MainWindow::s_Action_AddFile() {
     ui->ActionAdd_BT_2->setDown(false);
 
     FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add files"),
-                                                       ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-                                                       ApplicationConfig->GetFilterForMediaFile(cBaseApplicationConfig::ALLFILE));
+                                                ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
+                                                ApplicationConfig->GetFilterForMediaFile(cBaseApplicationConfig::ALLFILE),
+                                                0,0);
     if (FileList.count()>0) {
 
         // Calc position of new object depending on ApplicationConfig->AppendObject

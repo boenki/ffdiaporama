@@ -175,10 +175,11 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
             }
 
             // If image is ok then apply filter if exist
-             if ((FilterString!="")&&(CacheRenderImage)&&(!CacheRenderImage->isNull())) {
+            if ((FilterString!="")&&(CacheRenderImage)&&(!CacheRenderImage->isNull())) {
                 cFilterTransformObject Filter(FilterString);
                 Filter.ApplyFilter(CacheRenderImage);
             }
+
         } else {
 
             // Search LuLoImageCache collection to find image without filter
@@ -360,6 +361,24 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(cCustomIcon *Video,int Positi
         i=0;
     }
     return List[i]; // return first object
+}
+
+//===============================================================================
+// Special case for video object : Remove all video object  of this name
+void cLuLoImageCache::RemoveVideoObject(QString FileName) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::RemoveVideoObject");
+
+    int i=List.count()-1;
+    while (i>=0) {
+        if ((List[i]->TypeObject==LULOOBJECT_VIDEO)&&(List[i]->FileName==FileName)) {
+            if (List[i]->CachePreviewImage!=List[i]->CacheRenderImage) delete List[i]->CachePreviewImage;
+            List[i]->CachePreviewImage=NULL;
+            if (List[i]->CacheRenderImage) delete List[i]->CacheRenderImage;
+            List[i]->CacheRenderImage=NULL;
+            delete List.takeAt(i);
+        }
+        i--;
+    }
 }
 
 //===============================================================================

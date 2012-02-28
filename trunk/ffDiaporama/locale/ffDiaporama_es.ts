@@ -932,36 +932,36 @@ no estándar</translation>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="166"/>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="173"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="180"/>
         <source>Lock to image geometry</source>
         <translation>Bloquear esta geometría de la imagen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="167"/>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="174"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="181"/>
         <source>Lock to project geometry-to full image</source>
         <translation>Bloquear esta geometría de proyecto a imagen completa</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="168"/>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="175"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="182"/>
         <source>Lock to project geometry-to width</source>
         <translation>Bloquear esta geometría de proyecto a la anchura</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="169"/>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="176"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="183"/>
         <source>Lock to project geometry-to height</source>
         <translation>Bloquear esta geometría de proyecto a la altura</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="358"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="361"/>
         <source>Language selection</source>
         <translation>Seleccionar idioma</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="359"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.cpp" line="362"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
         <translation>El idioma debe estar vacío o con un código 639 (3 caracteres)
@@ -2553,21 +2553,21 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="701"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="713"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="910"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="941"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1186"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1241"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1250"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1262"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1277"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1292"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1317"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1337"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1346"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1358"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1451"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1507"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="914"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="945"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1190"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1245"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1254"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1266"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1281"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1296"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1321"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1341"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1350"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1362"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1455"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1511"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1515"/>
         <source>Render video</source>
         <translation>Generar video</translation>
     </message>
@@ -2587,67 +2587,67 @@ Do you want to overwrite it ?</source>
         <translation>Codificar sonido</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1010"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1014"/>
         <source>Start ffmpeg encoder</source>
         <translation>Iniciar ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1061"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1126"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1133"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1170"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1065"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1130"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1137"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1174"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1178"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1062"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1066"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error lanzando ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1096"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1100"/>
         <source> - Estimated time left : </source>
         <translation> - Tiempo estimado restante : </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1126"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1130"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error enviando imagen a ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1133"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1137"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation>Error en ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1155"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1159"/>
         <source>Closing encoder</source>
         <translation>Cerrar codificador</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1170"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1174"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error durante el proceso de ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1174"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1178"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error deteniendo ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1186"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1190"/>
         <source>Job completed succesfully!</source>
         <translation>¡Trabajo completado!</translation>
     </message>
@@ -4210,7 +4210,7 @@ y Ayuda</translation>
         <translation>Archivo de música (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="462"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="460"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="387"/>
         <source>Read configuration file</source>
         <translation>Leyendo archivo de configuración</translation>
@@ -4252,7 +4252,7 @@ y Ayuda</translation>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="464"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="462"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="397"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
@@ -4260,7 +4260,7 @@ y Ayuda</translation>
         <translation>Error al leer el archivo de configuración</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="469"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="467"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="402"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
@@ -4268,7 +4268,7 @@ y Ayuda</translation>
         <translation>Error de lectura de contenido del archivo de configuración</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="476"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="474"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="409"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
@@ -4276,7 +4276,7 @@ y Ayuda</translation>
         <translation>El archivo no es un archivo de configuración válido</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="643"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="641"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="456"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
@@ -4374,27 +4374,33 @@ La geometría de la imagen de este archivo no es igual que la del proyecto actua
         <translation>Cargando archivo de caché :</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="101"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="109"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="137"/>
+        <source>Rescal image to 8MPix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="117"/>
         <source>Error allocating memory for cached filtered file</source>
         <translation>Error al asignar memoria para el archivo de caché</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="103"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="119"/>
         <source>Error loading cached filtered file :</source>
         <translation>Error al cargar el archivo de caché:</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="110"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="126"/>
         <source>Loading file :</source>
         <translation>Cargando archivo :</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="113"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="145"/>
         <source>Error allocating memory for render image</source>
         <translation>Error al asignar memoria para procesar imagen</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="115"/>
+        <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="147"/>
         <source>Error loading file :</source>
         <translation>Error cargando archivo :</translation>
     </message>

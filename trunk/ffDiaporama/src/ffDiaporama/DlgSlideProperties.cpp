@@ -1473,6 +1473,9 @@ void DlgSlideProperties::ImageEditCorrect() {
             ui->SlideNameED->setText(DiaporamaObject->SlideName);
         }
 
+        // Lulo object for video must be remove
+        if (CompositionObject->BackgroundBrush->Video) DiaporamaObject->Parent->ApplicationConfig->ImagesCache.RemoveVideoObject(CompositionObject->BackgroundBrush->Video->FileName);
+
         ApplyToContexte(true,true);
         RefreshBlockTable(ui->BlockTable->currentRow());
         //UpdateDockInfo();
