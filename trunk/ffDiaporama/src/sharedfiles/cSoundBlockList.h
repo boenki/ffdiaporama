@@ -27,17 +27,7 @@
 // Include some additional standard class
 #include <QList>
 
-// Other third party library inclusions : ffmpeg
-extern "C" {
-	#ifndef INT64_C
-	#define INT64_C(c) (c ## LL)
-	#define UINT64_C(c) (c ## ULL)
-	#endif
-    #include <libavutil/common.h>
-    #include <libavcodec/avcodec.h>
-    #include <libavformat/avformat.h>
-    #include <libswscale/swscale.h>
-}
+#include "cDeviceModelDef.h"                // Contains ffmpeg include
 
 // Base object for sound manipulation
 class cSoundBlockList {

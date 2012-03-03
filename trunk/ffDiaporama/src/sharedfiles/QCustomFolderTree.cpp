@@ -31,7 +31,7 @@
 
 #include <errno.h>
 
-#if defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
     #include <windows.h>
     #include <QSettings>
     #include <QPixmapCache>
@@ -107,7 +107,7 @@ void QCustomFolderTree::s_ContextMenu(const QPoint) {
                 SubFolderName=CustomInputDialog(this,QApplication::translate("QCustomFolderTree","Create folder"),QApplication::translate("QCustomFolderTree","Folder:"),QLineEdit::Normal,"",&Ok);
                 if (Ok && !SubFolderName.isEmpty()) {
                     if (!FolderPath.endsWith(QDir::separator())) FolderName=FolderPath+QDir::separator()+SubFolderName; else FolderName=FolderPath+SubFolderName;
-                    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+                    #ifdef Q_OS_LINUX
                     if (FolderName.startsWith("~")) FolderName=QDir::homePath()+FolderName.mid(1);
                     #endif
                     if (QDir().mkdir(FolderName)) RefreshItemByPath(GetFolderPath(currentItem(),true),false); else {
@@ -200,7 +200,7 @@ QString QCustomFolderTree::GetFolderPath(const QTreeWidgetItem *Item,bool TreeMo
                 // Search if text is a registered alias, then replace text with path
                 for (int i=0;i<DriveList->List.count();i++) if (DriveList->List[i].Label==RootStr) {
                     if (RootStr!=QApplication::translate("QCustomFolderTree","Personal folder")) RootStr=DriveList->List[i].Path; else
-                        #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+                        #ifdef Q_OS_LINUX
                             RootStr="~";
                         #else
                             RootStr="%HOMEDRIVE%%HOMEPATH%";
@@ -278,9 +278,10 @@ void QCustomFolderTree::s_itemExpanded(QTreeWidgetItem *item) {
 cDriveDesc *QCustomFolderTree::SearchRealDrive(QString Path) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::SearchRealDrive");
 
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
         if (Path.startsWith("~")) Path=QDir::homePath()+Path.mid(1);
-    #elif defined(Q_OS_WIN)
+    #endif
+    #ifdef Q_OS_WIN
         Path.replace("%HOMEDRIVE%%HOMEPATH%",DriveList->List[0].Path,Qt::CaseInsensitive);
         Path.replace("%USERPROFILE%",DriveList->List[0].Path,Qt::CaseInsensitive);
         Path=AdjustDirForOS(Path);
@@ -312,7 +313,7 @@ QString QCustomFolderTree::RealPathToTreePath(QString Path) {
 
 //====================================================================================================================
 QString RemoveLabel(QString Path) {
-    #if defined(Q_OS_WIN)
+    #ifdef Q_OS_WIN
         if (Path.indexOf("[")>0) Path=Path.left(Path.indexOf("["));
     #endif
     return Path;
@@ -330,9 +331,10 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
     QString             CurrentFolder;
     QTreeWidgetItem     *Current=NULL;
 
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
         if (Path.startsWith("~")) Path=QApplication::translate("QCustomFolderTree","Personal folder")+Path.mid(1);
-    #elif defined(Q_OS_WIN)
+    #endif
+    #ifdef Q_OS_WIN
         Path.replace("%HOMEDRIVE%%HOMEPATH%",QApplication::translate("QCustomFolderTree","Personal folder"),Qt::CaseInsensitive);
         Path.replace("%USERPROFILE%",QApplication::translate("QCustomFolderTree","Personal folder"),Qt::CaseInsensitive);
     #endif
@@ -344,7 +346,7 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
     }
     Folders.append(Path);
 
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
     if ((Folders.count()>=1)&&(Folders[0]=="")) Folders[0]=QApplication::translate("QCustomFolderTree","System files");
     #endif
 
@@ -375,7 +377,7 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
                 Current->removeChild(SubItem);
                 delete SubItem;
                 QString RealPath=CurrentFolder;
-                #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+                #ifdef Q_OS_LINUX
                 if (RealPath.startsWith("~")) RealPath=QDir::homePath()+RealPath.mid(1);
                 #endif
                 Directorys=QDir(RealPath).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot|(ApplicationConfig->ShowHiddenFilesAndDir?QDir::Hidden:QDir::Dirs));
@@ -423,7 +425,7 @@ void QCustomFolderTree::RefreshItemByPath(QString Path,bool RefreshAll,int Level
         if (RealPath.startsWith(QDir::separator())) RealPath=DriveList->List[i].Path+RealPath.mid(DriveList->List[i].Label.length()+1); else {
             RealPath=DriveList->List[i].Path+RealPath.mid(DriveList->List[i].Label.length());
             if (RealPath.endsWith("//")) RealPath=RealPath.left(RealPath.length()-1);
-            #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+            #ifdef Q_OS_LINUX
             if (RealPath.startsWith("//")) RealPath=RealPath.mid(1);
             #endif
         }
@@ -439,7 +441,7 @@ void QCustomFolderTree::RefreshItemByPath(QString Path,bool RefreshAll,int Level
     QTreeWidgetItem     *SubItem=NULL;
 
     // Adjust Path
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
     Path.replace("~",QApplication::translate("QCustomFolderTree","Personal folder"));
     #endif
 

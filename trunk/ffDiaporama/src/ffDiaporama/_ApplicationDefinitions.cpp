@@ -212,7 +212,13 @@ void cApplicationConfig::InitValues() {
 bool cApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication *App) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::LoadConfigurationFile");
 
-    return cBaseApplicationConfig::LoadConfigurationFile(TypeConfigFile,App) && DeviceModelList.LoadConfigurationFile(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile,TypeConfigFile);
+    if (!cBaseApplicationConfig::LoadConfigurationFile(TypeConfigFile,App)) {
+        if (TypeConfigFile==USERCONFIGFILE) DeviceModelList.TranslatRenderType();
+        return false;
+    } else if (!DeviceModelList.LoadConfigurationFile(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile,TypeConfigFile)) {
+        if (TypeConfigFile==USERCONFIGFILE) DeviceModelList.TranslatRenderType();
+        return false;
+    } else return true;
 }
 
 //====================================================================================================================

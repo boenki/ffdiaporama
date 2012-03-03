@@ -26,7 +26,7 @@
 #include <QDir>
 #include <QFile>
 
-#if defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
     #include <windows.h>
     #include <QSettings>
 #endif
@@ -58,7 +58,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
     if (Alias==QApplication::translate("QCustomFolderTree","Personal folder")) IconDrive=ApplicationConfig->DefaultUSERIcon.GetIcon(cCustomIcon::ICON16)->copy();
 
     // Adjust path depending on Operating System
-    #if defined(Q_OS_WIN)
+    #ifdef Q_OS_WIN
         Path.replace("/","\\");
 
         WCHAR       Drive[256+1];
@@ -238,7 +238,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
                         if ((Line.toUpper().startsWith("ICON"))&&(Line.indexOf("=")!=-1)) {
                             Line=Line.mid(Line.indexOf("=")+1).trimmed();
                             if (Line.toLower().endsWith(".jpg") || Line.toLower().endsWith(".png") || Line.toLower().endsWith(".ico")) IconDrive=QIcon(AdjustDirForOS(Path+Line)).pixmap(16,16).toImage().copy();
-                            #if defined(Q_OS_WIN)
+                            #ifdef Q_OS_WIN
                             else {
                                 QIcon Ico(GetIconForFileOrDir(AdjustDirForOS(Path+Line),0));
                                 IconDrive=Ico.pixmap(16,16).toImage();
@@ -254,7 +254,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
                 FileName=FileName+Directorys[j].fileName();
                 QFile   FileIO(FileName);
                 QString IconFile ="";
-                #if defined(Q_OS_WIN)
+                #ifdef Q_OS_WIN
                 int     IconIndex=0;
                 #endif
                 if (FileIO.open(QIODevice::ReadOnly/*|QIODevice::Text*/)) {
@@ -273,7 +273,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
                             Line=AllInfo;
                             AllInfo="";
                         }
-                        #if defined(Q_OS_WIN)
+                        #ifdef Q_OS_WIN
                         if ((Line.toUpper().startsWith("ICONINDEX"))&&(Line.indexOf("=")!=-1)) {
                             IconIndex=Line.mid(Line.indexOf("=")+1).toInt();
                         } else
@@ -298,7 +298,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
                     if (!Ico.isNull()) IconDrive=Ico.pixmap(16,16).toImage();
                 }
 
-                #if defined(Q_OS_WIN)
+                #ifdef Q_OS_WIN
                 else {
                     QIcon Ico=GetIconForFileOrDir(IconFile,IconIndex);
                     if (!Ico.isNull()) IconDrive=Ico.pixmap(16,16).toImage();
@@ -339,7 +339,7 @@ void cDriveList::UpdateDriveList() {
 
     for (int i=0;i<List.count();i++) List[i].Flag=0;
 
-    #if defined(Q_OS_WIN)
+    #ifdef Q_OS_WIN
 
         QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
         if (!SearchDrive(Settings.value("Personal").toString()))
@@ -409,7 +409,7 @@ QIcon cDriveList::GetFolderIcon(QString FilePath) {
 
     if (!FilePath.endsWith(QDir::separator())) FilePath=FilePath+QDir::separator();
 
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
     if (FilePath.startsWith("~")) FilePath=QDir::homePath()+FilePath.mid(1);
     #endif
 
@@ -437,7 +437,7 @@ QIcon cDriveList::GetFolderIcon(QString FilePath) {
             FileName=FileName+Directorys[j].fileName();
             QFile   FileIO(FileName);
             QString IconFile ="";
-            #if defined(Q_OS_WIN)
+            #ifdef Q_OS_WIN
             int     IconIndex=0;
             #endif
             if (FileIO.open(QIODevice::ReadOnly/*|QIODevice::Text*/)) {
@@ -456,7 +456,7 @@ QIcon cDriveList::GetFolderIcon(QString FilePath) {
                         Line=AllInfo;
                         AllInfo="";
                     }
-                    #if defined(Q_OS_WIN)
+                    #ifdef Q_OS_WIN
                     if ((Line.toUpper().startsWith("ICONINDEX"))&&(Line.indexOf("=")!=-1)) {
                         IconIndex=Line.mid(Line.indexOf("=")+1).toInt();
                     } else
@@ -476,7 +476,7 @@ QIcon cDriveList::GetFolderIcon(QString FilePath) {
                 FileIO.close();
             }
             if (IconFile.toLower().endsWith(".jpg") || IconFile.toLower().endsWith(".png") || IconFile.toLower().endsWith(".ico")) RetIcon=QIcon(IconFile);
-            #if defined(Q_OS_WIN)
+            #ifdef Q_OS_WIN
             else RetIcon=GetIconForFileOrDir(IconFile,IconIndex);
             #endif
         }

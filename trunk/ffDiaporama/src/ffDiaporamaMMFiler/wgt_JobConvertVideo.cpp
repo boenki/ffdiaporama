@@ -129,20 +129,20 @@ void wgt_JobConvertVideo::AppendJobSummary(int index,QString *JobSummary,cJobQue
                 case VCODEC_H264HQ  :   *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and set video codec to %1")).arg("libx264");
                                         *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and set video compression to %1 with + and - 10%")).arg(VideoBitRate);
                                         *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and set video preset %1")).arg(
-                                        #if (LIBAVFORMAT_VERSION_MAJOR<54)
-                                        "libx264-hq.ffpreset\""
+                                        #ifdef OLDFFMPEGPRESET
+                                        "libx264-hq.ffpreset"
                                         #else
-                                        "libx264-hq-10.ffpreset\""
+                                        "veryfast (ref=3)"
                                         #endif
                                         );
                                         break;
                 case VCODEC_H264PQ  :   *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and set video codec to %1")).arg("libx264");
                                         *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and set video compression to %1 with + and - 10%")).arg(VideoBitRate);
                                         *JobSummary=*JobSummary+"\n    "+QString(QApplication::translate("QCustomJobTable","and set video preset %1")).arg(
-                                        #if (LIBAVFORMAT_VERSION_MAJOR<54)
-                                        "libx264-pq.ffpreset\""
+                                        #ifdef OLDFFMPEGPRESET
+                                        "libx264-pq.ffpreset"
                                         #else
-                                        "libx264-pq-10.ffpreset\""
+                                        "veryfast (level=1.3:no-cabac:vbv-bufsize=768:vbv-maxrate=768)"
                                         #endif
                                         );
                                         break;

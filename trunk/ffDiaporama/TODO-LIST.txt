@@ -4,8 +4,6 @@ TODO
 ----
 [ffDiaporama]
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
--Ne pas générer les thumbnails lors des ouvertures de projets !
--Voir s'il est possible de changer la stratégie d'allocation de la stack pour Windows/XP
 
 [MMFiler]
 -Ajuster la géométrie des thumb à l'affichage en cours :    Défaut : 1/1    Images : 3/2    Musique: 1/1    Vidéo  : 2/3
@@ -13,20 +11,18 @@ TODO
 -Rendre optionnel le cache des thumbnails (.ThumbnailsCache.xml)
 -Developper la partie transformation des fichiers sources
 
+-Dépassement de capacité dans l'affichage de la durée cumulé (résumé folder) : il faut ajouter des jours !
+
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Ajoute TIF en plus de TIFF dans la liste des extensions supportées
--Ajoute une icône dans la timeline pour indiquer les slides comprenant au moins un bloque avec transformation
--Améliore encore la lecture des vidéos
--Remet les boites de dialogue systèmes pour l'ouverture des fichiers
+-Corrige un bug de non application des filtres sur les images dans certains cas
+-Corrige le bug de sélection impossible des options de génération par défaut au 1er lancement
 
 English version / Bug fix :
--Add TIF extension in the supported extension list
--Add an icon to the timeline to symbolise when at least one block of the slide have a transformation
--Improve again video reading
--Use system dialog box for opening files
+-Bug fix : Filters some times not apply on some images
+-Bug fix : Impossible to set default render options at first application start
 
 French version / Nouvelles fonctionnalités :
 
@@ -77,6 +73,8 @@ Bug fix French version
 -Supprime les seek inutiles lors de l'encodage du son (revient à une vitesse d'encodage normal)
 -Remet les icones manquantes pour les transitions dans la boite de configuration
 -Corrige les erreurs de marges (erreur d'arrondie) quand la taille des bloques change
+-Améliore encore la lecture des vidéos
+-Remet les boites de dialogue systèmes pour l'ouverture des fichiers
 
 Bug fix English version
 -When exit the application, even when answer yes, modifications are not saved
@@ -117,6 +115,8 @@ Bug fix English version
 -Remove unwanted seek when rendering sound (now sound rendering time is correct)
 -Restore missing icons for transition in option dialog
 -Fix margin error (rounded error) when blocks size change
+-Improve again video reading
+-Use system dialog box for opening files
 
 French version / Nouvelles fonctionnalités
 -Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
@@ -185,6 +185,8 @@ Prend en compte ffmpeg 0.10
 -Ajoute le x264 lossless dans la liste des codecs video pour génération et l'autorise pour le MKV
 -Ajoute un bouton lossless dans les boutons de génération de la fenêtre principale
 -Ajoute la sélection du format d'image par défaut pour le lossless dans la boite de configuration
+-Ajoute TIF en plus de TIFF dans la liste des extensions supportées
+-Ajoute une icône dans la timeline pour indiquer les slides comprenant au moins un bloque avec transformation
 
 English version / New features
 -Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
@@ -253,3 +255,5 @@ Enable ffmpeg 0.10
 -Add x264 lossless to video codecs list for rendering and allow it for MKV
 -Add a lossless button in render button of the main window
 -Add a default lossless image format selection in option dialog
+-Add TIF extension in the supported extension list
+-Add an icon to the timeline to symbolise when at least one block of the slide have a transformation

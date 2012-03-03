@@ -41,6 +41,7 @@
 #define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=4205&lang=<local>"
 #define HELPFILE_DlgManageDevices           "http://ffdiaporama.tuxfamily.org/?page_id=4023&lang=<local>"
 #define HELPFILE_DlgInfoFile                "http://ffdiaporama.tuxfamily.org/?page_id=4206&lang=<local>"
+#define HELPFILE_DlgJob                     "http://ffdiaporama.tuxfamily.org/?page_id=%1&lang=<local>"
 
 #define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de"
 

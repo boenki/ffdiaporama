@@ -192,18 +192,6 @@ unix {
     mimefile.files      = ../../ffDiaporama-mime.xml
     INSTALLS 		+= mimefile
 
-    # install icon files for GNOME systems
-    #exists(/usr/share/icons/gnome/32x32/mimetypes) {
-    #    iconfile.path   = $$PREFIX/share/icons/gnome/32x32/mimetypes
-    #    iconfile.files  = ../../application-ffDiaporama.png
-    #}
-    # install icon files for KDE systems
-    #exists(/usr/share/icons/default.kde4/32x32/mimetypes) {
-    #    iconfile.path   = $$PREFIX/share/icons/default.kde4/32x32/mimetypes
-    #    iconfile.files  = ../../application-ffDiaporama.png
-    #}
-    #INSTALLS 		+= iconfile
-
     # install desktop files /opt version
     contains(PREFIX,/opt) {
         desktop.path    = $$PREFIX/share/applications

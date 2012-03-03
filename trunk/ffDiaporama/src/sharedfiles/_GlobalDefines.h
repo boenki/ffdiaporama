@@ -45,10 +45,10 @@
 //====================================================================
 // For windows, windows.h and winbase.h must be included after QtCore
 //====================================================================
-#if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
-#include <windows.h>
-#include <winbase.h>
-extern bool IsWindowsXP;    // True if OS is Windows/XP
+#ifdef Q_OS_WIN
+    #include <windows.h>
+    #include <winbase.h>
+    extern bool IsWindowsXP;    // True if OS is Windows/XP
 #endif
 
 //====================================================================

@@ -62,7 +62,7 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->HiddenCB->setChecked(ApplicationConfig->ShowHiddenFilesAndDir);
     ui->FoldersFirstCB->setChecked(ApplicationConfig->ShowFoldersFirst);
     ui->Crop1088To1080CB->setChecked(ApplicationConfig->Crop1088To1080);
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+    #ifdef Q_OS_WIN
         ui->RasterModeCB->setVisible(false);
         ui->OnlyMediaDrivesCB->setVisible(false);
     #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
@@ -103,7 +103,7 @@ void DlgApplicationSettings::DoAccept() {
     ThumbSize=ui->ThumbSMusicCB->currentText();   ApplicationConfig->Music_ThumbWidth=ThumbSize.left(ThumbSize.indexOf("x")).toInt();    ApplicationConfig->Music_ThumbHeight=ThumbSize.mid(ThumbSize.indexOf("x")+1).toInt();
     ThumbSize=ui->ThumbSVideoCB->currentText();   ApplicationConfig->Video_ThumbWidth=ThumbSize.left(ThumbSize.indexOf("x")).toInt();    ApplicationConfig->Video_ThumbHeight=ThumbSize.mid(ThumbSize.indexOf("x")+1).toInt();
 
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
         ApplicationConfig->RasterMode           =ui->RasterModeCB->isChecked();
         ApplicationConfig->ShowMntDrive         =!ui->OnlyMediaDrivesCB->isChecked();
     #endif

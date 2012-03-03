@@ -48,6 +48,7 @@ void wgt_JobConvertImage::DoInitDialog() {
     connect(ui->DontUpscaleCB,  SIGNAL(released()),this,SLOT(s_DontUpscaleCB()));
     connect(ui->RescalCombo,    SIGNAL(currentIndexChanged(int)),this,SLOT(s_RescalCombo(int)));
     connect(ui->QualitySL,      SIGNAL(valueChanged(int)),this,SLOT(s_QualitySL(int)));
+    connect(ui->RotateCB,       SIGNAL(released()),this,SLOT(s_RotateCB()));
 }
 
 //====================================================================================================================
@@ -59,6 +60,7 @@ void wgt_JobConvertImage::RefreshControls() {
     ui->DestFormatCB->setCurrentIndex(ui->DestFormatCB->findText(Job->DestinationExtension));
     ui->RescalCB->setChecked(Job->IsCommandListContain("-SRS"));
     ui->DontUpscaleCB->setChecked(Job->IsCommandListContain("-DUP"));
+    ui->RotateCB->setChecked(Job->IsCommandListContain("-FRT"));
     ui->RescalCombo->setEnabled(ui->RescalCB->isChecked());
     ui->DontUpscaleCB->setEnabled(ui->RescalCB->isChecked());
     if (Job->IsCommandListContain("-Q")) Quality=Job->CommandListValue("-Q");
@@ -68,6 +70,8 @@ void wgt_JobConvertImage::RefreshControls() {
     ui->QualitySL->setEnabled    ((Job->DestinationExtension!="tiff")&&(Job->DestinationExtension!="bmp")&&(Job->DestinationExtension!="ppm"));
     ui->QualityLabel->setEnabled ((Job->DestinationExtension!="tiff")&&(Job->DestinationExtension!="bmp")&&(Job->DestinationExtension!="ppm"));
     ui->QualityLabel0->setEnabled((Job->DestinationExtension!="tiff")&&(Job->DestinationExtension!="bmp")&&(Job->DestinationExtension!="ppm"));
+    ui->QualityLabel0->setText((Job->DestinationExtension=="png")?QApplication::translate("wgt_JobConvertImage","Compression :"):QApplication::translate("wgt_JobConvertImage","Quality :"));
+    ui->RotateCB->setEnabled(Job->DestinationExtension=="jpg");
 }
 
 //====================================================================================================================
@@ -86,9 +90,8 @@ QString wgt_JobConvertImage::ComputeDestSuffix(cBaseMediaFile *MediaFile) {
     int         i=0;
     QStringList CommandList=Job->Command.split("##");
     Job->Command="";
-    while (i<CommandList.count()) if ((CommandList[i].startsWith("-SSX"))||(CommandList[i].startsWith("-SRT"))) CommandList.removeAt(i); else i++;
+    while (i<CommandList.count()) if (CommandList[i].startsWith("-SSX")) CommandList.removeAt(i); else i++;
     CommandList.append(QString("-SSX:%1").arg(SizeSuffix));
-    CommandList.append(QString("-SRT:%1").arg(MediaFile->ImageOrientation));
     for (int i=0;i<CommandList.count();i++) Job->Command=(Job->Command!=""?Job->Command+"##":"")+CommandList[i];
     return SizeSuffix;
 }
@@ -108,7 +111,7 @@ void wgt_JobConvertImage::AppendJobSummary(int index,QString *JobSummary,cJobQue
     }
 
     if (MediaFile!=NULL) {
-        bool ForceRotate=(MediaFile->ImageOrientation!=1)&&((Job->DestinationExtension=="tiff")||(Job->DestinationExtension=="bmp")||(Job->DestinationExtension=="ppm")||(Job->DestinationExtension=="png"));
+        bool ForceRotate=(MediaFile->ImageOrientation!=1)&&((Job->DestinationExtension!="jpg")||(Job->IsCommandListContain("-FRT")));
         int  ImageWidth =MediaFile->ImageWidth;
         int  ImageHeight=MediaFile->ImageHeight;
         if (Job->IsCommandListContain("-SRS")) {
@@ -216,6 +219,20 @@ void wgt_JobConvertImage::s_QualitySL(int Quality) {
     Job->Command="";
     while (i<CommandList.count()) if (CommandList[i].startsWith("-Q")) CommandList.removeAt(i); else i++;
     CommandList.append(QString("-Q:%1").arg(Quality));
+    for (int i=0;i<CommandList.count();i++) Job->Command=(Job->Command!=""?Job->Command+"##":"")+CommandList[i];
+    emit NeedRefreshControls();
+}
+
+//====================================================================================================================
+
+void wgt_JobConvertImage::s_RotateCB() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_JobConvertImage::s_RotateCB");
+
+    int         i=0;
+    QStringList CommandList=Job->Command.split("##");
+    Job->Command="";
+    while (i<CommandList.count()) if (CommandList[i].startsWith("-FRT")) CommandList.removeAt(i); else i++;
+    if (ui->RotateCB->isChecked()) CommandList.append(QString("-FRT"));
     for (int i=0;i<CommandList.count();i++) Job->Command=(Job->Command!=""?Job->Command+"##":"")+CommandList[i];
     emit NeedRefreshControls();
 }

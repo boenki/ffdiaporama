@@ -27,7 +27,6 @@
 #include <QPainter>
 
 // Include some additional standard class
-#include "cDeviceModelDef.h"
 #include "cBaseMediaFile.h"
 #include "cLuLoImageCache.h"
 
@@ -651,7 +650,7 @@ void cFolder::GetFullInformationFromFile() {
         for (int j=0;j<Directorys.count();j++) if (Directorys[j].fileName().toLower()=="desktop.ini") {
             QFile   FileIO(AdjustedFileName+Directorys[j].fileName());
             QString IconFile ="";
-            #if defined(Q_OS_WIN)
+            #ifdef Q_OS_WIN
             int     IconIndex=0;
             #endif
             if (FileIO.open(QIODevice::ReadOnly/*|QIODevice::Text*/)) {
@@ -670,7 +669,7 @@ void cFolder::GetFullInformationFromFile() {
                         Line=AllInfo;
                         AllInfo="";
                     }
-                    #if defined(Q_OS_WIN)
+                    #ifdef Q_OS_WIN
                     if ((Line.toUpper().startsWith("ICONINDEX"))&&(Line.indexOf("=")!=-1)) {
                         IconIndex=Line.mid(Line.indexOf("=")+1).toInt();
                     } else
@@ -690,7 +689,7 @@ void cFolder::GetFullInformationFromFile() {
                 FileIO.close();
             }
             if (IconFile.toLower().endsWith(".jpg") || IconFile.toLower().endsWith(".png") || IconFile.toLower().endsWith(".ico")) LoadIcons(IconFile);
-            #if defined(Q_OS_WIN)
+            #ifdef Q_OS_WIN
             else LoadIcons(GetIconForFileOrDir(IconFile,IconIndex));
             #endif
         }
@@ -974,10 +973,10 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
     // ******************************************************************************************************
     // Try to load EXIF information using library exiv2 [Linux version]
     // ******************************************************************************************************
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
         Exiv2::Image::AutoPtr ImageFile;
         try {
-            #if defined(Q_OS_WIN)
+            #ifdef Q_OS_WIN
                 ImageFile=Exiv2::ImageFactory::open(FileName.toLocal8Bit().data());
             #else
                 ImageFile=Exiv2::ImageFactory::open(FileName.toUtf8().data());
@@ -1001,7 +1000,7 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
                     if ((CurrentData->typeId()!=Exiv2::undefined)&&
                         (!(((CurrentData->typeId()==Exiv2::unsignedByte)||(CurrentData->typeId()==Exiv2::signedByte))&&(CurrentData->size()>64)))) {
                         QString Key  =QString().fromStdString(CurrentData->key());
-                        #if defined(Q_OS_WIN)
+                        #ifdef Q_OS_WIN
                         QString Value=QString().fromStdString(CurrentData->print(&exifData).c_str());
                         #else
                         QString Value=QString().fromUtf8(CurrentData->print(&exifData).c_str());
@@ -1057,6 +1056,24 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
                             delete Icon;
                             Icon=NewImage;
                         }
+
+                        // Sometimes, Icon have black bar : try to remove them
+                        if ((double(Icon->width())/double(Icon->height()))!=(double(ImageWidth)/double(ImageHeight))) {
+                            if (ImageWidth>ImageHeight) {
+                                int RealHeight=int((double(Icon->width())*double(ImageHeight))/double(ImageWidth));
+                                int Delta     =Icon->height()-RealHeight;
+                                QImage *NewImage=new QImage(Icon->copy(0,Delta/2,Icon->width(),Icon->height()-Delta));
+                                delete Icon;
+                                Icon=NewImage;
+                            } else {
+                                int RealWidth=int((double(Icon->height())*double(ImageWidth))/double(ImageHeight));
+                                int Delta     =Icon->width()-RealWidth;
+                                QImage *NewImage=new QImage(Icon->copy(Delta/2,0,Icon->width()-Delta,Icon->height()));
+                                delete Icon;
+                                Icon=NewImage;
+                            }
+                        }
+
                         // if preview Icon have a really small size, then don't use it
                         if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
                     }
@@ -1355,10 +1372,10 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Open file and get a LibAVFormat context and an associated LibAVCodec decoder
     //*********************************************************************************************************
-    #if (LIBAVFORMAT_VERSION_MAJOR>=53)
-    if (avformat_open_input(&ffmpegFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return;
-    #else
+    #ifdef OLDFFMPEG
     if (av_open_input_file(&ffmpegFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return;
+    #else
+    if (avformat_open_input(&ffmpegFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return;
     #endif
 
     ffmpegFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
@@ -1366,14 +1383,14 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Search stream in file
     //*********************************************************************************************************
-    #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
-    if (avformat_find_stream_info(ffmpegFile,NULL)<0) {
-        avformat_close_input(&ffmpegFile);
+    #ifdef OLDFFMPEG
+    if (av_find_stream_info(ffmpegFile)<0) {
+        av_close_input_file(ffmpegFile);// deprecated : use avformat_find_stream_info instead
         return;
     }
     #else
-    if (av_find_stream_info(ffmpegFile)<0) {
-        av_close_input_file(ffmpegFile);// deprecated : use avformat_find_stream_info instead
+    if (avformat_find_stream_info(ffmpegFile,NULL)<0) {
+        avformat_close_input(&ffmpegFile);
         return;
     }
     #endif
@@ -1381,7 +1398,7 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Get metadata
     //*********************************************************************************************************
-    #if (LIBAVFORMAT_VERSION_MAJOR<53)
+    #ifdef OLDFFMPEG
     AVMetadataTag *tag=NULL;
     while ((tag=av_metadata_get(ffmpegFile->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX))) {
     #else
@@ -1389,7 +1406,7 @@ void cVideoFile::GetFullInformationFromFile() {
     while ((tag=av_dict_get(ffmpegFile->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
     #endif
         QString Value=QString().fromUtf8(tag->value);
-        #if defined(Q_OS_WIN)
+        #ifdef Q_OS_WIN
         Value.replace(char(13),"\n");
         #endif
         if (Value.endsWith("\n")) Value=Value.left(Value.lastIndexOf("\n"));
@@ -1410,7 +1427,7 @@ void cVideoFile::GetFullInformationFromFile() {
         InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(End).toString("hh:mm:ss.zzz"));
         InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(End-Start).toString("hh:mm:ss.zzz"));
             // Chapter metadata
-            #if (LIBAVFORMAT_VERSION_MAJOR<53)
+            #ifdef OLDFFMPEG
             while ((tag=av_metadata_get(ch->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX)))
             #else
             while ((tag=av_dict_get(ch->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
@@ -1503,7 +1520,7 @@ void cVideoFile::GetFullInformationFromFile() {
             }
 
             // Stream metadata
-            #if (LIBAVFORMAT_VERSION_MAJOR<53)
+            #ifdef OLDFFMPEG
             while ((tag=av_metadata_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX))) {
             #else
             while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
@@ -1552,7 +1569,7 @@ void cVideoFile::GetFullInformationFromFile() {
             }
 
             // Stream metadata
-            #if (LIBAVFORMAT_VERSION_MAJOR<53)
+            #ifdef OLDFFMPEG
             while ((tag=av_metadata_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX)))
             #else
             while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
@@ -1573,10 +1590,10 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Close file
     //*********************************************************************************************************
-    #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
-    avformat_close_input(&ffmpegFile);
-    #else
+    #ifdef OLDFFMPEG
     av_close_input_file(ffmpegFile);
+    #else
+    avformat_close_input(&ffmpegFile);
     #endif
 
     //*********************************************************************************************************
@@ -1709,10 +1726,10 @@ void cVideoFile::CloseCodecAndFile() {
 
     // Close the video file
     if (ffmpegVideoFile!=NULL) {
-        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
-            avformat_close_input(&ffmpegVideoFile);
+        #ifdef OLDFFMPEG
+        av_close_input_file(ffmpegVideoFile);
         #else
-            av_close_input_file(ffmpegVideoFile);
+        avformat_close_input(&ffmpegVideoFile);
         #endif
         ffmpegVideoFile=NULL;
     }
@@ -1724,10 +1741,10 @@ void cVideoFile::CloseCodecAndFile() {
     }
     // Close the audio file
     if (ffmpegAudioFile!=NULL) {
-        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
-            avformat_close_input(&ffmpegAudioFile);
+        #ifdef OLDFFMPEG
+        av_close_input_file(ffmpegAudioFile);
         #else
-            av_close_input_file(ffmpegAudioFile);
+        avformat_close_input(&ffmpegAudioFile);
         #endif
         ffmpegAudioFile=NULL;
     }
@@ -1778,7 +1795,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     if (ffmpegAudioFile->start_time!=AVNOPTSVALUE)
         dPosition+=double(ffmpegAudioFile->start_time)/double(AV_TIME_BASE);
 
-    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+    #ifdef OLDFFMPEG
         // if Old ffmpeg : Prepare a buffer for sound decoding
         uint8_t *BufferToDecode=(uint8_t *)av_malloc(48000*4*2);   // 2 sec buffer
     #endif
@@ -1831,7 +1848,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                 // NOTE: the audio packet can contain several frames
                 if (FramePosition!=-1) while (PacketTemp.size>0) {
 
-                    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+                    #ifdef OLDFFMPEG
                     // Decode audio data
                     int SizeDecoded     =(AVCODEC_MAX_AUDIO_FRAME_SIZE*3)/2;
                     int Len             =avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
@@ -1849,11 +1866,11 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                         // if error, we skip the frame and exit the while loop
                         PacketTemp.size=0;
                     } else if (SizeDecoded>0) {
-                        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
+                        #ifdef OLDFFMPEG
+                        FrameDuration=double(SizeDecoded)/(double(SrcSampleSize)*double(AudioStream->codec->sample_rate));
+                        #else
                         SizeDecoded  =Frame->nb_samples*SrcSampleSize;
                         FrameDuration=double(Frame->nb_samples)/double(AudioStream->codec->sample_rate);
-                        #else
-                        FrameDuration=double(SizeDecoded)/(double(SrcSampleSize)*double(AudioStream->codec->sample_rate));
                         #endif
 
                         // If wanted position <= CurrentPosition+Packet duration then add this packet to the queue
@@ -1865,7 +1882,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                                 Delta*=SrcSampleSize;
                             }
                             // Append decoded data to BufferForDecoded buffer
-                            #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+                            #ifdef OLDFFMPEG
                             memcpy(BufferForDecoded+AudioLenDecoded,BufferToDecode+Delta,SizeDecoded-Delta);
                             #else
                             memcpy(BufferForDecoded+AudioLenDecoded,Frame->data[0]+Delta,SizeDecoded-Delta);
@@ -1878,7 +1895,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                         FramePosition           =FramePosition+FrameDuration;
                         LastAudioReadedPosition =int(FramePosition*1000);    // Keep NextPacketPosition for determine next time if we need to seek
                     }
-                    #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
+                    #ifndef OLDFFMPEG
                     av_free(Frame);
                     #endif
                 }
@@ -2067,7 +2084,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     // Now ensure SoundTrackBloc have correct wanted packet (if no then add nullsound)
     //while (SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS) SoundTrackBloc->AppendNullSoundPacket();
 
-    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+    #ifdef OLDFFMPEG
     if (BufferToDecode)   av_free(BufferToDecode);
     #endif
     if (BufferForDecoded) av_free(BufferForDecoded);
@@ -2358,22 +2375,21 @@ bool cVideoFile::OpenCodecAndFile() {
     // Open audio stream
     if (AudioStreamNumber!=-1) {
         // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
-        #if (LIBAVFORMAT_VERSION_MAJOR>=53)
-            if (avformat_open_input(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
+        #ifdef OLDFFMPEG
+        if (av_open_input_file(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
         #else
-            if (av_open_input_file(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
+        if (avformat_open_input(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
         #endif
 
         ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
 
-        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
-            if (avformat_find_stream_info(ffmpegAudioFile,NULL)<0) {
-                avformat_close_input(&ffmpegAudioFile);
+        #ifdef OLDFFMPEG
+        if (av_find_stream_info(ffmpegAudioFile)<0) {    // deprecated : use avformat_find_stream_info instead
+            av_close_input_file(ffmpegAudioFile);
         #else
-            if (av_find_stream_info(ffmpegAudioFile)<0) {    // deprecated : use avformat_find_stream_info instead
-                av_close_input_file(ffmpegAudioFile);
+        if (avformat_find_stream_info(ffmpegAudioFile,NULL)<0) {
+            avformat_close_input(&ffmpegAudioFile);
         #endif
-
             return false;
         }
 
@@ -2393,17 +2409,12 @@ bool cVideoFile::OpenCodecAndFile() {
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-        #if defined(FF_API_ER)
-            //ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
-        #else
-            //ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
-        #endif
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_concealment=3;
 
-        #if defined(FF_API_AVCODEC_OPEN)
-        if ((AudioDecoderCodec==NULL)||(avcodec_open2(ffmpegAudioFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec,NULL)<0)) return false;
-        #else
+        #ifdef OLDFFMPEG
         if ((AudioDecoderCodec==NULL)||(avcodec_open(ffmpegAudioFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec)<0)) return false;
+        #else
+        if ((AudioDecoderCodec==NULL)||(avcodec_open2(ffmpegAudioFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec,NULL)<0)) return false;
         #endif
         IsOpen=true;
     }
@@ -2412,22 +2423,21 @@ bool cVideoFile::OpenCodecAndFile() {
     if ((VideoStreamNumber!=-1)&&(!MusicOnly)) {
 
         // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
-        #if (LIBAVFORMAT_VERSION_MAJOR>=53)
-            if (avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
+        #ifdef OLDFFMPEG
+        if (av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
         #else
-            if (av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
+        if (avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
         #endif
 
         ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
 
-        #if (LIBAVFORMAT_VERSION_MAJOR>53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=23))
-            if (avformat_find_stream_info(ffmpegVideoFile,NULL)<0) {
-                avformat_close_input(&ffmpegVideoFile);
+        #ifdef OLDFFMPEG
+        if (av_find_stream_info(ffmpegVideoFile)<0) {    // deprecated : use avformat_find_stream_info instead
+            av_close_input_file(ffmpegVideoFile);
         #else
-            if (av_find_stream_info(ffmpegVideoFile)<0) {    // deprecated : use avformat_find_stream_info instead
-                av_close_input_file(ffmpegVideoFile);
+        if (avformat_find_stream_info(ffmpegVideoFile,NULL)<0) {
+            avformat_close_input(&ffmpegVideoFile);
         #endif
-
             return false;
         }
 
@@ -2446,11 +2456,6 @@ bool cVideoFile::OpenCodecAndFile() {
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-        #if defined(FF_API_ER)
-            //ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
-        #else
-            //ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_recognition=FF_ER_CAREFUL;        // Error recognization; higher values will detect more errors but may misdetect some more or less valid parts as errors.
-        #endif
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
 
         // h264 specific
@@ -2458,10 +2463,10 @@ bool cVideoFile::OpenCodecAndFile() {
         //ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_ALL;        // Reduce quality but speed reading !
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_BIDIR;
 
-        #if defined(FF_API_AVCODEC_OPEN)
-            if ((VideoDecoderCodec==NULL)||(avcodec_open2(ffmpegVideoFile->streams[VideoStreamNumber]->codec,VideoDecoderCodec,NULL)<0)) {
+        #ifdef OLDFFMPEG
+        if ((VideoDecoderCodec==NULL)||(avcodec_open(ffmpegVideoFile->streams[VideoStreamNumber]->codec,VideoDecoderCodec)<0)) {
         #else
-            if ((VideoDecoderCodec==NULL)||(avcodec_open(ffmpegVideoFile->streams[VideoStreamNumber]->codec,VideoDecoderCodec)<0)) {
+        if ((VideoDecoderCodec==NULL)||(avcodec_open2(ffmpegVideoFile->streams[VideoStreamNumber]->codec,VideoDecoderCodec,NULL)<0)) {
         #endif
             CloseCodecAndFile();
             return false;

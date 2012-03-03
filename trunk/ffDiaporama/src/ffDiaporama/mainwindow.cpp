@@ -489,7 +489,9 @@ void MainWindow::RefreshControls() {
     ui->ActionSmartphone_BT->setEnabled(ui->timeline->NbrItem()>0);                                         ui->ActionSmartphone_BT_2->setEnabled(ui->timeline->NbrItem()>0);
     ui->ActionMultimedia_BT->setEnabled(ui->timeline->NbrItem()>0);                                         ui->ActionMultimedia_BT_2->setEnabled(ui->timeline->NbrItem()>0);
     ui->ActionForTheWEB_BT->setEnabled(ui->timeline->NbrItem()>0);                                          ui->ActionForTheWEB_BT_2->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionLossLess_BT->setEnabled(ui->timeline->NbrItem()>0);                                           ui->ActionLossLess_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+
+    ui->ActionLossLess_BT->setEnabled((ui->timeline->NbrItem()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
+    ui->ActionLossLess_BT_2->setEnabled((ui->timeline->NbrItem()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
 
     ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+QString("%1").arg(Diaporama->CurrentCol+1)+" / "+QString("%1").arg(Diaporama->List.count()));
 }
@@ -1036,7 +1038,7 @@ void MainWindow::s_Action_New() {
     if ((Diaporama->IsModify)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","New project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
 
-    ApplicationConfig->ImagesCache.List.clear();
+    while (ApplicationConfig->ImagesCache.List.count()>0) delete ApplicationConfig->ImagesCache.List.takeLast();
     cDiaporama *NewDiaporama=new cDiaporama(ApplicationConfig);
 
     // Clean actual timeline and diaporama

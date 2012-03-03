@@ -46,6 +46,7 @@ public:
 private slots:
     void            s_DestFormatCB(int);
     void            s_RescalCB();
+    void            s_RotateCB();
     void            s_DontUpscaleCB();
     void            s_RescalCombo(int);
     void            s_QualitySL(int);

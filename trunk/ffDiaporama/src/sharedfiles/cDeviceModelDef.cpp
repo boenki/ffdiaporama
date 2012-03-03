@@ -525,13 +525,13 @@ void cDeviceModelList::TranslatRenderType() {
 void cDeviceModelList::Initffmpeg() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::Initffmpeg");
     ToLog(LOGMSG_INFORMATION,"Starting ffmpeg lib ...");
-    #ifndef FF_API_AVCODEC_INIT
+    #ifndef OLDFFMPEG
     avcodec_register_all();
     //avcodec_init();
     #endif
 
     av_register_all();
-    #if (LIBAVFORMAT_VERSION_MAJOR>=53) && (LIBAVFORMAT_VERSION_MINOR>=23)
+    #ifndef OLDFFMPEG
     avformat_network_init();
     #endif
 

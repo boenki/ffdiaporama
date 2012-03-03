@@ -864,11 +864,9 @@ void DlgRenderVideo::accept() {
                                         }
                                         break;
                 case VCODEC_H264HQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
-                                        #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
-                                        //#if (LIBAVFORMAT_VERSION_MAJOR<54)
+                                        #ifdef OLDFFMPEGPRESET
                                         Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
                                         #else
-                                        //Preset="-fpre \""+Preset+"libx264-hq-10.ffpreset\"";
                                         Preset="-preset veryfast -x264opts ref=3";
                                         #endif
                                         vCodec=QString("-vcodec libx264 -pix_fmt yuv420p ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
@@ -878,11 +876,9 @@ void DlgRenderVideo::accept() {
                                             .arg(VideoBitRate);
                                         break;
                 case VCODEC_H264PQ  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
-                                        #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
-                                        //#if (LIBAVFORMAT_VERSION_MAJOR<54)
+                                        #ifdef OLDFFMPEGPRESET
                                         Preset="-fpre \""+Preset+"libx264-pq.ffpreset\"";
                                         #else
-                                        //Preset="-fpre \""+Preset+"libx264-pq-10.ffpreset\"";
                                         Preset="-preset veryfast -x264opts level=1.3:no-cabac:vbv-bufsize=768:vbv-maxrate=768";
                                         #endif
                                         vCodec=QString("-vcodec libx264 -pix_fmt yuv420p ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
@@ -892,7 +888,7 @@ void DlgRenderVideo::accept() {
                                             .arg(VideoBitRate);
                                         break;
                 case VCODEC_X264LL  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
-                                        #if (LIBAVFORMAT_VERSION_MAJOR<54)
+                                        #ifdef OLDFFMPEGPRESET
                                         Preset="-fpre \""+Preset+"libx264-lossless.ffpreset\"";
                                         #else
                                         Preset="-preset veryfast -qp 0";
@@ -915,7 +911,7 @@ void DlgRenderVideo::accept() {
                     Continue=false;
                     break;
             }
-            #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+            #ifdef OLDFFMPEG
             vCodec.replace(" -b:0 "," -b "); // switch to old syntax
             #endif
 
@@ -926,11 +922,11 @@ void DlgRenderVideo::accept() {
                     case CODEC_ID_MP2:          aCodec=QString("-acodec mp2 -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_MP3:          aCodec=QString("-acodec libmp3lame -ab %1").arg(AudioBitRate); break;
                     case CODEC_ID_AAC:          if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac")) {
-                                                    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+                                                    #ifdef OLDFFMPEG
                                                         aCodec=QString("-acodec aac -strict experimental -ab %1 -absf aac_adtstoasc").arg(AudioBitRate);
                                                     #else
                                                         aCodec=QString("-acodec libvo_aacenc -ab %1").arg(AudioBitRate);
-                                                        #if (LIBAVFORMAT_VERSION_MAJOR>53)||((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>28))
+                                                        #ifdef FFMPEGALLOWBSF
                                                             aCodec=aCodec+" -bsf:1 aac_adtstoasc";
                                                         #endif
                                                     #endif
@@ -946,7 +942,7 @@ void DlgRenderVideo::accept() {
                         Continue=false;
                         break;
                 }
-                #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+                #ifdef OLDFFMPEG
                 aCodec=aCodec+" -alang "+Language;
                 #else
                 aCodec=aCodec+" -metadata:s:1 language="+Language;
@@ -1002,7 +998,7 @@ void DlgRenderVideo::accept() {
 
                     File.close();
 
-                    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+                    #ifdef OLDFFMPEG
                     TAG=" -i \""+TempMETAFileName+"\"  -map_metadata 0:"+(ui->IncludeSoundCB->isChecked()?"2":"1")+" -map_chapters 0:"+(ui->IncludeSoundCB->isChecked()?"2":"1");
                     #else
                     TAG=" -i \""+TempMETAFileName+"\"  -map_metadata:g "+(ui->IncludeSoundCB->isChecked()?"2":"1")+" -map_chapters "+(ui->IncludeSoundCB->isChecked()?"2":"1");;
@@ -1014,7 +1010,7 @@ void DlgRenderVideo::accept() {
                 ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Start ffmpeg encoder"));
                 int GeoW=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARNUM;
                 int GeoH=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARDEN;
-                #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
+                #ifdef Q_OS_WIN
                 ffmpegCommand="\""+Diaporama->ApplicationConfig->PathFFMPEG+"\"";
                 #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
                 ffmpegCommand=Diaporama->ApplicationConfig->PathFFMPEG;
@@ -1030,7 +1026,7 @@ void DlgRenderVideo::accept() {
                 ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r ")+QString(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+" -i -"+
                         (ui->IncludeSoundCB->isChecked()?" -i \""+TempWAVFileName+"\"":"")+
                         TAG+
-                        #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+                        #ifdef OLDFFMPEG
                         " -timestamp now"+
                         #endif
                         " -dframes "+QString("%1").arg(NbrFrame)+" "+vCodec+AddSizestr+" -r "+          // -shortest
@@ -1209,7 +1205,7 @@ QString DlgRenderVideo::AdjustMETA(QString Text) {
     //Text.replace("\\","\\\\");
     Text.replace("\n","\\\n");
     Text=Text+"\n";
-    #if defined(Q_OS_WIN)
+    #ifdef Q_OS_WIN
         return Text.toUtf8();
     #else
         return Text;
@@ -1258,8 +1254,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             WriteWAV.OutputFormatContext->oformat  =Fmt;
             //OutputFormatContext->timestamp=0;
             WriteWAV.OutputFormatContext->bit_rate =1536;
-            #if FF_API_FORMAT_PARAMETERS
-            #else
+            #ifdef OLDFFMPEG
             AVFormatParameters fpOutFile;
             memset(&fpOutFile,0,sizeof(AVFormatParameters));
             if (av_set_parameters(WriteWAV.OutputFormatContext,&fpOutFile)<0) {
@@ -1272,10 +1267,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
     // Allocate AudioStream
     if (Continue) {
-        #if FF_API_NEW_STREAM
-        WriteWAV.AudioStream=avformat_new_stream(WriteWAV.OutputFormatContext,0);
-        #else
+        #ifdef OLDFFMPEG
         WriteWAV.AudioStream=av_new_stream(WriteWAV.OutputFormatContext,0);
+        #else
+        WriteWAV.AudioStream=avformat_new_stream(WriteWAV.OutputFormatContext,0);
         #endif
         if (WriteWAV.AudioStream==NULL) {
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream!");
@@ -1286,10 +1281,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     // Open audio codec
     if (Continue) {
         WriteWAV.AudioCodecContext=WriteWAV.AudioStream->codec;
-        #if FF_API_ALLOC_CONTEXT
-        avcodec_get_context_defaults3(WriteWAV.AudioCodecContext,NULL);     // Fill stream with default values
-        #else
+        #ifdef OLDFFMPEG
         avcodec_get_context_defaults2(WriteWAV.AudioCodecContext,AVMEDIA_TYPE_AUDIO);    // Fill stream with default values
+        #else
+        avcodec_get_context_defaults3(WriteWAV.AudioCodecContext,NULL);     // Fill stream with default values
         #endif
         AudioCodec=avcodec_find_encoder(CODEC_ID_PCM_S16LE);                    // Open Audio encoder
         if (!AudioCodec) {
@@ -1313,7 +1308,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             WriteWAV.AudioCodecContext->flags               |= CODEC_FLAG_GLOBAL_HEADER;
 
             // open the codec
-            #ifndef FF_API_AVCODEC_OPEN
+            #ifdef OLDFFMPEG
             if (avcodec_open(WriteWAV.AudioCodecContext,AudioCodec)<0) {
             #else
             if (avcodec_open2(WriteWAV.AudioCodecContext,AudioCodec,NULL)<0) {
@@ -1330,10 +1325,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     // open the file for writing
     if (Continue) {
         int Err=0;
-        #if FF_API_OLD_AVIO
-            if ((Err=avio_open(&WriteWAV.OutputFormatContext->pb,TempWAVFileName.toUtf8(),AVIO_FLAG_WRITE))<0) {
+        #ifdef OLDFFMPEG
+        if (url_fopen(&WriteWAV.OutputFormatContext->pb,TempWAVFileName.toUtf8(),URL_WRONLY)<0) {
         #else
-            if (url_fopen(&WriteWAV.OutputFormatContext->pb,TempWAVFileName.toUtf8(),URL_WRONLY)<0) {
+        if ((Err=avio_open(&WriteWAV.OutputFormatContext->pb,TempWAVFileName.toUtf8(),AVIO_FLAG_WRITE))<0) {
         #endif
             char Buf[500];
             av_strerror(Err,Buf,500);
@@ -1354,10 +1349,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
     // write the header
     if ((Continue)&&
-        #if FF_API_FORMAT_PARAMETERS
-            (avformat_write_header(WriteWAV.OutputFormatContext,NULL)<0)) {
-        #else
+        #ifdef OLDFFMPEG
             (av_write_header(WriteWAV.OutputFormatContext)!=0)) {
+        #else
+            (avformat_write_header(WriteWAV.OutputFormatContext,NULL)<0)) {
         #endif
         CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file!");
         Continue=false;
@@ -1466,10 +1461,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     if (PreviousFrame)  delete PreviousFrame;
     if (Frame)          delete Frame;
     if (WriteWAV.OutputFormatContext) {
-        #if FF_API_OLD_AVIO
-        if (WriteWAV.OutputFormatContext->pb) avio_close(WriteWAV.OutputFormatContext->pb);                                   // close the file
-        #else
+        #ifdef OLDFFMPEG
         if (WriteWAV.OutputFormatContext->pb) url_fclose(WriteWAV.OutputFormatContext->pb);                                   // close the file
+        #else
+        if (WriteWAV.OutputFormatContext->pb) avio_close(WriteWAV.OutputFormatContext->pb);                                   // close the file
         #endif
         if (WriteWAV.OutputFormatContext->streams[0]) {
             avcodec_close(WriteWAV.AudioStream->codec);                                                              // close codec

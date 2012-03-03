@@ -80,7 +80,7 @@ void cApplicationConfig::InitValues() {
     DefaultSourceFolder     ="";
     DefaultDestinationFolder="";
 
-    #if defined(Q_OS_WIN)
+    #ifdef Q_OS_WIN
     QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
     CurrentPath=Settings.value("Personal").toString();
     #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)

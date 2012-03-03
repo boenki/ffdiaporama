@@ -61,7 +61,7 @@ void DlgApplicationSettings::DoInitDialog() {
     // Application options
     ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
     ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
-    #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+    #ifdef Q_OS_WIN
         ui->RasterModeCB->setVisible(false);
         ui->SDLAudioModeCB->setVisible(false);
     #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
@@ -125,12 +125,12 @@ void DlgApplicationSettings::DoInitDialog() {
     ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->ST_Text_TextCB,        ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_TextST),false);
     ApplicationConfig->StyleTextBackgroundCollection.   FillCollectionCB(ui->ST_Text_BackgroundCB,  ApplicationConfig->StyleTextBackgroundCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_BackGST),false);
     ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->ST_Text_ShapeCB,       ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_ShapeST),false);
-    ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(0);
-    ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(ui->ST_Text_Coord43CB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[0]),false);
-    ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(1);
-    ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(ui->ST_Text_Coord169CB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[1]),false);
-    ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(2);
-    ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(ui->ST_Text_CoordCineCB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[2]),false);
+    ApplicationConfig->StyleCoordinateCollection.       SetProjectGeometryFilter(0);
+    ApplicationConfig->StyleCoordinateCollection.       FillCollectionCB(ui->ST_Text_Coord43CB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[0]),false);
+    ApplicationConfig->StyleCoordinateCollection.       SetProjectGeometryFilter(1);
+    ApplicationConfig->StyleCoordinateCollection.       FillCollectionCB(ui->ST_Text_Coord169CB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[1]),false);
+    ApplicationConfig->StyleCoordinateCollection.       SetProjectGeometryFilter(2);
+    ApplicationConfig->StyleCoordinateCollection.       FillCollectionCB(ui->ST_Text_CoordCineCB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[2]),false);
 
     // Get link to combobox
     CB_SL[0][0]=ui->STBlockSL_IMG0_Coord43CB;    CB_SL[0][1]=ui->STBlockSL_IMG0_Coord169CB;    CB_SL[0][2]=ui->STBlockSL_IMG0_CoordCineCB;
@@ -295,7 +295,7 @@ void DlgApplicationSettings::DoAccept() {
     ApplicationConfig->RememberLastDirectories  =ui->RememberLastDirectoriesCH->isChecked();
     ApplicationConfig->RestoreWindow            =ui->RestoreWindowCH->isChecked();
     ApplicationConfig->SDLAudioOldMode          =ui->SDLAudioModeCB->isChecked();
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
     ApplicationConfig->RasterMode               =ui->RasterModeCB->isChecked();
     #endif
 
