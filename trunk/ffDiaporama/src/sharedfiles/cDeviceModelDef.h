@@ -87,8 +87,12 @@ extern "C" {
         #define AV_SAMPLE_FMT_S32       SAMPLE_FMT_S32
         #define AV_SAMPLE_FMT_FLT       SAMPLE_FMT_FLT
         #define AV_SAMPLE_FMT_DBL       SAMPLE_FMT_DBL
-        #define AV_CH_STEREO_LEFT       CH_STEREO_LEFT
-        #define AV_CH_STEREO_RIGHT      CH_STEREO_RIGHT
+        #ifndef AV_CH_STEREO_LEFT
+            #define AV_CH_STEREO_LEFT   CH_STEREO_LEFT
+        #endif
+        #ifndef AV_CH_STEREO_RIGHT
+            #define AV_CH_STEREO_RIGHT  CH_STEREO_RIGHT
+        #endif
     #endif
 
     #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
