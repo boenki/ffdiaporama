@@ -38,11 +38,22 @@ uint32_t PossibleJobsSettings[NBR_JOBTYPE] = {
     ,JOBQUALIF_VIDEO_CONVERTVIDEO                       // #define JOBTYPE_VIDEO_CONVERTVIDEO
 };
 
+// Help page for each job
+int JobHelpPage[NBR_JOBTYPE] = {
+     -1                                                 // #define JOBTYPE_NOTDEFINED
+    ,-1                                                 // #define JOBTYPE_OPENFILE
+    ,-1                                                 // #define JOBTYPE_DISPLAYINFO
+    ,-1                                                 // #define JOBTYPE_REMOVEFILE
+    ,JOBHELP_IMAGE_CONVERTIMAGE                         // #define JOBTYPE_IMAGE_CONVERT_JPG
+    ,JOBHELP_AUDIO_CONVERTAUDIO                         // #define JOBTYPE_AUDIO_CONVERTAUDIO
+    ,JOBHELP_VIDEO_CONVERTVIDEO                         // #define JOBTYPE_VIDEO_CONVERTVIDEO
+};
+
 /* JOB Command list definition
     Image
         -SSX:Str    Define a size suffix                Str is computed size suffix to be used (This suffix is apply only if JobSettings have JOBQUALIF_DESTNAME_ADDSIZESUFFIX flag)
-        -SRT:Num    Define an image orientation         Num if rotation value as exif format
         -SRS:Str    Define a rescal to size value       Str is the rescal size to be rescal to in string format
+        -FRT        Force image rotation                if present in the command list then image was rotated for jpg format
         -DUP        Forbid image upscaling              if present in the command list then image upscalling is forbidden
 
     Container part
@@ -341,10 +352,10 @@ QString cJobQueue::ComputeFFMPEGCommand(cJob *Job) {
                                     }
                                     break;
             case VCODEC_H264HQ  :   //Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
-                                    #if (LIBAVFORMAT_VERSION_MAJOR<54)
+                                    #ifdef OLDFFMPEGPRESET
                                     Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
                                     #else
-                                    Preset="-fpre \""+Preset+"libx264-hq-10.ffpreset\"";
+                                    Preset="-preset veryfast -x264opts ref=3";
                                     #endif
                                     vCodec=QString("-vcodec libx264 -pix_fmt yuv420p ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
                                         .arg(VideoBitRate-VideoBitRate/10)
@@ -353,16 +364,24 @@ QString cJobQueue::ComputeFFMPEGCommand(cJob *Job) {
                                         .arg(VideoBitRate);
                                     break;
             case VCODEC_H264PQ  :   //Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
-                                    #if (LIBAVFORMAT_VERSION_MAJOR<54)
+                                    #ifdef OLDFFMPEGPRESET
                                     Preset="-fpre \""+Preset+"libx264-pq.ffpreset\"";
                                     #else
-                                    Preset="-fpre \""+Preset+"libx264-pq-10.ffpreset\"";
+                                    Preset="-preset veryfast -x264opts level=1.3:no-cabac:vbv-bufsize=768:vbv-maxrate=768";
                                     #endif
                                     vCodec=QString("-vcodec libx264 -pix_fmt yuv420p ")+Preset+QString(" -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4")
                                         .arg(VideoBitRate-VideoBitRate/10)
                                         .arg(VideoBitRate+VideoBitRate/10)
                                         .arg(VideoBitRate*2)
                                         .arg(VideoBitRate);
+                                    break;
+            case VCODEC_X264LL  :   Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
+                                    #ifdef OLDFFMPEGPRESET
+                                    Preset="-fpre \""+Preset+"libx264-lossless.ffpreset\"";
+                                    #else
+                                    Preset="-preset veryfast -qp 0";
+                                    #endif
+                                    vCodec=QString("-vcodec libx264 -pix_fmt yuv420p ")+Preset;
                                     break;
             case VCODEC_MJPEG   :   vCodec="-vcodec mjpeg -qscale 2 -qmin 2 -qmax 2";   break;
             case VCODEC_VP8     :   vCodec=QString("-vcodec libvpx -minrate %1 -maxrate %2 -bufsize %3 -b:0 %4 -bf 3")
@@ -376,7 +395,7 @@ QString cJobQueue::ComputeFFMPEGCommand(cJob *Job) {
             case VCODEC_THEORA  :   vCodec=QString("-vcodec libtheora -b:0 %1").arg(VideoBitRate);
                                     break;
         }
-        #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+        #ifdef OLDFFMPEG
         vCodec.replace(" -b:0 "," -b "); // switch to old syntax
         #endif
 
@@ -438,14 +457,14 @@ void cJobQueue::ConvertIMG(cJob *Job) {
     Job->JobStatus=JOBSTATUS_STARTED;
     for (;Job->CurrentIndex<Job->SourcesAndDests.count();) {
         bool    Rescal      =Job->IsCommandListContain("-SRS");
-        int     ImgRotation =Job->IsCommandListContain("-SRT")?Job->CommandListValue("-SRT"):1;
+        int     ImgRotation =1;
         QString SizeSuffix  =(Job->IsCommandListContain("-SSX")?Job->CommandListValueString("-SSX"):"ns");
         QString Source      =Job->SourcesAndDests[Job->CurrentIndex];
         QString Destination =Job->ComputeDestinationName(Source,SizeSuffix);
         QString NewSource   =Job->ComputeNewSourceName(Source);
         int     Quality     =Job->IsCommandListContain("-Q")?Job->CommandListValue("-Q"):90;
         int     InStep      =0;
-        bool    ForceRotate =(ImgRotation!=1)&&((Job->DestinationExtension=="tiff")||(Job->DestinationExtension=="bmp")||(Job->DestinationExtension=="ppm")||(Job->DestinationExtension=="png"));
+        bool    ForceRotate =(ImgRotation!=1)&&((Job->DestinationExtension!="jpg")||(Job->IsCommandListContain("-FRT")));
         QImage  Img;
 
         ToLog(LOGMSG_INFORMATION,QApplication::translate("cJobQueue","Start image conversion of %1 to %2").arg(Source).arg(Destination),JOBQUEUESRC);
@@ -455,6 +474,55 @@ void cJobQueue::ConvertIMG(cJob *Job) {
         Img.load(Source);
         if (Img.isNull()) ToLog(LOGMSG_CRITICAL,   "    "+QApplication::translate("cJobQueue","Failed to open file %1").arg(Source),JOBQUEUESRC);
             else          ToLog(LOGMSG_INFORMATION,"    "+QApplication::translate("cJobQueue","Successfully open file %1").arg(Source),JOBQUEUESRC);
+
+        // Get rotation information from exif value
+        if (!Img.isNull()) {
+            // Restart same job with -pva option to get binary value of orientation
+            QString Commande=AdjustDirForOS("exiv2 print -pva \""+Source+"\"");
+            QString  Info,Part;
+            QProcess Process;
+            bool     ExifOk=true;
+            Process.setProcessChannelMode(QProcess::MergedChannels);
+            Process.start(Commande);
+            if (!Process.waitForStarted()) {
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to start exiv2 - no exif informations will be decode for %1").arg(Source));
+                ExifOk=false;
+            }
+            if (ExifOk && !Process.waitForFinished()) {
+                Process.kill();
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Error during exiv2 process - no exif informations will be decode for %1").arg(Source));
+                ExifOk=false;
+            }
+            if (ExifOk && (Process.exitStatus()<0)) {
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","exiv2 return error %1 - no exif informations will be decode for %2").arg(Process.exitStatus()).arg(Source));
+                ExifOk=false;
+            }
+            if (ExifOk) {
+                Info=QString(Process.readAllStandardOutput());
+
+                while (Info.length()>0) {
+                    if (Info.contains("\n")) {
+                        Part=Info.left(Info.indexOf("\n"));
+                        Info=Info.mid(Info.indexOf("\n")+QString("\n").length());
+                    } else {
+                        Part=Info;
+                        Info="";
+                    }
+                    QString Designation,Value;
+                    if (Part.contains(" ")) {
+                        Designation=Part.left(Part.indexOf(" "));
+                        while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
+                        if (Designation=="0x0112") {
+                            Value=(Part.mid(Part.lastIndexOf(" ")+QString(" ").length())).trimmed();
+                            ImgRotation=Value.toInt();
+                        }
+                    }
+                }
+            }
+            Process.terminate();
+            Process.close();
+
+        }
 
         // Step 2 : Rescal
         PostJobStatusChanged(Job,QApplication::translate("cJobQueue","Rescal image"),(double(Job->CurrentIndex*StepInJob+InStep++)/double(Job->SourcesAndDests.count()*StepInJob))*100);
@@ -468,7 +536,7 @@ void cJobQueue::ConvertIMG(cJob *Job) {
 
             if (Value.indexOf("MPix")!=-1) {
                 // Image rotation
-                if (ForceRotate) {
+                if ((ForceRotate)&&(ImgRotation!=1)) {
                     int Rotation=0;
                     if (ImgRotation==8)         Rotation=-90;       // Rotating image anti-clockwise by 90 degrees...'
                     else if (ImgRotation==3)    Rotation=180;       // Rotating image clockwise by 180 degrees...'

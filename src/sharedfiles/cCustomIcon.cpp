@@ -22,7 +22,7 @@
 
 //*****************************************************************************************************************************************
 
-#if defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
     #include <QPixmapCache>
     #include <windows.h>
     #include <QSettings>

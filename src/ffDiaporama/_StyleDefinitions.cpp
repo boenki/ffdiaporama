@@ -18,7 +18,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
+#ifdef Q_OS_WIN
 #include <windows.h>
 #include <winbase.h>
 #endif

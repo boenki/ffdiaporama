@@ -42,7 +42,7 @@ QCustomGetFolder::QCustomGetFolder(QString TheCurrentPath,QString HelpURL,cBaseA
     HelpBt  =ui->HelpBT;
 
     CurrentPath=TheCurrentPath;
-    #if defined(Q_OS_WIN)
+    #ifdef Q_OS_WIN
     #else
     if (CurrentPath.startsWith(QDir::homePath())) CurrentPath="~"+CurrentPath.mid(QDir::homePath().length());
     #endif
@@ -90,7 +90,7 @@ void QCustomGetFolder::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomGetFolder::DoAccept");
 
     CurrentPath=ui->FolderTree->GetCurrentFolderPath();
-    #if defined(Q_OS_WIN)
+    #ifdef Q_OS_WIN
         CurrentPath.replace("%HOMEDRIVE%%HOMEPATH%",DriveList->List[0].Path,Qt::CaseInsensitive);
         CurrentPath.replace("%USERPROFILE%",DriveList->List[0].Path,Qt::CaseInsensitive);
         CurrentPath=AdjustDirForOS(CurrentPath);

@@ -98,7 +98,7 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
             ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName());
             CacheRenderImage=new QImage(CachedFilteredImage());
 
-            #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+            #ifdef Q_OS_WIN
             // On Windows : reduce image size to 8 MPix max
             double  MaxValue=8000000;
             if ((IsWindowsXP)&&(CacheRenderImage!=NULL)&&(!CacheRenderImage->isNull())&&((CacheRenderImage->width()*CacheRenderImage->height())>MaxValue)) {
@@ -126,7 +126,7 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
                 ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
                 CacheRenderImage=new QImage(FileName);
 
-                #if defined(Q_OS_WIN32)||defined(Q_OS_WIN64)
+                #ifdef Q_OS_WIN
                 // On Windows : reduce image size to 8 MPix max
                 double  MaxValue=8000000;
                 if ((IsWindowsXP)&&(CacheRenderImage!=NULL)&&(!CacheRenderImage->isNull())&&((CacheRenderImage->width()*CacheRenderImage->height())>MaxValue)) {
@@ -272,6 +272,11 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
                 // If image is ok then apply then apply filter if exist
                 if ((FilterString!="")&&(CachePreviewImage)&&(!CachePreviewImage->isNull())) {
                     cFilterTransformObject Filter(FilterString);
+                    if (CachePreviewImage->format()!=QImage::Format_ARGB32_Premultiplied) {
+                        QImage *NewImage=new QImage(CachePreviewImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
+                        delete CachePreviewImage;
+                        CachePreviewImage=NewImage;
+                    }
                     Filter.ApplyFilter(CachePreviewImage);
                 }
 
@@ -371,6 +376,24 @@ void cLuLoImageCache::RemoveVideoObject(QString FileName) {
     int i=List.count()-1;
     while (i>=0) {
         if ((List[i]->TypeObject==LULOOBJECT_VIDEO)&&(List[i]->FileName==FileName)) {
+            if (List[i]->CachePreviewImage!=List[i]->CacheRenderImage) delete List[i]->CachePreviewImage;
+            List[i]->CachePreviewImage=NULL;
+            if (List[i]->CacheRenderImage) delete List[i]->CacheRenderImage;
+            List[i]->CacheRenderImage=NULL;
+            delete List.takeAt(i);
+        }
+        i--;
+    }
+}
+
+//===============================================================================
+// Special case for Image object : Remove all image object  of this name
+void cLuLoImageCache::RemoveImageObject(QString FileName) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::RemoveImageObject");
+
+    int i=List.count()-1;
+    while (i>=0) {
+        if ((List[i]->TypeObject==LULOOBJECT_IMAGE)&&(List[i]->FileName==FileName)) {
             if (List[i]->CachePreviewImage!=List[i]->CacheRenderImage) delete List[i]->CachePreviewImage;
             List[i]->CachePreviewImage=NULL;
             if (List[i]->CacheRenderImage) delete List[i]->CacheRenderImage;

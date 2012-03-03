@@ -886,6 +886,14 @@ Vedere la guida per maggiori dettagli!</translation>
         <source>LibExiv2/Exiv2 binary version</source>
         <translation>Versione LibExiv2/Exiv2 binario</translation>
     </message>
+    <message>
+        <source>Lossless</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lossless rendering</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgImageCorrection</name>

@@ -33,18 +33,85 @@
 // Include some common various class
 #include "cBaseApplicationConfig.h"
 
-// Other third party library inclusions : ffmpeg
+//****************************************************************************************************************************************************************
+// FFMPEG inclusion
+//****************************************************************************************************************************************************************
+
 extern "C" {
-	#ifndef INT64_C
-	#define INT64_C(c) (c ## LL)
-	#define UINT64_C(c) (c ## ULL)
-	#endif
+    #ifndef INT64_C
+    #define INT64_C(c) (c ## LL)
+    #define UINT64_C(c) (c ## ULL)
+    #endif
+
     #include <libavutil/common.h>
+    #include <libavutil/mathematics.h>
     #include <libavutil/avutil.h>
+    #include <libavutil/pixdesc.h>
     #include <libavcodec/avcodec.h>
     #include <libavformat/avformat.h>
     #include <libswscale/swscale.h>
+
+    /* ********************************************************************************
+       Create define depending on ffmpeg version to control code creation
+       ********************************************************************************
+       OLDFFMPEG        => prior to 0.53.23
+                            - use <aac -strict experimental> instead of <libvo_aacenc> for aac audio codec
+                            - use <-b> instead of <-b:stream> for video bitrate
+                            - use <-alang> instead of <-metadata:s:1 language> for language of soundtrack
+                            - use <-map_metadata stream:> instead of <-map_metadata:g>
+                            - use <-timestamp now> for timestamp video file
+
+                            - use av_open_input_file                instead of avformat_open_input
+                            - use av_close_input_file               instead of avformat_close_input
+                            - use av_find_stream_info               instead of avformat_find_stream_info
+                            - use av_new_stream                     instead of avformat_new_stream
+                            - use av_write_header                   instead of avformat_write_header
+                            - use AVMetadataTag and av_metadata_get instead of AVDictionaryEntry and av_dict_get
+                            - use avcodec_decode_audio3             instead of avcodec_decode_audio4
+                            - use avcodec_get_context_defaults2     instead of avcodec_get_context_defaults3
+                            - use avcodec_open                      instead of avcodec_open2
+                            - use url_fopen                         instead of avio_open
+                            - use url_fclose                        instead of avio_close
+
+       FFMPEGALLOWBSF   => between 0.53.23 and 0.53.28
+                            - add -bsf:1 aac_adtstoasc to libvo_aacenc video codec
+
+       OLDFFMPEGPRESET  => prior to 0.54
+                            - use ffDiaporama preset files instead of x264 standard preset files + ffDiaporama custom settings
+
+    *************************************************************************************************************************** */
+
+    #if (LIBAVFORMAT_VERSION_MAJOR<53)
+        #define AV_SAMPLE_FMT_S16       SAMPLE_FMT_S16
+        #define AV_SAMPLE_FMT_U8        SAMPLE_FMT_U8
+        #define AV_SAMPLE_FMT_S32       SAMPLE_FMT_S32
+        #define AV_SAMPLE_FMT_FLT       SAMPLE_FMT_FLT
+        #define AV_SAMPLE_FMT_DBL       SAMPLE_FMT_DBL
+        #define AV_CH_STEREO_LEFT       CH_STEREO_LEFT
+        #define AV_CH_STEREO_RIGHT      CH_STEREO_RIGHT
+    #endif
+
+    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
+        #define OLDFFMPEG
+    #endif
+
+    #if (LIBAVFORMAT_VERSION_MAJOR>53)||((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>28))
+        #define FFMPEGALLOWBSF
+    #endif
+
+    #if (LIBAVFORMAT_VERSION_MAJOR<54)
+        #define OLDFFMPEGPRESET
+    #endif
 }
+
+#ifndef AVIO_FLAG_WRITE
+    #define AVIO_FLAG_WRITE 2
+#endif
+#if (LIBAVFORMAT_VERSION_MAJOR>52)
+    #define FFMPEGWITHTAG
+#endif
+
+//****************************************************************************************************************************************************************
 
 #define CONFIGFILENAME      "Devices"
 #define CONFIGDOCNAME       "DEVICES"

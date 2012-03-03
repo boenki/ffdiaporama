@@ -24,9 +24,13 @@
     Contains cefault configuration for ffDiaporama
 -->
 <Configuration>
+    <MMFiler CurrentMode="0" Music_ThumbWidth="200" Video_ThumbWidth="162" MinimumEXIFHeight="100" Music_ThumbHeight="200" CurrentFilter="0" Video_ThumbHeight="216" ShowHiddenFilesAndDir="0" DisplayFileName="1" Image_ThumbHeight="200" Image_ThumbWidth="300" ShowMntDrive="0" ShowFoldersFirst="1"/>
     <LastDirectories RememberLastDirectories="1"/>
-    <EditorOptions DisableSSE2="0" DefaultTransitionFamilly="0" TimelineHeight="80" RandomTransition="1" ApplyTransfoPreview="1" DefaultTransitionDuration="1000" AppendObject="0" DefaultFraming="2" DefaultTransitionSubType="1" SortFile="1" PreviewFPS="12.500000"/>
-    <ProjectDefault FixedDuration="3000" SpeedWave="0" ImageGeometry="1" NoShotDuration="6000">
+    <CacheMemory AllowCachedTransfoImages="1" MemCacheMaxValue="512"/>
+    <EditorOptions AskUserToRemove="1" FramingRuler="1" DisplayUnit="1" DefaultTransitionFamilly="0" TimelineHeight="80" RandomTransition="1" PartitionMode="0" DefaultTransitionDuration="1000" SlideRuler="1" AppendObject="0" DefaultFraming="2" DefaultTransitionSubType="1" SortFile="1" PreviewFPS="12.500000"/>
+    <GlobalPreferences CheckConfigAtStartup="0" ForceLanguage="" ApplyTransfoPreview="1" Smoothing="1" RestoreWindow="1" Crop1088To1080="1" QuickResamplingPreview=""/>
+    <RenderDefault AudioBitRate="160" ImageSize="2" DefaultSmartphoneModel="25" DefaultNameProjectName="1" DefaultLossLess="7" Format="4" DefaultMultimediaType="0" Standard="0" DefaultForTheWEBType="0" VideoCodec="MPEG4" VideoBitRate="2500" DefaultForTheWEBModel="15" AudioCodec="aac" DefaultSmartphoneType="0" DefaultMultimediaModel="8"/>
+    <ProjectDefault FixedDuration="3000" SpeedWave="0" ImageGeometry="1" DefaultTitleFilling="0" NoShotDuration="6000" DefaultAuthor="">
         <DefaultBlock_Text Coord0ST="###GLOBALSTYLE###:120" Coord2ST="###GLOBALSTYLE###:122" Coord1ST="###GLOBALSTYLE###:121" ShapeST="###GLOBALSTYLE###:1" BackGST="###GLOBALSTYLE###:6" TextST="###GLOBALSTYLE###:1"/>
         <DefaultBlockSL_IMG ShapeST="###GLOBALSTYLE###:1" LockLS_0="1" LockLS_1="1" LockLS_2="1" TextST="###GLOBALSTYLE###:4">
             <IMG_GEO_0 CoordST_0="###GLOBALSTYLE###:70" CoordST_1="###GLOBALSTYLE###:0" CoordST_2="###GLOBALSTYLE###:110"/>
@@ -51,7 +55,6 @@
             <IMG_GEO_8 CoordST_0="###GLOBALSTYLE###:46" CoordST_1="###GLOBALSTYLE###:14" CoordST_2="###GLOBALSTYLE###:86"/>
         </DefaultBlockBA_IMG>
     </ProjectDefault>
-    <RenderDefault AudioBitRate="160" ImageSize="2" Format="4" Standard="0" VideoCodec="libx264" VideoBitRate="2500" AudioCodec="libfaac"/>
     <RestoreWindow>1</RestoreWindow>
     <RenderingDeviceModel>
         <Device_0 ImageSize="0" DeviceIndex="0" DeviceName="Nokia-Generic Symbian (S60) phone-QVGA" FileFormat="4" Standard="0" DeviceType="1" VideoBitrate="500000" VideoCodec="2" DeviceSubtype="0" AudioBitrate="128000" AudioCodec="1"/>

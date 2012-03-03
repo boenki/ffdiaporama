@@ -366,8 +366,11 @@ void cCustomTableWidget::SetCurrentCell(int Index) {
 
 void cCustomTableWidget::CleanAll() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::CleanAll");
+    setUpdatesEnabled(false);
+    for (int i=0;i<rowCount();i++) for (int j=0;j<columnCount();j++) if (cellWidget(i,j)!=NULL) removeCellWidget(i,j);
     while (columnCount()>0) removeColumn(columnCount()-1);
     while (rowCount())      removeRow(rowCount()-1);
+    setUpdatesEnabled(true);
 }
 
 //********************************************************************************************************************

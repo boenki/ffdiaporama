@@ -30,7 +30,7 @@
 
 //*****************************************************************************************************************************************
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+#ifdef Q_OS_LINUX
     bool SearchRasterMode(QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName) {
         ToLog(LOGMSG_DEBUGTRACE,"IN:SearchRasterMode");
 
@@ -162,7 +162,7 @@ int getCpuCount() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:getCpuCount");
     int cpuCount=1;
 
-#if defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
     SYSTEM_INFO    si;
     GetSystemInfo(&si);
     cpuCount = si.dwNumberOfProcessors;
@@ -188,7 +188,7 @@ int getCpuCount() {
 QString AdjustDirForOS(QString Dir) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:AdjustDirForOS");
 
-    #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64)
+    #ifdef Q_OS_WIN
     Dir.replace("/","\\");
     bool DoubleSlashBegin=Dir.startsWith("\\\\");
     Dir.replace("\\\\","\\");
@@ -308,7 +308,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     MainWinState            = false;                                                        // WindowsSettings-ismaximized
     RestoreWindow           = true;                                                         // if true then restore windows size and position
     MainWinWSP              = new cSaveWindowPosition("MainWindow",RestoreWindow,true);     // MainWindow - Window size and position
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
         RasterMode          = true;                                                         // Enable or disable raster mode [Linux only]
         CheckConfigAtStartup= true;
     #endif
@@ -481,7 +481,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
         // Load Global preferences
         if ((root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
             QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
-            #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+            #ifdef Q_OS_LINUX
             if (Element.hasAttribute("RasterMode"))                             RasterMode              =Element.attribute("RasterMode")=="1";
             #endif
             if (Element.hasAttribute("RestoreWindow"))                          RestoreWindow           =Element.attribute("RestoreWindow")=="1";
@@ -593,7 +593,7 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     // Save preferences
     QDomElement     Element;
     Element=domDocument.createElement("GlobalPreferences");
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
     Element.setAttribute("RasterMode",              RasterMode?"1":"0");
     #endif
     Element.setAttribute("RestoreWindow",           RestoreWindow?"1":"0");

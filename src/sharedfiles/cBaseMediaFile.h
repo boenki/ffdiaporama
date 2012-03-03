@@ -34,6 +34,7 @@
 #include <QImage>
 
 // Include some common various class
+#include "cDeviceModelDef.h"                // Contains ffmpeg include
 #include "cFilterTransformObject.h"
 #include "cSoundBlockList.h"
 #include "cCustomIcon.h"
@@ -43,7 +44,7 @@
 //****************************************************************************************************************************************************************
 // EXIV2 PART [Linux only - Windows use binary version]
 //****************************************************************************************************************************************************************
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+#ifdef Q_OS_LINUX
     #include <exiv2/exif.hpp>
     #if (EXIV2_MAJOR_VERSION==0) && (EXIV2_MINOR_VERSION>20)
         #include <exiv2/exiv2.hpp>
@@ -51,35 +52,6 @@
     #else
         #include <exiv2/image.hpp>
     #endif
-#endif
-//****************************************************************************************************************************************************************
-// FFMPEG PART
-//****************************************************************************************************************************************************************
-
-extern "C" {
-    #include <libavutil/common.h>
-    #include <libavutil/avutil.h>
-    #include <libavcodec/avcodec.h>
-    #include <libavformat/avformat.h>
-    #include <libswscale/swscale.h>
-    #include <libavutil/pixdesc.h>
-    #include <libavutil/avutil.h>
-    #if (LIBAVFORMAT_VERSION_MAJOR<53)
-        #define AV_SAMPLE_FMT_S16       SAMPLE_FMT_S16
-        #define AV_SAMPLE_FMT_U8        SAMPLE_FMT_U8
-        #define AV_SAMPLE_FMT_S32       SAMPLE_FMT_S32
-        #define AV_SAMPLE_FMT_FLT       SAMPLE_FMT_FLT
-        #define AV_SAMPLE_FMT_DBL       SAMPLE_FMT_DBL
-        #define AV_CH_STEREO_LEFT       CH_STEREO_LEFT
-        #define AV_CH_STEREO_RIGHT      CH_STEREO_RIGHT
-    #endif
-}
-
-#ifndef AVIO_FLAG_WRITE
-    #define AVIO_FLAG_WRITE 2
-#endif
-#if (LIBAVFORMAT_VERSION_MAJOR>52)
-    #define FFMPEGWITHTAG
 #endif
 
 //****************************************************************************************************************************************************************

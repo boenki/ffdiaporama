@@ -76,7 +76,7 @@ QString GetTextSize(qlonglong Size);                                            
 bool    CheckFolder(QString FileToTest,QString PathToTest);                                                         // Check if FileToTest exist in PathToTest and if yes the change current folder to PathToTest
 bool    SetWorkingPath(char *argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt);    // Adjust current folder
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+#ifdef Q_OS_LINUX
     bool SearchRasterMode(QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName);
 #endif
 
@@ -108,7 +108,7 @@ public:
     bool                    ApplyTransfoPreview;                        // True if image transformation are apply during preview
     bool                    CheckConfigAtStartup;                       // If true, check config at startup
 
-    #if defined(Q_OS_WIN)
+    #ifdef Q_OS_WIN
         // Options for windows only
         // registry value for specific Windows Folder
         QString WINDOWS_APPDATA;                                        // specific Windows Folder : AppData

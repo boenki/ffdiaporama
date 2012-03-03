@@ -49,14 +49,14 @@ win32 {
         UI_SOURCES_DIR  += ..\\..\\..\\windebugbuild\\src\\$$TARGET
     }
 
-    INCLUDEPATH += I:\\Qt\\ffmpeg-win32-dev\\include                    #------ ffmpeg library path
-    INCLUDEPATH += I:\\Qt\\SDL-1.2.14\\include                          #------ SDL library path
-    INCLUDEPATH += I:\\Qt\\ThirdLib\\include                            #------ Exiv2 and TAGlib library path
+    INCLUDEPATH += c:\\Qt\\ffmpeg-win32-dev\\include                    #------ ffmpeg library path
+    INCLUDEPATH += c:\\Qt\\SDL-1.2.14\\include                          #------ SDL library path
+    INCLUDEPATH += c:\\Qt\\ThirdLib\\include                            #------ Exiv2 and TAGlib library path
     INCLUDEPATH += .                                                    #------ I don't know why, but windows need this !
 
-    LIBS        += -L"I:\\Qt\\ffmpeg-win32-dev\\lib"                    #------ ffmpeg library path
-    LIBS        += -L"I:\\Qt\\SDL-1.2.14\\lib"                          #------ SDL library path
-    LIBS        += -L"I:\\Qt\\ThirdLib\\lib"                            #------ Exiv2 and TAGlib library path
+    LIBS        += -L"c:\\Qt\\ffmpeg-win32-dev\\lib"                    #------ ffmpeg library path
+    LIBS        += -L"c:\\Qt\\SDL-1.2.14\\lib"                          #------ SDL library path
+    LIBS        += -L"c:\\Qt\\ThirdLib\\lib"                            #------ Exiv2 and TAGlib library path
     LIBS        += -lgdi32 -lkernel32                                   #------ Windows GDI lib link
 }
 

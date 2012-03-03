@@ -47,7 +47,7 @@ public:
     virtual QIcon   GetIcon();
 };
 
-#if defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
     QImage  qt_fromWinHBITMAP(HDC hdc, HBITMAP bitmap, int w, int h);
     QPixmap convertHIconToPixmap( const HICON icon);
     QIcon   GetIconForFileOrDir(QString FileName,int IconIndex);

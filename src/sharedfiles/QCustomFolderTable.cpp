@@ -838,6 +838,8 @@ void QCustomFolderTable::RefreshListFolder() {
         }
     }
 
+    CurrentDisplayItem=MediaList.count();
+
     // Sort MediaList
     if (ApplicationConfig->ShowFoldersFirst) qSort(MediaList.begin(),MediaList.end(),MediaListLessThanWithFolder);
         else qSort(MediaList.begin(),MediaList.end(),MediaListLessThan);
@@ -909,7 +911,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     setRowCount(0);
 
     // Adjust given Path
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
     if (Path.startsWith("~")) Path=QDir::homePath()+Path.mid(1);
     #endif
     if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();

@@ -381,6 +381,11 @@ void DlgImageCorrection::accept() {
             QApplication::processEvents();
             cLuLoImageCacheObject *ImageObject=GlobalMainWindow->ApplicationConfig->ImagesCache.FindObject(CurrentBrush->Image->FileName,CurrentBrush->Image->ModifDateTime,CurrentBrush->Image->ImageOrientation,NULL,true,true);
             QImage *UnfilteredImage=new QImage(ImageObject->ValidateCacheRenderImage()->copy());
+            if (UnfilteredImage->format()!=QImage::Format_ARGB32_Premultiplied) {
+                QImage *NewUnfiltered=new QImage(UnfilteredImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
+                delete UnfilteredImage;
+                UnfilteredImage=NewUnfiltered;
+            }
             CurrentBrush->Image->BrushFileTransform.ApplyFilter(UnfilteredImage);
             UnfilteredImage->save(CachedFile,"jpg",100);
             delete UnfilteredImage;
@@ -388,7 +393,6 @@ void DlgImageCorrection::accept() {
             QApplication::restoreOverrideCursor();
         }
     }
-
     // Close the box
     done(0);
 }
@@ -784,8 +788,13 @@ void DlgImageCorrection::RefreshBackgroundImage() {
     double  DstH=RealImageH*(ymax/Hyp);
 
     QImage ToUseImage=SourceImage->scaled(DstW,DstH);
+    if (ToUseImage.format()!=QImage::Format_ARGB32_Premultiplied) ToUseImage=ToUseImage.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+
+    // On/Off filters and blur/sharpen
     if (CurrentBrush->Image) CurrentBrush->Image->BrushFileTransform.ApplyFilter(&ToUseImage);
         else if (CurrentBrush->Video) CurrentBrush->Video->BrushFileTransform.ApplyFilter(&ToUseImage);
+
+    // Brightness, contrast, gamma and colors adjustments
     CurrentBrush->ApplyFilter(&ToUseImage);
 
     P.begin(NewImage);

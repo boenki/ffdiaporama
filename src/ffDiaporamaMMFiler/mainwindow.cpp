@@ -345,7 +345,7 @@ void MainWindow::s_currentTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetIt
     ui->FolderIcon->setPixmap(DriveList->GetFolderIcon(ApplicationConfig->CurrentPath).pixmap(48,48));
 
     QString Path=ApplicationConfig->CurrentPath;
-    #if defined(Q_OS_WIN)
+    #ifdef Q_OS_WIN
         Path.replace("%HOMEDRIVE%%HOMEPATH%",DriveList->List[0].Path,Qt::CaseInsensitive);
         Path.replace("%USERPROFILE%",DriveList->List[0].Path,Qt::CaseInsensitive);
         Path=AdjustDirForOS(Path);
@@ -637,7 +637,7 @@ void MainWindow::s_Action_RemoveFolder() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RemoveFolder");
 
     QString FolderPath=ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),false);
-    #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #ifdef Q_OS_LINUX
     if (FolderPath.startsWith("~")) FolderPath=QDir::homePath()+FolderPath.mid(1);
     #endif
 
@@ -799,7 +799,7 @@ void MainWindow::DoAddJob_Convert(QList<cBaseMediaFile*>*MediaList,int JobType) 
     Job->Command                =ApplicationConfig->DefaultOptions[Job->JobType].split(";")[1];
     for (int i=0;i<MediaList->count();i++) Job->SourcesAndDests.append(((cBaseMediaFile *)MediaList->at(i))->FileName);
 
-    DlgJobSettings Dlg(Job,&JobQueue,"",ApplicationConfig,ApplicationConfig->DlgJobSettingsWSP,this);
+    DlgJobSettings Dlg(Job,&JobQueue,QString(HELPFILE_DlgJob).arg(JobHelpPage[JobType]),ApplicationConfig,ApplicationConfig->DlgJobSettingsWSP,this);
     Dlg.InitDialog();
     int Ret=Dlg.exec();
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),true),false);
