@@ -253,7 +253,7 @@ struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
 };
 
 struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
-    {false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libopencore_amrnb"},
+    {false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libopencore_amrnb#amrnb"},
     {false, "avi",      "avi",  "AVI file format",              "MJPEG#MPEG#MPEG4#H264HQ#H264PQ",   "pcm_s16le#mp2#libmp3lame#mp3#libfaac#aac#ac3"},
     {false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA#X264LL","pcm_s16le#libmp3lame#mp3#libfaac#aac#ac3#libvorbis#vorbis#flac"},
     {false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                            "pcm_s16le"},
@@ -537,19 +537,23 @@ void cDeviceModelList::Initffmpeg() {
 
     // Check codec to know if they was finded
     AVCodec *p=NULL;
-    while ((p=av_codec_next(p))) if ((p->id==CODEC_ID_PCM_S16LE)||(p->encode!=NULL)) {
-        if (p->type==AVMEDIA_TYPE_AUDIO) {
-            for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(!AUDIOCODECDEF[i].IsFind)) {
-                AUDIOCODECDEF[i].IsFind=true;
-                strcpy(AUDIOCODECDEF[i].ShortName,p->name);
+    while ((p=av_codec_next(p))) {
+        //if ((p->id==CODEC_ID_PCM_S16LE)||(p->encode!=NULL)) {
+            if (p->type==AVMEDIA_TYPE_AUDIO) {
+                for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(!AUDIOCODECDEF[i].IsFind)) {
+                    AUDIOCODECDEF[i].IsFind=true;
+                    strcpy(AUDIOCODECDEF[i].ShortName,p->name);
+                }
+                if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
             }
-            if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
-        }
-        if (p->type==AVMEDIA_TYPE_VIDEO) for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(!VIDEOCODECDEF[i].IsFind)) {
-            VIDEOCODECDEF[i].IsFind=true;
-            strcpy(VIDEOCODECDEF[i].ShortName,p->name);
-        }
-        if (QString(p->name)==QString("libxvid")) strcpy(VIDEOCODECDEF[2].ShortName,p->name);
+            if (p->type==AVMEDIA_TYPE_VIDEO) {
+                for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(!VIDEOCODECDEF[i].IsFind)) {
+                    VIDEOCODECDEF[i].IsFind=true;
+                    strcpy(VIDEOCODECDEF[i].ShortName,p->name);
+                }
+            }
+            if (QString(p->name)==QString("libxvid")) strcpy(VIDEOCODECDEF[2].ShortName,p->name);
+        //}
     }
 
     // Check format to know if they was finded
