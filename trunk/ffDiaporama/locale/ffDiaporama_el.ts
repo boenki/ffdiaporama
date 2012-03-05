@@ -746,7 +746,7 @@ image</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3407"/>
         <source>Lossless :</source>
-        <translation type="unfinished"></translation>
+        <translation>Χωρίς απώλειες:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3464"/>
@@ -881,12 +881,12 @@ image</source>
         <translation>Προκαθορισμένο όνομα βίντεο:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3376"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3381"/>
         <source>Use project name as video name</source>
         <translation>Χρήση του ονόματος του έργου για το όνομα του βίντεο</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3381"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3376"/>
         <source>Use project folder&apos;s name as video name</source>
         <translation>Χρήση του ονόματος του φακέλου του έργου για το όνομα του βίντεο</translation>
     </message>
@@ -1196,13 +1196,13 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="178"/>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>Χωρίς απώλειες</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="179"/>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="180"/>
         <source>Lossless rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Μη απωλεστική αποτύπωση</translation>
     </message>
 </context>
 <context>
@@ -4017,7 +4017,7 @@ WEB</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1077"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2308"/>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>Χωρίς απώλειες</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1121"/>
@@ -4363,7 +4363,7 @@ Image geometry in this file is not the same than the current project</source>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="109"/>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="137"/>
         <source>Rescal image to 8MPix</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανακλιμάκωση εικόνας σε 8MPix</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="117"/>
@@ -4536,17 +4536,17 @@ Do you want to create one slide for each chapters ?</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="849"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Επιλέξτε το άνοιγμα ενός έργου ή τη δημιουργία ενός νέου&lt;br&gt;Για να ανακαλύψετε το ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Ανατρέξτε στο Wiki&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="852"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Προσθήκη κενών διαφανείων ή βασισμένες σε φωτογραφίες ή βίντεο&lt;br&gt;Για να ανακαλύψετε πως να δημιουργήσετε την προβολή διαφανειών και πως να προσθέσετε εφέ:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Ανακαλύψτε πως λειτουργεί το ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="855"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Επιλέξτε τον τύπο της συσκευής που σκοπεύετε να χρησιμοποιήσετε το βίντεο&lt;br&gt;Για να ανακαλύψετε τη δημιουργία των βίντεο:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Ανατρέξτε στη σελίδα αποτύπωσης βίντεο στο Wiki&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1038"/>
@@ -4842,7 +4842,7 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
         <source>Lossless</source>
         <comment>Device database type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Χωρίς απώλειες</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>

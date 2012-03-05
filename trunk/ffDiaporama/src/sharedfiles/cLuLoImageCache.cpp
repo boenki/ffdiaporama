@@ -200,6 +200,11 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
             // If image is ok then apply filter if exist
              if ((FilterString!="")&&(CacheRenderImage)&&(!CacheRenderImage->isNull())) {
                 cFilterTransformObject Filter(FilterString);
+                if (CacheRenderImage->format()!=QImage::Format_ARGB32_Premultiplied) {
+                    QImage *NewImage=new QImage(CacheRenderImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
+                    delete CacheRenderImage;
+                    CacheRenderImage=NewImage;
+                }
                 Filter.ApplyFilter(CacheRenderImage);
             }
         }

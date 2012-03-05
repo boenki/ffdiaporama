@@ -1,9 +1,10 @@
-Buggs/TODO (Dernier SVN le 20/02/2011) :
+Buggs/TODO (Dernier SVN le 03/03/2012) :
 ----------------------------------------
 TODO
 ----
 [ffDiaporama]
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
+
 
 [MMFiler]
 -Ajuster la géométrie des thumb à l'affichage en cours :    Défaut : 1/1    Images : 3/2    Musique: 1/1    Vidéo  : 2/3
@@ -18,242 +19,27 @@ Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
 -Corrige un bug de non application des filtres sur les images dans certains cas
--Corrige le bug de sélection impossible des options de génération par défaut au 1er lancement
+-Corrige l'inversion dans la boite d'option entre "Use project folder's name as video name" et "Use project name as video name"
+-Corrige l'absence de transparence dans le logo de ffDiaporama
+-Corrige l'erreur d'URL vers le fichier de version sur le site WEB (devel au lieu de stable)
 
 English version / Bug fix :
 -Bug fix : Filters some times not apply on some images
--Bug fix : Impossible to set default render options at first application start
+-Bug fix : Fix inversion in option dialog between "Use project folder's name as video name" and "Use project name as video name"
+-Bug fix : Fix transparency missing in ffDiaporama logo
+-Bug fix : Fix URL mistake to version file on WEB site (devel instead of stable)
 
 French version / Nouvelles fonctionnalités :
 
 English version / New features :
 
 -------------------------------------
-Changelog depuis la version 20111118
+Changelog depuis la version 20120303
 -------------------------------------
 Bug fix French version
--Quand on quitte l'application, même si on clique sur oui  les modification ne sont pas sauvegardées
--Corrige le bug du 1er demarrage, l'appli est toujours en anglais (car pas de fichier de config perso.)
--Corrige une erreur de positionnement lors de la lecture des fichiers video
--Corrige une erreur de géométrie lors de la lecture de fichiers video SD/DVD
--Corrige le timestamp dans les vidéos générés
--Corrige l'erreur de taille/positionnement du player au démarrage
--Corrige la sauvegarde des positions de début et fin des vidéos (ajoute les ms)
--Corrige la liste des extentions autorisées pour les vidéos à intégrer (autorise toutes celles que ffDiaporama peut produire)
--Corrige les géométries des vidéos générées en NTSC
--Corrige une erreur d'affichage lors des ajouts de projet dans le projet
--Corrige un bug sur le calcul des durées de certains fichiers vidéo qui générait des crash
--Corrige un plantage si pas de modèle choisi dans la boite de génération en mode device
--Corrige l'erreur de positionnement lors des changements de slide dans la boite slide (précédent/suivant) quand la durée des slides = la durées des transitions
--Corrige l'erreur de calcul qui générait des chevrotements dans le son lors des transitions
--Ajoute une demande de sauvegarde lors des chargements de projet recent
--Permet des commentaires sur plusieurs lignes dans les TAG
--Corrige une erreur de lecture du son dans certaines vidéo AVI (pcm_s16) - seek error
--Evite que les boutons de la barre d'outils déclenchent plusieurs actions quand on reste appuyer trop longtemps
--Corrige plusieurs régressions (Affichage de la fenêtre en mode maximiser sous Windows + Sélection d'une vidéo de remplacement en cas de fichier déplacer)
--Utilise désormais la version officielle de TAGlib au lieu d'inclure certains fichiers sources dans ffDiaporama
--Utilise désormais PREFIX au lieu de INSTALL_ROOT pour l'installation sous Linux
--Corrige la désinstallation sous Linux (qui oubliait quelques fichiers)
--Corrige des petites erreurs dans le son (crachotement très léger en début de piste et/ou à période régulière)
--Corrige l'undo dans la boite texte qui ne fonctionnait plus depuis ffD 1.1
--Corrige l'activation/désactivation du mode Raster pour les Linux qui ne fonctionnait plus depuis ffD 1.1
--Corrige l'erreur de calcul dans le recadrage d'image [Beta 2]
--Corrige l'erreur sur le son [Beta 1/Beta2]
--Supprime l'activation par double click du mode edition sur les lignes de fichiers musicaux dans la boite musique
--Réactive les traductions pour les noms des styles standards qui ne fonctionnait plus depuis ffD 1.1
-[MMFiler] Corrige les filtres music/video
-[MMFiler] Corrige l'icône du bouton de filtrage
--Corrige le systeme de mise en cache des images pour régler les "memory leak" qui générait des erreurs QPainter
--Corrige les problèmes de fragmentation du tas (heap) sous windows XP qui générait des erreurs d'allocation mémoire
--Corrige les problèmes de lecture EXIF sous Windows en revennant à la version binaire d'Exiv
--Corrige le plantage quand on passe du mode normal au mode partition et qu'il n'y a aucune diapo
--Corrige l'erreur de compilation avec LIBAV <53
-
--Corrige la saturation du son lors des resampling
--Supprime les seek inutiles lors de l'encodage du son (revient à une vitesse d'encodage normal)
--Remet les icones manquantes pour les transitions dans la boite de configuration
--Corrige les erreurs de marges (erreur d'arrondie) quand la taille des bloques change
--Améliore encore la lecture des vidéos
--Remet les boites de dialogue systèmes pour l'ouverture des fichiers
 
 Bug fix English version
--When exit the application, even when answer yes, modifications are not saved
--Fix first start bug, the application is always using english (because no personnal config file)
--Fix a seek error when reading video files
--Fix a geometrical error when reading SD/DVD video files
--Fix timestamp in rendered videos
--Fix incorrect player size/positionning at startup
--Fix save of start and stop position for video (add ms)
--Fix list of allowed extention for video (allow all format ffDiaporama can produce)
--Fix geometry for rendered videos in NTSC mode
--Fix a display error when add project in project
--Correct the mistake in calculation which generated quaverings in the sound during the transitions
--Add an ask to save when load recent project
--Allow multiline comment in TAG
--Fix a read sound error for some AVI video (pcm_s16) - seek error
--Avoid that toolbar buttons start several actions when we click for such a long time
--Correct several regressions (Display of the window in maximized mode under Windows + Selection of a video of replacement in case of file was move)
--Use henceforth the official version of TAGlib instead of including some sources files in ffDiaporama
--Use henceforth PREFIX instead of INSTALL_ROOT for the installation under Linux
--Fix the uninstall under Linux (which forgot some files)
--Correct small errors in the sound (very light crackling in the beginning of track and/or in regular period)
--Fix undo in text dialog wich not work correctly since ffD 1.1
--Fix Raster mode activation/deactivation for Linux wich not work correctly since ffD 1.1
--Fix computation error in image reframming [Beta 2]
--Fix sound error [Beta 1/Beta2]
--Remove edit mode when double click on music files in music dialog
--Re-enable translation for standard style name wich not work correctly since ffD 1.1
-[MMFiler] Fix filtering for music/video
-[MMFiler] Fix icon of filter button
--Fix image memory cache system to solve "memory leak" wich generate QPainter error
--Fix heap fragmentation for Windows XP which generate memory allocation errors
--Fix EXIF reading for Windows by comming back to Exiv binary version
--Fix crash when changing mode to partition or to normal and no slide was present
--Fix compilation error with LIBAV <53
-
--Fix sound croaking when resampling
--Remove unwanted seek when rendering sound (now sound rendering time is correct)
--Restore missing icons for transition in option dialog
--Fix margin error (rounded error) when blocks size change
--Improve again video reading
--Use system dialog box for opening files
 
 French version / Nouvelles fonctionnalités
--Ajoute 2 splitters verticaux dans la boite de dialog slide et déplace les informations Exif sous le second splitter. Rend le second splitter masquable
--Permet d'installer ffDiaporama dans /opt et /usr/local
--Déplace certaines proprietes de la section EditorOptions vers la section GlobalPreferences dans ffDiaporama.xml
--Déplace la section base de device du fichier ffDiaporama.xml vers un nouveau fichier Devices.xml
--Deplace l'onglet "Device Database" de la boite de configuration dans une boite de dialogue séparée
--Ajoute la sauvegarde/restauration des tailles & positions pour la boite "A propos de"
--Ajoute une boite de définition des propriétés du projet + un bouton dans la barre principal
--Ajoute une option dans la boite de génération des vidéos pour inclure les propriétés du projet dans les TAG du fichier vidéo généré
--Ajoute une troisième possibilité pour la pré-determination du nom du fichier vidéo à générer (utilise le titre des propriétés)
--Ajoute une option pour pré-remplir la zone titre des propriétés
--Quand on change le fichier qui a donné son nom au slide, change également le nom du slide
--Améliore la lecture d'information des vidéos ajoutés au projet
--Améliore la détection des formats de vidéo non supportés
--Ajoute le support du code de language (ISO 639) pour la production des vidéos (option supplémentaire dans les boites de configuration, de propriétés et de génération)
--Améliore l'affichage des informations dans la zone information de la boite slide
--Ajoute une demande de confirmation pour ouvrir des projets créés avec une version plus récente de ffDiaporama
--Ajoute le WMA et le FLAC dans la liste des fichiers audio supportés
--Ajout partiel de la librairie TAGlib pour la gestion des TAGs
--Prise en charge de la nouvelle version de ffmpeg 0.9
--Ajoute la gestion des chapitres
-    -Ajoute une option dans la boite slide pour définir un slide comme marquant le début d'un chapitre (Le nom du chapitre est le nom du slide)
-    -Ajoute une icône dans la timeline pour symboliser les démarrages de chapitres
-    -Ajoute la liste des chapitres dans la boite propriété (pour consultation)
--Ajoute un bouton dans la boite de génération pour consulter/ajuster les propriétés du projet avant génération
--Quand une vidéo contenant plus d'un chapitre est ajoutée au projet, propose de créer un slide par chapitre
--Ajout des fichiers de traduction pour le Tchèque
--Intègre le nouvelle icône pour MMFiler (merci à Pepe pour cette icône)
--Ajoute la prise en charge des vidéos contenant des pistes son au format UINT8 (mono et stéréo)
--Transfert de toutes les icones en ressources QT
--Ajoute trois valeurs possible pour les durées de transition : 6, 8 et 10 secondes
--Ajoute 6,8 et 10 secondes en valeurs par défaut sélectionnable pour les transitions dans la boite d'option
--Modifie le fonctionnement du slider video (preview+boite edit vidéo)
-  - Dessine le slider avec une pointe de triangle (pour qu'il ait le même look sur toutes les plateformes)
-  - Quand on click hors du thumb sur le slider, le slider prend la position du click
--Ajoute une nouvelle famille de transitions avec 4 transitions (Deformation)
-[MMFiler]-Ouvre un menu contextuel (Action) quand on fait un click droit sur un fichier multimédia
-[MMFiler]-Ajoute un scroller dans la boite de dialogue d'information sur les fichiers
-[MMFiler]-Ajoute des options dans la boite de dialogue de configuration pour définir la taille des vignettes en mode mode Grands icônes
-Prend en compte ffmpeg 0.10
-[MMFiler] Sauvegarde les tailles/positions du splitter de la liste des jobs
-[MMFiler] Active la vue mur d'image
-[MMFiler] Ajoute une option dans la boite d'option pour afficher les noms de fichier dans les vues en icônes
-[MMFiler] Active l'affichage des noms de fichier en mode icône
--Ajoute une option dans la boite de configuration pour générer des fichiers de cache d'image filtrée
--Supprime la sélection du modèle mémoire pour Windows dans la boite de configuration => Forcé à 196 Mo non modifiable
--[MMFiler] Met en cache les images dans des fichiers .ThumbnailsCache.xml de chaque répertoire
--[MMFiler] Commence les travaux sur le moteur de job
--[MMFiler] Ajoute la fenêtre des jobs et celle du journal au bas de la fenêtre principal
--[MMFiler] Ajoute l'action de supprimer des fichiers
--[MMFiler] Crée un 1er job de conversion d'image + crée la boite de dialogue de paramétrage du job
--Passe la lecture des vidéos en RGB24 au lieu d'ABGR32 (evite les WARNING de swscaler et accélère la lecture)
--Supprime les boutons minimize dans les boites de dialogue [Linux]
--Détache les boites de dialogue de saisie de texte dans la gestion des styles [Linux-Gnome Shell]
--Détache toutes les boites de dialogue de messages [Linux-Gnome Shell]
--Modifie les traitements d'images pour utiliser moins la zone mémoire HEAP [Windows/XP]
--Ajoute un menu contextuel dans l'arbre des répertoires avec 4 actions (Actualiser, Actualiser à partir d'ici, créer un sous-répertoire, supprimer ce répertoire)
--Transforme le systeme d'affichage des messages dans la console :
-    -Ajoute l'heure et le type de message (Information, Warning, Erreur)
-    -Sous Windows, la fenêtre CMD n'est plus ouverte systématiquement : Pour voir les messages, il faut lancer l'application depuis une console déjà ouverte
-    -Permet de rediriger les messages dans un fichier via les >
-    -Ajoute les messages de debuggage (DEBUGTRACE)
--Ajoute une nouvelle option sur la ligne de commande pour régler le niveau des messages -LogLevel
--Ajoute le FLAC dans la liste des codecs audio pour génération et l'autorise pour le MKV
--Ajoute le x264 lossless dans la liste des codecs video pour génération et l'autorise pour le MKV
--Ajoute un bouton lossless dans les boutons de génération de la fenêtre principale
--Ajoute la sélection du format d'image par défaut pour le lossless dans la boite de configuration
--Ajoute TIF en plus de TIFF dans la liste des extensions supportées
--Ajoute une icône dans la timeline pour indiquer les slides comprenant au moins un bloque avec transformation
 
 English version / New features
--Add 2 verticals splitters in the slide properties dialog and move Exif information under the second splitter. Make the second splitter Collapsible
--Allow ffDiaporama to be install in /opt or /usr/local
--Move some properties from EditorOptions section to GlobalPreferences in ffDiaporama.xml
--Move device database section from ffDiaporama.xml file to a new file named Devices.xml
--Move "Device Database" tab of the options dialog to a new separated dialog
--Add save/restore of size & position for the "about" dialog
--Add a project properties dialog + a button in main toolbar
--Add an option in render dialog to include project properties as TAG in rendered video
--Add a third option to compute render video filename (use properties title)
--Add an option to automaticaly fill properties title
--When changing file which give it name to a slide, change also the slide name
--Improve information reading of the videos added to the project
--Improve unsupported format detection for the videos added to the project
--Add support for language code (ISO 639) for the video rendering (Add options in option, project properties and render dialogs)
--Improve information display in slide dialog information zone
--Add a confirmation ask to open project created with a newer ffDiaporama version
--Add WMA and FLAC in supported audio file list
--Partial addition of the TAGlib library for TAG managment
--Support for new ffmpeg 0.9 version
--Add chapter managment
-    -Add an option in slide dialog to define if a slide start a new chapter (chapter name is slide name)
-    -Add icons in timeline to symbolise chapter start
-    -Add chapter list in properties dialog (for consulting)
--Add a button in render dialog to adjust project proprerties before rendering
--When a video wich contains more than on chapter is added to the project, propose to create on slide for each chapter
--Add translation files for Czech
--Integrate new MMFiler icon (thanks to Pepe for it)
--Add possibility to include video with sound track using UINT8 sample format (mono and stereo)
--Move all icons into QT ressources
--Add three new possible values for transition duration : 6, 8 et 10 secondes
--Add 6,8 and 10 secondes as selectable default values for transitions in option dialog
--Modify video slider functioning (preview+edit video dialog)
-- Draw the slider with a triangle (so it looks exactly the same on all plateforms)
-- When a click on the slider but out of thumb, the slider position become the click position
--Add a new transition familly with 4 transitions (Deform)
-[MMFiler]-Open a contextual menu (Action) when a right click is done on a multimedia file
-[MMFiler]-Add a scroller for Information File Dialog
-[MMFiler]-Add options in option dialog to define thumbnails size when Big icons mode
-Enable ffmpeg 0.10
-[MMFiler] Save size/position of jobs list splitter
-[MMFiler] Enable wall image view
-[MMFiler] Add an option in option dialog to display filename in icon view
-[MMFiler] Add display of files name for icon views
--Add an option in option dialog to allow use of cached transformed images files
--Remove memory model selection in option dialog for Windows => Value was set to 196 Mb and can't be modified
--[MMFiler] Create .ThumbnailsCache.xml file into directories to cache image
--[MMFiler] Start work on job engine
--[MMFiler] Add job queue list and log at bottom of main window
--[MMFiler] Add remove file action
--[MMFiler] Create a first job to convert image + create convert image job settings dialog
--Modify video reading from ABGR32 TO RGB24 (avoir swscaler warning and speed reading)
--Remove minimize buttons for all dialog box [Linux]
--Unlock text edit dialog for style creation [Linux-Gnome Shell]
--Unlock all messages box [Linux-Gnome Shell]
--Modify image processing to use less HEAP memory zone [Windows/XP]
--Add a contextual menu in folder tree with 4 actions (Refresh, refresh from here, create subfolder and remove folder)
--Modify log system to display in console :
-    -Add hour and message type (Information, Warning, Error)
-    -For Windows, the CMD windows is now longer open at startup : To see messages, application must be started from a console
-    -Allow to redirect message to a log file using >
-    -Add debugging messages (DEBUGTRACE)
--Add a new argument for command line to define level of message -LogLevel
--Add FLAC to audio codecs list for rendering and allow it for MKV
--Add x264 lossless to video codecs list for rendering and allow it for MKV
--Add a lossless button in render button of the main window
--Add a default lossless image format selection in option dialog
--Add TIF extension in the supported extension list
--Add an icon to the timeline to symbolise when at least one block of the slide have a transformation

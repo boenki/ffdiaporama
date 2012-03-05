@@ -888,11 +888,11 @@ Vedere la guida per maggiori dettagli!</translation>
     </message>
     <message>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>Lossless</translation>
     </message>
     <message>
         <source>Lossless rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Generazione lossless</translation>
     </message>
 </context>
 <context>
@@ -3533,7 +3533,7 @@ Vuoi aprirlo comunque?</translation>
     </message>
     <message>
         <source>Rescal image to 8MPix</source>
-        <translation type="unfinished"></translation>
+        <translation>Riscala immagine a 8MPix</translation>
     </message>
 </context>
 <context>
