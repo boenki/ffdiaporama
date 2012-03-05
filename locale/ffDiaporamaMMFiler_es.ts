@@ -1055,7 +1055,7 @@ y Ayuda</translation>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="109"/>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="137"/>
         <source>Rescal image to 8MPix</source>
-        <translation type="unfinished"></translation>
+        <translation>Reescalar imagen a 8MPix</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="117"/>
@@ -2024,7 +2024,7 @@ y Ayuda</translation>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
         <source>Lossless</source>
         <comment>Device database type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Sin pérdidas</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>

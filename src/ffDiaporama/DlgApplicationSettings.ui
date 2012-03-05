@@ -47,7 +47,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -2987,8 +2987,8 @@ image</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>384</width>
-            <height>397</height>
+            <width>680</width>
+            <height>415</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -3373,12 +3373,12 @@ image</string>
             <widget class="QComboBox" name="DefaultNameProjectNameCB">
              <item>
               <property name="text">
-               <string>Use project name as video name</string>
+               <string>Use project folder's name as video name</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>Use project folder's name as video name</string>
+               <string>Use project name as video name</string>
               </property>
              </item>
              <item>
@@ -3544,6 +3544,7 @@ image</string>
   <tabstop>CancelBt</tabstop>
  </tabstops>
  <resources>
+  <include location="../../RSCffDiaporama.qrc"/>
   <include location="../../RSCffDiaporama.qrc"/>
  </resources>
  <connections/>

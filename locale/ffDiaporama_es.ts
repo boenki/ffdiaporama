@@ -882,12 +882,12 @@ no estándar</translation>
         <translation>Nombre del video :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3376"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3381"/>
         <source>Use project name as video name</source>
         <translation>Usar nombre del proyecto como nombre del video</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3381"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3376"/>
         <source>Use project folder&apos;s name as video name</source>
         <translation>Usar nombre de directorio del proyecto como nombre del video</translation>
     </message>
@@ -1197,13 +1197,13 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="178"/>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin pérdidas</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="179"/>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="180"/>
         <source>Lossless rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Generación sin pérdidas</translation>
     </message>
 </context>
 <context>
@@ -4390,7 +4390,7 @@ La geometría de la imagen de este archivo no es igual que la del proyecto actua
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="109"/>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="137"/>
         <source>Rescal image to 8MPix</source>
-        <translation type="unfinished"></translation>
+        <translation>Reescalar imagen a 8MPix</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="117"/>

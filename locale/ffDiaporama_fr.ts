@@ -734,12 +734,12 @@ non standard</translation>
         <translation>Nom par défaut des vidéos :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3376"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3381"/>
         <source>Use project name as video name</source>
         <translation>Utiliser le nom du projet comme nom de vidéo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3381"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3376"/>
         <source>Use project folder&apos;s name as video name</source>
         <translation>Utiliser le nom du répertoire du projet comme nom de vidéo</translation>
     </message>

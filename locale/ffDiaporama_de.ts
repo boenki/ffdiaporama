@@ -629,7 +629,7 @@ Crossfade transition</source>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3407"/>
         <source>Lossless :</source>
-        <translation type="unfinished"></translation>
+        <translation>Verlustfrei :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3464"/>
@@ -879,12 +879,12 @@ Bilder</translation>
         <translation>Vorgabe für Videoname :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3376"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3381"/>
         <source>Use project name as video name</source>
         <translation>Verwende Projektname als Videoname</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3381"/>
+        <location filename="../src/ffDiaporama/DlgApplicationSettings.ui" line="3376"/>
         <source>Use project folder&apos;s name as video name</source>
         <translation>Verwende Namen des Projektordners als Videoname </translation>
     </message>
@@ -1193,13 +1193,13 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="178"/>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>Verlustfrei</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="179"/>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="180"/>
         <source>Lossless rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Verlustfreie Umwandlung</translation>
     </message>
 </context>
 <context>
@@ -4008,7 +4008,7 @@ WEB</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1077"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2308"/>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>Verlustfrei</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1121"/>
@@ -4354,7 +4354,7 @@ Bildgeometrie des Bildes entspricht nicht der des aktuellen Projektes</translati
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="109"/>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="137"/>
         <source>Rescal image to 8MPix</source>
-        <translation type="unfinished"></translation>
+        <translation>Bild skalieren zu 8MPix</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="117"/>
@@ -4526,17 +4526,17 @@ Do you want to create one slide for each chapters ?</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="849"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Wählen Sie ein bestehendes Projekt über &lt;b&gt;&lt;i&gt;Öffne Projekt&lt;/i&gt;&lt;/b&gt;, oder erstellen Sie ein neues Projekt über &lt;b&gt;&lt;I&gt;Neues Projekt&lt;/i&gt;&lt;/b&gt; &lt;br&gt;Um mehr über ffDiaporama zu erfahren::&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Besuchen Sie die  WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="852"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Fügen Sie leere Dias, oder bestehende Dias aus Fotos und Videos, zur Zeitleiste hinzu&lt;br&gt;Um zu erfahren wie Sie animierte Diashows erzeugen können:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Lesen Sie das Kapitel &lt;I&gt;Wie ffDiaporama arbeitet&lt;/i&gt; in unserer WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="855"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;body&gt;Wählen Sie den Gerätetype für den Sie Ihr Video erstellen möchten&lt;br&gt;Um zu erfahren wie Videos zu erstellen sind:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Lesen Sie das Kapitel &lt;b&gt;&lt;/i&gt;Videos erstellen&lt;/i&gt;&lt;/b&gt; in unserer WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1038"/>
@@ -4830,7 +4830,7 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
         <source>Lossless</source>
         <comment>Device database type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Verlustfrei</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>
