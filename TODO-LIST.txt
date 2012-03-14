@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 03/03/2012) :
+Buggs/TODO (Dernier SVN le 03/05/2012) :
 ----------------------------------------
 TODO
 ----
@@ -11,30 +11,37 @@ TODO
 -Prendre en compte le multi-select dans QCustomFileInfoLabel (+ affichage à uniformiser avec la table)
 -Rendre optionnel le cache des thumbnails (.ThumbnailsCache.xml)
 -Developper la partie transformation des fichiers sources
-
 -Dépassement de capacité dans l'affichage de la durée cumulé (résumé folder) : il faut ajouter des jours !
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige un bug de non application des filtres sur les images dans certains cas
--Corrige l'inversion dans la boite d'option entre "Use project folder's name as video name" et "Use project name as video name"
--Corrige l'absence de transparence dans le logo de ffDiaporama
--Corrige l'erreur d'URL vers le fichier de version sur le site WEB (devel au lieu de stable)
 
 English version / Bug fix :
--Bug fix : Filters some times not apply on some images
--Bug fix : Fix inversion in option dialog between "Use project folder's name as video name" and "Use project name as video name"
--Bug fix : Fix transparency missing in ffDiaporama logo
--Bug fix : Fix URL mistake to version file on WEB site (devel instead of stable)
 
 French version / Nouvelles fonctionnalités :
+-Modifie la boite slide :
+ - Déplace les boutons de contrôle des bloques au dessus de la zone interactive
+ - Supprime la zone information et son slider
+ - Ajoute un bouton information ouvrant la boite information sur le fichier de MMFiler
+ - Ajoute une zone pour les annimations de textes avec 3 valeurs : Zoom, Scrolling X et Scrolling Y
+ - Ajoute une zone pour les annimations multi-tour des bloques avec 3 valeurs pour les 3 axes
+ - Ajoute des boutons de reset pour toutes les valeures
+-Refait completement la boite texte avec passage en RICH text
 
 English version / New features :
+-Modify slide dialog
+  - Move tool buttons under interactive zone
+  - Remove information zone
+  - Add a button to open Information dialog (from MMFiler)
+  - Add a zone for text annimation with 3 values (Zoom, Scrolling X and Scrolling Y)
+  - Add a zone for multi-turn block annimations with 3 values for the 3 axis
+  - Add reset buttons for all values
+-Completly redone text dialog for using RICH text
 
 -------------------------------------
-Changelog depuis la version 20120303
+Changelog depuis la version 20120305
 -------------------------------------
 Bug fix French version
 

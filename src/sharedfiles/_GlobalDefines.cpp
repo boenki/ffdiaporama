@@ -120,9 +120,9 @@ void ToLog(int MessageType,QString Message,QString Source) {
 
     QString DateTime=QTime::currentTime().toString("hh:mm:ss.zzz");
     if (MessageType>=LogMsgLevel) switch (MessageType) {
-        case LOGMSG_DEBUGTRACE:    std::cout << QString("["+DateTime+":DEBUGTRACE]\t" +Message+"\n").toLocal8Bit().constData();    break;
-        case LOGMSG_INFORMATION:   std::cout << QString("["+DateTime+":INFORMATION]\t"+Message+"\n").toLocal8Bit().constData();    break;
-        case LOGMSG_WARNING:       std::cout << QString("["+DateTime+":WARNING]\t"    +Message+"\n").toLocal8Bit().constData();    break;
-        case LOGMSG_CRITICAL:      std::cout << QString("["+DateTime+":ERROR]\t"      +Message+"\n").toLocal8Bit().constData();    break;
+        case LOGMSG_DEBUGTRACE:    std::cout << QString("["+DateTime+":DEBUGTRACE]\t" +Message+"\n").toLocal8Bit().constData() << std::flush;    break;
+        case LOGMSG_INFORMATION:   std::cout << QString("["+DateTime+":INFORMATION]\t"+Message+"\n").toLocal8Bit().constData() << std::flush;    break;
+        case LOGMSG_WARNING:       std::cout << QString("["+DateTime+":WARNING]\t"    +Message+"\n").toLocal8Bit().constData() << std::flush;    break;
+        case LOGMSG_CRITICAL:      std::cout << QString("["+DateTime+":ERROR]\t"      +Message+"\n").toLocal8Bit().constData() << std::flush;    break;
     }
 }

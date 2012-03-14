@@ -64,7 +64,7 @@ class cDiaporamaObject;
 #define SPEEDWAVE_SINQUARTER                1
 
 // Composition parameters
-#define SCALINGTEXTFACTOR                   400
+#define SCALINGTEXTFACTOR                   700     // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
 
 // Object type definition
 #define DIAPORAMAOBJECTTYPE_EMPTY           0
@@ -122,6 +122,11 @@ public:
     double              RotateXAxis;            // Rotation from X axis
     double              RotateYAxis;            // Rotation from Y axis
 
+    // Block Annimation
+    int                 TurnZAxis;              // Number of turn from Z axis
+    int                 TurnXAxis;              // Number of turn from X axis
+    int                 TurnYAxis;              // Number of turn from Y axis
+
     // Attribut of the text part (Global values)
     QString             Text;                   // Text of the object
     QString             FontName;               // font name
@@ -134,6 +139,9 @@ public:
     int                 HAlign;                 // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
     int                 VAlign;                 // Vertical alignement : 0=up, 1=center, 2=bottom
     int                 StyleText;              // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+    int                 TxtZoomLevel;           // Zoom Level for text
+    int                 TxtScrollX;             // Scrolling X for text
+    int                 TxtScrollY;             // Scrolling Y for text
 
     // Attribut of the shap part (Global values)
     int                 BackgroundForm;         // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)

@@ -18,6 +18,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
+#include "../sharedfiles/DlgInfoFile.h"
 #include "DlgSlideProperties.h"
 #include "ui_DlgSlideProperties.h"
 #include "wgt_QCustomThumbnails.h"
@@ -31,6 +32,10 @@
 #include <QMimeData>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QTextDocument>
+#include <QTextCursor>
+#include <QTextCharFormat>
+#include <QTextBlockFormat>
 
 #define ICON_FRAMING_CUSTOM                 ":/img/action_cancel.png"
 #define ICON_FRAMING_FULL                   ":/img/AdjustWH.png"
@@ -56,47 +61,45 @@
 #define ICON_RULER_ON                       ":/img/ruler_ok.png"
 #define ICON_RULER_OFF                      ":/img/ruler_ko.png"
 
-DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgSlideProperties) {
+//====================================================================================================================
+
+DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgSlideProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DlgSlideProperties");
 
     ui->setupUi(this);
-    this->DiaporamaObject           =DiaporamaObject;
+    OkBt                    =ui->OKBT;
+    CancelBt                =ui->CancelBt;
+    HelpBt                  =ui->HelpBT;
+    this->DiaporamaObject   =DiaporamaObject;
+
     GlobalMainWindow->DragItemSource=-1;
     GlobalMainWindow->DragItemDest  =-1;
     GlobalMainWindow->IsDragOn      =0;
+}
 
-    setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+//====================================================================================================================
+
+DlgSlideProperties::~DlgSlideProperties() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::~DlgSlideProperties");
+
+    Clean();
+    StopMAJSpinbox=true;
+    if (BackgroundImage!=NULL) {
+        delete BackgroundImage;
+        BackgroundImage=NULL;
+    }
+    delete ui;
+    //delete Undo;
+}
+
+//====================================================================================================================
+// Initialise dialog
+
+void DlgSlideProperties::DoInitDialog() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DoInitDialog");
 
     ui->SplitterTop->setCollapsible(0,false);
     ui->SplitterTop->setCollapsible(1,false);
-    ui->SplitterBottom->setCollapsible(0,false);
-    ui->SplitterBottom->setCollapsible(1,true);
-
-    ui->TableInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->TableInfo->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    ui->TableInfo->horizontalHeader()->show();
-    ui->TableInfo->horizontalHeader()->setStretchLastSection(false);
-    ui->TableInfo->horizontalHeader()->setSortIndicatorShown(false);
-    ui->TableInfo->horizontalHeader()->setCascadingSectionResizes(false);
-    ui->TableInfo->horizontalHeader()->setClickable(false);
-    ui->TableInfo->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
-    ui->TableInfo->horizontalHeader()->setMovable(false);
-    ui->TableInfo->horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
-    ui->TableInfo->verticalHeader()->hide();
-    ui->TableInfo->verticalHeader()->setStretchLastSection(false);
-    ui->TableInfo->verticalHeader()->setSortIndicatorShown(false);
-    ui->TableInfo->verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
-    ui->TableInfo->setShowGrid(true);                  // Ensure grid display
-    ui->TableInfo->setWordWrap(false);                 // Ensure no word wrap
-    ui->TableInfo->setTextElideMode(Qt::ElideNone);    // Ensure no line ellipsis (...)
-    //ui->tableWidget->setColumnCount(2);
-    //ui->tableWidget->setHorizontalHeaderLabels(QString("Propertie;Value").split(";"));
-
-    // Save object before modification for cancel button
-    Undo=new QDomDocument(APPLICATION_NAME);
-    QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",DiaporamaObject->Parent->ProjectFileName,true);  // Save object
-    Undo->appendChild(root);                                // Add object to xml document
 
     setWindowTitle(windowTitle()+" - "+QApplication::translate("DlgSlideProperties","Slide")+QString(" %1/%2").arg(DiaporamaObject->Parent->CurrentCol+1).arg(DiaporamaObject->Parent->List.count()));
     ui->NewChapterCB->setChecked(DiaporamaObject->StartNewChapter);
@@ -115,7 +118,6 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
 
     //******************************
 
-    IsFirstInitDone     = false;                // True when first show window was done
     scene               = NULL;
     NextZValue          = 500;
     BackgroundImage     = NULL;
@@ -185,11 +187,8 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     }
 
     // Define handler
-    connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
-    connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
     connect(ui->OKPreviousBT,SIGNAL(clicked()),this,SLOT(OKPrevious()));
     connect(ui->OKNextBT,SIGNAL(clicked()),this,SLOT(OKNext()));
-    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
     connect(ui->TVMarginsBT,SIGNAL(clicked()),this,SLOT(s_TVMarginsBt()));
 
     connect(ui->CopyBlockBT,SIGNAL(clicked()),this,SLOT(s_CopyBlockBT()));
@@ -209,6 +208,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->TextEditBT,SIGNAL(clicked()),this,SLOT(TextEditor()));
     connect(ui->ImageEditCorrectBT,SIGNAL(clicked()),this,SLOT(ImageEditCorrect()));
     connect(ui->VideoEditBT,SIGNAL(clicked()),this,SLOT(VideoEdit()));
+    connect(ui->InfoBt,SIGNAL(clicked()),this,SLOT(Information()));
 
     connect(ui->PosXEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgPosXValue(double)));
     connect(ui->PosYEd,SIGNAL(valueChanged(double)),this,SLOT(s_ChgPosYValue(double)));
@@ -221,8 +221,22 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->ShadowEffectED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgShadowDistanceValue(int)));
 
     connect(ui->RotateXED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateXValue(int))); connect(ui->RotateXSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateXValue(int)));
+    connect(ui->ResetRotateXBT,SIGNAL(released()),this,SLOT(s_ResetRotateXBT()));
+
     connect(ui->RotateYED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateYValue(int))); connect(ui->RotateYSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateYValue(int)));
+    connect(ui->ResetRotateYBT,SIGNAL(released()),this,SLOT(s_ResetRotateYBT()));
+
     connect(ui->RotateZED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int))); connect(ui->RotateZSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int)));
+    connect(ui->ResetRotateZBT,SIGNAL(released()),this,SLOT(s_ResetRotateZBT()));
+
+    connect(ui->TurnZED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnZValue(int)));     connect(ui->TurnZSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnZValue(int)));
+    connect(ui->ResetTurnZBT,SIGNAL(released()),this,SLOT(s_ResetTurnZBT()));
+    connect(ui->TurnXED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnXValue(int)));     connect(ui->TurnXSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnXValue(int)));
+    connect(ui->ResetTurnXBT,SIGNAL(released()),this,SLOT(s_ResetTurnXBT()));
+    connect(ui->TurnYED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnYValue(int)));     connect(ui->TurnYSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnYValue(int)));
+    connect(ui->ResetTurnYBT,SIGNAL(released()),this,SLOT(s_ResetTurnYBT()));
+
+
     connect(ui->PenColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChPenColorCB(int)));
     connect(ui->PenSizeEd,SIGNAL(valueChanged(int)),this,SLOT(s_ChgPenSize(int)));
     connect(ui->ShadowColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChgShadowColorCB(int)));
@@ -247,8 +261,61 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget
     connect(ui->CoordinateStyleBT,SIGNAL(pressed()),this,SLOT(s_CoordinateStyleBT()));
     connect(ui->BlockShapeStyleBT,SIGNAL(pressed()),this,SLOT(s_BlockShapeStyleBT()));
 
+    // Text annimation
+    connect(ui->ZoomSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ZoomED(int)));
+    connect(ui->ZoomED,SIGNAL(valueChanged(int)),this,SLOT(s_ZoomED(int)));
+    connect(ui->ZoomResetBT,SIGNAL(released()),this,SLOT(s_ZoomResetBT()));
+    connect(ui->ScrollXSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ScrollXED(int)));
+    connect(ui->ScrollXED,SIGNAL(valueChanged(int)),this,SLOT(s_ScrollXED(int)));
+    connect(ui->ScrollXResetBT,SIGNAL(released()),this,SLOT(s_ScrollXResetBT()));
+    connect(ui->ScrollYSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ScrollYED(int)));
+    connect(ui->ScrollYED,SIGNAL(valueChanged(int)),this,SLOT(s_ScrollYED(int)));
+    connect(ui->ScrollYResetBT,SIGNAL(released()),this,SLOT(s_ScrollYResetBT()));
+
     s_Event_ClipboardChanged();           // Setup clipboard button state
     connect(QApplication::clipboard(),SIGNAL(dataChanged()),this,SLOT(s_Event_ClipboardChanged()));
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::resizeEvent(QResizeEvent *) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::resizeEvent");
+
+    if (ui->ShotTable->currentColumn()!=-1) RefreshShotTable(ui->ShotTable->currentColumn());
+        else RefreshShotTable(0);      // Fill the ShotTable and select 1st shot
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::showEvent(QShowEvent *ev) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::showEvent");
+
+    QCustomDialog::showEvent(ev);
+    if (ui->ShotTable->currentColumn()!=-1) RefreshShotTable(ui->ShotTable->currentColumn());
+        else RefreshShotTable(0);      // Fill the ShotTable and select 1st shot
+}
+
+//====================================================================================================================
+// Initiale Undo
+
+void DlgSlideProperties::PrepareGlobalUndo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::PrepareGlobalUndo");
+
+    // Save object before modification for cancel button
+    Undo=new QDomDocument(APPLICATION_NAME);
+    QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
+    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",DiaporamaObject->Parent->ProjectFileName,true);  // Save object
+    Undo->appendChild(root);                                // Add object to xml document
+}
+
+//====================================================================================================================
+// Apply Undo : call when user click on Cancel button
+
+void DlgSlideProperties::DoGlobalUndo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DoGlobalUndo");
+
+    QDomElement root=Undo->documentElement();
+    if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
 }
 
 //====================================================================================================================
@@ -303,21 +370,6 @@ void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
 
 //====================================================================================================================
 
-DlgSlideProperties::~DlgSlideProperties() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::~DlgSlideProperties");
-
-    Clean();
-    StopMAJSpinbox=true;
-    if (BackgroundImage!=NULL) {
-        delete BackgroundImage;
-        BackgroundImage=NULL;
-    }
-    delete ui;
-    delete Undo;
-}
-
-//====================================================================================================================
-
 void DlgSlideProperties::Clean() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::Clean");
 
@@ -347,38 +399,20 @@ void DlgSlideProperties::Clean() {
 
 //====================================================================================================================
 
-void DlgSlideProperties::Help() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::Help");
+void DlgSlideProperties::SaveWindowState() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::SaveWindowState");
 
-    GlobalMainWindow->OpenHelp(HELPFILE_DlgSlideProperties);
+    // Save Window size and position
+    if (DlgWSP) ((cSaveDlgSlideProperties *)DlgWSP)->SaveWindowState(this,ui->SplitterTop);
 }
 
 //====================================================================================================================
 
-void DlgSlideProperties::resizeEvent(QResizeEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::resizeEvent");
+void DlgSlideProperties::RestoreWindowState() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::RestoreWindowState");
 
-    if (IsFirstInitDone) RefreshShotTable(ui->ShotTable->currentColumn());      // Fill the ShotTable and select 1st shot
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::SetSavedWindowGeometry() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::SetSavedWindowGeometry");
-
-    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->ApplyToWindow(this,ui->SplitterTop,ui->SplitterBottom);
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::showEvent(QShowEvent *ev) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::showEvent");
-
-    QDialog::showEvent(ev);
-    if (IsFirstInitDone) return;
-    QTimer::singleShot(100,this,SLOT(SetSavedWindowGeometry()));
-    IsFirstInitDone=true;                                   // Set this flag to true to indicate that now we can prepeare display
-    RefreshShotTable(0);                                    // Fill the ShotTable and select 1st shot
+    // Restore window size and position
+    if (DlgWSP) ((cSaveDlgSlideProperties *)DlgWSP)->ApplyToWindow(this,ui->SplitterTop);
 }
 
 //====================================================================================================================
@@ -420,44 +454,20 @@ void DlgSlideProperties::s_ShotDurationChange(QTime NewValue) {
 }
 
 //====================================================================================================================
-
-void DlgSlideProperties::reject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::reject");
-
-    // Save Window size and position
-    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
-    QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
-    done(1);
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::accept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::accept");
-
-    // Save Window size and position
-    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
-    // Close the box
-    done(0);
-}
+// Call when user click on Ok button
 
 void DlgSlideProperties::OKPrevious() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::OKPrevious");
 
-    // Save Window size and position
-    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
-    // Close the box
-    done(2);
+    SaveWindowState();  // Save Window size and position
+    done(2);            // Close the box
 }
 
 void DlgSlideProperties::OKNext() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::OKNext");
 
-    // Save Window size and position
-    DiaporamaObject->Parent->ApplicationConfig->DlgSlidePropertiesWSP->SaveWindowState(this,ui->SplitterTop,ui->SplitterBottom);
-    // Close the box
-    done(3);
+    SaveWindowState();  // Save Window size and position
+    done(3);            // Close the box
 }
 
 //====================================================================================================================
@@ -513,7 +523,7 @@ void DlgSlideProperties::RefreshStyleControls() {
 
             // It's a text block
             StopMajFramingStyle=true;
-            if (!ui->FramingStyleLabel->isEnabled()) ui->FramingStyleLabel->setEnabled(true);
+            //if (!ui->FramingStyleLabel->isEnabled()) ui->FramingStyleLabel->setEnabled(true);
             if (FramingStyleLabelPixmap!="Geometry.png") {
                 FramingStyleLabelPixmap="Geometry.png";
                 ui->FramingStyleLabel->setPixmap(QPixmap(QString("img")+QString(QDir::separator())+FramingStyleLabelPixmap));
@@ -582,7 +592,7 @@ void DlgSlideProperties::RefreshControls() {
     if (InRefreshControls) return;
 
     // Ensure box is init and Current contain index of currented selected sequence
-    if ((!IsFirstInitDone)||(!CompositionList)) return;
+    if (!CompositionList) return;
 
     int CurrentShot=ui->ShotTable->currentColumn();
     if ((CurrentShot<0)||(CurrentShot>=DiaporamaObject->List.count())) return;
@@ -642,6 +652,7 @@ void DlgSlideProperties::RefreshControls() {
     ui->VideoEditBT->setEnabled(IsVisible && Allow_File && (CurrentBrush->Video!=NULL));
     ui->TextEditBT->setEnabled(IsVisible);
     ui->VisibleBT->setEnabled(CurrentTextItem!=NULL);
+    ui->InfoBt->setEnabled((CurrentBrush!=NULL)&&(CurrentBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&((CurrentBrush->Image!=NULL)||(CurrentBrush->Video!=NULL)));
 
     ui->RemoveBlock->setEnabled(CurrentTextItem!=NULL);
 
@@ -652,12 +663,34 @@ void DlgSlideProperties::RefreshControls() {
     ui->PosYEd->setEnabled(IsVisible);
     ui->WidthEd->setEnabled(IsVisible);
     ui->HeightEd->setEnabled(IsVisible);
+
     ui->RotateXED->setEnabled(IsVisible);
+    ui->ResetRotateXBT->setEnabled(IsVisible);
     ui->RotateXSLD->setEnabled(IsVisible);
+
     ui->RotateYED->setEnabled(IsVisible);
+    ui->ResetRotateYBT->setEnabled(IsVisible);
     ui->RotateYSLD->setEnabled(IsVisible);
+
     ui->RotateZED->setEnabled(IsVisible);
+    ui->ResetRotateZBT->setEnabled(IsVisible);
     ui->RotateZSLD->setEnabled(IsVisible);
+
+    ui->TurnZLabel->setEnabled(IsVisible);
+    ui->TurnZSlider->setEnabled(IsVisible);
+    ui->TurnZED->setEnabled(IsVisible);
+    ui->ResetTurnZBT->setEnabled(IsVisible);
+
+    ui->TurnXLabel->setEnabled(IsVisible);
+    ui->TurnXSlider->setEnabled(IsVisible);
+    ui->TurnXED->setEnabled(IsVisible);
+    ui->ResetTurnXBT->setEnabled(IsVisible);
+
+    ui->TurnYLabel->setEnabled(IsVisible);
+    ui->TurnYSlider->setEnabled(IsVisible);
+    ui->TurnYED->setEnabled(IsVisible);
+    ui->ResetTurnYBT->setEnabled(IsVisible);
+
     ui->PosSize_X->setEnabled(IsVisible);
     ui->PosSize_Y->setEnabled(IsVisible);
     ui->PosSize_Width->setEnabled(IsVisible);
@@ -678,11 +711,29 @@ void DlgSlideProperties::RefreshControls() {
     ui->ShadowEffectED->setEnabled((IsVisible)&&(CurrentTextItem)&&(CurrentTextItem->FormShadow!=0));
     ui->ShadowColorCB->setEnabled((IsVisible)&&(CurrentTextItem)&&(CurrentTextItem->FormShadow!=0));
 
+    //***********************
+    // Animation controls
+    //***********************
+    ui->ZoomSlider->setEnabled((IsVisible)&&(CurrentTextItem));
+    ui->ZoomED->setEnabled((IsVisible)&&(CurrentTextItem));
+    ui->ZoomResetBT->setEnabled((IsVisible)&&(CurrentTextItem));
+    ui->ScrollXSlider->setEnabled((IsVisible)&&(CurrentTextItem));
+    ui->ScrollXED->setEnabled((IsVisible)&&(CurrentTextItem));
+    ui->ScrollXResetBT->setEnabled((IsVisible)&&(CurrentTextItem));
+    ui->ScrollYSlider->setEnabled((IsVisible)&&(CurrentTextItem));
+    ui->ScrollYED->setEnabled((IsVisible)&&(CurrentTextItem));
+    ui->ScrollYResetBT->setEnabled((IsVisible)&&(CurrentTextItem));
+    if ((IsVisible)&&(CurrentTextItem)) {
+        ui->ZoomSlider->setValue(CurrentTextItem->TxtZoomLevel);
+        ui->ZoomED->setValue(CurrentTextItem->TxtZoomLevel);
+        ui->ScrollXSlider->setValue(CurrentTextItem->TxtScrollX);
+        ui->ScrollXED->setValue(CurrentTextItem->TxtScrollX);
+        ui->ScrollYSlider->setValue(CurrentTextItem->TxtScrollY);
+        ui->ScrollYED->setValue(CurrentTextItem->TxtScrollY);
+    }
+
     // Refresh Scene Image
     RefreshSceneImage();
-
-    // Refresh information zone
-    UpdateDockInfo();
 
     QApplication::restoreOverrideCursor();
 
@@ -776,6 +827,10 @@ void DlgSlideProperties::RefreshSceneImage() {
             ui->RotateXED->setValue(CurrentTextItem->RotateXAxis);      ui->RotateXSLD->setValue(CurrentTextItem->RotateXAxis);
             ui->RotateYED->setValue(CurrentTextItem->RotateYAxis);      ui->RotateYSLD->setValue(CurrentTextItem->RotateYAxis);
             ui->RotateZED->setValue(CurrentTextItem->RotateZAxis);      ui->RotateZSLD->setValue(CurrentTextItem->RotateZAxis);
+
+            ui->TurnZED->setValue(CurrentTextItem->TurnZAxis);          ui->TurnZSlider->setValue(CurrentTextItem->TurnZAxis);
+            ui->TurnXED->setValue(CurrentTextItem->TurnXAxis);          ui->TurnXSlider->setValue(CurrentTextItem->TurnXAxis);
+            ui->TurnYED->setValue(CurrentTextItem->TurnYAxis);          ui->TurnYSlider->setValue(CurrentTextItem->TurnYAxis);
 
             if ((CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(!CurrentTextItem->BackgroundBrush->LockGeometry))
                 CurrentTextItem->BackgroundBrush->AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
@@ -989,7 +1044,9 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
         } else {
             ItemC0=new QTableWidgetItem(QIcon(CompoObject->IsVisible?ICON_OBJECT_TEXT:ICON_OBJECT_TEXTHIDE),"");
             ItemC1=new QTableWidgetItem("");
-            ItemC2=new QTableWidgetItem(CompoObject->Text);
+            QTextDocument   TextDoc;
+            TextDoc.setHtml(CompoObject->Text);
+            ItemC2=new QTableWidgetItem(TextDoc.toPlainText());
         }
         if (!CompoObject->IsVisible) {
             QFont  font=QFont("Sans serif",9,QFont::Normal,QFont::StyleItalic);
@@ -1020,64 +1077,6 @@ void DlgSlideProperties::s_TVMarginsBt() {
     if (MagneticRuler.MagneticRuler==true) MagneticRuler.MagneticRuler=false; else MagneticRuler.MagneticRuler=true;
     DiaporamaObject->Parent->ApplicationConfig->SlideRuler=MagneticRuler.MagneticRuler;
     RefreshControls();
-}
-
-//====================================================================================================================
-// Update dock informations
-//====================================================================================================================
-
-void DlgSlideProperties::UpdateDockInfo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::UpdateDockInfo");
-
-    ui->TableInfo->setUpdatesEnabled(false);               // To allow and force a general update
-    while (ui->TableInfo->rowCount()>0) ui->TableInfo->removeRow(0);
-    int CurrentBlock=ui->BlockTable->currentRow();
-    cCompositionObject  *CurrentTextItem=NULL;
-    if ((CompositionList)&&(CurrentBlock>=0)&&(CurrentBlock<CompositionList->List.count())) CurrentTextItem=CompositionList->List[CurrentBlock];
-    if (CurrentTextItem) {
-        ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Object type")));
-        ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK?QApplication::translate("DlgSlideProperties","Title"):
-                                                                                  CurrentTextItem->BackgroundBrush->Image!=NULL?QApplication::translate("DlgSlideProperties","Image"):
-                                                                                  QApplication::translate("DlgSlideProperties","Video")));
-
-        if (CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK) {
-            ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Filename")));
-            ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(CurrentTextItem->BackgroundBrush->Image!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush->Image->FileName).fileName():
-                                                                                      CurrentTextItem->BackgroundBrush->Video!=NULL?QFileInfo(CurrentTextItem->BackgroundBrush->Video->FileName).fileName():""));
-            QStringList *Info=NULL;
-            if (CurrentTextItem->BackgroundBrush->Image!=NULL) {
-                // If exiv value not loaded then call exiv2 now !
-                if (!CurrentTextItem->BackgroundBrush->Image->IsInformationValide) CurrentTextItem->BackgroundBrush->Image->GetFullInformationFromFile();
-                Info=&CurrentTextItem->BackgroundBrush->Image->InformationList;
-            } else if (CurrentTextItem->BackgroundBrush->Video!=NULL) {
-                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(QApplication::translate("DlgSlideProperties","Image size")));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(QString("%1x%2").arg(CurrentTextItem->BackgroundBrush->Video->ImageWidth).arg(CurrentTextItem->BackgroundBrush->Video->ImageHeight)));
-                ////////////////// On peut en rajouter ICI!
-                Info=&CurrentTextItem->BackgroundBrush->Video->InformationList;
-            }
-            // Fill table with Information List
-            if (Info) for (int i=0;i<Info->count();i++) {
-                ui->TableInfo->insertRow(ui->TableInfo->rowCount());
-                QStringList Value=((QString)Info->at(i)).split("##");
-                if (((QString)Value[0]).indexOf(".")!=-1) {
-                    ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(((QString)Value[0]).mid(((QString)Value[0]).lastIndexOf(".")+1)));
-                    ui->TableInfo->item(ui->TableInfo->rowCount()-1,0)->setToolTip(Value[0]);
-                } else ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,0,new QTableWidgetItem(Value[0]));
-                ui->TableInfo->setItem(ui->TableInfo->rowCount()-1,1,new QTableWidgetItem(Value[1]));
-                ui->TableInfo->item(ui->TableInfo->rowCount()-1,1)->setToolTip(Value[0]);
-            }
-        }
-        ui->TableInfo->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
-        ui->TableInfo->setVisible(false);                      // To ensure all items of all columns are used to compute size
-        ui->TableInfo->resizeColumnsToContents();              // Resize column widht
-        ui->TableInfo->resizeRowsToContents();                 // Resize row height
-        ui->TableInfo->setVisible(true);                       // To allow display
-        ui->TableInfo->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
-    }
-    ui->TableInfo->setUpdatesEnabled(true);                // To allow and force a general update
 }
 
 //====================================================================================================================
@@ -1195,6 +1194,20 @@ void DlgSlideProperties::s_ChgRotateXValue(int Value) {
     CompositionObject->RotateXAxis=Value;
     ApplyToContexte(false,false);
 }
+void DlgSlideProperties::s_ResetRotateXBT() {
+    s_ChgRotateXValue(0);
+}
+
+void DlgSlideProperties::s_ChgTurnXValue(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgTurnXValue");
+
+    if (!PrepContexte()) return;
+    CompositionObject->TurnXAxis=Value;
+    ApplyToContexte(false,false);
+}
+void DlgSlideProperties::s_ResetTurnXBT() {
+    s_ChgTurnXValue(0);
+}
 
 //========= Y Rotation value
 void DlgSlideProperties::s_ChgRotateYValue(int Value) {
@@ -1204,6 +1217,20 @@ void DlgSlideProperties::s_ChgRotateYValue(int Value) {
     CompositionObject->RotateYAxis=Value;
     ApplyToContexte(false,false);
 }
+void DlgSlideProperties::s_ResetRotateYBT() {
+    s_ChgRotateYValue(0);
+}
+
+void DlgSlideProperties::s_ChgTurnYValue(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgTurnYValue");
+
+    if (!PrepContexte()) return;
+    CompositionObject->TurnYAxis=Value;
+    ApplyToContexte(false,false);
+}
+void DlgSlideProperties::s_ResetTurnYBT() {
+    s_ChgTurnYValue(0);
+}
 
 //========= Z Rotation value
 void DlgSlideProperties::s_ChgRotateZValue(int Value) {
@@ -1212,6 +1239,20 @@ void DlgSlideProperties::s_ChgRotateZValue(int Value) {
     if (!PrepContexte()) return;
     CompositionObject->RotateZAxis=Value;
     ApplyToContexte(false,false);
+}
+void DlgSlideProperties::s_ResetRotateZBT() {
+    s_ChgRotateZValue(0);
+}
+
+void DlgSlideProperties::s_ChgTurnZValue(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgTurnZValue");
+
+    if (!PrepContexte()) return;
+    CompositionObject->TurnZAxis=Value;
+    ApplyToContexte(false,false);
+}
+void DlgSlideProperties::s_ResetTurnZBT() {
+    s_ChgTurnZValue(0);
 }
 
 //========= Background forme
@@ -1425,9 +1466,27 @@ void DlgSlideProperties::TextEditor() {
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
-        ui->BlockTable->item(ui->BlockTable->currentRow(),2)->setText(CompositionObject->Text);
+        QTextDocument   TextDoc;
+        TextDoc.setHtml(CompositionObject->Text);
+        ui->BlockTable->item(ui->BlockTable->currentRow(),2)->setText(TextDoc.toPlainText());
         ApplyToContexte(false,true);
     } else RefreshSceneImage();
+}
+
+//========= Open information dialog
+void DlgSlideProperties::Information() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::Information");
+
+    if (!PrepContexte()) return;
+    cBaseMediaFile *Media=NULL;
+    if (CompositionObject->BackgroundBrush->Image!=NULL)            Media=CompositionObject->BackgroundBrush->Image;
+        else if (CompositionObject->BackgroundBrush->Video!=NULL)   Media=CompositionObject->BackgroundBrush->Video;
+
+    if (Media) {
+        DlgInfoFile Dlg(Media,HELPFILE_DlgInfoFile,GlobalMainWindow->ApplicationConfig,GlobalMainWindow->ApplicationConfig->DlgInfoFileWSP,this);
+        Dlg.InitDialog();
+        Dlg.exec();
+    }
 }
 
 //========= Open video editor
@@ -1712,7 +1771,27 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
     DiaporamaObject->Parent->ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(DiaporamaObject->Parent->ImageGeometry);
     CompositionObject->ApplyCoordinateStyle(DiaporamaObject->Parent->ApplicationConfig->StyleCoordinateCollection.GetStyleDef(DiaporamaObject->Parent->ApplicationConfig->StyleCoordinateCollection.DecodeString(DiaporamaObject->Parent->ApplicationConfig->DefaultBlock_Text_CoordST[DiaporamaObject->Parent->ImageGeometry])));
 
-    CompositionObject->Text=QApplication::translate("DlgSlideProperties","Text","Default text value");
+    // Create default text
+    QTextDocument       TextDoc(QApplication::translate("DlgSlideProperties","Text","Default text value"));
+    QFont               Font=QFont(CompositionObject->FontName,CompositionObject->FontSize,CompositionObject->IsBold?QFont::Bold:QFont::Normal,CompositionObject->IsItalic?QFont::StyleItalic:QFont::StyleNormal);
+    QTextOption         OptionText((CompositionObject->HAlign==0)?Qt::AlignLeft:(CompositionObject->HAlign==1)?Qt::AlignHCenter:(CompositionObject->HAlign==2)?Qt::AlignRight:Qt::AlignJustify);
+    QTextCursor         Cursor(&TextDoc);
+    QTextCharFormat     TCF;
+    QTextBlockFormat    TBF;
+    Cursor.select(QTextCursor::Document);
+    OptionText.setWrapMode(QTextOption::WordWrap);
+    Font.setUnderline(CompositionObject->IsUnderline);
+    TextDoc.setDefaultFont(Font);
+    TextDoc.setDefaultTextOption(OptionText);
+    TCF.setFont(Font);
+    TCF.setFontWeight(CompositionObject->IsBold?QFont::Bold:QFont::Normal);
+    TCF.setFontItalic(CompositionObject->IsItalic);
+    TCF.setFontUnderline(CompositionObject->IsUnderline);
+    TCF.setForeground(QBrush(QColor(CompositionObject->FontColor)));
+    TBF.setAlignment((CompositionObject->HAlign==0)?Qt::AlignLeft:(CompositionObject->HAlign==1)?Qt::AlignHCenter:(CompositionObject->HAlign==2)?Qt::AlignRight:Qt::AlignJustify);
+    Cursor.setCharFormat(TCF);
+    Cursor.setBlockFormat(TBF);
+    CompositionObject->Text=TextDoc.toHtml();
 
     // Now create and append a shot composition block to all shot
     for (int i=0;i<DiaporamaObject->List.count();i++) {
@@ -2203,4 +2282,50 @@ void DlgSlideProperties::s_Event_ClipboardChanged() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_Event_ClipboardChanged");
 
     ui->PasteBlockBT->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/block")));
+}
+
+//====================================================================================================================
+// Text annimation
+//====================================================================================================================
+
+//========= Text Zoom Level
+void DlgSlideProperties::s_ZoomResetBT() {
+    s_ZoomED(100);
+}
+void DlgSlideProperties::s_ZoomED(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ZoomED");
+
+    if ((StopMAJSpinbox)||(!PrepContexte())) return;
+    CompositionObject->TxtZoomLevel=Value;
+    ui->ZoomSlider->setValue(CompositionObject->TxtZoomLevel);
+    ui->ZoomED->setValue(CompositionObject->TxtZoomLevel);
+    ApplyToContexte(true,false);
+}
+
+//========= Text scrolling X
+void DlgSlideProperties::s_ScrollXResetBT() {
+    s_ScrollXED(0);
+}
+void DlgSlideProperties::s_ScrollXED(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ScrollXED");
+
+    if ((StopMAJSpinbox)||(!PrepContexte())) return;
+    CompositionObject->TxtScrollX=Value;
+    ui->ScrollXSlider->setValue(CompositionObject->TxtScrollX);
+    ui->ScrollXED->setValue(CompositionObject->TxtScrollX);
+    ApplyToContexte(true,false);
+}
+
+//========= Text scrolling Y
+void DlgSlideProperties::s_ScrollYResetBT() {
+    s_ScrollYED(0);
+}
+void DlgSlideProperties::s_ScrollYED(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ScrollYED");
+
+    if ((StopMAJSpinbox)||(!PrepContexte())) return;
+    CompositionObject->TxtScrollY=Value;
+    ui->ScrollYSlider->setValue(CompositionObject->TxtScrollY);
+    ui->ScrollYED->setValue(CompositionObject->TxtScrollY);
+    ApplyToContexte(true,false);
 }

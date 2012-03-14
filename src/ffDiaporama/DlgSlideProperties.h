@@ -28,18 +28,17 @@
 // Specific inclusions
 #include "_Diaporama.h"
 #include "cCustomGraphicsRectItem.h"
+#include "_ApplicationDefinitions.h"
 
 namespace Ui {
     class DlgSlideProperties;
 }
 
-class DlgSlideProperties : public QDialog {
+class DlgSlideProperties : public QCustomDialog {
 Q_OBJECT
 public:
     cDiaporamaObject        *DiaporamaObject;
     QDomDocument            *Undo;                      // Save object before modification for cancel button
-
-    bool                    IsFirstInitDone;            // true when first show window was done
 
     cCompositionList        *CompositionList;           // Link to Composition List
     double                  xmax,ymax;                  // Size of the scene
@@ -62,16 +61,24 @@ public:
     bool                    StopMAJSpinbox;                         // Use to avoid controls to send refreshcontrol
     bool                    StopMajFramingStyle;
 
-    explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent = 0);
+    explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgSlideProperties();
 
-    void            RefreshStyleControls();
-    void            RefreshControls();
-    void            RefreshSceneImage();
-    void            UpdateDockInfo();
-    void            AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
-    void            GetForDisplayUnit(double &DisplayW,double &DisplayH);
-    void            s_Scene_DoubleClick();                      // User double click on a block in the scene widget
+    // function to be overloaded
+    virtual void            DoInitDialog();                             // Initialise dialog
+    virtual void            DoAccept() {/*Nothing to do*/}              // Call when user click on Ok button
+    virtual void            DoRejet()  {/*Nothing to do*/}              // Call when user click on Cancel button
+    virtual void            PrepareGlobalUndo();                        // Initiale Undo
+    virtual void            DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
+    virtual void            SaveWindowState();
+    virtual void            RestoreWindowState();
+
+    void                    RefreshStyleControls();
+    void                    RefreshControls();
+    void                    RefreshSceneImage();
+    void                    AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
+    void                    GetForDisplayUnit(double &DisplayW,double &DisplayH);
+    void                    s_Scene_DoubleClick();                      // User double click on a block in the scene widget
 
     // Utility functions
     cCompositionObject      *GetSelectedCompositionObject();        // Return selected CompositionObject
@@ -87,14 +94,9 @@ public:
     bool                    PrepContexte();
     void                    ApplyToContexte(bool ReposRectItem,bool ApplyGlobal);
 
-    // *************************
-
-
 protected:
     virtual void    resizeEvent(QResizeEvent *);
     virtual void    showEvent(QShowEvent *);
-    virtual void    reject();
-    virtual void    accept();
 
 private slots:
     void            s_Event_ClipboardChanged();
@@ -102,8 +104,6 @@ private slots:
 
     void            OKPrevious();
     void            OKNext();
-    void            Help();
-    void            SetSavedWindowGeometry();
     void            s_SlideNameChange(QString NewText);
     void            s_NewChapter(int state);
     void            s_ShotDurationChange(QTime NewValue);
@@ -121,6 +121,7 @@ private slots:
     void            TextEditor();
     void            ImageEditCorrect();
     void            VideoEdit();
+    void            Information();
     void            GetSound();
 
     // Shot table part
@@ -154,13 +155,34 @@ private slots:
     void            s_ChgShadowColorCB(int);
 
     void            s_ChgRotateZValue(int);
+    void            s_ResetRotateZBT();
+
     void            s_ChgRotateXValue(int);
+    void            s_ResetRotateXBT();
+
     void            s_ChgRotateYValue(int);
+    void            s_ResetRotateYBT();
 
     // Style
     void            s_ChangeFramingStyle(int);
     void            s_CoordinateStyleBT();
     void            s_BlockShapeStyleBT();
+
+    // Text annimation
+    void            s_ZoomED(int);
+    void            s_ZoomResetBT();
+    void            s_ScrollXED(int);
+    void            s_ScrollXResetBT();
+    void            s_ScrollYED(int);
+    void            s_ScrollYResetBT();
+
+    // Multilple turn annimation
+    void            s_ChgTurnZValue(int);
+    void            s_ResetTurnZBT();
+    void            s_ChgTurnXValue(int);
+    void            s_ResetTurnXBT();
+    void            s_ChgTurnYValue(int);
+    void            s_ResetTurnYBT();
 
 private:
     void            Clean();

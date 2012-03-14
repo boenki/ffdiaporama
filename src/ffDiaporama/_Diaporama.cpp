@@ -25,6 +25,11 @@
 #include "mainwindow.h"
 
 #include <QFileDialog>
+#include <QAbstractTextDocumentLayout>
+#include <QTextDocument>
+#include <QTextCursor>
+#include <QTextCharFormat>
+#include <QTextBlockFormat>
 
 //============================================
 // Global static
@@ -55,6 +60,10 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
     RotateXAxis             = 0;            // Rotation from X axis
     RotateYAxis             = 0;            // Rotation from Y axis
 
+    TurnZAxis               = 0;            // Number of turn from Z axis
+    TurnXAxis               = 0;            // Number of turn from X axis
+    TurnYAxis               = 0;            // Number of turn from Y axis
+
     // Text part
     Text                    = "";           // Text of the object
     FontName                = DEFAULT_FONT_FAMILLY;                             // font name
@@ -67,6 +76,9 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
     HAlign                  = DEFAULT_FONT_HALIGN;                              // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
     VAlign                  = DEFAULT_FONT_VALIGN;                              // Vertical alignement : 0=up, 1=center, 2=bottom
     StyleText               = DEFAULT_FONT_TEXTEFFECT;                          // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+    TxtZoomLevel            = 100;                                              // Zoom Level for text
+    TxtScrollX              = 0;                                                // Scrolling X for text
+    TxtScrollY              = 0;                                                // Scrolling Y for text
 
     // Shap part
     BackgroundForm          = 1;                                                // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
@@ -114,6 +126,9 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("RotateXAxis",RotateXAxis);                // Rotation from X axis
     Element.setAttribute("RotateYAxis",RotateYAxis);                // Rotation from Y axis
     Element.setAttribute("BackgroundTransparent",Opacity);          // Opacity of the form
+    Element.setAttribute("TurnZAxis",TurnZAxis);                    // Number of turn from Z axis
+    Element.setAttribute("TurnXAxis",TurnXAxis);                    // Number of turn from X axis
+    Element.setAttribute("TurnYAxis",TurnYAxis);                    // Number of turn from Y axis
 
     // Text part
     if ((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
@@ -132,13 +147,19 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
         }
     }
 
+    // Shot part of text part
+    Element.setAttribute("TxtZoomLevel",TxtZoomLevel);                      // Zoom Level for text
+    Element.setAttribute("TxtScrollX",TxtScrollX);                          // Scrolling X for text
+    Element.setAttribute("TxtScrollY",TxtScrollY);                          // Scrolling Y for text
+
+
     // Shap part
-    Element.setAttribute("BackgroundForm",BackgroundForm);          // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-    Element.setAttribute("PenSize",PenSize);                        // Width of the border of the form
-    Element.setAttribute("PenStyle",PenStyle);                      // Style of the pen border of the form
-    Element.setAttribute("PenColor",PenColor);                      // Color of the border of the form
-    Element.setAttribute("FormShadow",FormShadow);                  // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-    Element.setAttribute("FormShadowDistance",FormShadowDistance);  // Distance from form to shadow
+    Element.setAttribute("BackgroundForm",BackgroundForm);                  // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
+    Element.setAttribute("PenSize",PenSize);                                // Width of the border of the form
+    Element.setAttribute("PenStyle",PenStyle);                              // Style of the pen border of the form
+    Element.setAttribute("PenColor",PenColor);                              // Color of the border of the form
+    Element.setAttribute("FormShadow",FormShadow);                          // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+    Element.setAttribute("FormShadowDistance",FormShadowDistance);          // Distance from form to shadow
     Element.setAttribute("FormShadowColor",FormShadowColor);                // Shadow color
     BackgroundBrush->SaveToXML(Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath);    // Brush of the background of the form
 
@@ -167,32 +188,67 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         if (Element.hasAttribute("RotateZAxis"))            RotateZAxis =Element.attribute("RotateZAxis").toDouble();           // Rotation from Z axis
         if (Element.hasAttribute("RotateXAxis"))            RotateXAxis =Element.attribute("RotateXAxis").toDouble();           // Rotation from X axis
         if (Element.hasAttribute("RotateYAxis"))            RotateYAxis =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
+        if (Element.hasAttribute("TurnZAxis"))              TurnZAxis   =Element.attribute("TurnZAxis").toInt();                // Number of turn from Z axis
+        if (Element.hasAttribute("TurnXAxis"))              TurnXAxis   =Element.attribute("TurnXAxis").toInt();                // Number of turn from X axis
+        if (Element.hasAttribute("TurnYAxis"))              TurnYAxis   =Element.attribute("TurnYAxis").toInt();                // Number of turn from Y axis
 
         // Text part
         if ((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
             Text=Element.attribute("Text");  // Text of the object
             if (Text!="") {
-                if (Element.hasAttribute("FontName"))           FontName            =Element.attribute("FontName");                         // font name
-                if (Element.hasAttribute("FontSize"))           FontSize            =Element.attribute("FontSize").toInt();                 // font size
-                if (Element.hasAttribute("FontColor"))          FontColor           =Element.attribute("FontColor");                        // font color
-                if (Element.hasAttribute("FontShadowColor"))    FontShadowColor     =Element.attribute("FontShadowColor");                  // font shadow color
-                if (Element.hasAttribute("IsBold"))             IsBold              =Element.attribute("IsBold")=="1";                      // true if bold mode
-                if (Element.hasAttribute("IsItalic"))           IsItalic            =Element.attribute("IsItalic")=="1";                    // true if Italic mode
-                if (Element.hasAttribute("IsUnderline"))        IsUnderline         =Element.attribute("IsUnderline")=="1";                 // true if Underline mode
-                if (Element.hasAttribute("HAlign"))             HAlign              =Element.attribute("HAlign").toInt();                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-                if (Element.hasAttribute("VAlign"))             VAlign              =Element.attribute("VAlign").toInt();                   // Vertical alignement : 0=up, 1=center, 2=bottom
-                if (Element.hasAttribute("StyleText"))          StyleText           =Element.attribute("StyleText").toInt();                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+                if (Element.hasAttribute("FontName"))           FontName            =Element.attribute("FontName");                             // font name
+                if (Element.hasAttribute("FontSize"))           FontSize            =Element.attribute("FontSize").toInt();                     // font size
+                if (Element.hasAttribute("FontColor"))          FontColor           =Element.attribute("FontColor");                            // font color
+                if (Element.hasAttribute("FontShadowColor"))    FontShadowColor     =Element.attribute("FontShadowColor");                      // font shadow color
+                if (Element.hasAttribute("IsBold"))             IsBold              =Element.attribute("IsBold")=="1";                          // true if bold mode
+                if (Element.hasAttribute("IsItalic"))           IsItalic            =Element.attribute("IsItalic")=="1";                        // true if Italic mode
+                if (Element.hasAttribute("IsUnderline"))        IsUnderline         =Element.attribute("IsUnderline")=="1";                     // true if Underline mode
+                if (Element.hasAttribute("HAlign"))             HAlign              =Element.attribute("HAlign").toInt();                       // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+                if (Element.hasAttribute("VAlign"))             VAlign              =Element.attribute("VAlign").toInt();                       // Vertical alignement : 0=up, 1=center, 2=bottom
+                if (Element.hasAttribute("StyleText"))          StyleText           =Element.attribute("StyleText").toInt();                    // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+
+                // Conversion from plaintext (ffd <1.3)
+                if (!Text.startsWith("<!DOCTYPE HTML")) {
+                    QTextDocument       TextDoc(Text);
+                    QFont               Font=QFont(FontName,FontSize*2,IsBold?QFont::Bold:QFont::Normal,IsItalic?QFont::StyleItalic:QFont::StyleNormal);    // FontSize is always 10 and size if given with setPointSizeF !
+                    QTextOption         OptionText((HAlign==0)?Qt::AlignLeft:(HAlign==1)?Qt::AlignHCenter:(HAlign==2)?Qt::AlignRight:Qt::AlignJustify); // Setup horizontal alignement
+                    QTextCursor         Cursor(&TextDoc);
+                    QTextCharFormat     TCF;
+                    QTextBlockFormat    TBF;
+
+                    Cursor.select(QTextCursor::Document);
+                    OptionText.setWrapMode(QTextOption::WordWrap);                                                                              // Setup word wrap text option
+                    Font.setUnderline(IsUnderline);                                                                                             // Set underline
+
+                    TextDoc.setDefaultFont(Font);
+                    TextDoc.setDefaultTextOption(OptionText);
+
+                    TCF.setFont(Font);
+                    TCF.setFontWeight(IsBold?QFont::Bold:QFont::Normal);
+                    TCF.setFontItalic(IsItalic);
+                    TCF.setFontUnderline(IsUnderline);
+                    TCF.setForeground(QBrush(QColor(FontColor)));
+                    TBF.setAlignment((HAlign==0)?Qt::AlignLeft:(HAlign==1)?Qt::AlignHCenter:(HAlign==2)?Qt::AlignRight:Qt::AlignJustify);
+                    Cursor.setCharFormat(TCF);
+                    Cursor.setBlockFormat(TBF);
+                    Text=TextDoc.toHtml();
+                }
             }
         }
 
+        // Shot part of text part
+        if (Element.hasAttribute("TxtZoomLevel"))               TxtZoomLevel        =Element.attribute("TxtZoomLevel").toInt();             // Zoom Level for text
+        if (Element.hasAttribute("TxtScrollX"))                 TxtScrollX          =Element.attribute("TxtScrollX").toInt();               // Scrolling X for text
+        if (Element.hasAttribute("TxtScrollY"))                 TxtScrollY          =Element.attribute("TxtScrollY").toInt();               // Scrolling Y for text
+
         // Shap part
-        if (Element.hasAttribute("BackgroundForm"))     BackgroundForm      =Element.attribute("BackgroundForm").toInt();           // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-        if (Element.hasAttribute("PenSize"))            PenSize             =Element.attribute("PenSize").toInt();                  // Width of the border of the form
-        if (Element.hasAttribute("PenStyle"))           PenStyle            =Element.attribute("PenStyle").toInt();                 // Style of the pen border of the form
-        if (Element.hasAttribute("PenColor"))           PenColor            =Element.attribute("PenColor");                         // Color of the border of the form
-        if (Element.hasAttribute("FormShadowColor"))    FormShadowColor         =Element.attribute("FormShadowColor");                      // Color of the shadow of the form
-        if (Element.hasAttribute("FormShadow"))         FormShadow          =Element.attribute("FormShadow").toInt();               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-        if (Element.hasAttribute("FormShadowDistance")) FormShadowDistance  =Element.attribute("FormShadowDistance").toInt();       // Distance from form to shadow
+        if (Element.hasAttribute("BackgroundForm"))             BackgroundForm      =Element.attribute("BackgroundForm").toInt();           // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
+        if (Element.hasAttribute("PenSize"))                    PenSize             =Element.attribute("PenSize").toInt();                  // Width of the border of the form
+        if (Element.hasAttribute("PenStyle"))                   PenStyle            =Element.attribute("PenStyle").toInt();                 // Style of the pen border of the form
+        if (Element.hasAttribute("PenColor"))                   PenColor            =Element.attribute("PenColor");                         // Color of the border of the form
+        if (Element.hasAttribute("FormShadowColor"))            FormShadowColor     =Element.attribute("FormShadowColor");                  // Color of the shadow of the form
+        if (Element.hasAttribute("FormShadow"))                 FormShadow          =Element.attribute("FormShadow").toInt();               // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+        if (Element.hasAttribute("FormShadowDistance"))         FormShadowDistance  =Element.attribute("FormShadowDistance").toInt();       // Distance from form to shadow
 
         if ((TypeComposition==COMPOSITIONTYPE_SHOT)&&(ObjectComposition!=NULL)) {
             // Construct link to video and image object from DiaporamaObject->ObjectComposition
@@ -317,6 +373,29 @@ void cCompositionObject::ApplyTextStyle(QString StyleDef) {
         else if (List[i].startsWith("Underline:"))          IsUnderline    =List[i].mid(QString("Underline:").length()).toInt()==1;
         else if (List[i].startsWith("FontName:"))           FontName       =List[i].mid(QString("FontName:").length());
     }
+
+    // Apply to html text
+    QTextDocument       TextDoc;
+    QFont               Font=QFont(FontName,FontSize,IsBold?QFont::Bold:QFont::Normal,IsItalic?QFont::StyleItalic:QFont::StyleNormal);
+    QTextOption         OptionText((HAlign==0)?Qt::AlignLeft:(HAlign==1)?Qt::AlignHCenter:(HAlign==2)?Qt::AlignRight:Qt::AlignJustify);
+    QTextCursor         Cursor(&TextDoc);
+    QTextCharFormat     TCF;
+    QTextBlockFormat    TBF;
+    TextDoc.setHtml(Text);
+    Cursor.select(QTextCursor::Document);
+    OptionText.setWrapMode(QTextOption::WordWrap);
+    Font.setUnderline(IsUnderline);
+    TextDoc.setDefaultFont(Font);
+    TextDoc.setDefaultTextOption(OptionText);
+    TCF.setFont(Font);
+    TCF.setFontWeight(IsBold?QFont::Bold:QFont::Normal);
+    TCF.setFontItalic(IsItalic);
+    TCF.setFontUnderline(IsUnderline);
+    TCF.setForeground(QBrush(QColor(FontColor)));
+    TBF.setAlignment((HAlign==0)?Qt::AlignLeft:(HAlign==1)?Qt::AlignHCenter:(HAlign==2)?Qt::AlignRight:Qt::AlignJustify);
+    Cursor.setCharFormat(TCF);
+    Cursor.setBlockFormat(TBF);
+    Text=TextDoc.toHtml();
 }
 
 //====================================================================================================================
@@ -370,7 +449,10 @@ QString cCompositionObject::GetCoordinateStyle() {
             QString("###H:%1").arg(h,0,'e')+
             QString("###RotateZAxis:%1").arg(RotateZAxis,0,'e')+
             QString("###RotateXAxis:%1").arg(RotateXAxis,0,'e')+
-            QString("###RotateYAxis:%1").arg(RotateYAxis,0,'e');
+            QString("###RotateYAxis:%1").arg(RotateYAxis,0,'e')+
+            QString("###TurnZAxis:%1").arg(TurnZAxis)+
+            QString("###TurnXAxis:%1").arg(TurnXAxis)+
+            QString("###TurnYAxis:%1").arg(TurnYAxis);
 
     // If block is image or video
     if ((BackgroundBrush->Image!=NULL)||(BackgroundBrush->Video!=NULL)) {
@@ -429,6 +511,9 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
         else if (List[i].startsWith("RotateZAxis:"))    RotateZAxis=List[i].mid(QString("RotateZAxis:").length()).toDouble();
         else if (List[i].startsWith("RotateXAxis:"))    RotateXAxis=List[i].mid(QString("RotateXAxis:").length()).toDouble();
         else if (List[i].startsWith("RotateYAxis:"))    RotateYAxis=List[i].mid(QString("RotateYAxis:").length()).toDouble();
+        else if (List[i].startsWith("TurnZAxis:"))      TurnZAxis  =List[i].mid(QString("TurnZAxis:").length()).toInt();
+        else if (List[i].startsWith("TurnXAxis:"))      TurnXAxis  =List[i].mid(QString("TurnXAxis:").length()).toInt();
+        else if (List[i].startsWith("TurnYAxis:"))      TurnYAxis  =List[i].mid(QString("TurnYAxis:").length()).toInt();
 
         else if ((List[i].startsWith("FramingStyleIndex:"))||(List[i].startsWith("FramingStyleName:"))||(List[i].startsWith("CustomFramingStyle:"))) {
             QString CustomFramingStyle="";
@@ -499,6 +584,9 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
     RotateZAxis          =CompositionObjectToCopy->RotateZAxis;
     RotateXAxis          =CompositionObjectToCopy->RotateXAxis;
     RotateYAxis          =CompositionObjectToCopy->RotateYAxis;
+    TurnZAxis            =CompositionObjectToCopy->TurnZAxis;
+    TurnXAxis            =CompositionObjectToCopy->TurnXAxis;
+    TurnYAxis            =CompositionObjectToCopy->TurnYAxis;
     Opacity              =CompositionObjectToCopy->Opacity;
     Text                 =CompositionObjectToCopy->Text;
     FontName             =CompositionObjectToCopy->FontName;
@@ -518,6 +606,9 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
     FormShadowColor      =CompositionObjectToCopy->FormShadowColor;
     FormShadow           =CompositionObjectToCopy->FormShadow;
     FormShadowDistance   =CompositionObjectToCopy->FormShadowDistance;
+    TxtZoomLevel         =CompositionObjectToCopy->TxtZoomLevel;
+    TxtScrollX           =CompositionObjectToCopy->TxtScrollX;
+    TxtScrollY           =CompositionObjectToCopy->TxtScrollY;
 
     BackgroundBrush->CopyFromBrushDefinition(CompositionObjectToCopy->BackgroundBrush);
 }
@@ -548,21 +639,31 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             else DestPainter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
         // Define values depending on PctDone and PrevCompoObject
-        double TheX=x;
-        double TheY=y;
-        double TheW=w;
-        double TheH=h;
-        double TheRotateZAxis=RotateZAxis;
-        double TheRotateXAxis=RotateXAxis;
-        double TheRotateYAxis=RotateYAxis;
+        double TheX             =x;
+        double TheY             =y;
+        double TheW             =w;
+        double TheH             =h;
+        double TheRotateZAxis   =RotateZAxis+360*TurnZAxis;
+        double TheRotateXAxis   =RotateXAxis+360*TurnXAxis;
+        double TheRotateYAxis   =RotateYAxis+360*TurnYAxis;
+        double TheTxtZoomLevel  =TxtZoomLevel;
+        double TheTxtScrollX    =TxtScrollX;
+        double TheTxtScrollY    =TxtScrollY;
         if (PrevCompoObject) {
-            if (PrevCompoObject->x!=TheX)                       TheX          =PrevCompoObject->x+(TheX-PrevCompoObject->x)*PctDone;
-            if (PrevCompoObject->y!=TheY)                       TheY          =PrevCompoObject->y+(TheY-PrevCompoObject->y)*PctDone;
-            if (PrevCompoObject->w!=TheW)                       TheW          =PrevCompoObject->w+(TheW-PrevCompoObject->w)*PctDone;
-            if (PrevCompoObject->h!=TheH)                       TheH          =PrevCompoObject->h+(TheH-PrevCompoObject->h)*PctDone;
-            if (PrevCompoObject->RotateZAxis!=TheRotateZAxis)   TheRotateZAxis=PrevCompoObject->RotateZAxis+(TheRotateZAxis-PrevCompoObject->RotateZAxis)*PctDone;
-            if (PrevCompoObject->RotateXAxis!=TheRotateXAxis)   TheRotateXAxis=PrevCompoObject->RotateXAxis+(TheRotateXAxis-PrevCompoObject->RotateXAxis)*PctDone;
-            if (PrevCompoObject->RotateYAxis!=TheRotateYAxis)   TheRotateYAxis=PrevCompoObject->RotateYAxis+(TheRotateYAxis-PrevCompoObject->RotateYAxis)*PctDone;
+            if (PrevCompoObject->x!=TheX)                       TheX            =PrevCompoObject->x+(TheX-PrevCompoObject->x)*PctDone;
+            if (PrevCompoObject->y!=TheY)                       TheY            =PrevCompoObject->y+(TheY-PrevCompoObject->y)*PctDone;
+            if (PrevCompoObject->w!=TheW)                       TheW            =PrevCompoObject->w+(TheW-PrevCompoObject->w)*PctDone;
+            if (PrevCompoObject->h!=TheH)                       TheH            =PrevCompoObject->h+(TheH-PrevCompoObject->h)*PctDone;
+            if (PrevCompoObject->RotateZAxis!=TheRotateZAxis)   TheRotateZAxis  =PrevCompoObject->RotateZAxis+(TheRotateZAxis-PrevCompoObject->RotateZAxis)*PctDone;
+            if (PrevCompoObject->RotateXAxis!=TheRotateXAxis)   TheRotateXAxis  =PrevCompoObject->RotateXAxis+(TheRotateXAxis-PrevCompoObject->RotateXAxis)*PctDone;
+            if (PrevCompoObject->RotateYAxis!=TheRotateYAxis)   TheRotateYAxis  =PrevCompoObject->RotateYAxis+(TheRotateYAxis-PrevCompoObject->RotateYAxis)*PctDone;
+            if (PrevCompoObject->TxtZoomLevel!=TheTxtZoomLevel) TheTxtZoomLevel =PrevCompoObject->TxtZoomLevel+(TheTxtZoomLevel-PrevCompoObject->TxtZoomLevel)*PctDone;
+            if (PrevCompoObject->TxtScrollX!=TheTxtScrollX)     TheTxtScrollX   =PrevCompoObject->TxtScrollX+(TheTxtScrollX-PrevCompoObject->TxtScrollX)*PctDone;
+            if (PrevCompoObject->TxtScrollY!=TheTxtScrollY)     TheTxtScrollY   =PrevCompoObject->TxtScrollY+(TheTxtScrollY-PrevCompoObject->TxtScrollY)*PctDone;
+        } else {
+            TheRotateZAxis=RotateZAxis+360*TurnZAxis*PctDone;
+            TheRotateXAxis=RotateXAxis+360*TurnXAxis*PctDone;
+            TheRotateYAxis=RotateYAxis+360*TurnYAxis*PctDone;
         }
 
         QPen    Pen;
@@ -606,7 +707,10 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         if (TheRotateYAxis!=0) Matrix.rotate(TheRotateYAxis,Qt::YAxis);   // Rotate from Y axis
         Painter.setWorldTransform(Matrix,false);
 
-        // Draw internal shape
+        //**********************************************************************************
+        // Block brush & shape part
+        //**********************************************************************************
+
         if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
 
             // Create brush with Ken Burns effect !
@@ -627,68 +731,80 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         DrawShape(Painter,BackgroundForm,-W/2,-H/2,W,H,0,0);
         if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
-        Painter.setPen(Qt::NoPen);
-        FullMargin=FullMargin*2;
+        //**********************************************************************************
+        // Text part
+        //**********************************************************************************
 
-        // Create font and TextOption
-        QTextOption OptionText;
-        QFont       font=QFont(FontName,10,IsBold?QFont::Bold:QFont::Normal,IsItalic?QFont::StyleItalic:QFont::StyleNormal);        // FontSize is always 10 and size if given with setPointSizeF !
-        font.setUnderline(IsUnderline);                                                                                             // Set underline
-        font.setPointSizeF((double(width)/double(SCALINGTEXTFACTOR))*double(FontSize));                                             // Scale font
-        OptionText=QTextOption(((HAlign==0)?Qt::AlignLeft:(HAlign==1)?Qt::AlignHCenter:(HAlign==2)?Qt::AlignRight:Qt::AlignJustify) // Setup horizontal alignement
-                    |(VAlign==0?Qt::AlignTop:VAlign==1?Qt::AlignVCenter:Qt::AlignBottom));                                          // Setup vertical alignement
-        OptionText.setWrapMode(QTextOption::WordWrap);                                                                              // Setup word wrap text option
+        if (TheTxtZoomLevel>0) {
+            FullMargin=FullMargin*2;
 
-        double MarginX=FullMargin;
-        double MarginY=FullMargin;
+            double  MarginX=FullMargin;
+            double  MarginY=FullMargin;
 
-        if (BackgroundForm==3) {                        // 3=Buble
-            MarginX=MarginX+W/250;
-            MarginY=MarginY+H/250;
-        } else if (BackgroundForm==4) {                 // 2=Ellipse
-            MarginX=MarginX+(0.29*(W/2));               // 0.29=1-cos(radians(45°))
-            MarginY=MarginY+(0.29*(H/2));               // 0.29=1-sin(radians(45°))
+            if (BackgroundForm==3) {                        // 3=Buble
+                MarginX=MarginX+W/250;
+                MarginY=MarginY+H/250;
+            } else if (BackgroundForm==4) {                 // 2=Ellipse
+                MarginX=MarginX+(0.29*(W/2));               // 0.29=1-cos(radians(45°))
+                MarginY=MarginY+(0.29*(H/2));               // 0.29=1-sin(radians(45°))
+            }
+            Painter.setClipRect(MarginX-W/2,MarginY-H/2,W-2*MarginX,H-2*MarginY);
+            Painter.setClipping(true);
+
+            QRectF  BoundingRect(0,0,(W-2*MarginX),H-2*MarginY);
+            double  PointSize=((double(width)/double(SCALINGTEXTFACTOR)));
+
+            QTextDocument TextDocument;
+
+            TextDocument.setHtml(Text);
+            TextDocument.setTextWidth(BoundingRect.width()/PointSize);
+
+            QRectF  FmtBdRect(0,0,
+                              double(TextDocument.documentLayout()->documentSize().width())*(TheTxtZoomLevel/100)*PointSize,
+                              double(TextDocument.documentLayout()->documentSize().height())*(TheTxtZoomLevel/100)*PointSize);
+
+            int     MaxH  =H>FmtBdRect.height()?H:FmtBdRect.height();
+            double  DecalX=(TheTxtScrollX/100)*(BoundingRect.width()+MarginX*2)-FmtBdRect.width()/2;    // Always horizontaly center
+            double  DecalY=(MarginY-H/2+(-TheTxtScrollY/100)*(MaxH+MarginY*2));
+
+            if (VAlign==0)      /*Nothing to do*/;                                              //Qt::AlignTop
+            else if (VAlign==1) DecalY=DecalY+(BoundingRect.height()-FmtBdRect.height())/2;     //Qt::AlignVCenter
+            else                DecalY=DecalY+(BoundingRect.height()-FmtBdRect.height());       //Qt::AlignBottom)
+
+            QAbstractTextDocumentLayout::PaintContext Context;
+
+            QTextCursor         Cursor(&TextDocument);
+            QTextCharFormat     TCF;
+            Cursor.select(QTextCursor::Document);
+            if (StyleText==1) {
+                // Add outerline for painting
+                TCF.setTextOutline(QPen(QColor(FontShadowColor)));
+                Cursor.mergeCharFormat(TCF);
+            } else if (StyleText!=0) {
+                // Paint shadow of the text
+                TCF.setForeground(QBrush(QColor(FontShadowColor)));
+                Cursor.mergeCharFormat(TCF);
+                Painter.save();
+                switch (StyleText) {
+                    case 2: Painter.translate(DecalX-1,DecalY-1);   break;  //2=shadow up-left
+                    case 3: Painter.translate(DecalX+1,DecalY-1);   break;  //3=shadow up-right
+                    case 4: Painter.translate(DecalX-1,DecalY+1);   break;  //4=shadow bt-left
+                    case 5: Painter.translate(DecalX+1,DecalY+1);   break;  //5=shadow bt-right
+                }
+                Painter.scale((TheTxtZoomLevel/100)*PointSize,(TheTxtZoomLevel/100)*PointSize);
+                TextDocument.documentLayout()->draw(&Painter,Context);
+                Painter.restore();
+                TextDocument.setHtml(Text);     // Restore Text Document
+            }
+            Painter.translate(DecalX,DecalY);
+            Painter.scale((TheTxtZoomLevel/100)*PointSize,(TheTxtZoomLevel/100)*PointSize);
+            TextDocument.documentLayout()->draw(&Painter,Context);
         }
-
-        // Paint Shadow of the text
-        Painter.setFont(font);
-        Pen.setColor(FontShadowColor);
-        Pen.setWidth(1);
-        Pen.setStyle(Qt::SolidLine);
-        Painter.setPen(Pen);
-        Painter.setBrush(Qt::NoBrush);
-
-        switch (StyleText) {
-            case 0 :                // 0=normal
-                break;
-            case 1 :                // 1=outerline
-                Painter.drawText(QRectF(MarginX-1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                Painter.drawText(QRectF(MarginX-1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                Painter.drawText(QRectF(MarginX+1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                Painter.drawText(QRectF(MarginX+1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                Painter.drawText(QRectF(MarginX  -W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                Painter.drawText(QRectF(MarginX  -W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                Painter.drawText(QRectF(MarginX-1-W/2,MarginY  -H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                Painter.drawText(QRectF(MarginX+1-W/2,MarginY  -H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                break;
-            case 2:                 //2=shadow up-left
-                Painter.drawText(QRectF(MarginX-1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                break;
-            case 3:                 //3=shadow up-right
-                Painter.drawText(QRectF(MarginX+1-W/2,MarginY-1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                break;
-            case 4:                 //4=shadow bt-left
-                Painter.drawText(QRectF(MarginX-1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                break;
-            case 5:                 //5=shadow bt-right
-                Painter.drawText(QRectF(MarginX+1-W/2,MarginY+1-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
-                break;
-        }
-
-        // Paint text
-        Painter.setPen(QColor(FontColor));
-        Painter.drawText(QRectF(MarginX-W/2,MarginY-H/2,W-2*MarginX,H-2*MarginY),Text,OptionText);
         Painter.end();
+
+        //**********************************************************************************
+        // Block shadow part
+        //**********************************************************************************
 
         if ((FormShadow)&&(!Img.isNull())) {
             double  Distance =double(FormShadowDistance)*ADJUST_RATIO;
@@ -2865,6 +2981,12 @@ bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber)
                 (Object->List[ShotNumber]->ShotComposition.List[i]->RotateXAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateXAxis)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->RotateYAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateYAxis)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->RotateZAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateZAxis)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->TurnZAxis                      !=0)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->TurnXAxis                      !=0)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->TurnYAxis                      !=0)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->TxtZoomLevel                   !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtZoomLevel)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->TxtScrollX                     !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtScrollX)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->TxtScrollY                     !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtScrollY)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->X             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->X)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Y             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Y)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->ZoomFactor    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->ZoomFactor)||

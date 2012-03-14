@@ -37,13 +37,13 @@
 
 // Application definition
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "1.2.1"
+#define APPLICATION_VERSION                 "1.3 devel"
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
 
-#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Stable/BUILDVERSION.txt"
-//#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Devel/BUILDVERSION.txt"
+//#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Stable/BUILDVERSION.txt"
+#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Devel/BUILDVERSION.txt"
 
 // Dialogbox help file
 #define WIKI_CMS_PATH                       "http://ffdiaporama.tuxfamily.org/?page_id="
@@ -65,6 +65,7 @@
 #define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=3915&lang=<local>"
 #define HELPFILE_DlgManageDevices           "http://ffdiaporama.tuxfamily.org/?page_id=4023&lang=<local>"
 #define HELPFILE_DlgffDPjrProperties        "http://ffdiaporama.tuxfamily.org/?page_id=4021&lang=<local>"
+#define HELPFILE_DlgInfoFile                "http://ffdiaporama.tuxfamily.org/?page_id=4206&lang=<local>"
 
 // Define styles name used in xml file
 #define STYLENAME_TEXTSTYLE                 "TextStyleCollection"
@@ -109,11 +110,10 @@ void    ExitApplicationWithFatalError(QString StringToAdd);     // Exit applicat
 class cSaveDlgSlideProperties : public cSaveWindowPosition {
 public:
     QString SplitterTop;
-    QString SplitterBottom;
 
     explicit        cSaveDlgSlideProperties(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
-    virtual void    ApplyToWindow(QWidget *Window,QSplitter *Top,QSplitter *Bottom);
-    virtual void    SaveWindowState(QWidget *Window,QSplitter *Top,QSplitter *Bottom);
+    virtual void    ApplyToWindow(QWidget *Window,QSplitter *Top);
+    virtual void    SaveWindowState(QWidget *Window,QSplitter *Top);
     virtual void    OverloadedSaveToXML(QDomElement &domDocument);
     virtual void    OverloadedLoadFromXML(QDomElement domDocument);
 };
@@ -221,6 +221,7 @@ public:
     cSaveWindowPosition     *DlgManageDevicesWSP;                       // Dialog box "Manage Devices" - Window size and position
     cSaveWindowPosition     *DlgAboutWSP;                               // Dialog box "About" - Window size and position
     cSaveWindowPosition     *DlgffDPjrPropertiesWSP;                    // Dialog box "Project properties" - Window size and position
+    cSaveWindowPosition     *DlgInfoFileWSP;                            // Dialog box "File Information" - Window size and position
 
     explicit                cApplicationConfig(QMainWindow *TheTopLevelWindow);
                             ~cApplicationConfig();
