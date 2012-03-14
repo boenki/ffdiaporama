@@ -63,6 +63,9 @@ public:
     virtual void    PrepareGlobalUndo()=0;      // Initiale Undo
     virtual void    DoGlobalUndo()=0;           // Apply Undo : call when user click on Cancel button
 
+    virtual void    SaveWindowState();
+    virtual void    RestoreWindowState();
+
 protected:
     virtual void    accept();
     virtual void    reject();

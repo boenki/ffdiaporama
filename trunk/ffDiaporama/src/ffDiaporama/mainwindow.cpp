@@ -647,7 +647,9 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
     bool DoneAgain=true;
     while (DoneAgain) {
         DoneAgain=false;
-        int Ret=DlgSlideProperties(Diaporama->List[Diaporama->CurrentCol],this).exec();
+        DlgSlideProperties Dlg(Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgSlideProperties,ApplicationConfig,ApplicationConfig->DlgSlidePropertiesWSP,this);
+        Dlg.InitDialog();
+        int Ret=Dlg.exec();
         if (Ret!=1) {
             SetModifyFlag(true);
             if (Diaporama->List[Diaporama->CurrentCol]->Thumbnail) {

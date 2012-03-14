@@ -108,16 +108,6 @@
         <file>img/Smartphone.png</file>
         <file>img/sound_KO.png</file>
         <file>img/splash.png</file>
-        <file>img/text_align_center.png</file>
-        <file>img/text_align_justif.png</file>
-        <file>img/text_align_left.png</file>
-        <file>img/text_align_right.png</file>
-        <file>img/text_align_vbottom.png</file>
-        <file>img/text_align_vcenter.png</file>
-        <file>img/text_align_vup.png</file>
-        <file>img/text_bold.png</file>
-        <file>img/text_italic.png</file>
-        <file>img/text_underline.png</file>
         <file>img/TextStyle.png</file>
         <file>img/TimelineBlocks.png</file>
         <file>img/TimelineShots.png</file>
@@ -278,5 +268,23 @@
         <file>img/SmallRed.png</file>
         <file>img/SmallYellow.png</file>
         <file>img/Lossless.png</file>
+        <file>img/Text/text_align_center.png</file>
+        <file>img/Text/text_align_justif.png</file>
+        <file>img/Text/text_align_left.png</file>
+        <file>img/Text/text_align_right.png</file>
+        <file>img/Text/text_align_vbottom.png</file>
+        <file>img/Text/text_align_vcenter.png</file>
+        <file>img/Text/text_align_vup.png</file>
+        <file>img/Text/text_bold.png</file>
+        <file>img/Text/text_italic.png</file>
+        <file>img/Text/text_underline.png</file>
+        <file>img/Text/text_indent_in.png</file>
+        <file>img/Text/text_indent_out.png</file>
+        <file>img/Text/text_list.png</file>
+        <file>img/Text/text_list_nbr.png</file>
+        <file>img/Text/text_sub.png</file>
+        <file>img/Text/text_super.png</file>
+        <file>img/ScrollX.png</file>
+        <file>img/ScrollY.png</file>
     </qresource>
 </RCC>

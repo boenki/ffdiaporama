@@ -1,14 +1,14 @@
 # this file is to be used by Qt Creator for Linux
 TEMPLATE        = subdirs
-//CONFIG          += ordered
+#CONFIG          += ordered
 
 # ffDiaporama main application
 SUBDIRS         += src/ffDiaporama
 TARGET          += ffDiaporama
 
 # ffDiaporama MMFiler companion application
-SUBDIRS         += src/ffDiaporamaMMFiler
-TARGET          += ffDiaporamaMMFiler
+#SUBDIRS         += src/ffDiaporamaMMFiler
+#TARGET          += ffDiaporamaMMFiler
 
 # ffDiaporama start application (windows only)
 win32:SUBDIRS   += src/ffDiaporamaStart

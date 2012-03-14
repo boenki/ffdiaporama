@@ -44,11 +44,12 @@ namespace Ui {
 class DlgTextEdit : public QCustomDialog {
 Q_OBJECT
 public:
-    cCompositionObject  *CurrentTextItem;                   // Text to modify
-    cBrushDefinition    *CurrentBrush;                      // Brush to modify
+    bool                IsFirstInit;
+    cCompositionObject  *CurrentTextItem;                       // Text to modify
+    cBrushDefinition    *CurrentBrush;                          // Brush to modify
     bool                StopMAJSpinbox;
-    cStyleCollection    *StyleTextCollection;               // Link to text style collection
-    cStyleCollection    *StyleTextBackgroundCollection;     // Link to background text style collection
+    cStyleCollection    *StyleTextCollection;                   // Link to text style collection
+    cStyleCollection    *StyleTextBackgroundCollection;         // Link to background text style collection
 
     explicit        DlgTextEdit(cCompositionObject *CurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
                                 cStyleCollection *StyleTextCollection,cStyleCollection *StyleTextBackgroundCollection,QWidget *parent=0);
@@ -66,20 +67,33 @@ public:
     void            MakeTextStyleIcon(QComboBox *UICB);
 
 private slots:
+    void            s_cursorPositionChanged();
+
     void            s_ChangeFont(QFont);
     void            s_ChangeSizeFont(QString);
     void            s_SetBold();
     void            s_SetItalic();
     void            s_SetUnderline();
+    void            s_SetTextSuper();
+    void            s_SetTextSub();
+
     void            s_SetTextLeft();
     void            s_SetTextCenter();
     void            s_SetTextRight();
     void            s_SetTextJustif();
+
+    void            s_IndentInBt();
+    void            s_IndentOutBt();
+
+    void            s_ListBt();
+    void            s_ListNbrBt();
+
     void            s_SetTextUp();
     void            s_SetTextVCenter();
     void            s_SetTextBottom();
+
     void            s_ChangeStyleFont(int);
-    void            s_plainTextEditChange();
+    void            s_TextEditChange();
     void            s_ChIndexFontColorCombo(int);
     void            s_ChIndexFontShadowColorCombo(int);
 
@@ -87,7 +101,6 @@ private slots:
     void            s_ChangeBrushTypeCombo(int);
 
     // Intermediate position for gradient 3 colors
-    void            s_IntermPosSliderMoved(int);
     void            s_IntermPosED(int);
 
     // Handler for custom color/brush/pattern/gradient combo box index change

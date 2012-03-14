@@ -21,6 +21,12 @@
 #include "DlgTextEdit.h"
 #include "ui_DlgTextEdit.h"
 
+#include <QTextCharFormat>
+#include <QTextList>
+#include <QAbstractTextDocumentLayout>
+
+#define SIZERATIO   0.5
+
 DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
                          cStyleCollection *TheStyleTextCollection,cStyleCollection *TheStyleTextBackgroundCollection,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTextEdit) {
@@ -34,7 +40,8 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QString HelpURL,
     CurrentTextItem                 =TheCurrentTextItem;
     StyleTextCollection             =TheStyleTextCollection;
     StyleTextBackgroundCollection   =TheStyleTextBackgroundCollection;
-    StopMAJSpinbox  =false;
+    StopMAJSpinbox                  =false;
+    IsFirstInit                     =false;
 }
 
 //====================================================================================================================
@@ -50,6 +57,8 @@ DlgTextEdit::~DlgTextEdit() {
 
 void DlgTextEdit::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::DoInitDialog");
+
+    ui->tabWidget->setCurrentIndex(0);
 
     // Init check box
     ui->textLeft->setCheckable(true);
@@ -68,7 +77,13 @@ void DlgTextEdit::DoInitDialog() {
     ui->fontSize->setCurrentIndex(6);
 
     // Init editor
-    ui->plainTextEdit->setWordWrapMode(QTextOption::NoWrap);
+    ui->TextEdit->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+    ui->TextEdit->setLineWrapMode(QTextEdit::WidgetWidth);
+    ui->TextEdit->setAutoFillBackground(true);
+    ui->TextEdit->setHtml(CurrentTextItem->Text);
+    QTextCursor Cursor=ui->TextEdit->textCursor();
+    Cursor.movePosition(QTextCursor::Start);
+    ui->TextEdit->setTextCursor(Cursor);
 
     // Init combo box FontEffect
     ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","No effect"));
@@ -89,28 +104,42 @@ void DlgTextEdit::DoInitDialog() {
     ui->BrushTypeCombo->addItem(QApplication::translate("DlgTextEdit","Gradient 3 colors"));     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_GRADIENT3)));
     ui->BrushTypeCombo->addItem(QApplication::translate("DlgTextEdit","Image from library"));    ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGELIBRARY)));
 
-    RefreshControls();
-
     // Define handler
-    connect(ui->plainTextEdit,SIGNAL(textChanged()),this,SLOT(s_plainTextEditChange()));
+    connect(ui->TextEdit,SIGNAL(textChanged()),this,SLOT(s_TextEditChange()));
+    connect(ui->TextEdit,SIGNAL(cursorPositionChanged()),this,SLOT(s_cursorPositionChanged()));
+
     connect(ui->FontColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontColorCombo(int)));
     connect(ui->StyleShadowColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontShadowColorCombo(int)));
     connect(ui->fontStyleCB,SIGNAL(currentFontChanged(QFont)),this,SLOT(s_ChangeFont(QFont)));
     connect(ui->fontSize,SIGNAL(currentIndexChanged(QString)),this,SLOT(s_ChangeSizeFont(QString)));
+
     connect(ui->bold,SIGNAL(released()),this,SLOT(s_SetBold()));
     connect(ui->Italic,SIGNAL(released()),this,SLOT(s_SetItalic()));
     connect(ui->Souligne,SIGNAL(released()),this,SLOT(s_SetUnderline()));
+    connect(ui->TextSuperBt,SIGNAL(released()),this,SLOT(s_SetTextSuper()));
+    connect(ui->TextSubBt,SIGNAL(released()),this,SLOT(s_SetTextSub()));
+
+    connect(ui->TextStyleBT,SIGNAL(pressed()),this,SLOT(s_TextStyleBT()));
+
     connect(ui->textLeft,SIGNAL(pressed()),this,SLOT(s_SetTextLeft()));
     connect(ui->textCenter,SIGNAL(pressed()),this,SLOT(s_SetTextCenter()));
     connect(ui->textRight,SIGNAL(pressed()),this,SLOT(s_SetTextRight()));
     connect(ui->textJustif,SIGNAL(pressed()),this,SLOT(s_SetTextJustif()));
+
+    connect(ui->Souligne,SIGNAL(released()),this,SLOT(s_SetUnderline()));
+    connect(ui->Souligne,SIGNAL(released()),this,SLOT(s_SetUnderline()));
+
+    connect(ui->IndentInBt,SIGNAL(pressed()),this,SLOT(s_IndentInBt()));
+    connect(ui->IndentOutBt,SIGNAL(pressed()),this,SLOT(s_IndentOutBt()));
+
+    connect(ui->ListBt,SIGNAL(pressed()),this,SLOT(s_ListBt()));
+    connect(ui->ListNbrBt,SIGNAL(pressed()),this,SLOT(s_ListNbrBt()));
+
+    // Block part
     connect(ui->textUp,SIGNAL(pressed()),this,SLOT(s_SetTextUp()));
     connect(ui->textVCenter,SIGNAL(pressed()),this,SLOT(s_SetTextVCenter()));
     connect(ui->textBottom,SIGNAL(pressed()),this,SLOT(s_SetTextBottom()));
     connect(ui->fontEffectCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeStyleFont(int)));
-
-    connect(ui->TextStyleBT,SIGNAL(pressed()),this,SLOT(s_TextStyleBT()));
-    connect(ui->BackgroundStyleBT,SIGNAL(pressed()),this,SLOT(s_BackgroundStyleBT()));
 
     // Brush part
     connect(ui->BrushTypeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeBrushTypeCombo(int)));
@@ -120,9 +149,10 @@ void DlgTextEdit::DoInitDialog() {
     connect(ui->FinalColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientFinalColorCombo(int)));
     connect(ui->IntermColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientIntermColorCombo(int)));
     connect(ui->BackgroundCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexBackgroundCombo(int)));
-    connect(ui->IntermPosSlider,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosSliderMoved(int)));
+    connect(ui->IntermPosSlider,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
     connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
 
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -151,30 +181,67 @@ void DlgTextEdit::DoGlobalUndo() {
 
 //====================================================================================================================
 
+void DlgTextEdit::s_cursorPositionChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_cursorPositionChanged");
+
+    StopMAJSpinbox=true;
+
+    QTextCursor      Cursor(ui->TextEdit->textCursor());
+    QTextCharFormat  TCF;
+    Qt::Alignment    Alignment;
+    QTextBlockFormat TBF=Cursor.blockFormat();
+    QTextList        *List=Cursor.currentList();
+
+    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Display option for current selection
+        else                    TCF=ui->TextEdit->currentCharFormat();  // Display current default option
+
+    Alignment=ui->TextEdit->alignment();
+    CurrentTextItem->FontColor=TCF.foreground().color().name();
+
+    ui->bold->    setChecked(TCF.fontWeight()==QFont::Bold);            ui->bold->    setDown(TCF.fontWeight()==QFont::Bold);
+    ui->Italic->  setChecked(TCF.fontItalic());                         ui->Italic->  setDown(TCF.fontItalic());
+    ui->Souligne->setChecked(TCF.fontUnderline());                      ui->Souligne->setDown(TCF.fontUnderline());
+
+    ui->fontStyleCB->   setCurrentIndex(ui->fontStyleCB->findText(QString(TCF.fontFamily())));
+    ui->fontSize->      setCurrentIndex(ui->fontSize->findText(QString("%1").arg(TCF.fontPointSize())));
+    ui->FontColorCombo->SetCurrentColor(&CurrentTextItem->FontColor);
+
+    ui->textLeft->  setChecked((Alignment & Qt::AlignLeft)!=0);         ui->textLeft->  setDown((Alignment & Qt::AlignLeft)!=0);
+    ui->textCenter->setChecked((Alignment & Qt::AlignHCenter)!=0);      ui->textCenter->setDown((Alignment & Qt::AlignHCenter)!=0);
+    ui->textJustif->setChecked((Alignment & Qt::AlignJustify)!=0);      ui->textJustif->setDown((Alignment & Qt::AlignJustify)!=0);
+    ui->textRight-> setChecked((Alignment & Qt::AlignRight)!=0);        ui->textRight-> setDown((Alignment & Qt::AlignRight)!=0);
+
+    ui->TextSuperBt->setChecked(TCF.verticalAlignment()==QTextCharFormat::AlignSuperScript);
+    ui->TextSuperBt->setDown(TCF.verticalAlignment()==QTextCharFormat::AlignSuperScript);
+    ui->TextSubBt->  setChecked(TCF.verticalAlignment()==QTextCharFormat::AlignSubScript);
+    ui->TextSubBt->  setDown(TCF.verticalAlignment()==QTextCharFormat::AlignSubScript);
+
+    int indent=0;
+    if (List) indent=List->format().indent(); else indent=TBF.indent();
+    ui->IndentInBt->setEnabled(indent<9);
+    ui->IndentOutBt->setEnabled(indent>(List!=NULL?1:0));
+
+    StopMAJSpinbox=false;
+}
+
+//====================================================================================================================
+
 void DlgTextEdit::RefreshControls() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::RefreshControls");
 
-    StopMAJSpinbox=true;
     // Update text controls
-    ui->TextStyleED->setText(StyleTextCollection->GetStyleName(CurrentTextItem->GetTextStyle()));
-    if (CurrentTextItem->FontSize!=ui->fontSize->currentIndex())        ui->fontSize->setCurrentIndex(ui->fontSize->findText(QString("%1").arg(CurrentTextItem->FontSize)));
-    if (CurrentTextItem->Text!=ui->plainTextEdit->toPlainText())        ui->plainTextEdit->setPlainText(CurrentTextItem->Text);
-    if (CurrentTextItem->FontName!=ui->fontStyleCB->currentText())      ui->fontStyleCB->setCurrentIndex(ui->fontStyleCB->findText(QString(CurrentTextItem->FontName)));
-    if (CurrentTextItem->StyleText!=ui->fontEffectCB->currentIndex())   ui->fontEffectCB->setCurrentIndex(CurrentTextItem->StyleText);
-    ui->textLeft->setChecked(CurrentTextItem->HAlign==0);               ui->textLeft->setDown(CurrentTextItem->HAlign==0);
-    ui->textCenter->setChecked(CurrentTextItem->HAlign==1);             ui->textCenter->setDown(CurrentTextItem->HAlign==1);
-    ui->textJustif->setChecked(CurrentTextItem->HAlign==3);             ui->textJustif->setDown(CurrentTextItem->HAlign==3);
-    ui->textRight->setChecked(CurrentTextItem->HAlign==2);              ui->textRight->setDown(CurrentTextItem->HAlign==2);
+    s_cursorPositionChanged();
+
+    StopMAJSpinbox=true;
+
     ui->textUp->setChecked(CurrentTextItem->VAlign==0);                 ui->textUp->setDown(CurrentTextItem->VAlign==0);
     ui->textVCenter->setChecked(CurrentTextItem->VAlign==1);            ui->textVCenter->setDown(CurrentTextItem->VAlign==1);
     ui->textBottom->setChecked(CurrentTextItem->VAlign==2);             ui->textBottom->setDown(CurrentTextItem->VAlign==2);
-    ui->bold->setChecked(CurrentTextItem->IsBold);                      ui->bold->setDown(CurrentTextItem->IsBold);
-    ui->Italic->setChecked(CurrentTextItem->IsItalic);                  ui->Italic->setDown(CurrentTextItem->IsItalic);
-    ui->Souligne->setChecked(CurrentTextItem->IsUnderline);             ui->Souligne->setDown(CurrentTextItem->IsUnderline);
-    ui->FontColorCombo->SetCurrentColor(&CurrentTextItem->FontColor);
+    if (CurrentTextItem->StyleText!=ui->fontEffectCB->currentIndex())   ui->fontEffectCB->setCurrentIndex(CurrentTextItem->StyleText);
     ui->StyleShadowColorCombo->SetCurrentColor(&CurrentTextItem->FontShadowColor);
     ui->StyleShadowColorCombo->setEnabled(CurrentTextItem->StyleText!=0);
     ui->fontEffectCB->view()->setFixedWidth(250);
+    //ui->TextStyleED->setText(StyleTextCollection->GetStyleName(CurrentTextItem->GetTextStyle()));
 
     // Brush TAB part
     bool Allow_Brush  =(CurrentTextItem->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK);
@@ -184,12 +251,15 @@ void DlgTextEdit::RefreshControls() {
     bool Allow_Pattern=(Allow_Brush)&&(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_PATTERN);
     bool Allow_Library=(Allow_Brush)&&(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGELIBRARY);
 
-    ui->BackgroundLabel->setVisible(Allow_Brush);
+    //ui->BackgroundLabel->setVisible(Allow_Brush);
     ui->BackgroundStyleBT->setVisible(Allow_Brush);
-    ui->BackgroundStyleED->setVisible(Allow_Brush);
-    if (Allow_Brush) ui->BackgroundStyleED->setText(StyleTextBackgroundCollection->GetStyleName(CurrentTextItem->GetBackgroundStyle()));
-    ui->BrushTypeLabel->setVisible(Allow_Brush);
+    ui->tabWidget->setTabEnabled(1,Allow_Brush);
+    //ui->BackgroundStyleED->setVisible(Allow_Brush);
+    //if (Allow_Brush) ui->BackgroundStyleED->setText(StyleTextBackgroundCollection->GetStyleName(CurrentTextItem->GetBackgroundStyle()));
+    //ui->BrushTypeLabel->setVisible(Allow_Brush);
     ui->BrushTypeCombo->setVisible(Allow_Brush);
+    ui->ColorLabel_1->setVisible(Allow_Color2);
+    ui->ColorLabel_2->setVisible(Allow_Color3);
     ui->ColorLabel1->setVisible(Allow_Color1);
     ui->ColorLabel2->setVisible(Allow_Color1);
     ui->FirstColorCombo->setVisible(Allow_Color1);
@@ -234,6 +304,16 @@ void DlgTextEdit::RefreshControls() {
             break;
     }
 
+    // Apply background to ui->TextEdit
+    QBrush   *Brush=NULL;
+    if (CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) {
+        Brush=new QBrush(Transparent);
+    } else Brush=CurrentTextItem->BackgroundBrush->GetBrush(QRectF(0,0,ui->TextEdit->width(),ui->TextEdit->height()),true,0,0,NULL,1,NULL,false);
+    QPalette Palette;
+    Palette.setBrush(QPalette::Base,*Brush);
+    ui->TextEdit->setPalette(Palette);
+    delete Brush;
+
     StopMAJSpinbox=false;
     emit RefreshDisplay();
 }
@@ -275,64 +355,258 @@ void DlgTextEdit::MakeTextStyleIcon(QComboBox *UICB) {
 //========= Text style bold
 void DlgTextEdit::s_SetBold() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetBold");
-
     if (StopMAJSpinbox) return;
-    if (CurrentTextItem->IsBold==true) CurrentTextItem->IsBold=false; else CurrentTextItem->IsBold=true;
+
+    QTextCursor     Cursor(ui->TextEdit->textCursor());
+    QTextCharFormat TCF;
+    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
+        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
+    TCF.setFontWeight(TCF.fontWeight()==QFont::Normal?QFont::Bold:QFont::Normal);
+    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
+        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+
+    CurrentTextItem->IsBold=(TCF.fontWeight()==QFont::Bold);
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Text style italic
 void DlgTextEdit::s_SetItalic() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetItalic");
-
     if (StopMAJSpinbox) return;
-    if (CurrentTextItem->IsItalic==true) CurrentTextItem->IsItalic=false; else CurrentTextItem->IsItalic=true;
+
+    QTextCursor     Cursor(ui->TextEdit->textCursor());
+    QTextCharFormat TCF;
+    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
+        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
+    TCF.setFontItalic(!TCF.fontItalic());
+    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
+        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+
+    CurrentTextItem->IsItalic=TCF.fontItalic();
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Text style underline
 void DlgTextEdit::s_SetUnderline() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetUnderline");
-
     if (StopMAJSpinbox) return;
-    if (CurrentTextItem->IsUnderline==true) CurrentTextItem->IsUnderline=false; else CurrentTextItem->IsUnderline=true;
+
+    QTextCursor     Cursor(ui->TextEdit->textCursor());
+    QTextCharFormat TCF;
+    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
+        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
+    TCF.setFontUnderline(!TCF.fontUnderline());
+    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
+        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+
+    CurrentTextItem->IsUnderline=TCF.fontUnderline();
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
+}
+
+//========= Text style to superscript
+void DlgTextEdit::s_SetTextSuper() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextSuper");
+    if (StopMAJSpinbox) return;
+
+    QTextCursor     Cursor(ui->TextEdit->textCursor());
+    QTextCharFormat TCF;
+    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
+        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
+
+    if (TCF.verticalAlignment()==QTextCharFormat::AlignSuperScript) TCF.setVerticalAlignment(QTextCharFormat::AlignNormal);
+        else                                                        TCF.setVerticalAlignment(QTextCharFormat::AlignSuperScript);
+
+    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
+        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
+    RefreshControls();
+    ui->TextEdit->setFocus();
+}
+
+//========= Text style to subscript
+void DlgTextEdit::s_SetTextSub() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextSub");
+    if (StopMAJSpinbox) return;
+
+    QTextCursor     Cursor(ui->TextEdit->textCursor());
+    QTextCharFormat TCF;
+    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
+        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
+
+    if (TCF.verticalAlignment()==QTextCharFormat::AlignSubScript)   TCF.setVerticalAlignment(QTextCharFormat::AlignNormal);
+        else                                                        TCF.setVerticalAlignment(QTextCharFormat::AlignSubScript);
+
+    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
+        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+
+    CurrentTextItem->IsUnderline=TCF.fontUnderline();
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
+    RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Horizontal alignment left
 void DlgTextEdit::s_SetTextLeft() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextLeft");
-
     if (StopMAJSpinbox) return;
+    ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0xf0)|Qt::AlignLeft);
+
     CurrentTextItem->HAlign=0;
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Horizontal alignment center
 void DlgTextEdit::s_SetTextCenter() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextCenter");
-
     if (StopMAJSpinbox) return;
+    ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0xf0)|Qt::AlignHCenter);
     CurrentTextItem->HAlign=1;
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Horizontal alignment right
 void DlgTextEdit::s_SetTextRight() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextRight");
-
     if (StopMAJSpinbox) return;
+    ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0xf0)|Qt::AlignRight);
     CurrentTextItem->HAlign=2;
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Horizontal alignment justify
 void DlgTextEdit::s_SetTextJustif() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextJustif");
-
     if (StopMAJSpinbox) return;
+    ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0xf0)|Qt::AlignJustify);
     CurrentTextItem->HAlign=3;
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
+}
+
+//========= Increase indent
+void DlgTextEdit::s_IndentInBt() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_IndentInBt");
+    if (StopMAJSpinbox) return;
+
+    QTextCursor         Cursor(ui->TextEdit->textCursor());
+    QTextBlockFormat    TBF  =Cursor.blockFormat();
+    QTextList *List=Cursor.currentList();
+    if (!List) {
+        if (TBF.indent()<9) {
+             QTextBlockFormat modifier;
+             modifier.setIndent(TBF.indent()+1);
+             Cursor.mergeBlockFormat(modifier);
+        }
+     } else {
+        QTextListFormat format=List->format();
+        if (format.indent()<9) {
+            format.setIndent(format.indent()+1);
+            if (List->itemNumber(Cursor.block())==1) List->setFormat(format);
+                else Cursor.createList(format);
+        }
+     }
+
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
+    RefreshControls();
+    ui->TextEdit->setFocus();
+}
+
+//========= Decrease indent
+void DlgTextEdit::s_IndentOutBt() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_IndentOutBt");
+    if (StopMAJSpinbox) return;
+
+    QTextCursor         Cursor(ui->TextEdit->textCursor());
+    QTextBlockFormat    TBF  =Cursor.blockFormat();
+
+    QTextList *List=Cursor.currentList();
+    if (!List) {
+        if (TBF.indent()>0) {
+            QTextBlockFormat modifier;
+            modifier.setIndent(TBF.indent()-1);
+            Cursor.mergeBlockFormat(modifier);
+        }
+    } else {
+        QTextListFormat ListFmt=List->format();
+        if (ListFmt.indent()>0) {
+            ListFmt.setIndent(ListFmt.indent()-1);
+            List->setFormat(ListFmt);
+        }
+    }
+
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
+    RefreshControls();
+    ui->TextEdit->setFocus();
+}
+
+//========= Activate/deactivate bullet list
+void DlgTextEdit::s_ListBt() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ListBt");
+    if (StopMAJSpinbox) return;
+
+    QTextCursor Cursor(ui->TextEdit->textCursor());
+    if (Cursor.currentList()!=NULL) {
+        Cursor.currentList()->remove(Cursor.block());
+        QTextBlockFormat TBF=Cursor.blockFormat();
+        TBF.setIndent(0);
+        Cursor.setBlockFormat(TBF);
+    } else {
+        Cursor.beginEditBlock();
+        QTextBlockFormat BlockFmt=Cursor.blockFormat();
+        QTextListFormat  ListFmt;
+        ListFmt.setStyle(QTextListFormat::ListSquare);
+        ListFmt.setIndent(BlockFmt.indent()+1);
+        BlockFmt.setIndent(0);
+        Cursor.mergeBlockFormat(BlockFmt);
+        Cursor.createList(ListFmt);
+        Cursor.endEditBlock();
+    }
+
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
+    RefreshControls();
+    ui->TextEdit->setFocus();
+}
+
+//========= Activate/deactivate numbered list
+void DlgTextEdit::s_ListNbrBt() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ListNbrBt");
+    if (StopMAJSpinbox) return;
+
+    QTextCursor Cursor(ui->TextEdit->textCursor());
+    if (Cursor.currentList()!=NULL) {
+        Cursor.currentList()->remove(Cursor.block());
+        QTextBlockFormat TBF=Cursor.blockFormat();
+        TBF.setIndent(0);
+        Cursor.setBlockFormat(TBF);
+    } else {
+        Cursor.beginEditBlock();
+        QTextBlockFormat BlockFmt=Cursor.blockFormat();
+        QTextListFormat  ListFmt;
+        ListFmt.setStyle(QTextListFormat::ListDecimal);
+        ListFmt.setIndent(BlockFmt.indent()+1);
+        BlockFmt.setIndent(0);
+        Cursor.setBlockFormat(BlockFmt);
+        Cursor.createList(ListFmt);
+        Cursor.endEditBlock();
+    }
+
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
+    RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Vertical alignment up
@@ -341,7 +615,10 @@ void DlgTextEdit::s_SetTextUp() {
 
     if (StopMAJSpinbox) return;
     CurrentTextItem->VAlign=0;
+    ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0x0f)|Qt::AlignTop);
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Vertical alignment center
@@ -350,7 +627,10 @@ void DlgTextEdit::s_SetTextVCenter() {
 
     if (StopMAJSpinbox) return;
     CurrentTextItem->VAlign=1;
+    ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0x0f)|Qt::AlignVCenter);
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Vertical alignment bottom
@@ -359,25 +639,48 @@ void DlgTextEdit::s_SetTextBottom() {
 
     if (StopMAJSpinbox) return;
     CurrentTextItem->VAlign=2;
+    ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0x0f)|Qt::AlignBottom);
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Font family
 void DlgTextEdit::s_ChangeFont(QFont font) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChangeFont");
-
     if (StopMAJSpinbox) return;
-    if (font.family()!="") CurrentTextItem->FontName=font.family();
+
+    QTextCursor     Cursor(ui->TextEdit->textCursor());
+    QTextCharFormat TCF;
+    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
+        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
+    TCF.setFontFamily(font.family());
+    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
+        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+
+    CurrentTextItem->FontName=font.family();
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Size font
 void DlgTextEdit::s_ChangeSizeFont(QString size) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChangeSizeFont");
-
     if (StopMAJSpinbox) return;
-    if (size!="") CurrentTextItem->FontSize=size.toInt();
+
+    QTextCursor     Cursor(ui->TextEdit->textCursor());
+    QTextCharFormat TCF;
+    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
+        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
+    TCF.setFontPointSize(size.toInt());
+    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
+        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+
+    CurrentTextItem->FontSize=size.toInt();
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Style font
@@ -390,21 +693,34 @@ void DlgTextEdit::s_ChangeStyleFont(int Style) {
 }
 
 //========= Plain text edit
-void DlgTextEdit::s_plainTextEditChange() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_plainTextEditChange");
+void DlgTextEdit::s_TextEditChange() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_TextEditChange");
 
     if (StopMAJSpinbox) return;
-    CurrentTextItem->Text=ui->plainTextEdit->toPlainText();
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
 }
 
 //========= Font color
 void DlgTextEdit::s_ChIndexFontColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexFontColorCombo");
-
     if (StopMAJSpinbox) return;
+
     CurrentTextItem->FontColor=ui->FontColorCombo->GetCurrentColor();
+
+    QTextCursor     Cursor(ui->TextEdit->textCursor());
+    QTextCharFormat TCF;
+    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
+        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
+
+    TCF.setForeground(QBrush(QColor(CurrentTextItem->FontColor)));
+
+    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
+        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+
+    CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
+    ui->TextEdit->setFocus();
 }
 
 //========= Text shadow color
@@ -423,16 +739,6 @@ void DlgTextEdit::s_ChangeBrushTypeCombo(int Value) {
 
     if (StopMAJSpinbox) return;
     CurrentTextItem->BackgroundBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgTextEdit::s_IntermPosSliderMoved(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_IntermPosSliderMoved");
-
-    if (StopMAJSpinbox) return;
-    CurrentTextItem->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls();
 }
 
@@ -514,7 +820,13 @@ void DlgTextEdit::s_TextStyleBT() {
     QString ActualStyle=CurrentTextItem->GetTextStyle();
     QString Item=StyleTextCollection->PopupCollectionMenu(this,ActualStyle);
     ui->TextStyleBT->setDown(false);
-    if (Item!="") CurrentTextItem->ApplyTextStyle(StyleTextCollection->GetStyleDef(Item));
+    if (Item!="") {
+        CurrentTextItem->ApplyTextStyle(StyleTextCollection->GetStyleDef(Item));
+        ui->TextEdit->setHtml(CurrentTextItem->Text);
+        QTextCursor Cursor=ui->TextEdit->textCursor();
+        Cursor.movePosition(QTextCursor::Start);
+        ui->TextEdit->setTextCursor(Cursor);
+    }
     RefreshControls();
 }
 

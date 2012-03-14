@@ -117,7 +117,7 @@ void QCustomDialog::InitDialog() {
     }
 
     // Restore window size and position
-    if (DlgWSP) DlgWSP->ApplyToWindow(this);
+    RestoreWindowState();
 
     // Prepare undo
     PrepareGlobalUndo();
@@ -139,14 +139,9 @@ void QCustomDialog::doHelp() {
 void QCustomDialog::accept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::accept");
 
-    // Save Window size and position
-    if (DlgWSP) DlgWSP->SaveWindowState(this);
-
-    // call overloaded function
-    DoAccept();
-
-    // Close dialog
-    done(0);
+    SaveWindowState();  // Save Window size and position
+    DoAccept();         // call overloaded function
+    done(0);            // Close dialog
 }
 
 //====================================================================================================================
@@ -154,17 +149,28 @@ void QCustomDialog::accept() {
 void QCustomDialog::reject() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::accept");
 
+    SaveWindowState();  // Save Window size and position
+    DoGlobalUndo();     // Undo change
+    DoRejet();          // call overloaded function
+    done(1);            // Close dialog
+}
+
+//====================================================================================================================
+
+void QCustomDialog::SaveWindowState() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::SaveWindowState");
+
     // Save Window size and position
     if (DlgWSP) DlgWSP->SaveWindowState(this);
+}
 
-    // Undo change
-    DoGlobalUndo();
+//====================================================================================================================
 
-    // call overloaded function
-    DoRejet();
+void QCustomDialog::RestoreWindowState() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::RestoreWindowState");
 
-    // Close dialog
-    done(1);
+    // Restore window size and position
+    if (DlgWSP) DlgWSP->ApplyToWindow(this);
 }
 
 //====================================================================================================================

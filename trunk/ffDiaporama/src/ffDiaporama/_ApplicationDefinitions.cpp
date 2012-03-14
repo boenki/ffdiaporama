@@ -49,33 +49,28 @@ void ExitApplicationWithFatalError(QString StringToAdd) {
 cSaveDlgSlideProperties::cSaveDlgSlideProperties(QString WindowName,bool &RestoreWindow,bool IsMainWindow):cSaveWindowPosition(WindowName,RestoreWindow,IsMainWindow) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::cSaveDlgSlideProperties");
     SplitterTop="";
-    SplitterBottom="";
 }
 
-void cSaveDlgSlideProperties::ApplyToWindow(QWidget *Window,QSplitter *Top,QSplitter *Bottom) {
+void cSaveDlgSlideProperties::ApplyToWindow(QWidget *Window,QSplitter *Top) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::ApplyToWindow");
     cSaveWindowPosition::ApplyToWindow(Window);
     if (SplitterTop!="")    Top->restoreState(QByteArray::fromHex(SplitterTop.toUtf8()));
-    if (SplitterBottom!="") Bottom->restoreState(QByteArray::fromHex(SplitterBottom.toUtf8()));
 }
 
-void cSaveDlgSlideProperties::SaveWindowState(QWidget *Window,QSplitter *Top,QSplitter *Bottom) {
+void cSaveDlgSlideProperties::SaveWindowState(QWidget *Window,QSplitter *Top) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::SaveWindowState");
     cSaveWindowPosition::SaveWindowState(Window);
     SplitterTop   =QString(QByteArray(Top->saveState()).toHex());
-    SplitterBottom=QString(QByteArray(Bottom->saveState()).toHex());
 }
 
 void cSaveDlgSlideProperties::OverloadedSaveToXML(QDomElement &Element) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::OverloadedSaveToXML");
     Element.setAttribute("SplitterTop",SplitterTop);
-    Element.setAttribute("SplitterBottom",SplitterBottom);
 }
 
 void cSaveDlgSlideProperties::OverloadedLoadFromXML(QDomElement Element) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::OverloadedLoadFromXML");
     if (Element.hasAttribute("SplitterTop"))    SplitterTop=Element.attribute("SplitterTop");
-    if (Element.hasAttribute("SplitterBottom")) SplitterBottom=Element.attribute("SplitterBottom");
 }
 
 //====================================================================================================================
@@ -103,6 +98,7 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgManageDevicesWSP;
     delete DlgAboutWSP;
     delete DlgffDPjrPropertiesWSP;
+    delete DlgInfoFileWSP;
 }
 
 //====================================================================================================================
@@ -185,6 +181,7 @@ void cApplicationConfig::InitValues() {
     DlgManageDevicesWSP         =new cSaveWindowPosition("DlgManageDevicesWSP",RestoreWindow,false);        // Dialog box "Manage Devices" - Window size and position
     DlgAboutWSP                 =new cSaveWindowPosition("DlgAboutWSP",RestoreWindow,false);                // Dialog box "About" - Window size and position
     DlgffDPjrPropertiesWSP      =new cSaveWindowPosition("DlgffDPjrPropertiesWSP",RestoreWindow,false);     // Dialog box "Project properties" - Window size and position
+    DlgInfoFileWSP              =new cSaveWindowPosition("DlgInfoFileWSP",RestoreWindow,false);             // Dialog box "File Information" - Window size and position
 
     // Default new text block options
     DefaultBlock_Text_TextST    ="###GLOBALSTYLE###:0";
@@ -352,6 +349,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     DlgManageDevicesWSP->SaveToXML(domDocument);
     DlgAboutWSP->SaveToXML(domDocument);
     DlgffDPjrPropertiesWSP->SaveToXML(domDocument);
+    DlgInfoFileWSP->SaveToXML(domDocument);
 }
 
 //====================================================================================================================
@@ -486,6 +484,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     DlgManageDevicesWSP->LoadFromXML(domDocument);
     DlgAboutWSP->LoadFromXML(domDocument);
     DlgffDPjrPropertiesWSP->LoadFromXML(domDocument);
+    DlgInfoFileWSP->LoadFromXML(domDocument);
 
     return true;
 }
