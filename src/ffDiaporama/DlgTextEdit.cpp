@@ -342,7 +342,7 @@ void DlgTextEdit::MakeTextStyleIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,0,0,32,32,true,0,0,NULL,1,NULL,false);
+        Object.DrawCompositionObject(&Painter,1,0,0,32,32,true,0,0,NULL,1,NULL,false,0,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -359,11 +359,10 @@ void DlgTextEdit::s_SetBold() {
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
-    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
-        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
+
     TCF.setFontWeight(TCF.fontWeight()==QFont::Normal?QFont::Bold:QFont::Normal);
-    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
-        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+    if (Cursor.hasSelection())  Cursor.mergeCharFormat(TCF);
+        else                    ui->TextEdit->mergeCurrentCharFormat(TCF);
 
     CurrentTextItem->IsBold=(TCF.fontWeight()==QFont::Bold);
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -378,11 +377,10 @@ void DlgTextEdit::s_SetItalic() {
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
-    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
-        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
+
     TCF.setFontItalic(!TCF.fontItalic());
-    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
-        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+    if (Cursor.hasSelection())  Cursor.mergeCharFormat(TCF);
+        else                    ui->TextEdit->mergeCurrentCharFormat(TCF);
 
     CurrentTextItem->IsItalic=TCF.fontItalic();
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -397,11 +395,10 @@ void DlgTextEdit::s_SetUnderline() {
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
-    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
-        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
+
     TCF.setFontUnderline(!TCF.fontUnderline());
-    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
-        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+    if (Cursor.hasSelection())  Cursor.mergeCharFormat(TCF);
+        else                    ui->TextEdit->mergeCurrentCharFormat(TCF);
 
     CurrentTextItem->IsUnderline=TCF.fontUnderline();
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -416,14 +413,15 @@ void DlgTextEdit::s_SetTextSuper() {
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
+
     if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
         else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
 
-    if (TCF.verticalAlignment()==QTextCharFormat::AlignSuperScript) TCF.setVerticalAlignment(QTextCharFormat::AlignNormal);
-        else                                                        TCF.setVerticalAlignment(QTextCharFormat::AlignSuperScript);
+    if (TCF.verticalAlignment()==QTextCharFormat::AlignSuperScript) {   TCF=QTextCharFormat();  TCF.setVerticalAlignment(QTextCharFormat::AlignNormal);         }
+        else                                                        {   TCF=QTextCharFormat();  TCF.setVerticalAlignment(QTextCharFormat::AlignSuperScript);    }
 
-    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
-        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+    if (Cursor.hasSelection())  Cursor.mergeCharFormat(TCF);
+        else                    ui->TextEdit->mergeCurrentCharFormat(TCF);
 
     CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
@@ -440,11 +438,11 @@ void DlgTextEdit::s_SetTextSub() {
     if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
         else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
 
-    if (TCF.verticalAlignment()==QTextCharFormat::AlignSubScript)   TCF.setVerticalAlignment(QTextCharFormat::AlignNormal);
-        else                                                        TCF.setVerticalAlignment(QTextCharFormat::AlignSubScript);
+    if (TCF.verticalAlignment()==QTextCharFormat::AlignSubScript)   {   TCF=QTextCharFormat();  TCF.setVerticalAlignment(QTextCharFormat::AlignNormal);     }
+        else                                                        {   TCF=QTextCharFormat();  TCF.setVerticalAlignment(QTextCharFormat::AlignSubScript);  }
 
-    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
-        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+    if (Cursor.hasSelection())  Cursor.mergeCharFormat(TCF);
+        else                    ui->TextEdit->mergeCurrentCharFormat(TCF);
 
     CurrentTextItem->IsUnderline=TCF.fontUnderline();
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -652,11 +650,9 @@ void DlgTextEdit::s_ChangeFont(QFont font) {
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
-    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
-        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
     TCF.setFontFamily(font.family());
-    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
-        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+    if (Cursor.hasSelection())  Cursor.mergeCharFormat(TCF);
+        else                    ui->TextEdit->mergeCurrentCharFormat(TCF);
 
     CurrentTextItem->FontName=font.family();
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -671,11 +667,9 @@ void DlgTextEdit::s_ChangeSizeFont(QString size) {
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
-    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
-        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
     TCF.setFontPointSize(size.toInt());
-    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
-        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+    if (Cursor.hasSelection())  Cursor.mergeCharFormat(TCF);
+        else                    ui->TextEdit->mergeCurrentCharFormat(TCF);
 
     CurrentTextItem->FontSize=size.toInt();
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -710,13 +704,10 @@ void DlgTextEdit::s_ChIndexFontColorCombo(int) {
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
-    if (Cursor.hasSelection())  TCF=Cursor.charFormat();                // Modify current selection
-        else                    TCF=ui->TextEdit->currentCharFormat();  // Modify default option
 
     TCF.setForeground(QBrush(QColor(CurrentTextItem->FontColor)));
-
-    if (Cursor.hasSelection())  Cursor.setCharFormat(TCF);
-        else                    ui->TextEdit->setCurrentCharFormat(TCF);
+    if (Cursor.hasSelection())  Cursor.mergeCharFormat(TCF);
+        else                    ui->TextEdit->mergeCurrentCharFormat(TCF);
 
     CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();

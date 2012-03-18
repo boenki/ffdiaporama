@@ -173,7 +173,6 @@ void DlgSlideProperties::DoInitDialog() {
     ui->RotateZED->setRange(-180,180);      ui->RotateZSLD->setRange(-180,180);
 
     // Init Spinbox
-
     if (DiaporamaObject->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
         ui->PosXEd->setDecimals(2);             ui->PosXEd->setSingleStep(1);       ui->PosXEd->setSuffix("%");
         ui->PosYEd->setDecimals(2);             ui->PosYEd->setSingleStep(1);       ui->PosYEd->setSuffix("%");
@@ -185,6 +184,19 @@ void DlgSlideProperties::DoInitDialog() {
         ui->WidthEd->setDecimals(0);            ui->WidthEd->setSingleStep(1);      ui->WidthEd->setSuffix("");
         ui->HeightEd->setDecimals(0);           ui->HeightEd->setSingleStep(1);     ui->HeightEd->setSuffix("");
     }
+
+    // Init block animation type
+    ui->BlockAnimCB->addItem(QApplication::translate("DlgSlideProperties","None"));
+    ui->BlockAnimCB->addItem(QApplication::translate("DlgSlideProperties","Multiple block turn"));
+    ui->BlockAnimCB->addItem(QApplication::translate("DlgSlideProperties","Dissolve"));
+
+    // Init Dissolve animation value
+    ui->DissolveCB->addItem(QApplication::translate("DlgSlideProperties","Appear"));
+    ui->DissolveCB->addItem(QApplication::translate("DlgSlideProperties","Disappear"));
+    ui->DissolveCB->addItem(QApplication::translate("DlgSlideProperties","Blink at slow speed"));
+    ui->DissolveCB->addItem(QApplication::translate("DlgSlideProperties","Blink at medium speed"));
+    ui->DissolveCB->addItem(QApplication::translate("DlgSlideProperties","Blink at fast speed"));
+    ui->DissolveCB->addItem(QApplication::translate("DlgSlideProperties","Blink at very fast speed"));
 
     // Define handler
     connect(ui->OKPreviousBT,SIGNAL(clicked()),this,SLOT(OKPrevious()));
@@ -220,26 +232,20 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->ShadowEffectCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChgShadowFormValue(int)));
     connect(ui->ShadowEffectED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgShadowDistanceValue(int)));
 
-    connect(ui->RotateXED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateXValue(int))); connect(ui->RotateXSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateXValue(int)));
-    connect(ui->ResetRotateXBT,SIGNAL(released()),this,SLOT(s_ResetRotateXBT()));
-
-    connect(ui->RotateYED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateYValue(int))); connect(ui->RotateYSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateYValue(int)));
-    connect(ui->ResetRotateYBT,SIGNAL(released()),this,SLOT(s_ResetRotateYBT()));
-
-    connect(ui->RotateZED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int))); connect(ui->RotateZSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int)));
-    connect(ui->ResetRotateZBT,SIGNAL(released()),this,SLOT(s_ResetRotateZBT()));
-
-    connect(ui->TurnZED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnZValue(int)));     connect(ui->TurnZSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnZValue(int)));
-    connect(ui->ResetTurnZBT,SIGNAL(released()),this,SLOT(s_ResetTurnZBT()));
-    connect(ui->TurnXED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnXValue(int)));     connect(ui->TurnXSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnXValue(int)));
-    connect(ui->ResetTurnXBT,SIGNAL(released()),this,SLOT(s_ResetTurnXBT()));
-    connect(ui->TurnYED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnYValue(int)));     connect(ui->TurnYSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnYValue(int)));
-    connect(ui->ResetTurnYBT,SIGNAL(released()),this,SLOT(s_ResetTurnYBT()));
-
-
     connect(ui->PenColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChPenColorCB(int)));
     connect(ui->PenSizeEd,SIGNAL(valueChanged(int)),this,SLOT(s_ChgPenSize(int)));
     connect(ui->ShadowColorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChgShadowColorCB(int)));
+
+    connect(ui->RotateXED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateXValue(int)));     connect(ui->RotateXSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateXValue(int)));        connect(ui->ResetRotateXBT,SIGNAL(released()),this,SLOT(s_ResetRotateXBT()));
+    connect(ui->RotateYED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateYValue(int)));     connect(ui->RotateYSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateYValue(int)));        connect(ui->ResetRotateYBT,SIGNAL(released()),this,SLOT(s_ResetRotateYBT()));
+    connect(ui->RotateZED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int)));     connect(ui->RotateZSLD,SIGNAL(valueChanged(int)),this,SLOT(s_ChgRotateZValue(int)));        connect(ui->ResetRotateZBT,SIGNAL(released()),this,SLOT(s_ResetRotateZBT()));
+
+    // Block animation
+    connect(ui->BlockAnimCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockAnimCB(int)));
+    connect(ui->TurnZED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnZValue(int)));         connect(ui->TurnZSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnZValue(int)));         connect(ui->ResetTurnZBT,SIGNAL(released()),this,SLOT(s_ResetTurnZBT()));
+    connect(ui->TurnXED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnXValue(int)));         connect(ui->TurnXSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnXValue(int)));         connect(ui->ResetTurnXBT,SIGNAL(released()),this,SLOT(s_ResetTurnXBT()));
+    connect(ui->TurnYED,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnYValue(int)));         connect(ui->TurnYSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ChgTurnYValue(int)));         connect(ui->ResetTurnYBT,SIGNAL(released()),this,SLOT(s_ResetTurnYBT()));
+    connect(ui->DissolveCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChgDissolveValue(int)));
 
     // Shot table part
     connect(ui->ShotTable,SIGNAL(itemSelectionChanged()),this,SLOT(s_ShotTable_SelectionChanged()));
@@ -340,7 +346,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,NULL,false);
+        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,NULL,false,0,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -676,21 +682,6 @@ void DlgSlideProperties::RefreshControls() {
     ui->ResetRotateZBT->setEnabled(IsVisible);
     ui->RotateZSLD->setEnabled(IsVisible);
 
-    ui->TurnZLabel->setEnabled(IsVisible);
-    ui->TurnZSlider->setEnabled(IsVisible);
-    ui->TurnZED->setEnabled(IsVisible);
-    ui->ResetTurnZBT->setEnabled(IsVisible);
-
-    ui->TurnXLabel->setEnabled(IsVisible);
-    ui->TurnXSlider->setEnabled(IsVisible);
-    ui->TurnXED->setEnabled(IsVisible);
-    ui->ResetTurnXBT->setEnabled(IsVisible);
-
-    ui->TurnYLabel->setEnabled(IsVisible);
-    ui->TurnYSlider->setEnabled(IsVisible);
-    ui->TurnYED->setEnabled(IsVisible);
-    ui->ResetTurnYBT->setEnabled(IsVisible);
-
     ui->PosSize_X->setEnabled(IsVisible);
     ui->PosSize_Y->setEnabled(IsVisible);
     ui->PosSize_Width->setEnabled(IsVisible);
@@ -711,9 +702,9 @@ void DlgSlideProperties::RefreshControls() {
     ui->ShadowEffectED->setEnabled((IsVisible)&&(CurrentTextItem)&&(CurrentTextItem->FormShadow!=0));
     ui->ShadowColorCB->setEnabled((IsVisible)&&(CurrentTextItem)&&(CurrentTextItem->FormShadow!=0));
 
-    //***********************
-    // Animation controls
-    //***********************
+    //**************************
+    // Text animation controls
+    //**************************
     ui->ZoomSlider->setEnabled((IsVisible)&&(CurrentTextItem));
     ui->ZoomED->setEnabled((IsVisible)&&(CurrentTextItem));
     ui->ZoomResetBT->setEnabled((IsVisible)&&(CurrentTextItem));
@@ -731,6 +722,34 @@ void DlgSlideProperties::RefreshControls() {
         ui->ScrollYSlider->setValue(CurrentTextItem->TxtScrollY);
         ui->ScrollYED->setValue(CurrentTextItem->TxtScrollY);
     }
+
+    //**************************
+    // Block animation controls
+    //**************************
+
+    ui->BlockAnimLabel->setEnabled(IsVisible && (CurrentTextItem!=NULL));
+    ui->BlockAnimCB->setEnabled(IsVisible && (CurrentTextItem!=NULL));
+    ui->BlockAnimCB->setCurrentIndex(CurrentTextItem!=NULL?CurrentTextItem->BlockAnimType:0);
+
+    // Multiple turn animation
+    bool CtrlVisible=(CurrentTextItem!=NULL)&&(CurrentTextItem->BlockAnimType==BLOCKANIMTYPE_MULTIPLETURN);
+    ui->TurnZLabel->    setEnabled(IsVisible);      ui->TurnZLabel->    setVisible(CtrlVisible);
+    ui->TurnZSlider->   setEnabled(IsVisible);      ui->TurnZSlider->   setVisible(CtrlVisible);
+    ui->TurnZED->       setEnabled(IsVisible);      ui->TurnZED->       setVisible(CtrlVisible);
+    ui->ResetTurnZBT->  setEnabled(IsVisible);      ui->ResetTurnZBT->  setVisible(CtrlVisible);
+    ui->TurnXLabel->    setEnabled(IsVisible);      ui->TurnXLabel->    setVisible(CtrlVisible);
+    ui->TurnXSlider->   setEnabled(IsVisible);      ui->TurnXSlider->   setVisible(CtrlVisible);
+    ui->TurnXED->       setEnabled(IsVisible);      ui->TurnXED->       setVisible(CtrlVisible);
+    ui->ResetTurnXBT->  setEnabled(IsVisible);      ui->ResetTurnXBT->  setVisible(CtrlVisible);
+    ui->TurnYLabel->    setEnabled(IsVisible);      ui->TurnYLabel->    setVisible(CtrlVisible);
+    ui->TurnYSlider->   setEnabled(IsVisible);      ui->TurnYSlider->   setVisible(CtrlVisible);
+    ui->TurnYED->       setEnabled(IsVisible);      ui->TurnYED->       setVisible(CtrlVisible);
+    ui->ResetTurnYBT->  setEnabled(IsVisible);      ui->ResetTurnYBT->  setVisible(CtrlVisible);
+
+    // Dissolve animation
+    CtrlVisible=(CurrentTextItem!=NULL)&&(CurrentTextItem->BlockAnimType==BLOCKANIMTYPE_DISSOLVE);
+    ui->DissolveLabel-> setEnabled(IsVisible);      ui->DissolveLabel-> setVisible(CtrlVisible);
+    ui->DissolveCB->    setEnabled(IsVisible);      ui->DissolveCB->    setVisible(CtrlVisible);
 
     // Refresh Scene Image
     RefreshSceneImage();
@@ -790,8 +809,8 @@ void DlgSlideProperties::RefreshSceneImage() {
                         }
                     }
                 }
-                CurrentList->List[i]->DrawCompositionObject(&P,double(ymax)/double(1080),0,0,xmax,ymax,true,0,StartVideoPos,NULL,1,NULL,true);
-            } else CurrentList->List[i]->DrawCompositionObject(&P,double(ymax)/double(1080),0,0,xmax,ymax,true,0,0,NULL,1,NULL,true);
+                CurrentList->List[i]->DrawCompositionObject(&P,double(ymax)/double(1080),0,0,xmax,ymax,true,0,StartVideoPos,NULL,1,NULL,true,DiaporamaObject->List[CurrentShot]->StaticDuration,false);
+            } else CurrentList->List[i]->DrawCompositionObject(&P,double(ymax)/double(1080),0,0,xmax,ymax,true,0,0,NULL,1,NULL,true,DiaporamaObject->List[CurrentShot]->StaticDuration,false);
         }
 
         // Draw frame border
@@ -828,12 +847,15 @@ void DlgSlideProperties::RefreshSceneImage() {
             ui->RotateYED->setValue(CurrentTextItem->RotateYAxis);      ui->RotateYSLD->setValue(CurrentTextItem->RotateYAxis);
             ui->RotateZED->setValue(CurrentTextItem->RotateZAxis);      ui->RotateZSLD->setValue(CurrentTextItem->RotateZAxis);
 
+            if ((CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(!CurrentTextItem->BackgroundBrush->LockGeometry))
+                CurrentTextItem->BackgroundBrush->AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
+
+            // Block animation
             ui->TurnZED->setValue(CurrentTextItem->TurnZAxis);          ui->TurnZSlider->setValue(CurrentTextItem->TurnZAxis);
             ui->TurnXED->setValue(CurrentTextItem->TurnXAxis);          ui->TurnXSlider->setValue(CurrentTextItem->TurnXAxis);
             ui->TurnYED->setValue(CurrentTextItem->TurnYAxis);          ui->TurnYSlider->setValue(CurrentTextItem->TurnYAxis);
 
-            if ((CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(!CurrentTextItem->BackgroundBrush->LockGeometry))
-                CurrentTextItem->BackgroundBrush->AspectRatio=(CurrentTextItem->h*ymax)/(CurrentTextItem->w*xmax);
+            ui->DissolveCB->setCurrentIndex(CurrentTextItem->Dissolve);
 
             //***********************
             // Shape TAB
@@ -1198,17 +1220,6 @@ void DlgSlideProperties::s_ResetRotateXBT() {
     s_ChgRotateXValue(0);
 }
 
-void DlgSlideProperties::s_ChgTurnXValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgTurnXValue");
-
-    if (!PrepContexte()) return;
-    CompositionObject->TurnXAxis=Value;
-    ApplyToContexte(false,false);
-}
-void DlgSlideProperties::s_ResetTurnXBT() {
-    s_ChgTurnXValue(0);
-}
-
 //========= Y Rotation value
 void DlgSlideProperties::s_ChgRotateYValue(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgRotateYValue");
@@ -1221,17 +1232,6 @@ void DlgSlideProperties::s_ResetRotateYBT() {
     s_ChgRotateYValue(0);
 }
 
-void DlgSlideProperties::s_ChgTurnYValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgTurnYValue");
-
-    if (!PrepContexte()) return;
-    CompositionObject->TurnYAxis=Value;
-    ApplyToContexte(false,false);
-}
-void DlgSlideProperties::s_ResetTurnYBT() {
-    s_ChgTurnYValue(0);
-}
-
 //========= Z Rotation value
 void DlgSlideProperties::s_ChgRotateZValue(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgRotateZValue");
@@ -1242,17 +1242,6 @@ void DlgSlideProperties::s_ChgRotateZValue(int Value) {
 }
 void DlgSlideProperties::s_ResetRotateZBT() {
     s_ChgRotateZValue(0);
-}
-
-void DlgSlideProperties::s_ChgTurnZValue(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgTurnZValue");
-
-    if (!PrepContexte()) return;
-    CompositionObject->TurnZAxis=Value;
-    ApplyToContexte(false,false);
-}
-void DlgSlideProperties::s_ResetTurnZBT() {
-    s_ChgTurnZValue(0);
 }
 
 //========= Background forme
@@ -1329,6 +1318,57 @@ void DlgSlideProperties::s_ChgShadowColorCB(int) {
     if (!PrepContexte()) return;
     CompositionObject->FormShadowColor=ui->ShadowColorCB->GetCurrentColor();
     ApplyToContexte(false,true);
+}
+
+//====================================================================================================================
+// Handler for block animation
+//====================================================================================================================
+void DlgSlideProperties::s_BlockAnimCB(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockAnimCB");
+    if (!PrepContexte()) return;
+    CompositionObject->BlockAnimType=Value;
+    RefreshControls();
+}
+
+// Multiple block turn
+void DlgSlideProperties::s_ChgTurnXValue(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgTurnXValue");
+
+    if (!PrepContexte()) return;
+    CompositionObject->TurnXAxis=Value;
+    RefreshControls();
+}
+void DlgSlideProperties::s_ResetTurnXBT() {
+    s_ChgTurnXValue(0);
+}
+void DlgSlideProperties::s_ChgTurnZValue(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgTurnZValue");
+
+    if (!PrepContexte()) return;
+    CompositionObject->TurnZAxis=Value;
+    RefreshControls();
+}
+void DlgSlideProperties::s_ResetTurnZBT() {
+    s_ChgTurnZValue(0);
+}
+void DlgSlideProperties::s_ChgTurnYValue(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgTurnYValue");
+
+    if (!PrepContexte()) return;
+    CompositionObject->TurnYAxis=Value;
+    RefreshControls();
+}
+void DlgSlideProperties::s_ResetTurnYBT() {
+    s_ChgTurnYValue(0);
+}
+
+// Dissolve animation
+void DlgSlideProperties::s_ChgDissolveValue(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChgDissolveValue");
+
+    if (!PrepContexte()) return;
+    CompositionObject->Dissolve=Value;
+    RefreshControls();
 }
 
 //====================================================================================================================

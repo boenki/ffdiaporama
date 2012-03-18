@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 03/05/2012) :
+Buggs/TODO (Dernier SVN le 14/03/2012) :
 ----------------------------------------
 TODO
 ----
@@ -17,36 +17,52 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Remet les bonnes taille de caractères pour les vignettes de slide (SVN du 14/03)
+-Corrige la taille des polices dans la boite propriétés du projet
+-Modifie l'éditeur de texte pour que les propriétés s'additionnent au lieu de se remplacer (SVN du 14/03)
 
 English version / Bug fix :
+-Set again correct characteres size for slide thumbnails (SVN of 14/03)
+-Fix font size for Project properties dialog
+-Modify the text editor so that the properties add up instead of replacing itself (SVN of 14/03)
 
 French version / Nouvelles fonctionnalités :
--Modifie la boite slide :
- - Déplace les boutons de contrôle des bloques au dessus de la zone interactive
- - Supprime la zone information et son slider
- - Ajoute un bouton information ouvrant la boite information sur le fichier de MMFiler
- - Ajoute une zone pour les annimations de textes avec 3 valeurs : Zoom, Scrolling X et Scrolling Y
- - Ajoute une zone pour les annimations multi-tour des bloques avec 3 valeurs pour les 3 axes
- - Ajoute des boutons de reset pour toutes les valeures
--Refait completement la boite texte avec passage en RICH text
+-Transforme la zone d'annimations multi-tours en une zone à combo et ajoute les annimations de fondu (apparition/disparition/clignottements)
 
 English version / New features :
--Modify slide dialog
-  - Move tool buttons under interactive zone
-  - Remove information zone
-  - Add a button to open Information dialog (from MMFiler)
-  - Add a zone for text annimation with 3 values (Zoom, Scrolling X and Scrolling Y)
-  - Add a zone for multi-turn block annimations with 3 values for the 3 axis
-  - Add reset buttons for all values
--Completly redone text dialog for using RICH text
+-Modify multi-turn animation zone to a zone with combo and add dissolve animations (appear/disappear/blinks)
 
 -------------------------------------
 Changelog depuis la version 20120305
 -------------------------------------
-Bug fix French version
+Bug fix depuis la version 1.2 (French)
 
-Bug fix English version
+Bug fix from 1.2 version (English)
 
-French version / Nouvelles fonctionnalités
+Nouvelles fonctionnalités (French)
 
-English version / New features
+-Modifie la boite slide :
+ - Déplace les boutons de contrôle des bloques au dessus de la zone interactive
+ - Supprime la zone information et son slider
+ - Ajoute un bouton information ouvrant la boite information sur le fichier de MMFiler
+ - Ajoute des boutons de reset pour toutes les valeures
+ - Ajoute une zone pour les annimations de textes avec 3 valeurs : Zoom, Scrolling X et Scrolling Y
+ - Ajoute une zone pour les annimations de block :
+        - Multi-tour des blocs avec 3 valeurs pour les 3 axes
+        - fondu de blocs (apparition/disparition/clignottements)
+
+-Refait completement la boite texte avec passage en RICH text
+
+New features (English)
+
+-Modify slide dialog
+  - Move tool buttons under interactive zone
+  - Remove information zone
+  - Add a button to open Information dialog (from MMFiler)
+  - Add reset buttons for all values
+  - Add a zone for text animation with 3 values (Zoom, Scrolling X and Scrolling Y)
+  - Add a zone for blocks annimations
+        - Multi-turn block animations with 3 values for the 3 axis
+        - Dissolve blocks (appear/disappear/blinks)
+
+-Completly redone text dialog for using RICH text
